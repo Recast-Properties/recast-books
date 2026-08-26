@@ -1,0 +1,1073 @@
+<title>Recast Books Rebuild</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap">
+
+<style>
+  :root {
+    --paper:        #f2f5f8;
+    --surface:      #ffffff;
+    --surface-sunk: #e9eef3;
+    --ink:          #131c28;
+    --ink-soft:     #47566a;
+    --ink-mute:     #74839a;
+    --rule:         #d7dfe8;
+    --rule-soft:    #e6ecf2;
+    --redink:       #8f2f27;
+    --redink-bg:    #f8ecea;
+    --tally:        #2c6650;
+    --tally-bg:     #e7f1ec;
+    --shadow:       0 1px 2px rgba(19,28,40,.06), 0 8px 24px -16px rgba(19,28,40,.28);
+
+    --f-display: "Newsreader", "Iowan Old Style", Georgia, serif;
+    --f-body:    "IBM Plex Sans", "Helvetica Neue", Arial, sans-serif;
+    --f-mono:    "IBM Plex Mono", "SFMono-Regular", Consolas, monospace;
+
+    --measure: 68ch;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --paper:        #0e141b;
+      --surface:      #151d27;
+      --surface-sunk: #1b242f;
+      --ink:          #e4eaf1;
+      --ink-soft:     #a9b6c6;
+      --ink-mute:     #7d8b9d;
+      --rule:         #2a3645;
+      --rule-soft:    #212c38;
+      --redink:       #dd8078;
+      --redink-bg:    #2b1a19;
+      --tally:        #79b79a;
+      --tally-bg:     #16241f;
+      --shadow:       0 1px 2px rgba(0,0,0,.4), 0 8px 24px -16px rgba(0,0,0,.8);
+    }
+  }
+
+  :root[data-theme="dark"] {
+    --paper:        #0e141b;
+    --surface:      #151d27;
+    --surface-sunk: #1b242f;
+    --ink:          #e4eaf1;
+    --ink-soft:     #a9b6c6;
+    --ink-mute:     #7d8b9d;
+    --rule:         #2a3645;
+    --rule-soft:    #212c38;
+    --redink:       #dd8078;
+    --redink-bg:    #2b1a19;
+    --tally:        #79b79a;
+    --tally-bg:     #16241f;
+    --shadow:       0 1px 2px rgba(0,0,0,.4), 0 8px 24px -16px rgba(0,0,0,.8);
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    background: var(--paper);
+    color: var(--ink);
+    font-family: var(--f-body);
+    font-size: 16px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .wrap {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0;
+    max-width: 1180px;
+    margin: 0 auto;
+    padding: 0 24px 96px;
+  }
+
+  @media (min-width: 1000px) {
+    .wrap {
+      grid-template-columns: 216px minmax(0, 1fr);
+      gap: 56px;
+      padding: 0 32px 120px;
+    }
+  }
+
+  /* ---------- masthead ---------- */
+
+  .masthead {
+    grid-column: 1 / -1;
+    padding: 64px 0 40px;
+    border-bottom: 2px solid var(--ink);
+  }
+
+  .eyebrow {
+    font-family: var(--f-mono);
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: .16em;
+    text-transform: uppercase;
+    color: var(--redink);
+    margin: 0 0 20px;
+  }
+
+  h1 {
+    font-family: var(--f-display);
+    font-size: clamp(2.4rem, 6vw, 3.9rem);
+    font-weight: 500;
+    line-height: 1.04;
+    letter-spacing: -.018em;
+    text-wrap: balance;
+    margin: 0 0 20px;
+  }
+
+  .standfirst {
+    font-family: var(--f-display);
+    font-size: clamp(1.05rem, 2.2vw, 1.28rem);
+    line-height: 1.55;
+    color: var(--ink-soft);
+    max-width: var(--measure);
+    margin: 0;
+  }
+
+  .facts {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px 40px;
+    margin: 36px 0 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .facts div {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+  }
+
+  .facts dt {
+    font-family: var(--f-mono);
+    font-size: 10.5px;
+    letter-spacing: .13em;
+    text-transform: uppercase;
+    color: var(--ink-mute);
+  }
+
+  .facts dd {
+    margin: 0;
+    font-family: var(--f-mono);
+    font-size: 1.02rem;
+    font-weight: 500;
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* ---------- nav rail ---------- */
+
+  nav {
+    display: none;
+  }
+
+  @media (min-width: 1000px) {
+    nav {
+      display: block;
+      position: sticky;
+      top: 0;
+      align-self: start;
+      padding-top: 48px;
+      max-height: 100vh;
+      overflow-y: auto;
+    }
+  }
+
+  nav p {
+    font-family: var(--f-mono);
+    font-size: 10.5px;
+    letter-spacing: .13em;
+    text-transform: uppercase;
+    color: var(--ink-mute);
+    margin: 0 0 14px;
+  }
+
+  nav ol {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    counter-reset: navitem;
+  }
+
+  nav a {
+    display: flex;
+    gap: 10px;
+    padding: 5px 0;
+    font-size: 13.5px;
+    line-height: 1.35;
+    color: var(--ink-soft);
+    text-decoration: none;
+    border-bottom: 1px solid transparent;
+  }
+
+  nav a::before {
+    counter-increment: navitem;
+    content: counter(navitem, decimal-leading-zero);
+    font-family: var(--f-mono);
+    font-size: 10.5px;
+    color: var(--ink-mute);
+    padding-top: 2px;
+    flex: none;
+  }
+
+  nav a:hover { color: var(--redink); }
+  nav a:focus-visible { outline: 2px solid var(--redink); outline-offset: 3px; }
+
+  /* ---------- content ---------- */
+
+  main { padding-top: 8px; min-width: 0; }
+
+  section {
+    padding-top: 56px;
+    scroll-margin-top: 24px;
+  }
+
+  h2 {
+    font-family: var(--f-display);
+    font-size: clamp(1.5rem, 3.2vw, 1.95rem);
+    font-weight: 500;
+    letter-spacing: -.012em;
+    line-height: 1.18;
+    text-wrap: balance;
+    margin: 0 0 6px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--rule);
+  }
+
+  .kicker {
+    font-family: var(--f-mono);
+    font-size: 10.5px;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+    color: var(--ink-mute);
+    margin: 0 0 12px;
+  }
+
+  h3 {
+    font-family: var(--f-body);
+    font-size: .95rem;
+    font-weight: 700;
+    letter-spacing: .005em;
+    margin: 32px 0 10px;
+  }
+
+  p { max-width: var(--measure); margin: 16px 0; }
+
+  main > section > p:first-of-type { margin-top: 20px; }
+
+  ul, ol.body {
+    max-width: var(--measure);
+    padding-left: 0;
+    margin: 14px 0;
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 9px;
+  }
+
+  ul li {
+    position: relative;
+    padding-left: 20px;
+  }
+
+  ul li::before {
+    content: "";
+    position: absolute;
+    left: 3px;
+    top: .68em;
+    width: 6px;
+    height: 1.5px;
+    background: var(--redink);
+  }
+
+  ul ul { margin: 9px 0 0; gap: 6px; }
+  ul ul li::before { background: var(--ink-mute); width: 4px; left: 4px; }
+
+  strong { font-weight: 600; }
+
+  code, .code {
+    font-family: var(--f-mono);
+    font-size: .87em;
+    background: var(--surface-sunk);
+    padding: 1px 5px;
+    border-radius: 3px;
+  }
+
+  /* ---------- tables ---------- */
+
+  .scroller {
+    overflow-x: auto;
+    margin: 22px 0;
+    border: 1px solid var(--rule);
+    border-radius: 4px;
+    background: var(--surface);
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13.5px;
+    line-height: 1.45;
+  }
+
+  thead th {
+    text-align: left;
+    font-family: var(--f-mono);
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: .11em;
+    text-transform: uppercase;
+    color: var(--ink-mute);
+    padding: 11px 14px;
+    border-bottom: 1px solid var(--rule);
+    white-space: nowrap;
+    background: var(--surface-sunk);
+  }
+
+  tbody td {
+    padding: 10px 14px;
+    border-bottom: 1px solid var(--rule-soft);
+    vertical-align: top;
+  }
+
+  tbody tr:last-child td { border-bottom: 0; }
+
+  td.acct, td.num {
+    font-family: var(--f-mono);
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+  }
+
+  td.acct { color: var(--redink); font-weight: 500; }
+  td.num  { text-align: right; }
+
+  td.name { font-weight: 500; }
+
+  .group-row td {
+    background: var(--surface-sunk);
+    font-family: var(--f-mono);
+    font-size: 10px;
+    letter-spacing: .11em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    padding: 8px 14px;
+  }
+
+  /* ---------- decision cards ---------- */
+
+  .decisions {
+    display: grid;
+    gap: 1px;
+    background: var(--rule);
+    border: 1px solid var(--rule);
+    border-radius: 4px;
+    overflow: hidden;
+    margin: 24px 0;
+  }
+
+  @media (min-width: 720px) {
+    .decisions { grid-template-columns: 1fr 1fr; }
+  }
+
+  .decision {
+    background: var(--surface);
+    padding: 18px 20px 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+  }
+
+  .decision h3 {
+    margin: 0;
+    font-size: .95rem;
+    font-weight: 700;
+  }
+
+  .decision p {
+    margin: 0;
+    font-size: 13.5px;
+    line-height: 1.5;
+    color: var(--ink-soft);
+    max-width: none;
+  }
+
+  .tag {
+    display: inline-flex;
+    align-self: flex-start;
+    font-family: var(--f-mono);
+    font-size: 9.5px;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    padding: 3px 7px;
+    border-radius: 3px;
+    background: var(--redink-bg);
+    color: var(--redink);
+    font-weight: 500;
+  }
+
+  .tag.tally { background: var(--tally-bg); color: var(--tally); }
+
+  /* ---------- phases ---------- */
+
+  .phases {
+    list-style: none;
+    padding: 0;
+    margin: 26px 0 0;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .phase {
+    display: grid;
+    grid-template-columns: 62px minmax(0, 1fr);
+    gap: 20px;
+    padding: 22px 0;
+    border-top: 1px solid var(--rule);
+  }
+
+  .phase:last-child { border-bottom: 1px solid var(--rule); }
+
+  .phase-id {
+    font-family: var(--f-mono);
+    font-size: 11px;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: var(--redink);
+    padding-top: 3px;
+    font-weight: 500;
+  }
+
+  .phase h3 { margin: 0 0 4px; font-size: 1.02rem; }
+  .phase ul { margin: 10px 0 0; }
+  .phase p  { margin: 6px 0 0; }
+
+  .gate {
+    margin-top: 12px;
+    padding: 10px 14px;
+    background: var(--tally-bg);
+    border-left: 2px solid var(--tally);
+    border-radius: 0 3px 3px 0;
+    font-size: 13px;
+    line-height: 1.5;
+    color: var(--ink-soft);
+    max-width: var(--measure);
+  }
+
+  .gate b {
+    font-family: var(--f-mono);
+    font-size: 10px;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    color: var(--tally);
+    display: block;
+    margin-bottom: 3px;
+  }
+
+  /* ---------- callout ---------- */
+
+  .note {
+    margin: 26px 0;
+    padding: 20px 22px;
+    background: var(--surface);
+    border: 1px solid var(--rule);
+    border-left: 2px solid var(--redink);
+    border-radius: 0 4px 4px 0;
+    box-shadow: var(--shadow);
+  }
+
+  .note h3 { margin-top: 0; }
+  .note p:last-child, .note ul:last-child { margin-bottom: 0; }
+
+  footer {
+    grid-column: 1 / -1;
+    margin-top: 72px;
+    padding-top: 22px;
+    border-top: 1px solid var(--rule);
+    font-size: 12.5px;
+    color: var(--ink-mute);
+    max-width: var(--measure);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    * { animation: none !important; transition: none !important; scroll-behavior: auto !important; }
+  }
+</style>
+
+<div class="wrap">
+
+  <header class="masthead">
+    <p class="eyebrow">Recast Properties LLC &middot; Bookkeeping Architecture</p>
+    <h1>Recast Books Rebuild</h1>
+    <p class="standfirst">A standardized chart of accounts, one flat general ledger, and a phased migration that never writes to the live workbook &mdash; built from what is already in the sheet, and shaped for what the IRS and your accountant will ask for.</p>
+    <dl class="facts">
+      <div><dt>Properties on book</dt><dd>6</dd></div>
+      <div><dt>Overhead YTD</dt><dd>$18,947.31</dd></div>
+      <div><dt>Contractor spend</dt><dd>$82,244</dd></div>
+      <div><dt>2026 payees over $2,000</dt><dd>9</dd></div>
+      <div><dt>W-9s on file</dt><dd>0</dd></div>
+    </dl>
+  </header>
+
+  <nav aria-label="Contents">
+    <p>Contents</p>
+    <ol>
+      <li><a href="#decisions">Decisions that gate everything</a></li>
+      <li><a href="#architecture">The three ledgers</a></li>
+      <li><a href="#ledger">General ledger schema</a></li>
+      <li><a href="#coa">Chart of accounts</a></li>
+      <li><a href="#properties">Property subledger</a></li>
+      <li><a href="#vendors">Vendors &amp; 1099s</a></li>
+      <li><a href="#recon">Bank reconciliation</a></li>
+      <li><a href="#equity">Member equity</a></li>
+      <li><a href="#close">Monthly close</a></li>
+      <li><a href="#reports">Accountant's packet</a></li>
+      <li><a href="#migration">Phased migration</a></li>
+      <li><a href="#agent">The agent layer</a></li>
+      <li><a href="#horizon">Staying in Sheets</a></li>
+    </ol>
+  </nav>
+
+  <main>
+
+    <!-- 1 -->
+    <section id="decisions">
+      <p class="kicker">Section one</p>
+      <h2>Decisions that gate everything</h2>
+      <p>Seven questions. Each one changes the structure below, so they get answered before anything is built. Four are for your accountant; three are yours.</p>
+
+      <div class="decisions">
+        <div class="decision">
+          <span class="tag">Accountant</span>
+          <h3>Where is your tax home?</h3>
+          <p>This governs $8,821.59 &mdash; 47% of all overhead. Frequent PDX&harr;DFW flights between a residence and the market where the properties are is the exact fact pattern where travel becomes non-deductible commuting rather than business travel. Settle it before another ticket is booked.</p>
+        </div>
+        <div class="decision">
+          <span class="tag">Accountant</span>
+          <h3>Entity &amp; Dennis's role</h3>
+          <p>Every property tab splits profit 50/50, but the cash-advance tab charges Dennis interest on his draws. Equity partner, lender, or both? Partner &rarr; Form 1065 and K-1s. Lender &rarr; Schedule C plus interest expense. This determines the entire equity section.</p>
+        </div>
+        <div class="decision">
+          <span class="tag">Accountant</span>
+          <h3>Dealer vs. investor</h3>
+          <p>Buying at auction to rehab and resell is dealer activity: properties are inventory, profit is ordinary income subject to self-employment tax, no 1031, no long-term capital gains. Confirm it, because it decides whether property costs are COGS or basis.</p>
+        </div>
+        <div class="decision">
+          <span class="tag">Accountant</span>
+          <h3>Cash or accrual</h3>
+          <p>Drives when a rehab cost lands and whether year-end work-in-progress sits on a balance sheet. With properties straddling year-end, this is not academic.</p>
+        </div>
+        <div class="decision">
+          <span class="tag">Paul</span>
+          <h3>Mileage or actual vehicle</h3>
+          <p>You cannot take both. You currently log fuel and tolls (actual method) while paying for Driversnote (mileage). Actual also requires insurance, repairs, registration and depreciation, none of which you capture. 2026 standard rate is 72.5&cent;/mile.</p>
+        </div>
+        <div class="decision">
+          <span class="tag">Paul</span>
+          <h3>Does overhead hit the projects?</h3>
+          <p>Today RECAST BIZ sits above the 50/50 split, so you absorb all $18,947 of it alone. Either allocate overhead to projects on a stated basis, or make absorbing it a deliberate term of the deal.</p>
+        </div>
+        <div class="decision">
+          <span class="tag">Paul</span>
+          <h3>De minimis safe harbor</h3>
+          <p>Lets you expense items under $2,500 instead of depreciating them. Your $4,690 of tools is all small-ticket, so this is almost certainly worth electing &mdash; but it requires an annual election statement on the return.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 2 -->
+    <section id="architecture">
+      <p class="kicker">Section two</p>
+      <h2>The three ledgers</h2>
+      <p>One source of truth, two derived views. Everything you have today is a view without a source underneath it, which is why the same contractor can appear on four tabs and total nowhere.</p>
+
+      <ul>
+        <li><strong>General Ledger</strong> &mdash; one flat tab, one row per transaction, every transaction the LLC has ever made. Nothing is entered anywhere else. This is the only tab that is written to.</li>
+        <li><strong>Property subledger</strong> &mdash; per-property job costing, generated from the GL by filtering on the property column. Your existing tabs become read-only reports rather than data entry surfaces.</li>
+        <li><strong>Member capital accounts</strong> &mdash; contributions, draws, distributions, loans, and interest, per member, generated from the GL.</li>
+      </ul>
+
+      <div class="note">
+        <h3>Why flat wins here specifically</h3>
+        <p>Your side-by-side category blocks have three costs you are already paying: blocks fill up and the writer returns <span class="code">BLOCKED</span>; rows land in processed order so a separate sorter script exists to repair date order; and a payee's total is unknowable without a custom scan. A flat ledger removes all three, and it is the format QuickBooks, Xero and your accountant all import natively.</p>
+      </div>
+    </section>
+
+    <!-- 3 -->
+    <section id="ledger">
+      <p class="kicker">Section three</p>
+      <h2>General ledger schema</h2>
+      <p>Twenty-two columns. Every one earns its place by answering a question the current sheet cannot. The last four exist because &sect;274(d) requires them contemporaneously &mdash; a business purpose written at ingest counts, one reconstructed in January does not.</p>
+
+      <div class="scroller">
+        <table>
+          <thead>
+            <tr><th>Column</th><th>Type</th><th>Why it exists</th></tr>
+          </thead>
+          <tbody>
+            <tr><td class="name">txn_id</td><td>auto</td><td>Stable key for edits, dedupe, and audit trail</td></tr>
+            <tr><td class="name">date</td><td>date</td><td>Normalized <span class="code">MM/DD/YYYY</span>, one format everywhere</td></tr>
+            <tr><td class="name">payee</td><td>lookup</td><td>Canonical name from Vendors tab &mdash; not free text</td></tr>
+            <tr><td class="name">description</td><td>text</td><td>What was bought, itemized</td></tr>
+            <tr><td class="name">amount</td><td>currency</td><td>Gross paid, tax included</td></tr>
+            <tr><td class="name">sales_tax</td><td>currency</td><td>Split out where known; supports TX use-tax questions</td></tr>
+            <tr><td class="name">account</td><td>lookup</td><td>Chart of accounts code</td></tr>
+            <tr><td class="name">property</td><td>lookup</td><td>Property tab name, or <span class="code">OVERHEAD</span></td></tr>
+            <tr><td class="name">cost_class</td><td>enum</td><td>Acquisition / Rehab / Holding / Selling / Overhead / Financing / Owner</td></tr>
+            <tr><td class="name">tax_treatment</td><td>enum</td><td>Expense / <strong>Inventory (held)</strong> / <strong>COGS (released)</strong> / Fixed asset / Non-deductible / Owner equity &mdash; held and released are separate values so the state transition is visible, not inferred</td></tr>
+            <tr><td class="name">trade</td><td>lookup</td><td>HVAC, Roofing, Paint &amp; Flooring, Pool&hellip; replaces the 14 trade blocks</td></tr>
+            <tr><td class="name">paid_by</td><td>enum</td><td>Recast / Paul / Dennis &mdash; replaces the TRUE/FALSE flags</td></tr>
+            <tr><td class="name">reimbursed</td><td>bool</td><td>Whether a personally-paid cost was settled or booked to capital</td></tr>
+            <tr><td class="name">pay_account</td><td>lookup</td><td>Which card or bank account &mdash; the hook for reconciliation</td></tr>
+            <tr><td class="name">is_1099</td><td>bool</td><td>Derived from the vendor record, overridable per row</td></tr>
+            <tr><td class="name">receipt_url</td><td>link</td><td>The existing HYPERLINK to source email, carried forward</td></tr>
+            <tr><td class="name">source</td><td>enum</td><td>Auto-filed / manual / bank-import / migrated</td></tr>
+            <tr><td class="name">reconciled</td><td>text</td><td>What cleared this row: a statement period, <span class="code">ALTA &lt;date&gt;</span>, or a member-capital settlement</td></tr>
+            <tr><td class="name">business_purpose</td><td>text</td><td>Required non-null for 6600, 6700, 6710, 6720. Drafted by the agent from the email at ingest.</td></tr>
+            <tr><td class="name">attendee_or_recipient</td><td>text</td><td>Meals (6710) and gifts (6720) &mdash; who was there, or who received it</td></tr>
+            <tr><td class="name">destination_nights</td><td>text</td><td>Travel (6700) &mdash; where and how long</td></tr>
+            <tr><td class="name">odometer</td><td>text</td><td>Vehicle (6600) &mdash; start/end, if the actual method survives Decision 1d</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- 4 -->
+    <section id="coa">
+      <p class="kicker">Section four</p>
+      <h2>Chart of accounts</h2>
+      <p>Numbered so the series itself tells you the treatment: 1000s and 1400s are balance sheet, 2000s are what you owe, 4000s are income, 5000s are cost of goods sold, 6000s deduct in the current year, 9000s never touch the P&amp;L. Every account below is populated by real transactions already in your sheet.</p>
+
+      <div class="note">
+        <h3>The release rule</h3>
+        <p>Property costs accumulate in the 1000s while the property is held. <strong>On the settlement date in the property registry, that property's entire accumulated 1000s balance moves to 5000 &mdash; Cost of goods sold.</strong> That single entry is what turns a pile of costs into a matched sale, and it is the step the first draft of this plan was missing entirely.</p>
+        <p>Year-end inventory then becomes a filter, not a report you assemble: sum the 1000s by property where the registry says <span class="code">status = held</span>.</p>
+      </div>
+
+      <div class="scroller">
+        <table>
+          <thead>
+            <tr><th>Code</th><th>Account</th><th>What lands here now</th></tr>
+          </thead>
+          <tbody>
+            <tr class="group-row"><td colspan="3">1400 &mdash; Cash &amp; other assets &middot; balance sheet</td></tr>
+            <tr><td class="acct">1400</td><td class="name">Cash &mdash; one code per account</td><td>Each bank and card. Reconciliation needs something to reconcile <em>to</em>.</td></tr>
+            <tr><td class="acct">1500</td><td class="name">Earnest money &amp; auction deposits</td><td>Released to 1000 at close, or to 6300 when a deal dies</td></tr>
+            <tr><td class="acct">1510</td><td class="name">Escrow &amp; holdbacks receivable</td><td>1616 Granite's $60,000 &mdash; currently inside a net-profit figure and in no account at all</td></tr>
+
+            <tr class="group-row"><td colspan="3">2000 &mdash; Liabilities</td></tr>
+            <tr><td class="acct">2000</td><td class="name">Accrued interest payable</td><td>Interest accrued but not yet paid to Dennis</td></tr>
+            <tr><td class="acct">2010</td><td class="name">Note payable &mdash; member</td><td>Dennis's $164,360.44 principal, readable as a balance at any date</td></tr>
+            <tr><td class="acct">2020</td><td class="name">Backup withholding payable</td><td>Form 945 liability if a payment goes out with no W-9 on file</td></tr>
+
+            <tr class="group-row"><td colspan="3">4000 &mdash; Income</td></tr>
+            <tr><td class="acct">4000</td><td class="name">Property sale proceeds</td><td>$775,000 &middot; $550,000 &middot; $430,000 &middot; $409,000 &mdash; the largest numbers in the workbook</td></tr>
+            <tr><td class="acct">4010</td><td class="name">Wholesale assignment fees</td><td>Assignments that never close in your name</td></tr>
+            <tr><td class="acct">4020</td><td class="name">Escrow holdback released</td><td>Granite's $60,000 when it releases &mdash; not at closing</td></tr>
+            <tr><td class="acct">4030</td><td class="name">Other income</td><td>Refunds, rebates, credits</td></tr>
+
+            <tr class="group-row"><td colspan="3">5000 &mdash; Cost of goods sold &middot; the release target</td></tr>
+            <tr><td class="acct">5000</td><td class="name">COGS &mdash; property released</td><td>Ashburne's $567,656.87 on its settlement date</td></tr>
+            <tr><td class="acct">5010</td><td class="name">COGS &mdash; wholesale</td><td>Costs on assigned deals</td></tr>
+
+            <tr class="group-row"><td colspan="3">1000 &mdash; Property costs &middot; capitalize to inventory while held</td></tr>
+            <tr><td class="acct">1000</td><td class="name">Purchase price</td><td>Auction.com $325,000 &middot; $294,651 &middot; $207,000</td></tr>
+            <tr><td class="acct">1010</td><td class="name">Acquisition costs</td><td>Buyer premium, title, recording, HOA release</td></tr>
+            <tr><td class="acct">1020</td><td class="name">Rehab &mdash; subcontract labor</td><td>Juan Garcia, Chinos LLC, Salvador Campos, Julio</td></tr>
+            <tr><td class="acct">1030</td><td class="name">Rehab &mdash; materials</td><td>Home Depot, Lowe's, Floor &amp; Decor, Amazon</td></tr>
+            <tr><td class="acct">1040</td><td class="name">Rehab &mdash; fixtures &amp; appliances</td><td>Luxury 4 Less, Shalom Granite, 50floor, MyKnobs</td></tr>
+            <tr><td class="acct">1050</td><td class="name">Permits &amp; inspections</td><td>Currently uncategorized</td></tr>
+            <tr><td class="acct">1060</td><td class="name">Debris &amp; haul-off</td><td>City of Corsicana dump fees</td></tr>
+            <tr><td class="acct">1100</td><td class="name">Holding &mdash; property tax</td><td>Ashburne $16,031 &middot; prorated per tab</td></tr>
+            <tr><td class="acct">1110</td><td class="name">Holding &mdash; insurance</td><td>Foremost Insurance $2,640</td></tr>
+            <tr><td class="acct">1120</td><td class="name">Holding &mdash; utilities</td><td>TXU, Atmos, Energy Texas, city water</td></tr>
+            <tr><td class="acct">1130</td><td class="name">Holding &mdash; HOA &amp; grounds</td><td>HOA dues, Falcon Creek Lawn, pool service</td></tr>
+            <tr><td class="acct">1200</td><td class="name">Financing &mdash; interest</td><td>Ashburne $40,031 &middot; per-property interest to date</td></tr>
+            <tr><td class="acct">1210</td><td class="name">Financing &mdash; points &amp; fees</td><td>Loan origination</td></tr>
+            <tr><td class="acct">1300</td><td class="name">Selling &mdash; commission</td><td>Ashburne $46,500 (6%)</td></tr>
+            <tr><td class="acct">1310</td><td class="name">Selling &mdash; closing costs</td><td>Ashburne $15,500 (2%)</td></tr>
+            <tr><td class="acct">1320</td><td class="name">Selling &mdash; concessions &amp; credits</td><td>Ashburne $19,000 &middot; Granite $60,000 holdback</td></tr>
+            <tr><td class="acct">1330</td><td class="name">Selling &mdash; staging &amp; marketing</td><td>Aces Photography $628, Virtual Staging AI</td></tr>
+
+            <tr class="group-row"><td colspan="3">6000 &mdash; Operating expenses &middot; deduct currently</td></tr>
+            <tr><td class="acct">6000</td><td class="name">Advertising &amp; signage</td><td>VistaPrint signs and riders</td></tr>
+            <tr><td class="acct">6010</td><td class="name">Lead generation</td><td>Direct mail farming, inbound capture</td></tr>
+            <tr><td class="acct">6100</td><td class="name">Contract labor &mdash; non-property</td><td>Currently none tracked</td></tr>
+            <tr><td class="acct">6200</td><td class="name">Legal &amp; professional</td><td>Attorney, title curative work</td></tr>
+            <tr><td class="acct">6210</td><td class="name">Accounting &amp; bookkeeping</td><td>Your accountant's fee</td></tr>
+            <tr><td class="acct">6300</td><td class="name">Data &amp; research</td><td>CoreLogic $600, Ellis County Clerk, LGS</td></tr>
+            <tr><td class="acct">6400</td><td class="name">Software &amp; subscriptions</td><td>Anthropic, Adobe, Apify, PDF.co, Twilio, Telnyx</td></tr>
+            <tr><td class="acct">6410</td><td class="name">Website &amp; hosting</td><td>Netlify $162 &mdash; merge the current overlap</td></tr>
+            <tr><td class="acct">6500</td><td class="name">Office supplies &amp; postage</td><td>Toner, boxes &mdash; $136.84</td></tr>
+            <tr><td class="acct">6510</td><td class="name">Small tools &amp; equipment</td><td>$4,690.15 &mdash; under de minimis if elected</td></tr>
+            <tr><td class="acct">6600</td><td class="name">Vehicle</td><td>Mileage <em>or</em> actual &mdash; pick one, currently mixed</td></tr>
+            <tr><td class="acct">6610</td><td class="name">Tolls &amp; parking</td><td>NTTA &mdash; deductible under either method</td></tr>
+            <tr><td class="acct">6700</td><td class="name">Travel</td><td>$8,821.59 &mdash; airfare, rideshare, lodging</td></tr>
+            <tr><td class="acct">6710</td><td class="name">Meals (50%)</td><td>$350.29 &mdash; segregated for the limitation</td></tr>
+            <tr><td class="acct">6720</td><td class="name">Business gifts</td><td>The $100 Uber gift card &mdash; capped per recipient</td></tr>
+            <tr><td class="acct">6800</td><td class="name">Insurance &mdash; entity</td><td>General liability, E&amp;O</td></tr>
+            <tr><td class="acct">6900</td><td class="name">Taxes &amp; licenses</td><td>TX franchise tax, filing fees</td></tr>
+            <tr><td class="acct">6910</td><td class="name">Bank &amp; merchant fees</td><td>Wire fees, card fees</td></tr>
+            <tr><td class="acct">6920</td><td class="name">Dues &amp; education</td><td>MLS, association dues</td></tr>
+            <tr><td class="acct">7000</td><td class="name">Depreciable assets</td><td>Anything over $2,500 &mdash; feeds the asset schedule</td></tr>
+
+            <tr class="group-row"><td colspan="3">9000 &mdash; Equity &amp; financing &middot; never an expense</td></tr>
+            <tr><td class="acct">9000</td><td class="name">Member contributions</td><td>Paul-paid and Dennis-paid costs, if not reimbursed</td></tr>
+            <tr><td class="acct">9010</td><td class="name">Member draws &amp; distributions</td><td>The $178,000 of draws on the Ashburne advance tab</td></tr>
+            <tr><td class="acct">9020</td><td class="name">Loans from members</td><td>Dennis Little advances, principal</td></tr>
+            <tr><td class="acct">9030</td><td class="name">Interest paid to members</td><td>Interest accrued on those advances</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- 5 -->
+    <section id="properties">
+      <p class="kicker">Section five</p>
+      <h2>Property subledger</h2>
+      <p>Keep both templates. Light and heavy rehabs genuinely differ &mdash; Ashburne was a $156,544 rehab, Bowling Green was $2,781. What has to agree is the reporting contract, not the layout.</p>
+
+      <ul>
+        <li><strong>Property registry tab</strong> &mdash; one row per property: tab name, address, template (light/heavy), status, purchase date, sale date, APN, county. This is the allowlist every script reads, so backup and test tabs can never be scanned by accident.</li>
+        <li><strong>Name in a fixed cell</strong> on both templates. The 6/2/2026 property ($393,701, likely 420 Alyssa) is currently untitled.</li>
+        <li><strong>One summary vocabulary</strong> across both templates. You presently have three names for profit &mdash; <em>Profit</em>, <em>Net Profit</em>, <em>Net after closing</em> &mdash; and three for the purchase line. Labels change; layouts don't.</li>
+        <li><strong>Light is a strict subset of heavy</strong>, so a project that creeps upward (Granite reached $10,728) upgrades by adding blocks rather than being rebuilt mid-flight.</li>
+        <li><strong>Resolve 280 Sparkling vs 280 Sparkling Springs</strong> &mdash; two tabs, one property.</li>
+        <li><strong>Trade becomes a column, not a layout.</strong> The heavy template's 14 side-by-side trade blocks become one <span class="code">trade</span> value per GL row; the per-trade totals you have today come back as a pivot, and light rehabs get the same analytics for free.</li>
+        <li><strong>Move 420 Alyssa's interest</strong> off the RECAST BIZ Interest block and onto its own property, where every other property's interest already lives.</li>
+        <li><strong>Attach the closing statement.</strong> Each sold property links its ALTA/settlement statement; estimated 6% and 2% become actuals at close.</li>
+      </ul>
+    </section>
+
+    <!-- 6 -->
+    <section id="vendors">
+      <p class="kicker">Section six</p>
+      <h2>Vendors &amp; 1099s</h2>
+      <p>The most urgent item in this plan, and the only one with a statutory deadline. Nine payees cleared $2,000 in 2026 and no W-9s exist for any of them. The January 31 deadline does not move, and a payee is never easier to reach than while you are still paying them.</p>
+
+      <div class="note">
+        <h3>The threshold moved</h3>
+        <p>For tax year 2026 the 1099-NEC threshold rose from $600 to <strong>$2,000</strong> under the One Big Beautiful Bill Act. Prior years remain at $600 &mdash; so the monitor needs both numbers, in a named cell rather than in code.</p>
+        <p>Good news on the back years: 2025 contractor spend was $400 to Julio through the draw tab, under the old $600 line. <strong>No delinquent prior-year filings appear to be owed.</strong> The exposure is entirely forward.</p>
+      </div>
+
+      <div class="scroller">
+        <table>
+          <thead>
+            <tr><th>Payee</th><th class="num">2026 paid</th><th class="num">Payments</th><th>Data problem</th></tr>
+          </thead>
+          <tbody>
+            <tr><td class="name">Juan Garcia</td><td class="num">$30,500.00</td><td class="num">5</td><td>&mdash;</td></tr>
+            <tr><td class="name">Atlas Pools</td><td class="num">$17,646.13</td><td class="num">13</td><td>Confirm entity type</td></tr>
+            <tr><td class="name">Chinos LLC</td><td class="num">$13,500.00</td><td class="num">1</td><td>LLC in the name tells you nothing &mdash; ask which box it checked</td></tr>
+            <tr><td class="name">Julio</td><td class="num">$5,900.00</td><td class="num">27</td><td>3 spellings, no surname, also paid via Dennis</td></tr>
+            <tr><td class="name">Salvador Campos</td><td class="num">$4,960.00</td><td class="num">3</td><td>&mdash;</td></tr>
+            <tr><td class="name">Juanito Garcia</td><td class="num">$2,700.00</td><td class="num">3</td><td>2 spellings</td></tr>
+            <tr><td class="name">50floor</td><td class="num">$2,638.00</td><td class="num">2</td><td>Confirm entity type</td></tr>
+            <tr><td class="name">Carlos</td><td class="num">$2,500.00</td><td class="num">5</td><td>No surname on file</td></tr>
+            <tr><td class="name">Mariana</td><td class="num">$2,000.00</td><td class="num">4</td><td>2 spellings, no surname &mdash; exactly on the line</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p>Below the line for 2026 but worth collecting anyway, because one more job puts them over: Waxahachie Glass $1,915.74 &middot; Robinson Air $1,672.44 &middot; Verity Plumbing $1,526.46 &middot; Effren $1,290.00 &middot; Juan Gonzalez $1,000.00.</p>
+
+      <h3>Do this week, ahead of every phase</h3>
+      <ul>
+        <li><strong>Text a fillable W-9 to all nine.</strong> The contractor directory already has the phone numbers. This needs a phone and a PDF &mdash; no dependency on the ledger, the vendor master, or any gate in this plan.</li>
+        <li><strong>Capture surnames for Julio, Carlos and Mariana while you text them.</strong> Five minutes now, effectively impossible in six months.</li>
+        <li><strong>Get a written classification read first</strong> on Julio, Effren, Carlos and Mariana. Twenty-seven payments averaging $218 for directed labor with no invoices is a worker-classification fact pattern, and the W-9 request itself is what makes payees disappear. You get one shot at the population.</li>
+      </ul>
+
+      <h3>What gets built</h3>
+      <ul>
+        <li><strong>Vendor master tab</strong> &mdash; canonical name, alias list, entity type, TIN/EIN, W-9 on file, address, 1099 required, default account.</li>
+        <li><strong>Alias resolution</strong> at write time, so <em>Julio</em>, <em>Julio &amp; Friend</em> and <em>Julio + Friend</em> land on one vendor.</li>
+        <li><strong>A payment-side block, not a warning.</strong> A GL row flagged <span class="code">is_1099</span> whose vendor has no TIN cannot be appended &mdash; either 24% is withheld to 2020, or you record an override with a reason and a date. A flag in the 3am digest is read after the money is gone.</li>
+        <li><strong>Dennis-paid payments count.</strong> Wages routed through the cash-advance tab are still the LLC's expense and still its 1099 obligation.</li>
+        <li><strong>IRS TIN matching before filing.</strong> A W-9 with a mismatched TIN produces a B-notice and reopens the withholding obligation.</li>
+        <li><strong>Exemptions</strong> &mdash; C and S corporations are generally exempt; attorneys never are. That call lives on the vendor record, not in your memory.</li>
+      </ul>
+    </section>
+
+    <!-- 7 -->
+    <section id="recon">
+      <p class="kicker">Section seven</p>
+      <h2>Bank reconciliation</h2>
+      <p>The structural gap. Receipts currently drive the books, which means the ledger only knows about spending that happened to arrive as an email. Anything paid without a receipt reaching the inbox is invisible &mdash; and invisible in a direction no report can reveal.</p>
+
+      <ul>
+        <li><strong>You upload, the agent reconciles.</strong> A <span class="code">statements@</span> channel takes the monthly statement as PDF or CSV, through the same poller, Blobs storage and queue page receipts already use. PDF parsing runs on the PDF.co subscription already on the books.</li>
+        <li>Every statement line is staged, then auto-matched on date + amount + payee against the GL. The <span class="code">pay_account</span> column is what makes the match possible.</li>
+        <li><strong>The agent proposes the near-misses</strong> &mdash; a $113.98 bank line against a $100.79 ledger row, a vendor that bills under a different name. Exact matches clear themselves; judgment calls queue.</li>
+        <li><strong>Two exception lists, both required:</strong> statement lines with no ledger row (missing expense &mdash; you are under-deducting) and ledger rows with no statement line (duplicate or miskeyed &mdash; you are over-deducting).</li>
+        <li><strong>Three clearing sources, not one.</strong> A bank or card statement line; an ALTA settlement line stamped <span class="code">ALTA &lt;closing date&gt;</span>; or a member-capital settlement where <span class="code">paid_by</span> is not Recast. Ashburne's $46,500 commission, $15,500 closing costs and $19,000 concession were netted at settlement and never touched a bank account &mdash; under a bank-only rule they sit in the exception list forever and the period never closes.</li>
+        <li>A period closes when every ledger row is cleared by exactly one of the three and every statement line is matched.</li>
+        <li>This is the first thing a competent accountant asks for, and the thing that makes the rest defensible in an audit.</li>
+      </ul>
+    </section>
+
+    <!-- 8 -->
+    <section id="equity">
+      <p class="kicker">Section eight</p>
+      <h2>Member equity</h2>
+      <ul>
+        <li><strong>Separate Dennis's two hats.</strong> Advances with interest are debt (9020/9030). Profit share is equity. They are currently entangled on one tab.</li>
+        <li><strong>Capital account per member</strong> &mdash; opening balance, contributions, share of profit, draws, distributions, closing balance. Required for K-1s if the entity is a partnership.</li>
+        <li><strong>Resolve the TRUE/FALSE flags.</strong> "Paul Paid" and "Dennis Paid" currently record who spent the money but not what happened next. Every such row must resolve to either a reimbursement or a capital contribution &mdash; ambiguity here becomes a real problem at tax time.</li>
+        <li><strong>Draws are not expenses.</strong> The $178,000 drawn against Ashburne belongs in the 9000s and must never reduce project profit.</li>
+        <li><strong>Interest on member loans</strong> is deductible to the LLC and income to Dennis, and needs a written note with a stated rate to survive scrutiny.</li>
+      </ul>
+    </section>
+
+    <!-- 9 -->
+    <section id="close">
+      <p class="kicker">Section nine</p>
+      <h2>Monthly close</h2>
+      <p>Runs the <strong>second Friday</strong> of the month &mdash; clear of the first-Tuesday courthouse auction and clear of month-end closings. A close scheduled for the week you are on the courthouse steps is a close that lapses by month three.</p>
+      <ul>
+        <li>Clear the receipts queue to zero pending.</li>
+        <li>Import and reconcile every bank and card account.</li>
+        <li>Review rows with no account, no property, or no receipt link.</li>
+        <li>Confirm each property subledger ties to the GL for that property.</li>
+        <li>Check the vendor threshold monitor; chase any new W-9.</li>
+        <li>Snapshot the workbook to a dated archive copy.</li>
+        <li>Lock the period &mdash; prior-month rows become read-only.</li>
+      </ul>
+
+      <h3>A release valve, so one bad month doesn't end the habit</h3>
+      <ul>
+        <li><strong>Open Items tab.</strong> Unresolved lines carry forward with a date, an amount and a one-line note.</li>
+        <li><strong>Tolerance.</strong> The period closes if open items total under $250 or number fewer than five. A full close with both exception lists genuinely empty runs quarterly, not monthly.</li>
+        <li><strong>Don't found a new ritual &mdash; extend the one that runs.</strong> A monthly variant of the 3am digest pre-computes pending count, rows missing account or property or receipt, vendors near the threshold, and per-property GL variance. Close becomes reading one email and clearing a short list, which survives a bad month. A blank seven-step checklist does not.</li>
+        <li><strong>Quarterly: send the accountant the trial balance.</strong> Section 10 already produces it. This is the only genuine second-party review available, and it cuts the time to catch a systematic misclassification from twelve months to three.</li>
+      </ul>
+    </section>
+
+    <!-- 10 -->
+    <section id="reports">
+      <p class="kicker">Section ten</p>
+      <h2>The accountant's packet</h2>
+      <p>Generated, not assembled by hand. Every one of these is a pivot or filter over the GL.</p>
+      <ul>
+        <li>Profit &amp; loss and balance sheet, by period</li>
+        <li>Trial balance mapped to return lines</li>
+        <li>Per-property job cost summary with settlement statement attached</li>
+        <li>Year-end inventory: properties held, at cost, with cost detail</li>
+        <li>1099 worksheet, per payee, with W-9 status</li>
+        <li>Fixed asset and depreciation schedule</li>
+        <li>Mileage log, if the mileage method is elected</li>
+        <li>Member capital accounts and loan balances</li>
+        <li>Reconciliation report per account, per period</li>
+      </ul>
+    </section>
+
+    <!-- 11 -->
+    <section id="migration">
+      <p class="kicker">Section eleven</p>
+      <h2>Phased migration</h2>
+      <p>Nothing writes to the live workbook until the new one has proven itself in parallel. The tie-out gates below are non-negotiable: every phase either balances to the cent or stops.</p>
+
+      <ol class="phases">
+        <li class="phase">
+          <div class="phase-id">Now</div>
+          <div>
+            <h3>W-9s &mdash; no dependencies, do not wait</h3>
+            <ul>
+              <li>Text a fillable W-9 to all nine over-threshold payees, plus the five just below.</li>
+              <li>Capture missing surnames while you have them on the phone.</li>
+              <li>Get the classification read on the four labor-only payees first.</li>
+              <li>Add the amount ceiling to the live autofile gate &mdash; one comparison in code already deployed, and it stops a five-figure charge filing itself while the rest of this is built.</li>
+            </ul>
+            <p class="gate"><b>Why this jumps the queue</b>This is the only item in the plan with real money and a statutory deadline, and it has no dependency on the ledger, the vendor master, or any gate below. Everything else can slip a month. This cannot.</p>
+          </div>
+        </li>
+
+        <li class="phase">
+          <div class="phase-id">Phase 0</div>
+          <div>
+            <h3>Freeze and snapshot</h3>
+            <ul>
+              <li>Full dated copy of the live workbook, stored outside it.</li>
+              <li>Record every block total and property summary figure as the baseline.</li>
+              <li>Delete the stale <em>RECAST BIZ backup 2026-08-25 1350</em> tab so nothing can double-count it.</li>
+            </ul>
+          </div>
+        </li>
+
+        <li class="phase">
+          <div class="phase-id">Phase 0.5</div>
+          <div>
+            <h3>Opening trial balance</h3>
+            <ul>
+              <li>Bank and card balances per account, capitalized basis per property held, member loan principal, escrow receivable.</li>
+              <li>Nothing ties to anything without an opening position &mdash; a ledger that starts from zero mid-life cannot produce a balance sheet at any level of reconciliation cleanliness.</li>
+            </ul>
+          </div>
+        </li>
+
+        <li class="phase">
+          <div class="phase-id">Phase 1</div>
+          <div>
+            <h3>Build the shell</h3>
+            <ul>
+              <li>New workbook, <em>Recast Books</em>. Structure only, no data, no automation pointed at it.</li>
+              <li>Chart of accounts, vendor master, property registry, empty GL, report tabs.</li>
+              <li>The live workbook keeps running untouched throughout.</li>
+            </ul>
+          </div>
+        </li>
+
+        <li class="phase">
+          <div class="phase-id">Phase 2</div>
+          <div>
+            <h3>Migrate history &mdash; faithfully, then correct</h3>
+            <p>Two steps with two gates, because a migration that corrects while it copies can never prove it copied correctly.</p>
+            <ul>
+              <li><strong>2a &mdash; Faithful copy.</strong> Script parses every property tab, every RECAST BIZ block, <em>and the cash-advance/draw tab</em> into flat GL rows. No corrections. Dry run first, reporting proposed rows and every unmapped item, exactly like the sorter's <span class="code">DRY_RUN</span> pattern. Unmapped rows are listed for your decision, never auto-assigned.</li>
+              <li><strong>2b &mdash; Corrections, each one logged.</strong> 420 Alyssa's interest moves to its property. Rehab items leave the overhead Materials block. The <span class="code">Business</span> catch-all maps to real accounts. Each correction is a dated GL row with a reason, not a silent edit.</li>
+            </ul>
+            <p class="gate"><b>Gate 2a</b>Every property's total project cost and net profit, and all eleven RECAST BIZ block totals, must match the Phase 0 baseline to the cent.</p>
+            <p class="gate"><b>Gate 2b</b>Every correction appears as its own logged row, and the sum of all corrections explains the entire difference from the Phase 0 baseline. The books may now differ from the old workbook &mdash; but only by amounts you can name.</p>
+          </div>
+        </li>
+
+        <li class="phase">
+          <div class="phase-id">Phase 3</div>
+          <div>
+            <h3>Normalize vendors, build the monitor</h3>
+            <ul>
+              <li>Collapse the alias variants; build the vendor master around the W-9s already coming back.</li>
+              <li>Threshold in a named cell, not in code: $2,000 for 2026-forward, $600 for any prior-year sweep.</li>
+              <li>Wire the payment-side block into the sheet writer.</li>
+              <li>Produce the 2026 1099 worksheet; run TIN matching before anything is filed.</li>
+            </ul>
+            <p class="gate"><b>Tie-out gate</b>Sum of all payments by canonical vendor equals sum of all GL rows. Merging aliases must move money between names without changing the total. Note this gate proves arithmetic, not correctness &mdash; two genuinely different payees merged in error passes it. Spot-check the merges by hand.</p>
+          </div>
+        </li>
+
+        <li class="phase">
+          <div class="phase-id">Phase 4</div>
+          <div>
+            <h3>Reconcile the year to date</h3>
+            <ul>
+              <li>New <span class="code">statements@</span> channel &mdash; you forward or upload the monthly statement, same path receipts already travel. PDF parsing via the PDF.co subscription you already pay for.</li>
+              <li>Agent stages every statement line, auto-matches on date + amount + payee, and proposes matches for the near-misses.</li>
+              <li>Two exception lists surface in the existing queue page: statement lines with no ledger row, ledger rows with no statement line.</li>
+              <li>Work both to empty for the current year. Expect to find real missing expenses here.</li>
+              <li>This is where the migrated books become trustworthy rather than merely tidy.</li>
+            </ul>
+          </div>
+        </li>
+
+        <li class="phase">
+          <div class="phase-id">Phase 5</div>
+          <div>
+            <h3>Repoint the automation, run in parallel</h3>
+            <ul>
+              <li>Sheet writer appends single GL rows instead of locating category blocks &mdash; simpler code, and the <span class="code">BLOCKED</span> failure mode disappears.</li>
+              <li><strong>Agent-side property routing.</strong> Per-property inboxes are cut &mdash; the agent decides the property from context, which is the same call it would make anyway, without you maintaining six mailboxes.</li>
+              <li>Writer files to <em>both</em> workbooks for two weeks; a nightly diff must come back clean before cutover.</li>
+              <li>Duplicate gate, confidence threshold, amount ceiling and Pending queue all carry over.</li>
+            </ul>
+            <p class="gate"><b>Tie-out gate</b>Fourteen consecutive days of zero-variance diffs. The diff compares row count, dollar total, and per-account and per-property distribution &mdash; not just totals, since two offsetting misclassifications net to zero. A mismatch resets the clock; a <em>classification</em> difference is logged for review rather than resetting it, since the new writer is meant to classify better than the old one.</p>
+          </div>
+        </li>
+
+        <li class="phase">
+          <div class="phase-id">Phase 6</div>
+          <div>
+            <h3>Cutover</h3>
+            <ul>
+              <li>Old workbook goes read-only as a permanent archive; it is never deleted.</li>
+              <li>Automation writes to the new workbook only.</li>
+              <li>Monthly close cadence begins; first close is the following month.</li>
+            </ul>
+          </div>
+        </li>
+      </ol>
+
+      <div class="note">
+        <h3>Guardrails, all phases</h3>
+        <ul>
+          <li>No script ever writes to the old workbook.</li>
+          <li>Every script dry-runs before it applies, and backs up before it writes.</li>
+          <li>Totals are verified twice by different paths &mdash; the discipline that got your sort through 158 formulas without a scratch.</li>
+          <li>A migration that cannot tie out stops and reports. It never guesses.</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- 12 -->
+    <section id="agent">
+      <p class="kicker">Section twelve</p>
+      <h2>The agent layer</h2>
+      <p>You already run one. The receipts bookkeeper reads, itemizes, decodes SKUs, categorizes, scores its own confidence, files what it is sure of and escalates what it is not. The question is not whether to build an accountant agent &mdash; it is which jobs go behind that same gate next.</p>
+
+      <h3>Jobs worth making agentic</h3>
+
+      <div class="scroller">
+        <table>
+          <thead>
+            <tr><th>Job</th><th>Why an agent, not a rule</th><th>Phase</th></tr>
+          </thead>
+          <tbody>
+            <tr><td class="name">Property routing</td><td>Deciding which property a Home Depot run belongs to needs context: which properties are active, at what stage, which trades are working this week. Unlocks the whole per-property extension.</td><td class="acct">5</td></tr>
+            <tr><td class="name">Statement reconciliation</td><td>Matching a $113.98 bank line to a $100.79 ledger row, or explaining a statement line with no receipt. Rules are bad at near-misses; this is the most tedious work in the system.</td><td class="acct">4</td></tr>
+            <tr><td class="name">Capitalize vs. expense</td><td>The call that is currently wrong &mdash; rehab materials sitting in overhead. Policy-driven, tax-material, needs judgment against a written policy.</td><td class="acct">2</td></tr>
+            <tr><td class="name">Vendor alias resolution</td><td>Is <em>Julio &amp; Friend</em> the same payee as <em>Julio</em>? Fuzzy, one-time heavy, then cheap monitoring.</td><td class="acct">3</td></tr>
+            <tr><td class="name">Anomaly detection</td><td>"Ashburne's pool spend is 3&times; your other properties." "No utility bill for Bowling Green in six weeks." Not automation of existing work &mdash; a capability the ledger never had.</td><td class="acct">6</td></tr>
+            <tr><td class="name">Close narrative</td><td>What moved, what is unusual, what needs you. Extends the morning email you already receive.</td><td class="acct">6</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>What must stay deterministic</h3>
+      <ul>
+        <li><strong>Every number.</strong> Totals, tie-outs, roll-ups, the duplicate gate, the append itself &mdash; code, never a model.</li>
+        <li><strong>An amount ceiling on autofile.</strong> Today a $13,500 charge can file itself on "high confidence" alone. Anything above the ceiling routes to Pending with a capitalize-or-expense prompt regardless of what the model thinks.</li>
+        <li><strong>No &sect;274(d) category autofiles.</strong> Travel, meals and gifts require a business purpose the statute demands from a person. Remove 6700, 6710 and 6720 from the autofile-eligible list.</li>
+        <li><strong>Anything material</strong> waits for you. Confidence score, policy citation, your approval.</li>
+      </ul>
+
+      <div class="note">
+        <h3>Segregation of duties is not achieved here &mdash; say so plainly</h3>
+        <p>An agent that both records and verifies is the accounting equivalent of one person writing the checks and reconciling the account. In a two-person shop with one bookkeeper and one automation, that separation does not exist and no amount of design inside the system creates it. The first draft of this plan claimed otherwise. It was wrong.</p>
+        <p><strong>The substitute is external and quarterly:</strong> your accountant reviews the trial balance every quarter, using a deliverable Section&nbsp;10 already produces. That is the only genuine second-party review available, and it cuts detection lag from twelve months to three.</p>
+        <p><strong>The internal control that actually works is distribution monitoring, not anomaly detection.</strong> A fixed monthly report of row count and dollar total per account and per property, against prior month and prior year. Systematic misclassification shows up instantly as 6510 tripling while 1030 collapses &mdash; exactly the signal an outlier detector cannot produce, because a consistent error is never an outlier. Keep anomaly detection as a hint generator, but "the agent flagged nothing" must never appear in the close narrative as assurance. It is not assurance.</p>
+        <p>And "Claude decided this was capitalized" is not an audit defense. What is: a written policy, the confidence score, the note explaining the call, and your approval on the material ones.</p>
+      </div>
+
+      <h3>Two build rules</h3>
+      <ul>
+        <li><strong>Not a monolith.</strong> "An agent that manages all of this" is how you get something you cannot debug and will not trust. Add jobs behind the existing gate one at a time, each with its own Pending lane and its own why-note.</li>
+        <li><strong>Tier the models by risk, not by volume.</strong> The instinct is to put the cheap model on the high-volume mechanical work &mdash; but capitalize-vs-expense is mechanical <em>and</em> the most expensive call to get wrong, compounding silently across a year. Tier on what a mistake costs, not on how often the job runs.</li>
+        <li><strong>Keep a golden set.</strong> Thirty receipts with known-correct answers, re-run whenever the model or prompt changes. Without it a silent regression looks exactly like a normal week.</li>
+      </ul>
+    </section>
+
+    <!-- 13 -->
+    <section id="horizon">
+      <p class="kicker">Section thirteen</p>
+      <h2>Staying in Sheets</h2>
+      <p>Decided: the books stay in Google Sheets. What that costs, and what substitutes for it.</p>
+      <ul>
+        <li><strong>What you give up:</strong> double-entry enforcement, period locking, an edit audit trail, native 1099 e-filing, and automatic bank feeds.</li>
+        <li><strong>What substitutes:</strong> the tie-out discipline you already run &mdash; totals verified twice by different paths, scripts that halt rather than guess. Protected ranges and dated snapshots stand in for period locking. The vendor worksheet feeds a filing service or your accountant in January; getting the data clean was always the hard part.</li>
+        <li><strong>The reconciliation layer becomes a build</strong> rather than a switch you flip &mdash; Phase 4, once, and then you do not touch it again.</li>
+        <li><strong>Keep the GL export-shaped anyway.</strong> It costs nothing today and means the door is not closed. The flat schema in Section 3 is what QuickBooks and Xero import natively.</li>
+        <li><strong>Revisit if:</strong> a third partner joins, an audit opens, or your accountant asks for something the sheet cannot produce. Not before.</li>
+      </ul>
+    </section>
+
+  </main>
+
+  <footer>
+    Figures drawn from the live workbook on August 26, 2026. Contractor totals computed across all property tabs and exclude payments routed through the cash-advance tab. This is a bookkeeping architecture, not tax advice &mdash; the three accountant decisions in Section&nbsp;1 should be settled before Phase&nbsp;1 begins.
+  </footer>
+
+</div>
