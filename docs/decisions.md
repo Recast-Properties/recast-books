@@ -165,3 +165,19 @@ lease it. The standard mileage rate requires an owned or leased vehicle, so mile
 not available. Answers Q-5 for now: **actual method, business-use percentage**, which
 still requires a trip log to substantiate the percentage. Accountant question: whether
 a written lease from Dennis would open the mileage method.
+
+---
+
+## D-010 · Advance mechanics and overhead — 2026-09-11 · Paul
+
+**Advances.** Interest on a Dennis advance starts the day the money lands in the shared
+Citizens account, not when it is spent. Every advance is dedicated to one specific
+property and is carried on **that property's balance sheet** as a liability (2010
+principal, 2000 accrued interest). There is no pooled loan. A deposit meant for two
+properties is entered as two advances.
+
+**Overhead (Q-6).** Business expenses are separate from every property balance sheet and
+Paul pays them alone. Not a setting — a rule. No overhead is ever allocated to a
+property or enters the 50/50 waterfall.
+
+**Vehicle.** Gas and truck expenses stay as they are: actual costs, overhead, Paul's.

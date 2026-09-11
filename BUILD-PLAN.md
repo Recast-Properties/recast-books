@@ -48,25 +48,28 @@ settlement date the whole balance moves to 5000 COGS. Year-end inventory is a fi
 | Repayment at sale | 2010 / 2000 | Principal plus accrued interest for that property, cleared from settlement proceeds. |
 | Profit share | 1220 Profit participation — Dennis (property cost, released to COGS) | 50% of the property's net profit after all 1000s including interest. Paid at settlement. Not equity. |
 
-The `Advances` tab math must reproduce the existing cash-advance tab to the cent before
-migration. Where the two disagree, Paul rules. **Open (2026-09-11):** whether interest
-starts at deposit into the shared Citizens account or at spend on a property, and how a
-pooled deposit allocates across properties.
+**Advance mechanics (D-010).** Interest starts the day the money lands in the shared
+Citizens account. Each advance is dedicated to one property and sits on **that
+property's balance sheet** as a liability; a deposit meant for two properties is two
+advances. There is no pooled loan. The `Advances` tab math must reproduce the existing
+cash-advance tab to the cent before migration; where the two disagree, Paul rules.
 
 **Paul.** 9000 Owner contributions, 9010 Owner draws, **2030 Due to owner** for every
 cost he paid personally in 2026 until the Chase account reimburses him. The `paid_from`
 attribute on every line is what makes that balance knowable.
 
-**Overhead.** RECAST BIZ-type costs post to the 6000s with `property = OVERHEAD`. A
-setting `overhead_allocated` (default **no**) governs whether any of it is charged to
-projects before the 50/50 split. **Open (2026-09-11), Paul.**
+**Overhead (D-010).** RECAST BIZ-type costs post to the 6000s with `property = OVERHEAD`
+and are Paul's alone. This is a rule, not a setting: no overhead ever touches a property
+balance sheet or the 50/50 waterfall. The posting engine refuses a 6000-series line that
+names a property, and a 1000-series line that names OVERHEAD.
 
 **Tax questions the accountant has not answered** (tax home, dealer/investor,
 cash/accrual) are **settings**, not blockers. `tax_treatment` and `cost_class` on each
 line are derived by formula from account plus the settings, so an answer is a recompute.
 
-**Vehicle (D-009).** Actual expenses on Dennis's truck at a business-use percentage.
-Fuel and repair receipts post to 6600; a `Trips` tab supplies the percentage.
+**Vehicle (D-009, D-010).** Gas and truck expenses stay as they are: actual costs to
+6600, overhead, Paul's. A `Trips` tab is available for the business-use percentage the
+accountant will want, but it does not gate anything.
 
 ## 3 · Architecture
 
@@ -139,11 +142,11 @@ console — a one-time click.
 | `Bank accounts` | app | One row per 1400 sub-account: name, institution, last4, Plaid item/account id, opening balance and date. |
 | `Properties` | app | Registry: name, address, purchase date, price, status (held / under contract / sold), settlement date, ALTA url, template (light / heavy), Dennis-funded. **The allowlist** — nothing posts to a property not here. |
 | `Vendors` | app | Canonical name, aliases, entity type, 1099 type, TIN status, W-9 url, default account. |
-| `Advances` | app | Dennis: date, amount, property split, source feed line, status, accrued-to date. |
+| `Advances` | app | Dennis: date landed in Citizens, amount, **one property**, source feed line, status, accrued-to date, repaid date. |
 | `Feed` | Plaid sync | Every bank line: id, account, date, amount, name, merchant, match status, `txn_id`. |
 | `Periods` | close job | Month, status (open / closing / closed), closed_at, snapshot url, open-items tolerance result. |
 | `Trips` | app | Date, from, to, miles, purpose, property. Business-use % for 6600. |
-| `Settings` | Paul via app | Autofile ceiling, 1099 thresholds by year, `overhead_allocated`, `dealer_status`, `de_minimis_elected`, `cash_or_accrual`, `tax_home`, login allowlist and roles. |
+| `Settings` | Paul via app | Autofile ceiling, 1099 thresholds by year, `dealer_status`, `de_minimis_elected`, `cash_or_accrual`, `tax_home`, login allowlist and roles. |
 | Report tabs | formulas | Trial balance, balance sheet, P&L, property job cost, loan ledger, 1099 worksheet, reconciliation status. Read-only views; the app renders the same from the API. |
 
 **Period locking** is by the `period` column, not by row range: the writer refuses any
@@ -168,8 +171,9 @@ Same visual kit as the admin site. Mobile-usable, because receipts arrive from a
 3. **Upload** — drag or photograph a receipt, statement, settlement statement or W-9.
    The bookkeeper reads it within a minute. Tagging a property is optional; Claude routes.
 4. **Properties** — add a property (registry row, Drive folder, both templates as
-   generated views). Per property: job cost by cost class and trade, Dennis's advances
-   and accrued interest, documents, status. **Sell wizard:** upload the ALTA, confirm
+   generated views). Per property: a **property balance sheet** (costs capitalized as
+   assets; Dennis's principal and accrued interest as liabilities; the net), job cost by
+   cost class and trade, documents, status. **Sell wizard:** upload the ALTA, confirm
    the settlement lines, release 1000s to COGS, compute the waterfall (Dennis principal,
    interest, 50% share, Paul's share), post it, produce a one-page settlement summary.
 5. **Dennis** — the loan ledger: every advance, accrued interest to date per property,
@@ -201,7 +205,7 @@ the prompt or model changes.
 | Receipt | email or upload, attachments, `read_ledger`, `find_vendor`, `find_property`, web | itemization, vendor, account, property, trade, tax, business purpose draft, duplicate verdict | subtotal reconcile, balanced entry, dedupe, ceiling, §274(d) hold, 1099 block |
 | Feed line | Plaid line, receipts posted ±5 days, vendor history | match to an existing entry, or propose account/property for an uncovered charge, or flag a transfer between own accounts | match uniqueness, amount equality, proposal above ceiling → hold |
 | Statement PDF | upload | parse lines, reconcile against feed and ledger for the period, name every difference | totals tie-out; variance halts the close |
-| Advance | feed line into Citizens, or Paul's entry | recognise a Dennis deposit, propose property split | 2010 entry, anniversary schedule |
+| Advance | feed line into Citizens, or Paul's entry | recognise a Dennis deposit, propose which property it is for | 2010 entry on that property, anniversary schedule from the deposit date |
 | Interest accrual | `Advances`, calendar | nothing — pure math | 0.75%/month compounding on anniversary, stub pro-rating, one entry per advance per month |
 | Settlement | ALTA PDF, property job cost | map every ALTA line to an account; spot netted costs that never hit a bank | release rule, waterfall arithmetic, balanced multi-line entry |
 | Vendor hygiene | `Vendors`, journal payees | alias merges, entity type from a W-9, 1099 applicability | threshold by year, TIN presence block |
@@ -259,8 +263,7 @@ the code from written specs.
 
 ## 10 · What I need from Paul before Phase 0 starts
 
-1. Answers to the two open items: Dennis's advance mechanics in the shared account, and
-   whether overhead touches projects.
+1. ~~Advance mechanics and overhead~~ — answered 2026-09-11 (D-010).
 2. Dennis's and the accountant's Google email addresses for the allowlist.
 3. Access to add a DNS record for `books.recast-properties.com` (or confirm DNS is at Netlify).
 4. A Plaid developer account, created by Paul, with the client id and secret set as

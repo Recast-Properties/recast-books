@@ -1,7 +1,7 @@
 # Open questions
 
 Seven decisions gate the build. **Updated 2026-09-11:** Q-2 answered (D-006), Q-5 answered
-for now (D-009). Q-1, Q-3, Q-4 still need the accountant; the new system stores each as a
+for now (D-009), Q-6 answered (D-010). Q-1, Q-3, Q-4 still need the accountant; the new system stores each as a
 setting so they no longer block the build.
 
 ---
@@ -69,7 +69,7 @@ fuel receipts are the ones that matter.
 
 ---
 
-## Q-6 · Does overhead hit the projects? — UNANSWERED · Paul
+## Q-6 · Does overhead hit the projects? — NO, ANSWERED 2026-09-11 · Paul (D-010)
 
 Today RECAST BIZ sits above the 50/50 split, so Paul absorbs all $18,947.31 of it
 alone. Either allocate overhead to projects on a stated basis, or make absorbing it a

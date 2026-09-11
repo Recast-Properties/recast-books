@@ -70,4 +70,5 @@ D-007 (Plaid bank feeds, three accounts), D-008 (separate Netlify site at `books
 Google sign-in with roles, code lives here, all 2026 history copied, nothing deleted),
 D-009 (actual vehicle method on Dennis's truck). Q-2 and Q-5 closed; Q-1, Q-3, Q-4
 become settings rather than blockers. `BUILD-PLAN.md` drafted — awaiting sign-off.
-Open: Dennis's advance mechanics in the shared account; whether overhead touches projects.
+Later the same day, D-010: interest runs from deposit, one advance per property carried on
+that property's balance sheet; overhead is Paul's alone, never allocated. Q-6 closed.
