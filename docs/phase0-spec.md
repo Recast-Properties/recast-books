@@ -127,7 +127,7 @@ Actions (`body.action`):
 |---|---|---|
 | `ping` | | `{ok:true, spreadsheet_url, version}` |
 | `post` | `entry` (§3) | Inside `LockService.getScriptLock()` (wait 30 s): re-check balance; refuse `DUPLICATE` if `txn_id` exists in the Journal `txn_id` column (`TextFinder`, whole cell) **or** in a `CacheService` 6 h key; refuse `PERIOD_CLOSED` from the `Periods` tab unless `source == "void"`; append one row per line; set cache key; return `{ok:true, rows:[first,last]}`. |
-| `void` | `txn_id, reason, date` | Reads the original lines, appends a mirror entry (debits↔credits) with `source:"void"`, `void_of`, `memo:"VOID: "+reason`, new `txn_id = "void-"+original`. Refuses if the original is already voided. |
+| `void` | `txn_id, reason, date, posted_by` | Reads the original lines, appends a mirror entry (debits↔credits) with `source:"void"`, `void_of`, `memo:"VOID: "+reason`, new `txn_id = "void-"+original`. Refuses if the original is already voided. |
 | `read` | `tab, limit?, since?` | Returns `{ok:true, headers:[...], rows:[[...]]}` for `Accounts`, `Properties`, `Bank accounts`, `Vendors`, `Periods`, `Settings`, `Users`, `Journal` (Journal: last `limit` rows, default 200, or rows with `date >= since`). |
 | `setPeriod` | `period, status` | `open` / `closed`; writes `closed_at`. Owner-only — the function layer enforces role; the writer trusts the secret. |
 | `upsert` | `tab, key_column, row:{}` | For `Properties`, `Bank accounts`, `Vendors`, `Users`, `Settings`: insert or update by key. |
@@ -251,7 +251,7 @@ export function seriesOf(code) -> "1000"|"1400"|"2000"|"4000"|"5000"|"6000"|"700
 ```js
 export class WriterError extends Error { code; status }
 export function createWriter({url, secret, fetchImpl = fetch}) -> {
-  ping(), post(entry), void(txn_id, reason, date), read(tab, {limit, since} = {}),
+  ping(), post(entry), void(txn_id, reason, date, posted_by), read(tab, {limit, since} = {}),
   setPeriod(period, status), upsert(tab, key_column, row) }
 // each resolves to the writer's JSON body with ok:true, or throws WriterError(body.error)
 // Apps Script /exec answers POSTs with a 302 to a googleusercontent URL — follow redirects.
