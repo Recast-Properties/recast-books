@@ -200,8 +200,17 @@ what. Three payees, every time: **Paul**, **Dennis**, and the **shared Recast ac
 It is generated from the ledger, not typed, and it is printable and shareable with
 Dennis as a PDF.
 
+**Two versions (Paul, 2026-09-11).** A **preliminary payout** is available any time a
+property is held or under contract; it uses the estimate percentages in `Settings`
+(today 3% agent, 2% closing) and is clearly stamped PRELIMINARY. The **final Payout
+report** exists only after the title company's settlement statement is uploaded. Claude
+reads the statement, maps every line to an account, and the actuals replace the
+estimates. The final report must tie to the settlement statement's net-to-seller figure
+to the cent, or the sale does not post. The estimate percentages never appear on a final
+report.
+
 ```
-PAYOUT — <property>                            settlement <date>   ALTA attached
+PAYOUT — <property>  FINAL            settlement <date>   settlement statement attached
 ─────────────────────────────────────────────────────────────────────────────
 Sale price                                                       $ 775,000.00
   less selling costs netted on the ALTA (commission, closing,
