@@ -84,3 +84,14 @@ Script writer v0.1.1 (ScriptLock, header-name lookup, dedupe, period gate, void)
 workbook `12QVyxm3KnLD7CDC8mFAPd5ulZuRXRluNDi4qK4BBxKM` created by `setup()`. Three
 Sonnet agents built the modules from `docs/phase0-spec.md`; Fable reviewed every file.
 102 tests. Gate passed end to end (spec §11).
+
+## 2026-09-11 — Phase 1 built and gated
+
+Ledger core: accrual engine (`lib/accrual.mjs`, reproduces 881 Newport to the cent),
+reports library, writer v0.2.0 (postBatch under one lock, Advances, Accounts upsert,
+Bank accounts seed), `/api/dennis` (advances, interest preview/post dated period end),
+`/api/reports`, pages for Properties (with property balance sheet, job cost, advances),
+Vendors, Banking, Dennis, Reports (TB/BS/P&L/job cost with tie-out lines and CSV), Settings
+(editable settings, users add/role/remove), hash routing, business purpose in the journal
+grid. 174 tests. Gate passed end to end (`docs/phase1-spec.md` §8). Test rows left in
+Properties/Advances are labelled and safe for Paul to delete by hand.

@@ -173,3 +173,30 @@ posted-and-voided entry in the books. Note it in the CHANGELOG and move on.
 ## 7 · Out of scope for Phase 1
 
 Receipts ingestion (2), Plaid (3), migration (4), close/1099/packet/sell wizard (5).
+
+## 8 · Gate result — 2026-09-11
+
+Passed, driven through Paul's signed-in browser against the live workbook:
+
+- Bank accounts 1401 (Citizens National Bank of Texas, shared) and 1402 (Chase operating)
+  registered from the Banking page; each upsert also kept the Accounts row.
+- Property `TEST Phase 1 gate` added (clearly labelled test row; Paul may delete it by hand).
+- Advance $1,000.00 dated 2026-06-29 into 1401 posted (`manual-20260629-d3707f95379e`);
+  accrued to 2026-09-11 = **$18.36**, matching the engine's rule by hand
+  (1000×1.0075² − 1000 = 15.06; stub 13 d on 1,015.06 = 3.30).
+- Preview for 2026-07 = **$7.75** (8.00 through 7/31 minus 0.25 through 6/30); posted as
+  `close-20260731-6b3848bfdb9a`, dated 2026-07-31, Dr 1200 / Cr 2000 on the property;
+  Dennis page then showed posted 7.75, unposted 10.61, total 18.36.
+- Trial balance: debits = credits = $1,045.75 ✓. Balance sheet: assets $1,007.75 =
+  liabilities $1,007.75 + equity $0 ✓. Property balance sheet: 1200 $7.75 asset; 2000
+  $7.75 and 2010 $1,000 liabilities. Job cost: Financing $7.75.
+- Cleanup: both test entries voided (`VOID: PHASE 1 GATE TEST cleanup`); the Advances row
+  set `status=voided, repaid_date=2026-06-29`, so the ledger reads zero everywhere.
+
+Fixes made during the gate: interest entries are dated the period's last day (were the
+1st); posting a period that has not ended is refused `PERIOD_NOT_ENDED` (preview still
+works); the Dennis preview renders `previews[]`; the Users "removed" role is accepted by
+the server (it is how a login is revoked). Known cosmetic: success banners persist across
+page changes; a property's unspent advance cash sits in 1401 and is not shown on the
+property balance sheet, so its Net reads as negative funding until the cash is spent on
+the property — by design, but worth a caption (Phase 2 polish).

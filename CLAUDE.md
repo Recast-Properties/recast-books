@@ -39,12 +39,12 @@ front door.
 
 ## Status
 
-**Phase 0 complete 2026-09-11.** Gate: sign-in with roles; expense posts as two balanced
-rows; duplicate refused; property rule refused; closed period refused; void posts. See
-`docs/phase0-spec.md` §8 and `CHANGELOG.md`. Next: Phase 1 (ledger core, properties,
-Dennis accrual engine, reports) per `BUILD-PLAN.md` §7 — on Paul's go.
+**Phase 0 and Phase 1 complete 2026-09-11.** Phase 0 gate: `docs/phase0-spec.md` §11.
+Phase 1 gate: `docs/phase1-spec.md` §8 (accrual engine to the cent, reports tie, interest
+posting). Next: **Phase 2 — receipts bookkeeper v2** per `BUILD-PLAN.md` §7 — on Paul's go.
+Paul still owes Dennis's and the accountant's Google emails for the Users list (Settings
+page can add them).
 
-Known Phase 1 items carried from Phase 0: journal-grid mode lacks a business-purpose
-field; nav links have no `href`; error banners dump raw details JSON; Bank accounts tab
-is unseeded (paid-from falls back to the chart's cash accounts); the two PHASE 0 GATE
-TEST rows in the Journal are to be cleared before Phase 4 migration.
+Test data in the live workbook: Journal holds the PHASE 0 and PHASE 1 gate entries, all
+voided (append-only ledger — they stay); Properties has `TEST Phase 1 gate` and Advances
+has its voided row — Paul may delete those two rows by hand.
