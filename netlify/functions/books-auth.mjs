@@ -45,6 +45,12 @@ export default async (req) => {
     // spec §5: unknown email -> 403 NOT_ALLOWED, no session, no further detail.
     return json(403, { error: "NOT_ALLOWED" });
   }
+  if (record.role === "removed") {
+    // phase1-spec.md §4: the writer has no delete, so "removing" a user (today only
+    // possible by hand-editing the Users sheet, since books-meta's upsert refuses to
+    // write this value) means their role reads "removed" - treat exactly like unknown.
+    return json(403, { error: "NOT_ALLOWED" });
+  }
 
   const user = { email: googleUser.email, role: record.role, name: record.name || googleUser.name || "" };
   const session = issueSession(user, process.env.SESSION_SECRET);

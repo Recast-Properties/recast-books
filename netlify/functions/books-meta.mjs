@@ -11,6 +11,7 @@ import {
   requireRole,
   authErrorResponse,
   invalidateCtxCache,
+  rowsToObjectsPublic,
   WriterError,
 } from "./_shared.mjs";
 
@@ -22,7 +23,14 @@ const READABLE_TABS = new Set([
   "Users",
   "Bank accounts",
   "Vendors",
+  "Advances",
 ]);
+
+// spec phase1 section 4/5: Users upsert validates role against this set. The writer has
+// no delete, so "removed" IS how a user is taken off the access list: books-auth.mjs
+// refuses that role at sign-in (403 NOT_ALLOWED). The last-owner check below still
+// applies to it.
+const VALID_USER_ROLES = new Set(["owner", "partner", "accountant", "removed"]);
 
 function writerErrorResponse(err) {
   if (err instanceof WriterError) {
@@ -106,6 +114,54 @@ export default async (req) => {
       if (!tab || !key_column || !row) {
         return json(400, { error: "BAD_REQUEST", message: "tab, key_column and row are required" });
       }
+
+      if (tab === "Users") {
+        if (row.role !== undefined && !VALID_USER_ROLES.has(row.role)) {
+          return json(400, {
+            error: "BAD_ROLE",
+            message: `role must be one of: ${[...VALID_USER_ROLES].join(", ")}`,
+          });
+        }
+        // Refuse to demote (or, once the writer supports it, remove) the last owner.
+        // Only relevant when this upsert is actually changing the role away from owner.
+        if (row.role !== undefined && row.role !== "owner") {
+          let users;
+          try {
+            const usersResp = await writer.read("Users");
+            users = rowsToObjectsPublic(usersResp.headers, usersResp.rows);
+          } catch (err) {
+            return writerErrorResponse(err);
+          }
+          const keyValue = row[key_column];
+          const target = users.find((u) => String(u[key_column]) === String(keyValue));
+          const owners = users.filter((u) => u.role === "owner");
+          if (target && target.role === "owner" && owners.length <= 1) {
+            return json(409, { error: "LAST_OWNER", message: "cannot demote or remove the last owner" });
+          }
+        }
+      }
+
+      if (tab === "Bank accounts") {
+        // spec phase1 section 4: upserting a bank account also upserts the matching
+        // Accounts row (so it gets a working 14xx code) and invalidates ctx.
+        try {
+          const bankResult = await writer.upsert("Bank accounts", key_column, row);
+          const code = row.code ?? row[key_column];
+          const accountsRow = {
+            code,
+            name: `Cash - ${row.name ?? ""}`,
+            series: "1400",
+            type: "asset",
+            active: true,
+          };
+          await writer.upsert("Accounts", "code", accountsRow);
+          invalidateCtxCache();
+          return json(200, bankResult);
+        } catch (err) {
+          return writerErrorResponse(err);
+        }
+      }
+
       try {
         const result = await writer.upsert(tab, key_column, row);
         if (tab === "Properties" || tab === "Accounts") invalidateCtxCache();

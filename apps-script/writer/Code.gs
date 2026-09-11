@@ -35,6 +35,10 @@ function setup() {
   });
   seedIfEmpty_(ss.getSheetByName('Periods'), periodRows);
 
+  // v0.2.0: seed Bank accounts (if empty) from the chart's two Cash accounts, so a
+  // fresh workbook has a working paid_from list before Paul adds real bank rows.
+  seedIfEmpty_(ss.getSheetByName('Bank accounts'), BANK_ACCOUNTS_SEED);
+
   // Sheets auto-converts text like "2026-09" into a date. Repair any period cells
   // that were converted before the columns were forced to plain text.
   repairPeriodCells_(ss.getSheetByName('Periods'));
@@ -84,17 +88,22 @@ function doPost(e) {
       case 'read': return action_read_(body, props);
       case 'setPeriod': return action_setPeriod_(body, props);
       case 'upsert': return action_upsert_(body, props);
+      case 'postBatch': return action_postBatch_(body, props);
       default: return jsonOutput_({ ok: false, error: 'BAD_ACTION' });
     }
   } catch (err) {
     var code = (err && err.code) ? err.code : 'INTERNAL';
-    return jsonOutput_({ ok: false, error: code, message: String(err && err.message ? err.message : err) });
+    var out = { ok: false, error: code, message: String(err && err.message ? err.message : err) };
+    // postBatch failures name the failing txn_id alongside its code (phase1-spec.md
+    // section 3); action_postBatch_ attaches it to the thrown error when present.
+    if (err && err.txn_id) out.txn_id = err.txn_id;
+    return jsonOutput_(out);
   }
 }
 
 // ---- config ---------------------------------------------------------------
 
-var WRITER_VERSION = '0.1.1';
+var WRITER_VERSION = '0.2.0';
 var WORKBOOK_NAME = 'Recast Books';
 
 // Tabs created (in this order) by setup(). Headers match phase0-spec.md
@@ -212,6 +221,15 @@ var SETTINGS_SEED = [
   ['tax_home', 'unknown', '']
 ];
 
+// Bank accounts seed, phase1-spec.md section 3: the chart's two Cash accounts, so
+// paid_from has somewhere to point before Paul adds real bank rows. Columns in
+// Bank accounts header order: code, name, institution, last4, plaid_item_id,
+// plaid_account_id, opening_balance, opening_date, active.
+var BANK_ACCOUNTS_SEED = [
+  ['1401', 'Cash - Citizens shared', 'Citizens National Bank of Texas', '', '', '', 0, '', true],
+  ['1402', 'Cash - Chase operating', 'Chase', '', '', '', 0, '', true]
+];
+
 // ---- setup helpers ----------------------------------------------------------
 
 function openOrCreateWorkbook_(props) {
@@ -311,9 +329,12 @@ function headerIndex_(sheet) {
   return index;
 }
 
-function fail_(code, message) {
+function fail_(code, message, extra) {
   var err = new Error(message || code);
   err.code = code;
+  if (extra) {
+    for (var k in extra) { err[k] = extra[k]; }
+  }
   throw err;
 }
 
@@ -539,7 +560,7 @@ function action_void_(body, props) {
 function action_read_(body, props) {
   var tab = body.tab;
   var allowed = ['Accounts', 'Properties', 'Bank accounts', 'Vendors', 'Periods',
-    'Settings', 'Users', 'Journal'];
+    'Settings', 'Users', 'Journal', 'Advances'];
   if (allowed.indexOf(tab) === -1) fail_('BAD_TAB', 'tab not readable: ' + tab);
 
   var ss = openWorkbook_(props);
@@ -560,8 +581,12 @@ function action_read_(body, props) {
         return formatIsoDate_(row[dateCol]) >= since;
       });
     }
-    var limit = Math.max(1, Math.min(parseInt(body.limit, 10) || 200, 2000));
-    if (dataRows.length > limit) dataRows = dataRows.slice(dataRows.length - limit);
+    // {all:true} returns every matching row (used by the reports pages) - skip the
+    // limit slicing entirely rather than trying to express "no limit" as a number.
+    if (!body.all) {
+      var limit = Math.max(1, Math.min(parseInt(body.limit, 10) || 200, 20000));
+      if (dataRows.length > limit) dataRows = dataRows.slice(dataRows.length - limit);
+    }
   }
 
   var timestampCols = {};
@@ -618,7 +643,8 @@ function action_setPeriod_(body, props) {
 
 function action_upsert_(body, props) {
   var tab = body.tab;
-  var allowed = ['Properties', 'Bank accounts', 'Vendors', 'Users', 'Settings'];
+  var allowed = ['Properties', 'Bank accounts', 'Vendors', 'Users', 'Settings',
+    'Advances', 'Accounts'];
   if (allowed.indexOf(tab) === -1) fail_('BAD_TAB', 'tab not upsertable: ' + tab);
 
   var keyColumn = body.key_column;
@@ -657,4 +683,96 @@ function action_upsert_(body, props) {
   }
 
   return jsonOutput_({ ok: true, tab: tab, created: created, ignored: ignored });
+}
+
+// Same checks as action_post_'s per-entry gate (MIN_LINES, BAD_DATE, UNBALANCED,
+// DUPLICATE - including duplicates within the batch itself - and PERIOD_CLOSED),
+// but as a standalone check with no side effects, so action_postBatch_ can validate
+// every entry before writing any of them. Throws via fail_, tagging the error with
+// the failing txn_id so doPost's catch can name it in the response.
+function checkEntryForPost_(entry, sheet, cols, periodsSheet, cache, seenTxnIds) {
+  if (!entry || !Array.isArray(entry.lines) || entry.lines.length < 1) {
+    fail_('BAD_ENTRY', 'entry.lines must be a non-empty array');
+  }
+  if (!entry.txn_id) fail_('BAD_ENTRY', 'entry.txn_id is required');
+  if (entry.lines.length < 2) {
+    fail_('MIN_LINES', 'an entry needs at least two lines', { txn_id: entry.txn_id });
+  }
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(String(entry.date))) {
+    fail_('BAD_DATE', 'entry.date must be YYYY-MM-DD', { txn_id: entry.txn_id });
+  }
+  entry.period = String(entry.date).slice(0, 7);
+
+  var debitTotal = 0, creditTotal = 0;
+  entry.lines.forEach(function (line) {
+    debitTotal += Math.round(Number(line.debit) || 0);
+    creditTotal += Math.round(Number(line.credit) || 0);
+  });
+  if (debitTotal !== creditTotal) {
+    fail_('UNBALANCED', 'debits ' + debitTotal + ' != credits ' + creditTotal, { txn_id: entry.txn_id });
+  }
+
+  if (seenTxnIds[entry.txn_id]) {
+    fail_('DUPLICATE', 'txn_id duplicated within batch', { txn_id: entry.txn_id });
+  }
+  if (cache.get('txn:' + entry.txn_id)) {
+    fail_('DUPLICATE', 'txn_id already posted (cache)', { txn_id: entry.txn_id });
+  }
+  if (findRowByValue_(sheet, cols['txn_id'], entry.txn_id) !== -1) {
+    fail_('DUPLICATE', 'txn_id already in Journal', { txn_id: entry.txn_id });
+  }
+
+  if (entry.source !== 'void') {
+    var status = periodStatus_(periodsSheet, entry.period);
+    if (status === 'closed') {
+      fail_('PERIOD_CLOSED', 'period ' + entry.period + ' is closed', { txn_id: entry.txn_id });
+    }
+  }
+}
+
+// postBatch: the interest posting job posts one entry per advance under a single
+// lock, all or nothing. Every entry is validated (checkEntryForPost_) before any row
+// is written; if one fails, nothing is written and the thrown error carries its
+// txn_id and code (see doPost's catch).
+function action_postBatch_(body, props) {
+  var entries = body.entries;
+  if (!Array.isArray(entries) || entries.length === 0) {
+    fail_('BAD_ENTRY', 'entries must be a non-empty array');
+  }
+
+  var lock = LockService.getScriptLock();
+  lock.waitLock(30000);
+  try {
+    var ss = openWorkbook_(props);
+    var sheet = ss.getSheetByName('Journal');
+    var cols = headerIndex_(sheet);
+    var periodsSheet = ss.getSheetByName('Periods');
+    var cache = CacheService.getScriptCache();
+
+    var seenTxnIds = {};
+    entries.forEach(function (entry) {
+      checkEntryForPost_(entry, sheet, cols, periodsSheet, cache, seenTxnIds);
+      seenTxnIds[entry.txn_id] = true;
+    });
+
+    var postedAt = new Date();
+    var allRows = [];
+    var postedIds = [];
+    entries.forEach(function (entry) {
+      var rows = entry.lines.map(function (line, idx) {
+        return buildJournalRow_(cols, entry, line, idx + 1, postedAt);
+      });
+      allRows = allRows.concat(rows);
+      postedIds.push(entry.txn_id);
+    });
+
+    var startRow = sheet.getLastRow() + 1;
+    sheet.getRange(startRow, 1, allRows.length, allRows[0].length).setValues(allRows);
+
+    postedIds.forEach(function (txnId) { cache.put('txn:' + txnId, '1', 21600); });
+
+    return jsonOutput_({ ok: true, posted: postedIds, rows: [startRow, startRow + allRows.length - 1] });
+  } finally {
+    lock.releaseLock();
+  }
 }

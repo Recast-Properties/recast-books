@@ -9,6 +9,7 @@ import {
   getWriter,
   getPostingCtx,
   invalidateCtxCache,
+  invalidateJournalCache,
   getSessionPayload,
   requireRole,
   authErrorResponse,
@@ -131,6 +132,7 @@ export default async (req) => {
         // the void actually wrote, not a full journal entry.
         const result = await writer.void(txn_id, reason, todayChicago(), session.email);
         invalidateCtxCache();
+        invalidateJournalCache();
         return json(200, { entry: { txn_id: result.txn_id, void_of: txn_id, reason, rows: result.rows } });
       } catch (err) {
         return writerErrorResponse(err);
@@ -164,6 +166,7 @@ export default async (req) => {
     try {
       const result = await writer.post(entry);
       invalidateCtxCache();
+      invalidateJournalCache();
       return json(200, { entry, rows: result.rows });
     } catch (err) {
       return writerErrorResponse(err);

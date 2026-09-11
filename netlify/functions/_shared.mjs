@@ -159,3 +159,26 @@ export async function getUsersByEmail(writer, { fresh = false } = {}) {
 export function rowsToObjectsPublic(headers, rows) {
   return rowsToObjects(headers, rows);
 }
+
+// Journal (all rows) cache for the reports pages and the Dennis ledger - spec section
+// 4: "Reads Journal with all:true, cached 30 s in module scope, invalidated by any
+// post (export invalidateJournalCache() from _shared.mjs; call it from ledger/dennis
+// posts)."
+const JOURNAL_TTL_MS = 30 * 1000;
+let journalCache = null; // { data: {headers, rows}, fetchedAt }
+
+export async function getJournalAll(writer, { fresh = false } = {}) {
+  const now = Date.now();
+  if (!fresh && journalCache && now - journalCache.fetchedAt < JOURNAL_TTL_MS) {
+    return journalCache.data;
+  }
+  const resp = await writer.read("Journal", { all: true });
+  const data = { headers: resp.headers, rows: resp.rows };
+  journalCache = { data, fetchedAt: now };
+  return data;
+}
+
+/** Call after any post/void (books-ledger, books-dennis) - the journal just changed. */
+export function invalidateJournalCache() {
+  journalCache = null;
+}

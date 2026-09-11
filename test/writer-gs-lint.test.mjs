@@ -79,13 +79,78 @@ for (const [tab, headers] of Object.entries(SPEC_HEADERS)) {
   });
 }
 
-test("every writer action (ping, post, void, read, setPeriod, upsert) is dispatched", () => {
-  for (const action of ["ping", "post", "void", "read", "setPeriod", "upsert"]) {
+test("every writer action (ping, post, void, read, setPeriod, upsert, postBatch) is dispatched", () => {
+  for (const action of ["ping", "post", "void", "read", "setPeriod", "upsert", "postBatch"]) {
     assert.ok(
       source.includes(`case '${action}':`),
       `doPost does not appear to dispatch action "${action}"`
     );
   }
+});
+
+test("WRITER_VERSION is 0.2.0", () => {
+  assert.match(source, /var WRITER_VERSION = '0\.2\.0';/);
+});
+
+test("read allows the Advances tab", () => {
+  const anchor = source.indexOf("function action_read_(");
+  assert.ok(anchor !== -1, "action_read_ not found");
+  const allowedEnd = source.indexOf("];", anchor);
+  const snippet = source.slice(anchor, allowedEnd);
+  assert.ok(snippet.includes("'Advances'"), "Advances not in action_read_'s allowed tabs");
+});
+
+test("Journal read supports limit up to 20000 and an all:true escape hatch", () => {
+  assert.ok(source.includes("20000"), "Journal read limit does not mention 20000");
+  assert.ok(source.includes("body.all"), "Journal read does not check body.all");
+});
+
+test("upsert allows Advances (key advance_id) and Accounts (key code)", () => {
+  const anchor = source.indexOf("function action_upsert_(");
+  assert.ok(anchor !== -1, "action_upsert_ not found");
+  const allowedEnd = source.indexOf("];", anchor);
+  const snippet = source.slice(anchor, allowedEnd);
+  assert.ok(snippet.includes("'Advances'"), "Advances not in action_upsert_'s allowed tabs");
+  assert.ok(snippet.includes("'Accounts'"), "Accounts not in action_upsert_'s allowed tabs");
+});
+
+test("postBatch: one lock, validates every entry before writing any row", () => {
+  const anchor = source.indexOf("function action_postBatch_(");
+  assert.ok(anchor !== -1, "action_postBatch_ not found");
+  const nextFn = source.indexOf("\nfunction ", anchor + 1);
+  const body = source.slice(anchor, nextFn === -1 ? source.length : nextFn);
+
+  assert.equal(
+    (body.match(/LockService\.getScriptLock\(\)/g) || []).length,
+    1,
+    "action_postBatch_ should acquire exactly one lock"
+  );
+  assert.ok(body.includes("checkEntryForPost_"), "action_postBatch_ does not validate entries via checkEntryForPost_");
+  // Every entry is validated (the forEach below) before the single setValues call
+  // that writes rows - i.e. validation happens once, up front, not interleaved with
+  // writes entry-by-entry.
+  const validateIdx = body.indexOf("checkEntryForPost_(entry");
+  const writeIdx = body.indexOf(".setValues(");
+  assert.ok(validateIdx !== -1 && writeIdx !== -1 && validateIdx < writeIdx,
+    "entries must be validated before any row is written");
+});
+
+test("postBatch refuses DUPLICATE, PERIOD_CLOSED, UNBALANCED and MIN_LINES per entry", () => {
+  const anchor = source.indexOf("function checkEntryForPost_(");
+  assert.ok(anchor !== -1, "checkEntryForPost_ not found");
+  const nextFn = source.indexOf("\nfunction ", anchor + 1);
+  const body = source.slice(anchor, nextFn === -1 ? source.length : nextFn);
+  for (const code of ["DUPLICATE", "PERIOD_CLOSED", "UNBALANCED", "MIN_LINES"]) {
+    assert.ok(body.includes(`'${code}'`), `checkEntryForPost_ does not check for ${code}`);
+  }
+});
+
+test("setup() seeds Bank accounts from the chart's two Cash accounts", () => {
+  assert.ok(source.includes("BANK_ACCOUNTS_SEED"), "BANK_ACCOUNTS_SEED not found");
+  assert.ok(source.includes("seedIfEmpty_(ss.getSheetByName('Bank accounts'), BANK_ACCOUNTS_SEED)"),
+    "setup() does not seed Bank accounts from BANK_ACCOUNTS_SEED");
+  assert.ok(source.includes("'1401'") && source.includes("'1402'"),
+    "BANK_ACCOUNTS_SEED does not reference both Cash accounts (1401, 1402)");
 });
 
 test("unknown action falls through to BAD_ACTION", () => {

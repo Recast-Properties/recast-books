@@ -89,6 +89,26 @@
   .pill.open { background: var(--success-50); color: var(--success-700); }
   .pill.closed { background: var(--ink-100); color: var(--ink-600); }
 
+  /* ---------- Phase 1 additions (Properties/Vendors/Banking/Dennis/Reports/Settings) ---------- */
+  .detail-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 16px; align-items: start; }
+  .detail-grid .section-card { margin-bottom: 0; }
+  .rc-table select, .rc-table input[type="text"], .rc-table input[type="date"] {
+    font-family: var(--font-sans); font-size: 13px; padding: 6px 8px; border-radius: 8px;
+    border: 1.5px solid var(--ink-200); background: var(--white); width: 100%; }
+  .muted-note { background: var(--info-50); color: var(--info-700); padding: 10px 16px; border-radius: var(--radius-md); font-size: 13.5px; margin-bottom: 18px; }
+  .back-link { display: inline-block; margin-bottom: 14px; font-weight: 700; font-size: 13.5px; color: var(--color-brand-press); cursor: pointer; }
+  .back-link:hover { text-decoration: underline; }
+  .details-toggle summary { cursor: pointer; font-size: 12px; color: inherit; font-weight: 700; margin-top: 4px; }
+  .details-toggle pre { white-space: pre-wrap; font-size: 11.5px; margin: 6px 0 0; font-family: var(--font-mono); }
+  .mini-table { width: 100%; border-collapse: collapse; margin-bottom: 10px; }
+  .mini-table th { text-align: left; font-size: 11px; text-transform: uppercase; letter-spacing: var(--tracking-wide); color: var(--color-fg-subtle); padding: 4px 6px; border-bottom: 1px solid var(--color-divider); }
+  .mini-table td { padding: 5px 6px; font-size: 13px; border-bottom: 1px solid var(--color-divider); }
+  .mini-table td.num, .mini-table th.num { text-align: right; font-variant-numeric: tabular-nums; }
+  .mini-table tr.total td { font-weight: 700; border-top: 1.5px solid var(--color-border); border-bottom: none; }
+  .page-toolbar { display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap; margin-bottom: 18px; }
+  .toggle-add-btn { margin-bottom: 18px; }
+  .status-editor { display: flex; align-items: center; gap: 10px; margin-bottom: 18px; }
+  .status-editor select { width: auto; }
   #topbar-mobile { display: none; }
 
   @media (max-width: 820px) {
@@ -121,10 +141,15 @@
   <div id="sidebar">
     <div class="brand">Recast <span>Books</span></div>
     <nav id="nav">
-      <a data-page="dashboard">Dashboard</a>
-      <a data-page="journal">Journal</a>
-      <a data-page="periods">Periods</a>
-      <a data-page="settings">Settings</a>
+      <a href="#dashboard" data-page="dashboard">Dashboard</a>
+      <a href="#journal" data-page="journal">Journal</a>
+      <a href="#properties" data-page="properties">Properties</a>
+      <a href="#vendors" data-page="vendors">Vendors</a>
+      <a href="#banking" data-page="banking">Banking</a>
+      <a href="#dennis" data-page="dennis">Dennis</a>
+      <a href="#reports" data-page="reports">Reports</a>
+      <a href="#periods" data-page="periods">Periods</a>
+      <a href="#settings" data-page="settings">Settings</a>
     </nav>
     <div class="userbox">
       <div class="name" id="userbox-name"></div>
@@ -135,6 +160,11 @@
   <div id="main">
     <div id="page-dashboard" class="page"></div>
     <div id="page-journal" class="page hidden"></div>
+    <div id="page-properties" class="page hidden"></div>
+    <div id="page-vendors" class="page hidden"></div>
+    <div id="page-banking" class="page hidden"></div>
+    <div id="page-dennis" class="page hidden"></div>
+    <div id="page-reports" class="page hidden"></div>
     <div id="page-periods" class="page hidden"></div>
     <div id="page-settings" class="page hidden"></div>
   </div>

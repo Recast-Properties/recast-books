@@ -88,8 +88,9 @@ test("every call passes redirect: \"follow\" (Apps Script /exec 302s on POST)", 
   await writer.setPeriod("2026-07", "closed");
   await writer.upsert("Vendors", "canonical", { canonical: "Home Depot" });
   await writer.void("t1", "duplicate entry", "2026-09-11");
+  await writer.postBatch([{ txn_id: "close-20260901-abc", lines: [] }]);
 
-  assert.deepEqual(seenRedirects, ["follow", "follow", "follow", "follow", "follow"]);
+  assert.deepEqual(seenRedirects, ["follow", "follow", "follow", "follow", "follow", "follow"]);
 });
 
 test("read() forwards limit and since", async () => {
@@ -105,6 +106,57 @@ test("read() forwards limit and since", async () => {
   assert.equal(sentBody.tab, "Journal");
   assert.equal(sentBody.limit, 50);
   assert.equal(sentBody.since, "2026-07-01");
+});
+
+test("postBatch() sends entries and secret in the body", async () => {
+  let sentBody;
+  const fetchImpl = async (url, options) => {
+    sentBody = JSON.parse(options.body);
+    return fakeResponse(200, JSON.stringify({ ok: true, posted: ["close-20260901-abc"], rows: [10, 13] }));
+  };
+  const writer = createWriter({ url: "https://x/exec", secret: "s", fetchImpl });
+
+  const entries = [
+    { txn_id: "close-20260901-abc", lines: [{ debit: 100, credit: 0 }, { debit: 0, credit: 100 }] }
+  ];
+  const result = await writer.postBatch(entries);
+
+  assert.deepEqual(result.posted, ["close-20260901-abc"]);
+  assert.deepEqual(result.rows, [10, 13]);
+  assert.equal(sentBody.action, "postBatch");
+  assert.deepEqual(sentBody.entries, entries);
+  assert.equal(sentBody.secret, "s");
+});
+
+test("postBatch() propagates the failing txn_id from an all-or-nothing refusal", async () => {
+  const fetchImpl = async () =>
+    fakeResponse(200, JSON.stringify({
+      ok: false, error: "PERIOD_CLOSED", message: "period 2026-07 is closed", txn_id: "close-20260701-def"
+    }));
+  const writer = createWriter({ url: "https://x/exec", secret: "s", fetchImpl });
+
+  await assert.rejects(
+    () => writer.postBatch([{ txn_id: "close-20260701-def", lines: [] }]),
+    (err) => {
+      assert.ok(err instanceof WriterError);
+      assert.equal(err.code, "PERIOD_CLOSED");
+      return true;
+    }
+  );
+});
+
+test("read() forwards all", async () => {
+  let sentBody;
+  const fetchImpl = async (url, options) => {
+    sentBody = JSON.parse(options.body);
+    return fakeResponse(200, JSON.stringify({ ok: true, headers: [], rows: [] }));
+  };
+  const writer = createWriter({ url: "https://x/exec", secret: "s", fetchImpl });
+
+  await writer.read("Journal", { all: true });
+
+  assert.equal(sentBody.tab, "Journal");
+  assert.equal(sentBody.all, true);
 });
 
 test("a network error from fetchImpl surfaces as WriterError(\"NETWORK_ERROR\")", async () => {
