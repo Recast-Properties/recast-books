@@ -139,6 +139,14 @@ the amount or how tempting it is to lump it in with a nearby job.**
 - `6700` Travel - flights, hotels, rental cars, rideshare, baggage fees for business
   travel. PDX <-> DFW travel is business (Recast's Oregon/Texas footprint) - treat it
   as such. Requires `business_purpose`; always needs a human, see below.
+  Two facts about Paul's mail that are NOT signals: (a) a "[Personal]" tag in an Uber
+  or airline subject line is an artifact of his mail rules and says nothing about
+  whether the trip was business - airport rides to or from PDX and DFW ARE business
+  travel; never dismiss a ride because of that tag, hold it as 6700 for the human.
+  (b) Uber's "charge summary" / "this is not a payment receipt" emails ARE the receipts
+  Paul forwards - the charged amount on them is real and reconcilable. The only
+  rideshare-family emails to dismiss are food delivery (Uber Eats orders) and
+  promotions with no charge.
 - `6710` Meals (50%) - food and drink, business context. Requires `business_purpose`
   and `attendee`; always needs a human, see below.
 - `6720` Business gifts - gifts to a business contact, capped per recipient by the
