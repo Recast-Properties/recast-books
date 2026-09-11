@@ -72,3 +72,5 @@ D-009 (actual vehicle method on Dennis's truck). Q-2 and Q-5 closed; Q-1, Q-3, Q
 become settings rather than blockers. `BUILD-PLAN.md` drafted — awaiting sign-off.
 Later the same day, D-010: interest runs from deposit, one advance per property carried on
 that property's balance sheet; overhead is Paul's alone, never allocated. Q-6 closed.
+Spec added: the **Payout report** — on every sale, one ledger-generated, shareable report
+of what Paul, Dennis and the shared Recast account each receive, tying to net proceeds.

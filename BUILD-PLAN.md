@@ -174,8 +174,8 @@ Same visual kit as the admin site. Mobile-usable, because receipts arrive from a
    generated views). Per property: a **property balance sheet** (costs capitalized as
    assets; Dennis's principal and accrued interest as liabilities; the net), job cost by
    cost class and trade, documents, status. **Sell wizard:** upload the ALTA, confirm
-   the settlement lines, release 1000s to COGS, compute the waterfall (Dennis principal,
-   interest, 50% share, Paul's share), post it, produce a one-page settlement summary.
+   the settlement lines, release 1000s to COGS, compute the waterfall, post it, and
+   produce the **Payout report** (below).
 5. **Dennis** — the loan ledger: every advance, accrued interest to date per property,
    payoff as of any date, history of repayments. This page is Dennis's read-only view.
 6. **Banking** — connect accounts (Plaid Link), see each account's feed, match status,
@@ -192,6 +192,61 @@ Same visual kit as the admin site. Mobile-usable, because receipts arrive from a
    packet** as one export (PDF plus the Journal as CSV in QuickBooks import shape).
 10. **Settings** — the `Settings` tab with guardrails, login allowlist, model and cost
     counters.
+
+### The Payout report (required, added 2026-09-11)
+
+When a property sells, the system produces one report that says exactly who gets paid
+what. Three payees, every time: **Paul**, **Dennis**, and the **shared Recast account**.
+It is generated from the ledger, not typed, and it is printable and shareable with
+Dennis as a PDF.
+
+```
+PAYOUT — <property>                            settlement <date>   ALTA attached
+─────────────────────────────────────────────────────────────────────────────
+Sale price                                                       $ 775,000.00
+  less selling costs netted on the ALTA (commission, closing,
+       concessions, payoff of anything on title)                 (  81,000.00)
+Net proceeds received                                            $ 694,000.00
+
+Project cost (every 1000-series line on this property)
+  Purchase price and acquisition                                 $ ...
+  Rehab (labor, materials, fixtures, permits, haul-off)            ...
+  Holding (tax, insurance, utilities, HOA)                         ...
+  Financing — Dennis's interest accrued through settlement         ...
+  Selling costs (from above)                                       ...
+Total project cost                                               $ ...
+Net profit                                                       $ ...
+
+WATERFALL
+ 1. Dennis — principal repaid (each advance listed, date, amount)   $ ...
+ 2. Dennis — interest, 9% compounded on each advance's anniversary,
+    stub days pro-rated to the settlement date                     $ ...
+ 3. Reimbursements — costs fronted by a payer other than Dennis's
+    advances: the shared Recast account, Paul personally (2030)     $ ...
+ 4. Net profit split 50 / 50
+      Dennis                                                       $ ...
+      Paul                                                         $ ...
+
+PAYOUTS
+  Dennis        principal + interest + 50% share                 $ ...
+  Paul          50% share + personal reimbursement               $ ...
+  Shared Recast account   reimbursement of costs it fronted
+                          + reserve held back (if any)           $ ...
+─────────────────────────────────────────────────────────────────────────────
+  Total payouts = net proceeds received                          $ ...  ✓ ties
+```
+
+Rules the report enforces in code: the three payouts must sum to net proceeds to the
+cent or the wizard will not post; overhead never appears (D-010); every number links to
+the journal lines behind it; Dennis's interest schedule is shown advance by advance so
+he can check it. Posting the wizard writes the release entry, the payoff entries, the
+profit-participation entry, the reimbursements, and the owner's draw, all dated the
+settlement date, and stamps the property `sold`.
+
+**Open (2026-09-11), Paul:** what the shared Recast account's line consists of. Default:
+reimbursement of any property cost it paid that did not come from Dennis's advance money,
+plus an optional reserve Paul enters on the wizard to leave in the account for the next
+purchase.
 
 ## 6 · The bookkeeper's jobs
 
@@ -227,7 +282,7 @@ a proven system.
 | 2 | **Receipt bookkeeper v2** | Gmail poller on receipts@/travel@ under its own label, plus web upload; Claude director with the tools above; Inbox/Review; morning digest. Writes only to the new workbook. | Golden set of 30 receipts from the live system: every autofile decision matches or is judged better by Paul; zero duplicates across the twin set. |
 | 3 | **Banking** | Plaid Link, sync, Feed tab, matching job, proposals, per-account monthly reconciliation, statement PDF upload as cross-check. | One full month of Citizens reconciles with every line matched or explained. |
 | 4 | **Migration** | Phase 0 snapshot of the old workbook (dated copy in Drive, block totals recorded); 2a faithful copy of every property tab, RECAST BIZ block, and the cash-advance tab as journal entries with `source = migration`; 2b logged corrections; opening balances; Due-to-Paul ledger built from every Paul-paid row. | 2a: every property total, net profit and RECAST BIZ block total matches the baseline to the cent. 2b: sum of dated corrections explains the entire difference. |
-| 5 | **Close, 1099, packet, sell wizard** | Monthly close with lock and snapshot; 1099 module; accountant packet export; Sell wizard with waterfall; Dennis and accountant read-only views. | A dry-run close of the prior month passes; a past sale (Ashburne) re-run through the wizard reproduces the recorded outcome. |
+| 5 | **Close, 1099, packet, sell wizard** | Monthly close with lock and snapshot; 1099 module; accountant packet export; Sell wizard with the **Payout report**; Dennis and accountant read-only views. | A dry-run close of the prior month passes; a past sale (Ashburne) re-run through the wizard reproduces the recorded outcome. |
 | 6 | **Parallel run and cutover** | Both bookkeepers run for 14 days; daily diff of row count, dollar total, per-account and per-property distribution. | 14 consecutive days of zero unexplained variance. Then: old workbook read-only, archived; old poller off; new one live. |
 
 **Guardrails, every phase:** nothing ever writes to the old workbook; every script dry-runs
