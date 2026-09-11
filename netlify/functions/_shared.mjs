@@ -123,7 +123,7 @@ export async function getPostingCtx(writer, { fresh = false } = {}) {
 
   const accountRows = rowsToObjects(accountsResp.headers, accountsResp.rows);
   const accounts = new Map(
-    accountRows.filter((r) => isActive(r.active)).map((r) => [String(r.code), r]),
+    accountRows.filter((r) => isActive(r.active)).map((r) => [String(r.code), { ...r, code: String(r.code), series: String(r.series) }]),
   );
 
   const propertyRows = rowsToObjects(propertiesResp.headers, propertiesResp.rows);
