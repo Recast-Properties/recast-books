@@ -367,9 +367,14 @@ function propertyOptions(selected) {
   return `<option value="">— select —</option>${opts}<option value="OVERHEAD" ${selected === "OVERHEAD" ? "selected" : ""}>OVERHEAD</option>`;
 }
 function paidFromOptions(selected) {
-  const opts = journalState.bankAccounts
-    .filter((b) => String(b.active).toLowerCase() !== "false")
-    .map((b) => `<option value="${escapeHtml(b.code)}" ${b.code === selected ? "selected" : ""}>${escapeHtml(b.code)} — ${escapeHtml(b.name)}</option>`)
+  // Cash accounts come from the Bank accounts tab; until that tab is populated
+  // (Phase 1), fall back to the cash accounts in the chart of accounts (14xx "Cash").
+  let banks = journalState.bankAccounts.filter((b) => String(b.active).toLowerCase() !== "false");
+  if (banks.length === 0) {
+    banks = journalState.accounts.filter((a) => String(a.code).startsWith("14") && /^Cash/i.test(String(a.name)));
+  }
+  const opts = banks
+    .map((b) => `<option value="${escapeHtml(b.code)}" ${String(b.code) === selected ? "selected" : ""}>${escapeHtml(b.code)} — ${escapeHtml(b.name)}</option>`)
     .join("");
   return `<option value="">— select —</option>${opts}` +
     `<option value="PAUL" ${selected === "PAUL" ? "selected" : ""}>PAUL (personal)</option>` +
