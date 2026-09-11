@@ -9,5 +9,12 @@
     "dev": "npx netlify-cli dev",
     "deploy": "npx netlify-cli deploy --prod --no-build"
   },
-  "engines": { "node": ">=22" }
+  "engines": {
+    "node": ">=22"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.125.0",
+    "@netlify/blobs": "^11.0.3",
+    "jimp": "^1.6.1"
+  }
 }
