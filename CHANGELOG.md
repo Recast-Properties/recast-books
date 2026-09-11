@@ -95,3 +95,10 @@ Vendors, Banking, Dennis, Reports (TB/BS/P&L/job cost with tie-out lines and CSV
 (editable settings, users add/role/remove), hash routing, business purpose in the journal
 grid. 174 tests. Gate passed end to end (`docs/phase1-spec.md` §8). Test rows left in
 Properties/Advances are labelled and safe for Paul to delete by hand.
+
+## 2026-09-11 — Plaid production access requested
+
+Paul created the Plaid account (Recast Properties LLC), selected Transactions only,
+Pay As You Go plan, verified business (Paul sole beneficial owner), submitted the
+production request. Plaid quoted 2–3 days. Sandbox keys exist now; production keys go
+on the Netlify site as `PLAID_CLIENT_ID` / `PLAID_SECRET` when approved (Phase 3).
