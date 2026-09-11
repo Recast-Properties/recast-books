@@ -266,3 +266,12 @@ Function routes (all JSON; all but `books-config` require `Authorization: Bearer
 - `POST books-auth {id_token}` → `{session, user}`
 - `GET  books-ledger?limit=200` → `{entries:[...grouped by txn_id]}`; `POST books-ledger {intent}` → `{entry, rows}`; `POST books-ledger {action:"void", txn_id, reason}` → `{entry}` (owner)
 - `GET  books-meta?tab=Accounts|Properties|Periods|Settings|Users|Bank%20accounts|Vendors` → `{headers, rows}`; `POST books-meta {action:"setPeriod"|"upsert", ...}` (owner)
+
+## 10 · Live resource ids (2026-09-11)
+
+- Apps Script project **Recast Books Writer**: script id `14P4vLsFHCZPcRs1NVOvyUQTTrWJUhB_x-yrQs9NTNSQtq1-nApno9DqU`
+  (https://script.google.com/d/14P4vLsFHCZPcRs1NVOvyUQTTrWJUhB_x-yrQs9NTNSQtq1-nApno9DqU/edit).
+  `.clasp.json` for it is gitignored; recreate with `clasp clone <id>` or copy from the
+  scratch folder. Push with `clasp push -f` from `apps-script/writer/`.
+- Netlify site `recast-books`, id `048233af-83fd-4885-8b28-1e88d5623c3e`, custom domain
+  `books.recast-properties.com` attached; `SESSION_SECRET` set (production contexts).
