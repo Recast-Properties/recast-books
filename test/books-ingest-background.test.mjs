@@ -206,13 +206,30 @@ test("dismiss with duplicate_of -> dismissed, no Drive filing, no writer calls",
   assert.equal(storeDocumentCalled, false);
 });
 
-test('dismiss with NO duplicate_of falls through to pending (malformed model, defensive default)', { skip }, async () => {
+test("a confident dismiss with no duplicate_of (promotion, $0 statement) is dismissed outright", { skip }, async () => {
+  const envelope = await seedEnvelope({ docId: "gm-promo" });
+  const store = getDocsStore();
+  const result = await processDecision({
+    envelope,
+    docId: "gm-promo",
+    model: postModel({ verdict: "dismiss", confidence: "high", duplicate_of: "" }),
+    transcript_summary: [],
+    usage: {},
+    gateResult: { passed: false, reasons: [] },
+    ctx: baseCtx(),
+    writer: {},
+    docsStore: store,
+  });
+  assert.equal(result.status, "dismissed");
+});
+
+test("a hesitant dismiss (medium/low) with no duplicate_of waits for a human", { skip }, async () => {
   const envelope = await seedEnvelope({ docId: "gm-baddismiss" });
   const store = getDocsStore();
   const result = await processDecision({
     envelope,
     docId: "gm-baddismiss",
-    model: postModel({ verdict: "dismiss", duplicate_of: "" }),
+    model: postModel({ verdict: "dismiss", confidence: "medium", duplicate_of: "" }),
     transcript_summary: [],
     usage: {},
     gateResult: { passed: false, reasons: [] },

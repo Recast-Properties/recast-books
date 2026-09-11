@@ -198,3 +198,27 @@ property tabs are authoritative where the two disagree.
 
 **Exception:** money Dennis lends Paul personally, not for a property, is outside
 Recast's books.
+
+---
+
+## D-012 · The bookkeeper decides the easy cases itself — 2026-09-11 · Paul
+
+After the first dry run held three items a bookkeeper should have settled, Paul: "the
+system should have known what to do... this is all basic stuff."
+
+**Decided:**
+1. **Travel between PDX and DFW is business travel.** Flights, airport rideshares, baggage,
+   in-flight Wi-Fi post to 6700 with a business purpose the bookkeeper writes at ingest
+   (that note is the contemporaneous §274(d) record). Meals (6710) and gifts (6720) still
+   wait for Paul. Supersedes the 2026-08-26 review's "travel never autofiles".
+2. **A confident dismiss is final.** Promotions, points statements, $0 notices: when the
+   model says dismiss with high confidence, the document is dismissed. Only a hesitant
+   dismiss waits.
+3. **Duplicates are recognised by invoice number.** The model extracts the vendor's
+   invoice/receipt/order number; a posted entry carrying the same number for the same
+   vendor is a duplicate and is dismissed by code. Same payee/date/total with different
+   invoice numbers are two real charges. A fresh ledger read happens right before any
+   post, so two copies processed in parallel cannot both post.
+
+**Why:** the model's verdict must become the action, and a rail must never hold a
+document while ignoring a fact the system already has (`claude-judgment-not-scripts`).

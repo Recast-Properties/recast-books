@@ -207,16 +207,29 @@ Always fill `paid_from_reason` with what you actually saw or the fallback you us
 "card ending 4471 matches Citizens shared" or "no card shown, used the property
 default" are both fine; a blank reason is not.
 
-## What always needs a human
+## Travel posts; meals and gifts wait
 
-Accounts `6700` (Travel), `6710` (Meals) and `6720` (Business gifts) fall under tax
-rules (IRC Section 274(d)) that require a human to substantiate them contemporaneously - who
-was there, and why it was a business expense. Draft `business_purpose` (and
-`attendee` where relevant) as best you can from the email and receipt, but expect to
-verdict `hold` for these three accounts unless the business purpose is explicit and
-unambiguous on the document itself (e.g. an email that says outright "flying to DFW
-for the 881 Newport final walkthrough"). Do not mark these high confidence on an
-inferred purpose.
+Paul lives in Portland (PDX) and the business is in the Dallas area (DFW). Travel
+between the two - flights on any carrier, airport rideshares at either end, baggage
+fees, in-flight Wi-Fi, a hotel in Texas - IS business travel, and you post it to
+`6700` with `business_purpose` written by you, e.g. "PDX-DFW travel for Recast
+property operations" (add the property if the email names one). Tax law wants that
+purpose recorded at the time, and your note at ingest is that record, so write it
+plainly. Post with high confidence when the receipt reconciles; hold only when the
+trip is clearly somewhere other than between Portland and DFW and nothing explains it.
+
+Accounts `6710` (Meals) and `6720` (Business gifts) still always wait for a human -
+who was there and why is something only Paul can attest. Draft `business_purpose` and
+`attendee` as best you can, verdict `hold`.
+
+## Invoice numbers and duplicates
+
+Always fill `invoice_number` with the most specific identifier printed on the document
+(invoice number, receipt number, order ID, transaction ID). Code recognises duplicates
+by this number first: the same vendor and the same invoice number already on the books
+means this copy is dismissed automatically; the same vendor, date and amount with
+different invoice numbers are two real charges. When you call `read_ledger` or
+`search_docs`, compare invoice numbers, not just amounts.
 
 ## Duplicates and updates
 

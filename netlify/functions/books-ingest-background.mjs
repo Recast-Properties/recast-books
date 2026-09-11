@@ -33,7 +33,7 @@ import {
   WriterError,
 } from "./_shared.mjs";
 import { runBookkeeper } from "../../lib/bookkeeper.mjs";
-import { evaluateGate, buildEntriesFromModel } from "../../lib/gate.mjs";
+import { evaluateGate, buildEntriesFromModel, findDuplicate } from "../../lib/gate.mjs";
 import { toCents } from "../../lib/money.mjs";
 import Anthropic from "@anthropic-ai/sdk";
 
@@ -71,6 +71,7 @@ function flattenJournalLines(headers, rows) {
       property: String(get(row, "property") || ""),
       payee: String(get(row, "payee") || ""),
       description: String(get(row, "description") || ""),
+      memo: String(get(row, "memo") || ""),
       source: String(get(row, "source") || ""),
       void_of: String(get(row, "void_of") || ""),
     };
@@ -103,11 +104,13 @@ function buildPostedEntries(lines) {
   for (const l of lines) {
     if (l.source === "void" || l.void_of) continue;
     if (!byTxn.has(l.txn_id)) {
-      byTxn.set(l.txn_id, { txn_id: l.txn_id, date: l.date, payee: "", property: l.property, total_cents: 0 });
+      byTxn.set(l.txn_id, { txn_id: l.txn_id, date: l.date, payee: "", property: l.property, total_cents: 0, text: "" });
     }
     const e = byTxn.get(l.txn_id);
     if (!e.payee && l.payee) e.payee = l.payee;
     if (l.amount_cents > 0) e.total_cents += l.amount_cents;
+    // memo + descriptions carry invoice/receipt numbers - what findDuplicate matches on
+    e.text += " " + (l.memo || "") + " " + (l.description || "");
   }
   return [...byTxn.values()];
 }
@@ -335,6 +338,11 @@ export default async (req) => {
       ctx,
       writer,
       docsStore,
+      // Fresh ledger read (no cache) so a copy processed in parallel is caught.
+      recheckDuplicate: async (m) => {
+        const fresh = await writer.read("Journal", { since: isoDaysAgo(LEDGER_WINDOW_DAYS), limit: 20000 });
+        return findDuplicate(m, buildPostedEntries(flattenJournalLines(fresh.headers, fresh.rows)));
+      },
     });
     return json(200, { docId, status: finalEnvelope.status });
   } catch (err) {
@@ -375,6 +383,7 @@ export async function processDecision({
   usage,
   gateResult,
   ctx,
+  recheckDuplicate,
   writer,
   docsStore,
 }) {
@@ -402,10 +411,24 @@ export async function processDecision({
     });
   }
 
-  // ---- dismiss: the model is certain this document is already on the books ----
-  if (model.verdict === "dismiss" && model.duplicate_of) {
+  // ---- dismiss: the model is confident this is a duplicate or not a receipt at all
+  // (promotion, points statement, $0 notice). A confident verdict is final; only a
+  // hesitant dismiss waits for a human. Paul, 2026-09-11: the system should know. ----
+  if (model.verdict === "dismiss" && (model.duplicate_of || model.confidence === "high")) {
     return save({
       status: "dismissed",
+      result: { txn_ids: [], rows: null, doc_url: "" },
+      finishedAt: new Date().toISOString(),
+    });
+  }
+
+  // ---- duplicate rail: the gate found a posted entry this document duplicates
+  // (invoice number, or same payee/date/total with nothing to tell them apart) ----
+  const dupReason = (gateResult.reasons || []).find((r) => r.startsWith("DUPLICATE_OF:"));
+  if (dupReason) {
+    return save({
+      status: "dismissed",
+      model: { ...model, duplicate_of: dupReason.slice("DUPLICATE_OF:".length), why: `${model.why} [rail: duplicate of ${dupReason.slice(13)} already on the books]` },
       result: { txn_ids: [], rows: null, doc_url: "" },
       finishedAt: new Date().toISOString(),
     });
@@ -415,6 +438,19 @@ export async function processDecision({
   // naming a posted txn_id is gate.mjs's job to treat as passing, per spec section 4) --
   if (model.verdict === "post" && gateResult.passed) {
     try {
+      // Two copies of one receipt often arrive together and are read in parallel, so the
+      // ledger the gate saw may predate the other copy's post. Re-read fresh, right now.
+      if (typeof recheckDuplicate === "function") {
+        const late = await recheckDuplicate(model);
+        if (late) {
+          return save({
+            status: "dismissed",
+            model: { ...model, duplicate_of: late.txn_id, why: `${model.why} [rail: ${late.kind === "duplicate" ? "duplicate of" : "possible twin of"} ${late.txn_id}, posted moments earlier]` },
+            result: { txn_ids: [], rows: null, doc_url: "" },
+            finishedAt: new Date().toISOString(),
+          });
+        }
+      }
       const folder = postFolderFor(model);
       const filed = await storeAttachmentsToDrive(writer, docsStore, envelope, folder);
       const doc_url = filed[0]?.url || "";

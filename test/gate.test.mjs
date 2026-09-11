@@ -201,7 +201,7 @@ test("a total exactly at the ceiling passes condition 4", () => {
 
 // --- condition 5: sec 274(d) accounts always need a human ----------------------
 
-test("NEEDS_HUMAN_274D: a 6700 Travel item never autofiles even with everything else valid", () => {
+test("6700 Travel with a written business purpose passes (PDX-DFW travel is business; Paul 2026-09-11)", () => {
   const model = baseModel({
     receipt_total_cents: 5000,
     paid_from: "PAUL",
@@ -209,7 +209,23 @@ test("NEEDS_HUMAN_274D: a 6700 Travel item never autofiles even with everything 
       baseEntry({
         property: "OVERHEAD",
         paid_from: "PAUL",
-        items: [{ account: "6700", amount_cents: 5000, description: "Flight PDX-DFW", trade: "", business_purpose: "Site visit - 881 Newport walkthrough" }],
+        items: [{ account: "6700", amount_cents: 5000, description: "Flight PDX-DFW", trade: "", business_purpose: "PDX-DFW travel for Recast property operations" }],
+      }),
+    ],
+  });
+  const result = evaluateGate(model, baseCtx(), baseSettings());
+  assert.ok(!result.reasons.includes("NEEDS_HUMAN_274D"), result.reasons.join(","));
+});
+
+test("6710 Meals still needs a human even with a purpose written", () => {
+  const model = baseModel({
+    receipt_total_cents: 5000,
+    paid_from: "PAUL",
+    entries: [
+      baseEntry({
+        property: "OVERHEAD",
+        paid_from: "PAUL",
+        items: [{ account: "6710", amount_cents: 5000, description: "Team lunch", trade: "", business_purpose: "Lunch with contractor - 881 Newport" }],
       }),
     ],
   });
@@ -417,4 +433,27 @@ test("buildEntriesFromModel honors allow_duplicate_hash for a human-edited appro
 test("buildEntriesFromModel returns an empty array for a model with no entries", () => {
   const entries = buildEntriesFromModel(baseModel({ entries: [] }), baseCtx(), {});
   assert.deepEqual(entries, []);
+});
+
+import { findDuplicate } from "../lib/gate.mjs";
+
+test("findDuplicate: same vendor + invoice number already posted -> duplicate", () => {
+  const model = { vendor: "Anthropic, PBC", date: "2026-09-11", invoice_number: "A90U2FHF-0025", receipt_total_cents: 1034,
+    entries: [{ payee: "Anthropic, PBC", date: "2026-09-11", items: [{ amount_cents: 1034 }] }] };
+  const posted = [{ txn_id: "receipt-1", payee: "Anthropic, PBC", date: "2026-09-11", total_cents: 1034, text: "Auto-recharge credits invoice A90U2FHF-0025" }];
+  assert.deepEqual(findDuplicate(model, posted), { kind: "duplicate", txn_id: "receipt-1" });
+});
+
+test("findDuplicate: same vendor/date/total but different invoice numbers -> two real charges", () => {
+  const model = { vendor: "Netlify", date: "2026-09-11", invoice_number: "INV-200200", receipt_total_cents: 2000,
+    entries: [{ payee: "Netlify", date: "2026-09-11", items: [{ amount_cents: 2000 }] }] };
+  const posted = [{ txn_id: "receipt-2", payee: "Netlify", date: "2026-09-11", total_cents: 2000, text: "Hosting invoice INV-200199" }];
+  assert.equal(findDuplicate(model, posted), null);
+});
+
+test("findDuplicate: same vendor/date/total with no invoice numbers anywhere -> possible twin (hold)", () => {
+  const model = { vendor: "Netlify", date: "2026-09-11", invoice_number: "", receipt_total_cents: 2000,
+    entries: [{ payee: "Netlify", date: "2026-09-11", items: [{ amount_cents: 2000 }] }] };
+  const posted = [{ txn_id: "receipt-3", payee: "Netlify", date: "2026-09-11", total_cents: 2000, text: "Hosting" }];
+  assert.deepEqual(findDuplicate(model, posted), { kind: "possible_twin", txn_id: "receipt-3" });
 });
