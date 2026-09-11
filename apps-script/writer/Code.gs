@@ -21,6 +21,7 @@ function setup() {
   TAB_ORDER.forEach(function (name) {
     var sheet = getOrCreateSheet_(ss, name);
     ensureHeaders_(sheet, TAB_HEADERS[name]);
+    forceTextColumns_(sheet, TAB_HEADERS[name]);
   });
 
   seedIfEmpty_(ss.getSheetByName('Accounts'), ACCOUNTS_SEED);
@@ -33,6 +34,11 @@ function setup() {
     return [p, 'open', '', '', ''];
   });
   seedIfEmpty_(ss.getSheetByName('Periods'), periodRows);
+
+  // Sheets auto-converts text like "2026-09" into a date. Repair any period cells
+  // that were converted before the columns were forced to plain text.
+  repairPeriodCells_(ss.getSheetByName('Periods'));
+  repairPeriodCells_(ss.getSheetByName('Journal'));
 
   var defaultSheet = ss.getSheetByName('Sheet1');
   if (defaultSheet && ss.getSheets().length > 1) {
@@ -88,7 +94,7 @@ function doPost(e) {
 
 // ---- config ---------------------------------------------------------------
 
-var WRITER_VERSION = '0.1.0';
+var WRITER_VERSION = '0.1.1';
 var WORKBOOK_NAME = 'Recast Books';
 
 // Tabs created (in this order) by setup(). Headers match phase0-spec.md
@@ -227,6 +233,49 @@ function ensureHeaders_(sheet, headers) {
   sheet.setFrozenRows(1);
 }
 
+// Columns that hold codes or period keys must never be auto-converted to numbers
+// or dates by Sheets ("2026-09" -> a date, "1000" -> a number). Plain-text format
+// applied to the whole column below the header.
+var TEXT_COLUMNS = ['period', 'txn_id', 'code', 'account', 'paid_from', 'void_of',
+  'default_account', 'key', 'value', 'last4'];
+
+function forceTextColumns_(sheet, headers) {
+  var maxRows = sheet.getMaxRows();
+  if (maxRows < 2) return;
+  headers.forEach(function (h, i) {
+    if (TEXT_COLUMNS.indexOf(h) !== -1) {
+      sheet.getRange(2, i + 1, maxRows - 1, 1).setNumberFormat('@');
+    }
+  });
+}
+
+// A period cell that Sheets turned into a Date is written back as "yyyy-MM" text.
+function repairPeriodCells_(sheet) {
+  if (!sheet) return;
+  var cols = headerIndex_(sheet);
+  var col = cols['period'];
+  var lastRow = sheet.getLastRow();
+  if (!col || lastRow < 2) return;
+  var range = sheet.getRange(2, col, lastRow - 1, 1);
+  var values = range.getValues();
+  var changed = false;
+  var fixed = values.map(function (r) {
+    var v = r[0];
+    if (v instanceof Date) { changed = true; return [normalizePeriod_(v)]; }
+    return [v];
+  });
+  if (changed) {
+    range.setNumberFormat('@');
+    range.setValues(fixed);
+  }
+}
+
+// "2026-09" whether the cell holds text or a Date.
+function normalizePeriod_(v) {
+  if (v instanceof Date) return Utilities.formatDate(v, 'America/Chicago', 'yyyy-MM');
+  return String(v || '').slice(0, 7);
+}
+
 function seedIfEmpty_(sheet, rows) {
   if (!sheet || !rows || rows.length === 0) return;
   if (sheet.getLastRow() > 1) return; // already seeded (or edited) - no-op
@@ -349,9 +398,16 @@ function buildJournalRow_(cols, entry, line, lineNumber, postedAt) {
 
 function periodStatus_(periodsSheet, period) {
   var cols = headerIndex_(periodsSheet);
-  var row = findRowByValue_(periodsSheet, cols['period'], period);
-  if (row === -1) return 'open';
-  return periodsSheet.getRange(row, cols['status']).getValue();
+  var lastRow = periodsSheet.getLastRow();
+  if (lastRow < 2 || !cols['period'] || !cols['status']) return 'open';
+  var width = maxColIndex_(cols);
+  var values = periodsSheet.getRange(2, 1, lastRow - 1, width).getValues();
+  for (var i = 0; i < values.length; i++) {
+    if (normalizePeriod_(values[i][cols['period'] - 1]) === period) {
+      return String(values[i][cols['status'] - 1] || 'open');
+    }
+  }
+  return 'open';
 }
 
 function jsonOutput_(obj) {
@@ -509,12 +565,15 @@ function action_read_(body, props) {
   }
 
   var timestampCols = {};
+  var periodCols = {};
   headers.forEach(function (h, i) {
     if (h === 'posted_at' || h === 'closed_at' || h === 'added_at') timestampCols[i] = true;
+    if (h === 'period') periodCols[i] = true;
   });
   var out = dataRows.map(function (row) {
     return row.map(function (cell, i) {
       if (!(cell instanceof Date)) return cell;
+      if (periodCols[i]) return normalizePeriod_(cell);
       return timestampCols[i] ? formatIsoTimestamp_(cell) : formatIsoDate_(cell);
     });
   });
@@ -531,7 +590,14 @@ function action_setPeriod_(body, props) {
   var ss = openWorkbook_(props);
   var sheet = ss.getSheetByName('Periods');
   var cols = headerIndex_(sheet);
-  var row = findRowByValue_(sheet, cols['period'], period);
+  var row = -1;
+  var lastRow = sheet.getLastRow();
+  if (lastRow >= 2) {
+    var periodValues = sheet.getRange(2, cols['period'], lastRow - 1, 1).getValues();
+    for (var i = 0; i < periodValues.length; i++) {
+      if (normalizePeriod_(periodValues[i][0]) === period) { row = i + 2; break; }
+    }
+  }
   var closedAt = status === 'closed' ? new Date() : '';
 
   if (row === -1) {
@@ -539,7 +605,9 @@ function action_setPeriod_(body, props) {
     newRow[cols['period'] - 1] = period;
     newRow[cols['status'] - 1] = status;
     if (cols['closed_at']) newRow[cols['closed_at'] - 1] = closedAt;
-    sheet.getRange(sheet.getLastRow() + 1, 1, 1, newRow.length).setValues([newRow]);
+    var target = sheet.getRange(sheet.getLastRow() + 1, 1, 1, newRow.length);
+    sheet.getRange(sheet.getLastRow() + 1, cols['period']).setNumberFormat('@');
+    target.setValues([newRow]);
   } else {
     sheet.getRange(row, cols['status']).setValue(status);
     if (cols['closed_at']) sheet.getRange(row, cols['closed_at']).setValue(closedAt);
