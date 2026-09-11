@@ -315,8 +315,18 @@ export default async (req) => {
 
     // task brief's exact contract: runBookkeeper({envelope, attachments, deps}) ->
     // {model, transcript_summary, usage}.
+    // What the model needs to route paid_from: the bank accounts' card digits, Paul's
+    // personal card(s), and the defaults. Read fresh each run (Settings/Bank accounts).
+    const bankResp = await writer.read("Bank accounts");
+    const bankRows = rowsToObjectsPublic(bankResp.headers, bankResp.rows).filter((b) => String(b.active).toLowerCase() !== "false");
+    const context = {
+      payment_instruments: bankRows.map((b) => ({ code: String(b.code), name: String(b.name || ""), last4: String(b.last4 || "") })),
+      paul_personal_last4: String(settings.paul_personal_last4 || "").split(/[,\s]+/).filter(Boolean),
+      default_paid_from_overhead: String(settings.default_paid_from_overhead || ""),
+      default_paid_from_property: String(settings.default_paid_from_property || ""),
+    };
     const { model, transcript_summary, usage } = await runBookkeeper({
-      envelope,
+      envelope: { ...envelope, context },
       attachments: attachmentsForModel,
       deps,
     });
