@@ -57,7 +57,14 @@ export default async (req) => {
     }
     try {
       const resp = await writer.read(tab);
-      return json(200, { headers: resp.headers, rows: resp.rows });
+      const rows = resp.rows.slice();
+      // The workbook link is not a stored setting; the writer knows it (ping) and the
+      // dashboard reads it from Settings, so surface it there as a derived row.
+      if (tab === "Settings" && !rows.some((r) => r[0] === "spreadsheet_url")) {
+        const ping = await writer.ping();
+        if (ping.spreadsheet_url) rows.push(["spreadsheet_url", ping.spreadsheet_url, "from writer ping"]);
+      }
+      return json(200, { headers: resp.headers, rows });
     } catch (err) {
       return writerErrorResponse(err);
     }
