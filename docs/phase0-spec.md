@@ -275,3 +275,6 @@ Function routes (all JSON; all but `books-config` require `Authorization: Bearer
   scratch folder. Push with `clasp push -f` from `apps-script/writer/`.
 - Netlify site `recast-books`, id `048233af-83fd-4885-8b28-1e88d5623c3e`, custom domain
   `books.recast-properties.com` attached; `SESSION_SECRET` set (production contexts).
+- Workbook **Recast Books**: `12QVyxm3KnLD7CDC8mFAPd5ulZuRXRluNDi4qK4BBxKM`
+  (https://docs.google.com/spreadsheets/d/12QVyxm3KnLD7CDC8mFAPd5ulZuRXRluNDi4qK4BBxKM/edit),
+  created by `setup()` on 2026-09-11. The writer is the only thing that writes to it.
