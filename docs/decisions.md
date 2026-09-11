@@ -98,3 +98,70 @@ is structurally blind to the error shape that costs the most.
 
 **Raised by:** the agentic-automation skeptic in the 2026-08-26 adversarial review.
 The original claim was Claude's and it was wrong.
+
+---
+
+## D-006 · Dennis is a lender and financial partner, not a member — 2026-09-11 · Paul
+
+**Decided:** Dennis Little is not a member of Recast Properties LLC. He is a financial
+partner and lender. This answers Q-2.
+
+**Terms, stated by Paul:** Dennis advances the cash for purchases and rehab. Advances
+accrue **9% interest, compounding monthly on each advance's own monthly anniversary**.
+When a property sells, proceeds first repay Dennis's principal plus accrued interest on
+what he advanced for that property, then the remaining profit is split **50/50**.
+
+**Bookkeeping consequence:** Dennis's principal is a note payable (2010), accrued
+interest is a liability (2000), interest is a financing cost of the property (1200),
+and his 50% is a profit-participation cost paid at settlement — not equity. The 9000
+series is Paul's owner equity only; "member" language is dropped. The interest suspense
+routing proposed in the 2026-08-26 review is no longer needed.
+
+**Accountant still has to rule on:** whether a 50/50 profit share with a non-member
+lender is treated as a partnership for tax purposes regardless of LLC membership, and
+how Dennis's interest (1099-INT) and profit share are reported. The books are built so
+either answer is a remap, not a rebuild.
+
+---
+
+## D-007 · Plaid bank feeds in the first build — 2026-09-11 · Paul
+
+**Decided:** Connect bank accounts through Plaid. Supersedes the upload-only half of
+D-004; statement upload stays as the fallback and as the source for accounts Plaid
+cannot reach.
+
+**Accounts:** Paul's personal checking (being retired from the business — all 2026
+personal-paid expenses to be reimbursed), the shared Recast account at Citizens
+National Bank of Texas (Dennis-funded property money), and a Chase business checking
+being opened for Recast operating expenses that do not involve Dennis.
+
+**Consequence:** every expense row records which account paid it, and the ledger can
+say what Recast owes Paul at any date (2030 Due to owner).
+
+---
+
+## D-008 · New system, separate site, code lives in this repo — 2026-09-11 · Paul
+
+**Decided:** Build the bookkeeper as a completely new and separate system. Paul keeps
+using the existing workbook and receipts bookkeeper until it is built. The web app
+deploys as its own Netlify site at a `books.` subdomain of recast-properties.com,
+linked from the `/admin` hub. The application code lives in `Recast-books/` (this repo
+stops being docs-only). No deploy of the new system touches the public site or the
+scheduler.
+
+**Login:** Google sign-in with an email allowlist and roles — Paul full access, Dennis
+read-only on his loan ledger and project results, the accountant read-only on
+everything. Not the shared `ADMIN_PASSWORD`.
+
+**History:** all of 2026 is copied into the new system under the faithful-copy-then-
+corrections gates. Nothing in the old workbook is ever deleted.
+
+---
+
+## D-009 · Vehicle: actual expenses on Dennis's truck — 2026-09-11 · Claude, Paul to confirm with accountant
+
+**Fact:** Paul drives Dennis's truck and pays its gas and repairs. He does not own or
+lease it. The standard mileage rate requires an owned or leased vehicle, so mileage is
+not available. Answers Q-5 for now: **actual method, business-use percentage**, which
+still requires a trip log to substantiate the percentage. Accountant question: whether
+a written lease from Dennis would open the mileage method.

@@ -1,7 +1,8 @@
 # Open questions
 
-Seven decisions gate the build. Four are unanswered. Three of those block Phase 1 and
-need Paul's accountant.
+Seven decisions gate the build. **Updated 2026-09-11:** Q-2 answered (D-006), Q-5 answered
+for now (D-009). Q-1, Q-3, Q-4 still need the accountant; the new system stores each as a
+setting so they no longer block the build.
 
 ---
 
@@ -19,7 +20,7 @@ it was missing from the plan's first draft entirely.
 
 ---
 
-## Q-2 · Entity type, and what is Dennis? — UNANSWERED · accountant
+## Q-2 · Entity type, and what is Dennis? — ANSWERED 2026-09-11 · Paul (D-006)
 
 Every property tab splits profit 50/50 as "Individual Share". The cash-advance tab
 charges Dennis interest on his advances (`Dennis Little 10203687 $164,360.44` →
@@ -53,7 +54,7 @@ sheet. With properties straddling year-end this is not academic. **Blocks Phase 
 
 ---
 
-## Q-5 · Mileage or actual vehicle? — UNANSWERED · Paul
+## Q-5 · Mileage or actual vehicle? — ACTUAL, for now · 2026-09-11 (D-009)
 
 Cannot take both. Currently doing neither properly: fuel and tolls are logged (actual
 method) while a Driversnote subscription is paid for (mileage method), and none of

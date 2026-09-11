@@ -60,3 +60,14 @@ its own findings. 35 findings, 1 withdrawn. Full record in
   week, to the second Friday. Added an open-items tolerance so one bad month does not
   end the habit.
 - **Cut** per-property inboxes as ceremony — agent routing makes them redundant.
+
+## 2026-09-11 — Build authorized; plan drafted
+
+Paul directed that the bookkeeper be built as a completely new, separate system,
+running alongside the current one until proven. Decisions D-006 (Dennis is a lender,
+not a member; 9% compounding on each advance's monthly anniversary; 50/50 after payoff),
+D-007 (Plaid bank feeds, three accounts), D-008 (separate Netlify site at `books.`,
+Google sign-in with roles, code lives here, all 2026 history copied, nothing deleted),
+D-009 (actual vehicle method on Dennis's truck). Q-2 and Q-5 closed; Q-1, Q-3, Q-4
+become settings rather than blockers. `BUILD-PLAN.md` drafted — awaiting sign-off.
+Open: Dennis's advance mechanics in the shared account; whether overhead touches projects.
