@@ -276,6 +276,11 @@ export default async (req) => {
       if (!period || !/^\d{4}-\d{2}$/.test(period)) {
         return json(400, { error: "BAD_REQUEST", message: "period (YYYY-MM) is required" });
       }
+      // Interest is booked on the period's last day, so a period can only be posted once
+      // it has ended. Preview works any time.
+      if (lastDayOf(period) > todayChicago()) {
+        return json(422, { error: "PERIOD_NOT_ENDED", message: `period ${period} has not ended yet; preview is available, posting is not` });
+      }
 
       let ctx, advances, accrualOpts;
       try {

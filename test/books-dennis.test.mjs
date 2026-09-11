@@ -228,7 +228,7 @@ test("postInterest posts a batch and upserts accrued_to on success", { skip }, a
     return baseRouter()(body);
   };
   const res = await handler(
-    req("POST", { token: session("owner"), body: { action: "postInterest", period: "2026-09" } }),
+    req("POST", { token: session("owner"), body: { action: "postInterest", period: "2026-07" } }),
   );
   assert.equal(res.status, 200);
   const body = await res.json();
@@ -247,5 +247,18 @@ test("postInterest posts a batch and upserts accrued_to on success", { skip }, a
 
   const accrualUpserts = calls.filter((c) => c.action === "upsert" && c.tab === "Advances");
   assert.equal(accrualUpserts.length, batchCall.entries.length);
-  for (const u of accrualUpserts) assert.equal(u.row.accrued_to, "2026-09");
+  for (const u of accrualUpserts) assert.equal(u.row.accrued_to, "2026-07");
+});
+
+test("postInterest refuses a period that has not ended (422 PERIOD_NOT_ENDED)", { skip }, async () => {
+  router = (body) => {
+    if (body.action === "postBatch" || body.action === "upsert") throw new Error("must not write");
+    return baseRouter()(body);
+  };
+  const res = await handler(
+    req("POST", { token: session("owner"), body: { action: "postInterest", period: "2099-01" } }),
+  );
+  assert.equal(res.status, 422);
+  const body = await res.json();
+  assert.equal(body.error, "PERIOD_NOT_ENDED");
 });
