@@ -26,7 +26,7 @@ import {
 } from "./_shared.mjs";
 import { buildEntry, validateEntry, makeTxnId, PostingError } from "../../lib/posting.mjs";
 import { toCents, fromCents } from "../../lib/money.mjs";
-import { interestForPeriod } from "../../lib/accrual.mjs";
+import { interestForPeriod, lastDayOf } from "../../lib/accrual.mjs";
 import { loadJournal, dennisLedger } from "../../lib/reports.mjs";
 
 const CONFLICT_CODES = new Set(["DUPLICATE", "PERIOD_CLOSED", "ALREADY_VOIDED"]);
@@ -84,7 +84,8 @@ async function getAccrualOpts(writer) {
  * (previewInterest).
  */
 function buildInterestEntry(advance, period, deltaCents, ctx, postedBy) {
-  const date = `${period}-01`;
+  // Interest for a period is booked on that period's last day (the accrual runs through it).
+  const date = lastDayOf(period);
   const description = `Interest ${period} on ${advance.advance_id}`;
 
   const line = (account, isDebit) => {

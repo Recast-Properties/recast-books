@@ -115,8 +115,9 @@ accountant read). Reuse `_shared.mjs`.
     `Advances` row `{advance_id: "adv-"+txn_id, date, amount, property, source_txn_id,
     status:"open", accrued_to:"", repaid_date:""}`. Refuses `BAD_PROPERTY` if the property
     is not in the registry.
-  - `POST {action:"previewInterest", period}` → for every open advance, the period delta
-    and the entry that would post; nothing written. Skips advances whose `accrued_to` ≥ period.
+  - `POST {action:"previewInterest", period}` → `{period, previews:[{advance_id, property,
+    delta_cents, entry}]}` for every open advance; nothing written. Skips advances whose
+    `accrued_to` ≥ period. Interest entries are **dated the last day of the period**.
   - `POST {action:"postInterest", period}` → owner; `postBatch` of one entry per advance
     with a non-zero delta: Dr **1200** (property, payee "Dennis Little", description
     `Interest <period> on <advance_id>`), Cr **2000** (property). `txn_id =

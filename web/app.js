@@ -1561,14 +1561,14 @@ function renderDennisAddForm() {
 // reads several plausible field names defensively and falls back to a raw-JSON
 // dump so the panel stays useful either way. See the build report.
 function extractPreviewItems(resp) {
-  const arr = resp.preview || resp.entries || resp.items || [];
+  const arr = resp.previews || resp.preview || resp.entries || resp.items || [];
   return Array.isArray(arr) ? arr : [];
 }
 
 function renderDennisInterestPanel() {
   const wrap = $("dennis-interest");
   const previewRows = dennisState.preview ? extractPreviewItems(dennisState.preview) : [];
-  const knownShape = dennisState.preview && (dennisState.preview.preview || dennisState.preview.entries || dennisState.preview.items);
+  const knownShape = dennisState.preview && (dennisState.preview.previews || dennisState.preview.preview || dennisState.preview.entries || dennisState.preview.items);
   wrap.innerHTML = `
     <div class="form-grid" style="margin-bottom:10px;">
       <div class="field"><label>Period</label><input type="month" id="di-period" value="${escapeHtml(dennisState.period)}"></div>
