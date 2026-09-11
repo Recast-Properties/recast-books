@@ -5,7 +5,7 @@
   "type": "module",
   "description": "Recast Properties LLC bookkeeper — Google Sheets system of record, Claude as the bookkeeper, web app at books.recast-properties.com",
   "scripts": {
-    "test": "node --test test/",
+    "test": "node --test",
     "dev": "npx netlify-cli dev",
     "deploy": "npx netlify-cli deploy --prod --no-build"
   },
