@@ -1,0 +1,13 @@
+{
+  "name": "recast-books",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Recast Properties LLC bookkeeper — Google Sheets system of record, Claude as the bookkeeper, web app at books.recast-properties.com",
+  "scripts": {
+    "test": "node --test test/",
+    "dev": "npx netlify-cli dev",
+    "deploy": "npx netlify-cli deploy --prod --no-build"
+  },
+  "engines": { "node": ">=22" }
+}

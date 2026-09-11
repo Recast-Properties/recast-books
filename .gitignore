@@ -1,6 +1,4 @@
-.DS_Store
+.netlify/
 node_modules/
-*.log
-.env
-.env.*
-tmp/
+.DS_Store
+apps-script/writer/.clasp.json

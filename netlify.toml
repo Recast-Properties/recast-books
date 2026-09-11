@@ -1,0 +1,16 @@
+# Recast Books — the bookkeeper app. Its own Netlify site (recast-books); nothing here
+# is shared with recast-properties.com.
+[build]
+  publish = "web"
+  command = "echo no build step"
+
+[functions]
+  directory = "netlify/functions"
+  node_bundler = "esbuild"
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    cache-control = "no-store"
+    x-frame-options = "DENY"
+    referrer-policy = "no-referrer"
