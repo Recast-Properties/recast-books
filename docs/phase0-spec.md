@@ -228,3 +228,41 @@ unset — never with a stack trace.
 5. Paul closes `2026-07` on the Periods page; an entry dated in July is refused
    `PERIOD_CLOSED`; a `void` of a July entry still posts (dated today).
 6. A 6400 line naming a property is refused; a 1030 line naming OVERHEAD is refused.
+
+## 9 · Module interfaces (so the three modules can be built in parallel)
+
+`lib/posting.mjs`
+```js
+export class PostingError extends Error { code; details }
+export function buildEntry(intent, ctx) -> entry          // §3, §3.1; throws PostingError
+export function validateEntry(entry, ctx) -> entry        // same checks, used by `journal`
+export function makeTxnId(source, date, firstDebitLine, {allow_duplicate_hash}) -> string
+export function periodOf(isoDate) -> "YYYY-MM"
+```
+`lib/coa.mjs`
+```js
+export const ACCOUNTS  // array of {code,name,series,type,cost_class,tax_treatment}
+export function accountMap() -> Map<code, account>
+export function seriesOf(code) -> "1000"|"1400"|"2000"|"4000"|"5000"|"6000"|"7000"|"9000"
+```
+`lib/money.mjs` — §2.
+
+`lib/writer-client.mjs`
+```js
+export class WriterError extends Error { code; status }
+export function createWriter({url, secret, fetchImpl = fetch}) -> {
+  ping(), post(entry), void(txn_id, reason, date), read(tab, {limit, since} = {}),
+  setPeriod(period, status), upsert(tab, key_column, row) }
+// each resolves to the writer's JSON body with ok:true, or throws WriterError(body.error)
+// Apps Script /exec answers POSTs with a 302 to a googleusercontent URL — follow redirects.
+```
+`lib/auth.mjs` — §5.
+
+Functions build `ctx` for the posting engine from three writer reads (`Accounts`,
+`Properties`, `Periods`), cached 60 s in module scope; `today` from `America/Chicago`.
+
+Function routes (all JSON; all but `books-config` require `Authorization: Bearer`):
+- `GET  books-config` → `{google_client_id, site_name}` (public)
+- `POST books-auth {id_token}` → `{session, user}`
+- `GET  books-ledger?limit=200` → `{entries:[...grouped by txn_id]}`; `POST books-ledger {intent}` → `{entry, rows}`; `POST books-ledger {action:"void", txn_id, reason}` → `{entry}` (owner)
+- `GET  books-meta?tab=Accounts|Properties|Periods|Settings|Users|Bank%20accounts|Vendors` → `{headers, rows}`; `POST books-meta {action:"setPeriod"|"upsert", ...}` (owner)
