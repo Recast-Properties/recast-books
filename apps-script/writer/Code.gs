@@ -89,6 +89,7 @@ function doPost(e) {
       case 'setPeriod': return action_setPeriod_(body, props);
       case 'upsert': return action_upsert_(body, props);
       case 'postBatch': return action_postBatch_(body, props);
+      case 'storeDocument': return action_storeDocument_(body, props);
       default: return jsonOutput_({ ok: false, error: 'BAD_ACTION' });
     }
   } catch (err) {
@@ -103,8 +104,13 @@ function doPost(e) {
 
 // ---- config ---------------------------------------------------------------
 
-var WRITER_VERSION = '0.2.0';
+var WRITER_VERSION = '0.3.0';
 var WORKBOOK_NAME = 'Recast Books';
+// phase2-spec.md section 7: the Drive root folder every filed document lives under.
+// Same name as the workbook (Paul's own naming choice) but a different resource -
+// a Drive folder, not the spreadsheet - so its id is stored under its own Script
+// Property (DOCS_ROOT_FOLDER_ID), separate from SPREADSHEET_ID.
+var DOCS_ROOT_FOLDER_NAME = WORKBOOK_NAME;
 
 // Tabs created (in this order) by setup(). Headers match phase0-spec.md
 // section 4 verbatim for every tab that section spells out; Trips and Feed
@@ -775,4 +781,60 @@ function action_postBatch_(body, props) {
   } finally {
     lock.releaseLock();
   }
+}
+
+// storeDocument: files one source document (receipt photo, PDF, etc.) to Drive,
+// phase2-spec.md section 7. Creates the root folder "Recast Books" once (id cached
+// in Script Properties, separate from the workbook's own SPREADSHEET_ID) and the
+// requested path of nested folders under it, creating any that do not yet exist,
+// then saves the file there. No ScriptLock: concurrent uploads name different
+// files, and DriveApp folder lookups are not the serialized resource the Journal
+// writes are - a benign race just means two calls might both create the same
+// missing subfolder concurrently in the rare worst case, which getFoldersByName
+// tolerates (both folders exist under the same name; harmless duplication, never
+// data loss). Scope stays drive.file per the spec - only files/folders this script
+// creates are touched.
+function action_storeDocument_(body, props) {
+  var name = body.name;
+  var mime = body.mime;
+  var base64 = body.base64;
+  var folder = body.folder;
+  if (!name) fail_('BAD_REQUEST', 'name is required');
+  if (!mime) fail_('BAD_REQUEST', 'mime is required');
+  if (!base64) fail_('BAD_REQUEST', 'base64 is required');
+  if (!Array.isArray(folder) || folder.length === 0) {
+    fail_('BAD_REQUEST', 'folder must be a non-empty array of path segments');
+  }
+
+  var target = getOrCreateDocsRootFolder_(props);
+  folder.forEach(function (segment) {
+    target = getOrCreateSubfolder_(target, String(segment));
+  });
+
+  var bytes = Utilities.base64Decode(base64);
+  var blob = Utilities.newBlob(bytes, mime, name);
+  var file = target.createFile(blob);
+
+  return jsonOutput_({ ok: true, fileId: file.getId(), url: file.getUrl(), folderUrl: target.getUrl() });
+}
+
+function getOrCreateDocsRootFolder_(props) {
+  var id = props.getProperty('DOCS_ROOT_FOLDER_ID');
+  if (id) {
+    try {
+      return DriveApp.getFolderById(id);
+    } catch (err) {
+      // Folder was deleted/trashed out from under the stored id - fall through and
+      // create a fresh one rather than failing every storeDocument call forever.
+    }
+  }
+  var created = DriveApp.createFolder(DOCS_ROOT_FOLDER_NAME);
+  props.setProperty('DOCS_ROOT_FOLDER_ID', created.getId());
+  return created;
+}
+
+function getOrCreateSubfolder_(parent, name) {
+  var existing = parent.getFoldersByName(name);
+  if (existing.hasNext()) return existing.next();
+  return parent.createFolder(name);
 }

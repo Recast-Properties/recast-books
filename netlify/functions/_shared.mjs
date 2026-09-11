@@ -10,6 +10,8 @@
 // agents and may not exist on disk yet — that is expected; this file must not stub or
 // duplicate them.
 
+import { timingSafeEqual } from "node:crypto";
+import { getStore } from "@netlify/blobs";
 import { verifySession, requireRole, AuthError } from "../../lib/auth.mjs";
 import { createWriter, WriterError } from "../../lib/writer-client.mjs";
 
@@ -181,4 +183,69 @@ export async function getJournalAll(writer, { fresh = false } = {}) {
 /** Call after any post/void (books-ledger, books-dennis) - the journal just changed. */
 export function invalidateJournalCache() {
   journalCache = null;
+}
+
+// ---- phase 2 additions -------------------------------------------------------
+// getDocsStore(): the Netlify Blobs store "books-docs" (phase2-spec.md section 1),
+// shared by books-upload / books-ingest-background / books-inbox / books-file /
+// books-summary. Netlify Functions v2 resolves the store's site context (siteID,
+// token) from the deploy environment automatically, so no explicit config is
+// needed here beyond the store name - same as getWriter()'s lazy singleton above.
+let docsStoreSingleton = null;
+export function getDocsStore() {
+  if (!docsStoreSingleton) {
+    docsStoreSingleton = getStore({ name: "books-docs", consistency: "strong" });
+  }
+  return docsStoreSingleton;
+}
+
+/** Exposed so tests can reset the singleton between runs, like resetWriterForTests. */
+export function resetDocsStoreForTests() {
+  docsStoreSingleton = null;
+}
+
+/**
+ * The poller/upload shared-secret check (phase2-spec.md section 5: "auth = session
+ * or header x-poller-secret = POLLER_SECRET"). Constant-time compare so response
+ * timing can't leak the secret. Returns false (never throws) on any mismatch,
+ * missing header, or missing/empty POLLER_SECRET env var - callers fall through to
+ * session auth in that case.
+ */
+export function pollerSecretOk(req) {
+  const expected = process.env.POLLER_SECRET || "";
+  const got = req.headers.get("x-poller-secret") || "";
+  if (!expected || !got) return false;
+  const a = Buffer.from(got);
+  const b = Buffer.from(expected);
+  if (a.length !== b.length) return false;
+  return timingSafeEqual(a, b);
+}
+
+/**
+ * Files every attachment of an envelope to Drive via the writer's storeDocument
+ * action (phase2-spec.md section 7), under the given folder path. Reads attachment
+ * bytes back from the docs store (stored as base64 text by books-upload.mjs at
+ * att/<docId>/<i>). Shared by books-ingest-background.mjs (auto-post and dry-run
+ * filing) and books-inbox.mjs (filing on human approve, when the document was never
+ * auto-filed because the item sat in Pending). Returns
+ * [{fileId, url, folderUrl, name}, ...] in attachment order; an attachment whose
+ * bytes are missing from the store is skipped rather than failing the whole batch.
+ */
+export async function storeAttachmentsToDrive(writer, docsStore, envelope, folder) {
+  const results = [];
+  const attachments = envelope.attachments || [];
+  for (let i = 0; i < attachments.length; i++) {
+    const att = attachments[i];
+    const key = att.key || `att/${envelope.docId}/${i}`;
+    const base64 = await docsStore.get(key, { type: "text" });
+    if (!base64) continue;
+    const stored = await writer.storeDocument(
+      att.name || `attachment-${i}`,
+      att.mime || "application/octet-stream",
+      base64,
+      folder,
+    );
+    results.push({ ...stored, name: att.name || `attachment-${i}` });
+  }
+  return results;
 }

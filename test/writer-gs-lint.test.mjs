@@ -79,8 +79,8 @@ for (const [tab, headers] of Object.entries(SPEC_HEADERS)) {
   });
 }
 
-test("every writer action (ping, post, void, read, setPeriod, upsert, postBatch) is dispatched", () => {
-  for (const action of ["ping", "post", "void", "read", "setPeriod", "upsert", "postBatch"]) {
+test("every writer action (ping, post, void, read, setPeriod, upsert, postBatch, storeDocument) is dispatched", () => {
+  for (const action of ["ping", "post", "void", "read", "setPeriod", "upsert", "postBatch", "storeDocument"]) {
     assert.ok(
       source.includes(`case '${action}':`),
       `doPost does not appear to dispatch action "${action}"`
@@ -88,8 +88,32 @@ test("every writer action (ping, post, void, read, setPeriod, upsert, postBatch)
   }
 });
 
-test("WRITER_VERSION is 0.2.0", () => {
-  assert.match(source, /var WRITER_VERSION = '0\.2\.0';/);
+test("WRITER_VERSION is 0.3.0", () => {
+  assert.match(source, /var WRITER_VERSION = '0\.3\.0';/);
+});
+
+test("storeDocument: creates/reuses a root Drive folder, walks nested folder segments, and returns fileId/url/folderUrl", () => {
+  const anchor = source.indexOf("function action_storeDocument_(");
+  assert.ok(anchor !== -1, "action_storeDocument_ not found");
+  const nextFn = source.indexOf("\nfunction ", anchor + 1);
+  const body = source.slice(anchor, nextFn === -1 ? source.length : nextFn);
+
+  assert.ok(body.includes("getOrCreateDocsRootFolder_"), "storeDocument does not create/reuse the root folder");
+  assert.ok(body.includes("getOrCreateSubfolder_"), "storeDocument does not walk nested folder segments");
+  assert.ok(body.includes("Utilities.base64Decode"), "storeDocument does not decode the base64 payload");
+  assert.ok(body.includes("createFile"), "storeDocument does not create a Drive file");
+  assert.ok(body.includes("fileId:") && body.includes("url:") && body.includes("folderUrl:"),
+    "storeDocument response does not include fileId/url/folderUrl");
+});
+
+test("the Drive root folder id is cached in Script Properties, separate from SPREADSHEET_ID", () => {
+  assert.ok(source.includes("DOCS_ROOT_FOLDER_ID"), "DOCS_ROOT_FOLDER_ID Script Property not found");
+  const anchor = source.indexOf("function getOrCreateDocsRootFolder_(");
+  assert.ok(anchor !== -1, "getOrCreateDocsRootFolder_ not found");
+  const nextFn = source.indexOf("\nfunction ", anchor + 1);
+  const body = source.slice(anchor, nextFn === -1 ? source.length : nextFn);
+  assert.ok(body.includes("props.getProperty('DOCS_ROOT_FOLDER_ID')"));
+  assert.ok(body.includes("props.setProperty('DOCS_ROOT_FOLDER_ID'"));
 });
 
 test("read allows the Advances tab", () => {

@@ -599,3 +599,223 @@ test("buildEntry rejects an unknown intent type", () => {
   const ctx = baseCtx();
   assertPostingError(() => buildEntry({ type: "nonsense" }, ctx), "BAD_INTENT");
 });
+
+// --- purchase intent (phase2-spec.md §2) ------------------------------------
+
+function purchaseIntent(overrides = {}) {
+  return {
+    type: "purchase",
+    date: "2026-09-05",
+    payee: "Home Depot",
+    property: "881 Newport",
+    paid_from: "1401",
+    items: [
+      { account: "1030", amount_cents: 21240, description: "Drywall panel", trade: "Paint & Flooring" },
+    ],
+    doc_url: "https://drive.google.com/file/d/abc",
+    source: "receipt",
+    posted_by: "claude",
+    ...overrides,
+  };
+}
+
+test("purchase with one item produces a debit line and a credit line, both carrying property and payee", () => {
+  const ctx = baseCtx();
+  const entry = buildEntry(purchaseIntent(), ctx);
+  assert.equal(entry.lines.length, 2);
+  const [debit, credit] = entry.lines;
+  assert.equal(debit.account, "1030");
+  assert.equal(debit.debit, 21240);
+  assert.equal(debit.credit, 0);
+  assert.equal(debit.property, "881 Newport");
+  assert.equal(debit.payee, "Home Depot");
+  assert.equal(debit.description, "Drywall panel");
+  assert.equal(debit.trade, "Paint & Flooring");
+  assert.equal(credit.account, "1401");
+  assert.equal(credit.credit, 21240);
+  assert.equal(credit.debit, 0);
+  assert.equal(credit.property, "881 Newport");
+  assert.equal(credit.payee, "Home Depot");
+  assert.equal(credit.description, `Paid from ${accountMap().get("1401").name}`);
+});
+
+test("purchase with multiple items produces one debit line per item, property/payee on every line, credit is the sum", () => {
+  const ctx = baseCtx();
+  const entry = buildEntry(
+    purchaseIntent({
+      items: [
+        { account: "1030", amount_cents: 15000, description: "Drywall panel" },
+        { account: "1030", amount_cents: 6240, description: "Roller trays" },
+        { account: "1040", amount_cents: 8000, description: "Cabinet pull" },
+      ],
+    }),
+    ctx,
+  );
+  assert.equal(entry.lines.length, 4);
+  const debits = entry.lines.slice(0, 3);
+  const credit = entry.lines[3];
+  for (const line of debits) {
+    assert.equal(line.property, "881 Newport");
+    assert.equal(line.payee, "Home Depot");
+  }
+  assert.equal(debits.reduce((t, l) => t + l.debit, 0), 29240);
+  assert.equal(credit.credit, 29240);
+  assert.equal(credit.account, "1401");
+});
+
+test("purchase entry total equals the receipt total across items (balanced)", () => {
+  const ctx = baseCtx();
+  const entry = buildEntry(
+    purchaseIntent({
+      items: [
+        { account: "1030", amount_cents: 10000, description: "A" },
+        { account: "1030", amount_cents: 5000, description: "B" },
+      ],
+    }),
+    ctx,
+  );
+  const totalDebit = entry.lines.filter((l) => l.debit > 0).reduce((t, l) => t + l.debit, 0);
+  const totalCredit = entry.lines.filter((l) => l.credit > 0).reduce((t, l) => t + l.credit, 0);
+  assert.equal(totalDebit, 15000);
+  assert.equal(totalCredit, 15000);
+});
+
+test("purchase paid_from PAUL credits 2030 Due to owner", () => {
+  const ctx = baseCtx();
+  const entry = buildEntry(
+    purchaseIntent({ property: "OVERHEAD", paid_from: "PAUL", items: [{ account: "6500", amount_cents: 3684, description: "Toner" }] }),
+    ctx,
+  );
+  const credit = entry.lines[entry.lines.length - 1];
+  assert.equal(credit.account, "2030");
+  assert.equal(credit.description, "Paid by Paul");
+  assert.equal(credit.property, "OVERHEAD");
+});
+
+test("purchase paid_from DENNIS credits 2010 Note payable and requires property", () => {
+  const ctx = baseCtx();
+  const entry = buildEntry(
+    purchaseIntent({ paid_from: "DENNIS", items: [{ account: "1040", amount_cents: 500000, description: "Cabinets" }] }),
+    ctx,
+  );
+  const credit = entry.lines[entry.lines.length - 1];
+  assert.equal(credit.account, "2010");
+  assert.equal(credit.description, "Paid by Dennis");
+  assert.equal(credit.property, "881 Newport");
+});
+
+test("purchase paid_from DENNIS without a property throws PROPERTY_REQUIRED", () => {
+  const ctx = baseCtx();
+  assertPostingError(
+    () => buildEntry(purchaseIntent({ property: "", paid_from: "DENNIS" }), ctx),
+    "PROPERTY_REQUIRED",
+  );
+});
+
+test("purchase overhead item not marked OVERHEAD throws OVERHEAD_ON_PROPERTY (D-010)", () => {
+  const ctx = baseCtx();
+  assertPostingError(
+    () =>
+      buildEntry(
+        purchaseIntent({ items: [{ account: "6500", amount_cents: 3684, description: "Toner" }] }),
+        ctx,
+      ),
+    "OVERHEAD_ON_PROPERTY",
+  );
+});
+
+test("purchase item on a §274(d) account without business_purpose throws PURPOSE_REQUIRED", () => {
+  const ctx = baseCtx();
+  assertPostingError(
+    () =>
+      buildEntry(
+        purchaseIntent({
+          property: "OVERHEAD",
+          paid_from: "PAUL",
+          items: [{ account: "6700", amount_cents: 5000, description: "Flight PDX-DFW" }],
+        }),
+        ctx,
+      ),
+    "PURPOSE_REQUIRED",
+  );
+});
+
+test("purchase item on a §274(d) account with business_purpose passes", () => {
+  const ctx = baseCtx();
+  const entry = buildEntry(
+    purchaseIntent({
+      property: "OVERHEAD",
+      paid_from: "PAUL",
+      items: [{ account: "6700", amount_cents: 5000, description: "Flight PDX-DFW", business_purpose: "Site visit — 881 Newport walkthrough" }],
+    }),
+    ctx,
+  );
+  assert.equal(entry.lines[0].business_purpose, "Site visit — 881 Newport walkthrough");
+});
+
+test("purchase txn_id hashes the first debit line (items[0]), same intent -> same id", () => {
+  const ctx = baseCtx();
+  const intent = purchaseIntent();
+  assert.equal(buildEntry(intent, ctx).txn_id, buildEntry(intent, ctx).txn_id);
+});
+
+test("purchase txn_id changes when the first item differs, even with the same total", () => {
+  const ctx = baseCtx();
+  const a = buildEntry(
+    purchaseIntent({ items: [{ account: "1030", amount_cents: 21240, description: "Drywall panel" }] }),
+    ctx,
+  );
+  const b = buildEntry(
+    purchaseIntent({ items: [{ account: "1030", amount_cents: 21240, description: "Different item" }] }),
+    ctx,
+  );
+  assert.notEqual(a.txn_id, b.txn_id);
+});
+
+test("purchase re-ingesting an identical receipt reproduces the same txn_id (writer-level DUPLICATE refusal)", () => {
+  const ctx = baseCtx();
+  const intent = purchaseIntent();
+  const first = buildEntry(intent, ctx);
+  const second = buildEntry({ ...intent }, ctx);
+  assert.equal(first.txn_id, second.txn_id);
+});
+
+test("purchase allow_duplicate_hash appends a distinct 4-hex suffix per call", () => {
+  const ctx = baseCtx();
+  const intent = purchaseIntent({ allow_duplicate_hash: true });
+  const a = buildEntry(intent, ctx);
+  const b = buildEntry(intent, ctx);
+  assert.notEqual(a.txn_id, b.txn_id);
+  assert.match(a.txn_id.slice(a.txn_id.lastIndexOf("-") + 1), /^[0-9a-f]{4}$/);
+});
+
+test("purchase with an unknown paid_from account throws BAD_ACCOUNT", () => {
+  const ctx = baseCtx();
+  assertPostingError(() => buildEntry(purchaseIntent({ paid_from: "9999" }), ctx), "BAD_ACCOUNT");
+});
+
+test("purchase default memo names the payee and, for one item, the item description", () => {
+  const ctx = baseCtx();
+  const entry = buildEntry(purchaseIntent(), ctx);
+  assert.equal(entry.memo, "Home Depot — Drywall panel");
+});
+
+test("purchase default memo for multiple items names the item count", () => {
+  const ctx = baseCtx();
+  const entry = buildEntry(
+    purchaseIntent({
+      items: [
+        { account: "1030", amount_cents: 10000, description: "A" },
+        { account: "1030", amount_cents: 5000, description: "B" },
+      ],
+    }),
+    ctx,
+  );
+  assert.equal(entry.memo, "Home Depot — 2 items");
+});
+
+test("purchase honors an explicit memo over the default", () => {
+  const ctx = baseCtx();
+  const entry = buildEntry(purchaseIntent({ memo: "Custom memo" }), ctx);
+  assert.equal(entry.memo, "Custom memo");
+});

@@ -289,3 +289,6 @@ attributed to Paul; a second void refused `ALREADY_VOIDED`. Bug found and fixed 
 gate: Sheets auto-converted "2026-09" period text to dates (writer v0.1.1 forces text
 format and repairs). `OVERHEAD_ON_PROPERTY` is covered by unit tests only — the UI cannot
 yet select a property because the registry is empty until Phase 1.
+- Apps Script project **Recast Books Poller**: script id `1jKtDx0eK458SP8jMKChqOBJhEegh1I6uAQeTusdFMPZhdsyddXUc0sqE`
+  (https://script.google.com/d/1jKtDx0eK458SP8jMKChqOBJhEegh1I6uAQeTusdFMPZhdsyddXUc0sqE/edit).
+  Runs as Paul; Gmail label `books-done`; triggers pollBooks (15 min) and dailyDigest (3 AM CT).

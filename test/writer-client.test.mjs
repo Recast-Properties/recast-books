@@ -159,6 +159,28 @@ test("read() forwards all", async () => {
   assert.equal(sentBody.all, true);
 });
 
+test("storeDocument() sends name, mime, base64 and folder in the body", async () => {
+  let sentBody;
+  const fetchImpl = async (url, options) => {
+    sentBody = JSON.parse(options.body);
+    return fakeResponse(200, JSON.stringify({
+      ok: true, fileId: "f1", url: "https://drive.google.com/file/d/f1", folderUrl: "https://drive.google.com/drive/folders/x"
+    }));
+  };
+  const writer = createWriter({ url: "https://x/exec", secret: "s", fetchImpl });
+
+  const result = await writer.storeDocument("receipt.jpg", "image/jpeg", "QUJD", ["2026", "881 Newport"]);
+
+  assert.equal(result.fileId, "f1");
+  assert.equal(result.url, "https://drive.google.com/file/d/f1");
+  assert.equal(sentBody.action, "storeDocument");
+  assert.equal(sentBody.name, "receipt.jpg");
+  assert.equal(sentBody.mime, "image/jpeg");
+  assert.equal(sentBody.base64, "QUJD");
+  assert.deepEqual(sentBody.folder, ["2026", "881 Newport"]);
+  assert.equal(sentBody.secret, "s");
+});
+
 test("a network error from fetchImpl surfaces as WriterError(\"NETWORK_ERROR\")", async () => {
   const fetchImpl = async () => {
     throw new Error("ECONNRESET");
