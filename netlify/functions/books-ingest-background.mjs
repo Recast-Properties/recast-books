@@ -100,9 +100,12 @@ function makeLedgerDep(lines) {
  * mirror rows are excluded so a void never reads as a false twin of its original.
  */
 function buildPostedEntries(lines) {
+  // An entry that has been voided is no longer "posted": drop both the void entry and
+  // the original it reverses, or a corrected re-post would be refused as a duplicate.
+  const voided = new Set(lines.filter((l) => l.void_of).map((l) => l.void_of));
   const byTxn = new Map();
   for (const l of lines) {
-    if (l.source === "void" || l.void_of) continue;
+    if (l.source === "void" || l.void_of || voided.has(l.txn_id)) continue;
     if (!byTxn.has(l.txn_id)) {
       byTxn.set(l.txn_id, { txn_id: l.txn_id, date: l.date, payee: "", property: l.property, total_cents: 0, text: "" });
     }
