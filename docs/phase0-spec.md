@@ -278,3 +278,14 @@ Function routes (all JSON; all but `books-config` require `Authorization: Bearer
 - Workbook **Recast Books**: `12QVyxm3KnLD7CDC8mFAPd5ulZuRXRluNDi4qK4BBxKM`
   (https://docs.google.com/spreadsheets/d/12QVyxm3KnLD7CDC8mFAPd5ulZuRXRluNDi4qK4BBxKM/edit),
   created by `setup()` on 2026-09-11. The writer is the only thing that writes to it.
+
+## 11 · Gate result — 2026-09-11
+
+All six checks in §8 passed, driven through Paul's signed-in browser: Paul signed in as
+owner; `manual-20260911-4429916508de` posted as Journal rows 2–3 (6400 / 1402, $19.00);
+re-posting refused `DUPLICATE`; 1030 with OVERHEAD refused `PROPERTY_REQUIRED`; with
+2026-07 closed, a July-dated post refused `PERIOD_CLOSED`; the void posted rows 4–5
+attributed to Paul; a second void refused `ALREADY_VOIDED`. Bug found and fixed during the
+gate: Sheets auto-converted "2026-09" period text to dates (writer v0.1.1 forces text
+format and repairs). `OVERHEAD_ON_PROPERTY` is covered by unit tests only — the UI cannot
+yet select a property because the registry is empty until Phase 1.

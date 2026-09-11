@@ -74,3 +74,13 @@ Later the same day, D-010: interest runs from deposit, one advance per property 
 that property's balance sheet; overhead is Paul's alone, never allocated. Q-6 closed.
 Spec added: the **Payout report** — on every sale, one ledger-generated, shareable report
 of what Paul, Dennis and the shared Recast account each receive, tying to net proceeds.
+
+## 2026-09-11 — Phase 0 built and gated
+
+Repo became the application. Netlify site `recast-books` (books.recast-properties.com
+attached, DNS pending), Google sign-in with roles, `/api/*` functions, posting engine
+(double entry, integer cents, every rule from BUILD-PLAN §2 enforced in code), Apps
+Script writer v0.1.1 (ScriptLock, header-name lookup, dedupe, period gate, void), new
+workbook `12QVyxm3KnLD7CDC8mFAPd5ulZuRXRluNDi4qK4BBxKM` created by `setup()`. Three
+Sonnet agents built the modules from `docs/phase0-spec.md`; Fable reviewed every file.
+102 tests. Gate passed end to end (spec §11).

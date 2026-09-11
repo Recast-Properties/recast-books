@@ -4,15 +4,16 @@ Bookkeeping and accounting architecture for **Recast Properties LLC** — the ch
 accounts, the general ledger schema, the 1099 program, and the phased migration from
 the current Google Sheets workbook to a standardized one.
 
-This repo is **documentation and migration tooling**. The books themselves live in
-Google Sheets. The receipt/statement automation that feeds them lives in
-`../Recast-site/` (see `RECEIPTS.md` there) — this repo describes what that automation
-should write, not how it runs.
+Since 2026-09-11 this repo is also **the application**: the new, separate bookkeeper
+(web app at books.recast-properties.com, Netlify functions, the Apps Script writer, the
+posting engine). The current receipts automation in `../Recast-site/` keeps running
+untouched until the parallel run in Phase 6. See `BUILD-PLAN.md` and `CLAUDE.md`.
 
 ## Status
 
-**Planning complete, nothing built.** The plan has been through one adversarial review
-(five expert lenses, 35 findings, see `docs/review-2026-08-26.md`) and revised.
+**Phase 0 built and gated 2026-09-11** (`BUILD-PLAN.md` §7): new workbook, writer,
+posting engine, Google sign-in, web shell. Phase 1 next. The accounting plan went through
+one adversarial review (five expert lenses, 35 findings, `docs/review-2026-08-26.md`).
 
 Nothing has been written to the live workbook. Nothing will be until Phase 0 snapshots it.
 
