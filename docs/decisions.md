@@ -181,3 +181,20 @@ Paul pays them alone. Not a setting — a rule. No overhead is ever allocated to
 property or enters the 50/50 waterfall.
 
 **Vehicle.** Gas and truck expenses stay as they are: actual costs, overhead, Paul's.
+
+---
+
+## D-011 · All Dennis interest is a project cost — 2026-09-11 · Paul
+
+**Decided:** Interest on every Dennis advance — purchase principal and cash advances
+alike — accrues as a financing cost of the property it funds (1200), repaid before the
+50/50 split. Paul therefore bears half through the smaller profit. Supersedes the old
+tab's practice of charging cash-advance interest to Paul alone (881 Newport, $31.13).
+
+**Also:** the old workbook's separate cash-advance tab was superfluous. Advances live on
+each property's balance sheet and nowhere else. Migration reads that tab only as a source
+of historical advance dates and amounts, then attributes each to its property; the
+property tabs are authoritative where the two disagree.
+
+**Exception:** money Dennis lends Paul personally, not for a property, is outside
+Recast's books.

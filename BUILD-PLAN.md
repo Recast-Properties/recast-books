@@ -51,8 +51,13 @@ settlement date the whole balance moves to 5000 COGS. Year-end inventory is a fi
 **Advance mechanics (D-010).** Interest starts the day the money lands in the shared
 Citizens account. Each advance is dedicated to one property and sits on **that
 property's balance sheet** as a liability; a deposit meant for two properties is two
-advances. There is no pooled loan. The `Advances` tab math must reproduce the existing
-cash-advance tab to the cent before migration; where the two disagree, Paul rules.
+advances. There is no pooled loan, and no separate advances ledger for people to read — the
+`Advances` tab is internal; every advance is displayed on its property's balance sheet
+(D-011). Interest on **every** advance, purchase principal or cash advance, is a cost of
+the property it funds, so both partners bear it through the split (D-011). The accrual
+rule is reproduced to the cent against the live 881 Newport tab in
+`docs/property-tab-anatomy.md`: 0.75% compounded on each advance's monthly anniversary,
+stub days pro-rated over a 30-day month.
 
 **Paul.** 9000 Owner contributions, 9010 Owner draws, **2030 Due to owner** for every
 cost he paid personally in 2026 until the Chase account reimburses him. The `paid_from`
@@ -327,14 +332,14 @@ the code from written specs.
 
 ## 10 · What I need from Paul before Phase 0 starts
 
-1. ~~Advance mechanics and overhead~~ — answered 2026-09-11 (D-010).
+1. ~~Advance mechanics and overhead~~ — answered 2026-09-11 (D-010, D-011).
 2. Dennis's and the accountant's Google email addresses for the allowlist.
 3. Access to add a DNS record for `books.recast-properties.com` (or confirm DNS is at Netlify).
 4. A Plaid developer account, created by Paul, with the client id and secret set as
    Netlify environment variables. I will send the exact steps.
 5. The Workspace admin click authorizing the service account's Sheets, Drive and Gmail
    read scopes, when I hand him the scope list.
-6. Whether the old workbook's cash-advance tab is authoritative for Dennis's math.
+6. ~~Cash-advance tab~~ — superfluous; property tabs are authoritative (D-011).
 
 ## 11 · Explicitly not in this build
 
