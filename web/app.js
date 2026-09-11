@@ -644,9 +644,14 @@ function renderEntriesTable() {
     .map((entry, idx) => {
       const total = entry.lines.reduce((sum, l) => sum + (Number(l.debit) || 0), 0);
       const expanded = journalState.expanded.has(entry.txn_id);
-      const voidBtn = isOwner() && entry.source !== "void" && !String(entry.txn_id).startsWith("void-")
-        ? `<button class="btn btn-secondary" data-void="${escapeHtml(entry.txn_id)}" style="padding:5px 10px;font-size:12px;">Void</button>`
-        : "";
+      // An entry that already has a reversing entry pointing at it is voided: show that
+      // instead of offering Void again.
+      const voidedBy = journalState.entries.find((e) => e.void_of === entry.txn_id);
+      const voidBtn = voidedBy
+        ? `<span class="muted" style="font-size:12px;">Voided</span>`
+        : isOwner() && entry.source !== "void" && !String(entry.txn_id).startsWith("void-")
+          ? `<button class="btn btn-secondary" data-void="${escapeHtml(entry.txn_id)}" style="padding:5px 10px;font-size:12px;">Void</button>`
+          : "";
       const linesRows = entry.lines
         .map((l) => `
           <tr>

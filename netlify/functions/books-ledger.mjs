@@ -20,11 +20,12 @@ import { buildEntry, PostingError } from "../../lib/posting.mjs";
 // A WriterError with one of these codes reflects a client-fixable conflict (retry with
 // a different txn_id, or post to an open period) -> 409. Everything else from the
 // writer is treated as an upstream failure -> 502.
-const CONFLICT_CODES = new Set(["DUPLICATE", "PERIOD_CLOSED"]);
+const CONFLICT_CODES = new Set(["DUPLICATE", "PERIOD_CLOSED", "ALREADY_VOIDED"]);
+const NOT_FOUND_CODES = new Set(["NOT_FOUND"]);
 
 function writerErrorResponse(err) {
   if (err instanceof WriterError) {
-    const status = CONFLICT_CODES.has(err.code) ? 409 : 502;
+    const status = CONFLICT_CODES.has(err.code) ? 409 : NOT_FOUND_CODES.has(err.code) ? 404 : 502;
     return json(status, { error: err.code, message: err.message });
   }
   return json(502, { error: "WRITER_ERROR", message: String((err && err.message) || err) });
