@@ -191,17 +191,18 @@ export function invalidateJournalCache() {
 // books-summary. Netlify Functions v2 resolves the store's site context (siteID,
 // token) from the deploy environment automatically, so no explicit config is
 // needed here beyond the store name - same as getWriter()'s lazy singleton above.
-let docsStoreSingleton = null;
+// NOT a singleton: the Blobs client carries a short-lived token from the invocation
+// context, and a warm function instance that kept one across requests failed with
+// "Failed to decode token: Token expired" (seen 2026-09-11). A store handle is cheap.
+let docsStoreOverride = null;
 export function getDocsStore() {
-  if (!docsStoreSingleton) {
-    docsStoreSingleton = getStore({ name: "books-docs", consistency: "strong" });
-  }
-  return docsStoreSingleton;
+  if (docsStoreOverride) return docsStoreOverride;
+  return getStore({ name: "books-docs", consistency: "strong" });
 }
 
-/** Exposed so tests can reset the singleton between runs, like resetWriterForTests. */
-export function resetDocsStoreForTests() {
-  docsStoreSingleton = null;
+/** Tests inject a fake store here; pass null to clear. */
+export function resetDocsStoreForTests(fake = null) {
+  docsStoreOverride = fake;
 }
 
 /**
