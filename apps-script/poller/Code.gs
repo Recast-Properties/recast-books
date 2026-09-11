@@ -71,7 +71,7 @@ var CONFIG = {
   DEFAULT_DRY_QUERY: 'newer_than:30d',
   DIGEST_TO: 'paul@recast-properties.com',
   MAX_THREADS: 20,
-  MAX_ATTACH_BYTES: 6 * 1024 * 1024
+  MAX_ATTACH_BYTES: 3 * 1024 * 1024 // raw bytes; base64 grows ~33%, and the whole POST must stay under 6 MB
 };
 
 // ---- pollBooks: real ingestion, labels processed threads --------------------
@@ -251,15 +251,23 @@ function buildPayload_(message, dryRun) {
     if (!isPdf && !isImg) continue;
 
     var bytes = att.getBytes();
-    if (bytes.length > CONFIG.MAX_ATTACH_BYTES) {
-      // HEIC->JPEG conversion is NOT done here (phase2-spec.md section 6): the raw
-      // bytes go through and the ingest converts with jimp if it can, else holds -
-      // only the size cap is enforced at this layer.
-      notes.push('Skipped oversized attachment "' + att.getName() + '" (' + bytes.length + ' bytes, over 6 MB).');
-      continue;
-    }
     var mime = type || (isPdf ? 'application/pdf' : 'image/jpeg');
-    attachments.push({ name: att.getName(), mime: mime, base64: Utilities.base64Encode(bytes) });
+    var attName = att.getName();
+    if (bytes.length > CONFIG.MAX_ATTACH_BYTES) {
+      // Phone photos routinely exceed the cap (base64 must stay under Netlify's 6 MB
+      // request limit). Ask Drive for a ~2000px JPEG rendition of the image (Drive
+      // renders HEIC too) - the proven approach from the receipts poller. PDFs cannot
+      // be shrunk this way and are skipped with a note.
+      var shrunk = isImg ? shrinkImageViaDrive_(att) : null;
+      if (!shrunk) {
+        notes.push('Skipped oversized attachment "' + attName + '" (' + bytes.length + ' bytes, over the cap; shrink ' + (isImg ? 'failed' : 'not possible for PDFs') + ').');
+        continue;
+      }
+      bytes = shrunk;
+      mime = 'image/jpeg';
+      attName = attName.replace(/\.[^.]+$/, '') + '.jpg';
+    }
+    attachments.push({ name: attName, mime: mime, base64: Utilities.base64Encode(bytes) });
   }
 
   var body = (message.getPlainBody() || '').slice(0, 20000);
@@ -316,4 +324,39 @@ function yesterdayIso_() {
   var d = new Date();
   d.setDate(d.getDate() - 1);
   return Utilities.formatDate(d, 'America/Chicago', 'yyyy-MM-dd');
+}
+
+
+// Drive renders a resized JPEG of any image it stores (HEIC included). Upload a temp
+// copy, fetch the ~2000px rendition, trash the temp file. Returns bytes or null.
+function shrinkImageViaDrive_(att) {
+  var fileId = null;
+  try {
+    var file = DriveApp.createFile(att.copyBlob().setName('books-shrink-tmp'));
+    fileId = file.getId();
+    for (var attempt = 0; attempt < 6; attempt++) {
+      var metaRes = UrlFetchApp.fetch(
+        'https://www.googleapis.com/drive/v3/files/' + fileId + '?fields=thumbnailLink',
+        { headers: { Authorization: 'Bearer ' + ScriptApp.getOAuthToken() }, muteHttpExceptions: true });
+      if (metaRes.getResponseCode() === 200) {
+        var meta = JSON.parse(metaRes.getContentText());
+        if (meta.thumbnailLink) {
+          var url = meta.thumbnailLink.replace(/=s\d+(-[a-z]+)?$/, '=s2000');
+          var imgRes = UrlFetchApp.fetch(url, { muteHttpExceptions: true });
+          if (imgRes.getResponseCode() === 200) {
+            var out = imgRes.getContent();
+            if (out.length > 0 && out.length <= CONFIG.MAX_ATTACH_BYTES) return out;
+          }
+        }
+      }
+      Utilities.sleep(1500);
+    }
+    console.warn('Drive rendition never became available for "' + att.getName() + '"');
+    return null;
+  } catch (err) {
+    console.warn('shrinkImageViaDrive_ failed: ' + String(err));
+    return null;
+  } finally {
+    if (fileId) { try { DriveApp.getFileById(fileId).setTrashed(true); } catch (e2) {} }
+  }
 }
