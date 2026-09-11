@@ -347,6 +347,7 @@ export default async (req) => {
       ...current,
       status: "error",
       error: String((err && err.message) || err),
+      error_stack: String((err && err.stack) || "").split("\n").slice(0, 6).join("\n"),
       finishedAt: new Date().toISOString(),
     };
     try {
