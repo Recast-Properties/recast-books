@@ -222,3 +222,17 @@ system should have known what to do... this is all basic stuff."
 
 **Why:** the model's verdict must become the action, and a rail must never hold a
 document while ignoring a fact the system already has (`claude-judgment-not-scripts`).
+
+## D-013 · The books are cleared once, at migration — 2026-09-12 · Paul
+
+Everything posted before Phase 4 is test or parallel-run data in a workbook that is not
+yet the system of record. The append-only ledger rule protects real books; it does not
+apply to the trial period.
+
+**Decided:** the first step of Phase 4 is a one-time clear of the new workbook's Journal,
+Inbox and Documents records and the test files in Drive. Then history is migrated from
+the old workbook, and receipts processed since 2026-09-11 are replayed from their
+documents. After that the Journal is append-only for good; corrections are voids.
+
+**Why:** Paul: "not a button. just a step in the migration. when we decide to migrate we
+clear the books one time." No reset exists in the app, and none will be built.
