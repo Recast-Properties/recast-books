@@ -27,7 +27,7 @@ where the registry says `status = held`.
 | Code | Account | Notes |
 |---|---|---|
 | 1400 | Cash — one code per account | Each bank and card. Reconciliation needs something to reconcile *to*. |
-| 1500 | Earnest money & auction deposits | Released to 1000 at close, or to 6300 when a deal dies |
+| 1500 | Earnest money & auction deposits | Released to 1000 at close, or to 6350 when a deal dies |
 | 1510 | Escrow & holdbacks receivable | 1616 Granite's $60,000 — currently inside a net-profit figure and in no account |
 
 ## 2000 — Liabilities
@@ -45,7 +45,7 @@ where the registry says `status = held`.
 | 4000 | Property sale proceeds | $775,000 · $550,000 · $430,000 · $409,000 |
 | 4010 | Wholesale assignment fees | Assignments that never close in Recast's name |
 | 4020 | Escrow holdback released | Granite's $60,000 when it releases — not at closing |
-| 4030 | Other income | Refunds, rebates, credits |
+| 4030 | Other income | Rebates, credits. **Not refunds** — a refund reverses the expense it refunds (credit path, Phase 2 follow-up) |
 
 ## 5000 — Cost of goods sold · the release target
 
@@ -90,6 +90,7 @@ where the registry says `status = held`.
 | 6200 | Legal & professional | Attorney, title curative |
 | 6210 | Accounting & bookkeeping | Accountant's fee |
 | 6300 | Data & research | CoreLogic $600, Ellis County Clerk, LGS |
+| 6350 | Abandoned deal costs | Forfeited deposits, fees on deals that died — an ordinary loss for a dealer (added 2026-09-12) |
 | 6400 | Software & subscriptions | Anthropic, Adobe, Apify, PDF.co, Twilio, Telnyx |
 | 6410 | Website & hosting | Netlify $162 — merges the current Website/Subscriptions overlap |
 | 6500 | Office supplies & postage | Toner, boxes — $136.84 |
@@ -103,6 +104,7 @@ where the registry says `status = held`.
 | 6900 | Taxes & licenses | TX franchise tax, filing fees |
 | 6910 | Bank & merchant fees | Wire fees, card fees |
 | 6920 | Dues & education | MLS, association dues |
+| 6930 | Interest — other | Business card / loan interest not tied to a property; never Dennis's (added 2026-09-12) |
 | 7000 | Depreciable assets | Over the de minimis ceiling — feeds the asset schedule |
 
 ## 9000 — Equity · never an expense
@@ -111,9 +113,19 @@ where the registry says `status = held`.
 |---|---|---|
 | 9000 | Member contributions | Paul-paid / Dennis-paid costs, where not reimbursed |
 | 9010 | Member draws & distributions | The $176,141.44 drawn against Ashburne |
-| 9020 | Loans from members | Dennis Little advances — activity |
-| 9030 | Interest paid to members | Interest accrued on those advances |
+| ~~9020~~ | ~~Loans from members~~ | Retired by D-006: Dennis is a lender — principal is 2010, interest is 1200 |
+| ~~9030~~ | ~~Interest paid to members~~ | Retired by D-006/D-011 |
 
-> **Note on 9030:** the CPA lens flags that routing ~$52,000 of real interest through
+> **Note on 9030 (resolved 2026-09-11 by D-006):** the CPA lens flags that routing ~$52,000 of real interest through
 > equity quarantines a deductible expense. If Dennis is a lender (Q-2), interest is a
 > deduction, not an equity movement. Resolve with Q-2.
+
+## Tax-bucket review — 2026-09-12
+
+Reviewed against Schedule C for a dealer in a single-member LLC. Structure confirmed:
+inventory in the 1000s released to 5000 on settlement; meals, gifts and travel
+segregated; vehicle actual with `Trips`; de minimis tools at 6510. Added 6350 and 6930.
+Still for the accountant (`open-questions.md`): Q-1 tax home (47% of overhead), whether
+holding costs and interest are capitalized or deducted currently (small-business UNICAP
+exemption; a recompute, since tax treatment derives from account + settings), and the
+actual-expense method on a truck the LLC does not own (D-009).

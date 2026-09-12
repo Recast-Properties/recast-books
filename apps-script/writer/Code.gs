@@ -194,6 +194,7 @@ var ACCOUNTS_SEED = [
   ['6200', 'Legal & professional', '6000', 'expense', 'Overhead', 'Expense', true, ''],
   ['6210', 'Accounting & bookkeeping', '6000', 'expense', 'Overhead', 'Expense', true, ''],
   ['6300', 'Data & research', '6000', 'expense', 'Overhead', 'Expense', true, ''],
+  ['6350', 'Abandoned deal costs', '6000', 'expense', 'Overhead', 'Expense', true, ''],
   ['6400', 'Software & subscriptions', '6000', 'expense', 'Overhead', 'Expense', true, ''],
   ['6410', 'Website & hosting', '6000', 'expense', 'Overhead', 'Expense', true, ''],
   ['6500', 'Office supplies & postage', '6000', 'expense', 'Overhead', 'Expense', true, ''],
@@ -207,6 +208,7 @@ var ACCOUNTS_SEED = [
   ['6900', 'Taxes & licenses', '6000', 'expense', 'Overhead', 'Expense', true, ''],
   ['6910', 'Bank & merchant fees', '6000', 'expense', 'Overhead', 'Expense', true, ''],
   ['6920', 'Dues & education', '6000', 'expense', 'Overhead', 'Expense', true, ''],
+  ['6930', 'Interest - other', '6000', 'expense', 'Overhead', 'Expense', true, ''],
   ['7000', 'Depreciable assets', '7000', 'asset', '', 'Fixed asset', true, ''],
   ['9000', 'Owner contributions', '9000', 'equity', '', 'Owner equity', true, ''],
   ['9010', 'Owner draws & distributions', '9000', 'equity', '', 'Owner equity', true, '']

@@ -122,6 +122,9 @@ the amount or how tempting it is to lump it in with a nearby job.**
 - `6210` Accounting & bookkeeping - the accountant's fee, bookkeeping services.
 - `6300` Data & research - CoreLogic, county clerk records, skip-tracing, list
   services used across the business.
+- `6350` Abandoned deal costs - a forfeited earnest money deposit, inspection or title
+  fees on a deal that died before closing. Overhead: the property never entered the
+  registry, so there is nothing to capitalize to.
 - `6400` Software & subscriptions - Anthropic, Adobe, Apify, PDF.co, Twilio, Telnyx,
   and similar recurring software.
 - `6410` Website & hosting - Netlify and similar hosting/domain costs for the company
@@ -156,6 +159,8 @@ the amount or how tempting it is to lump it in with a nearby job.**
 - `6900` Taxes & licenses - franchise tax, filing fees, business licenses.
 - `6910` Bank & merchant fees - wire fees, card processing fees.
 - `6920` Dues & education - MLS dues, association dues, courses.
+- `6930` Interest - other - interest and finance charges on a business credit card or
+  a loan not tied to one property. Dennis's interest never goes here (1200, D-011).
 - `7000` Depreciable assets - an asset over the small-tools ceiling. Overhead only,
   same as the 6000s.
 

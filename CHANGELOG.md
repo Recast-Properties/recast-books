@@ -159,3 +159,14 @@ spec; Fable's review fixed the fresh-read fallback and made post-write refresh b
 effort. Paul also asked whether Sheets should stay the system of record; answer given
 (Sheets stays; a database swap, if ever, belongs at the Phase 4 clear). Plaid
 production keys have not arrived; Phase 3 spec waits.
+
+## 2026-09-12 — Chart of accounts tax-bucket review
+
+Paul asked whether the expense buckets are right for tax. Structure confirmed for a
+dealer on Schedule C. Added **6350 Abandoned deal costs** (forfeited deposits were
+pointed at Data & research) and **6930 Interest — other** (no home for non-property
+interest). 9020/9030 were already gone from the live chart; the doc now says so. Doc
+note that refunds reverse the expense rather than post to 4030. Three questions remain
+the accountant's: tax home, capitalize-vs-deduct holding costs, the truck. In
+`lib/coa.mjs`, the writer seed, the prompt and `docs/chart-of-accounts.md`; Paul adds
+the two rows to the live Accounts tab by hand.
