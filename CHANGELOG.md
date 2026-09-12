@@ -102,3 +102,24 @@ Paul created the Plaid account (Recast Properties LLC), selected Transactions on
 Pay As You Go plan, verified business (Paul sole beneficial owner), submitted the
 production request. Plaid quoted 2–3 days. Sandbox keys exist now; production keys go
 on the Netlify site as `PLAID_CLIENT_ID` / `PLAID_SECRET` when approved (Phase 3).
+
+## 2026-09-11 → 12 — Phase 2 built; gate in progress
+
+Receipts bookkeeper v2: `lib/bookkeeper.mjs` (Claude Opus 5, adaptive thinking, manual
+tool loop: zoom / read_ledger / find_vendor / list_properties / search_docs / web_search /
+decide), `lib/bookkeeper-prompt.md` (shipped as a generated module), `lib/gate.mjs`
+(deterministic autofile gate + invoice-number duplicate rail), `purchase` posting intent,
+functions `/api/upload`, `/api/ingest-bg`, `/api/inbox`, `/api/file`, `/api/summary`,
+writer v0.3.0 `storeDocument` (Drive filing under Recast Books/<year>/<property>),
+Gmail poller project "Recast Books Poller" (label `books-done`, 15-min poll from
+START_DATE, 3 AM digest, Drive-rendition shrink for big photos), Inbox + Upload pages.
+350 tests. Three Sonnet agents built from `docs/phase2-spec.md`; Fable reviewed.
+
+Gate so far: 25-document dry run over 30 days reviewed by Paul; live receipts posting
+(Anthropic credits, American Airlines flight) with correct paid_from after card digits
+were put on file. Bugs found and fixed during the gate: `__dirname` collision in the
+bundle; strict tool schemas reject min/max; full Drive scope needed for folders; Blobs
+client token expiry on warm instances; run-together string fields in `decide` output
+(repair rail + nullable optionals); series compared as number vs text; post with no
+entries bounced back to the model; payment instruments never shown to the model.
+Decision D-012 recorded. Remaining: phone-upload check, first digest confirmation.

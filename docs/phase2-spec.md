@@ -258,3 +258,26 @@ script created). Bump `WRITER_VERSION` to `0.3.0`; lint test updated.
 4. The morning digest arrives.
 5. The old receipts bookkeeper's behaviour is unchanged (its `receipts-done` labels and
    its sheet untouched — verified by reading its STATUS and a spot check of RECAST BIZ).
+
+## 11 · Gate progress — 2026-09-12
+
+- ✅ `npm test` green (350).
+- ✅ Dry run over 30 days: 25 documents. Would-post (gate PASS): Adobe $34.49 → 6400;
+  Anthropic $10.69 ×2 (original + forwarded twin) → 6400; Oregon Registered Agent $84.00 →
+  6200 + 6500. Correctly held: Lowe's, Shell, OpenAI (medium confidence), Home Depot refund,
+  Klarna screenshot, Rosa's Cafe meal. Correctly dismissed: Uber/Uber Eats promotions,
+  Southwest points statement, Uber Eats food orders. Paul reviewed the cards, dismissed
+  the points statement and approved the flight by hand, then set the policy in D-012.
+- ✅ Live receipts (2026-09-11 mail): Anthropic $10.34 and American Airlines $341.40 posted
+  with `paid_from = PAUL` (Visa 9166 on file) → 2030 Due to owner; the forwarded Anthropic
+  copy auto-dismissed as a duplicate by invoice number; Southwest statement auto-dismissed.
+  Journal shows the corrected re-posts with the earlier Chase-routed versions voided.
+- ⏳ One real receipt photographed and uploaded from the phone → Journal rows → Drive file.
+- ⏳ First 3 AM digest received.
+- ✅ Old receipts bookkeeper untouched: no file under `../Recast-site/` changed; the poller
+  labels only `books-done`.
+
+Known follow-ups (Phase 2 polish, not gate blockers): refunds/credits (negative totals)
+need a credit path; success banners persist across pages; `_shared.mjs` is deployed as a
+(harmless) function — move it under `netlify/lib/`; Home Depot's debit card 5450 now maps
+to 1401 so future property-store receipts route to Citizens.
