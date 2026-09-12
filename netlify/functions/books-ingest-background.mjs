@@ -26,6 +26,7 @@ import {
   getDocsStore,
   getPostingCtx,
   invalidateJournalCache,
+  readTab,
   pollerSecretOk,
   rowsToObjectsPublic,
   todayChicago,
@@ -179,7 +180,7 @@ function makeVendorsDep(vendorRows, journalLines) {
 function makePropertiesDep(writer) {
   return {
     async list() {
-      const resp = await writer.read("Properties");
+      const resp = await readTab(writer, "Properties");
       const rows = rowsToObjectsPublic(resp.headers, resp.rows);
       return rows
         .filter((r) => r.status === "held" || r.status === "under contract")
@@ -189,12 +190,12 @@ function makePropertiesDep(writer) {
 }
 
 async function loadVendorRows(writer) {
-  const resp = await writer.read("Vendors");
+  const resp = await readTab(writer, "Vendors");
   return rowsToObjectsPublic(resp.headers, resp.rows);
 }
 
 async function loadSettingsMap(writer) {
-  const resp = await writer.read("Settings");
+  const resp = await readTab(writer, "Settings");
   const rows = rowsToObjectsPublic(resp.headers, resp.rows);
   const map = {};
   for (const r of rows) map[r.key] = r.value;
@@ -290,9 +291,11 @@ export default async (req) => {
   try {
     const attachmentsForModel = await loadAttachmentBytes(docsStore, envelope);
 
+    // fresh: true - the model must see what is posted, not a minute-old view
+    // (phase2.5-spec.md section 2).
     const [ctx, journalResp, vendorRows, settings] = await Promise.all([
       getPostingCtx(writer),
-      writer.read("Journal", { since: isoDaysAgo(LEDGER_WINDOW_DAYS), limit: 20000 }),
+      readTab(writer, "Journal", { fresh: true, since: isoDaysAgo(LEDGER_WINDOW_DAYS), limit: 20000, timeoutMs: 120000 }),
       loadVendorRows(writer),
       loadSettingsMap(writer),
     ]);
@@ -317,7 +320,7 @@ export default async (req) => {
     // {model, transcript_summary, usage}.
     // What the model needs to route paid_from: the bank accounts' card digits, Paul's
     // personal card(s), and the defaults. Read fresh each run (Settings/Bank accounts).
-    const bankResp = await writer.read("Bank accounts");
+    const bankResp = await readTab(writer, "Bank accounts");
     const bankRows = rowsToObjectsPublic(bankResp.headers, bankResp.rows).filter((b) => String(b.active).toLowerCase() !== "false");
     const context = {
       payment_instruments: bankRows.map((b) => ({ code: String(b.code), name: String(b.name || ""), last4: String(b.last4 || "") })),
@@ -351,7 +354,7 @@ export default async (req) => {
       docsStore,
       // Fresh ledger read (no cache) so a copy processed in parallel is caught.
       recheckDuplicate: async (m) => {
-        const fresh = await writer.read("Journal", { since: isoDaysAgo(LEDGER_WINDOW_DAYS), limit: 20000 });
+        const fresh = await readTab(writer, "Journal", { fresh: true, since: isoDaysAgo(LEDGER_WINDOW_DAYS), limit: 20000, timeoutMs: 120000 });
         return findDuplicate(m, buildPostedEntries(flattenJournalLines(fresh.headers, fresh.rows)));
       },
     });
@@ -477,7 +480,7 @@ export async function processDecision({
       });
 
       const postResult = await writer.postBatch(entries);
-      invalidateJournalCache();
+      await invalidateJournalCache(writer); // covers the void above too - one Journal refresh
 
       return save({
         status: "posted",

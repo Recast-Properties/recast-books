@@ -46,6 +46,10 @@ function writerRouter(body) {
         return { ok: true, headers: ["name", "address", "status", "purchase_date", "purchase_price", "settlement_date", "template", "dennis_funded", "drive_folder", "notes"], rows: PROPERTIES_ROWS };
       case "Periods":
         return { ok: true, headers: ["period", "status", "closed_at", "snapshot_url", "notes"], rows: PERIODS_ROWS };
+      case "Journal":
+        // A successful postBatch refreshes the Journal books-cache snapshot
+        // (phase2.5-spec.md section 2: "post/postBatch/void -> Journal").
+        return { ok: true, headers: ["txn_id", "date"], rows: [] };
       default:
         throw new Error(`unexpected read: ${body.tab}`);
     }

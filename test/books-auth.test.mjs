@@ -15,7 +15,8 @@ process.env.SESSION_SECRET = "session-secret";
 process.env.GOOGLE_CLIENT_ID = "test-client-id.apps.googleusercontent.com";
 
 const { default: handler } = await import("../netlify/functions/books-auth.mjs");
-const { resetWriterForTests } = await import("../netlify/functions/_shared.mjs");
+const { resetWriterForTests, resetCacheStoreForTests } = await import("../netlify/functions/_shared.mjs");
+const { makeFakeCacheStore } = await import("./helpers/fake-cache-store.mjs");
 
 const KID = "test-key-1";
 
@@ -71,6 +72,7 @@ function mockFetch() {
 }
 
 resetWriterForTests();
+resetCacheStoreForTests(makeFakeCacheStore());
 globalThis.fetch = mockFetch();
 
 test("a user with role \"removed\" is refused 403 NOT_ALLOWED, same as an unlisted email", async () => {

@@ -13,7 +13,8 @@
 import { test, beforeEach } from "node:test";
 import assert from "node:assert/strict";
 import { issueSession } from "../lib/auth.mjs";
-import { resetWriterForTests, invalidateCtxCache } from "../netlify/functions/_shared.mjs";
+import { resetWriterForTests, resetCacheStoreForTests } from "../netlify/functions/_shared.mjs";
+import { makeFakeCacheStore } from "./helpers/fake-cache-store.mjs";
 
 process.env.WRITER_URL = "https://writer.test/exec";
 process.env.WRITER_SECRET = "writer-secret";
@@ -26,7 +27,7 @@ let router = null; // (body) -> response object body, set per test
 
 beforeEach(() => {
   resetWriterForTests();
-  invalidateCtxCache();
+  resetCacheStoreForTests(makeFakeCacheStore()); // fresh books-cache snapshot per test
   router = null;
   globalThis.fetch = async (_url, options) => {
     const body = JSON.parse(options.body);
@@ -140,7 +141,13 @@ test("Users upsert with no role change (e.g. renaming) skips the last-owner chec
     if (body.action === "upsert" && body.tab === "Users") {
       return { ok: true, tab: "Users", created: false, ignored: [] };
     }
-    throw new Error(`unexpected call: ${JSON.stringify(body)} (should not need to read Users)`);
+    // No last-owner check needed here (no role change), but every upsert refreshes
+    // its own tab's books-cache snapshot (phase2.5-spec.md section 2) - so a "read"
+    // for Users right after the upsert is expected, not a bug.
+    if (body.action === "read" && body.tab === "Users") {
+      return { ok: true, headers: ["email", "role", "name", "added_at"], rows: [] };
+    }
+    throw new Error(`unexpected call: ${JSON.stringify(body)}`);
   };
   const res = await handler(
     req("POST", {
@@ -162,6 +169,11 @@ test("Bank accounts upsert also upserts the matching Accounts row", async () => 
     if (body.action === "upsert") {
       upserts.push(body);
       return { ok: true, tab: body.tab, created: true, ignored: [] };
+    }
+    // Both upserts refresh their own tab's books-cache snapshot afterward
+    // (phase2.5-spec.md section 2: "upsert(tab) -> that tab").
+    if (body.action === "read" && (body.tab === "Bank accounts" || body.tab === "Accounts")) {
+      return { ok: true, headers: ["code"], rows: [] };
     }
     throw new Error(`unexpected call: ${JSON.stringify(body)}`);
   };

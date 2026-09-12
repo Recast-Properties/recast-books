@@ -99,26 +99,134 @@ export function todayChicago() {
   return fmt.format(new Date()); // en-CA formats as YYYY-MM-DD
 }
 
-// ctx for the posting engine, built from Accounts/Properties/Periods reads and cached
-// 60s in module scope — spec §9.
-const CTX_TTL_MS = 60 * 1000;
-let ctxCache = null; // { ctx, fetchedAt }
+// ---- phase 2.5: read cache (docs/phase2.5-spec.md) ---------------------------
+// Netlify Blobs store "books-cache" (strong consistency), key "tab/<tab name>",
+// value {fetchedAt, headers, rows} — the whole tab. since/limit/all (Journal only)
+// are applied after the read so one snapshot serves every shape of read.
+let cacheStoreOverride = null;
+export function getCacheStore() {
+  if (cacheStoreOverride) return cacheStoreOverride;
+  return getStore({ name: "books-cache", consistency: "strong" });
+}
+
+/** Tests inject a fake store here; pass null to clear. */
+export function resetCacheStoreForTests(fake = null) {
+  cacheStoreOverride = fake;
+}
+
+const WRITER_READ_TIMEOUT_MS = 8000;
+const JOURNAL_TTL_MS = 60 * 1000;
+const DEFAULT_TAB_TTL_MS = 10 * 60 * 1000;
+
+function tabTtlMs(tab) {
+  return tab === "Journal" ? JOURNAL_TTL_MS : DEFAULT_TAB_TTL_MS;
+}
+
+/** Races a promise against an 8s timer so a cold Apps Script call can't hang a function past its own budget. */
+function withTimeout(promise, ms, message) {
+  return new Promise((resolve, reject) => {
+    const timer = setTimeout(() => reject(new Error(message)), ms);
+    promise.then(
+      (v) => { clearTimeout(timer); resolve(v); },
+      (err) => { clearTimeout(timer); reject(err); },
+    );
+  });
+}
+
+/** Whole-tab writer read. Journal needs {all:true} to bypass the writer's own
+ * 200-row default; every other tab already returns everything with no options. */
+function fetchTabFromWriter(writer, tab, timeoutMs = WRITER_READ_TIMEOUT_MS) {
+  const opts = tab === "Journal" ? { all: true } : undefined;
+  return withTimeout(writer.read(tab, opts), timeoutMs, `readTab: writer read of ${tab} timed out`);
+}
+
+/** since/limit/all applied identically to the writer's own action_read_ filtering
+ * (apps-script/writer/Code.gs): since filters by date >= since, then (unless all)
+ * slice to the last `limit` (default 200, max 20000) rows. Only Journal is filtered. */
+function applyReadOpts(tab, headers, rows, { since, limit, all } = {}) {
+  if (tab !== "Journal") return rows;
+  let out = rows;
+  if (since) {
+    const dateIdx = headers.indexOf("date");
+    out = out.filter((row) => String(row[dateIdx]) >= since);
+  }
+  if (!all) {
+    const lim = Math.max(1, Math.min(Number(limit) || 200, 20000));
+    if (out.length > lim) out = out.slice(out.length - lim);
+  }
+  return out;
+}
+
+/** Re-reads a tab from the writer and stores it as the new snapshot. Exported so a
+ * write handler can refresh exactly the tab it just wrote. */
+export async function refreshTab(writer, tab, { timeoutMs } = {}) {
+  const resp = await fetchTabFromWriter(writer, tab, timeoutMs);
+  const snapshot = { fetchedAt: Date.now(), headers: resp.headers, rows: resp.rows };
+  await getCacheStore().setJSON(`tab/${tab}`, snapshot);
+  return { headers: snapshot.headers, rows: snapshot.rows };
+}
+
+/**
+ * The refresh a write handler calls after the write succeeded. Best effort: the
+ * write is already in the workbook, so a slow writer here must not turn a successful
+ * post into an error response (or, in the ingest, an "error" envelope that a reprocess
+ * would post again). On failure the snapshot is dropped so the next read misses.
+ */
+export async function refreshTabAfterWrite(writer, tab) {
+  try {
+    await refreshTab(writer, tab);
+  } catch {
+    try { await getCacheStore().delete(`tab/${tab}`); } catch { /* nothing left to do */ }
+  }
+}
+
+/**
+ * Read a tab from the books-cache snapshot, refreshing from the writer on a miss,
+ * an expired TTL, or {fresh:true}. Stale beats dead: if the writer read aborts
+ * (8s) or throws, an existing snapshot (any age) is returned with `stale: true`
+ * instead of failing the request; only with no snapshot at all does it rethrow.
+ */
+export async function readTab(writer, tab, { fresh = false, since, limit, all, timeoutMs } = {}) {
+  const store = getCacheStore();
+  const key = `tab/${tab}`;
+  const cached = fresh ? null : await store.get(key, { type: "json" });
+
+  if (cached && Date.now() - cached.fetchedAt < tabTtlMs(tab)) {
+    return { headers: cached.headers, rows: applyReadOpts(tab, cached.headers, cached.rows, { since, limit, all }) };
+  }
+
+  try {
+    const resp = await refreshTab(writer, tab, { timeoutMs });
+    return { headers: resp.headers, rows: applyReadOpts(tab, resp.headers, resp.rows, { since, limit, all }) };
+  } catch (err) {
+    // A caller that asked for fresh asked because the answer must be current (the
+    // D-012 duplicate re-check before a post). Stale would defeat it - fail instead.
+    if (fresh) throw err;
+    const fallback = cached || (await store.get(key, { type: "json" }));
+    if (fallback) {
+      return {
+        headers: fallback.headers,
+        rows: applyReadOpts(tab, fallback.headers, fallback.rows, { since, limit, all }),
+        stale: true,
+      };
+    }
+    throw err;
+  }
+}
 
 function isActive(value) {
   const s = String(value ?? "").trim().toLowerCase();
   return s !== "false" && s !== "0" && s !== "no";
 }
 
+// ctx for the posting engine, built from Accounts/Properties/Periods — spec §9.
+// Thin wrapper over readTab; each of the three tabs has its own books-cache snapshot
+// and TTL, so this itself holds no state.
 export async function getPostingCtx(writer, { fresh = false } = {}) {
-  const now = Date.now();
-  if (!fresh && ctxCache && now - ctxCache.fetchedAt < CTX_TTL_MS) {
-    return ctxCache.ctx;
-  }
-
   const [accountsResp, propertiesResp, periodsResp] = await Promise.all([
-    writer.read("Accounts"),
-    writer.read("Properties"),
-    writer.read("Periods"),
+    readTab(writer, "Accounts", { fresh }),
+    readTab(writer, "Properties", { fresh }),
+    readTab(writer, "Periods", { fresh }),
   ]);
 
   const accountRows = rowsToObjects(accountsResp.headers, accountsResp.rows);
@@ -132,57 +240,41 @@ export async function getPostingCtx(writer, { fresh = false } = {}) {
   const periodRows = rowsToObjects(periodsResp.headers, periodsResp.rows);
   const periods = new Map(periodRows.map((r) => [r.period, r.status]));
 
-  const ctx = { accounts, properties, periods, today: todayChicago() };
-  ctxCache = { ctx, fetchedAt: now };
-  return ctx;
+  return { accounts, properties, periods, today: todayChicago() };
 }
 
-/** Call after any write that could change Accounts/Properties/Periods. */
-export function invalidateCtxCache() {
-  ctxCache = null;
+/**
+ * Call after a write to Accounts, Properties or Periods (whichever one was just
+ * written — post/postBatch/void never touch these, so they don't call this).
+ * Refreshes that tab's books-cache snapshot via the writer so the next
+ * getPostingCtx sees it immediately instead of waiting out the TTL.
+ */
+export async function invalidateCtxCache(writer, tab) {
+  if (writer && tab) await refreshTabAfterWrite(writer, tab);
 }
 
-// Users lookup for books-auth, cached 5 min in module scope — spec §5.
-const USERS_TTL_MS = 5 * 60 * 1000;
-let usersCache = null; // { byEmail, fetchedAt }
-
+// Users lookup for books-auth — spec §5. Thin wrapper over readTab.
 export async function getUsersByEmail(writer, { fresh = false } = {}) {
-  const now = Date.now();
-  if (!fresh && usersCache && now - usersCache.fetchedAt < USERS_TTL_MS) {
-    return usersCache.byEmail;
-  }
-  const resp = await writer.read("Users");
+  const resp = await readTab(writer, "Users", { fresh });
   const rows = rowsToObjects(resp.headers, resp.rows);
-  const byEmail = new Map(rows.map((r) => [String(r.email).trim().toLowerCase(), r]));
-  usersCache = { byEmail, fetchedAt: now };
-  return byEmail;
+  return new Map(rows.map((r) => [String(r.email).trim().toLowerCase(), r]));
 }
 
 export function rowsToObjectsPublic(headers, rows) {
   return rowsToObjects(headers, rows);
 }
 
-// Journal (all rows) cache for the reports pages and the Dennis ledger - spec section
-// 4: "Reads Journal with all:true, cached 30 s in module scope, invalidated by any
-// post (export invalidateJournalCache() from _shared.mjs; call it from ledger/dennis
-// posts)."
-const JOURNAL_TTL_MS = 30 * 1000;
-let journalCache = null; // { data: {headers, rows}, fetchedAt }
-
+// Journal (all rows) for the reports pages and the Dennis ledger — spec section 4.
+// Thin wrapper over readTab.
 export async function getJournalAll(writer, { fresh = false } = {}) {
-  const now = Date.now();
-  if (!fresh && journalCache && now - journalCache.fetchedAt < JOURNAL_TTL_MS) {
-    return journalCache.data;
-  }
-  const resp = await writer.read("Journal", { all: true });
-  const data = { headers: resp.headers, rows: resp.rows };
-  journalCache = { data, fetchedAt: now };
-  return data;
+  const resp = await readTab(writer, "Journal", { fresh, all: true });
+  return { headers: resp.headers, rows: resp.rows };
 }
 
-/** Call after any post/void (books-ledger, books-dennis) - the journal just changed. */
-export function invalidateJournalCache() {
-  journalCache = null;
+/** Call after any post/void/postBatch (books-ledger, books-dennis, books-inbox,
+ * books-ingest-background) - refreshes the Journal books-cache snapshot via the writer. */
+export async function invalidateJournalCache(writer) {
+  if (writer) await refreshTabAfterWrite(writer, "Journal");
 }
 
 // ---- phase 2 additions -------------------------------------------------------

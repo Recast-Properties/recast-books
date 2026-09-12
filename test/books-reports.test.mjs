@@ -7,16 +7,17 @@
 import { test, beforeEach } from "node:test";
 import assert from "node:assert/strict";
 import { issueSession } from "../lib/auth.mjs";
+import { makeFakeCacheStore } from "./helpers/fake-cache-store.mjs";
 
 process.env.WRITER_URL = "https://writer.test/exec";
 process.env.WRITER_SECRET = "writer-secret";
 process.env.SESSION_SECRET = "session-secret";
 process.env.GOOGLE_CLIENT_ID = "client-id";
 
-let handler, resetWriterForTests, invalidateJournalCache, importError;
+let handler, resetWriterForTests, resetCacheStoreForTests, importError;
 try {
   ({ default: handler } = await import("../netlify/functions/books-reports.mjs"));
-  ({ resetWriterForTests, invalidateJournalCache } = await import("../netlify/functions/_shared.mjs"));
+  ({ resetWriterForTests, resetCacheStoreForTests } = await import("../netlify/functions/_shared.mjs"));
 } catch (err) {
   importError = err;
 }
@@ -66,7 +67,7 @@ function router(body) {
 beforeEach(() => {
   if (importError) return;
   resetWriterForTests();
-  invalidateJournalCache();
+  resetCacheStoreForTests(makeFakeCacheStore()); // fresh books-cache snapshot per test
   globalThis.fetch = async (_url, options) => {
     const body = JSON.parse(options.body);
     return { status: 200, text: async () => JSON.stringify(router(body)) };

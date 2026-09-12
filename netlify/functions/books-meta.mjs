@@ -11,6 +11,8 @@ import {
   requireRole,
   authErrorResponse,
   invalidateCtxCache,
+  readTab,
+  refreshTabAfterWrite,
   rowsToObjectsPublic,
   WriterError,
 } from "./_shared.mjs";
@@ -39,6 +41,8 @@ function writerErrorResponse(err) {
   return json(502, { error: "WRITER_ERROR", message: String((err && err.message) || err) });
 }
 
+let spreadsheetUrlMemo;
+
 export default async (req) => {
   const configErr = requireConfig(["WRITER_URL", "WRITER_SECRET", "SESSION_SECRET"]);
   if (configErr) return configErr;
@@ -63,16 +67,30 @@ export default async (req) => {
         message: `tab must be one of: ${[...READABLE_TABS].join(", ")}`,
       });
     }
+    // ?fresh=1 (phase2.5-spec.md section 2): forces a re-read past the books-cache
+    // TTL, for the Settings/Users pages after Paul edits the sheet by hand. Owner-only.
+    const wantsFresh = url.searchParams.get("fresh") === "1";
+    if (wantsFresh) {
+      try {
+        requireRole(session, ["owner"]);
+      } catch (err) {
+        const resp = authErrorResponse(err);
+        if (resp) return resp;
+        throw err;
+      }
+    }
     try {
-      const resp = await writer.read(tab);
+      const resp = await readTab(writer, tab, { fresh: wantsFresh });
       const rows = resp.rows.slice();
       // The workbook link is not a stored setting; the writer knows it (ping) and the
       // dashboard reads it from Settings, so surface it there as a derived row.
       if (tab === "Settings" && !rows.some((r) => r[0] === "spreadsheet_url")) {
-        const ping = await writer.ping();
-        if (ping.spreadsheet_url) rows.push(["spreadsheet_url", ping.spreadsheet_url, "from writer ping"]);
+        // Memoized per instance: the workbook url never changes and ping is a full
+        // Apps Script round trip (phase 2.5 - no writer call on a warm Settings read).
+        if (spreadsheetUrlMemo === undefined) spreadsheetUrlMemo = (await writer.ping()).spreadsheet_url || "";
+        if (spreadsheetUrlMemo) rows.push(["spreadsheet_url", spreadsheetUrlMemo, "from writer ping"]);
       }
-      return json(200, { headers: resp.headers, rows });
+      return json(200, { headers: resp.headers, rows, ...(resp.stale ? { stale: true } : {}) });
     } catch (err) {
       return writerErrorResponse(err);
     }
@@ -102,7 +120,7 @@ export default async (req) => {
       }
       try {
         const result = await writer.setPeriod(period, status);
-        invalidateCtxCache(); // periods feed the posting-engine ctx
+        await invalidateCtxCache(writer, "Periods"); // periods feed the posting-engine ctx
         return json(200, result);
       } catch (err) {
         return writerErrorResponse(err);
@@ -127,7 +145,7 @@ export default async (req) => {
         if (row.role !== undefined && row.role !== "owner") {
           let users;
           try {
-            const usersResp = await writer.read("Users");
+            const usersResp = await readTab(writer, "Users");
             users = rowsToObjectsPublic(usersResp.headers, usersResp.rows);
           } catch (err) {
             return writerErrorResponse(err);
@@ -155,7 +173,8 @@ export default async (req) => {
             active: true,
           };
           await writer.upsert("Accounts", "code", accountsRow);
-          invalidateCtxCache();
+          await refreshTabAfterWrite(writer, "Bank accounts");
+          await invalidateCtxCache(writer, "Accounts");
           return json(200, bankResult);
         } catch (err) {
           return writerErrorResponse(err);
@@ -164,7 +183,11 @@ export default async (req) => {
 
       try {
         const result = await writer.upsert(tab, key_column, row);
-        if (tab === "Properties" || tab === "Accounts") invalidateCtxCache();
+        if (tab === "Properties" || tab === "Accounts") {
+          await invalidateCtxCache(writer, tab);
+        } else {
+          await refreshTabAfterWrite(writer, tab);
+        }
         return json(200, result);
       } catch (err) {
         return writerErrorResponse(err);

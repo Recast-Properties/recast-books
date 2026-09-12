@@ -20,10 +20,12 @@ process.env.WRITER_SECRET = "writer-secret";
 process.env.SESSION_SECRET = "session-secret";
 process.env.GOOGLE_CLIENT_ID = "client-id";
 
-let handler, resetWriterForTests, invalidateCtxCache, invalidateJournalCache, importError;
+import { makeFakeCacheStore } from "./helpers/fake-cache-store.mjs";
+
+let handler, resetWriterForTests, resetCacheStoreForTests, importError;
 try {
   ({ default: handler } = await import("../netlify/functions/books-dennis.mjs"));
-  ({ resetWriterForTests, invalidateCtxCache, invalidateJournalCache } = await import("../netlify/functions/_shared.mjs"));
+  ({ resetWriterForTests, resetCacheStoreForTests } = await import("../netlify/functions/_shared.mjs"));
 } catch (err) {
   importError = err;
 }
@@ -92,8 +94,7 @@ let router;
 beforeEach(() => {
   if (importError) return;
   resetWriterForTests();
-  invalidateCtxCache();
-  invalidateJournalCache();
+  resetCacheStoreForTests(makeFakeCacheStore()); // fresh books-cache snapshot per test
   router = baseRouter();
   globalThis.fetch = async (_url, options) => {
     const body = JSON.parse(options.body);
@@ -185,6 +186,10 @@ test("previewInterest skips an advance already accrued through this period", { s
     }),
   );
   assert.equal(res.status, 200);
+  // Advances is now cached (books-cache, 10 min TTL) - swapping the router alone
+  // would still serve the first call's snapshot. A fresh store simulates a real
+  // re-read for this second, differently-accrued fixture.
+  resetCacheStoreForTests(makeFakeCacheStore());
   router = baseRouter({ advances: [["adv-1", "2026-06-29", "207000", "881 Newport", "x", "open", "2026-08", "", ""]] });
   const res2 = await handler(
     req("POST", { token: session("owner"), body: { action: "previewInterest", period: "2026-08" } }),

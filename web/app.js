@@ -2057,8 +2057,24 @@ const settingsState = { settings: [], users: [] };
 
 async function renderSettings() {
   const el = $("page-settings");
-  el.innerHTML = `<h1 class="page-title">Settings</h1><div id="settings-banner"></div><div id="settings-tables">Loading…</div>`;
+  const refreshLink = isOwner()
+    ? ` <a href="#" id="settings-refresh-link" style="font-size:13px;font-weight:normal;">Refresh from sheet</a>`
+    : "";
+  el.innerHTML = `<h1 class="page-title">Settings${refreshLink}</h1><div id="settings-banner"></div><div id="settings-tables">Loading…</div>`;
   renderSettingsBanner();
+  const link = $("settings-refresh-link");
+  if (link) {
+    link.onclick = async (e) => {
+      e.preventDefault();
+      link.textContent = "Refreshing…";
+      try {
+        await Promise.all([api("meta?tab=Settings&fresh=1"), api("meta?tab=Users&fresh=1")]); // bypasses the books-cache TTL (phase2.5-spec.md section 2)
+        await renderSettings();
+      } catch (err) {
+        renderSettingsBanner({ kind: "error", html: errorBannerHtml(err) });
+      }
+    };
+  }
   try {
     const [settingsResp, usersResp] = await Promise.all([api("meta?tab=Settings"), api("meta?tab=Users")]);
     settingsState.settings = rowsToObjects(settingsResp.headers, settingsResp.rows);

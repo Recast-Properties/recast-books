@@ -179,7 +179,7 @@ export default async (req) => {
       let postResult;
       try {
         postResult = await writer.postBatch(entries);
-        invalidateJournalCache();
+        await invalidateJournalCache(writer);
       } catch (err) {
         return writerErrorResponse(err);
       }

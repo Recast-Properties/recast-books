@@ -297,6 +297,9 @@ test('verdict "post" + gate passed: files to Drive under [year, property] BEFORE
       assert.ok(entries.every((e) => e.doc_url === "https://drive/receipt.jpg"));
       return { rows: [10, 11] };
     },
+    // A successful post refreshes the Journal books-cache snapshot (phase2.5-spec.md
+    // section 2: "post/postBatch/void -> Journal") via the writer.
+    read: async (tab) => ({ ok: true, headers: ["txn_id"], rows: [] }),
   };
 
   const result = await processDecision({
@@ -339,6 +342,9 @@ test("a supersede voids the old entry before posting the new one", { skip }, asy
       calls.push({ op: "postBatch" });
       return { rows: [1, 2] };
     },
+    // A successful post refreshes the Journal books-cache snapshot (phase2.5-spec.md
+    // section 2: "post/postBatch/void -> Journal") via the writer.
+    read: async (tab) => ({ ok: true, headers: ["txn_id"], rows: [] }),
   };
 
   await processDecision({

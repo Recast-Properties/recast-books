@@ -10,6 +10,7 @@ import {
   json,
   getWriter,
   getJournalAll,
+  readTab,
   getSessionPayload,
   authErrorResponse,
   rowsToObjectsPublic,
@@ -46,7 +47,7 @@ function badDate(name, value) {
 
 /** Advances tab -> lib/accrual.mjs's `advance` shape, same conversion as books-dennis.mjs. */
 async function loadAdvances(writer) {
-  const resp = await writer.read("Advances");
+  const resp = await readTab(writer, "Advances");
   const rows = rowsToObjectsPublic(resp.headers, resp.rows);
   return rows.map((r) => ({
     advance_id: r.advance_id,
@@ -62,7 +63,7 @@ async function loadAdvances(writer) {
 }
 
 async function getAccrualOpts(writer) {
-  const resp = await writer.read("Settings");
+  const resp = await readTab(writer, "Settings");
   const rows = rowsToObjectsPublic(resp.headers, resp.rows);
   const byKey = new Map(rows.map((r) => [r.key, r.value]));
   const rateAnnual = Number(byKey.get("interest_rate_annual"));

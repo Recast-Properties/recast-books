@@ -8,8 +8,8 @@ import {
   json,
   getWriter,
   getPostingCtx,
-  invalidateCtxCache,
   invalidateJournalCache,
+  readTab,
   getSessionPayload,
   requireRole,
   authErrorResponse,
@@ -95,7 +95,7 @@ export default async (req) => {
     const limit = Number.isFinite(limitParam) && limitParam > 0 ? limitParam : 200;
 
     try {
-      const resp = await writer.read("Journal", { limit });
+      const resp = await readTab(writer, "Journal", { limit });
       return json(200, { entries: groupJournalRows(resp.headers, resp.rows) });
     } catch (err) {
       return writerErrorResponse(err);
@@ -131,8 +131,7 @@ export default async (req) => {
         // object to hand back, so the ledger route's {entry} is a summary of what
         // the void actually wrote, not a full journal entry.
         const result = await writer.void(txn_id, reason, todayChicago(), session.email);
-        invalidateCtxCache();
-        invalidateJournalCache();
+        await invalidateJournalCache(writer);
         return json(200, { entry: { txn_id: result.txn_id, void_of: txn_id, reason, rows: result.rows } });
       } catch (err) {
         return writerErrorResponse(err);
@@ -165,8 +164,7 @@ export default async (req) => {
 
     try {
       const result = await writer.post(entry);
-      invalidateCtxCache();
-      invalidateJournalCache();
+      await invalidateJournalCache(writer);
       return json(200, { entry, rows: result.rows });
     } catch (err) {
       return writerErrorResponse(err);

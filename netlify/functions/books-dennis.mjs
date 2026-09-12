@@ -14,9 +14,10 @@ import {
   json,
   getWriter,
   getPostingCtx,
-  invalidateCtxCache,
   getJournalAll,
   invalidateJournalCache,
+  readTab,
+  refreshTabAfterWrite,
   getSessionPayload,
   requireRole,
   authErrorResponse,
@@ -49,7 +50,7 @@ function postingErrorResponse(err) {
 
 /** Advances tab rows -> accrual.mjs's `advance` shape (amount converted dollars -> cents). */
 async function loadAdvances(writer) {
-  const resp = await writer.read("Advances");
+  const resp = await readTab(writer, "Advances");
   const rows = rowsToObjectsPublic(resp.headers, resp.rows);
   return rows.map((r) => ({
     advance_id: r.advance_id,
@@ -66,7 +67,7 @@ async function loadAdvances(writer) {
 
 /** Settings interest_rate_annual / stub_days_basis, falling back to 0.09 / 30 (spec). */
 async function getAccrualOpts(writer) {
-  const resp = await writer.read("Settings");
+  const resp = await readTab(writer, "Settings");
   const rows = rowsToObjectsPublic(resp.headers, resp.rows);
   const byKey = new Map(rows.map((r) => [r.key, r.value]));
   const rateAnnual = Number(byKey.get("interest_rate_annual"));
@@ -212,8 +213,7 @@ export default async (req) => {
       let postResult;
       try {
         postResult = await writer.post(entry);
-        invalidateCtxCache();
-        invalidateJournalCache();
+        await invalidateJournalCache(writer);
       } catch (err) {
         return writerErrorResponse(err);
       }
@@ -230,6 +230,7 @@ export default async (req) => {
       };
       try {
         await writer.upsert("Advances", "advance_id", advanceRow);
+        await refreshTabAfterWrite(writer, "Advances");
       } catch (err) {
         return writerErrorResponse(err);
       }
@@ -315,7 +316,7 @@ export default async (req) => {
       let batchResult;
       try {
         batchResult = await writer.postBatch(toPost.map((t) => t.entry));
-        invalidateJournalCache();
+        await invalidateJournalCache(writer);
       } catch (err) {
         return writerErrorResponse(err);
       }
@@ -329,6 +330,7 @@ export default async (req) => {
           return writerErrorResponse(err);
         }
       }
+      await refreshTabAfterWrite(writer, "Advances");
 
       return json(200, { period, posted: batchResult.posted, rows: batchResult.rows });
     }
