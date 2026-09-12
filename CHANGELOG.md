@@ -145,3 +145,17 @@ approve (an untouched placeholder is refused by the posting engine). Settings
 `default_paid_from_*` are no longer read. Filed documents are named
 `<date> <vendor> <total>.<ext>` from the verdict instead of the phone's `image.jpg`.
 352 tests. The FedEx entry itself stays on 1402 by Paul's choice; it goes with the D-013 clear.
+
+## 2026-09-12 — Phase 2.5: read cache (Plaid keys still pending)
+
+Paul asked why the site is sluggish. Measured: every workbook read is an Apps Script
+round trip, 2–13 s; everything inside Netlify is under a second. Built `readTab` in
+`_shared.mjs`: whole-tab snapshots in Netlify Blobs `books-cache` (Journal 60 s TTL,
+others 10 min), refreshed by every write handler for the tab it wrote, `fresh: true`
+for the model's ledger view and the D-012 duplicate re-check, stale-beats-dead for
+everything else under an 8 s timeout. Warm reads now 0.2–0.25 s. Settings page gained
+"Refresh from sheet". Spec and gate: `docs/phase2.5-spec.md`. Sonnet built from the
+spec; Fable's review fixed the fresh-read fallback and made post-write refresh best
+effort. Paul also asked whether Sheets should stay the system of record; answer given
+(Sheets stays; a database swap, if ever, belongs at the Phase 4 clear). Plaid
+production keys have not arrived; Phase 3 spec waits.

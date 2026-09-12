@@ -68,3 +68,23 @@ From Paul's browser, warm: Journal, Dashboard, Inbox, Reports each render in und
 (measured as the slowest API call on the page). A post from the Journal page appears in
 the list on the next load without waiting. A cold writer call (first call after
 minutes idle) no longer produces `BAD_RESPONSE` or the sign-in card. `npm test` green.
+
+## 5 · Gate result — 2026-09-12
+
+Measured from Paul's browser after deploy, same eight calls cold then warm:
+
+| Call | Cold (first fill) | Warm |
+|---|---|---|
+| Settings | 4.5 s | 0.22 s |
+| Accounts / Properties / Bank accounts | 1.5–2.4 s | 0.20 s |
+| Ledger (200 rows) | 2.4 s | 0.25 s |
+| Trial balance | 1.0 s | 0.25 s |
+| Inbox / Summary (Blobs only) | 1.2–1.4 s | 0.4–0.5 s |
+
+Dashboard and Reports render in under 2 s. Review changes on top of the agent's build:
+`fresh: true` never falls back to a stale snapshot (the D-012 re-check must fail, not
+post on an old view); refresh after a write is best effort and drops the snapshot on
+failure, so a slow writer cannot turn a successful post into an error or a double post;
+the ingest's fresh reads get a 120 s timeout (background budget); the Settings ping is
+memoized. 364 tests. Not yet observed: a cold writer call past 8 s served from snapshot
+(needs an idle spell to reproduce). **Gate passed.**

@@ -39,12 +39,13 @@ front door.
 
 ## Status
 
-**Phases 0, 1 gated 2026-09-11; Phase 2 built 2026-09-11 and gated 2026-09-12.**
+**Phases 0, 1 gated 2026-09-11; Phase 2 gated 2026-09-12; Phase 2.5 (read cache) shipped 2026-09-12.**
 Phase 0 gate: `docs/phase0-spec.md` §11. Phase 1 gate: `docs/phase1-spec.md` §8. Phase 2
 (receipts bookkeeper — Claude directs the read with zoom/ledger/vendor/property/docs tools,
 `lib/gate.mjs` enforces the rails, Gmail poller + web upload, Drive filing, Inbox/Upload
 pages, 3 AM digest) is **live for receipts@/travel@ mail dated 2026-09-11 onward** and
-posts to the new workbook only. Gate record: `docs/phase2-spec.md` §11. Next is Phase 3 (Plaid banking) on Paul's go — Plaid production access was
+posts to the new workbook only. Gate record: `docs/phase2-spec.md` §11. Reads come from Blobs snapshots (`readTab`,
+`docs/phase2.5-spec.md`); every write handler refreshes the tab it wrote. Next is Phase 3 (Plaid banking) on Paul's go — Plaid production access was
 requested 2026-09-11 (2–3 days).
 
 Policy learned in the Phase 2 gate (D-012): the bookkeeper decides the easy cases itself —
