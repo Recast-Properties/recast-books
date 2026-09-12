@@ -272,12 +272,20 @@ script created). Bump `WRITER_VERSION` to `0.3.0`; lint test updated.
   with `paid_from = PAUL` (Visa 9166 on file) → 2030 Due to owner; the forwarded Anthropic
   copy auto-dismissed as a duplicate by invoice number; Southwest statement auto-dismissed.
   Journal shows the corrected re-posts with the earlier Chase-routed versions voided.
-- ⏳ One real receipt photographed and uploaded from the phone → Journal rows → Drive file.
-- ⏳ First 3 AM digest received.
+- ✅ Phone upload (2026-09-12 09:24 CT): FedEx Office receipt photographed on the Upload page;
+  model read it (zoomed the totals band, $12.75, receipt # MRIKN00746832, no duplicate),
+  gate PASS, posted `receipt-20260828-473559fae0a0` → Journal rows 32–33 (6500 dr / 1402
+  cr, OVERHEAD), Drive file under `Recast Books/2026/OVERHEAD/`, `doc_url` on both lines.
+  Card tender was cut off in the photo, so the model used the overhead default 1402 and
+  said so in `paid_from_reason`.
+- ✅ First 3 AM digest received 2026-09-12 (Paul confirmed).
+
+**Gate passed 2026-09-12.**
 - ✅ Old receipts bookkeeper untouched: no file under `../Recast-site/` changed; the poller
   labels only `books-done`.
 
-Known follow-ups (Phase 2 polish, not gate blockers): refunds/credits (negative totals)
+Known follow-ups (Phase 2 polish, not gate blockers): phone uploads file to Drive as
+`image.jpg` — name filed documents `<date> <vendor> <total>.<ext>` from the model verdict; refunds/credits (negative totals)
 need a credit path; success banners persist across pages; `_shared.mjs` is deployed as a
 (harmless) function — move it under `netlify/lib/`; Home Depot's debit card 5450 now maps
 to 1401 so future property-store receipts route to Citizens.

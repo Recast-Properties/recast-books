@@ -123,3 +123,14 @@ client token expiry on warm instances; run-together string fields in `decide` ou
 (repair rail + nullable optionals); series compared as number vs text; post with no
 entries bounced back to the model; payment instruments never shown to the model.
 Decision D-012 recorded. Remaining: phone-upload check, first digest confirmation.
+
+## 2026-09-12 — Phase 2 gate passed; D-013
+
+Phone upload verified end to end: FedEx Office $12.75 photographed on the Upload page,
+read by the model (zoomed totals, invoice number, duplicate check clean), gate PASS, posted
+to Journal rows 32–33 as 6500 overhead postage, filed in Drive under
+`Recast Books/2026/OVERHEAD/` with `doc_url` on the entry. First 3 AM digest arrived.
+Phase 2 gate recorded as passed in `docs/phase2-spec.md` §11. Polish noted: filed photos
+keep the phone's `image.jpg` name. D-013 recorded: the new workbook is cleared once at
+the start of Phase 4 (test and parallel-run entries), then migrated and live receipts
+replayed; append-only after that. Next: Phase 3 (Plaid) on Paul's go.
