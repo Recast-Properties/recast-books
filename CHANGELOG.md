@@ -144,4 +144,4 @@ his personal Visa. D-014: the model now reports `paid_from = UNKNOWN`, the gate 
 approve (an untouched placeholder is refused by the posting engine). Settings
 `default_paid_from_*` are no longer read. Filed documents are named
 `<date> <vendor> <total>.<ext>` from the verdict instead of the phone's `image.jpg`.
-352 tests. The FedEx entry itself: voided and re-posted to 2030 Due to owner by Paul.
+352 tests. The FedEx entry itself stays on 1402 by Paul's choice; it goes with the D-013 clear.

@@ -285,8 +285,11 @@ script created). Bump `WRITER_VERSION` to `0.3.0`; lint test updated.
 - ✅ Old receipts bookkeeper untouched: no file under `../Recast-site/` changed; the poller
   labels only `books-done`.
 
-Known follow-ups (Phase 2 polish, not gate blockers): phone uploads file to Drive as
-`image.jpg` — name filed documents `<date> <vendor> <total>.<ext>` from the model verdict; refunds/credits (negative totals)
+Known follow-ups (Phase 2 polish, not gate blockers): the writer is slow on cold calls
+(10–15 s for a Settings read on 2026-09-12, past the function timeout, so the page saw an
+HTML 502 as `BAD_RESPONSE` and boot fell to the sign-in card) — measure the writer's `read`
+and cache Settings/Accounts in the function, or warm the script; ~~name filed documents~~
+(done 2026-09-12); refunds/credits (negative totals)
 need a credit path; success banners persist across pages; `_shared.mjs` is deployed as a
 (harmless) function — move it under `netlify/lib/`; Home Depot's debit card 5450 now maps
 to 1401 so future property-store receipts route to Citizens.
