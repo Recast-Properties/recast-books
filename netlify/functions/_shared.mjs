@@ -232,7 +232,7 @@ export function pollerSecretOk(req) {
  * [{fileId, url, folderUrl, name}, ...] in attachment order; an attachment whose
  * bytes are missing from the store is skipped rather than failing the whole batch.
  */
-export async function storeAttachmentsToDrive(writer, docsStore, envelope, folder) {
+export async function storeAttachmentsToDrive(writer, docsStore, envelope, folder, model) {
   const results = [];
   const attachments = envelope.attachments || [];
   for (let i = 0; i < attachments.length; i++) {
@@ -240,13 +240,23 @@ export async function storeAttachmentsToDrive(writer, docsStore, envelope, folde
     const key = att.key || `att/${envelope.docId}/${i}`;
     const base64 = await docsStore.get(key, { type: "text" });
     if (!base64) continue;
-    const stored = await writer.storeDocument(
-      att.name || `attachment-${i}`,
-      att.mime || "application/octet-stream",
-      base64,
-      folder,
-    );
-    results.push({ ...stored, name: att.name || `attachment-${i}` });
+    const name = driveFileName(model, att.name || `attachment-${i}`, i);
+    const stored = await writer.storeDocument(name, att.mime || "application/octet-stream", base64, folder);
+    results.push({ ...stored, name });
   }
   return results;
+}
+
+/**
+ * "<date> <vendor> <total>.<ext>" from the model verdict (phone photos all arrive as
+ * image.jpg); the original name when there is no verdict to name it from. A second
+ * attachment gets " (2)".
+ */
+export function driveFileName(model, original, index = 0) {
+  const vendor = String(model?.vendor || "").trim().replace(/[\\/:*?"<>|]+/g, "").slice(0, 60);
+  const cents = Number(model?.receipt_total_cents);
+  if (!model?.date || !vendor || !Number.isFinite(cents)) return original;
+  const ext = (original.match(/\.[A-Za-z0-9]{1,5}$/) || [""])[0].toLowerCase();
+  const suffix = index > 0 ? ` (${index + 1})` : "";
+  return `${model.date} ${vendor} ${(cents / 100).toFixed(2)}${suffix}${ext}`;
 }

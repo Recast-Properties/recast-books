@@ -57,3 +57,13 @@ test("{fresh: true} bypasses the cache without invalidating it for other callers
   assert.equal(writer.calls(), 2, "fresh:true forces one extra fetch, but the cache updates from it");
   assert.deepEqual(third, { headers: ["txn_id", "date"], rows: [["t1", "2026-09-01"]] });
 });
+
+test("driveFileName (Phase 2 polish): named from the verdict, original name when there is none", async () => {
+  const { driveFileName } = await import("../netlify/functions/_shared.mjs");
+  const model = { date: "2026-08-28", vendor: "FedEx Office", receipt_total_cents: 1275 };
+  assert.equal(driveFileName(model, "image.jpg"), "2026-08-28 FedEx Office 12.75.jpg");
+  assert.equal(driveFileName(model, "scan.PDF", 1), "2026-08-28 FedEx Office 12.75 (2).pdf");
+  assert.equal(driveFileName({ vendor: "A/B: C" , date: "2026-01-02", receipt_total_cents: 5 }, "x.png"), "2026-01-02 AB C 0.05.png");
+  assert.equal(driveFileName(null, "image.jpg"), "image.jpg");
+  assert.equal(driveFileName({ vendor: "X" }, "image.jpg"), "image.jpg");
+});

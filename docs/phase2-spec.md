@@ -124,8 +124,8 @@ the property the receipt or email names, hold if two properties are plausible); 
 treatment (TX sales tax 8.25% is part of the item cost; shipping/fees are part of the
 cost); paid_from rules (card last-4 on the receipt matched to Bank accounts `last4` →
 that account; a last-4 in Settings `paul_personal_last4` → PAUL; Dennis paying directly →
-DENNIS; otherwise the default from Settings `default_paid_from_overhead` / 
-`default_paid_from_property`, and say so in `paid_from_reason`); the **method** from the
+DENNIS; otherwise `UNKNOWN` — never a default — and `paid_from_reason` says what was
+missing; D-014); the **method** from the
 2026-09-09 rework: zoom before deciding a blurry digit; make arithmetic reconcile (items
 ↔ subtotal ↔ tax ↔ total; gallons × a real x.xx9 price ↔ total); check `read_ledger` and
 `search_docs` before any duplicate call; "high" means "because I checked"; say what you
@@ -144,7 +144,8 @@ draft `business_purpose` from the email but expect `hold` unless the purpose is 
 4. `receipt_total_cents > 0` and `≤ settings.autofile_ceiling_cents`
 5. no item account in `{6700, 6710, 6720}`
 6. every entry's `property` is `OVERHEAD` or in the registry with status held/under contract
-7. `paid_from` resolves (14xx in Bank accounts / Accounts, or PAUL / DENNIS with a property)
+7. `paid_from` resolves (14xx in Bank accounts / Accounts, or PAUL / DENNIS with a property);
+   `UNKNOWN` holds with reason `PAYER_UNKNOWN` and Paul assigns the account on approve (D-014)
 8. `buildEntry` succeeds for every entry (this also runs D-010/D-011 and PURPOSE_REQUIRED)
 9. **twin rail:** no *posted* Journal entry with the same payee, date and total that the
    model did not name in `duplicate_of`/`supersedes` — if one exists → hold with reason

@@ -322,8 +322,6 @@ export default async (req) => {
     const context = {
       payment_instruments: bankRows.map((b) => ({ code: String(b.code), name: String(b.name || ""), last4: String(b.last4 || "") })),
       paul_personal_last4: String(settings.paul_personal_last4 || "").split(/[,\s]+/).filter(Boolean),
-      default_paid_from_overhead: String(settings.default_paid_from_overhead || ""),
-      default_paid_from_property: String(settings.default_paid_from_property || ""),
     };
     const { model, transcript_summary, usage } = await runBookkeeper({
       envelope: { ...envelope, context },
@@ -416,7 +414,7 @@ export async function processDecision({
 
   // ---- dry run: gate computed, filed to Drive under _dry-runs, nothing posted ----
   if (envelope.dryRun) {
-    const filed = await storeAttachmentsToDrive(writer, docsStore, envelope, ["_dry-runs"]);
+    const filed = await storeAttachmentsToDrive(writer, docsStore, envelope, ["_dry-runs"], model);
     return save({
       status: "dry",
       result: { txn_ids: [], rows: null, doc_url: filed[0]?.url || "" },
@@ -465,7 +463,7 @@ export async function processDecision({
         }
       }
       const folder = postFolderFor(model);
-      const filed = await storeAttachmentsToDrive(writer, docsStore, envelope, folder);
+      const filed = await storeAttachmentsToDrive(writer, docsStore, envelope, folder, model);
       const doc_url = filed[0]?.url || "";
 
       if (model.supersedes) {

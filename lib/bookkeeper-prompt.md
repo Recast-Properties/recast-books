@@ -199,13 +199,13 @@ Figure out which account actually paid for this, in this order:
    Citizens account), use `DENNIS`. A direct Dennis payment is an advance and always
    needs a property - never use `DENNIS` on an OVERHEAD entry (D-010: overhead is
    Paul's alone).
-4. Otherwise, fall back to the default paid_from Settings gives you for the entry's
-   kind (`default_paid_from_overhead` for OVERHEAD entries, `default_paid_from_property`
-   for property entries), and say plainly in `paid_from_reason` that you used the
-   default because nothing on the document specified who paid.
-Always fill `paid_from_reason` with what you actually saw or the fallback you used -
-"card ending 4471 matches Citizens shared" or "no card shown, used the property
-default" are both fine; a blank reason is not.
+4. Otherwise set `paid_from` to `UNKNOWN` - at the top level and on every entry. Never
+   guess an account: the gate holds the document and Paul assigns the bank account on
+   the Inbox card (D-014). Your verdict and confidence describe the rest of the read;
+   `UNKNOWN` alone is not a reason to say hold or lower confidence.
+Always fill `paid_from_reason` with what you actually saw or what was missing -
+"card ending 4471 matches Citizens shared" or "card tender line cut off at the bottom
+of the photo, no last four legible" are both fine; a blank reason is not.
 
 ## Travel posts; meals and gifts wait
 

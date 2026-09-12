@@ -284,6 +284,18 @@ test("BAD_PAID_FROM: an unknown paid_from account fails, without a redundant ENT
   assert.ok(!result.reasons.some((r) => r.startsWith("ENTRY_INVALID")));
 });
 
+test("PAYER_UNKNOWN (D-014): the model says UNKNOWN -> held with its own reason, not BAD_PAID_FROM", () => {
+  const result = evaluateGate(
+    baseModel({ paid_from: "UNKNOWN", entries: [baseEntry({ paid_from: "UNKNOWN" })] }),
+    baseCtx(),
+    baseSettings(),
+  );
+  assert.ok(!result.passed);
+  assert.ok(result.reasons.includes("PAYER_UNKNOWN"));
+  assert.ok(!result.reasons.includes("BAD_PAID_FROM"));
+  assert.ok(!result.reasons.some((r) => r.startsWith("ENTRY_INVALID")));
+});
+
 test("BAD_PAID_FROM: DENNIS with no property fails", () => {
   const result = evaluateGate(
     baseModel({ entries: [baseEntry({ property: "", paid_from: "DENNIS" })] }),

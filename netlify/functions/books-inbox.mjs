@@ -155,7 +155,7 @@ export default async (req) => {
       let doc_url = envelope.result?.doc_url || "";
       if (!doc_url) {
         try {
-          const filed = await storeAttachmentsToDrive(writer, docsStore, envelope, approveFolderFor(entriesInput));
+          const filed = await storeAttachmentsToDrive(writer, docsStore, envelope, approveFolderFor(entriesInput), modelSource);
           doc_url = filed[0]?.url || "";
         } catch (err) {
           return json(502, { error: "WRITER_ERROR", message: String((err && err.message) || err) });

@@ -236,3 +236,21 @@ documents. After that the Journal is append-only for good; corrections are voids
 
 **Why:** Paul: "not a button. just a step in the migration. when we decide to migrate we
 clear the books one time." No reset exists in the app, and none will be built.
+
+## D-014 · An unidentified payer is held for Paul, never defaulted — 2026-09-12 · Paul
+
+The phone-upload gate check posted a FedEx receipt whose card line was cut off; the model
+fell back to the Settings default (1402 Chase) as the prompt told it to. Paul had paid on
+his personal Visa. Paul: "for the issue of not knowing which account something was paid
+from, that should be a flag for my review to assign it to a bank account."
+
+**Decided:** when nothing on the document identifies the payer, the model reports
+`paid_from = UNKNOWN`. The gate holds the document with reason `PAYER_UNKNOWN`; Paul
+picks the bank account (or PAUL / DENNIS) on the Inbox card and approves. There is no
+default paying account; Settings `default_paid_from_overhead` / `default_paid_from_property`
+are no longer read. Everything else about the verdict (vendor, total, account, property,
+duplicate check) is decided by the model as before, so the only thing Paul supplies is the
+one fact the document lacked.
+
+**Why:** the paying account is a fact, not a judgment, and a wrong one misstates a bank
+balance and Due to owner at the same time. A default is a guess dressed as a rule.

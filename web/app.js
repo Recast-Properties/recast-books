@@ -2333,7 +2333,10 @@ function inboxPropertyOptions(selected, properties) {
     `<option value="OVERHEAD" ${selected === "OVERHEAD" ? "selected" : ""}>OVERHEAD</option>`;
 }
 function inboxPaidFromOptions(selected, bankAccounts) {
-  return bankAccountSelectOptions(selected, bankAccounts) +
+  // D-014: UNKNOWN never silently becomes the first account in the list. Approve with
+  // this placeholder still selected is refused by the posting engine (BAD_ACCOUNT).
+  const assign = !selected || selected === "UNKNOWN" ? `<option value="UNKNOWN" selected>— assign account —</option>` : "";
+  return assign + bankAccountSelectOptions(selected, bankAccounts) +
     `<option value="PAUL" ${selected === "PAUL" ? "selected" : ""}>PAUL (personal)</option>` +
     `<option value="DENNIS" ${selected === "DENNIS" ? "selected" : ""}>DENNIS (direct)</option>`;
 }

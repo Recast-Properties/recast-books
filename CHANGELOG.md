@@ -134,3 +134,14 @@ Phase 2 gate recorded as passed in `docs/phase2-spec.md` §11. Polish noted: fil
 keep the phone's `image.jpg` name. D-013 recorded: the new workbook is cleared once at
 the start of Phase 4 (test and parallel-run entries), then migrated and live receipts
 replayed; append-only after that. Next: Phase 3 (Plaid) on Paul's go.
+
+## 2026-09-12 — D-014: unknown payer is held, not defaulted; Drive file names
+
+The FedEx gate receipt exposed a bad rule: the prompt told the model to fall back to a
+Settings default account when no card was legible, and it did (1402); Paul had paid on
+his personal Visa. D-014: the model now reports `paid_from = UNKNOWN`, the gate holds with
+`PAYER_UNKNOWN`, the Inbox card shows "— assign account —" and Paul picks the account on
+approve (an untouched placeholder is refused by the posting engine). Settings
+`default_paid_from_*` are no longer read. Filed documents are named
+`<date> <vendor> <total>.<ext>` from the verdict instead of the phone's `image.jpg`.
+354 tests. The FedEx entry itself: voided and re-posted to 2030 Due to owner by Paul.
