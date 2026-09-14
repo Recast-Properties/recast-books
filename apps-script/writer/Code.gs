@@ -840,3 +840,87 @@ function getOrCreateSubfolder_(parent, name) {
   if (existing.hasNext()) return existing.next();
   return parent.createFolder(name);
 }
+
+// ---- Totals tab (2026-09-14, Paul: "add a totals tab") -------------------------------
+// Formula-only report tab so the books read without the app: trial balance by account,
+// cost by property, overhead by account, key balances - all SUMIFS over Journal as of
+// the date in B1 (default today). Voids are mirror pairs, so they net out by themselves.
+// Per-row formulas (SUMIFS does not spread inside ARRAYFORMULA). Idempotent: run
+// setupTotals() from the editor any time; it rebuilds the tab. Journal column letters
+// follow TAB_HEADERS.Journal order (C date, E account, F debit, G credit, H property,
+// I cost_class).
+function setupTotals() {
+  var props = PropertiesService.getScriptProperties();
+  var ss = openOrCreateWorkbook_(props);
+  var sh = getOrCreateSheet_(ss, 'Totals');
+  sh.clear();
+  var J = 'Journal!';
+  var asOf = J + '$C:$C,"<="&$B$1';
+  var deb = function (crit) { return 'SUMIFS(' + J + '$F:$F,' + crit + ',' + asOf + ')'; };
+  var cred = function (crit) { return 'SUMIFS(' + J + '$G:$G,' + crit + ',' + asOf + ')'; };
+  var ifBlank = function (ref, f) { return '=IF(' + ref + '="","",' + f + ')'; };
+
+  var rows = [];
+  var bold = [];
+  var push = function (r, isBold) { rows.push(r); if (isBold) bold.push(rows.length); };
+
+  push(['As of', '=TODAY()', '', '', ''], true);
+  push(['', '', '', '', '']);
+  push(['TRIAL BALANCE', '', 'Debit', 'Credit', 'Net (Dr - Cr)'], true);
+  var tbFirst = rows.length + 1, tbN = 80;
+  for (var i = 0; i < tbN; i++) {
+    var r = tbFirst + i, src = 2 + i;
+    push(['=IF(Accounts!A' + src + '="","",Accounts!A' + src + ')',
+          '=IF(Accounts!A' + src + '="","",Accounts!B' + src + ')',
+          ifBlank('A' + r, deb(J + '$E:$E,A' + r)),
+          ifBlank('A' + r, cred(J + '$E:$E,A' + r)),
+          ifBlank('A' + r, 'C' + r + '-D' + r)]);
+  }
+  var tbLast = tbFirst + tbN - 1;
+  push(['TOTAL', '', '=SUM(C' + tbFirst + ':C' + tbLast + ')', '=SUM(D' + tbFirst + ':D' + tbLast + ')',
+        '=SUM(E' + tbFirst + ':E' + tbLast + ')'], true);
+  push(['', '', '', '', '']);
+
+  push(['KEY BALANCES', '', '', '', 'Balance'], true);
+  [['1401', 'Cash - Citizens shared'], ['1402', 'Cash - Chase operating'], ['2030', 'Due to owner (Paul)'],
+   ['2010', 'Note payable - Dennis'], ['2000', 'Accrued interest - Dennis']].forEach(function (k) {
+    push([k[0], k[1], '', '', '=' + deb(J + '$E:$E,"' + k[0] + '"') + '-' + cred(J + '$E:$E,"' + k[0] + '"')]);
+  });
+  push(['', '', '', '', '']);
+
+  push(['COST BY PROPERTY (capitalized 1000-series lines)', '', '', '', 'Net'], true);
+  var pFirst = rows.length + 1, pN = 30;
+  for (var j = 0; j < pN; j++) {
+    var pr = pFirst + j, psrc = 2 + j;
+    push(['=IF(Properties!A' + psrc + '="","",Properties!A' + psrc + ')', '', '', '',
+          ifBlank('A' + pr, deb(J + '$H:$H,A' + pr + ',' + J + '$I:$I,"<>"') + '-' + cred(J + '$H:$H,A' + pr + ',' + J + '$I:$I,"<>"'))]);
+  }
+  push(['OVERHEAD', "Paul's alone (D-010) - see below", '', '',
+        '=' + deb(J + '$H:$H,"OVERHEAD",' + J + '$I:$I,"<>"') + '-' + cred(J + '$H:$H,"OVERHEAD",' + J + '$I:$I,"<>"')], true);
+  push(['', '', '', '', '']);
+
+  push(['OVERHEAD BY ACCOUNT (6000-series)', '', 'Debit', 'Credit', 'Net'], true);
+  var oFirst = rows.length + 1, oN = 40;
+  for (var k2 = 0; k2 < oN; k2++) {
+    var orow = oFirst + k2, idx = k2 + 1;
+    var pick = 'IFERROR(INDEX(FILTER(Accounts!A$2:A,Accounts!C$2:C=6000),' + idx + '),"")';
+    push(['=' + pick,
+          ifBlank('A' + orow, 'VLOOKUP(A' + orow + ',Accounts!A:B,2,FALSE)'),
+          ifBlank('A' + orow, deb(J + '$E:$E,A' + orow)),
+          ifBlank('A' + orow, cred(J + '$E:$E,A' + orow)),
+          ifBlank('A' + orow, 'C' + orow + '-D' + orow)]);
+  }
+  var oLast = oFirst + oN - 1;
+  push(['TOTAL OVERHEAD', '', '=SUM(C' + oFirst + ':C' + oLast + ')', '=SUM(D' + oFirst + ':D' + oLast + ')',
+        '=SUM(E' + oFirst + ':E' + oLast + ')'], true);
+
+  sh.getRange(1, 1, rows.length, 5).setValues(rows);
+  sh.getRange(1, 2).setNumberFormat('yyyy-mm-dd');
+  sh.getRange(1, 3, rows.length, 3).setNumberFormat('#,##0.00;(#,##0.00);-');
+  sh.setColumnWidth(1, 130); sh.setColumnWidth(2, 280);
+  [3, 4, 5].forEach(function (c) { sh.setColumnWidth(c, 120); });
+  sh.setFrozenRows(1);
+  bold.forEach(function (r) { sh.getRange(r, 1, 1, 5).setFontWeight('bold'); });
+  console.log('Totals tab rebuilt: ' + rows.length + ' rows');
+  return { ok: true, rows: rows.length };
+}
