@@ -132,7 +132,8 @@ var TAB_HEADERS = {
   'Accounts': ['code', 'name', 'series', 'type', 'cost_class', 'tax_treatment',
     'active', 'notes'],
   'Properties': ['name', 'address', 'status', 'purchase_date', 'purchase_price',
-    'settlement_date', 'template', 'dennis_funded', 'drive_folder', 'notes', 'contract_price'],
+    'settlement_date', 'template', 'dennis_funded', 'drive_folder', 'notes', 'contract_price',
+    'tax_annual'],
   'Bank accounts': ['code', 'name', 'institution', 'last4', 'plaid_item_id',
     'plaid_account_id', 'opening_balance', 'opening_date', 'active'],
   'Vendors': ['canonical', 'aliases', 'entity_type', 'form_1099', 'tin_status',
@@ -664,6 +665,10 @@ function action_upsert_(body, props) {
   if (!sheet) fail_('NOT_FOUND', 'tab not found: ' + tab);
 
   var cols = headerIndex_(sheet);
+  // A column added to TAB_HEADERS after setup() ran (tax_annual, 2026-09-14) is
+  // written to the header row on first use, so no re-run of setup() is needed.
+  var missing = TAB_HEADERS[tab].some(function (h) { return !cols[h]; });
+  if (missing) { ensureHeaders_(sheet, TAB_HEADERS[tab]); cols = headerIndex_(sheet); }
   if (!cols[keyColumn]) fail_('BAD_KEY_COLUMN', 'key_column not found: ' + keyColumn);
 
   var keyValue = rowData[keyColumn];
@@ -959,7 +964,10 @@ function setupTotals() {
 // Newport" CSV), side by side:
 //   A:B   SUMMARY - Total Project Cost, Purchase Price (1000), Interest to Date
 //         (computed below), Rehab Costs (Rehab + Acquisition ex-1000), Utilities
-//         (Holding ex-1100), Property Tax (1100), Selling (posted); PROFIT BREAKDOWN
+//         (Holding ex-1100), Property Tax (posted 1100 + the Texas seller proration
+//         of Properties.tax_annual from Jan 1 to the as-of date while unsold - the
+//         sale posts the ALTA's actual line and the estimate drops out), Selling
+//         (posted); PROFIT BREAKDOWN
 //         (sale price = contract_price else purchase price; agent/closing at the
 //         Settings estimate pcts); PAYOUTS - Dennis / Paul / Back to Recast account,
 //         with a tie-out row: payouts must equal net proceeds.
@@ -972,8 +980,8 @@ function setupTotals() {
 //   J:P   REHAB COSTS - payee, date, description, amount, Paul Paid / Dennis Paid /
 //         Recast Account checkboxes (from paid_from). POST-SALE (D-015) lines below.
 //   R:X   UTILITIES - same shape, Holding-class lines.
-//   Z:AH  helpers (rate, stub basis, settlement_date, contract_price, voided flag,
-//         per-advance math), greyed.
+//   Z:AJ  helpers (rate, stub basis, settlement_date, contract_price, voided flag,
+//         per-advance math, tax_annual, tax proration estimate), greyed.
 // Interest to Date is the in-sheet computation, not posted 1200 accruals, so the tab
 // reads the same whether or not the close job has run; Financing-class lines are
 // therefore left out of Total Project Cost (no double count). The tab is a view;
@@ -1084,7 +1092,13 @@ function setupPropertyTab(name) {
   set(s, 1, 'Interest to Date'); set(s, 2, '=G' + interestRow); s++;
   set(s, 1, 'Rehab Costs'); set(s, 2, '=' + net(rehabF)); var rehabRow = s++;
   set(s, 1, 'Utilities'); set(s, 2, '=' + net(holdingF + '*' + ne('E', '1100'))); s++;
-  set(s, 1, 'Property Tax'); set(s, 2, '=' + net(eq('E', '1100'))); s++;
+  // Property tax: posted 1100 lines plus, while unsold, the proration estimate in
+  // $AJ$1 (annual x days from Jan 1 of the as-of year / 365 - what the old tab typed).
+  // Column C shows the annual figure it is built from, as the old tab did.
+  // ponytail: a current-year bill paid before the sale would count in both terms;
+  // Texas bills arrive in October and are due Jan 31, so a held property rarely
+  // pays one - revisit if it happens.
+  set(s, 1, 'Property Tax (prorated)'); set(s, 2, '=' + net(eq('E', '1100')) + '+$AJ$1'); set(s, 3, '=IF($AI$1="","",$AI$1)'); s++;
   set(s, 1, 'Selling Costs (posted)'); set(s, 2, '=' + net(eq('I', 'Selling'))); var sellingRow = s++;
   set(totalRow, 2, '=SUM(B' + purchaseRow + ':B' + sellingRow + ')', true);
   s++;
@@ -1113,7 +1127,7 @@ function setupPropertyTab(name) {
   set(s, 1, 'Back to Recast account', true); set(s, 2, '=G' + recastNetRow, true); var recastRow = s++;
   s++;
   set(s, 1, 'Total payouts'); set(s, 2, '=B' + dennisRow + '+B' + paulRow + '+B' + recastRow); var payoutsRow = s++;
-  set(s, 1, 'Net proceeds'); set(s, 2, '=B' + saleRow + '+B' + agentRow + '+B' + closingRow); var proceedsRow = s++;
+  set(s, 1, 'Net proceeds (after tax proration)'); set(s, 2, '=B' + saleRow + '+B' + agentRow + '+B' + closingRow + '-$AJ$1'); var proceedsRow = s++;
   set(s, 1, 'Difference (must be 0)'); set(s, 2, '=ROUND(B' + payoutsRow + '-B' + proceedsRow + ',2)'); s++;
 
   // ---- Line blocks: REHAB COSTS (J:P), UTILITIES (R:X), POST-SALE under rehab ------
@@ -1157,7 +1171,10 @@ function setupPropertyTab(name) {
   sh.getRange(1, 30).setValue('helper: voided?');
   sh.getRange(2, 30).setFormula('=ARRAYFORMULA(IF(' + J('A') + '="","",ISNUMBER(MATCH(' + J('A') + ',' + J('Y') + ',0))))');
   sh.getRange(advFirst, 31, ADV_N, 4).setFormulas(advHelpers);
+  sh.getRange(1, 35).setFormula('=IFERROR(VLOOKUP("' + safeName + '",Properties!A:L,12,FALSE),"")'); // AI1: tax_annual
+  sh.getRange(1, 36).setFormula('=IF(OR($AB$1<>"",$AI$1=""),0,$AI$1*($B$1-DATE(YEAR($B$1),1,1))/365)'); // AJ1: proration estimate while unsold
   sh.getRange(1, 26, 1, 5).setFontColor('#999999');
+  sh.getRange(1, 35, 1, 2).setFontColor('#999999');
   sh.getRange(advFirst, 31, ADV_N, 4).setFontColor('#999999');
 
   // Formats: dates, dollars, checkboxes (a formula returning TRUE/FALSE renders as a
@@ -1165,7 +1182,7 @@ function setupPropertyTab(name) {
   var money = '$#,##0.00;-$#,##0.00;-';
   sh.getRange(1, 2).setNumberFormat('mm/dd/yyyy');
   sh.getRange(1, 28).setNumberFormat('mm/dd/yyyy');
-  sh.getRange(4, 2, grid.length - 3, 1).setNumberFormat(money);
+  sh.getRange(4, 2, grid.length - 3, 2).setNumberFormat(money);
   sh.getRange(advFirst, 4, ADV_N, 2).setNumberFormat('mm/dd/yyyy');
   sh.getRange(4, 6, grid.length - 3, 2).setNumberFormat(money);
   [10, 18].forEach(function (c) {
@@ -1177,7 +1194,7 @@ function setupPropertyTab(name) {
   sh.getRange(postTop + 2, 14, LINES_N, 3).insertCheckboxes();
   sh.getRange(postTop + 2, 14, LINES_N, 3).setFormulas(grid.slice(postTop + 1, postTop + 1 + LINES_N).map(function (row) { return row.slice(13, 16); }));
 
-  sh.setColumnWidth(1, 250); sh.setColumnWidth(2, 110); sh.setColumnWidth(3, 20);
+  sh.setColumnWidth(1, 250); sh.setColumnWidth(2, 110); sh.setColumnWidth(3, 90);
   sh.setColumnWidth(4, 190); [5, 6, 7].forEach(function (c) { sh.setColumnWidth(c, 100); });
   sh.setColumnWidth(8, 160); sh.setColumnWidth(9, 20); sh.setColumnWidth(17, 20);
   [10, 18].forEach(function (c) {

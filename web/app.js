@@ -1013,6 +1013,7 @@ async function renderPropertiesAddForm(prefill) {
         <div class="field"><label>Purchase date</label><input type="date" id="p-purchase-date" value="${escapeHtml(p.purchase_date || "")}"></div>
         <div class="field"><label>Purchase price</label><input type="text" id="p-purchase-price" value="${escapeHtml(p.purchase_price || "")}" placeholder="207000.00" inputmode="decimal"></div>
         <div class="field"><label>Contract price (optional, buyer under contract)</label><input type="text" id="p-contract-price" value="${escapeHtml(p.contract_price || "")}" placeholder="290,000"></div>
+        <div class="field"><label>Annual property tax (prorates Jan 1 to date until sold)</label><input type="text" id="p-tax-annual" value="${escapeHtml(p.tax_annual || "")}" placeholder="7,942" inputmode="decimal"></div>
         <div class="field"><label>Settlement date</label><input type="date" id="p-settlement-date" value="${escapeHtml(p.settlement_date || "")}"></div>
         <div class="field"><label>Dennis-funded</label><select id="p-dennis-funded"><option value="true" ${String(p.dennis_funded) === "true" ? "selected" : ""}>Yes</option><option value="false" ${String(p.dennis_funded) !== "true" ? "selected" : ""}>No</option></select></div>
         <div class="field full"><label>Drive folder</label><input type="text" id="p-drive-folder" value="${escapeHtml(p.drive_folder || "")}" placeholder="https://drive.google.com/..."></div>
@@ -1067,6 +1068,7 @@ async function renderPropertiesAddForm(prefill) {
       purchase_date: $("p-purchase-date").value,
       purchase_price,
       contract_price: $("p-contract-price").value.trim() ? normalizeDollarsInput($("p-contract-price").value) : "",
+      tax_annual: $("p-tax-annual").value.trim() ? normalizeDollarsInput($("p-tax-annual").value) : "",
       settlement_date: $("p-settlement-date").value,
       template: $("p-template").value.trim(),
       dennis_funded: $("p-dennis-funded").value,

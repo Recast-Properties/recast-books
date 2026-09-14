@@ -83,7 +83,7 @@ A:B  SUMMARY                      D:H  DENNIS                        J:P  REHAB 
      Interest to Date (computed)         Principal · Interest · Notes     Dennis Paid · Recast
      Rehab Costs                       Interest to date · Payoff          Account (checkboxes
      Utilities (Holding ex-1100)       Paul Paid / Reimbursed /           from paid_from)
-     Property Tax (1100)                 Due to Paul (2030)
+     Property Tax (posted + est.)        Due to Paul (2030)
      Selling Costs (posted)            Dennis Paid direct (paid_from      POST-SALE (D-015)
      PROFIT BREAKDOWN                    DENNIS cost lines)               below, same shape
        Sale Price (contract_price,     Recast Account paid / received /
@@ -99,7 +99,12 @@ A:B  SUMMARY                      D:H  DENNIS                        J:P  REHAB 
 ```
 
 Rehab Costs = Rehab class plus Acquisition class other than account 1000 (the old tab
-put the HOA release in Rehab). Interest to Date is computed in-sheet with the D-006
+put the HOA release in Rehab). Property Tax is posted 1100 lines plus, while the property
+is unsold, the Texas seller proration of `Properties.tax_annual` (column L, from the add
+form) from January 1 of the as-of year to the as-of date over 365 — the figure the old tab
+typed; Net proceeds subtracts the same estimate, since the proration is netted on the ALTA
+and never paid from an account. At the sale the wizard posts the settlement statement's
+actual tax line and the estimate drops to zero. Interest to Date is computed in-sheet with the D-006
 method at `Settings!interest_rate_annual` (8%, D-016) on every Advances row for the
 property, so Financing-class (1200) accruals are left out of Total Project Cost and
 nothing double-counts. The tie-out row is the point: payouts equal net proceeds by

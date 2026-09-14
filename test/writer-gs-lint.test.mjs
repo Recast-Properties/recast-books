@@ -119,6 +119,8 @@ test("setupPropertyTab: old-tab layout (summary / Dennis / Rehab Costs / Utiliti
   assert.ok(body.includes("POST-SALE"), "no POST-SALE block (D-015)");
   assert.ok(body.includes("Properties!A:F"), "POST-SALE does not reference settlement_date");
   assert.ok(body.includes("Properties!A:K,11"), "does not read contract_price (D-017)");
+  assert.ok(body.includes("Properties!A:L,12"), "does not read tax_annual (property tax proration)");
+  assert.ok(body.includes("DATE(YEAR($B$1),1,1)"), "no Jan-1-to-date proration of tax_annual");
 });
 
 test("WRITER_VERSION is 0.3.0", () => {

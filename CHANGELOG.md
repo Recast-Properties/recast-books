@@ -284,3 +284,14 @@ Dennis interest a project cost) and the typed property-tax proration (posted 110
 show instead). New: a tie-out row — total payouts must equal net proceeds. (The
 $446.67 utilities double count noted on 2026-09-11 is gone from the tab Paul sent: its
 six summary lines tie to $219,638.04 exactly.) Spec §5 updated. 395 tests.
+
+## 2026-09-14 — Property tax proration on the property tab
+
+Paul: "explain to me how you are accounting for property tax?" — the new tab only showed
+posted 1100 lines, so before a sale it read $0 where the old tab typed a Jan-1-to-date
+proration of the annual bill ($7,942 → $5,591.76 on Newport). Added `tax_annual` to
+Properties (column L; the writer's upsert writes a header missing from TAB_HEADERS on
+first use, so no `setup()` re-run) and a field on the add/edit form. The tab's Property
+Tax row is posted 1100 plus the proration while unsold; Net proceeds subtracts the same
+estimate (it is netted on the ALTA), so the tie-out stays at zero. Once the property is
+sold the estimate is zero and only the settlement statement's posted line remains.
