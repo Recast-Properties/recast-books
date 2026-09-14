@@ -1071,6 +1071,11 @@ async function renderPropertiesAddForm(prefill) {
       drive_folder: $("p-drive-folder").value.trim(),
       notes: $("p-notes").value.trim(),
     };
+    // Two writer round trips (the upsert, then a 400-row formula tab): say so on the
+    // button instead of leaving Paul staring at a static form (2026-09-14).
+    const saveBtn = $("p-save");
+    const busy = (label) => { saveBtn.disabled = true; saveBtn.textContent = label; };
+    busy("Saving\u2026");
     try {
       await api("meta", { method: "POST", body: { action: "upsert", tab: "Properties", key_column: "name", row } });
       let html = `Saved <code>${escapeHtml(name)}</code>.`;
@@ -1078,6 +1083,7 @@ async function renderPropertiesAddForm(prefill) {
       // §5/§6) rather than leaving it to a later manual run from the editor.
       if (!prefill) {
         try {
+          busy("Building the property tab in the workbook\u2026 (about 20 s)");
           const tabResult = await api("meta", { method: "POST", body: { action: "propertyTab", name } });
           html += ` Property tab built (${tabResult.rows} rows).`;
         } catch (tabErr) {
@@ -1089,6 +1095,8 @@ async function renderPropertiesAddForm(prefill) {
       if (prefill) navigate("properties", name);
       else await renderProperties();
     } catch (err) {
+      saveBtn.disabled = false;
+      saveBtn.textContent = prefill ? "Save changes" : "Add property";
       propertiesState.banner = { kind: "error", html: errorBannerHtml(err) };
       renderPropertiesBanner();
     }
