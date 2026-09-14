@@ -196,3 +196,14 @@ file. Diffed the two: besides the MIME fix, the new poller lacked the per-messag
 "addressed to receipts@/travel@" check (a reply in a receipt thread was being ingested
 as a document) and the 6-attachment cap. Both ported. Lesson for the specs: "modelled
 on X" means copy X and change the endpoints, not write X again.
+
+## 2026-09-14 — Totals tab in the workbook
+
+Paul: "where does it show totals?" — the workbook had raw Journal lines only; totals lived
+in the app. Added writer `setupTotals()`: a formula-only **Totals** tab (trial balance by
+account, key balances, cost by property, overhead by account, all SUMIFS over Journal as
+of the date in B1). Paul ran it from the editor; TB ties to the app's trial balance
+(4,137.80 both sides). Rerun `setupTotals` any time to rebuild; it is not in the writer's
+readable/upsertable tab lists on purpose. Noted while checking: the 6350/6930 rows from
+the 09-12 chart review are not yet in the live Accounts tab; the 1401 bank account has a
+blank name ("Cash - ").
