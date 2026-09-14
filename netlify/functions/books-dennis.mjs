@@ -65,7 +65,7 @@ async function loadAdvances(writer) {
   }));
 }
 
-/** Settings interest_rate_annual / stub_days_basis, falling back to 0.09 / 30 (spec). */
+/** Settings interest_rate_annual / stub_days_basis, falling back to 0.08 / 30 (D-016). */
 async function getAccrualOpts(writer) {
   const resp = await readTab(writer, "Settings");
   const rows = rowsToObjectsPublic(resp.headers, resp.rows);
@@ -73,7 +73,7 @@ async function getAccrualOpts(writer) {
   const rateAnnual = Number(byKey.get("interest_rate_annual"));
   const stubBasis = Number(byKey.get("stub_days_basis"));
   return {
-    rateAnnual: Number.isFinite(rateAnnual) && rateAnnual > 0 ? rateAnnual : 0.09,
+    rateAnnual: Number.isFinite(rateAnnual) && rateAnnual > 0 ? rateAnnual : 0.08,
     stubBasis: Number.isFinite(stubBasis) && stubBasis > 0 ? stubBasis : 30,
   };
 }

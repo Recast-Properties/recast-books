@@ -44,7 +44,7 @@ settlement date the whole balance moves to 5000 COGS. Year-end inventory is a fi
 | What | Account | Behaviour |
 |---|---|---|
 | Advance received | 2010 Note payable — Dennis | Dr cash, Cr 2010. One row per advance in the `Advances` tab, tagged to a property (split allowed). |
-| Interest accrual | 2000 Accrued interest — Dennis / 1200 Financing — interest (property cost) | 9% ÷ 12 = 0.75% per advance per month, compounding on each advance's **own monthly anniversary**; stub days at payoff pro-rated on the current month's day count. Posted monthly by the close job. |
+| Interest accrual | 2000 Accrued interest — Dennis / 1200 Financing — interest (property cost) | 8% ÷ 12 (D-016) per advance per month, compounding on each advance's **own monthly anniversary**; stub days at payoff pro-rated on the current month's day count. Posted monthly by the close job. |
 | Repayment at sale | 2010 / 2000 | Principal plus accrued interest for that property, cleared from settlement proceeds. |
 | Profit share | 1220 Profit participation — Dennis (property cost, released to COGS) | 50% of the property's net profit after all 1000s including interest. Paid at settlement. Not equity. |
 
@@ -233,7 +233,7 @@ Net profit                                                       $ ...
 
 WATERFALL
  1. Dennis — principal repaid (each advance listed, date, amount)   $ ...
- 2. Dennis — interest, 9% compounded on each advance's anniversary,
+ 2. Dennis — interest, 8% compounded on each advance's anniversary,
     stub days pro-rated to the settlement date                     $ ...
  3. Reimbursements — costs fronted by a payer other than Dennis's
     advances: the shared Recast account, Paul personally (2030)     $ ...

@@ -221,7 +221,7 @@ var SETTINGS_SEED = [
   ['threshold_1099_prior', '60000', ''],
   ['estimate_agent_pct', '3', ''],
   ['estimate_closing_pct', '2', ''],
-  ['interest_rate_annual', '0.09', ''],
+  ['interest_rate_annual', '0.08', 'D-016: 8% per Dennis\'s own calculation'],
   ['stub_days_basis', '30', ''],
   ['dealer_status', 'unknown', ''],
   ['cash_or_accrual', 'unknown', ''],

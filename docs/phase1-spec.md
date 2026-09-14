@@ -23,7 +23,7 @@ from the app and sees it on the property balance sheet.
 Decisions D-006, D-010, D-011. Rule reproduced against the live tab in
 `docs/property-tab-anatomy.md`:
 
-- Monthly rate `r = interest_rate_annual / 12` (Settings; 0.09 → 0.0075).
+- Monthly rate `r = interest_rate_annual / 12` (Settings; 0.08 → 0.006667, D-016).
 - Interest starts the day the advance lands (`date`). Nothing accrues on that day itself.
 - **Anniversaries** are the same day-of-month in each following month; when that month is
   shorter, clamp to its last day (an advance on the 31st has its February anniversary on
@@ -47,7 +47,7 @@ Decisions D-006, D-010, D-011. Rule reproduced against the live tab in
 export function addMonthsClamped(isoDate, months) -> isoDate
 export function daysBetween(isoA, isoB) -> int
 export function lastDayOf(period) -> isoDate
-export function accruedThrough(advance, asOf, {rateAnnual=0.09, stubBasis=30}) -> cents
+export function accruedThrough(advance, asOf, {rateAnnual=0.08, stubBasis=30}) -> cents
 export function interestForPeriod(advance, period, opts) -> cents
 export function payoffAt(advances, property, asOf, opts) -> {...}
 export function schedule(advance, asOf, opts) -> [{anniversary, balance_cents}]  // for display

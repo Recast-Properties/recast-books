@@ -14,6 +14,10 @@ import {
 // D-010: anniversary k = addMonthsClamped(date, k), clamped to the target month's last
 // day when it overflows.
 
+// Golden values below were lifted from the old cash-advance tab, which ran at 9%.
+// D-016 set the live default to 8%; the goldens stay valid at an explicit 9%.
+const NINE = { rateAnnual: 0.09 };
+
 test("addMonthsClamped clamps a Jan-31 advance's anniversaries", () => {
   assert.equal(addMonthsClamped("2026-01-31", 1), "2026-02-28"); // 2026 is not a leap year
   assert.equal(addMonthsClamped("2026-01-31", 2), "2026-03-31");
@@ -49,12 +53,12 @@ test("lastDayOf returns the last calendar day of a period", () => {
 
 test("golden: 207000.00 purchase principal from 2026-06-29 as of 2026-09-11", () => {
   const advance = { amount_cents: 20700000, date: "2026-06-29" };
-  assert.equal(accruedThrough(advance, "2026-09-11"), 379952);
+  assert.equal(accruedThrough(advance, "2026-09-11", NINE), 379952);
 });
 
 test("golden: 2000.00 cash advance from 2026-07-09 as of 2026-09-11", () => {
   const advance = { amount_cents: 200000, date: "2026-07-09" };
-  assert.equal(accruedThrough(advance, "2026-09-11"), 3113);
+  assert.equal(accruedThrough(advance, "2026-09-11", NINE), 3113);
 });
 
 // --- accruedThrough edge rules ---------------------------------------------
@@ -69,8 +73,8 @@ test("accruedThrough at the first anniversary is round(P*r), no stub", () => {
   const advance = { amount_cents: 100000, date: "2026-01-15" }; // $1,000.00
   const firstAnniversary = addMonthsClamped(advance.date, 1);
   assert.equal(firstAnniversary, "2026-02-15");
-  const r = 0.09 / 12;
-  assert.equal(accruedThrough(advance, firstAnniversary), Math.round(100000 * r));
+  const r = 0.09 / 12; // goldens are at 9% (D-006 as written); the live default is 8% (D-016)
+  assert.equal(accruedThrough(advance, firstAnniversary, NINE), Math.round(100000 * r));
 });
 
 test("accruedThrough freezes at repaid_date when repaid before asOf", () => {
@@ -117,7 +121,7 @@ test("payoffAt totals both 881 Newport advances (purchase + cash advance)", () =
     { advance_id: "adv-2", date: "2026-07-09", amount_cents: 200000, property: "881 Newport" },
     { advance_id: "adv-3", date: "2026-01-01", amount_cents: 500000, property: "OTHER PROPERTY" },
   ];
-  const result = payoffAt(advances, "881 Newport", "2026-09-11");
+  const result = payoffAt(advances, "881 Newport", "2026-09-11", NINE);
 
   assert.equal(result.principal_cents, 20700000 + 200000);
   assert.equal(result.interest_cents, 379952 + 3113);
@@ -156,12 +160,12 @@ test("payoffAt includes an advance whose repaid_date is still in the future", ()
 
 test("schedule lists each anniversary <= asOf with the compounded balance", () => {
   const advance = { amount_cents: 20700000, date: "2026-06-29" };
-  const rows = schedule(advance, "2026-09-11");
+  const rows = schedule(advance, "2026-09-11", NINE);
   assert.deepEqual(
     rows.map((r) => r.anniversary),
     ["2026-07-29", "2026-08-29"],
   );
-  const r = 0.09 / 12;
+  const r = 0.09 / 12; // goldens are at 9% (D-006 as written); the live default is 8% (D-016)
   assert.equal(rows[0].balance_cents, Math.round(20700000 * (1 + r)));
   assert.equal(rows[1].balance_cents, Math.round(20700000 * Math.pow(1 + r, 2)));
 });
@@ -169,4 +173,11 @@ test("schedule lists each anniversary <= asOf with the compounded balance", () =
 test("schedule is empty before the first anniversary", () => {
   const advance = { amount_cents: 100000, date: "2026-09-01" };
   assert.deepEqual(schedule(advance, "2026-09-15"), []);
+});
+
+test("D-016: the default rate is 8% and reproduces Dennis's own figure within a few dollars", () => {
+  // Dennis: $279,001.00 from 2026-04-07 to 2026-07-27 = $6,873.90 (his sheet).
+  const advance = { advance_id: "d1", date: "2026-04-07", amount_cents: 27900100, property: "X" };
+  const ours = accruedThrough(advance, "2026-07-27");
+  assert.ok(Math.abs(ours - 687390) < 1000, `expected ~687390 cents, got ${ours}`);
 });

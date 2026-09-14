@@ -69,7 +69,7 @@ async function getAccrualOpts(writer) {
   const rateAnnual = Number(byKey.get("interest_rate_annual"));
   const stubBasis = Number(byKey.get("stub_days_basis"));
   return {
-    rateAnnual: Number.isFinite(rateAnnual) && rateAnnual > 0 ? rateAnnual : 0.09,
+    rateAnnual: Number.isFinite(rateAnnual) && rateAnnual > 0 ? rateAnnual : 0.08,
     stubBasis: Number.isFinite(stubBasis) && stubBasis > 0 ? stubBasis : 30,
   };
 }

@@ -108,6 +108,7 @@ partner and lender. This answers Q-2.
 
 **Terms, stated by Paul:** Dennis advances the cash for purchases and rehab. Advances
 accrue **9% interest, compounding monthly on each advance's own monthly anniversary**.
+(Rate corrected to **8%** by D-016, 2026-09-14; the method stands.)
 When a property sells, proceeds first repay Dennis's principal plus accrued interest on
 what he advanced for that property, then the remaining profit is split **50/50**.
 
@@ -289,3 +290,16 @@ routine in this business and must not reopen a closed sale.
 
 **Follow-up:** Paul to send one property's interest calculation from Dennis so the monthly
 accrual convention can be matched and the true-up made near zero.
+
+## D-016 · Dennis's rate is 8%, not 9% — 2026-09-14 · Paul
+
+Paul sent two of Dennis's own interest figures ($279,001.00 from 2026-04-07 to 07-27 =
+$6,873.90; $196,850.50 from 06-02 to 08-06 = $2,809.57). Fitted against every common
+convention: only **8% compounded on the monthly anniversary with stub days simple** comes
+within a few dollars of both; 9% is off by hundreds. That is the accrual engine's method
+at a different rate. Paul: "it's 8%. i was using 9% as a hedge. make it accurate."
+
+**Decided:** `interest_rate_annual` = 0.08 (Settings tab, code defaults, writer seed).
+D-006's method is unchanged. The few dollars of residual are the true-up's job (D-015).
+No posted accruals needed re-posting: the only accrual in the books is the voided Phase 1
+gate test.

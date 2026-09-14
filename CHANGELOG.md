@@ -218,3 +218,12 @@ under the sold property; Dennis's share of those accrues on a per-partner adjust
 balance settled on the next payout (Paul chose this over eating it or re-issuing the
 payout). Shapes Phase 5. Also agreed, not built: open-period corrections show as one live
 entry with history; Totals and the Journal hide voided pairs by default.
+
+## 2026-09-14 — D-016: Dennis's rate is 8%
+
+Paul sent two of Dennis's interest figures. A fit across rates and day-count conventions
+shows 8% compounded on the monthly anniversary with simple stub days — our engine's
+method — within $1–$9; 9% is off by hundreds. Paul: "it's 8%. i was using 9% as a hedge."
+Settings `interest_rate_annual` set to 0.08 in the sheet (Claude), code defaults and the
+writer seed to 0.08, docs updated, D-016 recorded; the accrual goldens (from the old tab
+at 9%) now pass the rate explicitly, plus one test against Dennis's own figure.
