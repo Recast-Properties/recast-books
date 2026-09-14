@@ -165,6 +165,12 @@ function applyReadOpts(tab, headers, rows, { since, limit, all } = {}) {
  * write handler can refresh exactly the tab it just wrote. */
 export async function refreshTab(writer, tab, { timeoutMs } = {}) {
   const resp = await fetchTabFromWriter(writer, tab, timeoutMs);
+  // 2026-09-14: the writer answers POST with a redirect, and a slow Journal read once
+  // landed the follow-up on doGet - an "ok" body with no headers/rows, which was then
+  // stored as the Journal snapshot and took every report down. Never store that.
+  if (!Array.isArray(resp?.headers) || !Array.isArray(resp?.rows)) {
+    throw new WriterError("BAD_RESPONSE", `writer read of ${tab} returned no rows`);
+  }
   const snapshot = { fetchedAt: Date.now(), headers: resp.headers, rows: resp.rows };
   await getCacheStore().setJSON(`tab/${tab}`, snapshot);
   return { headers: snapshot.headers, rows: snapshot.rows };
@@ -193,7 +199,9 @@ export async function refreshTabAfterWrite(writer, tab) {
 export async function readTab(writer, tab, { fresh = false, since, limit, all, timeoutMs } = {}) {
   const store = getCacheStore();
   const key = `tab/${tab}`;
-  const cached = fresh ? null : await store.get(key, { type: "json" });
+  let cached = fresh ? null : await store.get(key, { type: "json" });
+  // A malformed snapshot (no rows) is a miss, not a hit - self-heals on the next read.
+  if (cached && !(Array.isArray(cached.headers) && Array.isArray(cached.rows))) cached = null;
 
   if (cached && Date.now() - cached.fetchedAt < tabTtlMs(tab)) {
     return { headers: cached.headers, rows: applyReadOpts(tab, cached.headers, cached.rows, { since, limit, all }) };
@@ -207,7 +215,7 @@ export async function readTab(writer, tab, { fresh = false, since, limit, all, t
     // D-012 duplicate re-check before a post). Stale would defeat it - fail instead.
     if (fresh) throw err;
     const fallback = cached || (await store.get(key, { type: "json" }));
-    if (fallback) {
+    if (fallback && Array.isArray(fallback.headers) && Array.isArray(fallback.rows)) {
       return {
         headers: fallback.headers,
         rows: applyReadOpts(tab, fallback.headers, fallback.rows, { since, limit, all }),

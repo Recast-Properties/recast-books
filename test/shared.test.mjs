@@ -238,3 +238,21 @@ test("readTab: {fresh: true} never falls back to a stale snapshot (D-012 rail)",
   assert.equal(await store.get("tab/Journal"), null);
   resetCacheStoreForTests(null);
 });
+
+test("refreshTab never stores a writer answer without rows; an empty snapshot is a miss", async () => {
+  const { readTab, refreshTab, resetCacheStoreForTests } = await import("../netlify/functions/_shared.mjs");
+  const { makeFakeCacheStore } = await import("./helpers/fake-cache-store.mjs");
+  const store = makeFakeCacheStore();
+  resetCacheStoreForTests(store);
+  const bare = { read: async () => ({ ok: true, service: "recast-books-writer" }) };
+  await assert.rejects(() => refreshTab(bare, "Journal"), /returned no rows/);
+  assert.equal(await store.get("tab/Journal"), null);
+
+  await store.setJSON("tab/Journal", { fetchedAt: Date.now() });
+  let calls = 0;
+  const good = { read: async () => { calls++; return { ok: true, headers: ["a"], rows: [[1]] }; } };
+  const out = await readTab(good, "Journal");
+  assert.equal(calls, 1, "an empty snapshot must not be served as a hit");
+  assert.deepEqual(out.rows, [[1]]);
+  resetCacheStoreForTests(null);
+});

@@ -253,3 +253,12 @@ offers the mailbox labels as a dropdown and builds the tab on save. Sonnet built
 spec; review fixed the stub-basis cell, a double-subtracted payoff in the preliminary
 payout, future-dated advances, Gmail's hyphenated label search, and the duplicate digest.
 394 tests.
+
+## 2026-09-14 — Empty Journal snapshot took the reports down
+
+Paul opened 1616 Granite and got HTTP 502: `getJournalAll` returned no rows. The cached
+Journal snapshot was `{"fetchedAt"}` only — the writer answers POST with a redirect and a
+slow Journal read once landed on `doGet` (an "ok" body with no headers/rows), which
+`refreshTab` stored. Fix: `refreshTab` refuses a read without header and row arrays
+(`BAD_RESPONSE`), `readTab` treats a malformed snapshot as a miss and never serves one as
+stale. Self-heals on the next read. 395 tests.
