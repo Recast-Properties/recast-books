@@ -115,7 +115,9 @@ export function resetCacheStoreForTests(fake = null) {
 }
 
 const WRITER_READ_TIMEOUT_MS = 8000;
-const JOURNAL_TTL_MS = 60 * 1000;
+// Journal is writer-only and every write refreshes the snapshot, so the TTL only
+// guards a tab nobody hand-edits; 60 s sent every ledger page load to the cold writer.
+const JOURNAL_TTL_MS = 10 * 60 * 1000;
 const DEFAULT_TAB_TTL_MS = 10 * 60 * 1000;
 
 function tabTtlMs(tab) {
