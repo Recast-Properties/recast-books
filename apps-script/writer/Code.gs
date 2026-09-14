@@ -1214,3 +1214,15 @@ function colLetter_(c) {
   while (c > 0) { var m = (c - 1) % 26; s = String.fromCharCode(65 + m) + s; c = Math.floor((c - 1) / 26); }
   return s;
 }
+
+/** Editor helper: rebuild the tab of every property in the Properties tab (no args). */
+function rebuildAllPropertyTabs() {
+  var props = PropertiesService.getScriptProperties();
+  var sheet = openOrCreateWorkbook_(props).getSheetByName('Properties');
+  var cols = headerIndex_(sheet);
+  var lastRow = sheet.getLastRow();
+  if (lastRow < 2) return;
+  sheet.getRange(2, cols['name'], lastRow - 1, 1).getValues().forEach(function (row) {
+    if (row[0]) setupPropertyTab(String(row[0]));
+  });
+}
