@@ -39,7 +39,7 @@ front door.
 
 ## Status
 
-**Phases 0, 1 gated 2026-09-11; Phase 2 gated 2026-09-12; Phase 2.5 (read cache) shipped 2026-09-12; hardening 2026-09-14 (invoice-keyed txn_id, cache warmer, Totals tab).**
+**Phases 0, 1 gated 2026-09-11; Phase 2 gated 2026-09-12; Phase 2.5 (read cache) shipped 2026-09-12; hardening 2026-09-14 (invoice-keyed txn_id, cache warmer, Totals tab, voided pairs hidden; D-015 two locks, D-016 Dennis 8%).**
 Phase 0 gate: `docs/phase0-spec.md` §11. Phase 1 gate: `docs/phase1-spec.md` §8. Phase 2
 (receipts bookkeeper — Claude directs the read with zoom/ledger/vendor/property/docs tools,
 `lib/gate.mjs` enforces the rails, Gmail poller + web upload, Drive filing, Inbox/Upload
