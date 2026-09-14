@@ -962,8 +962,7 @@ function setupTotals() {
 //         (Holding ex-1100), Property Tax (1100), Selling (posted); PROFIT BREAKDOWN
 //         (sale price = contract_price else purchase price; agent/closing at the
 //         Settings estimate pcts); PAYOUTS - Dennis / Paul / Back to Recast account,
-//         with a tie-out row: payouts must equal net proceeds (the old tab's $446.67
-//         gap is exactly what this row catches).
+//         with a tie-out row: payouts must equal net proceeds.
 //   D:H   DENNIS - every Advances row for this property: Start, End (repaid_date),
 //         Principal, Interest at Settings!interest_rate_annual (D-016, 8%) by the
 //         D-006 method (full monthly anniversaries via DATEDIF, compounded, simple

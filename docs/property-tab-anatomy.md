@@ -49,7 +49,8 @@ Sum of payouts 269,526.84; gap to net proceeds 5,973.16 = prorated property tax 
 
 ## Errors found on the tab
 
-- **Utilities counted twice in Total Project Cost.** "Rehab Costs $2,401.31" is already
+- **Utilities counted twice in Total Project Cost** (as read 2026-09-11; fixed on the tab by
+  2026-09-14 — the CSV Paul sent that day ties to the cent). "Rehab Costs $2,401.31" is already
   Costs + Utilities, and "Utilities $446.67" is listed again. Net profit is understated by
   $446.67; each share by $223.33. Corrected net profit $56,772.68, share $28,386.34.
 - Typos only: "Tiotal", "Inteest", "Reacst".

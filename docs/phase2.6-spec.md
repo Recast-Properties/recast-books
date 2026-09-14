@@ -104,8 +104,8 @@ method at `Settings!interest_rate_annual` (8%, D-016) on every Advances row for 
 property, so Financing-class (1200) accruals are left out of Total Project Cost and
 nothing double-counts. The tie-out row is the point: payouts equal net proceeds by
 construction (every cost line is funded by 2030, a 14xx account, a Dennis advance or a
-Dennis direct payment), so a non-zero Difference means a line is mis-funded — the old
-Newport tab's $446.67 gap. Helpers live in Z:AH, greyed. All SUMPRODUCT / FILTER over
+Dennis direct payment), so a non-zero Difference means a line is mis-funded, or a
+closing debit such as the prorated property tax that is not yet posted. Helpers live in Z:AH, greyed. All SUMPRODUCT / FILTER over
 bounded Journal rows, voided pairs excluded via the same helper-column trick as Totals.
 The tab is a view; nothing on it is typed. Sold properties keep their tab; the Phase 5
 release/payoff entries zero the summary, which the sell wizard owns.

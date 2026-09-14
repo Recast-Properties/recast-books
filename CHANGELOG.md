@@ -281,5 +281,6 @@ direct, Recast Account paid / received / net), Rehab Costs J:P and Utilities R:X
 blocks with Paul Paid / Dennis Paid / Recast Account checkboxes, POST-SALE under rehab.
 Not reproduced: the cash-advance interest charged to Paul personally (D-011 makes all
 Dennis interest a project cost) and the typed property-tax proration (posted 1100 lines
-show instead). New: a tie-out row — total payouts must equal net proceeds, which the old
-tab silently missed by $446.67. Spec §5 updated. 395 tests.
+show instead). New: a tie-out row — total payouts must equal net proceeds. (The
+$446.67 utilities double count noted on 2026-09-11 is gone from the tab Paul sent: its
+six summary lines tie to $219,638.04 exactly.) Spec §5 updated. 395 tests.
