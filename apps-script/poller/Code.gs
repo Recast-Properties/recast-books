@@ -122,6 +122,7 @@ function pollBooks() {
     });
 
     console.log('Books poll: ' + sent + ' message(s) uploaded, ' + failed + ' failure(s).');
+    warmCache_(uploadUrl, secret);
   } finally {
     lock.releaseLock();
   }
@@ -234,6 +235,18 @@ function fail_(code, message) {
 
 // Which inbox this receipt came through: travel@ gets a Travel-category hint on
 // the ingest side via the channel field.
+// Kicks the site's cache warmer (books-warm-background.mjs) so every tab snapshot is
+// refreshed on this trigger's cadence; the site's own 5-min schedule was not firing
+// on 2026-09-14. Fire-and-forget: the function answers 202 at once.
+function warmCache_(uploadUrl, secret) {
+  try {
+    var url = uploadUrl.replace(/\/api\/upload$/, '/api/warm-bg');
+    UrlFetchApp.fetch(url, { method: 'post', headers: { 'x-poller-secret': secret }, muteHttpExceptions: true });
+  } catch (err) {
+    console.error('warmCache_: ' + String(err));
+  }
+}
+
 function isAddressedToInbox_(message) {
   var hdrs = ((message.getTo() || '') + ',' + (message.getCc() || '')).toLowerCase();
   return hdrs.indexOf(CONFIG.RECEIPT_ADDRESS) !== -1 || hdrs.indexOf(CONFIG.TRAVEL_ADDRESS) !== -1;
