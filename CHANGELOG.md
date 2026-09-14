@@ -207,3 +207,14 @@ of the date in B1). Paul ran it from the editor; TB ties to the app's trial bala
 readable/upsertable tab lists on purpose. Also added the 6350/6930 rows from the 09-12
 chart review to the live Accounts tab (Claude, via the sheet). The 1401 bank account has a
 blank name ("Cash - ") — Paul can fix it on the Banking page.
+
+## 2026-09-14 — D-015: two locks
+
+Paul: can the year be one period, given properties straddle quarters and Dennis's
+interest only reconciles at the sale? Yes — tax period is the year. D-015 recorded:
+overhead locks by period (OVERHEAD lines only); a property locks at sale via the sell
+wizard with a true-up entry to Dennis's interest figure; post-sale bills post to COGS
+under the sold property; Dennis's share of those accrues on a per-partner adjustment
+balance settled on the next payout (Paul chose this over eating it or re-issuing the
+payout). Shapes Phase 5. Also agreed, not built: open-period corrections show as one live
+entry with history; Totals and the Journal hide voided pairs by default.

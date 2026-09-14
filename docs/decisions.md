@@ -254,3 +254,38 @@ one fact the document lacked.
 
 **Why:** the paying account is a fact, not a judgment, and a wrong one misstates a bank
 balance and Due to owner at the same time. A default is a guess dressed as a rule.
+
+## D-015 · Two locks: overhead by period, a property at sale — 2026-09-14 · Paul
+
+Paul asked whether the year can be one period, since properties straddle quarters and
+Dennis's interest never matches his figure until they reconcile at the sale. The tax
+period is the calendar year (Schedule C); closes are habits, not rules.
+
+**Decided:**
+1. **Overhead locks by period.** OVERHEAD lines reconcile against the operating account's
+   statement monthly and are locked monthly or quarterly, Paul's choice. The period lock
+   applies to OVERHEAD lines only.
+2. **A property locks at sale.** Property lines are never blocked by a period lock; the
+   property stays open across every month it is held. The sell wizard (Phase 5) closes it
+   in one pass: Paul enters Dennis's interest figure, code posts one **true-up** entry for
+   the difference (dated at settlement, to that property's 1200 / 2000), costs release to
+   COGS, the payout report ties to the settlement statement, and the property is locked.
+   After that the writer refuses any line naming the property except:
+3. **Post-sale costs.** A bill that arrives after the sale (final utilities, a late
+   contractor invoice) posts to 5000 COGS with the property's name, dated the day it
+   arrives, flagged post-sale. It never touches the 1000s or the closed payout. The
+   bookkeeper posts these itself when the address is a sold property; the job-cost report
+   shows them in their own section under the sale.
+4. **Partner settlement of post-sale costs — option 2.** Dennis's share of any post-sale
+   cost (per the waterfall) accrues on a running per-partner adjustment balance and is
+   settled as one line on the next sale's payout report. No re-issued payout, no
+   immediate transfer. Paul may ignore trivial amounts by leaving them there.
+
+**Why:** the ledger already separates the two populations (D-010: overhead never names a
+property; property costs never name OVERHEAD), so two independent locks cost nothing.
+Dennis's figure is the authority for interest at the sale; the monthly accruals are
+estimates and the true-up is the standard way to reconcile an estimate. Post-sale costs are
+routine in this business and must not reopen a closed sale.
+
+**Follow-up:** Paul to send one property's interest calculation from Dennis so the monthly
+accrual convention can be matched and the true-up made near zero.
