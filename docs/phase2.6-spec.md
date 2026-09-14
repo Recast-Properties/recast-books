@@ -17,25 +17,34 @@ therefore in **properties@**, not paul@. The poller runs as the mailbox it reads
   property `MAILBOX = properties` switches its search to the property addresses. Nothing
   in the old system is touched: this instance labels only `books-done` in properties@.
 
-## 2 · Properties tab gains `email`
+## 2 · Registration is the Gmail label (no email column)
 
-`TAB_HEADERS.Properties` appends `email` (the group address). The Properties page's add /
-edit form gets the field. The property allowlist is unchanged (held / under contract).
+Paul, 2026-09-14: "when a property email is created it should automatically register it
+with the poller moving forward." The email-setup tool in Recast-site (never modified from
+here) already creates, per property email, a **Gmail label in properties@ named for the
+property** plus a filter that routes the group's mail into it. That label is the
+registration. The properties@ poller lists the mailbox's user labels each run, drops
+`books-done` and anything not matching a registered property, and searches the rest.
 
-## 3 · `GET /api/property-emails` (poller secret)
+Match rule: label name ↔ Properties `name`, compared after lower-casing and removing
+spaces and punctuation (`881Newport` ↔ `881 Newport`). An unmatched label is **skipped and
+logged** — its mail is left untouched (no `books-done`), so registering the property later
+picks all of it up on the next poll, subject to `START_DATE`.
 
-Returns `[{name, email}]` for properties with status held or under contract and a
-non-empty email. Read through `readTab` (snapshot). The properties@ poller calls it once
-per run and builds its search:
+## 3 · `GET /api/property-mailboxes` (poller secret)
+
+Returns `[{name, key}]` for properties with status held or under contract (`key` is the
+normalised name), read through `readTab`. The properties@ poller intersects this with its
+labels and builds, per matched label:
 
 ```
-(to:1616granite@recast-properties.com OR to:<next>@...) after:<START_DATE> -label:books-done
+label:"1616 Granite" after:<START_DATE> -label:books-done
 ```
 
-`START_DATE` is this instance's own script property. For the Granite exercise it is set to
-`2026-04-01` so the June–August mail is in scope. The per-message inbox check accepts any
-address in that list; `channelOf_` returns the **property name** (from the same list) for
-a match. `dryRunBatch` works the same way (DRY_QUERY over the same addresses).
+`START_DATE` is this instance's own script property (`2026-04-01` for the Granite
+exercise). `channelOf_` returns the property **name** from the registry for the label the
+thread carries; the per-message inbox check becomes "carries a matched label". `dryRunBatch`
+uses the same label set with DRY_QUERY.
 
 ## 4 · Ingest: channel is a property name
 
@@ -77,14 +86,15 @@ Sold properties keep their tab. `setupTotals` gains nothing.
 
 ## 6 · Tests
 
-Writer lint (no A1 getRange, new action wired); `/api/property-emails` auth + shape;
+Writer lint (no A1 getRange, new action wired); `/api/property-mailboxes` auth + shape +
+name normalisation;
 upload accepts a property channel and refuses an unknown one; ingest passes the
 mailbox hint; prompt-sync. `npm test` green.
 
 ## 7 · Gate (1616 Granite)
 
 1. Paul registers 1616 Granite (status **under contract** for the exercise — the sell
-   wizard is Phase 5), email `1616granite@recast-properties.com`, and records Dennis's
+   wizard is Phase 5; the name must match the Gmail label "1616 Granite") and records Dennis's
    three advances ($279,001 on 2026-04-07; $5,500 on 06-01; $1,338 on 06-05).
 2. The properties@ poller is set up (Paul signs in as properties@, creates the project,
    pastes the same `POLLER_SECRET`, runs `setup()`), `START_DATE = 2026-04-01`.
