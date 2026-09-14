@@ -41,6 +41,15 @@ labels and builds, per matched label:
 label:"1616 Granite" after:<START_DATE> -label:books-done
 ```
 
+**Labels flow the other way too.** Each run the properties@ poller first POSTs its user
+labels (minus `books-done`) to `/api/property-mailboxes` (poller secret); the function
+stores them in Blobs `books-cache` under `mailbox/labels` with a timestamp. The Properties
+page's add form reads them (`GET /api/property-mailboxes` with a session returns
+`{labels, registered, fetchedAt}`) and offers the **name as a dropdown of label names**
+(labels already registered are marked; a final "no property email yet" option reveals the
+free-text field). Paul, 2026-09-14: "remove any chance for error." The dropdown lists
+exactly the mailboxes the poller can see, so a registered name always matches its label.
+
 `START_DATE` is this instance's own script property (`2026-04-01` for the Granite
 exercise). `channelOf_` returns the property **name** from the registry for the label the
 thread carries; the per-message inbox check becomes "carries a matched label". `dryRunBatch`
@@ -88,7 +97,8 @@ Sold properties keep their tab. `setupTotals` gains nothing.
 
 Writer lint (no A1 getRange, new action wired); `/api/property-mailboxes` auth + shape +
 name normalisation;
-upload accepts a property channel and refuses an unknown one; ingest passes the
+upload accepts a property channel and refuses an unknown one; label POST stores and
+session GET returns them; ingest passes the
 mailbox hint; prompt-sync. `npm test` green.
 
 ## 7 · Gate (1616 Granite)
