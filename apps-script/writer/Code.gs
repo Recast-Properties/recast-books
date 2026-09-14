@@ -180,6 +180,7 @@ var ACCOUNTS_SEED = [
   ['1402', 'Cash - Chase operating', '1400', 'asset', '', '', true, ''],
   ['1500', 'Earnest money & deposits', '1400', 'asset', '', '', true, ''],
   ['1510', 'Escrow & holdbacks receivable', '1400', 'asset', '', '', true, ''],
+  ['1520', 'Prepaid API credits', '1400', 'asset', '', '', true, 'D-018: Anthropic top-ups; drawn down monthly by /api/api-costs'],
   ['2000', 'Accrued interest - Dennis', '2000', 'liability', '', '', true, ''],
   ['2010', 'Note payable - Dennis', '2000', 'liability', '', '', true, ''],
   ['2020', 'Backup withholding payable', '2000', 'liability', '', '', true, ''],
@@ -228,7 +229,11 @@ var SETTINGS_SEED = [
   ['dealer_status', 'unknown', ''],
   ['cash_or_accrual', 'unknown', ''],
   ['de_minimis_elected', 'unknown', ''],
-  ['tax_home', 'unknown', '']
+  ['tax_home', 'unknown', ''],
+  ['api_cost_account:Recast Books', '6210', 'D-018: account for this Anthropic workspace\'s usage'],
+  ['api_cost_account:Receipts (old site)', '6210', 'D-018'],
+  ['api_cost_account:Title Search', '6300', 'D-018'],
+  ['api_cost_account:Default', '6400', 'D-018']
 ];
 
 // Bank accounts seed, phase1-spec.md section 3: the chart's two Cash accounts, so

@@ -295,3 +295,16 @@ first use, so no `setup()` re-run) and a field on the add/edit form. The tab's P
 Tax row is posted 1100 plus the proration while unsold; Net proceeds subtracts the same
 estimate (it is netted on the ALTA), so the tie-out stays at zero. Once the property is
 sold the estimate is zero and only the settlement statement's posted line remains.
+
+## 2026-09-14 — D-018: Anthropic usage split by workspace
+
+Paul asked how to tell what each Claude workload costs and log it accurately. Console
+workspaces created (Recast Books, Receipts (old site), Title Search, Anything else); the
+books site moved to a non-expiring key in its workspace (the old Personal key expired
+2026-10-11). New `1520 Prepaid API credits`; the prompt sends Anthropic top-ups there.
+New `/api/api-costs` (`netlify/functions/books-api-costs.mjs`): GET previews the month's
+cost report by workspace mapped through Settings `api_cost_account:<workspace>`; POST
+(owner or poller) posts Dr per workspace / Cr 1520 dated month end, skipping a month
+already on the Journal, creating the 1520 Accounts row and any missing mapping rows on
+first use. The paul@ poller's 3 AM digest calls it on the 2nd of the month. Needs
+`ANTHROPIC_ADMIN_KEY` on Netlify. 410 tests.

@@ -313,3 +313,29 @@ D-015). A buyer's contract is a fact on the property — optional `contract_pric
 the preliminary payout uses when present. Anything not `sold` is treated as held (so the
 one legacy "under contract" row keeps working until edited). Sold properties leave the
 posting allowlist, which they had not before (latent bug fixed).
+
+## D-018 · API credits are prepaid; usage is expensed monthly by workspace — 2026-09-14 · Paul
+
+Paul: "i want to split where these charges are being logged so i know what each is
+costing me and to more accurately log." An Anthropic receipt is a credit top-up and never
+says which system spent the money, and the Console splits dollars only by workspace.
+
+**Decided:**
+1. Each Claude workload runs in its own Anthropic Console workspace with its own key:
+   **Recast Books**, **Receipts (old site)**, **Title Search**, and **Anything else** /
+   Default. The workspace is the marker.
+2. An Anthropic top-up or auto-reload receipt posts to **1520 Prepaid API credits**
+   (asset, overhead), not 6400. The bookkeeper's prompt says so.
+3. On the 2nd of each month code pulls Anthropic's cost report for the prior month,
+   grouped by workspace, and posts one entry dated the last day of that month: a debit
+   per workspace to the account in Settings `api_cost_account:<workspace>` (Recast Books
+   and Receipts → 6210 Accounting & bookkeeping; Title Search → 6300 Data & research;
+   anything else → 6400), one credit to 1520. `/api/api-costs`, triggered by the paul@
+   poller's digest run; a month already posted is skipped. No model judgment: the split
+   is Anthropic's number and the mapping is a setting.
+4. 1520's balance is credits bought and not yet used. It is Paul's overhead throughout
+   (D-010).
+
+**Needs:** an Admin API key (`ANTHROPIC_ADMIN_KEY` on the books site), which only Paul
+can create. Title screening stays overhead: it runs across many pre-purchase properties
+and never capitalizes to one.

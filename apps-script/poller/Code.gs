@@ -69,6 +69,7 @@ function authorize() {
 var CONFIG = {
   DEFAULT_UPLOAD_URL: 'https://books.recast-properties.com/api/upload',
   DEFAULT_SUMMARY_URL: 'https://books.recast-properties.com/api/summary',
+  DEFAULT_API_COSTS_URL: 'https://books.recast-properties.com/api/api-costs',
   RECEIPT_ADDRESS: 'receipts@recast-properties.com',
   TRAVEL_ADDRESS: 'travel@recast-properties.com',
   DONE_LABEL: 'books-done',
@@ -382,6 +383,7 @@ function dryRunBatch() {
 function dailyDigest() {
   var props = PropertiesService.getScriptProperties();
   var secret = requireProp_(props, 'POLLER_SECRET');
+  postApiCosts_(props, secret);
   var summaryUrl = props.getProperty('BOOKS_SUMMARY_URL') || CONFIG.DEFAULT_SUMMARY_URL;
   var y = yesterdayIso_();
 
@@ -603,5 +605,28 @@ function shrinkImageViaDrive_(att) {
     return null;
   } finally {
     if (fileId) { try { DriveApp.getFileById(fileId).setTrashed(true); } catch (e2) {} }
+  }
+}
+
+// D-018: on the 2nd of each month (Anthropic's cost data lags up to a day) POST
+// /api/api-costs with no body - the site posts the previous month's Anthropic usage
+// by workspace (Dr 6xxx per workspace, Cr 1520 Prepaid API credits) and skips a month
+// already posted, so a repeat call is harmless. Failures are logged, never thrown, so
+// the digest still goes out.
+function postApiCosts_(props, secret) {
+  var day = Utilities.formatDate(new Date(), 'America/Chicago', 'd');
+  if (day !== '2') return;
+  var url = props.getProperty('BOOKS_API_COSTS_URL') || CONFIG.DEFAULT_API_COSTS_URL;
+  try {
+    var res = UrlFetchApp.fetch(url, {
+      method: 'post',
+      contentType: 'application/json',
+      payload: '{}',
+      headers: { 'x-poller-secret': secret },
+      muteHttpExceptions: true
+    });
+    console.log('postApiCosts_: ' + res.getResponseCode() + ' ' + res.getContentText().slice(0, 300));
+  } catch (e) {
+    console.error('postApiCosts_: ' + e);
   }
 }
