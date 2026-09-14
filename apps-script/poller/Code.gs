@@ -251,7 +251,15 @@ function buildPayload_(message, dryRun) {
     if (!isPdf && !isImg) continue;
 
     var bytes = att.getBytes();
-    var mime = type || (isPdf ? 'application/pdf' : 'image/jpeg');
+    // Decide the mime by extension when the client sent none or octet-stream (Netlify
+    // invoices arrive as application/octet-stream; 2026-09-14 the model was told they
+    // were unsupported). Same normalization the old receipts poller does.
+    var mime = type;
+    if (isPdf) mime = 'application/pdf';
+    else if (!/^image\//.test(type)) {
+      var m = lname.match(/\.(jpe?g|png|gif|webp|heic|heif)$/);
+      mime = m ? (m[1] === 'jpg' ? 'image/jpeg' : m[1] === 'jpeg' ? 'image/jpeg' : 'image/' + m[1]) : 'image/jpeg';
+    }
     var attName = att.getName();
     if (bytes.length > CONFIG.MAX_ATTACH_BYTES) {
       // Phone photos routinely exceed the cap (base64 must stay under Netlify's 6 MB

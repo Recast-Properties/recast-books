@@ -207,6 +207,21 @@ test("an image attachment is base64-encoded and labelled [attachment N: name]", 
   assert.equal(image.source.data, png.toString("base64"));
 });
 
+test("a PDF labelled application/octet-stream is still shown as a PDF (2026-09-14 Netlify invoice)", async () => {
+  const pdfBytes = Buffer.from("%PDF-1.4 fake pdf bytes for a unit test");
+  const client = scriptedClient([{ stop_reason: "tool_use", content: [toolUse("t1", "decide", DECIDE_INPUT)], usage: usage() }]);
+  await runBookkeeper({
+    envelope: baseEnvelope(),
+    attachments: [{ name: "Invoice-SFWGOE-00008.pdf", mime: "application/octet-stream", bytes: pdfBytes }],
+    deps: baseDeps({ anthropic: client }),
+  });
+  const content = client.calls[0].messages[0].content;
+  const doc = content.find((b) => b.type === "document");
+  assert.ok(doc, "expected a document content block");
+  assert.equal(doc.source.media_type, "application/pdf");
+  assert.ok(!content.some((b) => b.type === "text" && b.text.includes("unsupported file type")));
+});
+
 test("a PDF attachment becomes a document block and zoom refuses it", async () => {
   const pdfBytes = Buffer.from("%PDF-1.4 fake pdf bytes for a unit test");
   const client = scriptedClient([
