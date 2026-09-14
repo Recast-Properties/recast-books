@@ -113,9 +113,9 @@ test("readTab: a hit within the TTL does not call the writer again", async () =>
 
 test("readTab: an expired snapshot re-fetches", async () => {
   const writer = fakeWriter([["k", "v2"]], { headers: ["key", "value"] });
-  // Seed an already-expired snapshot directly (every non-Journal tab's TTL is 10 min).
+  // Seed an already-expired snapshot directly (every tab's TTL is 20 min).
   await getCacheStore().setJSON("tab/Settings", {
-    fetchedAt: Date.now() - 11 * 60 * 1000,
+    fetchedAt: Date.now() - 25 * 60 * 1000,
     headers: ["key", "value"],
     rows: [["k", "v1"]],
   });
@@ -135,7 +135,7 @@ test("readTab: {fresh: true} always calls the writer, even with a fresh snapshot
 
 test("readTab: writer abort with an existing snapshot returns it with stale:true, no throw", async () => {
   await getCacheStore().setJSON("tab/Settings", {
-    fetchedAt: Date.now() - 11 * 60 * 1000, // expired, so readTab will attempt a refresh
+    fetchedAt: Date.now() - 25 * 60 * 1000, // expired, so readTab will attempt a refresh
     headers: ["key", "value"],
     rows: [["k", "old"]],
   });
