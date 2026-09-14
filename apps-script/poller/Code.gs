@@ -71,7 +71,8 @@ var CONFIG = {
   DEFAULT_DRY_QUERY: 'newer_than:30d',
   DIGEST_TO: 'paul@recast-properties.com',
   MAX_THREADS: 20,
-  MAX_ATTACH_BYTES: 3 * 1024 * 1024 // raw bytes; base64 grows ~33%, and the whole POST must stay under 6 MB
+  MAX_ATTACH_BYTES: 3 * 1024 * 1024, // raw bytes; base64 grows ~33%, and the whole POST must stay under 6 MB
+  MAX_ATTACH_COUNT: 6 // at most N attachments per email (ported from receipts-poller.gs)
 };
 
 // ---- pollBooks: real ingestion, labels processed threads --------------------
@@ -97,6 +98,10 @@ function pollBooks() {
     threads.forEach(function (thread) {
       var threadOk = true;
       thread.getMessages().forEach(function (message) {
+        // Only messages actually addressed to receipts@/travel@ (ported from
+        // receipts-poller.gs): a thread matches on any one message, but a reply in it
+        // is not a document. Skipped messages still let the thread be labelled done.
+        if (!isAddressedToInbox_(message)) return;
         try {
           var payload = buildPayload_(message, false);
           var res = postUpload_(uploadUrl, secret, payload);
@@ -229,6 +234,11 @@ function fail_(code, message) {
 
 // Which inbox this receipt came through: travel@ gets a Travel-category hint on
 // the ingest side via the channel field.
+function isAddressedToInbox_(message) {
+  var hdrs = ((message.getTo() || '') + ',' + (message.getCc() || '')).toLowerCase();
+  return hdrs.indexOf(CONFIG.RECEIPT_ADDRESS) !== -1 || hdrs.indexOf(CONFIG.TRAVEL_ADDRESS) !== -1;
+}
+
 function channelOf_(message) {
   var hdrs = ((message.getTo() || '') + ',' + (message.getCc() || '')).toLowerCase();
   return hdrs.indexOf(CONFIG.TRAVEL_ADDRESS) !== -1 ? 'travel' : 'receipts';
@@ -242,7 +252,7 @@ function buildPayload_(message, dryRun) {
   var attachments = [];
   var notes = [];
   var atts = message.getAttachments({ includeInlineImages: true, includeAttachments: true });
-  for (var i = 0; i < atts.length; i++) {
+  for (var i = 0; i < atts.length && attachments.length < CONFIG.MAX_ATTACH_COUNT; i++) {
     var att = atts[i];
     var type = (att.getContentType() || '').toLowerCase();
     var lname = (att.getName() || '').toLowerCase();

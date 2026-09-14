@@ -187,3 +187,12 @@ and the cold writer ran past 8 s. Added `books-warm` (scheduled every 5 min) →
 `ping` cached in Blobs. Not bugs: Netlify $20 held for the payer (D-014), Uber Eats
 dismissed as personal (D-012) — the old system files without knowing who paid and holds
 every Uber Eats.
+
+## 2026-09-14 — Poller: two more behaviours ported from receipts-poller.gs
+
+Paul: "it seems you rewrote the poller for the new system vs using what was working."
+Correct — the Phase 2 agent re-derived it from the spec instead of copying the working
+file. Diffed the two: besides the MIME fix, the new poller lacked the per-message
+"addressed to receipts@/travel@" check (a reply in a receipt thread was being ingested
+as a document) and the 6-attachment cap. Both ported. Lesson for the specs: "modelled
+on X" means copy X and change the endpoints, not write X again.
