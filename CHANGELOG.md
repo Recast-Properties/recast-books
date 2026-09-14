@@ -170,3 +170,20 @@ note that refunds reverse the expense rather than post to 4030. Three questions 
 the accountant's: tax home, capitalize-vs-deduct holding costs, the truck. In
 `lib/coa.mjs`, the writer seed, the prompt and `docs/chart-of-accounts.md`; Paul adds
 the two rows to the live Accounts tab by hand.
+
+## 2026-09-14 — Night-of-09-13 comparison against the old bookkeeper; three fixes
+
+Paul: the old system understood last night's receipts better. Compared both digests.
+(1) **Anthropic $100 posted twice** — original and Paul's forward were read in parallel,
+finished 3 s apart, and the D-012 pre-post ledger re-check lost the race to the writer's
+own read latency. Fix: a receipt with an invoice number now gets a `txn_id` keyed by
+payee + invoice + property, so the writer's lock refuses the twin (`DUPLICATE` → dismissed
+with `duplicate_of`). (2) **Netlify PDF invoice "unsupported"** — Gmail labelled it
+`application/octet-stream`; the new poller passed that through, the old one re-types by
+extension. Fixed in the poller (needs `clasp push` after Paul's `clasp login`) and in the
+bookkeeper. (3) Sign-in hung: the first Users read since the cache deploy had no snapshot
+and the cold writer ran past 8 s. Added `books-warm` (scheduled every 5 min) →
+`books-warm-background` refreshing every tab; Journal TTL to 10 min; the Settings read's
+`ping` cached in Blobs. Not bugs: Netlify $20 held for the payer (D-014), Uber Eats
+dismissed as personal (D-012) — the old system files without knowing who paid and holds
+every Uber Eats.

@@ -451,6 +451,8 @@ export async function processDecision({
   // ---- post: verdict "post" and every gate condition holds (a valid `supersedes`
   // naming a posted txn_id is gate.mjs's job to treat as passing, per spec section 4) --
   if (model.verdict === "post" && gateResult.passed) {
+    let entries;
+    let doc_url = "";
     try {
       // Two copies of one receipt often arrive together and are read in parallel, so the
       // ledger the gate saw may predate the other copy's post. Re-read fresh, right now.
@@ -467,13 +469,13 @@ export async function processDecision({
       }
       const folder = postFolderFor(model);
       const filed = await storeAttachmentsToDrive(writer, docsStore, envelope, folder, model);
-      const doc_url = filed[0]?.url || "";
+      doc_url = filed[0]?.url || "";
 
       if (model.supersedes) {
         await writer.void(model.supersedes, `superseded by ${docId}`, todayChicago(), "claude");
       }
 
-      const entries = buildEntriesFromModelSafe(model, ctx, {
+      entries = buildEntriesFromModelSafe(model, ctx, {
         posted_by: "claude",
         doc_url,
         allow_duplicate_hash: false,
@@ -488,6 +490,17 @@ export async function processDecision({
         finishedAt: new Date().toISOString(),
       });
     } catch (err) {
+      // The writer refused an invoice-keyed txn_id inside its lock: the same vendor
+      // invoice is already posted (a twin processed in parallel beat this one). D-012
+      // rule 3 - a duplicate by invoice number is dismissed by code.
+      if (err instanceof WriterError && err.code === "DUPLICATE" && model.invoice_number && entries?.[0]?.txn_id) {
+        return save({
+          status: "dismissed",
+          model: { ...model, verdict: "dismiss", duplicate_of: entries[0].txn_id, why: `${model.why} [rail: the writer already holds ${entries[0].txn_id} for invoice ${model.invoice_number} - posted moments earlier by a twin of this document]` },
+          result: { txn_ids: [], rows: null, doc_url },
+          finishedAt: new Date().toISOString(),
+        });
+      }
       if (isPendingWorthy(err)) {
         return save({
           status: "pending",

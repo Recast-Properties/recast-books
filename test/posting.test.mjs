@@ -819,3 +819,17 @@ test("purchase honors an explicit memo over the default", () => {
   const entry = buildEntry(purchaseIntent({ memo: "Custom memo" }), ctx);
   assert.equal(entry.memo, "Custom memo");
 });
+
+test("purchase txn_id is keyed by vendor + invoice number when one is given (D-012 rule 3 in code)", async () => {
+  const { buildEntry } = await import("../lib/posting.mjs");
+  const ctx = baseCtx();
+  const base = { type: "purchase", date: "2026-09-10", payee: "Anthropic, PBC", property: "OVERHEAD", paid_from: "PAUL",
+    items: [{ account: "6400", amount_cents: 10000, description: "Max plan" }] };
+  const a = buildEntry({ ...base, invoice_number: "2268-3974-1772" }, ctx);
+  const b = buildEntry({ ...base, invoice_number: "2268-3974-1772", items: [{ account: "6400", amount_cents: 10000, description: "Max plan 5x (forwarded copy)" }] }, ctx);
+  const c = buildEntry({ ...base, invoice_number: "UT8RYVIC-0008" }, ctx);
+  const d = buildEntry(base, ctx);
+  assert.equal(a.txn_id, b.txn_id, "same invoice, different wording -> same id");
+  assert.notEqual(a.txn_id, c.txn_id, "different invoice -> different id");
+  assert.notEqual(a.txn_id, d.txn_id, "no invoice falls back to the line hash");
+});

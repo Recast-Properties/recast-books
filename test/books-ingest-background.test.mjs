@@ -395,6 +395,24 @@ test("postBatch DUPLICATE/PERIOD_CLOSED downgrades to pending with the reason re
   assert.ok(result.gate.reasons.some((r) => r.includes("DUPLICATE")));
 });
 
+test("writer DUPLICATE on an invoice-numbered receipt dismisses as a duplicate (twin beat it)", { skip }, async () => {
+  const { WriterError } = await import("../lib/writer-client.mjs");
+  const envelope = await seedEnvelope({ docId: "gm-dup-inv" });
+  const store = getDocsStore();
+  await store.set("att/gm-dup-inv/0", Buffer.from("hi").toString("base64"), { metadata: {} });
+  const writer = {
+    storeDocument: async () => ({ fileId: "f1", url: "https://drive/x", folderUrl: "https://drive/folder" }),
+    postBatch: async () => { throw new WriterError("DUPLICATE", "txn_id already posted"); },
+  };
+  const result = await processDecision({
+    envelope, docId: "gm-dup-inv", model: { ...postModel(), invoice_number: "2268-3974-1772" },
+    transcript_summary: [], usage: {}, gateResult: PASS_GATE, ctx: baseCtx(), writer, docsStore: store,
+  });
+  assert.equal(result.status, "dismissed");
+  assert.match(result.model.duplicate_of, /^receipt-/);
+  assert.match(result.model.why, /invoice 2268-3974-1772/);
+});
+
 test("a non-conflict postBatch failure propagates (caller records status error)", { skip }, async () => {
   const { WriterError } = await import("../lib/writer-client.mjs");
   const envelope = await seedEnvelope({ docId: "gm-fail" });

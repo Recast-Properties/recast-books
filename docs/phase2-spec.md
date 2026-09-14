@@ -147,6 +147,13 @@ draft `business_purpose` from the email but expect `hold` unless the purpose is 
 7. `paid_from` resolves (14xx in Bank accounts / Accounts, or PAUL / DENNIS with a property);
    `UNKNOWN` holds with reason `PAYER_UNKNOWN` and Paul assigns the account on approve (D-014)
 8. `buildEntry` succeeds for every entry (this also runs D-010/D-011 and PURPOSE_REQUIRED)
+9a. **identity by invoice number (2026-09-14):** when the model extracted an
+   `invoice_number`, every entry's `txn_id` hashes payee + invoice number + property
+   instead of the first debit line, so two copies of one invoice read in parallel
+   collide inside the writer's ScriptLock and the second is refused `DUPLICATE`; the
+   ingest records that as `dismissed` with `duplicate_of`. The pre-post ledger
+   re-check stays, but it is no longer the only thing between a twin and a double post
+   (2026-09-13: both Anthropic copies posted three seconds apart).
 9. **twin rail:** no *posted* Journal entry with the same payee, date and total that the
    model did not name in `duplicate_of`/`supersedes` — if one exists → hold with reason
    `POSSIBLE_TWIN <txn_id>` (never silently double-post; never silently drop either)
