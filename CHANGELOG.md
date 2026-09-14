@@ -204,6 +204,6 @@ in the app. Added writer `setupTotals()`: a formula-only **Totals** tab (trial b
 account, key balances, cost by property, overhead by account, all SUMIFS over Journal as
 of the date in B1). Paul ran it from the editor; TB ties to the app's trial balance
 (4,137.80 both sides). Rerun `setupTotals` any time to rebuild; it is not in the writer's
-readable/upsertable tab lists on purpose. Noted while checking: the 6350/6930 rows from
-the 09-12 chart review are not yet in the live Accounts tab; the 1401 bank account has a
-blank name ("Cash - ").
+readable/upsertable tab lists on purpose. Also added the 6350/6930 rows from the 09-12
+chart review to the live Accounts tab (Claude, via the sheet). The 1401 bank account has a
+blank name ("Cash - ") — Paul can fix it on the Banking page.
