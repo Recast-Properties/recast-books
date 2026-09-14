@@ -97,25 +97,28 @@ test("phase2.6-spec.md section 5: setupPropertyTab(name) exists, callable from t
   assert.ok(body.includes("setupPropertyTab("), "action_propertyTab_ does not call setupPropertyTab");
 });
 
-test("setupPropertyTab: cost-class blocks, DENNIS interest (D-006 DATEDIF/EDATE compounding), and a bounded FILTER for LINES/POST-SALE", () => {
+test("setupPropertyTab: old-tab layout (summary / Dennis / Rehab Costs / Utilities), D-006 interest, bounded FILTER lines, POST-SALE, tie-out", () => {
   const anchor = source.indexOf("function setupPropertyTab(name)");
   assert.ok(anchor !== -1, "setupPropertyTab not found");
   const nextFn = source.indexOf("\nfunction ", anchor + 1);
   const body = source.slice(anchor, nextFn === -1 ? source.length : nextFn);
 
-  assert.ok(body.includes("PROPERTY_COST_CLASSES"), "setupPropertyTab does not iterate PROPERTY_COST_CLASSES");
-  for (const cls of ["Acquisition", "Rehab", "Holding", "Financing", "Selling"]) {
-    // PROPERTY_COST_CLASSES itself is declared just above setupPropertyTab, not
-    // inside its body - check the whole file for the literal.
-    assert.ok(source.includes("'" + cls + "'"), `cost class "${cls}" not referenced`);
+  for (const label of ["Total Project Cost", "Purchase Price", "Interest to Date", "Rehab Costs", "Utilities",
+    "Profit Breakdown", "Net Profit", "Individual Share", "Payouts", "Back to Recast account", "Difference (must be 0)"]) {
+    assert.ok(body.includes("'" + label + "'"), `summary label "${label}" missing`);
+  }
+  for (const cls of ["Rehab", "Acquisition", "Holding", "Selling"]) {
+    assert.ok(body.includes("'" + cls + "'"), `cost class "${cls}" not referenced`);
   }
   assert.ok(body.includes("DATEDIF"), "no DATEDIF - D-006 full-month anniversary count is missing");
   assert.ok(body.includes("EDATE"), "no EDATE - D-006 last-anniversary date is missing");
   assert.ok(body.includes("interest_rate_annual"), "does not read Settings!interest_rate_annual (D-016)");
   assert.ok(body.includes("stub_days_basis"), "does not read Settings!stub_days_basis");
-  assert.ok(body.includes("FILTER("), "LINES/POST-SALE blocks do not use FILTER over Journal");
+  assert.ok(body.includes("FILTER("), "line blocks do not use FILTER over Journal");
+  assert.ok(body.includes("insertCheckboxes"), "Paul Paid / Dennis Paid / Recast Account are not checkboxes");
   assert.ok(body.includes("POST-SALE"), "no POST-SALE block (D-015)");
-  assert.ok(body.includes("settlement_date") || body.includes("Properties!A:F"), "POST-SALE does not reference settlement_date");
+  assert.ok(body.includes("Properties!A:F"), "POST-SALE does not reference settlement_date");
+  assert.ok(body.includes("Properties!A:K,11"), "does not read contract_price (D-017)");
 });
 
 test("WRITER_VERSION is 0.3.0", () => {

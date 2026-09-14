@@ -269,3 +269,17 @@ Statuses reduced to held / sold; optional `contract_price` on Properties (column
 the property tab's preliminary payout. Sold properties now leave the posting allowlist
 (they never had — latent bug). Mailboxes, upload and the model's property list all use
 one rule: not sold = held.
+
+## 2026-09-14 — Property tab laid out like the old workbook's tab
+
+Paul sent the old `881 Newport` tab as CSV: "i want the property tabs to more closely
+match this." `setupPropertyTab` rebuilt side by side — summary A:B (Total Project Cost,
+Purchase Price, Interest to Date, Rehab Costs, Utilities, Property Tax, Profit Breakdown,
+Payouts for Dennis / Paul / Back to Recast account), Dennis block D:H (per-advance Start /
+End / Principal / Interest schedule, Paul Paid / Reimbursed / Due to Paul, Dennis Paid
+direct, Recast Account paid / received / net), Rehab Costs J:P and Utilities R:X line
+blocks with Paul Paid / Dennis Paid / Recast Account checkboxes, POST-SALE under rehab.
+Not reproduced: the cash-advance interest charged to Paul personally (D-011 makes all
+Dennis interest a project cost) and the typed property-tax proration (posted 1100 lines
+show instead). New: a tie-out row — total payouts must equal net proceeds, which the old
+tab silently missed by $446.67. Spec §5 updated. 395 tests.

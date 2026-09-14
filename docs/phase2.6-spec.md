@@ -72,26 +72,43 @@ property must be in the allowlist, so a sold and locked property refuses on its 
 
 Formula-only, generated when a property is added (Properties page add → after the upsert,
 POST `/api/meta {action:"propertyTab", name}` → writer creates/rebuilds the tab named
-exactly as the property), rebuildable from the editor. Layout (blocks by **cost class**
-per the chart; "paid by" is `paid_from`, shown as PAUL / DENNIS / the bank account name):
+exactly as the property), rebuildable from the editor. **Layout (revised 2026-09-14,
+Paul: "I want the property tabs to more closely match this" — the old workbook's light
+tab, `881 Newport`) is side by side, like the old tab, not stacked:**
 
 ```
-<name>                                   status · purchase date · price · as of B1
-SUMMARY                                  DENNIS
-Acquisition / Rehab / Holding /          advances from Advances (date, amount, kind)
-Financing / Selling / Total project      accrued interest to B1 at Settings rate
-Paid by Paul (2030 lines on this prop)   payoff at B1
-Paid by Dennis direct                    PRELIMINARY PAYOUT (Settings % estimates)
-LINES — one block per cost class: date · payee · description · amount · paid by
-POST-SALE (D-015): 5000 lines on this property dated after settlement
+A:B  SUMMARY                      D:H  DENNIS                        J:P  REHAB COSTS            R:X  UTILITIES
+     Total Project Cost                Purchase Principal + Interest      payee · date · desc ·       (Holding-class lines,
+     Purchase Price (1000)             per advance: Start · End ·         amount · Paul Paid ·        same shape)
+     Interest to Date (computed)         Principal · Interest · Notes     Dennis Paid · Recast
+     Rehab Costs                       Interest to date · Payoff          Account (checkboxes
+     Utilities (Holding ex-1100)       Paul Paid / Reimbursed /           from paid_from)
+     Property Tax (1100)                 Due to Paul (2030)
+     Selling Costs (posted)            Dennis Paid direct (paid_from      POST-SALE (D-015)
+     PROFIT BREAKDOWN                    DENNIS cost lines)               below, same shape
+       Sale Price (contract_price,     Recast Account paid / received /
+         else purchase price)            Back to Recast account (14xx)
+       Agent x% · Closing x%
+       Net Profit · Individual Share
+     PAYOUTS
+       Dennis = payoff + share + direct
+       Paul   = share + due to Paul
+       Back to Recast account
+       Total payouts · Net proceeds ·
+       Difference (must be 0)
 ```
 
-All SUMPRODUCT / FILTER over bounded Journal rows, voided pairs excluded via the same
-helper-column trick as Totals. Interest is computed in-sheet with the D-006 method at
-`Settings!interest_rate_annual` (8%, D-016): compounding on anniversaries, stub days
-simple over `stub_days_basis`. The tab is a view; nothing on it is typed.
-
-Sold properties keep their tab. `setupTotals` gains nothing.
+Rehab Costs = Rehab class plus Acquisition class other than account 1000 (the old tab
+put the HOA release in Rehab). Interest to Date is computed in-sheet with the D-006
+method at `Settings!interest_rate_annual` (8%, D-016) on every Advances row for the
+property, so Financing-class (1200) accruals are left out of Total Project Cost and
+nothing double-counts. The tie-out row is the point: payouts equal net proceeds by
+construction (every cost line is funded by 2030, a 14xx account, a Dennis advance or a
+Dennis direct payment), so a non-zero Difference means a line is mis-funded — the old
+Newport tab's $446.67 gap. Helpers live in Z:AH, greyed. All SUMPRODUCT / FILTER over
+bounded Journal rows, voided pairs excluded via the same helper-column trick as Totals.
+The tab is a view; nothing on it is typed. Sold properties keep their tab; the Phase 5
+release/payoff entries zero the summary, which the sell wizard owns.
 
 ## 6 · Tests
 
