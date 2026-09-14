@@ -477,6 +477,7 @@ function rowsToObjects(headers, rows) {
 const journalState = {
   mode: "expense", // "expense" | "journal"
   entries: [],
+  showVoided: false, // 2026-09-14: voided pairs (an entry + its reversal) are hidden by default
   expanded: new Set(),
   lines: [ // journal-mode grid rows
     { account: "", debit: "", credit: "", property: "", payee: "", description: "", paid_from: "", business_purpose: "" },
@@ -814,13 +815,23 @@ function renderEntriesTable() {
     return;
   }
 
-  const rows = journalState.entries
+  // A voided entry and its reversal are a pair that nets to zero: the books keep both
+  // (append-only), the page shows neither unless asked.
+  const voidedIds = new Set(journalState.entries.map((e) => e.void_of).filter(Boolean));
+  const isPair = (e) => e.source === "void" || String(e.txn_id).startsWith("void-") || voidedIds.has(e.txn_id);
+  const hiddenCount = journalState.entries.filter(isPair).length;
+  const visible = journalState.showVoided ? journalState.entries : journalState.entries.filter((e) => !isPair(e));
+  const toggle = hiddenCount
+    ? `<p class="rc-small" style="margin:0 0 8px;">${journalState.showVoided ? "Showing voided entries and their reversals" : `${hiddenCount} voided ${hiddenCount === 1 ? "entry" : "entries"} hidden`} · <a href="#" id="journal-toggle-voided">${journalState.showVoided ? "Hide" : "Show"}</a></p>`
+    : "";
+
+  const rows = visible
     .map((entry, idx) => {
       const total = entry.lines.reduce((sum, l) => sum + (Number(l.debit) || 0), 0);
       const expanded = journalState.expanded.has(entry.txn_id);
       // An entry that already has a reversing entry pointing at it is voided: show that
       // instead of offering Void again.
-      const voidedBy = journalState.entries.find((e) => e.void_of === entry.txn_id);
+      const voidedBy = voidedIds.has(entry.txn_id);
       const voidBtn = voidedBy
         ? `<span class="muted" style="font-size:12px;">Voided</span>`
         : isOwner() && entry.source !== "void" && !String(entry.txn_id).startsWith("void-")
@@ -860,17 +871,20 @@ function renderEntriesTable() {
     })
     .join("");
 
-  wrap.innerHTML = `
+  wrap.innerHTML = `${toggle}
     <table class="rc-table">
       <thead><tr><th>Date</th><th>Memo</th><th>Source</th><th>Posted by</th><th class="num">Total</th><th></th></tr></thead>
-      <tbody>${rows}</tbody>
+      <tbody>${rows || `<tr><td colspan="6" class="rc-small">Nothing to show.</td></tr>`}</tbody>
     </table>`;
+
+  const toggleLink = $("journal-toggle-voided");
+  if (toggleLink) toggleLink.onclick = (e) => { e.preventDefault(); journalState.showVoided = !journalState.showVoided; renderEntriesTable(); };
 
   wrap.querySelectorAll("[data-toggle]").forEach((tr) => {
     tr.onclick = (e) => {
       if (e.target.closest("[data-void]")) return;
       const idx = Number(tr.dataset.toggle);
-      const txnId = journalState.entries[idx].txn_id;
+      const txnId = visible[idx].txn_id;
       if (journalState.expanded.has(txnId)) journalState.expanded.delete(txnId);
       else journalState.expanded.add(txnId);
       renderEntriesTable();

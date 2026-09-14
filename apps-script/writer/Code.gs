@@ -854,10 +854,28 @@ function setupTotals() {
   var ss = openOrCreateWorkbook_(props);
   var sh = getOrCreateSheet_(ss, 'Totals');
   sh.clear();
-  var J = 'Journal!';
-  var asOf = J + '$C:$C,"<="&$B$1';
-  var deb = function (crit) { return 'SUMIFS(' + J + '$F:$F,' + crit + ',' + asOf + ')'; };
-  var cred = function (crit) { return 'SUMIFS(' + J + '$G:$G,' + crit + ',' + asOf + ')'; };
+  // Voided pairs (an entry + its reversal) are excluded from the gross Debit/Credit
+  // columns so a mistake does not inflate them; nets are unchanged either way. A row is
+  // excluded when it is a void (P = source) or when some void names its txn_id (Y).
+  // SUMPRODUCT over bounded rows: 5000 lines is years of these books.
+  var N = 5000;
+  var R = function (col) { return 'Journal!$' + col + '$2:$' + col + '$' + N; };
+  // The "is this txn_id voided" lookup is O(rows^2); it is computed once in helper
+  // column H (row 2 down) and every formula reads the flag.
+  var live = '(' + R('P') + '<>"void")*($H$2:$H$' + N + '<>TRUE)*(' + R('C') + '<=$B$1)';
+  var critExpr = function (crit) {
+    // crit is "col,value[,col,value]" in SUMIFS form; each pair becomes a (range=value)
+    // factor. Both sides are coerced to text: a code typed by hand is a number, the
+    // writer's are text.
+    var parts = crit.split(','), out = '';
+    for (var i = 0; i + 1 < parts.length; i += 2) {
+      var v = parts[i + 1];
+      out += v === '"<>"' ? '(' + parts[i] + '<>"")*' : '(' + parts[i] + '&""=' + v + '&"")*';
+    }
+    return out;
+  };
+  var deb = function (crit) { return 'SUMPRODUCT(' + critExpr(crit) + live + '*' + R('F') + ')'; };
+  var cred = function (crit) { return 'SUMPRODUCT(' + critExpr(crit) + live + '*' + R('G') + ')'; };
   var ifBlank = function (ref, f) { return '=IF(' + ref + '="","",' + f + ')'; };
 
   var rows = [];
@@ -872,8 +890,8 @@ function setupTotals() {
     var r = tbFirst + i, src = 2 + i;
     push(['=IF(Accounts!A' + src + '="","",Accounts!A' + src + ')',
           '=IF(Accounts!A' + src + '="","",Accounts!B' + src + ')',
-          ifBlank('A' + r, deb(J + '$E:$E,A' + r)),
-          ifBlank('A' + r, cred(J + '$E:$E,A' + r)),
+          ifBlank('A' + r, deb(R('E') + ',A' + r)),
+          ifBlank('A' + r, cred(R('E') + ',A' + r)),
           ifBlank('A' + r, 'C' + r + '-D' + r)]);
   }
   var tbLast = tbFirst + tbN - 1;
@@ -884,7 +902,7 @@ function setupTotals() {
   push(['KEY BALANCES', '', '', '', 'Balance'], true);
   [['1401', 'Cash - Citizens shared'], ['1402', 'Cash - Chase operating'], ['2030', 'Due to owner (Paul)'],
    ['2010', 'Note payable - Dennis'], ['2000', 'Accrued interest - Dennis']].forEach(function (k) {
-    push([k[0], k[1], '', '', '=' + deb(J + '$E:$E,"' + k[0] + '"') + '-' + cred(J + '$E:$E,"' + k[0] + '"')]);
+    push([k[0], k[1], '', '', '=' + deb(R('E') + ',"' + k[0] + '"') + '-' + cred(R('E') + ',"' + k[0] + '"')]);
   });
   push(['', '', '', '', '']);
 
@@ -893,10 +911,10 @@ function setupTotals() {
   for (var j = 0; j < pN; j++) {
     var pr = pFirst + j, psrc = 2 + j;
     push(['=IF(Properties!A' + psrc + '="","",Properties!A' + psrc + ')', '', '', '',
-          ifBlank('A' + pr, deb(J + '$H:$H,A' + pr + ',' + J + '$I:$I,"<>"') + '-' + cred(J + '$H:$H,A' + pr + ',' + J + '$I:$I,"<>"'))]);
+          ifBlank('A' + pr, deb(R('H') + ',A' + pr + ',' + R('I') + ',"<>"') + '-' + cred(R('H') + ',A' + pr + ',' + R('I') + ',"<>"'))]);
   }
   push(['OVERHEAD', "Paul's alone (D-010) - see below", '', '',
-        '=' + deb(J + '$H:$H,"OVERHEAD",' + J + '$I:$I,"<>"') + '-' + cred(J + '$H:$H,"OVERHEAD",' + J + '$I:$I,"<>"')], true);
+        '=' + deb(R('H') + ',"OVERHEAD",' + R('I') + ',"<>"') + '-' + cred(R('H') + ',"OVERHEAD",' + R('I') + ',"<>"')], true);
   push(['', '', '', '', '']);
 
   push(['OVERHEAD BY ACCOUNT (6000-series)', '', 'Debit', 'Credit', 'Net'], true);
@@ -906,8 +924,8 @@ function setupTotals() {
     var pick = 'IFERROR(INDEX(FILTER(Accounts!A$2:A,Accounts!C$2:C=6000),' + idx + '),"")';
     push(['=' + pick,
           ifBlank('A' + orow, 'VLOOKUP(A' + orow + ',Accounts!A:B,2,FALSE)'),
-          ifBlank('A' + orow, deb(J + '$E:$E,A' + orow)),
-          ifBlank('A' + orow, cred(J + '$E:$E,A' + orow)),
+          ifBlank('A' + orow, deb(R('E') + ',A' + orow)),
+          ifBlank('A' + orow, cred(R('E') + ',A' + orow)),
           ifBlank('A' + orow, 'C' + orow + '-D' + orow)]);
   }
   var oLast = oFirst + oN - 1;
@@ -915,6 +933,10 @@ function setupTotals() {
         '=SUM(E' + oFirst + ':E' + oLast + ')'], true);
 
   sh.getRange(1, 1, rows.length, 5).setValues(rows);
+  sh.getRange(1, 8).setValue('helper: voided?');
+  sh.getRange(2, 8).setFormula('=ARRAYFORMULA(IF(' + R('A') + '="","",ISNUMBER(MATCH(' + R('A') + ',' + R('Y') + ',0))))');
+  sh.getRange(1, 8, 1, 1).setFontColor('#999999');
+  sh.setColumnWidth(8, 60);
   sh.getRange(1, 2).setNumberFormat('yyyy-mm-dd');
   sh.getRange(1, 3, rows.length, 3).setNumberFormat('#,##0.00;(#,##0.00);-');
   sh.setColumnWidth(1, 130); sh.setColumnWidth(2, 280);

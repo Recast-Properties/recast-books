@@ -227,3 +227,11 @@ method — within $1–$9; 9% is off by hundreds. Paul: "it's 8%. i was using 9%
 Settings `interest_rate_annual` set to 0.08 in the sheet (Claude), code defaults and the
 writer seed to 0.08, docs updated, D-016 recorded; the accrual goldens (from the old tab
 at 9%) now pass the rate explicitly, plus one test against Dennis's own figure.
+
+## 2026-09-14 — Voided pairs hidden
+
+Paul: "the mistakes stay in the system?" — yes (append-only, audit trail), but they should
+not be in his face. Journal page now hides a voided entry and its reversal by default
+("N voided entries hidden · Show"). Totals tab gross Debit/Credit columns exclude voided
+pairs (helper column H flags voided txn_ids once; SUMPRODUCT per cell; codes coerced to
+text so hand-typed numeric codes match). Nets are unchanged. Paul reruns `setupTotals`.
