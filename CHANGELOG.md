@@ -262,3 +262,10 @@ slow Journal read once landed on `doGet` (an "ok" body with no headers/rows), wh
 `refreshTab` stored. Fix: `refreshTab` refuses a read without header and row arrays
 (`BAD_RESPONSE`), `readTab` treats a malformed snapshot as a miss and never serves one as
 stale. Self-heals on the next read. 395 tests.
+
+## 2026-09-14 — D-017: Held or Sold
+
+Statuses reduced to held / sold; optional `contract_price` on Properties (column K) feeds
+the property tab's preliminary payout. Sold properties now leave the posting allowlist
+(they never had — latent bug). Mailboxes, upload and the model's property list all use
+one rule: not sold = held.

@@ -176,7 +176,7 @@ function makeVendorsDep(vendorRows, journalLines) {
 }
 
 /** list_properties tool contract (`deps.properties.list()`): registry rows with
- * status held/under contract only - OVERHEAD is appended by bookkeeper.mjs itself. */
+ * status held only (D-017: anything not sold) - OVERHEAD is appended by bookkeeper.mjs itself. */
 function makePropertiesDep(writer) {
   return {
     async list() {

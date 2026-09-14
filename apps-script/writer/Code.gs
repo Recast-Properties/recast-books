@@ -132,7 +132,7 @@ var TAB_HEADERS = {
   'Accounts': ['code', 'name', 'series', 'type', 'cost_class', 'tax_treatment',
     'active', 'notes'],
   'Properties': ['name', 'address', 'status', 'purchase_date', 'purchase_price',
-    'settlement_date', 'template', 'dennis_funded', 'drive_folder', 'notes'],
+    'settlement_date', 'template', 'dennis_funded', 'drive_folder', 'notes', 'contract_price'],
   'Bank accounts': ['code', 'name', 'institution', 'last4', 'plaid_item_id',
     'plaid_account_id', 'opening_balance', 'opening_date', 'active'],
   'Vendors': ['canonical', 'aliases', 'entity_type', 'form_1099', 'tin_status',
@@ -1068,7 +1068,10 @@ function setupPropertyTab(name) {
 
   // ---- PRELIMINARY PAYOUT --------------------------------------------------------
   push(['PRELIMINARY PAYOUT', '', '', '', ''], true);
-  push(['Estimated sale price (purchase price placeholder)', '=IF($E$1="",0,$E$1)', '', '', '']);
+  // D-017: the contract price (Properties column K) when a buyer is under contract,
+  // else the purchase price as a placeholder.
+  push(['Estimated sale price (contract price if set, else purchase price)',
+    '=IF($Y$1<>"",$Y$1,IF($E$1="",0,$E$1))', '', '', '']);
   var saleRow = rows.length;
   push(['Agent commission (Settings estimate_agent_pct)',
     '=B' + saleRow + '*IFERROR(VLOOKUP("estimate_agent_pct",Settings!A:B,2,FALSE),0)/100', '', '', '']);
@@ -1129,6 +1132,7 @@ function setupPropertyTab(name) {
   sh.getRange(1, 21).setFormula('=IFERROR(VLOOKUP("interest_rate_annual",Settings!A:B,2,FALSE),0)'); // U1: rate
   sh.getRange(1, 22).setFormula('=IFERROR(VLOOKUP("stub_days_basis",Settings!A:B,2,FALSE),30)'); // V1: stub basis
   sh.getRange(1, 24).setFormula('=IFERROR(VLOOKUP("' + safeName + '",Properties!A:F,6,FALSE),"")'); // X1: settlement_date
+  sh.getRange(1, 25).setFormula('=IFERROR(VLOOKUP("' + safeName + '",Properties!A:K,11,FALSE),"")'); // Y1: contract_price (D-017)
   sh.getRange(1, 26).setValue('helper: voided?'); // Z1
   sh.getRange(2, 26).setFormula('=ARRAYFORMULA(IF(' + J('A') + '="","",ISNUMBER(MATCH(' + J('A') + ',' + J('Y') + ',0))))'); // Z2
   sh.getRange(1, 21, 1, 6).setFontColor('#999999');

@@ -303,3 +303,13 @@ at a different rate. Paul: "it's 8%. i was using 9% as a hedge. make it accurate
 D-006's method is unchanged. The few dollars of residual are the true-up's job (D-015).
 No posted accruals needed re-posting: the only accrual in the books is the voided Phase 1
 gate test.
+
+## D-017 · Property status is Held or Sold — 2026-09-14 · Paul
+
+"Under contract" meant a buyer under contract, not acquisition, and the form never said
+which; Paul: "statuses should be Held or Sold." **Decided:** status is `held` (owned, open:
+costs post, interest accrues, its mailbox is watched) or `sold` (settled, locked per
+D-015). A buyer's contract is a fact on the property — optional `contract_price` — which
+the preliminary payout uses when present. Anything not `sold` is treated as held (so the
+one legacy "under contract" row keeps working until edited). Sold properties leave the
+posting allowlist, which they had not before (latent bug fixed).

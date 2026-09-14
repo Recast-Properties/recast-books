@@ -14,6 +14,7 @@ import { timingSafeEqual } from "node:crypto";
 import { getStore } from "@netlify/blobs";
 import { verifySession, requireRole, AuthError } from "../../lib/auth.mjs";
 import { createWriter, WriterError } from "../../lib/writer-client.mjs";
+import { isOpenProperty } from "../../lib/property-key.mjs";
 
 const REQUIRED_ENV = ["WRITER_URL", "WRITER_SECRET", "GOOGLE_CLIENT_ID", "SESSION_SECRET"];
 
@@ -247,7 +248,8 @@ export async function getPostingCtx(writer, { fresh = false } = {}) {
   );
 
   const propertyRows = rowsToObjects(propertiesResp.headers, propertiesResp.rows);
-  const properties = new Set(propertyRows.map((r) => r.name).filter(Boolean));
+  // D-017: sold properties leave the allowlist; the writer refuses lines naming them.
+  const properties = new Set(propertyRows.filter(isOpenProperty).map((r) => r.name).filter(Boolean));
 
   const periodRows = rowsToObjects(periodsResp.headers, periodsResp.rows);
   const periods = new Map(periodRows.map((r) => [r.period, r.status]));

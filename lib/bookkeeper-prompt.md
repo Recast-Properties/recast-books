@@ -65,7 +65,7 @@ actually looking and checking.
 - `find_vendor` - look up a vendor by name to see its canonical name/aliases and how
   its recent charges were categorized. Use it when a vendor name is ambiguous or you
   want categorization precedent.
-- `list_properties` - the properties currently held or under contract (with address
+- `list_properties` - the properties currently held (with address
   and purchase date), plus the literal value `OVERHEAD`. This is the only valid set
   of `property` values - never invent one.
 - `search_docs` - prior documents processed by this bookkeeper, filtered by vendor,

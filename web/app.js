@@ -917,7 +917,7 @@ function renderEntriesTable() {
 // ---------------------------------------------------------------------------
 
 const propertiesState = { rows: [], addOpen: false, banner: null };
-const PROPERTY_STATUSES = ["held", "under contract", "sold"];
+const PROPERTY_STATUSES = ["held", "sold"]; // D-017
 
 async function renderProperties(param) {
   if (param) {
@@ -1012,6 +1012,7 @@ async function renderPropertiesAddForm(prefill) {
         <div class="field"><label>Template</label><input type="text" id="p-template" value="${escapeHtml(p.template || "")}"></div>
         <div class="field"><label>Purchase date</label><input type="date" id="p-purchase-date" value="${escapeHtml(p.purchase_date || "")}"></div>
         <div class="field"><label>Purchase price</label><input type="text" id="p-purchase-price" value="${escapeHtml(p.purchase_price || "")}" placeholder="207000.00" inputmode="decimal"></div>
+        <div class="field"><label>Contract price (optional, buyer under contract)</label><input type="text" id="p-contract-price" value="${escapeHtml(p.contract_price || "")}" placeholder="290,000"></div>
         <div class="field"><label>Settlement date</label><input type="date" id="p-settlement-date" value="${escapeHtml(p.settlement_date || "")}"></div>
         <div class="field"><label>Dennis-funded</label><select id="p-dennis-funded"><option value="true" ${String(p.dennis_funded) === "true" ? "selected" : ""}>Yes</option><option value="false" ${String(p.dennis_funded) !== "true" ? "selected" : ""}>No</option></select></div>
         <div class="field full"><label>Drive folder</label><input type="text" id="p-drive-folder" value="${escapeHtml(p.drive_folder || "")}" placeholder="https://drive.google.com/..."></div>
@@ -1065,6 +1066,7 @@ async function renderPropertiesAddForm(prefill) {
       status: $("p-status").value,
       purchase_date: $("p-purchase-date").value,
       purchase_price,
+      contract_price: $("p-contract-price").value.trim() ? normalizeDollarsInput($("p-contract-price").value) : "",
       settlement_date: $("p-settlement-date").value,
       template: $("p-template").value.trim(),
       dennis_funded: $("p-dennis-funded").value,
@@ -1191,7 +1193,7 @@ function renderPropertyStatusEditor(propRow) {
     <div class="status-editor">
       <label class="rc-small" style="font-weight:700;">Status</label>
       <select id="prop-status-select">
-        ${["held", "under contract"].map((s) => `<option value="${s}" ${propRow.status === s ? "selected" : ""}>${s}</option>`).join("")}
+        ${["held"].map((s) => `<option value="${s}" ${propRow.status === s ? "selected" : ""}>${s}</option>`).join("")}
       </select>
     </div>`;
   $("prop-status-select").onchange = async (e) => {
