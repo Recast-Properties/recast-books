@@ -13,6 +13,7 @@ import {
   invalidateCtxCache,
   readTab,
   refreshTabAfterWrite,
+  getCacheStore,
   rowsToObjectsPublic,
   WriterError,
 } from "./_shared.mjs";
@@ -85,9 +86,19 @@ export default async (req) => {
       // The workbook link is not a stored setting; the writer knows it (ping) and the
       // dashboard reads it from Settings, so surface it there as a derived row.
       if (tab === "Settings" && !rows.some((r) => r[0] === "spreadsheet_url")) {
-        // Memoized per instance: the workbook url never changes and ping is a full
-        // Apps Script round trip (phase 2.5 - no writer call on a warm Settings read).
-        if (spreadsheetUrlMemo === undefined) spreadsheetUrlMemo = (await writer.ping()).spreadsheet_url || "";
+        // The workbook url never changes and ping is a full Apps Script round trip
+        // (10-20 s cold, 2026-09-14). Cached in books-cache across instances; a memo
+        // alone still paid it once per cold function instance.
+        if (spreadsheetUrlMemo === undefined) {
+          const store = getCacheStore();
+          spreadsheetUrlMemo = (await store.get("meta/spreadsheet_url", { type: "text" })) || "";
+          if (!spreadsheetUrlMemo) {
+            try {
+              spreadsheetUrlMemo = (await writer.ping()).spreadsheet_url || "";
+              if (spreadsheetUrlMemo) await store.set("meta/spreadsheet_url", spreadsheetUrlMemo);
+            } catch { spreadsheetUrlMemo = undefined; }
+          }
+        }
         if (spreadsheetUrlMemo) rows.push(["spreadsheet_url", spreadsheetUrlMemo, "from writer ping"]);
       }
       return json(200, { headers: resp.headers, rows, ...(resp.stale ? { stale: true } : {}) });

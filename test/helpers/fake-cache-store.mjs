@@ -17,6 +17,9 @@ export function makeFakeCacheStore() {
       if (value === undefined) return null;
       return type === "json" ? JSON.parse(value) : value;
     },
+    async set(key, value) {
+      items.set(key, String(value));
+    },
     async setJSON(key, value) {
       items.set(key, JSON.stringify(value));
     },
