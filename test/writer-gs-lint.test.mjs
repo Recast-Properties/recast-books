@@ -79,13 +79,43 @@ for (const [tab, headers] of Object.entries(SPEC_HEADERS)) {
   });
 }
 
-test("every writer action (ping, post, void, read, setPeriod, upsert, postBatch, storeDocument) is dispatched", () => {
-  for (const action of ["ping", "post", "void", "read", "setPeriod", "upsert", "postBatch", "storeDocument"]) {
+test("every writer action (ping, post, void, read, setPeriod, upsert, postBatch, storeDocument, propertyTab) is dispatched", () => {
+  for (const action of ["ping", "post", "void", "read", "setPeriod", "upsert", "postBatch", "storeDocument", "propertyTab"]) {
     assert.ok(
       source.includes(`case '${action}':`),
       `doPost does not appear to dispatch action "${action}"`
     );
   }
+});
+
+test("phase2.6-spec.md section 5: setupPropertyTab(name) exists, callable from the editor and from action_propertyTab_", () => {
+  assert.ok(source.includes("function setupPropertyTab(name)"), "setupPropertyTab(name) not found");
+  assert.ok(source.includes("function action_propertyTab_("), "action_propertyTab_ not found");
+  const anchor = source.indexOf("function action_propertyTab_(");
+  const nextFn = source.indexOf("\nfunction ", anchor + 1);
+  const body = source.slice(anchor, nextFn === -1 ? source.length : nextFn);
+  assert.ok(body.includes("setupPropertyTab("), "action_propertyTab_ does not call setupPropertyTab");
+});
+
+test("setupPropertyTab: cost-class blocks, DENNIS interest (D-006 DATEDIF/EDATE compounding), and a bounded FILTER for LINES/POST-SALE", () => {
+  const anchor = source.indexOf("function setupPropertyTab(name)");
+  assert.ok(anchor !== -1, "setupPropertyTab not found");
+  const nextFn = source.indexOf("\nfunction ", anchor + 1);
+  const body = source.slice(anchor, nextFn === -1 ? source.length : nextFn);
+
+  assert.ok(body.includes("PROPERTY_COST_CLASSES"), "setupPropertyTab does not iterate PROPERTY_COST_CLASSES");
+  for (const cls of ["Acquisition", "Rehab", "Holding", "Financing", "Selling"]) {
+    // PROPERTY_COST_CLASSES itself is declared just above setupPropertyTab, not
+    // inside its body - check the whole file for the literal.
+    assert.ok(source.includes("'" + cls + "'"), `cost class "${cls}" not referenced`);
+  }
+  assert.ok(body.includes("DATEDIF"), "no DATEDIF - D-006 full-month anniversary count is missing");
+  assert.ok(body.includes("EDATE"), "no EDATE - D-006 last-anniversary date is missing");
+  assert.ok(body.includes("interest_rate_annual"), "does not read Settings!interest_rate_annual (D-016)");
+  assert.ok(body.includes("stub_days_basis"), "does not read Settings!stub_days_basis");
+  assert.ok(body.includes("FILTER("), "LINES/POST-SALE blocks do not use FILTER over Journal");
+  assert.ok(body.includes("POST-SALE"), "no POST-SALE block (D-015)");
+  assert.ok(body.includes("settlement_date") || body.includes("Properties!A:F"), "POST-SALE does not reference settlement_date");
 });
 
 test("WRITER_VERSION is 0.3.0", () => {

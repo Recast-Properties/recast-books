@@ -90,6 +90,7 @@ function doPost(e) {
       case 'upsert': return action_upsert_(body, props);
       case 'postBatch': return action_postBatch_(body, props);
       case 'storeDocument': return action_storeDocument_(body, props);
+      case 'propertyTab': return action_propertyTab_(body, props);
       default: return jsonOutput_({ ok: false, error: 'BAD_ACTION' });
     }
   } catch (err) {
@@ -944,5 +945,204 @@ function setupTotals() {
   sh.setFrozenRows(1);
   bold.forEach(function (r) { sh.getRange(r, 1, 1, 5).setFontWeight('bold'); });
   console.log('Totals tab rebuilt: ' + rows.length + ' rows');
+  return { ok: true, rows: rows.length };
+}
+
+// ---- Property tab (2026-09-14, phase2.6-spec.md section 5) -----------------------
+// One tab per property, named exactly as its Properties.name, built/rebuilt when the
+// property is added (Properties page -> action_propertyTab_ below) or any time from
+// the editor via setupPropertyTab(name). Formula-only view, same bounded-range /
+// SUMPRODUCT / FILTER / voided-pair-helper-column pattern as setupTotals above (read
+// that function's header comment first):
+//   - SUMMARY: cost by cost_class (Acquisition/Rehab/Holding/Financing/Selling),
+//     total project cost, paid-by-Paul and paid-by-Dennis-direct - all SUMPRODUCT
+//     over bounded Journal rows for this property, as of $B$1, voids excluded.
+//   - DENNIS: this property's Advances rows (date/amount/notes), each with interest
+//     computed in-sheet per the D-006 method at Settings!interest_rate_annual
+//     (D-016: 8%): full monthly anniversaries via DATEDIF, balance compounded
+//     monthly, a simple stub over Settings!stub_days_basis for the remainder - then
+//     accrued interest and payoff totals as of $B$1. The FILTER/INDEX/interest math
+//     lives in a small helper block (columns K:R) alongside each visible advance
+//     row; columns A:C just point at it.
+//   - PRELIMINARY PAYOUT: Settings estimate_agent_pct/estimate_closing_pct against
+//     purchase_price (there is no better sale-price figure yet - Phase 5's sell
+//     wizard will add one), less total project cost and the Dennis payoff.
+//   - LINES: one block per cost class, date/payee/description/amount/paid-by, via
+//     the same FILTER-over-bounded-Journal-rows idiom, bounded per class rather
+//     than an open spill so a later block never has to guess how far to sit below it.
+//   - POST-SALE (D-015): the same line shape for rows dated after
+//     Properties.settlement_date, unbounded by $B$1's "as of".
+// The tab is a view - nothing on it is typed. Sold properties keep their tab.
+var PROPERTY_COST_CLASSES = ['Acquisition', 'Rehab', 'Holding', 'Financing', 'Selling'];
+
+function action_propertyTab_(body, props) {
+  var name = body.name;
+  if (!name) fail_('BAD_REQUEST', 'name is required');
+  return jsonOutput_(setupPropertyTab(String(name)));
+}
+
+function setupPropertyTab(name) {
+  name = String(name);
+  var safeName = name.replace(/"/g, '""'); // escaped for embedding in formula string literals
+  var props = PropertiesService.getScriptProperties();
+  var ss = openOrCreateWorkbook_(props);
+  var sh = getOrCreateSheet_(ss, name);
+  sh.clear();
+
+  var N = 5000;     // Journal bound, same as setupTotals
+  var ADV_N = 30;   // Advances shown/computed for this property - generous headroom
+  var LINES_N = 60; // Journal lines shown per cost-class / post-sale block - bounded
+
+  var J = function (col) { return 'Journal!$' + col + '$2:$' + col + '$' + N; };
+  var A = function (col) { return 'Advances!$' + col + '$2:$' + col + '$' + N; };
+
+  // "is this Journal txn_id voided" - same ARRAYFORMULA-over-a-helper-column trick
+  // as setupTotals, parked at column Z, well past this tab's own content (col <= R).
+  var live = '(' + J('P') + '<>"void")*($Z$2:$Z$' + N + '<>TRUE)*(' + J('H') + '&""="' + safeName + '"&"")*(' + J('C') + '<=$B$1)';
+  var classFactor = function (cls) { return '(' + J('I') + '&""="' + cls + '"&"")*'; };
+  var paidFromFactor = function (who) { return '(' + J('N') + '&""="' + who + '"&"")*'; };
+  var netCost = function (factor) { return 'SUMPRODUCT(' + factor + live + '*(' + J('F') + '-' + J('G') + '))'; };
+
+  var WIDTH = 18; // A..R - covers the DENNIS advance rows' K..R helper columns
+  var rows = [];
+  var bold = [];
+  var push = function (r, isBold) {
+    var padded = r.slice();
+    while (padded.length < WIDTH) padded.push('');
+    rows.push(padded);
+    if (isBold) bold.push(rows.length);
+  };
+
+  // Row 1: name / as-of (the $B$1 every block below reads) / status / purchase date
+  // / purchase price, looked up live from Properties.
+  push([name, '=TODAY()',
+    '=IFERROR(VLOOKUP("' + safeName + '",Properties!A:C,3,FALSE),"")',
+    '=IFERROR(VLOOKUP("' + safeName + '",Properties!A:D,4,FALSE),"")',
+    '=IFERROR(VLOOKUP("' + safeName + '",Properties!A:E,5,FALSE),"")'], true);
+  push(['name / as of / status / purchase date / purchase price', '', '', '', '']);
+  push(['', '', '', '', '']);
+
+  // ---- SUMMARY -----------------------------------------------------------------
+  push(['SUMMARY', '', '', '', ''], true);
+  var classFirst = rows.length + 1;
+  PROPERTY_COST_CLASSES.forEach(function (cls) {
+    push([cls, '=' + netCost(classFactor(cls)), '', '', '']);
+  });
+  var classLast = rows.length;
+  push(['Total project', '=SUM(B' + classFirst + ':B' + classLast + ')', '', '', ''], true);
+  var totalProjectRow = rows.length;
+  push(['Paid by Paul', '=' + netCost(paidFromFactor('PAUL')), '', '', '']);
+  push(['Paid by Dennis direct', '=' + netCost(paidFromFactor('DENNIS')), '', '', '']);
+  push(['', '', '', '', '']);
+
+  // ---- DENNIS: advances, interest (D-006/D-016), payoff -------------------------
+  push(['DENNIS', '', '', '', ''], true);
+  push(['Date', 'Amount', 'Notes', '', '']);
+  var advFirst = rows.length + 1;
+  for (var i = 0; i < ADV_N; i++) {
+    var r = rows.length + 1;
+    var idx = i + 1;
+    var crit = '(' + A('D') + '&""="' + safeName + '"&"")*(' + A('B') + '<>"")';
+    var kF = '=IFERROR(INDEX(FILTER(' + A('B') + ',' + crit + '),' + idx + '),"")';
+    var lF = '=IF(K' + r + '="","",INDEX(FILTER(' + A('C') + ',' + crit + '),' + idx + '))';
+    var mF = '=IF(K' + r + '="","",INDEX(FILTER(' + A('I') + ',' + crit + '),' + idx + '))';
+    // n = full monthly anniversaries up to the as-of date (DATEDIF "m" counts whole
+    // elapsed months); balance compounds monthly; the remainder since the last
+    // anniversary is a simple stub over Settings!stub_days_basis (D-006).
+    var nF = '=IF(K' + r + '="","",IFERROR(DATEDIF(K' + r + ',$B$1,"m"),0))';
+    var oF = '=IF(K' + r + '="","",L' + r + '*(1+$U$1/12)^N' + r + ')';
+    var pF = '=IF(K' + r + '="","",EDATE(K' + r + ',N' + r + '))';
+    var qF = '=IF(K' + r + '="","",MAX(0,$B$1-P' + r + '))';
+    var iF = '=IF(K' + r + '="","",O' + r + '*(1+$U$1/12*Q' + r + '/$V$1)-L' + r + ')';
+    push(['=K' + r, '=L' + r, '=M' + r, '', '', '', '', '', '', '', kF, lF, mF, nF, oF, pF, qF, iF]);
+  }
+  var advLast = rows.length;
+  push(['', '', '', '', '']);
+  push(['Accrued interest as of B1', '=SUM(R' + advFirst + ':R' + advLast + ')', '', '', '']);
+  var interestRow = rows.length;
+  // ponytail: assumes no advance has been repaid yet (Advances.status/repaid_date
+  // are not netted out here) - fold that in if/when a repayment is ever recorded.
+  push(['Payoff as of B1', '=SUM(L' + advFirst + ':L' + advLast + ')+B' + interestRow, '', '', ''], true);
+  var payoffRow = rows.length;
+  push(['', '', '', '', '']);
+
+  // ---- PRELIMINARY PAYOUT --------------------------------------------------------
+  push(['PRELIMINARY PAYOUT', '', '', '', ''], true);
+  push(['Estimated sale price (purchase price placeholder)', '=IF($E$1="",0,$E$1)', '', '', '']);
+  var saleRow = rows.length;
+  push(['Agent commission (Settings estimate_agent_pct)',
+    '=B' + saleRow + '*IFERROR(VLOOKUP("estimate_agent_pct",Settings!A:B,2,FALSE),0)/100', '', '', '']);
+  var agentRow = rows.length;
+  push(['Closing costs (Settings estimate_closing_pct)',
+    '=B' + saleRow + '*IFERROR(VLOOKUP("estimate_closing_pct",Settings!A:B,2,FALSE),0)/100', '', '', '']);
+  var closingRow = rows.length;
+  // Net profit = net proceeds - total project cost (purchase principal and posted
+  // interest are inside project cost, as on the old tab). Dennis takes principal +
+  // accrued interest + half; Paul half plus what he fronted (2030 lines here).
+  push(['Net profit (net proceeds - total project cost)',
+    '=B' + saleRow + '-B' + agentRow + '-B' + closingRow + '-B' + totalProjectRow, '', '', ''], true);
+  var profitRow = rows.length;
+  push(['Individual share (50%)', '=B' + profitRow + '/2', '', '', '']);
+  var shareRow = rows.length;
+  push(['Dennis - payoff + share', '=B' + payoffRow + '+B' + shareRow, '', '', ''], true);
+  push(['Paul - share + reimbursement of costs he paid', '=B' + shareRow + '+B' + (totalProjectRow + 1), '', '', ''], true);
+  push(['', '', '', '', '']);
+
+  // ---- LINES: one bounded block per cost class -----------------------------------
+  PROPERTY_COST_CLASSES.forEach(function (cls) {
+    push(['LINES - ' + cls, '', '', '', ''], true);
+    push(['Date', 'Payee', 'Description', 'Amount', 'Paid by']);
+    var crit = classFactor(cls) + live;
+    for (var li = 0; li < LINES_N; li++) {
+      var lr = rows.length + 1;
+      var lidx = li + 1;
+      var dF = '=IFERROR(INDEX(FILTER(' + J('C') + ',' + crit + '),' + lidx + '),"")';
+      var payeeF = '=IF(A' + lr + '="","",INDEX(FILTER(' + J('L') + ',' + crit + '),' + lidx + '))';
+      var descF = '=IF(A' + lr + '="","",INDEX(FILTER(' + J('M') + ',' + crit + '),' + lidx + '))';
+      var amtF = '=IF(A' + lr + '="","",INDEX(FILTER(' + J('F') + '-' + J('G') + ',' + crit + '),' + lidx + '))';
+      var paidF = '=IF(A' + lr + '="","",INDEX(FILTER(' + J('N') + ',' + crit + '),' + lidx + '))';
+      push([dF, payeeF, descF, amtF, paidF]);
+    }
+    push(['', '', '', '', '']);
+  });
+
+  // ---- POST-SALE (D-015): lines dated after Properties.settlement_date ----------
+  push(['POST-SALE (D-015)', '', '', '', ''], true);
+  push(['Date', 'Payee', 'Description', 'Amount', 'Paid by']);
+  var postLive = '(' + J('P') + '<>"void")*($Z$2:$Z$' + N + '<>TRUE)*(' + J('H') + '&""="' + safeName + '"&"")*(' +
+    J('C') + '>$X$1)*($X$1<>"")';
+  for (var pi = 0; pi < LINES_N; pi++) {
+    var pr = rows.length + 1;
+    var pidx = pi + 1;
+    var pdF = '=IFERROR(INDEX(FILTER(' + J('C') + ',' + postLive + '),' + pidx + '),"")';
+    var ppayeeF = '=IF(A' + pr + '="","",INDEX(FILTER(' + J('L') + ',' + postLive + '),' + pidx + '))';
+    var pdescF = '=IF(A' + pr + '="","",INDEX(FILTER(' + J('M') + ',' + postLive + '),' + pidx + '))';
+    var pamtF = '=IF(A' + pr + '="","",INDEX(FILTER(' + J('F') + '-' + J('G') + ',' + postLive + '),' + pidx + '))';
+    var ppaidF = '=IF(A' + pr + '="","",INDEX(FILTER(' + J('N') + ',' + postLive + '),' + pidx + '))';
+    push([pdF, ppayeeF, pdescF, pamtF, ppaidF]);
+  }
+
+  sh.getRange(1, 1, rows.length, WIDTH).setValues(rows);
+
+  // Constants and the voided-flag helper, parked past WIDTH (columns 21/22/24/26)
+  // so they never collide with the padded grid above.
+  sh.getRange(1, 21).setFormula('=IFERROR(VLOOKUP("interest_rate_annual",Settings!A:B,2,FALSE),0)'); // U1: rate
+  sh.getRange(1, 22).setFormula('=IFERROR(VLOOKUP("stub_days_basis",Settings!A:B,2,FALSE),30)'); // V1: stub basis
+  sh.getRange(1, 24).setFormula('=IFERROR(VLOOKUP("' + safeName + '",Properties!A:F,6,FALSE),"")'); // X1: settlement_date
+  sh.getRange(1, 26).setValue('helper: voided?'); // Z1
+  sh.getRange(2, 26).setFormula('=ARRAYFORMULA(IF(' + J('A') + '="","",ISNUMBER(MATCH(' + J('A') + ',' + J('Y') + ',0))))'); // Z2
+  sh.getRange(1, 21, 1, 6).setFontColor('#999999');
+  sh.getRange(advFirst, 11, ADV_N, 8).setFontColor('#999999');
+
+  sh.getRange(1, 2).setNumberFormat('yyyy-mm-dd');
+  sh.getRange(1, 4).setNumberFormat('yyyy-mm-dd');
+  sh.getRange(1, 24).setNumberFormat('yyyy-mm-dd');
+  sh.getRange(advFirst, 1, ADV_N, 1).setNumberFormat('yyyy-mm-dd');
+  sh.setColumnWidth(1, 260); sh.setColumnWidth(2, 110); sh.setColumnWidth(3, 160);
+  sh.setColumnWidth(4, 110); sh.setColumnWidth(5, 110);
+  sh.setFrozenRows(1);
+  bold.forEach(function (r2) { sh.getRange(r2, 1, 1, 5).setFontWeight('bold'); });
+
+  console.log('Property tab rebuilt for "' + name + '": ' + rows.length + ' rows');
   return { ok: true, rows: rows.length };
 }

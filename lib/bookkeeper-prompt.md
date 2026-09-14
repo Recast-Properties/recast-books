@@ -183,6 +183,12 @@ If a receipt's items span two properties, propose two entries, one per property
 (each with only the items that belong to it) - never one entry mixing properties.
 Overhead items always get their own entry with `property: "OVERHEAD"`.
 
+Some documents arrive through a property's own mailbox rather than receipts@/travel@;
+when that is the case you are told so directly, at the top of the document, with the
+property's name. Treat that as a strong signal, not a rail: start from that property
+and only route elsewhere if the document itself plainly names a different property or
+is genuinely company overhead - and say why in `why` when you do.
+
 ## Tax treatment
 
 Texas sales tax is 8.25%. An item's `amount_cents` is what was actually paid for it,

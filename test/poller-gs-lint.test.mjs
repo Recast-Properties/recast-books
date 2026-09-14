@@ -105,6 +105,50 @@ test("dailyDigest exists and reads /api/summary via the poller secret header", (
   assert.ok(body.includes("MailApp.sendEmail"), "dailyDigest does not send an email");
 });
 
+test("phase2.6-spec.md: MAILBOX script property switches pollBooks/dryRunBatch into label-driven properties mode", () => {
+  assert.ok(source.includes("function mailboxMode_("), "mailboxMode_ not found");
+  assert.match(source, /getProperty\('MAILBOX'\)\s*\|\|\s*'paul'/, "mailboxMode_ does not default to 'paul'");
+
+  const pollAnchor = source.indexOf("function pollBooks(");
+  const pollNext = source.indexOf("\nfunction ", pollAnchor + 1);
+  const pollBody = source.slice(pollAnchor, pollNext === -1 ? source.length : pollNext);
+  assert.match(pollBody, /mailboxMode_\(props\)\s*===\s*'properties'/, "pollBooks does not branch on properties mode");
+  assert.ok(pollBody.includes("pollBooksProperties_("), "pollBooks does not call pollBooksProperties_");
+
+  const dryAnchor = source.indexOf("function dryRunBatch(");
+  const dryNext = source.indexOf("\nfunction ", dryAnchor + 1);
+  const dryBody = source.slice(dryAnchor, dryNext === -1 ? source.length : dryNext);
+  assert.match(dryBody, /mailboxMode_\(props\)\s*===\s*'properties'/, "dryRunBatch does not branch on properties mode");
+  assert.ok(dryBody.includes("dryRunBatchProperties_("), "dryRunBatch does not call dryRunBatchProperties_");
+});
+
+test("normalizeKey_ lower-cases and strips everything but [a-z0-9] (mirrors lib/property-key.mjs)", () => {
+  const anchor = source.indexOf("function normalizeKey_(");
+  assert.ok(anchor !== -1, "normalizeKey_ not found");
+  const nextFn = source.indexOf("\nfunction ", anchor + 1);
+  const body = source.slice(anchor, nextFn === -1 ? source.length : nextFn);
+  assert.ok(body.includes("toLowerCase()"), "normalizeKey_ does not lower-case");
+  assert.ok(body.includes("[^a-z0-9]"), "normalizeKey_ does not strip everything but [a-z0-9]");
+});
+
+test("pollBooksProperties_ replaces isAddressedToInbox_ with the matched-label search and caps total threads at MAX_THREADS", () => {
+  const anchor = source.indexOf("function pollBooksProperties_(");
+  assert.ok(anchor !== -1, "pollBooksProperties_ not found");
+  const nextFn = source.indexOf("\nfunction ", anchor + 1);
+  const body = source.slice(anchor, nextFn === -1 ? source.length : nextFn);
+  assert.ok(!body.includes("isAddressedToInbox_"), "properties mode must not use the to/cc check - labels live on threads");
+  assert.ok(body.includes("CONFIG.MAX_THREADS"), "does not bound total threads at CONFIG.MAX_THREADS");
+  assert.ok(body.includes("m.skipped"), "does not log skipped unmatched labels");
+});
+
+test("dryRunBatchProperties_ never labels a thread", () => {
+  const anchor = source.indexOf("function dryRunBatchProperties_(");
+  assert.ok(anchor !== -1, "dryRunBatchProperties_ not found");
+  const nextFn = source.indexOf("\nfunction ", anchor + 1);
+  const body = source.slice(anchor, nextFn === -1 ? source.length : nextFn);
+  assert.ok(!body.includes("addLabel"), "dryRunBatchProperties_ must never label a thread");
+});
+
 test("upload requests authenticate with x-poller-secret, not a body token", () => {
   const anchor = source.indexOf("function postUpload_(");
   assert.ok(anchor !== -1, "postUpload_ not found");

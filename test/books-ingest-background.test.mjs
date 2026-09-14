@@ -29,9 +29,9 @@ process.env.ANTHROPIC_API_KEY = "sk-ant-test-unused"; // never actually sent - s
 process.env.POLLER_SECRET = "poller-secret";
 installFakeBlobsContext();
 
-let handler, processDecision, resetWriterForTests, getDocsStore, importError;
+let handler, processDecision, propertyMailboxHint, resetWriterForTests, getDocsStore, importError;
 try {
-  ({ default: handler, processDecision } = await import("../netlify/functions/books-ingest-background.mjs"));
+  ({ default: handler, processDecision, propertyMailboxHint } = await import("../netlify/functions/books-ingest-background.mjs"));
   ({ resetWriterForTests, getDocsStore } = await import("../netlify/functions/_shared.mjs"));
 } catch (err) {
   importError = err;
@@ -444,6 +444,21 @@ test("a non-conflict postBatch failure propagates (caller records status error)"
       return true;
     },
   );
+});
+
+// ---- propertyMailboxHint (phase2.6-spec.md §4) -----------------------------------
+
+test("propertyMailboxHint: envelope.channel in the property registry -> that name", { skip }, () => {
+  const ctx = { properties: new Set(["1616 Granite", "881 Newport"]) };
+  assert.equal(propertyMailboxHint(ctx, { channel: "1616 Granite" }), "1616 Granite");
+});
+
+test("propertyMailboxHint: fixed channels and unregistered names -> undefined", { skip }, () => {
+  const ctx = { properties: new Set(["1616 Granite"]) };
+  assert.equal(propertyMailboxHint(ctx, { channel: "receipts" }), undefined);
+  assert.equal(propertyMailboxHint(ctx, { channel: "travel" }), undefined);
+  assert.equal(propertyMailboxHint(ctx, { channel: "upload" }), undefined);
+  assert.equal(propertyMailboxHint(ctx, { channel: "Some Unregistered House" }), undefined);
 });
 
 // ---- default handler: only the paths that return before runBookkeeper -----------

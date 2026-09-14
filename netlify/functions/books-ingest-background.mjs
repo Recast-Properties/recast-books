@@ -262,6 +262,18 @@ function isPendingWorthy(err) {
   return err instanceof WriterError && PENDING_ON_WRITER_CODES.has(err.code);
 }
 
+/**
+ * phase2.6-spec.md §4: the envelope's channel, when it names a property in the
+ * registry (ctx.properties, from getPostingCtx) — undefined for the fixed channels
+ * (receipts/travel/upload) or an unregistered one. Pulled out as its own pure
+ * function so it's directly testable without a real Anthropic call — see this
+ * file's header comment on why the default handler otherwise isn't driven through
+ * runBookkeeper in tests.
+ */
+export function propertyMailboxHint(ctx, envelope) {
+  return ctx.properties.has(envelope.channel) ? envelope.channel : undefined;
+}
+
 export default async (req) => {
   const configErr = requireConfig(["WRITER_URL", "WRITER_SECRET", "ANTHROPIC_API_KEY", "POLLER_SECRET"]);
   if (configErr) return configErr;
@@ -326,6 +338,13 @@ export default async (req) => {
       payment_instruments: bankRows.map((b) => ({ code: String(b.code), name: String(b.name || ""), last4: String(b.last4 || "") })),
       paul_personal_last4: String(settings.paul_personal_last4 || "").split(/[,\s]+/).filter(Boolean),
     };
+    // phase2.6-spec.md §4: when the envelope's channel is a property mailbox (not
+    // receipts/travel/upload), tell the model which property's mailbox this document
+    // arrived in — a strong routing hint, not a rail (the gate still only allows an
+    // entry whose property is in ctx.properties; a sold/locked property refuses on
+    // its own regardless of this hint).
+    const mailboxHint = propertyMailboxHint(ctx, envelope);
+    if (mailboxHint) context.property_mailbox_hint = mailboxHint;
     const { model, transcript_summary, usage } = await runBookkeeper({
       envelope: { ...envelope, context },
       attachments: attachmentsForModel,

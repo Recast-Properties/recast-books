@@ -164,6 +164,31 @@ test("the last system block and the last tool carry cache_control ephemeral", as
   }
 });
 
+// ---- property mailbox hint (phase2.6-spec.md §4) -----------------------------------
+
+test("envelope.context.property_mailbox_hint adds the routing hint right under Channel", async () => {
+  const client = scriptedClient([{ stop_reason: "tool_use", content: [toolUse("t1", "decide", DECIDE_INPUT)], usage: usage() }]);
+  const envelope = baseEnvelope({ channel: "1616 Granite", context: { property_mailbox_hint: "1616 Granite" } });
+  await runBookkeeper({ envelope, attachments: [], deps: baseDeps({ anthropic: client }) });
+
+  const headerText = client.calls[0].messages[0].content[0].text;
+  assert.match(headerText, /Channel: 1616 Granite/);
+  assert.match(
+    headerText,
+    /This document was sent to the mailbox for property 1616 Granite\. Post it to that property unless the document itself plainly names a different one or is company overhead \(then say why in `why`\)\./,
+  );
+  // right after Channel, ahead of Subject - the most visible spot in the header
+  assert.ok(headerText.indexOf("This document was sent to the mailbox") < headerText.indexOf("Subject:"));
+});
+
+test("no property_mailbox_hint in context -> no hint line, ordinary receipts/travel channel unaffected", async () => {
+  const client = scriptedClient([{ stop_reason: "tool_use", content: [toolUse("t1", "decide", DECIDE_INPUT)], usage: usage() }]);
+  await runBookkeeper({ envelope: baseEnvelope(), attachments: [], deps: baseDeps({ anthropic: client }) });
+
+  const headerText = client.calls[0].messages[0].content[0].text;
+  assert.ok(!headerText.includes("mailbox for property"));
+});
+
 test("the six client tools are strict with additionalProperties:false", async () => {
   const client = scriptedClient([{ stop_reason: "tool_use", content: [toolUse("t1", "decide", DECIDE_INPUT)], usage: usage() }]);
   await runBookkeeper({ envelope: baseEnvelope(), attachments: [], deps: baseDeps({ anthropic: client }) });

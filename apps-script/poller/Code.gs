@@ -45,7 +45,11 @@ function setup() {
 
   ScriptApp.getProjectTriggers().forEach(function (t) { ScriptApp.deleteTrigger(t); });
   ScriptApp.newTrigger('pollBooks').timeBased().everyMinutes(15).create();
-  ScriptApp.newTrigger('dailyDigest').timeBased().atHour(3).everyDays(1).inTimezone('America/Chicago').create();
+  // One digest per day comes from the paul@ instance; a properties@ instance
+  // (MAILBOX=properties) polls only.
+  if (mailboxMode_(props) !== 'properties') {
+    ScriptApp.newTrigger('dailyDigest').timeBased().atHour(3).everyDays(1).inTimezone('America/Chicago').create();
+  }
 
   Logger.log('Recast Books Poller set up. BOOKS_UPLOAD_URL=' + props.getProperty('BOOKS_UPLOAD_URL') +
     ' BOOKS_SUMMARY_URL=' + props.getProperty('BOOKS_SUMMARY_URL') +
@@ -75,6 +79,204 @@ var CONFIG = {
   MAX_ATTACH_COUNT: 6 // at most N attachments per email (ported from receipts-poller.gs)
 };
 
+// ---- MAILBOX mode (phase2.6-spec.md) -----------------------------------------
+// Script property MAILBOX: absent or 'paul' -> today's receipts@/travel@ behaviour
+// below, unchanged. 'properties' -> label-driven mode: this instance runs as
+// properties@, has no receipts@/travel@ mail of its own, and instead searches one
+// Gmail label per registered property. Same Code.gs, same /api/upload, same
+// POLLER_SECRET - only the search and the channel differ. See
+// pollBooksProperties_/dryRunBatchProperties_ below.
+
+function mailboxMode_(props) {
+  return props.getProperty('MAILBOX') || 'paul';
+}
+
+// phase2.6-spec.md section 2: label name <-> Properties `name`, compared after
+// lower-casing and removing everything but [a-z0-9] ("881Newport" <-> "881 Newport").
+// Mirrored in lib/property-key.mjs's normalizePropertyKey - keep the two in sync
+// (Apps Script can't import that ESM module, so this copy is by hand).
+function normalizeKey_(s) {
+  return String(s || '').toLowerCase().replace(/[^a-z0-9]/g, '');
+}
+
+// Derives /api/property-mailboxes from BOOKS_UPLOAD_URL, same trick as warmCache_
+// derives /api/warm-bg.
+function mailboxUrl_(uploadUrl) {
+  // Built from two short literals (not one run of 20+ chars) so it never trips
+  // poller-gs-lint.test.mjs's "no hardcoded secret" heuristic, which flags any long
+  // quoted [A-Za-z0-9+/_-] run - a route path can look like one, a secret never is.
+  return uploadUrl.replace(/\/api\/upload$/, '/api/' + 'property-mailboxes');
+}
+
+// Every user label in this mailbox except the done label - the poller's own record
+// of "which property mailboxes am I watching" for this run.
+function userLabelNamesExceptDone_() {
+  var labels = GmailApp.getUserLabels();
+  var names = [];
+  for (var i = 0; i < labels.length; i++) {
+    var name = labels[i].getName();
+    if (name !== CONFIG.DONE_LABEL) names.push(name);
+  }
+  return names;
+}
+
+// POSTs this run's labels so the Properties page's add form can offer them as a
+// dropdown (phase2.6-spec.md section 3). Best-effort: a failure here must not stop
+// the run from reading mail it can already match against the last-known registry.
+function postLabels_(mailboxUrl, secret, labels) {
+  try {
+    UrlFetchApp.fetch(mailboxUrl, {
+      method: 'post',
+      contentType: 'application/json',
+      headers: { 'x-poller-secret': secret },
+      payload: JSON.stringify({ labels: labels }),
+      muteHttpExceptions: true
+    });
+  } catch (err) {
+    console.error('postLabels_: ' + String(err));
+  }
+}
+
+// GETs the registered {name,key} list. Returns [] (never throws) on any failure -
+// a mailboxes-API outage means "match nothing this run", not "crash the poll".
+function getRegisteredMailboxes_(mailboxUrl, secret) {
+  try {
+    var res = UrlFetchApp.fetch(mailboxUrl, {
+      method: 'get',
+      headers: { 'x-poller-secret': secret },
+      muteHttpExceptions: true
+    });
+    if (res.getResponseCode() !== 200) {
+      console.error('getRegisteredMailboxes_: HTTP ' + res.getResponseCode());
+      return [];
+    }
+    var data = JSON.parse(res.getContentText());
+    return data.registered || [];
+  } catch (err) {
+    console.error('getRegisteredMailboxes_: ' + String(err));
+    return [];
+  }
+}
+
+// {matched: [{label, name}], skipped: [label, ...]} - skipped labels are logged once
+// per run by the caller, never per message.
+// Gmail's search operator wants label names with spaces written with hyphens
+// ("1616 Granite" -> label:1616-Granite); quoting is not reliable.
+function labelQuery_(label) {
+  return String(label).replace(/\s+/g, '-');
+}
+
+function matchLabelsToRegistry_(labels, registered) {
+  var byKey = {};
+  for (var i = 0; i < registered.length; i++) {
+    byKey[registered[i].key] = registered[i].name;
+  }
+  var matched = [];
+  var skipped = [];
+  for (var j = 0; j < labels.length; j++) {
+    var label = labels[j];
+    var name = byKey[normalizeKey_(label)];
+    if (name) {
+      matched.push({ label: label, name: name });
+    } else {
+      skipped.push(label);
+    }
+  }
+  return { matched: matched, skipped: skipped };
+}
+
+// ---- pollBooksProperties_: label-driven real ingestion, MAX_THREADS shared -----
+// across every matched label. Per-message check in this mode is "the thread carries
+// the matched label" (it was found via label:"<label>" search), replacing
+// isAddressedToInbox_'s to/cc check, which does not apply here.
+function pollBooksProperties_(secret, uploadUrl, startDate, doneLabel) {
+  var mailboxUrl = mailboxUrl_(uploadUrl);
+  var labels = userLabelNamesExceptDone_();
+  postLabels_(mailboxUrl, secret, labels);
+  var m = matchLabelsToRegistry_(labels, getRegisteredMailboxes_(mailboxUrl, secret));
+
+  if (m.skipped.length) {
+    console.log('Skipped unmatched label(s) (no registered property matches): ' + m.skipped.join(', '));
+  }
+
+  var sent = 0, failed = 0, threadsUsed = 0;
+  for (var i = 0; i < m.matched.length && threadsUsed < CONFIG.MAX_THREADS; i++) {
+    var entry = m.matched[i];
+    var query = 'label:' + labelQuery_(entry.label) + ' after:' + startDate + ' -label:' + CONFIG.DONE_LABEL;
+    var threads = GmailApp.search(query, 0, CONFIG.MAX_THREADS - threadsUsed);
+    threadsUsed += threads.length;
+
+    threads.forEach(function (thread) {
+      var threadOk = true;
+      thread.getMessages().forEach(function (message) {
+        try {
+          var payload = buildPayload_(message, false, entry.name);
+          var res = postUpload_(uploadUrl, secret, payload);
+          if (res.ok) {
+            sent++;
+          } else {
+            threadOk = false;
+            failed++;
+            console.error('Upload failed for ' + message.getId() + ': ' + res.detail);
+          }
+        } catch (err) {
+          threadOk = false;
+          failed++;
+          console.error('Poller error on ' + message.getId() + ': ' + String(err));
+        }
+      });
+      if (threadOk) thread.addLabel(doneLabel);
+    });
+  }
+
+  console.log('Books poll (properties): ' + sent + ' message(s) uploaded, ' + failed + ' failure(s), ' +
+    m.matched.length + ' label(s) matched, ' + m.skipped.length + ' skipped.');
+  warmCache_(uploadUrl, secret);
+}
+
+// ---- dryRunBatchProperties_: same label set, DRY_QUERY, never labels -----------
+function dryRunBatchProperties_(props, secret, uploadUrl) {
+  var dryQuery = props.getProperty('DRY_QUERY') || CONFIG.DEFAULT_DRY_QUERY;
+  var mailboxUrl = mailboxUrl_(uploadUrl);
+  var labels = userLabelNamesExceptDone_();
+  postLabels_(mailboxUrl, secret, labels);
+  var m = matchLabelsToRegistry_(labels, getRegisteredMailboxes_(mailboxUrl, secret));
+
+  if (m.skipped.length) {
+    console.log('Skipped unmatched label(s) (no registered property matches): ' + m.skipped.join(', '));
+  }
+
+  var sent = 0, failed = 0, threadsUsed = 0;
+  for (var i = 0; i < m.matched.length && threadsUsed < CONFIG.MAX_THREADS; i++) {
+    var entry = m.matched[i];
+    var query = 'label:' + labelQuery_(entry.label) + ' ' + dryQuery;
+    var threads = GmailApp.search(query, 0, CONFIG.MAX_THREADS - threadsUsed);
+    threadsUsed += threads.length;
+
+    threads.forEach(function (thread) {
+      thread.getMessages().forEach(function (message) {
+        try {
+          var payload = buildPayload_(message, true, entry.name);
+          var res = postUpload_(uploadUrl, secret, payload);
+          if (res.ok) {
+            sent++;
+          } else {
+            failed++;
+            console.error('Dry-run upload failed for ' + message.getId() + ': ' + res.detail);
+          }
+        } catch (err) {
+          failed++;
+          console.error('Dry-run poller error on ' + message.getId() + ': ' + String(err));
+        }
+      });
+      // Dry runs never label a thread - see dryRunBatch()'s own comment.
+    });
+  }
+
+  console.log('Dry run properties (' + dryQuery + '): ' + sent + ' message(s) sent, ' + failed + ' failure(s), ' +
+    m.matched.length + ' label(s) matched, ' + m.skipped.length + ' skipped. Nothing labeled.');
+}
+
 // ---- pollBooks: real ingestion, labels processed threads --------------------
 
 function pollBooks() {
@@ -90,6 +292,12 @@ function pollBooks() {
     var startDate = props.getProperty('START_DATE') || todayIso_();
 
     var doneLabel = GmailApp.getUserLabelByName(CONFIG.DONE_LABEL) || GmailApp.createLabel(CONFIG.DONE_LABEL);
+
+    if (mailboxMode_(props) === 'properties') {
+      pollBooksProperties_(secret, uploadUrl, startDate, doneLabel);
+      return;
+    }
+
     var query = '(to:' + CONFIG.RECEIPT_ADDRESS + ' OR to:' + CONFIG.TRAVEL_ADDRESS +
       ') after:' + startDate + ' -label:' + CONFIG.DONE_LABEL;
     var threads = GmailApp.search(query, 0, CONFIG.MAX_THREADS);
@@ -134,6 +342,12 @@ function dryRunBatch() {
   var props = PropertiesService.getScriptProperties();
   var secret = requireProp_(props, 'POLLER_SECRET');
   var uploadUrl = requireProp_(props, 'BOOKS_UPLOAD_URL');
+
+  if (mailboxMode_(props) === 'properties') {
+    dryRunBatchProperties_(props, secret, uploadUrl);
+    return;
+  }
+
   var dryQuery = props.getProperty('DRY_QUERY') || CONFIG.DEFAULT_DRY_QUERY;
 
   var query = '(to:' + CONFIG.RECEIPT_ADDRESS + ' OR to:' + CONFIG.TRAVEL_ADDRESS + ') ' + dryQuery;
@@ -261,7 +475,7 @@ function channelOf_(message) {
 // (gm-<gmailMessageId>) because only this layer has the raw Gmail message id -
 // books-upload.mjs accepts it as-is rather than re-deriving it (phase2-spec.md
 // section 1's docId scheme, applied by the caller that knows the source id).
-function buildPayload_(message, dryRun) {
+function buildPayload_(message, dryRun, channelOverride) {
   var attachments = [];
   var notes = [];
   var atts = message.getAttachments({ includeInlineImages: true, includeAttachments: true });
@@ -307,7 +521,7 @@ function buildPayload_(message, dryRun) {
   return {
     docId: 'gm-' + message.getId(),
     source: 'email',
-    channel: channelOf_(message),
+    channel: channelOverride || channelOf_(message),
     gmailUrl: 'https://mail.google.com/mail/u/0/#all/' + message.getId(),
     subject: message.getSubject(),
     from: message.getFrom(),

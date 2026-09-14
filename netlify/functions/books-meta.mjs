@@ -205,7 +205,20 @@ export default async (req) => {
       }
     }
 
-    return json(400, { error: "BAD_REQUEST", message: "action must be setPeriod or upsert" });
+    if (body.action === "propertyTab") {
+      const { name } = body;
+      if (!name) {
+        return json(400, { error: "BAD_REQUEST", message: "name is required" });
+      }
+      try {
+        const result = await writer.propertyTab(name);
+        return json(200, result);
+      } catch (err) {
+        return writerErrorResponse(err);
+      }
+    }
+
+    return json(400, { error: "BAD_REQUEST", message: "action must be setPeriod, upsert or propertyTab" });
   }
 
   return json(405, { error: "METHOD_NOT_ALLOWED" });

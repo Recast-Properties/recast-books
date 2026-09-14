@@ -202,6 +202,32 @@ test("Bank accounts upsert also upserts the matching Accounts row", async () => 
   });
 });
 
+test("propertyTab action (owner) calls writer.propertyTab and returns its result", async () => {
+  router = (body) => {
+    assert.equal(body.action, "propertyTab");
+    assert.equal(body.name, "1616 Granite");
+    return { ok: true, rows: 137 };
+  };
+  const res = await handler(
+    req("POST", { token: session("owner"), body: { action: "propertyTab", name: "1616 Granite" } }),
+  );
+  assert.equal(res.status, 200);
+  const json = await res.json();
+  assert.deepEqual(json, { ok: true, rows: 137 });
+});
+
+test("propertyTab action requires a name", async () => {
+  const res = await handler(req("POST", { token: session("owner"), body: { action: "propertyTab" } }));
+  assert.equal(res.status, 400);
+});
+
+test("propertyTab action is owner-only", async () => {
+  const res = await handler(
+    req("POST", { token: session("partner"), body: { action: "propertyTab", name: "1616 Granite" } }),
+  );
+  assert.equal(res.status, 403);
+});
+
 test("non-owner cannot upsert", async () => {
   const res = await handler(
     req("POST", {

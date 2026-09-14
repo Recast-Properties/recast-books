@@ -945,8 +945,20 @@ function renderPropertiesBanner() {
   el.innerHTML = propertiesState.banner ? `<div class="banner ${propertiesState.banner.kind}">${propertiesState.banner.html}</div>` : "";
 }
 
+// GET /api/property-mailboxes (session, any role) - the labels the properties@
+// poller can see this run plus who's already registered (phase2.6-spec.md §3/§6).
+// Fetched once per "Add property" open; a failure just falls back to the plain
+// text field (never blocks adding a property).
+async function fetchPropertyMailboxes() {
+  try {
+    return await api("property-mailboxes");
+  } catch {
+    return { labels: [], registered: [], fetchedAt: null };
+  }
+}
+
 // prefill: an existing Properties row when editing from the detail view; undefined for "Add property".
-function renderPropertiesAddForm(prefill) {
+async function renderPropertiesAddForm(prefill) {
   const wrap = $("properties-add");
   if (!wrap) return;
   if (!isOwner()) {
@@ -962,11 +974,39 @@ function renderPropertiesAddForm(prefill) {
     };
     return;
   }
+
+  // Name becomes a dropdown of mailbox labels for a brand-new property ("remove any
+  // chance for error" - Paul, 2026-09-14) — a registered one is marked, and a final
+  // option reveals the free-text field for a property with no mailbox yet. Editing
+  // an existing property keeps the plain read-only name field, as before.
+  let mailboxes = null;
+  if (!prefill) {
+    wrap.innerHTML = `<div class="section-card">Loading…</div>`;
+    mailboxes = await fetchPropertyMailboxes();
+  }
+  const registeredNames = new Set((mailboxes?.registered || []).map((r) => r.name));
+  const labelOptions = mailboxes ? [...new Set([...(mailboxes.labels || []), ...registeredNames])].sort() : [];
+  const useNameSelect = !prefill && labelOptions.length > 0;
+  const MANUAL = "__manual__";
+
+  const nameFieldHtml = prefill
+    ? `<input type="text" id="p-name" value="${escapeHtml(p.name || "")}" placeholder="881 Newport" readonly>`
+    : useNameSelect
+    ? `<select id="p-name">
+        <option value="">Choose a mailbox…</option>
+        ${labelOptions
+          .map((n) => `<option value="${escapeHtml(n)}">${escapeHtml(n)}${registeredNames.has(n) ? " (registered)" : ""}</option>`)
+          .join("")}
+        <option value="${MANUAL}">— no property email yet —</option>
+      </select>
+      <input type="text" id="p-name-manual" placeholder="881 Newport" style="margin-top:6px;display:none;">`
+    : `<input type="text" id="p-name" value="${escapeHtml(p.name || "")}" placeholder="881 Newport">`;
+
   wrap.innerHTML = `
     <div class="section-card">
       <h3>${prefill ? `Edit ${escapeHtml(prefill.name)}` : "Add property"}</h3>
       <div class="form-grid">
-        <div class="field"><label>Name</label><input type="text" id="p-name" value="${escapeHtml(p.name || "")}" placeholder="881 Newport" ${prefill ? "readonly" : ""}></div>
+        <div class="field"><label>Name</label>${nameFieldHtml}</div>
         <div class="field"><label>Address</label><input type="text" id="p-address" value="${escapeHtml(p.address || "")}"></div>
         <div class="field"><label>Status</label><select id="p-status">${PROPERTY_STATUSES.map((s) => `<option value="${s}" ${p.status === s ? "selected" : ""}>${s}</option>`).join("")}</select></div>
         <div class="field"><label>Template</label><input type="text" id="p-template" value="${escapeHtml(p.template || "")}"></div>
@@ -983,13 +1023,29 @@ function renderPropertiesAddForm(prefill) {
       </div>
     </div>`;
 
+  if (useNameSelect) {
+    const sel = $("p-name");
+    const manual = $("p-name-manual");
+    sel.onchange = () => {
+      const isManual = sel.value === MANUAL;
+      manual.style.display = isManual ? "" : "none";
+      if (isManual) manual.focus();
+      else manual.value = "";
+    };
+  }
+
   $("p-cancel").onclick = () => {
     propertiesState.addOpen = false;
     if (prefill) renderPropertyDetail(prefill.name);
     else renderPropertiesAddForm();
   };
   $("p-save").onclick = async () => {
-    const name = $("p-name").value.trim();
+    const name = (useNameSelect
+      ? $("p-name").value === MANUAL
+        ? $("p-name-manual").value
+        : $("p-name").value
+      : $("p-name").value
+    ).trim();
     if (!name) {
       propertiesState.banner = { kind: "error", html: "Name is required." };
       renderPropertiesBanner();
@@ -1017,7 +1073,18 @@ function renderPropertiesAddForm(prefill) {
     };
     try {
       await api("meta", { method: "POST", body: { action: "upsert", tab: "Properties", key_column: "name", row } });
-      propertiesState.banner = { kind: "success", html: `Saved <code>${escapeHtml(name)}</code>.` };
+      let html = `Saved <code>${escapeHtml(name)}</code>.`;
+      // New property, not an edit: build its formula-only tab now (phase2.6-spec.md
+      // §5/§6) rather than leaving it to a later manual run from the editor.
+      if (!prefill) {
+        try {
+          const tabResult = await api("meta", { method: "POST", body: { action: "propertyTab", name } });
+          html += ` Property tab built (${tabResult.rows} rows).`;
+        } catch (tabErr) {
+          html += ` Property tab could not be built: ${errorBannerHtml(tabErr)}`;
+        }
+      }
+      propertiesState.banner = { kind: "success", html };
       propertiesState.addOpen = false;
       if (prefill) navigate("properties", name);
       else await renderProperties();

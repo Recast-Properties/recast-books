@@ -235,3 +235,21 @@ not be in his face. Journal page now hides a voided entry and its reversal by de
 ("N voided entries hidden · Show"). Totals tab gross Debit/Credit columns exclude voided
 pairs (helper column H flags voided txn_ids once; SUMPRODUCT per cell; codes coerced to
 text so hand-typed numeric codes match). Nets are unchanged. Paul reruns `setupTotals`.
+
+## 2026-09-14 — Phase 2.6 built: property mailboxes and property tabs
+
+Spec `docs/phase2.6-spec.md`. Property mail lives in properties@ (each property email is
+a Google Group with properties@ as member and a Gmail label named for the property, made
+by the Recast-site email tool). A second copy of the poller runs as properties@
+(`MAILBOX=properties`): each run it POSTs its labels to `/api/property-mailboxes`, GETs
+the registered properties, matches by normalised name, searches `label:<name>` per match,
+uploads with channel = property name; unmatched labels are skipped and logged; no digest
+trigger on that instance. Upload accepts a registered property as channel; the ingest
+tells the model which property mailbox the document came through (strong hint, not a
+rail). Writer action `propertyTab` / `setupPropertyTab(name)` builds a formula-only tab
+per property (summary by cost class, Dennis advances with in-sheet interest at the
+Settings rate, preliminary payout, lines per class, post-sale block). Properties add form
+offers the mailbox labels as a dropdown and builds the tab on save. Sonnet built from the
+spec; review fixed the stub-basis cell, a double-subtracted payoff in the preliminary
+payout, future-dated advances, Gmail's hyphenated label search, and the duplicate digest.
+394 tests.

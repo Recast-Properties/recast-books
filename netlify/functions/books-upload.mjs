@@ -22,11 +22,31 @@ import {
   getSessionPayload,
   authErrorResponse,
   pollerSecretOk,
+  getWriter,
+  readTab,
+  rowsToObjectsPublic,
 } from "./_shared.mjs";
 
 const MAX_ATTACHMENT_BYTES = 6 * 1024 * 1024;
 const VALID_SOURCES = new Set(["email", "upload"]);
 const VALID_CHANNELS = new Set(["receipts", "travel", "upload"]);
+
+// phase2.6-spec.md §4: channel may also be the exact (trimmed) name of a property
+// currently held or under contract — the mailbox for that property. Only consulted
+// when the channel isn't already one of the three fixed values, so the common path
+// never needs WRITER_URL/WRITER_SECRET configured.
+async function isRegisteredPropertyChannel(channel) {
+  if (!process.env.WRITER_URL || !process.env.WRITER_SECRET) return false;
+  try {
+    const resp = await readTab(getWriter(), "Properties");
+    const rows = rowsToObjectsPublic(resp.headers, resp.rows);
+    return rows.some(
+      (r) => (r.status === "held" || r.status === "under contract") && String(r.name || "").trim() === channel.trim(),
+    );
+  } catch {
+    return false;
+  }
+}
 const TERMINAL_SKIP_STATUSES = new Set(["posted", "dismissed", "pending"]);
 // docId is used verbatim inside Blobs keys (doc/<docId>, att/<docId>/<i>) and later
 // inside Drive folder/file naming - restrict to a safe charset so nothing resembling
@@ -74,8 +94,11 @@ export default async (req) => {
   if (!VALID_SOURCES.has(source)) {
     return json(400, { error: "BAD_REQUEST", message: 'source must be "email" or "upload"' });
   }
-  if (!VALID_CHANNELS.has(channel)) {
-    return json(400, { error: "BAD_REQUEST", message: 'channel must be "receipts", "travel" or "upload"' });
+  if (!VALID_CHANNELS.has(channel) && !(await isRegisteredPropertyChannel(channel))) {
+    return json(400, {
+      error: "BAD_REQUEST",
+      message: 'channel must be "receipts", "travel", "upload", or the name of a property held or under contract',
+    });
   }
 
   const attachments = Array.isArray(body.attachments) ? body.attachments : [];

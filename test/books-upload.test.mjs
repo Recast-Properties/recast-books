@@ -9,17 +9,29 @@
 import { test, beforeEach } from "node:test";
 import assert from "node:assert/strict";
 import { issueSession } from "../lib/auth.mjs";
-import { resetDocsStoreForTests, getDocsStore } from "../netlify/functions/_shared.mjs";
+import {
+  resetDocsStoreForTests,
+  getDocsStore,
+  resetWriterForTests,
+  resetCacheStoreForTests,
+} from "../netlify/functions/_shared.mjs";
 import { installFakeBlobsContext, makeFakeDocsStore } from "./helpers/fake-docs-store.mjs";
+import { makeFakeCacheStore } from "./helpers/fake-cache-store.mjs";
 
 process.env.SESSION_SECRET = "session-secret";
 process.env.POLLER_SECRET = "poller-secret";
+// Only exercised by the "channel is a registered property name" tests below (see
+// isRegisteredPropertyChannel in books-upload.mjs) - every other test's channel is
+// one of the three fixed values and never touches the writer.
+process.env.WRITER_URL = "https://writer.test/exec";
+process.env.WRITER_SECRET = "writer-secret";
 installFakeBlobsContext();
 
 const { default: handler } = await import("../netlify/functions/books-upload.mjs");
 
 let docsStore; // { fetchImpl, items }
 let ingestCalls; // [{url, body}]
+let propertiesRows; // rows the fake writer answers a Properties read with
 
 function session(role, email = `${role}@recast-properties.com`) {
   return issueSession({ email, role, name: role }, process.env.SESSION_SECRET);
@@ -40,13 +52,30 @@ const SMALL_ATTACHMENT = { name: "r.jpg", mime: "image/jpeg", base64: Buffer.fro
 
 beforeEach(() => {
   resetDocsStoreForTests();
+  resetWriterForTests();
+  resetCacheStoreForTests(makeFakeCacheStore());
   docsStore = makeFakeDocsStore();
   ingestCalls = [];
+  propertiesRows = [["1616 Granite", "1616 Granite Dr", "under contract", "2026-04-07", "279001", "", "", true, "", ""]];
   globalThis.fetch = async (url, opts) => {
     const u = String(typeof url === "string" ? url : url.url);
     if (u === "https://books.test/api/ingest-bg") {
       ingestCalls.push({ url: u, opts });
       return new Response(JSON.stringify({ docId: JSON.parse(opts.body).docId, status: "processing" }), { status: 202 });
+    }
+    if (u === process.env.WRITER_URL) {
+      const body = JSON.parse(opts.body);
+      if (body.action === "read" && body.tab === "Properties") {
+        return new Response(
+          JSON.stringify({
+            ok: true,
+            headers: ["name", "address", "status", "purchase_date", "purchase_price", "settlement_date", "template", "dennis_funded", "drive_folder", "notes"],
+            rows: propertiesRows,
+          }),
+          { status: 200 },
+        );
+      }
+      return new Response(JSON.stringify({ ok: false, error: "UNEXPECTED" }), { status: 200 });
     }
     return docsStore.fetchImpl(url, opts);
   };
@@ -139,6 +168,32 @@ test("bad source/channel values are rejected", async () => {
   assert.equal(res1.status, 400);
   const res2 = await handler(req({ body: { source: "upload", channel: "nope" }, token: session("owner") }));
   assert.equal(res2.status, 400);
+});
+
+test("channel accepts a registered (held/under contract) property name — phase2.6-spec.md §4", async () => {
+  const res = await handler(
+    req({ body: { docId: "gm-granite1", source: "email", channel: "1616 Granite", attachments: [] }, pollerSecret: "poller-secret" }),
+  );
+  assert.equal(res.status, 200);
+  const body = await res.json();
+  assert.equal(body.docId, "gm-granite1");
+  const envelope = await getDocsStore().get("doc/gm-granite1", { type: "json" });
+  assert.equal(envelope.channel, "1616 Granite");
+});
+
+test("channel refuses a property name that isn't registered (wrong status or unknown)", async () => {
+  propertiesRows.push(["Old Sold House", "1 Sold St", "sold", "2025-01-01", "150000", "2025-06-01", "", false, "", ""]);
+  const res1 = await handler(
+    req({ body: { docId: "gm-sold1", source: "email", channel: "Old Sold House", attachments: [] }, pollerSecret: "poller-secret" }),
+  );
+  assert.equal(res1.status, 400);
+
+  const res2 = await handler(
+    req({ body: { docId: "gm-nope1", source: "email", channel: "Not A Property", attachments: [] }, pollerSecret: "poller-secret" }),
+  );
+  assert.equal(res2.status, 400);
+  const body2 = await res2.json();
+  assert.equal(body2.error, "BAD_REQUEST");
 });
 
 test("an attachment over 6 MB is rejected with 413", async () => {
