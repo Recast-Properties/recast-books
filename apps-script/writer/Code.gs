@@ -1096,11 +1096,14 @@ function setupPropertyTab(name) {
       // compounded monthly; AP last anniversary; AQ stub days - simple over
       // Settings!stub_days_basis (D-006).
       // AR the advance's own rate_pct (blank = Settings rate), AS the annual rate used.
+      // Interest runs to the as-of date, or to the End Date (repaid_date) if earlier -
+      // the same freeze lib/accrual.mjs applies (D-011).
+      var asOf = 'IF(E' + r + '="",$B$1,MIN($B$1,E' + r + '))';
       helpers.push([
-        '=IF(D' + r + '="","",IFERROR(DATEDIF(D' + r + ',$B$1,"m"),0))',
+        '=IF(D' + r + '="","",IFERROR(DATEDIF(D' + r + ',' + asOf + ',"m"),0))',
         '=IF(D' + r + '="","",F' + r + '*(1+AS' + r + '/12)^AN' + r + ')',
         '=IF(D' + r + '="","",EDATE(D' + r + ',AN' + r + '))',
-        '=IF(D' + r + '="","",MAX(0,$B$1-AP' + r + '))',
+        '=IF(D' + r + '="","",MAX(0,' + asOf + '-AP' + r + '))',
         '=IF(D' + r + '="","",IFERROR(' + pick('K', idx) + ',""))',
         '=IF(D' + r + '="","",IF(AR' + r + '="",$AI$1,AR' + r + '/100))']);
       set(r, 7, '=IF(D' + r + '="","",AO' + r + '*(1+AS' + r + '/12*AQ' + r + '/$AJ$1)-F' + r + ')');
