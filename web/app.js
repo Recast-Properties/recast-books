@@ -1675,6 +1675,8 @@ function renderDennisAddForm() {
     </div>`;
   $("d-kind").onchange = () => { $("d-into-field").hidden = $("d-kind").value !== "cash"; };
   $("d-save").onclick = async () => {
+    const saveBtn = $("d-save");
+    if (saveBtn.disabled) return; // a second click while posting is ignored
     const date = $("d-date").value;
     const property = $("d-property").value;
     const into = $("d-into").value;
@@ -1696,12 +1698,30 @@ function renderDennisAddForm() {
     const body = { action: "addAdvance", date, amount_cents, property, kind };
     if (kind === "cash") body.into = into;
     if (memo) body.memo = memo;
+    saveBtn.disabled = true;
+    saveBtn.textContent = "Posting advance…";
+    dennisState.banner = { kind: "", html: "Posting the advance to the books…" };
+    renderDennisBanner();
     try {
       const result = await api("dennis", { method: "POST", body });
       const txnHtml = result && result.entry && result.entry.txn_id ? ` <code>${escapeHtml(result.entry.txn_id)}</code>` : "";
-      dennisState.banner = { kind: "success", html: `Advance posted.${txnHtml}` };
+      dennisState.banner = { kind: "", html: `Advance posted.${txnHtml} Rebuilding the ${escapeHtml(property)} tab…` };
+      renderDennisBanner();
+      saveBtn.textContent = "Rebuilding property tab…";
+      // The property tab sizes its advance schedules to the Advances rows; the rebuild is
+      // slow (Apps Script), so it runs after the post rather than inside it.
+      let tabNote = "";
+      try {
+        await api("meta", { method: "POST", body: { action: "propertyTab", name: property } });
+        tabNote = ` The ${escapeHtml(property)} tab is rebuilt.`;
+      } catch (tabErr) {
+        tabNote = ` The ${escapeHtml(property)} tab was not rebuilt (${escapeHtml(tabErr.message || String(tabErr))}); run rebuildAllPropertyTabs in the editor.`;
+      }
+      dennisState.banner = { kind: "success", html: `Advance posted.${txnHtml}${tabNote}` };
       await renderDennis();
     } catch (err) {
+      saveBtn.disabled = false;
+      saveBtn.textContent = "Add advance";
       dennisState.banner = { kind: "error", html: errorBannerHtml(err) };
       renderDennisBanner();
     }

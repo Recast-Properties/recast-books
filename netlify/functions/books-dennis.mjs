@@ -247,17 +247,10 @@ export default async (req) => {
         return writerErrorResponse(err);
       }
 
-      // The property tab sizes its advance block to the Advances rows (phase2.6-spec.md
-      // section 5); rebuild it so the new advance has a row. Best effort: the advance is
-      // already on the books, so a slow writer here must not fail the request.
-      let tab_rebuilt = true;
-      try {
-        await writer.propertyTab(property);
-      } catch {
-        tab_rebuilt = false;
-      }
-
-      return json(200, { advance: advanceRow, entry, rows: postResult.rows, tab_rebuilt });
+      // The property tab rebuild (its advance schedules size to the Advances rows) is
+      // the client's next call, not part of this one: it is slow and this request
+      // should answer as soon as the advance is on the books (Paul, 2026-09-15).
+      return json(200, { advance: advanceRow, entry, rows: postResult.rows });
     }
 
     if (body.action === "previewInterest") {
