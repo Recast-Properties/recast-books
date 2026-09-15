@@ -986,8 +986,9 @@ function setupTotals() {
 //         Recast Account checkboxes (from paid_from).
 //   R:X   UTILITIES - same shape, Holding-class lines.
 //   Z:AF  POST-SALE COSTS (D-015) - same shape, lines dated after settlement.
-//   AI:AS helpers (rate, stub basis, settlement_date, contract_price, voided flag,
-//         per-advance math, tax_annual, tax proration estimate), greyed.
+//   AI:AS helpers (rate, stub basis, settlement_date, contract_price, per-advance
+//         math, tax_annual, tax proration estimate), greyed; the voided flag is on the
+//         hidden 'Journal helpers' sheet.
 // Interest to Date is the in-sheet computation, not posted 1200 accruals, so the tab
 // reads the same whether or not the close job has run; Financing-class lines are
 // therefore left out of Total Project Cost (no double count). The tab is a view;
@@ -1022,12 +1023,17 @@ function setupPropertyTab(name) {
 
   var J = function (col) { return 'Journal!$' + col + '$2:$' + col + '$' + N; };
   var A = function (col) { return 'Advances!$' + col + '$2:$' + col + '$' + N; };
+  // The "is this txn_id voided" flag lives on a hidden helper sheet: an ARRAYFORMULA
+  // spilling 5000 rows on this tab would make Sheets grow the tab back past the line
+  // blocks (Paul, 2026-09-15: "didnt work").
+  ensureJournalHelpers_(ss);
+  var VOIDED = "'" + HELPER_SHEET + "'!$A$2:$A$" + N;
   var eq = function (col, v) { return '(' + J(col) + '&""="' + v + '")'; };
   var ne = function (col, v) { return '(' + J(col) + '&""<>"' + v + '")'; };
 
   // Journal columns: C date, E account, F debit, G credit, H property, I cost_class,
   // L payee, M description, N paid_from, P source, Y void_of. Voided flag: AD.
-  var live = ne('P', 'void') + '*($AM$2:$AM$' + N + '<>TRUE)*' + eq('H', safeName) + '*(' + J('C') + '<=$B$1)';
+  var live = ne('P', 'void') + '*(' + VOIDED + '<>TRUE)*' + eq('H', safeName) + '*(' + J('C') + '<=$B$1)';
   var net = function (factor) { return 'SUMPRODUCT(' + factor + '*' + live + '*(' + J('F') + '-' + J('G') + '))'; };
   var deb = function (factor) { return 'SUMPRODUCT(' + factor + '*' + live + '*' + J('F') + ')'; };
   var cred = function (factor) { return 'SUMPRODUCT(' + factor + '*' + live + '*' + J('G') + ')'; };
@@ -1175,7 +1181,7 @@ function setupPropertyTab(name) {
   lineBlock(4, 18, 'Utilities', holdingF + '*' + live);
   // POST-SALE (D-015): lines dated after Properties.settlement_date ($AK$1), not
   // bounded by $B$1.
-  var postLive = ne('P', 'void') + '*($AM$2:$AM$' + N + '<>TRUE)*' + eq('H', safeName) + '*(' + J('C') + '>$AK$1)*($AK$1<>"")';
+  var postLive = ne('P', 'void') + '*(' + VOIDED + '<>TRUE)*' + eq('H', safeName) + '*(' + J('C') + '>$AK$1)*($AK$1<>"")';
   lineBlock(4, 26, 'Post-Sale Costs (D-015)', postLive);
 
   var needRows = 5 + LINES_N;
@@ -1186,13 +1192,11 @@ function setupPropertyTab(name) {
   sh.getRange(1, 1, grid.length, WIDTH).setValues(grid);
 
   // Helpers past the grid: AI1 rate, AJ1 stub basis, AK1 settlement_date, AL1
-  // contract_price (D-017), AM voided flag, AN:AQ per-advance math, AR/AS tax.
+  // contract_price (D-017), AN:AQ per-advance math, AR/AS tax.
   sh.getRange(1, 35).setFormula('=IFERROR(VLOOKUP("interest_rate_annual",Settings!A:B,2,FALSE),0)');
   sh.getRange(1, 36).setFormula('=IFERROR(VLOOKUP("stub_days_basis",Settings!A:B,2,FALSE),30)');
   sh.getRange(1, 37).setFormula('=IFERROR(VLOOKUP("' + safeName + '",Properties!A:F,6,FALSE),"")'); // settlement_date
   sh.getRange(1, 38).setFormula('=IFERROR(VLOOKUP("' + safeName + '",Properties!A:K,11,FALSE),"")'); // contract_price
-  sh.getRange(1, 39).setValue('helper: voided?');
-  sh.getRange(2, 39).setFormula('=ARRAYFORMULA(IF(' + J('A') + '="","",ISNUMBER(MATCH(' + J('A') + ',' + J('Y') + ',0))))');
   sh.getRange(advFirst, 40, ADV_N, 4).setFormulas(advHelpers);
   sh.getRange(1, 44).setFormula('=IFERROR(VLOOKUP("' + safeName + '",Properties!A:L,12,FALSE),"")'); // AR1: tax_annual
   sh.getRange(1, 45).setFormula('=IF(OR($AK$1<>"",$AR$1=""),0,$AR$1*($B$1-DATE(YEAR($B$1),1,1))/365)'); // AS1: proration estimate while unsold
@@ -1233,6 +1237,17 @@ function setupPropertyTab(name) {
 
   console.log('Property tab rebuilt for "' + name + '": ' + grid.length + ' rows');
   return { ok: true, rows: grid.length };
+}
+
+var HELPER_SHEET = 'Journal helpers';
+
+/** Hidden sheet holding the Journal-wide "voided?" flag every property tab reads. */
+function ensureJournalHelpers_(ss) {
+  var sh = ss.getSheetByName(HELPER_SHEET);
+  if (!sh) { sh = ss.insertSheet(HELPER_SHEET); sh.hideSheet(); }
+  sh.getRange(1, 1).setValue('voided? (txn_id named by a void)');
+  sh.getRange(2, 1).setFormula('=ARRAYFORMULA(IF(Journal!$A$2:$A$5000="","",ISNUMBER(MATCH(Journal!$A$2:$A$5000,Journal!$Y$2:$Y$5000,0))))');
+  return sh;
 }
 
 /** Number of Advances rows naming this property (any status). */
