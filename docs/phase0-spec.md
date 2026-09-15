@@ -57,7 +57,7 @@ immutable once posted; corrections are new entries (`void` reverses).
              payee:"Home Depot", description:"Drywall panel", paid_from:"1401",
              reconciled_ref:"", business_purpose:"", attendee:"", destination:"", odometer:"" },
            { account:"1401", debit:0, credit:21240, property:"881 Newport", payee:"Home Depot",
-             description:"Paid from Citizens shared", ... other fields "" } ]
+             description:"Drywall panel", ... other fields "" } ]   // credit line names the item too (2026-09-15)
 }
 ```
 

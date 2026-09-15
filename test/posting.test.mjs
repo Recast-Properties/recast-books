@@ -210,7 +210,7 @@ test("expense paid_from a 1400 bank account credits that account and names it", 
   const credit = entry.lines[1];
   assert.equal(credit.account, "1401");
   assert.equal(credit.credit, 21240);
-  assert.equal(credit.description, `Paid from ${accountMap().get("1401").name}`);
+  assert.equal(credit.description, "Drywall panel", "credit line names the item, not the payer");
   assert.equal(credit.property, "881 Newport", "credit line carries the same property as the debit line");
 });
 
@@ -231,7 +231,7 @@ test("expense paid_from PAUL credits 2030 Due to owner", () => {
   );
   const credit = entry.lines[1];
   assert.equal(credit.account, "2030");
-  assert.equal(credit.description, "Paid by Paul");
+  assert.equal(credit.description, "Toner");
   assert.equal(credit.property, "OVERHEAD");
 });
 
@@ -252,7 +252,7 @@ test("expense paid_from DENNIS credits 2010 Note payable and requires property",
   );
   const credit = entry.lines[1];
   assert.equal(credit.account, "2010");
-  assert.equal(credit.description, "Paid by Dennis");
+  assert.equal(credit.description, "Cabinets");
   assert.equal(credit.property, "881 Newport");
 });
 
@@ -636,7 +636,7 @@ test("purchase with one item produces a debit line and a credit line, both carry
   assert.equal(credit.debit, 0);
   assert.equal(credit.property, "881 Newport");
   assert.equal(credit.payee, "Home Depot");
-  assert.equal(credit.description, `Paid from ${accountMap().get("1401").name}`);
+  assert.equal(credit.description, "Drywall panel");
 });
 
 test("purchase with multiple items produces one debit line per item, property/payee on every line, credit is the sum", () => {
@@ -688,7 +688,7 @@ test("purchase paid_from PAUL credits 2030 Due to owner", () => {
   );
   const credit = entry.lines[entry.lines.length - 1];
   assert.equal(credit.account, "2030");
-  assert.equal(credit.description, "Paid by Paul");
+  assert.equal(credit.description, "Toner");
   assert.equal(credit.property, "OVERHEAD");
 });
 
@@ -700,7 +700,7 @@ test("purchase paid_from DENNIS credits 2010 Note payable and requires property"
   );
   const credit = entry.lines[entry.lines.length - 1];
   assert.equal(credit.account, "2010");
-  assert.equal(credit.description, "Paid by Dennis");
+  assert.equal(credit.description, "Cabinets");
   assert.equal(credit.property, "881 Newport");
 });
 

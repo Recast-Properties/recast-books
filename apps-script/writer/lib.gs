@@ -737,7 +737,7 @@ var M_posting = (function () {
   function resolvePaidFrom(paid_from, property, ctx) {
     if (paid_from === "PAUL") {
       // BUILD-PLAN §2 "Paul": a cost he pays personally is Due to owner until reimbursed.
-      return { creditAccount: "2030", creditDescription: "Paid by Paul" };
+      return { creditAccount: "2030" };
     }
 
     if (paid_from === "DENNIS") {
@@ -747,7 +747,7 @@ var M_posting = (function () {
           message: "paid_from DENNIS requires a property (a direct-paid cost is an advance)",
         });
       }
-      return { creditAccount: "2010", creditDescription: "Paid by Dennis" };
+      return { creditAccount: "2010" };
     }
 
     const bankAccount = ctx.accounts.get(paid_from);
@@ -756,7 +756,7 @@ var M_posting = (function () {
         message: `paid_from must be a 1400-series bank account, "PAUL", or "DENNIS" — got "${paid_from}"`,
       });
     }
-    return { creditAccount: paid_from, creditDescription: `Paid from ${bankAccount.name}` };
+    return { creditAccount: paid_from };
   }
 
   function buildJournal(intent, ctx) {
@@ -816,7 +816,7 @@ var M_posting = (function () {
 
     // Resolved before either line is built so PROPERTY_REQUIRED (DENNIS) and BAD_ACCOUNT
     // (unknown paid_from) surface without constructing a doomed entry first.
-    const { creditAccount, creditDescription } = resolvePaidFrom(paid_from, property, ctx);
+    const { creditAccount } = resolvePaidFrom(paid_from, property, ctx);
 
     const debitLine = fillLineDefaults(
       {
@@ -846,7 +846,7 @@ var M_posting = (function () {
         credit: amount_cents,
         property,
         payee,
-        description: creditDescription,
+        description, // the credit line names what was bought too; paid_from already says who paid (Paul, 2026-09-15)
         paid_from,
       },
       ctx,
@@ -934,7 +934,7 @@ var M_posting = (function () {
     // Resolved before the lines are built so PROPERTY_REQUIRED (DENNIS) and BAD_ACCOUNT
     // (unknown paid_from) surface without constructing a doomed entry first — same
     // reasoning as buildExpense.
-    const { creditAccount, creditDescription } = resolvePaidFrom(paid_from, property, ctx);
+    const { creditAccount } = resolvePaidFrom(paid_from, property, ctx);
 
     const debitLines = items.map((item) =>
       fillLineDefaults(
@@ -962,7 +962,7 @@ var M_posting = (function () {
         credit: totalCents,
         property,
         payee,
-        description: creditDescription,
+        description: items.map((item) => item.description).filter(Boolean).join("; "),
         paid_from,
       },
       ctx,
