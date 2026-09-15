@@ -1109,7 +1109,8 @@ function setupPropertyTab(name) {
   var advHelperBlocks = [];
   var isPurchase = '(' + A('J') + '&""="purchase")';
   var isCash = '(' + A('J') + '&""<>"purchase")';
-  var purchase = advanceSchedule(4, 'Purchase Principal + Interest', isPurchase, countAdvances_(ss, name, true) + 1);
+  // One purchase principal per property, so no spare row here (Paul, 2026-09-15).
+  var purchase = advanceSchedule(4, 'Purchase Principal + Interest', isPurchase, Math.max(1, countAdvances_(ss, name, true)));
 
   // Sub-blocks shaped like the old tab: a green head carrying the net total, detail
   // rows beneath it. Same two rows in each: "<who> Paid" then "Received (advances,
