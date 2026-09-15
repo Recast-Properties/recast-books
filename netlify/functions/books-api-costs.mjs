@@ -311,3 +311,5 @@ export default async function handler(req) {
     return json(502, { error: "WRITER_ERROR", message: String((err && err.message) || err) });
   }
 }
+
+export const config = { path: "/api/api-costs" };
