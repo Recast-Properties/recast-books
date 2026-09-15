@@ -11,11 +11,14 @@ untouched until the parallel run in Phase 6. See `BUILD-PLAN.md` and `CLAUDE.md`
 
 ## Status
 
-**Phase 0 built and gated 2026-09-11** (`BUILD-PLAN.md` §7): new workbook, writer,
-posting engine, Google sign-in, web shell. Phase 1 next. The accounting plan went through
-one adversarial review (five expert lenses, 35 findings, `docs/review-2026-08-26.md`).
+**Phases 0–2.7 built and gated (2026-09-11 → 15)**, see `CLAUDE.md` for the current
+state and `CHANGELOG.md` for the day-by-day. The receipts bookkeeper is live in parallel;
+since Phase 2.7 (D-023) the input side of the books is the **Recast Books** menu in the
+workbook, with the writer bound to it, and the web app keeps sign-in, Inbox, Upload and
+API costs. The accounting plan went through one adversarial review (five expert lenses,
+35 findings, `docs/review-2026-08-26.md`).
 
-Nothing has been written to the live workbook. Nothing will be until Phase 0 snapshots it.
+Nothing here ever writes to the old workbook; migration (Phase 4) reads it.
 
 ## Start here
 
