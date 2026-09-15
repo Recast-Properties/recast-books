@@ -1506,6 +1506,9 @@ function mirrorBankAccountEdit_(sh, range) {
     var code = sh.getRange(r, cols['code']).getValue();
     var bankName = sh.getRange(r, cols['name']).getValue();
     if (!code || !bankName) continue; // incomplete row, nothing to mirror yet
+    // Create only: an Accounts row that already exists keeps its own name (the
+    // Netlify-era mirror overwrote 1401/1402 with "Cash - " and a doubled name).
+    if (findRowByValue_(accounts, accCols['code'], String(code)) !== -1) continue;
     upsertRow_(accounts, accCols, 'code',
       { code: String(code), name: 'Cash - ' + bankName, series: '1400', type: 'asset', active: true });
   }
