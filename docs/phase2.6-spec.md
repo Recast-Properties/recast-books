@@ -133,7 +133,12 @@ payouts-equal-net-proceeds check live on the **closing tab** the Phase 5 sell wi
 builds beside this one (BUILD-PLAN §5). Helpers live in AI:AS, greyed; the voided flag on
 the hidden `Journal helpers` sheet. All SUMPRODUCT / FILTER over
 bounded Journal rows, voided pairs excluded via the same helper-column trick as Totals.
-The tab is a view; nothing on it is typed. Sold properties keep their tab; the Phase 5
+The tab is a view; nothing on it is typed except Sale Price, the End Dates and the paid-by
+boxes. **The Rehab Costs and Utilities rows are values written by the writer**
+(`refreshLineBlocks_`, after every post/void and on rebuild), not a formula spill, because
+a checkbox showing a formula's result cannot be clicked: ticking Paul Paid / Dennis Paid /
+Recast Account on a line voids that entry and re-posts it with the new `paid_from` through
+the same onEdit trigger (Paul, 2026-09-15). Recast Account from Paul or Dennis lands on 1401. Sold properties keep their tab; the Phase 5
 release/payoff entries zero the summary, which the sell wizard owns.
 
 ## 6 · Tests

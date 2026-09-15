@@ -412,3 +412,13 @@ Properties, Vendors, Banking, Dennis, Reports, Periods pages and `books-dennis`,
 engine: the credit line now carries the item description (Paul: "i want to know what the
 item that was purchased is"), for receipts and menu entries alike. 381 tests. Gate record:
 `docs/phase2.7-spec.md` §12.
+
+## 2026-09-15 (late) — paid-by checkboxes on the property tab change the entry
+
+Paul: "change who paid for an expense by changing the checkbox and have it update the
+journal." Ticking Paul Paid / Dennis Paid / Recast Account on a Rehab Costs or Utilities
+line voids the entry and re-posts it with the new `paid_from` (append-only; the void names
+the reason). Sheets cannot toggle a checkbox that shows a formula result, so the line blocks
+became values the writer writes (`refreshLineBlocks_`) after every post, void, batch and
+rebuild, with the txn_id in a white-on-white column beside each block. Gated on 1616
+Granite: 1401 -> PAUL, boxes flipped, Journal shows void + re-post.
