@@ -83,9 +83,8 @@ async function getAccrualOpts(writer) {
 
 /**
  * The interest-posting job's entry for one advance/period: Dr 1200, Cr 2000, property
- * on both lines, payee "Dennis Little" (phase1-spec.md §4), for every property advance
- * (D-011, reaffirmed by D-021). D-022: a personal loan's interest debits 2030 (Paul owes
- * Recast; Recast owes Dennis) with no property. Not validated here -
+ * on both lines, payee "Dennis Little" (phase1-spec.md §4), for every advance - all of
+ * them are against a property (D-011, D-021, D-022). Not validated here -
  * callers run it through validateEntry (postInterest) or leave it as a preview
  * (previewInterest).
  */
@@ -132,7 +131,7 @@ function buildInterestEntry(advance, period, deltaCents, ctx, postedBy) {
     posted_by: postedBy,
     doc_url: "",
     void_of: "",
-    lines: advance.kind === "personal" ? [line("2030", true), line("2000", false)] : [line("1200", true), line("2000", false)],
+    lines: [line("1200", true), line("2000", false)],
   };
 }
 
@@ -191,26 +190,22 @@ export default async (req) => {
         throw err;
       }
 
-      const { date, amount_cents, memo, kind = "cash" } = body;
-      if (!["purchase", "cash", "personal"].includes(kind)) {
-        return json(400, { error: "BAD_REQUEST", message: 'kind must be "purchase", "cash" or "personal"' });
+      const { date, amount_cents, property, memo, kind = "cash" } = body;
+      if (!["purchase", "cash"].includes(kind)) {
+        return json(400, { error: "BAD_REQUEST", message: 'kind must be "purchase" or "cash"' });
       }
-      // D-022: a personal loan from Dennis to Paul has no property; it sits on 2030/2010.
-      const personal = kind === "personal";
-      const property = personal ? "" : body.property;
       // Purchase principal never lands in an account: Dennis pays the auction directly,
       // so the advance IS the purchase - Dr 1000 Purchase price, Cr 2010 (Paul,
       // 2026-09-15). A cash advance lands in a bank account (Dr 14xx, Cr 2010), or on
       // 2030 when the check was deposited in Paul's personal account (Recast owes
       // Dennis, and owes Paul that much less).
-      const into = kind === "purchase" ? "1000" : personal ? "2030" : body.into || "1401";
-      const description = kind === "purchase" ? "Purchase price (Dennis purchase principal)"
-        : personal ? "Dennis personal loan to Paul" : "Dennis advance";
+      const into = kind === "purchase" ? "1000" : body.into || "1401";
+      const description = kind === "purchase" ? "Purchase price (Dennis purchase principal)" : "Dennis advance";
       const rate_pct = body.rate_pct === undefined || body.rate_pct === null || body.rate_pct === "" ? "" : Number(body.rate_pct);
       if (rate_pct !== "" && !(Number.isFinite(rate_pct) && rate_pct > 0 && rate_pct < 100)) {
         return json(400, { error: "BAD_REQUEST", message: "rate_pct must be a percent between 0 and 100" });
       }
-      if (!date || !Number.isFinite(amount_cents) || (!property && !personal)) {
+      if (!date || !Number.isFinite(amount_cents) || !property) {
         return json(400, { error: "BAD_REQUEST", message: "date, amount_cents and property are required" });
       }
 
@@ -224,7 +219,7 @@ export default async (req) => {
       let entry;
       try {
         entry = buildEntry(
-          { type: "advance", date, amount_cents, property, into, description, personal, memo, source: "manual", posted_by: session.email },
+          { type: "advance", date, amount_cents, property, into, description, memo, source: "manual", posted_by: session.email },
           ctx,
         );
       } catch (err) {

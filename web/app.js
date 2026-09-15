@@ -1672,17 +1672,14 @@ function renderDennisAddForm() {
         <div class="field"><label>Date</label><input type="date" id="d-date" value="${today()}"></div>
         <div class="field"><label>Amount</label><input type="text" id="d-amount" placeholder="207000.00" inputmode="decimal"></div>
         <div class="field"><label>Property</label><select id="d-property">${realPropertyOptions("", dennisState.properties)}</select></div>
-        <div class="field"><label>Kind</label><select id="d-kind"><option value="purchase">Purchase principal (paid to the seller, posts as the purchase price)</option><option value="cash">Cash advance (for the property; lands in an account)</option><option value="personal">Personal loan to Paul (not a property cost; Paul repays)</option></select></div>
+        <div class="field"><label>Kind</label><select id="d-kind"><option value="purchase">Purchase principal (paid to the seller, posts as the purchase price)</option><option value="cash">Cash advance (for the property; lands in an account)</option></select></div>
         <div class="field" id="d-into-field" hidden><label>Into</label><select id="d-into">${bankAccountSelectOptions("1401", dennisState.bankAccounts)}<option value="2030">2030 — Paul Personal (reimburses Paul, Due to owner)</option></select></div>
         <div class="field"><label>Interest rate (% per year)</label><input type="text" id="d-rate" inputmode="decimal" value="${escapeHtml(String(Math.round(Number(dennisState.settings.interest_rate_annual || 0.08) * 10000) / 100))}"></div>
         <div class="field full"><label>Memo</label><input type="text" id="d-memo" placeholder="Optional"></div>
       </div>
       <button class="btn btn-primary" id="d-save" style="margin-top:10px;">Add advance</button>
     </div>`;
-  $("d-kind").onchange = () => {
-    $("d-into-field").hidden = $("d-kind").value !== "cash";
-    $("d-property").disabled = $("d-kind").value === "personal";
-  };
+  $("d-kind").onchange = () => { $("d-into-field").hidden = $("d-kind").value !== "cash"; };
   $("d-save").onclick = async () => {
     const saveBtn = $("d-save");
     if (saveBtn.disabled) return; // a second click while posting is ignored
@@ -1691,7 +1688,7 @@ function renderDennisAddForm() {
     const into = $("d-into").value;
     const memo = $("d-memo").value.trim();
     const kindNow = $("d-kind").value;
-    if (!property && kindNow !== "personal") {
+    if (!property) {
       dennisState.banner = { kind: "error", html: "Choose a property." };
       renderDennisBanner();
       return;
@@ -1705,7 +1702,7 @@ function renderDennisAddForm() {
       return;
     }
     const kind = kindNow;
-    const body = { action: "addAdvance", date, amount_cents, property: kind === "personal" ? "" : property, kind };
+    const body = { action: "addAdvance", date, amount_cents, property, kind };
     if (kind === "cash") body.into = into;
     const rateRaw = $("d-rate").value.trim();
     if (rateRaw !== "") {
@@ -1732,8 +1729,8 @@ function renderDennisAddForm() {
       // slow (Apps Script), so it runs after the post rather than inside it.
       let tabNote = "";
       try {
-        if (kind !== "personal") await api("meta", { method: "POST", body: { action: "propertyTab", name: property } });
-        tabNote = kind === "personal" ? "" : ` The ${escapeHtml(property)} tab is rebuilt.`;
+        await api("meta", { method: "POST", body: { action: "propertyTab", name: property } });
+        tabNote = ` The ${escapeHtml(property)} tab is rebuilt.`;
       } catch (tabErr) {
         tabNote = ` The ${escapeHtml(property)} tab was not rebuilt (${escapeHtml(tabErr.message || String(tabErr))}); run rebuildAllPropertyTabs in the editor.`;
       }

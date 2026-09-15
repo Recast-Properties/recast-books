@@ -364,3 +364,9 @@ Properties form: "Dennis profit share %" (`dennis_share_pct`, default 50; 0 for 
 where Dennis was the bank only). Property tab: Dennis Share / Paul Share rows at the
 property's split, per-row rate on the schedules. Accrual engine and Dennis ledger honour
 the per-advance rate; personal loans group under "Paul (personal)". 408 tests.
+
+## 2026-09-15 — Personal-loan kind withdrawn
+
+Paul: every Dennis advance, partner deal or bank-only deal, is against a property. The
+`personal` kind added an hour earlier is removed from the form, the function, the posting
+engine and the ledger; the per-advance rate and per-property share stay. 407 tests.

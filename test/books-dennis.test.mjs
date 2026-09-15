@@ -309,9 +309,8 @@ test("D-011/D-021: previewInterest debits 1200 for the purchase principal and fo
   assert.equal(debitOf(byId["adv-2"]), "1200");
 });
 
-test("D-022: a personal loan accrues to 2030 with no property, and a per-advance rate overrides Settings", { skip }, async () => {
+test("D-022: a per-advance rate overrides the Settings rate", { skip }, async () => {
   router = baseRouter({ advances: [
-    ["adv-p", "2026-06-29", "10000", "", "manual-x", "open", "", "", "", "personal", ""],
     ["adv-r", "2026-06-29", "10000", "881 Newport", "manual-y", "open", "", "", "", "cash", "12"],
     ["adv-s", "2026-06-29", "10000", "881 Newport", "manual-z", "open", "", "", "", "cash", ""],
   ] });
@@ -321,30 +320,22 @@ test("D-022: a personal loan accrues to 2030 with no property, and a per-advance
   assert.equal(res.status, 200);
   const body = await res.json();
   const byId = Object.fromEntries(body.previews.map((p) => [p.advance_id, p]));
-  const entryOf = (p) => p.entry ?? p;
-  const debit = entryOf(byId["adv-p"]).lines.find((l) => l.debit > 0);
-  assert.equal(debit.account, "2030");
-  assert.equal(debit.property, "");
-  const cents = (p) => entryOf(p).lines.find((l) => l.debit > 0).debit;
+  const cents = (p) => (p.entry ?? p).lines.find((l) => l.debit > 0).debit;
   assert.ok(cents(byId["adv-r"]) > cents(byId["adv-s"]), "12% must accrue more than the 9% Settings rate");
 });
 
-test("D-022: addAdvance kind=personal posts 2030 / 2010 with no property and stores the rate", { skip }, async () => {
-  const posted = [];
+test("D-022: addAdvance stores the per-advance rate on the Advances row", { skip }, async () => {
   const base = baseRouter();
   let advanceRow;
   router = (body) => {
-    if (body.action === "post") { posted.push(body.entry); return { ok: true, rows: 2 }; }
+    if (body.action === "post") return { ok: true, rows: 2 };
     if (body.action === "upsert") { if (body.tab === "Advances") advanceRow = body.row; return { ok: true }; }
     return base(body);
   };
   const res = await handler(
-    req("POST", { token: session("owner"), body: { action: "addAdvance", date: "2026-09-01", amount_cents: 250000, kind: "personal", rate_pct: 10 } }),
+    req("POST", { token: session("owner"), body: { action: "addAdvance", date: "2026-09-01", amount_cents: 250000, property: "881 Newport", kind: "cash", rate_pct: 10 } }),
   );
   assert.equal(res.status, 200, JSON.stringify(await res.clone().json()));
-  assert.deepEqual(posted[0].lines.map((l) => l.account), ["2030", "2010"]);
-  assert.ok(posted[0].lines.every((l) => l.property === ""));
-  assert.equal(advanceRow.kind, "personal");
+  assert.equal(advanceRow.kind, "cash");
   assert.equal(advanceRow.rate_pct, 10);
-  assert.equal(advanceRow.property, "");
 });

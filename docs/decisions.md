@@ -425,3 +425,10 @@ only." And: "there should also be an interest input for all cash advances."
 3. **Each advance carries its own rate:** `Advances.rate_pct`, entered on the Dennis
    page, defaulting to Settings `interest_rate_annual`. The accrual engine, the Dennis
    ledger and the property tab honour it per advance.
+
+**Addendum, same day.** Paul: "that never happens. all cash advances from dennis whether
+he's a 50/50 partner or just the bank are against a property." Item 1's `personal` kind is
+withdrawn before it was ever used: kinds are `purchase` and `cash` only, every advance names
+a property, and every advance's interest is that property's cost (D-011/D-021). Items 2 and
+3 stand. Who received the check (the seller, Citizens, or Paul's account as reimbursement)
+decides only which account the money lands on, never the interest treatment.
