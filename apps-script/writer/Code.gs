@@ -989,9 +989,10 @@ function setupTotals() {
 //   AI:AS helpers (rate, stub basis, settlement_date, contract_price, per-advance
 //         math, tax_annual, tax proration estimate), greyed; the voided flag is on the
 //         hidden 'Journal helpers' sheet.
-// Interest to Date is the in-sheet computation, not posted 1200 accruals, so the tab
-// reads the same whether or not the close job has run; Financing-class lines are
-// therefore left out of Total Project Cost (no double count). The tab is a view;
+// Interest to Date is the in-sheet computation on the purchase principal (D-020: cash-
+// advance interest is Paul's, settled between the partners in the payouts), not posted
+// 1200 accruals, so the tab reads the same whether or not the close job has run;
+// Financing-class lines are therefore left out of Total Project Cost (no double count). The tab is a view;
 // nothing on it is typed. Sold properties keep their tab.
 // ponytail: a held-property view. After the Phase 5 release/payoff entries the
 // summary reads zero and the tie-out row goes non-zero; the sell wizard owns that.
@@ -1131,12 +1132,15 @@ function setupPropertyTab(name) {
   var cashTop = subBlock(recastNetRow, 'Recast Account', [
     ['Recast Account Paid', '=' + cred(isBank)],
     ['Received (advances, refunds)', '=-' + deb(isBank)]]);
-  var cash = advanceSchedule(cashTop, 'Cash Advances', isCash, countAdvances_(ss, name, false) + 1);
+  var cash = advanceSchedule(cashTop, 'Cash Advances + Interest', isCash, countAdvances_(ss, name, false) + 1);
 
-  // Totals the summary reads (kept in the helper area so the visible block stays as
-  // Paul drew it): AK2 interest to date, AK3 payoff of every advance.
-  var interestRef = '$AK$2', payoffRef = '$AK$3';
-  var purchasePayoffRef = 'G' + purchase.head, cashPayoffRef = 'G' + cash.head;
+  // D-020: interest on the purchase principal is a property cost; interest on cash
+  // advances is Paul's, paid to Dennis out of Paul's share. So "Interest to Date" in the
+  // summary is the purchase schedule's interest only.
+  var interestRef = 'SUM(G' + purchase.first + ':G' + purchase.last + ')';
+  var purchasePayoffRef = 'G' + purchase.head;
+  var cashPrincipalRef = 'SUM(F' + cash.first + ':F' + cash.last + ')';
+  var cashInterestRef = 'SUM(G' + cash.first + ':G' + cash.last + ')';
 
   // ---- SUMMARY (A:B) --------------------------------------------------------------
   var s = 4;
@@ -1170,15 +1174,17 @@ function setupPropertyTab(name) {
   paint(s, 1, 2, C.head); set(s++, 1, 'Payouts', true);
   set(s, 1, 'Dennis', true); paint(s, 1, 2, C.sub); var dennisRow = s++;
   set(s, 1, 'Purchase Principal & Interest'); set(s, 2, '=' + purchasePayoffRef); s++;
-  set(s, 1, 'Cash Advances & Interest'); set(s, 2, '=' + cashPayoffRef); s++;
   set(s, 1, 'Individual Share'); set(s, 2, '=B' + shareRow); s++;
+  set(s, 1, 'Cash Advances'); set(s, 2, '=' + cashPrincipalRef); s++;
   set(s, 1, 'Dennis Paid (direct)'); set(s, 2, '=G' + dennisDirectRow); s++;
-  set(dennisRow, 2, '=SUM(B' + (dennisRow + 1) + ':B' + (dennisRow + 4) + ')', true);
+  set(s, 1, 'Interest on cash advances (from Paul)'); set(s, 2, '=' + cashInterestRef); s++;
+  set(dennisRow, 2, '=SUM(B' + (dennisRow + 1) + ':B' + (dennisRow + 5) + ')', true);
   s++;
   set(s, 1, 'Paul', true); paint(s, 1, 2, C.sub); var paulRow = s++;
   set(s, 1, 'Individual Share'); set(s, 2, '=B' + shareRow); s++;
+  set(s, 1, 'Interest on cash advances (to Dennis)'); set(s, 2, '=-' + cashInterestRef); s++;
   set(s, 1, 'Due to Paul (paid less reimbursed)'); set(s, 2, '=G' + dueToPaulRow); s++;
-  set(paulRow, 2, '=SUM(B' + (paulRow + 1) + ':B' + (paulRow + 2) + ')', true);
+  set(paulRow, 2, '=SUM(B' + (paulRow + 1) + ':B' + (paulRow + 3) + ')', true);
   s++;
   set(s, 1, 'Back to Recast account', true); set(s, 2, '=G' + recastNetRow, true); paint(s, 1, 2, C.sub); s++;
 
@@ -1215,9 +1221,6 @@ function setupPropertyTab(name) {
   sh.getRange(1, 37).setFormula('=IFERROR(VLOOKUP("' + safeName + '",Properties!A:F,6,FALSE),"")'); // settlement_date
   sh.getRange(1, 38).setFormula('=IFERROR(VLOOKUP("' + safeName + '",Properties!A:K,11,FALSE),"")'); // contract_price
   advHelperBlocks.forEach(function (blk) { sh.getRange(blk[0], 40, blk[1].length, 4).setFormulas(blk[1]); });
-  sh.getRange(2, 37).setFormula('=SUM(G' + purchase.first + ':G' + purchase.last + ')+SUM(G' + cash.first + ':G' + cash.last + ')'); // AK2 interest to date
-  sh.getRange(3, 37).setFormula('=' + purchasePayoffRef + '+' + cashPayoffRef); // AK3 payoff, every advance
-  sh.getRange(2, 37, 2, 1).setFontColor('#999999');
   sh.getRange(1, 44).setFormula('=IFERROR(VLOOKUP("' + safeName + '",Properties!A:L,12,FALSE),"")'); // AR1: tax_annual
   sh.getRange(1, 45).setFormula('=IF(OR($AK$1<>"",$AR$1=""),0,$AR$1*($B$1-DATE(YEAR($B$1),1,1))/365)'); // AS1: proration estimate while unsold
   sh.getRange(1, 35, 1, 5).setFontColor('#999999');

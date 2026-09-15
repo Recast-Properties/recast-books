@@ -31,8 +31,9 @@ front door.
 3. **Claude decides, code executes.** Model judgment for reading, classifying, matching;
    deterministic code for arithmetic, balanced entries, `txn_id` identity, the gates
    (autofile ceiling, period lock, 1099 block). The UI must show which was which.
-4. **Overhead never touches a property** (D-010). **All Dennis interest is a property
-   cost** (D-011). Both are enforced in `lib/posting.mjs`, not policy text.
+4. **Overhead never touches a property** (D-010). **Purchase-principal interest is a
+   property cost; cash-advance interest is Paul's** (D-011, D-020). D-010 is enforced in
+   `lib/posting.mjs`; the interest routing is in the close job by `Advances.kind`.
 5. **Dry run, back up, tie out twice** for anything touching history (Phase 4).
 6. **Paul acts one step at a time.** When he must do something (console, editor,
    Terminal), give exactly one step and wait.

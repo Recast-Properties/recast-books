@@ -51,6 +51,7 @@ function req(method, { body, token, search = "" } = {}) {
 const ACCOUNTS_ROWS = [
   ["1000", "Purchase price", "1000", "asset", "Acquisition", "Inventory (held)", true, ""],
   ["1200", "Financing - interest (Dennis)", "1000", "asset", "Financing", "Inventory (held)", true, ""],
+  ["2030", "Due to owner (Paul)", "2000", "liability", "", "", true, ""],
   ["2000", "Accrued interest - Dennis", "2000", "liability", "", "", true, ""],
   ["1401", "Cash - Citizens shared", "1400", "asset", "", "", true, ""],
   ["2010", "Note payable - Dennis", "2000", "liability", "", "", true, ""],
@@ -63,8 +64,8 @@ const SETTINGS_ROWS = [
   ["stub_days_basis", "30", ""],
 ];
 const ADVANCES_ROWS = [
-  ["adv-1", "2026-06-29", "207000", "881 Newport", "manual-20260629-abc", "open", "", "", ""],
-  ["adv-2", "2026-07-09", "2000", "881 Newport", "manual-20260709-def", "open", "", "", ""],
+  ["adv-1", "2026-06-29", "207000", "881 Newport", "manual-20260629-abc", "open", "", "", "", "purchase"],
+  ["adv-2", "2026-07-09", "2000", "881 Newport", "manual-20260709-def", "open", "", "", "", "cash"],
 ];
 
 function baseRouter({ periods = PERIODS_ROWS_OPEN, advances = ADVANCES_ROWS } = {}) {
@@ -80,7 +81,7 @@ function baseRouter({ periods = PERIODS_ROWS_OPEN, advances = ADVANCES_ROWS } = 
         case "Settings":
           return { ok: true, headers: ["key", "value", "notes"], rows: SETTINGS_ROWS };
         case "Advances":
-          return { ok: true, headers: ["advance_id", "date", "amount", "property", "source_txn_id", "status", "accrued_to", "repaid_date", "notes"], rows: advances };
+          return { ok: true, headers: ["advance_id", "date", "amount", "property", "source_txn_id", "status", "accrued_to", "repaid_date", "notes", "kind"], rows: advances };
         case "Journal":
           return { ok: true, headers: ["txn_id", "line", "date", "period", "account", "debit", "credit", "property", "cost_class", "tax_treatment", "trade", "payee", "description", "paid_from", "doc_url", "source", "posted_by", "posted_at", "memo", "reconciled_ref", "business_purpose", "attendee", "destination", "odometer", "void_of"], rows: [] };
         default:
@@ -248,8 +249,12 @@ test("postInterest posts a batch and upserts accrued_to on success", { skip }, a
     const totalDebit = entry.lines.reduce((s, l) => s + (l.debit || 0), 0);
     const totalCredit = entry.lines.reduce((s, l) => s + (l.credit || 0), 0);
     assert.equal(totalDebit, totalCredit, "each interest entry must balance");
-    assert.deepEqual(entry.lines.map((l) => l.account).sort(), ["1200", "2000"]);
+    // D-020: the purchase principal (adv-1) accrues to 1200, the cash advance (adv-2) to 2030.
+    const debitAccount = entry.lines.find((l) => l.debit > 0).account;
+    assert.deepEqual(entry.lines.map((l) => l.account).sort(), [debitAccount, "2000"].sort());
+    assert.ok(["1200", "2030"].includes(debitAccount));
   }
+  assert.deepEqual(batchCall.entries.map((e) => e.lines.find((l) => l.debit > 0).account).sort(), ["1200", "2030"]);
 
   const accrualUpserts = calls.filter((c) => c.action === "upsert" && c.tab === "Advances");
   assert.equal(accrualUpserts.length, batchCall.entries.length);
@@ -294,4 +299,16 @@ test("addAdvance kind=purchase posts Dr 1000 Purchase price / Cr 2010 with no ba
   assert.equal(debit.description, "Purchase price (Dennis purchase principal)");
   const b = await res.json();
   assert.equal(b.advance.kind, "purchase");
+});
+
+test("D-020: previewInterest debits 1200 for the purchase principal and 2030 for a cash advance", { skip }, async () => {
+  const res = await handler(
+    req("POST", { token: session("owner"), body: { action: "previewInterest", period: "2026-09" } }),
+  );
+  assert.equal(res.status, 200);
+  const body = await res.json();
+  const byId = Object.fromEntries(body.previews.map((p) => [p.advance_id, p]));
+  const debitOf = (p) => (p.entry?.lines ?? p.lines ?? []).find((l) => l.debit > 0)?.account;
+  assert.equal(debitOf(byId["adv-1"]), "1200");
+  assert.equal(debitOf(byId["adv-2"]), "2030");
 });

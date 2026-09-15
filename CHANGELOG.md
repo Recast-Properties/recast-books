@@ -333,3 +333,17 @@ Split agreed: the property tab is the forecast (no posted selling costs, no tie-
 a closing tab with settlement actuals, the true-up and the payouts-equal-proceeds check is
 built by the Phase 5 sell wizard beside it, estimate frozen against actual (BUILD-PLAN §5).
 Test property removed from Properties, Advances and its tab.
+
+## 2026-09-15 — Advances by kind; D-020 cash-advance interest is Paul's
+
+Dennis page gained a Kind (purchase principal / cash advance) and the Advances tab a
+`kind` column. A purchase principal posts as the purchase itself (Dr 1000 / Cr 2010 —
+Dennis pays the seller, nothing lands in an account); a cash advance lands in a bank
+account or, for checks Paul deposits personally, on 2030 Due to owner ("Paul Personal" in
+the Into list). Bank accounts renamed Recast Citizens - Shared / Recast Chase - Operating.
+Property tab: two schedules (Purchase Principal + Interest on top, Cash Advances + Interest
+under the who-paid blocks), Paul's greens, left-aligned Dennis block, no Notes column, no
+gaps. D-020: Dennis's payout adds the cash-advance interest "from Paul", Paul's subtracts
+it "to Dennis", and the close job accrues it to 2030 instead of 1200. Add-advance button
+shows progress and ignores repeat clicks; the tab rebuild runs after the post. 1616 Granite
+carries its three real advances.

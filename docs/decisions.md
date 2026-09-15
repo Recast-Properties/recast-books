@@ -362,3 +362,25 @@ account stays dormant (sandbox keys only, production request withdrawn); no Plai
 credentials on Netlify; `Bank accounts.plaid_item_id`/`plaid_account_id` stay unused.
 The security policy written for the questionnaire (`docs/access-control-policy.md`)
 stays — it is true and worth having.
+
+## D-020 · Cash-advance interest is Paul's, settled out of his share — 2026-09-15 · Paul
+
+Granite's cash advances were checks Dennis wrote that Paul deposited in his personal
+account. Paul, reviewing the payouts: "for dennis and paul need to account for cash
+advance interest. paul pays dennis out of his profit share." This partly reverses D-011,
+which had made interest on every advance a property cost.
+
+**Decided:**
+1. Interest on the **purchase principal** stays a property cost (1200, inside Total
+   Project Cost, borne by both through the split).
+2. Interest on a **cash advance** is Paul's: it is not a property cost and does not
+   reduce net profit. At the sale Dennis receives the cash-advance principal plus that
+   interest, and Paul's payout is his share less that interest — the old tab's "+ from
+   Paul / − to Dennis" lines.
+3. In the books, the close job accrues cash-advance interest as Dr 2030 Due to owner /
+   Cr 2000 (Recast owes Paul that much less, and owes Dennis the interest), not Dr 1200.
+   Which is which comes from `Advances.kind` (purchase / cash), set on the Dennis page.
+
+**Why:** money Paul held personally is Paul's borrowing, not the property's. D-011's
+other parts stand: purchase-principal interest is a project cost, advances sit on the
+property's balance sheet, no separate advances ledger.
