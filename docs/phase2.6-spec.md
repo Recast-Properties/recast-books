@@ -72,29 +72,41 @@ property must be in the allowlist, so a sold and locked property refuses on its 
 
 Formula-only, generated when a property is added (Properties page add → after the upsert,
 POST `/api/meta {action:"propertyTab", name}` → writer creates/rebuilds the tab named
-exactly as the property), rebuildable from the editor. **Layout (revised 2026-09-14,
-Paul: "I want the property tabs to more closely match this" — the old workbook's light
-tab, `881 Newport`) is side by side, like the old tab, not stacked:**
+exactly as the property), rebuilt by the Dennis page after each advance, and rebuildable
+from the editor (`rebuildAllPropertyTabs()`). **Layout (as of 2026-09-15, after a day of
+Paul's review against the old workbook's `881 Newport` tab):** a narrow spacer column A,
+then side by side —
 
 ```
-A:B  SUMMARY                      D:H  DENNIS                        J:P  REHAB COSTS            R:X  UTILITIES
-     Total Project Cost                Purchase Principal + Interest      payee · date · desc ·       (Holding-class lines,
-     Purchase Price (1000)             per advance: Start · End ·         amount · Paul Paid ·        same shape)
-     Interest to Date (computed)         Principal · Interest · Notes     Dennis Paid · Recast
-     Rehab Costs                       Interest to date · Payoff          Account (checkboxes
-     Utilities (Holding ex-1100)       Paul Paid / Reimbursed /           from paid_from)
-     Property Tax (posted + est.)        Due to Paul (2030)
-                                       Dennis Paid direct (paid_from
-     PROFIT BREAKDOWN                    DENNIS cost lines)               below, same shape
-       Sale Price (contract_price,     Recast Account paid / received /
-         else purchase price)            Back to Recast account (14xx)
+B:C  SUMMARY                       E:H  DENNIS                            J:P  REHAB COSTS          R:X  UTILITIES
+     Total Project Cost                 Purchase Principal + Interest          payee · date · desc ·     (Holding-class lines,
+     Purchase Price (1000, else           Start · End · Principal ·            amount · Paul Paid ·      same shape)
+       registry purchase_price)           Interest to Date (one row)           Dennis Paid · Recast
+     Interest to Date (all advances)   Paul Paid / Received (advances,        Account (checkboxes
+     Rehab Costs                         refunds) — 2030                      from paid_from), 300
+     Utilities (Holding ex-1100)       Dennis Paid direct / Received          rows, one spilling
+     Property Tax (prorated, $x/yr)    Recast Account Paid / Received        SORT(FILTER) per block
+                                       Cash Advances + Interest
+     PROFIT BREAKDOWN                    Start · End · Principal ·
+       Sale Price (typed, kept)          Interest to Date (n + 1 rows)
+       Total Project Costs
        Agent x% · Closing x%
-       Net Profit · Individual Share
+       Net Profit
+       Dennis Share (p%) · Paul Share
      PAYOUTS
-       Dennis = payoff + share + direct
-       Paul   = share + due to Paul
+       Dennis = purchase principal & interest + cash advances & interest + Dennis share + direct
+       Paul   = Paul share + due to Paul
        Back to Recast account
 ```
+
+Colours (Paul's): heads `#a3f67f`, totals `#ceffbc`, sub-heads `#ffe599`, checkbox
+columns `#fff2cc`, share rows yellow, the typed Sale Price `#cfe2f3`. Helpers sit in
+AI:AV greyed (rate, stub basis, settlement_date, contract_price, per-advance math incl.
+the advance's own `rate_pct`, tax_annual, proration estimate, `dennis_share_pct`); the
+Journal-wide voided flag is on the hidden `Journal helpers` sheet so no array formula
+grows the tab past its 305 rows. `Advances.kind` (purchase / cash) picks the schedule;
+`Advances.rate_pct` (blank = Settings rate) and `Properties.dennis_share_pct` (blank = 50)
+feed the interest and the split (D-022).
 
 Rehab Costs = Rehab class plus Acquisition class other than account 1000 (the old tab
 put the HOA release in Rehab). Property Tax is posted 1100 lines plus, while the property
