@@ -49,6 +49,7 @@ function req(method, { body, token, search = "" } = {}) {
 }
 
 const ACCOUNTS_ROWS = [
+  ["1000", "Purchase price", "1000", "asset", "Acquisition", "Inventory (held)", true, ""],
   ["1200", "Financing - interest (Dennis)", "1000", "asset", "Financing", "Inventory (held)", true, ""],
   ["2000", "Accrued interest - Dennis", "2000", "liability", "", "", true, ""],
   ["1401", "Cash - Citizens shared", "1400", "asset", "", "", true, ""],
@@ -266,4 +267,31 @@ test("postInterest refuses a period that has not ended (422 PERIOD_NOT_ENDED)", 
   assert.equal(res.status, 422);
   const body = await res.json();
   assert.equal(body.error, "PERIOD_NOT_ENDED");
+});
+
+test("addAdvance kind=purchase posts Dr 1000 Purchase price / Cr 2010 with no bank account", { skip }, async () => {
+  const posted = [];
+  const base = baseRouter();
+  router = (body) => {
+    if (body.action === "post") { posted.push(body.entry); return { ok: true, rows: 2 }; }
+    if (body.action === "upsert") return { ok: true };
+    if (body.action === "propertyTab") return { ok: true };
+    return base(body);
+  };
+  const res = await handler(
+    req("POST", {
+      token: session("owner"),
+      body: { action: "addAdvance", date: "2026-09-01", amount_cents: 27900100, property: "881 Newport", kind: "purchase" },
+    }),
+  );
+  assert.equal(res.status, 200, JSON.stringify(await res.clone().json()));
+  const e = posted[0];
+  const debit = e.lines.find((l) => l.debit > 0);
+  const credit = e.lines.find((l) => l.credit > 0);
+  assert.equal(debit.account, "1000");
+  assert.equal(credit.account, "2010");
+  assert.equal(debit.property, "881 Newport");
+  assert.equal(debit.description, "Purchase price (Dennis purchase principal)");
+  const b = await res.json();
+  assert.equal(b.advance.kind, "purchase");
 });

@@ -186,10 +186,15 @@ export default async (req) => {
         throw err;
       }
 
-      const { date, amount_cents, property, into = "1401", memo, kind = "cash" } = body;
+      const { date, amount_cents, property, memo, kind = "cash" } = body;
       if (!["purchase", "cash"].includes(kind)) {
         return json(400, { error: "BAD_REQUEST", message: 'kind must be "purchase" or "cash"' });
       }
+      // Purchase principal never lands in an account: Dennis pays the auction directly,
+      // so the advance IS the purchase - Dr 1000 Purchase price, Cr 2010 (Paul,
+      // 2026-09-15). A cash advance lands in a bank account (Dr 14xx, Cr 2010).
+      const into = kind === "purchase" ? "1000" : body.into || "1401";
+      const description = kind === "purchase" ? "Purchase price (Dennis purchase principal)" : "Dennis advance";
       if (!date || !Number.isFinite(amount_cents) || !property) {
         return json(400, { error: "BAD_REQUEST", message: "date, amount_cents and property are required" });
       }
@@ -204,7 +209,7 @@ export default async (req) => {
       let entry;
       try {
         entry = buildEntry(
-          { type: "advance", date, amount_cents, property, into, memo, source: "manual", posted_by: session.email },
+          { type: "advance", date, amount_cents, property, into, description, memo, source: "manual", posted_by: session.email },
           ctx,
         );
       } catch (err) {
