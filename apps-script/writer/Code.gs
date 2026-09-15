@@ -1140,9 +1140,9 @@ function setupPropertyTab(name) {
   // reimbursed Paul for Granite costs, so the money paid for the property). "Interest
   // to Date" in the summary is both schedules' interest; each partner bears half
   // through the split.
-  var interestRef = 'SUM(G' + purchase.first + ':G' + purchase.last + ')+SUM(G' + cash.first + ':G' + cash.last + ')';
+  var purchaseInterestRef = 'SUM(G' + purchase.first + ':G' + purchase.last + ')';
   var purchasePayoffRef = 'G' + purchase.head;
-  var cashPrincipalRef = 'SUM(F' + cash.first + ':F' + cash.last + ')';
+  var cashPayoffRef = 'G' + cash.head;
   var cashInterestRef = 'SUM(G' + cash.first + ':G' + cash.last + ')';
 
   // ---- SUMMARY (A:B) --------------------------------------------------------------
@@ -1150,8 +1150,10 @@ function setupPropertyTab(name) {
   set(s, 1, 'Total Project Cost', true); var totalRow = s; paint(s, 1, 1, C.head); paint(s, 2, 1, C.total); s += 1;
   // The posted purchase (account 1000) once it is on the books; the registry's
   // purchase_price until then.
-  set(s, 1, 'Purchase Price'); set(s, 2, '=IF(' + net(eq('E', '1000')) + '=0,IFERROR(VLOOKUP("' + safeName + '",Properties!A:E,5,FALSE),0),' + net(eq('E', '1000')) + ')'); var purchaseRow = s++;
-  set(s, 1, 'Interest to Date'); set(s, 2, '=' + interestRef); s++;
+  // Paul, 2026-09-15: the summary reads like the payout - purchase principal with its
+  // interest on one line, the cash advances' interest on the next.
+  set(s, 1, 'Purchase Principal + Interest'); set(s, 2, '=IF(' + net(eq('E', '1000')) + '=0,IFERROR(VLOOKUP("' + safeName + '",Properties!A:E,5,FALSE),0),' + net(eq('E', '1000')) + ')+' + purchaseInterestRef); var purchaseRow = s++;
+  set(s, 1, 'Cash Advance Interest'); set(s, 2, '=' + cashInterestRef); s++;
   set(s, 1, 'Rehab Costs'); set(s, 2, '=' + net(rehabF)); var rehabRow = s++;
   set(s, 1, 'Utilities'); set(s, 2, '=' + net(holdingF + '*' + ne('E', '1100'))); s++;
   // Property tax: posted 1100 lines plus, while unsold, the proration estimate in
@@ -1180,11 +1182,10 @@ function setupPropertyTab(name) {
   paint(s, 1, 2, C.head); set(s++, 1, 'Payouts', true);
   set(s, 1, 'Dennis', true); paint(s, 1, 2, C.sub); var dennisRow = s++;
   set(s, 1, 'Purchase Principal & Interest'); set(s, 2, '=' + purchasePayoffRef); s++;
-  set(s, 1, 'Cash Advances'); set(s, 2, '=' + cashPrincipalRef); s++;
-  set(s, 1, 'Interest on cash advances (a property cost, split via the shares)'); set(s, 2, '=' + cashInterestRef); s++;
+  set(s, 1, 'Cash Advances + Interest'); set(s, 2, '=' + cashPayoffRef); s++;
   set(s, 1, 'Dennis Share'); set(s, 2, '=B' + dennisShareRow); s++;
   set(s, 1, 'Dennis Paid (direct)'); set(s, 2, '=G' + dennisDirectRow); s++;
-  set(dennisRow, 2, '=SUM(B' + (dennisRow + 1) + ':B' + (dennisRow + 5) + ')', true);
+  set(dennisRow, 2, '=SUM(B' + (dennisRow + 1) + ':B' + (dennisRow + 4) + ')', true);
   s++;
   set(s, 1, 'Paul', true); paint(s, 1, 2, C.sub); var paulRow = s++;
   set(s, 1, 'Paul Share'); set(s, 2, '=B' + paulShareRow); s++;
