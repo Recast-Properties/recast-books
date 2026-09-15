@@ -985,8 +985,8 @@ function setupTotals() {
 //         Account paid / received / Back to Recast (14xx).
 //   J:P   REHAB COSTS - payee, date, description, amount, Paul Paid / Dennis Paid /
 //         Recast Account checkboxes (from paid_from).
-//   R:X   UTILITIES - same shape, Holding-class lines.
-//   Z:AF  POST-SALE COSTS (D-015) - same shape, lines dated after settlement.
+//   R:X   UTILITIES - same shape, Holding-class lines. Post-sale costs (D-015) are on
+//         the Phase 5 closing tab, not here (Paul, 2026-09-15).
 //   AI:AS helpers (rate, stub basis, settlement_date, contract_price, per-advance
 //         math, tax_annual, tax proration estimate), greyed; the voided flag is on the
 //         hidden 'Journal helpers' sheet.
@@ -1048,7 +1048,7 @@ function setupPropertyTab(name) {
   var holdingF = eq('I', 'Holding');
   var costLineF = ne('I', '');
 
-  var WIDTH = 32; // A..AF (post-sale block sits at Z:AF, gap column Y)
+  var WIDTH = 24; // A..X
   var grid = [];
   var bold = [];
   // Colours copied from the old workbook's tab (Paul, 2026-09-15): section heads green
@@ -1165,7 +1165,7 @@ function setupPropertyTab(name) {
   s++;
   set(s, 1, 'Back to Recast account', true); set(s, 2, '=G' + recastNetRow, true); paint(s, 1, 2, C.sub); s++;
 
-  // ---- Line blocks: REHAB COSTS (J:P), UTILITIES (R:X), POST-SALE under rehab ------
+  // ---- Line blocks: REHAB COSTS (J:P), UTILITIES (R:X) ----------------------------
   var lineBlock = function (top, c0, title, crit, asOfBound) {
     set(top, c0, title, true);
     var amtCol = colLetter_(c0 + 3);
@@ -1184,11 +1184,6 @@ function setupPropertyTab(name) {
   };
   lineBlock(4, 10, 'Rehab Costs', rehabF + '*' + live);
   lineBlock(4, 18, 'Utilities', holdingF + '*' + live);
-  // POST-SALE (D-015): lines dated after Properties.settlement_date ($AK$1), not
-  // bounded by $B$1.
-  var postLive = ne('P', 'void') + '*(' + VOIDED + '<>TRUE)*' + eq('H', safeName) + '*(' + J('C') + '>$AK$1)*($AK$1<>"")';
-  lineBlock(4, 26, 'Post-Sale Costs (D-015)', postLive);
-
   var needRows = 5 + LINES_N;
   while (grid.length < needRows) grid.push(new Array(WIDTH).fill(''));
   var maxRows = sh.getMaxRows();
@@ -1217,7 +1212,7 @@ function setupPropertyTab(name) {
   sh.getRange(4, 2, grid.length - 3, 1).setNumberFormat(money);
   sh.getRange(advFirst, 4, ADV_N, 2).setNumberFormat('mm/dd/yyyy');
   sh.getRange(4, 6, grid.length - 3, 2).setNumberFormat(money);
-  [10, 18, 26].forEach(function (c) {
+  [10, 18].forEach(function (c) {
     sh.getRange(4, c + 1, grid.length - 3, 1).setNumberFormat('mm/dd/yyyy');
     sh.getRange(4, c + 3, grid.length - 3, 1).setNumberFormat(money);
     sh.getRange(6, c + 4, LINES_N, 3).insertCheckboxes();
@@ -1226,8 +1221,8 @@ function setupPropertyTab(name) {
 
   sh.setColumnWidth(1, 250); sh.setColumnWidth(2, 110); sh.setColumnWidth(3, 20);
   sh.setColumnWidth(4, 190); [5, 6, 7].forEach(function (c) { sh.setColumnWidth(c, 100); });
-  sh.setColumnWidth(8, 160); sh.setColumnWidth(9, 20); sh.setColumnWidth(17, 20); sh.setColumnWidth(25, 20);
-  [10, 18, 26].forEach(function (c) {
+  sh.setColumnWidth(8, 160); sh.setColumnWidth(9, 20); sh.setColumnWidth(17, 20);
+  [10, 18].forEach(function (c) {
     sh.setColumnWidth(c, 150); sh.setColumnWidth(c + 1, 90); sh.setColumnWidth(c + 2, 180);
     sh.setColumnWidth(c + 3, 100); [4, 5, 6].forEach(function (k) { sh.setColumnWidth(c + k, 100); });
   });

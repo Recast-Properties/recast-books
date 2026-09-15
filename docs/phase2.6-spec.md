@@ -84,7 +84,7 @@ A:B  SUMMARY                      D:H  DENNIS                        J:P  REHAB 
      Rehab Costs                       Interest to date · Payoff          Account (checkboxes
      Utilities (Holding ex-1100)       Paul Paid / Reimbursed /           from paid_from)
      Property Tax (posted + est.)        Due to Paul (2030)
-                                       Dennis Paid direct (paid_from      POST-SALE (D-015)
+                                       Dennis Paid direct (paid_from
      PROFIT BREAKDOWN                    DENNIS cost lines)               below, same shape
        Sale Price (contract_price,     Recast Account paid / received /
          else purchase price)            Back to Recast account (14xx)

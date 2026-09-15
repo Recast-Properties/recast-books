@@ -263,8 +263,9 @@ the workbook beside the property tab: the Payout report as formulas over the pos
 settlement entries (sale price, every ALTA line, net proceeds, project cost released,
 the waterfall with the interest true-up, payouts = net proceeds to the cent) with, beside
 each line, the property tab's estimate frozen as values the day of the sale and the
-difference. The property tab stays the forecast while held; the closing tab is the
-reconciliation. Ashburne, migrated in Phase 4, is the first test.
+difference, plus the **post-sale costs** section (D-015 bills that arrive after the
+sale, and the partner adjustment they feed). The property tab stays the forecast while
+held; the closing tab is the reconciliation. Ashburne, migrated in Phase 4, is the first test.
 
 **Open (2026-09-11), Paul:** what the shared Recast account's line consists of. Default:
 reimbursement of any property cost it paid that did not come from Dennis's advance money,

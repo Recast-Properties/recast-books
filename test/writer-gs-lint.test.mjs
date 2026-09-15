@@ -97,7 +97,7 @@ test("phase2.6-spec.md section 5: setupPropertyTab(name) exists, callable from t
   assert.ok(body.includes("setupPropertyTab("), "action_propertyTab_ does not call setupPropertyTab");
 });
 
-test("setupPropertyTab: old-tab layout (summary / Dennis / Rehab Costs / Utilities), D-006 interest, FILTER lines, POST-SALE, typed Sale Price", () => {
+test("setupPropertyTab: old-tab layout (summary / Dennis / Rehab Costs / Utilities), D-006 interest, FILTER lines, typed Sale Price", () => {
   const anchor = source.indexOf("function setupPropertyTab(name)");
   assert.ok(anchor !== -1, "setupPropertyTab not found");
   const nextFn = source.indexOf("\nfunction ", anchor + 1);
@@ -116,8 +116,8 @@ test("setupPropertyTab: old-tab layout (summary / Dennis / Rehab Costs / Utiliti
   assert.ok(body.includes("stub_days_basis"), "does not read Settings!stub_days_basis");
   assert.ok(body.includes("FILTER("), "line blocks do not use FILTER over Journal");
   assert.ok(body.includes("insertCheckboxes"), "Paul Paid / Dennis Paid / Recast Account are not checkboxes");
-  assert.ok(body.includes("POST-SALE"), "no POST-SALE block (D-015)");
-  assert.ok(body.includes("Properties!A:F"), "POST-SALE does not reference settlement_date");
+  assert.ok(!body.includes("POST-SALE"), "post-sale block belongs to the Phase 5 closing tab, not the property tab");
+  assert.ok(body.includes("Properties!A:F"), "does not read settlement_date (tax proration stops at the sale)");
   assert.ok(body.includes("Properties!A:K,11"), "does not read contract_price (D-017)");
   assert.ok(body.includes("readLabelledValue_(sh, 'Sale Price')"), "a rebuild does not keep the typed Sale Price");
   assert.ok(body.includes("Properties!A:L,12"), "does not read tax_annual (property tax proration)");
