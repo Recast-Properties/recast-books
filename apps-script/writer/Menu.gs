@@ -59,7 +59,15 @@ function currentUserRole_(ss) {
 // project, so a caller's own try/catch (or an unguarded call from the menu, which
 // just surfaces the alert) both work.
 function requireOwner_(ss, allowAnyRole) {
-  var role = currentUserRole_(ss);
+  var role;
+  try {
+    role = currentUserRole_(ss);
+  } catch (err) {
+    // A missing scope (userinfo.email) or an unreadable Users tab surfaces here; say
+    // so instead of letting the callers' catch swallow it into "nothing happened".
+    SpreadsheetApp.getUi().alert('Could not check your role: ' + String((err && err.message) || err));
+    fail_('FORBIDDEN', 'role check failed');
+  }
   var ok = allowAnyRole ? !!role && role !== 'removed' : role === 'owner';
   if (ok) return;
   var message = allowAnyRole
