@@ -84,7 +84,7 @@ A:B  SUMMARY                      D:H  DENNIS                        J:P  REHAB 
      Rehab Costs                       Interest to date · Payoff          Account (checkboxes
      Utilities (Holding ex-1100)       Paul Paid / Reimbursed /           from paid_from)
      Property Tax (posted + est.)        Due to Paul (2030)
-     Selling Costs (posted)            Dennis Paid direct (paid_from      POST-SALE (D-015)
+                                       Dennis Paid direct (paid_from      POST-SALE (D-015)
      PROFIT BREAKDOWN                    DENNIS cost lines)               below, same shape
        Sale Price (contract_price,     Recast Account paid / received /
          else purchase price)            Back to Recast account (14xx)
@@ -94,8 +94,6 @@ A:B  SUMMARY                      D:H  DENNIS                        J:P  REHAB 
        Dennis = payoff + share + direct
        Paul   = share + due to Paul
        Back to Recast account
-       Total payouts · Net proceeds ·
-       Difference (must be 0)
 ```
 
 Rehab Costs = Rehab class plus Acquisition class other than account 1000 (the old tab
@@ -107,10 +105,13 @@ and never paid from an account. At the sale the wizard posts the settlement stat
 actual tax line and the estimate drops to zero. Interest to Date is computed in-sheet with the D-006
 method at `Settings!interest_rate_annual` (8%, D-016) on every Advances row for the
 property, so Financing-class (1200) accruals are left out of Total Project Cost and
-nothing double-counts. The tie-out row is the point: payouts equal net proceeds by
-construction (every cost line is funded by 2030, a 14xx account, a Dennis advance or a
-Dennis direct payment), so a non-zero Difference means a line is mis-funded, or a
-closing debit such as the prorated property tax that is not yet posted. Helpers live in Z:AH, greyed. All SUMPRODUCT / FILTER over
+nothing double-counts. **The tab is the forecast while held** (Paul, 2026-09-15): Sale
+Price is the one typed cell (kept across rebuilds; seeded from `contract_price`), the
+agent/closing percentages are estimates, and there is no settlement tie-out here. The
+actuals from the settlement statement, Dennis's interest true-up and the
+payouts-equal-net-proceeds check live on the **closing tab** the Phase 5 sell wizard
+builds beside this one (BUILD-PLAN §5). Helpers live in AI:AS, greyed; the voided flag on
+the hidden `Journal helpers` sheet. All SUMPRODUCT / FILTER over
 bounded Journal rows, voided pairs excluded via the same helper-column trick as Totals.
 The tab is a view; nothing on it is typed. Sold properties keep their tab; the Phase 5
 release/payoff entries zero the summary, which the sell wizard owns.

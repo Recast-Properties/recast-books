@@ -318,3 +318,18 @@ downloads uploaded or forwarded to statements@, parsed by code into Feed, matche
 bookkeeper, reconciled per account to the statement's closing balance. `docs/phase3-spec.md`
 written for Paul's review; BUILD-PLAN and CLAUDE.md scrubbed of Plaid. The access control
 policy written for the questionnaire is kept (`docs/access-control-policy.md`).
+
+## 2026-09-15 — Property tab is the forecast; closing tab goes to Phase 5
+
+Paul reviewed the rebuilt Granite tab: colours and layout copied from the old tab, gaps
+closed, paid-by headers on the header row, post-sale block beside Utilities, line blocks
+to the bottom of the sheet (one spilling SORT(FILTER) per block; the voided flag moved to
+a hidden `Journal helpers` sheet so the array formula stops growing the tab), Sale Price a
+typed input kept across rebuilds, Purchase Price from the registry until the purchase is
+posted, advance block sized to the property's advances (the Dennis page rebuilds the tab
+after each advance). Then: "i need two things: a working spreadsheet for showing me costs
+and estimating profits, and a property reconciliation tab with actual costs from closing."
+Split agreed: the property tab is the forecast (no posted selling costs, no tie-out row);
+a closing tab with settlement actuals, the true-up and the payouts-equal-proceeds check is
+built by the Phase 5 sell wizard beside it, estimate frozen against actual (BUILD-PLAN §5).
+Test property removed from Properties, Advances and its tab.

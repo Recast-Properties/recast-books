@@ -97,17 +97,17 @@ test("phase2.6-spec.md section 5: setupPropertyTab(name) exists, callable from t
   assert.ok(body.includes("setupPropertyTab("), "action_propertyTab_ does not call setupPropertyTab");
 });
 
-test("setupPropertyTab: old-tab layout (summary / Dennis / Rehab Costs / Utilities), D-006 interest, bounded FILTER lines, POST-SALE, tie-out", () => {
+test("setupPropertyTab: old-tab layout (summary / Dennis / Rehab Costs / Utilities), D-006 interest, FILTER lines, POST-SALE, typed Sale Price", () => {
   const anchor = source.indexOf("function setupPropertyTab(name)");
   assert.ok(anchor !== -1, "setupPropertyTab not found");
   const nextFn = source.indexOf("\nfunction ", anchor + 1);
   const body = source.slice(anchor, nextFn === -1 ? source.length : nextFn);
 
   for (const label of ["Total Project Cost", "Purchase Price", "Interest to Date", "Rehab Costs", "Utilities",
-    "Profit Breakdown", "Net Profit", "Individual Share", "Payouts", "Back to Recast account", "Difference (must be 0)"]) {
+    "Profit Breakdown", "Net Profit", "Individual Share", "Payouts", "Back to Recast account", "Sale Price (estimate - type it here)"]) {
     assert.ok(body.includes("'" + label + "'"), `summary label "${label}" missing`);
   }
-  for (const cls of ["Rehab", "Acquisition", "Holding", "Selling"]) {
+  for (const cls of ["Rehab", "Acquisition", "Holding"]) {
     assert.ok(body.includes("'" + cls + "'"), `cost class "${cls}" not referenced`);
   }
   assert.ok(body.includes("DATEDIF"), "no DATEDIF - D-006 full-month anniversary count is missing");
@@ -119,6 +119,7 @@ test("setupPropertyTab: old-tab layout (summary / Dennis / Rehab Costs / Utiliti
   assert.ok(body.includes("POST-SALE"), "no POST-SALE block (D-015)");
   assert.ok(body.includes("Properties!A:F"), "POST-SALE does not reference settlement_date");
   assert.ok(body.includes("Properties!A:K,11"), "does not read contract_price (D-017)");
+  assert.ok(body.includes("readLabelledValue_(sh, 'Sale Price')"), "a rebuild does not keep the typed Sale Price");
   assert.ok(body.includes("Properties!A:L,12"), "does not read tax_annual (property tax proration)");
   assert.ok(body.includes("DATE(YEAR($B$1),1,1)"), "no Jan-1-to-date proration of tax_annual");
 });

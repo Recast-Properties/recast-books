@@ -258,6 +258,14 @@ he can check it. Posting the wizard writes the release entry, the payoff entries
 profit-participation entry, the reimbursements, and the owner's draw, all dated the
 settlement date, and stamps the property `sold`.
 
+**Closing tab (Paul, 2026-09-15).** The wizard also builds a `<property> — Closing` tab in
+the workbook beside the property tab: the Payout report as formulas over the posted
+settlement entries (sale price, every ALTA line, net proceeds, project cost released,
+the waterfall with the interest true-up, payouts = net proceeds to the cent) with, beside
+each line, the property tab's estimate frozen as values the day of the sale and the
+difference. The property tab stays the forecast while held; the closing tab is the
+reconciliation. Ashburne, migrated in Phase 4, is the first test.
+
 **Open (2026-09-11), Paul:** what the shared Recast account's line consists of. Default:
 reimbursement of any property cost it paid that did not come from Dennis's advance money,
 plus an optional reserve Paul enters on the wizard to leave in the account for the next
@@ -297,7 +305,7 @@ a proven system.
 | 2 | **Receipt bookkeeper v2** | Gmail poller on receipts@/travel@ under its own label, plus web upload; Claude director with the tools above; Inbox/Review; morning digest. Writes only to the new workbook. | Golden set of 30 receipts from the live system: every autofile decision matches or is judged better by Paul; zero duplicates across the twin set. |
 | 3 | **Banking** | Statement upload (OFX/QFX first; CSV, PDF fallback) into the Feed tab, matching job, proposals, per-account monthly reconciliation to the statement's closing balance (D-019, no Plaid). | One full month of Citizens reconciles with every line matched or explained. |
 | 4 | **Migration** | One-time clear of the new workbook (D-013); Phase 0 snapshot of the old workbook (dated copy in Drive, block totals recorded); 2a faithful copy of every property tab, RECAST BIZ block, and the cash-advance tab as journal entries with `source = migration`; 2b logged corrections; opening balances; Due-to-Paul ledger built from every Paul-paid row. | 2a: every property total, net profit and RECAST BIZ block total matches the baseline to the cent. 2b: sum of dated corrections explains the entire difference. |
-| 5 | **Close, 1099, packet, sell wizard** | Monthly close with lock and snapshot (OVERHEAD lines only; a property locks at sale with a Dennis interest true-up, post-sale costs to COGS, partner adjustment balance — D-015); 1099 module; accountant packet export; Sell wizard with the **Payout report**; Dennis and accountant read-only views. | A dry-run close of the prior month passes; a past sale (Ashburne) re-run through the wizard reproduces the recorded outcome. |
+| 5 | **Close, 1099, packet, sell wizard** | Monthly close with lock and snapshot (OVERHEAD lines only; a property locks at sale with a Dennis interest true-up, post-sale costs to COGS, partner adjustment balance — D-015); 1099 module; accountant packet export; Sell wizard with the **Payout report** and the per-property **closing tab** (estimate vs actual); Dennis and accountant read-only views. | A dry-run close of the prior month passes; a past sale (Ashburne) re-run through the wizard reproduces the recorded outcome. |
 | 6 | **Parallel run and cutover** | Both bookkeepers run for 14 days; daily diff of row count, dollar total, per-account and per-property distribution. | 14 consecutive days of zero unexplained variance. Then: old workbook read-only, archived; old poller off; new one live. |
 
 **Guardrails, every phase:** nothing ever writes to the old workbook; every script dry-runs

@@ -970,12 +970,13 @@ function setupTotals() {
 //   A:B   SUMMARY - Total Project Cost, Purchase Price (1000), Interest to Date
 //         (computed below), Rehab Costs (Rehab + Acquisition ex-1000), Utilities
 //         (Holding ex-1100), Property Tax (posted 1100 + the Texas seller proration
-//         of Properties.tax_annual from Jan 1 to the as-of date while unsold - the
-//         sale posts the ALTA's actual line and the estimate drops out), Selling
-//         (posted); PROFIT BREAKDOWN
+//         of Properties.tax_annual from Jan 1 to the as-of date while unsold);
+//         PROFIT BREAKDOWN
 //         (sale price = contract_price else purchase price; agent/closing at the
-//         Settings estimate pcts); PAYOUTS - Dennis / Paul / Back to Recast account,
-//         with a tie-out row: payouts must equal net proceeds.
+//         Settings estimate pcts); PAYOUTS - Dennis / Paul / Back to Recast account.
+//         This tab is the forecast while held (Paul, 2026-09-15); the settlement
+//         actuals, the true-up and the payouts-equal-proceeds check belong to the
+//         closing tab the Phase 5 sell wizard builds.
 //   D:H   DENNIS - every Advances row for this property: Start, End (repaid_date),
 //         Principal, Interest at Settings!interest_rate_annual (D-016, 8%) by the
 //         D-006 method (full monthly anniversaries via DATEDIF, compounded, simple
@@ -1137,8 +1138,7 @@ function setupPropertyTab(name) {
   // Texas bills arrive in October and are due Jan 31, so a held property rarely
   // pays one - revisit if it happens.
   set(s, 1, '="Property Tax (prorated"&IF($AR$1="","",", "&TEXT($AR$1,"$#,##0")&"/yr")&")"'); set(s, 2, '=' + net(eq('E', '1100')) + '+$AS$1'); s++;
-  set(s, 1, 'Selling Costs (posted)'); set(s, 2, '=' + net(eq('I', 'Selling'))); var sellingRow = s++;
-  set(totalRow, 2, '=SUM(B' + purchaseRow + ':B' + sellingRow + ')', true);
+  set(totalRow, 2, '=SUM(B' + purchaseRow + ':B' + (s - 1) + ')', true);
   s++;
   paint(s, 1, 2, C.head); set(s++, 1, 'Profit Breakdown', true);
   set(s, 1, 'Sale Price (estimate - type it here)', true);
@@ -1163,10 +1163,7 @@ function setupPropertyTab(name) {
   set(s, 1, 'Due to Paul (paid less reimbursed)'); set(s, 2, '=G' + dueToPaulRow); s++;
   set(paulRow, 2, '=SUM(B' + (paulRow + 1) + ':B' + (paulRow + 2) + ')', true);
   s++;
-  set(s, 1, 'Back to Recast account', true); set(s, 2, '=G' + recastNetRow, true); paint(s, 1, 2, C.sub); var recastRow = s++;
-  set(s, 1, 'Total payouts'); set(s, 2, '=B' + dennisRow + '+B' + paulRow + '+B' + recastRow); var payoutsRow = s++;
-  set(s, 1, 'Net proceeds (after tax proration)'); set(s, 2, '=B' + saleRow + '+B' + agentRow + '+B' + closingRow + '-$AS$1'); var proceedsRow = s++;
-  set(s, 1, 'Difference (must be 0)'); set(s, 2, '=ROUND(B' + payoutsRow + '-B' + proceedsRow + ',2)'); s++;
+  set(s, 1, 'Back to Recast account', true); set(s, 2, '=G' + recastNetRow, true); paint(s, 1, 2, C.sub); s++;
 
   // ---- Line blocks: REHAB COSTS (J:P), UTILITIES (R:X), POST-SALE under rehab ------
   var lineBlock = function (top, c0, title, crit, asOfBound) {
