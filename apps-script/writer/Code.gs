@@ -1244,6 +1244,7 @@ function setupPropertyTab(name) {
   // after the build shifts every formula on the tab along with its cell.
   sh.insertColumnBefore(1);
   sh.setColumnWidth(1, 20);
+  sh.getRange(1, 1, sh.getMaxRows(), 1).setBackground(null); // the insert copies the neighbour's fills
 
   console.log('Property tab rebuilt for "' + name + '": ' + grid.length + ' rows');
   return { ok: true, rows: grid.length };
