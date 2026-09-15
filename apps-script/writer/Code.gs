@@ -1014,6 +1014,9 @@ function setupPropertyTab(name) {
   // registry's contract_price.
   var keptSalePrice = readLabelledValue_(sh, 'Sale Price');
   var registry = propertyRow_(ss, name);
+  // A previous build's spacer column A (empty, name in B1) is removed so the build
+  // below starts at column A again and re-inserts exactly one.
+  if (sh.getLastColumn() > 1 && sh.getRange(1, 1).isBlank() && !sh.getRange(1, 2).isBlank()) sh.deleteColumn(1);
   sh.clear();
   // clear() leaves data validation behind, so an old block's checkboxes would survive
   // a rebuild.
@@ -1237,16 +1240,23 @@ function setupPropertyTab(name) {
   sh.getRange(4, 2, grid.length - 3, 1).setHorizontalAlignment('right');
   sh.getRange(1, 4).setFontColor('#999999');
 
+  // Narrow spacer column on the left, like the old tab (Paul, 2026-09-15). Inserting
+  // after the build shifts every formula on the tab along with its cell.
+  sh.insertColumnBefore(1);
+  sh.setColumnWidth(1, 20);
+
   console.log('Property tab rebuilt for "' + name + '": ' + grid.length + ' rows');
   return { ok: true, rows: grid.length };
 }
 
-/** The value in column B of the first row whose column A label starts with `label`, or ''. */
+/** The value right of the first cell (columns A:B) whose label starts with `label`, or ''. */
 function readLabelledValue_(sh, label) {
-  if (sh.getLastRow() < 1) return '';
-  var rows = sh.getRange(1, 1, sh.getLastRow(), 2).getValues();
+  if (sh.getLastRow() < 1 || sh.getLastColumn() < 2) return '';
+  var rows = sh.getRange(1, 1, sh.getLastRow(), 3).getValues();
   for (var i = 0; i < rows.length; i++) {
-    if (String(rows[i][0]).indexOf(label) === 0) return rows[i][1] === '' ? '' : rows[i][1];
+    for (var c = 0; c < 2; c++) {
+      if (String(rows[i][c]).indexOf(label) === 0) return rows[i][c + 1] === '' ? '' : rows[i][c + 1];
+    }
   }
   return '';
 }
