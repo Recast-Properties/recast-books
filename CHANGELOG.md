@@ -308,3 +308,13 @@ cost report by workspace mapped through Settings `api_cost_account:<workspace>`;
 already on the Journal, creating the 1520 Accounts row and any missing mapping rows on
 first use. The paul@ poller's 3 AM digest calls it on the 2nd of the month. Needs
 `ANTHROPIC_ADMIN_KEY` on Netlify. 410 tests.
+
+## 2026-09-15 — D-019: Plaid dropped; Phase 3 spec rewritten around statement uploads
+
+Plaid's production security questionnaire (access policy upload, MFA evidence, vulnerability
+attestations) was out of proportion for three of Paul's own accounts: "this is not what i
+expected and is too much." D-019 supersedes D-007: monthly OFX/QFX (CSV/PDF fallback)
+downloads uploaded or forwarded to statements@, parsed by code into Feed, matched by the
+bookkeeper, reconciled per account to the statement's closing balance. `docs/phase3-spec.md`
+written for Paul's review; BUILD-PLAN and CLAUDE.md scrubbed of Plaid. The access control
+policy written for the questionnaire is kept (`docs/access-control-policy.md`).

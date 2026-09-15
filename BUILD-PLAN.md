@@ -89,7 +89,7 @@ accountant will want, but it does not gate anything.
    receipts@ / travel@ ─ poller ─►  │
    web upload (receipt, statement,  │   ┌────────────── the bookkeeper ──────────────┐
    ALTA, W-9) ─────────────────────►│──►│ Claude (Opus 5) + tools, adaptive thinking  │
-   Plaid /transactions/sync ───────►│   │ zoom · read_ledger · find_vendor ·          │
+   statement upload (OFX/CSV/PDF) ►│   │ zoom · read_ledger · find_vendor ·          │
                                     │   │ find_property · search_feed · web_search ·  │
                                     │   │ propose_entry · match_feed_line · hold      │
                                     │   └───────────────────┬─────────────────────────┘
@@ -101,7 +101,7 @@ accountant will want, but it does not gate anything.
                                     │   └───────────────────┬─────────────────────────┘
                                     ▼                       ▼
         Netlify Blobs (queue state,     Apps Script writer (ScriptLock, single
-        Plaid tokens, run logs)         serialized append/update/void) ──► Workbook
+        statement files, run logs)         serialized append/update/void) ──► Workbook
                                                                              │
         Google Drive "Recast Books" folder ◄── every source document, filed  │
         by property / year, linked from the journal line                     ▼
@@ -125,9 +125,10 @@ accountant will want, but it does not gate anything.
   model's verdict must always have a verb downstream (post, hold, supersede, dismiss,
   match, split). Code owns arithmetic, identity, and gates, and the UI shows which was
   which on every entry.
-- **Plaid** for feeds (D-007). Paul connects each bank himself inside Plaid Link; no
-  bank credential ever reaches this system. Statement PDF upload remains for anything
-  Plaid cannot reach and as a reconciliation cross-check.
+- **Statement downloads, not a feed** (D-019, superseding D-007's Plaid). Once a month
+  Paul uploads each account's OFX/QFX (or CSV/PDF) download; code parses it into `Feed`.
+  No bank credential and no aggregator ever touches this system. A live feed can be
+  added later as another Feed input.
 - **Separate Netlify site.** A deploy here cannot break the listings or Jennifer.
 - **Drive for documents.** Permanent, browsable by the accountant, one folder per
   property per year. Blobs hold only processing state.
@@ -148,7 +149,7 @@ console — a one-time click.
 | `Properties` | app | Registry: name, address, purchase date, price, status (held / under contract / sold), settlement date, ALTA url, template (light / heavy), Dennis-funded. **The allowlist** — nothing posts to a property not here. |
 | `Vendors` | app | Canonical name, aliases, entity type, 1099 type, TIN status, W-9 url, default account. |
 | `Advances` | app | Dennis: date landed in Citizens, amount, **one property**, source feed line, status, accrued-to date, repaid date. |
-| `Feed` | Plaid sync | Every bank line: id, account, date, amount, name, merchant, match status, `txn_id`. |
+| `Feed` | statement import | Every bank line: id, account, date, amount, name, merchant, match status, `txn_id`. |
 | `Periods` | close job | Month, status (open / closing / closed), closed_at, snapshot url, open-items tolerance result. |
 | `Trips` | app | Date, from, to, miles, purpose, property. Business-use % for 6600. |
 | `Settings` | Paul via app | Autofile ceiling, 1099 thresholds by year, `dealer_status`, `de_minimis_elected`, `cash_or_accrual`, `tax_home`, login allowlist and roles. |
@@ -183,7 +184,7 @@ Same visual kit as the admin site. Mobile-usable, because receipts arrive from a
    produce the **Payout report** (below).
 5. **Dennis** — the loan ledger: every advance, accrued interest to date per property,
    payoff as of any date, history of repayments. This page is Dennis's read-only view.
-6. **Banking** — connect accounts (Plaid Link), see each account's feed, match status,
+6. **Banking** — upload each account's monthly download, see each account's feed, match status,
    and reconciliation per month. Unmatched lines carry Claude's proposal. Statement
    uploads land here too.
 7. **Vendors / 1099** — canonical vendors, alias merges proposed by Claude, YTD paid by
@@ -272,7 +273,7 @@ the prompt or model changes.
 | Job | Reads | Decides | Code owns |
 |---|---|---|---|
 | Receipt | email or upload, attachments, `read_ledger`, `find_vendor`, `find_property`, web | itemization, vendor, account, property, trade, tax, business purpose draft, duplicate verdict | subtotal reconcile, balanced entry, dedupe, ceiling, §274(d) hold, 1099 block |
-| Feed line | Plaid line, receipts posted ±5 days, vendor history | match to an existing entry, or propose account/property for an uncovered charge, or flag a transfer between own accounts | match uniqueness, amount equality, proposal above ceiling → hold |
+| Feed line | statement line, receipts posted ±5 days, vendor history | match to an existing entry, or propose account/property for an uncovered charge, or flag a transfer between own accounts | match uniqueness, amount equality, proposal above ceiling → hold |
 | Statement PDF | upload | parse lines, reconcile against feed and ledger for the period, name every difference | totals tie-out; variance halts the close |
 | Advance | feed line into Citizens, or Paul's entry | recognise a Dennis deposit, propose which property it is for | 2010 entry on that property, anniversary schedule from the deposit date |
 | Interest accrual | `Advances`, calendar | nothing — pure math | 0.75%/month compounding on anniversary, stub pro-rating, one entry per advance per month |
@@ -294,7 +295,7 @@ a proven system.
 | 0 | **Foundations** | Repo restructure; new workbook shell with tabs, COA and settings; service account scopes; Netlify site and `books.` DNS; Google sign-in with roles; Apps Script writer with lock, `txn_id`, period check; posting engine with balanced entries. | Paul signs in; a manual entry posts, a duplicate is refused, a closed-period post is refused. |
 | 1 | **Ledger core** | Properties (add one), Vendors, Bank accounts, manual journal entry, Dennis `Advances` with accrual engine, all reports from the journal. | Reports tie: TB balances; BS = P&L + equity; the accrual engine reproduces the existing cash-advance tab to the cent on Paul's real advances. |
 | 2 | **Receipt bookkeeper v2** | Gmail poller on receipts@/travel@ under its own label, plus web upload; Claude director with the tools above; Inbox/Review; morning digest. Writes only to the new workbook. | Golden set of 30 receipts from the live system: every autofile decision matches or is judged better by Paul; zero duplicates across the twin set. |
-| 3 | **Banking** | Plaid Link, sync, Feed tab, matching job, proposals, per-account monthly reconciliation, statement PDF upload as cross-check. | One full month of Citizens reconciles with every line matched or explained. |
+| 3 | **Banking** | Statement upload (OFX/QFX first; CSV, PDF fallback) into the Feed tab, matching job, proposals, per-account monthly reconciliation to the statement's closing balance (D-019, no Plaid). | One full month of Citizens reconciles with every line matched or explained. |
 | 4 | **Migration** | One-time clear of the new workbook (D-013); Phase 0 snapshot of the old workbook (dated copy in Drive, block totals recorded); 2a faithful copy of every property tab, RECAST BIZ block, and the cash-advance tab as journal entries with `source = migration`; 2b logged corrections; opening balances; Due-to-Paul ledger built from every Paul-paid row. | 2a: every property total, net profit and RECAST BIZ block total matches the baseline to the cent. 2b: sum of dated corrections explains the entire difference. |
 | 5 | **Close, 1099, packet, sell wizard** | Monthly close with lock and snapshot (OVERHEAD lines only; a property locks at sale with a Dennis interest true-up, post-sale costs to COGS, partner adjustment balance — D-015); 1099 module; accountant packet export; Sell wizard with the **Payout report**; Dennis and accountant read-only views. | A dry-run close of the prior month passes; a past sale (Ashburne) re-run through the wizard reproduces the recorded outcome. |
 | 6 | **Parallel run and cutover** | Both bookkeepers run for 14 days; daily diff of row count, dollar total, per-account and per-property distribution. | 14 consecutive days of zero unexplained variance. Then: old workbook read-only, archived; old poller off; new one live. |
@@ -317,15 +318,15 @@ the code from written specs.
 - **Judgment code** — the bookkeeper's prompts and tools, the posting engine, the
   accrual engine, the migration tie-out — Fable writes or line-reviews itself.
 - **Paul's touchpoints:** sign-off on this plan; the Workspace and Google Cloud clicks in
-  Phase 0; creating the Plaid account (Claude cannot create accounts); connecting banks in
-  Plaid Link; adjudicating the golden set once; the phase gates.
+  Phase 0; downloading each account's monthly activity file; adjudicating the golden set
+  once; the phase gates.
 
 ## 9 · Costs
 
 | Item | Estimate | Note |
 |---|---|---|
 | Claude API | a few dollars a day at current volume | Opus 5 with tools per document; the receipts system today is the reference |
-| Plaid | pay-as-you-go, low tens of dollars a month for three accounts | confirm at signup; production access needs Plaid's approval, usually days |
+| ~~Plaid~~ | $0 | dropped 2026-09-15 (D-019) |
 | Netlify second site | $0 on the existing plan | functions and Blobs usage are small |
 | Google Workspace, Drive, Sheets | already paid | |
 | PDF.co | already on the books | statement PDFs |
@@ -335,8 +336,7 @@ the code from written specs.
 1. ~~Advance mechanics and overhead~~ — answered 2026-09-11 (D-010, D-011).
 2. Dennis's and the accountant's Google email addresses for the allowlist.
 3. Access to add a DNS record for `books.recast-properties.com` (or confirm DNS is at Netlify).
-4. A Plaid developer account, created by Paul, with the client id and secret set as
-   Netlify environment variables. I will send the exact steps.
+4. ~~A Plaid developer account~~ — dropped 2026-09-15 (D-019).
 5. The Workspace admin click authorizing the service account's Sheets, Drive and Gmail
    read scopes, when I hand him the scope list.
 6. ~~Cash-advance tab~~ — superfluous; property tabs are authoritative (D-011).

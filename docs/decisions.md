@@ -339,3 +339,26 @@ says which system spent the money, and the Console splits dollars only by worksp
 **Needs:** an Admin API key (`ANTHROPIC_ADMIN_KEY` on the books site), which only Paul
 can create. Title screening stays overhead: it runs across many pre-purchase properties
 and never capitalizes to one.
+
+## D-019 · No Plaid — bank activity comes from statement downloads — 2026-09-15 · Paul
+
+Plaid's production review (security questionnaire, policy uploads, MFA evidence,
+vulnerability-management attestations, ongoing vendor compliance) is built for apps that
+connect strangers' accounts at scale. Recast connects three of its own. Paul: "plaid is
+feeling really intense for my business needs ... this is not what i expected and is too
+much."
+
+**Decided:** supersedes D-007. No bank aggregator. Once a month Paul downloads each
+account's activity from the bank (OFX/QFX preferred; CSV or the PDF statement as
+fallback) and uploads it, or forwards the statement email. Code parses the file into the
+`Feed` tab; the bookkeeper matches lines to receipts and journal entries and proposes
+postings for what is uncovered; the month reconciles per account against the statement's
+closing balance. The Feed tab and matching are the same as they would have been with a
+feed, so a live feed can be added later as another input without a redesign.
+
+**Consequences:** transactions are visible at month end rather than within a day; the
+Dashboard's cash figures are the ledger's view, not the bank's live balance; the Plaid
+account stays dormant (sandbox keys only, production request withdrawn); no Plaid
+credentials on Netlify; `Bank accounts.plaid_item_id`/`plaid_account_id` stay unused.
+The security policy written for the questionnaire (`docs/access-control-policy.md`)
+stays — it is true and worth having.

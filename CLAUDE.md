@@ -47,8 +47,8 @@ pages, 3 AM digest) is **live for receipts@/travel@ mail dated 2026-09-11 onward
 posts to the new workbook only. Gate record: `docs/phase2-spec.md` §11. Reads come from Blobs snapshots (`readTab`,
 `docs/phase2.5-spec.md`); every write handler refreshes the tab it wrote. Phase 2.6
 (`docs/phase2.6-spec.md`) adds a second poller instance running as properties@ for the
-property mailboxes and a formula tab per property. Next is Phase 3 (Plaid banking) on Paul's go — Plaid production access was
-requested 2026-09-11 (2–3 days).
+property mailboxes and a formula tab per property. Next is Phase 3 (banking from statement uploads — D-019 dropped Plaid on
+2026-09-15; spec `docs/phase3-spec.md` awaiting Paul's review).
 
 Policy learned in the Phase 2 gate (D-012): the bookkeeper decides the easy cases itself —
 PDX↔DFW travel posts with a written purpose; a confident dismiss is final; duplicates are
