@@ -1009,7 +1009,10 @@ function setupPropertyTab(name) {
   sh.clear();
 
   var N = 5000;     // Journal bound, same as setupTotals
-  var ADV_N = 8;    // Advances rows shown for this property (a property has a few)
+  // Advance rows: as many as the property has today plus one spare, so the Dennis block
+  // sits tight under its schedule (Paul, 2026-09-15). The Dennis page rebuilds the tab
+  // after each advance it adds.
+  var ADV_N = countAdvances_(ss, name) + 1;
   var LINES_N = 60; // Journal lines shown per block - bounded
 
   var J = function (col) { return 'Journal!$' + col + '$2:$' + col + '$' + N; };
@@ -1104,7 +1107,7 @@ function setupPropertyTab(name) {
 
   // ---- SUMMARY (A:B) --------------------------------------------------------------
   var s = 4;
-  set(s, 1, 'Total Project Cost', true); var totalRow = s; paint(s, 1, 1, C.head); paint(s, 2, 1, C.total); s += 2;
+  set(s, 1, 'Total Project Cost', true); var totalRow = s; paint(s, 1, 1, C.head); paint(s, 2, 1, C.total); s += 1;
   set(s, 1, 'Purchase Price'); set(s, 2, '=' + net(eq('E', '1000'))); var purchaseRow = s++;
   set(s, 1, 'Interest to Date'); set(s, 2, '=G' + interestRow); s++;
   set(s, 1, 'Rehab Costs'); set(s, 2, '=' + net(rehabF)); var rehabRow = s++;
@@ -1127,7 +1130,6 @@ function setupPropertyTab(name) {
   set(s, 1, '="Agent "&' + pct('estimate_agent_pct') + '&"%"'); set(s, 2, '=-B' + saleRow + '*' + pct('estimate_agent_pct') + '/100'); var agentRow = s++;
   set(s, 1, '="Closing "&' + pct('estimate_closing_pct') + '&"%"'); set(s, 2, '=-B' + saleRow + '*' + pct('estimate_closing_pct') + '/100'); var closingRow = s++;
   set(s, 1, 'Net Profit', true); set(s, 2, '=SUM(B' + saleRow + ':B' + closingRow + ')', true); paint(s, 1, 2, C.total); var profitRow = s++;
-  s++;
   set(s, 1, 'Individual Share', true); set(s, 2, '=B' + profitRow + '/2', true); paint(s, 1, 2, C.yellow); var shareRow = s++;
   s++;
   paint(s, 1, 2, C.head); set(s++, 1, 'Payouts', true);
@@ -1143,7 +1145,6 @@ function setupPropertyTab(name) {
   set(paulRow, 2, '=SUM(B' + (paulRow + 1) + ':B' + (paulRow + 2) + ')', true);
   s++;
   set(s, 1, 'Back to Recast account', true); set(s, 2, '=G' + recastNetRow, true); paint(s, 1, 2, C.sub); var recastRow = s++;
-  s++;
   set(s, 1, 'Total payouts'); set(s, 2, '=B' + dennisRow + '+B' + paulRow + '+B' + recastRow); var payoutsRow = s++;
   set(s, 1, 'Net proceeds (after tax proration)'); set(s, 2, '=B' + saleRow + '+B' + agentRow + '+B' + closingRow + '-$AJ$1'); var proceedsRow = s++;
   set(s, 1, 'Difference (must be 0)'); set(s, 2, '=ROUND(B' + payoutsRow + '-B' + proceedsRow + ',2)'); s++;
@@ -1232,6 +1233,18 @@ function setupPropertyTab(name) {
 
   console.log('Property tab rebuilt for "' + name + '": ' + grid.length + ' rows');
   return { ok: true, rows: grid.length };
+}
+
+/** Number of Advances rows naming this property (any status). */
+function countAdvances_(ss, name) {
+  var sheet = ss.getSheetByName('Advances');
+  if (!sheet || sheet.getLastRow() < 2) return 0;
+  var cols = headerIndex_(sheet);
+  var col = cols['property'];
+  if (!col) return 0;
+  return sheet.getRange(2, col, sheet.getLastRow() - 1, 1).getValues().filter(function (r) {
+    return String(r[0]) === name;
+  }).length;
 }
 
 /** 1-based column index -> A1 letters (1 -> A, 27 -> AA). Used only to build formula text. */
