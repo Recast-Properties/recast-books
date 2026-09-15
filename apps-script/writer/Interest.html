@@ -1,0 +1,59 @@
+<?!= include_('Style') ?>
+<h3>Post interest</h3>
+<label>Period</label><input type="month" id="i-period">
+<div>
+  <button id="i-preview">Preview</button>
+  <button class="primary" id="i-post" disabled>Post interest</button>
+</div>
+<div id="i-result"></div>
+<div id="i-msg" class="msg hidden"></div>
+
+<script>
+  document.getElementById('i-period').value = new Date(Date.now() - new Date().getTimezoneOffset() * 60000).toISOString().slice(0, 7);
+
+  function renderPreview_(previews) {
+    var result = document.getElementById('i-result');
+    if (!previews.length) { result.innerHTML = '<p>No unposted interest for this period.</p>'; return; }
+    var rows = previews.map(function (r) {
+      return '<tr><td>' + escapeHtml_(r.advance_id) + '</td><td>' + escapeHtml_(r.property) + '</td><td class="num">' +
+        formatCents_(r.delta_cents) + '</td><td>' + escapeHtml_(r.memo) + '</td></tr>';
+    }).join('');
+    result.innerHTML = '<table><thead><tr><th>Advance</th><th>Property</th><th class="num">Period delta</th><th>Memo</th></tr></thead>' +
+      '<tbody>' + rows + '</tbody></table>';
+  }
+
+  document.getElementById('i-preview').addEventListener('click', function () {
+    var btn = this;
+    var msg = document.getElementById('i-msg');
+    msg.classList.add('hidden');
+    var period = document.getElementById('i-period').value;
+    btn.disabled = true;
+    callServer_('previewInterest', period).then(function (result) {
+      btn.disabled = false;
+      if (!result.ok) { showMsg_(msg, false, '<b>' + escapeHtml_(result.error) + '</b> - ' + escapeHtml_(result.message)); return; }
+      renderPreview_(result.previews);
+      document.getElementById('i-post').disabled = result.previews.length === 0;
+    }, function (err) {
+      btn.disabled = false;
+      showMsg_(msg, false, escapeHtml_(err && err.message ? err.message : err));
+    });
+  });
+
+  document.getElementById('i-post').addEventListener('click', function () {
+    var btn = this;
+    var msg = document.getElementById('i-msg');
+    msg.classList.add('hidden');
+    var period = document.getElementById('i-period').value;
+    if (!window.confirm('Post interest for ' + period + '? This writes to the workbook and cannot be undone from here.')) return;
+    btn.disabled = true;
+    callServer_('postInterest', period).then(function (result) {
+      btn.disabled = false;
+      if (!result.ok) { showMsg_(msg, false, '<b>' + escapeHtml_(result.error) + '</b> - ' + escapeHtml_(result.message)); return; }
+      showMsg_(msg, true, 'Posted interest for ' + escapeHtml_(result.period) + ' (' + result.posted.length + ' ' + (result.posted.length === 1 ? 'entry' : 'entries') + ').');
+      setTimeout(function () { google.script.host.close(); }, 1800);
+    }, function (err) {
+      btn.disabled = false;
+      showMsg_(msg, false, escapeHtml_(err && err.message ? err.message : err));
+    });
+  });
+</script>

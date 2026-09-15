@@ -16,7 +16,9 @@ import path from "node:path";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const CODE_PATH = path.join(__dirname, "..", "apps-script", "writer", "Code.gs");
+const MENU_PATH = path.join(__dirname, "..", "apps-script", "writer", "Menu.gs");
 const source = readFileSync(CODE_PATH, "utf8");
+const menuSource = readFileSync(MENU_PATH, "utf8");
 
 test("Code.gs exists and is non-empty", () => {
   assert.ok(source.length > 0);
@@ -31,6 +33,21 @@ test("setup is the first function declared", () => {
 test("no non-ASCII bytes anywhere in the file", () => {
   const nonAscii = [...source].filter((ch) => ch.charCodeAt(0) > 127);
   assert.equal(nonAscii.length, 0, `found non-ASCII characters: ${JSON.stringify(nonAscii.slice(0, 10))}`);
+});
+
+// phase2.7-spec.md section 4: Menu.gs gets pasted into the same editor as Code.gs and
+// lib.gs, so it is held to the same paste-safety bar (ASCII) plus a cheap syntax smoke
+// test (balanced braces) - it can't run under node:test any more than Code.gs can.
+test("Menu.gs exists, is non-empty and ASCII-only", () => {
+  assert.ok(menuSource.length > 0);
+  const nonAscii = [...menuSource].filter((ch) => ch.charCodeAt(0) > 127);
+  assert.equal(nonAscii.length, 0, `found non-ASCII characters: ${JSON.stringify(nonAscii.slice(0, 10))}`);
+});
+
+test("Menu.gs braces are balanced", () => {
+  const opens = (menuSource.match(/\{/g) || []).length;
+  const closes = (menuSource.match(/\}/g) || []).length;
+  assert.equal(opens, closes, `Menu.gs has ${opens} "{" but ${closes} "}"`);
 });
 
 // Header lists spelled out verbatim in phase0-spec.md section 4.
@@ -124,8 +141,8 @@ test("setupPropertyTab: old-tab layout (summary / Dennis / Rehab Costs / Utiliti
   assert.ok(body.includes("DATE(YEAR($B$1),1,1)"), "no Jan-1-to-date proration of tax_annual");
 });
 
-test("WRITER_VERSION is 0.3.0", () => {
-  assert.match(source, /var WRITER_VERSION = '0\.3\.0';/);
+test("WRITER_VERSION is 0.4.0", () => {
+  assert.match(source, /var WRITER_VERSION = '0\.4\.0';/);
 });
 
 test("storeDocument: creates/reuses a root Drive folder, walks nested folder segments, and returns fileId/url/folderUrl", () => {
@@ -174,18 +191,26 @@ test("upsert allows Advances (key advance_id) and Accounts (key code)", () => {
   assert.ok(snippet.includes("'Accounts'"), "Accounts not in action_upsert_'s allowed tabs");
 });
 
-test("postBatch: one lock, validates every entry before writing any row", () => {
+test("action_postBatch_ dispatches to postBatchEntries_ (phase2.7: Menu.gs's postInterest_ calls the latter directly)", () => {
   const anchor = source.indexOf("function action_postBatch_(");
   assert.ok(anchor !== -1, "action_postBatch_ not found");
+  const nextFn = source.indexOf("\nfunction ", anchor + 1);
+  const body = source.slice(anchor, nextFn === -1 ? source.length : nextFn);
+  assert.ok(body.includes("postBatchEntries_("), "action_postBatch_ does not delegate to postBatchEntries_");
+});
+
+test("postBatchEntries_: one lock, validates every entry before writing any row", () => {
+  const anchor = source.indexOf("function postBatchEntries_(");
+  assert.ok(anchor !== -1, "postBatchEntries_ not found");
   const nextFn = source.indexOf("\nfunction ", anchor + 1);
   const body = source.slice(anchor, nextFn === -1 ? source.length : nextFn);
 
   assert.equal(
     (body.match(/LockService\.getScriptLock\(\)/g) || []).length,
     1,
-    "action_postBatch_ should acquire exactly one lock"
+    "postBatchEntries_ should acquire exactly one lock"
   );
-  assert.ok(body.includes("checkEntryForPost_"), "action_postBatch_ does not validate entries via checkEntryForPost_");
+  assert.ok(body.includes("checkEntryForPost_"), "postBatchEntries_ does not validate entries via checkEntryForPost_");
   // Every entry is validated (the forEach below) before the single setValues call
   // that writes rows - i.e. validation happens once, up front, not interleaved with
   // writes entry-by-entry.

@@ -1,0 +1,64 @@
+<style>
+  body { font-family: Arial, sans-serif; font-size: 13px; margin: 0; padding: 12px 16px; }
+  h3 { margin: 0 0 10px; font-size: 15px; }
+  label { display: block; font-size: 11px; color: #555; margin-bottom: 2px; }
+  input, select { width: 100%; box-sizing: border-box; padding: 5px 6px; font-size: 13px; margin-bottom: 8px; }
+  .row { display: flex; gap: 10px; }
+  .row > div { flex: 1; }
+  .req { color: #b00020; }
+  button { padding: 7px 14px; font-size: 13px; cursor: pointer; margin-right: 8px; }
+  button.primary { background: #1a73e8; color: #fff; border: none; border-radius: 3px; }
+  button:disabled { opacity: 0.6; cursor: default; }
+  table { border-collapse: collapse; width: 100%; margin-top: 10px; font-size: 12px; }
+  th, td { border: 1px solid #ddd; padding: 4px 6px; text-align: left; }
+  th.num, td.num { text-align: right; }
+  .msg { margin-top: 10px; padding: 8px; border-radius: 3px; }
+  .msg.ok { background: #e6f4ea; color: #137333; }
+  .msg.err { background: #fce8e6; color: #a50e0e; }
+  .hidden { display: none; }
+  .lines-grid input, .lines-grid select { margin-bottom: 0; }
+  .balance { margin: 8px 0; font-weight: bold; }
+  .balance.off { color: #a50e0e; }
+  .balance.ok { color: #137333; }
+</style>
+<script>
+  // Generic google.script.run -> Promise bridge shared by every dialog: callServer_
+  // ("Expense", form) resolves with whatever the server handler returned (every
+  // handler in Menu.gs returns {ok:true,...} or {ok:false,error,message} rather than
+  // throwing, so withFailureHandler only fires for a real script-runtime error).
+  function callServer_(method, arg) {
+    return new Promise(function (resolve, reject) {
+      google.script.run
+        .withSuccessHandler(resolve)
+        .withFailureHandler(function (err) { reject(err); })
+        [method](arg);
+    });
+  }
+
+  function showMsg_(el, ok, html) {
+    el.className = 'msg ' + (ok ? 'ok' : 'err');
+    el.innerHTML = html;
+    el.classList.remove('hidden');
+  }
+
+  function escapeHtml_(s) {
+    return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) {
+      return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
+    });
+  }
+
+  // entry.lines debit/credit are integer cents (lib.gs's buildEntry works in cents
+  // throughout; Code.gs's buildJournalRow_ only converts to dollars when it writes
+  // the Journal row) - format for display here.
+  function formatCents_(cents) { return (Number(cents) / 100).toFixed(2); }
+
+  function entryLinesTable_(entry) {
+    var rows = entry.lines.map(function (l) {
+      return '<tr><td>' + escapeHtml_(l.account) + '</td><td class="num">' + (l.debit ? formatCents_(l.debit) : '') +
+        '</td><td class="num">' + (l.credit ? formatCents_(l.credit) : '') + '</td><td>' + escapeHtml_(l.property) +
+        '</td><td>' + escapeHtml_(l.description) + '</td></tr>';
+    }).join('');
+    return '<table><thead><tr><th>Account</th><th class="num">Debit</th><th class="num">Credit</th><th>Property</th><th>Description</th></tr></thead>' +
+      '<tbody>' + rows + '</tbody></table>';
+  }
+</script>

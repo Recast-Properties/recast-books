@@ -1,0 +1,106 @@
+<?!= include_('Style') ?>
+<h3>New journal entry</h3>
+<div class="row">
+  <div><label>Date</label><input type="date" id="j-date"></div>
+  <div><label>Memo</label><input type="text" id="j-memo" placeholder="What this entry is"></div>
+</div>
+<table class="lines-grid">
+  <thead><tr><th>Account</th><th>Debit</th><th>Credit</th><th>Property</th><th>Payee</th><th>Description</th><th>Paid from</th><th>Purpose</th></tr></thead>
+  <tbody id="j-lines"></tbody>
+</table>
+<button id="j-add">+ Add line</button>
+<div class="balance" id="j-balance"></div>
+<button class="primary" id="j-post">Post journal entry</button>
+<div id="j-msg" class="msg hidden"></div>
+
+<script>
+  var DATA = <?!= JSON.stringify(data) ?>;
+  var MAX_LINES = 10;
+  var lines = [blankLine_(), blankLine_()];
+
+  function blankLine_() { return { account: '', debit: '', credit: '', property: '', payee: '', description: '', paid_from: '', business_purpose: '' }; }
+
+  function optionsHtml_(options, selected, blankLabel) {
+    var html = blankLabel ? '<option value="">' + blankLabel + '</option>' : '';
+    html += options.map(function (o) {
+      return '<option value="' + o.value + '"' + (o.value === selected ? ' selected' : '') + '>' + o.label + '</option>';
+    }).join('');
+    return html;
+  }
+
+  function accountOptions_(selected) {
+    return optionsHtml_(DATA.accounts.map(function (a) { return { value: a.code, label: a.code + ' ' + a.name }; }), selected, 'Choose...');
+  }
+  function propertyOptions_(selected) {
+    return optionsHtml_([{ value: 'OVERHEAD', label: 'OVERHEAD' }].concat(DATA.properties.map(function (p) { return { value: p, label: p }; })), selected, null);
+  }
+  function paidFromOptions_(selected) {
+    return optionsHtml_([{ value: '', label: '(none)' }, { value: 'PAUL', label: 'PAUL' }, { value: 'DENNIS', label: 'DENNIS' }].concat(
+      DATA.bankAccounts.map(function (b) { return { value: b.code, label: b.code + ' ' + b.name }; })), selected, null);
+  }
+
+  function renderLines_() {
+    var tbody = document.getElementById('j-lines');
+    tbody.innerHTML = lines.map(function (l, i) {
+      return '<tr>' +
+        '<td><select data-i="' + i + '" data-f="account">' + accountOptions_(l.account) + '</select></td>' +
+        '<td><input data-i="' + i + '" data-f="debit" value="' + escapeHtml_(l.debit) + '" placeholder="0.00"></td>' +
+        '<td><input data-i="' + i + '" data-f="credit" value="' + escapeHtml_(l.credit) + '" placeholder="0.00"></td>' +
+        '<td><select data-i="' + i + '" data-f="property">' + propertyOptions_(l.property) + '</select></td>' +
+        '<td><input data-i="' + i + '" data-f="payee" value="' + escapeHtml_(l.payee) + '"></td>' +
+        '<td><input data-i="' + i + '" data-f="description" value="' + escapeHtml_(l.description) + '"></td>' +
+        '<td><select data-i="' + i + '" data-f="paid_from">' + paidFromOptions_(l.paid_from) + '</select></td>' +
+        '<td><input data-i="' + i + '" data-f="business_purpose" value="' + escapeHtml_(l.business_purpose) + '"></td>' +
+        '</tr>';
+    }).join('');
+    Array.prototype.forEach.call(tbody.querySelectorAll('[data-i]'), function (el) {
+      el.addEventListener('change', function () {
+        lines[Number(el.dataset.i)][el.dataset.f] = el.value;
+        renderLines_();
+      });
+    });
+    renderBalance_();
+    document.getElementById('j-add').disabled = lines.length >= MAX_LINES;
+  }
+
+  function renderBalance_() {
+    var debit = 0, credit = 0, nonEmpty = 0;
+    lines.forEach(function (l) {
+      var d = Number(l.debit) || 0, c = Number(l.credit) || 0;
+      if (d || c) nonEmpty++;
+      debit += d; credit += c;
+    });
+    var balanced = Math.round(debit * 100) === Math.round(credit * 100);
+    var el = document.getElementById('j-balance');
+    el.className = 'balance ' + (balanced ? 'ok' : 'off');
+    el.textContent = 'Debits ' + debit.toFixed(2) + ' / Credits ' + credit.toFixed(2) + (balanced ? ' - balanced' : ' - out of balance');
+    document.getElementById('j-post').disabled = !balanced || nonEmpty < 2;
+  }
+
+  document.getElementById('j-date').value = new Date(Date.now() - new Date().getTimezoneOffset() * 60000).toISOString().slice(0, 10);
+  document.getElementById('j-add').addEventListener('click', function () {
+    if (lines.length < MAX_LINES) { lines.push(blankLine_()); renderLines_(); }
+  });
+  renderLines_();
+
+  document.getElementById('j-post').addEventListener('click', function () {
+    var btn = this;
+    var msg = document.getElementById('j-msg');
+    msg.classList.add('hidden');
+    var form = {
+      date: document.getElementById('j-date').value,
+      memo: document.getElementById('j-memo').value,
+      lines: lines
+    };
+    btn.disabled = true;
+    callServer_('postJournal', form).then(function (result) {
+      btn.disabled = false;
+      if (!result.ok) { showMsg_(msg, false, '<b>' + escapeHtml_(result.error) + '</b> - ' + escapeHtml_(result.message)); return; }
+      showMsg_(msg, true, 'Posted <code>' + escapeHtml_(result.txn_id) + '</code>.' + entryLinesTable_(result.entry));
+      setTimeout(function () { google.script.host.close(); }, 1800);
+    }, function (err) {
+      btn.disabled = false;
+      showMsg_(msg, false, escapeHtml_(err && err.message ? err.message : err));
+    });
+  });
+</script>

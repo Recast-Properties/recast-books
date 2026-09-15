@@ -1,0 +1,75 @@
+<?!= include_('Style') ?>
+<h3>Add advance</h3>
+<div class="row">
+  <div><label>Date</label><input type="date" id="a-date"></div>
+  <div><label>Amount</label><input type="text" id="a-amount" placeholder="207000.00"></div>
+</div>
+<div class="row">
+  <div><label>Property</label><select id="a-property"></select></div>
+  <div><label>Kind</label><select id="a-kind">
+    <option value="purchase">Purchase principal (paid to the seller)</option>
+    <option value="cash" selected>Cash advance (for the property)</option>
+  </select></div>
+</div>
+<div class="row">
+  <div id="a-into-wrap" class="hidden"><label>Into</label><select id="a-into"></select></div>
+  <div><label>Interest rate (% per year)</label><input type="text" id="a-rate"></div>
+</div>
+<label>Memo</label><input type="text" id="a-memo" placeholder="Optional">
+<button class="primary" id="a-save">Add advance</button>
+<div id="a-msg" class="msg hidden"></div>
+
+<script>
+  var DATA = <?!= JSON.stringify(data) ?>;
+
+  function fillSelect_(el, options) {
+    el.innerHTML = options.map(function (o) { return '<option value="' + o.value + '">' + o.label + '</option>'; }).join('');
+  }
+
+  document.getElementById('a-date').value = new Date(Date.now() - new Date().getTimezoneOffset() * 60000).toISOString().slice(0, 10);
+  fillSelect_(document.getElementById('a-property'), DATA.properties.map(function (p) { return { value: p, label: p }; }));
+  fillSelect_(document.getElementById('a-into'),
+    DATA.bankAccounts.map(function (b) { return { value: b.code, label: b.code + ' ' + b.name }; })
+      .concat([{ value: '2030', label: '2030 - Paul Personal (Due to owner)' }]));
+  document.getElementById('a-rate').value = DATA.interestRatePct;
+
+  function updateKind_() {
+    var cash = document.getElementById('a-kind').value === 'cash';
+    document.getElementById('a-into-wrap').classList.toggle('hidden', !cash);
+  }
+  document.getElementById('a-kind').addEventListener('change', updateKind_);
+  updateKind_();
+
+  document.getElementById('a-save').addEventListener('click', function () {
+    var btn = this;
+    var msg = document.getElementById('a-msg');
+    msg.classList.add('hidden');
+    var kind = document.getElementById('a-kind').value;
+    var property = document.getElementById('a-property').value;
+    if (!property) { showMsg_(msg, false, 'Choose a property.'); return; }
+    var form = {
+      date: document.getElementById('a-date').value,
+      amount: document.getElementById('a-amount').value,
+      property: property,
+      kind: kind,
+      into: document.getElementById('a-into').value,
+      rate_pct: document.getElementById('a-rate').value,
+      memo: document.getElementById('a-memo').value
+    };
+    btn.disabled = true;
+    btn.textContent = 'Posting...';
+    callServer_('addAdvance', form).then(function (result) {
+      btn.disabled = false;
+      btn.textContent = 'Add advance';
+      if (!result.ok) { showMsg_(msg, false, '<b>' + escapeHtml_(result.error) + '</b> - ' + escapeHtml_(result.message)); return; }
+      var html = 'Posted <code>' + escapeHtml_(result.txn_id) + '</code>, advance <code>' + escapeHtml_(result.advance_id) + '</code>.';
+      html += result.tabError ? ' Property tab was not rebuilt: ' + escapeHtml_(result.tabError) : ' Property tab rebuilt (' + result.tabRows + ' rows).';
+      showMsg_(msg, true, html);
+      setTimeout(function () { google.script.host.close(); }, 2200);
+    }, function (err) {
+      btn.disabled = false;
+      btn.textContent = 'Add advance';
+      showMsg_(msg, false, escapeHtml_(err && err.message ? err.message : err));
+    });
+  });
+</script>

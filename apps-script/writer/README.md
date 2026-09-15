@@ -1,5 +1,10 @@
 # Recast Books Writer - setup
 
+phase2.7-spec.md (D-023): this project is bound to the "Recast Books" workbook
+(Extensions > Apps Script from inside the sheet, not script.google.com).
+Menu.gs adds a **Recast Books** menu to the workbook for posting/reports in-process; the /exec web endpoint below still serves what the site itself needs.
+
+
 1. script.google.com -> New project, named "Recast Books Writer".
 2. Paste `Code.gs` in; add `appsscript.json` via Project Settings ->
    "Show appsscript.json in editor".

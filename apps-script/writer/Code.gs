@@ -17,6 +17,7 @@
 function setup() {
   var props = PropertiesService.getScriptProperties();
   var ss = openOrCreateWorkbook_(props);
+  adoptDocsRootFolder_(props);
   installTriggers();
 
   TAB_ORDER.forEach(function (name) {
@@ -106,7 +107,7 @@ function doPost(e) {
 
 // ---- config ---------------------------------------------------------------
 
-var WRITER_VERSION = '0.3.0';
+var WRITER_VERSION = '0.4.0';
 var WORKBOOK_NAME = 'Recast Books';
 // phase2-spec.md section 7: the Drive root folder every filed document lives under.
 // Same name as the workbook (Paul's own naming choice) but a different resource -
@@ -248,12 +249,37 @@ var BANK_ACCOUNTS_SEED = [
 
 // ---- setup helpers ----------------------------------------------------------
 
+// phase2.7-spec.md section 2: a container-bound project (the workbook's own
+// Extensions > Apps Script) always uses its own container - never creates or
+// opens a different workbook - and remembers its id so the rest of this file
+// (which reads SPREADSHEET_ID directly in a few places) stays consistent.
 function openOrCreateWorkbook_(props) {
+  var active = SpreadsheetApp.getActiveSpreadsheet();
+  if (active) {
+    if (props.getProperty('SPREADSHEET_ID') !== active.getId()) props.setProperty('SPREADSHEET_ID', active.getId());
+    return active;
+  }
   var id = props.getProperty('SPREADSHEET_ID');
   if (id) return SpreadsheetApp.openById(id);
   var ss = SpreadsheetApp.create(WORKBOOK_NAME);
   props.setProperty('SPREADSHEET_ID', ss.getId());
   return ss;
+}
+
+// setup() only: adopt the Drive folder documents already file into (phase2-spec.md
+// section 7) rather than letting the first storeDocument call create a second one
+// under the same name. Exactly one match or this throws - ambiguity would split
+// filing across two folders silently.
+function adoptDocsRootFolder_(props) {
+  if (props.getProperty('DOCS_ROOT_FOLDER_ID')) return;
+  var found = DriveApp.getFoldersByName(DOCS_ROOT_FOLDER_NAME);
+  var matches = [];
+  while (found.hasNext()) matches.push(found.next());
+  if (matches.length !== 1) {
+    fail_('AMBIGUOUS_DOCS_ROOT', 'Expected exactly one Drive folder named "' + DOCS_ROOT_FOLDER_NAME +
+      '", found ' + matches.length + '. Set DOCS_ROOT_FOLDER_ID in Script Properties by hand.');
+  }
+  props.setProperty('DOCS_ROOT_FOLDER_ID', matches[0].getId());
 }
 
 function getOrCreateSheet_(ss, name) {
@@ -355,9 +381,29 @@ function fail_(code, message, extra) {
 }
 
 function openWorkbook_(props) {
+  var active = SpreadsheetApp.getActiveSpreadsheet();
+  if (active) return active;
   var id = props.getProperty('SPREADSHEET_ID');
   if (!id) fail_('NOT_SETUP', 'Run setup() first');
   return SpreadsheetApp.openById(id);
+}
+
+// Fire-and-forget poke of the site's cache warmer (apps-script/poller/Code.gs's
+// warmCache_, copied) so a menu write's Netlify snapshot doesn't wait out its TTL.
+// SITE_URL defaults to the production site; skipped silently with no POLLER_SECRET
+// set (a standalone/dev project without it just runs slightly stale reads on the
+// web app side - never a reason to fail a menu write).
+function warmCache_() {
+  var props = PropertiesService.getScriptProperties();
+  var secret = props.getProperty('POLLER_SECRET');
+  if (!secret) return;
+  var siteUrl = props.getProperty('SITE_URL') || 'https://books.recast-properties.com';
+  try {
+    UrlFetchApp.fetch(siteUrl.replace(/\/+$/, '') + '/api/warm-bg',
+      { method: 'post', headers: { 'x-poller-secret': secret }, muteHttpExceptions: true });
+  } catch (err) {
+    console.error('warmCache_: ' + String(err));
+  }
 }
 
 function findRowByValue_(sheet, colIndex, value) {
@@ -459,7 +505,15 @@ function action_ping_(props) {
 }
 
 function action_post_(body, props) {
-  var entry = body.entry;
+  return jsonOutput_(postEntry_(body.entry, props));
+}
+
+// The body of the old action_post_, unwrapped from JSON so Menu.gs's dialog
+// handlers can call it directly with an already-built entry (phase2.7-spec.md
+// section 4) instead of going through doPost. Throws via fail_ on any refusal -
+// action_post_ lets that propagate to doPost's catch; Menu.gs callers catch it
+// themselves and show err.code/err.message in the dialog.
+function postEntry_(entry, props) {
   if (!entry || !Array.isArray(entry.lines) || entry.lines.length < 1) {
     fail_('BAD_ENTRY', 'entry.lines must be a non-empty array');
   }
@@ -506,16 +560,19 @@ function action_post_(body, props) {
 
     cache.put('txn:' + entry.txn_id, '1', 21600);
 
-    return jsonOutput_({ ok: true, rows: [startRow, startRow + rows.length - 1] });
+    return { ok: true, rows: [startRow, startRow + rows.length - 1] };
   } finally {
     lock.releaseLock();
   }
 }
 
 function action_void_(body, props) {
-  var txnId = body.txn_id;
-  var reason = body.reason || '';
-  var date = body.date;
+  return jsonOutput_(voidEntry_(body.txn_id, body.reason || '', body.date, body.posted_by || 'system', props));
+}
+
+// Unwrapped body of the old action_void_ (see postEntry_'s comment) - Menu.gs's
+// voidSelected_ calls this directly with the Journal row's own txn_id.
+function voidEntry_(txnId, reason, date, postedBy, props) {
   if (!txnId) fail_('BAD_REQUEST', 'txn_id is required');
   if (!date || !/^\d{4}-\d{2}-\d{2}$/.test(String(date))) fail_('BAD_REQUEST', 'date (YYYY-MM-DD) is required');
 
@@ -547,7 +604,7 @@ function action_void_(body, props) {
     var rows = originalLines.map(function (orig, idx) {
       var mirrorEntry = {
         txn_id: voidTxnId, date: date, period: period, memo: 'VOID: ' + reason,
-        source: 'void', posted_by: body.posted_by || 'system',
+        source: 'void', posted_by: postedBy,
         doc_url: orig.doc_url || '', void_of: txnId
       };
       var mirrorLine = {
@@ -567,19 +624,24 @@ function action_void_(body, props) {
     var startRow = sheet.getLastRow() + 1;
     sheet.getRange(startRow, 1, rows.length, rows[0].length).setValues(rows);
 
-    return jsonOutput_({ ok: true, rows: [startRow, startRow + rows.length - 1], txn_id: voidTxnId });
+    return { ok: true, rows: [startRow, startRow + rows.length - 1], txn_id: voidTxnId };
   } finally {
     lock.releaseLock();
   }
 }
 
 function action_read_(body, props) {
-  var tab = body.tab;
+  return jsonOutput_(readTabData_(openWorkbook_(props), body.tab, body));
+}
+
+// Unwrapped body of the old action_read_ (see postEntry_'s comment) - Menu.gs's
+// report handlers call this directly (e.g. {tab:'Journal', all:true}) to get the
+// same since/limit/all filtering and Date->ISO-string formatting the HTTP callers get.
+function readTabData_(ss, tab, body) {
   var allowed = ['Accounts', 'Properties', 'Bank accounts', 'Vendors', 'Periods',
     'Settings', 'Users', 'Journal', 'Advances'];
   if (allowed.indexOf(tab) === -1) fail_('BAD_TAB', 'tab not readable: ' + tab);
 
-  var ss = openWorkbook_(props);
   var sheet = ss.getSheetByName(tab);
   if (!sheet) fail_('NOT_FOUND', 'tab not found: ' + tab);
 
@@ -619,12 +681,16 @@ function action_read_(body, props) {
     });
   });
 
-  return jsonOutput_({ ok: true, headers: headers, rows: out });
+  return { ok: true, headers: headers, rows: out };
 }
 
 function action_setPeriod_(body, props) {
-  var period = body.period;
-  var status = body.status;
+  return jsonOutput_(setPeriodStatus_(body.period, body.status, props));
+}
+
+// Unwrapped body of the old action_setPeriod_ (see postEntry_'s comment) - Menu.gs's
+// closePeriod_/reopenPeriod_ call this directly after their own ui.prompt.
+function setPeriodStatus_(period, status, props) {
   if (!/^\d{4}-\d{2}$/.test(String(period))) fail_('BAD_PERIOD', 'period must match YYYY-MM');
   if (status !== 'open' && status !== 'closed') fail_('BAD_STATUS', 'status must be open or closed');
 
@@ -654,7 +720,7 @@ function action_setPeriod_(body, props) {
     if (cols['closed_at']) sheet.getRange(row, cols['closed_at']).setValue(closedAt);
   }
 
-  return jsonOutput_({ ok: true, period: period, status: status });
+  return { ok: true, period: period, status: status };
 }
 
 function action_upsert_(body, props) {
@@ -687,9 +753,19 @@ function action_upsert_(body, props) {
     if (!cols[name]) ignored.push(name);
   });
 
-  var existingRow = findRowByValue_(sheet, cols[keyColumn], keyValue);
-  var created = existingRow === -1;
+  var created = upsertRow_(sheet, cols, keyColumn, rowData);
 
+  return jsonOutput_({ ok: true, tab: tab, created: created, ignored: ignored });
+}
+
+// Shared by action_upsert_ and Menu.gs's write handlers (addProperty_, addAdvance_,
+// the Bank-accounts-to-Accounts mirror in onPropertyTabEdit): find a row by its key
+// column's value, update it in place, or append a new one. Returns true if a row
+// was created. `cols` is the sheet's headerIndex_() map (callers already have it, so
+// this never re-reads row 1).
+function upsertRow_(sheet, cols, keyColumn, rowData) {
+  var existingRow = findRowByValue_(sheet, cols[keyColumn], rowData[keyColumn]);
+  var created = existingRow === -1;
   if (created) {
     var newRow = new Array(maxColIndex_(cols)).fill('');
     Object.keys(rowData).forEach(function (name) {
@@ -701,8 +777,7 @@ function action_upsert_(body, props) {
       if (cols[name]) sheet.getRange(existingRow, cols[name]).setValue(rowData[name]);
     });
   }
-
-  return jsonOutput_({ ok: true, tab: tab, created: created, ignored: ignored });
+  return created;
 }
 
 // Same checks as action_post_'s per-entry gate (MIN_LINES, BAD_DATE, UNBALANCED,
@@ -755,7 +830,12 @@ function checkEntryForPost_(entry, sheet, cols, periodsSheet, cache, seenTxnIds)
 // is written; if one fails, nothing is written and the thrown error carries its
 // txn_id and code (see doPost's catch).
 function action_postBatch_(body, props) {
-  var entries = body.entries;
+  return jsonOutput_(postBatchEntries_(body.entries, props));
+}
+
+// Unwrapped body of the old action_postBatch_ (see postEntry_'s comment) - Menu.gs's
+// postInterest_ posts one entry per advance this way, all-or-nothing under one lock.
+function postBatchEntries_(entries, props) {
   if (!Array.isArray(entries) || entries.length === 0) {
     fail_('BAD_ENTRY', 'entries must be a non-empty array');
   }
@@ -791,7 +871,7 @@ function action_postBatch_(body, props) {
 
     postedIds.forEach(function (txnId) { cache.put('txn:' + txnId, '1', 21600); });
 
-    return jsonOutput_({ ok: true, posted: postedIds, rows: [startRow, startRow + allRows.length - 1] });
+    return { ok: true, posted: postedIds, rows: [startRow, startRow + allRows.length - 1] };
   } finally {
     lock.releaseLock();
   }
@@ -1354,6 +1434,13 @@ var PROPERTY_TAB_START_COL = 5;   // E after the spacer column: Start Date
 var PROPERTY_TAB_END_COL = 6;     // F: End Date (typed)
 var PROPERTY_TAB_PRINCIPAL_COL = 7; // G: Principal
 
+// One installable onEdit trigger for the whole workbook (forSpreadsheet, not
+// forSheet) - onPropertyTabEdit's own dispatch on the edited sheet's name covers
+// the property-tab End Date column, the phase2.7-spec.md section 4 Bank
+// accounts->Accounts mirror, and the Users last-owner guard. A simple onEdit(e)
+// can't be used because this is a standalone-turned-bound project (D-023) and
+// simple triggers can't call PropertiesService/UrlFetchApp-touching code reliably;
+// installable ones run with full authorization.
 function installTriggers() {
   var props = PropertiesService.getScriptProperties();
   var ss = openOrCreateWorkbook_(props);
@@ -1365,8 +1452,12 @@ function installTriggers() {
 function onPropertyTabEdit(e) {
   try {
     var range = e.range;
+    var editedSheet = range.getSheet();
+    if (editedSheet.getName() === 'Bank accounts') { mirrorBankAccountEdit_(editedSheet, range); return; }
+    if (editedSheet.getName() === 'Users') { guardLastOwnerEdit_(e, editedSheet, range); return; }
+
     if (range.getColumn() !== PROPERTY_TAB_END_COL || range.getNumColumns() !== 1) return;
-    var sh = range.getSheet();
+    var sh = editedSheet;
     var ss = sh.getParent();
     var name = sh.getName();
     var propSheet = ss.getSheetByName('Properties');
@@ -1397,6 +1488,45 @@ function onPropertyTabEdit(e) {
     }
   } catch (err) {
     console.error('onPropertyTabEdit: ' + err);
+  }
+}
+
+// phase2.7-spec.md section 4 guard (a): editing/adding a Bank accounts row mirrors
+// it into Accounts, same rule as books-meta.mjs's POST upsert on that tab.
+function mirrorBankAccountEdit_(sh, range) {
+  if (range.getRow() < 2) return; // header row
+  var cols = headerIndex_(sh);
+  if (!cols['code'] || !cols['name']) return;
+  var firstRow = range.getRow();
+  var lastRow = firstRow + range.getNumRows() - 1;
+  var accounts = sh.getParent().getSheetByName('Accounts');
+  if (!accounts) return;
+  var accCols = headerIndex_(accounts);
+  for (var r = firstRow; r <= lastRow; r++) {
+    var code = sh.getRange(r, cols['code']).getValue();
+    var bankName = sh.getRange(r, cols['name']).getValue();
+    if (!code || !bankName) continue; // incomplete row, nothing to mirror yet
+    upsertRow_(accounts, accCols, 'code',
+      { code: String(code), name: 'Cash - ' + bankName, series: '1400', type: 'asset', active: true });
+  }
+}
+
+// phase2.7-spec.md section 4 guard (b): refuses to change the last listed owner's
+// role away from "owner" - reverts the cell and toasts instead of throwing, since
+// this runs from a user's own edit, not a menu action with a dialog to show an error in.
+function guardLastOwnerEdit_(e, sh, range) {
+  if (range.getNumRows() !== 1 || range.getNumColumns() !== 1) return; // only single-cell role edits are guarded
+  var cols = headerIndex_(sh);
+  if (!cols['role'] || range.getColumn() !== cols['role']) return;
+  if (range.getValue() === 'owner') return; // becoming owner never needs a guard
+  if (e.oldValue !== 'owner') return; // wasn't owner before this edit - nothing to protect
+
+  var lastRow = sh.getLastRow();
+  var roles = lastRow >= 2 ? sh.getRange(2, cols['role'], lastRow - 1, 1).getValues() : [];
+  var ownersLeft = roles.filter(function (r) { return r[0] === 'owner'; }).length;
+  if (ownersLeft === 0) {
+    range.setValue('owner');
+    sh.getParent().toast('Cannot demote or remove the last owner. Reverted.', 'Recast Books');
   }
 }
 
@@ -1432,4 +1562,36 @@ function rebuildAllPropertyTabs() {
   sheet.getRange(2, cols['name'], lastRow - 1, 1).getValues().forEach(function (row) {
     if (row[0]) setupPropertyTab(String(row[0]));
   });
+}
+
+// ---- selfTest (phase2.7-spec.md section 3) ---------------------------------------
+// Run from the editor (function dropdown -> selfTest -> Run) after every push: proves
+// the V8 runtime actually accepts lib.gs's generated syntax (??, ?., classes) and that
+// buildEntry/accruedThrough still produce the values the rest of the books depend on.
+// Uses lib.gs's globals (ACCOUNTS, makeCtx, buildEntry, accruedThrough) directly - they
+// are in scope here exactly as they are for any other file in this project.
+function selfTest() {
+  var accounts = new Map(ACCOUNTS.map(function (a) { return [a.code, a]; }));
+  var ctx = makeCtx({
+    accounts: accounts, properties: new Set(['TEST Self Test']), periods: new Map(), today: '2026-09-15'
+  });
+  var entry = buildEntry({
+    type: 'expense', date: '2026-09-10', payee: 'Home Depot', description: 'Drywall',
+    amount_cents: 21240, account: '1030', property: 'TEST Self Test', paid_from: '1401',
+    source: 'manual', posted_by: 'selftest'
+  }, ctx);
+  if (!entry || entry.lines.length !== 2) fail_('SELFTEST_FAILED', 'buildEntry did not return a balanced 2-line entry');
+  if (entry.lines[0].debit !== 21240 || entry.lines[1].credit !== 21240) {
+    fail_('SELFTEST_FAILED', 'buildEntry lines do not match the fixture amount');
+  }
+
+  // 881 Newport-shaped fixture: a $207,000 advance dated 2026-03-05, accrued to
+  // 2026-09-15 (D-016's 8%, compounding monthly on the advance's own anniversary).
+  var advance = { amount_cents: 20700000, date: '2026-03-05' };
+  var interestCents = accruedThrough(advance, '2026-09-15');
+  if (!(interestCents > 0)) fail_('SELFTEST_FAILED', 'accruedThrough did not accrue positive interest');
+
+  Logger.log('selfTest OK: entry ' + entry.txn_id + ' (' + entry.lines.length + ' lines), interest ' +
+    fromCents(interestCents) + ' on the fixture advance');
+  return { ok: true, txn_id: entry.txn_id, interest: fromCents(interestCents) };
 }

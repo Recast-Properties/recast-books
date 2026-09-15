@@ -68,7 +68,7 @@ Operating notes: deploy = `npm run deploy`; writer = `clasp push -f` + `clasp de
 (runs latest saved code, no deploy). Netlify function logs:
 `npx netlify-cli logs --source functions --function <name> --since 15m` (unreliable —
 prefer the envelope's `error`/`error_stack`). Paul still owes Dennis's and the
-accountant's Google emails for the Users list (Settings page can add them). D-018: Anthropic
+accountant's Google emails for the Users list (added on the Users tab now, D-023). D-018: Anthropic
 top-ups post to 1520; `/api/api-costs` expenses usage monthly by Console workspace
 (needs `ANTHROPIC_ADMIN_KEY`; the poller calls it on the 2nd). D-013: the new workbook is cleared once at the start of
 Phase 4, then history is migrated and live receipts replayed; append-only from then on.

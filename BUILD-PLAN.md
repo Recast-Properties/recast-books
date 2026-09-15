@@ -167,6 +167,13 @@ approve is the only bypass.
 
 ## 5 · The web app, page by page
 
+> **2026-09-15 (D-023, `docs/phase2.7-spec.md`):** the input pages below (Properties,
+> Dennis, Banking, Vendors/1099, Close, Reports, and the Settings editor) moved into a
+> **Recast Books** menu in the workbook itself — faster, no Netlify round trip. The web
+> app now keeps only **Dashboard**, **Inbox**, **Upload**, and **Settings** (reduced to
+> the Anthropic API-costs card, D-018). The §3 diagram above still shows the pre-2.7
+> page list; read it with the same correction.
+
 Same visual kit as the admin site. Mobile-usable, because receipts arrive from a phone.
 
 1. **Dashboard** — cash per account today, what Recast owes Paul, Dennis's balance,

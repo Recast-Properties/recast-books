@@ -1,0 +1,75 @@
+<?!= include_('Style') ?>
+<h3>New expense</h3>
+<div class="row">
+  <div><label>Date</label><input type="date" id="f-date"></div>
+  <div><label>Payee</label><input type="text" id="f-payee" placeholder="Home Depot"></div>
+</div>
+<label>Description</label><input type="text" id="f-description" placeholder="Drywall panel, plug, roller trays">
+<div class="row">
+  <div><label>Amount</label><input type="text" id="f-amount" placeholder="212.40"></div>
+  <div><label>Account</label><select id="f-account"></select></div>
+</div>
+<div class="row">
+  <div><label>Property</label><select id="f-property"></select></div>
+  <div><label>Paid from</label><select id="f-paidfrom"></select></div>
+</div>
+<div class="row">
+  <div><label>Trade</label><input type="text" id="f-trade" placeholder="Paint &amp; Flooring"></div>
+  <div><label>Business purpose <span id="f-req" class="req hidden">(required)</span></label><input type="text" id="f-purpose"></div>
+</div>
+<button class="primary" id="f-post">Post expense</button>
+<div id="f-msg" class="msg hidden"></div>
+
+<script>
+  var DATA = <?!= JSON.stringify(data) ?>;
+  // §274(d)-style substantiation, phase0-spec.md §3: same account set as
+  // lib.gs's posting.mjs PURPOSE_REQUIRED_ACCOUNTS (6600/6700/6710/6720).
+  var PURPOSE_REQUIRED = { '6600': 1, '6700': 1, '6710': 1, '6720': 1 };
+
+  function fillSelect_(el, options, blankLabel) {
+    var html = blankLabel ? '<option value="">' + blankLabel + '</option>' : '';
+    html += options.map(function (o) { return '<option value="' + o.value + '">' + o.label + '</option>'; }).join('');
+    el.innerHTML = html;
+  }
+
+  document.getElementById('f-date').value = new Date(Date.now() - new Date().getTimezoneOffset() * 60000).toISOString().slice(0, 10);
+  fillSelect_(document.getElementById('f-account'), DATA.accounts.map(function (a) { return { value: a.code, label: a.code + ' ' + a.name }; }), 'Choose...');
+  fillSelect_(document.getElementById('f-property'), [{ value: 'OVERHEAD', label: 'OVERHEAD' }].concat(
+    DATA.properties.map(function (p) { return { value: p, label: p }; })), null);
+  fillSelect_(document.getElementById('f-paidfrom'), [{ value: 'PAUL', label: 'PAUL (Due to owner)' }, { value: 'DENNIS', label: 'DENNIS (direct-paid advance)' }].concat(
+    DATA.bankAccounts.map(function (b) { return { value: b.code, label: b.code + ' ' + b.name }; })), 'Choose...');
+
+  function updateReq_() {
+    var req = PURPOSE_REQUIRED[document.getElementById('f-account').value];
+    document.getElementById('f-req').classList.toggle('hidden', !req);
+  }
+  document.getElementById('f-account').addEventListener('change', updateReq_);
+  updateReq_();
+
+  document.getElementById('f-post').addEventListener('click', function () {
+    var btn = this;
+    var msg = document.getElementById('f-msg');
+    msg.classList.add('hidden');
+    var form = {
+      date: document.getElementById('f-date').value,
+      payee: document.getElementById('f-payee').value,
+      description: document.getElementById('f-description').value,
+      amount: document.getElementById('f-amount').value,
+      account: document.getElementById('f-account').value,
+      property: document.getElementById('f-property').value,
+      paid_from: document.getElementById('f-paidfrom').value,
+      trade: document.getElementById('f-trade').value,
+      business_purpose: document.getElementById('f-purpose').value
+    };
+    btn.disabled = true;
+    callServer_('postExpense', form).then(function (result) {
+      btn.disabled = false;
+      if (!result.ok) { showMsg_(msg, false, '<b>' + escapeHtml_(result.error) + '</b> - ' + escapeHtml_(result.message)); return; }
+      showMsg_(msg, true, 'Posted <code>' + escapeHtml_(result.txn_id) + '</code>.' + entryLinesTable_(result.entry));
+      setTimeout(function () { google.script.host.close(); }, 1800);
+    }, function (err) {
+      btn.disabled = false;
+      showMsg_(msg, false, escapeHtml_(err && err.message ? err.message : err));
+    });
+  });
+</script>
