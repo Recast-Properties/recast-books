@@ -1008,13 +1008,17 @@ function setupPropertyTab(name) {
   var ss = openOrCreateWorkbook_(props);
   var sh = getOrCreateSheet_(ss, name);
   sh.clear();
+  // clear() leaves data validation behind, so an old block's checkboxes would survive
+  // a rebuild.
+  sh.getRange(1, 1, sh.getMaxRows(), sh.getMaxColumns()).clearDataValidations();
 
   var N = 5000;     // Journal bound, same as setupTotals
   // Advance rows: as many as the property has today plus one spare, so the Dennis block
   // sits tight under its schedule (Paul, 2026-09-15). The Dennis page rebuilds the tab
   // after each advance it adds.
   var ADV_N = countAdvances_(ss, name) + 1;
-  var LINES_N = 60; // Journal lines shown per block - bounded
+  var LINES_N = 300; // rows per line block; the sheet is trimmed to end with them (Paul,
+                     // 2026-09-15: "extend the checkboxes all the way to the bottom")
 
   var J = function (col) { return 'Journal!$' + col + '$2:$' + col + '$' + N; };
   var A = function (col) { return 'Advances!$' + col + '$2:$' + col + '$' + N; };
@@ -1159,19 +1163,12 @@ function setupPropertyTab(name) {
     set(top + 1, c0, 'Payee', true); set(top + 1, c0 + 1, 'Date', true); set(top + 1, c0 + 2, 'Description', true); set(top + 1, c0 + 3, 'Amount', true);
     paint(top, c0, 3, C.head); paint(top, c0 + 3, 1, C.total);
     paint(top + 1, c0, 7, C.sub); paint(top + 2, c0 + 4, 3, C.tan, LINES_N);
-    var payeeCol = colLetter_(c0);
-    for (var li = 0; li < LINES_N; li++) {
-      var lr = top + 2 + li, lidx = li + 1;
-      var pick = function (expr) { return 'INDEX(FILTER(' + expr + ',' + crit + '),' + lidx + ')'; };
-      var blank = payeeCol + lr + '=""';
-      set(lr, c0, '=IFERROR(' + pick(J('L')) + ',"")');
-      set(lr, c0 + 1, '=IF(' + blank + ',"",' + pick(J('C')) + ')');
-      set(lr, c0 + 2, '=IF(' + blank + ',"",' + pick(J('M')) + ')');
-      set(lr, c0 + 3, '=IF(' + blank + ',"",' + pick(J('F') + '-' + J('G')) + ')');
-      set(lr, c0 + 4, '=IF(' + blank + ',FALSE,' + pick(J('N')) + '="PAUL")');
-      set(lr, c0 + 5, '=IF(' + blank + ',FALSE,' + pick(J('N')) + '="DENNIS")');
-      set(lr, c0 + 6, '=IF(' + blank + ',FALSE,LEFT(' + pick(J('N')) + '&"",2)="14")');
-    }
+    // One array formula per block: payee, date, description, amount, then the three
+    // paid-by booleans (rendered as checkboxes by the validation applied below), sorted
+    // by date. It spills as far as the property has lines; the rest of the block stays
+    // empty with unchecked boxes, like the old tab.
+    set(top + 2, c0, '=IFERROR(SORT(FILTER({' + J('L') + ',' + J('C') + ',' + J('M') + ',' + J('F') + '-' + J('G') + ',' +
+      J('N') + '&""="PAUL",' + J('N') + '&""="DENNIS",LEFT(' + J('N') + '&"",2)="14"},' + crit + '),2,TRUE),"")');
     return top + 2 + LINES_N;
   };
   lineBlock(4, 10, 'Rehab Costs', rehabF + '*' + live);
@@ -1181,6 +1178,11 @@ function setupPropertyTab(name) {
   var postLive = ne('P', 'void') + '*($AM$2:$AM$' + N + '<>TRUE)*' + eq('H', safeName) + '*(' + J('C') + '>$AK$1)*($AK$1<>"")';
   lineBlock(4, 26, 'Post-Sale Costs (D-015)', postLive);
 
+  var needRows = 5 + LINES_N;
+  while (grid.length < needRows) grid.push(new Array(WIDTH).fill(''));
+  var maxRows = sh.getMaxRows();
+  if (maxRows > needRows) sh.deleteRows(needRows + 1, maxRows - needRows);
+  else if (maxRows < needRows) sh.insertRowsAfter(maxRows, needRows - maxRows);
   sh.getRange(1, 1, grid.length, WIDTH).setValues(grid);
 
   // Helpers past the grid: AI1 rate, AJ1 stub basis, AK1 settlement_date, AL1
@@ -1210,7 +1212,7 @@ function setupPropertyTab(name) {
     sh.getRange(4, c + 1, grid.length - 3, 1).setNumberFormat('mm/dd/yyyy');
     sh.getRange(4, c + 3, grid.length - 3, 1).setNumberFormat(money);
     sh.getRange(6, c + 4, LINES_N, 3).insertCheckboxes();
-    sh.getRange(6, c + 4, LINES_N, 3).setFormulas(grid.slice(5, 5 + LINES_N).map(function (row) { return row.slice(c + 3, c + 6); }));
+    sh.getRange(6, c + 4, LINES_N, 3).clearContent(); // keep the validation, let the block's formula spill into them
   });
 
   sh.setColumnWidth(1, 250); sh.setColumnWidth(2, 110); sh.setColumnWidth(3, 20);
