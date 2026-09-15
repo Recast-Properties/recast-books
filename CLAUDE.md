@@ -51,8 +51,11 @@ posts to the new workbook only. Gate record: `docs/phase2-spec.md` §11. Reads c
 property mailboxes and a formula tab per property (layout settled with Paul on 2026-09-15:
 the tab is the forecast while held; the closing tab is Phase 5). D-022: advances are
 `purchase` or `cash`, each with its own `rate_pct`; `Properties.dennis_share_pct` (50, or 0
-for a bank-only deal) drives the split. Next is Phase 3 (banking from statement uploads —
-D-019 dropped Plaid on 2026-09-15; spec `docs/phase3-spec.md` awaiting Paul's review).
+for a bank-only deal) drives the split. **Next is Phase 2.7 (D-023, 2026-09-15): the input side of the books becomes a Recast Books
+menu in the workbook, writer bound to it, `lib/` generated into `lib.gs`; spec
+`docs/phase2.7-spec.md` awaiting Paul's review.** Then Phase 3 (banking from statement
+uploads — D-019 dropped Plaid on 2026-09-15; `docs/phase3-spec.md` to be revised for the
+menu shape).
 
 Policy learned in the Phase 2 gate (D-012): the bookkeeper decides the easy cases itself —
 PDX↔DFW travel posts with a written purpose; a confident dismiss is final; duplicates are

@@ -432,3 +432,23 @@ withdrawn before it was ever used: kinds are `purchase` and `cash` only, every a
 a property, and every advance's interest is that property's cost (D-011/D-021). Items 2 and
 3 stand. Who received the check (the seller, Citizens, or Paul's account as reimbursement)
 decides only which account the money lands on, never the interest treatment.
+
+---
+
+## D-023 · The bookkeeping front end lives in the workbook — 2026-09-15 · Paul
+
+Paul: "i want to move the front end of the admin for books to sheets menus. keep the
+receipts poller and automation there ... the calls between the app and sheets takes too
+long."
+
+**Decided:** partly supersedes D-008. The input side of the books (journal entries, void,
+properties, advances, interest, periods, reports) is a custom **Recast Books** menu in the
+workbook, run by the writer project bound to it. The web app keeps sign-in, Dashboard,
+Inbox, Upload, property mailboxes and API costs; the receipts poller, ingest job, gate and
+Drive filing do not change. The moved pages are deleted from the web app, not kept in
+parallel. One posting engine: `lib/` is generated into `lib.gs`, never rewritten.
+
+**Consequences:** the writer becomes container-bound (new script id and `WRITER_URL`,
+once); menu writes poke Netlify's cache warmer; Dennis and the accountant see the books by
+workbook sharing rather than a web role. Inbox review moves later, as its own step, once
+the bound project has proven itself (spec §6). Spec: `docs/phase2.7-spec.md`.

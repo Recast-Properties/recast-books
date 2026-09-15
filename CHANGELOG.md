@@ -382,3 +382,15 @@ freezes at that date in-sheet as in the engine. Cosmetics: End Date cells white,
 Account Paid" head, payout totals `#fff2cc`. Granite with end dates 07/27 shows $6,882.27
 purchase-principal interest against Dennis's $6,873.90. Everything on the tab reconciles:
 payouts $408,500.00 = net proceeds $408,500.00 on a $430,000 estimate.
+
+## 2026-09-15 — Phase 2.7 spec'd: front end moves into the workbook (D-023)
+
+Paul asked for the bookkeeping input side to become custom Sheets menus, because the web
+app's round trips through Netlify to the writer are too slow; the receipts poller and
+automation stay on Netlify. `docs/phase2.7-spec.md`: the writer becomes a container-bound
+project (menus need one), `lib/` is generated into `lib.gs` by a build script rather than
+rewritten, a **Recast Books** menu carries expense/journal/void, add property, add advance,
+post interest, close/reopen period, and reports written to tabs; Vendors, Bank accounts,
+Settings, Users are edited directly with two small guards. The moved web pages and their
+functions are deleted. Inbox review moves in a later step (queue to an `Inbox` tab first).
+Phase 3 will be revised to the menu shape. Awaiting Paul's go.
