@@ -559,6 +559,7 @@ function postEntry_(entry, props) {
     sheet.getRange(startRow, 1, rows.length, rows[0].length).setValues(rows);
 
     cache.put('txn:' + entry.txn_id, '1', 21600);
+    refreshLineBlocksFor_(ss, entry.lines);
 
     return { ok: true, rows: [startRow, startRow + rows.length - 1] };
   } finally {
@@ -572,7 +573,7 @@ function action_void_(body, props) {
 
 // Unwrapped body of the old action_void_ (see postEntry_'s comment) - Menu.gs's
 // voidSelected_ calls this directly with the Journal row's own txn_id.
-function voidEntry_(txnId, reason, date, postedBy, props) {
+function voidEntry_(txnId, reason, date, postedBy, props, skipRefresh) {
   if (!txnId) fail_('BAD_REQUEST', 'txn_id is required');
   if (!date || !/^\d{4}-\d{2}-\d{2}$/.test(String(date))) fail_('BAD_REQUEST', 'date (YYYY-MM-DD) is required');
 
@@ -623,6 +624,7 @@ function voidEntry_(txnId, reason, date, postedBy, props) {
 
     var startRow = sheet.getLastRow() + 1;
     sheet.getRange(startRow, 1, rows.length, rows[0].length).setValues(rows);
+    if (!skipRefresh) refreshLineBlocksFor_(ss, originalLines);
 
     return { ok: true, rows: [startRow, startRow + rows.length - 1], txn_id: voidTxnId };
   } finally {
@@ -870,6 +872,7 @@ function postBatchEntries_(entries, props) {
     sheet.getRange(startRow, 1, allRows.length, allRows[0].length).setValues(allRows);
 
     postedIds.forEach(function (txnId) { cache.put('txn:' + txnId, '1', 21600); });
+    refreshLineBlocksFor_(ss, entries.reduce(function (acc, en) { return acc.concat(en.lines); }, []));
 
     return { ok: true, posted: postedIds, rows: [startRow, startRow + allRows.length - 1] };
   } finally {
@@ -1290,18 +1293,13 @@ function setupPropertyTab(name) {
     set(top + 1, c0, 'Payee', true); set(top + 1, c0 + 1, 'Date', true); set(top + 1, c0 + 2, 'Description', true); set(top + 1, c0 + 3, 'Amount', true);
     paint(top, c0, 3, C.head); paint(top, c0 + 3, 1, C.total); paint(top, c0 + 4, 3, C.head);
     paint(top + 1, c0, 7, C.sub); paint(top + 2, c0 + 4, 3, C.tan, LINES_N);
-    // Payee, date, description, amount spill from one array formula sorted by date. The
-    // three paid-by checkbox columns and the (white-on-white) txn_id column beside the
-    // block are separate spills keyed by that txn_id (paidByFormula_), so a click on a
-    // checkbox breaks only its own column, which onPropertyTabEdit restores after it
-    // has moved the entry's paid_from (Paul, 2026-09-15: "change who paid for an expense
-    // by changing the checkbox and have it update the journal").
-    set(top + 2, c0, '=IFERROR(SORT(FILTER({' + J('L') + ',' + J('C') + ',' + J('M') + ',' + J('F') + '-' + J('G') + '},' + crit + '),2,TRUE),"")');
-    postFormulas.push([top + 2, c0 + PT_TXN_OFFSET, '=IFERROR(INDEX(SORT(FILTER({' + J('A') + ',' + J('C') + '},' + crit + '),2,TRUE),0,1),"")']);
-    for (var k = 0; k < 3; k++) postFormulas.push([top + 2, c0 + 4 + k, paidByFormula_(c0, k)]);
+    // The line rows (payee, date, description, amount, the three paid-by checkboxes,
+    // txn_id) are VALUES written by refreshLineBlocks_ - after this build and after every
+    // post/void that touches the property - not a formula spill: a checkbox that shows a
+    // formula's result cannot be clicked, and Paul wants to change who paid by clicking
+    // (2026-09-15). onPropertyTabEdit turns that click into a void + re-post.
     return top + 2 + LINES_N;
   };
-  var postFormulas = [];
   lineBlock(4, 10, 'Rehab Costs', rehabF + '*' + live);
   lineBlock(4, 18, 'Utilities', holdingF + '*' + live);
   var needRows = 5 + LINES_N;
@@ -1340,8 +1338,8 @@ function setupPropertyTab(name) {
     sh.getRange(6, c + 4, LINES_N, 3).clearContent(); // keep the validation, let the block's formula spill into them
     sh.getRange(6, c + PT_TXN_OFFSET, LINES_N, 1).setFontColor('#ffffff'); // txn_id column: present for the trigger, invisible
   });
-  postFormulas.forEach(function (f) { sh.getRange(f[0], f[1]).setFormula(f[2]); });
   sh.hideColumns(18 + PT_TXN_OFFSET); // Utilities' txn_id column sits past the grid
+  refreshLineBlocks_(ss, name);
 
   sh.setColumnWidth(1, 250); sh.setColumnWidth(2, 110); sh.setColumnWidth(3, 20);
   sh.setColumnWidth(4, 190); [5, 6, 7].forEach(function (c) { sh.setColumnWidth(c, 100); });
@@ -1443,31 +1441,76 @@ function advanceRepaidDates_(ss, name, purchaseKind) {
 var PT_BLOCK_COLS = [10, 18];
 var PT_TXN_OFFSET = 7;
 var PT_LINES_N = 300;
-var PT_JOURNAL_N = 5000;
 var PT_PAID_BY = [['PAUL', '2030'], ['DENNIS', '2010'], ['1401', '']]; // checkbox k -> paid_from, credit account ('' = the bank code itself)
 
-function paidByFormula_(c0, k) {
-  var txn = colLetter_(c0 + PT_TXN_OFFSET);
-  var rows = '$' + txn + '$6:$' + txn + '$' + (5 + PT_LINES_N);
-  var paidFrom = 'VLOOKUP(' + rows + ',Journal!$A$2:$N$' + PT_JOURNAL_N + ',14,FALSE)&""';
-  var test = k === 2 ? 'LEFT(' + paidFrom + ',2)="14"' : paidFrom + '="' + PT_PAID_BY[k][0] + '"';
-  return '=ARRAYFORMULA(IF(' + rows + '="",FALSE,IFERROR(' + test + ',FALSE)))';
+// Rewrites a property tab's Rehab Costs and Utilities rows from the Journal: live
+// lines (not a void, not voided, dated on or before today) on that property, Rehab
+// class plus Acquisition other than 1000 in the first block, Holding class in the
+// second, oldest first. Values, not formulas, so the checkboxes can be clicked. Called
+// by setupPropertyTab and, through refreshLineBlocksFor_, after every Journal write.
+function refreshLineBlocks_(ss, name) {
+  var sh = ss.getSheetByName(name);
+  if (!sh) return;
+  var journal = ss.getSheetByName('Journal');
+  var cols = headerIndex_(journal);
+  var last = journal.getLastRow();
+  var rows = last > 1 ? journal.getRange(2, 1, last - 1, journal.getLastColumn()).getValues() : [];
+  var g = function (r, n) { return cols[n] ? r[cols[n] - 1] : ''; };
+  var voided = {};
+  rows.forEach(function (r) { var v = String(g(r, 'void_of') || ''); if (v) voided[v] = true; });
+  var today = Utilities.formatDate(new Date(), 'America/Chicago', 'yyyy-MM-dd');
+  var lines = rows.filter(function (r) {
+    return String(g(r, 'property')) === name && String(g(r, 'source')) !== 'void' &&
+      !voided[String(g(r, 'txn_id'))] && formatIsoDate_(g(r, 'date')) <= today;
+  });
+  var blocks = [
+    function (r) { var cc = String(g(r, 'cost_class')); return cc === 'Rehab' || (cc === 'Acquisition' && String(g(r, 'account')) !== '1000'); },
+    function (r) { return String(g(r, 'cost_class')) === 'Holding'; }
+  ];
+  blocks.forEach(function (crit, b) {
+    var out = lines.filter(crit).map(function (r) {
+      var pf = String(g(r, 'paid_from') || '');
+      return [g(r, 'payee'), g(r, 'date'), g(r, 'description'), Number(g(r, 'debit') || 0) - Number(g(r, 'credit') || 0),
+        pf === 'PAUL', pf === 'DENNIS', pf.slice(0, 2) === '14', g(r, 'txn_id')];
+    });
+    out.sort(function (x, y) { return formatIsoDate_(x[1]) < formatIsoDate_(y[1]) ? -1 : formatIsoDate_(x[1]) > formatIsoDate_(y[1]) ? 1 : 0; });
+    out = out.slice(0, PT_LINES_N);
+    while (out.length < PT_LINES_N) out.push(['', '', '', '', false, false, false, '']);
+    sh.getRange(6, PT_BLOCK_COLS[b], PT_LINES_N, 8).setValues(out);
+  });
 }
 
-// A click on a Paul Paid / Dennis Paid / Recast Account checkbox: the cell now holds a
-// literal that broke its column's spill, so first put the column back, then void the
-// entry and re-post it with the new paid_from (append-only ledger - the original stays,
+// After a Journal write: refresh the tab of every property the lines name. Never
+// fails the write - a tab that cannot be refreshed is rebuilt from the menu.
+function refreshLineBlocksFor_(ss, lines) {
+  var seen = {};
+  lines.forEach(function (l) {
+    var p = String(l.property || '');
+    if (!p || p === 'OVERHEAD' || seen[p]) return;
+    seen[p] = true;
+    try { refreshLineBlocks_(ss, p); } catch (err) { console.error('refreshLineBlocks_ ' + p + ': ' + err); }
+  });
+}
+
+// A click on a Paul Paid / Dennis Paid / Recast Account checkbox: void the entry and
+// re-post it with the new paid_from (append-only ledger - the original stays,
 // voided). A cash box from PAUL/DENNIS lands on 1401; change it on the Journal if it
 // was Chase. Refused (with a toast) when the period is closed or the box was unticked.
 function repaidFromEdit_(e, sh, ss, row, col) {
   var c0 = col < 18 ? 10 : 18;
   var k = col - (c0 + 4);
-  var anchor = sh.getRange(6, col);
-  if (row === 6) anchor.setFormula(paidByFormula_(c0, k)); else sh.getRange(row, col).clearContent();
   var toast = function (msg) { ss.toast(msg, 'Recast Books', 8); };
   var txnId = String(sh.getRange(row, c0 + PT_TXN_OFFSET).getValue() || '');
-  if (!txnId) return;
-  if (e.value !== 'TRUE' && e.value !== true) { toast('Tick the box of who paid instead; nothing changed.'); return; }
+  try {
+    if (!txnId) return;
+    if (e.value !== 'TRUE' && e.value !== true) { toast('Tick the box of who paid instead; nothing changed.'); return; }
+    repaidFromTxn_(e, ss, txnId, k, toast);
+  } finally {
+    refreshLineBlocks_(ss, sh.getName()); // puts the boxes back to what the Journal says, changed or not
+  }
+}
+
+function repaidFromTxn_(e, ss, txnId, k, toast) {
 
   var journal = ss.getSheetByName('Journal');
   var cols = headerIndex_(journal);
@@ -1511,7 +1554,7 @@ function repaidFromEdit_(e, sh, ss, row, col) {
   var props = PropertiesService.getScriptProperties();
   var today = Utilities.formatDate(new Date(), 'America/Chicago', 'yyyy-MM-dd');
   try {
-    voidEntry_(txnId, 'paid_from ' + oldPaidFrom + ' -> ' + newPaidFrom, today, user, props);
+    voidEntry_(txnId, 'paid_from ' + oldPaidFrom + ' -> ' + newPaidFrom, today, user, props, true);
     postEntry_(entry, props);
   } catch (err) {
     toast('Could not move ' + txnId + ': ' + ((err && err.code) || 'ERROR') + ' - ' + String((err && err.message) || err));
