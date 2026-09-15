@@ -1138,7 +1138,7 @@ function setupPropertyTab(name) {
   var recastNetRow = subBlock(dennisDirectRow, 'Dennis Paid (direct, not an advance)', [
     ['Dennis Paid', '=' + deb(costLineF + '*' + eq('N', 'DENNIS'))],
     ['Received (advances, refunds)', '=-' + cred(costLineF + '*' + eq('N', 'DENNIS'))]]);
-  var cashTop = subBlock(recastNetRow, 'Recast Account', [
+  var cashTop = subBlock(recastNetRow, 'Recast Account Paid', [
     ['Recast Account Paid', '=' + cred(isBank)],
     ['Received (advances, refunds)', '=-' + deb(isBank)]]);
   var cash = advanceSchedule(cashTop, 'Cash Advances + Interest', isCash, countAdvances_(ss, name, false) + 1);
