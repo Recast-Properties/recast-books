@@ -1016,6 +1016,7 @@ function setupPropertyTab(name) {
   // A previous build's spacer column A (empty, name in B1) is removed so the build
   // below starts at column A again and re-inserts exactly one.
   if (sh.getLastColumn() > 1 && sh.getRange(1, 1).isBlank() && !sh.getRange(1, 2).isBlank()) sh.deleteColumn(1);
+  if (sh.getMaxColumns() < 46) sh.insertColumnsAfter(sh.getMaxColumns(), 46 - sh.getMaxColumns());
   sh.clear();
   // clear() leaves data validation behind, so an old block's checkboxes would survive
   // a rebuild.
@@ -1054,7 +1055,7 @@ function setupPropertyTab(name) {
   // Colours copied from the old workbook's tab (Paul, 2026-09-15): section heads green
   // with the total in light green, sub-heads tan, checkbox columns pale tan, Individual
   // Share yellow. paint(r, c, w, bg) queues a background fill applied after setValues.
-  var C = { head: '#b6d7a8', total: '#d9ead3', sub: '#ffe599', tan: '#fff2cc', yellow: '#ffff00', input: '#cfe2f3' };
+  var C = { head: '#a3f67f', total: '#ceffbc', sub: '#ffe599', tan: '#fff2cc', yellow: '#ffff00', input: '#cfe2f3' };
   var paints = [];
   var paint = function (r, c, w, bg, h) { paints.push([r, c, w, bg, h || 1]); };
   var set = function (r, c, v, isBold) {
@@ -1078,10 +1079,10 @@ function setupPropertyTab(name) {
   // per-row math in helper columns AN:AQ; the head carries principal + interest.
   var advCritBase = '(' + A('D') + '&""="' + safeName + '")*(' + A('B') + '<>"")';
   var advanceSchedule = function (top, title, kindFactor, n) {
-    set(top, 4, title, true); paint(top, 4, 3, C.head); paint(top, 7, 2, C.total);
+    set(top, 4, title, true); paint(top, 4, 3, C.head); paint(top, 7, 1, C.total);
     set(top + 1, 4, 'Start Date', true); set(top + 1, 5, 'End Date', true); set(top + 1, 6, 'Principal', true);
-    set(top + 1, 7, 'Interest to Date', true); set(top + 1, 8, 'Notes', true);
-    paint(top + 1, 4, 5, C.sub);
+    set(top + 1, 7, 'Interest to Date', true);
+    paint(top + 1, 4, 4, C.sub);
     var crit = advCritBase + '*' + kindFactor;
     var pick = function (col, idx) { return 'INDEX(FILTER(' + A(col) + ',' + crit + '),' + idx + ')'; };
     var helpers = [];
@@ -1100,7 +1101,6 @@ function setupPropertyTab(name) {
         '=IF(D' + r + '="","",EDATE(D' + r + ',AN' + r + '))',
         '=IF(D' + r + '="","",MAX(0,$B$1-AP' + r + '))']);
       set(r, 7, '=IF(D' + r + '="","",AO' + r + '*(1+$AI$1/12*AQ' + r + '/$AJ$1)-F' + r + ')');
-      set(r, 8, '=IF(D' + r + '="","",IFERROR(' + pick('I', idx) + ',""))');
     }
     set(top, 7, '=SUM(F' + first + ':F' + last + ')+SUM(G' + first + ':G' + last + ')', true);
     advHelperBlocks.push([first, helpers]);
@@ -1240,7 +1240,7 @@ function setupPropertyTab(name) {
 
   sh.setColumnWidth(1, 250); sh.setColumnWidth(2, 110); sh.setColumnWidth(3, 20);
   sh.setColumnWidth(4, 190); [5, 6, 7].forEach(function (c) { sh.setColumnWidth(c, 100); });
-  sh.setColumnWidth(8, 160); sh.setColumnWidth(9, 20); sh.setColumnWidth(17, 20);
+  sh.setColumnWidth(9, 20); sh.setColumnWidth(17, 20);
   [10, 18].forEach(function (c) {
     sh.setColumnWidth(c, 150); sh.setColumnWidth(c + 1, 90); sh.setColumnWidth(c + 2, 180);
     sh.setColumnWidth(c + 3, 100); [4, 5, 6].forEach(function (k) { sh.setColumnWidth(c + k, 100); });
@@ -1254,6 +1254,10 @@ function setupPropertyTab(name) {
   sh.getRange(4, 2, grid.length - 3, 1).setHorizontalAlignment('right');
   sh.getRange(1, 4).setFontColor('#999999');
 
+  sh.getRange(4, 4, grid.length - 3, 3).setHorizontalAlignment('left'); // Dennis block D:F (Paul, 2026-09-15)
+  // The Dennis block has no Notes column: drop column H so the gap column follows the
+  // Interest column directly (Paul, 2026-09-15). Formulas shift with their cells.
+  sh.deleteColumn(8);
   // Narrow spacer column on the left, like the old tab (Paul, 2026-09-15). Inserting
   // after the build shifts every formula on the tab along with its cell.
   sh.insertColumnBefore(1);
