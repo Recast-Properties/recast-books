@@ -1187,19 +1187,19 @@ function setupPropertyTab(name) {
   set(s, 1, '="Paul Share ("&(100-$AV$1)&"%)"', true); set(s, 2, '=B' + profitRow + '-B' + dennisShareRow, true); paint(s, 1, 2, C.yellow); var paulShareRow = s++;
   s++;
   paint(s, 1, 2, C.head); set(s++, 1, 'Payouts', true);
-  set(s, 1, 'Dennis', true); paint(s, 1, 2, C.sub); var dennisRow = s++;
+  set(s, 1, 'Dennis', true); paint(s, 1, 1, C.sub); paint(s, 2, 1, C.tan); var dennisRow = s++;
   set(s, 1, 'Purchase Principal & Interest'); set(s, 2, '=' + purchasePayoffRef); s++;
   set(s, 1, 'Cash Advances + Interest'); set(s, 2, '=' + cashPayoffRef); s++;
   set(s, 1, 'Dennis Share'); set(s, 2, '=B' + dennisShareRow); s++;
   set(s, 1, 'Dennis Paid (direct)'); set(s, 2, '=G' + dennisDirectRow); s++;
   set(dennisRow, 2, '=SUM(B' + (dennisRow + 1) + ':B' + (dennisRow + 4) + ')', true);
   s++;
-  set(s, 1, 'Paul', true); paint(s, 1, 2, C.sub); var paulRow = s++;
+  set(s, 1, 'Paul', true); paint(s, 1, 1, C.sub); paint(s, 2, 1, C.tan); var paulRow = s++;
   set(s, 1, 'Paul Share'); set(s, 2, '=B' + paulShareRow); s++;
   set(s, 1, 'Due to Paul (paid less reimbursed)'); set(s, 2, '=G' + dueToPaulRow); s++;
   set(paulRow, 2, '=SUM(B' + (paulRow + 1) + ':B' + (paulRow + 2) + ')', true);
   s++;
-  set(s, 1, 'Back to Recast account', true); set(s, 2, '=G' + recastNetRow, true); paint(s, 1, 2, C.sub); s++;
+  set(s, 1, 'Back to Recast account', true); set(s, 2, '=G' + recastNetRow, true); paint(s, 1, 1, C.sub); paint(s, 2, 1, C.tan); s++;
 
   // ---- Line blocks: REHAB COSTS (J:P), UTILITIES (R:X) ----------------------------
   var lineBlock = function (top, c0, title, crit, asOfBound) {
