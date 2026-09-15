@@ -983,9 +983,10 @@ function setupTotals() {
 //         Paul (2030), Dennis Paid direct (paid_from DENNIS cost lines), Recast
 //         Account paid / received / Back to Recast (14xx).
 //   J:P   REHAB COSTS - payee, date, description, amount, Paul Paid / Dennis Paid /
-//         Recast Account checkboxes (from paid_from). POST-SALE (D-015) lines below.
+//         Recast Account checkboxes (from paid_from).
 //   R:X   UTILITIES - same shape, Holding-class lines.
-//   Z:AJ  helpers (rate, stub basis, settlement_date, contract_price, voided flag,
+//   Z:AF  POST-SALE COSTS (D-015) - same shape, lines dated after settlement.
+//   AI:AS helpers (rate, stub basis, settlement_date, contract_price, voided flag,
 //         per-advance math, tax_annual, tax proration estimate), greyed.
 // Interest to Date is the in-sheet computation, not posted 1200 accruals, so the tab
 // reads the same whether or not the close job has run; Financing-class lines are
@@ -1022,7 +1023,7 @@ function setupPropertyTab(name) {
 
   // Journal columns: C date, E account, F debit, G credit, H property, I cost_class,
   // L payee, M description, N paid_from, P source, Y void_of. Voided flag: AD.
-  var live = ne('P', 'void') + '*($AD$2:$AD$' + N + '<>TRUE)*' + eq('H', safeName) + '*(' + J('C') + '<=$B$1)';
+  var live = ne('P', 'void') + '*($AM$2:$AM$' + N + '<>TRUE)*' + eq('H', safeName) + '*(' + J('C') + '<=$B$1)';
   var net = function (factor) { return 'SUMPRODUCT(' + factor + '*' + live + '*(' + J('F') + '-' + J('G') + '))'; };
   var deb = function (factor) { return 'SUMPRODUCT(' + factor + '*' + live + '*' + J('F') + ')'; };
   var cred = function (factor) { return 'SUMPRODUCT(' + factor + '*' + live + '*' + J('G') + ')'; };
@@ -1031,7 +1032,7 @@ function setupPropertyTab(name) {
   var holdingF = eq('I', 'Holding');
   var costLineF = ne('I', '');
 
-  var WIDTH = 24; // A..X
+  var WIDTH = 32; // A..AF (post-sale block sits at Z:AF, gap column Y)
   var grid = [];
   var bold = [];
   // Colours copied from the old workbook's tab (Paul, 2026-09-15): section heads green
@@ -1066,15 +1067,15 @@ function setupPropertyTab(name) {
     set(r, 4, '=IFERROR(' + advPick('B', idx) + ',"")');
     set(r, 5, '=IF(D' + r + '="","",IFERROR(' + advPick('H', idx) + ',""))');
     set(r, 6, '=IF(D' + r + '="","",' + advPick('C', idx) + ')');
-    // AE n = full monthly anniversaries to the as-of date (DATEDIF "m"); AF balance
-    // compounded monthly; AG last anniversary; AH stub days - simple over
+    // AN n = full monthly anniversaries to the as-of date (DATEDIF "m"); AO balance
+    // compounded monthly; AP last anniversary; AQ stub days - simple over
     // Settings!stub_days_basis (D-006).
     advHelpers.push([
       '=IF(D' + r + '="","",IFERROR(DATEDIF(D' + r + ',$B$1,"m"),0))',
-      '=IF(D' + r + '="","",F' + r + '*(1+$Z$1/12)^AE' + r + ')',
-      '=IF(D' + r + '="","",EDATE(D' + r + ',AE' + r + '))',
-      '=IF(D' + r + '="","",MAX(0,$B$1-AG' + r + '))']);
-    set(r, 7, '=IF(D' + r + '="","",AF' + r + '*(1+$Z$1/12*AH' + r + '/$AA$1)-F' + r + ')');
+      '=IF(D' + r + '="","",F' + r + '*(1+$AI$1/12)^AN' + r + ')',
+      '=IF(D' + r + '="","",EDATE(D' + r + ',AN' + r + '))',
+      '=IF(D' + r + '="","",MAX(0,$B$1-AP' + r + '))']);
+    set(r, 7, '=IF(D' + r + '="","",AO' + r + '*(1+$AI$1/12*AQ' + r + '/$AJ$1)-F' + r + ')');
     set(r, 8, '=IF(D' + r + '="","",IFERROR(' + advPick('I', idx) + ',""))');
   }
   var interestRow = advLast + 2;
@@ -1113,18 +1114,18 @@ function setupPropertyTab(name) {
   set(s, 1, 'Rehab Costs'); set(s, 2, '=' + net(rehabF)); var rehabRow = s++;
   set(s, 1, 'Utilities'); set(s, 2, '=' + net(holdingF + '*' + ne('E', '1100'))); s++;
   // Property tax: posted 1100 lines plus, while unsold, the proration estimate in
-  // $AJ$1 (annual x days from Jan 1 of the as-of year / 365 - what the old tab typed).
-  // Column C shows the annual figure it is built from, as the old tab did.
+  // $AS$1 (annual x days from Jan 1 of the as-of year / 365 - what the old tab typed).
+  // The label names the annual figure it is built from.
   // ponytail: a current-year bill paid before the sale would count in both terms;
   // Texas bills arrive in October and are due Jan 31, so a held property rarely
   // pays one - revisit if it happens.
-  set(s, 1, 'Property Tax (prorated)'); set(s, 2, '=' + net(eq('E', '1100')) + '+$AJ$1'); set(s, 3, '=IF($AI$1="","",$AI$1)'); s++;
+  set(s, 1, '="Property Tax (prorated"&IF($AR$1="","",", "&TEXT($AR$1,"$#,##0")&"/yr")&")"'); set(s, 2, '=' + net(eq('E', '1100')) + '+$AS$1'); s++;
   set(s, 1, 'Selling Costs (posted)'); set(s, 2, '=' + net(eq('I', 'Selling'))); var sellingRow = s++;
   set(totalRow, 2, '=SUM(B' + purchaseRow + ':B' + sellingRow + ')', true);
   s++;
   paint(s, 1, 2, C.head); set(s++, 1, 'Profit Breakdown', true);
   set(s, 1, 'Sale Price (contract price, else purchase price)');
-  set(s, 2, '=IF($AC$1<>"",$AC$1,IFERROR(VLOOKUP("' + safeName + '",Properties!A:E,5,FALSE),0))'); var saleRow = s++;
+  set(s, 2, '=IF($AL$1<>"",$AL$1,IFERROR(VLOOKUP("' + safeName + '",Properties!A:E,5,FALSE),0))'); var saleRow = s++;
   set(s, 1, 'Total Project Costs'); set(s, 2, '=-B' + totalRow); s++;
   var pct = function (key) { return 'IFERROR(VLOOKUP("' + key + '",Settings!A:B,2,FALSE),0)'; };
   set(s, 1, '="Agent "&' + pct('estimate_agent_pct') + '&"%"'); set(s, 2, '=-B' + saleRow + '*' + pct('estimate_agent_pct') + '/100'); var agentRow = s++;
@@ -1146,7 +1147,7 @@ function setupPropertyTab(name) {
   s++;
   set(s, 1, 'Back to Recast account', true); set(s, 2, '=G' + recastNetRow, true); paint(s, 1, 2, C.sub); var recastRow = s++;
   set(s, 1, 'Total payouts'); set(s, 2, '=B' + dennisRow + '+B' + paulRow + '+B' + recastRow); var payoutsRow = s++;
-  set(s, 1, 'Net proceeds (after tax proration)'); set(s, 2, '=B' + saleRow + '+B' + agentRow + '+B' + closingRow + '-$AJ$1'); var proceedsRow = s++;
+  set(s, 1, 'Net proceeds (after tax proration)'); set(s, 2, '=B' + saleRow + '+B' + agentRow + '+B' + closingRow + '-$AS$1'); var proceedsRow = s++;
   set(s, 1, 'Difference (must be 0)'); set(s, 2, '=ROUND(B' + payoutsRow + '-B' + proceedsRow + ',2)'); s++;
 
   // ---- Line blocks: REHAB COSTS (J:P), UTILITIES (R:X), POST-SALE under rehab ------
@@ -1173,52 +1174,49 @@ function setupPropertyTab(name) {
     }
     return top + 2 + LINES_N;
   };
-  var rehabEnd = lineBlock(4, 10, 'Rehab Costs', rehabF + '*' + live);
+  lineBlock(4, 10, 'Rehab Costs', rehabF + '*' + live);
   lineBlock(4, 18, 'Utilities', holdingF + '*' + live);
-  // POST-SALE (D-015): lines dated after Properties.settlement_date ($AB$1), not
+  // POST-SALE (D-015): lines dated after Properties.settlement_date ($AK$1), not
   // bounded by $B$1.
-  var postLive = ne('P', 'void') + '*($AD$2:$AD$' + N + '<>TRUE)*' + eq('H', safeName) + '*(' + J('C') + '>$AB$1)*($AB$1<>"")';
-  var postTop = rehabEnd + 1;
-  lineBlock(postTop, 10, 'POST-SALE (D-015)', postLive);
+  var postLive = ne('P', 'void') + '*($AM$2:$AM$' + N + '<>TRUE)*' + eq('H', safeName) + '*(' + J('C') + '>$AK$1)*($AK$1<>"")';
+  lineBlock(4, 26, 'Post-Sale Costs (D-015)', postLive);
 
   sh.getRange(1, 1, grid.length, WIDTH).setValues(grid);
 
-  // Helpers past the grid: Z1 rate, AA1 stub basis, AB1 settlement_date, AC1
-  // contract_price (D-017), AD voided flag, AE:AH per-advance math.
-  sh.getRange(1, 26).setFormula('=IFERROR(VLOOKUP("interest_rate_annual",Settings!A:B,2,FALSE),0)');
-  sh.getRange(1, 27).setFormula('=IFERROR(VLOOKUP("stub_days_basis",Settings!A:B,2,FALSE),30)');
-  sh.getRange(1, 28).setFormula('=IFERROR(VLOOKUP("' + safeName + '",Properties!A:F,6,FALSE),"")'); // settlement_date
-  sh.getRange(1, 29).setFormula('=IFERROR(VLOOKUP("' + safeName + '",Properties!A:K,11,FALSE),"")'); // contract_price
-  sh.getRange(1, 30).setValue('helper: voided?');
-  sh.getRange(2, 30).setFormula('=ARRAYFORMULA(IF(' + J('A') + '="","",ISNUMBER(MATCH(' + J('A') + ',' + J('Y') + ',0))))');
-  sh.getRange(advFirst, 31, ADV_N, 4).setFormulas(advHelpers);
-  sh.getRange(1, 35).setFormula('=IFERROR(VLOOKUP("' + safeName + '",Properties!A:L,12,FALSE),"")'); // AI1: tax_annual
-  sh.getRange(1, 36).setFormula('=IF(OR($AB$1<>"",$AI$1=""),0,$AI$1*($B$1-DATE(YEAR($B$1),1,1))/365)'); // AJ1: proration estimate while unsold
-  sh.getRange(1, 26, 1, 5).setFontColor('#999999');
-  sh.getRange(1, 35, 1, 2).setFontColor('#999999');
-  sh.getRange(advFirst, 31, ADV_N, 4).setFontColor('#999999');
+  // Helpers past the grid: AI1 rate, AJ1 stub basis, AK1 settlement_date, AL1
+  // contract_price (D-017), AM voided flag, AN:AQ per-advance math, AR/AS tax.
+  sh.getRange(1, 35).setFormula('=IFERROR(VLOOKUP("interest_rate_annual",Settings!A:B,2,FALSE),0)');
+  sh.getRange(1, 36).setFormula('=IFERROR(VLOOKUP("stub_days_basis",Settings!A:B,2,FALSE),30)');
+  sh.getRange(1, 37).setFormula('=IFERROR(VLOOKUP("' + safeName + '",Properties!A:F,6,FALSE),"")'); // settlement_date
+  sh.getRange(1, 38).setFormula('=IFERROR(VLOOKUP("' + safeName + '",Properties!A:K,11,FALSE),"")'); // contract_price
+  sh.getRange(1, 39).setValue('helper: voided?');
+  sh.getRange(2, 39).setFormula('=ARRAYFORMULA(IF(' + J('A') + '="","",ISNUMBER(MATCH(' + J('A') + ',' + J('Y') + ',0))))');
+  sh.getRange(advFirst, 40, ADV_N, 4).setFormulas(advHelpers);
+  sh.getRange(1, 44).setFormula('=IFERROR(VLOOKUP("' + safeName + '",Properties!A:L,12,FALSE),"")'); // AR1: tax_annual
+  sh.getRange(1, 45).setFormula('=IF(OR($AK$1<>"",$AR$1=""),0,$AR$1*($B$1-DATE(YEAR($B$1),1,1))/365)'); // AS1: proration estimate while unsold
+  sh.getRange(1, 35, 1, 5).setFontColor('#999999');
+  sh.getRange(1, 44, 1, 2).setFontColor('#999999');
+  sh.getRange(advFirst, 40, ADV_N, 4).setFontColor('#999999');
 
   // Formats: dates, dollars, checkboxes (a formula returning TRUE/FALSE renders as a
   // checked/unchecked box, like the old tab).
   var money = '$#,##0.00;-$#,##0.00;-';
   sh.getRange(1, 2).setNumberFormat('mm/dd/yyyy');
-  sh.getRange(1, 28).setNumberFormat('mm/dd/yyyy');
-  sh.getRange(4, 2, grid.length - 3, 2).setNumberFormat(money);
+  sh.getRange(1, 37).setNumberFormat('mm/dd/yyyy');
+  sh.getRange(4, 2, grid.length - 3, 1).setNumberFormat(money);
   sh.getRange(advFirst, 4, ADV_N, 2).setNumberFormat('mm/dd/yyyy');
   sh.getRange(4, 6, grid.length - 3, 2).setNumberFormat(money);
-  [10, 18].forEach(function (c) {
+  [10, 18, 26].forEach(function (c) {
     sh.getRange(4, c + 1, grid.length - 3, 1).setNumberFormat('mm/dd/yyyy');
     sh.getRange(4, c + 3, grid.length - 3, 1).setNumberFormat(money);
     sh.getRange(6, c + 4, LINES_N, 3).insertCheckboxes();
     sh.getRange(6, c + 4, LINES_N, 3).setFormulas(grid.slice(5, 5 + LINES_N).map(function (row) { return row.slice(c + 3, c + 6); }));
   });
-  sh.getRange(postTop + 2, 14, LINES_N, 3).insertCheckboxes();
-  sh.getRange(postTop + 2, 14, LINES_N, 3).setFormulas(grid.slice(postTop + 1, postTop + 1 + LINES_N).map(function (row) { return row.slice(13, 16); }));
 
-  sh.setColumnWidth(1, 250); sh.setColumnWidth(2, 110); sh.setColumnWidth(3, 90);
+  sh.setColumnWidth(1, 250); sh.setColumnWidth(2, 110); sh.setColumnWidth(3, 20);
   sh.setColumnWidth(4, 190); [5, 6, 7].forEach(function (c) { sh.setColumnWidth(c, 100); });
-  sh.setColumnWidth(8, 160); sh.setColumnWidth(9, 20); sh.setColumnWidth(17, 20);
-  [10, 18].forEach(function (c) {
+  sh.setColumnWidth(8, 160); sh.setColumnWidth(9, 20); sh.setColumnWidth(17, 20); sh.setColumnWidth(25, 20);
+  [10, 18, 26].forEach(function (c) {
     sh.setColumnWidth(c, 150); sh.setColumnWidth(c + 1, 90); sh.setColumnWidth(c + 2, 180);
     sh.setColumnWidth(c + 3, 100); [4, 5, 6].forEach(function (k) { sh.setColumnWidth(c + k, 100); });
   });
