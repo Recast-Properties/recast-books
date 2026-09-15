@@ -1095,7 +1095,6 @@ function setupPropertyTab(name) {
       // End Date is typed on the sheet (Paul, 2026-09-15): the value comes from
       // Advances.repaid_date and an edit trigger writes it back (onPropertyTabEdit).
       set(r, 5, endDates[i] || '');
-      paint(r, 5, 1, C.input);
       set(r, 6, '=IF(D' + r + '="","",' + pick('C', idx) + ')');
       // AN n = full monthly anniversaries to the as-of date (DATEDIF "m"); AO balance
       // compounded monthly; AP last anniversary; AQ stub days - simple over
