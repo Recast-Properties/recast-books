@@ -989,8 +989,7 @@ function setupTotals() {
 //   AI:AS helpers (rate, stub basis, settlement_date, contract_price, per-advance
 //         math, tax_annual, tax proration estimate), greyed; the voided flag is on the
 //         hidden 'Journal helpers' sheet.
-// Interest to Date is the in-sheet computation on the purchase principal (D-020: cash-
-// advance interest is Paul's, settled between the partners in the payouts), not posted
+// Interest to Date is the in-sheet computation on every advance (D-011/D-021), not posted
 // 1200 accruals, so the tab reads the same whether or not the close job has run;
 // Financing-class lines are therefore left out of Total Project Cost (no double count). The tab is a view;
 // nothing on it is typed. Sold properties keep their tab.
@@ -1134,13 +1133,13 @@ function setupPropertyTab(name) {
     ['Received (advances, refunds)', '=-' + deb(isBank)]]);
   var cash = advanceSchedule(cashTop, 'Cash Advances + Interest', isCash, countAdvances_(ss, name, false) + 1);
 
-  // D-020: interest on the purchase principal is a property cost; interest on cash
-  // advances is Paul's, paid to Dennis out of Paul's share. So "Interest to Date" in the
-  // summary is the purchase schedule's interest only.
-  var interestRef = 'SUM(G' + purchase.first + ':G' + purchase.last + ')';
+  // D-011 / D-021: interest on every advance is a property cost (the cash advances
+  // reimbursed Paul for Granite costs, so the money paid for the property). "Interest
+  // to Date" in the summary is both schedules' interest; each partner bears half
+  // through the split.
+  var interestRef = 'SUM(G' + purchase.first + ':G' + purchase.last + ')+SUM(G' + cash.first + ':G' + cash.last + ')';
   var purchasePayoffRef = 'G' + purchase.head;
-  var cashPrincipalRef = 'SUM(F' + cash.first + ':F' + cash.last + ')';
-  var cashInterestRef = 'SUM(G' + cash.first + ':G' + cash.last + ')';
+  var cashPayoffRef = 'G' + cash.head;
 
   // ---- SUMMARY (A:B) --------------------------------------------------------------
   var s = 4;
@@ -1174,17 +1173,15 @@ function setupPropertyTab(name) {
   paint(s, 1, 2, C.head); set(s++, 1, 'Payouts', true);
   set(s, 1, 'Dennis', true); paint(s, 1, 2, C.sub); var dennisRow = s++;
   set(s, 1, 'Purchase Principal & Interest'); set(s, 2, '=' + purchasePayoffRef); s++;
+  set(s, 1, 'Cash Advances & Interest'); set(s, 2, '=' + cashPayoffRef); s++;
   set(s, 1, 'Individual Share'); set(s, 2, '=B' + shareRow); s++;
-  set(s, 1, 'Cash Advances'); set(s, 2, '=' + cashPrincipalRef); s++;
   set(s, 1, 'Dennis Paid (direct)'); set(s, 2, '=G' + dennisDirectRow); s++;
-  set(s, 1, 'Interest on cash advances (from Paul)'); set(s, 2, '=' + cashInterestRef); s++;
-  set(dennisRow, 2, '=SUM(B' + (dennisRow + 1) + ':B' + (dennisRow + 5) + ')', true);
+  set(dennisRow, 2, '=SUM(B' + (dennisRow + 1) + ':B' + (dennisRow + 4) + ')', true);
   s++;
   set(s, 1, 'Paul', true); paint(s, 1, 2, C.sub); var paulRow = s++;
   set(s, 1, 'Individual Share'); set(s, 2, '=B' + shareRow); s++;
-  set(s, 1, 'Interest on cash advances (to Dennis)'); set(s, 2, '=-' + cashInterestRef); s++;
   set(s, 1, 'Due to Paul (paid less reimbursed)'); set(s, 2, '=G' + dueToPaulRow); s++;
-  set(paulRow, 2, '=SUM(B' + (paulRow + 1) + ':B' + (paulRow + 3) + ')', true);
+  set(paulRow, 2, '=SUM(B' + (paulRow + 1) + ':B' + (paulRow + 2) + ')', true);
   s++;
   set(s, 1, 'Back to Recast account', true); set(s, 2, '=G' + recastNetRow, true); paint(s, 1, 2, C.sub); s++;
 

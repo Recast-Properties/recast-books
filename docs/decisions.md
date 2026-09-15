@@ -384,3 +384,22 @@ which had made interest on every advance a property cost.
 **Why:** money Paul held personally is Paul's borrowing, not the property's. D-011's
 other parts stand: purchase-principal interest is a project cost, advances sit on the
 property's balance sheet, no separate advances ledger.
+
+## D-021 · Cash-advance interest is a property cost after all — 2026-09-15 · Paul
+
+D-020 was recorded an hour earlier on the reading that Granite's cash advances were
+Paul's personal borrowing. Asked what the checks were for: "they reimbursed me for
+granite expenses." The money paid for the property, so its interest is the property's.
+
+**Decided:** D-020 is withdrawn; D-011 stands in full. Interest on every Dennis advance,
+purchase principal or cash advance, is a property cost (1200), inside Total Project Cost,
+borne half each through the 50/50 split. Dennis receives principal plus interest on every
+advance at the sale; there is no "from Paul / to Dennis" interest line.
+
+**The rule, for next time:** interest follows the money. An advance that paid for the
+property (directly, or by reimbursing Paul for property costs) is a property cost. Only an
+advance Dennis hands Paul for Paul's own use would be Paul's borrowing — and that is
+outside Recast's books (D-011's exception), not a Recast advance at all.
+
+`Advances.kind` (purchase / cash) stays: it drives the two schedules on the property tab
+and which account the purchase posts to, not the interest treatment.

@@ -81,9 +81,8 @@ async function getAccrualOpts(writer) {
 
 /**
  * The interest-posting job's entry for one advance/period: Dr 1200, Cr 2000, property
- * on both lines, payee "Dennis Little" (phase1-spec.md §4). D-020: a cash advance's
- * interest is Paul's, not the property's - it debits 2030 Due to owner (Recast owes Paul
- * that much less) instead of 1200. Not validated here -
+ * on both lines, payee "Dennis Little" (phase1-spec.md §4), for every kind of advance
+ * (D-011, reaffirmed by D-021). Not validated here -
  * callers run it through validateEntry (postInterest) or leave it as a preview
  * (previewInterest).
  */
@@ -130,7 +129,7 @@ function buildInterestEntry(advance, period, deltaCents, ctx, postedBy) {
     posted_by: postedBy,
     doc_url: "",
     void_of: "",
-    lines: [line(advance.kind === "purchase" || !advance.kind ? "1200" : "2030", true), line("2000", false)],
+    lines: [line("1200", true), line("2000", false)],
   };
 }
 

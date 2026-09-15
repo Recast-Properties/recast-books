@@ -53,9 +53,9 @@ Citizens account. Each advance is dedicated to one property and sits on **that
 property's balance sheet** as a liability; a deposit meant for two properties is two
 advances. There is no pooled loan, and no separate advances ledger for people to read — the
 `Advances` tab is internal; every advance is displayed on its property's balance sheet
-(D-011). Interest on the **purchase principal** is a cost of the property, so both partners
-bear it through the split (D-011); interest on a **cash advance** is Paul's alone, paid to
-Dennis out of Paul's share and accrued to 2030 rather than 1200 (D-020). The accrual
+(D-011). Interest on **every** advance, purchase principal or cash advance, is a cost of
+the property it funds, so both partners bear it through the split (D-011, reaffirmed by
+D-021 after a one-hour reversal). The accrual
 rule is reproduced to the cent against the live 881 Newport tab in
 `docs/property-tab-anatomy.md`: 0.75% compounded on each advance's monthly anniversary,
 stub days pro-rated over a 30-day month.

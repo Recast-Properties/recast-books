@@ -347,3 +347,11 @@ gaps. D-020: Dennis's payout adds the cash-advance interest "from Paul", Paul's 
 it "to Dennis", and the close job accrues it to 2030 instead of 1200. Add-advance button
 shows progress and ignores repeat clicks; the tab rebuild runs after the post. 1616 Granite
 carries its three real advances.
+
+## 2026-09-15 — D-021: D-020 withdrawn within the hour
+
+Paul asked whether he owes all or half of the cash-advance interest. Walked through it:
+interest follows the money. The Granite checks reimbursed him for Granite expenses, so
+they paid for the property and their interest is a property cost, split through the 50/50
+as D-011 always said. Tab payouts and the close job put back; `kind` kept for the
+schedules and the purchase posting.

@@ -249,12 +249,8 @@ test("postInterest posts a batch and upserts accrued_to on success", { skip }, a
     const totalDebit = entry.lines.reduce((s, l) => s + (l.debit || 0), 0);
     const totalCredit = entry.lines.reduce((s, l) => s + (l.credit || 0), 0);
     assert.equal(totalDebit, totalCredit, "each interest entry must balance");
-    // D-020: the purchase principal (adv-1) accrues to 1200, the cash advance (adv-2) to 2030.
-    const debitAccount = entry.lines.find((l) => l.debit > 0).account;
-    assert.deepEqual(entry.lines.map((l) => l.account).sort(), [debitAccount, "2000"].sort());
-    assert.ok(["1200", "2030"].includes(debitAccount));
+    assert.deepEqual(entry.lines.map((l) => l.account).sort(), ["1200", "2000"]); // every kind (D-011/D-021)
   }
-  assert.deepEqual(batchCall.entries.map((e) => e.lines.find((l) => l.debit > 0).account).sort(), ["1200", "2030"]);
 
   const accrualUpserts = calls.filter((c) => c.action === "upsert" && c.tab === "Advances");
   assert.equal(accrualUpserts.length, batchCall.entries.length);
@@ -301,7 +297,7 @@ test("addAdvance kind=purchase posts Dr 1000 Purchase price / Cr 2010 with no ba
   assert.equal(b.advance.kind, "purchase");
 });
 
-test("D-020: previewInterest debits 1200 for the purchase principal and 2030 for a cash advance", { skip }, async () => {
+test("D-011/D-021: previewInterest debits 1200 for the purchase principal and for a cash advance alike", { skip }, async () => {
   const res = await handler(
     req("POST", { token: session("owner"), body: { action: "previewInterest", period: "2026-09" } }),
   );
@@ -310,5 +306,5 @@ test("D-020: previewInterest debits 1200 for the purchase principal and 2030 for
   const byId = Object.fromEntries(body.previews.map((p) => [p.advance_id, p]));
   const debitOf = (p) => (p.entry?.lines ?? p.lines ?? []).find((l) => l.debit > 0)?.account;
   assert.equal(debitOf(byId["adv-1"]), "1200");
-  assert.equal(debitOf(byId["adv-2"]), "2030");
+  assert.equal(debitOf(byId["adv-2"]), "1200");
 });
