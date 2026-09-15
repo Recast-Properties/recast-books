@@ -394,3 +394,21 @@ post interest, close/reopen period, and reports written to tabs; Vendors, Bank a
 Settings, Users are edited directly with two small guards. The moved web pages and their
 functions are deleted. Inbox review moves in a later step (queue to an `Inbox` tab first).
 Phase 3 will be revised to the menu shape. Awaiting Paul's go.
+
+## 2026-09-15 — Phase 2.7 built and gated: the books' input side moves into the workbook
+
+Writer re-homed as the project bound to the workbook (new script id and web-app URL, one
+Netlify env change; old project dormant, its trigger deleted). `scripts/build-gs.mjs`
+generates `apps-script/writer/lib.gs` from `lib/` (coa, money, accrual, posting, reports,
+property-key) with a crypto shim; `test/gs-lib.test.mjs` runs it under a `Utilities` stub
+and proves the same entry and interest as the ESM source. `Menu.gs` + six HtmlService
+dialogs: New expense, New journal entry, Void selected entry, Add property, Rebuild
+property tab, Add advance, Post interest (preview/post), Close/Reopen period, Reports to
+`Report - <name>` tabs, Self test. Writer 0.4.0: action internals callable in-process,
+bound-workbook resolution, Drive folder adoption, cache-warm poke, Bank accounts→Accounts
+mirror (create-only) and last-owner guard on the one onEdit trigger. Web app: Journal,
+Properties, Vendors, Banking, Dennis, Reports, Periods pages and `books-dennis`,
+`books-ledger`, `books-reports` functions deleted; `books-meta` is GET-only. Posting
+engine: the credit line now carries the item description (Paul: "i want to know what the
+item that was purchased is"), for receipts and menu entries alike. 381 tests. Gate record:
+`docs/phase2.7-spec.md` §12.

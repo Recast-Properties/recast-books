@@ -17,9 +17,9 @@ front door.
   `apps-script/writer/` — the only thing that writes the workbook; `docs/`, `data/` — design.
 - Live ids (workbook, Apps Script project, Netlify site) are in `docs/phase0-spec.md` §10.
 - `npm test` runs everything (node:test, zero dependencies). Deploy: `npm run deploy`
-  (`netlify deploy --prod --no-build`). Writer: `clasp push -f` then
-  `clasp deploy -i <deploymentId>` from `apps-script/writer/` — update the existing
-  deployment so `WRITER_URL` never changes.
+  (`netlify deploy --prod --no-build`). Writer: `clasp push -f` from `apps-script/writer/` (menus and triggers run the
+  pushed code at once); `clasp deploy -i AKfycbxNisU_atef_fjnELMBK0R9N1xcnP5e-0MT4LP0FdhpfdPRE1UwlIcb2u4-JS38gx1O3w`
+  only when `doPost` changes, so `WRITER_URL` never changes.
 
 ## Load-bearing constraints
 
@@ -51,11 +51,14 @@ posts to the new workbook only. Gate record: `docs/phase2-spec.md` §11. Reads c
 property mailboxes and a formula tab per property (layout settled with Paul on 2026-09-15:
 the tab is the forecast while held; the closing tab is Phase 5). D-022: advances are
 `purchase` or `cash`, each with its own `rate_pct`; `Properties.dennis_share_pct` (50, or 0
-for a bank-only deal) drives the split. **Next is Phase 2.7 (D-023, 2026-09-15): the input side of the books becomes a Recast Books
-menu in the workbook, writer bound to it, `lib/` generated into `lib.gs`; spec
-`docs/phase2.7-spec.md` awaiting Paul's review.** Then Phase 3 (banking from statement
-uploads — D-019 dropped Plaid on 2026-09-15; `docs/phase3-spec.md` to be revised for the
-menu shape).
+for a bank-only deal) drives the split. **Phase 2.7 gated 2026-09-15 (D-023): the input side of the books is the Recast Books menu in
+the workbook** (`docs/phase2.7-spec.md`): the writer is now the project bound to the workbook
+(script id `1_V01CW…kl_y`, web-app deployment `AKfycbxNisU…3w`, update it with `clasp deploy -i`);
+`lib/` is generated into `apps-script/writer/lib.gs` by `node scripts/build-gs.mjs` (never
+edit it; a test keeps it in sync); the web app keeps Dashboard, Inbox, Upload, Settings (API
+costs). The old standalone writer project is dormant. Next: Inbox review into the sheet (spec
+§6), then Phase 3 (statement uploads — D-019 dropped Plaid; `docs/phase3-spec.md` to be
+revised for the menu shape).
 
 Policy learned in the Phase 2 gate (D-012): the bookkeeper decides the easy cases itself —
 PDX↔DFW travel posts with a written purpose; a confident dismiss is final; duplicates are

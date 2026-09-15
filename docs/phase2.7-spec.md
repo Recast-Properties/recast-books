@@ -131,3 +131,20 @@ the web app, approve one Inbox card and confirm the writer at the new URL took i
 4. Set `WRITER_URL` and `WRITER_SECRET` on Netlify (production context) and redeploy.
 5. In the old project, delete its triggers.
 6. Reload the workbook and run the gate with me.
+
+## 12 · Gate result — 2026-09-15
+
+Passed from the workbook, web app closed: two expenses posted to 1616 Granite through
+the dialog (about a second each; the credit line named the item once that wording was
+fixed), both voided from the Journal row under the cursor, 2026-08 closed and a back-dated
+expense refused `PERIOD_CLOSED`, then reopened, the balance sheet written to
+`Report - Balance sheet` and tying out, interest preview for 2026-09 showing all three
+Granite advances (after clearing End Dates typed during yesterday's tab review, which had
+marked them repaid 2026-07-27). From the web app, the Dashboard's Workbook card resolved
+through the new writer URL. Found and fixed on the way: three manifest scopes the bound
+project needed (`userinfo.email`, `script.external_request`, `script.container.ui`),
+menu entry points that had private (underscore) names and so could not be invoked,
+dialogs that closed before their result could be read, and the Netlify-era bank-account
+mirror that had renamed Accounts 1401/1402 (mirror is now create-only; names repaired by
+hand). Not exercised yet: Add property, Add advance, Journal grid, the other reports —
+same code paths, to be used as they come up.
