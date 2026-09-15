@@ -1189,7 +1189,7 @@ function setupPropertyTab(name) {
     set(top, c0 + 3, '=SUM(' + amtCol + (top + 2) + ':' + amtCol + (top + 1 + LINES_N) + ')', true);
     set(top + 1, c0 + 4, 'Paul Paid', true); set(top + 1, c0 + 5, 'Dennis Paid', true); set(top + 1, c0 + 6, 'Recast Account', true);
     set(top + 1, c0, 'Payee', true); set(top + 1, c0 + 1, 'Date', true); set(top + 1, c0 + 2, 'Description', true); set(top + 1, c0 + 3, 'Amount', true);
-    paint(top, c0, 3, C.head); paint(top, c0 + 3, 1, C.total);
+    paint(top, c0, 3, C.head); paint(top, c0 + 3, 1, C.total); paint(top, c0 + 4, 3, C.head);
     paint(top + 1, c0, 7, C.sub); paint(top + 2, c0 + 4, 3, C.tan, LINES_N);
     // One array formula per block: payee, date, description, amount, then the three
     // paid-by booleans (rendered as checkboxes by the validation applied below), sorted
