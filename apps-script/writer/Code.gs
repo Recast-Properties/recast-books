@@ -1031,6 +1031,12 @@ function setupPropertyTab(name) {
   var WIDTH = 24; // A..X
   var grid = [];
   var bold = [];
+  // Colours copied from the old workbook's tab (Paul, 2026-09-15): section heads green
+  // with the total in light green, sub-heads tan, checkbox columns pale tan, Individual
+  // Share yellow. paint(r, c, w, bg) queues a background fill applied after setValues.
+  var C = { head: '#b6d7a8', total: '#d9ead3', sub: '#ffe599', tan: '#fff2cc', yellow: '#ffff00' };
+  var paints = [];
+  var paint = function (r, c, w, bg, h) { paints.push([r, c, w, bg, h || 1]); };
   var set = function (r, c, v, isBold) {
     while (grid.length < r) grid.push(new Array(WIDTH).fill(''));
     grid[r - 1][c - 1] = v;
@@ -1040,11 +1046,14 @@ function setupPropertyTab(name) {
   // Row 1-2: name / as-of ($B$1, read by every block) / address.
   set(1, 1, name, true);
   set(1, 2, '=TODAY()');
+  set(1, 4, 'as of');
   set(2, 1, '=IFERROR(VLOOKUP("' + safeName + '",Properties!A:B,2,FALSE),"")');
 
   // ---- DENNIS (D:H) - built first so the summary can point at its totals ---------
   set(4, 4, 'Purchase Principal + Interest', true);
-  set(5, 4, 'Start Date'); set(5, 5, 'End Date'); set(5, 6, 'Principal'); set(5, 7, 'Interest'); set(5, 8, 'Notes');
+  paint(4, 4, 3, C.head); paint(4, 7, 2, C.total);
+  set(5, 4, 'Start Date', true); set(5, 5, 'End Date', true); set(5, 6, 'Principal', true); set(5, 7, 'Interest', true); set(5, 8, 'Notes', true);
+  paint(5, 4, 5, C.sub);
   var advFirst = 6, advLast = advFirst + ADV_N - 1;
   var advCrit = '(' + A('D') + '&""="' + safeName + '")*(' + A('B') + '<>"")';
   var advPick = function (col, idx) { return 'INDEX(FILTER(' + A(col) + ',' + advCrit + '),' + idx + ')'; };
@@ -1074,25 +1083,29 @@ function setupPropertyTab(name) {
   set(payoffRow, 7, '=SUM(F' + advFirst + ':F' + advLast + ')+G' + interestRow, true);
   set(4, 7, '=G' + payoffRow, true);
 
+  paint(payoffRow, 4, 4, C.total);
   var paulPaidRow = payoffRow + 2;
   set(paulPaidRow, 4, 'Paul Paid'); set(paulPaidRow, 7, '=' + cred(eq('E', '2030')));
   set(paulPaidRow + 1, 4, 'Reimbursed'); set(paulPaidRow + 1, 7, '=-' + deb(eq('E', '2030')));
   var dueToPaulRow = paulPaidRow + 2;
   set(dueToPaulRow, 4, 'Due to Paul', true); set(dueToPaulRow, 7, '=G' + paulPaidRow + '+G' + (paulPaidRow + 1), true);
+  paint(dueToPaulRow, 4, 4, C.sub);
 
   var dennisDirectRow = dueToPaulRow + 2;
   set(dennisDirectRow, 4, 'Dennis Paid (direct, not an advance)', true);
   set(dennisDirectRow, 7, '=' + net(costLineF + '*' + eq('N', 'DENNIS')), true);
+  paint(dennisDirectRow, 4, 4, C.sub);
 
   var recastPaidRow = dennisDirectRow + 2;
   set(recastPaidRow, 4, 'Recast Account paid'); set(recastPaidRow, 7, '=' + cred(isBank));
   set(recastPaidRow + 1, 4, 'Received (advances, refunds)'); set(recastPaidRow + 1, 7, '=-' + deb(isBank));
   var recastNetRow = recastPaidRow + 2;
   set(recastNetRow, 4, 'Back to Recast account', true); set(recastNetRow, 7, '=G' + recastPaidRow + '+G' + (recastPaidRow + 1), true);
+  paint(recastNetRow, 4, 4, C.sub);
 
   // ---- SUMMARY (A:B) --------------------------------------------------------------
   var s = 4;
-  set(s, 1, 'Total Project Cost', true); var totalRow = s; s += 2;
+  set(s, 1, 'Total Project Cost', true); var totalRow = s; paint(s, 1, 1, C.head); paint(s, 2, 1, C.total); s += 2;
   set(s, 1, 'Purchase Price'); set(s, 2, '=' + net(eq('E', '1000'))); var purchaseRow = s++;
   set(s, 1, 'Interest to Date'); set(s, 2, '=G' + interestRow); s++;
   set(s, 1, 'Rehab Costs'); set(s, 2, '=' + net(rehabF)); var rehabRow = s++;
@@ -1107,29 +1120,30 @@ function setupPropertyTab(name) {
   set(s, 1, 'Selling Costs (posted)'); set(s, 2, '=' + net(eq('I', 'Selling'))); var sellingRow = s++;
   set(totalRow, 2, '=SUM(B' + purchaseRow + ':B' + sellingRow + ')', true);
   s++;
-  set(s++, 1, 'Profit Breakdown', true);
+  paint(s, 1, 2, C.head); set(s++, 1, 'Profit Breakdown', true);
   set(s, 1, 'Sale Price (contract price, else purchase price)');
   set(s, 2, '=IF($AC$1<>"",$AC$1,IFERROR(VLOOKUP("' + safeName + '",Properties!A:E,5,FALSE),0))'); var saleRow = s++;
   set(s, 1, 'Total Project Costs'); set(s, 2, '=-B' + totalRow); s++;
   var pct = function (key) { return 'IFERROR(VLOOKUP("' + key + '",Settings!A:B,2,FALSE),0)'; };
   set(s, 1, '="Agent "&' + pct('estimate_agent_pct') + '&"%"'); set(s, 2, '=-B' + saleRow + '*' + pct('estimate_agent_pct') + '/100'); var agentRow = s++;
   set(s, 1, '="Closing "&' + pct('estimate_closing_pct') + '&"%"'); set(s, 2, '=-B' + saleRow + '*' + pct('estimate_closing_pct') + '/100'); var closingRow = s++;
-  set(s, 1, 'Net Profit', true); set(s, 2, '=SUM(B' + saleRow + ':B' + closingRow + ')', true); var profitRow = s++;
-  set(s, 1, 'Individual Share'); set(s, 2, '=B' + profitRow + '/2'); var shareRow = s++;
+  set(s, 1, 'Net Profit', true); set(s, 2, '=SUM(B' + saleRow + ':B' + closingRow + ')', true); paint(s, 1, 2, C.total); var profitRow = s++;
   s++;
-  set(s++, 1, 'Payouts', true);
-  set(s, 1, 'Dennis', true); var dennisRow = s++;
+  set(s, 1, 'Individual Share', true); set(s, 2, '=B' + profitRow + '/2', true); paint(s, 1, 2, C.yellow); var shareRow = s++;
+  s++;
+  paint(s, 1, 2, C.head); set(s++, 1, 'Payouts', true);
+  set(s, 1, 'Dennis', true); paint(s, 1, 2, C.sub); var dennisRow = s++;
   set(s, 1, 'Purchase Principal & Interest'); set(s, 2, '=G' + payoffRow); s++;
   set(s, 1, 'Individual Share'); set(s, 2, '=B' + shareRow); s++;
   set(s, 1, 'Dennis Paid (direct)'); set(s, 2, '=G' + dennisDirectRow); s++;
   set(dennisRow, 2, '=SUM(B' + (dennisRow + 1) + ':B' + (dennisRow + 3) + ')', true);
   s++;
-  set(s, 1, 'Paul', true); var paulRow = s++;
+  set(s, 1, 'Paul', true); paint(s, 1, 2, C.sub); var paulRow = s++;
   set(s, 1, 'Individual Share'); set(s, 2, '=B' + shareRow); s++;
   set(s, 1, 'Due to Paul (paid less reimbursed)'); set(s, 2, '=G' + dueToPaulRow); s++;
   set(paulRow, 2, '=SUM(B' + (paulRow + 1) + ':B' + (paulRow + 2) + ')', true);
   s++;
-  set(s, 1, 'Back to Recast account', true); set(s, 2, '=G' + recastNetRow, true); var recastRow = s++;
+  set(s, 1, 'Back to Recast account', true); set(s, 2, '=G' + recastNetRow, true); paint(s, 1, 2, C.sub); var recastRow = s++;
   s++;
   set(s, 1, 'Total payouts'); set(s, 2, '=B' + dennisRow + '+B' + paulRow + '+B' + recastRow); var payoutsRow = s++;
   set(s, 1, 'Net proceeds (after tax proration)'); set(s, 2, '=B' + saleRow + '+B' + agentRow + '+B' + closingRow + '-$AJ$1'); var proceedsRow = s++;
@@ -1140,8 +1154,10 @@ function setupPropertyTab(name) {
     set(top, c0, title, true);
     var amtCol = colLetter_(c0 + 3);
     set(top, c0 + 3, '=SUM(' + amtCol + (top + 2) + ':' + amtCol + (top + 1 + LINES_N) + ')', true);
-    set(top, c0 + 4, 'Paul Paid'); set(top, c0 + 5, 'Dennis Paid'); set(top, c0 + 6, 'Recast Account');
-    set(top + 1, c0, 'Payee'); set(top + 1, c0 + 1, 'Date'); set(top + 1, c0 + 2, 'Description'); set(top + 1, c0 + 3, 'Amount');
+    set(top, c0 + 4, 'Paul Paid', true); set(top, c0 + 5, 'Dennis Paid', true); set(top, c0 + 6, 'Recast Account', true);
+    set(top + 1, c0, 'Payee', true); set(top + 1, c0 + 1, 'Date', true); set(top + 1, c0 + 2, 'Description', true); set(top + 1, c0 + 3, 'Amount', true);
+    paint(top, c0, 3, C.head); paint(top, c0 + 3, 1, C.total); paint(top, c0 + 4, 3, C.sub);
+    paint(top + 1, c0, 4, C.sub); paint(top + 2, c0 + 4, 3, C.tan, LINES_N);
     var payeeCol = colLetter_(c0);
     for (var li = 0; li < LINES_N; li++) {
       var lr = top + 2 + li, lidx = li + 1;
@@ -1208,6 +1224,12 @@ function setupPropertyTab(name) {
   });
   sh.setFrozenRows(1);
   bold.forEach(function (rc) { sh.getRange(rc[0], rc[1]).setFontWeight('bold'); });
+  paints.forEach(function (p) { sh.getRange(p[0], p[1], p[4], p[2]).setBackground(p[3]); });
+  sh.getRange(1, 1).setFontSize(14);
+  sh.getRange(1, 1, grid.length, WIDTH).setVerticalAlignment('middle');
+  sh.setRowHeight(1, 36);
+  sh.getRange(4, 2, grid.length - 3, 1).setHorizontalAlignment('right');
+  sh.getRange(1, 4).setFontColor('#999999');
 
   console.log('Property tab rebuilt for "' + name + '": ' + grid.length + ' rows');
   return { ok: true, rows: grid.length };
