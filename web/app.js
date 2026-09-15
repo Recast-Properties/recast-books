@@ -1668,6 +1668,7 @@ function renderDennisAddForm() {
         <div class="field"><label>Amount</label><input type="text" id="d-amount" placeholder="207000.00" inputmode="decimal"></div>
         <div class="field"><label>Property</label><select id="d-property">${realPropertyOptions("", dennisState.properties)}</select></div>
         <div class="field"><label>Into</label><select id="d-into">${bankAccountSelectOptions("1401", dennisState.bankAccounts)}</select></div>
+        <div class="field"><label>Kind</label><select id="d-kind"><option value="purchase">Purchase principal</option><option value="cash">Cash advance</option></select></div>
         <div class="field full"><label>Memo</label><input type="text" id="d-memo" placeholder="Optional"></div>
       </div>
       <button class="btn btn-primary" id="d-save" style="margin-top:10px;">Add advance</button>
@@ -1690,7 +1691,7 @@ function renderDennisAddForm() {
       renderDennisBanner();
       return;
     }
-    const body = { action: "addAdvance", date, amount_cents, property, into };
+    const body = { action: "addAdvance", date, amount_cents, property, into, kind: $("d-kind").value };
     if (memo) body.memo = memo;
     try {
       const result = await api("dennis", { method: "POST", body });

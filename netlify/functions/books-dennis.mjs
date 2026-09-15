@@ -186,7 +186,10 @@ export default async (req) => {
         throw err;
       }
 
-      const { date, amount_cents, property, into = "1401", memo } = body;
+      const { date, amount_cents, property, into = "1401", memo, kind = "cash" } = body;
+      if (!["purchase", "cash"].includes(kind)) {
+        return json(400, { error: "BAD_REQUEST", message: 'kind must be "purchase" or "cash"' });
+      }
       if (!date || !Number.isFinite(amount_cents) || !property) {
         return json(400, { error: "BAD_REQUEST", message: "date, amount_cents and property are required" });
       }
@@ -227,6 +230,8 @@ export default async (req) => {
         status: "open",
         accrued_to: "",
         repaid_date: "",
+        notes: memo || "",
+        kind,
       };
       try {
         await writer.upsert("Advances", "advance_id", advanceRow);

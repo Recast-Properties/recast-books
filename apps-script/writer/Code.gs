@@ -139,7 +139,7 @@ var TAB_HEADERS = {
   'Vendors': ['canonical', 'aliases', 'entity_type', 'form_1099', 'tin_status',
     'w9_url', 'default_account', 'notes'],
   'Advances': ['advance_id', 'date', 'amount', 'property', 'source_txn_id',
-    'status', 'accrued_to', 'repaid_date', 'notes'],
+    'status', 'accrued_to', 'repaid_date', 'notes', 'kind'],
   'Periods': ['period', 'status', 'closed_at', 'snapshot_url', 'notes'],
   'Settings': ['key', 'value', 'notes'],
   'Users': ['email', 'role', 'name', 'added_at'],
@@ -977,12 +977,11 @@ function setupTotals() {
 //         This tab is the forecast while held (Paul, 2026-09-15); the settlement
 //         actuals, the true-up and the payouts-equal-proceeds check belong to the
 //         closing tab the Phase 5 sell wizard builds.
-//   D:H   DENNIS - every Advances row for this property: Start, End (repaid_date),
-//         Principal, Interest at Settings!interest_rate_annual (D-016, 8%) by the
-//         D-006 method (full monthly anniversaries via DATEDIF, compounded, simple
-//         stub over stub_days_basis), Notes; then Paul Paid / Reimbursed / Due to
-//         Paul (2030), Dennis Paid direct (paid_from DENNIS cost lines), Recast
-//         Account paid / received / Back to Recast (14xx).
+//   D:H   DENNIS - Purchase Principal + Interest schedule (Advances.kind = purchase),
+//         then Paul Paid / Dennis Paid direct / Recast Account who-paid blocks, then
+//         the Cash Advances schedule (every other advance). Each schedule row: Start,
+//         End (repaid_date), Principal, Interest to Date at Settings!interest_rate_annual
+//         (D-016, 8%) by the D-006 method, Notes.
 //   J:P   REHAB COSTS - payee, date, description, amount, Paul Paid / Dennis Paid /
 //         Recast Account checkboxes (from paid_from).
 //   R:X   UTILITIES - same shape, Holding-class lines. Post-sale costs (D-015) are on
@@ -1023,10 +1022,8 @@ function setupPropertyTab(name) {
   sh.getRange(1, 1, sh.getMaxRows(), sh.getMaxColumns()).clearDataValidations();
 
   var N = 5000;     // Journal bound, same as setupTotals
-  // Advance rows: as many as the property has today plus one spare, so the Dennis block
-  // sits tight under its schedule (Paul, 2026-09-15). The Dennis page rebuilds the tab
-  // after each advance it adds.
-  var ADV_N = countAdvances_(ss, name) + 1;
+  // Each advance schedule holds as many rows as the property has today plus one spare
+  // (Paul, 2026-09-15); the Dennis page rebuilds the tab after each advance it adds.
   var LINES_N = 300; // rows per line block; the sheet is trimmed to end with them (Paul,
                      // 2026-09-15: "extend the checkboxes all the way to the bottom")
 
@@ -1073,59 +1070,72 @@ function setupPropertyTab(name) {
   set(2, 1, '=IFERROR(VLOOKUP("' + safeName + '",Properties!A:B,2,FALSE),"")');
 
   // ---- DENNIS (D:H) - built first so the summary can point at its totals ---------
-  set(4, 4, 'Purchase Principal + Interest', true);
-  paint(4, 4, 3, C.head); paint(4, 7, 2, C.total);
-  set(5, 4, 'Start Date', true); set(5, 5, 'End Date', true); set(5, 6, 'Principal', true); set(5, 7, 'Interest', true); set(5, 8, 'Notes', true);
-  paint(5, 4, 5, C.sub);
-  var advFirst = 6, advLast = advFirst + ADV_N - 1;
-  var advCrit = '(' + A('D') + '&""="' + safeName + '")*(' + A('B') + '<>"")';
-  var advPick = function (col, idx) { return 'INDEX(FILTER(' + A(col) + ',' + advCrit + '),' + idx + ')'; };
-  var advHelpers = [];
-  for (var i = 0; i < ADV_N; i++) {
-    var r = advFirst + i, idx = i + 1;
-    set(r, 4, '=IFERROR(' + advPick('B', idx) + ',"")');
-    set(r, 5, '=IF(D' + r + '="","",IFERROR(' + advPick('H', idx) + ',""))');
-    set(r, 6, '=IF(D' + r + '="","",' + advPick('C', idx) + ')');
-    // AN n = full monthly anniversaries to the as-of date (DATEDIF "m"); AO balance
-    // compounded monthly; AP last anniversary; AQ stub days - simple over
-    // Settings!stub_days_basis (D-006).
-    advHelpers.push([
-      '=IF(D' + r + '="","",IFERROR(DATEDIF(D' + r + ',$B$1,"m"),0))',
-      '=IF(D' + r + '="","",F' + r + '*(1+$AI$1/12)^AN' + r + ')',
-      '=IF(D' + r + '="","",EDATE(D' + r + ',AN' + r + '))',
-      '=IF(D' + r + '="","",MAX(0,$B$1-AP' + r + '))']);
-    set(r, 7, '=IF(D' + r + '="","",AO' + r + '*(1+$AI$1/12*AQ' + r + '/$AJ$1)-F' + r + ')');
-    set(r, 8, '=IF(D' + r + '="","",IFERROR(' + advPick('I', idx) + ',""))');
-  }
-  var interestRow = advLast + 2;
-  set(interestRow, 4, 'Interest to date'); set(interestRow, 7, '=SUM(G' + advFirst + ':G' + advLast + ')');
-  // ponytail: assumes no advance has been repaid yet (Advances.status/repaid_date are
-  // not netted out) - fold that in when a repayment is first recorded (Phase 5).
-  var payoffRow = interestRow + 1;
-  set(payoffRow, 4, 'Payoff (principal + interest)', true);
-  set(payoffRow, 7, '=SUM(F' + advFirst + ':F' + advLast + ')+G' + interestRow, true);
-  set(4, 7, '=G' + payoffRow, true);
+  // Two advance schedules (Paul, 2026-09-15: "having cash advances separated at the
+  // bottom allows for multiple rows"): the purchase principal (Advances.kind =
+  // "purchase") at the top, cash advances (any other kind) below the who-paid blocks.
+  // Each schedule: Start / End (repaid_date) / Principal / Interest to Date / Notes,
+  // interest by the D-006 method at Settings!interest_rate_annual (D-016), with the
+  // per-row math in helper columns AN:AQ; the head carries principal + interest.
+  var advCritBase = '(' + A('D') + '&""="' + safeName + '")*(' + A('B') + '<>"")';
+  var advanceSchedule = function (top, title, kindFactor, n) {
+    set(top, 4, title, true); paint(top, 4, 3, C.head); paint(top, 7, 2, C.total);
+    set(top + 1, 4, 'Start Date', true); set(top + 1, 5, 'End Date', true); set(top + 1, 6, 'Principal', true);
+    set(top + 1, 7, 'Interest to Date', true); set(top + 1, 8, 'Notes', true);
+    paint(top + 1, 4, 5, C.sub);
+    var crit = advCritBase + '*' + kindFactor;
+    var pick = function (col, idx) { return 'INDEX(FILTER(' + A(col) + ',' + crit + '),' + idx + ')'; };
+    var helpers = [];
+    var first = top + 2, last = top + 1 + n;
+    for (var i = 0; i < n; i++) {
+      var r = first + i, idx = i + 1;
+      set(r, 4, '=IFERROR(' + pick('B', idx) + ',"")');
+      set(r, 5, '=IF(D' + r + '="","",IFERROR(' + pick('H', idx) + ',""))');
+      set(r, 6, '=IF(D' + r + '="","",' + pick('C', idx) + ')');
+      // AN n = full monthly anniversaries to the as-of date (DATEDIF "m"); AO balance
+      // compounded monthly; AP last anniversary; AQ stub days - simple over
+      // Settings!stub_days_basis (D-006).
+      helpers.push([
+        '=IF(D' + r + '="","",IFERROR(DATEDIF(D' + r + ',$B$1,"m"),0))',
+        '=IF(D' + r + '="","",F' + r + '*(1+$AI$1/12)^AN' + r + ')',
+        '=IF(D' + r + '="","",EDATE(D' + r + ',AN' + r + '))',
+        '=IF(D' + r + '="","",MAX(0,$B$1-AP' + r + '))']);
+      set(r, 7, '=IF(D' + r + '="","",AO' + r + '*(1+$AI$1/12*AQ' + r + '/$AJ$1)-F' + r + ')');
+      set(r, 8, '=IF(D' + r + '="","",IFERROR(' + pick('I', idx) + ',""))');
+    }
+    set(top, 7, '=SUM(F' + first + ':F' + last + ')+SUM(G' + first + ':G' + last + ')', true);
+    advHelperBlocks.push([first, helpers]);
+    return { head: top, first: first, last: last, next: last + 2 };
+  };
+  var advHelperBlocks = [];
+  var isPurchase = '(' + A('J') + '&""="purchase")';
+  var isCash = '(' + A('J') + '&""<>"purchase")';
+  var purchase = advanceSchedule(4, 'Purchase Principal + Interest', isPurchase, countAdvances_(ss, name, true) + 1);
 
-  paint(payoffRow, 4, 4, C.total);
   // Sub-blocks shaped like the old tab: a green head carrying the net total, detail
-  // rows beneath it.
+  // rows beneath it. Same two rows in each: "<who> Paid" then "Received (advances,
+  // refunds)" (Paul, 2026-09-15).
   var subBlock = function (top, title, detail) {
     set(top, 4, title, true); paint(top, 4, 3, C.head); paint(top, 7, 1, C.total);
     detail.forEach(function (d, i) { set(top + 1 + i, 4, d[0]); set(top + 1 + i, 7, d[1]); });
     set(top, 7, '=SUM(G' + (top + 1) + ':G' + (top + detail.length) + ')', true);
     return top + detail.length + 2;
   };
-  var dueToPaulRow = payoffRow + 2;
-  // Same two rows in each: "<who> Paid" then "Received (advances, refunds)" (Paul, 2026-09-15).
+  var dueToPaulRow = purchase.next;
   var dennisDirectRow = subBlock(dueToPaulRow, 'Paul Paid', [
     ['Paul Paid', '=' + cred(eq('E', '2030'))],
     ['Received (advances, refunds)', '=-' + deb(eq('E', '2030'))]]);
   var recastNetRow = subBlock(dennisDirectRow, 'Dennis Paid (direct, not an advance)', [
     ['Dennis Paid', '=' + deb(costLineF + '*' + eq('N', 'DENNIS'))],
     ['Received (advances, refunds)', '=-' + cred(costLineF + '*' + eq('N', 'DENNIS'))]]);
-  subBlock(recastNetRow, 'Recast Account', [
+  var cashTop = subBlock(recastNetRow, 'Recast Account', [
     ['Recast Account Paid', '=' + cred(isBank)],
     ['Received (advances, refunds)', '=-' + deb(isBank)]]);
+  var cash = advanceSchedule(cashTop, 'Cash Advances', isCash, countAdvances_(ss, name, false) + 1);
+
+  // Totals the summary reads (kept in the helper area so the visible block stays as
+  // Paul drew it): AK2 interest to date, AK3 payoff of every advance.
+  var interestRef = '$AK$2', payoffRef = '$AK$3';
+  var purchasePayoffRef = 'G' + purchase.head, cashPayoffRef = 'G' + cash.head;
 
   // ---- SUMMARY (A:B) --------------------------------------------------------------
   var s = 4;
@@ -1133,7 +1143,7 @@ function setupPropertyTab(name) {
   // The posted purchase (account 1000) once it is on the books; the registry's
   // purchase_price until then.
   set(s, 1, 'Purchase Price'); set(s, 2, '=IF(' + net(eq('E', '1000')) + '=0,IFERROR(VLOOKUP("' + safeName + '",Properties!A:E,5,FALSE),0),' + net(eq('E', '1000')) + ')'); var purchaseRow = s++;
-  set(s, 1, 'Interest to Date'); set(s, 2, '=G' + interestRow); s++;
+  set(s, 1, 'Interest to Date'); set(s, 2, '=' + interestRef); s++;
   set(s, 1, 'Rehab Costs'); set(s, 2, '=' + net(rehabF)); var rehabRow = s++;
   set(s, 1, 'Utilities'); set(s, 2, '=' + net(holdingF + '*' + ne('E', '1100'))); s++;
   // Property tax: posted 1100 lines plus, while unsold, the proration estimate in
@@ -1158,10 +1168,11 @@ function setupPropertyTab(name) {
   s++;
   paint(s, 1, 2, C.head); set(s++, 1, 'Payouts', true);
   set(s, 1, 'Dennis', true); paint(s, 1, 2, C.sub); var dennisRow = s++;
-  set(s, 1, 'Purchase Principal & Interest'); set(s, 2, '=G' + payoffRow); s++;
+  set(s, 1, 'Purchase Principal & Interest'); set(s, 2, '=' + purchasePayoffRef); s++;
+  set(s, 1, 'Cash Advances & Interest'); set(s, 2, '=' + cashPayoffRef); s++;
   set(s, 1, 'Individual Share'); set(s, 2, '=B' + shareRow); s++;
   set(s, 1, 'Dennis Paid (direct)'); set(s, 2, '=G' + dennisDirectRow); s++;
-  set(dennisRow, 2, '=SUM(B' + (dennisRow + 1) + ':B' + (dennisRow + 3) + ')', true);
+  set(dennisRow, 2, '=SUM(B' + (dennisRow + 1) + ':B' + (dennisRow + 4) + ')', true);
   s++;
   set(s, 1, 'Paul', true); paint(s, 1, 2, C.sub); var paulRow = s++;
   set(s, 1, 'Individual Share'); set(s, 2, '=B' + shareRow); s++;
@@ -1202,12 +1213,15 @@ function setupPropertyTab(name) {
   sh.getRange(1, 36).setFormula('=IFERROR(VLOOKUP("stub_days_basis",Settings!A:B,2,FALSE),30)');
   sh.getRange(1, 37).setFormula('=IFERROR(VLOOKUP("' + safeName + '",Properties!A:F,6,FALSE),"")'); // settlement_date
   sh.getRange(1, 38).setFormula('=IFERROR(VLOOKUP("' + safeName + '",Properties!A:K,11,FALSE),"")'); // contract_price
-  sh.getRange(advFirst, 40, ADV_N, 4).setFormulas(advHelpers);
+  advHelperBlocks.forEach(function (blk) { sh.getRange(blk[0], 40, blk[1].length, 4).setFormulas(blk[1]); });
+  sh.getRange(2, 37).setFormula('=SUM(G' + purchase.first + ':G' + purchase.last + ')+SUM(G' + cash.first + ':G' + cash.last + ')'); // AK2 interest to date
+  sh.getRange(3, 37).setFormula('=' + purchasePayoffRef + '+' + cashPayoffRef); // AK3 payoff, every advance
+  sh.getRange(2, 37, 2, 1).setFontColor('#999999');
   sh.getRange(1, 44).setFormula('=IFERROR(VLOOKUP("' + safeName + '",Properties!A:L,12,FALSE),"")'); // AR1: tax_annual
   sh.getRange(1, 45).setFormula('=IF(OR($AK$1<>"",$AR$1=""),0,$AR$1*($B$1-DATE(YEAR($B$1),1,1))/365)'); // AS1: proration estimate while unsold
   sh.getRange(1, 35, 1, 5).setFontColor('#999999');
   sh.getRange(1, 44, 1, 2).setFontColor('#999999');
-  sh.getRange(advFirst, 40, ADV_N, 4).setFontColor('#999999');
+  advHelperBlocks.forEach(function (blk) { sh.getRange(blk[0], 40, blk[1].length, 4).setFontColor('#999999'); });
 
   // Formats: dates, dollars, checkboxes (a formula returning TRUE/FALSE renders as a
   // checked/unchecked box, like the old tab).
@@ -1215,7 +1229,7 @@ function setupPropertyTab(name) {
   sh.getRange(1, 2).setNumberFormat('mm/dd/yyyy');
   sh.getRange(1, 37).setNumberFormat('mm/dd/yyyy');
   sh.getRange(4, 2, grid.length - 3, 1).setNumberFormat(money);
-  sh.getRange(advFirst, 4, ADV_N, 2).setNumberFormat('mm/dd/yyyy');
+  [purchase, cash].forEach(function (blk) { sh.getRange(blk.first, 4, blk.last - blk.first + 1, 2).setNumberFormat('mm/dd/yyyy'); });
   sh.getRange(4, 6, grid.length - 3, 2).setNumberFormat(money);
   [10, 18].forEach(function (c) {
     sh.getRange(4, c + 1, grid.length - 3, 1).setNumberFormat('mm/dd/yyyy');
@@ -1289,15 +1303,18 @@ function ensureJournalHelpers_(ss) {
   return sh;
 }
 
-/** Number of Advances rows naming this property (any status). */
-function countAdvances_(ss, name) {
+/** Number of Advances rows naming this property: purchase-principal ones (kind =
+ *  "purchase") when `purchaseKind` is true, every other kind when false. */
+function countAdvances_(ss, name, purchaseKind) {
   var sheet = ss.getSheetByName('Advances');
   if (!sheet || sheet.getLastRow() < 2) return 0;
   var cols = headerIndex_(sheet);
-  var col = cols['property'];
-  if (!col) return 0;
-  return sheet.getRange(2, col, sheet.getLastRow() - 1, 1).getValues().filter(function (r) {
-    return String(r[0]) === name;
+  if (!cols['property']) return 0;
+  var rows = sheet.getRange(2, 1, sheet.getLastRow() - 1, sheet.getLastColumn()).getValues();
+  return rows.filter(function (r) {
+    if (String(r[cols['property'] - 1]) !== name) return false;
+    var isPurchase = cols['kind'] ? String(r[cols['kind'] - 1]) === 'purchase' : false;
+    return purchaseKind ? isPurchase : !isPurchase;
   }).length;
 }
 
