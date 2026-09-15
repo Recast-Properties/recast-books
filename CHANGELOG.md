@@ -370,3 +370,15 @@ the per-advance rate; personal loans group under "Paul (personal)". 408 tests.
 Paul: every Dennis advance, partner deal or bank-only deal, is against a property. The
 `personal` kind added an hour earlier is removed from the form, the function, the posting
 engine and the ledger; the per-advance rate and per-property share stay. 407 tests.
+
+## 2026-09-15 — Property tab: Paul's final pass
+
+Summary rows read Purchase Principal + Interest / Cash Advance Interest (same total; the
+cash-advance interest stays in Dennis's payout as "Cash Advances + Interest" because it is
+his money — dropping it would leave payouts $158.16 short of net proceeds). End Date is
+typed on the tab and written to `Advances.repaid_date` by a new onEdit trigger
+(`installTriggers()`, run via `setup()`; manifest gained `script.scriptapp`); interest
+freezes at that date in-sheet as in the engine. Cosmetics: End Date cells white, "Recast
+Account Paid" head, payout totals `#fff2cc`. Granite with end dates 07/27 shows $6,882.27
+purchase-principal interest against Dennis's $6,873.90. Everything on the tab reconciles:
+payouts $408,500.00 = net proceeds $408,500.00 on a $430,000 estimate.

@@ -80,27 +80,35 @@ then side by side —
 ```
 B:C  SUMMARY                       E:H  DENNIS                            J:P  REHAB COSTS          R:X  UTILITIES
      Total Project Cost                 Purchase Principal + Interest          payee · date · desc ·     (Holding-class lines,
-     Purchase Price (1000, else           Start · End · Principal ·            amount · Paul Paid ·      same shape)
-       registry purchase_price)           Interest to Date (one row)           Dennis Paid · Recast
-     Interest to Date (all advances)   Paul Paid / Received (advances,        Account (checkboxes
-     Rehab Costs                         refunds) — 2030                      from paid_from), 300
-     Utilities (Holding ex-1100)       Dennis Paid direct / Received          rows, one spilling
-     Property Tax (prorated, $x/yr)    Recast Account Paid / Received        SORT(FILTER) per block
-                                       Cash Advances + Interest
-     PROFIT BREAKDOWN                    Start · End · Principal ·
-       Sale Price (typed, kept)          Interest to Date (n + 1 rows)
+     Purchase Principal + Interest        Start · End (typed) · Principal ·    amount · Paul Paid ·      same shape)
+       (1000 else registry price,         Interest to Date (one row)           Dennis Paid · Recast
+       plus its interest)               Paul Paid / Received (advances,        Account (checkboxes
+     Cash Advance Interest                refunds) — 2030                      from paid_from), 300
+     Rehab Costs                       Dennis Paid direct / Received          rows, one spilling
+     Utilities (Holding ex-1100)       Recast Account Paid / Received        SORT(FILTER) per block
+     Property Tax (prorated, $x/yr)    Cash Advances + Interest
+                                         Start · End (typed) · Principal ·
+     PROFIT BREAKDOWN                    Interest to Date (n + 1 rows)
+       Sale Price (typed, kept)
        Total Project Costs
        Agent x% · Closing x%
        Net Profit
        Dennis Share (p%) · Paul Share
      PAYOUTS
-       Dennis = purchase principal & interest + cash advances & interest + Dennis share + direct
+       Dennis = purchase principal & interest + cash advances + interest + Dennis share + direct
        Paul   = Paul share + due to Paul
        Back to Recast account
 ```
 
+**End Date is typed on the tab.** Each schedule row's End Date cell holds
+`Advances.repaid_date` as a value; an installable onEdit trigger in the writer project
+(`onPropertyTabEdit`, installed by `setup()` / `installTriggers()`) writes a typed or
+cleared date back to the matching Advances row (same property, start date, principal)
+and flips its status. Interest on that row stops at the End Date on the tab and in the
+app's accrual engine alike (D-011). It is the one other typed cell besides Sale Price.
+
 Colours (Paul's): heads `#a3f67f`, totals `#ceffbc`, sub-heads `#ffe599`, checkbox
-columns `#fff2cc`, share rows yellow, the typed Sale Price `#cfe2f3`. Helpers sit in
+columns `#fff2cc`, payout totals `#fff2cc`, share rows yellow, the typed Sale Price `#cfe2f3`. Helpers sit in
 AI:AV greyed (rate, stub basis, settlement_date, contract_price, per-advance math incl.
 the advance's own `rate_pct`, tax_annual, proration estimate, `dennis_share_pct`); the
 Journal-wide voided flag is on the hidden `Journal helpers` sheet so no array formula
