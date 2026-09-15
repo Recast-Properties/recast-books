@@ -1008,6 +1008,11 @@ function setupPropertyTab(name) {
   var props = PropertiesService.getScriptProperties();
   var ss = openOrCreateWorkbook_(props);
   var sh = getOrCreateSheet_(ss, name);
+  // Sale Price is the one typed cell on the tab (Paul, 2026-09-15: "a live input cell
+  // for me to enter the value"): keep what is there across a rebuild, else start from the
+  // registry's contract_price.
+  var keptSalePrice = readLabelledValue_(sh, 'Sale Price');
+  var registry = propertyRow_(ss, name);
   sh.clear();
   // clear() leaves data validation behind, so an old block's checkboxes would survive
   // a rebuild.
@@ -1048,7 +1053,7 @@ function setupPropertyTab(name) {
   // Colours copied from the old workbook's tab (Paul, 2026-09-15): section heads green
   // with the total in light green, sub-heads tan, checkbox columns pale tan, Individual
   // Share yellow. paint(r, c, w, bg) queues a background fill applied after setValues.
-  var C = { head: '#b6d7a8', total: '#d9ead3', sub: '#ffe599', tan: '#fff2cc', yellow: '#ffff00' };
+  var C = { head: '#b6d7a8', total: '#d9ead3', sub: '#ffe599', tan: '#fff2cc', yellow: '#ffff00', input: '#cfe2f3' };
   var paints = [];
   var paint = function (r, c, w, bg, h) { paints.push([r, c, w, bg, h || 1]); };
   var set = function (r, c, v, isBold) {
@@ -1119,7 +1124,9 @@ function setupPropertyTab(name) {
   // ---- SUMMARY (A:B) --------------------------------------------------------------
   var s = 4;
   set(s, 1, 'Total Project Cost', true); var totalRow = s; paint(s, 1, 1, C.head); paint(s, 2, 1, C.total); s += 1;
-  set(s, 1, 'Purchase Price'); set(s, 2, '=' + net(eq('E', '1000'))); var purchaseRow = s++;
+  // The posted purchase (account 1000) once it is on the books; the registry's
+  // purchase_price until then.
+  set(s, 1, 'Purchase Price'); set(s, 2, '=IF(' + net(eq('E', '1000')) + '=0,IFERROR(VLOOKUP("' + safeName + '",Properties!A:E,5,FALSE),0),' + net(eq('E', '1000')) + ')'); var purchaseRow = s++;
   set(s, 1, 'Interest to Date'); set(s, 2, '=G' + interestRow); s++;
   set(s, 1, 'Rehab Costs'); set(s, 2, '=' + net(rehabF)); var rehabRow = s++;
   set(s, 1, 'Utilities'); set(s, 2, '=' + net(holdingF + '*' + ne('E', '1100'))); s++;
@@ -1134,8 +1141,9 @@ function setupPropertyTab(name) {
   set(totalRow, 2, '=SUM(B' + purchaseRow + ':B' + sellingRow + ')', true);
   s++;
   paint(s, 1, 2, C.head); set(s++, 1, 'Profit Breakdown', true);
-  set(s, 1, 'Sale Price (contract price, else purchase price)');
-  set(s, 2, '=IF($AL$1<>"",$AL$1,IFERROR(VLOOKUP("' + safeName + '",Properties!A:E,5,FALSE),0))'); var saleRow = s++;
+  set(s, 1, 'Sale Price (estimate - type it here)', true);
+  set(s, 2, keptSalePrice !== '' ? keptSalePrice : (registry.contract_price || ''), true);
+  paint(s, 1, 1, C.head); paint(s, 2, 1, C.input); var saleRow = s++;
   set(s, 1, 'Total Project Costs'); set(s, 2, '=-B' + totalRow); s++;
   var pct = function (key) { return 'IFERROR(VLOOKUP("' + key + '",Settings!A:B,2,FALSE),0)'; };
   set(s, 1, '="Agent "&' + pct('estimate_agent_pct') + '&"%"'); set(s, 2, '=-B' + saleRow + '*' + pct('estimate_agent_pct') + '/100'); var agentRow = s++;
@@ -1237,6 +1245,32 @@ function setupPropertyTab(name) {
 
   console.log('Property tab rebuilt for "' + name + '": ' + grid.length + ' rows');
   return { ok: true, rows: grid.length };
+}
+
+/** The value in column B of the first row whose column A label starts with `label`, or ''. */
+function readLabelledValue_(sh, label) {
+  if (sh.getLastRow() < 1) return '';
+  var rows = sh.getRange(1, 1, sh.getLastRow(), 2).getValues();
+  for (var i = 0; i < rows.length; i++) {
+    if (String(rows[i][0]).indexOf(label) === 0) return rows[i][1] === '' ? '' : rows[i][1];
+  }
+  return '';
+}
+
+/** The Properties row for a name as an object keyed by header, or {} if absent. */
+function propertyRow_(ss, name) {
+  var sheet = ss.getSheetByName('Properties');
+  if (!sheet || sheet.getLastRow() < 2) return {};
+  var cols = headerIndex_(sheet);
+  var rows = sheet.getRange(2, 1, sheet.getLastRow() - 1, sheet.getLastColumn()).getValues();
+  for (var i = 0; i < rows.length; i++) {
+    if (String(rows[i][cols['name'] - 1]) === name) {
+      var out = {};
+      Object.keys(cols).forEach(function (h) { out[h] = rows[i][cols[h] - 1]; });
+      return out;
+    }
+  }
+  return {};
 }
 
 var HELPER_SHEET = 'Journal helpers';
