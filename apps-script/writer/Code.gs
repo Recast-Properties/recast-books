@@ -1142,7 +1142,8 @@ function setupPropertyTab(name) {
   // through the split.
   var interestRef = 'SUM(G' + purchase.first + ':G' + purchase.last + ')+SUM(G' + cash.first + ':G' + cash.last + ')';
   var purchasePayoffRef = 'G' + purchase.head;
-  var cashPayoffRef = 'G' + cash.head;
+  var cashPrincipalRef = 'SUM(F' + cash.first + ':F' + cash.last + ')';
+  var cashInterestRef = 'SUM(G' + cash.first + ':G' + cash.last + ')';
 
   // ---- SUMMARY (A:B) --------------------------------------------------------------
   var s = 4;
@@ -1179,10 +1180,11 @@ function setupPropertyTab(name) {
   paint(s, 1, 2, C.head); set(s++, 1, 'Payouts', true);
   set(s, 1, 'Dennis', true); paint(s, 1, 2, C.sub); var dennisRow = s++;
   set(s, 1, 'Purchase Principal & Interest'); set(s, 2, '=' + purchasePayoffRef); s++;
-  set(s, 1, 'Cash Advances & Interest'); set(s, 2, '=' + cashPayoffRef); s++;
+  set(s, 1, 'Cash Advances'); set(s, 2, '=' + cashPrincipalRef); s++;
+  set(s, 1, 'Interest on cash advances (a property cost, split via the shares)'); set(s, 2, '=' + cashInterestRef); s++;
   set(s, 1, 'Dennis Share'); set(s, 2, '=B' + dennisShareRow); s++;
   set(s, 1, 'Dennis Paid (direct)'); set(s, 2, '=G' + dennisDirectRow); s++;
-  set(dennisRow, 2, '=SUM(B' + (dennisRow + 1) + ':B' + (dennisRow + 4) + ')', true);
+  set(dennisRow, 2, '=SUM(B' + (dennisRow + 1) + ':B' + (dennisRow + 5) + ')', true);
   s++;
   set(s, 1, 'Paul', true); paint(s, 1, 2, C.sub); var paulRow = s++;
   set(s, 1, 'Paul Share'); set(s, 2, '=B' + paulShareRow); s++;
