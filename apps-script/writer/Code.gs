@@ -17,6 +17,7 @@
 function setup() {
   var props = PropertiesService.getScriptProperties();
   var ss = openOrCreateWorkbook_(props);
+  installTriggers();
 
   TAB_ORDER.forEach(function (name) {
     var sheet = getOrCreateSheet_(ss, name);
@@ -1085,12 +1086,16 @@ function setupPropertyTab(name) {
     paint(top + 1, 4, 4, C.sub);
     var crit = advCritBase + '*' + kindFactor;
     var pick = function (col, idx) { return 'INDEX(FILTER(' + A(col) + ',' + crit + '),' + idx + ')'; };
+    var endDates = advanceRepaidDates_(ss, name, kindFactor.indexOf('="purchase"') !== -1);
     var helpers = [];
     var first = top + 2, last = top + 1 + n;
     for (var i = 0; i < n; i++) {
       var r = first + i, idx = i + 1;
       set(r, 4, '=IFERROR(' + pick('B', idx) + ',"")');
-      set(r, 5, '=IF(D' + r + '="","",IFERROR(' + pick('H', idx) + ',""))');
+      // End Date is typed on the sheet (Paul, 2026-09-15): the value comes from
+      // Advances.repaid_date and an edit trigger writes it back (onPropertyTabEdit).
+      set(r, 5, endDates[i] || '');
+      paint(r, 5, 1, C.input);
       set(r, 6, '=IF(D' + r + '="","",' + pick('C', idx) + ')');
       // AN n = full monthly anniversaries to the as-of date (DATEDIF "m"); AO balance
       // compounded monthly; AP last anniversary; AQ stub days - simple over
@@ -1319,6 +1324,81 @@ function ensureJournalHelpers_(ss) {
   sh.getRange(1, 1).setValue('voided? (txn_id named by a void)');
   sh.getRange(2, 1).setFormula('=ARRAYFORMULA(IF(Journal!$A$2:$A$5000="","",ISNUMBER(MATCH(Journal!$A$2:$A$5000,Journal!$Y$2:$Y$5000,0))))');
   return sh;
+}
+
+/** Advances.repaid_date values for this property's advances of one kind, in the
+ *  Advances tab's row order (the order the tab's FILTER lists them), as yyyy-mm-dd text. */
+function advanceRepaidDates_(ss, name, purchaseKind) {
+  var sheet = ss.getSheetByName('Advances');
+  if (!sheet || sheet.getLastRow() < 2) return [];
+  var cols = headerIndex_(sheet);
+  if (!cols['property']) return [];
+  var rows = sheet.getRange(2, 1, sheet.getLastRow() - 1, sheet.getLastColumn()).getValues();
+  var out = [];
+  rows.forEach(function (r) {
+    if (String(r[cols['property'] - 1]) !== name) return;
+    var isPurchase = cols['kind'] ? String(r[cols['kind'] - 1]) === 'purchase' : false;
+    if (isPurchase !== purchaseKind) return;
+    var v = cols['repaid_date'] ? r[cols['repaid_date'] - 1] : '';
+    out.push(v === '' ? '' : formatIsoDate_(v));
+  });
+  return out;
+}
+
+// ---- End Date typed on a property tab -> Advances.repaid_date (2026-09-15) -----------
+// Installable onEdit trigger (this is a standalone script, so a simple onEdit would not
+// fire). When a cell in the End Date column of a property tab's advance schedule
+// changes, the matching Advances row (same property, start date, principal) gets its
+// repaid_date set or cleared. The app's accrual engine and the tab's interest formulas
+// both stop at that date (D-011).
+var PROPERTY_TAB_START_COL = 5;   // E after the spacer column: Start Date
+var PROPERTY_TAB_END_COL = 6;     // F: End Date (typed)
+var PROPERTY_TAB_PRINCIPAL_COL = 7; // G: Principal
+
+function installTriggers() {
+  var props = PropertiesService.getScriptProperties();
+  var ss = openOrCreateWorkbook_(props);
+  var have = ScriptApp.getProjectTriggers().some(function (t) { return t.getHandlerFunction() === 'onPropertyTabEdit'; });
+  if (!have) ScriptApp.newTrigger('onPropertyTabEdit').forSpreadsheet(ss).onEdit().create();
+  console.log('onPropertyTabEdit trigger ' + (have ? 'already installed' : 'installed'));
+}
+
+function onPropertyTabEdit(e) {
+  try {
+    var range = e.range;
+    if (range.getColumn() !== PROPERTY_TAB_END_COL || range.getNumColumns() !== 1) return;
+    var sh = range.getSheet();
+    var ss = sh.getParent();
+    var name = sh.getName();
+    var propSheet = ss.getSheetByName('Properties');
+    if (!propSheet || propSheet.getLastRow() < 2) return;
+    var pcols = headerIndex_(propSheet);
+    var names = propSheet.getRange(2, pcols['name'], propSheet.getLastRow() - 1, 1).getValues().map(function (r) { return String(r[0]); });
+    if (names.indexOf(name) === -1) return;
+    var adv = ss.getSheetByName('Advances');
+    var acols = headerIndex_(adv);
+    var rows = adv.getRange(2, 1, Math.max(1, adv.getLastRow() - 1), adv.getLastColumn()).getValues();
+    for (var i = 0; i < range.getNumRows(); i++) {
+      var row = range.getRow() + i;
+      var start = sh.getRange(row, PROPERTY_TAB_START_COL).getValue();
+      var principal = sh.getRange(row, PROPERTY_TAB_PRINCIPAL_COL).getValue();
+      if (start === '' || principal === '') continue; // not an advance row
+      var typed = sh.getRange(row, PROPERTY_TAB_END_COL).getValue();
+      var repaid = typed === '' ? '' : formatIsoDate_(typed);
+      var startIso = formatIsoDate_(start);
+      for (var j = 0; j < rows.length; j++) {
+        var r = rows[j];
+        if (String(r[acols['property'] - 1]) !== name) continue;
+        if (formatIsoDate_(r[acols['date'] - 1]) !== startIso) continue;
+        if (Math.round(Number(r[acols['amount'] - 1]) * 100) !== Math.round(Number(principal) * 100)) continue;
+        adv.getRange(j + 2, acols['repaid_date']).setValue(repaid);
+        if (acols['status']) adv.getRange(j + 2, acols['status']).setValue(repaid ? 'repaid' : 'open');
+        break;
+      }
+    }
+  } catch (err) {
+    console.error('onPropertyTabEdit: ' + err);
+  }
 }
 
 /** Number of Advances rows naming this property: purchase-principal ones (kind =
