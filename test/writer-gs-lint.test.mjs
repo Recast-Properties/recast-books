@@ -104,7 +104,7 @@ test("setupPropertyTab: old-tab layout (summary / Dennis / Rehab Costs / Utiliti
   const body = source.slice(anchor, nextFn === -1 ? source.length : nextFn);
 
   for (const label of ["Total Project Cost", "Purchase Price", "Interest to Date", "Rehab Costs", "Utilities",
-    "Profit Breakdown", "Net Profit", "Individual Share", "Payouts", "Back to Recast account", "Sale Price (estimate - type it here)"]) {
+    "Profit Breakdown", "Net Profit", "Dennis Share", "Paul Share", "Payouts", "Back to Recast account", "Sale Price (estimate - type it here)"]) {
     assert.ok(body.includes("'" + label + "'"), `summary label "${label}" missing`);
   }
   for (const cls of ["Rehab", "Acquisition", "Holding"]) {

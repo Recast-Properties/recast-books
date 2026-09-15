@@ -1014,6 +1014,7 @@ async function renderPropertiesAddForm(prefill) {
         <div class="field"><label>Purchase price</label><input type="text" id="p-purchase-price" value="${escapeHtml(p.purchase_price || "")}" placeholder="207000.00" inputmode="decimal"></div>
         <div class="field"><label>Contract price (optional, buyer under contract)</label><input type="text" id="p-contract-price" value="${escapeHtml(p.contract_price || "")}" placeholder="290,000"></div>
         <div class="field"><label>Annual property tax (prorates Jan 1 to date until sold)</label><input type="text" id="p-tax-annual" value="${escapeHtml(p.tax_annual || "")}" placeholder="7,942" inputmode="decimal"></div>
+        <div class="field"><label>Dennis profit share (%; 0 when Dennis is the bank only)</label><input type="text" id="p-dennis-share" value="${escapeHtml(p.dennis_share_pct === undefined || p.dennis_share_pct === "" ? "50" : String(p.dennis_share_pct))}" inputmode="decimal"></div>
         <div class="field"><label>Settlement date</label><input type="date" id="p-settlement-date" value="${escapeHtml(p.settlement_date || "")}"></div>
         <div class="field"><label>Dennis-funded</label><select id="p-dennis-funded"><option value="true" ${String(p.dennis_funded) === "true" ? "selected" : ""}>Yes</option><option value="false" ${String(p.dennis_funded) !== "true" ? "selected" : ""}>No</option></select></div>
         <div class="field full"><label>Drive folder</label><input type="text" id="p-drive-folder" value="${escapeHtml(p.drive_folder || "")}" placeholder="https://drive.google.com/..."></div>
@@ -1069,6 +1070,7 @@ async function renderPropertiesAddForm(prefill) {
       purchase_price,
       contract_price: $("p-contract-price").value.trim() ? normalizeDollarsInput($("p-contract-price").value) : "",
       tax_annual: $("p-tax-annual").value.trim() ? normalizeDollarsInput($("p-tax-annual").value) : "",
+      dennis_share_pct: $("p-dennis-share").value.trim().replace("%", "") || "50",
       settlement_date: $("p-settlement-date").value,
       template: $("p-template").value.trim(),
       dennis_funded: $("p-dennis-funded").value,
@@ -1583,6 +1585,7 @@ const dennisState = {
   preview: null,
   payoffProperty: "",
   payoffAsOf: today(),
+  settings: {},
 };
 
 async function renderDennis() {
@@ -1596,11 +1599,13 @@ async function renderDennis() {
     <div class="section-card"><h3>Payoff calculator</h3><div id="dennis-payoff"></div></div>`;
   renderDennisBanner();
   try {
-    const [dennisResp, propsResp, banksResp] = await Promise.all([
+    const [dennisResp, propsResp, banksResp, settingsResp] = await Promise.all([
       api(`dennis?asOf=${dennisState.asOf}`),
       api("meta?tab=Properties"),
       api("meta?tab=Bank%20accounts"),
+      api("meta?tab=Settings"),
     ]);
+    dennisState.settings = Object.fromEntries(rowsToObjects(settingsResp.headers, settingsResp.rows).map((r) => [r.key, r.value]));
     dennisState.ledger = dennisResp;
     dennisState.properties = rowsToObjects(propsResp.headers, propsResp.rows);
     dennisState.bankAccounts = rowsToObjects(banksResp.headers, banksResp.rows);
@@ -1667,13 +1672,17 @@ function renderDennisAddForm() {
         <div class="field"><label>Date</label><input type="date" id="d-date" value="${today()}"></div>
         <div class="field"><label>Amount</label><input type="text" id="d-amount" placeholder="207000.00" inputmode="decimal"></div>
         <div class="field"><label>Property</label><select id="d-property">${realPropertyOptions("", dennisState.properties)}</select></div>
-        <div class="field"><label>Kind</label><select id="d-kind"><option value="purchase">Purchase principal (paid to the seller, posts as the purchase price)</option><option value="cash">Cash advance (lands in an account)</option></select></div>
+        <div class="field"><label>Kind</label><select id="d-kind"><option value="purchase">Purchase principal (paid to the seller, posts as the purchase price)</option><option value="cash">Cash advance (for the property; lands in an account)</option><option value="personal">Personal loan to Paul (not a property cost; Paul repays)</option></select></div>
         <div class="field" id="d-into-field" hidden><label>Into</label><select id="d-into">${bankAccountSelectOptions("1401", dennisState.bankAccounts)}<option value="2030">2030 — Paul Personal (reimburses Paul, Due to owner)</option></select></div>
+        <div class="field"><label>Interest rate (% per year)</label><input type="text" id="d-rate" inputmode="decimal" value="${escapeHtml(String(Math.round(Number(dennisState.settings.interest_rate_annual || 0.08) * 10000) / 100))}"></div>
         <div class="field full"><label>Memo</label><input type="text" id="d-memo" placeholder="Optional"></div>
       </div>
       <button class="btn btn-primary" id="d-save" style="margin-top:10px;">Add advance</button>
     </div>`;
-  $("d-kind").onchange = () => { $("d-into-field").hidden = $("d-kind").value !== "cash"; };
+  $("d-kind").onchange = () => {
+    $("d-into-field").hidden = $("d-kind").value !== "cash";
+    $("d-property").disabled = $("d-kind").value === "personal";
+  };
   $("d-save").onclick = async () => {
     const saveBtn = $("d-save");
     if (saveBtn.disabled) return; // a second click while posting is ignored
@@ -1681,7 +1690,8 @@ function renderDennisAddForm() {
     const property = $("d-property").value;
     const into = $("d-into").value;
     const memo = $("d-memo").value.trim();
-    if (!property) {
+    const kindNow = $("d-kind").value;
+    if (!property && kindNow !== "personal") {
       dennisState.banner = { kind: "error", html: "Choose a property." };
       renderDennisBanner();
       return;
@@ -1694,9 +1704,19 @@ function renderDennisAddForm() {
       renderDennisBanner();
       return;
     }
-    const kind = $("d-kind").value;
-    const body = { action: "addAdvance", date, amount_cents, property, kind };
+    const kind = kindNow;
+    const body = { action: "addAdvance", date, amount_cents, property: kind === "personal" ? "" : property, kind };
     if (kind === "cash") body.into = into;
+    const rateRaw = $("d-rate").value.trim();
+    if (rateRaw !== "") {
+      const rate_pct = Number(rateRaw.replace("%", ""));
+      if (!(Number.isFinite(rate_pct) && rate_pct > 0 && rate_pct < 100)) {
+        dennisState.banner = { kind: "error", html: "Enter the interest rate as a percent, like 8." };
+        renderDennisBanner();
+        return;
+      }
+      body.rate_pct = rate_pct;
+    }
     if (memo) body.memo = memo;
     saveBtn.disabled = true;
     saveBtn.textContent = "Posting advance…";
@@ -1712,8 +1732,8 @@ function renderDennisAddForm() {
       // slow (Apps Script), so it runs after the post rather than inside it.
       let tabNote = "";
       try {
-        await api("meta", { method: "POST", body: { action: "propertyTab", name: property } });
-        tabNote = ` The ${escapeHtml(property)} tab is rebuilt.`;
+        if (kind !== "personal") await api("meta", { method: "POST", body: { action: "propertyTab", name: property } });
+        tabNote = kind === "personal" ? "" : ` The ${escapeHtml(property)} tab is rebuilt.`;
       } catch (tabErr) {
         tabNote = ` The ${escapeHtml(property)} tab was not rebuilt (${escapeHtml(tabErr.message || String(tabErr))}); run rebuildAllPropertyTabs in the editor.`;
       }

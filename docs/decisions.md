@@ -403,3 +403,25 @@ outside Recast's books (D-011's exception), not a Recast advance at all.
 
 `Advances.kind` (purchase / cash) stays: it drives the two schedules on the property tab
 and which account the purchase posts to, not the interest treatment.
+
+## D-022 · Personal loans, per-property profit share, per-advance rate — 2026-09-15 · Paul
+
+Paul: "there will be scenarios where dennis gives me a personal cash advance. the first
+property we did (104 ashburne) was a different arrangement where dennis was the bank
+only." And: "there should also be an interest input for all cash advances."
+
+**Decided:**
+1. **Advance kinds:** `purchase` (posts as the purchase, Dr 1000 / Cr 2010), `cash` (for
+   the property; lands in a bank account or on 2030 when Paul deposited the check), and
+   **`personal`** — Dennis lending to Paul, no property: Dr 2030 / Cr 2010. Its interest
+   accrues Dr 2030 / Cr 2000 (Paul owes Recast; Recast owes Dennis) and never touches a
+   property. It shows on the Dennis page under "Paul (personal)" and is settled between
+   the partners at the next payout (the D-015 partner-adjustment mechanism), not on any
+   property tab. This is the treatment D-020 briefly gave to all cash advances, now
+   applied only where it belongs; D-011/D-021 stand for property advances.
+2. **Dennis's profit share is a term on the property:** `Properties.dennis_share_pct`,
+   default 50; 0 when Dennis is the bank only (Ashburne). The property tab shows "Dennis
+   Share (x%)" and "Paul Share (y%)"; the sell wizard and closing tab read the same field.
+3. **Each advance carries its own rate:** `Advances.rate_pct`, entered on the Dennis
+   page, defaulting to Settings `interest_rate_annual`. The accrual engine, the Dennis
+   ledger and the property tab honour it per advance.

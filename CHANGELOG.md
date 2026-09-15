@@ -355,3 +355,12 @@ interest follows the money. The Granite checks reimbursed him for Granite expens
 they paid for the property and their interest is a property cost, split through the 50/50
 as D-011 always said. Tab payouts and the close job put back; `kind` kept for the
 schedules and the purchase posting.
+
+## 2026-09-15 — D-022: personal loans, per-property share, per-advance rate
+
+Dennis page: Kind gains "Personal loan to Paul" (2030/2010, no property; interest to 2030),
+and an interest-rate field per advance (`Advances.rate_pct`, default from Settings).
+Properties form: "Dennis profit share %" (`dennis_share_pct`, default 50; 0 for Ashburne
+where Dennis was the bank only). Property tab: Dennis Share / Paul Share rows at the
+property's split, per-row rate on the schedules. Accrual engine and Dennis ledger honour
+the per-advance rate; personal loans group under "Paul (personal)". 408 tests.

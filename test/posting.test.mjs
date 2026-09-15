@@ -833,3 +833,13 @@ test("purchase txn_id is keyed by vendor + invoice number when one is given (D-0
   assert.notEqual(a.txn_id, c.txn_id, "different invoice -> different id");
   assert.notEqual(a.txn_id, d.txn_id, "no invoice falls back to the line hash");
 });
+
+test("D-022: a personal advance (Dennis lending to Paul) needs no property and posts 2030 / 2010", () => {
+  const ctx = baseCtx();
+  const entry = buildEntry(
+    { type: "advance", date: "2026-09-01", amount_cents: 100000, property: "", into: "2030", personal: true, description: "Dennis personal loan to Paul", posted_by: "paul" },
+    ctx,
+  );
+  assert.deepEqual(entry.lines.map((l) => l.account), ["2030", "2010"]);
+  assert.ok(entry.lines.every((l) => l.property === ""));
+});

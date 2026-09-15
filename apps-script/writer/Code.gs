@@ -133,13 +133,13 @@ var TAB_HEADERS = {
     'active', 'notes'],
   'Properties': ['name', 'address', 'status', 'purchase_date', 'purchase_price',
     'settlement_date', 'template', 'dennis_funded', 'drive_folder', 'notes', 'contract_price',
-    'tax_annual'],
+    'tax_annual', 'dennis_share_pct'],
   'Bank accounts': ['code', 'name', 'institution', 'last4', 'plaid_item_id',
     'plaid_account_id', 'opening_balance', 'opening_date', 'active'],
   'Vendors': ['canonical', 'aliases', 'entity_type', 'form_1099', 'tin_status',
     'w9_url', 'default_account', 'notes'],
   'Advances': ['advance_id', 'date', 'amount', 'property', 'source_txn_id',
-    'status', 'accrued_to', 'repaid_date', 'notes', 'kind'],
+    'status', 'accrued_to', 'repaid_date', 'notes', 'kind', 'rate_pct'],
   'Periods': ['period', 'status', 'closed_at', 'snapshot_url', 'notes'],
   'Settings': ['key', 'value', 'notes'],
   'Users': ['email', 'role', 'name', 'added_at'],
@@ -1016,7 +1016,7 @@ function setupPropertyTab(name) {
   // A previous build's spacer column A (empty, name in B1) is removed so the build
   // below starts at column A again and re-inserts exactly one.
   if (sh.getLastColumn() > 1 && sh.getRange(1, 1).isBlank() && !sh.getRange(1, 2).isBlank()) sh.deleteColumn(1);
-  if (sh.getMaxColumns() < 46) sh.insertColumnsAfter(sh.getMaxColumns(), 46 - sh.getMaxColumns());
+  if (sh.getMaxColumns() < 49) sh.insertColumnsAfter(sh.getMaxColumns(), 49 - sh.getMaxColumns());
   sh.clear();
   // clear() leaves data validation behind, so an old block's checkboxes would survive
   // a rebuild.
@@ -1095,12 +1095,15 @@ function setupPropertyTab(name) {
       // AN n = full monthly anniversaries to the as-of date (DATEDIF "m"); AO balance
       // compounded monthly; AP last anniversary; AQ stub days - simple over
       // Settings!stub_days_basis (D-006).
+      // AR the advance's own rate_pct (blank = Settings rate), AS the annual rate used.
       helpers.push([
         '=IF(D' + r + '="","",IFERROR(DATEDIF(D' + r + ',$B$1,"m"),0))',
-        '=IF(D' + r + '="","",F' + r + '*(1+$AI$1/12)^AN' + r + ')',
+        '=IF(D' + r + '="","",F' + r + '*(1+AS' + r + '/12)^AN' + r + ')',
         '=IF(D' + r + '="","",EDATE(D' + r + ',AN' + r + '))',
-        '=IF(D' + r + '="","",MAX(0,$B$1-AP' + r + '))']);
-      set(r, 7, '=IF(D' + r + '="","",AO' + r + '*(1+$AI$1/12*AQ' + r + '/$AJ$1)-F' + r + ')');
+        '=IF(D' + r + '="","",MAX(0,$B$1-AP' + r + '))',
+        '=IF(D' + r + '="","",IFERROR(' + pick('K', idx) + ',""))',
+        '=IF(D' + r + '="","",IF(AR' + r + '="",$AI$1,AR' + r + '/100))']);
+      set(r, 7, '=IF(D' + r + '="","",AO' + r + '*(1+AS' + r + '/12*AQ' + r + '/$AJ$1)-F' + r + ')');
     }
     set(top, 7, '=SUM(F' + first + ':F' + last + ')+SUM(G' + first + ':G' + last + ')', true);
     advHelperBlocks.push([first, helpers]);
@@ -1151,12 +1154,12 @@ function setupPropertyTab(name) {
   set(s, 1, 'Rehab Costs'); set(s, 2, '=' + net(rehabF)); var rehabRow = s++;
   set(s, 1, 'Utilities'); set(s, 2, '=' + net(holdingF + '*' + ne('E', '1100'))); s++;
   // Property tax: posted 1100 lines plus, while unsold, the proration estimate in
-  // $AS$1 (annual x days from Jan 1 of the as-of year / 365 - what the old tab typed).
+  // $AU$1 (annual x days from Jan 1 of the as-of year / 365 - what the old tab typed).
   // The label names the annual figure it is built from.
   // ponytail: a current-year bill paid before the sale would count in both terms;
   // Texas bills arrive in October and are due Jan 31, so a held property rarely
   // pays one - revisit if it happens.
-  set(s, 1, '="Property Tax (prorated"&IF($AR$1="","",", "&TEXT($AR$1,"$#,##0")&"/yr")&")"'); set(s, 2, '=' + net(eq('E', '1100')) + '+$AS$1'); s++;
+  set(s, 1, '="Property Tax (prorated"&IF($AT$1="","",", "&TEXT($AT$1,"$#,##0")&"/yr")&")"'); set(s, 2, '=' + net(eq('E', '1100')) + '+$AU$1'); s++;
   set(totalRow, 2, '=SUM(B' + purchaseRow + ':B' + (s - 1) + ')', true);
   s++;
   paint(s, 1, 2, C.head); set(s++, 1, 'Profit Breakdown', true);
@@ -1168,18 +1171,21 @@ function setupPropertyTab(name) {
   set(s, 1, '="Agent "&' + pct('estimate_agent_pct') + '&"%"'); set(s, 2, '=-B' + saleRow + '*' + pct('estimate_agent_pct') + '/100'); var agentRow = s++;
   set(s, 1, '="Closing "&' + pct('estimate_closing_pct') + '&"%"'); set(s, 2, '=-B' + saleRow + '*' + pct('estimate_closing_pct') + '/100'); var closingRow = s++;
   set(s, 1, 'Net Profit', true); set(s, 2, '=SUM(B' + saleRow + ':B' + closingRow + ')', true); paint(s, 1, 2, C.total); var profitRow = s++;
-  set(s, 1, 'Individual Share', true); set(s, 2, '=B' + profitRow + '/2', true); paint(s, 1, 2, C.yellow); var shareRow = s++;
+  // D-022: the split is a term on the property (Properties.dennis_share_pct, default 50;
+  // 0 when Dennis is the bank only, as on 104 Ashburne).
+  set(s, 1, '="Dennis Share ("&$AV$1&"%)"', true); set(s, 2, '=B' + profitRow + '*$AV$1/100', true); paint(s, 1, 2, C.yellow); var dennisShareRow = s++;
+  set(s, 1, '="Paul Share ("&(100-$AV$1)&"%)"', true); set(s, 2, '=B' + profitRow + '-B' + dennisShareRow, true); paint(s, 1, 2, C.yellow); var paulShareRow = s++;
   s++;
   paint(s, 1, 2, C.head); set(s++, 1, 'Payouts', true);
   set(s, 1, 'Dennis', true); paint(s, 1, 2, C.sub); var dennisRow = s++;
   set(s, 1, 'Purchase Principal & Interest'); set(s, 2, '=' + purchasePayoffRef); s++;
   set(s, 1, 'Cash Advances & Interest'); set(s, 2, '=' + cashPayoffRef); s++;
-  set(s, 1, 'Individual Share'); set(s, 2, '=B' + shareRow); s++;
+  set(s, 1, 'Dennis Share'); set(s, 2, '=B' + dennisShareRow); s++;
   set(s, 1, 'Dennis Paid (direct)'); set(s, 2, '=G' + dennisDirectRow); s++;
   set(dennisRow, 2, '=SUM(B' + (dennisRow + 1) + ':B' + (dennisRow + 4) + ')', true);
   s++;
   set(s, 1, 'Paul', true); paint(s, 1, 2, C.sub); var paulRow = s++;
-  set(s, 1, 'Individual Share'); set(s, 2, '=B' + shareRow); s++;
+  set(s, 1, 'Paul Share'); set(s, 2, '=B' + paulShareRow); s++;
   set(s, 1, 'Due to Paul (paid less reimbursed)'); set(s, 2, '=G' + dueToPaulRow); s++;
   set(paulRow, 2, '=SUM(B' + (paulRow + 1) + ':B' + (paulRow + 2) + ')', true);
   s++;
@@ -1217,12 +1223,13 @@ function setupPropertyTab(name) {
   sh.getRange(1, 36).setFormula('=IFERROR(VLOOKUP("stub_days_basis",Settings!A:B,2,FALSE),30)');
   sh.getRange(1, 37).setFormula('=IFERROR(VLOOKUP("' + safeName + '",Properties!A:F,6,FALSE),"")'); // settlement_date
   sh.getRange(1, 38).setFormula('=IFERROR(VLOOKUP("' + safeName + '",Properties!A:K,11,FALSE),"")'); // contract_price
-  advHelperBlocks.forEach(function (blk) { sh.getRange(blk[0], 40, blk[1].length, 4).setFormulas(blk[1]); });
-  sh.getRange(1, 44).setFormula('=IFERROR(VLOOKUP("' + safeName + '",Properties!A:L,12,FALSE),"")'); // AR1: tax_annual
-  sh.getRange(1, 45).setFormula('=IF(OR($AK$1<>"",$AR$1=""),0,$AR$1*($B$1-DATE(YEAR($B$1),1,1))/365)'); // AS1: proration estimate while unsold
+  advHelperBlocks.forEach(function (blk) { sh.getRange(blk[0], 40, blk[1].length, 6).setFormulas(blk[1]); });
+  sh.getRange(1, 46).setFormula('=IFERROR(VLOOKUP("' + safeName + '",Properties!A:L,12,FALSE),"")'); // AT1: tax_annual
+  sh.getRange(1, 47).setFormula('=IF(OR($AK$1<>"",$AT$1=""),0,$AT$1*($B$1-DATE(YEAR($B$1),1,1))/365)'); // AU1: proration estimate while unsold
+  sh.getRange(1, 48).setFormula('=IFERROR(IF(VLOOKUP("' + safeName + '",Properties!A:M,13,FALSE)="",50,VLOOKUP("' + safeName + '",Properties!A:M,13,FALSE)),50)'); // AV1: Dennis profit share % (D-022)
   sh.getRange(1, 35, 1, 5).setFontColor('#999999');
-  sh.getRange(1, 44, 1, 2).setFontColor('#999999');
-  advHelperBlocks.forEach(function (blk) { sh.getRange(blk[0], 40, blk[1].length, 4).setFontColor('#999999'); });
+  sh.getRange(1, 46, 1, 3).setFontColor('#999999');
+  advHelperBlocks.forEach(function (blk) { sh.getRange(blk[0], 40, blk[1].length, 6).setFontColor('#999999'); });
 
   // Formats: dates, dollars, checkboxes (a formula returning TRUE/FALSE renders as a
   // checked/unchecked box, like the old tab).

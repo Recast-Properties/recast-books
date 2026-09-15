@@ -46,7 +46,7 @@ settlement date the whole balance moves to 5000 COGS. Year-end inventory is a fi
 | Advance received | 2010 Note payable — Dennis | Dr cash, Cr 2010. One row per advance in the `Advances` tab, tagged to a property (split allowed). |
 | Interest accrual | 2000 Accrued interest — Dennis / 1200 Financing — interest (property cost) | 8% ÷ 12 (D-016) per advance per month, compounding on each advance's **own monthly anniversary**; stub days at payoff pro-rated on the current month's day count. Posted monthly by the close job. |
 | Repayment at sale | 2010 / 2000 | Principal plus accrued interest for that property, cleared from settlement proceeds. |
-| Profit share | 1220 Profit participation — Dennis (property cost, released to COGS) | 50% of the property's net profit after all 1000s including interest. Paid at settlement. Not equity. |
+| Profit share | 1220 Profit participation — Dennis (property cost, released to COGS) | The property's `dennis_share_pct` (default 50%, 0 when Dennis is the bank only — D-022) of net profit after all 1000s including interest. Paid at settlement. Not equity. |
 
 **Advance mechanics (D-010).** Interest starts the day the money lands in the shared
 Citizens account. Each advance is dedicated to one property and sits on **that
