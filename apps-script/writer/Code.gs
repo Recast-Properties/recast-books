@@ -1009,7 +1009,7 @@ function setupPropertyTab(name) {
   sh.clear();
 
   var N = 5000;     // Journal bound, same as setupTotals
-  var ADV_N = 20;   // Advances rows shown for this property
+  var ADV_N = 8;    // Advances rows shown for this property (a property has a few)
   var LINES_N = 60; // Journal lines shown per block - bounded
 
   var J = function (col) { return 'Journal!$' + col + '$2:$' + col + '$' + N; };
@@ -1084,24 +1084,23 @@ function setupPropertyTab(name) {
   set(4, 7, '=G' + payoffRow, true);
 
   paint(payoffRow, 4, 4, C.total);
-  var paulPaidRow = payoffRow + 2;
-  set(paulPaidRow, 4, 'Paul Paid'); set(paulPaidRow, 7, '=' + cred(eq('E', '2030')));
-  set(paulPaidRow + 1, 4, 'Reimbursed'); set(paulPaidRow + 1, 7, '=-' + deb(eq('E', '2030')));
-  var dueToPaulRow = paulPaidRow + 2;
-  set(dueToPaulRow, 4, 'Due to Paul', true); set(dueToPaulRow, 7, '=G' + paulPaidRow + '+G' + (paulPaidRow + 1), true);
-  paint(dueToPaulRow, 4, 4, C.sub);
-
-  var dennisDirectRow = dueToPaulRow + 2;
-  set(dennisDirectRow, 4, 'Dennis Paid (direct, not an advance)', true);
-  set(dennisDirectRow, 7, '=' + net(costLineF + '*' + eq('N', 'DENNIS')), true);
-  paint(dennisDirectRow, 4, 4, C.sub);
-
-  var recastPaidRow = dennisDirectRow + 2;
-  set(recastPaidRow, 4, 'Recast Account paid'); set(recastPaidRow, 7, '=' + cred(isBank));
-  set(recastPaidRow + 1, 4, 'Received (advances, refunds)'); set(recastPaidRow + 1, 7, '=-' + deb(isBank));
-  var recastNetRow = recastPaidRow + 2;
-  set(recastNetRow, 4, 'Back to Recast account', true); set(recastNetRow, 7, '=G' + recastPaidRow + '+G' + (recastPaidRow + 1), true);
-  paint(recastNetRow, 4, 4, C.sub);
+  // Sub-blocks shaped like the old tab: a green head carrying the net total, detail
+  // rows beneath it.
+  var subBlock = function (top, title, detail) {
+    set(top, 4, title, true); paint(top, 4, 3, C.head); paint(top, 7, 1, C.total);
+    detail.forEach(function (d, i) { set(top + 1 + i, 4, d[0]); set(top + 1 + i, 7, d[1]); });
+    set(top, 7, '=SUM(G' + (top + 1) + ':G' + (top + detail.length) + ')', true);
+    return top + detail.length + 2;
+  };
+  var dueToPaulRow = payoffRow + 2;
+  var dennisDirectRow = subBlock(dueToPaulRow, 'Paul Paid', [
+    ['Paid by Paul (2030)', '=' + cred(eq('E', '2030'))],
+    ['Reimbursed', '=-' + deb(eq('E', '2030'))]]);
+  var recastNetRow = subBlock(dennisDirectRow, 'Dennis Paid (direct, not an advance)', [
+    ['Paid by Dennis on cost lines', '=' + net(costLineF + '*' + eq('N', 'DENNIS'))]]);
+  subBlock(recastNetRow, 'Recast Account', [
+    ['Recast Account paid', '=' + cred(isBank)],
+    ['Received (advances, refunds)', '=-' + deb(isBank)]]);
 
   // ---- SUMMARY (A:B) --------------------------------------------------------------
   var s = 4;
@@ -1220,7 +1219,7 @@ function setupPropertyTab(name) {
   sh.setColumnWidth(8, 160); sh.setColumnWidth(9, 20); sh.setColumnWidth(17, 20);
   [10, 18].forEach(function (c) {
     sh.setColumnWidth(c, 150); sh.setColumnWidth(c + 1, 90); sh.setColumnWidth(c + 2, 180);
-    sh.setColumnWidth(c + 3, 100); [4, 5, 6].forEach(function (k) { sh.setColumnWidth(c + k, 80); });
+    sh.setColumnWidth(c + 3, 100); [4, 5, 6].forEach(function (k) { sh.setColumnWidth(c + k, 100); });
   });
   sh.setFrozenRows(1);
   bold.forEach(function (rc) { sh.getRange(rc[0], rc[1]).setFontWeight('bold'); });
