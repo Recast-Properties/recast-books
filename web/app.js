@@ -1668,7 +1668,7 @@ function renderDennisAddForm() {
         <div class="field"><label>Amount</label><input type="text" id="d-amount" placeholder="207000.00" inputmode="decimal"></div>
         <div class="field"><label>Property</label><select id="d-property">${realPropertyOptions("", dennisState.properties)}</select></div>
         <div class="field"><label>Kind</label><select id="d-kind"><option value="purchase">Purchase principal (paid to the seller, posts as the purchase price)</option><option value="cash">Cash advance (lands in an account)</option></select></div>
-        <div class="field" id="d-into-field" hidden><label>Into</label><select id="d-into">${bankAccountSelectOptions("1401", dennisState.bankAccounts)}</select></div>
+        <div class="field" id="d-into-field" hidden><label>Into</label><select id="d-into">${bankAccountSelectOptions("1401", dennisState.bankAccounts)}<option value="2030">2030 — Paul Personal (reimburses Paul, Due to owner)</option></select></div>
         <div class="field full"><label>Memo</label><input type="text" id="d-memo" placeholder="Optional"></div>
       </div>
       <button class="btn btn-primary" id="d-save" style="margin-top:10px;">Add advance</button>

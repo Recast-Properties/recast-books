@@ -193,6 +193,8 @@ export default async (req) => {
       // Purchase principal never lands in an account: Dennis pays the auction directly,
       // so the advance IS the purchase - Dr 1000 Purchase price, Cr 2010 (Paul,
       // 2026-09-15). A cash advance lands in a bank account (Dr 14xx, Cr 2010).
+      // A cash advance handed to Paul personally (the Newport $2,000) lands on 2030 Due
+      // to owner, not a bank account: Recast owes Dennis, and owes Paul that much less.
       const into = kind === "purchase" ? "1000" : body.into || "1401";
       const description = kind === "purchase" ? "Purchase price (Dennis purchase principal)" : "Dennis advance";
       if (!date || !Number.isFinite(amount_cents) || !property) {
