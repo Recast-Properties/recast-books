@@ -35,6 +35,15 @@
     });
   }
 
+  // After a successful post the dialog stays open so the result can be read; the
+  // action button becomes Close (a replaced node, so the post handler cannot fire twice).
+  function finishDialog_(btn) {
+    var c = document.createElement('button');
+    c.textContent = 'Close';
+    c.onclick = function () { google.script.host.close(); };
+    btn.parentNode.replaceChild(c, btn);
+  }
+
   function showMsg_(el, ok, html) {
     el.className = 'msg ' + (ok ? 'ok' : 'err');
     el.innerHTML = html;

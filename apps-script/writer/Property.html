@@ -59,7 +59,7 @@
       var html = 'Saved <code>' + escapeHtml_(result.name) + '</code>.';
       html += result.tabError ? ' Property tab was not built: ' + escapeHtml_(result.tabError) : ' Property tab built (' + result.tabRows + ' rows).';
       showMsg_(msg, true, html);
-      setTimeout(function () { google.script.host.close(); }, 2200);
+      finishDialog_(btn);
     }, function (err) {
       btn.disabled = false;
       btn.textContent = 'Add property';

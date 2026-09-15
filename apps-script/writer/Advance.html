@@ -65,7 +65,7 @@
       var html = 'Posted <code>' + escapeHtml_(result.txn_id) + '</code>, advance <code>' + escapeHtml_(result.advance_id) + '</code>.';
       html += result.tabError ? ' Property tab was not rebuilt: ' + escapeHtml_(result.tabError) : ' Property tab rebuilt (' + result.tabRows + ' rows).';
       showMsg_(msg, true, html);
-      setTimeout(function () { google.script.host.close(); }, 2200);
+      finishDialog_(btn);
     }, function (err) {
       btn.disabled = false;
       btn.textContent = 'Add advance';

@@ -50,7 +50,7 @@
       btn.disabled = false;
       if (!result.ok) { showMsg_(msg, false, '<b>' + escapeHtml_(result.error) + '</b> - ' + escapeHtml_(result.message)); return; }
       showMsg_(msg, true, 'Posted interest for ' + escapeHtml_(result.period) + ' (' + result.posted.length + ' ' + (result.posted.length === 1 ? 'entry' : 'entries') + ').');
-      setTimeout(function () { google.script.host.close(); }, 1800);
+      finishDialog_(btn);
     }, function (err) {
       btn.disabled = false;
       showMsg_(msg, false, escapeHtml_(err && err.message ? err.message : err));
