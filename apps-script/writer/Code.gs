@@ -1290,14 +1290,18 @@ function setupPropertyTab(name) {
     set(top + 1, c0, 'Payee', true); set(top + 1, c0 + 1, 'Date', true); set(top + 1, c0 + 2, 'Description', true); set(top + 1, c0 + 3, 'Amount', true);
     paint(top, c0, 3, C.head); paint(top, c0 + 3, 1, C.total); paint(top, c0 + 4, 3, C.head);
     paint(top + 1, c0, 7, C.sub); paint(top + 2, c0 + 4, 3, C.tan, LINES_N);
-    // One array formula per block: payee, date, description, amount, then the three
-    // paid-by booleans (rendered as checkboxes by the validation applied below), sorted
-    // by date. It spills as far as the property has lines; the rest of the block stays
-    // empty with unchecked boxes, like the old tab.
-    set(top + 2, c0, '=IFERROR(SORT(FILTER({' + J('L') + ',' + J('C') + ',' + J('M') + ',' + J('F') + '-' + J('G') + ',' +
-      J('N') + '&""="PAUL",' + J('N') + '&""="DENNIS",LEFT(' + J('N') + '&"",2)="14"},' + crit + '),2,TRUE),"")');
+    // Payee, date, description, amount spill from one array formula sorted by date. The
+    // three paid-by checkbox columns and the (white-on-white) txn_id column beside the
+    // block are separate spills keyed by that txn_id (paidByFormula_), so a click on a
+    // checkbox breaks only its own column, which onPropertyTabEdit restores after it
+    // has moved the entry's paid_from (Paul, 2026-09-15: "change who paid for an expense
+    // by changing the checkbox and have it update the journal").
+    set(top + 2, c0, '=IFERROR(SORT(FILTER({' + J('L') + ',' + J('C') + ',' + J('M') + ',' + J('F') + '-' + J('G') + '},' + crit + '),2,TRUE),"")');
+    postFormulas.push([top + 2, c0 + PT_TXN_OFFSET, '=IFERROR(INDEX(SORT(FILTER({' + J('A') + ',' + J('C') + '},' + crit + '),2,TRUE),0,1),"")']);
+    for (var k = 0; k < 3; k++) postFormulas.push([top + 2, c0 + 4 + k, paidByFormula_(c0, k)]);
     return top + 2 + LINES_N;
   };
+  var postFormulas = [];
   lineBlock(4, 10, 'Rehab Costs', rehabF + '*' + live);
   lineBlock(4, 18, 'Utilities', holdingF + '*' + live);
   var needRows = 5 + LINES_N;
@@ -1334,7 +1338,10 @@ function setupPropertyTab(name) {
     sh.getRange(4, c + 3, grid.length - 3, 1).setNumberFormat(money);
     sh.getRange(6, c + 4, LINES_N, 3).insertCheckboxes();
     sh.getRange(6, c + 4, LINES_N, 3).clearContent(); // keep the validation, let the block's formula spill into them
+    sh.getRange(6, c + PT_TXN_OFFSET, LINES_N, 1).setFontColor('#ffffff'); // txn_id column: present for the trigger, invisible
   });
+  postFormulas.forEach(function (f) { sh.getRange(f[0], f[1]).setFormula(f[2]); });
+  sh.hideColumns(18 + PT_TXN_OFFSET); // Utilities' txn_id column sits past the grid
 
   sh.setColumnWidth(1, 250); sh.setColumnWidth(2, 110); sh.setColumnWidth(3, 20);
   sh.setColumnWidth(4, 190); [5, 6, 7].forEach(function (c) { sh.setColumnWidth(c, 100); });
@@ -1430,6 +1437,90 @@ function advanceRepaidDates_(ss, name, purchaseKind) {
 // changes, the matching Advances row (same property, start date, principal) gets its
 // repaid_date set or cleared. The app's accrual engine and the tab's interest formulas
 // both stop at that date (D-011).
+// Line blocks (Rehab Costs at J, Utilities at R): payee/date/description/amount, then
+// the Paul Paid / Dennis Paid / Recast Account checkbox columns at c0+4..c0+6 and the
+// txn_id column at c0+7 (Q / Y). The checkbox columns are spills keyed by that txn_id.
+var PT_BLOCK_COLS = [10, 18];
+var PT_TXN_OFFSET = 7;
+var PT_LINES_N = 300;
+var PT_JOURNAL_N = 5000;
+var PT_PAID_BY = [['PAUL', '2030'], ['DENNIS', '2010'], ['1401', '']]; // checkbox k -> paid_from, credit account ('' = the bank code itself)
+
+function paidByFormula_(c0, k) {
+  var txn = colLetter_(c0 + PT_TXN_OFFSET);
+  var rows = '$' + txn + '$6:$' + txn + '$' + (5 + PT_LINES_N);
+  var paidFrom = 'VLOOKUP(' + rows + ',Journal!$A$2:$N$' + PT_JOURNAL_N + ',14,FALSE)&""';
+  var test = k === 2 ? 'LEFT(' + paidFrom + ',2)="14"' : paidFrom + '="' + PT_PAID_BY[k][0] + '"';
+  return '=ARRAYFORMULA(IF(' + rows + '="",FALSE,IFERROR(' + test + ',FALSE)))';
+}
+
+// A click on a Paul Paid / Dennis Paid / Recast Account checkbox: the cell now holds a
+// literal that broke its column's spill, so first put the column back, then void the
+// entry and re-post it with the new paid_from (append-only ledger - the original stays,
+// voided). A cash box from PAUL/DENNIS lands on 1401; change it on the Journal if it
+// was Chase. Refused (with a toast) when the period is closed or the box was unticked.
+function repaidFromEdit_(e, sh, ss, row, col) {
+  var c0 = col < 18 ? 10 : 18;
+  var k = col - (c0 + 4);
+  var anchor = sh.getRange(6, col);
+  if (row === 6) anchor.setFormula(paidByFormula_(c0, k)); else sh.getRange(row, col).clearContent();
+  var toast = function (msg) { ss.toast(msg, 'Recast Books', 8); };
+  var txnId = String(sh.getRange(row, c0 + PT_TXN_OFFSET).getValue() || '');
+  if (!txnId) return;
+  if (e.value !== 'TRUE' && e.value !== true) { toast('Tick the box of who paid instead; nothing changed.'); return; }
+
+  var journal = ss.getSheetByName('Journal');
+  var cols = headerIndex_(journal);
+  var rowsIdx = findAllRowsByValue_(journal, cols['txn_id'], txnId);
+  if (rowsIdx.length === 0) { toast('No Journal rows for ' + txnId); return; }
+  var width = journal.getLastColumn();
+  var orig = rowsIdx.map(function (r) {
+    var values = journal.getRange(r, 1, 1, width).getValues()[0];
+    var obj = {};
+    Object.keys(cols).forEach(function (n) { obj[n] = values[cols[n] - 1]; });
+    return obj;
+  });
+  var oldPaidFrom = String(orig[0].paid_from || '');
+  var newPaidFrom = PT_PAID_BY[k][0];
+  if (k === 2 && oldPaidFrom.slice(0, 2) === '14') newPaidFrom = oldPaidFrom;
+  if (newPaidFrom === oldPaidFrom) return; // already so
+  var newAccount = PT_PAID_BY[k][1] || newPaidFrom;
+  var period = String(orig[0].period || String(orig[0].date).slice(0, 7));
+  if (periodStatus_(ss.getSheetByName('Periods'), period) === 'closed') { toast('Period ' + period + ' is closed; ' + txnId + ' unchanged.'); return; }
+  var cents = function (v) { return Math.round(Number(v || 0) * 100); };
+  var isCreditSide = function (l) { return cents(l.credit) > 0 && (String(l.account).slice(0, 2) === '14' || l.account === '2030' || l.account === '2010'); };
+  if (!orig.some(isCreditSide)) { toast(txnId + ' has no paid-from line to move.'); return; }
+  var date = formatIsoDate_(orig[0].date);
+  var lines = orig.map(function (l) {
+    var moved = isCreditSide(l);
+    return {
+      account: moved ? newAccount : String(l.account), debit: cents(l.debit), credit: cents(l.credit),
+      property: l.property, cost_class: moved ? '' : l.cost_class, tax_treatment: moved ? '' : l.tax_treatment,
+      trade: l.trade, payee: l.payee, description: l.description, paid_from: newPaidFrom,
+      reconciled_ref: '', business_purpose: l.business_purpose, attendee: l.attendee,
+      destination: l.destination, odometer: l.odometer
+    };
+  });
+  var firstDebit = lines.filter(function (l) { return l.debit > 0; })[0];
+  var user = (e.user && e.user.getEmail && e.user.getEmail()) || 'sheet';
+  var entry = {
+    txn_id: makeTxnId('manual', date, firstDebit), date: date, period: period,
+    memo: String(orig[0].memo || '') + ' (paid from ' + newPaidFrom + ', was ' + oldPaidFrom + ')',
+    source: 'manual', posted_by: user, doc_url: orig[0].doc_url || '', void_of: '', lines: lines
+  };
+  var props = PropertiesService.getScriptProperties();
+  var today = Utilities.formatDate(new Date(), 'America/Chicago', 'yyyy-MM-dd');
+  try {
+    voidEntry_(txnId, 'paid_from ' + oldPaidFrom + ' -> ' + newPaidFrom, today, user, props);
+    postEntry_(entry, props);
+  } catch (err) {
+    toast('Could not move ' + txnId + ': ' + ((err && err.code) || 'ERROR') + ' - ' + String((err && err.message) || err));
+    return;
+  }
+  warmCache_();
+  toast('Re-posted ' + txnId + ' as ' + entry.txn_id + ', paid from ' + newPaidFrom + (k === 2 && newPaidFrom === '1401' && oldPaidFrom.slice(0, 2) !== '14' ? ' (1401 assumed; fix on the Journal if it was Chase)' : '') + '.');
+}
+
 var PROPERTY_TAB_START_COL = 5;   // E after the spacer column: Start Date
 var PROPERTY_TAB_END_COL = 6;     // F: End Date (typed)
 var PROPERTY_TAB_PRINCIPAL_COL = 7; // G: Principal
@@ -1456,7 +1547,11 @@ function onPropertyTabEdit(e) {
     if (editedSheet.getName() === 'Bank accounts') { mirrorBankAccountEdit_(editedSheet, range); return; }
     if (editedSheet.getName() === 'Users') { guardLastOwnerEdit_(e, editedSheet, range); return; }
 
-    if (range.getColumn() !== PROPERTY_TAB_END_COL || range.getNumColumns() !== 1) return;
+    var col = range.getColumn();
+    var isPaidBox = range.getNumRows() === 1 && range.getNumColumns() === 1 && range.getRow() >= 6 &&
+      PT_BLOCK_COLS.some(function (c0) { return col >= c0 + 4 && col <= c0 + 6; });
+    if (col !== PROPERTY_TAB_END_COL && !isPaidBox) return;
+    if (range.getNumColumns() !== 1) return;
     var sh = editedSheet;
     var ss = sh.getParent();
     var name = sh.getName();
@@ -1465,6 +1560,7 @@ function onPropertyTabEdit(e) {
     var pcols = headerIndex_(propSheet);
     var names = propSheet.getRange(2, pcols['name'], propSheet.getLastRow() - 1, 1).getValues().map(function (r) { return String(r[0]); });
     if (names.indexOf(name) === -1) return;
+    if (isPaidBox) { repaidFromEdit_(e, sh, ss, range.getRow(), col); return; }
     var adv = ss.getSheetByName('Advances');
     var acols = headerIndex_(adv);
     var rows = adv.getRange(2, 1, Math.max(1, adv.getLastRow() - 1), adv.getLastColumn()).getValues();
