@@ -1113,13 +1113,15 @@ function setupPropertyTab(name) {
     return top + detail.length + 2;
   };
   var dueToPaulRow = payoffRow + 2;
+  // Same two rows in each: "<who> Paid" then "Received (advances, refunds)" (Paul, 2026-09-15).
   var dennisDirectRow = subBlock(dueToPaulRow, 'Paul Paid', [
-    ['Paid by Paul (2030)', '=' + cred(eq('E', '2030'))],
-    ['Reimbursed', '=-' + deb(eq('E', '2030'))]]);
+    ['Paul Paid', '=' + cred(eq('E', '2030'))],
+    ['Received (advances, refunds)', '=-' + deb(eq('E', '2030'))]]);
   var recastNetRow = subBlock(dennisDirectRow, 'Dennis Paid (direct, not an advance)', [
-    ['Paid by Dennis on cost lines', '=' + net(costLineF + '*' + eq('N', 'DENNIS'))]]);
+    ['Dennis Paid', '=' + deb(costLineF + '*' + eq('N', 'DENNIS'))],
+    ['Received (advances, refunds)', '=-' + cred(costLineF + '*' + eq('N', 'DENNIS'))]]);
   subBlock(recastNetRow, 'Recast Account', [
-    ['Recast Account paid', '=' + cred(isBank)],
+    ['Recast Account Paid', '=' + cred(isBank)],
     ['Received (advances, refunds)', '=-' + deb(isBank)]]);
 
   // ---- SUMMARY (A:B) --------------------------------------------------------------
@@ -1143,7 +1145,7 @@ function setupPropertyTab(name) {
   paint(s, 1, 2, C.head); set(s++, 1, 'Profit Breakdown', true);
   set(s, 1, 'Sale Price (estimate - type it here)', true);
   set(s, 2, keptSalePrice !== '' ? keptSalePrice : (registry.contract_price || ''), true);
-  paint(s, 1, 1, C.head); paint(s, 2, 1, C.input); var saleRow = s++;
+  paint(s, 1, 2, C.input); var saleRow = s++;
   set(s, 1, 'Total Project Costs'); set(s, 2, '=-B' + totalRow); s++;
   var pct = function (key) { return 'IFERROR(VLOOKUP("' + key + '",Settings!A:B,2,FALSE),0)'; };
   set(s, 1, '="Agent "&' + pct('estimate_agent_pct') + '&"%"'); set(s, 2, '=-B' + saleRow + '*' + pct('estimate_agent_pct') + '/100'); var agentRow = s++;
