@@ -58,6 +58,7 @@ function setup() {
     props.setProperty('WRITER_SECRET', secret);
   }
 
+  warmCache_(); // the site's Accounts/Settings snapshots pick up seed rows now, not at the next 15-min warm
   Logger.log('Recast Books workbook: ' + ss.getUrl());
   Logger.log('WRITER_SECRET: ' + secret);
 }
