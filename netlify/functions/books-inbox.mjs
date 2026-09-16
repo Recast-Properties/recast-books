@@ -176,11 +176,21 @@ export default async (req) => {
         throw err;
       }
 
+      // 2026-09-16: an approve ran past the function's timeout (504) after the writer
+      // had posted but before this envelope was marked, leaving a posted entry behind a
+      // still-pending card - and a second Approve would have posted it again (manual
+      // txn_ids carry a random suffix). So: mark "posting" first, refuse a re-entry,
+      // write the envelope the moment the writer answers, and refresh the cache last.
+      if (envelope.status === "posting" && Date.now() - Date.parse(envelope.posting_at || 0) < 5 * 60 * 1000) {
+        return json(409, { error: "POSTING", message: "this document is already being posted; reload in a minute" });
+      }
+      await docsStore.setJSON(`doc/${docId}`, { ...envelope, status: "posting", posting_at: new Date().toISOString() });
+
       let postResult;
       try {
         postResult = await writer.postBatch(entries);
-        await invalidateJournalCache(writer);
       } catch (err) {
+        await docsStore.setJSON(`doc/${docId}`, envelope); // back to pending, nothing was written
         return writerErrorResponse(err);
       }
 
@@ -191,6 +201,7 @@ export default async (req) => {
         review: { action: "approve", by: session.email, at: new Date().toISOString(), note: body.note || "" },
       };
       await docsStore.setJSON(`doc/${docId}`, updated);
+      await invalidateJournalCache(writer);
       return json(200, { docId, status: "posted", txn_ids: updated.result.txn_ids, rows: postResult.rows });
     }
 
