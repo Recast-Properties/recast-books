@@ -27,6 +27,7 @@ function setup() {
   });
 
   seedIfEmpty_(ss.getSheetByName('Accounts'), ACCOUNTS_SEED);
+  ensureSeedRows_(ss.getSheetByName('Accounts'), ACCOUNTS_SEED); // a code added to the chart later (1520, D-018) reaches a live tab too
   seedIfEmpty_(ss.getSheetByName('Settings'), SETTINGS_SEED);
   seedIfEmpty_(ss.getSheetByName('Users'), [
     ['paul@recast-properties.com', 'owner', 'Paul', new Date()]
@@ -334,6 +335,18 @@ function repairPeriodCells_(sheet) {
 function normalizePeriod_(v) {
   if (v instanceof Date) return Utilities.formatDate(v, 'America/Chicago', 'yyyy-MM');
   return String(v || '').slice(0, 7);
+}
+
+// Appends any seed row whose first-column key is missing from the sheet; existing rows
+// are never touched. seedIfEmpty_ alone left 1520 (D-018) out of the live Accounts tab,
+// and the bookkeeper's correct 1520 proposal was refused as BAD_ACCOUNT (2026-09-16).
+function ensureSeedRows_(sheet, rows) {
+  var last = sheet.getLastRow();
+  var have = {};
+  if (last >= 2) sheet.getRange(2, 1, last - 1, 1).getValues().forEach(function (r) { have[String(r[0])] = true; });
+  var missing = rows.filter(function (r) { return !have[String(r[0])]; });
+  if (missing.length) sheet.getRange(sheet.getLastRow() + 1, 1, missing.length, missing[0].length).setValues(missing);
+  return missing.length;
 }
 
 function seedIfEmpty_(sheet, rows) {
