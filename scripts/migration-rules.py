@@ -64,7 +64,7 @@ def main():
         # receipts) and Dennis's cash draws are not receipts-lane expenses - the old Cash
         # Advances tab is their source and they migrate as Advances (D-011/D-022). Keep the
         # read on record as the document, dismiss it from the ledger lane.
-        if m.get("verdict") == "post" and (re.search(r"servicelink|auction\.com|ghidotti|trustee", vendor) or (m.get("receipt_total_cents") or 0) >= 10000000
+        if m.get("verdict") in ("post", "hold") and (re.search(r"servicelink|auction\.com|ghidotti|trustee", vendor) or (m.get("receipt_total_cents") or 0) >= 10000000
                                              or re.fullmatch(r"\s*draw\s*", subj, re.I) or ("dennis" in vendor and "draw" in (subj + " ".join(x.get("memo") or "" for x in m.get("entries") or [])).lower())):
             o["verdict"] = "dismiss"; notes.append("D-026.7 acquisition/advance - migrates from the Cash Advances tab")
         if UTILITY.search(vendor) and m.get("verdict") == "post":
