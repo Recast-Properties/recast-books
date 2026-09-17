@@ -1,18 +1,17 @@
 # Phase 4 comparison — 2026-09-17
 
-Documents: 937  status {'pending': 499, 'dismissed': 139, 'posted': 240, 'error': 59}  verdict {'post': 620, 'hold': 168, 'dismiss': 141, None: 8}
-Hold reasons: [('PAYER_UNKNOWN', 312), ('NOT_POST_VERDICT', 294), ('LOW_CONFIDENCE', 268), ('TOTAL_MISMATCH', 144), ('OVER_CEILING', 97), ('ZERO_TOTAL', 55), ('NEEDS_HUMAN_274D', 22), ('ENTRY_INVALID:BAD_AMOUNT', 7), ('BAD_DATE', 1), ('MISSING_VENDOR', 1), ('MISSING_DATE', 1), ('ENTRY_INVALID:BAD_ACCOUNT', 1)]
+Documents: 938  status {'pending': 504, 'dismissed': 140, 'posted': 243, 'error': 51}  verdict {'post': 627, 'hold': 169, 'dismiss': 142}
+Hold reasons: [('PAYER_UNKNOWN', 315), ('NOT_POST_VERDICT', 296), ('LOW_CONFIDENCE', 269), ('TOTAL_MISMATCH', 145), ('OVER_CEILING', 97), ('ZERO_TOTAL', 55), ('NEEDS_HUMAN_274D', 23), ('ENTRY_INVALID:BAD_AMOUNT', 7), ('BAD_DATE', 1), ('MISSING_VENDOR', 1), ('MISSING_DATE', 1), ('ENTRY_INVALID:BAD_ACCOUNT', 1)]
 
 ## A · documents with an old-sheet id: 180  (net equal: 171; net differs: 9; property differs from old tab: 0)
-## B · documents matched by vendor/date/amount: 748  {'twin': 64, 'in mail, not in old books': 266, 'junk (dismissed)': 108, 'property row now documented': 260, 'manual row now documented': 50}
-## C · old rows nothing covers: 285  by (tab, had a message id): {('RECAST BIZ', False): 19, ('881 Newport', False): 19, ('469 Brushwood', False): 7, ('366 Mesa', False): 14, ('136 Bowling Green', False): 25, ('104 Ashburne', False): 155, ('1616 Granite RECONCILED', False): 28, ('280 Sparkling RECONCILED', False): 11, ('Sparkling for Title', False): 7}
-## D · vendor-days where net differs: 493  (sum of diffs $1,479,090.40)
+## B · documents matched by vendor/date/amount: 757  {'twin': 64, 'in mail, not in old books': 271, 'junk (dismissed)': 109, 'property row now documented': 263, 'manual row now documented': 50}
+## C · old rows nothing covers: 281  by (tab, had a message id): {('RECAST BIZ', False): 19, ('881 Newport', False): 19, ('469 Brushwood', False): 7, ('366 Mesa', False): 14, ('136 Bowling Green', False): 25, ('104 Ashburne', False): 153, ('1616 Granite RECONCILED', False): 26, ('280 Sparkling RECONCILED', False): 11, ('Sparkling for Title', False): 7}
+## D · vendor-days where net differs: 496  (sum of diffs $1,524,378.05)
 
 Largest net differences:
 - 2026-06-02 servicelink agency s old       0.00 new 688,352.00 diff 688,352.00  rows 0 docs 2
 - 2026-06-02 auction com llc ghid old       0.00 new 369,000.00 diff 369,000.00  rows 0 docs 1
 - 2026-06-02 auction com llc trus old       0.00 new 369,000.00 diff 369,000.00  rows 0 docs 1
-- 2026-03-19 fnf irrigation old  45,000.00 new     900.00 diff -44,100.00  rows 1 docs 2
 - 2026-03-30 chase          old       0.00 new  20,000.00 diff  20,000.00  rows 0 docs 1
 - 2026-04-08 dennis little  old       0.00 new  20,000.00 diff  20,000.00  rows 0 docs 1
 - 2026-03-30 ellis county tax off old       0.00 new  16,031.25 diff  16,031.25  rows 0 docs 1
@@ -34,3 +33,4 @@ Largest net differences:
 - 2026-03-01 atlas pools    old   2,000.00 new       0.00 diff  -2,000.00  rows 1 docs 0
 - 2026-03-01 micky atlas pools old       0.00 new   2,000.00 diff   2,000.00  rows 0 docs 1
 - 2026-08-14 waxahachie     old       0.00 new   1,499.89 diff   1,499.89  rows 0 docs 3
+- 2026-02-19 lowes          old   1,478.59 new   2,957.18 diff   1,478.59  rows 4 docs 2
