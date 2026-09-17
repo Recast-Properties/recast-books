@@ -333,9 +333,10 @@ v1 receipts poller, and the two systems do not track the same way, so the migrat
    accounts (pvb421@, 104ashburne@, recastpropertiestravel@, any other gmail.com property
    address) are separate Google accounts: the same script runs signed in as each one, one
    consent each. Size each listing and quote the replay cost before any replay.
-3. **Re-run everything** through the bookkeeper into the **new books workbook, which is the
-   staging area** (D-013 clear first; the parallel-run data since 09-11 is replaced by the
-   run). No third workbook unless Paul asks. Each receipt is read as line items and each line
+3. **Re-run everything** through the bookkeeper into a **staging copy of the new workbook**
+   (D-025: File → Make a copy brings the bound writer; `WRITER_URL` points at it for the
+   staging period; reads are stored once and reruns re-post from them; never correct in
+   place — change the rule, clear, rerun; cutover is one clean pass into the real workbook). Each receipt is read as line items and each line
    routes to a property or OVERHEAD, so a Home Depot receipt split between tools and 104
    Ashburne lands as the receipt supports, not as the old split.
 4. **Compare on net per vendor per day**, never line by line, because the manual rows netted
@@ -349,9 +350,10 @@ v1 receipts poller, and the two systems do not track the same way, so the migrat
    document in any mailbox (Harbor Freight in-store, crew meals, the finish nailer, some June
    Office rows, the 420 Alyssa interest) post as `source = migration`, `doc_url` empty,
    `NO_DOC`. Property contractor rows (check/Zelle, no receipt) are migration entries.
-6. **Paul reviews the comparison report**, then accepts: the run *is* the migration, nothing
-   is paid for twice. Rejected: clear again and rerun. Then tie out every property total and
-   RECAST BIZ block to the snapshot; every intentional difference is a dated correction (2b).
+6. **Paul reviews the comparison report** (with the rule-change log between runs). Iterate
+   in staging until clean. Then cutover: D-013 clear of the real workbook, one deterministic
+   pass from the accepted reads and mapping, tie out every property total and RECAST BIZ
+   block to the snapshot; every intentional difference is a dated correction (2b).
 
 Cost: measured $0.21 per document read (25 live docs, Opus 5). Known so far ≈ 180 + 50 + 25
 reads ≈ $55–75; each new mailbox adds ~$0.21 per receipt it holds.

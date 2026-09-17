@@ -83,12 +83,12 @@ Lets sub-$2,500 items be expensed rather than depreciated. The $4,690.15 of tool
 all small-ticket, so this is almost certainly worth electing. Requires an annual
 election statement on the return — it is not automatic.
 
-## Q-8 · Staging workbook for the re-run? — PROPOSED: use the new books workbook · 2026-09-17
+## Q-8 · Staging workbook for the re-run? — ANSWERED 2026-09-17 · Paul (D-025)
 
 Paul proposed a temp Sheets doc to re-run all receipts into and compare before committing.
 Claude's recommendation: the new books workbook already is the temp until the D-013 clear
 becomes final; a third workbook needs a second bound writer, a second `WRITER_URL`, and a
-second paid run. Paul has not answered. Default is the new workbook; build the temp if he says so.
+second paid run. **Answered:** staging is a *copy* of the new workbook with its bound writer; reads stored once, reruns re-post from them; cutover is one clean pass into the real workbook (D-025).
 
 ## Q-9 · Which property addresses are gmail.com accounts? — UNANSWERED · Paul
 

@@ -478,3 +478,29 @@ replay.
 labels) → three-way match report → Paul reviews the findings → D-013 clear → post → tie
 out each property total and RECAST BIZ block to the baseline, with every intentional
 difference as a dated correction (Phase 4 2b).
+
+---
+
+## D-025 · The migration is ironed out in a staging copy; the real journal is born in one pass — 2026-09-17 · Paul
+
+Paul: "i'm trying to make the transition/migration as clean as possible without a bunch of
+crazy voids and changes that will make the journal a mess which is why i thought going to a
+temp first to iron it out would ultimately give us a scratchpad." Answers Q-8.
+
+**Decided:**
+1. **Staging is a copy of the new books workbook** (File → Make a copy; the bound writer
+   comes with it). One deploy of the copy's writer, `WRITER_URL` switched to it for the
+   staging period. Every replay, and live receipts@/travel@ mail meanwhile, posts to the copy.
+   The old workbook and old poller keep running for real.
+2. **Never correct in place during staging.** A wrong result means a mapping or rule change,
+   then clear and rerun. Nothing in staging is precious.
+3. **Reads happen once.** The model read of each document is stored per document; every
+   rerun re-posts from the stored read (a small path to add), so iterating costs nothing.
+   Inbox decisions are stored per document too and are not asked twice.
+4. **A rule-change log** between runs, with the rows each change moved, is part of the
+   comparison report — the audit trail for the final pass.
+5. **Cutover is one deterministic pass:** D-013 clear of the real workbook, post everything
+   from the accepted reads and mapping, tie out. Append-only from the first row; voids exist
+   only for real mistakes after cutover. Staging is archived beside the old workbook.
+
+**Why:** the real journal must never see a draft; the mess lives in the copy.

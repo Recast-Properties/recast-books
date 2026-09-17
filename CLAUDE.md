@@ -63,7 +63,8 @@ user waits only for the post, ~2.5 s - see CHANGELOG 2026-09-16 late). Next: **P
 migration, forensic, ahead of Phase 3 (D-024, 2026-09-16)** — audit done 2026-09-17
 (`docs/phase4-audit.md`, snapshot in `data/migration/2026-09-17/`); next: mailbox listings
 (paul@, properties@, then each gmail.com account), then the full re-run into the new workbook
-and the net-per-vendor-per-day comparison (BUILD-PLAN §7 Phase 4 method; Q-8, Q-9 open). Phase 3
+into a staging copy of the workbook (D-025) and the net-per-vendor-per-day comparison
+(BUILD-PLAN §7 Phase 4 method; Q-9 open). Phase 3
 (statement uploads — D-019 dropped Plaid; `docs/phase3-spec.md` to be revised for the menu
 shape) follows.
 
