@@ -58,7 +58,8 @@ the workbook** (`docs/phase2.7-spec.md`): the writer is now the project bound to
 edit it; a test keeps it in sync); the web app keeps Dashboard, Inbox, Upload, Settings (API
 costs). The old standalone writer project is dormant. **Inbox review in the sheet built 2026-09-16**
 (spec §6: Recast Books → Inbox… sidebar; the queue stays in Blobs, Approve files and posts
-in-process, `mark-posted` records it; `lib/gate.mjs` is in `lib.gs` now). Next: Phase 3
+in-process, `mark-posted` records it; `lib/gate.mjs` is in `lib.gs` now; approve is split so the
+user waits only for the post, ~2.5 s - see CHANGELOG 2026-09-16 late). Next: Phase 3
 (statement uploads — D-019 dropped Plaid; `docs/phase3-spec.md` to be revised for the menu
 shape).
 

@@ -458,3 +458,22 @@ been a second copy of the same state. `/api/inbox` and `/api/file` now also acce
 `x-poller-secret` (the sidebar's auth; the workbook checks the Users tab first). Web Inbox
 unchanged. 389 tests. Gated the same evening: the Uber DFW ride held on `PAYER_UNKNOWN` was
 assigned PAUL and approved from the sidebar; posted and marked in one click.
+
+## 2026-09-16 (late) — Inbox approve: 8.4 s → ~2.5 s
+
+Paul: "8.4 seconds is a lifetime." Timed the approve with a stopwatch in the result
+(role 0.4, read envelope 1.1, ctx 1.1, fetch bytes 0.3, Drive file 2.6, post 2.0, mark
+0.4, warm 0.3). Split it: `inboxApprove` now only builds, marks the card posted on the site
+(so nothing can post twice; `mark-pending` reverts if the post then fails) and posts with
+the line-block refresh deferred; `inboxFinish`, called by the dialog once "Posted" is on
+screen, fetches the bytes, files to Drive, writes doc_url onto the Journal lines and the
+envelope (`mark-posted` patches doc_url when the txn_ids match), rebuilds the property
+tab's line blocks and pokes the cache. Caches, 6 h each, cleared by the writer's own
+upserts/period changes and by the edit trigger on Accounts/Properties/Periods/Users: the
+user's role, the posting ctx, Drive folder ids. Measured after: role 41 ms, ctx 53 ms, mark
+~0.5 s, post 0.9–2.4 s (Sheets variance). The stopwatch line stays in the dialog.
+
+Six seeded test receipts (`up-test-inbox-*-0916`, fake Home Depot $222.25) were approved
+during this: six Journal entries on 1616 Granite paid from PAUL and six Drive files under
+Recast Books/2026/1616 Granite - all to go in the Phase 4 clear (D-013).
+
