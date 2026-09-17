@@ -101,3 +101,55 @@ function listBooksMailReset() {
   PropertiesService.getScriptProperties().deleteProperty('bm_cursor');
   console.log('listing cursor cleared');
 }
+
+// ---- Phase 4 replay: send an EXPLICIT list of Gmail message ids to /api/upload ----
+// Copied from Recast-site backfill-scan.gs `backfillRun`. The list lives in a Drive
+// file named books-replay-<mailbox>.json: {"ids":[{"id":"<gmailMsgId>","ch":"receipts"|"travel"}, ...]}
+// written by Claude from the listing (never by widening the poller's search). Nothing
+// outside the list is touched and no thread is labelled; /api/upload is idempotent by
+// docId (gm-<id>), so re-running is safe. Resumable: click Run until done=true.
+// Requires Code.gs in the same project (buildPayload_, postUpload_, CONFIG) and the
+// script properties POLLER_SECRET + BOOKS_UPLOAD_URL.
+
+function replayIds() {
+  var t0 = Date.now();
+  var props = PropertiesService.getScriptProperties();
+  var secret = props.getProperty('POLLER_SECRET');
+  var uploadUrl = props.getProperty('BOOKS_UPLOAD_URL') || CONFIG.DEFAULT_UPLOAD_URL;
+  if (!secret) throw new Error('Missing script property POLLER_SECRET');
+  var mailbox = props.getProperty('MAILBOX') || 'paul';
+  var files = DriveApp.getFilesByName('books-replay-' + mailbox + '.json');
+  if (!files.hasNext()) throw new Error('No Drive file books-replay-' + mailbox + '.json');
+  var list = JSON.parse(files.next().getBlob().getDataAsString()).ids || [];
+
+  var i = parseInt(props.getProperty('replay_idx') || '0', 10);
+  var log = [], ok = 0, skipped = 0, bad = 0;
+  for (; i < list.length; i++) {
+    if (Date.now() - t0 > 240000) break;          // resume on the next Run
+    var it = list[i];
+    try {
+      var m = GmailApp.getMessageById(it.id);
+      var payload = buildPayload_(m, false, it.ch || undefined);
+      var res = postUpload_(uploadUrl, secret, payload);
+      if (res.ok) { if (res.skipped) skipped++; else ok++; }
+      else { bad++; }
+      log.push(i + ' ' + it.id + ' -> ' + (res.ok ? (res.skipped ? 'skipped' : 'ok') : res.detail) + '  ' + (m.getSubject() || '').slice(0, 46));
+    } catch (e) {
+      bad++;
+      log.push(i + ' ' + it.id + ' -> ERROR ' + String(e).slice(0, 90));
+    }
+    Utilities.sleep(400);                          // don't stampede the ingest
+  }
+  props.setProperty('replay_idx', String(i));
+  var done = i >= list.length;
+  console.log('REPLAY ' + mailbox + ' sent=' + ok + ' skipped=' + skipped + ' failed=' + bad +
+              '  through ' + i + '/' + list.length + '  done=' + done +
+              '  elapsed=' + ((Date.now() - t0) / 1000) + 's');
+  console.log(log.join('\n'));
+  return { sent: ok, skipped: skipped, failed: bad, idx: i, done: done };
+}
+
+function replayIdsReset() {
+  PropertiesService.getScriptProperties().deleteProperty('replay_idx');
+  console.log('replay index cleared');
+}
