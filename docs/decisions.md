@@ -534,3 +534,6 @@ Given once, applied to every stored read by `repostAll` overrides (D-025), never
    become the `trade` of each migrated line (override at re-post), and the generated
    property tab gains a per-trade section for a property whose `template` is Heavy — a
    pivot over the Journal, not a second tab layout (D-002 kept both templates; this is how).
+9. **Gas / truck / trailer is a general business expense**, never a property cost, even where
+   the old Ashburne tab carried it: "make them all a general business expense." A re-post
+   override never moves a fuel-only entry onto a property.

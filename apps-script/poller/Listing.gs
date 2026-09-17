@@ -178,6 +178,9 @@ function repostAll() {
   var spec = {};
   var files = DriveApp.getFilesByName('books-repost-' + mailbox + '.json');
   if (files.hasNext()) spec = JSON.parse(files.next().getBlob().getDataAsString());
+  // A new list (different `built` stamp) starts from the top on its own.
+  var built = String(spec.built || '');
+  if (props.getProperty('repost_built') !== built) { props.setProperty('repost_built', built); props.deleteProperty('repost_after'); }
   var after = props.getProperty('repost_after') || '';
   var t0 = Date.now(), fired = 0, skipped = 0, done = false;
   while (Date.now() - t0 < 200000) {

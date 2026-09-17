@@ -364,10 +364,13 @@ export default async (req) => {
     // gate and duplicate checks still run on the result. Recorded on the envelope.
     if (fromStored && body.overrides && typeof body.overrides === "object") {
       const o = body.overrides;
+      // D-026.9 (Paul, 2026-09-17): fuel / truck / trailer (66xx) is a general business
+      // expense wherever the old books put it - an entry that is only 66xx keeps OVERHEAD.
+      const allFuel = (e) => (e.items || []).length > 0 && (e.items || []).every((it) => /^66/.test(String(it.account || "")));
       const entries = (model.entries || []).map((e) => ({
         ...e,
         paid_from: o.paid_from && (!e.paid_from || e.paid_from === "UNKNOWN") ? o.paid_from : e.paid_from,
-        property: o.property ? o.property : e.property,
+        property: o.property && !allFuel(e) ? o.property : e.property,
         // `trade` carries the old heavy-template block name (Ashburne's 21 categories), so
         // the per-trade view of the property tab reproduces the old layout (D-002).
         // Old-tab attribution wins (D-026.3), and overhead never touches a property
@@ -375,7 +378,7 @@ export default async (req) => {
         // rehab materials (1030). Fuel (66xx) and meals (67xx) stay as read and hold.
         items: (e.items || []).map((it) => ({
           ...it,
-          trade: o.trade ? o.trade : it.trade,
+          trade: o.trade && !allFuel(e) ? o.trade : it.trade,
           account: o.property && o.property !== "OVERHEAD" && /^65/.test(String(it.account || "")) ? "1030" : it.account,
         })),
       }));
