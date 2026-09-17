@@ -88,7 +88,7 @@ up to 15 minutes. The D-012 duplicate check already reads fresh.
 
 ## 6 · Inbox review in the workbook — built 2026-09-16
 
-**Recast Books → Inbox…** opens a sidebar (`Inbox.html`) listing every pending document:
+**Recast Books → Inbox…** opens a 600 px modeless dialog (`Inbox.html`; Sheets fixes a sidebar at 300 px) listing every pending document:
 vendor, date, total, confidence, thumbnail (click to enlarge; PDFs link to the web Inbox),
 Claude's note, the gate's reasons, and the same editable entries as the web card (property,
 paid from, items with account/amount/description/purpose, running total against the

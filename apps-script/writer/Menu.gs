@@ -826,8 +826,10 @@ function siteFetchJson_(path, method, body) {
 function showInboxSidebar() {
   var ss = openIfOwner_();
   if (!ss) return;
-  var html = HtmlService.createTemplateFromFile('Inbox').evaluate().setTitle('Inbox');
-  SpreadsheetApp.getUi().showSidebar(html);
+  // A sidebar is fixed at 300 px by Sheets; Paul wanted double that (2026-09-16), so it
+  // is a modeless dialog: floats, movable, the sheet stays usable behind it.
+  var html = HtmlService.createTemplateFromFile('Inbox').evaluate().setWidth(600).setHeight(760);
+  SpreadsheetApp.getUi().showModelessDialog(html, 'Inbox');
 }
 
 /** Pending envelopes (newest first, no bytes) plus the pickers the editor needs. */

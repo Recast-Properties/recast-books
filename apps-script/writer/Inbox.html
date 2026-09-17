@@ -22,6 +22,10 @@
   .item { background: #fafafa; padding: 4px 6px; margin-bottom: 4px; border-radius: 3px; position: relative; }
   .item .rm { position: absolute; right: 2px; top: 2px; border: none; background: none; color: #999; font-size: 14px; padding: 0 4px; margin: 0; }
   .item input, .item select, .entry select { margin-bottom: 4px; }
+  .item .row3 { display: flex; gap: 6px; }
+  .item .row3 > div:first-child { flex: 0 0 90px; }
+  .item .row3 > div { flex: 1; }
+  .thumb { max-height: 320px; }
   .add { font-size: 11px; padding: 3px 8px; margin: 0 0 6px; }
   .totals { font-size: 11px; margin: 4px 0 6px; }
   .totals.ok { color: #137333; }
@@ -95,9 +99,9 @@
         return '<div class="item">' +
           '<button class="rm" data-rm="' + ei + ':' + ii + '" title="Remove item">&times;</button>' +
           '<select data-e="' + ei + '" data-i="' + ii + '" data-f="account">' + accountOpts_(it.account) + '</select>' +
-          '<div class="row"><div><input data-e="' + ei + '" data-i="' + ii + '" data-f="amount" value="' + escapeHtml_((Number(it.amount_cents || 0) / 100).toFixed(2)) + '" placeholder="Amount"></div>' +
-          '<div style="flex:2"><input data-e="' + ei + '" data-i="' + ii + '" data-f="description" value="' + escapeHtml_(it.description || '') + '" placeholder="Description"></div></div>' +
-          '<input data-e="' + ei + '" data-i="' + ii + '" data-f="business_purpose" value="' + escapeHtml_(it.business_purpose || '') + '" placeholder="Business purpose (274(d) accounts)">' +
+          '<div class="row3"><div><input data-e="' + ei + '" data-i="' + ii + '" data-f="amount" value="' + escapeHtml_((Number(it.amount_cents || 0) / 100).toFixed(2)) + '" placeholder="Amount"></div>' +
+          '<div><input data-e="' + ei + '" data-i="' + ii + '" data-f="description" value="' + escapeHtml_(it.description || '') + '" placeholder="Description"></div>' +
+          '<div><input data-e="' + ei + '" data-i="' + ii + '" data-f="business_purpose" value="' + escapeHtml_(it.business_purpose || '') + '" placeholder="Business purpose (274(d) accounts)"></div></div>' +
           '</div>';
       }).join('');
       return '<div class="entry">' +
