@@ -1,0 +1,7531 @@
+{
+"unfiled_receipts_travel": [
+{
+"id": "19c8af7557e199d5",
+"d": "2026-02-23",
+"from": "Paul Bjork <paul@recast-properties.com>",
+"subj": "Fwd: Your purchase receipt - KAIZZQ",
+"amts": [
+"$40.28",
+"$37.47",
+"$2.81"
+],
+"att": [],
+"lbl": "",
+"class": "receipt"
+},
+{
+"id": "19c8b340ca661091",
+"d": "2026-02-23",
+"from": "Paul Bjork <recastpropertiestravel@gmail.com>",
+"subj": "Fwd: Your purchase receipt - KAIZZQ",
+"amts": [
+"$40.28",
+"$37.47",
+"$2.81"
+],
+"att": [],
+"lbl": "",
+"class": "receipt"
+},
+{
+"id": "19c8af65b973a176",
+"d": "2026-02-23",
+"from": "Paul Bjork <paul@recast-properties.com>",
+"subj": "Fwd: Your Wi-Fi receipt",
+"amts": [
+"$25.00"
+],
+"att": [],
+"lbl": "",
+"class": "receipt"
+},
+{
+"id": "19c8b33a6493fb67",
+"d": "2026-02-23",
+"from": "Paul Bjork <recastpropertiestravel@gmail.com>",
+"subj": "Fwd: Your Wi-Fi receipt",
+"amts": [
+"$25.00"
+],
+"att": [],
+"lbl": "",
+"class": "receipt"
+},
+{
+"id": "19c8af55bd059fa1",
+"d": "2026-02-23",
+"from": "Paul Bjork <paul@recast-properties.com>",
+"subj": "Fwd: Your purchase receipt - GPMGCC",
+"amts": [
+"$66.68",
+"$62.03",
+"$4.65"
+],
+"att": [],
+"lbl": "",
+"class": "receipt"
+},
+{
+"id": "19c8b330a6ce7e93",
+"d": "2026-02-23",
+"from": "Paul Bjork <recastpropertiestravel@gmail.com>",
+"subj": "Fwd: Your purchase receipt - GPMGCC",
+"amts": [
+"$66.68",
+"$62.03",
+"$4.65"
+],
+"att": [],
+"lbl": "",
+"class": "receipt"
+},
+{
+"id": "19ca483013268511",
+"d": "2026-02-28",
+"from": "American Airlines <no-reply@info.email.aa.com>",
+"subj": "It's time to check in - OTEQJC",
+"amts": [],
+"att": [],
+"lbl": "",
+"class": "junk"
+},
+{
+"id": "19c96706f006acf3",
+"d": "2026-02-25",
+"from": "American Airlines <AmericanAirlines@info.ms.aa.com>",
+"subj": "Thanks for booking: Here are your trip details + travel tips to prepare",
+"amts": [],
+"att": [],
+"lbl": "",
+"class": "junk"
+},
+{
+"id": "19c8b34d7d965e72",
+"d": "2026-02-23",
+"from": "Paul Bjork <recastpropertiestravel@gmail.com>",
+"subj": "Fwd: 02/09/26",
+"amts": [],
+"att": [
+"Your receipts - American Airlines.pdf"
+],
+"lbl": "",
+"class": "receipt"
+},
+{
+"id": "19c8b34b8addc1ea",
+"d": "2026-02-23",
+"from": "Paul Bjork <recastpropertiestravel@gmail.com>",
+"subj": "Fwd: 02/01/26",
+"amts": [],
+"att": [
+"Your receipts - American Airlines.pdf"
+],
+"lbl": "",
+"class": "receipt"
+},
+{
+"id": "19c8b349964c680d",
+"d": "2026-02-23",
+"from": "Paul Bjork <recastpropertiestravel@gmail.com>",
+"subj": "Fwd: 01/23/26",
+"amts": [],
+"att": [
+"Your receipts - American Airlines.pdf"
+],
+"lbl": "",
+"class": "receipt"
+},
+{
+"id": "19c8b34790f6f503",
+"d": "2026-02-23",
+"from": "Paul Bjork <recastpropertiestravel@gmail.com>",
+"subj": "Fwd: 01/17/26",
+"amts": [],
+"att": [
+"Your receipts - American Airlines.pdf"
+],
+"lbl": "",
+"class": "receipt"
+},
+{
+"id": "19c8af9aac03e3ca",
+"d": "2026-02-23",
+"from": "Paul Bjork <paul@recast-properties.com>",
+"subj": "Fwd: Your trip confirmation (PDX - DFW)",
+"amts": [
+"$380.39",
+"$339.53",
+"$40.86",
+"$50.00",
+"$45.00"
+],
+"att": [],
+"lbl": "",
+"class": "receipt"
+},
+{
+"id": "19c8b345b925a040",
+"d": "2026-02-23",
+"from": "Paul Bjork <recastpropertiestravel@gmail.com>",
+"subj": "Fwd: Your trip confirmation (PDX - DFW)",
+"amts": [
+"$380.39",
+"$339.53",
+"$40.86",
+"$50.00",
+"$45.00"
+],
+"att": [],
+"lbl": "",
+"class": "receipt"
+},
+{
+"id": "19d4571464925cf5",
+"d": "2026-03-31",
+"from": "Uber Receipts <noreply@uber.com>",
+"subj": "[Personal] Your Tuesday afternoon order with Uber Eats",
+"amts": [
+"$105.14",
+"$23.41"
+],
+"att": [],
+"lbl": "",
+"class": "receipt"
+},
+{
+"id": "19d41b8c3597b9b7",
+"d": "2026-03-30",
+"from": "Uber Eats <ubereats@uber.com>",
+"subj": "More deals. More game-time victories.",
+"amts": [],
+"att": [],
+"lbl": "",
+"class": "junk"
+},
+{
+"id": "19d3c61487454caa",
+"d": "2026-03-29",
+"from": "Uber One <noreply@uber.com>",
+"subj": "Big news: No more fees on grocery orders over $60",
+"amts": [],
+"att": [],
+"lbl": "",
+"class": "junk"
+},
+{
+"id": "19d3c0a3db581620",
+"d": "2026-03-29",
+"from": "Uber Receipts <noreply@uber.com>",
+"subj": "[Personal] Your Sunday evening order with Uber Eats",
+"amts": [
+"$79.64",
+"$17.45"
+],
+"att": [],
+"lbl": "",
+"class": "receipt"
+},
+{
+"id": "19d3b04cef08acc9",
+"d": "2026-03-29",
+"from": "Uber Eats <uber@uber.com>",
+"subj": "It\u2019s not too late to get Easter essentials",
+"amts": [
+"$5.94",
+"$6.99",
+"$4.67",
+"$5.49",
+"$17.59",
+"$20.69",
+"$19.29",
+"$22.69",
+"$26.34",
+"$30.99"
+],
+"att": [],
+"lbl": "",
+"class": "maybe"
+},
+{
+"id": "19d360b6a8c65f41",
+"d": "2026-03-28",
+"from": "Uber One <noreply@uber.com>",
+"subj": "Save big at the CVS Epic Beauty Sale\ud83d\udc84",
+"amts": [],
+"att": [],
+"lbl": "",
+"class": "junk"
+},
+{
+"id": "19d313e494a79e0f",
+"d": "2026-03-27",
+"from": "Uber Eats <ubereats@uber.com>",
+"subj": "Get your hands on MVP deals",
+"amts": [],
+"att": [],
+"lbl": "",
+"class": "junk"
+},
+{
+"id": "19d2d1d446c3695e",
+"d": "2026-03-26",
+"from": "Uber Eats <noreply@uber.com>",
+"subj": "Paul, You still have 50% off on Uber Eats Pick-up.",
+"amts": [],
+"att": [],
+"lbl": "",
+"class": "junk"
+},
+{
+"id": "19d2ce89b36942b0",
+"d": "2026-03-26",
+"from": "Uber Receipts <noreply@uber.com>",
+"subj": "[Personal] Your Thursday evening order with Uber Eats",
+"amts": [
+"$77.51",
+"$20.07"
+],
+"att": [],
+"lbl": "",
+"class": "receipt"
+},
+{
+"id": "19d2b9bd8347f321",
+"d": "2026-03-26",
+"from": "Uber Eats <uber@uber.com>",
+"subj": "30% off has just dropped at Market Street on select items and more",
+"amts": [
+"$3.55",
+"$5.05",
+"$28.66",
+"$39.98",
+"$2.63",
+"$3.13",
+"$2.31",
+"$2.91",
+"$9.81",
+"$2.23",
+"$4.67",
+"$6.17"
+],
+"att": [],
+"lbl": "",
+"class": "junk"
+},
+{
+"id": "19d27ea1b66fa39a",
+"d": "2026-03-25",
+"from": "Uber Eats <ubereats@uber.com>",
+"subj": "Score tasty slam dunk deals!",
+"amts": [],
+"att": [],
+"lbl": "",
+"class": "junk"
+},
+{
+"id": "19d27d0d67438d1a",
+"d": "2026-03-25",
+"from": "Uber Receipts <noreply@uber.com>",
+"subj": "[Personal] Your Wednesday evening order with Uber Eats",
+"amts": [
+"$109.34",
+"$10.61"
+],
+"att": [],
+"lbl": "",
+"class": "receipt"
+},
+{
+"id": "19d2698d68faf971",
+"d": "2026-03-25",
+"from": "Uber <noreply@uber.com>",
+"subj": "Let Uber help with spring break plans \ud83c\udf34",
+"amts": [],
+"att": [],
+"lbl": "",
+"class": "junk"
+},
+{
+"id": "19d21f5c4bfa94c7",
+"d": "2026-03-24",
+"from": "Uber Eats <ubereats@uber.com>",
+"subj": "These delicious deals are nothing but net",
+"amts": [],
+"att": [],
+"lbl": "",
+"class": "junk"
+},
+{
+"id": "19d16f1aa980f133",
+"d": "2026-03-22",
+"from": "Uber Eats <uber@uber.com>",
+"subj": "These best sellers are going fast!",
+"amts": [],
+"att": [],
+"lbl": "",
+"class": "junk"
+},
+{
+"id": "19d0dd332401e5c5",
+"d": "2026-03-20",
+"from": "Uber Receipts <noreply@uber.com>",
+"subj": "[Personal] Your Friday evening order with Uber Eats",
+"amts": [
+"$84.04",
+"$24.48"
+],
+"att": [],
+"lbl": "",
+"class": "receipt"
+},
+{
+"id": "19d0bf110eafd314",
+"d": "2026-03-20",
+"from": "Uber One <noreply@uber.com>",
+"subj": "Nothin\u2019 but deals \ud83c\udfc0",
+"amts": [],
+"att": [],
+"lbl": "",
+"class": "junk"
+},
+{
+"id": "19d091ed5005828b",
+"d": "2026-03-19",
+"from": "Uber Eats <ubereats@uber.com>",
+"subj": "A whole team of big-time deals",
+"amts": [],
+"att": [],
+"lbl": "",
+"class": "junk"
+},
+{
+"id": "19d07f8ffef60b93",
+"d": "2026-03-19",
+"from": "Uber Eats <uber@uber.com>",
+"subj": "13% off has just dropped at Tom Thumb on select items and more",
+"amts": [
+"$3.42",
+"$3.92",
+"$3.46",
+"$4.26",
+"$0.80",
+"$1.00",
+"$2.40",
+"$3.00",
+"$10.94",
+"$7.29",
+"$3.44",
+"$2.29"
+],
+"att": [],
+"lbl": "",
+"class": "junk"
+},
+{
+"id": "19d06d4b283fe047",
+"d": "2026-03-19",
+"from": "Uber Eats <ubereats@uber.com>",
+"subj": "A winning lineup of tasty deals",
+"amts": [],
+"att": [],
+"lbl": "",
+"class": "junk"
+},
+{
+"id": "19d03552d8fc157a",
+"d": "2026-03-18",
+"from": "Uber Receipts <noreply@uber.com>",
+"subj": "[Personal] Your Wednesday afternoon order with Uber Eats",
+"amts": [
+"$93.84",
+"$6.89"
+],
+"att": [],
+"lbl": "",
+"class": "receipt"
+},
+{
+"id": "19d03d98b3a5a7ba",
+"d": "2026-03-18",
+"from": "Uber Receipts <noreply@uber.com>",
+"subj": "[Personal] Your Wednesday morning trip with Uber",
+"amts": [
+"$14.13",
+"$0.84",
+"$10.48",
+"$2.29",
+"$0.50",
+"$1.50",
+"$0.19",
+"-$0.83"
+],
+"att": [],
+"lbl": "",
+"class": "receipt"
+},
+{
+"id": "19cfc795423b2590",
+"d": "2026-03-17",
+"from": "Uber Receipts <noreply@uber.com>",
+"subj": "[Personal] Your Tuesday morning trip with Uber",
+"amts": [
+"$13.99",
+"$0.83",
+"$9.70",
+"$2.10",
+"$0.50",
+"$1.50",
+"$0.19"
+],
+"att": [],
+"lbl": "",
+"class": "receipt"
+},
+{
+"id": "19cfc706749c88ec",
+"d": "2026-03-17",
+"from": "Uber Eats <noreply@uber.com>",
+"subj": "Today, get 30% off fresh groceries \ud83c\udf53",
+"amts": [],
+"att": [],
+"lbl": "",
+"class": "junk"
+},
+{
+"id": "19cf92a6d26ef9db",
+"d": "2026-03-16",
+"from": "Uber Eats <ubereats@uber.com>",
+"subj": "Eat like a champion with these deals",
+"amts": [],
+"att": [],
+"lbl": "",
+"class": "junk"
+},
+{
+"id": "19cf3ab7dc0da55c",
+"d": "2026-03-15",
+"from": "Uber Eats <noreply@uber.com>",
+"subj": "BOGO AMC Theatres MegaBags\u2122\ufe0f on awards night",
+"amts": [],
+"att": [],
+"lbl": "",
+"class": "junk"
+},
+{
+"id": "19cf2a074462cf2e",
+"d": "2026-03-15",
+"from": "Uber Eats <uber@uber.com>",
+"subj": "Trending picks everyone is looking for",
+"amts": [],
+"att": [],
+"lbl": "",
+"class": "junk"
+},
+{
+"id": "19cedc6ab1bc937b",
+"d": "2026-03-14",
+"from": "Uber <noreply@uber.com>",
+"subj": "Uber teen accounts for the win! \ud83c\udfc6",
+"amts": [],
+"att": [],
+"lbl": "",
+"class": "junk"
+},
+{
+"id": "19ce8d4630f7137e",
+"d": "2026-03-13",
+"from": "Uber Eats <noreply@uber.com>",
+"subj": "Sip like the stars with Basil Hayden",
+"amts": [],
+"att": [],
+"lbl": "",
+"class": "junk"
+},
+{
+"id": "19ce729803870700",
+"d": "2026-03-13",
+"from": "Uber One <noreply@uber.com>",
+"subj": "An exclusive Uber One perk for your family",
+"amts": [],
+"att": [],
+"lbl": "",
+"class": "junk"
+},
+{
+"id": "19ce4c3050ad32fe",
+"d": "2026-03-12",
+"from": "Uber Eats <uber@uber.com>",
+"subj": "Explore new restaurants on Uber Eats \ud83c\udf7d\ufe0f",
+"amts": [],
+"att": [],
+"lbl": "",
+"class": "junk"
+},
+{
+"id": "19ce3b955a0d96f2",
+"d": "2026-03-12",
+"from": "Uber Eats <uber@uber.com>",
+"subj": "16% off has just dropped at ALDI on select items and more",
+"amts": [
+"$1.85",
+"$2.19",
+"$2.99",
+"$3.85",
+"$1.35",
+"$1.55",
+"$3.50",
+"$4.19",
+"$1.00",
+"$1.58",
+"$6.00",
+"$12.74"
+],
+"att": [],
+"lbl": "",
+"class": "junk"
+},
+{
+"id": "19ce03757b24a2d8",
+"d": "2026-03-11",
+"from": "Uber <noreply@uber.com>",
+"subj": "How was your recent experience?",
+"amts": [],
+"att": [],
+"lbl": "",
+"class": "junk"
+},
+{
+"id": "19cddf9067c65b03",
+"d": "2026-03-11",
+"from": "Uber One <uberone@uber.com>",
+"subj": "Paul, earn Uber One credits when you ride",
+"amts": [],
+"att": [],
+"lbl": "",
+"class": "junk"
+},
+{
+"id": "19cdab0f49d62b1b",
+"d": "2026-03-10",
+"from": "Uber Eats <ubereats@uber.com>",
+"subj": "Game day deals await",
+"amts": [],
+"att": [],
+"lbl": "",
+"class": "junk"
+},
+{
+"id": "19cd4498993d9ac5",
+"d": "2026-03-09",
+"from": "Uber Receipts <noreply@uber.com>",
+"subj": "[Personal] Your Monday afternoon order with Uber Eats",
+"amts": [
+"$55.65",
+"$12.07"
+],
+"att": [],
+"lbl": "",
+"class": "receipt"
+},
+{
+"id": "19cd51fd9bd47e79",
+"d": "2026-03-09",
+"from": "Uber Receipts <noreply@uber.com>",
+"subj": "[Personal] Your Monday morning trip with Uber",
+"amts": [
+"$20.64",
+"$1.22",
+"$18.54",
+"$4.10",
+"$0.27",
+"-$2.27"
+],
+"att": [],
+"lbl": "",
+"class": "receipt"
+},
+{
+"id": "19cceda02173d9eb",
+"d": "2026-03-08",
+"from": "Uber Eats <uber@uber.com>",
+"subj": "Check out the popular picks everyone\u2019s getting",
+"amts": [],
+"att": [],
+"lbl": "",
+"class": "junk"
+},
+{
+"id": "19cbfa28d7533a3e",
+"d": "2026-03-05",
+"from": "Uber Eats <uber@uber.com>",
+"subj": "12% off has just dropped at Target on select items and more",
+"amts": [
+"$2.92",
+"$3.32",
+"$6.06",
+"$8.26",
+"$2.31",
+"$2.91",
+"$1.95",
+"$2.57",
+"$6.86",
+"$7.86",
+"$3.85",
+"$4.71"
+],
+"att": [],
+"lbl": "",
+"class": "junk"
+},
+{
+"id": "19cb5d0c8842a0c9",
+"d": "2026-03-03",
+"from": "Uber One <uberone@uber.com>",
+"subj": "Paul, upgrade to save 20% with Uber One annual plan",
+"amts": [],
+"att": [],
+"lbl": "",
+"class": "junk"
+},
+{
+"id": "19cab2ca6f488ca5",
+"d": "2026-03-01",
+"from": "Uber Eats <uber@uber.com>",
+"subj": "Take a look at what\u2019s been picked for you",
+"amts": [],
+"att": [],
+"lbl": "",
+"class": "junk"
+},
+{
+"id": "19caa14af193f2f2",
+"d": "2026-03-01",
+"from": "Uber One <uberone@uber.com>",
+"subj": "Paul, earn Uber One credits when you ride",
+"amts": [],
+"att": [],
+"lbl": "",
+"class": "junk"
+},
+{
+"id": "19ca95ea8ff97593",
+"d": "2026-03-01",
+"from": "paul bjork <pvb421@gmail.com>",
+"subj": "",
+"amts": [],
+"att": [],
+"lbl": "",
+"class": "junk"
+},
+{
+"id": "19ca95245c0779f1",
+"d": "2026-03-01",
+"from": "Uber Receipts <noreply@uber.com>",
+"subj": "[Personal] Your Sunday morning trip with Uber",
+"amts": [
+"$43.98",
+"$2.27",
+"$35.39",
+"$4.00",
+"$2.48",
+"$2.00",
+"$0.11"
+],
+"att": [],
+"lbl": "",
+"class": "receipt"
+},
+{
+"id": "19ca7d1ae78ccc06",
+"d": "2026-02-28",
+"from": "Uber <admin@uber.com>",
+"subj": "Update your Uber account email",
+"amts": [],
+"att": [],
+"lbl": "",
+"class": "junk"
+},
+{
+"id": "19ddaf9d67b59605",
+"d": "2026-04-29",
+"from": "American Airlines <AmericanAirlines@info.ms.aa.com>",
+"subj": "Paul, prepare for your upcoming trip to Dallas/Ft.Worth",
+"amts": [],
+"att": [],
+"lbl": "",
+"class": "junk"
+},
+{
+"id": "19dd8aee1f2fb6b2",
+"d": "2026-04-29",
+"from": "Uber Receipts <noreply@uber.com>",
+"subj": "[Personal] Your Wednesday morning trip with Uber",
+"amts": [
+"$85.98",
+"$4.66",
+"$70.26",
+"$7.47",
+"$5.00",
+"$2.00",
+"$1.25"
+],
+"att": [],
+"lbl": "",
+"class": "receipt"
+},
+{
+"id": "19fadc38250df301",
+"d": "2026-07-29",
+"from": "Paul Bjork <paul@recast-properties.com>",
+"subj": "Fwd: Your Airtable workspace has been upgraded to the Team plan!",
+"amts": [],
+"att": [],
+"lbl": "receipts,receipts-done",
+"class": "junk"
+},
+{
+"id": "19dc6275e6d3f468",
+"d": "2026-04-25",
+"from": "American Airlines <AmericanAirlines@info.ms.aa.com>",
+"subj": "Thanks for booking: Here are your trip details + travel tips to prepare",
+"amts": [],
+"att": [],
+"lbl": "",
+"class": "junk"
+},
+{
+"id": "19dc1b0ec966b2f3",
+"d": "2026-04-24",
+"from": "Uber <noreply@uber.com>",
+"subj": "Will you go to prom with us? \ud83d\udc90\ud83d\ude99",
+"amts": [],
+"att": [],
+"lbl": "",
+"class": "junk"
+},
+{
+"id": "19dbb44f1a32a684",
+"d": "2026-04-23",
+"from": "Uber Eats <uber@uber.com>",
+"subj": "Explore new restaurants on Uber Eats \ud83c\udf7d\ufe0f",
+"amts": [],
+"att": [],
+"lbl": "",
+"class": "junk"
+},
+{
+"id": "19db880633686107",
+"d": "2026-04-22",
+"from": "Uber <noreply@uber.com>",
+"subj": "10% off your next ride",
+"amts": [],
+"att": [],
+"lbl": "",
+"class": "junk"
+},
+{
+"id": "19db82cfee25dd9a",
+"d": "2026-04-22",
+"from": "Uber Receipts <noreply@uber.com>",
+"subj": "[Personal] Your Wednesday evening order with Uber Eats",
+"amts": [
+"$113.30"
+],
+"att": [],
+"lbl": "",
+"class": "receipt"
+},
+{
+"id": "19db69b01bcdf699",
+"d": "2026-04-22",
+"from": "Uber One <uberone@uber.com>",
+"subj": "NEW family sharing benefit",
+"amts": [],
+"att": [],
+"lbl": "",
+"class": "junk"
+},
+{
+"id": "19db188316dd79aa",
+"d": "2026-04-21",
+"from": "Uber <noreply@uber.com>",
+"subj": "Plan ahead with Uber Reserve \u2708\ufe0f",
+"amts": [],
+"att": [],
+"lbl": "",
+"class": "junk"
+},
+{
+"id": "19dacef3c8689bf4",
+"d": "2026-04-20",
+"from": "Uber <noreply@uber.com>",
+"subj": "Quick trips matter too, Paul",
+"amts": [],
+"att": [],
+"lbl": "",
+"class": "junk"
+},
+{
+"id": "19dac60cfc28e66d",
+"d": "2026-04-20",
+"from": "Uber Receipts <noreply@uber.com>",
+"subj": "[Personal] Your Monday morning order with Uber Eats",
+"amts": [
+"$43.31",
+"$4.09"
+],
+"att": [],
+"lbl": "",
+"class": "receipt"
+},
+{
+"id": "19da697d70548894",
+"d": "2026-04-19",
+"from": "Uber <noreply@uber.com>",
+"subj": "10% off\u2014for a limited time only",
+"amts": [],
+"att": [],
+"lbl": "",
+"class": "junk"
+},
+{
+"id": "19da35ceac4c1c69",
+"d": "2026-04-18",
+"from": "Uber <noreply@uber.com>",
+"subj": "Will you go to prom with us? \ud83d\udc90\ud83d\ude99",
+"amts": [],
+"att": [],
+"lbl": "",
+"class": "junk"
+},
+{
+"id": "19da2046afeecd49",
+"d": "2026-04-18",
+"from": "Heather at American Airlines <AmericanAirlines@survey.av.aa.com>",
+"subj": "PAUL, how was your flight to Portland?",
+"amts": [],
+"att": [],
+"lbl": "",
+"class": "junk"
+},
+{
+"id": "19da1be1e043759f",
+"d": "2026-04-18",
+"from": "Uber Eats <ubereats@uber.com>",
+"subj": "Discover new selections near you",
+"amts": [],
+"att": [],
+"lbl": "",
+"class": "junk"
+},
+{
+"id": "19da080597945ef9",
+"d": "2026-04-18",
+"from": "Uber Eats <noreply@uber.com>",
+"subj": "Returns, now handled for you",
+"amts": [],
+"att": [],
+"lbl": "",
+"class": "junk"
+},
+{
+"id": "19d9d7c112022f5c",
+"d": "2026-04-17",
+"from": "Uber <noreply@uber.com>",
+"subj": "Treat yourself to a ride, Paul \ud83d\udc86\u200d\u2640\ufe0f",
+"amts": [],
+"att": [],
+"lbl": "",
+"class": "junk"
+},
+{
+"id": "19d9b7bf21123817",
+"d": "2026-04-17",
+"from": "Uber Eats <ubereats@uber.com>",
+"subj": "Don't miss out. Your delicious deals expire soon \u23f0",
+"amts": [],
+"att": [],
+"lbl": "",
+"class": "junk"
+},
+{
+"id": "19d98700685687ea",
+"d": "2026-04-16",
+"from": "Uber Eats <noreply@uber.com>",
+"subj": "Get lawn & garden essentials delivered to your home \ud83e\udeb4",
+"amts": [],
+"att": [],
+"lbl": "",
+"class": "junk"
+},
+{
+"id": "19d92c426f878b15",
+"d": "2026-04-15",
+"from": "American Airlines <no-reply@info.email.aa.com>",
+"subj": "It's time to check in - YQHDXS",
+"amts": [],
+"att": [],
+"lbl": "",
+"class": "junk"
+},
+{
+"id": "19d9244d4da257e6",
+"d": "2026-04-15",
+"from": "Uber Eats <ubereats@uber.com>",
+"subj": "Everything is on sale at Sephora!",
+"amts": [],
+"att": [],
+"lbl": "",
+"class": "junk"
+},
+{
+"id": "19d9111290ff10e0",
+"d": "2026-04-15",
+"from": "Uber Eats <ubereats@uber.com>",
+"subj": "Delicious deals are waiting for your next orders \ud83c\udf74",
+"amts": [],
+"att": [],
+"lbl": "",
+"class": "junk"
+},
+{
+"id": "19d8e08fc1b0c325",
+"d": "2026-04-14",
+"from": "Uber <noreply@uber.com>",
+"subj": "Ride how and when you want to",
+"amts": [],
+"att": [],
+"lbl": "",
+"class": "junk"
+},
+{
+"id": "19d8c7843dea4215",
+"d": "2026-04-14",
+"from": "Uber Eats <noreply@uber.com>",
+"subj": "Fresh out? 30% off should help \ud83c\udf4e",
+"amts": [],
+"att": [],
+"lbl": "",
+"class": "junk"
+},
+{
+"id": "19d88a05534deb01",
+"d": "2026-04-13",
+"from": "American Airlines <AmericanAirlines@info.ms.aa.com>",
+"subj": "Paul, prepare for your upcoming trip to Portland",
+"amts": [],
+"att": [],
+"lbl": "",
+"class": "junk"
+},
+{
+"id": "19d88691bc0bdfdd",
+"d": "2026-04-13",
+"from": "Uber Receipts <noreply@uber.com>",
+"subj": "[Personal] Your Monday afternoon order with Uber Eats",
+"amts": [
+"$106.25",
+"$23.41"
+],
+"att": [],
+"lbl": "",
+"class": "receipt"
+},
+{
+"id": "19d839bd50f51d64",
+"d": "2026-04-12",
+"from": "Uber Eats <uber@uber.com>",
+"subj": "Explore new restaurants on Uber Eats \ud83c\udf7d\ufe0f",
+"amts": [],
+"att": [],
+"lbl": "",
+"class": "junk"
+},
+{
+"id": "19d836e862f87487",
+"d": "2026-04-12",
+"from": "Uber Receipts <noreply@uber.com>",
+"subj": "[Personal] Your Sunday afternoon order with Uber Eats",
+"amts": [
+"$55.07",
+"$5.30"
+],
+"att": [],
+"lbl": "",
+"class": "receipt"
+},
+{
+"id": "19d828a2cbefa275",
+"d": "2026-04-12",
+"from": "Uber Eats <uber@uber.com>",
+"subj": "2 new stores including Tom Thumb are now available! \ud83d\uded2",
+"amts": [],
+"att": [],
+"lbl": "",
+"class": "junk"
+},
+{
+"id": "19d7f63a4354c8cd",
+"d": "2026-04-11",
+"from": "Uber <noreply@uber.com>",
+"subj": "Need help getting a teen to practice? \ud83c\udfc3",
+"amts": [],
+"att": [],
+"lbl": "",
+"class": "junk"
+},
+{
+"id": "19d7e27f004ba830",
+"d": "2026-04-11",
+"from": "Uber <uber@uber.com>",
+"subj": "Shop fresh and get 20% off on your next grocery order",
+"amts": [
+"$2.91",
+"$0.28",
+"$3.92",
+"$3.25",
+"$3.02",
+"$4.48",
+"$1.09",
+"$1.89",
+"$1.49"
+],
+"att": [],
+"lbl": "",
+"class": "junk"
+},
+{
+"id": "19d7d382d4e5a9a6",
+"d": "2026-04-11",
+"from": "Uber Eats <noreply@uber.com>",
+"subj": "Spring cleaning essentials delivered to your home",
+"amts": [],
+"att": [],
+"lbl": "",
+"class": "junk"
+},
+{
+"id": "19d7a6d5405f1fae",
+"d": "2026-04-10",
+"from": "Uber <noreply@uber.com>",
+"subj": "Safety with you in mind, for more peace of mind.",
+"amts": [],
+"att": [],
+"lbl": "",
+"class": "junk"
+},
+{
+"id": "19d7954d08d2497f",
+"d": "2026-04-10",
+"from": "Uber <noreply@uber.com>",
+"subj": "Reduce emissions with Uber Electric \u26a1",
+"amts": [],
+"att": [],
+"lbl": "",
+"class": "junk"
+},
+{
+"id": "19d74d499464e068",
+"d": "2026-04-09",
+"from": "Uber Receipts <noreply@uber.com>",
+"subj": "[Personal] Your Thursday evening order with Uber Eats",
+"amts": [
+"$87.51",
+"$21.24"
+],
+"att": [],
+"lbl": "",
+"class": "receipt"
+},
+{
+"id": "19d74ae3db2d54d8",
+"d": "2026-04-09",
+"from": "Uber Eats <noreply@uber.com>",
+"subj": "Paul, you have 50% off on Uber Eats Pick-up!",
+"amts": [],
+"att": [],
+"lbl": "",
+"class": "junk"
+},
+{
+"id": "19d7363e5ab6cfc1",
+"d": "2026-04-09",
+"from": "Uber <uber@uber.com>",
+"subj": "Get 20% off your next convenience store order",
+"amts": [
+"$1.89",
+"$3.79",
+"$6.49",
+"$2.99",
+"$6.59",
+"$6.39",
+"$7.69",
+"$5.49",
+"$24.19"
+],
+"att": [],
+"lbl": "",
+"class": "junk"
+},
+{
+"id": "19d5efbb6c70fdac",
+"d": "2026-04-05",
+"from": "Uber Eats <uber@uber.com>",
+"subj": "Paul, host the best Easter ever \ud83e\udd5e",
+"amts": [
+"$5.94",
+"$6.99",
+"$5.77",
+"$6.79",
+"$15.55",
+"$15.89",
+"$24.99",
+"$17.59",
+"$20.69",
+"$19.29",
+"$22.69",
+"$26.34"
+],
+"att": [],
+"lbl": "",
+"class": "maybe"
+},
+{
+"id": "19d5dea184614816",
+"d": "2026-04-05",
+"from": "Uber Eats <uber@uber.com>",
+"subj": "Explore new restaurants on Uber Eats \ud83c\udf7d\ufe0f",
+"amts": [],
+"att": [],
+"lbl": "",
+"class": "junk"
+},
+{
+"id": "19d5b2fc74c9d336",
+"d": "2026-04-04",
+"from": "Uber One <noreply@uber.com>",
+"subj": "Slam dunk savings on Magnum and more",
+"amts": [],
+"att": [],
+"lbl": "",
+"class": "junk"
+},
+{
+"id": "19d59ad8a3009d0c",
+"d": "2026-04-04",
+"from": "Uber Receipts <noreply@uber.com>",
+"subj": "[Personal] Your Saturday morning order with Uber Eats",
+"amts": [
+"$55.79",
+"$17.90"
+],
+"att": [],
+"lbl": "",
+"class": "receipt"
+},
+{
+"id": "19d587f8b6629466",
+"d": "2026-04-04",
+"from": "Uber Eats <ubereats@uber.com>",
+"subj": "Your one-stop Easter shop \ud83d\udc30",
+"amts": [],
+"att": [],
+"lbl": "",
+"class": "junk"
+},
+{
+"id": "19d50b9661fea719",
+"d": "2026-04-02",
+"from": "Uber Eats <ubereats@uber.com>",
+"subj": "A team of all-star deals",
+"amts": [],
+"att": [],
+"lbl": "",
+"class": "junk"
+},
+{
+"id": "19d4f76398117dbf",
+"d": "2026-04-02",
+"from": "Uber Eats <uber@uber.com>",
+"subj": "33% off has just dropped at Sprouts Farmers Market on select items and more",
+"amts": [
+"$3.00",
+"$4.49",
+"$9.99",
+"$13.99",
+"$19.98",
+"$23.51",
+"$6.00",
+"$1.00",
+"$1.58",
+"$3.39",
+"$5.61",
+"$2.01"
+],
+"att": [],
+"lbl": "",
+"class": "junk"
+},
+{
+"id": "19e751adef3d0142",
+"d": "2026-05-29",
+"from": "Uber Receipts <noreply@uber.com>",
+"subj": "[Personal] Your Friday afternoon order with Uber Eats",
+"amts": [
+"$64.25",
+"$24.33"
+],
+"att": [],
+"lbl": "receipts-done",
+"class": "receipt"
+},
+{
+"id": "19e7019548cb3679",
+"d": "2026-05-28",
+"from": "Heather at American Airlines <AmericanAirlines@survey.av.aa.com>",
+"subj": "PAUL, how was your flight to Dallas?",
+"amts": [],
+"att": [],
+"lbl": "receipts-done",
+"class": "junk"
+},
+{
+"id": "19e6bede7c89a94c",
+"d": "2026-05-27",
+"from": "Uber Receipts <noreply@uber.com>",
+"subj": "[Personal] Your Wednesday evening order with Uber Eats",
+"amts": [
+"$45.46"
+],
+"att": [],
+"lbl": "receipts-done",
+"class": "receipt"
+},
+{
+"id": "19e6b8cbc5333ece",
+"d": "2026-05-27",
+"from": "Uber One <uberone@uber.com>",
+"subj": "Uber One payment confirmation",
+"amts": [
+"$9.99"
+],
+"att": [],
+"lbl": "receipts-done",
+"class": "receipt"
+},
+{
+"id": "19e69fe8280c741f",
+"d": "2026-05-27",
+"from": "Uber Eats <ubereats@uber.com>",
+"subj": "Delicious deals are waiting for your next orders \ud83c\udf74",
+"amts": [],
+"att": [],
+"lbl": "receipts-done",
+"class": "junk"
+},
+{
+"id": "19e623be188abc1d",
+"d": "2026-05-25",
+"from": "Uber <noreply@uber.com>",
+"subj": "Activate your unique PIN today \ud83d\udd12",
+"amts": [],
+"att": [],
+"lbl": "receipts-done",
+"class": "junk"
+},
+{
+"id": "19e61acb0d8aa215",
+"d": "2026-05-25",
+"from": "paul bjork <pvb421@gmail.com>",
+"subj": "Fwd: Your purchase receipt - NCSQUQ",
+"amts": [
+"$50.00",
+"$46.51",
+"$3.49"
+],
+"att": [],
+"lbl": "receipts-done",
+"class": "receipt"
+},
+{
+"id": "19e5f147398faa50",
+"d": "2026-05-25",
+"from": "American Airlines <no-reply@info.email.aa.com>",
+"subj": "It's time to check in - NCSQUQ",
+"amts": [],
+"att": [],
+"lbl": "receipts-done",
+"class": "junk"
+},
+{
+"id": "19e5a698a8bbe96e",
+"d": "2026-05-24",
+"from": "Uber <uber@uber.com>",
+"subj": "The upgrade every day deserves",
+"amts": [],
+"att": [],
+"lbl": "",
+"class": "junk"
+},
+{
+"id": "19e59aaf2ffc0dd4",
+"d": "2026-05-24",
+"from": "Uber Receipts <noreply@uber.com>",
+"subj": "[Personal] Your Saturday evening trip with Uber",
+"amts": [
+"$33.98",
+"$28.35",
+"$3.52",
+"$2.00",
+"$0.11"
+],
+"att": [],
+"lbl": "",
+"class": "receipt"
+},
+{
+"id": "19e575bbf8b8b8e0",
+"d": "2026-05-23",
+"from": "Uber <noreply@uber.com>",
+"subj": "Find your wheels",
+"amts": [],
+"att": [],
+"lbl": "",
+"class": "junk"
+},
+{
+"id": "19e56a5a00163550",
+"d": "2026-05-23",
+"from": "American Airlines <AmericanAirlines@info.ms.aa.com>",
+"subj": "Paul, prepare for your upcoming trip to Dallas/Ft.Worth",
+"amts": [],
+"att": [],
+"lbl": "",
+"class": "junk"
+},
+{
+"id": "19e519b814eef443",
+"d": "2026-05-22",
+"from": "Uber Receipts <noreply@uber.com>",
+"subj": "[Personal] Your Friday afternoon order with Uber Eats",
+"amts": [
+"$25.60",
+"$7.26"
+],
+"att": [],
+"lbl": "",
+"class": "receipt"
+},
+{
+"id": "19e5125042c7131b",
+"d": "2026-05-22",
+"from": "American Airlines <AmericanAirlines@info.ms.aa.com>",
+"subj": "Thanks for booking: Here are your trip details + travel tips to prepare",
+"amts": [],
+"att": [],
+"lbl": "",
+"class": "junk"
+},
+{
+"id": "19e4dcba01c8ee66",
+"d": "2026-05-21",
+"from": "Uber Receipts <noreply@uber.com>",
+"subj": "[Personal] Your Thursday evening order with Uber Eats",
+"amts": [
+"$83.85",
+"$8.64"
+],
+"att": [],
+"lbl": "",
+"class": "receipt"
+},
+{
+"id": "19e4c9406185e0cc",
+"d": "2026-05-21",
+"from": "Uber One <uberone@uber.com>",
+"subj": "Paul, add a different payment method",
+"amts": [],
+"att": [],
+"lbl": "",
+"class": "receipt"
+},
+{
+"id": "19e4b5549c98d941",
+"d": "2026-05-21",
+"from": "Uber One <uberone@uber.com>",
+"subj": "Introducing Hotels on Uber",
+"amts": [],
+"att": [],
+"lbl": "",
+"class": "junk"
+},
+{
+"id": "19e48a74ef5b17e3",
+"d": "2026-05-20",
+"from": "Uber Receipts <noreply@uber.com>",
+"subj": "[Personal] Your Wednesday evening order with Uber Eats",
+"amts": [
+"$42.86",
+"$4.44"
+],
+"att": [],
+"lbl": "",
+"class": "receipt"
+},
+{
+"id": "19e43365aa5c476d",
+"d": "2026-05-19",
+"from": "Uber Receipts <noreply@uber.com>",
+"subj": "[Personal] Your Tuesday evening order with Uber Eats",
+"amts": [
+"$60.70",
+"$6.14"
+],
+"att": [],
+"lbl": "",
+"class": "receipt"
+},
+{
+"id": "19e405cd19f5aeed",
+"d": "2026-05-19",
+"from": "American Airlines <no-reply@connect.email.aa.com>",
+"subj": "Your AAdvantage\u00ae account was updated",
+"amts": [],
+"att": [],
+"lbl": "",
+"class": "junk"
+},
+{
+"id": "19e4060003cf2cfe",
+"d": "2026-05-19",
+"from": "American Airlines <no-reply@connect.email.aa.com>",
+"subj": "Your AAdvantage\u00ae account was updated",
+"amts": [],
+"att": [],
+"lbl": "",
+"class": "junk"
+},
+{
+"id": "19e40608ce2cffae",
+"d": "2026-05-19",
+"from": "American Airlines <no-reply@connect.email.aa.com>",
+"subj": "Your AAdvantage\u00ae account was updated",
+"amts": [],
+"att": [],
+"lbl": "",
+"class": "junk"
+},
+{
+"id": "19e406112b6f1880",
+"d": "2026-05-19",
+"from": "American Airlines <no-reply@connect.email.aa.com>",
+"subj": "Your AAdvantage\u00ae account was updated",
+"amts": [],
+"att": [],
+"lbl": "",
+"class": "junk"
+},
+{
+"id": "19e4063a68deb554",
+"d": "2026-05-19",
+"from": "American Airlines <no-reply@connect.email.aa.com>",
+"subj": "Your AAdvantage\u00ae account was updated",
+"amts": [],
+"att": [],
+"lbl": "",
+"class": "junk"
+},
+{
+"id": "19e40517d39289b5",
+"d": "2026-05-19",
+"from": "American Airlines <no-reply@info.email.aa.com>",
+"subj": "Congratulations on miles well spent \u2013 here are the details",
+"amts": [],
+"att": [],
+"lbl": "",
+"class": "junk"
+},
+{
+"id": "19e3ca97017eba6e",
+"d": "2026-05-18",
+"from": "Uber <noreply@uber.com>",
+"subj": "Your gateway to golf adventures",
+"amts": [],
+"att": [],
+"lbl": "",
+"class": "junk"
+},
+{
+"id": "19e341b8a2ece48e",
+"d": "2026-05-16",
+"from": "Uber Receipts <noreply@uber.com>",
+"subj": "[Personal] Your Saturday evening order with Uber Eats",
+"amts": [
+"$60.22",
+"$6.07"
+],
+"att": [],
+"lbl": "",
+"class": "receipt"
+},
+{
+"id": "19e22ee8eb1370d3",
+"d": "2026-05-13",
+"from": "Uber <noreply@uber.com>",
+"subj": "New device sign-in",
+"amts": [],
+"att": [],
+"lbl": "",
+"class": "junk"
+},
+{
+"id": "19e1ef59bb1c18e0",
+"d": "2026-05-12",
+"from": "Uber Eats <ubereats@uber.com>",
+"subj": "Delicious deals are waiting for your next orders \ud83c\udf74",
+"amts": [],
+"att": [],
+"lbl": "",
+"class": "junk"
+},
+{
+"id": "19e1daca71f67095",
+"d": "2026-05-12",
+"from": "Uber Receipts <noreply@uber.com>",
+"subj": "[Personal] Your Tuesday morning order with Uber Eats",
+"amts": [
+"$41.54",
+"$4.33"
+],
+"att": [],
+"lbl": "",
+"class": "receipt"
+},
+{
+"id": "19e196800d142e61",
+"d": "2026-05-11",
+"from": "Uber Receipts <noreply@uber.com>",
+"subj": "[Personal] Your Monday afternoon order with Uber Eats",
+"amts": [
+"$38.64"
+],
+"att": [],
+"lbl": "",
+"class": "receipt"
+},
+{
+"id": "19e0eca6a0a532d3",
+"d": "2026-05-09",
+"from": "Uber One <noreply@uber.com>",
+"subj": "Big news: No more fees on grocery orders over $60",
+"amts": [],
+"att": [],
+"lbl": "",
+"class": "junk"
+},
+{
+"id": "19e0db22f943be6d",
+"d": "2026-05-09",
+"from": "Uber Eats <ubereats@uber.com>",
+"subj": "30% off flowers + 20% off Ulta Beauty for Mom",
+"amts": [],
+"att": [],
+"lbl": "",
+"class": "junk"
+},
+{
+"id": "19e0cb28fb6dfbe5",
+"d": "2026-05-09",
+"from": "Uber One <noreply@uber.com>",
+"subj": "Get Mom what she really wants for Mother's Day.",
+"amts": [],
+"att": [],
+"lbl": "",
+"class": "junk"
+},
+{
+"id": "19e07b8a91efd13d",
+"d": "2026-05-08",
+"from": "paul bjork <pvb421@gmail.com>",
+"subj": "",
+"amts": [],
+"att": [],
+"lbl": "",
+"class": "junk"
+},
+{
+"id": "19e04b2ce9f28f3c",
+"d": "2026-05-07",
+"from": "Uber <noreply@uber.com>",
+"subj": "Will you go to prom with us? \ud83d\udc90\ud83d\ude99",
+"amts": [],
+"att": [],
+"lbl": "",
+"class": "junk"
+},
+{
+"id": "19e039bf8648f38d",
+"d": "2026-05-07",
+"from": "Uber Eats <ubereats@uber.com>",
+"subj": "30% off flowers just in time for Mother\u2019s Day \ud83c\udf38",
+"amts": [],
+"att": [],
+"lbl": "",
+"class": "junk"
+},
+{
+"id": "19e02c3b92ef357f",
+"d": "2026-05-07",
+"from": "American Airlines <no-reply@info.email.aa.com>",
+"subj": "It's time to check in - OLNTKU",
+"amts": [],
+"att": [],
+"lbl": "",
+"class": "junk"
+},
+{
+"id": "19df4e4e139e5cfd",
+"d": "2026-05-04",
+"from": "Uber Eats <ubereats@uber.com>",
+"subj": "Save 30% on a fresh bouquet for Mom \ud83d\udc90",
+"amts": [],
+"att": [],
+"lbl": "",
+"class": "junk"
+},
+{
+"id": "19df3eb2823f97db",
+"d": "2026-05-04",
+"from": "Uber Receipts <noreply@uber.com>",
+"subj": "[Personal] Your Monday morning order with Uber Eats",
+"amts": [
+"$59.65",
+"$20.97"
+],
+"att": [],
+"lbl": "",
+"class": "receipt"
+},
+{
+"id": "19dee4a12c946c1a",
+"d": "2026-05-03",
+"from": "paul bjork <pvb421@gmail.com>",
+"subj": "",
+"amts": [],
+"att": [],
+"lbl": "",
+"class": "junk"
+},
+{
+"id": "19dedd4c33011f73",
+"d": "2026-05-03",
+"from": "Uber Receipts <noreply@uber.com>",
+"subj": "[Personal] Your Sunday morning trip with Uber",
+"amts": [
+"$54.99",
+"$2.93",
+"$46.28",
+"$4.00",
+"$2.60",
+"$2.00",
+"$0.11"
+],
+"att": [],
+"lbl": "",
+"class": "receipt"
+},
+{
+"id": "19dead3708324233",
+"d": "2026-05-02",
+"from": "Uber Receipts <noreply@uber.com>",
+"subj": "[Personal] Your Saturday afternoon order with Uber Eats",
+"amts": [
+"$35.06",
+"$3.40"
+],
+"att": [],
+"lbl": "",
+"class": "receipt"
+},
+{
+"id": "19de902d87a21bf6",
+"d": "2026-05-02",
+"from": "American Airlines <no-reply@info.email.aa.com>",
+"subj": "It's time to check in - OLNTKU",
+"amts": [],
+"att": [],
+"lbl": "",
+"class": "junk"
+},
+{
+"id": "19de3fdad52b3d5a",
+"d": "2026-05-01",
+"from": "Uber Receipts <noreply@uber.com>",
+"subj": "[Personal] Your Friday morning order with Uber Eats",
+"amts": [
+"$22.28",
+"$6.55"
+],
+"att": [],
+"lbl": "",
+"class": "receipt"
+},
+{
+"id": "19de3a4af95c34e8",
+"d": "2026-05-01",
+"from": "American Airlines <no-reply@info.email.aa.com>",
+"subj": "It's time to check in - OLNTKU",
+"amts": [],
+"att": [],
+"lbl": "",
+"class": "junk"
+},
+{
+"id": "19f1a8ee0da0830c",
+"d": "2026-06-30",
+"from": "Uber <noreply@uber.com>",
+"subj": "Take control of your ride and your safety tools",
+"amts": [],
+"att": [],
+"lbl": "receipts-done",
+"class": "junk"
+},
+{
+"id": "19f13a9a7b8c4af9",
+"d": "2026-06-29",
+"from": "paul bjork <pvb421@gmail.com>",
+"subj": "",
+"amts": [],
+"att": [],
+"lbl": "receipts,receipts-done",
+"class": "junk"
+},
+{
+"id": "19f1353e0ad7b96c",
+"d": "2026-06-29",
+"from": "Southwest Airlines <SouthwestAirlines@iluv.southwest.com>",
+"subj": "\u23f2\ufe0fCountdown's on! Earn 80,000 points!",
+"amts": [
+"$5.60"
+],
+"att": [],
+"lbl": "receipts-done",
+"class": "junk"
+},
+{
+"id": "19f062d1626ee9ac",
+"d": "2026-06-26",
+"from": "Uber <noreply@uber.com>",
+"subj": "Choose a team and get 30% off if they lose",
+"amts": [],
+"att": [],
+"lbl": "receipts-done",
+"class": "junk"
+},
+{
+"id": "19f060b917f5e444",
+"d": "2026-06-26",
+"from": "Uber One <uberone@uber.com>",
+"subj": "Paul, add a different payment method",
+"amts": [],
+"att": [],
+"lbl": "receipts-done",
+"class": "receipt"
+},
+{
+"id": "19f057e3fbdf52b2",
+"d": "2026-06-26",
+"from": "paul bjork <pvb421@gmail.com>",
+"subj": "",
+"amts": [],
+"att": [],
+"lbl": "receipts,receipts-done",
+"class": "junk"
+},
+{
+"id": "19f053116f15121d",
+"d": "2026-06-26",
+"from": "Uber One <uberone@uber.com>",
+"subj": "Get 10% back on Hotel bookings for the match \u26bd\ufe0f",
+"amts": [],
+"att": [],
+"lbl": "receipts-done",
+"class": "junk"
+},
+{
+"id": "19eff4ea68385f8b",
+"d": "2026-06-25",
+"from": "paul bjork <pvb421@gmail.com>",
+"subj": "",
+"amts": [],
+"att": [],
+"lbl": "receipts,receipts-done",
+"class": "junk"
+},
+{
+"id": "19efab5b40d7e709",
+"d": "2026-06-24",
+"from": "paul bjork <pvb421@gmail.com>",
+"subj": "",
+"amts": [],
+"att": [],
+"lbl": "receipts,receipts-done",
+"class": "junk"
+},
+{
+"id": "19efa2e8ed562228",
+"d": "2026-06-24",
+"from": "Uber <noreply@uber.com>",
+"subj": "Got summer plans? Uber teen accounts can help \u2600\ufe0f",
+"amts": [
+"$16.99"
+],
+"att": [],
+"lbl": "receipts-done",
+"class": "maybe"
+},
+{
+"id": "19efa25271396978",
+"d": "2026-06-24",
+"from": "paul bjork <pvb421@gmail.com>",
+"subj": "",
+"amts": [],
+"att": [],
+"lbl": "receipts,receipts-done",
+"class": "junk"
+},
+{
+"id": "19ef9c67a1ab0fde",
+"d": "2026-06-24",
+"from": "Southwest Airlines <SouthwestAirlines@iluv.southwest.com>",
+"subj": "\ud83d\udce3Final days! Earn 80,000 points!",
+"amts": [
+"$5.60"
+],
+"att": [],
+"lbl": "receipts-done",
+"class": "junk"
+},
+{
+"id": "19ef74ea87aaa50f",
+"d": "2026-06-23",
+"from": "Uber Eats <ubereats@uber.com>",
+"subj": "Delicious deals are waiting for your next orders \ud83c\udf74",
+"amts": [],
+"att": [],
+"lbl": "receipts-done",
+"class": "junk"
+},
+{
+"id": "19ef46fe218622e5",
+"d": "2026-06-23",
+"from": "Southwest Airlines <SouthwestAirlines@iluv.southwest.com>",
+"subj": "$59 sale fares? Yes, please.",
+"amts": [
+"$5.60"
+],
+"att": [],
+"lbl": "receipts-done",
+"class": "junk"
+},
+{
+"id": "19ef2323c925ca2e",
+"d": "2026-06-22",
+"from": "Google Workspace Alerts <google-workspace-alerts-noreply@google.com>",
+"subj": "Alert: Super admin password reset - properties@recast-properties.com",
+"amts": [],
+"att": [],
+"lbl": "receipts-done",
+"class": "junk"
+},
+{
+"id": "19ef233f5c35e0df",
+"d": "2026-06-22",
+"from": "Google Workspace Alerts <google-workspace-alerts-noreply@google.com>",
+"subj": "Alert: Super admin password reset - properties@recast-properties.com",
+"amts": [],
+"att": [],
+"lbl": "receipts-done",
+"class": "junk"
+},
+{
+"id": "19ef234d961fc39a",
+"d": "2026-06-22",
+"from": "Google Workspace Alerts <google-workspace-alerts-noreply@google.com>",
+"subj": "Alert: Super admin password reset - properties@recast-properties.com",
+"amts": [],
+"att": [],
+"lbl": "receipts-done",
+"class": "junk"
+},
+{
+"id": "19ef1e3cee505655",
+"d": "2026-06-22",
+"from": "paul bjork <pvb421@gmail.com>",
+"subj": "Test",
+"amts": [],
+"att": [],
+"lbl": "receipts-done",
+"class": "junk"
+},
+{
+"id": "19ef1d5fe979cdfd",
+"d": "2026-06-22",
+"from": "Google <no-reply@accounts.google.com>",
+"subj": "Security alert",
+"amts": [],
+"att": [],
+"lbl": "receipts-done",
+"class": "junk"
+},
+{
+"id": "19ef04247581e8fd",
+"d": "2026-06-22",
+"from": "paul bjork <pvb421@gmail.com>",
+"subj": "",
+"amts": [],
+"att": [],
+"lbl": "receipts,receipts-done",
+"class": "junk"
+},
+{
+"id": "19eec3b806c4afb0",
+"d": "2026-06-21",
+"from": "Uber <uber@uber.com>",
+"subj": "Save 15% on your dad's Gift Card",
+"amts": [],
+"att": [],
+"lbl": "receipts-done",
+"class": "junk"
+},
+{
+"id": "19ee695ba7e82283",
+"d": "2026-06-20",
+"from": "Uber Eats <uber@uber.com>",
+"subj": "The smartest match-day play? Deals!",
+"amts": [
+"$9.99"
+],
+"att": [],
+"lbl": "receipts-done",
+"class": "junk"
+},
+{
+"id": "19ee57c31d6bcfcf",
+"d": "2026-06-20",
+"from": "Uber <noreply@uber.com>",
+"subj": "Choose a team and get 30% off if they lose",
+"amts": [],
+"att": [],
+"lbl": "receipts-done",
+"class": "junk"
+},
+{
+"id": "19ee261f8f746144",
+"d": "2026-06-19",
+"from": "Uber Eats <ubereats@uber.com>",
+"subj": "Shop top gifts for Father\u2019s Day",
+"amts": [],
+"att": [],
+"lbl": "receipts-done",
+"class": "junk"
+},
+{
+"id": "19ee152d7385a8b8",
+"d": "2026-06-19",
+"from": "Uber <noreply@uber.com>",
+"subj": "Limited time: 40% off your next two rides with Link",
+"amts": [],
+"att": [],
+"lbl": "receipts-done",
+"class": "junk"
+},
+{
+"id": "19edcf2b4d3ee3ca",
+"d": "2026-06-18",
+"from": "Uber Eats <noreply@uber.com>",
+"subj": "Deals for gifts at best retail stores",
+"amts": [
+"$103.99",
+"$187.99",
+"$240.49",
+"$313.99",
+"$208.99",
+"$67.46",
+"$89.95",
+"$26.25",
+"$35.00",
+"$23.99",
+"$29.99",
+"$45.00"
+],
+"att": [],
+"lbl": "receipts-done",
+"class": "junk"
+},
+{
+"id": "19edcc9d2b94a862",
+"d": "2026-06-18",
+"from": "Southwest Airlines Rapid Rewards <RapidRewards@iluv.southwest.com>",
+"subj": "Ready to earn more points? It's easy.",
+"amts": [],
+"att": [],
+"lbl": "receipts-done",
+"class": "junk"
+},
+{
+"id": "19edb64cd9341671",
+"d": "2026-06-18",
+"from": "American Airlines <no-reply@info.email.aa.com>",
+"subj": "Your refund is complete",
+"amts": [],
+"att": [],
+"lbl": "receipts-done",
+"class": "junk"
+},
+{
+"id": "19edac1a2bd6f549",
+"d": "2026-06-18",
+"from": "Southwest Airlines <SouthwestAirlines@iluv.southwest.com>",
+"subj": "Celebrate with $55 sale fares. \ud83e\udd73",
+"amts": [
+"$5.60"
+],
+"att": [],
+"lbl": "receipts-done",
+"class": "junk"
+},
+{
+"id": "19ed62e9b6ad57a5",
+"d": "2026-06-17",
+"from": "Uber Eats <uber@uber.com>",
+"subj": "Fuel up the squad \ud83c\udf55",
+"amts": [
+"$10.29",
+"$17.99",
+"$3.49",
+"$13.95",
+"$13.75",
+"$11.25",
+"$7.99",
+"$8.99",
+"$13.12",
+"$9.99"
+],
+"att": [],
+"lbl": "receipts-done",
+"class": "maybe"
+},
+{
+"id": "19ed588f44cee429",
+"d": "2026-06-17",
+"from": "Southwest Airlines <SouthwestAirlines@iluv.southwest.com>",
+"subj": "Earn 80,000 bonus points + first checked bag free! \ud83e\udd70",
+"amts": [
+"$5.60"
+],
+"att": [],
+"lbl": "receipts-done",
+"class": "junk"
+},
+{
+"id": "19ed33d26695968e",
+"d": "2026-06-16",
+"from": "Uber Eats <ubereats@uber.com>",
+"subj": "Delicious deals are waiting for your next orders \ud83c\udf74",
+"amts": [],
+"att": [],
+"lbl": "receipts-done",
+"class": "junk"
+},
+{
+"id": "19ed0694ab952f06",
+"d": "2026-06-16",
+"from": "Southwest Airlines <SouthwestAirlines@iluv.southwest.com>",
+"subj": "$55 sale fares for our\u202f55th\u202fbirthday.",
+"amts": [
+"$5.60"
+],
+"att": [],
+"lbl": "receipts-done",
+"class": "junk"
+},
+{
+"id": "19eccb04208c09a3",
+"d": "2026-06-15",
+"from": "Uber <noreply@uber.com>",
+"subj": "Traveling? Save up to US$85",
+"amts": [
+"$4.99"
+],
+"att": [],
+"lbl": "receipts-done",
+"class": "maybe"
+},
+{
+"id": "19ecbc44c11b1f5e",
+"d": "2026-06-15",
+"from": "Uber <noreply@uber.com>",
+"subj": "RideCheck is here to aid your safety on the road",
+"amts": [],
+"att": [],
+"lbl": "receipts-done",
+"class": "junk"
+},
+{
+"id": "19ecb43fdf1667b5",
+"d": "2026-06-15",
+"from": "Southwest Airlines <SouthwestAirlines@iluv.southwest.com>",
+"subj": "Final day for double points. Wow! \ud83e\udd29",
+"amts": [],
+"att": [],
+"lbl": "receipts-done",
+"class": "junk"
+},
+{
+"id": "19ecaef8f8dbb488",
+"d": "2026-06-15",
+"from": "Uber Receipts <noreply@uber.com>",
+"subj": "[Personal] Your Monday morning trip with Uber",
+"amts": [
+"$44.99",
+"$2.33",
+"$36.09",
+"$4.00",
+"$2.79",
+"$2.00",
+"$0.11"
+],
+"att": [],
+"lbl": "receipts-done",
+"class": "receipt"
+},
+{
+"id": "19ecaeeb41429d55",
+"d": "2026-06-15",
+"from": "Uber <uber@uber.com>",
+"subj": "Still checking the app to know when to leave?",
+"amts": [],
+"att": [],
+"lbl": "receipts-done",
+"class": "junk"
+},
+{
+"id": "19ec98142846a74d",
+"d": "2026-06-14",
+"from": "Uber <noreply@uber.com>",
+"subj": "Remember to set up Audio Recording",
+"amts": [],
+"att": [],
+"lbl": "receipts-done",
+"class": "junk"
+},
+{
+"id": "19ec948fa7abf0a6",
+"d": "2026-06-14",
+"from": "Uber Receipts <noreply@uber.com>",
+"subj": "[Personal] Your Sunday evening order with Uber Eats",
+"amts": [
+"$42.71",
+"$4.39"
+],
+"att": [],
+"lbl": "receipts-done",
+"class": "receipt"
+},
+{
+"id": "19ec7c49ce79aefb",
+"d": "2026-06-14",
+"from": "Uber Receipts <noreply@uber.com>",
+"subj": "[Personal] Your Sunday morning order with Uber Eats",
+"amts": [
+"$37.97"
+],
+"att": [],
+"lbl": "receipts-done",
+"class": "receipt"
+},
+{
+"id": "19ec6cb26d867e91",
+"d": "2026-06-14",
+"from": "American Airlines <no-reply@info.email.aa.com>",
+"subj": "Refund request received",
+"amts": [],
+"att": [],
+"lbl": "receipts-done",
+"class": "junk"
+},
+{
+"id": "19ec4bf65d8a9ba0",
+"d": "2026-06-14",
+"from": "American Airlines <no-reply@info.email.aa.com>",
+"subj": "Choose a new flight",
+"amts": [],
+"att": [],
+"lbl": "receipts-done",
+"class": "junk"
+},
+{
+"id": "19ec3b29883f8cf8",
+"d": "2026-06-13",
+"from": "American Airlines <no-reply@connect.email.aa.com>",
+"subj": "Weather conditions may affect your upcoming travel plans (June 14)",
+"amts": [],
+"att": [],
+"lbl": "receipts-done",
+"class": "junk"
+},
+{
+"id": "19ec3a6389cff7e7",
+"d": "2026-06-13",
+"from": "Uber One <uberone@uber.com>",
+"subj": "Paul, upgrade to save 20% with Uber One annual plan",
+"amts": [],
+"att": [],
+"lbl": "receipts-done",
+"class": "junk"
+},
+{
+"id": "19ec0ea5cf2913f3",
+"d": "2026-06-13",
+"from": "American Airlines <no-reply@info.email.aa.com>",
+"subj": "It's time to check in - CVMBBG",
+"amts": [],
+"att": [],
+"lbl": "receipts-done",
+"class": "junk"
+},
+{
+"id": "19ebd2a700d7d51f",
+"d": "2026-06-12",
+"from": "Uber Eats <uber@uber.com>",
+"subj": "Explore new restaurants on Uber Eats \ud83c\udf7d\ufe0f",
+"amts": [],
+"att": [],
+"lbl": "receipts-done",
+"class": "junk"
+},
+{
+"id": "19ebbc9730e67ab6",
+"d": "2026-06-12",
+"from": "American Airlines <no-reply@info.email.aa.com>",
+"subj": "Your flight from PDX",
+"amts": [],
+"att": [],
+"lbl": "receipts-done",
+"class": "junk"
+},
+{
+"id": "19ebbc42f3ed2ff1",
+"d": "2026-06-12",
+"from": "Southwest Airlines <SouthwestAirlines@iluv.southwest.com>",
+"subj": "Wow! Earn double points now!",
+"amts": [],
+"att": [],
+"lbl": "receipts-done",
+"class": "junk"
+},
+{
+"id": "19eb89a46da9d793",
+"d": "2026-06-11",
+"from": "Uber Receipts <noreply@uber.com>",
+"subj": "[Personal] Your Thursday afternoon order with Uber Eats",
+"amts": [
+"$25.82",
+"$7.76"
+],
+"att": [],
+"lbl": "receipts-done",
+"class": "receipt"
+},
+{
+"id": "19eb86bb889a93af",
+"d": "2026-06-11",
+"from": "Uber <noreply@uber.com>",
+"subj": "Choose a team and get 30% off if they lose",
+"amts": [],
+"att": [],
+"lbl": "receipts-done",
+"class": "junk"
+},
+{
+"id": "19eb75e58b4bc3fe",
+"d": "2026-06-11",
+"from": "Paul Bjork <paul@recast-properties.com>",
+"subj": "toll tag",
+"amts": [],
+"att": [
+"T-BOS - PaymentReceipt203451015852622026"
+],
+"lbl": "",
+"class": "receipt"
+},
+{
+"id": "19eb6d764bb0a554",
+"d": "2026-06-11",
+"from": "Southwest Airlines <SouthwestAirlines@iluv.southwest.com>",
+"subj": "Last day to save up to 40% off fares!",
+"amts": [
+"$5.60"
+],
+"att": [],
+"lbl": "receipts-done",
+"class": "junk"
+},
+{
+"id": "19eb500f304fe49f",
+"d": "2026-06-10",
+"from": "American Airlines <no-reply@info.email.aa.com>",
+"subj": "Your Trip Credit was redeemed",
+"amts": [
+"$203.00"
+],
+"att": [],
+"lbl": "receipts-done",
+"class": "maybe"
+},
+{
+"id": "19eaf2928e748a8e",
+"d": "2026-06-09",
+"from": "Uber Eats <ubereats@uber.com>",
+"subj": "Delicious deals are waiting for your next orders \ud83c\udf74",
+"amts": [],
+"att": [],
+"lbl": "receipts-done",
+"class": "junk"
+},
+{
+"id": "19eaf0cc992d96e1",
+"d": "2026-06-09",
+"from": "Uber One <uberone@uber.com>",
+"subj": "Unlock greater savings with the Uber One annual plan",
+"amts": [],
+"att": [],
+"lbl": "receipts-done",
+"class": "junk"
+},
+{
+"id": "19eaa297fd46db4d",
+"d": "2026-06-08",
+"from": "Uber Receipts <noreply@uber.com>",
+"subj": "[Personal] Your Monday evening order with Uber Eats",
+"amts": [
+"$60.36",
+"$2.81"
+],
+"att": [],
+"lbl": "receipts-done",
+"class": "receipt"
+},
+{
+"id": "19ea514de14ef2ca",
+"d": "2026-06-07",
+"from": "Uber Receipts <noreply@uber.com>",
+"subj": "[Personal] Your Sunday evening order with Uber Eats",
+"amts": [
+"$38.71",
+"$5.06"
+],
+"att": [],
+"lbl": "receipts-done",
+"class": "receipt"
+},
+{
+"id": "19e9e9eba1d0b6c4",
+"d": "2026-06-06",
+"from": "Uber Eats <uber@uber.com>",
+"subj": "Explore new restaurants on Uber Eats \ud83c\udf7d\ufe0f",
+"amts": [],
+"att": [],
+"lbl": "receipts-done",
+"class": "junk"
+},
+{
+"id": "19e9a735cfac773f",
+"d": "2026-06-05",
+"from": "Uber One <uberone@uber.com>",
+"subj": "Your key to greater savings: Uber One annual plan",
+"amts": [],
+"att": [],
+"lbl": "receipts-done",
+"class": "junk"
+},
+{
+"id": "19e95c5e913dcaee",
+"d": "2026-06-04",
+"from": "Uber One <uberone@uber.com>",
+"subj": "Your Uber One benefits are available abroad",
+"amts": [],
+"att": [],
+"lbl": "receipts-done",
+"class": "junk"
+},
+{
+"id": "19e94b341f1d5477",
+"d": "2026-06-04",
+"from": "Uber Eats <uber@uber.com>",
+"subj": "2 new stores including Ulta Beauty are now available! \ud83d\uded2",
+"amts": [],
+"att": [],
+"lbl": "receipts-done",
+"class": "junk"
+},
+{
+"id": "19e93291fe3c5210",
+"d": "2026-06-04",
+"from": "Southwest Airlines <SouthwestAirlines@iluv.southwest.com>",
+"subj": "\ud83d\udc4f\ud83d\udc4f \ud83d\udece\ufe0f Hey! You did the email sign up thing!",
+"amts": [],
+"att": [],
+"lbl": "receipts-done",
+"class": "junk"
+},
+{
+"id": "19e8eaeb03cf2a86",
+"d": "2026-06-03",
+"from": "Uber Receipts <noreply@uber.com>",
+"subj": "[Personal] Your Wednesday morning trip with Uber",
+"amts": [
+"$113.98",
+"$5.50",
+"$91.59",
+"$2.00",
+"$1.39",
+"$19.00",
+"$94.98"
+],
+"att": [],
+"lbl": "receipts-done",
+"class": "receipt"
+},
+{
+"id": "19e8ec62c8a4a79e",
+"d": "2026-06-03",
+"from": "Uber Receipts <noreply@uber.com>",
+"subj": "[Personal] Your Wednesday morning trip with Uber",
+"amts": [
+"$31.48",
+"$1.52",
+"$28.08",
+"$4.00",
+"$2.79",
+"$2.00",
+"$0.11",
+"-$5.50"
+],
+"att": [],
+"lbl": "receipts-done",
+"class": "receipt"
+},
+{
+"id": "19e8e8bac46f3744",
+"d": "2026-06-03",
+"from": "American Airlines <no-reply@info.email.aa.com>",
+"subj": "Your Trip Credit",
+"amts": [
+"$203.00"
+],
+"att": [],
+"lbl": "receipts-done",
+"class": "maybe"
+},
+{
+"id": "19e8df3ca61f5185",
+"d": "2026-06-03",
+"from": "Southwest Airlines Rapid Rewards <southwestairlines@ifly.southwest.com",
+"subj": "Welcome to Rapid Rewards",
+"amts": [],
+"att": [],
+"lbl": "receipts-done",
+"class": "junk"
+},
+{
+"id": "19e8d1415d216814",
+"d": "2026-06-03",
+"from": "Uber Receipts <noreply@uber.com>",
+"subj": "[Personal] Your Wednesday morning trip with Uber",
+"amts": [
+"$94.98",
+"$5.50",
+"$91.59",
+"$2.00",
+"$1.39"
+],
+"att": [],
+"lbl": "receipts-done",
+"class": "receipt"
+},
+{
+"id": "19e8b84c873fa38b",
+"d": "2026-06-02",
+"from": "American Airlines <no-reply@info.email.aa.com>",
+"subj": "Trip Cancellation",
+"amts": [],
+"att": [],
+"lbl": "receipts-done",
+"class": "junk"
+},
+{
+"id": "19e8b5170d1df32c",
+"d": "2026-06-02",
+"from": "Uber Eats <ubereats@uber.com>",
+"subj": "Delicious deals are waiting for your next orders \ud83c\udf74",
+"amts": [],
+"att": [],
+"lbl": "receipts-done",
+"class": "junk"
+},
+{
+"id": "19e8aa5192efcc09",
+"d": "2026-06-02",
+"from": "American Airlines <no-reply@info.email.aa.com>",
+"subj": "You've been rebooked to fly",
+"amts": [],
+"att": [],
+"lbl": "receipts-done",
+"class": "junk"
+},
+{
+"id": "19e88d27b9107150",
+"d": "2026-06-02",
+"from": "American Airlines <no-reply@info.email.aa.com>",
+"subj": "It's time to check in - YVJBCJ",
+"amts": [],
+"att": [],
+"lbl": "receipts-done",
+"class": "junk"
+},
+{
+"id": "19e85d9ee02f854c",
+"d": "2026-06-01",
+"from": "Uber One <uberone@uber.com>",
+"subj": "Boost your Uber One savings with an annual plan",
+"amts": [],
+"att": [],
+"lbl": "receipts-done",
+"class": "junk"
+},
+{
+"id": "19fb9ca58cd7c9a2",
+"d": "2026-07-31",
+"from": "Uber Receipts <noreply@uber.com>",
+"subj": "[Personal] Your Friday morning order with Uber Eats",
+"amts": [
+"$41.92",
+"$4.51"
+],
+"att": [],
+"lbl": "receipts-done",
+"class": "receipt"
+},
+{
+"id": "19fb57acc0aff1b5",
+"d": "2026-07-30",
+"from": "Google <no-reply@accounts.google.com>",
+"subj": "Security alert",
+"amts": [],
+"att": [],
+"lbl": "receipts-done",
+"class": "junk"
+},
+{
+"id": "19fb4e165e9dde83",
+"d": "2026-07-30",
+"from": "Uber One <uberone@uber.com>",
+"subj": "Paul, add a different payment method",
+"amts": [],
+"att": [],
+"lbl": "receipts-done",
+"class": "receipt"
+},
+{
+"id": "19fb4d228c7619ee",
+"d": "2026-07-30",
+"from": "American Airlines <AmericanAirlines@info.ms.aa.com>",
+"subj": "Paul, prepare for your upcoming trip to Dallas/Ft.Worth",
+"amts": [],
+"att": [],
+"lbl": "receipts-done",
+"class": "junk"
+},
+{
+"id": "19fb4c7970b0f7a7",
+"d": "2026-07-30",
+"from": "Uber Receipts <noreply@uber.com>",
+"subj": "[Personal] Your Thursday morning order with Uber Eats",
+"amts": [
+"$57.37",
+"$6.05"
+],
+"att": [],
+"lbl": "receipts-done",
+"class": "receipt"
+},
+{
+"id": "19fb04320268465f",
+"d": "2026-07-29",
+"from": "Uber Receipts <noreply@uber.com>",
+"subj": "[Personal] Your Wednesday afternoon order with Uber Eats",
+"amts": [
+"$43.77",
+"$8.13"
+],
+"att": [],
+"lbl": "receipts-done",
+"class": "receipt"
+},
+{
+"id": "19faef91b36eaf81",
+"d": "2026-07-29",
+"from": "Uber Receipts <noreply@uber.com>",
+"subj": "[Personal] Your Wednesday morning order with Uber Eats",
+"amts": [
+"$35.25",
+"$3.73"
+],
+"att": [],
+"lbl": "receipts-done",
+"class": "receipt"
+},
+{
+"id": "19fac47609ba2aa6",
+"d": "2026-07-29",
+"from": "Uber Eats <ubereats@uber.com>",
+"subj": "Delicious deals are waiting for your next orders \ud83c\udf74",
+"amts": [],
+"att": [],
+"lbl": "receipts-done",
+"class": "junk"
+},
+{
+"id": "19fab18f36381981",
+"d": "2026-07-28",
+"from": "Paul Bjork <paul@recast-properties.com>",
+"subj": "Fwd: Your Airtable statement for the Recast Properties workspace - July 28, 2026",
+"amts": [],
+"att": [],
+"lbl": "receipts,receipts-done",
+"class": "receipt"
+},
+{
+"id": "19fa9491039be96b",
+"d": "2026-07-28",
+"from": "Paul Bjork <paul@recast-properties.com>",
+"subj": "Fwd: Packing Slip for Session : 072826FZ4657 (email id: 58574648)",
+"amts": [],
+"att": [
+"072826FZ4657.pdf"
+],
+"lbl": "receipts,receipts-done",
+"class": "receipt"
+},
+{
+"id": "19fa89cf62688780",
+"d": "2026-07-28",
+"from": "Paul Bjork <paul@recast-properties.com>",
+"subj": "Fwd: PDF.co credit refill ref ##in_1Ty8lFJRC0RkNaMfklbRNCIL",
+"amts": [],
+"att": [],
+"lbl": "receipts,receipts-done",
+"class": "junk"
+},
+{
+"id": "19fa51493384d1fa",
+"d": "2026-07-27",
+"from": "Uber One <uberone@uber.com>",
+"subj": "Good news for holiday season \u2600\ufe0f",
+"amts": [],
+"att": [],
+"lbl": "receipts-done",
+"class": "junk"
+},
+{
+"id": "19fa3004deda3689",
+"d": "2026-07-27",
+"from": "Uber <uber@uber.com>",
+"subj": "Paul, share the love with Courier \ud83d\udce6",
+"amts": [],
+"att": [],
+"lbl": "receipts-done",
+"class": "junk"
+},
+{
+"id": "19f987c13ff65da7",
+"d": "2026-07-25",
+"from": "Paul Bjork <paul@recast-properties.com>",
+"subj": "Fwd: Welcome to ExpressVPN",
+"amts": [],
+"att": [],
+"lbl": "receipts,receipts-done",
+"class": "junk"
+},
+{
+"id": "19f8f0909cc90dbb",
+"d": "2026-07-23",
+"from": "Frontier Airlines <deals@emails.flyfrontier.com>",
+"subj": "See how far 60,000 bonus miles can take you \u2708\ufe0f",
+"amts": [],
+"att": [],
+"lbl": "receipts-done",
+"class": "junk"
+},
+{
+"id": "19f8bc3b31c1a71d",
+"d": "2026-07-22",
+"from": "Uber Receipts <noreply@uber.com>",
+"subj": "Uber: Your receipt",
+"amts": [
+"$200.00"
+],
+"att": [],
+"lbl": "receipts-done",
+"class": "receipt"
+},
+{
+"id": "19f8b7822c653787",
+"d": "2026-07-22",
+"from": "Google Cloud <CloudPlatform-noreply@google.com>",
+"subj": "[Action Advised] Secure Google Cloud Identity users with required 2SV",
+"amts": [],
+"att": [],
+"lbl": "receipts-done",
+"class": "junk"
+},
+{
+"id": "19f894d765bcc417",
+"d": "2026-07-22",
+"from": "Uber <uber@uber.com>",
+"subj": "Forget something? Courier has you covered. \ud83d\udce6",
+"amts": [],
+"att": [],
+"lbl": "receipts-done",
+"class": "junk"
+},
+{
+"id": "19f885a589e5ac3f",
+"d": "2026-07-22",
+"from": "Uber Eats <ubereats@uber.com>",
+"subj": "Delicious deals are waiting for your next orders \ud83c\udf74",
+"amts": [],
+"att": [],
+"lbl": "receipts-done",
+"class": "junk"
+},
+{
+"id": "19f7bc0c5a335e0c",
+"d": "2026-07-19",
+"from": "Uber <uber@uber.com>",
+"subj": "Save time with a Courier delivery \ud83d\udce6",
+"amts": [],
+"att": [],
+"lbl": "receipts-done",
+"class": "junk"
+},
+{
+"id": "19f77d553b3a99d5",
+"d": "2026-07-18",
+"from": "Uber Eats <noreply@uber.com>",
+"subj": "Your order from Pizza Minute cannot be fulfilled",
+"amts": [],
+"att": [],
+"lbl": "receipts-done",
+"class": "receipt"
+},
+{
+"id": "19f729ff137be6f5",
+"d": "2026-07-17",
+"from": "Paul Bjork <paul@recast-properties.com>",
+"subj": "Fwd: Apify invoice #202607180489 payment successful",
+"amts": [],
+"att": [
+"Apify_Invoice_202607180489.pdf"
+],
+"lbl": "receipts,receipts-done",
+"class": "receipt"
+},
+{
+"id": "19f70517f29bbaa5",
+"d": "2026-07-17",
+"from": "Southwest Airlines <SouthwestAirlines@iluv.southwest.com>",
+"subj": "Our future schedule dates are open! Make plans to get away today.",
+"amts": [],
+"att": [],
+"lbl": "receipts-done",
+"class": "junk"
+},
+{
+"id": "19f6b3d4e414ba6b",
+"d": "2026-07-16",
+"from": "Frontier Airlines <deals@emails.flyfrontier.com>",
+"subj": "Big Adventures Begin with 60,000 Miles \u2708\ufe0f",
+"amts": [],
+"att": [],
+"lbl": "receipts-done",
+"class": "junk"
+},
+{
+"id": "19f69477ab56edde",
+"d": "2026-07-15",
+"from": "Uber Eats <ubereats@uber.com>",
+"subj": "Delicious deals are waiting for your next orders \ud83c\udf74",
+"amts": [],
+"att": [],
+"lbl": "receipts-done",
+"class": "junk"
+},
+{
+"id": "19f68264fe89f4a7",
+"d": "2026-07-15",
+"from": "Uber Receipts <noreply@uber.com>",
+"subj": "[Personal] Your Wednesday afternoon order with Uber Eats",
+"amts": [
+"$44.90"
+],
+"att": [],
+"lbl": "receipts-done",
+"class": "receipt"
+},
+{
+"id": "19f5e409c27380b0",
+"d": "2026-07-13",
+"from": "Paul Bjork <paul@recast-properties.com>",
+"subj": "Fwd: Payment received for Netlify, Inc. invoice (#SFWGOE-00006)",
+"amts": [
+"$20.00"
+],
+"att": [],
+"lbl": "receipts,receipts-done",
+"class": "receipt"
+},
+{
+"id": "19f5d1888d584442",
+"d": "2026-07-13",
+"from": "Paul Bjork <paul@recast-properties.com>",
+"subj": "Fwd: Your receipt from Anthropic, PBC #2553-4623-5914",
+"amts": [
+"$100.00"
+],
+"att": [],
+"lbl": "receipts,receipts-done",
+"class": "receipt"
+},
+{
+"id": "19f543ed6718cb1f",
+"d": "2026-07-11",
+"from": "Uber Receipts <noreply@uber.com>",
+"subj": "[Personal] Your Saturday evening order with Uber Eats",
+"amts": [
+"$68.47"
+],
+"att": [],
+"lbl": "receipts-done",
+"class": "receipt"
+},
+{
+"id": "19f4d07cb76f5e36",
+"d": "2026-07-10",
+"from": "Southwest Airlines <SouthwestAirlines@iluv.southwest.com>",
+"subj": "Hi, Paul! You've got a Rapid Rewards account statement.",
+"amts": [],
+"att": [],
+"lbl": "receipts-done",
+"class": "junk"
+},
+{
+"id": "19f4cb0d9a24bfd1",
+"d": "2026-07-10",
+"from": "Paul Bjork <pvb421@gmail.com>",
+"subj": "Fwd: Your Alaska Airlines credit certificate",
+"amts": [
+"$193.40"
+],
+"att": [],
+"lbl": "receipts-done",
+"class": "maybe"
+},
+{
+"id": "19f482d67011a0bb",
+"d": "2026-07-09",
+"from": "Uber <uber@uber.com>",
+"subj": "Welcome home, Paul \ud83e\udd73",
+"amts": [],
+"att": [],
+"lbl": "receipts-done",
+"class": "junk"
+},
+{
+"id": "19f46fdee2be53c0",
+"d": "2026-07-09",
+"from": "Frontier Airlines <deals@emails.flyfrontier.com>",
+"subj": "Last call! Get 100% more Miles.",
+"amts": [],
+"att": [],
+"lbl": "receipts-done",
+"class": "junk"
+},
+{
+"id": "19f46fdd8557e660",
+"d": "2026-07-09",
+"from": "Uber Receipts <noreply@uber.com>",
+"subj": "[Personal] Your Thursday morning trip with Uber",
+"amts": [
+"$122.70",
+"$119.06",
+"$6.71",
+"$107.48",
+"$8.22",
+"$5.00",
+"$2.00",
+"$0.64",
+"$1.38",
+"$1.83",
+"-$3.85"
+],
+"att": [],
+"lbl": "receipts-done",
+"class": "receipt"
+},
+{
+"id": "19f483c31d80247c",
+"d": "2026-07-09",
+"from": "Uber Receipts <noreply@uber.com>",
+"subj": "[Personal] Your Thursday morning trip with Uber",
+"amts": [
+"$31.27",
+"$1.50",
+"$28.99",
+"$4.00",
+"$2.77",
+"$2.10",
+"$0.12",
+"-$6.71"
+],
+"att": [],
+"lbl": "receipts-done",
+"class": "receipt"
+},
+{
+"id": "19f46da2a0c794ff",
+"d": "2026-07-09",
+"from": "Uber Eats <ubereats@uber.com>",
+"subj": "Delicious deals are waiting for your next orders \ud83c\udf74",
+"amts": [],
+"att": [],
+"lbl": "receipts-done",
+"class": "junk"
+},
+{
+"id": "19f4218a97ff25f3",
+"d": "2026-07-08",
+"from": "American Airlines <no-reply@info.email.aa.com>",
+"subj": "It's time to check in - KHRWXZ",
+"amts": [],
+"att": [],
+"lbl": "receipts-done",
+"class": "junk"
+},
+{
+"id": "19f41a61fc7d7b3a",
+"d": "2026-07-08",
+"from": "American Airlines <no-reply@info.email.aa.com>",
+"subj": "Your flight from DFW",
+"amts": [],
+"att": [],
+"lbl": "receipts-done",
+"class": "junk"
+},
+{
+"id": "19f2f6a6732c82f9",
+"d": "2026-07-04",
+"from": "Frontier Airlines <myfrontier@emails.flyfrontier.com>",
+"subj": "Welcome to FRONTIER Miles!",
+"amts": [],
+"att": [],
+"lbl": "receipts-done",
+"class": "junk"
+},
+{
+"id": "19f2ea1fcfe90efa",
+"d": "2026-07-04",
+"from": "Heather at American Airlines <AmericanAirlines@survey.as.aa.com>",
+"subj": "PAUL, how was your flight to Denver?",
+"amts": [],
+"att": [],
+"lbl": "receipts-done",
+"class": "junk"
+},
+{
+"id": "19f2a092dd4b1c36",
+"d": "2026-07-03",
+"from": "Southwest Airlines Rapid Rewards <RapidRewards@iluv.southwest.com>",
+"subj": "The point of this email? Points.",
+"amts": [],
+"att": [],
+"lbl": "receipts-done",
+"class": "junk"
+},
+{
+"id": "19f29f0ae0710551",
+"d": "2026-07-03",
+"from": "Uber Eats <uber@uber.com>",
+"subj": "Explore new restaurants on Uber Eats \ud83c\udf7d\ufe0f",
+"amts": [],
+"att": [],
+"lbl": "receipts-done",
+"class": "junk"
+},
+{
+"id": "19f2516c9c1bb2f1",
+"d": "2026-07-02",
+"from": "Uber Eats <ubereats@uber.com>",
+"subj": "Delicious deals are waiting for your next orders \ud83c\udf74",
+"amts": [],
+"att": [],
+"lbl": "receipts-done",
+"class": "junk"
+},
+{
+"id": "19f24109a2722399",
+"d": "2026-07-02",
+"from": "Uber <noreply@uber.com>",
+"subj": "Kick-off the summer with safety",
+"amts": [],
+"att": [],
+"lbl": "receipts-done",
+"class": "junk"
+},
+{
+"id": "19f1f93137f4d740",
+"d": "2026-07-01",
+"from": "Uber One <uberone@uber.com>",
+"subj": "Don\u2019t forget: your favorite member benefits travel",
+"amts": [],
+"att": [],
+"lbl": "receipts-done",
+"class": "junk"
+},
+{
+"id": "19f1f88d99a6e35e",
+"d": "2026-07-01",
+"from": "Uber One <uberone@uber.com>",
+"subj": "Uber One payment confirmation",
+"amts": [
+"$9.99"
+],
+"att": [],
+"lbl": "receipts-done",
+"class": "receipt"
+},
+{
+"id": "19f1e7a4d47322d9",
+"d": "2026-07-01",
+"from": "paul bjork <pvb421@gmail.com>",
+"subj": "Fwd: Ordered: \"Gerber 28-990 WHITE Maxwell...\"",
+"amts": [
+"$106.75"
+],
+"att": [],
+"lbl": "receipts,receipts-done",
+"class": "maybe"
+},
+{
+"id": "1a05a2170f8bc88c",
+"d": "2026-08-31",
+"from": "American Airlines AAdvantage Program <AmericanAirlines@info.ms.aa.com>",
+"subj": "Paul, you earned 15,000 Loyalty Points: Now choose your reward",
+"amts": [],
+"att": [],
+"lbl": "receipts-done",
+"class": "junk"
+},
+{
+"id": "1a053d964db0573d",
+"d": "2026-08-30",
+"from": "Uber Receipts <noreply@uber.com>",
+"subj": "[Personal] Your Sunday afternoon trip with Uber",
+"amts": [
+"$99.44",
+"$5.46",
+"$93.47",
+"$5.00",
+"$2.00",
+"$1.48",
+"-$2.51"
+],
+"att": [],
+"lbl": "receipts-done",
+"class": "receipt"
+},
+{
+"id": "1a04db876adb7b2a",
+"d": "2026-08-29",
+"from": "American Airlines <no-reply@info.email.aa.com>",
+"subj": "It's time to check in - AAZNCW",
+"amts": [],
+"att": [],
+"lbl": "receipts-done",
+"class": "junk"
+},
+{
+"id": "1a04a3897d07eefb",
+"d": "2026-08-28",
+"from": "Uber Receipts <noreply@uber.com>",
+"subj": "[Personal] Your Friday afternoon order with Uber Eats",
+"amts": [
+"$73.25",
+"$9.91"
+],
+"att": [],
+"lbl": "receipts-done",
+"class": "receipt"
+},
+{
+"id": "1a0485535273e1a4",
+"d": "2026-08-28",
+"from": "Southwest Airlines <SouthwestAirlines@iluv.southwest.com>",
+"subj": "New future dates open! Make plans to get away today.",
+"amts": [],
+"att": [],
+"lbl": "receipts-done",
+"class": "junk"
+},
+{
+"id": "1a0451539c2d4fe5",
+"d": "2026-08-27",
+"from": "American Airlines <AmericanAirlines@info.ms.aa.com>",
+"subj": "Paul, prepare for your upcoming trip to Dallas/Ft.Worth",
+"amts": [],
+"att": [],
+"lbl": "receipts-done",
+"class": "junk"
+},
+{
+"id": "1a03e75d201c8269",
+"d": "2026-08-26",
+"from": "Uber Eats <ubereats@uber.com>",
+"subj": "Delicious deals are waiting for your next orders \ud83c\udf74",
+"amts": [],
+"att": [],
+"lbl": "receipts-done",
+"class": "junk"
+},
+{
+"id": "1a03bba34c61e16d",
+"d": "2026-08-25",
+"from": "Uber Receipts <noreply@uber.com>",
+"subj": "[Personal] Your Tuesday evening order with Uber Eats",
+"amts": [
+"$38.82",
+"$6.26"
+],
+"att": [],
+"lbl": "receipts-done",
+"class": "receipt"
+},
+{
+"id": "1a036c3fb3b44d63",
+"d": "2026-08-24",
+"from": "Paul Bjork <paul@recast-properties.com>",
+"subj": "Fwd: Your receipt from Anthropic, PBC #2716-1965-0164",
+"amts": [
+"$10.33"
+],
+"att": [],
+"lbl": "receipts,receipts-done",
+"class": "receipt"
+},
+{
+"id": "1a036c3ddc757a80",
+"d": "2026-08-24",
+"from": "Paul Bjork <paul@recast-properties.com>",
+"subj": "Fwd: Your receipt from Anthropic, PBC #2929-8845-3599",
+"amts": [
+"$10.19"
+],
+"att": [],
+"lbl": "receipts,receipts-done",
+"class": "receipt"
+},
+{
+"id": "1a0360f5a5d640a9",
+"d": "2026-08-24",
+"from": "Paul Bjork <paul@recast-properties.com>",
+"subj": "Fwd: Your receipt from Anthropic, PBC #2945-3640-9269",
+"amts": [
+"$10.29"
+],
+"att": [
+"Invoice-A90U2FHF-0019.pdf",
+"Receipt-2945-3640-9269.pdf"
+],
+"lbl": "receipts,receipts-done",
+"class": "receipt"
+},
+{
+"id": "1a0360f3727f13d6",
+"d": "2026-08-24",
+"from": "Paul Bjork <paul@recast-properties.com>",
+"subj": "Fwd: Your receipt from Anthropic, PBC #2363-5979-4769",
+"amts": [
+"$10.01"
+],
+"att": [
+"Invoice-A90U2FHF-0018.pdf",
+"Receipt-2363-5979-4769.pdf"
+],
+"lbl": "receipts,receipts-done",
+"class": "receipt"
+},
+{
+"id": "1a0353746f2bf82e",
+"d": "2026-08-24",
+"from": "American Airlines <AmericanAirlines@info.ms.aa.com>",
+"subj": "Thanks for booking: Here are your trip details + travel tips to prepare",
+"amts": [],
+"att": [],
+"lbl": "receipts-done",
+"class": "junk"
+},
+{
+"id": "1a034dad57b6c4b6",
+"d": "2026-08-24",
+"from": "Paul Bjork <paul@recast-properties.com>",
+"subj": "Fwd: Your receipt from Anthropic, PBC #2248-9349-9496",
+"amts": [
+"$10.12"
+],
+"att": [
+"Invoice-A90U2FHF-0017.pdf",
+"Receipt-2248-9349-9496.pdf"
+],
+"lbl": "receipts,receipts-done",
+"class": "receipt"
+},
+{
+"id": "1a02640992bd98cb",
+"d": "2026-08-21",
+"from": "Paul Bjork <paul@recast-properties.com>",
+"subj": "Fwd: Your receipt from Anthropic, PBC #2323-6125-6968",
+"amts": [
+"$11.66"
+],
+"att": [
+"Invoice-A90U2FHF-0014.pdf",
+"Receipt-2323-6125-6968.pdf"
+],
+"lbl": "receipts,receipts-done",
+"class": "receipt"
+},
+{
+"id": "1a025de52b01608d",
+"d": "2026-08-21",
+"from": "Paul Bjork <paul@recast-properties.com>",
+"subj": "Fwd: Your receipt from Anthropic, PBC #2332-6479-3034",
+"amts": [
+"$10.87"
+],
+"att": [],
+"lbl": "receipts,receipts-done",
+"class": "receipt"
+},
+{
+"id": "1a024d486f5436c1",
+"d": "2026-08-21",
+"from": "Google <no-reply@accounts.google.com>",
+"subj": "2-Step Verification turned on",
+"amts": [],
+"att": [],
+"lbl": "receipts-done",
+"class": "junk"
+},
+{
+"id": "1a024d3b7defbedb",
+"d": "2026-08-21",
+"from": "Google <no-reply@accounts.google.com>",
+"subj": "Security alert",
+"amts": [],
+"att": [],
+"lbl": "receipts-done",
+"class": "junk"
+},
+{
+"id": "1a024d542591a8e9",
+"d": "2026-08-21",
+"from": "Google <no-reply@accounts.google.com>",
+"subj": "Security alert",
+"amts": [],
+"att": [],
+"lbl": "receipts-done",
+"class": "junk"
+},
+{
+"id": "1a022abae6163359",
+"d": "2026-08-20",
+"from": "Uber Receipts <noreply@uber.com>",
+"subj": "[Personal] Your Thursday evening order with Uber Eats",
+"amts": [
+"$42.77",
+"$4.02"
+],
+"att": [],
+"lbl": "receipts-done",
+"class": "receipt"
+},
+{
+"id": "1a01b3905e998087",
+"d": "2026-08-19",
+"from": "Uber Receipts <noreply@uber.com>",
+"subj": "[Personal] Your Wednesday morning order with Uber Eats",
+"amts": [
+"$34.16",
+"$13.25"
+],
+"att": [],
+"lbl": "receipts-done",
+"class": "receipt"
+},
+{
+"id": "1a017f2ad8306298",
+"d": "2026-08-18",
+"from": "Uber Eats <ubereats@uber.com>",
+"subj": "Delicious deals are waiting for your next orders \ud83c\udf74",
+"amts": [],
+"att": [],
+"lbl": "receipts-done",
+"class": "junk"
+},
+{
+"id": "1a01248bc54f61c1",
+"d": "2026-08-17",
+"from": "Paul Bjork <paul@recast-properties.com>",
+"subj": "Fwd: Apify invoice #202608180334 payment successful",
+"amts": [],
+"att": [
+"Apify_Invoice_202608180334.pdf"
+],
+"lbl": "receipts,receipts-done",
+"class": "receipt"
+},
+{
+"id": "1a011b665bb4313a",
+"d": "2026-08-17",
+"from": "Uber Receipts <noreply@uber.com>",
+"subj": "[Personal] Your Monday afternoon order with Uber Eats",
+"amts": [
+"$26.26",
+"$8.39"
+],
+"att": [],
+"lbl": "receipts-done",
+"class": "receipt"
+},
+{
+"id": "1a00cb14b10b0c3a",
+"d": "2026-08-16",
+"from": "Uber <uber@uber.com>",
+"subj": "Experience on-demand delivery with Courier",
+"amts": [],
+"att": [],
+"lbl": "receipts-done",
+"class": "junk"
+},
+{
+"id": "1a00b189b1ee1841",
+"d": "2026-08-16",
+"from": "Mishimoto <hello@mishimoto.com>",
+"subj": "Not All Coolant Tanks Are The Same",
+"amts": [],
+"att": [],
+"lbl": "receipts-done",
+"class": "junk"
+},
+{
+"id": "1a004ddd53b5d48e",
+"d": "2026-08-15",
+"from": "Uber Receipts <noreply@uber.com>",
+"subj": "[Personal] Your Saturday morning trip with Uber",
+"amts": [
+"$98.22",
+"$5.27",
+"$93.44",
+"$5.00",
+"$4.02",
+"$1.44",
+"-$5.68"
+],
+"att": [],
+"lbl": "receipts-done",
+"class": "receipt"
+},
+{
+"id": "1a002488d6a66050",
+"d": "2026-08-14",
+"from": "Uber One <uberone@uber.com>",
+"subj": "Important Update on Membership Benefits",
+"amts": [],
+"att": [],
+"lbl": "receipts-done",
+"class": "junk"
+},
+{
+"id": "1a0016b3622eaec0",
+"d": "2026-08-14",
+"from": "Southwest Airlines <SouthwestAirlines@iluv.southwest.com>",
+"subj": "Hi, Paul! You've got a Rapid Rewards account statement.",
+"amts": [],
+"att": [],
+"lbl": "receipts-done",
+"class": "junk"
+},
+{
+"id": "1a0001f6e0be51ac",
+"d": "2026-08-14",
+"from": "Paul Bjork <paul@recast-properties.com>",
+"subj": "Fwd: Payment received for Netlify, Inc. invoice (#SFWGOE-00007)",
+"amts": [
+"$20.00"
+],
+"att": [],
+"lbl": "receipts,receipts-done",
+"class": "receipt"
+},
+{
+"id": "19ffd2fc94389366",
+"d": "2026-08-13",
+"from": "Paul Bjork <paul@recast-properties.com>",
+"subj": "Fwd: Your receipt from Anthropic, PBC #2686-5099-4443",
+"amts": [
+"$100.00"
+],
+"att": [],
+"lbl": "receipts,receipts-done",
+"class": "receipt"
+},
+{
+"id": "19ff3fc9f1de2941",
+"d": "2026-08-11",
+"from": "paul bjork <pvb421@gmail.com>",
+"subj": "Send money",
+"amts": [],
+"att": [],
+"lbl": "receipts,receipts-done",
+"class": "junk"
+},
+{
+"id": "19fedc399c40210d",
+"d": "2026-08-10",
+"from": "Paul Bjork <paul@recast-properties.com>",
+"subj": "Fwd: Recast Properties LLC | 2010-676365 | Past Due Notice",
+"amts": [
+"$200.00"
+],
+"att": [
+"30883298.pdf"
+],
+"lbl": "receipts,receipts-done",
+"class": "receipt"
+},
+{
+"id": "19fec5224c8ebacf",
+"d": "2026-08-10",
+"from": "Uber Receipts <noreply@uber.com>",
+"subj": "[Personal] Your Monday morning trip with Uber",
+"amts": [
+"$105.34",
+"$92.03",
+"$5.68",
+"$98.65",
+"$5.00",
+"$4.02",
+"$1.57",
+"-$3.90"
+],
+"att": [],
+"lbl": "receipts-done",
+"class": "receipt"
+},
+{
+"id": "19fe7b736ab9a214",
+"d": "2026-08-09",
+"from": "Mishimoto <hello@mishimoto.com>",
+"subj": "Wanna Join Team Mishi?",
+"amts": [],
+"att": [],
+"lbl": "receipts-done",
+"class": "junk"
+},
+{
+"id": "19fe667f7d28f3e4",
+"d": "2026-08-09",
+"from": "American Airlines <no-reply@info.email.aa.com>",
+"subj": "It's time to check in - DYYUCB",
+"amts": [],
+"att": [],
+"lbl": "receipts-done",
+"class": "junk"
+},
+{
+"id": "19fe1e3e66967073",
+"d": "2026-08-08",
+"from": "Mishimoto <hello@mishimoto.com>",
+"subj": "Need Help With Your Install? We\u2019ve Got You.",
+"amts": [],
+"att": [],
+"lbl": "receipts-done",
+"class": "junk"
+},
+{
+"id": "19fde07c55491b91",
+"d": "2026-08-07",
+"from": "Uber Receipts <noreply@uber.com>",
+"subj": "[Personal] Your Friday afternoon trip with Uber",
+"amts": [
+"$65.98",
+"$3.90",
+"$55.71",
+"$9.37",
+"$0.90"
+],
+"att": [],
+"lbl": "receipts-done",
+"class": "receipt"
+},
+{
+"id": "19fdc5ad983a7c60",
+"d": "2026-08-07",
+"from": "American Airlines <AmericanAirlines@info.ms.aa.com>",
+"subj": "See what\u2019s coming for AAdvantage\u00ae members",
+"amts": [],
+"att": [],
+"lbl": "receipts-done",
+"class": "junk"
+},
+{
+"id": "19fd70e26513ef71",
+"d": "2026-08-06",
+"from": "Uber Eats <ubereats@uber.com>",
+"subj": "Delicious deals are waiting for your next orders \ud83c\udf74",
+"amts": [],
+"att": [],
+"lbl": "receipts-done",
+"class": "junk"
+},
+{
+"id": "19fce6ddaa514517",
+"d": "2026-08-04",
+"from": "Heather at American Airlines <AmericanAirlines@survey.as.aa.com>",
+"subj": "PAUL, how was your flight to Dallas-Fort Worth?",
+"amts": [],
+"att": [],
+"lbl": "receipts-done",
+"class": "junk"
+},
+{
+"id": "19fce3556ecc3509",
+"d": "2026-08-04",
+"from": "Uber One <uberone@uber.com>",
+"subj": "Uber One payment confirmation",
+"amts": [
+"$9.99"
+],
+"att": [],
+"lbl": "receipts-done",
+"class": "receipt"
+},
+{
+"id": "19fccfca14c026cc",
+"d": "2026-08-04",
+"from": "paul bjork <pvb421@gmail.com>",
+"subj": "Janice eviction",
+"amts": [],
+"att": [],
+"lbl": "receipts,receipts-done",
+"class": "junk"
+},
+{
+"id": "19fc944f7cfccdbb",
+"d": "2026-08-03",
+"from": "paul bjork <pvb421@gmail.com>",
+"subj": "",
+"amts": [],
+"att": [],
+"lbl": "receipts,receipts-done",
+"class": "junk"
+},
+{
+"id": "19fc86380a84d474",
+"d": "2026-08-03",
+"from": "Paul Bjork <paul@recast-properties.com>",
+"subj": "route",
+"amts": [],
+"att": [],
+"lbl": "receipts,receipts-done",
+"class": "junk"
+},
+{
+"id": "19fc3d4987729c55",
+"d": "2026-08-02",
+"from": "Uber Receipts <noreply@uber.com>",
+"subj": "[Personal] Your Sunday afternoon trip with Uber",
+"amts": [
+"$125.03",
+"$108.25",
+"$7.91",
+"$5.00",
+"$2.00",
+"$1.87"
+],
+"att": [],
+"lbl": "receipts-done",
+"class": "receipt"
+},
+{
+"id": "19fc3aaa7d559954",
+"d": "2026-08-02",
+"from": "Mishimoto <hello@mishimoto.com>",
+"subj": "Welcome - Sign Up For Rewards & Start Saving\ud83d\udcb2Today!",
+"amts": [],
+"att": [],
+"lbl": "receipts-done",
+"class": "junk"
+},
+{
+"id": "19fbfb4f8ae13c63",
+"d": "2026-08-01",
+"from": "Paul Bjork <paul@recast-properties.com>",
+"subj": "Fwd: Your receipt from Anthropic, PBC #2971-0394-1544",
+"amts": [
+"$10.14"
+],
+"att": [],
+"lbl": "receipts,receipts-done",
+"class": "receipt"
+},
+{
+"id": "19fbf73f9efeb96a",
+"d": "2026-08-01",
+"from": "Paul Bjork <paul@recast-properties.com>",
+"subj": "Fwd: Your receipt from Anthropic, PBC #2950-2647-2068",
+"amts": [
+"$10.35"
+],
+"att": [],
+"lbl": "receipts,receipts-done",
+"class": "receipt"
+},
+{
+"id": "19fbf73d7c005a52",
+"d": "2026-08-01",
+"from": "Paul Bjork <paul@recast-properties.com>",
+"subj": "Fwd: Your receipt from Anthropic, PBC #2076-7130-2448",
+"amts": [
+"$10.12"
+],
+"att": [],
+"lbl": "receipts,receipts-done",
+"class": "receipt"
+},
+{
+"id": "19fbf1eacc26b061",
+"d": "2026-08-01",
+"from": "Paul Bjork <paul@recast-properties.com>",
+"subj": "Fwd: Your receipt from Anthropic, PBC #2236-8917-9024",
+"amts": [
+"$10.26"
+],
+"att": [],
+"lbl": "receipts,receipts-done",
+"class": "receipt"
+},
+{
+"id": "19fbf1e7616016f5",
+"d": "2026-08-01",
+"from": "Paul Bjork <paul@recast-properties.com>",
+"subj": "Fwd: Your receipt from Anthropic, PBC #2142-9322-5168",
+"amts": [
+"$10.09"
+],
+"att": [],
+"lbl": "receipts,receipts-done",
+"class": "receipt"
+},
+{
+"id": "19fbe65982558c20",
+"d": "2026-08-01",
+"from": "Paul Bjork <paul@recast-properties.com>",
+"subj": "Fwd: Your receipt from Anthropic, PBC #2121-0703-9633",
+"amts": [
+"$10.32"
+],
+"att": [],
+"lbl": "receipts,receipts-done",
+"class": "receipt"
+},
+{
+"id": "19fbe2a3ee2f7a2a",
+"d": "2026-08-01",
+"from": "Paul Bjork <paul@recast-properties.com>",
+"subj": "Fwd: Your receipt from Anthropic, PBC #2032-8278-9339",
+"amts": [
+"$10.18"
+],
+"att": [
+"Invoice-A90U2FHF-0004.pdf",
+"Receipt-2032-8278-9339.pdf"
+],
+"lbl": "receipts,receipts-done",
+"class": "receipt"
+},
+{
+"id": "19fbe21cfea9b973",
+"d": "2026-08-01",
+"from": "Paul Bjork <paul@recast-properties.com>",
+"subj": "Fwd: Your receipt from Anthropic, PBC #2721-0230-2904",
+"amts": [
+"$10.27"
+],
+"att": [],
+"lbl": "receipts,receipts-done",
+"class": "receipt"
+},
+{
+"id": "19fbdd4e5aa09d1c",
+"d": "2026-08-01",
+"from": "Paul Bjork <paul@recast-properties.com>",
+"subj": "Fwd: Your receipt from Anthropic, PBC #2135-8253-3824",
+"amts": [
+"$10.08"
+],
+"att": [],
+"lbl": "receipts,receipts-done",
+"class": "receipt"
+},
+{
+"id": "19fbd95053a5b456",
+"d": "2026-08-01",
+"from": "American Airlines <no-reply@info.email.aa.com>",
+"subj": "It's time to check in - JWCTPO",
+"amts": [],
+"att": [],
+"lbl": "receipts-done",
+"class": "junk"
+},
+{
+"id": "1a08dc3752960a45",
+"d": "2026-09-10",
+"from": "Uber Receipts <noreply@uber.com>",
+"subj": "[Personal] Your Thursday afternoon order with Uber Eats",
+"amts": [
+"$143.12",
+"$18.15"
+],
+"att": [],
+"lbl": "receipts-done",
+"class": "receipt"
+},
+{
+"id": "1a088f9429235a8c",
+"d": "2026-09-09",
+"from": "Uber Receipts <noreply@uber.com>",
+"subj": "[Personal] Your Wednesday afternoon order with Uber Eats",
+"amts": [
+"$64.27",
+"$9.95"
+],
+"att": [],
+"lbl": "receipts-done",
+"class": "receipt"
+},
+{
+"id": "1a08ad44e24175cc",
+"d": "2026-09-10",
+"from": "Uber Receipts <noreply@uber.com>",
+"subj": "[Personal] Your Wednesday afternoon trip with Uber",
+"amts": [
+"$32.39",
+"$1.57",
+"$28.27",
+"$4.00",
+"$3.48",
+"$2.10",
+"$0.12",
+"-$5.58"
+],
+"att": [],
+"lbl": "receipts-done",
+"class": "receipt"
+},
+{
+"id": "1a08880be459a7a0",
+"d": "2026-09-09",
+"from": "paul bjork <pvb421@gmail.com>",
+"subj": "Screenshot 2026-09-09 at 4.28.13\u202fPM",
+"amts": [],
+"att": [],
+"lbl": "receipts,receipts-done",
+"class": "junk"
+},
+{
+"id": "1a0872fe98c4eb97",
+"d": "2026-09-09",
+"from": "Uber Eats <ubereats@uber.com>",
+"subj": "Delicious deals are waiting for your next orders \ud83c\udf74",
+"amts": [],
+"att": [],
+"lbl": "receipts-done",
+"class": "junk"
+},
+{
+"id": "1a08710de38eb831",
+"d": "2026-09-09",
+"from": "Uber Receipts <noreply@uber.com>",
+"subj": "[Personal] Your Wednesday morning trip with Uber",
+"amts": [
+"$103.61",
+"$103.98",
+"$5.58",
+"$8.04",
+"$85.03",
+"$5.00",
+"$4.02",
+"$1.52"
+],
+"att": [],
+"lbl": "receipts-done",
+"class": "receipt"
+},
+{
+"id": "1a0818a010ad633c",
+"d": "2026-09-08",
+"from": "paul bjork <pvb421@gmail.com>",
+"subj": "",
+"amts": [],
+"att": [],
+"lbl": "receipts,receipts-done",
+"class": "junk"
+},
+{
+"id": "1a07d9ff8ffc2bbd",
+"d": "2026-09-07",
+"from": "Uber <noreply@uber.com>",
+"subj": "Quick trips matter too, Paul",
+"amts": [],
+"att": [],
+"lbl": "receipts-done",
+"class": "junk"
+},
+{
+"id": "1a069df7b79d1ecf",
+"d": "2026-09-03",
+"from": "Uber <noreply@uber.com>",
+"subj": "Treat yourself to a ride, Paul \ud83d\udc86\u200d\u2640\ufe0f",
+"amts": [],
+"att": [],
+"lbl": "receipts-done",
+"class": "junk"
+},
+{
+"id": "1a06712801707981",
+"d": "2026-09-03",
+"from": "Paul Bjork <paul@recast-properties.com>",
+"subj": "Fwd: [Telnyx LLC] Payment Success",
+"amts": [],
+"att": [
+"receipt_5cb948d2-c743-4be8-a2e0-55731021"
+],
+"lbl": "receipts,receipts-done",
+"class": "receipt"
+},
+{
+"id": "1a0645dc3777ea76",
+"d": "2026-09-02",
+"from": "Paul Bjork <paul@recast-properties.com>",
+"subj": "Fwd: [Telnyx LLC] Payment Success",
+"amts": [],
+"att": [
+"receipt_5cb948d2-c743-4be8-a2e0-55731021"
+],
+"lbl": "receipts,receipts-done",
+"class": "receipt"
+},
+{
+"id": "1a063d2d6f876fa8",
+"d": "2026-09-02",
+"from": "Uber Receipts <noreply@uber.com>",
+"subj": "[Personal] Your Wednesday afternoon order with Uber Eats",
+"amts": [
+"$24.80",
+"$15.42"
+],
+"att": [],
+"lbl": "receipts-done",
+"class": "receipt"
+},
+{
+"id": "1a0640d53a18c970",
+"d": "2026-09-02",
+"from": "Paul Bjork <paul@recast-properties.com>",
+"subj": "Fwd: We received your order!",
+"amts": [
+"$139.00",
+"$7.00",
+"$12.05",
+"$158.05"
+],
+"att": [],
+"lbl": "receipts,receipts-done",
+"class": "receipt"
+},
+{
+"id": "1a062a3873c483ce",
+"d": "2026-09-02",
+"from": "Mishimoto <hello@mishimoto.com>",
+"subj": "END OF SUMMER SAVINGS - WE GOT YOU COVERED",
+"amts": [],
+"att": [],
+"lbl": "receipts-done",
+"class": "junk"
+},
+{
+"id": "1a0620cf3cb20009",
+"d": "2026-09-02",
+"from": "Uber Eats <ubereats@uber.com>",
+"subj": "Delicious deals are waiting for your next orders \ud83c\udf74",
+"amts": [],
+"att": [],
+"lbl": "receipts-done",
+"class": "junk"
+},
+{
+"id": "1a05f8dd55488bd8",
+"d": "2026-09-01",
+"from": "Uber <noreply@uber.com>",
+"subj": "Ride how and when you want to",
+"amts": [],
+"att": [],
+"lbl": "receipts-done",
+"class": "junk"
+}
+],
+"vendor_candidates_outside": [
+{
+"vendor": "Energy Texas",
+"id": "19c07216e0fb433d",
+"d": "2026-01-28",
+"from": "Energy Texas <hello@email.energytexas.com>",
+"subj": "Energy Texas Weekly Usage Report: You used 192% more electricity last week.",
+"amts": [
+"$60.11",
+"$21.31",
+"$149.05",
+"$43.57",
+"$57.92",
+"$91.13",
+"$105.48"
+],
+"att": []
+},
+{
+"vendor": "Atmos",
+"id": "19c06bf48af8927b",
+"d": "2026-01-28",
+"from": "Atmos Energy <DoNotReply@atmosenergy.com>",
+"subj": "Your Atmos Energy bill is due",
+"amts": [
+"$57.65"
+],
+"att": []
+},
+{
+"vendor": "Energy Texas",
+"id": "19be30fb9167d2ee",
+"d": "2026-01-21",
+"from": "Energy Texas <hello@email.energytexas.com>",
+"subj": "Energy Texas Weekly Usage Report: You used 4% more electricity last week.",
+"amts": [
+"$21.31",
+"$20.47",
+"$99.87"
+],
+"att": []
+},
+{
+"vendor": "Farmers",
+"id": "19bd38e322de3697",
+"d": "2026-01-18",
+"from": "Farmers Insurance <noreply@policy.farmers.com>",
+"subj": "Your Farmers Insurance bill is ready to be viewed.",
+"amts": [
+"$374.58"
+],
+"att": []
+},
+{
+"vendor": "Lowes",
+"id": "19bcbe1239c6bf08",
+"d": "2026-01-17",
+"from": "\"Lowe's Home Improvement\" <do-not-reply@receipt.lowes.com>",
+"subj": "Your Lowe's Purchase Receipt",
+"amts": [
+"$8.04",
+"$8.64",
+"$99.96",
+"$9.98",
+"$39.98",
+"$166.60",
+"$13.74",
+"$180.34"
+],
+"att": []
+},
+{
+"vendor": "Energy Texas",
+"id": "19bc4261a95d9c35",
+"d": "2026-01-15",
+"from": "Energy Texas <hello@account.energytexas.com>",
+"subj": "Your $43.57 bill set for Auto Pay on February 2, 2026 is now available",
+"amts": [
+"$43.57"
+],
+"att": []
+},
+{
+"vendor": "Farmers",
+"id": "19bc41b0448d6d55",
+"d": "2026-01-15",
+"from": "Farmers Insurance <noreply@policy.farmers.com>",
+"subj": "Your Farmers Insurance bill is ready to be viewed.",
+"amts": [
+"$392.62"
+],
+"att": []
+},
+{
+"vendor": "Home Depot",
+"id": "19bc21b3ff4ea900",
+"d": "2026-01-15",
+"from": "The Home Depot <HomeDepot@order.homedepot.com>",
+"subj": "Your Electronic Receipt",
+"amts": [
+"$6.47"
+],
+"att": [
+"eReceipt.pdf"
+]
+},
+{
+"vendor": "Home Depot",
+"id": "19bc2ac9659bedac",
+"d": "2026-01-15",
+"from": "The Home Depot <HomeDepot@order.homedepot.com>",
+"subj": "Your Electronic Receipt",
+"amts": [
+"$248.67"
+],
+"att": [
+"eReceipt.pdf"
+]
+},
+{
+"vendor": "Home Depot",
+"id": "19bc4186ab17e432",
+"d": "2026-01-15",
+"from": "The Home Depot <HomeDepot@order.homedepot.com>",
+"subj": "Your Electronic Receipt",
+"amts": [
+"$3.98"
+],
+"att": [
+"eReceipt.pdf"
+]
+},
+{
+"vendor": "Atmos",
+"id": "19bbebe1e4fc35df",
+"d": "2026-01-14",
+"from": "\"DoNotReply@atmosenergy.com\" <DoNotReply@atmosenergy.com>",
+"subj": "Your Atmos Energy Bill is Available online",
+"amts": [],
+"att": []
+},
+{
+"vendor": "Farmers",
+"id": "19bbe418d761767a",
+"d": "2026-01-14",
+"from": "Amy Shaw <amy.smcmullin@farmersagency.com>",
+"subj": "Evidence of Insurance and Documents Requiring Signature",
+"amts": [],
+"att": [
+"application bjork.pdf",
+"eoi bjork.pdf",
+"ForemostSTAR_1768423209806 bjork.pdf"
+]
+},
+{
+"vendor": "Home Depot",
+"id": "19bbd77ef94aa401",
+"d": "2026-01-14",
+"from": "The Home Depot <HomeDepot@order.homedepot.com>",
+"subj": "Your Electronic Receipt",
+"amts": [
+"$20.25"
+],
+"att": [
+"eReceipt.pdf"
+]
+},
+{
+"vendor": "Home Depot",
+"id": "19bae03eddedc8bc",
+"d": "2026-01-11",
+"from": "The Home Depot <HomeDepot@order.homedepot.com>",
+"subj": "Your Electronic Receipt",
+"amts": [
+"$170.63"
+],
+"att": [
+"eReceipt.pdf"
+]
+},
+{
+"vendor": "Lowes",
+"id": "19ba3f58bf5b9f90",
+"d": "2026-01-09",
+"from": "\"Lowe's Home Improvement\" <do-not-reply@receipt.lowes.com>",
+"subj": "Your Lowe's Purchase Receipt",
+"amts": [
+"$129.99",
+"$199.00",
+"$4.36",
+"$333.35",
+"$27.14",
+"$360.49"
+],
+"att": []
+},
+{
+"vendor": "CoreLogic",
+"id": "19b9bbbbed197e36",
+"d": "2026-01-07",
+"from": "Paul Bjork <paul@recast-properties.com>",
+"subj": "Re: Thanks for your Cotality (formerly CoreLogic) inquiry!",
+"amts": [],
+"att": [
+"30831839_2010-676365.pdf"
+]
+},
+{
+"vendor": "Home Depot",
+"id": "19b98a40a8155855",
+"d": "2026-01-07",
+"from": "The Home Depot <HomeDepot@order.homedepot.com>",
+"subj": "Your Electronic Receipt",
+"amts": [
+"$393.55"
+],
+"att": [
+"eReceipt.pdf"
+]
+},
+{
+"vendor": "CoreLogic",
+"id": "19b944ec9eb500c7",
+"d": "2026-01-06",
+"from": "<billing@corelogic.com>",
+"subj": "Property Intelligence Invoice #30831839",
+"amts": [],
+"att": []
+},
+{
+"vendor": "Energy Texas",
+"id": "19c9aae532add254",
+"d": "2026-02-26",
+"from": "Energy Texas <hello@email.energytexas.com>",
+"subj": "Energy Texas Weekly Usage Report: You used 31% less electricity last week.",
+"amts": [
+"$18.66",
+"$26.83",
+"$78.09",
+"$240.17",
+"$51.52",
+"$26.57",
+"-$162.08"
+],
+"att": []
+},
+{
+"vendor": "Energy Texas",
+"id": "19c9ab28ef0ab93c",
+"d": "2026-02-26",
+"from": "Paul Bjork <paul@recast-properties.com>",
+"subj": "Fwd: Energy Texas Weekly Usage Report: You used 31% less electricity last week.",
+"amts": [
+"$18.66",
+"$26.83",
+"$78.09",
+"$240.17",
+"$51.52",
+"$26.57",
+"-$162.08"
+],
+"att": []
+},
+{
+"vendor": "Home Depot",
+"id": "19c7be8f6b3c531b",
+"d": "2026-02-20",
+"from": "The Home Depot <HomeDepot@order.homedepot.com>",
+"subj": "Your Electronic Receipt",
+"amts": [
+"$135.07"
+],
+"att": [
+"eReceipt.pdf"
+]
+},
+{
+"vendor": "Farmers",
+"id": "19c7859e03b8bc49",
+"d": "2026-02-19",
+"from": "Farmers Insurance <noreply@policy.farmers.com>",
+"subj": "Your Farmers Insurance bill is ready to be viewed.",
+"amts": [
+"$374.58"
+],
+"att": []
+},
+{
+"vendor": "Home Depot",
+"id": "19c76c4996bae8b0",
+"d": "2026-02-19",
+"from": "The Home Depot <HomeDepot@order.homedepot.com>",
+"subj": "Your Electronic Receipt",
+"amts": [
+"$390.12"
+],
+"att": [
+"eReceipt.pdf"
+]
+},
+{
+"vendor": "Home Depot",
+"id": "19c774f69781c13a",
+"d": "2026-02-19",
+"from": "The Home Depot <HomeDepot@order.homedepot.com>",
+"subj": "Your Electronic Receipt",
+"amts": [
+"$178.48"
+],
+"att": [
+"eReceipt.pdf"
+]
+},
+{
+"vendor": "Home Depot",
+"id": "19c77b8ad0ecc11d",
+"d": "2026-02-19",
+"from": "The Home Depot <HomeDepot@order.homedepot.com>",
+"subj": "Your Electronic Receipt",
+"amts": [
+"$108.15"
+],
+"att": [
+"eReceipt.pdf"
+]
+},
+{
+"vendor": "Energy Texas",
+"id": "19c76a1e9936015e",
+"d": "2026-02-19",
+"from": "Energy Texas <hello@email.energytexas.com>",
+"subj": "Energy Texas Weekly Usage Report: You used 31% less electricity last week.",
+"amts": [
+"$26.83",
+"$38.62",
+"$76.85",
+"$240.17",
+"$68.44",
+"$8.41",
+"-$163.32"
+],
+"att": []
+},
+{
+"vendor": "Lowes",
+"id": "19c76792ce5e1fe9",
+"d": "2026-02-19",
+"from": "\"Lowe's Home Improvement\" <do-not-reply@receipt.lowes.com>",
+"subj": "Your Lowe's Purchase Receipt",
+"amts": [
+"$399.98",
+"$369.00",
+"$131.96",
+"$64.98",
+"$1365.90",
+"$112.69",
+"$1478.59",
+"$0.00"
+],
+"att": []
+},
+{
+"vendor": "Home Depot",
+"id": "19c70c97dc638c65",
+"d": "2026-02-18",
+"from": "The Home Depot <HomeDepot@order.homedepot.com>",
+"subj": "Your Electronic Receipt",
+"amts": [
+"$69.56"
+],
+"att": [
+"eReceipt.pdf"
+]
+},
+{
+"vendor": "Energy Texas",
+"id": "19c6e51a9958fa94",
+"d": "2026-02-17",
+"from": "Energy Texas <hello@account.energytexas.com>",
+"subj": "Your $240.17 bill set for Auto Pay on March 6, 2026 is now available",
+"amts": [
+"$240.17"
+],
+"att": []
+},
+{
+"vendor": "Home Depot",
+"id": "19c6ce38c37d7ca4",
+"d": "2026-02-17",
+"from": "The Home Depot <HomeDepot@order.homedepot.com>",
+"subj": "Your Electronic Receipt",
+"amts": [
+"$166.08"
+],
+"att": [
+"eReceipt.pdf"
+]
+},
+{
+"vendor": "Atmos",
+"id": "19c69f8e2ceb81a7",
+"d": "2026-02-16",
+"from": "\"DoNotReply@atmosenergy.com\" <DoNotReply@atmosenergy.com>",
+"subj": "Your Atmos Energy Bill is Available online",
+"amts": [],
+"att": []
+},
+{
+"vendor": "Home Depot",
+"id": "19c66d875dd9e7bd",
+"d": "2026-02-16",
+"from": "The Home Depot <HomeDepot@order.homedepot.com>",
+"subj": "Your Electronic Receipt",
+"amts": [
+"$183.38"
+],
+"att": [
+"eReceipt.pdf"
+]
+},
+{
+"vendor": "Home Depot",
+"id": "19c6859ab582b6f5",
+"d": "2026-02-16",
+"from": "The Home Depot <HomeDepot@order.homedepot.com>",
+"subj": "Your Electronic Receipt",
+"amts": [
+"$30.79"
+],
+"att": [
+"eReceipt.pdf"
+]
+},
+{
+"vendor": "Home Depot",
+"id": "19c61b20c24fc994",
+"d": "2026-02-15",
+"from": "The Home Depot <HomeDepot@order.homedepot.com>",
+"subj": "Your Electronic Receipt",
+"amts": [
+"$137.68"
+],
+"att": [
+"eReceipt.pdf"
+]
+},
+{
+"vendor": "Home Depot",
+"id": "19c5d297b5829e55",
+"d": "2026-02-14",
+"from": "The Home Depot <HomeDepot@order.homedepot.com>",
+"subj": "Your Electronic Receipt",
+"amts": [
+"$106.47",
+"$122.53",
+"$353.12"
+],
+"att": [
+"eReceipt.pdf"
+]
+},
+{
+"vendor": "Home Depot",
+"id": "19c576d1036e4a39",
+"d": "2026-02-13",
+"from": "The Home Depot <HomeDepot@order.homedepot.com>",
+"subj": "Your Electronic Receipt",
+"amts": [
+"$143.41"
+],
+"att": [
+"eReceipt.pdf"
+]
+},
+{
+"vendor": "Lowes",
+"id": "19c57633fbbb8ee2",
+"d": "2026-02-13",
+"from": "\"Lowe's Home Improvement\" <do-not-reply@receipt.lowes.com>",
+"subj": "Your Lowe's Purchase Receipt",
+"amts": [
+"$49.96",
+"$4.12",
+"$54.08",
+"$0.00"
+],
+"att": []
+},
+{
+"vendor": "CoreLogic",
+"id": "19c5344d77f3992f",
+"d": "2026-02-12",
+"from": "CL COLLECTIONS <CLCOLLECTIONS@corelogic.com>",
+"subj": "Recast Properties LLC | 2010-676365",
+"amts": [],
+"att": [
+"Recurring Payment Authorization form.doc"
+]
+},
+{
+"vendor": "Atmos",
+"id": "19c53346e24bf709",
+"d": "2026-02-12",
+"from": "Atmos Energy <no-reply@atmosenergy.com>",
+"subj": "Understanding your winter gas bill",
+"amts": [],
+"att": []
+},
+{
+"vendor": "Home Depot",
+"id": "19c52d5f502531fb",
+"d": "2026-02-12",
+"from": "The Home Depot <HomeDepot@order.homedepot.com>",
+"subj": "Your Electronic Receipt",
+"amts": [
+"$156.67"
+],
+"att": [
+"eReceipt.pdf"
+]
+},
+{
+"vendor": "Home Depot",
+"id": "19c52c5c69f790d6",
+"d": "2026-02-12",
+"from": "Home Depot Pro Xtra <homedepotpro@mg.homedepot.com>",
+"subj": "Your January 2026 Pro Xtra Statement is Here",
+"amts": [],
+"att": []
+},
+{
+"vendor": "Energy Texas",
+"id": "19c4f3345838e848",
+"d": "2026-02-11",
+"from": "Energy Texas <hello@email.energytexas.com>",
+"subj": "Energy Texas Weekly Usage Report: You used 66% less electricity last week.",
+"amts": [
+"$38.62",
+"$112.19",
+"$237.62",
+"$43.57",
+"$9.19",
+"$228.43",
+"$194.05"
+],
+"att": []
+},
+{
+"vendor": "Home Depot",
+"id": "19c4cb602c2d527c",
+"d": "2026-02-11",
+"from": "The Home Depot <HomeDepot@order.homedepot.com>",
+"subj": "Your Electronic Receipt",
+"amts": [
+"$41.61"
+],
+"att": [
+"eReceipt.pdf"
+]
+},
+{
+"vendor": "Home Depot",
+"id": "19c48c68567fa017",
+"d": "2026-02-10",
+"from": "The Home Depot <HomeDepot@order.homedepot.com>",
+"subj": "Your Electronic Receipt",
+"amts": [
+"$200.87"
+],
+"att": [
+"eReceipt.pdf"
+]
+},
+{
+"vendor": "Lowes",
+"id": "19c484998d6bf67a",
+"d": "2026-02-10",
+"from": "\"Lowe's Home Improvement\" <do-not-reply@receipt.lowes.com>",
+"subj": "Your Lowe's Purchase Receipt",
+"amts": [
+"$159.98",
+"$59.94",
+"$219.92",
+"$18.14",
+"$238.06",
+"$0.00"
+],
+"att": []
+},
+{
+"vendor": "CoreLogic",
+"id": "19c3448df100e67a",
+"d": "2026-02-06",
+"from": "CL COLLECTIONS <CLCOLLECTIONS@corelogic.com>",
+"subj": "Past Due Notice  - Recast Properties LLC | 2010-676365 - CL-Secure",
+"amts": [],
+"att": [
+"message_v4.rpmsg"
+]
+},
+{
+"vendor": "CoreLogic",
+"id": "19c2d8b7905f7407",
+"d": "2026-02-05",
+"from": "<billing@corelogic.com>",
+"subj": "Property Intelligence Invoice #30837466",
+"amts": [],
+"att": []
+},
+{
+"vendor": "Energy Texas",
+"id": "19c2b2bef3792117",
+"d": "2026-02-04",
+"from": "Energy Texas <hello@email.energytexas.com>",
+"subj": "Energy Texas Weekly Usage Report: You used 88% more electricity last week.",
+"amts": [
+"$112.19",
+"$60.11",
+"$224.26",
+"$43.57",
+"$26.34",
+"$197.92",
+"$180.69"
+],
+"att": []
+},
+{
+"vendor": "Home Depot",
+"id": "19c2973723160363",
+"d": "2026-02-04",
+"from": "The Home Depot <HomeDepot@order.homedepot.com>",
+"subj": "Your Electronic Receipt",
+"amts": [
+"$31.04"
+],
+"att": [
+"eReceipt.pdf"
+]
+},
+{
+"vendor": "Lowes",
+"id": "19c28c64aa9a29ea",
+"d": "2026-02-04",
+"from": "\"Lowe's Home Improvement\" <do-not-reply@receipt.lowes.com>",
+"subj": "Your Lowe's Purchase Receipt",
+"amts": [
+"$124.00",
+"$10.23",
+"$134.23",
+"$0.00"
+],
+"att": []
+},
+{
+"vendor": "Home Depot",
+"id": "19c266125d129bb4",
+"d": "2026-02-03",
+"from": "The Home Depot <HomeDepot@order.homedepot.com>",
+"subj": "Your Electronic Receipt",
+"amts": [
+"$312.84"
+],
+"att": [
+"eReceipt.pdf"
+]
+},
+{
+"vendor": "Energy Texas",
+"id": "19c1e2695ab5e920",
+"d": "2026-02-02",
+"from": "Energy Texas <hello@account.energytexas.com>",
+"subj": "All set! We received your payment through Auto Pay.",
+"amts": [
+"$43.57"
+],
+"att": []
+},
+{
+"vendor": "Home Depot",
+"id": "19d4537e03dd44d4",
+"d": "2026-03-31",
+"from": "The Home Depot <HomeDepotPro@order.homedepot.com>",
+"subj": "Your order is on its way to our store!",
+"amts": [
+"$241.50",
+"$19.92",
+"$261.42"
+],
+"att": []
+},
+{
+"vendor": "Home Depot",
+"id": "19d4165f68188a06",
+"d": "2026-03-30",
+"from": "The Home Depot <HomeDepotPro@order.homedepot.com>",
+"subj": "Order confirmed. We're processing your order now!",
+"amts": [
+"$241.50",
+"$19.92",
+"$261.42"
+],
+"att": []
+},
+{
+"vendor": "Atmos",
+"id": "19d311e0ea7e6ceb",
+"d": "2026-03-27",
+"from": "Atmos Energy <DoNotReply@atmosenergy.com>",
+"subj": "Your Atmos Energy bill is due",
+"amts": [
+"$141.59"
+],
+"att": []
+},
+{
+"vendor": "Home Depot",
+"id": "19d2bc665d8c4747",
+"d": "2026-03-26",
+"from": "The Home Depot <HomeDepotPro@order.homedepot.com>",
+"subj": "Your order's ready! Pick it up by Thursday, April 2",
+"amts": [
+"$503.71"
+],
+"att": []
+},
+{
+"vendor": "Home Depot",
+"id": "19d2b63316714ed9",
+"d": "2026-03-26",
+"from": "The Home Depot <HomeDepotPro@order.homedepot.com>",
+"subj": "Order #WK19546976 Shipped: Your order is on its way, Paul!",
+"amts": [
+"$241.50"
+],
+"att": []
+},
+{
+"vendor": "Energy Texas",
+"id": "19d2b4e2980cb531",
+"d": "2026-03-26",
+"from": "Energy Texas <hello@email.energytexas.com>",
+"subj": "Energy Texas Weekly Usage Report: You used 229% more electricity last week.",
+"amts": [
+"$17.14",
+"$6.35",
+"$123.23",
+"$68.76",
+"$107.08",
+"$16.15",
+"$54.47"
+],
+"att": []
+},
+{
+"vendor": "Home Depot",
+"id": "19d2a51f5dffc8be",
+"d": "2026-03-26",
+"from": "The Home Depot <HomeDepot@order.homedepot.com>",
+"subj": "Your Electronic Receipt",
+"amts": [
+"-$53.14",
+"$19.12",
+"$5.98"
+],
+"att": [
+"eReceipt.pdf"
+]
+},
+{
+"vendor": "Home Depot",
+"id": "19d25017467ed73d",
+"d": "2026-03-25",
+"from": "The Home Depot <HomeDepotPro@order.homedepot.com>",
+"subj": "Order confirmed. We're processing your order now!",
+"amts": [
+"$241.50"
+],
+"att": []
+},
+{
+"vendor": "Farmers",
+"id": "19d17c914d307d44",
+"d": "2026-03-22",
+"from": "Farmers Insurance <noreply@policy.farmers.com>",
+"subj": "Your Farmers Insurance bill is ready to be viewed.",
+"amts": [
+"$374.58"
+],
+"att": []
+},
+{
+"vendor": "Farmers",
+"id": "19d22c0ccd5a104f",
+"d": "2026-03-24",
+"from": "Paul Bjork <paul@recast-properties.com>",
+"subj": "Fwd: Your Farmers Insurance bill is ready to be viewed.",
+"amts": [
+"$374.58"
+],
+"att": []
+},
+{
+"vendor": "Home Depot",
+"id": "19d0e1154936d1f4",
+"d": "2026-03-20",
+"from": "The Home Depot <HomeDepotPro@order.homedepot.com>",
+"subj": "Your order is on its way to our store!",
+"amts": [
+"$503.71",
+"$41.56",
+"$545.27"
+],
+"att": []
+},
+{
+"vendor": "Lowes",
+"id": "19d0bef9d5dafe16",
+"d": "2026-03-20",
+"from": "\"Lowe's Home Improvement\" <do-not-reply@confirmation.lowes.com>",
+"subj": "Successful Pickup for Order (#300902078264435470)",
+"amts": [
+"$898.33"
+],
+"att": []
+},
+{
+"vendor": "Lowes",
+"id": "19d08d90ba7cc387",
+"d": "2026-03-19",
+"from": "\"Lowe's Home Improvement\" <do-not-reply@notifications.lowes.com>",
+"subj": "Your Order is Ready for Pick Up at LOWE'S OF WAXAHACHIE, TX! (#300902078264435470)",
+"amts": [],
+"att": []
+},
+{
+"vendor": "Home Depot",
+"id": "19d06dcb8d13df47",
+"d": "2026-03-19",
+"from": "The Home Depot <HomeDepotPro@order.homedepot.com>",
+"subj": "Order confirmed. We're processing your order now!",
+"amts": [
+"$503.71",
+"$41.56",
+"$545.27"
+],
+"att": []
+},
+{
+"vendor": "Energy Texas",
+"id": "19d031eaa18c4807",
+"d": "2026-03-18",
+"from": "Energy Texas <hello@account.energytexas.com>",
+"subj": "Your $68.76 bill set for Auto Pay on April 6, 2026 is now available",
+"amts": [
+"$68.76"
+],
+"att": []
+},
+{
+"vendor": "Amazon",
+"id": "19cfbe5669d339dc",
+"d": "2026-03-17",
+"from": "Paul Bjork <paul@recast-properties.com>",
+"subj": "2 amazon",
+"amts": [],
+"att": [
+"amazon 2.pdf",
+"amazon 1.pdf"
+]
+},
+{
+"vendor": "Atmos",
+"id": "19ce9537b630b426",
+"d": "2026-03-13",
+"from": "\"DoNotReply@atmosenergy.com\" <DoNotReply@atmosenergy.com>",
+"subj": "Your Atmos Energy Bill is Available online",
+"amts": [],
+"att": []
+},
+{
+"vendor": "Atmos",
+"id": "19cf195d283b5d97",
+"d": "2026-03-15",
+"from": "Paul Bjork <paul@recast-properties.com>",
+"subj": "Fwd: Your Atmos Energy Bill is Available online",
+"amts": [],
+"att": []
+},
+{
+"vendor": "Home Depot",
+"id": "19cdd6f492aabf2d",
+"d": "2026-03-11",
+"from": "Home Depot Pro Xtra <homedepotpro@mg.homedepot.com>",
+"subj": "Your February 2026 Pro Xtra Statement is Here",
+"amts": [],
+"att": []
+},
+{
+"vendor": "Lowes",
+"id": "19cdd5cf4f62965d",
+"d": "2026-03-11",
+"from": "\"Lowe's Pro\" <lowes@e.lowes.com>",
+"subj": "We\u2019re updating our privacy statement",
+"amts": [],
+"att": []
+},
+{
+"vendor": "Home Depot",
+"id": "19cd5489c5fd928b",
+"d": "2026-03-09",
+"from": "The Home Depot <HomeDepot@order.homedepot.com>",
+"subj": "Your Electronic Receipt",
+"amts": [
+"$83.83"
+],
+"att": [
+"eReceipt.pdf"
+]
+},
+{
+"vendor": "Atmos",
+"id": "19cd05040dbfacf6",
+"d": "2026-03-08",
+"from": "Atmos Energy <DoNotReply@atmosenergy.com>",
+"subj": "Your Atmos Energy payment has been received",
+"amts": [
+"$642.60"
+],
+"att": []
+},
+{
+"vendor": "Energy Texas",
+"id": "19cc61447ecd99c9",
+"d": "2026-03-06",
+"from": "Energy Texas <hello@account.energytexas.com>",
+"subj": "All set! We received your payment.",
+"amts": [
+"$240.17"
+],
+"att": []
+},
+{
+"vendor": "Energy Texas",
+"id": "19cbeba685bf62bb",
+"d": "2026-03-05",
+"from": "Energy Texas <hello@email.energytexas.com>",
+"subj": "Energy Texas Weekly Usage Report: You used 19% more electricity last week.",
+"amts": [
+"$22.14",
+"$18.71",
+"$86.29",
+"$240.17",
+"$37.13",
+"$49.16",
+"-$153.88"
+],
+"att": []
+},
+{
+"vendor": "CoreLogic",
+"id": "19cbddaad84b15f2",
+"d": "2026-03-05",
+"from": "<billing@corelogic.com>",
+"subj": "Property Intelligence Invoice #30843590",
+"amts": [],
+"att": []
+},
+{
+"vendor": "Home Depot",
+"id": "19cb9e86dc1c5092",
+"d": "2026-03-04",
+"from": "The Home Depot <HomeDepot@order.homedepot.com>",
+"subj": "Your Electronic Receipt",
+"amts": [
+"$39.96"
+],
+"att": [
+"eReceipt.pdf"
+]
+},
+{
+"vendor": "Waxahachie Water",
+"id": "19cb49f167e5fbf4",
+"d": "2026-03-03",
+"from": "\"Auction.com\" <noreply@auction.com>",
+"subj": "CONGRATULATIONS Paul, you are the Winning Bidder for 490 Alysa Lane, Waxahachie, TX 75167!",
+"amts": [],
+"att": [
+"cos.pdf",
+"fincen_form.pdf"
+]
+},
+{
+"vendor": "Waxahachie Water",
+"id": "19cb4aef4d991a85",
+"d": "2026-03-03",
+"from": "\"Auction.com\" <noreply@auction.com>",
+"subj": "CONGRATULATIONS Paul, you are the Winning Bidder for 490 Alysa Lane, Waxahachie, TX 75167!",
+"amts": [],
+"att": [
+"cos.pdf",
+"fincen_form.pdf"
+]
+},
+{
+"vendor": "Lowes",
+"id": "19cb18b9d5639273",
+"d": "2026-03-02",
+"from": "\"Lowe's Home Improvement\" <do-not-reply@receipt.lowes.com>",
+"subj": "Your Lowe's Purchase Receipt",
+"amts": [
+"$4.99",
+"$3.98",
+"$9.98",
+"$7.40",
+"$26.35",
+"$2.17",
+"$28.52",
+"$0.00"
+],
+"att": []
+},
+{
+"vendor": "Atmos",
+"id": "19cb0e8c70222d71",
+"d": "2026-03-02",
+"from": "Atmos Energy <DoNotReply@atmosenergy.com>",
+"subj": "Your Atmos Energy bill is due",
+"amts": [
+"$642.60"
+],
+"att": []
+},
+{
+"vendor": "Home Depot",
+"id": "19caf6b9e1556ade",
+"d": "2026-03-02",
+"from": "The Home Depot <HomeDepot@order.homedepot.com>",
+"subj": "Your Electronic Receipt",
+"amts": [
+"$219.69"
+],
+"att": [
+"eReceipt.pdf"
+]
+},
+{
+"vendor": "Home Depot",
+"id": "19cb0399a28a4bdb",
+"d": "2026-03-02",
+"from": "The Home Depot <HomeDepot@order.homedepot.com>",
+"subj": "Your Electronic Receipt",
+"amts": [
+"$147.38"
+],
+"att": [
+"eReceipt.pdf"
+]
+},
+{
+"vendor": "Home Depot",
+"id": "19cb17fd589323fa",
+"d": "2026-03-02",
+"from": "The Home Depot <HomeDepot@order.homedepot.com>",
+"subj": "Your Electronic Receipt",
+"amts": [
+"$32.28"
+],
+"att": [
+"eReceipt.pdf"
+]
+},
+{
+"vendor": "Home Depot",
+"id": "19caba0d41d86d9b",
+"d": "2026-03-01",
+"from": "The Home Depot <HomeDepot@order.homedepot.com>",
+"subj": "Your Electronic Receipt",
+"amts": [
+"$207.19"
+],
+"att": [
+"eReceipt.pdf"
+]
+},
+{
+"vendor": "Home Depot",
+"id": "19ca6cf04236bd89",
+"d": "2026-02-28",
+"from": "The Home Depot <HomeDepot@order.homedepot.com>",
+"subj": "Your Electronic Receipt",
+"amts": [
+"$2.84"
+],
+"att": [
+"eReceipt.pdf"
+]
+},
+{
+"vendor": "Atmos",
+"id": "19ddb3fa820e035c",
+"d": "2026-04-29",
+"from": "Atmos Energy <DoNotReply@atmosenergy.com>",
+"subj": "Your Atmos Energy bill is due",
+"amts": [
+"$197.00"
+],
+"att": []
+},
+{
+"vendor": "Energy Texas",
+"id": "19dd660945914d47",
+"d": "2026-04-28",
+"from": "Energy Texas <hello@email.energytexas.com>",
+"subj": "Energy Texas Weekly Usage Report: You used 26% more electricity last week.",
+"amts": [
+"$41.35",
+"$32.76",
+"$155.16",
+"$80.22",
+"$89.98",
+"$65.18",
+"$74.94"
+],
+"att": []
+},
+{
+"vendor": "Energy Texas",
+"id": "19dbb495b9cbc363",
+"d": "2026-04-23",
+"from": "Energy Texas <hello@email.energytexas.com>",
+"subj": "Energy Texas Weekly Usage Report: You used 30% more electricity last week.",
+"amts": [
+"$32.76",
+"$25.41",
+"$136.13",
+"$80.22",
+"$123.11",
+"$13.02",
+"$55.91"
+],
+"att": []
+},
+{
+"vendor": "Waxahachie Water",
+"id": "19db09e3568ee832",
+"d": "2026-04-21",
+"from": "QuickBooks Payments <quickbooks@notification.intuit.com>",
+"subj": "Payment confirmation: Invoice #7920-(Waxahachie Glass Corp.)",
+"amts": [
+"$878.18",
+"$1396.96"
+],
+"att": []
+},
+{
+"vendor": "Waxahachie Water",
+"id": "19db0ad56cd793cf",
+"d": "2026-04-21",
+"from": "Paul Bjork <paul@recast-properties.com>",
+"subj": "Fwd: Payment confirmation: Invoice #7920-(Waxahachie Glass Corp.)",
+"amts": [
+"$878.18",
+"$1396.96"
+],
+"att": []
+},
+{
+"vendor": "Waxahachie Water",
+"id": "19db094c6da2a301",
+"d": "2026-04-21",
+"from": "\"Waxahachie Glass Corp.\" <quickbooks@notification.intuit.com>",
+"subj": "New payment request from Waxahachie Glass Corporation - invoice 7920",
+"amts": [
+"$878.18",
+"$1,396.96",
+"$759.32",
+"$575.00",
+"$1,334.32",
+"$62.64",
+"$518.78",
+"$90.26"
+],
+"att": [
+"Invoice_7920_from_Waxahachie_Glass_Corp."
+]
+},
+{
+"vendor": "Farmers",
+"id": "19da7fb10e715455",
+"d": "2026-04-19",
+"from": "Farmers Insurance <noreply@policy.farmers.com>",
+"subj": "Your Farmers Insurance bill is ready to be viewed.",
+"amts": [
+"$374.58"
+],
+"att": []
+},
+{
+"vendor": "Energy Texas",
+"id": "19d9db8ce218e13e",
+"d": "2026-04-17",
+"from": "Energy Texas <hello@account.energytexas.com>",
+"subj": "Your $80.22 bill set for Auto Pay on May 4, 2026 is now available",
+"amts": [
+"$80.22"
+],
+"att": []
+},
+{
+"vendor": "Home Depot",
+"id": "19d96d5c6d8c9110",
+"d": "2026-04-16",
+"from": "Home Depot Pro Xtra <homedepotpro@mg.homedepot.com>",
+"subj": "Your March 2026 Pro Xtra Statement is Here",
+"amts": [],
+"att": []
+},
+{
+"vendor": "Atmos",
+"id": "19d93811d3ff2158",
+"d": "2026-04-15",
+"from": "\"DoNotReply@atmosenergy.com\" <DoNotReply@atmosenergy.com>",
+"subj": "Your Atmos Energy Bill is Available online",
+"amts": [],
+"att": []
+},
+{
+"vendor": "Energy Texas",
+"id": "19d91df539c2c226",
+"d": "2026-04-15",
+"from": "Energy Texas <hello@email.energytexas.com>",
+"subj": "Energy Texas Weekly Usage Report: You used 80% more electricity last week.",
+"amts": [
+"$25.41",
+"$14.58",
+"$80.96",
+"$68.76",
+"$15.53",
+"$65.43",
+"$12.20"
+],
+"att": []
+},
+{
+"vendor": "Energy Texas",
+"id": "19d6e77f0f2055f1",
+"d": "2026-04-08",
+"from": "Energy Texas <hello@email.energytexas.com>",
+"subj": "Energy Texas Weekly Usage Report: You used 38% more electricity last week.",
+"amts": [
+"$13.98",
+"$10.56",
+"$76.69",
+"$68.76",
+"$39.92",
+"$36.77",
+"$7.93"
+],
+"att": []
+},
+{
+"vendor": "Home Depot",
+"id": "19d64edf06001f36",
+"d": "2026-04-06",
+"from": "The Home Depot <HomeDepot@order.homedepot.com>",
+"subj": "Order #WN53994669 Delivered: Let us know how we did!",
+"amts": [],
+"att": []
+},
+{
+"vendor": "Home Depot",
+"id": "19d63f17bf22f9fa",
+"d": "2026-04-06",
+"from": "The Home Depot <HomeDepotPro@order.homedepot.com>",
+"subj": "We received your order!",
+"amts": [
+"$164.70",
+"$2.99",
+"$13.83",
+"$181.52"
+],
+"att": []
+},
+{
+"vendor": "Home Depot",
+"id": "19d63c3110533f8c",
+"d": "2026-04-06",
+"from": "The Home Depot <HomeDepot@order.homedepot.com>",
+"subj": "Order #WN53994669 is Out for Delivery Today, Paul!",
+"amts": [],
+"att": []
+},
+{
+"vendor": "Home Depot",
+"id": "19d62d2b5feeef94",
+"d": "2026-04-06",
+"from": "The Home Depot <HomeDepotPro@order.homedepot.com>",
+"subj": "Thank you for your pickup order!",
+"amts": [
+"$241.50",
+"$19.92",
+"$261.42"
+],
+"att": []
+},
+{
+"vendor": "Energy Texas",
+"id": "19d62c60c8176f79",
+"d": "2026-04-06",
+"from": "Energy Texas <hello@account.energytexas.com>",
+"subj": "All set! We received your payment through Auto Pay.",
+"amts": [
+"$68.76"
+],
+"att": []
+},
+{
+"vendor": "Home Depot",
+"id": "19d5f817ea2b6572",
+"d": "2026-04-05",
+"from": "The Home Depot <HomeDepotPro@order.homedepot.com>",
+"subj": "Order #WN53994669 Shipped: Your order is on its way, Paul!",
+"amts": [
+"$230.72",
+"$271.52",
+"-$40.80",
+"$40.80"
+],
+"att": []
+},
+{
+"vendor": "Home Depot",
+"id": "19d5e0ce39d91e0d",
+"d": "2026-04-05",
+"from": "The Home Depot <HomeDepotPro@order.homedepot.com>",
+"subj": "Order confirmed. We're processing your order now!",
+"amts": [
+"$271.52",
+"-$40.80",
+"$230.72",
+"$40.80"
+],
+"att": []
+},
+{
+"vendor": "CoreLogic",
+"id": "19d557a02bada3be",
+"d": "2026-04-03",
+"from": "<billing@corelogic.com>",
+"subj": "Property Intelligence Invoice #30857690",
+"amts": [],
+"att": []
+},
+{
+"vendor": "Home Depot",
+"id": "19d4fef69c52ef33",
+"d": "2026-04-02",
+"from": "The Home Depot <HomeDepotPro@order.homedepot.com>",
+"subj": "Your order's ready! Pick it up by Thursday, April 9",
+"amts": [
+"$241.50"
+],
+"att": []
+},
+{
+"vendor": "Energy Texas",
+"id": "19d4bebd1288a748",
+"d": "2026-04-01",
+"from": "Energy Texas <hello@email.energytexas.com>",
+"subj": "Energy Texas Weekly Usage Report: You used 42% less electricity last week.",
+"amts": [
+"$10.56",
+"$17.14",
+"$99.88",
+"$68.76",
+"$77.13",
+"$22.75",
+"$31.12"
+],
+"att": []
+},
+{
+"vendor": "Home Depot",
+"id": "19d4a87404079126",
+"d": "2026-04-01",
+"from": "The Home Depot <HomeDepot@order.homedepot.com>",
+"subj": "Order #WK19546976 Delivered: Let us know how we did!",
+"amts": [],
+"att": []
+},
+{
+"vendor": "Home Depot",
+"id": "19d4a252fbea72c1",
+"d": "2026-04-01",
+"from": "The Home Depot <HomeDepotPro@order.homedepot.com>",
+"subj": "Thank you for your pickup order!",
+"amts": [
+"$503.71",
+"$41.56",
+"$545.27"
+],
+"att": []
+},
+{
+"vendor": "Lowes",
+"id": "19e7e8cf97c84441",
+"d": "2026-05-31",
+"from": "\"Lowe's Home Improvement\" <do-not-reply@receipt.lowes.com>",
+"subj": "Your Lowe's Purchase Receipt",
+"amts": [
+"$38.98",
+"$3.22",
+"$42.20",
+"$0.00"
+],
+"att": []
+},
+{
+"vendor": "Home Depot",
+"id": "19e7a32b03988a21",
+"d": "2026-05-30",
+"from": "The Home Depot <HomeDepotPro@order.homedepot.com>",
+"subj": "Delivery Complete! - Appliance Order # H6505-457009",
+"amts": [],
+"att": []
+},
+{
+"vendor": "Home Depot",
+"id": "19e761342e801aeb",
+"d": "2026-05-29",
+"from": "The Home Depot <HomeDepotPro@order.homedepot.com>",
+"subj": "Appliance Delivery Scheduled for Saturday,  May 30",
+"amts": [
+"$596.54"
+],
+"att": []
+},
+{
+"vendor": "Home Depot",
+"id": "19e758f6dc2ba281",
+"d": "2026-05-29",
+"from": "The Home Depot <HomeDepot@order.homedepot.com>",
+"subj": "Your Electronic Receipt",
+"amts": [
+"-$50.36",
+"$46.53",
+"$20.31"
+],
+"att": [
+"eReceipt.pdf"
+]
+},
+{
+"vendor": "Atmos",
+"id": "19e6b8403e89c06d",
+"d": "2026-05-27",
+"from": "Atmos Energy <DoNotReply@atmosenergy.com>",
+"subj": "Your Atmos Energy bill is due",
+"amts": [
+"$31.31"
+],
+"att": []
+},
+{
+"vendor": "Home Depot",
+"id": "19e6ab36b58a3801",
+"d": "2026-05-27",
+"from": "The Home Depot <HomeDepotPro@order.homedepot.com>",
+"subj": "Prep for Appliance Delivery! - Order # H6505-457009",
+"amts": [
+"$596.54"
+],
+"att": []
+},
+{
+"vendor": "Home Depot",
+"id": "19e6aa69a8f55372",
+"d": "2026-05-27",
+"from": "The Home Depot <HomeDepot@order.homedepot.com>",
+"subj": "Hi Paul, your Home Depot receipt for # H6505-457009 is here",
+"amts": [],
+"att": [
+"H6505-457009 WillCall-Delivery CSA.pdf",
+"H6505-457009 Receipt.pdf"
+]
+},
+{
+"vendor": "Home Depot",
+"id": "19e6aa68121f3e00",
+"d": "2026-05-27",
+"from": "The Home Depot <HomeDepotPro@order.homedepot.com>",
+"subj": "Order confirmed. We're processing your order now!",
+"amts": [
+"$596.54",
+"$599.00",
+"-$47.92",
+"$45.46",
+"$47.92"
+],
+"att": []
+},
+{
+"vendor": "Energy Texas",
+"id": "19e6a2a51df14f20",
+"d": "2026-05-27",
+"from": "Energy Texas <hello@email.energytexas.com>",
+"subj": "Energy Texas Weekly Usage Report: You used 31% more electricity last week.",
+"amts": [
+"$54.67",
+"$41.79",
+"$253.20",
+"$139.21",
+"$182.84",
+"$70.36",
+"$113.99"
+],
+"att": []
+},
+{
+"vendor": "TXU",
+"id": "19e69a959fac0eb6",
+"d": "2026-05-27",
+"from": "TXU Energy <txu@notifications.txu.com>",
+"subj": "You're on Paperless Billing",
+"amts": [],
+"att": []
+},
+{
+"vendor": "VistaPrint",
+"id": "19e50016f22d9c62",
+"d": "2026-05-22",
+"from": "VistaPrint <vistaprint@mail.vistaprint.com>",
+"subj": "Branded packaging that carries your event further",
+"amts": [
+"$39.99",
+"$4.99",
+"$19.99",
+"$380.00",
+"$499.99"
+],
+"att": []
+},
+{
+"vendor": "VistaPrint",
+"id": "19e4ddd64ad25b74",
+"d": "2026-05-21",
+"from": "VistaPrint <no-reply@t.vistaprint.com>",
+"subj": "Your order is on its way",
+"amts": [],
+"att": []
+},
+{
+"vendor": "Energy Texas",
+"id": "19e4bb23cecac24a",
+"d": "2026-05-21",
+"from": "Energy Texas <hello@email.energytexas.com>",
+"subj": "Energy Texas Weekly Usage Report: You used 96% more electricity last week.",
+"amts": [
+"$41.79",
+"$21.87",
+"$252.21",
+"$139.21",
+"$229.69",
+"$22.52",
+"$113.00"
+],
+"att": []
+},
+{
+"vendor": "Farmers",
+"id": "19e47a05efd692b8",
+"d": "2026-05-20",
+"from": "Farmers Insurance <noreply@policy.farmers.com>",
+"subj": "Your Farmers Insurance bill is ready to be viewed.",
+"amts": [
+"$374.58"
+],
+"att": []
+},
+{
+"vendor": "Energy Texas",
+"id": "19e3d490e2623c1c",
+"d": "2026-05-18",
+"from": "Energy Texas <hello@account.energytexas.com>",
+"subj": "Your $139.21 bill set for Auto Pay on June 4, 2026 is now available",
+"amts": [
+"$139.21"
+],
+"att": []
+},
+{
+"vendor": "Apify",
+"id": "19e3b835c3cbf906",
+"d": "2026-05-18",
+"from": "Apify Billing <billing@apify.com>",
+"subj": "Apify invoice #202605152143 was canceled",
+"amts": [],
+"att": [
+"Apify_Canceled_Invoice_202605152143.pdf"
+]
+},
+{
+"vendor": "Apify",
+"id": "19e3b8182001b3d6",
+"d": "2026-05-18",
+"from": "Apify <hello@apify.com>",
+"subj": "Subscription ended",
+"amts": [],
+"att": []
+},
+{
+"vendor": "VistaPrint",
+"id": "19e2ef35ec86793e",
+"d": "2026-05-15",
+"from": "VistaPrint <no-reply@t.vistaprint.com>",
+"subj": "Your order is on its way",
+"amts": [],
+"att": []
+},
+{
+"vendor": "Apify",
+"id": "19e2ce117249cd00",
+"d": "2026-05-15",
+"from": "Apify Billing <billing@apify.com>",
+"subj": "Apify invoice #202605152143 payment successful",
+"amts": [],
+"att": [
+"Apify_Invoice_202605152143.pdf"
+]
+},
+{
+"vendor": "Atmos",
+"id": "19e2379ba3158c72",
+"d": "2026-05-13",
+"from": "\"DoNotReply@atmosenergy.com\" <DoNotReply@atmosenergy.com>",
+"subj": "Your Atmos Energy Bill is Available online",
+"amts": [],
+"att": []
+},
+{
+"vendor": "VistaPrint",
+"id": "19e2257005de0d6e",
+"d": "2026-05-13",
+"from": "VistaPrint <no-reply@t.vistaprint.com>",
+"subj": "Your order is confirmed",
+"amts": [
+"$194.83",
+"$94.83",
+"$110.74",
+"$63.00",
+"$136.43",
+"$80.65",
+"$522.65",
+"-$147.74",
+"$30.93",
+"$405.84"
+],
+"att": []
+},
+{
+"vendor": "VistaPrint",
+"id": "19e2251902f548f7",
+"d": "2026-05-13",
+"from": "VistaPrint <no-reply@t.vistaprint.com>",
+"subj": "Your VistaPrint Merchandise Credit Confirmation",
+"amts": [
+"$406.04"
+],
+"att": []
+},
+{
+"vendor": "Atmos",
+"id": "19e09a0147434ae4",
+"d": "2026-05-08",
+"from": "Atmos Energy <DoNotReply@atmosenergy.com>",
+"subj": "Your Atmos Energy payment has been received",
+"amts": [
+"$197.00"
+],
+"att": []
+},
+{
+"vendor": "Atmos",
+"id": "19e09b396da6b23c",
+"d": "2026-05-08",
+"from": "Paul Bjork <paul@recast-properties.com>",
+"subj": "Fwd: Your Atmos Energy payment has been received",
+"amts": [
+"$197.00"
+],
+"att": []
+},
+{
+"vendor": "VistaPrint",
+"id": "19e096619c8d9c0d",
+"d": "2026-05-08",
+"from": "VistaPrint <no-reply@t.vistaprint.com>",
+"subj": "Your order is confirmed",
+"amts": [
+"$179.98",
+"$152.98",
+"$80.65",
+"$68.55",
+"$136.43",
+"$115.96",
+"$477.71",
+"-$71.67",
+"$0.00",
+"$406.04"
+],
+"att": []
+},
+{
+"vendor": "Home Depot",
+"id": "19e02f7cd40be46f",
+"d": "2026-05-07",
+"from": "Home Depot Pro Xtra <homedepotpro@mg.homedepot.com>",
+"subj": "Your April 2026 Pro Xtra Statement is Here",
+"amts": [],
+"att": []
+},
+{
+"vendor": "Energy Texas",
+"id": "19dfe04ae120ba7c",
+"d": "2026-05-06",
+"from": "Energy Texas <hello@email.energytexas.com>",
+"subj": "Energy Texas Weekly Usage Report: You used 26% more electricity last week.",
+"amts": [
+"$64.70",
+"$51.38",
+"$205.37",
+"$80.22",
+"$70.77",
+"$134.60",
+"$125.15"
+],
+"att": []
+},
+{
+"vendor": "CoreLogic",
+"id": "19dfd51cc731e898",
+"d": "2026-05-06",
+"from": "<billing@corelogic.com>",
+"subj": "Property Intelligence Invoice #30860459",
+"amts": [],
+"att": []
+},
+{
+"vendor": "Waxahachie Water",
+"id": "19df9a47e97f3575",
+"d": "2026-05-05",
+"from": "Amy Shaw <amy.smcmullin@farmersagency.com>",
+"subj": "1616 Granite Way Waxahachie",
+"amts": [],
+"att": [
+"ACV 5% deductible 1616 granite.pdf",
+"RCV paul 1616 granite.pdf"
+]
+},
+{
+"vendor": "Energy Texas",
+"id": "19df37ac68ab0379",
+"d": "2026-05-04",
+"from": "Energy Texas <hello@account.energytexas.com>",
+"subj": "All set! We received your payment through Auto Pay.",
+"amts": [
+"$80.22"
+],
+"att": []
+},
+{
+"vendor": "Energy Texas",
+"id": "19de90522f936506",
+"d": "2026-05-02",
+"from": "Energy Texas <hello@account.energytexas.com>",
+"subj": "Thanks for renewing with Energy Texas. \u2705",
+"amts": [
+"$0.00"
+],
+"att": []
+},
+{
+"vendor": "Home Depot",
+"id": "19f18a7ab38c52cf",
+"d": "2026-06-30",
+"from": "The Home Depot <HomeDepot@order.homedepot.com>",
+"subj": "Your Electronic Receipt",
+"amts": [
+"-$74.57",
+"$68.88"
+],
+"att": [
+"eReceipt.pdf"
+]
+},
+{
+"vendor": "Lowes",
+"id": "19f154b6d76876a0",
+"d": "2026-06-29",
+"from": "\"Lowe's Home Improvement\" <do-not-reply@receipt.lowes.com>",
+"subj": "Your Lowe's Purchase Receipt",
+"amts": [
+"$34.97",
+"$2.89",
+"$37.86",
+"$0.00"
+],
+"att": []
+},
+{
+"vendor": "Lowes",
+"id": "19f15b9d151a5624",
+"d": "2026-06-29",
+"from": "\"Lowe's Home Improvement\" <do-not-reply@receipt.lowes.com>",
+"subj": "Your Lowe's Purchase Receipt",
+"amts": [
+"$19.98",
+"$39.96",
+"$3.30",
+"$43.26",
+"$0.00"
+],
+"att": []
+},
+{
+"vendor": "TXU",
+"id": "19f1332b00123385",
+"d": "2026-06-29",
+"from": "TXU Energy <txu@notifications.txu.com>",
+"subj": "You're on Paperless Billing",
+"amts": [],
+"att": []
+},
+{
+"vendor": "Lowes",
+"id": "19f0fbc46f0d90a8",
+"d": "2026-06-28",
+"from": "\"Lowe's Home Improvement\" <do-not-reply@receipt.lowes.com>",
+"subj": "Your Lowe's Purchase Receipt",
+"amts": [
+"$39.98",
+"$119.94",
+"$26.98",
+"$4.48",
+"$13.44",
+"$12.98",
+"$173.34",
+"$14.30",
+"$187.64",
+"$0.00"
+],
+"att": []
+},
+{
+"vendor": "Atmos",
+"id": "19f05d6ac716a0d7",
+"d": "2026-06-26",
+"from": "Atmos Energy <DoNotReply@atmosenergy.com>",
+"subj": "Your Atmos Energy bill is due",
+"amts": [
+"$31.60"
+],
+"att": []
+},
+{
+"vendor": "Waxahachie Water",
+"id": "19f04633d2b69771",
+"d": "2026-06-26",
+"from": "MissionREG Office <office.missionreg@gmail.com>",
+"subj": "Agent View 280 Sparkling Springs Dr Waxahachie MLS Listing",
+"amts": [],
+"att": [
+"Agent View 280 Sparkling Springs Waxahac"
+]
+},
+{
+"vendor": "Waxahachie Water",
+"id": "19f04e38e220552f",
+"d": "2026-06-26",
+"from": "MissionREG Office <office.missionreg@gmail.com>",
+"subj": "Re: Agent View 280 Sparkling Springs Dr Waxahachie MLS Listing",
+"amts": [],
+"att": [
+"Agent View 280 Sparkling Springs Waxahac"
+]
+},
+{
+"vendor": "VistaPrint",
+"id": "19eea46b8e933be6",
+"d": "2026-06-21",
+"from": "VistaPrint <no-reply@t.vistaprint.com>",
+"subj": "Your order is confirmed",
+"amts": [
+"$157.96",
+"$136.43",
+"$294.39",
+"$52.98",
+"$21.71",
+"$369.08"
+],
+"att": []
+},
+{
+"vendor": "Waxahachie Water",
+"id": "19ee7a804ce6267b",
+"d": "2026-06-20",
+"from": "Paul Bjork <paul@recast-properties.com>",
+"subj": "1558 GRANITE WAY WAXAHACHIE TX 75165",
+"amts": [],
+"att": [
+"2026 July Auction Sheets - 1558 GRANITE "
+]
+},
+{
+"vendor": "Farmers",
+"id": "19ee21eff55a68e8",
+"d": "2026-06-19",
+"from": "Farmers Insurance <noreply@policy.farmers.com>",
+"subj": "Your Farmers Insurance bill is ready to be viewed.",
+"amts": [
+"$374.58"
+],
+"att": []
+},
+{
+"vendor": "Farmers",
+"id": "19f043eafc45486e",
+"d": "2026-06-26",
+"from": "Paul Bjork <paul@recast-properties.com>",
+"subj": "Fwd: Your Farmers Insurance bill is ready to be viewed.",
+"amts": [
+"$374.58"
+],
+"att": []
+},
+{
+"vendor": "Farmers",
+"id": "19f076ab022a1311",
+"d": "2026-06-26",
+"from": "Paul Bjork <paul@recast-properties.com>",
+"subj": "Fwd: Your Farmers Insurance bill is ready to be viewed.",
+"amts": [
+"$374.58"
+],
+"att": []
+},
+{
+"vendor": "Apify",
+"id": "19ed80dfe6dc2f18",
+"d": "2026-06-17",
+"from": "Apify Billing <billing@apify.com>",
+"subj": "Apify invoice #202606180127 payment successful",
+"amts": [],
+"att": [
+"Apify_Invoice_202606180127.pdf"
+]
+},
+{
+"vendor": "Energy Texas",
+"id": "19ed7a51da070868",
+"d": "2026-06-17",
+"from": "Energy Texas <hello@account.energytexas.com>",
+"subj": "Your $226.82 bill set for Auto Pay on July 6, 2026 is now available",
+"amts": [
+"$226.82"
+],
+"att": []
+},
+{
+"vendor": "TXU",
+"id": "19ed79b1f9970494",
+"d": "2026-06-17",
+"from": "TXU Energy <txu@mail.txu.com>",
+"subj": "Pauil, here\u2019s a quick look at your first bill",
+"amts": [],
+"att": []
+},
+{
+"vendor": "Lowes",
+"id": "19ed69af26494e70",
+"d": "2026-06-17",
+"from": "\"Lowe's Home Improvement\" <do-not-reply@receipt.lowes.com>",
+"subj": "Your Lowe's Purchase Receipt",
+"amts": [
+"$3.48",
+"$26.98",
+"$4.98",
+"$9.98",
+"$45.42",
+"$3.75",
+"$49.17",
+"$0.00"
+],
+"att": []
+},
+{
+"vendor": "Energy Texas",
+"id": "19ed34f324fc89f9",
+"d": "2026-06-16",
+"from": "Energy Texas <hello@email.energytexas.com>",
+"subj": "Energy Texas Weekly Usage Report: You used 8% more electricity last week.",
+"amts": [
+"$65.11",
+"$60.01",
+"$257.00",
+"$139.21",
+"$117.79"
+],
+"att": []
+},
+{
+"vendor": "TXU",
+"id": "19ed21466d6f1a93",
+"d": "2026-06-16",
+"from": "TXU Energy <txu@notifications.txu.com>",
+"subj": "Your first bill's ready",
+"amts": [
+"$161.17"
+],
+"att": []
+},
+{
+"vendor": "Lowes",
+"id": "19ed1e6f0b638bcf",
+"d": "2026-06-16",
+"from": "\"Lowe's Home Improvement\" <do-not-reply@notifications.lowes.com>",
+"subj": "It\u2019s Time - Your Order Has Arrived!",
+"amts": [
+"$7.98",
+"$12.16",
+"$5.99",
+"$0.00"
+],
+"att": []
+},
+{
+"vendor": "TXU",
+"id": "19ed0e1011d20924",
+"d": "2026-06-16",
+"from": "TXU Energy <txu@notifications.txu.com>",
+"subj": "Your payment's complete",
+"amts": [
+"$161.17"
+],
+"att": []
+},
+{
+"vendor": "Lowes",
+"id": "19eccf0154e5cb2f",
+"d": "2026-06-15",
+"from": "\"Lowe's Home Improvement\" <do-not-reply@notifications.lowes.com>",
+"subj": "It\u2019s Time - Your Order Has Arrived!",
+"amts": [
+"$4.18",
+"$12.16",
+"$5.99",
+"$0.00"
+],
+"att": []
+},
+{
+"vendor": "Netlify",
+"id": "19ec2e5f3c880eb3",
+"d": "2026-06-13",
+"from": "\"Netlify, Inc.\" <noreply@netlify.com>",
+"subj": "Payment received for Netlify, Inc. invoice (#SFWGOE-00004)",
+"amts": [],
+"att": [
+"Invoice-SFWGOE-00004.pdf",
+"Receipt-SFWGOE-00004.pdf"
+]
+},
+{
+"vendor": "VistaPrint",
+"id": "19ebf24ef82905c2",
+"d": "2026-06-12",
+"from": "VistaPrint <no-reply@t.vistaprint.com>",
+"subj": "Your order is on its way",
+"amts": [],
+"att": []
+},
+{
+"vendor": "Atmos",
+"id": "19ebe2f8faafa480",
+"d": "2026-06-12",
+"from": "\"DoNotReply@atmosenergy.com\" <DoNotReply@atmosenergy.com>",
+"subj": "Your Atmos Energy Bill is Available online",
+"amts": [],
+"att": []
+},
+{
+"vendor": "Lowes",
+"id": "19ebcad79ef273ab",
+"d": "2026-06-12",
+"from": "\"Lowe's Home Improvement\" <do-not-reply@notifications.lowes.com>",
+"subj": "Thanks for Your Order! #300902163263895635",
+"amts": [
+"$12.16",
+"$5.99",
+"$0.00",
+"$7.98",
+"$4.18",
+"$5.98",
+"$4.28",
+"$3.78"
+],
+"att": []
+},
+{
+"vendor": "Energy Texas",
+"id": "19eb7d82d6435638",
+"d": "2026-06-11",
+"from": "Energy Texas <hello@email.energytexas.com>",
+"subj": "Energy Texas Weekly Usage Report: You used 9% more electricity last week.",
+"amts": [
+"$64.41",
+"$58.77",
+"$281.07",
+"$139.21",
+"$76.39",
+"$204.68",
+"$141.86"
+],
+"att": []
+},
+{
+"vendor": "VistaPrint",
+"id": "19eb7ae65da2fd3a",
+"d": "2026-06-11",
+"from": "VistaPrint <no-reply@t.vistaprint.com>",
+"subj": "Your order is confirmed",
+"amts": [
+"$136.43",
+"$115.96",
+"$80.65",
+"$68.55",
+"$217.08",
+"-$32.57",
+"$42.98",
+"$14.22",
+"$241.71"
+],
+"att": []
+},
+{
+"vendor": "Telnyx",
+"id": "19ead1df86fb971c",
+"d": "2026-06-09",
+"from": "portal@telnyx.com",
+"subj": "[Telnyx LLC] Payment Success",
+"amts": [],
+"att": [
+"receipt_5cb948d2-c743-4be8-a2e0-55731021"
+]
+},
+{
+"vendor": "Home Depot",
+"id": "19eacf38c37bd247",
+"d": "2026-06-09",
+"from": "Home Depot Pro Xtra <homedepotpro@mg.homedepot.com>",
+"subj": "Your May 2026 Pro Xtra Statement is Here",
+"amts": [],
+"att": []
+},
+{
+"vendor": "Telnyx",
+"id": "19ea92753a8a0957",
+"d": "2026-06-08",
+"from": "portal@telnyx.com",
+"subj": "[Telnyx LLC] Payment Success",
+"amts": [],
+"att": [
+"receipt_5cb948d2-c743-4be8-a2e0-55731021"
+]
+},
+{
+"vendor": "Telnyx",
+"id": "19ea7fe90fcbfa0b",
+"d": "2026-06-08",
+"from": "Messaging Compliance Team <10dlcquestions@telnyx.com>",
+"subj": "Re: EIN Confirmation",
+"amts": [],
+"att": []
+},
+{
+"vendor": "Telnyx",
+"id": "19ea91773fbef52a",
+"d": "2026-06-08",
+"from": "Messaging Compliance Team <10dlcquestions@telnyx.com>",
+"subj": "Re: EIN Confirmation",
+"amts": [],
+"att": []
+},
+{
+"vendor": "Telnyx",
+"id": "19eaabd30e74dc8d",
+"d": "2026-06-08",
+"from": "Messaging Compliance Team <10dlcquestions@telnyx.com>",
+"subj": "Re: EIN Confirmation",
+"amts": [],
+"att": []
+},
+{
+"vendor": "Telnyx",
+"id": "19eacf08dcf354d4",
+"d": "2026-06-09",
+"from": "Messaging Compliance Team <10dlcquestions@telnyx.com>",
+"subj": "Re: EIN Confirmation",
+"amts": [],
+"att": []
+},
+{
+"vendor": "CoreLogic",
+"id": "19e8ef3d9338fabb",
+"d": "2026-06-03",
+"from": "<billing@corelogic.com>",
+"subj": "Property Intelligence Invoice #30875629",
+"amts": [],
+"att": []
+},
+{
+"vendor": "Waxahachie Water",
+"id": "19e8e23eb6741772",
+"d": "2026-06-03",
+"from": "Dennis Little <dennisclittle@gmail.com>",
+"subj": "Fwd: Agent View 1616 Granite Way Waxahachie MLS Listing",
+"amts": [],
+"att": [
+"Agent View 1616 Granite Way Waxahachie.p"
+]
+},
+{
+"vendor": "Waxahachie Water",
+"id": "19e8ecfa89b71a1c",
+"d": "2026-06-03",
+"from": "MissionREG Office <office.missionreg@gmail.com>",
+"subj": "Re: Agent View 1616 Granite Way Waxahachie MLS Listing",
+"amts": [],
+"att": [
+"Agent View 1616 Granite Way Waxahachie.p"
+]
+},
+{
+"vendor": "Waxahachie Water",
+"id": "19fb54e6cdc547ce",
+"d": "2026-07-30",
+"from": "utilitybilling@waxahachie.com",
+"subj": "City of Waxachie Utility Bill",
+"amts": [],
+"att": [
+"UtilityBill.pdf"
+]
+},
+{
+"vendor": "Energy Texas",
+"id": "19fb003dde3113f1",
+"d": "2026-07-29",
+"from": "Energy Texas <hello@email.energytexas.com>",
+"subj": "Energy Texas Weekly Usage Report: You used 44% more electricity last week.",
+"amts": [
+"$144.43",
+"$100.62",
+"$439.46",
+"$371.16",
+"$248.33",
+"$191.13",
+"$68.30"
+],
+"att": []
+},
+{
+"vendor": "Atmos",
+"id": "19fafffc87ae2803",
+"d": "2026-07-29",
+"from": "Atmos Energy <DoNotReply@atmosenergy.com>",
+"subj": "Your Atmos Energy bill is due",
+"amts": [
+"$35.79"
+],
+"att": []
+},
+{
+"vendor": "TXU",
+"id": "19fae6c527b0c5ab",
+"d": "2026-07-29",
+"from": "TXU Energy <txu@notifications.txu.com>",
+"subj": "Your payment's complete",
+"amts": [
+"$63.23"
+],
+"att": []
+},
+{
+"vendor": "CoreLogic",
+"id": "19fa9024416f8fa6",
+"d": "2026-07-28",
+"from": "Cody Carroll <cocarroll@cotality.com>",
+"subj": "Cotality - API Data Delivery",
+"amts": [],
+"att": [
+"Cotality API Solutions.pdf",
+"Property API Solutions - Datasheet.pdf"
+]
+},
+{
+"vendor": "Waxahachie Water",
+"id": "19fa4e311dc8ff88",
+"d": "2026-07-27",
+"from": "Erin Striplin <Erin@bisontitletx.com>",
+"subj": "1616 Granite Way, Waxahachie, Tx. 75165",
+"amts": [],
+"att": [
+"260648 seller.pdf"
+]
+},
+{
+"vendor": "TXU",
+"id": "19f9a6f99b611cc8",
+"d": "2026-07-25",
+"from": "TXU Energy <txu@notifications.txu.com>",
+"subj": "Your bill\u2019s ready",
+"amts": [
+"$261.76"
+],
+"att": []
+},
+{
+"vendor": "CoreLogic",
+"id": "19f99eb70394894c",
+"d": "2026-07-25",
+"from": "Evan Kaufman <ekaufman@cotality.com>",
+"subj": "Pauil Bjork - Cotality Meeting: We'll call you!",
+"amts": [],
+"att": [
+"invite.ics"
+]
+},
+{
+"vendor": "TXU",
+"id": "19f984ffa2eedebf",
+"d": "2026-07-25",
+"from": "TXU Energy <txu@notifications.txu.com>",
+"subj": "Your payment's complete",
+"amts": [
+"$261.76"
+],
+"att": []
+},
+{
+"vendor": "TXU",
+"id": "19f984ffa91befa3",
+"d": "2026-07-25",
+"from": "TXU Energy <txu@notifications.txu.com>",
+"subj": "Your payment's complete",
+"amts": [
+"$102.16"
+],
+"att": []
+},
+{
+"vendor": "Waxahachie Water",
+"id": "19f958b0b0fccddc",
+"d": "2026-07-24",
+"from": "Erin Striplin <Erin@bisontitletx.com>",
+"subj": "1616 Granite Way, Waxahachie, Tx.",
+"amts": [],
+"att": [
+"seller cd.pdf"
+]
+},
+{
+"vendor": "Waxahachie Water",
+"id": "19f8f762138eee10",
+"d": "2026-07-23",
+"from": "Brooke Boyd <brooke@bisontitletx.com>",
+"subj": "280 Sparkling Springs Dr., Waxahachie, TX 75165",
+"amts": [],
+"att": [
+"260725 Cmt..PDF",
+"DOC854.pdf"
+]
+},
+{
+"vendor": "Waxahachie Water",
+"id": "19fd21e30dac429c",
+"d": "2026-08-05",
+"from": "Brooke Boyd <brooke@bisontitletx.com>",
+"subj": "RE: 280 Sparkling Springs Dr., Waxahachie, TX 75165",
+"amts": [],
+"att": [
+"DOC895.pdf"
+]
+},
+{
+"vendor": "Energy Texas",
+"id": "19f8b403be780fe7",
+"d": "2026-07-22",
+"from": "Energy Texas <hello@email.energytexas.com>",
+"subj": "Energy Texas Weekly Usage Report: You used 32% less electricity last week.",
+"amts": [
+"$100.62",
+"$147.73",
+"$401.21",
+"$371.16",
+"$335.14",
+"$66.07",
+"$30.05"
+],
+"att": []
+},
+{
+"vendor": "TXU",
+"id": "19f8a2f1ec0ca00e",
+"d": "2026-07-22",
+"from": "TXU Energy <txu@notifications.txu.com>",
+"subj": "Important: Disconnect Notice",
+"amts": [
+"$102.16"
+],
+"att": []
+},
+{
+"vendor": "Farmers",
+"id": "19f77774caf50036",
+"d": "2026-07-18",
+"from": "Farmers Insurance <noreply@policy.farmers.com>",
+"subj": "Your Farmers Insurance bill is ready to be viewed.",
+"amts": [
+"$374.58"
+],
+"att": []
+},
+{
+"vendor": "TXU",
+"id": "19f76558b21e545e",
+"d": "2026-07-18",
+"from": "TXU Energy <txu@notifications.txu.com>",
+"subj": "Your first bill's ready",
+"amts": [
+"$228.64"
+],
+"att": []
+},
+{
+"vendor": "Energy Texas",
+"id": "19f722fd0680c49b",
+"d": "2026-07-17",
+"from": "Energy Texas <hello@account.energytexas.com>",
+"subj": "Your $371.16 bill set for Auto Pay on August 3, 2026 is now available",
+"amts": [
+"$371.16"
+],
+"att": []
+},
+{
+"vendor": "Home Depot",
+"id": "19f6cc0e1cf85b8e",
+"d": "2026-07-16",
+"from": "Home Depot Pro Xtra <homedepotpro@mg.homedepot.com>",
+"subj": "CORRECTED June 2026 Pro Xtra Statement is Here",
+"amts": [],
+"att": []
+},
+{
+"vendor": "TXU",
+"id": "19f6ca190ea84909",
+"d": "2026-07-16",
+"from": "TXU Energy <txu@notifications.txu.com>",
+"subj": "Your bill\u2019s ready",
+"amts": [
+"$202.21"
+],
+"att": []
+},
+{
+"vendor": "Waxahachie Water",
+"id": "19f6b62d3d65e926",
+"d": "2026-07-16",
+"from": "utilitybilling@waxahachie.com",
+"subj": "City of Waxachie Utility Bill",
+"amts": [],
+"att": [
+"UtilityBill.pdf"
+]
+},
+{
+"vendor": "Energy Texas",
+"id": "19f6917d9abf12ec",
+"d": "2026-07-15",
+"from": "Energy Texas <hello@email.energytexas.com>",
+"subj": "Energy Texas Weekly Usage Report: You used 102% more electricity last week.",
+"amts": [
+"$147.73",
+"$73.60",
+"$394.50",
+"$226.82",
+"$28.09",
+"$366.41",
+"$167.68"
+],
+"att": []
+},
+{
+"vendor": "Atmos",
+"id": "19f6822d74e813b1",
+"d": "2026-07-15",
+"from": "\"DoNotReply@atmosenergy.com\" <DoNotReply@atmosenergy.com>",
+"subj": "Your Atmos Energy Bill is Available online",
+"amts": [],
+"att": []
+},
+{
+"vendor": "Home Depot",
+"id": "19f6135b60fc7d21",
+"d": "2026-07-14",
+"from": "Home Depot Pro Xtra <homedepotpro@mg.homedepot.com>",
+"subj": "Your June 2026 Pro Xtra Statement is Here",
+"amts": [],
+"att": []
+},
+{
+"vendor": "Atmos",
+"id": "19f5c69b526443f8",
+"d": "2026-07-13",
+"from": "Atmos Energy <DoNotReply@atmosenergy.com>",
+"subj": "Your Atmos Energy payment has been received",
+"amts": [
+"$31.60"
+],
+"att": []
+},
+{
+"vendor": "Atmos",
+"id": "19f5c70b17708012",
+"d": "2026-07-13",
+"from": "Paul Bjork <paul@recast-properties.com>",
+"subj": "Fwd: Your Atmos Energy payment has been received",
+"amts": [
+"$31.60"
+],
+"att": []
+},
+{
+"vendor": "Atmos",
+"id": "19f5c715c8a871bd",
+"d": "2026-07-13",
+"from": "Paul Bjork <paul@recast-properties.com>",
+"subj": "Fwd: Your Atmos Energy payment has been received",
+"amts": [
+"$31.60"
+],
+"att": []
+},
+{
+"vendor": "TXU",
+"id": "19f4dc148e0092bb",
+"d": "2026-07-10",
+"from": "TXU Energy <txu@notifications.txu.com>",
+"subj": "Your first bill's ready",
+"amts": [
+"$63.23"
+],
+"att": []
+},
+{
+"vendor": "Netlify",
+"id": "19f48845f580eab6",
+"d": "2026-07-09",
+"from": "Netlify <noreply@netlify.com>",
+"subj": "Turn AI builds into billable client work: live July 15",
+"amts": [],
+"att": []
+},
+{
+"vendor": "Energy Texas",
+"id": "19f44fa650a32c2d",
+"d": "2026-07-08",
+"from": "Energy Texas <hello@email.energytexas.com>",
+"subj": "Energy Texas Weekly Usage Report: You used 4% more electricity last week.",
+"amts": [
+"$73.60",
+"$70.32",
+"$349.99",
+"$226.82",
+"$124.76",
+"$225.23",
+"$123.17"
+],
+"att": []
+},
+{
+"vendor": "Home Depot",
+"id": "19f436ff2283f5a9",
+"d": "2026-07-08",
+"from": "The Home Depot <HomeDepotPro@order.homedepot.com>",
+"subj": "Delivery Complete! - Appliance Order # H6505-462260",
+"amts": [],
+"att": []
+},
+{
+"vendor": "Home Depot",
+"id": "19f43701bd3a51a9",
+"d": "2026-07-08",
+"from": "The Home Depot <HomeDepotPro@order.homedepot.com>",
+"subj": "Delivery Complete! - Appliance Order # H6505-462260",
+"amts": [],
+"att": []
+},
+{
+"vendor": "Waxahachie Water",
+"id": "19f3d11f180e3107",
+"d": "2026-07-07",
+"from": "Brooke Boyd <brooke@bisontitletx.com>",
+"subj": "1616 Granite Way, Waxahachie, TX 75165",
+"amts": [],
+"att": [
+"260648 Cmt..PDF"
+]
+},
+{
+"vendor": "Waxahachie Water",
+"id": "19f5cd5327d95054",
+"d": "2026-07-13",
+"from": "Brooke Boyd <brooke@bisontitletx.com>",
+"subj": "RE: 1616 Granite Way, Waxahachie, TX 75165",
+"amts": [],
+"att": [
+"260648 Cmt..PDF",
+"133260 (1).pdf"
+]
+},
+{
+"vendor": "Waxahachie Water",
+"id": "19f6131b5edb00ce",
+"d": "2026-07-14",
+"from": "Brooke Boyd <brooke@bisontitletx.com>",
+"subj": "RE: 1616 Granite Way, Waxahachie, TX 75165",
+"amts": [],
+"att": [
+"DOC823.pdf"
+]
+},
+{
+"vendor": "CoreLogic",
+"id": "19f3911357838426",
+"d": "2026-07-06",
+"from": "<billing@corelogic.com>",
+"subj": "Property Intelligence Invoice #30883298",
+"amts": [],
+"att": []
+},
+{
+"vendor": "Energy Texas",
+"id": "19f375f8247cbbeb",
+"d": "2026-07-06",
+"from": "Energy Texas <hello@account.energytexas.com>",
+"subj": "All set! We received your payment through Auto Pay.",
+"amts": [
+"$226.82"
+],
+"att": []
+},
+{
+"vendor": "Lowes",
+"id": "19f375c1920ad367",
+"d": "2026-07-06",
+"from": "\"Lowe's Home Improvement\" <do-not-reply@receipt.lowes.com>",
+"subj": "Your Lowe's Purchase Receipt",
+"amts": [
+"$21.98",
+"$39.98",
+"$83.94",
+"$6.93",
+"$90.87",
+"$0.00"
+],
+"att": []
+},
+{
+"vendor": "Lowes",
+"id": "19f37c0ae62c6fa2",
+"d": "2026-07-06",
+"from": "\"Lowe's Home Improvement\" <do-not-reply@receipt.lowes.com>",
+"subj": "Your Lowe's Purchase Receipt",
+"amts": [
+"$21.98",
+"$1.81",
+"$23.79",
+"$0.00"
+],
+"att": []
+},
+{
+"vendor": "Home Depot",
+"id": "19f3550af5c7d659",
+"d": "2026-07-05",
+"from": "The Home Depot <HomeDepotPro@order.homedepot.com>",
+"subj": "Appliance Delivery Rescheduled for Wednesday, July 8",
+"amts": [
+"$596.54",
+"$43.28"
+],
+"att": []
+},
+{
+"vendor": "Home Depot",
+"id": "19f349e6f3262b37",
+"d": "2026-07-05",
+"from": "The Home Depot <HomeDepotPro@order.homedepot.com>",
+"subj": "Appliance Delivery Scheduled for Monday,  July 6",
+"amts": [
+"$596.54",
+"$43.28"
+],
+"att": []
+},
+{
+"vendor": "TXU",
+"id": "19f2814b497d9ce6",
+"d": "2026-07-03",
+"from": "TXU Energy <txu@mail.txu.com>",
+"subj": "Pauil, save more on summer bills each month",
+"amts": [],
+"att": []
+},
+{
+"vendor": "Home Depot",
+"id": "19f26674a8638416",
+"d": "2026-07-03",
+"from": "The Home Depot <HomeDepotPro@order.homedepot.com>",
+"subj": "Prep for Appliance Delivery! - Order # H6505-462260",
+"amts": [
+"$596.54",
+"$43.28"
+],
+"att": []
+},
+{
+"vendor": "TXU",
+"id": "19f25012d4d53e5c",
+"d": "2026-07-02",
+"from": "TXU Energy <txu@notifications.txu.com>",
+"subj": "Your first bill's ready",
+"amts": [
+"$102.16"
+],
+"att": []
+},
+{
+"vendor": "Energy Texas",
+"id": "19f2229a3a700853",
+"d": "2026-07-02",
+"from": "Energy Texas <hello@email.energytexas.com>",
+"subj": "Energy Texas Weekly Usage Report: You used 9% less electricity last week.",
+"amts": [
+"$65.45",
+"$72.28",
+"$324.82",
+"$226.82",
+"$199.02",
+"$125.80",
+"$98.00"
+],
+"att": []
+},
+{
+"vendor": "Home Depot",
+"id": "19f1ecf847d89a4c",
+"d": "2026-07-01",
+"from": "The Home Depot <HomeDepot@order.homedepot.com>",
+"subj": "Hi Paul, your Home Depot receipt for # H6505-462260 is here",
+"amts": [],
+"att": [
+"H6505-462260 WillCall-Delivery CSA.pdf",
+"H6505-462260 Receipt.pdf"
+]
+},
+{
+"vendor": "Home Depot",
+"id": "19f1ecf764a2082b",
+"d": "2026-07-01",
+"from": "The Home Depot <HomeDepotPro@order.homedepot.com>",
+"subj": "Order confirmed. We're processing your order now!",
+"amts": [
+"$596.54",
+"$43.28",
+"$638.98",
+"-$47.92",
+"$48.76",
+"$639.82",
+"$47.92"
+],
+"att": []
+},
+{
+"vendor": "Atmos",
+"id": "1a04a4f00e50c9a0",
+"d": "2026-08-28",
+"from": "Atmos Energy <DoNotReply@atmosenergy.com>",
+"subj": "Your Atmos Energy bill is due",
+"amts": [
+"$31.60"
+],
+"att": []
+},
+{
+"vendor": "TXU",
+"id": "1a03ea2504c044ed",
+"d": "2026-08-26",
+"from": "TXU Energy <txu@notifications.txu.com>",
+"subj": "Your payment's complete",
+"amts": [
+"$88.72"
+],
+"att": []
+},
+{
+"vendor": "TXU",
+"id": "1a03e83550f46dab",
+"d": "2026-08-26",
+"from": "TXU Energy <txu@notifications.txu.com>",
+"subj": "Important: Disconnect Notice",
+"amts": [
+"$88.72"
+],
+"att": []
+},
+{
+"vendor": "Energy Texas",
+"id": "1a03c985bdca98fb",
+"d": "2026-08-26",
+"from": "Energy Texas <hello@email.energytexas.com>",
+"subj": "Energy Texas Weekly Usage Report: You used 10% more electricity last week.",
+"amts": [
+"$120.79",
+"$109.18",
+"$438.88",
+"$484.43",
+"$280.45",
+"$158.43",
+"-$45.55"
+],
+"att": []
+},
+{
+"vendor": "TXU",
+"id": "1a024bdf36f04195",
+"d": "2026-08-21",
+"from": "TXU Energy <txu@notifications.txu.com>",
+"subj": "Your payment's complete",
+"amts": [
+"$164.02"
+],
+"att": []
+},
+{
+"vendor": "TXU",
+"id": "1a024a29d8e39edc",
+"d": "2026-08-21",
+"from": "TXU Energy <txu@notifications.txu.com>",
+"subj": "Important: Disconnect Notice",
+"amts": [
+"$164.02"
+],
+"att": []
+},
+{
+"vendor": "Energy Texas",
+"id": "1a01885db99b1a7b",
+"d": "2026-08-19",
+"from": "Energy Texas <hello@email.energytexas.com>",
+"subj": "Energy Texas Weekly Usage Report: You used 36% more electricity last week.",
+"amts": [
+"$109.18",
+"$80.21",
+"$403.46",
+"$484.43",
+"$370.04",
+"$33.42",
+"-$80.97"
+],
+"att": []
+},
+{
+"vendor": "Farmers",
+"id": "1a0171c7397e3e20",
+"d": "2026-08-18",
+"from": "Farmers Insurance <noreply@policy.farmers.com>",
+"subj": "Your Farmers Insurance bill is ready to be viewed.",
+"amts": [
+"$374.58"
+],
+"att": []
+},
+{
+"vendor": "Farmers",
+"id": "1a0175f56f3778e3",
+"d": "2026-08-18",
+"from": "Paul Bjork <paul@recast-properties.com>",
+"subj": "Fwd: Your Farmers Insurance bill is ready to be viewed.",
+"amts": [
+"$374.58"
+],
+"att": []
+},
+{
+"vendor": "Waxahachie Water",
+"id": "1a016b2550cd44d5",
+"d": "2026-08-18",
+"from": "utilitybilling@waxahachietx.gov",
+"subj": "City of Waxachie Utility Bill",
+"amts": [],
+"att": [
+"UtilityBill.pdf"
+]
+},
+{
+"vendor": "Waxahachie Water",
+"id": "1a016b2fac76a50d",
+"d": "2026-08-18",
+"from": "utilitybilling@waxahachietx.gov",
+"subj": "City of Waxachie Utility Bill",
+"amts": [],
+"att": [
+"UtilityBill.pdf"
+]
+},
+{
+"vendor": "TXU",
+"id": "1a016949d078f6cf",
+"d": "2026-08-18",
+"from": "TXU Energy <txu@notifications.txu.com>",
+"subj": "Your payment's complete",
+"amts": [
+"$213.64"
+],
+"att": []
+},
+{
+"vendor": "Energy Texas",
+"id": "1a011d9697ffbad1",
+"d": "2026-08-17",
+"from": "Energy Texas <hello@account.energytexas.com>",
+"subj": "Your $484.43 bill set for Auto Pay on September 3, 2026 is now available",
+"amts": [
+"$484.43"
+],
+"att": []
+},
+{
+"vendor": "Atmos",
+"id": "1a002503a4424f00",
+"d": "2026-08-14",
+"from": "\"DoNotReply@atmosenergy.com\" <DoNotReply@atmosenergy.com>",
+"subj": "Your Atmos Energy Bill is Available online",
+"amts": [],
+"att": []
+},
+{
+"vendor": "Energy Texas",
+"id": "19ff46d4551320c0",
+"d": "2026-08-12",
+"from": "Energy Texas <hello@email.energytexas.com>",
+"subj": "Energy Texas Weekly Usage Report: You used 44% less electricity last week.",
+"amts": [
+"$80.21",
+"$142.48",
+"$482.74",
+"$371.16",
+"$70.34",
+"$412.40",
+"$111.58"
+],
+"att": []
+},
+{
+"vendor": "Home Depot",
+"id": "19ff1597dc2d7503",
+"d": "2026-08-11",
+"from": "Home Depot Pro Xtra <homedepotpro@mg.homedepot.com>",
+"subj": "Your July 2026 Pro Xtra Statement is Here",
+"amts": [],
+"att": []
+},
+{
+"vendor": "Atmos",
+"id": "19fec5f18b47c52a",
+"d": "2026-08-10",
+"from": "Atmos Energy <DoNotReply@atmosenergy.com>",
+"subj": "Your Atmos Energy payment has been received",
+"amts": [
+"$35.79"
+],
+"att": []
+},
+{
+"vendor": "Atmos",
+"id": "19fecb165d82bda8",
+"d": "2026-08-10",
+"from": "Paul Bjork <paul@recast-properties.com>",
+"subj": "Fwd: Your Atmos Energy payment has been received",
+"amts": [
+"$35.79"
+],
+"att": []
+},
+{
+"vendor": "TXU",
+"id": "19fe28c257dea81c",
+"d": "2026-08-08",
+"from": "TXU Energy <txu@notifications.txu.com>",
+"subj": "Your bill\u2019s ready",
+"amts": [
+"$88.72"
+],
+"att": []
+},
+{
+"vendor": "TXU",
+"id": "19fe29270591d10e",
+"d": "2026-08-08",
+"from": "TXU Energy <txu@notifications.txu.com>",
+"subj": "Your bill\u2019s ready",
+"amts": [
+"$213.64"
+],
+"att": []
+},
+{
+"vendor": "CoreLogic",
+"id": "19fd7d4ee3154fea",
+"d": "2026-08-06",
+"from": "<billing@corelogic.com>",
+"subj": "Property Intelligence Invoice #30889149",
+"amts": [],
+"att": []
+},
+{
+"vendor": "Waxahachie Water",
+"id": "19fd7d003d5f97dd",
+"d": "2026-08-06",
+"from": "Brooke Boyd <brooke@bisontitletx.com>",
+"subj": "Seller CD - 280 Sparkling Springs Dr., Waxahachie",
+"amts": [],
+"att": [
+"260725 Seller CD..PDF"
+]
+},
+{
+"vendor": "TXU",
+"id": "19fd4f099b40700b",
+"d": "2026-08-05",
+"from": "TXU Energy <txu@notifications.txu.com>",
+"subj": "Your payment's complete",
+"amts": [
+"$228.64"
+],
+"att": []
+},
+{
+"vendor": "Energy Texas",
+"id": "19fd39a1a3aa5702",
+"d": "2026-08-05",
+"from": "Energy Texas <hello@email.energytexas.com>",
+"subj": "Energy Texas Weekly Usage Report: Your energy usage summary.",
+"amts": [
+"$142.48",
+"$143.55",
+"$494.53",
+"$371.16",
+"$154.41",
+"$340.12",
+"$123.37"
+],
+"att": []
+},
+{
+"vendor": "Waxahachie Water",
+"id": "19fd2b4c23045ac9",
+"d": "2026-08-05",
+"from": "\"Auction.com\" <noreply@auction.com>",
+"subj": "CONGRATULATIONS Paul, you are the Winning Bidder for 366 Mesa Rd, Waxahachie, TX 75167!",
+"amts": [],
+"att": [
+"cos.pdf"
+]
+},
+{
+"vendor": "TXU",
+"id": "19fd276a81969da5",
+"d": "2026-08-05",
+"from": "TXU Energy <txu@notifications.txu.com>",
+"subj": "Important: Disconnect Notice",
+"amts": [
+"$228.64"
+],
+"att": []
+},
+{
+"vendor": "Waxahachie Water",
+"id": "19fcda01a9e3b0f8",
+"d": "2026-08-04",
+"from": "\"Auction.com\" <noreply@auction.com>",
+"subj": "CONGRATULATIONS Paul, you are the Winning Bidder for 366 Mesa Rd, Waxahachie, TX 75167!",
+"amts": [],
+"att": [
+"cos.pdf"
+]
+},
+{
+"vendor": "Waxahachie Water",
+"id": "19fcd8b6a41c108a",
+"d": "2026-08-04",
+"from": "\"Auction.com\" <noreply@auction.com>",
+"subj": "Cleared - 366 Mesa Rd, Waxahachie, TX 75167",
+"amts": [
+"$123,644.32"
+],
+"att": []
+},
+{
+"vendor": "TXU",
+"id": "19fc94ab6c53f72a",
+"d": "2026-08-03",
+"from": "TXU Energy <txu@notifications.txu.com>",
+"subj": "Your bill\u2019s ready",
+"amts": [
+"$164.02"
+],
+"att": []
+},
+{
+"vendor": "Waxahachie Water",
+"id": "19fc8e6ae69a583c",
+"d": "2026-08-03",
+"from": "\"Auction.com\" <noreply@auction.com>",
+"subj": "Cleared - 208 Audra Ave, Waxahachie, TX 75165",
+"amts": [
+"$151,843.02"
+],
+"att": []
+},
+{
+"vendor": "Energy Texas",
+"id": "19fc8c85fa0344c2",
+"d": "2026-08-03",
+"from": "Energy Texas <hello@account.energytexas.com>",
+"subj": "All set! We received your payment through Auto Pay.",
+"amts": [
+"$371.16"
+],
+"att": []
+},
+{
+"vendor": "TXU",
+"id": "19fbd6f62ead3153",
+"d": "2026-08-01",
+"from": "TXU Energy <txu@notifications.txu.com>",
+"subj": "Easy ways to pay your bill, Pauil",
+"amts": [],
+"att": []
+},
+{
+"vendor": "Energy Texas",
+"id": "1a0aa18259b1877d",
+"d": "2026-09-16",
+"from": "Energy Texas <hello@email.energytexas.com>",
+"subj": "Energy Texas Weekly Usage Report: You used 15% more electricity last week.",
+"amts": [
+"$141.35",
+"$122.38",
+"$523.57",
+"$484.43",
+"$39.14"
+],
+"att": []
+},
+{
+"vendor": "CoreLogic",
+"id": "1a0a73ce436f1651",
+"d": "2026-09-15",
+"from": "CoreLogic Inc <receipts+acct_1KHD18LQtprQmMKm@stripe.com>",
+"subj": "Your CoreLogic Inc receipt [#1520-7474]",
+"amts": [
+"$435.00"
+],
+"att": []
+},
+{
+"vendor": "Atmos",
+"id": "1a0a71a191684dbf",
+"d": "2026-09-15",
+"from": "\"DoNotReply@atmosenergy.com\" <DoNotReply@atmosenergy.com>",
+"subj": "Your Atmos Energy Bill is Available online",
+"amts": [],
+"att": []
+},
+{
+"vendor": "TXU",
+"id": "1a091043bc28193b",
+"d": "2026-09-11",
+"from": "TXU Energy <txu@notifications.txu.com>",
+"subj": "Your payment's complete",
+"amts": [
+"$204.98"
+],
+"att": []
+},
+{
+"vendor": "TXU",
+"id": "1a09106de791b545",
+"d": "2026-09-11",
+"from": "TXU Energy <txu@notifications.txu.com>",
+"subj": "Your payment's complete",
+"amts": [
+"$118.12"
+],
+"att": []
+},
+{
+"vendor": "TXU",
+"id": "1a08d1dbd6b1ae96",
+"d": "2026-09-10",
+"from": "TXU Energy <txu@notifications.txu.com>",
+"subj": "Your bill\u2019s ready",
+"amts": [
+"$118.12"
+],
+"att": []
+},
+{
+"vendor": "Waxahachie Water",
+"id": "1a08cb6008c15bf3",
+"d": "2026-09-10",
+"from": "\"Homes.com\" <homes@email.homes.com>",
+"subj": "Your Listing Boost Confirmation for 469 Brushwood Ln, Waxahachie, TX 75165",
+"amts": [
+"$29.29",
+"$384.29"
+],
+"att": []
+},
+{
+"vendor": "Waxahachie Water",
+"id": "1a08cc97931c685b",
+"d": "2026-09-10",
+"from": "Paul Bjork <paul@recast-properties.com>",
+"subj": "Fwd: Your Listing Boost Confirmation for 469 Brushwood Ln, Waxahachie, TX 75165",
+"amts": [
+"$29.29",
+"$384.29"
+],
+"att": []
+},
+{
+"vendor": "Home Depot",
+"id": "1a08bd7cff9b2ac9",
+"d": "2026-09-10",
+"from": "Home Depot Pro Xtra <homedepotpro@mg.homedepot.com>",
+"subj": "Your August 2026 Pro Xtra Statement is Here",
+"amts": [],
+"att": []
+},
+{
+"vendor": "Waxahachie Water",
+"id": "1a088f98cadfe747",
+"d": "2026-09-09",
+"from": "MissionREG Office <office.missionreg@gmail.com>",
+"subj": "Agent View 469 Brushwood Ln Waxahachie MLS Listing",
+"amts": [],
+"att": [
+"Agent View 469 Brushwood Ln Waxahachie.p"
+]
+},
+{
+"vendor": "Waxahachie Water",
+"id": "1a08b38573bb477d",
+"d": "2026-09-10",
+"from": "Paul Bjork <paul@recast-properties.com>",
+"subj": "Re: Agent View 469 Brushwood Ln Waxahachie MLS Listing",
+"amts": [],
+"att": [
+"469 Brushwood Photos 3.zip"
+]
+},
+{
+"vendor": "Waxahachie Water",
+"id": "1a08b7d60106e1f7",
+"d": "2026-09-10",
+"from": "MissionREG Office <office.missionreg@gmail.com>",
+"subj": "Re: Agent View 469 Brushwood Ln Waxahachie MLS Listing",
+"amts": [],
+"att": [
+"Agent View 469 Brushwood Ln Waxahachie 0"
+]
+},
+{
+"vendor": "Energy Texas",
+"id": "1a085dcbbb93ff7c",
+"d": "2026-09-09",
+"from": "Energy Texas <hello@email.energytexas.com>",
+"subj": "Energy Texas Weekly Usage Report: You used 42% more electricity last week.",
+"amts": [
+"$122.38",
+"$86.15",
+"$478.45",
+"$484.43",
+"$96.33",
+"$382.12",
+"-$5.98"
+],
+"att": []
+},
+{
+"vendor": "Lowes",
+"id": "1a06da589b0fc446",
+"d": "2026-09-04",
+"from": "\"Lowe's Home Improvement\" <do-not-reply@receipt.lowes.com>",
+"subj": "Your Lowe's Purchase Receipt",
+"amts": [
+"$125.00",
+"$12.98",
+"$39.98",
+"$79.96",
+"$6.98",
+"$13.48",
+"$11.48",
+"$249.88",
+"$20.62",
+"$270.50",
+"$0.00"
+],
+"att": []
+},
+{
+"vendor": "Home Depot",
+"id": "1a06ce993c35aed2",
+"d": "2026-09-04",
+"from": "The Home Depot <HomeDepotPro@order.homedepot.com>",
+"subj": "Delivery Complete! - Appliance Order # H6505-471709",
+"amts": [],
+"att": []
+},
+{
+"vendor": "Home Depot",
+"id": "1a0698e1f30ef14c",
+"d": "2026-09-03",
+"from": "The Home Depot <HomeDepotPro@order.homedepot.com>",
+"subj": "Appliance Delivery Scheduled for Friday,  Sep 4",
+"amts": [
+"$297.77"
+],
+"att": []
+},
+{
+"vendor": "CoreLogic",
+"id": "1a06877a765d05a1",
+"d": "2026-09-03",
+"from": "<billing@corelogic.com>",
+"subj": "Property Intelligence Invoice #30902041",
+"amts": [],
+"att": []
+},
+{
+"vendor": "Energy Texas",
+"id": "1a066c4d6b0da9a5",
+"d": "2026-09-03",
+"from": "Energy Texas <hello@account.energytexas.com>",
+"subj": "All set! We received your payment through Auto Pay.",
+"amts": [
+"$484.43"
+],
+"att": []
+},
+{
+"vendor": "Telnyx",
+"id": "1a0661d7af859910",
+"d": "2026-09-03",
+"from": "portal@telnyx.com",
+"subj": "[Telnyx] Low Balance Alert",
+"amts": [
+"$0.00"
+],
+"att": []
+},
+{
+"vendor": "Energy Texas",
+"id": "1a065419ca8dfcf1",
+"d": "2026-09-02",
+"from": "Energy Texas <hello@email.energytexas.com>",
+"subj": "Energy Texas Weekly Usage Report: You used 28% less electricity last week.",
+"amts": [
+"$86.15",
+"$120.79",
+"$432.02",
+"$484.43",
+"$181.73",
+"$250.29",
+"-$52.41"
+],
+"att": []
+},
+{
+"vendor": "TXU",
+"id": "1a064647233912fe",
+"d": "2026-09-02",
+"from": "TXU Energy <txu@notifications.txu.com>",
+"subj": "Your bill\u2019s ready",
+"amts": [
+"$204.98"
+],
+"att": []
+},
+{
+"vendor": "Telnyx",
+"id": "1a06388e9a933d46",
+"d": "2026-09-02",
+"from": "portal@telnyx.com",
+"subj": "[Telnyx] Low Balance Alert",
+"amts": [
+"$0.00"
+],
+"att": []
+},
+{
+"vendor": "Home Depot",
+"id": "1a062424484c8cd4",
+"d": "2026-09-02",
+"from": "The Home Depot <HomeDepotPro@order.homedepot.com>",
+"subj": "Prep for Appliance Delivery! - Order # H6505-471709",
+"amts": [
+"$297.77"
+],
+"att": []
+},
+{
+"vendor": "Home Depot",
+"id": "1a062394cc824fbc",
+"d": "2026-09-02",
+"from": "The Home Depot <HomeDepot@order.homedepot.com>",
+"subj": "Hi Paul, your Home Depot receipt for # H6505-471709 is here",
+"amts": [],
+"att": [
+"H6505-471709 WillCall-Delivery CSA.pdf",
+"H6505-471709 Receipt.pdf"
+]
+},
+{
+"vendor": "Home Depot",
+"id": "1a06239389b9e11b",
+"d": "2026-09-02",
+"from": "The Home Depot <HomeDepotPro@order.homedepot.com>",
+"subj": "Order confirmed. We're processing your order now!",
+"amts": [
+"$297.77",
+"$299.00",
+"-$23.92",
+"$25.91",
+"$339.99",
+"$23.92"
+],
+"att": []
+},
+{
+"vendor": "Waxahachie Water",
+"id": "1a05e9d315db0d45",
+"d": "2026-09-01",
+"from": "Paul Bjork <paul@recast-properties.com>",
+"subj": "469 Brushwood Waxahachie Tx 75165",
+"amts": [],
+"att": [
+"listing_2104279_contract_146197_v5_certi"
+]
+},
+{
+"vendor": "Waxahachie Water",
+"id": "1a05da58f1be77c4",
+"d": "2026-09-01",
+"from": "\"Auction.com\" <noreply@auction.com>",
+"subj": "CONGRATULATIONS Paul, you are the Winning Bidder for 469 Brushwood Lane, Waxahachie, TX 75165!",
+"amts": [],
+"att": [
+"cos.pdf"
+]
+},
+{
+"vendor": "Telnyx",
+"id": "1a05bd73433a7f80",
+"d": "2026-09-01",
+"from": "portal@telnyx.com",
+"subj": "[Telnyx] Low Balance Alert",
+"amts": [
+"$0.00"
+],
+"att": []
+},
+{
+"vendor": "Telnyx",
+"id": "1a05e61975874cde",
+"d": "2026-09-01",
+"from": "portal@telnyx.com",
+"subj": "[Telnyx] Low Balance Alert",
+"amts": [
+"$0.00"
+],
+"att": []
+},
+{
+"vendor": "Telnyx",
+"id": "1a060f4b44a09df2",
+"d": "2026-09-02",
+"from": "portal@telnyx.com",
+"subj": "[Telnyx] Low Balance Alert",
+"amts": [
+"$0.00"
+],
+"att": []
+}
+]
+}

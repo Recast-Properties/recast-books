@@ -129,3 +129,27 @@ messages ≈ 50 reads ≈ **$10**, on top of §4.
   purchase + credit. Comparison is therefore on net per vendor per day; the new books carry
   gross + credit; unexplained net gaps are the findings. Home Depot Pro Xtra purchase history
   (CSV) and card statements are the secondary sources.
+
+## 8 · paul@ mailbox listing, 2026-09-17 (`listBooksMail`, 5 parts, read-only)
+
+`data/migration/2026-09-17/gmail-listing-paul-2026-09-17.json` (3,454 messages, all of
+2026), `paul-mail-classified.json`, `paul-replay-list.json`.
+
+| bucket | messages |
+|---|---|
+| Addressed to receipts@/travel@ | 474 |
+| … of which in the old sheet (all 180 sheet ids present) | 180 |
+| … in the new system since 09-11 (all 25 present) | 25 |
+| … unfiled: receipt-shaped (66 Uber rides, 33 Paul forwards, 8 travel-gmail forwards, 9 unsure) | 123 |
+| … unfiled: junk by subject (check-in, promos, surveys, shipping notices) | 220 |
+| Vendor receipts/bills **never addressed to receipts@**, amount not on RECAST BIZ or any property tab | 93 |
+
+The 93 are the "in mail but not in the books" bucket: Home Depot 35 (the e-receipts behind
+the hand-entered tool rows), TXU 14, Atmos 12, CoreLogic 10, Lowe's 5, VistaPrint 5,
+Waxahachie Water 4, Apify 3, Telnyx 2, Energy Texas 2, Netlify 1. Utilities here may be
+bills the property tabs carry under a different amount (partial payments, autopay); the
+comparison decides.
+
+**Replay reads for paul@: 180 + 123 + 93 + 25 = 421 → ≈ $63–88** (junk dismissals read
+cheaper than posts). Still to list: properties@ (Workspace, one click as properties@) and
+the gmail.com accounts (Q-9).
