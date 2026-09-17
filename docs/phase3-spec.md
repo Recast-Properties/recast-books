@@ -93,6 +93,32 @@ travel@ with channel `statements`. Attachments of type OFX/QFX/CSV/PDF go to
 `/api/upload`; the ingest routes channel `statements` to the statement path instead of
 the receipts bookkeeper.
 
+### 6a · Daily Summary emails from Citizens — the first feed source (Paul, 2026-09-17)
+
+CNB of Texas (`alerts@cnboftexas.com`, subject **"Daily Summary"**) sends paul@ one email
+per business day for account …2505: the date, every **posted** debit and credit with the
+bank's description, the **pending** authorizations, and the **ending balance**. 28 of them
+sit in paul@ since late August 2026 (`data/migration/2026-09-17/gmail-listing-paul-2026-09-17.json`).
+Paul: "we can use those to reconcile every day."
+
+- The paul@ poller recognises the sender + subject and posts the email body to the
+  statement path with channel `bankfeed` — no attachment, no Group, no new address.
+- `lib/statement.mjs` gains a deterministic Daily Summary parser: posted lines →
+  Feed rows (`feed_id` = hash of account|date|amount|description|ordinal), the ending
+  balance → that day's `balance_cents`. Pending lines are stored as a preview
+  (`status = pending`) and replaced when they post; they never match or reconcile.
+- Matching (§3) runs per email, so a card charge or Zelle payment is matched to its
+  receipt the day after it clears, and a line unmatched for more than N days (Settings,
+  default 5) is the "receipt never forwarded" flag in the digest. The Zelle notices in the
+  same mailbox (e.g. "$500.00 to Carlos A Ibarra was sent") are the contractor payments
+  with no receipt; they resolve here, not in the receipts lane.
+- Reconciliation (§4) can tie **daily** to the emailed ending balance, and the monthly
+  statement upload becomes the check on the feed rather than the feed itself.
+- Limits: one account (…2505), late-August onward, bank only — the personal Visa and the
+  history before the alerts began still come from statement uploads (§1). Prior-day
+  balances must chain: day N's ending balance minus day N+1's net must equal day N+1's
+  ending balance, or the parser reports a gap (a missed email).
+
 ## 7 · Not built
 
 No live feed, no balance polling, no bank credentials anywhere, no Plaid. `Bank
