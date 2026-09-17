@@ -60,6 +60,13 @@ def main():
         if "uber" in vendor and "eats" not in vendor and "[personal]" in subj.lower() and m.get("verdict") == "post":
             text = " ".join([subj] + [x.get("memo") or "" for x in m.get("entries") or []] + [i.get("description") or "" for x in m.get("entries") or [] for i in x.get("items") or []])
             if not AIRPORT.search(text): o["verdict"] = "dismiss"; notes.append("D-026.4 personal ride, not an airport run")
+        # D-026.7 (2026-09-17, from the comparison): acquisition receipts (trustee/auction sale
+        # receipts) and Dennis's cash draws are not receipts-lane expenses - the old Cash
+        # Advances tab is their source and they migrate as Advances (D-011/D-022). Keep the
+        # read on record as the document, dismiss it from the ledger lane.
+        if m.get("verdict") == "post" and (re.search(r"servicelink|auction\.com|ghidotti|trustee", vendor) or (m.get("receipt_total_cents") or 0) >= 10000000
+                                             or re.fullmatch(r"\s*draw\s*", subj, re.I) or ("dennis" in vendor and "draw" in (subj + " ".join(x.get("memo") or "" for x in m.get("entries") or [])).lower())):
+            o["verdict"] = "dismiss"; notes.append("D-026.7 acquisition/advance - migrates from the Cash Advances tab")
         if UTILITY.search(vendor) and m.get("verdict") == "post":
             util_docs.append((re.sub(r"[^a-z]", "", vendor)[:10], m.get("receipt_total_cents") or 0, date, docId, mailbox,
                               "payment" if PAY_SUBJ.search(subj) or not BILL_SUBJ.search(subj) else "bill"))
