@@ -83,27 +83,12 @@ PROP-49,881 Newport,,2026-09-05,Lowes,647,Ashphalt Caulk,False
 PROP-50,881 Newport,,2026-09-09,Neighborhood Management,37500,HOA Release,False
 PROP-51,469 Brushwood,,2026-09-01,Home Depot,6162,Door Lock Set,False
 PROP-52,469 Brushwood,,2026-09-01,Waxahachie Watwr,10000,Water,False
-PROP-53,469 Brushwood,,2026-09-02,Home Depot,5409,Front Door Latch,False
-PROP-54,469 Brushwood,,2026-09-02,Home Depot,33999,Microwave,False
-PROP-55,469 Brushwood,,2026-09-02,Home Depot,-5409,REFUND: Front Door Latch,False
-PROP-56,469 Brushwood,,2026-09-02,Home Depot,1295,Waether Stripping,False
-PROP-57,469 Brushwood,,2026-09-02,Home Depot,756,Sponges,False
-PROP-58,469 Brushwood,,2026-09-02,Home Depot,816,Door Stops,False
-PROP-59,469 Brushwood,,2026-09-02,Home Depot,1080,Paint Rollers,False
-PROP-60,469 Brushwood,,2026-09-02,Home Depot,1945,Scrub Brush,False
-PROP-61,469 Brushwood,,2026-09-02,Home Depot,858,Waether Stripping,False
-PROP-62,469 Brushwood,,2026-09-02,Home Depot,1946,Concrete Degreaser,False
-PROP-63,469 Brushwood,,2026-09-02,Home Depot,647,Roller Trays,False
-PROP-64,469 Brushwood,,2026-09-02,Home Depot,1557,Paint,False
 PROP-65,469 Brushwood,,2026-09-03,Home Depot,377,Liquid Nails,False
 PROP-66,469 Brushwood,,2026-09-03,Home Depot,539,Goo Gone,False
 PROP-67,469 Brushwood,,2026-09-03,Home Depot,4655,Paint,False
 PROP-68,469 Brushwood,,2026-09-03,Floor & Decor,4241,Flooring Transition,False
 PROP-69,469 Brushwood,,2026-09-04,Home Depot,1470,Kilz Primer,False
-PROP-70,469 Brushwood,,2026-09-04,Lowes,1405,Mop,False
 PROP-71,469 Brushwood,,2026-09-04,Lowes,4328,Garage Floor Paint,False
-PROP-72,469 Brushwood,,2026-09-04,Lowes,756,Paint Roller,False
-PROP-73,469 Brushwood,,2026-09-04,Lowes,1459,Caulk,False
 PROP-74,469 Brushwood,,2026-09-05,Lowes,810,Spray Paint,False
 PROP-75,469 Brushwood,,2026-09-07,Home Depot,4155,Stain,False
 PROP-76,469 Brushwood,,2026-09-06,Home Depot,3241,Brushes,False
@@ -125,7 +110,6 @@ PROP-91,366 Mesa,,2026-08-28,Juanito -  Check 1147,200000,Painting,False
 PROP-92,366 Mesa,,2026-08-26,James Haroce,150000,Siding ,False
 PROP-93,366 Mesa,,2026-08-18,Carlos,22000,Soffit,False
 PROP-94,366 Mesa,,2026-08-18,Home Depot,118,Pipe coupling,False
-PROP-95,366 Mesa,,2026-09-02,Home Depot,2072,?,False
 PROP-96,366 Mesa,,2026-08-03,Home Depot,1966,?,False
 PROP-97,366 Mesa,,2026-08-11,Amazon,3659,Door Lock,False
 PROP-98,366 Mesa,,2026-08-13,Home Depot,14789,5/4 PT Siding Trim,False
@@ -515,13 +499,11 @@ PROP-558,104 Ashburne,,2026-06-18,Armandre Vega,55000,Bath Fan and Vent,False
 PROP-559,104 Ashburne,,2026-09-01,Keith Pfaff,5000,Irrigation Repair,False
 PROP-560,104 Ashburne,,2026-03-10,Home Depot,1691,Screws,False
 PROP-561,104 Ashburne,,2026-05-07,Shell,8243,Gas,False
-PROP-564,104 Ashburne,,2026-06-30,Home Depot,5631,Flange Covers,False
 PROP-565,104 Ashburne,,2026-09-01,Julio,15000,Labor,False
 PROP-566,104 Ashburne,,2026-03-12,Home Depot,1605,Screws,False
 PROP-567,104 Ashburne,,2026-05-08,Jiffy Lube,7351,Oil Change,False
 PROP-568,104 Ashburne,,2026-04-09,Home Depot,1619,wire connectors,False
 PROP-569,104 Ashburne,,2026-07-03,Verity Plumbing,263667,Hat Water Heater,False
-PROP-570,104 Ashburne,,2026-06-30,Home Depot,1998,Caulk,False
 PROP-571,104 Ashburne,,2026-09-05,Keith Pfaff,13500,Irrigation Repair,False
 PROP-572,104 Ashburne,,2026-03-12,Home Depot,2974,Screws,False
 PROP-573,104 Ashburne,,2026-05-08,Midlothian Municipal Counrt,28095,Traffic TIcket,False
@@ -606,8 +588,6 @@ PROP-660,104 Ashburne,,2026-06-18,Home Depot,3984,1x4,False
 PROP-661,104 Ashburne,,2026-06-18,Home Depot,485,Great Stuff,False
 PROP-662,104 Ashburne,,2026-06-18,Home Depot,340,Nuts and bolts,False
 PROP-663,104 Ashburne,,2026-06-19,Ace Hardware,2528,Screws,False
-PROP-664,104 Ashburne,,2026-06-30,Home Depot,485,Great Stuff,False
-PROP-665,104 Ashburne,,2026-06-30,Home Depot,5044,1x5,False
 PROP-666,104 Ashburne,,2026-08-11,Home Depot,1285,Batteries,False
 PROP-667,1616 Granite RECONCILED,,2026-05-18,Salvador Campos,38000,Roof,False
 PROP-668,1616 Granite RECONCILED,,2026-05-27,Home Depot,59654,Cooktop,False
@@ -616,7 +596,6 @@ PROP-670,1616 Granite RECONCILED,,2026-05-27,City of Waxahachie,10395,Water,Fals
 PROP-671,1616 Granite RECONCILED,,2026-05-27,Home Depot,377,Sponges,False
 PROP-672,1616 Granite RECONCILED,,2026-06-16,TXU,16117,Electricity,False
 PROP-673,1616 Granite RECONCILED,,2026-05-27,Home Depot,2163,Orange Peel,False
-PROP-674,1616 Granite RECONCILED,,2026-07-25,TXU,26176,Electricity,False
 PROP-675,1616 Granite RECONCILED,,2026-05-28,Home Depot,34627,Grass Seed,False
 PROP-676,1616 Granite RECONCILED,,2026-07-29,City of Waxahachie,95002,Water,False
 PROP-677,1616 Granite RECONCILED,,2026-05-28,Home Depot,1729,Landscape Fabric Staples,False
@@ -691,7 +670,6 @@ PROP-756,280 Sparkling RECONCILED,,2026-06-02,Home Depot,3401,Door Lock Set,Fals
 PROP-757,280 Sparkling RECONCILED,,2026-06-16,TXU,16117,Electricity,False
 PROP-758,280 Sparkling RECONCILED,,2026-06-17,Waxahachie Water,20000,Water,False
 PROP-759,280 Sparkling RECONCILED,,2026-08-05,TXU,22864,Electricity,False
-PROP-760,280 Sparkling RECONCILED,,2026-08-05,Waxahachie Water,18750,Water,False
 PROP-761,Sparkling for Title,,2026-06-20,Home Depot,4326,Paint Supplies,False
 PROP-762,Sparkling for Title,,2026-06-16,TXU,16117,Electricity,False
 PROP-763,Sparkling for Title,,2026-06-21,Home Depot,647,Paint Roller Trays,False
@@ -699,7 +677,6 @@ PROP-764,Sparkling for Title,,2026-06-17,Waxahachie Water,20000,Water,False
 PROP-765,Sparkling for Title,,2026-06-21,Home Depot,371,Irrigation Parts,False
 PROP-766,Sparkling for Title,,2026-08-05,TXU,22864,Electricity,False
 PROP-767,Sparkling for Title,,2026-06-22,Home Depot,3245,Drop Cloth,False
-PROP-768,Sparkling for Title,,2026-08-05,Waxahachie Water,18750,Water,False
 PROP-769,Sparkling for Title,,2026-06-22,Home Depot,1427,Celing Paint,False
 PROP-770,Sparkling for Title,,2026-06-22,Home Depot,1254,Paint,False
 PROP-771,Sparkling for Title,,2026-06-23,Home Depot,1080,Roller Covers,False
