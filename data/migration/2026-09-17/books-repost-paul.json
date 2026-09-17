@@ -30,7 +30,8 @@
 "gm-19bae03eddedc8bc": {
 "paid_from": "PAUL",
 "property": "104 Ashburne",
-"note": "D-026.2 before CNB opened; D-026.3 old tab 104 Ashburne"
+"trade": "Supplies",
+"note": "D-026.2 before CNB opened; D-026.3 old tab 104 Ashburne; D-026.8 trade Supplies"
 },
 "gm-19bbebe1e4fc35df": {
 "paid_from": "PAUL",
@@ -39,12 +40,14 @@
 "gm-19bbd77ef94aa401": {
 "paid_from": "PAUL",
 "property": "104 Ashburne",
-"note": "D-026.2 before CNB opened; D-026.3 old tab 104 Ashburne"
+"trade": "House Hardware",
+"note": "D-026.2 before CNB opened; D-026.3 old tab 104 Ashburne; D-026.8 trade House Hardware"
 },
 "gm-19bc2ac9659bedac": {
 "paid_from": "PAUL",
 "property": "104 Ashburne",
-"note": "D-026.2 before CNB opened; D-026.3 old tab 104 Ashburne"
+"trade": "Supplies",
+"note": "D-026.2 before CNB opened; D-026.3 old tab 104 Ashburne; D-026.8 trade Supplies"
 },
 "gm-19c8b34b8addc1ea": {
 "paid_from": "PAUL",
@@ -96,7 +99,8 @@
 },
 "gm-19c28c64aa9a29ea": {
 "property": "104 Ashburne",
-"note": "D-026.3 old tab 104 Ashburne"
+"trade": "House Hardware",
+"note": "D-026.3 old tab 104 Ashburne; D-026.8 trade House Hardware"
 },
 "gm-19c8b34d7d965e72": {
 "paid_from": "PAUL",
@@ -104,11 +108,13 @@
 },
 "gm-19c484998d6bf67a": {
 "property": "104 Ashburne",
-"note": "D-026.3 old tab 104 Ashburne"
+"trade": "Lighting & Electrical",
+"note": "D-026.3 old tab 104 Ashburne; D-026.8 trade Lighting & Electrical"
 },
 "gm-19c48c68567fa017": {
 "property": "104 Ashburne",
-"note": "D-026.3 old tab 104 Ashburne"
+"trade": "Master Bath",
+"note": "D-026.3 old tab 104 Ashburne; D-026.8 trade Master Bath"
 },
 "gm-19c53346e24bf709": {
 "paid_from": "PAUL",
@@ -124,7 +130,8 @@
 },
 "gm-19c576d1036e4a39": {
 "property": "104 Ashburne",
-"note": "D-026.3 old tab 104 Ashburne"
+"trade": "Supplies",
+"note": "D-026.3 old tab 104 Ashburne; D-026.8 trade Supplies"
 },
 "gm-19c5d297b5829e55": {
 "paid_from": "PAUL",
@@ -136,7 +143,8 @@
 },
 "gm-19c77b8ad0ecc11d": {
 "property": "104 Ashburne",
-"note": "D-026.3 old tab 104 Ashburne"
+"trade": "Lighting & Electrical",
+"note": "D-026.3 old tab 104 Ashburne; D-026.8 trade Lighting & Electrical"
 },
 "gm-19c76c4996bae8b0": {
 "property": "104 Ashburne",
@@ -160,11 +168,13 @@
 },
 "gm-19caba0d41d86d9b": {
 "property": "104 Ashburne",
-"note": "D-026.3 old tab 104 Ashburne"
+"trade": "Paint & Flooring",
+"note": "D-026.3 old tab 104 Ashburne; D-026.8 trade Paint & Flooring"
 },
 "gm-19cb0399a28a4bdb": {
 "property": "104 Ashburne",
-"note": "D-026.3 old tab 104 Ashburne"
+"trade": "Supplies",
+"note": "D-026.3 old tab 104 Ashburne; D-026.8 trade Supplies"
 },
 "gm-19cb8fc101144ecd": {
 "paid_from": "PAUL",
@@ -458,7 +468,8 @@
 },
 "gm-19f18a7ab38c52cf": {
 "property": "104 Ashburne",
-"note": "D-026.3 old tab 104 Ashburne"
+"trade": "Small Baths",
+"note": "D-026.3 old tab 104 Ashburne; D-026.8 trade Small Baths"
 },
 "gm-19f3911357838426": {
 "paid_from": "PAUL",
@@ -662,7 +673,8 @@
 },
 "gm-19b8f5147938f4fc": {
 "paid_from": "PAUL",
-"note": "D-026.2 before CNB opened"
+"trade": "Utilities",
+"note": "D-026.2 before CNB opened; D-026.8 trade Utilities"
 },
 "gm-19bae80800798f37": {
 "paid_from": "PAUL",
@@ -670,7 +682,8 @@
 },
 "gm-19b9ef373c8332d3": {
 "property": "104 Ashburne",
-"note": "D-026.3 old tab 104 Ashburne"
+"trade": "Cleaning",
+"note": "D-026.3 old tab 104 Ashburne; D-026.8 trade Cleaning"
 },
 "gm-19ba4950d7e2561c": {
 "paid_from": "PAUL",
@@ -678,11 +691,21 @@
 },
 "gm-19c01b786d4e78d7": {
 "paid_from": "PAUL",
-"note": "D-026.2 before CNB opened"
+"trade": "House Hardware",
+"note": "D-026.2 before CNB opened; D-026.8 trade House Hardware"
 },
 "gm-19bae832dd56cffa": {
 "paid_from": "PAUL",
-"note": "D-026.2 before CNB opened"
+"trade": "HVAC",
+"note": "D-026.2 before CNB opened; D-026.8 trade HVAC"
+},
+"gm-19ba9077d85c3222": {
+"trade": "Supplies",
+"note": "D-026.8 trade Supplies"
+},
+"gm-19ba9590cb81d5f0": {
+"trade": "HVAC",
+"note": "D-026.8 trade HVAC"
 },
 "gm-19badcf888c0b1cb": {
 "paid_from": "PAUL",
@@ -696,51 +719,77 @@
 "gm-19bb302267f0364b": {
 "paid_from": "PAUL",
 "property": "104 Ashburne",
-"note": "D-026.2 before CNB opened; D-026.3 old tab 104 Ashburne"
+"trade": "Gas/Truck/Trailer",
+"note": "D-026.2 before CNB opened; D-026.3 old tab 104 Ashburne; D-026.8 trade Gas/Truck/Trailer"
 },
 "gm-19bb34a7b73dc87b": {
 "paid_from": "PAUL",
-"note": "D-026.1 personal card 3746"
+"trade": "Trash",
+"note": "D-026.1 personal card 3746; D-026.8 trade Trash"
+},
+"gm-19bb77e42342d32c": {
+"trade": "Landscaping",
+"note": "D-026.8 trade Landscaping"
 },
 "gm-19bbcabe2cd4e9fa": {
 "paid_from": "PAUL",
 "property": "104 Ashburne",
-"note": "D-026.2 before CNB opened; D-026.3 old tab 104 Ashburne"
+"trade": "Gas/Truck/Trailer",
+"note": "D-026.2 before CNB opened; D-026.3 old tab 104 Ashburne; D-026.8 trade Gas/Truck/Trailer"
 },
 "gm-19bbd41a87b2b698": {
 "paid_from": "PAUL",
 "property": "104 Ashburne",
-"note": "D-026.2 before CNB opened; D-026.3 old tab 104 Ashburne"
+"trade": "Supplies",
+"note": "D-026.2 before CNB opened; D-026.3 old tab 104 Ashburne; D-026.8 trade Supplies"
 },
 "gm-19bbf1890ac56e0f": {
 "paid_from": "PAUL",
 "note": "D-026.2 before CNB opened"
 },
+"gm-19bc1adbcf652922": {
+"trade": "Insurance - Farmers Insurance",
+"note": "D-026.8 trade Insurance - Farmers Insurance"
+},
+"gm-19bbd023b3e85f3b": {
+"trade": "Landscaping",
+"note": "D-026.8 trade Landscaping"
+},
 "gm-19bc4405fa0bc7e5": {
 "paid_from": "PAUL",
-"note": "D-026.2 before CNB opened"
+"trade": "Chimney/FIreplace/Glass",
+"note": "D-026.2 before CNB opened; D-026.8 trade Chimney/FIreplace/Glass"
 },
 "gm-19bc2775a6872115": {
 "paid_from": "PAUL",
 "property": "104 Ashburne",
-"note": "D-026.2 before CNB opened; D-026.3 old tab 104 Ashburne"
+"trade": "Supplies",
+"note": "D-026.2 before CNB opened; D-026.3 old tab 104 Ashburne; D-026.8 trade Supplies"
+},
+"gm-19bc1e5948839629": {
+"trade": "Supplies",
+"note": "D-026.8 trade Supplies"
 },
 "gm-19bc8a7d88d9c798": {
 "paid_from": "PAUL",
 "property": "104 Ashburne",
-"note": "D-026.1 personal card 3746; D-026.3 old tab 104 Ashburne"
+"trade": "Gas/Truck/Trailer",
+"note": "D-026.1 personal card 3746; D-026.3 old tab 104 Ashburne; D-026.8 trade Gas/Truck/Trailer"
 },
 "gm-19bcc629a4d83e4e": {
 "paid_from": "PAUL",
-"note": "D-026.2 before CNB opened"
+"trade": "HVAC",
+"note": "D-026.2 before CNB opened; D-026.8 trade HVAC"
 },
 "gm-19c01b8ce2add604": {
 "paid_from": "PAUL",
-"note": "D-026.2 before CNB opened"
+"trade": "HVAC",
+"note": "D-026.2 before CNB opened; D-026.8 trade HVAC"
 },
 "gm-19c01b8a81785554": {
 "paid_from": "PAUL",
-"note": "D-026.2 before CNB opened"
+"trade": "HVAC",
+"note": "D-026.2 before CNB opened; D-026.8 trade HVAC"
 },
 "gm-19c01b85d135afa6": {
 "paid_from": "PAUL",
@@ -748,12 +797,14 @@
 },
 "gm-19c1bbf8d22774d9": {
 "paid_from": "PAUL",
-"note": "D-026.2 before CNB opened"
+"trade": "Gas/Truck/Trailer",
+"note": "D-026.2 before CNB opened; D-026.8 trade Gas/Truck/Trailer"
 },
 "gm-19c1afb3be5acff0": {
 "paid_from": "PAUL",
 "property": "104 Ashburne",
-"note": "D-026.2 before CNB opened; D-026.3 old tab 104 Ashburne"
+"trade": "Gas/Truck/Trailer",
+"note": "D-026.2 before CNB opened; D-026.3 old tab 104 Ashburne; D-026.8 trade Gas/Truck/Trailer"
 },
 "gm-19c1fc34982c2b29": {
 "paid_from": "PAUL",
@@ -761,16 +812,30 @@
 },
 "gm-19c54bfd346362be": {
 "paid_from": "PAUL",
-"note": "D-026.2 before CNB opened"
+"trade": "Master Bath",
+"note": "D-026.2 before CNB opened; D-026.8 trade Master Bath"
 },
 "gm-19c28915ee4c0912": {
 "paid_from": "PAUL",
 "note": "D-026.2 before CNB opened"
 },
+"gm-19c262a76958d691": {
+"trade": "Master Bath",
+"note": "D-026.8 trade Master Bath"
+},
 "gm-19c265b1151d57f5": {
 "paid_from": "PAUL",
 "property": "104 Ashburne",
-"note": "D-026.2 before CNB opened; D-026.3 old tab 104 Ashburne"
+"trade": "Gas/Truck/Trailer",
+"note": "D-026.2 before CNB opened; D-026.3 old tab 104 Ashburne; D-026.8 trade Gas/Truck/Trailer"
+},
+"gm-19c293d1acbe9a36": {
+"trade": "Gas/Truck/Trailer",
+"note": "D-026.8 trade Gas/Truck/Trailer"
+},
+"gm-19c3d95342917012": {
+"trade": "Insurance - Farmers Insurance",
+"note": "D-026.8 trade Insurance - Farmers Insurance"
 },
 "gm-19c3e4d6fcbb69bf": {
 "paid_from": "PAUL",
@@ -778,7 +843,8 @@
 },
 "gm-19c51f2daddbeabd": {
 "paid_from": "PAUL",
-"note": "D-026.2 before CNB opened"
+"trade": "Master Bath",
+"note": "D-026.2 before CNB opened; D-026.8 trade Master Bath"
 },
 "gm-19c51e70660fc809": {
 "paid_from": "PAUL",
@@ -786,11 +852,13 @@
 },
 "gm-19c51f0d0ef588d9": {
 "paid_from": "PAUL",
-"note": "D-026.2 before CNB opened"
+"trade": "House Hardware",
+"note": "D-026.2 before CNB opened; D-026.8 trade House Hardware"
 },
 "gm-19c488e7c2b56593": {
 "property": "104 Ashburne",
-"note": "D-026.3 old tab 104 Ashburne"
+"trade": "Lighting & Electrical",
+"note": "D-026.3 old tab 104 Ashburne; D-026.8 trade Lighting & Electrical"
 },
 "gm-19c51e93e64f8c9d": {
 "paid_from": "PAUL",
@@ -798,25 +866,33 @@
 },
 "gm-19c524ab00c8adef": {
 "property": "104 Ashburne",
-"note": "D-026.3 old tab 104 Ashburne"
+"trade": "Gas/Truck/Trailer",
+"note": "D-026.3 old tab 104 Ashburne; D-026.8 trade Gas/Truck/Trailer"
 },
 "gm-19cd04f780897c76": {
 "paid_from": "PAUL",
 "note": "D-026.2 before CNB opened"
 },
+"gm-19c57380bae96d98": {
+"trade": "Master Bath",
+"note": "D-026.8 trade Master Bath"
+},
 "gm-19c5737c9d880d55": {
 "property": "104 Ashburne",
-"note": "D-026.3 old tab 104 Ashburne"
+"trade": "Supplies",
+"note": "D-026.3 old tab 104 Ashburne; D-026.8 trade Supplies"
 },
 "gm-19c9b48187cc7444": {
 "paid_from": "PAUL",
 "property": "104 Ashburne",
-"note": "D-026.2 before CNB opened; D-026.3 old tab 104 Ashburne"
+"trade": "Supplies",
+"note": "D-026.2 before CNB opened; D-026.3 old tab 104 Ashburne; D-026.8 trade Supplies"
 },
 "gm-19c5cde22d3b278d": {
 "paid_from": "PAUL",
 "property": "104 Ashburne",
-"note": "D-026.2 before CNB opened; D-026.3 old tab 104 Ashburne"
+"trade": "Gas/Truck/Trailer",
+"note": "D-026.2 before CNB opened; D-026.3 old tab 104 Ashburne; D-026.8 trade Gas/Truck/Trailer"
 },
 "gm-19c9b4b38c3229d6": {
 "paid_from": "PAUL",
@@ -824,11 +900,13 @@
 },
 "gm-19c678226649aa40": {
 "property": "104 Ashburne",
-"note": "D-026.3 old tab 104 Ashburne"
+"trade": "Supplies",
+"note": "D-026.3 old tab 104 Ashburne; D-026.8 trade Supplies"
 },
 "gm-19c6bc67c11b5ac6": {
 "property": "104 Ashburne",
-"note": "D-026.3 old tab 104 Ashburne"
+"trade": "Gas/Truck/Trailer",
+"note": "D-026.3 old tab 104 Ashburne; D-026.8 trade Gas/Truck/Trailer"
 },
 "gm-19c6be8d0bd458c9": {
 "property": "104 Ashburne",
@@ -837,6 +915,10 @@
 "gm-19c727fe5c8e59ee": {
 "paid_from": "PAUL",
 "note": "D-026.2 before CNB opened"
+},
+"gm-19c727fc06096c89": {
+"trade": "Master Bath",
+"note": "D-026.8 trade Master Bath"
 },
 "gm-19c72800f7d3e852": {
 "paid_from": "PAUL",
@@ -849,7 +931,8 @@
 "gm-19c72576226cdb22": {
 "paid_from": "PAUL",
 "property": "104 Ashburne",
-"note": "D-026.2 before CNB opened; D-026.3 old tab 104 Ashburne"
+"trade": "Gas/Truck/Trailer",
+"note": "D-026.2 before CNB opened; D-026.3 old tab 104 Ashburne; D-026.8 trade Gas/Truck/Trailer"
 },
 "gm-19c768d3b6197026": {
 "property": "104 Ashburne",
@@ -869,11 +952,13 @@
 },
 "gm-19c7cfbc9a6c86a0": {
 "property": "104 Ashburne",
-"note": "D-026.3 old tab 104 Ashburne"
+"trade": "Gas/Truck/Trailer",
+"note": "D-026.3 old tab 104 Ashburne; D-026.8 trade Gas/Truck/Trailer"
 },
 "gm-19c7bb272d77da5a": {
 "property": "104 Ashburne",
-"note": "D-026.3 old tab 104 Ashburne"
+"trade": "Small Baths",
+"note": "D-026.3 old tab 104 Ashburne; D-026.8 trade Small Baths"
 },
 "gm-19c86e9af6ee7c6d": {
 "paid_from": "PAUL",
@@ -883,22 +968,41 @@
 "paid_from": "PAUL",
 "note": "D-026.2 before CNB opened"
 },
+"gm-19c8bf46eab10e3a": {
+"trade": "Utilities",
+"note": "D-026.8 trade Utilities"
+},
 "gm-19c9f7ea96a8f794": {
 "paid_from": "PAUL",
-"note": "D-026.2 before CNB opened"
+"trade": "Appliances",
+"note": "D-026.2 before CNB opened; D-026.8 trade Appliances"
+},
+"gm-19ca6987ecb649fd": {
+"trade": "House Hardware",
+"note": "D-026.8 trade House Hardware"
 },
 "gm-19cab7819599377d": {
 "paid_from": "PAUL",
 "note": "D-026.2 before CNB opened"
 },
+"gm-19cb1495d71c53af": {
+"trade": "Small Baths",
+"note": "D-026.8 trade Small Baths"
+},
 "gm-19cb001414554a99": {
 "property": "104 Ashburne",
-"note": "D-026.3 old tab 104 Ashburne"
+"trade": "Small Baths",
+"note": "D-026.3 old tab 104 Ashburne; D-026.8 trade Small Baths"
+},
+"gm-19cb1566e7f23282": {
+"trade": "Paint & Flooring",
+"note": "D-026.8 trade Paint & Flooring"
 },
 "gm-19cba38a160751ad": {
 "paid_from": "PAUL",
 "property": "104 Ashburne",
-"note": "D-026.2 before CNB opened; D-026.3 old tab 104 Ashburne"
+"trade": "Gas/Truck/Trailer",
+"note": "D-026.2 before CNB opened; D-026.3 old tab 104 Ashburne; D-026.8 trade Gas/Truck/Trailer"
 },
 "gm-19cbac340f4e5a7b": {
 "paid_from": "PAUL",
@@ -906,39 +1010,55 @@
 },
 "gm-19cbe988cb289b26": {
 "paid_from": "PAUL",
-"note": "D-026.2 before CNB opened"
+"trade": "Paint & Flooring",
+"note": "D-026.2 before CNB opened; D-026.8 trade Paint & Flooring"
+},
+"gm-19cbddb92c61a37a": {
+"trade": "Master Bath",
+"note": "D-026.8 trade Master Bath"
 },
 "gm-19cbe5fe4bbbc3d4": {
 "paid_from": "PAUL",
-"note": "D-026.2 before CNB opened"
+"trade": "Paint & Flooring",
+"note": "D-026.2 before CNB opened; D-026.8 trade Paint & Flooring"
 },
 "gm-19cbf798cd5a28c5": {
 "property": "104 Ashburne",
-"note": "D-026.3 old tab 104 Ashburne"
+"trade": "Lighting & Electrical",
+"note": "D-026.3 old tab 104 Ashburne; D-026.8 trade Lighting & Electrical"
 },
 "gm-19cbe5c17963dd8d": {
 "paid_from": "PAUL",
-"note": "D-026.2 before CNB opened"
+"trade": "Paint & Flooring",
+"note": "D-026.2 before CNB opened; D-026.8 trade Paint & Flooring"
 },
 "gm-19cc2d06f909de9a": {
 "paid_from": "PAUL",
-"note": "D-026.2 before CNB opened"
+"trade": "Utilities",
+"note": "D-026.2 before CNB opened; D-026.8 trade Utilities"
 },
 "gm-19cc5d6126f9b0e8": {
 "paid_from": "PAUL",
-"note": "D-026.2 before CNB opened"
+"trade": "Supplies",
+"note": "D-026.2 before CNB opened; D-026.8 trade Supplies"
 },
 "gm-19cc11e7f5b50560": {
 "property": "104 Ashburne",
-"note": "D-026.3 old tab 104 Ashburne"
+"trade": "Pool",
+"note": "D-026.3 old tab 104 Ashburne; D-026.8 trade Pool"
 },
 "gm-19cc528798a2a3e5": {
 "paid_from": "PAUL",
-"note": "D-026.2 before CNB opened"
+"trade": "House Hardware",
+"note": "D-026.2 before CNB opened; D-026.8 trade House Hardware"
 },
 "gm-19cc51b9d5d50855": {
 "paid_from": "PAUL",
 "note": "D-026.2 before CNB opened"
+},
+"gm-19cc49cbe08d9420": {
+"trade": "Kitchen",
+"note": "D-026.8 trade Kitchen"
 },
 "gm-19cc387a05beb25b": {
 "property": "104 Ashburne",
@@ -954,12 +1074,22 @@
 },
 "gm-19cc98e8a2850d78": {
 "paid_from": "PAUL",
-"note": "D-026.2 before CNB opened"
+"trade": "Master Bath",
+"note": "D-026.2 before CNB opened; D-026.8 trade Master Bath"
 },
 "gm-19cc95f39c8dcc89": {
 "paid_from": "PAUL",
 "property": "104 Ashburne",
-"note": "D-026.2 before CNB opened; D-026.3 old tab 104 Ashburne"
+"trade": "Gas/Truck/Trailer",
+"note": "D-026.2 before CNB opened; D-026.3 old tab 104 Ashburne; D-026.8 trade Gas/Truck/Trailer"
+},
+"gm-19cd4e0777d35c4c": {
+"trade": "Kitchen",
+"note": "D-026.8 trade Kitchen"
+},
+"gm-19cd8c81d22de209": {
+"trade": "Insurance - Farmers Insurance",
+"note": "D-026.8 trade Insurance - Farmers Insurance"
 },
 "gm-19cd5e3f4729e97b": {
 "paid_from": "PAUL",
@@ -975,11 +1105,13 @@
 },
 "gm-19cd8db842855d26": {
 "property": "104 Ashburne",
-"note": "D-026.3 old tab 104 Ashburne"
+"trade": "Supplies",
+"note": "D-026.3 old tab 104 Ashburne; D-026.8 trade Supplies"
 },
 "gm-19cddf3d9dcd3db2": {
 "property": "104 Ashburne",
-"note": "D-026.3 old tab 104 Ashburne"
+"trade": "Small Baths",
+"note": "D-026.3 old tab 104 Ashburne; D-026.8 trade Small Baths"
 },
 "gm-19cf195a4573ff01": {
 "paid_from": "PAUL",
@@ -987,11 +1119,17 @@
 },
 "gm-19ce39f32dd9c9c0": {
 "property": "104 Ashburne",
-"note": "D-026.3 old tab 104 Ashburne"
+"trade": "Supplies",
+"note": "D-026.3 old tab 104 Ashburne; D-026.8 trade Supplies"
 },
 "gm-19ce4d01e565051f": {
 "property": "104 Ashburne",
-"note": "D-026.3 old tab 104 Ashburne"
+"trade": "Pool",
+"note": "D-026.3 old tab 104 Ashburne; D-026.8 trade Pool"
+},
+"gm-19ce9e96ec55aec5": {
+"trade": "Lighting & Electrical",
+"note": "D-026.8 trade Lighting & Electrical"
 },
 "gm-19ce84ad1be595c1": {
 "paid_from": "PAUL",
@@ -1000,7 +1138,16 @@
 "gm-19ce7f2d328e4ac8": {
 "paid_from": "PAUL",
 "property": "104 Ashburne",
-"note": "D-026.2 before CNB opened; D-026.3 old tab 104 Ashburne"
+"trade": "Gas/Truck/Trailer",
+"note": "D-026.2 before CNB opened; D-026.3 old tab 104 Ashburne; D-026.8 trade Gas/Truck/Trailer"
+},
+"gm-19ce7245dbb4ed86": {
+"trade": "Paint & Flooring",
+"note": "D-026.8 trade Paint & Flooring"
+},
+"gm-19ce7aeac97e5535": {
+"trade": "Pool",
+"note": "D-026.8 trade Pool"
 },
 "gm-19cfcae97bf0260e": {
 "paid_from": "PAUL",
@@ -1008,11 +1155,20 @@
 },
 "gm-19cf2444d6efb00f": {
 "property": "104 Ashburne",
-"note": "D-026.3 old tab 104 Ashburne"
+"trade": "Supplies",
+"note": "D-026.3 old tab 104 Ashburne; D-026.8 trade Supplies"
+},
+"gm-19cf3177d3ee370b": {
+"trade": "Master Bath",
+"note": "D-026.8 trade Master Bath"
 },
 "gm-19cf4858a126476a": {
 "paid_from": "PAUL",
 "note": "D-026.2 before CNB opened"
+},
+"gm-19cf79150281a75a": {
+"trade": "Paint & Flooring",
+"note": "D-026.8 trade Paint & Flooring"
 },
 "gm-19cf920b5859de0b": {
 "paid_from": "PAUL",
@@ -1021,16 +1177,26 @@
 "gm-19cf81ba91c8c90f": {
 "paid_from": "PAUL",
 "property": "104 Ashburne",
-"note": "D-026.2 before CNB opened; D-026.3 old tab 104 Ashburne"
+"trade": "Gas/Truck/Trailer",
+"note": "D-026.2 before CNB opened; D-026.3 old tab 104 Ashburne; D-026.8 trade Gas/Truck/Trailer"
 },
 "gm-19cf927112794782": {
 "paid_from": "PAUL",
 "note": "D-026.2 before CNB opened"
 },
+"gm-19cf85c8d2911eb0": {
+"trade": "Small Baths",
+"note": "D-026.8 trade Small Baths"
+},
+"gm-19cfc93a35021f22": {
+"trade": "Paint & Flooring",
+"note": "D-026.8 trade Paint & Flooring"
+},
 "gm-19d013bd0045dbda": {
 "paid_from": "PAUL",
 "property": "104 Ashburne",
-"note": "D-026.2 before CNB opened; D-026.3 old tab 104 Ashburne"
+"trade": "Landscaping",
+"note": "D-026.2 before CNB opened; D-026.3 old tab 104 Ashburne; D-026.8 trade Landscaping"
 },
 "gm-19cfc60f0514c660": {
 "paid_from": "PAUL",
@@ -1040,6 +1206,14 @@
 "paid_from": "PAUL",
 "note": "D-026.2 before CNB opened"
 },
+"gm-19d02f1149cf34d6": {
+"trade": "Paint & Flooring",
+"note": "D-026.8 trade Paint & Flooring"
+},
+"gm-19d02629b0206123": {
+"trade": "Supplies",
+"note": "D-026.8 trade Supplies"
+},
 "gm-19d0446213881f8d": {
 "paid_from": "PAUL",
 "note": "D-026.2 before CNB opened"
@@ -1048,34 +1222,48 @@
 "paid_from": "PAUL",
 "note": "D-026.2 before CNB opened"
 },
+"gm-19d019ce67d9c5c3": {
+"trade": "Supplies",
+"note": "D-026.8 trade Supplies"
+},
 "gm-19d0df1ad5bf9d6c": {
 "paid_from": "PAUL",
 "note": "D-026.2 before CNB opened"
 },
+"gm-19d025886a028690": {
+"trade": "Small Baths",
+"note": "D-026.8 trade Small Baths"
+},
 "gm-19d069c13314e2b8": {
 "paid_from": "PAUL",
-"note": "D-026.2 before CNB opened"
+"trade": "Small Baths",
+"note": "D-026.2 before CNB opened; D-026.8 trade Small Baths"
 },
 "gm-19d064b856ef56ce": {
 "property": "104 Ashburne",
-"note": "D-026.3 old tab 104 Ashburne"
+"trade": "Gas/Truck/Trailer",
+"note": "D-026.3 old tab 104 Ashburne; D-026.8 trade Gas/Truck/Trailer"
 },
 "gm-19d22c318a9ae172": {
 "paid_from": "PAUL",
-"note": "D-026.2 before CNB opened"
+"trade": "Landscaping",
+"note": "D-026.2 before CNB opened; D-026.8 trade Landscaping"
 },
 "gm-19d06dcf2f70ce53": {
 "paid_from": "PAUL",
-"note": "D-026.2 before CNB opened"
+"trade": "Small Baths",
+"note": "D-026.2 before CNB opened; D-026.8 trade Small Baths"
 },
 "gm-19d3c4ca8ef8ddfb": {
 "property": "104 Ashburne",
-"note": "D-026.3 old tab 104 Ashburne"
+"trade": "Pool",
+"note": "D-026.3 old tab 104 Ashburne; D-026.8 trade Pool"
 },
 "gm-19d3c4c75f8aa4e3": {
 "paid_from": "PAUL",
 "property": "104 Ashburne",
-"note": "D-026.1 personal card 9166; D-026.3 old tab 104 Ashburne"
+"trade": "Pool",
+"note": "D-026.1 personal card 9166; D-026.3 old tab 104 Ashburne; D-026.8 trade Pool"
 },
 "gm-19d0df1e8fcc615c": {
 "paid_from": "PAUL",
@@ -1084,11 +1272,20 @@
 "gm-19d0b8a1ba69dd09": {
 "paid_from": "PAUL",
 "property": "104 Ashburne",
-"note": "D-026.2 before CNB opened; D-026.3 old tab 104 Ashburne"
+"trade": "Gas/Truck/Trailer",
+"note": "D-026.2 before CNB opened; D-026.3 old tab 104 Ashburne; D-026.8 trade Gas/Truck/Trailer"
+},
+"gm-19d0d690ad99ec5c": {
+"trade": "Small Baths",
+"note": "D-026.8 trade Small Baths"
 },
 "gm-19d20cf12a8888da": {
 "paid_from": "PAUL",
 "note": "D-026.2 before CNB opened"
+},
+"gm-19d10a379c030001": {
+"trade": "Master Bath",
+"note": "D-026.8 trade Master Bath"
 },
 "gm-19d16d3ec604edb7": {
 "property": "104 Ashburne",
@@ -1097,6 +1294,10 @@
 "gm-19d22c0ca88727d6": {
 "paid_from": "PAUL",
 "note": "D-026.2 before CNB opened"
+},
+"gm-19d169241a90532d": {
+"trade": "Master Bath",
+"note": "D-026.8 trade Master Bath"
 },
 "gm-19d1cc95a5026d98": {
 "paid_from": "PAUL",
@@ -1108,12 +1309,14 @@
 },
 "gm-19d1bf70a202aea4": {
 "property": "104 Ashburne",
-"note": "D-026.3 old tab 104 Ashburne"
+"trade": "Gas/Truck/Trailer",
+"note": "D-026.3 old tab 104 Ashburne; D-026.8 trade Gas/Truck/Trailer"
 },
 "gm-19d1b148cdad166d": {
 "paid_from": "PAUL",
 "property": "104 Ashburne",
-"note": "D-026.2 before CNB opened; D-026.3 old tab 104 Ashburne"
+"trade": "Gas/Truck/Trailer",
+"note": "D-026.2 before CNB opened; D-026.3 old tab 104 Ashburne; D-026.8 trade Gas/Truck/Trailer"
 },
 "gm-19d3c391d5212401": {
 "paid_from": "PAUL",
@@ -1122,7 +1325,12 @@
 },
 "gm-19d253064d2268c2": {
 "property": "104 Ashburne",
-"note": "D-026.3 old tab 104 Ashburne"
+"trade": "Gas/Truck/Trailer",
+"note": "D-026.3 old tab 104 Ashburne; D-026.8 trade Gas/Truck/Trailer"
+},
+"gm-19d2647307183ef9": {
+"trade": "Lighting & Electrical",
+"note": "D-026.8 trade Lighting & Electrical"
 },
 "gm-19d2556d29835a4b": {
 "property": "104 Ashburne",
@@ -1139,22 +1347,53 @@
 "gm-19d2c0314cc37287": {
 "paid_from": "PAUL",
 "property": "104 Ashburne",
-"note": "D-026.2 before CNB opened; D-026.3 old tab 104 Ashburne"
+"trade": "Small Baths",
+"note": "D-026.2 before CNB opened; D-026.3 old tab 104 Ashburne; D-026.8 trade Small Baths"
 },
 "gm-19d3118d6bcc3a7f": {
 "paid_from": "PAUL",
 "property": "104 Ashburne",
-"note": "D-026.2 before CNB opened; D-026.3 old tab 104 Ashburne"
+"trade": "Gas/Truck/Trailer",
+"note": "D-026.2 before CNB opened; D-026.3 old tab 104 Ashburne; D-026.8 trade Gas/Truck/Trailer"
+},
+"gm-19d3c382001038d7": {
+"trade": "Lighting & Electrical",
+"note": "D-026.8 trade Lighting & Electrical"
+},
+"gm-19d3c4215ed33ae9": {
+"trade": "Lighting & Electrical",
+"note": "D-026.8 trade Lighting & Electrical"
+},
+"gm-19d3a4c4d7090e19": {
+"trade": "Small Baths",
+"note": "D-026.8 trade Small Baths"
+},
+"gm-19d3a708f16b12eb": {
+"trade": "Small Baths",
+"note": "D-026.8 trade Small Baths"
+},
+"gm-19d46fc2dd5b39fa": {
+"trade": "House Hardware",
+"note": "D-026.8 trade House Hardware"
 },
 "gm-19d60b2c1dd91b48": {
 "paid_from": "PAUL",
 "note": "D-026.2 before CNB opened; D-026.5 payment duplicate of gm-19d405df0d679aff (518.78)",
 "verdict": "dismiss"
 },
+"gm-19d4078f56917fbb": {
+"trade": "Supplies",
+"note": "D-026.8 trade Supplies"
+},
 "gm-19d400cec1201a16": {
 "paid_from": "PAUL",
 "property": "104 Ashburne",
-"note": "D-026.2 before CNB opened; D-026.3 old tab 104 Ashburne"
+"trade": "Gas/Truck/Trailer",
+"note": "D-026.2 before CNB opened; D-026.3 old tab 104 Ashburne; D-026.8 trade Gas/Truck/Trailer"
+},
+"gm-19d442100d7bb73f": {
+"trade": "Lighting & Electrical",
+"note": "D-026.8 trade Lighting & Electrical"
 },
 "gm-19d405df0d679aff": {
 "paid_from": "PAUL",
@@ -1169,10 +1408,19 @@
 "verdict": "dismiss",
 "note": "D-026.2 before CNB opened; D-026.7 acquisition/advance - migrates from the Cash Advances tab"
 },
+"gm-19d4086fb41b7037": {
+"trade": "House Hardware",
+"note": "D-026.8 trade House Hardware"
+},
+"gm-19d3ee7e210a8af3": {
+"trade": "Landscaping",
+"note": "D-026.8 trade Landscaping"
+},
 "gm-19d46e442dd379c4": {
 "paid_from": "PAUL",
 "property": "104 Ashburne",
-"note": "D-026.2 before CNB opened; D-026.3 old tab 104 Ashburne"
+"trade": "Pool",
+"note": "D-026.2 before CNB opened; D-026.3 old tab 104 Ashburne; D-026.8 trade Pool"
 },
 "gm-19d4a3ee589e436a": {
 "paid_from": "PAUL",
@@ -1180,7 +1428,16 @@
 },
 "gm-19d4918fa3edc702": {
 "property": "104 Ashburne",
-"note": "D-026.3 old tab 104 Ashburne"
+"trade": "Small Baths",
+"note": "D-026.3 old tab 104 Ashburne; D-026.8 trade Small Baths"
+},
+"gm-19d492744d5f21c2": {
+"trade": "House Hardware",
+"note": "D-026.8 trade House Hardware"
+},
+"gm-19d4ed506ec83c9a": {
+"trade": "Supplies",
+"note": "D-026.8 trade Supplies"
 },
 "gm-19d55c64fef934ea": {
 "paid_from": "PAUL",
@@ -1189,20 +1446,24 @@
 "gm-19d54f911af97475": {
 "paid_from": "PAUL",
 "property": "104 Ashburne",
-"note": "D-026.2 before CNB opened; D-026.3 old tab 104 Ashburne"
+"trade": "Landscaping",
+"note": "D-026.2 before CNB opened; D-026.3 old tab 104 Ashburne; D-026.8 trade Landscaping"
 },
 "gm-19d54f9e0010bc8c": {
 "paid_from": "PAUL",
-"note": "D-026.2 before CNB opened"
+"trade": "House Hardware",
+"note": "D-026.2 before CNB opened; D-026.8 trade House Hardware"
 },
 "gm-19d551c2e7db7daf": {
 "paid_from": "PAUL",
 "property": "104 Ashburne",
-"note": "D-026.2 before CNB opened; D-026.3 old tab 104 Ashburne"
+"trade": "Gas/Truck/Trailer",
+"note": "D-026.2 before CNB opened; D-026.3 old tab 104 Ashburne; D-026.8 trade Gas/Truck/Trailer"
 },
 "gm-19d593d6a8a5082a": {
 "paid_from": "PAUL",
-"note": "D-026.2 before CNB opened"
+"trade": "Supplies",
+"note": "D-026.2 before CNB opened; D-026.8 trade Supplies"
 },
 "gm-19d5e139b4ae4612": {
 "property": "104 Ashburne",
@@ -1210,16 +1471,26 @@
 },
 "gm-19d6380481e76f15": {
 "paid_from": "PAUL",
-"note": "D-026.2 before CNB opened"
+"trade": "Utilities",
+"note": "D-026.2 before CNB opened; D-026.8 trade Utilities"
 },
 "gm-19d6117a5116478b": {
 "paid_from": "PAUL",
 "note": "D-026.2 before CNB opened"
 },
+"gm-19d62dc0a36bb7bd": {
+"trade": "Supplies",
+"note": "D-026.8 trade Supplies"
+},
+"gm-19d6461d769e7e56": {
+"trade": "Supplies",
+"note": "D-026.8 trade Supplies"
+},
 "gm-19d69ac67a04af90": {
 "paid_from": "PAUL",
 "property": "104 Ashburne",
-"note": "D-026.2 before CNB opened; D-026.3 old tab 104 Ashburne"
+"trade": "Gas/Truck/Trailer",
+"note": "D-026.2 before CNB opened; D-026.3 old tab 104 Ashburne; D-026.8 trade Gas/Truck/Trailer"
 },
 "gm-19d7239ecfe05f99": {
 "paid_from": "PAUL",
@@ -1244,7 +1515,24 @@
 "gm-19d74595d34b67cc": {
 "paid_from": "PAUL",
 "property": "104 Ashburne",
-"note": "D-026.2 before CNB opened; D-026.3 old tab 104 Ashburne"
+"trade": "Gas/Truck/Trailer",
+"note": "D-026.2 before CNB opened; D-026.3 old tab 104 Ashburne; D-026.8 trade Gas/Truck/Trailer"
+},
+"gm-19d6fecde00f5873": {
+"trade": "Landscaping",
+"note": "D-026.8 trade Landscaping"
+},
+"gm-19d724c5c326c549": {
+"trade": "Small Baths",
+"note": "D-026.8 trade Small Baths"
+},
+"gm-19d78c9cf7bcc5c4": {
+"trade": "Supplies",
+"note": "D-026.8 trade Supplies"
+},
+"gm-19d7842c261c0b2b": {
+"trade": "Supplies",
+"note": "D-026.8 trade Supplies"
 },
 "gm-19d7558ca4a9a38d": {
 "paid_from": "PAUL",
@@ -1258,23 +1546,43 @@
 "paid_from": "PAUL",
 "note": "D-026.2 before CNB opened"
 },
+"gm-19d887edb5a8b804": {
+"trade": "Supplies",
+"note": "D-026.8 trade Supplies"
+},
 "gm-19d86af34f4c2840": {
 "paid_from": "PAUL",
 "property": "104 Ashburne",
-"note": "D-026.2 before CNB opened; D-026.3 old tab 104 Ashburne"
+"trade": "Gas/Truck/Trailer",
+"note": "D-026.2 before CNB opened; D-026.3 old tab 104 Ashburne; D-026.8 trade Gas/Truck/Trailer"
 },
 "gm-19d86e82a24ba657": {
 "property": "104 Ashburne",
-"note": "D-026.3 old tab 104 Ashburne"
+"trade": "Supplies",
+"note": "D-026.3 old tab 104 Ashburne; D-026.8 trade Supplies"
+},
+"gm-19d8d13776d4e5c2": {
+"trade": "Supplies",
+"note": "D-026.8 trade Supplies"
 },
 "gm-19d9299078f0128e": {
 "paid_from": "PAUL",
 "property": "104 Ashburne",
-"note": "D-026.2 before CNB opened; D-026.3 old tab 104 Ashburne"
+"trade": "Gas/Truck/Trailer",
+"note": "D-026.2 before CNB opened; D-026.3 old tab 104 Ashburne; D-026.8 trade Gas/Truck/Trailer"
+},
+"gm-19d925f537016a06": {
+"trade": "Lighting & Electrical",
+"note": "D-026.8 trade Lighting & Electrical"
 },
 "gm-19d9259fe2484c26": {
 "property": "104 Ashburne",
-"note": "D-026.3 old tab 104 Ashburne"
+"trade": "Supplies",
+"note": "D-026.3 old tab 104 Ashburne; D-026.8 trade Supplies"
+},
+"gm-19d985398a604372": {
+"trade": "Appliances",
+"note": "D-026.8 trade Appliances"
 },
 "gm-19d9700278f64d44": {
 "paid_from": "PAUL",
@@ -1294,11 +1602,13 @@
 },
 "gm-19d9c2bb83706d3e": {
 "paid_from": "PAUL",
-"note": "D-026.2 before CNB opened"
+"trade": "Pool",
+"note": "D-026.2 before CNB opened; D-026.8 trade Pool"
 },
 "gm-19d9c2bdd7c7d9c1": {
 "paid_from": "PAUL",
-"note": "D-026.1 personal card 9166"
+"trade": "Pool",
+"note": "D-026.1 personal card 9166; D-026.8 trade Pool"
 },
 "gm-19db68cdc0f2c8e2": {
 "paid_from": "PAUL",
@@ -1306,11 +1616,13 @@
 },
 "gm-19d9c07d5c6edf7f": {
 "paid_from": "PAUL",
-"note": "D-026.2 before CNB opened"
+"trade": "Pool",
+"note": "D-026.2 before CNB opened; D-026.8 trade Pool"
 },
 "gm-19db09cc256ad72b": {
 "paid_from": "PAUL",
-"note": "D-026.2 before CNB opened"
+"trade": "Chimney/FIreplace/Glass",
+"note": "D-026.2 before CNB opened; D-026.8 trade Chimney/FIreplace/Glass"
 },
 "gm-19dc05be6c2af277": {
 "paid_from": "PAUL",
@@ -1319,7 +1631,8 @@
 "gm-19df4b2c6e1e5aee": {
 "paid_from": "PAUL",
 "property": "104 Ashburne",
-"note": "D-026.2 before CNB opened; D-026.3 old tab 104 Ashburne"
+"trade": "Gas/Truck/Trailer",
+"note": "D-026.2 before CNB opened; D-026.3 old tab 104 Ashburne; D-026.8 trade Gas/Truck/Trailer"
 },
 "gm-19f0781872fdb552": {
 "paid_from": "PAUL",
@@ -1327,11 +1640,21 @@
 },
 "gm-19dfd55f48f159ef": {
 "property": "104 Ashburne",
-"note": "D-026.3 old tab 104 Ashburne"
+"trade": "Supplies",
+"note": "D-026.3 old tab 104 Ashburne; D-026.8 trade Supplies"
+},
+"gm-19e0454d3ab6e5b6": {
+"trade": "Supplies",
+"note": "D-026.8 trade Supplies"
 },
 "gm-19e03c938a0f72b2": {
 "property": "104 Ashburne",
-"note": "D-026.3 old tab 104 Ashburne"
+"trade": "Supplies",
+"note": "D-026.3 old tab 104 Ashburne; D-026.8 trade Supplies"
+},
+"gm-19e0304909d9e7ca": {
+"trade": "Supplies",
+"note": "D-026.8 trade Supplies"
 },
 "gm-19f3f6ba1c53dd95": {
 "paid_from": "PAUL",
@@ -1344,7 +1667,8 @@
 "gm-19e032c2f5fd1063": {
 "paid_from": "PAUL",
 "property": "104 Ashburne",
-"note": "D-026.2 before CNB opened; D-026.3 old tab 104 Ashburne"
+"trade": "Gas/Truck/Trailer",
+"note": "D-026.2 before CNB opened; D-026.3 old tab 104 Ashburne; D-026.8 trade Gas/Truck/Trailer"
 },
 "gm-19e0966e7b7f7240": {
 "paid_from": "PAUL",
@@ -1352,11 +1676,13 @@
 },
 "gm-19e091cb11fddeec": {
 "property": "104 Ashburne",
-"note": "D-026.3 old tab 104 Ashburne"
+"trade": "Gas/Truck/Trailer",
+"note": "D-026.3 old tab 104 Ashburne; D-026.8 trade Gas/Truck/Trailer"
 },
 "gm-19e09b39421dc9af": {
 "paid_from": "PAUL",
-"note": "D-026.2 before CNB opened"
+"trade": "Utilities",
+"note": "D-026.2 before CNB opened; D-026.8 trade Utilities"
 },
 "gm-19e3b8a5fee70d22": {
 "paid_from": "PAUL",
@@ -1364,19 +1690,26 @@
 },
 "gm-19e3b9d4d703ee57": {
 "paid_from": "PAUL",
-"note": "D-026.1 personal card 9166"
+"trade": "Pool",
+"note": "D-026.1 personal card 9166; D-026.8 trade Pool"
 },
 "gm-19e3b9e38c92919f": {
 "paid_from": "PAUL",
-"note": "D-026.2 before CNB opened"
+"trade": "Pool",
+"note": "D-026.2 before CNB opened; D-026.8 trade Pool"
 },
 "gm-19e8f766f533f78b": {
 "property": "1616 Granite",
 "note": "D-026.3 old tab 1616 Granite"
 },
+"gm-19e69ec679ab8f42": {
+"trade": "Supplies",
+"note": "D-026.8 trade Supplies"
+},
 "gm-19e8f7613aa25c25": {
 "property": "104 Ashburne",
-"note": "D-026.3 old tab 104 Ashburne"
+"trade": "Supplies",
+"note": "D-026.3 old tab 104 Ashburne; D-026.8 trade Supplies"
 },
 "gm-19e8f7927b019869": {
 "paid_from": "PAUL",
@@ -1441,6 +1774,10 @@
 "property": "104 Ashburne",
 "note": "D-026.3 old tab 104 Ashburne"
 },
+"gm-19ed818d6be0fb42": {
+"trade": "Supplies",
+"note": "D-026.8 trade Supplies"
+},
 "gm-19f3f6e400041553": {
 "paid_from": "PAUL",
 "note": "D-026.2 before CNB opened"
@@ -1448,7 +1785,8 @@
 "gm-19ed81985682b730": {
 "paid_from": "PAUL",
 "property": "104 Ashburne",
-"note": "D-026.2 before CNB opened; D-026.3 old tab 104 Ashburne"
+"trade": "Gas/Truck/Trailer",
+"note": "D-026.2 before CNB opened; D-026.3 old tab 104 Ashburne; D-026.8 trade Gas/Truck/Trailer"
 },
 "gm-19ed8195997d06ad": {
 "paid_from": "PAUL",
@@ -1458,9 +1796,14 @@
 "paid_from": "PAUL",
 "note": "D-026.2 before CNB opened"
 },
+"gm-19edabdf68ad91f0": {
+"trade": "Supplies",
+"note": "D-026.8 trade Supplies"
+},
 "gm-19edc17308bcd897": {
 "property": "104 Ashburne",
-"note": "D-026.3 old tab 104 Ashburne"
+"trade": "Supplies",
+"note": "D-026.3 old tab 104 Ashburne; D-026.8 trade Supplies"
 },
 "gm-19edb74b0d81508a": {
 "paid_from": "PAUL",
@@ -1508,7 +1851,8 @@
 },
 "gm-19f03e5017a7c259": {
 "paid_from": "PAUL",
-"note": "D-026.2 before CNB opened"
+"trade": "House Hardware",
+"note": "D-026.2 before CNB opened; D-026.8 trade House Hardware"
 },
 "gm-19f0b0b7538d446b": {
 "paid_from": "PAUL",
@@ -1520,7 +1864,8 @@
 },
 "gm-19f0e855936a44de": {
 "property": "104 Ashburne",
-"note": "D-026.3 old tab 104 Ashburne"
+"trade": "Supplies",
+"note": "D-026.3 old tab 104 Ashburne; D-026.8 trade Supplies"
 },
 "gm-19f0f64b937a63fa": {
 "paid_from": "PAUL",
@@ -1548,11 +1893,13 @@
 },
 "gm-19f18b33a88ea898": {
 "property": "104 Ashburne",
-"note": "D-026.3 old tab 104 Ashburne"
+"trade": "Small Baths",
+"note": "D-026.3 old tab 104 Ashburne; D-026.8 trade Small Baths"
 },
 "gm-19f19badba627de1": {
 "property": "104 Ashburne",
-"note": "D-026.3 old tab 104 Ashburne"
+"trade": "Supplies",
+"note": "D-026.3 old tab 104 Ashburne; D-026.8 trade Supplies"
 },
 "gm-19f3f6a3d8a8000d": {
 "paid_from": "PAUL",
@@ -1565,6 +1912,10 @@
 "gm-19f3f6f42dde4929": {
 "paid_from": "PAUL",
 "note": "D-026.2 before CNB opened"
+},
+"gm-19f28677d9f269fb": {
+"trade": "Master Bath",
+"note": "D-026.8 trade Master Bath"
 },
 "gm-19f390f745f748d4": {
 "paid_from": "PAUL",
@@ -1603,9 +1954,14 @@
 "property": "881 Newport",
 "note": "D-026.3 old tab 881 Newport"
 },
+"gm-19f4189f59e51a5d": {
+"trade": "Insurance - Farmers Insurance",
+"note": "D-026.8 trade Insurance - Farmers Insurance"
+},
 "gm-19f5c7193197e0a6": {
 "paid_from": "PAUL",
-"note": "D-026.2 before CNB opened"
+"trade": "Utilities",
+"note": "D-026.2 before CNB opened; D-026.8 trade Utilities"
 },
 "gm-19f86e5bf7f12281": {
 "paid_from": "PAUL",
@@ -1622,7 +1978,8 @@
 },
 "gm-19f99e711bce8059": {
 "paid_from": "PAUL",
-"note": "D-026.1 personal card 9166"
+"trade": "Pool",
+"note": "D-026.1 personal card 9166; D-026.8 trade Pool"
 },
 "gm-19f98341582eb450": {
 "property": "1616 Granite",
@@ -1645,6 +2002,10 @@
 "paid_from": "PAUL",
 "note": "D-026.2 before CNB opened"
 },
+"gm-19fc8ca461cafa79": {
+"trade": "Utilities",
+"note": "D-026.8 trade Utilities"
+},
 "gm-19fd34b701a40539": {
 "property": "136 Bowling Green",
 "note": "D-026.3 old tab 136 Bowling Green"
@@ -1653,9 +2014,25 @@
 "property": "1616 Granite",
 "note": "D-026.3 old tab 1616 Granite"
 },
+"gm-19fec5d90578892d": {
+"trade": "Insurance - Farmers Insurance",
+"note": "D-026.8 trade Insurance - Farmers Insurance"
+},
+"gm-19fed3edc8e2cd4e": {
+"trade": "Utilities",
+"note": "D-026.8 trade Utilities"
+},
+"gm-19fecb16f5663e40": {
+"trade": "Utilities",
+"note": "D-026.8 trade Utilities"
+},
 "gm-1a0713ee9ba98b99": {
 "property": "366 Mesa",
 "note": "D-026.3 old tab 366 Mesa"
+},
+"gm-19ff17e1bc0effd7": {
+"trade": "Supplies",
+"note": "D-026.8 trade Supplies"
 },
 "gm-19ff0fce9ebc581d": {
 "paid_from": "PAUL",
@@ -1667,15 +2044,25 @@
 },
 "gm-1a05ab0fab9330ec": {
 "property": "104 Ashburne",
-"note": "D-026.3 old tab 104 Ashburne"
+"trade": "Landscaping",
+"note": "D-026.3 old tab 104 Ashburne; D-026.8 trade Landscaping"
+},
+"gm-1a05e2374d3a2f2d": {
+"trade": "Landscaping",
+"note": "D-026.8 trade Landscaping"
 },
 "gm-1a05e91af6af152b": {
 "paid_from": "PAUL",
-"note": "D-026.1 personal card 9166"
+"trade": "Pool",
+"note": "D-026.1 personal card 9166; D-026.8 trade Pool"
 },
 "gm-1a05e92632b068ee": {
 "paid_from": "PAUL",
 "note": "D-026.1 personal card 9166"
+},
+"gm-1a0716dcb2254415": {
+"trade": "Landscaping",
+"note": "D-026.8 trade Landscaping"
 },
 "gm-1a0721755474cd9d": {
 "property": "469 Brushwood",

@@ -59,7 +59,7 @@ def main():
     biz = json.load(open(os.path.join(a.inv, "recast-biz-rows.json")))
     prop = json.load(open(os.path.join(a.inv, "property-rows.json")))
     for i, r in enumerate(biz): r["_k"] = f"BIZ-{i}"; r["cents"] = int(round((r.get("amt") or 0) * 100)); r["tab"] = "RECAST BIZ"
-    for i, r in enumerate(prop): r["_k"] = f"PROP-{i}"; r["cents"] = int(round((r.get("amt") or 0) * 100)); r["tab"] = r["tab"]; r["block"] = ""
+    for i, r in enumerate(prop): r["_k"] = f"PROP-{i}"; r["cents"] = int(round((r.get("amt") or 0) * 100)); r["block"] = r.get("block") or ""
     rows = biz + [r for r in prop if r["tab"] not in ("Cash Advances",)]
 
     by_msg = collections.defaultdict(list)
