@@ -1154,11 +1154,12 @@ function setupPropertyTab(name) {
   var keptSalePrice = readLabelledValue_(sh, 'Sale Price');
   var registry = propertyRow_(ss, name);
   var heavy = String((registry || {}).template || '').toLowerCase() === 'heavy';
-  var BC = heavy ? PT_BLOCK_COLS_HEAVY : PT_BLOCK_COLS;   // Rehab Costs / Utilities block columns
+  var BC = PT_BLOCK_COLS;   // Rehab Costs / Utilities block columns (light template)
   // A previous build's spacer column A (empty, name in B1) is removed so the build
   // below starts at column A again and re-inserts exactly one.
   if (sh.getLastColumn() > 1 && sh.getRange(1, 1).isBlank() && !sh.getRange(1, 2).isBlank()) sh.deleteColumn(1);
-  if (sh.getMaxColumns() < 49) sh.insertColumnsAfter(sh.getMaxColumns(), 49 - sh.getMaxColumns());
+  sh.showColumns(1, sh.getMaxColumns());
+  if (sh.getMaxColumns() < 130) sh.insertColumnsAfter(sh.getMaxColumns(), 130 - sh.getMaxColumns());
   sh.clear();
   // clear() leaves data validation behind, so an old block's checkboxes would survive
   // a rebuild.
@@ -1182,7 +1183,10 @@ function setupPropertyTab(name) {
 
   // Journal columns: C date, E account, F debit, G credit, H property, I cost_class,
   // L payee, M description, N paid_from, P source, Y void_of. Voided flag: AD.
-  var live = ne('P', 'void') + '*(' + VOIDED + '<>TRUE)*' + eq('H', safeName) + '*(' + J('C') + '<=$B$1)';
+  // Voided = the txn_id is named by some void_of (Y). Both sides are Journal ranges, so
+  // Sheets grows them together when rows are inserted; the helper-sheet range did not
+  // and every SUMPRODUCT went #N/A on the staging copy (2026-09-17).
+  var live = ne('P', 'void') + '*ISNA(MATCH(' + J('A') + ',' + J('Y') + ',0))*' + eq('H', safeName) + '*(' + J('C') + '<=$B$1)';
   var net = function (factor) { return 'SUMPRODUCT(' + factor + '*' + live + '*(' + J('F') + '-' + J('G') + '))'; };
   var deb = function (factor) { return 'SUMPRODUCT(' + factor + '*' + live + '*' + J('F') + ')'; };
   var cred = function (factor) { return 'SUMPRODUCT(' + factor + '*' + live + '*' + J('G') + ')'; };
@@ -1191,7 +1195,7 @@ function setupPropertyTab(name) {
   var holdingF = eq('I', 'Holding');
   var costLineF = ne('I', '');
 
-  var WIDTH = heavy ? 27 : 24; // A..X, or A..AA with the trade block
+  var WIDTH = 24; // A..X (heavy: set from the trade blocks below)
   var grid = [];
   var bold = [];
   // Colours copied from the old workbook's tab (Paul, 2026-09-15): section heads green
@@ -1359,24 +1363,26 @@ function setupPropertyTab(name) {
     // (2026-09-15). onPropertyTabEdit turns that click into a void + re-post.
     return top + 2 + LINES_N;
   };
-  // Heavy template (D-002, D-026.8): 'Rehab by trade' at J:K, between the Dennis blocks
-  // and Rehab Costs (Paul, 2026-09-17). Trade is a Journal column (K), so this is a live
-  // pivot: distinct trades on the property's rehab lines with their nets, plus a
-  // '(no trade)' line so the block always sums to Rehab Costs.
   if (heavy) {
-    set(4, 10, 'Rehab by trade', true); set(4, 11, '=' + net(rehabF), true);
-    paint(4, 10, 1, C.head); paint(4, 11, 1, C.total);
-    set(5, 10, 'Trade', true); set(5, 11, 'Amount', true); paint(5, 10, 2, C.sub);
-    set(6, 10, '=IFERROR(SORT(UNIQUE(FILTER(' + J('K') + ',' + live + '*' + rehabF + '*(' + J('K') + '<>"")))),"")');
-    var TRADES_N = 30;
-    for (var t = 0; t < TRADES_N; t++) {
-      var tr = 6 + t;
-      set(tr, 11, '=IF(J' + tr + '="","",' + net(rehabF + '*(' + J('K') + '&""=J' + tr + ')') + ')');
-    }
-    set(6 + TRADES_N, 10, '(no trade)'); set(6 + TRADES_N, 11, '=' + net(rehabF + '*(' + J('K') + '&""="")'));
+    // Heavy template (D-002, D-026.8; Paul 2026-09-17: "match the format in this Ashburne
+    // tab"): one block per trade side by side from column J, Payee / Date / Description /
+    // Amount, in the old tab's block order, then any other trade seen on the Journal, then
+    // '(no trade)' and Utilities (Holding lines). Values are written by
+    // refreshHeavyBlocks_; the head carries the block's SUM.
+    var hb = heavyBlocks_(ss, name);
+    hb.forEach(function (blk, i) {
+      var c0 = 10 + i * PT_HEAVY_STRIDE;
+      var amt = colLetter_(c0 + 3);
+      set(4, c0, blk, true); set(4, c0 + 3, '=SUM(' + amt + '6:' + amt + (5 + LINES_N) + ')', true);
+      set(5, c0, 'Payee', true); set(5, c0 + 1, 'Date', true); set(5, c0 + 2, 'Description', true); set(5, c0 + 3, 'Amount', true);
+      paint(4, c0, 3, C.head); paint(4, c0 + 3, 1, C.total); paint(5, c0, 4, C.sub);
+    });
+    WIDTH = 9 + hb.length * PT_HEAVY_STRIDE;
+    grid.forEach(function (row) { while (row.length < WIDTH) row.push(''); });
+  } else {
+    lineBlock(4, BC[0], 'Rehab Costs', rehabF + '*' + live);
+    lineBlock(4, BC[1], 'Utilities', holdingF + '*' + live);
   }
-  lineBlock(4, BC[0], 'Rehab Costs', rehabF + '*' + live);
-  lineBlock(4, BC[1], 'Utilities', holdingF + '*' + live);
   var needRows = 5 + LINES_N;
   while (grid.length < needRows) grid.push(new Array(WIDTH).fill(''));
   var maxRows = sh.getMaxRows();
@@ -1406,22 +1412,28 @@ function setupPropertyTab(name) {
   sh.getRange(4, 2, grid.length - 3, 1).setNumberFormat(money);
   [purchase, cash].forEach(function (blk) { sh.getRange(blk.first, 4, blk.last - blk.first + 1, 2).setNumberFormat('mm/dd/yyyy'); });
   sh.getRange(4, 6, grid.length - 3, 2).setNumberFormat(money);
-  if (heavy) sh.getRange(4, 11, grid.length - 3, 1).setNumberFormat(money);
-  BC.forEach(function (c) {
+  if (heavy) {
+    heavyBlocks_(ss, name).forEach(function (blk, i) {
+      var c0 = 10 + i * PT_HEAVY_STRIDE;
+      sh.getRange(4, c0 + 1, grid.length - 3, 1).setNumberFormat('mm/dd/yyyy');
+      sh.getRange(4, c0 + 3, grid.length - 3, 1).setNumberFormat(money);
+      sh.setColumnWidth(c0, 150); sh.setColumnWidth(c0 + 1, 90); sh.setColumnWidth(c0 + 2, 180); sh.setColumnWidth(c0 + 3, 100); sh.setColumnWidth(c0 + 4, 20);
+    });
+  }
+  (heavy ? [] : BC).forEach(function (c) {
     sh.getRange(4, c + 1, grid.length - 3, 1).setNumberFormat('mm/dd/yyyy');
     sh.getRange(4, c + 3, grid.length - 3, 1).setNumberFormat(money);
     sh.getRange(6, c + 4, LINES_N, 3).insertCheckboxes();
     sh.getRange(6, c + 4, LINES_N, 3).clearContent(); // keep the validation, let the block's formula spill into them
     sh.getRange(6, c + PT_TXN_OFFSET, LINES_N, 1).setFontColor('#ffffff'); // txn_id column: present for the trigger, invisible
   });
-  sh.hideColumns(BC[1] + PT_TXN_OFFSET); // Utilities' txn_id column sits past the grid
+  if (!heavy) sh.hideColumns(BC[1] + PT_TXN_OFFSET); // Utilities' txn_id column sits past the grid
   refreshLineBlocks_(ss, name);
 
   sh.setColumnWidth(1, 250); sh.setColumnWidth(2, 110); sh.setColumnWidth(3, 20);
   sh.setColumnWidth(4, 190); [5, 6, 7].forEach(function (c) { sh.setColumnWidth(c, 100); });
-  sh.setColumnWidth(9, 20); sh.setColumnWidth(BC[1] - 1, 20);
-  if (heavy) { sh.setColumnWidth(10, 190); sh.setColumnWidth(11, 100); sh.setColumnWidth(12, 20); }
-  BC.forEach(function (c) {
+  sh.setColumnWidth(9, 20); if (!heavy) sh.setColumnWidth(BC[1] - 1, 20);
+  (heavy ? [] : BC).forEach(function (c) {
     sh.setColumnWidth(c, 150); sh.setColumnWidth(c + 1, 90); sh.setColumnWidth(c + 2, 180);
     sh.setColumnWidth(c + 3, 100); [4, 5, 6].forEach(function (k) { sh.setColumnWidth(c + k, 100); });
   });
@@ -1515,11 +1527,52 @@ function advanceRepaidDates_(ss, name, purchaseKind) {
 // Line blocks (Rehab Costs at J, Utilities at R): payee/date/description/amount, then
 // the Paul Paid / Dennis Paid / Recast Account checkbox columns at c0+4..c0+6 and the
 // txn_id column at c0+7 (Q / Y). The checkbox columns are spills keyed by that txn_id.
+var PT_HEAVY_STRIDE = 5;   // Payee, Date, Description, Amount, spacer
+// The old 104 Ashburne tab's block order (2026-09-17 snapshot); trades seen on the
+// Journal but not listed here follow, then '(no trade)' and Utilities.
+var PT_HEAVY_ORDER = ['Paint & Flooring', 'Trash', 'Lighting & Electrical', 'Master Bath', 'Small Baths', 'Pool',
+  'Landscaping', 'Chimney/FIreplace/Glass', 'Kitchen', 'Appliances', 'HVAC', 'House Hardware',
+  'Countertops & Backsplash', 'Equipment Rentals', 'Pest Control', 'Insurance - Farmers Insurance',
+  'Cleaning', 'Supplies', 'Gas/Truck/Trailer', 'Marketing'];
+function colLetter_(n) { var s = ''; while (n > 0) { var m = (n - 1) % 26; s = String.fromCharCode(65 + m) + s; n = (n - m - 1) / 26; } return s; }
+function heavyBlocks_(ss, name) {
+  var journal = ss.getSheetByName('Journal'); var cols = headerIndex_(journal); var last = journal.getLastRow();
+  var seen = {};
+  if (last > 1 && cols['property'] && cols['trade']) {
+    var v = journal.getRange(2, 1, last - 1, journal.getLastColumn()).getValues();
+    v.forEach(function (r) { if (String(r[cols['property'] - 1]) === name) { var t = String(r[cols['trade'] - 1] || '').trim(); if (t) seen[t] = true; } });
+  }
+  var out = PT_HEAVY_ORDER.filter(function (t) { return true; });
+  Object.keys(seen).sort().forEach(function (t) { if (out.indexOf(t) < 0) out.push(t); });
+  out.push('(no trade)'); out.push('Utilities');
+  return out;
+}
+// Values for a heavy tab: rehab lines by trade (Holding lines under Utilities).
+function refreshHeavyBlocks_(ss, name) {
+  var sh = ss.getSheetByName(name); if (!sh) return;
+  var journal = ss.getSheetByName('Journal'); var cols = headerIndex_(journal); var last = journal.getLastRow();
+  var rows = last > 1 ? journal.getRange(2, 1, last - 1, journal.getLastColumn()).getValues() : [];
+  var g = function (r, n) { return cols[n] ? r[cols[n] - 1] : ''; };
+  var voided = {}; rows.forEach(function (r) { var v = String(g(r, 'void_of') || ''); if (v) voided[v] = true; });
+  var today = Utilities.formatDate(new Date(), 'America/Chicago', 'yyyy-MM-dd');
+  var lines = rows.filter(function (r) {
+    return String(g(r, 'property')) === name && String(g(r, 'source')) !== 'void' && !voided[String(g(r, 'txn_id'))] && formatIsoDate_(g(r, 'date')) <= today;
+  });
+  var isRehab = function (r) { var cc = String(g(r, 'cost_class')); return cc === 'Rehab' || (cc === 'Acquisition' && String(g(r, 'account')) !== '1000'); };
+  heavyBlocks_(ss, name).forEach(function (blk, i) {
+    var pick = blk === 'Utilities' ? function (r) { return String(g(r, 'cost_class')) === 'Holding'; }
+             : blk === '(no trade)' ? function (r) { return isRehab(r) && !String(g(r, 'trade') || '').trim(); }
+             : function (r) { return isRehab(r) && String(g(r, 'trade') || '').trim() === blk; };
+    var out = lines.filter(pick).map(function (r) { return [g(r, 'payee'), g(r, 'date'), g(r, 'description'), Number(g(r, 'debit') || 0) - Number(g(r, 'credit') || 0)]; });
+    out.sort(function (x, y) { return formatIsoDate_(x[1]) < formatIsoDate_(y[1]) ? -1 : formatIsoDate_(x[1]) > formatIsoDate_(y[1]) ? 1 : 0; });
+    out = out.slice(0, PT_LINES_N); while (out.length < PT_LINES_N) out.push(['', '', '', '']);
+    sh.getRange(6, 10 + i * PT_HEAVY_STRIDE, PT_LINES_N, 4).setValues(out);
+  });
+}
 var PT_BLOCK_COLS = [10, 18];        // Light template
-var PT_BLOCK_COLS_HEAVY = [13, 21];  // Heavy: a 'Rehab by trade' block sits at J:K first (Paul, 2026-09-17)
 function ptBlockCols_(ss, name) {
   var reg = propertyRow_(ss, name) || {};
-  return String(reg.template || '').toLowerCase() === 'heavy' ? PT_BLOCK_COLS_HEAVY : PT_BLOCK_COLS;
+  return String(reg.template || '').toLowerCase() === 'heavy' ? [] : PT_BLOCK_COLS;
 }
 var PT_TXN_OFFSET = 7;
 var PT_LINES_N = 300;
@@ -1533,6 +1586,7 @@ var PT_PAID_BY = [['PAUL', '2030'], ['DENNIS', '2010'], ['1401', '']]; // checkb
 function refreshLineBlocks_(ss, name) {
   var sh = ss.getSheetByName(name);
   if (!sh) return;
+  if (String((propertyRow_(ss, name) || {}).template || '').toLowerCase() === 'heavy') { refreshHeavyBlocks_(ss, name); return; }
   var journal = ss.getSheetByName('Journal');
   var cols = headerIndex_(journal);
   var last = journal.getLastRow();
@@ -1580,6 +1634,7 @@ function refreshLineBlocksFor_(ss, lines) {
 // was Chase. Refused (with a toast) when the period is closed or the box was unticked.
 function repaidFromEdit_(e, sh, ss, row, col) {
   var bc = ptBlockCols_(ss, sh.getName());
+  if (!bc.length) return;
   var c0 = col < bc[1] ? bc[0] : bc[1];
   var k = col - (c0 + 4);
   var toast = function (msg) { ss.toast(msg, 'Recast Books', 8); };
