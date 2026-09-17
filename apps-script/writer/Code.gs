@@ -1851,7 +1851,12 @@ function migrationRegisterProperties() {
     { name: '136 Bowling Green', address: '136 Bowling Green', status: 'held', purchase_date: '2026-06-02', purchase_price: '294651', template: 'Light', dennis_funded: 'true', notes: 'Phase 4 migration' },
     { name: '206 White Rock', address: '206 White Rock', status: 'held', purchase_date: '2026-06-02', purchase_price: '184500', template: 'Light', dennis_funded: 'true', notes: 'Phase 4 migration' },
     { name: '366 Mesa', address: '366 Mesa', status: 'held', purchase_date: '2026-08-04', purchase_price: '123645', template: 'Light', dennis_funded: 'true', notes: 'Phase 4 migration' },
-    { name: '469 Brushwood', address: '469 Brushwood Ln, Waxahachie TX 75165', status: 'held', purchase_date: '2026-09-01', purchase_price: '253000', template: 'Light', dennis_funded: 'true', notes: 'Phase 4 migration' }
+    { name: '469 Brushwood', address: '469 Brushwood Ln, Waxahachie TX 75165', status: 'held', purchase_date: '2026-09-01', purchase_price: '253000', template: 'Light', dennis_funded: 'true', notes: 'Phase 4 migration' },
+    // Pipeline (Sales tab "Waiting on market"): not purchased. Pre-acquisition costs
+    // (eviction checks, earnest money, due diligence) accumulate here so nothing is lost;
+    // if the deal never closes they are written off then (Paul, 2026-09-17).
+    { name: '413 Green Acres', address: '413 Green Acres', status: 'held', template: 'Light', dennis_funded: 'false', dennis_share_pct: '50', notes: 'PIPELINE - not purchased; pre-acquisition costs only' },
+    { name: '200 Janice', address: '200 Janice', status: 'held', template: 'Light', dennis_funded: 'false', dennis_share_pct: '50', notes: 'PIPELINE - not purchased; pre-acquisition costs only' }
   ];
   var out = [];
   for (var i = 0; i < list.length; i++) {
