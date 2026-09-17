@@ -29,16 +29,20 @@ def main():
         if e.get("docId"): env[e["docId"]] = e
 
     # old-books property attribution, from the comparison (A by id, B by match)
-    old_prop = {}
+    old_prop = {}; old_trade = {}
     for name in ("A-by-id.csv", "B-by-match.csv"):
         p = os.path.join(a.cmp, name)
         if not os.path.exists(p) or os.path.getsize(p) == 0: continue
         for r in csv.DictReader(open(p)):
-            tabs = [w.split("/")[0] for w in (r.get("old_where") or "").split(";") if w]
+            where = [w for w in (r.get("old_where") or "").split(";") if w]
+            tabs = [w.split("/")[0] for w in where]
             tabs = [t for t in tabs if t and t != "RECAST BIZ"]
             if len(set(tabs)) == 1:
                 t = tabs[0].replace(" RECONCILED", "").replace("Sparkling for Title", "280 Sparkling")
                 old_prop[r["docId"]] = t
+                # D-026.8: the old heavy-template block (Ashburne) becomes the line's trade
+                blocks = set(w.split("/", 1)[1] for w in where if "/" in w and w.split("/", 1)[1])
+                if len(blocks) == 1: old_trade[r["docId"]] = blocks.pop()
 
     by_mailbox = collections.defaultdict(dict); counts = collections.Counter()
     util_docs = []   # rule 5: (vendor key, amount, date, docId, mailbox, kind)
@@ -56,6 +60,8 @@ def main():
         if docId in old_prop:
             cur = sorted(set((x.get("property") or "OVERHEAD") for x in m.get("entries") or []))
             if cur != [old_prop[docId]]: o["property"] = old_prop[docId]; notes.append("D-026.3 old tab " + old_prop[docId])
+        if docId in old_trade and old_prop.get(docId) == "104 Ashburne":
+            o["trade"] = old_trade[docId]; notes.append("D-026.8 trade " + old_trade[docId])
         vendor = (m.get("vendor") or "").lower(); subj = e.get("subject") or ""
         if "uber" in vendor and "eats" not in vendor and "[personal]" in subj.lower() and m.get("verdict") == "post":
             text = " ".join([subj] + [x.get("memo") or "" for x in m.get("entries") or []] + [i.get("description") or "" for x in m.get("entries") or [] for i in x.get("items") or []])

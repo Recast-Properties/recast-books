@@ -368,6 +368,9 @@ export default async (req) => {
         ...e,
         paid_from: o.paid_from && (!e.paid_from || e.paid_from === "UNKNOWN") ? o.paid_from : e.paid_from,
         property: o.property ? o.property : e.property,
+        // `trade` carries the old heavy-template block name (Ashburne's 21 categories), so
+        // the per-trade view of the property tab reproduces the old layout (D-002).
+        items: o.trade ? (e.items || []).map((it) => ({ ...it, trade: o.trade })) : e.items,
       }));
       model = { ...model, entries, paid_from: o.paid_from && (!model.paid_from || model.paid_from === "UNKNOWN") ? o.paid_from : model.paid_from,
                 overrides: { ...o, applied_at: new Date().toISOString() } };
