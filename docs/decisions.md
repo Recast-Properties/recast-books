@@ -524,3 +524,13 @@ Given once, applied to every stored read by `repostAll` overrides (D-025), never
    *and* payments for the same charge, so a bill and its payment are one cost (the payment
    wins). Paul stops forwarding bills.
 6. Settlement dates for 104 Ashburne and 881 Newport: still owed by Paul.
+
+**Addenda, same day.**
+7. Acquisition receipts (trustee/auction sale receipts) and Dennis's cash draws leave the
+   receipts lane: dismissed there, document kept; they migrate as Advances (D-011/D-022).
+8. **The heavy template lives in the `trade` column.** Paul: "we need to create a large
+   property template for Ashburne. it has more categories than Granite." Ashburne's 21
+   old blocks (Paint & Flooring, Trash, Lighting & Electrical, Master Bath, … Marketing)
+   become the `trade` of each migrated line (override at re-post), and the generated
+   property tab gains a per-trade section for a property whose `template` is Heavy — a
+   pivot over the Journal, not a second tab layout (D-002 kept both templates; this is how).
