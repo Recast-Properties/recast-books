@@ -148,6 +148,10 @@ function replayIds() {
   }
   props.setProperty('replay_idx', String(i));
   var done = i >= list.length;
+  // Continue unattended: a one-off trigger re-runs replayIds a minute from now until
+  // the list is exhausted (or a run has failures - then stop and let a human look).
+  ScriptApp.getProjectTriggers().forEach(function (t) { if (t.getHandlerFunction() === 'replayIds') ScriptApp.deleteTrigger(t); });
+  if (!done && bad === 0) ScriptApp.newTrigger('replayIds').timeBased().after(60 * 1000).create();
   console.log('REPLAY ' + mailbox + ' sent=' + ok + ' skipped=' + skipped + ' failed=' + bad +
               '  through ' + i + '/' + list.length + '  done=' + done +
               '  elapsed=' + ((Date.now() - t0) / 1000) + 's');
