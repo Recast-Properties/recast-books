@@ -366,6 +366,7 @@ function addProperty(form) {
       contract_price: dollarsOrBlank_(form.contract_price),
       tax_annual: dollarsOrBlank_(form.tax_annual),
       dennis_share_pct: String(form.dennis_share_pct || '50').replace('%', '').trim() || '50',
+      dennis_commission_pct: String(form.dennis_commission_pct == null ? '' : form.dennis_commission_pct).replace('%', '').trim(),
       settlement_date: form.settlement_date || '',
       template: form.template || '',
       dennis_funded: form.dennis_funded || 'false',

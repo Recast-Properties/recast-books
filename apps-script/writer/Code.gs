@@ -137,7 +137,7 @@ var TAB_HEADERS = {
     'active', 'notes'],
   'Properties': ['name', 'address', 'status', 'purchase_date', 'purchase_price',
     'settlement_date', 'template', 'dennis_funded', 'drive_folder', 'notes', 'contract_price',
-    'tax_annual', 'dennis_share_pct'],
+    'tax_annual', 'dennis_share_pct', 'dennis_commission_pct'],
   'Bank accounts': ['code', 'name', 'institution', 'last4', 'plaid_item_id',
     'plaid_account_id', 'opening_balance', 'opening_date', 'active'],
   'Vendors': ['canonical', 'aliases', 'entity_type', 'form_1099', 'tin_status',
@@ -1337,12 +1337,16 @@ function setupPropertyTab(name) {
   set(s, 1, 'Cash Advances + Interest'); set(s, 2, '=' + cashPayoffRef); s++;
   set(s, 1, 'Dennis Share'); set(s, 2, '=B' + dennisShareRow); s++;
   set(s, 1, 'Dennis Paid (direct)'); set(s, 2, '=G' + dennisDirectRow); s++;
-  set(dennisRow, 2, '=SUM(B' + (dennisRow + 1) + ':B' + (dennisRow + 4) + ')', true);
+  // Bank-only deal (Ashburne, 2026-09-17): Dennis's return is interest (already inside
+  // project cost) plus a commission on the sale price; it comes out of Paul's side.
+  set(s, 1, '="Dennis commission ("&$AW$1&"% of sale)"'); set(s, 2, '=B' + saleRow + '*$AW$1/100'); var dennisCommRow = s++;
+  set(dennisRow, 2, '=SUM(B' + (dennisRow + 1) + ':B' + (dennisRow + 5) + ')', true);
   s++;
   set(s, 1, 'Paul', true); paint(s, 1, 1, C.sub); paint(s, 2, 1, C.tan); var paulRow = s++;
   set(s, 1, 'Paul Share'); set(s, 2, '=B' + paulShareRow); s++;
   set(s, 1, 'Due to Paul (paid less reimbursed)'); set(s, 2, '=G' + dueToPaulRow); s++;
-  set(paulRow, 2, '=SUM(B' + (paulRow + 1) + ':B' + (paulRow + 2) + ')', true);
+  set(s, 1, 'Less Dennis commission'); set(s, 2, '=-B' + dennisCommRow); s++;
+  set(paulRow, 2, '=SUM(B' + (paulRow + 1) + ':B' + (paulRow + 3) + ')', true);
   s++;
   set(s, 1, 'Back to Recast account', true); set(s, 2, '=G' + recastNetRow, true); paint(s, 1, 1, C.sub); paint(s, 2, 1, C.tan); s++;
 
@@ -1400,6 +1404,7 @@ function setupPropertyTab(name) {
   sh.getRange(1, 46).setFormula('=IFERROR(VLOOKUP("' + safeName + '",Properties!A:L,12,FALSE),"")'); // AT1: tax_annual
   sh.getRange(1, 47).setFormula('=IF(OR($AK$1<>"",$AT$1=""),0,$AT$1*($B$1-DATE(YEAR($B$1),1,1))/365)'); // AU1: proration estimate while unsold
   sh.getRange(1, 48).setFormula('=IFERROR(IF(VLOOKUP("' + safeName + '",Properties!A:M,13,FALSE)="",50,VLOOKUP("' + safeName + '",Properties!A:M,13,FALSE)),50)'); // AV1: Dennis profit share % (D-022)
+  sh.getRange(1, 49).setFormula('=IFERROR(IF(VLOOKUP("' + safeName + '",Properties!A:N,14,FALSE)="",0,VLOOKUP("' + safeName + '",Properties!A:N,14,FALSE)),0)'); // AW1: Dennis commission % of sale (bank-only deals, Ashburne)
   sh.getRange(1, 35, 1, 5).setFontColor('#999999');
   sh.getRange(1, 46, 1, 3).setFontColor('#999999');
   advHelperBlocks.forEach(function (blk) { sh.getRange(blk[0], 40, blk[1].length, 6).setFontColor('#999999'); });
@@ -1926,7 +1931,7 @@ function clearBooks() {
 // on the STAGING project first; on the real workbook at cutover.
 function migrationRegisterProperties() {
   var list = [
-    { name: '104 Ashburne', address: '104 Ashburne Glen Ln, Red Oak TX', status: 'held', purchase_date: '2025-12-02', purchase_price: '325000', template: 'Heavy', dennis_funded: 'true', notes: 'Phase 4 migration; sold 2026 (Sales tab); settlement date to confirm' },
+    { name: '104 Ashburne', address: '104 Ashburne Glen Ln, Red Oak TX', status: 'held', purchase_date: '2025-12-02', purchase_price: '325000', template: 'Heavy', dennis_funded: 'true', dennis_share_pct: '0', dennis_commission_pct: '3', notes: 'Phase 4 migration; BANK-ONLY deal: Dennis earns 12% interest + 3% of sale, no profit share (Paul 2026-09-17); sold 2026, settlement date to confirm' },
     { name: '1616 Granite', address: '1616 Granite Way, Waxahachie TX', status: 'held', purchase_date: '2026-04-07', purchase_price: '279001', settlement_date: '2026-07-27', template: 'Light', dennis_funded: 'true', notes: 'Phase 4 migration' },
     { name: '280 Sparkling', address: '280 Sparkling Springs, Waxahachie TX', status: 'held', purchase_date: '2026-06-02', purchase_price: '196850.50', settlement_date: '2026-08-06', template: 'Light', dennis_funded: 'true', notes: 'Phase 4 migration' },
     { name: '881 Newport', address: '881 Newport Dr, Ferris TX 75125', status: 'held', purchase_date: '2026-06-29', purchase_price: '207000', template: 'Light', dennis_funded: 'true', notes: 'Phase 4 migration; sold (Sales tab); settlement date to confirm' },
@@ -1940,11 +1945,78 @@ function migrationRegisterProperties() {
     { name: '413 Green Acres', address: '413 Green Acres', status: 'held', template: 'Light', dennis_funded: 'false', dennis_share_pct: '50', notes: 'PIPELINE - not purchased; pre-acquisition costs only' },
     { name: '200 Janice', address: '200 Janice', status: 'held', template: 'Light', dennis_funded: 'false', dennis_share_pct: '50', notes: 'PIPELINE - not purchased; pre-acquisition costs only' }
   ];
+  var ss0 = openOrCreateWorkbook_(PropertiesService.getScriptProperties());
+  ensureHeaders_(ss0.getSheetByName('Properties'), TAB_HEADERS['Properties']);   // adds dennis_commission_pct
   var out = [];
   for (var i = 0; i < list.length; i++) {
     var r = addProperty(list[i]);
     out.push(list[i].name + ' -> ' + (r.ok ? (r.created ? 'created' : 'updated') : 'FAILED ' + r.message));
   }
+  console.log(out.join('\n'));
+  return out;
+}
+
+
+// ---- Phase 4: the old workbook's Dennis advances, as Advances rows (D-011/D-022) ------
+// Purchase principal and cash advances per property tab (2026-09-17 snapshot), Ashburne's
+// Cash Advances tab in full. Rates are the old books' (9%; Ashburne 12%), per advance.
+// `into` is where the money landed: 1000 for a purchase, a bank code for a draw, 2030
+// when it reimbursed Paul, or the rehab account when Dennis paid a contractor directly
+// (that single entry IS the expense - Dr rehab / Cr 2010). 1616 Granite is skipped: its
+// three advances are already on the tab from the Phase 2.6 gate. Sold properties get
+// their repaid_date so interest stops at the sale. Idempotent by advance memo.
+function migrationRegisterAdvances() {
+  var L = [
+    ['280 Sparkling', 'purchase', '2026-06-02', 196850.50, '1000', 9, 'Purchase principal (migration)', '2026-08-06'],
+    ['881 Newport', 'purchase', '2026-06-29', 207000, '1000', 9, 'Purchase principal (migration)', ''],
+    ['881 Newport', 'cash', '2026-07-09', 2000, '2030', 9, 'Cash advance, reimbursed Paul (migration)', ''],
+    ['469 Brushwood', 'purchase', '2026-09-01', 253000, '1000', 9, 'Purchase principal (migration)', ''],
+    ['366 Mesa', 'purchase', '2026-08-04', 123645, '1000', 9, 'Purchase principal (migration)', ''],
+    ['366 Mesa', 'cash', '2026-08-12', 10000, '1401', 9, 'Cash advance (migration)', ''],
+    ['136 Bowling Green', 'purchase', '2026-06-02', 294651, '1000', 9, 'Purchase principal (migration)', ''],
+    ['136 Bowling Green', 'cash', '2026-06-01', 1500, '1402', 9, 'Cash advance (migration)', ''],
+    ['206 White Rock', 'purchase', '2026-06-02', 184500, '1000', 9, 'Purchase principal (migration)', ''],
+    ['104 Ashburne', 'purchase', '2025-12-02', 325000, '1000', 12, 'Purchase principal, Auction.com (migration)', ''],
+    ['104 Ashburne', 'cash', '2025-12-10', 200, '1020', 12, 'Dennis paid Julio directly - trash removal (migration)', ''],
+    ['104 Ashburne', 'cash', '2025-12-11', 200, '1020', 12, 'Dennis paid Julio directly - pool clean out (migration)', ''],
+    ['104 Ashburne', 'cash', '2026-01-08', 200, '1020', 12, 'Dennis paid Julio directly - labor (migration)', ''],
+    ['104 Ashburne', 'cash', '2026-01-12', 7000, '1020', 12, 'Dennis paid Juanito directly - drywall/supplies/painting (migration)', ''],
+    ['104 Ashburne', 'cash', '2026-01-23', 7000, '1020', 12, 'Dennis paid Juanito directly - painting (migration)', ''],
+    ['104 Ashburne', 'cash', '2026-01-24', 606.70, '1020', 12, 'Dennis paid Robinson Air directly - HVAC (migration)', ''],
+    ['104 Ashburne', 'cash', '2026-02-04', 50000, '1402', 12, 'Draw - rehab (migration)', ''],
+    ['104 Ashburne', 'cash', '2026-03-06', 60000, '1402', 12, 'Draw - rehab (migration)', ''],
+    ['104 Ashburne', 'cash', '2026-03-30', 20000, '1402', 12, 'Draw - rehab (migration)', ''],
+    ['104 Ashburne', 'cash', '2026-04-08', 20000, '1402', 12, 'Draw - rehab (migration)', ''],
+    ['104 Ashburne', 'cash', '2026-04-10', 400, '1020', 12, 'Dennis paid Julio directly - labor (migration)', ''],
+    ['104 Ashburne', 'cash', '2026-04-16', 21, '1060', 12, 'Dennis paid City of Corsicana dump directly (migration)', ''],
+    ['104 Ashburne', 'cash', '2026-04-22', 199, '1330', 12, 'Dennis paid listing fee (Iley) directly (migration)', ''],
+    ['104 Ashburne', 'cash', '2026-05-04', 250, '1020', 12, 'Dennis paid Julio directly - labor (migration)', ''],
+    ['104 Ashburne', 'cash', '2026-05-05', 1065.74, '1020', 12, 'Dennis paid Robinson Air directly - HVAC (migration)', ''],
+    ['104 Ashburne', 'cash', '2026-05-07', 299, '1330', 12, 'Dennis paid listing fee (Iley) directly (migration)', ''],
+    ['104 Ashburne', 'cash', '2026-05-21', 250, '1020', 12, 'Dennis paid Julio directly - labor (migration)', ''],
+    ['104 Ashburne', 'cash', '2026-06-29', 8000, '1402', 12, 'Draw - buyer repairs (migration)', ''],
+    ['104 Ashburne', 'cash', '2026-07-13', 150, '1020', 12, 'Dennis paid Julio directly - landscaping (migration)', ''],
+    ['104 Ashburne', 'cash', '2026-07-27', 300, '1020', 12, 'Dennis paid Julio directly - landscaping (migration)', '']
+  ];
+  var props = PropertiesService.getScriptProperties();
+  var ss = openOrCreateWorkbook_(props);
+  var advSheet = ss.getSheetByName('Advances');
+  var cols = headerIndex_(advSheet);
+  var existing = {};
+  if (advSheet.getLastRow() > 1) advSheet.getRange(2, 1, advSheet.getLastRow() - 1, advSheet.getLastColumn()).getValues().forEach(function (r) {
+    existing[String(r[cols['property'] - 1]) + '|' + formatIsoDate_(r[cols['date'] - 1]) + '|' + Number(r[cols['amount'] - 1])] = true;
+  });
+  var out = [];
+  L.forEach(function (a) {
+    var key = a[0] + '|' + a[2] + '|' + a[3];
+    if (existing[key]) { out.push(key + ' -> exists'); return; }
+    var r = addAdvance({ kind: a[1], property: a[0], date: a[2], amount: a[3], into: a[4], rate_pct: a[5], memo: a[6] });
+    if (r.ok && a[7]) {
+      var c2 = headerIndex_(advSheet);
+      upsertRow_(advSheet, c2, 'advance_id', { advance_id: r.advance_id, repaid_date: a[7], status: 'repaid' });
+    }
+    out.push(key + ' -> ' + (r.ok ? r.advance_id : 'FAILED ' + r.message));
+  });
   console.log(out.join('\n'));
   return out;
 }
