@@ -456,5 +456,5 @@ then records it with a new `mark-posted` verb on `/api/inbox`; Dismiss and Repro
 the existing verbs. The queue stays in Blobs — the `Inbox` tab first planned would have
 been a second copy of the same state. `/api/inbox` and `/api/file` now also accept
 `x-poller-secret` (the sidebar's auth; the workbook checks the Users tab first). Web Inbox
-unchanged. 389 tests.
-
+unchanged. 389 tests. Gated the same evening: the Uber DFW ride held on `PAYER_UNKNOWN` was
+assigned PAUL and approved from the sidebar; posted and marked in one click.

@@ -112,6 +112,10 @@ check runs in the workbook first, and `by` carries the user's email into the env
 review record. The web Inbox stays as it was — it is still the place for Posted, Dismissed,
 Dry runs and Errors.
 
+Gate, 2026-09-16: from the sidebar, the day's Uber DFW ride (held on `PAYER_UNKNOWN`) was
+assigned PAUL and approved; `receipt-20260916-4537a2213720-a381` posted and the envelope
+was marked posted in the same click. No Drive file, correctly — the email had no attachment.
+
 ## 7 · Phase 3 under this shape
 
 `docs/phase3-spec.md` is revised before it starts: "Import statement…" becomes a menu item
