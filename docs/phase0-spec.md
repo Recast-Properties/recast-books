@@ -278,6 +278,12 @@ Function routes (all JSON; all but `books-config` require `Authorization: Bearer
 - Workbook **Recast Books**: `12QVyxm3KnLD7CDC8mFAPd5ulZuRXRluNDi4qK4BBxKM`
 - Workbook **Recast Books STAGING** (D-025, Drive copy made 2026-09-17, the Phase 4 scratchpad;
   archived after cutover): `1ElTwWQ4xekYjtiXEybOuRfC28vWtkWNI5-NcjVOxWBw`
+  - its bound writer (copied with the workbook): script id
+    `1Hh0ppVeZepu8GClShAINt4bxNZNNxW1dzZK_xFdmlh6hQ5fCtqdwvtL5`, pushed from the repo
+    2026-09-17; web-app deployment `AKfycbzXcpuGfFbKWCFXMLYbgsJVBYKj4DkOapjroT02IN2NMh-HhltmmDv-dE9DaLy8_FUXNw`
+    (`WRITER_URL` on Netlify points here during staging, back to production at cutover)
+  - its Drive filing folder **Recast Books STAGING**: `1jNk7O9ozdjd8YT-4y4N7YfC_WLwJVbkm`
+    (set as `DOCS_ROOT_FOLDER_ID` on the staging project so nothing files into the real folder)
   (https://docs.google.com/spreadsheets/d/12QVyxm3KnLD7CDC8mFAPd5ulZuRXRluNDi4qK4BBxKM/edit),
   created by `setup()` on 2026-09-11. The writer is the only thing that writes to it.
 
