@@ -180,3 +180,25 @@ mailbox less junk: **≈ 525 reads → $79–110**.
 pvb421@gmail.com and recastpropertiestravel@gmail.com as accounts of their own (Q-9); the
 104ashburne@gmail.com history appears to be already inside properties@ (333 messages
 addressed to it), to be confirmed against that account.
+
+## 10 · pvb421@gmail.com listing, 2026-09-17 (personal Gmail, new project, 3 parts)
+
+`data/migration/2026-09-17/gmail-listing-pvb421-2026-09-17.json` (4,253 messages),
+`pvb421-candidates.json`. This is Paul's personal mailbox: Amazon (476), Chase alerts
+(180), PropertyMax, Fandango, Capital One, Robinhood, family Venmo. The business items
+were forwarded out of it (46 to receipts@, 264 to 104ashburne@, 79 to paul@, 21 to
+136bowlinggreen@) and are already in the other listings.
+
+**Do not replay this mailbox wholesale.** It is personal, most of it would be dismissed at
+$0.11–0.20 a read, and it puts personal mail through the business system. Use it as a
+lookup for named gaps only:
+
+- **Harbor Freight**: 8 e-receipts here, 5 never forwarded — the documents behind the
+  no-document Harbor Freight tool rows (see the match printed in the session log; carried in
+  `pvb421-candidates.json`).
+- **Amazon**: orders whose amount appears on a tab are pulled by id; the rest is personal.
+- **Chase**: "Your latest statement is now available" and transaction alerts are the
+  personal-Visa source for Phase 3 (statement uploads), not receipts.
+- Uber Eats, Venmo to family, Fandango etc.: personal, never read.
+
+Replay reads from pvb421: **a few dozen by id**, ≈ $5–10.

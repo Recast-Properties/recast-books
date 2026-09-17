@@ -1,0 +1,5324 @@
+[
+{
+"vendor": "Harbor Freight",
+"id": "19c164cda6c80753",
+"d": "2026-01-31",
+"from": "Harbor Freight Tools <no-reply@harborfreight.com>",
+"subj": "Your receipt from Harbor Freight | PORTLAND NE GLISAN  OR #03359",
+"amts": [
+"$16.99",
+"$0.00"
+],
+"att": []
+},
+{
+"vendor": "Harbor Freight",
+"id": "19c16356085f38c7",
+"d": "2026-01-31",
+"from": "Harbor Freight Tools <no-reply@harborfreight.com>",
+"subj": "Your receipt from Harbor Freight | GRESHAM  OR #00169",
+"amts": [
+"$16.99",
+"$0.00"
+],
+"att": []
+},
+{
+"vendor": "Venmo",
+"id": "19c0819c565999d7",
+"d": "2026-01-28",
+"from": "Venmo <venmo@venmo.com>",
+"subj": "You paid John Shively $20.00",
+"amts": [
+"$20.00"
+],
+"att": []
+},
+{
+"vendor": "Chase",
+"id": "19c05a70d151e7ee",
+"d": "2026-01-28",
+"from": "Chase <no.reply.alerts@chase.com>",
+"subj": "Your latest statement is now available",
+"amts": [],
+"att": []
+},
+{
+"vendor": "Uber",
+"id": "19c026b1e4d0c784",
+"d": "2026-01-27",
+"from": "Uber Receipts <noreply@uber.com>",
+"subj": "Your Tuesday evening order with Uber Eats",
+"amts": [
+"$52.43",
+"$6.74"
+],
+"att": []
+},
+{
+"vendor": "Uber",
+"id": "19c02a23890d52f5",
+"d": "2026-01-27",
+"from": "Uber Receipts <noreply@uber.com>",
+"subj": "Your Tuesday evening order with Uber Eats",
+"amts": [
+"$63.67",
+"$6.74",
+"$52.43",
+"$11.24"
+],
+"att": []
+},
+{
+"vendor": "Venmo",
+"id": "19c015ee52e0b68a",
+"d": "2026-01-27",
+"from": "Venmo <venmo@venmo.com>",
+"subj": "You paid Aden Bjork $1,500.00",
+"amts": [
+"$1500.00"
+],
+"att": []
+},
+{
+"vendor": "Amazon",
+"id": "19bfc4075c9d3cdd",
+"d": "2026-01-26",
+"from": "\"Amazon.com\" <auto-confirm@amazon.com>",
+"subj": "Ordered: \"E BY ELIDAN Classic Dad Hat...\" and 1 more item",
+"amts": [],
+"att": []
+},
+{
+"vendor": "Uber",
+"id": "19bf3a8ee8eafd5e",
+"d": "2026-01-24",
+"from": "Uber Receipts <noreply@uber.com>",
+"subj": "Your Saturday evening order with Uber Eats",
+"amts": [
+"$54.29",
+"$10.45"
+],
+"att": []
+},
+{
+"vendor": "Uber",
+"id": "19bf3dff8082b481",
+"d": "2026-01-25",
+"from": "Uber Receipts <noreply@uber.com>",
+"subj": "Your Saturday evening order with Uber Eats",
+"amts": [
+"$65.94",
+"$10.45",
+"$54.29",
+"$11.65"
+],
+"att": []
+},
+{
+"vendor": "Amazon",
+"id": "19bf37cd98342180",
+"d": "2026-01-24",
+"from": "\"Amazon.com\" <digital-no-reply@amazon.com>",
+"subj": "Amazon.com order of Casino.",
+"amts": [
+"$3.99",
+"$0.00"
+],
+"att": []
+},
+{
+"vendor": "Amazon",
+"id": "19bf37979610c0e8",
+"d": "2026-01-24",
+"from": "\"Amazon.com\" <auto-confirm@amazon.com>",
+"subj": "Ordered: \"Wireless USB WiFi Adapter...\"",
+"amts": [],
+"att": []
+},
+{
+"vendor": "Uber",
+"id": "19bf171196ddfd2c",
+"d": "2026-01-24",
+"from": "Uber Receipts <noreply@uber.com>",
+"subj": "Your Saturday morning order with Uber Eats",
+"amts": [
+"$76.65",
+"$14.88"
+],
+"att": []
+},
+{
+"vendor": "Uber",
+"id": "19bf1a82244e596c",
+"d": "2026-01-24",
+"from": "Uber Receipts <noreply@uber.com>",
+"subj": "Your Saturday morning order with Uber Eats",
+"amts": [
+"$89.46",
+"$14.88",
+"$76.65",
+"$12.81"
+],
+"att": []
+},
+{
+"vendor": "Amazon",
+"id": "19bee00f0374741f",
+"d": "2026-01-23",
+"from": "\"Amazon.com\" <digital-no-reply@amazon.com>",
+"subj": "Amazon.com order of No Country for Old Men.",
+"amts": [
+"$3.99",
+"$0.00"
+],
+"att": []
+},
+{
+"vendor": "Uber",
+"id": "19bed40dc5d5a854",
+"d": "2026-01-23",
+"from": "paul bjork <pvb421@gmail.com>",
+"subj": "Fwd: [Personal] Your Friday afternoon trip with Uber",
+"amts": [
+"$101.43",
+"$5.42",
+"$82.26",
+"$1.35",
+"$13.59",
+"$5.00",
+"$2.00",
+"$1.29",
+"$1.41",
+"-$5.47"
+],
+"att": []
+},
+{
+"vendor": "Uber",
+"id": "19beb196edeba9e5",
+"d": "2026-01-23",
+"from": "paul bjork <pvb421@gmail.com>",
+"subj": "Fwd: [Personal] Your Friday morning trip with Uber",
+"amts": [
+"$45.98",
+"$2.39",
+"$37.76",
+"$4.00",
+"$2.11",
+"$2.00",
+"$0.11"
+],
+"att": []
+},
+{
+"vendor": "Uber",
+"id": "19beb199b3a32f2f",
+"d": "2026-01-23",
+"from": "paul bjork <pvb421@gmail.com>",
+"subj": "Fwd: [Personal] Your Friday morning trip with Uber",
+"amts": [
+"$45.98",
+"$2.39",
+"$37.76",
+"$4.00",
+"$2.11",
+"$2.00",
+"$0.11"
+],
+"att": []
+},
+{
+"vendor": "Uber",
+"id": "19be8e81785be999",
+"d": "2026-01-22",
+"from": "Uber Receipts <noreply@uber.com>",
+"subj": "Your Thursday evening order with Uber Eats",
+"amts": [
+"$25.47",
+"$3.57"
+],
+"att": []
+},
+{
+"vendor": "Uber",
+"id": "19be91f212f96b06",
+"d": "2026-01-22",
+"from": "Uber Receipts <noreply@uber.com>",
+"subj": "Your Thursday evening order with Uber Eats",
+"amts": [
+"$31.56",
+"$3.57",
+"$25.47",
+"$6.09"
+],
+"att": []
+},
+{
+"vendor": "American Airlines",
+"id": "19be3f2b77dae287",
+"d": "2026-01-21",
+"from": "American Airlines <no-reply@info.email.aa.com>",
+"subj": "Your trip confirmation (DFW - PDX)",
+"amts": [
+"$665.80",
+"$590.70",
+"$75.10",
+"$40.00",
+"$45.00",
+"$35.00"
+],
+"att": []
+},
+{
+"vendor": "Chase",
+"id": "19be3d483aceae3b",
+"d": "2026-01-21",
+"from": "Chase <no.reply.alerts@chase.com>",
+"subj": "You set up your one-time vehicle loan payment",
+"amts": [
+"$574.63"
+],
+"att": []
+},
+{
+"vendor": "Uber",
+"id": "19be3970bfbf32d5",
+"d": "2026-01-21",
+"from": "Uber Receipts <noreply@uber.com>",
+"subj": "Your Wednesday evening order with Uber Eats",
+"amts": [
+"$49.28"
+],
+"att": []
+},
+{
+"vendor": "Uber",
+"id": "19be3ce1454974b1",
+"d": "2026-01-21",
+"from": "Uber Receipts <noreply@uber.com>",
+"subj": "Your Wednesday evening order with Uber Eats",
+"amts": [
+"$60.41",
+"$49.28",
+"$11.13"
+],
+"att": []
+},
+{
+"vendor": "Venmo",
+"id": "19be2c4f0969a107",
+"d": "2026-01-21",
+"from": "Venmo <venmo@venmo.com>",
+"subj": "You paid Jodi Cue $100.00",
+"amts": [
+"$100.00"
+],
+"att": []
+},
+{
+"vendor": "Uber",
+"id": "19bde920481fca0e",
+"d": "2026-01-20",
+"from": "Uber Receipts <noreply@uber.com>",
+"subj": "Your Tuesday evening order with Uber Eats",
+"amts": [
+"$55.67",
+"$8.12"
+],
+"att": []
+},
+{
+"vendor": "Uber",
+"id": "19bdec9117bff8ab",
+"d": "2026-01-20",
+"from": "Uber Receipts <noreply@uber.com>",
+"subj": "Your Tuesday evening order with Uber Eats",
+"amts": [
+"$67.15",
+"$8.12",
+"$55.67",
+"$11.48"
+],
+"att": []
+},
+{
+"vendor": "Chase",
+"id": "19bdd90647f631f3",
+"d": "2026-01-20",
+"from": "Chase <no.reply.alerts@chase.com>",
+"subj": " Your account\u2019s available balance is below your $50.00 limit for account ending in (\u20268870)",
+"amts": [
+"$50.00",
+"$42.50"
+],
+"att": []
+},
+{
+"vendor": "American Airlines",
+"id": "19bd2d7ccb3ba7b6",
+"d": "2026-01-18",
+"from": "American Airlines <no-reply@info.email.aa.com>",
+"subj": "Your trip confirmation (DFW - PDX)",
+"amts": [
+"$575.60",
+"$506.79",
+"$68.81",
+"$40.00",
+"$45.00",
+"$35.00"
+],
+"att": []
+},
+{
+"vendor": "Chase",
+"id": "19bce7645a0016f9",
+"d": "2026-01-17",
+"from": "Fandango <fandango@movies.fandango.com>",
+"subj": "Fandango Purchase Confirmation - Please Read",
+"amts": [
+"$36.88"
+],
+"att": []
+},
+{
+"vendor": "Chase",
+"id": "19bccfd616225f85",
+"d": "2026-01-17",
+"from": "Chase <no.reply.alerts@chase.com>",
+"subj": " Your account\u2019s available balance is below your $50.00 limit for account ending in (\u20268870)",
+"amts": [
+"$50.00",
+"$36.89"
+],
+"att": []
+},
+{
+"vendor": "Chase",
+"id": "19bc7e3a43467b5e",
+"d": "2026-01-16",
+"from": "Chase <no.reply.alerts@chase.com>",
+"subj": " Your account\u2019s available balance is below your $50.00 limit for account ending in (\u20268870)",
+"amts": [
+"$50.00",
+"$39.88"
+],
+"att": []
+},
+{
+"vendor": "PayPal",
+"id": "19bc39079be930ca",
+"d": "2026-01-15",
+"from": "PayPal <noreply@service.paypal.com>",
+"subj": "Paul, your December account statement is available.",
+"amts": [],
+"att": []
+},
+{
+"vendor": "Chase",
+"id": "19bc2ac0a6772c04",
+"d": "2026-01-15",
+"from": "Chase Fraud Alert <Chase@fraudalert.chase.com>",
+"subj": "Action Needed: Please confirm activity",
+"amts": [
+"$248.67"
+],
+"att": []
+},
+{
+"vendor": "Uber",
+"id": "19bbf4f863dd053b",
+"d": "2026-01-14",
+"from": "paul bjork <pvb421@gmail.com>",
+"subj": "Fwd: Your Wednesday afternoon order with Uber Eats",
+"amts": [
+"$58.82",
+"$8.52"
+],
+"att": []
+},
+{
+"vendor": "Chase",
+"id": "19bb983dfbb0314c",
+"d": "2026-01-13",
+"from": "Chase <no.reply.alerts@chase.com>",
+"subj": " Your account\u2019s available balance is below your $50.00 limit for account ending in (\u20268870)",
+"amts": [
+"$50.00",
+"$45.41"
+],
+"att": []
+},
+{
+"vendor": "Chase",
+"id": "19badcbf932cbb39",
+"d": "2026-01-11",
+"from": "Chase Fraud Alert <Chase@fraudalert.chase.com>",
+"subj": "Action Needed: Please confirm activity",
+"amts": [
+"$183.59"
+],
+"att": []
+},
+{
+"vendor": "American Airlines",
+"id": "19bab85986b26c5e",
+"d": "2026-01-10",
+"from": "American Airlines <no-reply@info.email.aa.com>",
+"subj": "Your trip confirmation (DFW - PDX)",
+"amts": [
+"$316.50",
+"$280.09",
+"$36.41",
+"$45.00"
+],
+"att": []
+},
+{
+"vendor": "Amazon",
+"id": "19ba819615c4f195",
+"d": "2026-01-10",
+"from": "\"Amazon.com\" <auto-confirm@amazon.com>",
+"subj": "Ordered: \"adidas Men's Socks...\"",
+"amts": [],
+"att": []
+},
+{
+"vendor": "Amazon",
+"id": "19ba81759965cfcd",
+"d": "2026-01-10",
+"from": "\"Amazon.com\" <auto-confirm@amazon.com>",
+"subj": "Ordered: \"Saucony Men's Excursion...\"",
+"amts": [],
+"att": []
+},
+{
+"vendor": "Amazon",
+"id": "19c01ee76506e3ea",
+"d": "2026-01-27",
+"from": "paul bjork <pvb421@gmail.com>",
+"subj": "Fwd: Ordered: \"Amazon Basics Electronic...\"",
+"amts": [
+"$36.11",
+"$56.99",
+"$319.99",
+"$75.99"
+],
+"att": []
+},
+{
+"vendor": "Amazon",
+"id": "19ba13aee9db863e",
+"d": "2026-01-08",
+"from": "\"Amazon.com\" <digital-no-reply@amazon.com>",
+"subj": "Amazon.com order of George Michael: Freedom Uncut.",
+"amts": [
+"$3.99",
+"$0.00"
+],
+"att": []
+},
+{
+"vendor": "Chase",
+"id": "19b9ddea312b38b8",
+"d": "2026-01-08",
+"from": "Chase <no.reply.alerts@chase.com>",
+"subj": "Your credit card statement is available",
+"amts": [
+"$718.00",
+"$21857.53"
+],
+"att": []
+},
+{
+"vendor": "Amazon",
+"id": "19b9bc1454926653",
+"d": "2026-01-07",
+"from": "\"Amazon.com\" <digital-no-reply@amazon.com>",
+"subj": "Amazon.com order of George Michael: A Different Story.",
+"amts": [
+"$3.99",
+"$0.00"
+],
+"att": []
+},
+{
+"vendor": "Chase",
+"id": "19b937c4bf0cda39",
+"d": "2026-01-06",
+"from": "Chase <no.reply.alerts@chase.com>",
+"subj": "Your auto account statement is available",
+"amts": [
+"$574.63"
+],
+"att": []
+},
+{
+"vendor": "Amazon",
+"id": "19b8ebdc23c2b15e",
+"d": "2026-01-05",
+"from": "\"Amazon.com\" <auto-confirm@amazon.com>",
+"subj": "Ordered: \"TROND 20W USB C Power Strip...\"",
+"amts": [],
+"att": []
+},
+{
+"vendor": "Chase",
+"id": "19b862678a1db472",
+"d": "2026-01-03",
+"from": "Chase <no.reply.alerts@chase.com>",
+"subj": "Your credit card payment is scheduled",
+"amts": [
+"$751.46"
+],
+"att": []
+},
+{
+"vendor": "Chase",
+"id": "19b7ca15e4bc957a",
+"d": "2026-01-01",
+"from": "Chase <no.reply.alerts@chase.com>",
+"subj": "Your latest statement is now available",
+"amts": [],
+"att": []
+},
+{
+"vendor": "Chase",
+"id": "19b771bec6c0c848",
+"d": "2025-12-31",
+"from": "Elizabeth Jewelry Designs <requests+elizabethjewelrydesigns.com@judge.",
+"subj": "Please review your latest purchase from Elizabeth Jewelry Designs",
+"amts": [],
+"att": []
+},
+{
+"vendor": "Venmo",
+"id": "19ca5d645b069546",
+"d": "2026-02-28",
+"from": "Venmo <venmo@venmo.com>",
+"subj": "You paid Laurel North $150.00",
+"amts": [
+"$150.00"
+],
+"att": []
+},
+{
+"vendor": "Chase",
+"id": "19ca077239e14252",
+"d": "2026-02-27",
+"from": "Etsy Support <trust@etsy.com>",
+"subj": "Your Etsy purchase from bloomingflowerpot has been canceled",
+"amts": [],
+"att": []
+},
+{
+"vendor": "Chase",
+"id": "19c9f8d0d3239c4d",
+"d": "2026-02-27",
+"from": "Etsy Transactions <transaction@account.etsy.com>",
+"subj": "Your Etsy Purchase from bloomingflowerpot (3989334369)",
+"amts": [
+"$195.00",
+"$0.00"
+],
+"att": []
+},
+{
+"vendor": "Chase",
+"id": "19c9aba350ac14c0",
+"d": "2026-02-26",
+"from": "Chase <no.reply.alerts@chase.com>",
+"subj": "Your latest statement is now available",
+"amts": [],
+"att": []
+},
+{
+"vendor": "Uber",
+"id": "19c98105dc070347",
+"d": "2026-02-25",
+"from": "Uber Receipts <noreply@uber.com>",
+"subj": "[Personal] Your Wednesday evening order with Uber Eats",
+"amts": [
+"$40.85"
+],
+"att": []
+},
+{
+"vendor": "PayPal",
+"id": "19c9692caaecb06a",
+"d": "2026-02-25",
+"from": "PayPal <service@paypal.com>",
+"subj": "PARAMOUNT+: $13.99\u00a0USD",
+"amts": [
+"$13.99"
+],
+"att": []
+},
+{
+"vendor": "Venmo",
+"id": "19c9306eae9b80bb",
+"d": "2026-02-24",
+"from": "Venmo <venmo@venmo.com>",
+"subj": "Your Venmo Standard transfer has been initiated",
+"amts": [
+"$900.00"
+],
+"att": []
+},
+{
+"vendor": "Venmo",
+"id": "19c915a3ba65b497",
+"d": "2026-02-24",
+"from": "Venmo <venmo@venmo.com>",
+"subj": "Doug Crane paid you $900.00",
+"amts": [
+"$900.00"
+],
+"att": []
+},
+{
+"vendor": "Uber",
+"id": "19c9106f2d801fd0",
+"d": "2026-02-24",
+"from": "Uber Receipts <noreply@uber.com>",
+"subj": "[Personal] Your Tuesday morning trip with Uber",
+"amts": [
+"$14.99",
+"$0.77",
+"$8.97",
+"$1.90",
+"$2.00",
+"$0.50",
+"$0.11",
+"$1.51"
+],
+"att": []
+},
+{
+"vendor": "Uber",
+"id": "19c9355bf804b6c3",
+"d": "2026-02-24",
+"from": "Uber Receipts <noreply@uber.com>",
+"subj": "[Personal] Your Tuesday morning trip with Uber",
+"amts": [
+"$14.99",
+"$0.77",
+"$8.97",
+"$1.90",
+"$2.00",
+"$0.50",
+"$0.11",
+"$1.51"
+],
+"att": []
+},
+{
+"vendor": "Amazon",
+"id": "19c9052310fdd825",
+"d": "2026-02-24",
+"from": "\"Amazon.com\" <auto-confirm@amazon.com>",
+"subj": "Ordered: \"Dryer Lint Vacuum...\"",
+"amts": [],
+"att": []
+},
+{
+"vendor": "Amazon",
+"id": "19c901e9a4373339",
+"d": "2026-02-24",
+"from": "\"Amazon.com\" <auto-confirm@amazon.com>",
+"subj": "Ordered: 2 \"Sofucor 52 Inch Ceiling...\"",
+"amts": [],
+"att": []
+},
+{
+"vendor": "Uber",
+"id": "19c8dbe35a968769",
+"d": "2026-02-23",
+"from": "Uber Receipts <noreply@uber.com>",
+"subj": "[Personal] Your Monday evening order with Uber Eats",
+"amts": [
+"$63.20",
+"$6.14"
+],
+"att": []
+},
+{
+"vendor": "Uber",
+"id": "19c8c75d3708f299",
+"d": "2026-02-23",
+"from": "Uber Receipts <noreply@uber.com>",
+"subj": "[Personal] Your Monday morning order with Uber Eats",
+"amts": [
+"$38.43"
+],
+"att": []
+},
+{
+"vendor": "Amazon",
+"id": "19c8bee0d64d6062",
+"d": "2026-02-23",
+"from": "Amazon Prime Video <no-reply@primevideo.com>",
+"subj": "Amazon.com order of D01-5297051-9238611.",
+"amts": [
+"$3.99",
+"$0.00"
+],
+"att": []
+},
+{
+"vendor": "Amazon",
+"id": "19c8b969c34c97c4",
+"d": "2026-02-23",
+"from": "\"Amazon.com\" <auto-confirm@amazon.com>",
+"subj": "Ordered: \"Crest Pro-Health Gum...\"",
+"amts": [],
+"att": []
+},
+{
+"vendor": "Amazon",
+"id": "19c8804177f03703",
+"d": "2026-02-22",
+"from": "\"Amazon.com\" <auto-confirm@amazon.com>",
+"subj": "Ordered: \"Leor & Lair Ivory Taper...\" and 1 more item",
+"amts": [],
+"att": []
+},
+{
+"vendor": "Amazon",
+"id": "19c872f93ec1d9fb",
+"d": "2026-02-22",
+"from": "\"Amazon.com\" <auto-confirm@amazon.com>",
+"subj": "Ordered: \"60W Candelabra Light Bulbs,...\"",
+"amts": [],
+"att": []
+},
+{
+"vendor": "Amazon",
+"id": "19c872ea2ebcb638",
+"d": "2026-02-22",
+"from": "\"Amazon.com\" <auto-confirm@amazon.com>",
+"subj": "Ordered: 6 \"Black Ceiling Fans with...\"",
+"amts": [],
+"att": []
+},
+{
+"vendor": "Amazon",
+"id": "19c872c8f300ca5b",
+"d": "2026-02-22",
+"from": "\"Amazon.com\" <auto-confirm@amazon.com>",
+"subj": "Ordered: 6 \"Black Ceiling Fans with...\" and 1 more item",
+"amts": [],
+"att": []
+},
+{
+"vendor": "Uber",
+"id": "19c86a5530423e26",
+"d": "2026-02-22",
+"from": "Uber Receipts <noreply@uber.com>",
+"subj": "[Personal] Your Sunday morning order with Uber Eats",
+"amts": [
+"$35.93",
+"$3.93"
+],
+"att": []
+},
+{
+"vendor": "Chase",
+"id": "19c81c5308ec9c76",
+"d": "2026-02-21",
+"from": "Fandango <fandango@movies.fandango.com>",
+"subj": "Fandango Purchase Confirmation - Please Read",
+"amts": [
+"$66.76"
+],
+"att": []
+},
+{
+"vendor": "Uber",
+"id": "19c7ac381e307b01",
+"d": "2026-02-20",
+"from": "Uber Receipts <noreply@uber.com>",
+"subj": "[Personal] Your Thursday evening order with Uber Eats",
+"amts": [
+"$33.38"
+],
+"att": []
+},
+{
+"vendor": "Amazon",
+"id": "19c792472c22963e",
+"d": "2026-02-19",
+"from": "\"return@amazon.com\" <return@amazon.com>",
+"subj": "Return request confirmed for 2xFUMLTP 42 inch Modern Ceiling...",
+"amts": [
+"$136.38",
+"$0.00",
+"$29.99",
+"$39.99",
+"$32.99"
+],
+"att": []
+},
+{
+"vendor": "Amazon",
+"id": "19c7922fa486afa6",
+"d": "2026-02-19",
+"from": "\"return@amazon.com\" <return@amazon.com>",
+"subj": "Return request confirmed for 3xFUMLTP 42 inch Modern Ceiling...",
+"amts": [
+"$204.57",
+"$0.00",
+"$29.99",
+"$39.99",
+"$32.99"
+],
+"att": []
+},
+{
+"vendor": "Amazon",
+"id": "19c792078f15b90c",
+"d": "2026-02-19",
+"from": "\"return@amazon.com\" <return@amazon.com>",
+"subj": "Return request confirmed for 2x60 in Ceiling Fan of 7400+CFM...",
+"amts": [
+"$324.72",
+"$0.00",
+"$89.98",
+"$129.99",
+"$99.99"
+],
+"att": []
+},
+{
+"vendor": "Amazon",
+"id": "19c791b43e79becd",
+"d": "2026-02-19",
+"from": "\"return@amazon.com\" <return@amazon.com>",
+"subj": "Return request confirmed for FUMLTP 52 inch Modern Ceiling...",
+"amts": [
+"$75.76",
+"$0.00",
+"$35.98",
+"$49.99",
+"$9.99",
+"$12.99"
+],
+"att": []
+},
+{
+"vendor": "Amazon",
+"id": "19c791b4203116fc",
+"d": "2026-02-19",
+"from": "\"return@amazon.com\" <return@amazon.com>",
+"subj": "Return request confirmed for 52in Ceiling Fan of 6200+CFM...",
+"amts": [
+"$129.89",
+"$0.00"
+],
+"att": []
+},
+{
+"vendor": "Amazon",
+"id": "19c7920787797229",
+"d": "2026-02-19",
+"from": "\"return@amazon.com\" <return@amazon.com>",
+"subj": "Return request confirmed for 52in Ceiling Fan of 6200+CFM...",
+"amts": [
+"$129.89",
+"$0.00"
+],
+"att": []
+},
+{
+"vendor": "Uber",
+"id": "19c7868f7e3d3aaf",
+"d": "2026-02-19",
+"from": "Uber Eats <noreply@uber.com>",
+"subj": "Your order from Taco Casa (6914 US Hwy 287 S) has been canceled",
+"amts": [],
+"att": []
+},
+{
+"vendor": "Uber",
+"id": "19c72b5b472b270a",
+"d": "2026-02-18",
+"from": "paul bjork <pvb421@gmail.com>",
+"subj": "Fwd: [Personal] Your Wednesday afternoon order with Uber Eats",
+"amts": [
+"$37.58"
+],
+"att": []
+},
+{
+"vendor": "Uber",
+"id": "19c72b5e3069124b",
+"d": "2026-02-18",
+"from": "paul bjork <pvb421@gmail.com>",
+"subj": "Fwd: [Personal] Your Wednesday afternoon order with Uber Eats",
+"amts": [
+"$131.26",
+"$19.18"
+],
+"att": []
+},
+{
+"vendor": "Chase",
+"id": "19c6ceac4f73b18e",
+"d": "2026-02-17",
+"from": "Chase <no.reply.alerts@chase.com>",
+"subj": "You set up your one-time vehicle loan payment",
+"amts": [
+"$574.63"
+],
+"att": []
+},
+{
+"vendor": "Amazon",
+"id": "19c698ad7e6cf908",
+"d": "2026-02-16",
+"from": "\"Amazon.com\" <auto-confirm@amazon.com>",
+"subj": "Ordered: \"Apple AirTag (1st...\" and 3 more items",
+"amts": [],
+"att": []
+},
+{
+"vendor": "PayPal",
+"id": "19c62c8f879e84fd",
+"d": "2026-02-15",
+"from": "PayPal <noreply@service.paypal.com>",
+"subj": "Paul, your January account statement is available.",
+"amts": [],
+"att": []
+},
+{
+"vendor": "American Airlines",
+"id": "19c5dff78ec6f234",
+"d": "2026-02-14",
+"from": "American Airlines <no-reply@info.email.aa.com>",
+"subj": "Your trip confirmation (DFW - PDX)",
+"amts": [
+"$5.60",
+"$36.39",
+"$33.85",
+"$2.54",
+"$41.99",
+"$40.00",
+"$45.00",
+"$35.00"
+],
+"att": []
+},
+{
+"vendor": "Chase",
+"id": "19c5c28856720c9a",
+"d": "2026-02-14",
+"from": "Adobe <store@adobe.com>",
+"subj": "Thanks for your purchase!",
+"amts": [
+"$22.99",
+"$0.00"
+],
+"att": []
+},
+{
+"vendor": "Amazon",
+"id": "19c5921cc3bf8fe5",
+"d": "2026-02-13",
+"from": "\"Amazon.com\" <auto-confirm@amazon.com>",
+"subj": "Ordered: \"Niagara Conservation...\" and 1 more item",
+"amts": [],
+"att": []
+},
+{
+"vendor": "Amazon",
+"id": "19c53c92aadec550",
+"d": "2026-02-12",
+"from": "\"Amazon.com\" <auto-confirm@amazon.com>",
+"subj": "Ordered: \"Saker Silicone Caulking...\"",
+"amts": [],
+"att": []
+},
+{
+"vendor": "Amazon",
+"id": "19c53c826bd38b70",
+"d": "2026-02-12",
+"from": "\"Amazon.com\" <auto-confirm@amazon.com>",
+"subj": "Ordered: \"Gautye Steam Cleaner...\"",
+"amts": [],
+"att": []
+},
+{
+"vendor": "Amazon",
+"id": "19c539259954bb12",
+"d": "2026-02-12",
+"from": "\"Amazon.com\" <shipment-tracking@amazon.com>",
+"subj": "Your Amazon.com order of \"Goldenwarm 24 Pack Black...\"",
+"amts": [
+"$299.94",
+"$24.72",
+"$324.66"
+],
+"att": []
+},
+{
+"vendor": "Amazon",
+"id": "19c4fd174c1153ff",
+"d": "2026-02-11",
+"from": "\"Amazon.com\" <auto-confirm@amazon.com>",
+"subj": "Ordered: \"GORILLA GRIP BPA-Free...\"",
+"amts": [],
+"att": []
+},
+{
+"vendor": "Uber",
+"id": "19c42eeb91ebfb23",
+"d": "2026-02-09",
+"from": "paul bjork <pvb421@gmail.com>",
+"subj": "Fwd: [Personal] Your Monday morning trip with Uber",
+"amts": [
+"$49.98",
+"$2.63",
+"$41.35",
+"$4.00",
+"$2.52",
+"$2.00",
+"$0.11"
+],
+"att": []
+},
+{
+"vendor": "Amazon",
+"id": "19c405d9409c908c",
+"d": "2026-02-08",
+"from": "\"Amazon.com\" <shipment-tracking@amazon.com>",
+"subj": "Your Amazon.com order of \"60 in Ceiling Fan of...\"",
+"amts": [
+"$609.95",
+"$50.31",
+"$660.26"
+],
+"att": []
+},
+{
+"vendor": "Uber",
+"id": "19c40267519e4da6",
+"d": "2026-02-08",
+"from": "Uber Receipts <noreply@uber.com>",
+"subj": "[Personal] Your Sunday afternoon order with Uber Eats",
+"amts": [
+"$19.81"
+],
+"att": []
+},
+{
+"vendor": "Uber",
+"id": "19c3fb8d3a59a5a7",
+"d": "2026-02-08",
+"from": "Uber Receipts <noreply@uber.com>",
+"subj": "[Personal] Your Sunday afternoon trip with Uber",
+"amts": [
+"$34.51",
+"$1.70",
+"$27.90",
+"$4.00",
+"$2.98",
+"$2.00",
+"$0.11",
+"-$2.48"
+],
+"att": []
+},
+{
+"vendor": "Uber",
+"id": "19c4206ba26f715b",
+"d": "2026-02-09",
+"from": "Uber Receipts <noreply@uber.com>",
+"subj": "[Personal] Your Sunday afternoon trip with Uber",
+"amts": [
+"$34.51",
+"$1.70",
+"$27.90",
+"$4.00",
+"$2.98",
+"$2.00",
+"$0.11",
+"-$2.48"
+],
+"att": []
+},
+{
+"vendor": "Chase",
+"id": "19c3ed4a30112163",
+"d": "2026-02-08",
+"from": "Wi-Fi Onboard <info@info.wifionboard.com>",
+"subj": "Here's Your Wi-Fi Onboard Receipt - Check Out Your Purchase Details! - Order #423532685SSAS",
+"amts": [
+"$8.00",
+"$0.00"
+],
+"att": []
+},
+{
+"vendor": "Amazon",
+"id": "19c3e951871ac239",
+"d": "2026-02-08",
+"from": "\"Amazon.com\" <auto-confirm@amazon.com>",
+"subj": "Ordered: 7 \"Ravinte 25 Pack Drawer...\"",
+"amts": [],
+"att": []
+},
+{
+"vendor": "Amazon",
+"id": "19c3e149b4c9beb4",
+"d": "2026-02-08",
+"from": "\"Amazon.com\" <auto-confirm@amazon.com>",
+"subj": "Ordered: \"Bose QuietComfort...\"",
+"amts": [],
+"att": []
+},
+{
+"vendor": "Chase",
+"id": "19c393ec77822ef2",
+"d": "2026-02-07",
+"from": "Wells Fargo Credit Cards <wellsfargoonline@mail1.wellsfargo.com>",
+"subj": "Get ready to purchase FIFA World Cup 2026 tickets, thanks to Visa",
+"amts": [],
+"att": []
+},
+{
+"vendor": "Chase",
+"id": "19c3853f2987815e",
+"d": "2026-02-07",
+"from": "Chase <no.reply.alerts@chase.com>",
+"subj": "Your credit card statement is available",
+"amts": [
+"$711.00",
+"$21664.13"
+],
+"att": []
+},
+{
+"vendor": "Chase",
+"id": "19c32789933c3452",
+"d": "2026-02-06",
+"from": "Chase <no.reply.alerts@chase.com>",
+"subj": "Your auto account statement is available",
+"amts": [
+"$574.63"
+],
+"att": []
+},
+{
+"vendor": "Chase",
+"id": "19c2e8af03d197d2",
+"d": "2026-02-05",
+"from": "Wi-Fi Onboard <info@info.wifionboard.com>",
+"subj": "Here's Your Wi-Fi Onboard Receipt - Check Out Your Purchase Details! - Order #423449719SSAS",
+"amts": [
+"$8.00",
+"$0.00"
+],
+"att": []
+},
+{
+"vendor": "Uber",
+"id": "19c2e1a95497220f",
+"d": "2026-02-05",
+"from": "Uber Receipts <noreply@uber.com>",
+"subj": "[Personal] Your Thursday morning trip with Uber",
+"amts": [
+"$47.41",
+"$2.48",
+"$41.62",
+"$4.00",
+"$2.25",
+"$2.00",
+"$0.11",
+"-$2.57"
+],
+"att": []
+},
+{
+"vendor": "Chase",
+"id": "19c298b4e0705288",
+"d": "2026-02-04",
+"from": "Chase <no.reply.alerts@chase.com>",
+"subj": " Your account\u2019s available balance is below your $50.00 limit for account ending in (\u20268870)",
+"amts": [
+"$50.00",
+"$21.45"
+],
+"att": []
+},
+{
+"vendor": "Chase",
+"id": "19c2199fa3c3d54f",
+"d": "2026-02-02",
+"from": "Chase <no.reply.alerts@chase.com>",
+"subj": "Your credit card payment is scheduled",
+"amts": [
+"$718.00"
+],
+"att": []
+},
+{
+"vendor": "Amazon",
+"id": "19c215cc5f98dbbe",
+"d": "2026-02-02",
+"from": "\"Amazon.com\" <auto-confirm@amazon.com>",
+"subj": "Ordered: \"The Grapes of Wrath\" and 1 more item",
+"amts": [],
+"att": []
+},
+{
+"vendor": "Uber",
+"id": "19c19856cc852c94",
+"d": "2026-02-01",
+"from": "paul bjork <pvb421@gmail.com>",
+"subj": "Fwd: [Personal] Your Sunday morning trip with Uber",
+"amts": [
+"$48.99",
+"$2.57",
+"$40.38",
+"$4.00",
+"$2.50",
+"$2.00",
+"$0.11"
+],
+"att": []
+},
+{
+"vendor": "Venmo",
+"id": "19c17a991eb490f4",
+"d": "2026-01-31",
+"from": "Venmo <venmo@venmo.com>",
+"subj": "Your Venmo Standard transfer has been initiated",
+"amts": [
+"$28.00"
+],
+"att": []
+},
+{
+"vendor": "Venmo",
+"id": "19c179112cf09093",
+"d": "2026-01-31",
+"from": "Venmo <venmo@venmo.com>",
+"subj": "John Shively paid you $28.00",
+"amts": [
+"$28.00"
+],
+"att": []
+},
+{
+"vendor": "Chase",
+"id": "19c16bcbeeb05512",
+"d": "2026-01-31",
+"from": "Chase <no.reply.alerts@chase.com>",
+"subj": "Your latest statement is now available",
+"amts": [],
+"att": []
+},
+{
+"vendor": "Amazon",
+"id": "19d45de1959c9fcb",
+"d": "2026-03-31",
+"from": "\"Amazon.com\" <auto-confirm@amazon.com>",
+"subj": "Ordered: 2 \"Midwest Hearth Natural Lava...\"",
+"amts": [],
+"att": []
+},
+{
+"vendor": "Amazon",
+"id": "19d45b92741661f1",
+"d": "2026-03-31",
+"from": "\"Amazon.com\" <auto-confirm@amazon.com>",
+"subj": "Ordered: \"12 Inch LED Flush Mount...\" and 1 more item",
+"amts": [],
+"att": []
+},
+{
+"vendor": "Amazon",
+"id": "19d4520f65ea49f1",
+"d": "2026-03-31",
+"from": "\"Amazon.com\" <auto-confirm@amazon.com>",
+"subj": "Ordered: \"Intermatic 156T1978A Time...\"",
+"amts": [],
+"att": []
+},
+{
+"vendor": "Amazon",
+"id": "19d3bb4cab0ee164",
+"d": "2026-03-29",
+"from": "\"Amazon.com\" <digital-no-reply@amazon.com>",
+"subj": "Amazon.com order of Training Day.",
+"amts": [
+"$3.99",
+"$0.00"
+],
+"att": []
+},
+{
+"vendor": "Amazon",
+"id": "19d367f96f40a460",
+"d": "2026-03-28",
+"from": "\"Amazon.com\" <auto-confirm@amazon.com>",
+"subj": "Ordered: \"GOHDLAMP G9 LED Bulbs...\"",
+"amts": [],
+"att": []
+},
+{
+"vendor": "Amazon",
+"id": "19d35481fcb0e7e6",
+"d": "2026-03-28",
+"from": "\"return@amazon.com\" <return@amazon.com>",
+"subj": "Return request confirmed for AIPER Scuba SE Cordless Pool...",
+"amts": [
+"$146.13",
+"$0.00",
+"$7.99",
+"$12.99",
+"$24.99"
+],
+"att": []
+},
+{
+"vendor": "Amazon",
+"id": "19d32593ab19dcb6",
+"d": "2026-03-27",
+"from": "\"Amazon.com\" <digital-no-reply@amazon.com>",
+"subj": "Amazon.com order of Send Help.",
+"amts": [
+"$24.99",
+"$0.00"
+],
+"att": []
+},
+{
+"vendor": "PayPal",
+"id": "19d26c615c5ca6f3",
+"d": "2026-03-25",
+"from": "PayPal <service@paypal.com>",
+"subj": "PARAMOUNT+: $13.99\u00a0USD",
+"amts": [
+"$13.99"
+],
+"att": []
+},
+{
+"vendor": "Amazon",
+"id": "19d26bd62d7f088f",
+"d": "2026-03-25",
+"from": "\"Amazon.com\" <auto-confirm@amazon.com>",
+"subj": "Ordered: \"ARLINGTON Industries...\"",
+"amts": [],
+"att": []
+},
+{
+"vendor": "Amazon",
+"id": "19d25f363798bb07",
+"d": "2026-03-25",
+"from": "\"return@amazon.com\" <return@amazon.com>",
+"subj": "Advance refund issued for Black Ceiling Fans with Lights ....",
+"amts": [
+"$47.29",
+"$49.59",
+"-$2.30",
+"$48.99"
+],
+"att": []
+},
+{
+"vendor": "Amazon",
+"id": "19d2633e9839aab0",
+"d": "2026-03-25",
+"from": "\"return@amazon.com\" <return@amazon.com>",
+"subj": "Advance refund issued for Black Ceiling Fans with Lights ....",
+"amts": [
+"$47.29",
+"$49.59",
+"-$2.30",
+"$48.99"
+],
+"att": []
+},
+{
+"vendor": "Amazon",
+"id": "19d26566c8e691a4",
+"d": "2026-03-25",
+"from": "\"return@amazon.com\" <return@amazon.com>",
+"subj": "Advance refund issued for Black Ceiling Fans with Lights ....",
+"amts": [
+"$47.29",
+"$49.59",
+"-$2.30",
+"$48.99"
+],
+"att": []
+},
+{
+"vendor": "Amazon",
+"id": "19d26907b2e9b534",
+"d": "2026-03-25",
+"from": "\"return@amazon.com\" <return@amazon.com>",
+"subj": "Advance refund issued for Black Ceiling Fans with Lights ....",
+"amts": [
+"$47.29",
+"$49.59",
+"-$2.30",
+"$48.99"
+],
+"att": []
+},
+{
+"vendor": "Amazon",
+"id": "19d26c5edf02a1e2",
+"d": "2026-03-25",
+"from": "\"return@amazon.com\" <return@amazon.com>",
+"subj": "Advance refund issued for Black Ceiling Fans with Lights ....",
+"amts": [
+"$47.29",
+"$49.59",
+"-$2.30",
+"$48.99"
+],
+"att": []
+},
+{
+"vendor": "Amazon",
+"id": "19d2704aea080d90",
+"d": "2026-03-25",
+"from": "\"return@amazon.com\" <return@amazon.com>",
+"subj": "Advance refund issued for Black Ceiling Fans with Lights ....",
+"amts": [
+"$47.29",
+"$49.59",
+"-$2.30",
+"$48.99"
+],
+"att": []
+},
+{
+"vendor": "Chase",
+"id": "19d259655e82dac8",
+"d": "2026-03-25",
+"from": "Chase <no.reply.alerts@chase.com>",
+"subj": "Your latest statement is now available",
+"amts": [],
+"att": []
+},
+{
+"vendor": "Amazon",
+"id": "19d2545d969daf5b",
+"d": "2026-03-25",
+"from": "\"return@amazon.com\" <return@amazon.com>",
+"subj": "Dropoff confirmed for Black Ceiling Fans with Lights ...",
+"amts": [
+"$49.59",
+"$0.00",
+"-$2.30",
+"$47.29",
+"$48.99"
+],
+"att": []
+},
+{
+"vendor": "Amazon",
+"id": "19d2546fa0995aa6",
+"d": "2026-03-25",
+"from": "\"return@amazon.com\" <return@amazon.com>",
+"subj": "Dropoff confirmed for Black Ceiling Fans with Lights ...",
+"amts": [
+"$49.59",
+"$0.00",
+"-$2.30",
+"$47.29",
+"$48.99"
+],
+"att": []
+},
+{
+"vendor": "Amazon",
+"id": "19d254a036fb8554",
+"d": "2026-03-25",
+"from": "\"return@amazon.com\" <return@amazon.com>",
+"subj": "Dropoff confirmed for Black Ceiling Fans with Lights ...",
+"amts": [
+"$49.59",
+"$0.00",
+"-$2.30",
+"$47.29",
+"$48.99"
+],
+"att": []
+},
+{
+"vendor": "Amazon",
+"id": "19d254bb5aaeda51",
+"d": "2026-03-25",
+"from": "\"return@amazon.com\" <return@amazon.com>",
+"subj": "Dropoff confirmed for Black Ceiling Fans with Lights ...",
+"amts": [
+"$49.59",
+"$0.00",
+"-$2.30",
+"$47.29",
+"$48.99"
+],
+"att": []
+},
+{
+"vendor": "Amazon",
+"id": "19d254e5c31a98af",
+"d": "2026-03-25",
+"from": "\"return@amazon.com\" <return@amazon.com>",
+"subj": "Dropoff confirmed for Black Ceiling Fans with Lights ...",
+"amts": [
+"$49.59",
+"$0.00",
+"-$2.30",
+"$47.29",
+"$48.99"
+],
+"att": []
+},
+{
+"vendor": "Amazon",
+"id": "19d254e7784d4215",
+"d": "2026-03-25",
+"from": "\"return@amazon.com\" <return@amazon.com>",
+"subj": "Dropoff confirmed for Black Ceiling Fans with Lights ...",
+"amts": [
+"$49.59",
+"$0.00",
+"-$2.30",
+"$47.29",
+"$48.99"
+],
+"att": []
+},
+{
+"vendor": "Amazon",
+"id": "19d24394648d3a1e",
+"d": "2026-03-25",
+"from": "\"Amazon.com\" <shipment-tracking@amazon.com>",
+"subj": "Your Amazon.com order of \"ACE DECOR 32-33.4\" W x 72...\"",
+"amts": [
+"$709.94",
+"$58.55",
+"$768.49"
+],
+"att": []
+},
+{
+"vendor": "Amazon",
+"id": "19d2340f4357f281",
+"d": "2026-03-24",
+"from": "\"Amazon.com\" <auto-confirm@amazon.com>",
+"subj": "Ordered: \"Midwest Hearth Natural Lava...\"",
+"amts": [],
+"att": []
+},
+{
+"vendor": "Amazon",
+"id": "19d229c0fe916ad0",
+"d": "2026-03-24",
+"from": "\"Amazon.com\" <auto-confirm@amazon.com>",
+"subj": "Ordered: \"AIPER Scuba SE Cordless...\"",
+"amts": [],
+"att": []
+},
+{
+"vendor": "Amazon",
+"id": "19d220b88328874d",
+"d": "2026-03-24",
+"from": "\"Amazon.com\" <auto-confirm@amazon.com>",
+"subj": "Ordered: \"ACE DECOR 32-33.4\" W x 72\"...\" and 5 more items",
+"amts": [],
+"att": []
+},
+{
+"vendor": "Amazon",
+"id": "19d1d3e51135e0aa",
+"d": "2026-03-23",
+"from": "\"Amazon.com\" <digital-no-reply@amazon.com>",
+"subj": "Amazon.com order of Sicario: Day of the Soldado.",
+"amts": [
+"$3.99",
+"$0.00"
+],
+"att": []
+},
+{
+"vendor": "Amazon",
+"id": "19d17e210afd07d1",
+"d": "2026-03-22",
+"from": "\"Amazon.com\" <digital-no-reply@amazon.com>",
+"subj": "Amazon.com order of Sicario.",
+"amts": [
+"$3.99",
+"$0.00"
+],
+"att": []
+},
+{
+"vendor": "Amazon",
+"id": "19d16c05098c40d0",
+"d": "2026-03-22",
+"from": "\"Amazon.com\" <auto-confirm@amazon.com>",
+"subj": "Ordered: \"OFFO Shower Arm Flange 2.5\"...\"",
+"amts": [],
+"att": []
+},
+{
+"vendor": "Amazon",
+"id": "19d161ad5f1eddbb",
+"d": "2026-03-22",
+"from": "\"Amazon.com\" <auto-confirm@amazon.com>",
+"subj": "Ordered: \"BONEWEI 72x36 inch Large...\" and 1 more item",
+"amts": [],
+"att": []
+},
+{
+"vendor": "Amazon",
+"id": "19d12458ff00fd46",
+"d": "2026-03-21",
+"from": "\"return@amazon.com\" <return@amazon.com>",
+"subj": "Return request confirmed for Black Ceiling Fans with Lights ...",
+"amts": [
+"$49.59",
+"$0.00",
+"-$2.30",
+"$47.29",
+"$22.99",
+"$29.99",
+"$48.99"
+],
+"att": []
+},
+{
+"vendor": "Amazon",
+"id": "19d12523c9cfd6dc",
+"d": "2026-03-21",
+"from": "\"return@amazon.com\" <return@amazon.com>",
+"subj": "Return request confirmed for Black Ceiling Fans with Lights ...",
+"amts": [
+"$49.59",
+"$0.00",
+"-$2.30",
+"$47.29",
+"$22.99",
+"$29.99",
+"$48.99"
+],
+"att": []
+},
+{
+"vendor": "Amazon",
+"id": "19d12548b5bccc46",
+"d": "2026-03-21",
+"from": "\"return@amazon.com\" <return@amazon.com>",
+"subj": "Return request confirmed for Black Ceiling Fans with Lights ...",
+"amts": [
+"$49.59",
+"$0.00",
+"-$2.30",
+"$47.29",
+"$22.99",
+"$29.99",
+"$48.99"
+],
+"att": []
+},
+{
+"vendor": "Amazon",
+"id": "19d1255bd6e009af",
+"d": "2026-03-21",
+"from": "\"return@amazon.com\" <return@amazon.com>",
+"subj": "Return request confirmed for Black Ceiling Fans with Lights ...",
+"amts": [
+"$49.59",
+"$0.00",
+"-$2.30",
+"$47.29",
+"$22.99",
+"$29.99",
+"$48.99"
+],
+"att": []
+},
+{
+"vendor": "Amazon",
+"id": "19d1256c6900b8ad",
+"d": "2026-03-21",
+"from": "\"return@amazon.com\" <return@amazon.com>",
+"subj": "Return request confirmed for Black Ceiling Fans with Lights ...",
+"amts": [
+"$49.59",
+"$0.00",
+"-$2.30",
+"$47.29",
+"$22.99",
+"$29.99",
+"$48.99"
+],
+"att": []
+},
+{
+"vendor": "Amazon",
+"id": "19d1257c31b82ab0",
+"d": "2026-03-21",
+"from": "\"return@amazon.com\" <return@amazon.com>",
+"subj": "Return request confirmed for Black Ceiling Fans with Lights ...",
+"amts": [
+"$49.59",
+"$0.00",
+"-$2.30",
+"$47.29",
+"$22.99",
+"$29.99",
+"$48.99"
+],
+"att": []
+},
+{
+"vendor": "Amazon",
+"id": "19d12589ff1d6c8c",
+"d": "2026-03-21",
+"from": "\"return@amazon.com\" <return@amazon.com>",
+"subj": "Return request confirmed for Black Ceiling Fans with Lights ...",
+"amts": [
+"$49.59",
+"$0.00",
+"-$2.30",
+"$47.29",
+"$22.99",
+"$29.99",
+"$48.99"
+],
+"att": []
+},
+{
+"vendor": "Amazon",
+"id": "19d06f803dd9edcd",
+"d": "2026-03-19",
+"from": "\"Amazon.com\" <auto-confirm@amazon.com>",
+"subj": "Ordered: 2 \"Aftermarket Skimmer Lid...\"",
+"amts": [],
+"att": []
+},
+{
+"vendor": "Amazon",
+"id": "19d06d238719b807",
+"d": "2026-03-19",
+"from": "\"Amazon.com\" <auto-confirm@amazon.com>",
+"subj": "Ordered: 2 \"Frosted Glass Window...\"",
+"amts": [],
+"att": []
+},
+{
+"vendor": "Venmo",
+"id": "19d05d7852ad3c50",
+"d": "2026-03-19",
+"from": "Venmo <venmo@venmo.com>",
+"subj": "You paid Ramon Garcia alcaraz $600.00",
+"amts": [
+"$600.00"
+],
+"att": []
+},
+{
+"vendor": "Amazon",
+"id": "19d0305c19e98471",
+"d": "2026-03-18",
+"from": "\"Amazon.com\" <auto-confirm@amazon.com>",
+"subj": "Ordered: \"slochi 6Pack LED Flush...\"",
+"amts": [],
+"att": []
+},
+{
+"vendor": "Amazon",
+"id": "19d0302e64ef16cd",
+"d": "2026-03-18",
+"from": "\"Amazon.com\" <auto-confirm@amazon.com>",
+"subj": "Ordered: 2 \"TALOYA Flush Mount 12 Inch...\"",
+"amts": [],
+"att": []
+},
+{
+"vendor": "Amazon",
+"id": "19d02fdb1d3f96ea",
+"d": "2026-03-18",
+"from": "\"Amazon.com\" <auto-confirm@amazon.com>",
+"subj": "Ordered: \"12 Pack Hinge Pin Black...\" and 2 more items",
+"amts": [],
+"att": []
+},
+{
+"vendor": "Chase",
+"id": "19d02ef8666e6c51",
+"d": "2026-03-18",
+"from": "Chase Fraud Alert <Chase@fraudalert.chase.com>",
+"subj": "Action Needed: Please confirm activity",
+"amts": [
+"$653.34"
+],
+"att": []
+},
+{
+"vendor": "Amazon",
+"id": "19d0292e6e6ce5ef",
+"d": "2026-03-18",
+"from": "\"Amazon.com\" <auto-confirm@amazon.com>",
+"subj": "Ordered: 2 \"Ravinte 60 Pack 30 Pairs...\" and 1 more item",
+"amts": [],
+"att": []
+},
+{
+"vendor": "Amazon",
+"id": "19cfd1b2711e6183",
+"d": "2026-03-17",
+"from": "\"return@amazon.com\" <return@amazon.com>",
+"subj": "Advance refund issued for 3-1/2 Inches Heavy Duty Corner....",
+"amts": [
+"$25.32"
+],
+"att": []
+},
+{
+"vendor": "Amazon",
+"id": "19cfd08705ad92e2",
+"d": "2026-03-17",
+"from": "\"return@amazon.com\" <return@amazon.com>",
+"subj": "Advance refund issued for Passky Ceiling Fans with Lights....",
+"amts": [
+"$102.83"
+],
+"att": []
+},
+{
+"vendor": "Amazon",
+"id": "19cfd0703ca23be8",
+"d": "2026-03-17",
+"from": "\"return@amazon.com\" <return@amazon.com>",
+"subj": "Advance refund issued for Sofucor 52 Inch Ceiling Fans....",
+"amts": [
+"$258.78",
+"-$12.00",
+"$246.78",
+"$128.99",
+"$159.99",
+"$149.99"
+],
+"att": []
+},
+{
+"vendor": "Amazon",
+"id": "19cfc6d60db387ad",
+"d": "2026-03-17",
+"from": "\"return@amazon.com\" <return@amazon.com>",
+"subj": "Dropoff confirmed for Passky Ceiling Fans with Lights...",
+"amts": [
+"$102.83",
+"$0.00"
+],
+"att": []
+},
+{
+"vendor": "Amazon",
+"id": "19cfc695b98210c9",
+"d": "2026-03-17",
+"from": "\"return@amazon.com\" <return@amazon.com>",
+"subj": "Dropoff confirmed for 2x Sofucor 52 Inch Ceiling Fans....",
+"amts": [
+"$128.99",
+"$159.99",
+"$149.99"
+],
+"att": []
+},
+{
+"vendor": "Amazon",
+"id": "19cfc644bb563d50",
+"d": "2026-03-17",
+"from": "\"return@amazon.com\" <return@amazon.com>",
+"subj": "Dropoff confirmed for 3-1/2 Inches Heavy Duty Corner...",
+"amts": [
+"$25.32",
+"$0.00"
+],
+"att": []
+},
+{
+"vendor": "Amazon",
+"id": "19cfc15e840e4d92",
+"d": "2026-03-17",
+"from": "\"return@amazon.com\" <return@amazon.com>",
+"subj": "Return request confirmed for 2xSofucor 52 Inch Ceiling Fans...",
+"amts": [
+"$258.78",
+"$0.00",
+"-$12.00",
+"$246.78",
+"$128.99",
+"$159.99",
+"$149.99"
+],
+"att": []
+},
+{
+"vendor": "Amazon",
+"id": "19cfc146d1c506b4",
+"d": "2026-03-17",
+"from": "\"return@amazon.com\" <return@amazon.com>",
+"subj": "Return request confirmed for Passky Ceiling Fans with Lights...",
+"amts": [
+"$102.83",
+"$0.00"
+],
+"att": []
+},
+{
+"vendor": "Amazon",
+"id": "19cfc1304c8a4ad5",
+"d": "2026-03-17",
+"from": "\"return@amazon.com\" <return@amazon.com>",
+"subj": "Return request confirmed for 3-1/2 Inches Heavy Duty Corner...",
+"amts": [
+"$25.32",
+"$0.00"
+],
+"att": []
+},
+{
+"vendor": "Amazon",
+"id": "19cfbe3dbee98f62",
+"d": "2026-03-17",
+"from": "\"Amazon.com\" <auto-confirm@amazon.com>",
+"subj": "Ordered: \"AIPER Surfer S2 Solar...\" and 5 more items",
+"amts": [],
+"att": []
+},
+{
+"vendor": "Chase",
+"id": "19cf72099bd7cdce",
+"d": "2026-03-16",
+"from": "Chase <no.reply.alerts@chase.com>",
+"subj": "You set up your one-time vehicle loan payment",
+"amts": [
+"$574.63"
+],
+"att": []
+},
+{
+"vendor": "PayPal",
+"id": "19cf3016f46bbdb9",
+"d": "2026-03-15",
+"from": "PayPal <noreply@service.paypal.com>",
+"subj": "Paul, your February account statement is available.",
+"amts": [],
+"att": []
+},
+{
+"vendor": "Amazon",
+"id": "19ce7c45bc19b2b8",
+"d": "2026-03-13",
+"from": "\"Amazon.com\" <no-reply@primevideo.com>",
+"subj": "Updates to your Prime Video Ad Free subscription",
+"amts": [
+"$4.99",
+"$45.99"
+],
+"att": []
+},
+{
+"vendor": "Venmo",
+"id": "19cde188d6350f4f",
+"d": "2026-03-11",
+"from": "Venmo <venmo@venmo.com>",
+"subj": "Your Venmo Standard transfer has been initiated",
+"amts": [
+"$2,500.00"
+],
+"att": []
+},
+{
+"vendor": "Venmo",
+"id": "19cde18b296f8aba",
+"d": "2026-03-11",
+"from": "Venmo <venmo@venmo.com>",
+"subj": "Your Venmo Standard transfer has been initiated",
+"amts": [
+"$2,500.00"
+],
+"att": []
+},
+{
+"vendor": "Venmo",
+"id": "19cde0911ec95952",
+"d": "2026-03-11",
+"from": "Venmo <venmo@venmo.com>",
+"subj": "Joshua Hadder paid you $5,000.00",
+"amts": [
+"$5000.00"
+],
+"att": []
+},
+{
+"vendor": "Chase",
+"id": "19cdd6c1dfb91517",
+"d": "2026-03-11",
+"from": "Chase Fraud Prevention <Chase@fraudalert.chase.com>",
+"subj": "Action requested: Please confirm check activity",
+"amts": [
+"$4,950.00"
+],
+"att": []
+},
+{
+"vendor": "Chase",
+"id": "19cd7b15e6461925",
+"d": "2026-03-10",
+"from": "Chase <no.reply.alerts@chase.com>",
+"subj": " Your account\u2019s available balance is below your $50.00 limit for account ending in (\u20268870)",
+"amts": [
+"$50.00"
+],
+"att": []
+},
+{
+"vendor": "Venmo",
+"id": "19cd538d008d729f",
+"d": "2026-03-09",
+"from": "Venmo <venmo@venmo.com>",
+"subj": "You paid Michelle Rajotte $198.00",
+"amts": [
+"$198.00"
+],
+"att": []
+},
+{
+"vendor": "Amazon",
+"id": "19cd3f9b57c3a5f0",
+"d": "2026-03-09",
+"from": "\"Amazon.com\" <auto-confirm@amazon.com>",
+"subj": "Ordered: \"Ravinte 2 Pack 1 Pairs...\"",
+"amts": [],
+"att": []
+},
+{
+"vendor": "Venmo",
+"id": "19cd3d9a112078d3",
+"d": "2026-03-09",
+"from": "Venmo <venmo@venmo.com>",
+"subj": "You paid Aden Bjork $65.00",
+"amts": [
+"$65.00"
+],
+"att": []
+},
+{
+"vendor": "Chase",
+"id": "19cc9265d9ad48e2",
+"d": "2026-03-07",
+"from": "Chase <no.reply.alerts@chase.com>",
+"subj": "Your credit card statement is available",
+"amts": [
+"$659.00",
+"$21576.92"
+],
+"att": []
+},
+{
+"vendor": "Amazon",
+"id": "19cc60c499147e1d",
+"d": "2026-03-06",
+"from": "\"Amazon.com\" <auto-confirm@amazon.com>",
+"subj": "Ordered: \"Passky Ceiling Fans with...\" and 2 more items",
+"amts": [],
+"att": []
+},
+{
+"vendor": "Chase",
+"id": "19cc33f7845ec9e8",
+"d": "2026-03-06",
+"from": "Chase <no.reply.alerts@chase.com>",
+"subj": " Your account\u2019s available balance is below your $50.00 limit for account ending in (\u20268870)",
+"amts": [
+"$50.00"
+],
+"att": []
+},
+{
+"vendor": "Chase",
+"id": "19cc296ba7fef490",
+"d": "2026-03-06",
+"from": "Chase <no.reply.alerts@chase.com>",
+"subj": "Your auto account statement is available",
+"amts": [
+"$574.63"
+],
+"att": []
+},
+{
+"vendor": "Amazon",
+"id": "19cc0cd7db62e349",
+"d": "2026-03-05",
+"from": "\"Amazon.com\" <auto-confirm@amazon.com>",
+"subj": "Ordered: \"Run With the Hunted: A...\"",
+"amts": [],
+"att": []
+},
+{
+"vendor": "Amazon",
+"id": "19cbf78aea9a430a",
+"d": "2026-03-05",
+"from": "\"return@amazon.com\" <return@amazon.com>",
+"subj": "Advance refund issued for 52in Ceiling Fan of 6200+CFM....",
+"amts": [
+"$129.89"
+],
+"att": []
+},
+{
+"vendor": "Amazon",
+"id": "19cbfa819d5147e4",
+"d": "2026-03-05",
+"from": "\"return@amazon.com\" <return@amazon.com>",
+"subj": "Advance refund issued for 52in Ceiling Fan of 6200+CFM....",
+"amts": [
+"$129.89"
+],
+"att": []
+},
+{
+"vendor": "Zelle",
+"id": "19cbe95d0bee7ab1",
+"d": "2026-03-05",
+"from": "Chase <no.reply.alerts@chase.com>",
+"subj": "We canceled your Zelle\u00ae payment",
+"amts": [
+"$524.81"
+],
+"att": []
+},
+{
+"vendor": "Amazon",
+"id": "19cbc0e544f0c6b4",
+"d": "2026-03-04",
+"from": "\"return@amazon.com\" <return@amazon.com>",
+"subj": "Advance refund issued for 60 in Ceiling Fan of 7400+CFM....",
+"amts": [
+"$324.72",
+"$89.99",
+"$129.99",
+"$99.99"
+],
+"att": []
+},
+{
+"vendor": "Amazon",
+"id": "19cbbb2e02de2d5a",
+"d": "2026-03-04",
+"from": "\"return@amazon.com\" <return@amazon.com>",
+"subj": "Advance refund issued for FUMLTP 52 inch Modern Ceiling....",
+"amts": [
+"$75.76",
+"$39.99",
+"$49.99",
+"$9.99",
+"$12.99"
+],
+"att": []
+},
+{
+"vendor": "Amazon",
+"id": "19cbba9453c65d1e",
+"d": "2026-03-04",
+"from": "\"return@amazon.com\" <return@amazon.com>",
+"subj": "Advance refund issued for FUMLTP 42 inch Modern Ceiling....",
+"amts": [
+"$136.38",
+"$29.99",
+"$39.99",
+"$29.69",
+"$32.99"
+],
+"att": []
+},
+{
+"vendor": "Amazon",
+"id": "19cbc0cc03b35db4",
+"d": "2026-03-04",
+"from": "\"return@amazon.com\" <return@amazon.com>",
+"subj": "Advance refund issued for FUMLTP 42 inch Modern Ceiling....",
+"amts": [
+"$204.57",
+"$29.99",
+"$39.99",
+"$29.69",
+"$32.99"
+],
+"att": []
+},
+{
+"vendor": "Amazon",
+"id": "19cbb0c0c4113160",
+"d": "2026-03-04",
+"from": "\"return@amazon.com\" <return@amazon.com>",
+"subj": "Dropoff confirmed for 2x 60 in Ceiling Fan of 7400+CFM....",
+"amts": [
+"$89.99",
+"$129.99",
+"$99.99"
+],
+"att": []
+},
+{
+"vendor": "Amazon",
+"id": "19cbb0677d13fd81",
+"d": "2026-03-04",
+"from": "\"return@amazon.com\" <return@amazon.com>",
+"subj": "Dropoff confirmed for 3x FUMLTP 42 inch Modern Ceiling....",
+"amts": [
+"$29.99",
+"$39.99",
+"$29.69",
+"$32.99"
+],
+"att": []
+},
+{
+"vendor": "Amazon",
+"id": "19cbb006134157cc",
+"d": "2026-03-04",
+"from": "\"return@amazon.com\" <return@amazon.com>",
+"subj": "Dropoff confirmed for 2x FUMLTP 42 inch Modern Ceiling....",
+"amts": [
+"$29.99",
+"$39.99",
+"$29.69",
+"$32.99"
+],
+"att": []
+},
+{
+"vendor": "Amazon",
+"id": "19cbafb63c1a2d6f",
+"d": "2026-03-04",
+"from": "\"return@amazon.com\" <return@amazon.com>",
+"subj": "Dropoff confirmed for FUMLTP 52 inch Modern Ceiling...",
+"amts": [
+"$39.99",
+"$49.99",
+"$9.99",
+"$12.99"
+],
+"att": []
+},
+{
+"vendor": "Chase",
+"id": "19cbacf58d12e4ed",
+"d": "2026-03-04",
+"from": "Chase <no.reply.alerts@chase.com>",
+"subj": "Your credit card payment is scheduled",
+"amts": [
+"$711.00"
+],
+"att": []
+},
+{
+"vendor": "Chase",
+"id": "19cbab207a8d3f28",
+"d": "2026-03-04",
+"from": "Chase <no.reply.alerts@chase.com>",
+"subj": " Your account\u2019s available balance is below your $50.00 limit for account ending in (\u20268870)",
+"amts": [
+"$50.00",
+"$7.78"
+],
+"att": []
+},
+{
+"vendor": "Chase",
+"id": "19cb8ec2776be921",
+"d": "2026-03-04",
+"from": "Chase <no.reply.alerts@chase.com>",
+"subj": "Your latest statement is now available",
+"amts": [],
+"att": []
+},
+{
+"vendor": "Amazon",
+"id": "19cac60df1d39c82",
+"d": "2026-03-01",
+"from": "\"Amazon.com\" <shipment-tracking@amazon.com>",
+"subj": "Your Amazon.com order of \"Black Ceiling Fans with...\"",
+"amts": [
+"$262.14",
+"$21.60",
+"$283.74"
+],
+"att": []
+},
+{
+"vendor": "Chase",
+"id": "19ca83e2d61a9a2b",
+"d": "2026-03-01",
+"from": "Chase <no.reply.alerts@chase.com>",
+"subj": "Your latest statement is now available",
+"amts": [],
+"att": []
+},
+{
+"vendor": "Chase",
+"id": "19dd938af0551619",
+"d": "2026-04-29",
+"from": "Wi-Fi Onboard <info@info.wifionboard.com>",
+"subj": "Here's Your Wi-Fi Onboard Receipt - Check Out Your Purchase Details! - Order #425641548SSAS",
+"amts": [
+"$8.00",
+"$0.00"
+],
+"att": []
+},
+{
+"vendor": "Chase",
+"id": "19dcae5fea1b1a86",
+"d": "2026-04-26",
+"from": "Wi-Fi Onboard <info@info.wifionboard.com>",
+"subj": "Here's Your Wi-Fi Onboard Receipt - Check Out Your Purchase Details! - Order #425566546SSAS",
+"amts": [
+"$8.00",
+"$0.00"
+],
+"att": []
+},
+{
+"vendor": "Amazon",
+"id": "19dcabd0140dd16e",
+"d": "2026-04-26",
+"from": "\"return@amazon.com\" <return@amazon.com>",
+"subj": "Advance refund issued for Ravinte 60 Pack 30 Pairs....",
+"amts": [
+"$78.65",
+"$27.00",
+"$32.99",
+"$19.99"
+],
+"att": []
+},
+{
+"vendor": "Amazon",
+"id": "19dc7d31968429b1",
+"d": "2026-04-25",
+"from": "\"Amazon.com\" <digital-no-reply@amazon.com>",
+"subj": "Amazon.com order of The Bourne Supremacy.",
+"amts": [
+"$3.99",
+"$0.00"
+],
+"att": []
+},
+{
+"vendor": "Amazon",
+"id": "19dc2a44361258d4",
+"d": "2026-04-24",
+"from": "\"Amazon.com\" <digital-no-reply@amazon.com>",
+"subj": "Amazon.com order of Fleetwood Mac: Rumours And Revelations.",
+"amts": [
+"$2.99",
+"$0.00"
+],
+"att": []
+},
+{
+"vendor": "Amazon",
+"id": "19dc02e2d1b9ddff",
+"d": "2026-04-24",
+"from": "\"return@amazon.com\" <return@amazon.com>",
+"subj": "Return request confirmed for 8xYaFex Curtain Rods 32-144 Inch...",
+"amts": [
+"$173.12",
+"$0.00"
+],
+"att": []
+},
+{
+"vendor": "Amazon",
+"id": "19dc02d0e9146318",
+"d": "2026-04-24",
+"from": "\"return@amazon.com\" <return@amazon.com>",
+"subj": "Return request confirmed for 6xNatural Linen Curtains 84 Inch...",
+"amts": [
+"$114.60",
+"$0.00",
+"-$8.52",
+"$106.08"
+],
+"att": []
+},
+{
+"vendor": "Amazon",
+"id": "19dc02bd93271d59",
+"d": "2026-04-24",
+"from": "\"return@amazon.com\" <return@amazon.com>",
+"subj": "Return request confirmed for 5xNatural Linen Curtains 84 Inch...",
+"amts": [
+"$95.50",
+"$0.00",
+"-$7.10",
+"$88.40"
+],
+"att": []
+},
+{
+"vendor": "Amazon",
+"id": "19dc02ad86425a97",
+"d": "2026-04-24",
+"from": "\"return@amazon.com\" <return@amazon.com>",
+"subj": "Return request confirmed for Beige Linen Kitchen Curtain 24...",
+"amts": [
+"$24.89",
+"$0.00"
+],
+"att": []
+},
+{
+"vendor": "Amazon",
+"id": "19dc029a9c095dd0",
+"d": "2026-04-24",
+"from": "\"return@amazon.com\" <return@amazon.com>",
+"subj": "Return request confirmed for AMZSEVEN 40 Pack Curtain Rings...",
+"amts": [
+"$9.63",
+"$0.00"
+],
+"att": []
+},
+{
+"vendor": "Amazon",
+"id": "19dc028142d5ecb3",
+"d": "2026-04-24",
+"from": "\"return@amazon.com\" <return@amazon.com>",
+"subj": "Return request confirmed for 5xYaFex Curtain Rods 32-144 Inch...",
+"amts": [
+"$108.20",
+"$0.00"
+],
+"att": []
+},
+{
+"vendor": "Amazon",
+"id": "19da3f1c8b785ed9",
+"d": "2026-04-18",
+"from": "\"Amazon.com\" <digital-no-reply@amazon.com>",
+"subj": "Amazon.com order of The Bourne Identity.",
+"amts": [
+"$3.99",
+"$0.00"
+],
+"att": []
+},
+{
+"vendor": "Amazon",
+"id": "19da1799ce9c49d7",
+"d": "2026-04-18",
+"from": "\"Amazon.com\" <digital-no-reply@amazon.com>",
+"subj": "Amazon.com order of The Way Way Back.",
+"amts": [
+"$2.99",
+"$0.00"
+],
+"att": []
+},
+{
+"vendor": "Amazon",
+"id": "19da15643aa44ee7",
+"d": "2026-04-18",
+"from": "\"Amazon.com\" <digital-no-reply@amazon.com>",
+"subj": "Amazon.com order of Unforgiven.",
+"amts": [
+"$3.99",
+"$0.00"
+],
+"att": []
+},
+{
+"vendor": "Amazon",
+"id": "19d9e868fcf2e338",
+"d": "2026-04-17",
+"from": "\"Amazon.com\" <digital-no-reply@amazon.com>",
+"subj": "Amazon.com order of Magic Mike.",
+"amts": [
+"$5.99",
+"$0.00"
+],
+"att": []
+},
+{
+"vendor": "Amazon",
+"id": "19d97d8d35537899",
+"d": "2026-04-16",
+"from": "\"return@amazon.com\" <return@amazon.com>",
+"subj": "Advance refund issued for Ravinte 60 Pack 30 Pairs....",
+"amts": [
+"$78.65",
+"$27.00",
+"$32.99",
+"$9.99"
+],
+"att": []
+},
+{
+"vendor": "Amazon",
+"id": "19d9737f0064c8b7",
+"d": "2026-04-16",
+"from": "\"return@amazon.com\" <return@amazon.com>",
+"subj": "Dropoff confirmed for Ravinte 60 Pack 30 Pairs...",
+"amts": [
+"$27.00",
+"$32.99",
+"$9.99"
+],
+"att": []
+},
+{
+"vendor": "PayPal",
+"id": "19d93f0023df6a7a",
+"d": "2026-04-15",
+"from": "PayPal <noreply@service.paypal.com>",
+"subj": "Paul, your March account statement is available.",
+"amts": [],
+"att": []
+},
+{
+"vendor": "Chase",
+"id": "19d907a7f082311a",
+"d": "2026-04-15",
+"from": "Chase <no.reply.alerts@chase.com>",
+"subj": "You set up your one-time vehicle loan payment",
+"amts": [
+"$574.63"
+],
+"att": []
+},
+{
+"vendor": "Amazon",
+"id": "19d8f1b2725da91f",
+"d": "2026-04-14",
+"from": "\"Amazon.com\" <no-reply@amazon.com>",
+"subj": "Delay in shipping your order #111-9296022-4682630",
+"amts": [],
+"att": []
+},
+{
+"vendor": "Amazon",
+"id": "19d8cfc00b68bb10",
+"d": "2026-04-14",
+"from": "\"Amazon.com\" <auto-confirm@amazon.com>",
+"subj": "Ordered: \"sousac 3 PCS Metal Shower...\"",
+"amts": [],
+"att": []
+},
+{
+"vendor": "Amazon",
+"id": "19d89cea1515133d",
+"d": "2026-04-13",
+"from": "\"Amazon.com\" <digital-no-reply@amazon.com>",
+"subj": "Amazon.com order of The Rundown.",
+"amts": [
+"$3.99",
+"$0.00"
+],
+"att": []
+},
+{
+"vendor": "Amazon",
+"id": "19d886d622a0c3a7",
+"d": "2026-04-13",
+"from": "\"Amazon.com\" <auto-confirm@amazon.com>",
+"subj": "Ordered: 2 \"Kingdder 1 Pcs 3-gang...\"",
+"amts": [],
+"att": []
+},
+{
+"vendor": "Amazon",
+"id": "19d87e186d232eb6",
+"d": "2026-04-13",
+"from": "\"Amazon.com\" <auto-confirm@amazon.com>",
+"subj": "Ordered: \"Sunco 6 Pack Outdoor Flood...\"",
+"amts": [],
+"att": []
+},
+{
+"vendor": "Amazon",
+"id": "19d869069fc02bba",
+"d": "2026-04-13",
+"from": "\"Amazon.com\" <auto-confirm@amazon.com>",
+"subj": "Ordered: \"Gerber Elongated Toilet...\"",
+"amts": [],
+"att": []
+},
+{
+"vendor": "Chase",
+"id": "19d84c4158ab9760",
+"d": "2026-04-12",
+"from": "Fandango <fandango@movies.fandango.com>",
+"subj": "Fandango Purchase Confirmation - Please Read",
+"amts": [
+"$31.88"
+],
+"att": []
+},
+{
+"vendor": "Amazon",
+"id": "19d83cfdf9052441",
+"d": "2026-04-12",
+"from": "\"Amazon.com\" <digital-no-reply@amazon.com>",
+"subj": "Amazon.com order of Troop Beverly Hills.",
+"amts": [
+"$3.99",
+"$0.00"
+],
+"att": []
+},
+{
+"vendor": "Amazon",
+"id": "19d821e403b2ea59",
+"d": "2026-04-12",
+"from": "\"Amazon.com\" <auto-confirm@amazon.com>",
+"subj": "Ordered: \"Aoceley Outdoor LED Wall...\"",
+"amts": [],
+"att": []
+},
+{
+"vendor": "Amazon",
+"id": "19d81d98e9ff6295",
+"d": "2026-04-12",
+"from": "\"Amazon.com\" <auto-confirm@amazon.com>",
+"subj": "Ordered: \"Sunaiony LED Flickering...\"",
+"amts": [],
+"att": []
+},
+{
+"vendor": "Amazon",
+"id": "19d7c847b7c3a374",
+"d": "2026-04-11",
+"from": "\"Amazon.com\" <auto-confirm@amazon.com>",
+"subj": "Ordered: 3 \"10pcs Bathroom Hardware...\"",
+"amts": [],
+"att": []
+},
+{
+"vendor": "Amazon",
+"id": "19d757e78cd8d837",
+"d": "2026-04-09",
+"from": "\"Amazon.com\" <auto-confirm@amazon.com>",
+"subj": "Ordered: \"LamQee 20\" Drum Chandelier...\"",
+"amts": [],
+"att": []
+},
+{
+"vendor": "Amazon",
+"id": "19d741471ee57e40",
+"d": "2026-04-09",
+"from": "\"Amazon.com\" <auto-confirm@amazon.com>",
+"subj": "Ordered: 2 \"Ravinte 50 Pack 25 Pairs...\"",
+"amts": [],
+"att": []
+},
+{
+"vendor": "Amazon",
+"id": "19d740f31faf93d8",
+"d": "2026-04-09",
+"from": "\"return@amazon.com\" <return@amazon.com>",
+"subj": "Return request confirmed for Ravinte 20 Pack (10 Pairs...",
+"amts": [
+"$41.12",
+"$0.00",
+"$27.00",
+"$32.99",
+"$9.99"
+],
+"att": []
+},
+{
+"vendor": "Amazon",
+"id": "19d740ddb616604a",
+"d": "2026-04-09",
+"from": "\"return@amazon.com\" <return@amazon.com>",
+"subj": "Return request confirmed for Ravinte 60 Pack 30 Pairs...",
+"amts": [
+"$78.65",
+"$0.00",
+"$27.00",
+"$32.99",
+"$9.99"
+],
+"att": []
+},
+{
+"vendor": "Amazon",
+"id": "19d740ddc834c5b6",
+"d": "2026-04-09",
+"from": "\"return@amazon.com\" <return@amazon.com>",
+"subj": "Return request confirmed for Ravinte 60 Pack 30 Pairs...",
+"amts": [
+"$78.65",
+"$0.00",
+"$27.00",
+"$32.99",
+"$9.99"
+],
+"att": []
+},
+{
+"vendor": "Amazon",
+"id": "19d740ad97e63790",
+"d": "2026-04-09",
+"from": "\"return@amazon.com\" <return@amazon.com>",
+"subj": "Return request confirmed for Ravinte 2 Pack 1 Pairs European...",
+"amts": [
+"$10.81",
+"$0.00",
+"$7.39",
+"$9.69",
+"$10.99"
+],
+"att": []
+},
+{
+"vendor": "Amazon",
+"id": "19d72a6ef4a78941",
+"d": "2026-04-09",
+"from": "\"Amazon.com\" <auto-confirm@amazon.com>",
+"subj": "Ordered: \"Peohud 20 PCS Door Strike...\"",
+"amts": [],
+"att": []
+},
+{
+"vendor": "Amazon",
+"id": "19d72513bfa05fe1",
+"d": "2026-04-09",
+"from": "\"Amazon.com\" <auto-confirm@amazon.com>",
+"subj": "Ordered: \"Luvkczc Recessed Can Light...\"",
+"amts": [],
+"att": []
+},
+{
+"vendor": "Chase",
+"id": "19d6ff2d9ceb70de",
+"d": "2026-04-08",
+"from": "Fandango <fandango@movies.fandango.com>",
+"subj": "Fandango Purchase Confirmation - Please Read",
+"amts": [
+"$28.74"
+],
+"att": []
+},
+{
+"vendor": "Chase",
+"id": "19d6d9db3747a37a",
+"d": "2026-04-08",
+"from": "Chase <no.reply.alerts@chase.com>",
+"subj": "Your credit card statement is available",
+"amts": [
+"$702.00",
+"$21436.38"
+],
+"att": []
+},
+{
+"vendor": "Amazon",
+"id": "19d66b829651ce77",
+"d": "2026-04-07",
+"from": "\"Amazon.com\" <shipment-tracking@amazon.com>",
+"subj": "Your Amazon.com order of \"Aluminum Attic Ladder ...\"",
+"amts": [
+"$300.00",
+"$24.75",
+"$324.75"
+],
+"att": []
+},
+{
+"vendor": "Amazon",
+"id": "19d66436066afd90",
+"d": "2026-04-06",
+"from": "\"Amazon.com\" <auto-confirm@amazon.com>",
+"subj": "Ordered: \"Aluminum Attic Ladder -...\" and 5 more items",
+"amts": [],
+"att": []
+},
+{
+"vendor": "Amazon",
+"id": "19d64ffc7129801a",
+"d": "2026-04-06",
+"from": "\"Amazon.com\" <auto-confirm@amazon.com>",
+"subj": "Ordered: \"Beige Linen Kitchen Curtain...\" and 11 more items",
+"amts": [],
+"att": []
+},
+{
+"vendor": "Amazon",
+"id": "19d641fb2c543ded",
+"d": "2026-04-06",
+"from": "\"Amazon.com\" <auto-confirm@amazon.com>",
+"subj": "Ordered: 6 \"Natural Linen Curtains 84...\"",
+"amts": [],
+"att": []
+},
+{
+"vendor": "Amazon",
+"id": "19d64171cc9afa26",
+"d": "2026-04-06",
+"from": "\"Amazon.com\" <auto-confirm@amazon.com>",
+"subj": "Ordered: 8 \"YaFex Curtain Rods 32-144...\"",
+"amts": [],
+"att": []
+},
+{
+"vendor": "Amazon",
+"id": "19d63e439b51c4ab",
+"d": "2026-04-06",
+"from": "\"Amazon.com\" <auto-confirm@amazon.com>",
+"subj": "Ordered: \"22 Inches Drawer Slides -...\" and 1 more item",
+"amts": [],
+"att": []
+},
+{
+"vendor": "Amazon",
+"id": "19d5bae848cc8f03",
+"d": "2026-04-04",
+"from": "\"Amazon.com\" <auto-confirm@amazon.com>",
+"subj": "Ordered: \"ELYONA Modern Pendant Light...\"",
+"amts": [],
+"att": []
+},
+{
+"vendor": "Amazon",
+"id": "19d5ba50f28970c0",
+"d": "2026-04-04",
+"from": "\"Amazon.com\" <auto-confirm@amazon.com>",
+"subj": "Ordered: \"Aipsun Black LED Wall...\"",
+"amts": [],
+"att": []
+},
+{
+"vendor": "Amazon",
+"id": "19d5b99ca2f838c6",
+"d": "2026-04-04",
+"from": "\"Amazon.com\" <auto-confirm@amazon.com>",
+"subj": "Ordered: \"Amazon Basics Electronic...\" and 3 more items",
+"amts": [],
+"att": []
+},
+{
+"vendor": "Chase",
+"id": "19d5897647fca116",
+"d": "2026-04-04",
+"from": "Chase <no.reply.alerts@chase.com>",
+"subj": "Your auto account statement is available",
+"amts": [
+"$574.63"
+],
+"att": []
+},
+{
+"vendor": "Chase",
+"id": "19d510d5d9a6185a",
+"d": "2026-04-02",
+"from": "Chase <no.reply.alerts@chase.com>",
+"subj": "Your credit card payment is scheduled",
+"amts": [
+"$659.00"
+],
+"att": []
+},
+{
+"vendor": "Amazon",
+"id": "19d4f72098a07dda",
+"d": "2026-04-02",
+"from": "\"return@amazon.com\" <return@amazon.com>",
+"subj": "Advance refund issued for AIPER Scuba SE Cordless Pool....",
+"amts": [
+"$146.13",
+"$9.99",
+"$37.99"
+],
+"att": []
+},
+{
+"vendor": "Amazon",
+"id": "19d4ebe6c63230f6",
+"d": "2026-04-02",
+"from": "\"return@amazon.com\" <return@amazon.com>",
+"subj": "Dropoff confirmed for AIPER Scuba SE Cordless Pool...",
+"amts": [
+"$146.13",
+"$0.00",
+"$9.99",
+"$37.99"
+],
+"att": []
+},
+{
+"vendor": "Amazon",
+"id": "19d4c0f09034d091",
+"d": "2026-04-01",
+"from": "\"Amazon.com\" <auto-confirm@amazon.com>",
+"subj": "Ordered: \"[Petoasis] 3-Flaps...\"",
+"amts": [],
+"att": []
+},
+{
+"vendor": "Amazon",
+"id": "19d4ab6c53f8c917",
+"d": "2026-04-01",
+"from": "\"Amazon.com\" <auto-confirm@amazon.com>",
+"subj": "Ordered: 3 \"BONEWEI 36x48 inch Bathroom...\"",
+"amts": [],
+"att": []
+},
+{
+"vendor": "Chase",
+"id": "19d4a3d1a5f6ba03",
+"d": "2026-04-01",
+"from": "Chase Fraud Alert <Chase@fraudalert.chase.com>",
+"subj": "Action Needed: Please confirm activity",
+"amts": [
+"$93.58"
+],
+"att": []
+},
+{
+"vendor": "Amazon",
+"id": "19e7f9c3265504ef",
+"d": "2026-05-31",
+"from": "\"Amazon.com\" <auto-confirm@amazon.com>",
+"subj": "Ordered: \"AMZSEVEN Curtain Rods for...\"",
+"amts": [],
+"att": []
+},
+{
+"vendor": "PayPal",
+"id": "19e7f62087696f93",
+"d": "2026-05-31",
+"from": "PayPal <noreply@service.paypal.com>",
+"subj": "Paul, your April account statement - Link Corrected",
+"amts": [],
+"att": []
+},
+{
+"vendor": "Amazon",
+"id": "19e7e3fb33ed8999",
+"d": "2026-05-31",
+"from": "\"Amazon.com\" <no-reply@amazon.com>",
+"subj": "Approval required for your Amazon.com order",
+"amts": [],
+"att": []
+},
+{
+"vendor": "Amazon",
+"id": "19e72a648d4ce11c",
+"d": "2026-05-29",
+"from": "\"Amazon.com\" <no-reply@amazon.com>",
+"subj": "Delivery estimate update for your Amazon.com order \u2066#111-1181268-7183458\u2069",
+"amts": [],
+"att": []
+},
+{
+"vendor": "Amazon",
+"id": "19e7198233349a06",
+"d": "2026-05-28",
+"from": "\"Amazon.com\" <auto-confirm@amazon.com>",
+"subj": "Ordered: \"WAC Lighting, Endurance...\"",
+"amts": [],
+"att": []
+},
+{
+"vendor": "Amazon",
+"id": "19e718ea1cc1407c",
+"d": "2026-05-28",
+"from": "\"Amazon.com\" <auto-confirm@amazon.com>",
+"subj": "Ordered: \"Heath Zenith Wired Push...\"",
+"amts": [],
+"att": []
+},
+{
+"vendor": "Chase",
+"id": "19e705d6799f9279",
+"d": "2026-05-28",
+"from": "Chase <no.reply.alerts@chase.com>",
+"subj": " Your account\u2019s available balance is below your $50.00 limit for account ending in (\u20268870)",
+"amts": [
+"$50.00"
+],
+"att": []
+},
+{
+"vendor": "Chase",
+"id": "19e6ec2c98ad6f27",
+"d": "2026-05-28",
+"from": "Chase Fraud Alert <Chase@fraudalert.chase.com>",
+"subj": "Action Needed: Please confirm activity",
+"amts": [
+"$57.12"
+],
+"att": []
+},
+{
+"vendor": "Chase",
+"id": "19e6ba3c5840802a",
+"d": "2026-05-27",
+"from": "Chase <no.reply.alerts@chase.com>",
+"subj": "Your latest statement is now available",
+"amts": [],
+"att": []
+},
+{
+"vendor": "Amazon",
+"id": "19e6ab570fd10c90",
+"d": "2026-05-27",
+"from": "\"Amazon.com\" <auto-confirm@amazon.com>",
+"subj": "Ordered: \"Amazon Basics Electronic...\" and \u20666\u2069 more items",
+"amts": [],
+"att": []
+},
+{
+"vendor": "Amazon",
+"id": "19e61dabde1def60",
+"d": "2026-05-25",
+"from": "\"Amazon.com\" <digital-no-reply@amazon.com>",
+"subj": "Amazon.com order of Snack Shack.",
+"amts": [
+"$3.99",
+"$0.00"
+],
+"att": []
+},
+{
+"vendor": "Chase",
+"id": "19e61acdf3d5e022",
+"d": "2026-05-25",
+"from": "paul bjork <pvb421@gmail.com>",
+"subj": "Fwd: Your purchase receipt - NCSQUQ",
+"amts": [
+"$50.00",
+"$46.51",
+"$3.49"
+],
+"att": []
+},
+{
+"vendor": "Amazon",
+"id": "19e5ccc0eb39a0a0",
+"d": "2026-05-24",
+"from": "\"Amazon.com\" <auto-confirm@amazon.com>",
+"subj": "Ordered: \"Osmocote Smart-Release...\"",
+"amts": [],
+"att": []
+},
+{
+"vendor": "Venmo",
+"id": "19e5cb30f73f1843",
+"d": "2026-05-24",
+"from": "Venmo <venmo@venmo.com>",
+"subj": "Your Venmo Standard transfer has been initiated",
+"amts": [
+"$100.00"
+],
+"att": []
+},
+{
+"vendor": "Venmo",
+"id": "19e5c59f61e844fe",
+"d": "2026-05-24",
+"from": "Venmo <venmo@venmo.com>",
+"subj": "Alec Bjork paid you $100.00",
+"amts": [
+"$100.00"
+],
+"att": []
+},
+{
+"vendor": "Lowes",
+"id": "19e5b79dada9e0e5",
+"d": "2026-05-24",
+"from": "LOWES VIP <wernergrabowskioxlp@hotmail.com>",
+"subj": "YOUR MEMBER TOOL SET IS READY 7481019",
+"amts": [
+"$19.20"
+],
+"att": []
+},
+{
+"vendor": "Venmo",
+"id": "19e5b68ad8cd3d29",
+"d": "2026-05-24",
+"from": "Venmo <venmo@venmo.com>",
+"subj": "You paid Alec Bjork $75.00",
+"amts": [
+"$75.00"
+],
+"att": []
+},
+{
+"vendor": "Amazon",
+"id": "19e5a4a7e7ade2ff",
+"d": "2026-05-24",
+"from": "\"Amazon.com\" <auto-confirm@amazon.com>",
+"subj": "Ordered: \"Bumble and bumble. Texture...\"",
+"amts": [],
+"att": []
+},
+{
+"vendor": "Chase",
+"id": "19e37bb87a56b22e",
+"d": "2026-05-17",
+"from": "Chase <no.reply.alerts@chase.com>",
+"subj": " Your account\u2019s available balance is below your $50.00 limit for account ending in (\u20268870)",
+"amts": [
+"$50.00"
+],
+"att": []
+},
+{
+"vendor": "Amazon",
+"id": "19e33c183cd3a124",
+"d": "2026-05-16",
+"from": "\"Amazon.com\" <digital-no-reply@amazon.com>",
+"subj": "Amazon.com order of Billy Idol Should Be Dead.",
+"amts": [
+"$5.99",
+"$0.00"
+],
+"att": []
+},
+{
+"vendor": "PayPal",
+"id": "19e2ebba11e68723",
+"d": "2026-05-15",
+"from": "PayPal <noreply@service.paypal.com>",
+"subj": "Paul, your April account statement is available.",
+"amts": [],
+"att": []
+},
+{
+"vendor": "Chase",
+"id": "19e2d3d4d23ea2cc",
+"d": "2026-05-15",
+"from": "Chase <no.reply.alerts@chase.com>",
+"subj": "Your scheduled auto loan payment",
+"amts": [
+"$574.63"
+],
+"att": []
+},
+{
+"vendor": "Chase",
+"id": "19e2b85e04648a8b",
+"d": "2026-05-15",
+"from": "Chase <no.reply.alerts@chase.com>",
+"subj": " Your account\u2019s available balance is below your $50.00 limit for account ending in (\u20268870)",
+"amts": [
+"$50.00",
+"$49.22"
+],
+"att": []
+},
+{
+"vendor": "Chase",
+"id": "19e2d230540af9f5",
+"d": "2026-05-15",
+"from": "Chase <no.reply.alerts@chase.com>",
+"subj": " Your account\u2019s available balance is below your $50.00 limit for account ending in (\u20268870)",
+"amts": [
+"$50.00"
+],
+"att": []
+},
+{
+"vendor": "Chase",
+"id": "19e2ace851cdf2ac",
+"d": "2026-05-15",
+"from": "Chase <no.reply.alerts@chase.com>",
+"subj": "Your credit card statement is available",
+"amts": [
+"$0.00"
+],
+"att": []
+},
+{
+"vendor": "Chase",
+"id": "19e217c6079a9119",
+"d": "2026-05-13",
+"from": "Chase <no.reply.alerts@chase.com>",
+"subj": "Your credit card statement is available",
+"amts": [
+"$769.00",
+"$23102.82"
+],
+"att": []
+},
+{
+"vendor": "Chase",
+"id": "19e191f959cbaeab",
+"d": "2026-05-11",
+"from": "Chase <no.reply.alerts@chase.com>",
+"subj": "Your auto account statement is available",
+"amts": [
+"$574.63"
+],
+"att": []
+},
+{
+"vendor": "Amazon",
+"id": "19e1919b5062f7dd",
+"d": "2026-05-11",
+"from": "\"Amazon.com\" <auto-confirm@amazon.com>",
+"subj": "Ordered: \"IFEART 10ft USB C to USB C...\"",
+"amts": [],
+"att": []
+},
+{
+"vendor": "Chase",
+"id": "19e0da6b72b8989a",
+"d": "2026-05-09",
+"from": "Chase <no.reply.alerts@chase.com>",
+"subj": " Your account\u2019s available balance is below your $50.00 limit for account ending in (\u20268870)",
+"amts": [
+"$50.00",
+"$48.78"
+],
+"att": []
+},
+{
+"vendor": "Amazon",
+"id": "19e0a25143a8492e",
+"d": "2026-05-08",
+"from": "\"Amazon.com\" <auto-confirm@amazon.com>",
+"subj": "Ordered: \"Leaf Blower Cordless,...\"",
+"amts": [],
+"att": []
+},
+{
+"vendor": "Amazon",
+"id": "19e0a227f075a156",
+"d": "2026-05-08",
+"from": "\"Amazon.com\" <auto-confirm@amazon.com>",
+"subj": "Ordered: \"Latrcm Leaf Blower Cordless...\"",
+"amts": [],
+"att": []
+},
+{
+"vendor": "Amazon",
+"id": "19e03af1e2c20c71",
+"d": "2026-05-07",
+"from": "\"return@amazon.com\" <return@amazon.com>",
+"subj": "Advance refund issued for YaFex Curtain Rods 32-144 Inch....",
+"amts": [
+"$108.20"
+],
+"att": []
+},
+{
+"vendor": "Amazon",
+"id": "19e0434c98844e27",
+"d": "2026-05-07",
+"from": "\"return@amazon.com\" <return@amazon.com>",
+"subj": "Advance refund issued for YaFex Curtain Rods 32-144 Inch....",
+"amts": [
+"$173.12"
+],
+"att": []
+},
+{
+"vendor": "Amazon",
+"id": "19e03a79aef2c8f1",
+"d": "2026-05-07",
+"from": "\"return@amazon.com\" <return@amazon.com>",
+"subj": "Advance refund issued for Beige Linen Kitchen Curtain 24....",
+"amts": [
+"$24.89"
+],
+"att": []
+},
+{
+"vendor": "Amazon",
+"id": "19e0388ec27b59bb",
+"d": "2026-05-07",
+"from": "\"return@amazon.com\" <return@amazon.com>",
+"subj": "Advance refund issued for AMZSEVEN 40 Pack Curtain Rings....",
+"amts": [
+"$9.63"
+],
+"att": []
+},
+{
+"vendor": "Amazon",
+"id": "19e0374f7fd1bd34",
+"d": "2026-05-07",
+"from": "\"return@amazon.com\" <return@amazon.com>",
+"subj": "Advance refund issued for Natural Linen Curtains 84 Inch....",
+"amts": [
+"$95.50",
+"-$7.10",
+"$88.40"
+],
+"att": []
+},
+{
+"vendor": "Amazon",
+"id": "19e03875450c46f6",
+"d": "2026-05-07",
+"from": "\"return@amazon.com\" <return@amazon.com>",
+"subj": "Advance refund issued for Natural Linen Curtains 84 Inch....",
+"amts": [
+"$114.60",
+"-$8.52",
+"$106.08"
+],
+"att": []
+},
+{
+"vendor": "Amazon",
+"id": "19e02f0f3447f0a2",
+"d": "2026-05-07",
+"from": "\"return@amazon.com\" <return@amazon.com>",
+"subj": "Dropoff confirmed for AMZSEVEN 40 Pack Curtain Rings...",
+"amts": [
+"$9.63",
+"$0.00"
+],
+"att": []
+},
+{
+"vendor": "Amazon",
+"id": "19e02f06986bff0e",
+"d": "2026-05-07",
+"from": "\"return@amazon.com\" <return@amazon.com>",
+"subj": "Dropoff confirmed for Beige Linen Kitchen Curtain 24...",
+"amts": [
+"$24.89",
+"$0.00"
+],
+"att": []
+},
+{
+"vendor": "Chase",
+"id": "19df9608fede4340",
+"d": "2026-05-05",
+"from": "Chase <no.reply.alerts@chase.com>",
+"subj": "Your credit card payment is scheduled",
+"amts": [
+"$702.00"
+],
+"att": []
+},
+{
+"vendor": "Chase",
+"id": "19df8099d4ddc702",
+"d": "2026-05-05",
+"from": "Chase <no.reply.alerts@chase.com>",
+"subj": " Your account\u2019s available balance is below your $50.00 limit for account ending in (\u20268870)",
+"amts": [
+"$50.00"
+],
+"att": []
+},
+{
+"vendor": "Chase",
+"id": "19df387e15e84864",
+"d": "2026-05-04",
+"from": "Chase <no.reply.alerts@chase.com>",
+"subj": " Your account\u2019s available balance is below your $50.00 limit for account ending in (\u20268870)",
+"amts": [
+"$50.00",
+"$24.14"
+],
+"att": []
+},
+{
+"vendor": "Amazon",
+"id": "19df3736f3ee5d78",
+"d": "2026-05-04",
+"from": "\"Amazon.com\" <auto-confirm@amazon.com>",
+"subj": "Ordered: \"Chibery 50 Pack 1/4\" Small...\"",
+"amts": [],
+"att": []
+},
+{
+"vendor": "Chase",
+"id": "19dea68a0fec501d",
+"d": "2026-05-02",
+"from": "paul bjork <pvb421@gmail.com>",
+"subj": "Fwd: Your purchase receipt - OLNTKU",
+"amts": [
+"$37.00",
+"$34.42",
+"$2.58"
+],
+"att": []
+},
+{
+"vendor": "Chase",
+"id": "19dea69d7bcc4972",
+"d": "2026-05-02",
+"from": "Paul Bjork <pvb421@gmail.com>",
+"subj": "Fwd: Your purchase receipt - OLNTKU",
+"amts": [
+"$37.00",
+"$34.42",
+"$2.58"
+],
+"att": []
+},
+{
+"vendor": "DoorDash",
+"id": "19de68f794d5fa22",
+"d": "2026-05-01",
+"from": "DoorDash Order <no-reply@doordash.com>",
+"subj": "Order Confirmation for Paul from EEM",
+"amts": [
+"$67.50"
+],
+"att": []
+},
+{
+"vendor": "Amazon",
+"id": "19de396feb3a864f",
+"d": "2026-05-01",
+"from": "\"Amazon.com\" <auto-confirm@amazon.com>",
+"subj": "Ordered: \"KAIWEETS Circuit Breaker...\"",
+"amts": [],
+"att": []
+},
+{
+"vendor": "Chase",
+"id": "19f13a8e8fbd3f3a",
+"d": "2026-06-29",
+"from": "Chase <no.reply.alerts@chase.com>",
+"subj": " Your account\u2019s available balance is below your $50.00 limit for account ending in (\u20268870)",
+"amts": [
+"$50.00",
+"$44.29"
+],
+"att": []
+},
+{
+"vendor": "Chase",
+"id": "19f0e84aaba019e1",
+"d": "2026-06-28",
+"from": "Chase <no.reply.alerts@chase.com>",
+"subj": " Your account\u2019s available balance is below your $50.00 limit for account ending in (\u20268870)",
+"amts": [
+"$50.00"
+],
+"att": []
+},
+{
+"vendor": "Chase",
+"id": "19f0f64263ed80f3",
+"d": "2026-06-28",
+"from": "Chase <no.reply.alerts@chase.com>",
+"subj": " Your account\u2019s available balance is below your $50.00 limit for account ending in (\u20268870)",
+"amts": [
+"$50.00"
+],
+"att": []
+},
+{
+"vendor": "Chase",
+"id": "19f03d64348571ab",
+"d": "2026-06-26",
+"from": "Chase <no.reply.alerts@chase.com>",
+"subj": " Your account\u2019s available balance is below your $50.00 limit for account ending in (\u20268870)",
+"amts": [
+"$50.00"
+],
+"att": []
+},
+{
+"vendor": "Chase",
+"id": "19f028fa4553e923",
+"d": "2026-06-26",
+"from": "Chase <no.reply.alerts@chase.com>",
+"subj": "Your latest statement is now available",
+"amts": [],
+"att": []
+},
+{
+"vendor": "Chase",
+"id": "19f00c1422a3f78d",
+"d": "2026-06-25",
+"from": "Chase <no.reply.alerts@chase.com>",
+"subj": " Your account\u2019s available balance is below your $50.00 limit for account ending in (\u20268870)",
+"amts": [
+"$50.00"
+],
+"att": []
+},
+{
+"vendor": "Amazon",
+"id": "19f007bc48544959",
+"d": "2026-06-25",
+"from": "\"return@amazon.com\" <return@amazon.com>",
+"subj": "Advance refund issued for 12\" Rainfall Shower....",
+"amts": [
+"$180.61"
+],
+"att": []
+},
+{
+"vendor": "Amazon",
+"id": "19f002cb4449b1bf",
+"d": "2026-06-25",
+"from": "\"return@amazon.com\" <return@amazon.com>",
+"subj": "Advance refund issued for HVAC Premium 14\" X 8&#34....",
+"amts": [
+"$34.74"
+],
+"att": []
+},
+{
+"vendor": "Amazon",
+"id": "19f001ffbba9e905",
+"d": "2026-06-25",
+"from": "\"return@amazon.com\" <return@amazon.com>",
+"subj": "Advance refund issued for YANCASENO 3 Handles Shower....",
+"amts": [
+"$138.10",
+"$18.39",
+"$22.99",
+"$15.99",
+"$20.99"
+],
+"att": []
+},
+{
+"vendor": "Amazon",
+"id": "19eff6b88ef61f1b",
+"d": "2026-06-25",
+"from": "\"return@amazon.com\" <return@amazon.com>",
+"subj": "Dropoff confirmed for HVAC Premium 14\" X 8&#34...",
+"amts": [
+"$34.74",
+"$0.00"
+],
+"att": []
+},
+{
+"vendor": "Amazon",
+"id": "19eff68545cd5de5",
+"d": "2026-06-25",
+"from": "\"return@amazon.com\" <return@amazon.com>",
+"subj": "Dropoff confirmed for 12\" Rainfall Shower...",
+"amts": [
+"$180.61",
+"$0.00"
+],
+"att": []
+},
+{
+"vendor": "Amazon",
+"id": "19eff67ade9f4101",
+"d": "2026-06-25",
+"from": "\"return@amazon.com\" <return@amazon.com>",
+"subj": "Dropoff confirmed for YANCASENO 3 Handles Shower...",
+"amts": [
+"$138.10",
+"$0.00",
+"$18.39",
+"$22.99",
+"$15.99",
+"$20.99"
+],
+"att": []
+},
+{
+"vendor": "Amazon",
+"id": "19eff427ae27b20a",
+"d": "2026-06-25",
+"from": "\"return@amazon.com\" <return@amazon.com>",
+"subj": "Return request confirmed for YANCASENO 3 Handles Shower...",
+"amts": [
+"$138.10",
+"$0.00",
+"$18.39",
+"$22.99",
+"$15.99",
+"$20.99"
+],
+"att": []
+},
+{
+"vendor": "Amazon",
+"id": "19eff419b71d6305",
+"d": "2026-06-25",
+"from": "\"return@amazon.com\" <return@amazon.com>",
+"subj": "Return request confirmed for 12\" Rainfall Shower...",
+"amts": [
+"$180.61",
+"$0.00"
+],
+"att": []
+},
+{
+"vendor": "Amazon",
+"id": "19eff407ad22ab9a",
+"d": "2026-06-25",
+"from": "\"return@amazon.com\" <return@amazon.com>",
+"subj": "Return request confirmed for HVAC Premium 14\" X 8&#34...",
+"amts": [
+"$34.74",
+"$0.00"
+],
+"att": []
+},
+{
+"vendor": "Amazon",
+"id": "19f00ab88fbfe923",
+"d": "2026-06-25",
+"from": "paul bjork <pvb421@gmail.com>",
+"subj": "Fwd: Ordered: \"Amazon Basics Electronic...\"",
+"amts": [
+"$31.03"
+],
+"att": []
+},
+{
+"vendor": "Chase",
+"id": "19efa2e7026dad17",
+"d": "2026-06-24",
+"from": "Chase <no.reply.alerts@chase.com>",
+"subj": " Your account\u2019s available balance is below your $50.00 limit for account ending in (\u20268870)",
+"amts": [
+"$50.00",
+"$27.06"
+],
+"att": []
+},
+{
+"vendor": "Chase",
+"id": "19ee5c3ea31583da",
+"d": "2026-06-20",
+"from": "Chase <no.reply.alerts@chase.com>",
+"subj": " Your account\u2019s available balance is below your $50.00 limit for account ending in (\u20268870)",
+"amts": [
+"$50.00",
+"$8.52"
+],
+"att": []
+},
+{
+"vendor": "Amazon",
+"id": "19eddc3cb41f3043",
+"d": "2026-06-18",
+"from": "\"Amazon.com\" <digital-no-reply@amazon.com>",
+"subj": "Amazon.com order of Green Zone.",
+"amts": [
+"$3.99",
+"$0.00"
+],
+"att": []
+},
+{
+"vendor": "Amazon",
+"id": "19ed3929fcc8fbf8",
+"d": "2026-06-16",
+"from": "\"Amazon.com\" <payments-update@amazon.com>",
+"subj": "Payment declined: Update your information so we can ship your order.",
+"amts": [],
+"att": []
+},
+{
+"vendor": "PayPal",
+"id": "19ed26a5a2cadbe8",
+"d": "2026-06-16",
+"from": "PayPal <noreply@service.paypal.com>",
+"subj": "Paul Bjork, your May account statement is available.",
+"amts": [],
+"att": []
+},
+{
+"vendor": "Amazon",
+"id": "19ed1dcb9bf631aa",
+"d": "2026-06-16",
+"from": "\"Amazon.com\" <auto-confirm@amazon.com>",
+"subj": "Ordered: \"12\" Rainfall Shower Faucet&...\" and \u20662\u2069 more items",
+"amts": [],
+"att": []
+},
+{
+"vendor": "Chase",
+"id": "19ed0530221dc144",
+"d": "2026-06-16",
+"from": "Chase <no.reply.alerts@chase.com>",
+"subj": " Your account\u2019s available balance is below your $50.00 limit for account ending in (\u20268870)",
+"amts": [
+"$50.00",
+"$36.82"
+],
+"att": []
+},
+{
+"vendor": "Chase",
+"id": "19eccf99a2e34fdd",
+"d": "2026-06-15",
+"from": "Chase <no.reply.alerts@chase.com>",
+"subj": "Your scheduled auto loan payment",
+"amts": [
+"$574.63"
+],
+"att": []
+},
+{
+"vendor": "Chase",
+"id": "19ecc3bd6024e16b",
+"d": "2026-06-15",
+"from": "Chase <no.reply.alerts@chase.com>",
+"subj": " Your account\u2019s available balance is below your $50.00 limit for account ending in (\u20268870)",
+"amts": [
+"$50.00"
+],
+"att": []
+},
+{
+"vendor": "Amazon",
+"id": "19ec918636805d3f",
+"d": "2026-06-14",
+"from": "\"Amazon.com\" <digital-no-reply@amazon.com>",
+"subj": "Amazon.com order of Colin from Accounts - Season 1.",
+"amts": [
+"$14.99",
+"$0.00"
+],
+"att": []
+},
+{
+"vendor": "Chase",
+"id": "19ec5dba8d80d8f6",
+"d": "2026-06-14",
+"from": "Travelocity <travelocity@eg.travelocity.com>",
+"subj": "Travelocity flight purchase confirmation - Dallas, TX, United States (DAL-Love Field) - Mon, Jun 15 - (Itinera",
+"amts": [],
+"att": []
+},
+{
+"vendor": "Chase",
+"id": "19ec6c51b7b59903",
+"d": "2026-06-14",
+"from": "Paul Bjork <pvb421@gmail.com>",
+"subj": "Fwd: Travelocity flight purchase confirmation - Dallas, TX, United States (DAL-Love Field) - Mon, Jun 15 - (It",
+"amts": [
+"$218.60",
+"$42.40",
+"$15.40",
+"$276.40"
+],
+"att": []
+},
+{
+"vendor": "Chase",
+"id": "19ebc158f955e939",
+"d": "2026-06-12",
+"from": "Chase Fraud Alert <Chase@fraudalert.chase.com>",
+"subj": "Action Needed: Please confirm activity",
+"amts": [
+"$1,339.00"
+],
+"att": []
+},
+{
+"vendor": "Chase",
+"id": "19ebbba90e9863ca",
+"d": "2026-06-12",
+"from": "Chase <no.reply.alerts@chase.com>",
+"subj": " Your account\u2019s available balance is below your $50.00 limit for account ending in (\u20268870)",
+"amts": [
+"$50.00",
+"$25.87"
+],
+"att": []
+},
+{
+"vendor": "Chase",
+"id": "19ebd7132be16570",
+"d": "2026-06-12",
+"from": "Chase <no.reply.alerts@chase.com>",
+"subj": " Your account\u2019s available balance is below your $50.00 limit for account ending in (\u20268870)",
+"amts": [
+"$50.00"
+],
+"att": []
+},
+{
+"vendor": "Chase",
+"id": "19eb7ae3ea36237a",
+"d": "2026-06-11",
+"from": "Chase <no.reply.alerts@chase.com>",
+"subj": " Your account\u2019s available balance is below your $50.00 limit for account ending in (\u20268870)",
+"amts": [
+"$50.00"
+],
+"att": []
+},
+{
+"vendor": "Chase",
+"id": "19eb82ed6a5367ba",
+"d": "2026-06-11",
+"from": "Chase <no.reply.alerts@chase.com>",
+"subj": " Your account\u2019s available balance is below your $50.00 limit for account ending in (\u20268870)",
+"amts": [
+"$50.00",
+"$38.67"
+],
+"att": []
+},
+{
+"vendor": "Shell",
+"id": "19eb3d663f803a08",
+"d": "2026-06-10",
+"from": "Shell eGift Card <no-reply@shellegiftcards.com>",
+"subj": "Order Confirmation",
+"amts": [
+"$200.00",
+"$800.00"
+],
+"att": []
+},
+{
+"vendor": "Shell",
+"id": "19eb3d7ad4216e19",
+"d": "2026-06-10",
+"from": "Shell eGift Card <no-reply@shellegiftcards.com>",
+"subj": "Order Confirmation",
+"amts": [
+"$200.00"
+],
+"att": []
+},
+{
+"vendor": "Chase",
+"id": "19eb29065160e8f1",
+"d": "2026-06-10",
+"from": "Chase <no.reply.alerts@chase.com>",
+"subj": " Your account\u2019s available balance is below your $50.00 limit for account ending in (\u20268870)",
+"amts": [
+"$50.00",
+"$48.33"
+],
+"att": []
+},
+{
+"vendor": "Chase",
+"id": "19eb500d32f3ccfd",
+"d": "2026-06-10",
+"from": "Chase <no.reply.alerts@chase.com>",
+"subj": " Your account\u2019s available balance is below your $50.00 limit for account ending in (\u20268870)",
+"amts": [
+"$50.00"
+],
+"att": []
+},
+{
+"vendor": "Alaska",
+"id": "19eacb589a4afc74",
+"d": "2026-06-09",
+"from": "Alaska Airlines Reservation <reservation@email.alaskaair.com>",
+"subj": "Your flight is booked: WHIYBS to Portland on 07/16/2026",
+"amts": [
+"$165.58",
+"$27.82",
+"$193.40",
+"$17.67",
+"$1.33",
+"$19.00",
+"$212.40"
+],
+"att": []
+},
+{
+"vendor": "Alaska",
+"id": "19eacb15097daad5",
+"d": "2026-06-09",
+"from": "Alaska Airlines Reservation <reservation@email.alaskaair.com>",
+"subj": "Your flight is booked: ISXIRI to Spokane on 07/11/2026",
+"amts": [
+"$0.00",
+"$5.60",
+"$13.95",
+"$1.05",
+"$15.00",
+"$20.60"
+],
+"att": []
+},
+{
+"vendor": "Chase",
+"id": "19e9cd0aed619b6e",
+"d": "2026-06-06",
+"from": "Chase <no.reply.alerts@chase.com>",
+"subj": " Your account\u2019s available balance is below your $50.00 limit for account ending in (\u20268870)",
+"amts": [
+"$50.00",
+"$35.45"
+],
+"att": []
+},
+{
+"vendor": "Chase",
+"id": "19e9c6947bbc021d",
+"d": "2026-06-06",
+"from": "Chase <no.reply.alerts@chase.com>",
+"subj": "Your auto account statement is available",
+"amts": [
+"$574.63"
+],
+"att": []
+},
+{
+"vendor": "Amazon",
+"id": "19e9af19aae9c4c9",
+"d": "2026-06-05",
+"from": "\"Amazon.com\" <digital-no-reply@amazon.com>",
+"subj": "Amazon.com order of Pitch Perfect.",
+"amts": [
+"$14.99",
+"$0.00"
+],
+"att": []
+},
+{
+"vendor": "Chase",
+"id": "19e9804682195e6d",
+"d": "2026-06-05",
+"from": "Chase <no.reply.alerts@chase.com>",
+"subj": "We accepted your check deposit(s)",
+"amts": [
+"$1,338.00",
+"$500.00",
+"$838.00"
+],
+"att": []
+},
+{
+"vendor": "Chase",
+"id": "19e922e3056b1414",
+"d": "2026-06-04",
+"from": "Chase <no.reply.alerts@chase.com>",
+"subj": " Your account\u2019s available balance is below your $50.00 limit for account ending in (\u20268870)",
+"amts": [
+"$50.00"
+],
+"att": []
+},
+{
+"vendor": "Chase",
+"id": "19e936d5b6d2fa48",
+"d": "2026-06-04",
+"from": "Chase <no.reply.alerts@chase.com>",
+"subj": " Your account\u2019s available balance is below your $50.00 limit for account ending in (\u20268870)",
+"amts": [
+"$50.00"
+],
+"att": []
+},
+{
+"vendor": "Chase",
+"id": "19e8f3643c891dab",
+"d": "2026-06-03",
+"from": "Chase <no.reply.alerts@chase.com>",
+"subj": "Your credit card payment is scheduled",
+"amts": [
+"$769.00"
+],
+"att": []
+},
+{
+"vendor": "Chase",
+"id": "19e8ba8bdeb58c53",
+"d": "2026-06-02",
+"from": "Travelocity <travelocity@eg.travelocity.com>",
+"subj": "Travelocity flight purchase confirmation - Portland, OR, United States (PDX-Portland Intl.) - Wed, Jun 3 - (It",
+"amts": [],
+"att": []
+},
+{
+"vendor": "Chase",
+"id": "19e8d2269b384fe3",
+"d": "2026-06-03",
+"from": "paul bjork <pvb421@gmail.com>",
+"subj": "Fwd: Travelocity flight purchase confirmation - Portland, OR, United States (PDX-Portland Intl.) - Wed, Jun 3 ",
+"amts": [
+"$277.21",
+"$45.99",
+"$19.07",
+"$342.27"
+],
+"att": []
+},
+{
+"vendor": "Chase",
+"id": "19e8ba3f92c52f69",
+"d": "2026-06-02",
+"from": "Chase <no.reply.alerts@chase.com>",
+"subj": " Your account\u2019s available balance is below your $50.00 limit for account ending in (\u20268870)",
+"amts": [
+"$50.00"
+],
+"att": []
+},
+{
+"vendor": "Chase",
+"id": "19e8da539eee48cb",
+"d": "2026-06-03",
+"from": "Chase <no.reply.alerts@chase.com>",
+"subj": " Your account\u2019s available balance is below your $50.00 limit for account ending in (\u20268870)",
+"amts": [
+"$50.00",
+"$43.13"
+],
+"att": []
+},
+{
+"vendor": "Chase",
+"id": "19e8da64f36ab7a1",
+"d": "2026-06-03",
+"from": "paul bjork <pvb421@gmail.com>",
+"subj": "Fwd: Your purchase receipt - YVJBCJ",
+"amts": [
+"$188.84",
+"$14.16",
+"$203.00"
+],
+"att": []
+},
+{
+"vendor": "Chase",
+"id": "19e8da6a9401c0b4",
+"d": "2026-06-03",
+"from": "paul bjork <pvb421@gmail.com>",
+"subj": "Fwd: Your purchase receipt - YVJBCJ",
+"amts": [
+"$42.79",
+"$3.21",
+"$46.00"
+],
+"att": []
+},
+{
+"vendor": "Amazon",
+"id": "19e867db868f507c",
+"d": "2026-06-01",
+"from": "\"Amazon.com\" <auto-confirm@amazon.com>",
+"subj": "Ordered: \"Graduation Decorations 2026...\" and \u20661\u2069 more item",
+"amts": [],
+"att": []
+},
+{
+"vendor": "Venmo",
+"id": "19e84fe2fc363e4b",
+"d": "2026-06-01",
+"from": "Venmo <venmo@venmo.com>",
+"subj": "Alec Bjork paid you $500.00",
+"amts": [
+"$500.00"
+],
+"att": []
+},
+{
+"vendor": "Chase",
+"id": "19e8473dffe5676e",
+"d": "2026-06-01",
+"from": "Chase <no.reply.alerts@chase.com>",
+"subj": " Your account\u2019s available balance is below your $50.00 limit for account ending in (\u20268870)",
+"amts": [
+"$50.00",
+"$48.70"
+],
+"att": []
+},
+{
+"vendor": "Chase",
+"id": "19e84a08f27c40a6",
+"d": "2026-06-01",
+"from": "Chase <no.reply.alerts@chase.com>",
+"subj": " Your account\u2019s available balance is below your $50.00 limit for account ending in (\u20268870)",
+"amts": [
+"$50.00",
+"$35.03"
+],
+"att": []
+},
+{
+"vendor": "Amazon",
+"id": "19e83bccfcea9e38",
+"d": "2026-06-01",
+"from": "\"Amazon.com\" <auto-confirm@amazon.com>",
+"subj": "Ordered: \"Osmocote Smart-Release...\"",
+"amts": [],
+"att": []
+},
+{
+"vendor": "Chase",
+"id": "19e837ff154ec590",
+"d": "2026-06-01",
+"from": "Chase <no.reply.alerts@chase.com>",
+"subj": "Here's your atm receipt",
+"amts": [
+"$7,000.00",
+"$18,075.89",
+"$25,075.89"
+],
+"att": []
+},
+{
+"vendor": "Amazon",
+"id": "19faffa38164fee0",
+"d": "2026-07-29",
+"from": "\"Amazon.com\" <digital-no-reply@amazon.com>",
+"subj": "Amazon.com order of Equilibrium.",
+"amts": [
+"$3.99",
+"$0.00"
+],
+"att": []
+},
+{
+"vendor": "Amazon",
+"id": "19faeacd3da3d8ca",
+"d": "2026-07-29",
+"from": "\"Amazon.com\" <digital-no-reply@amazon.com>",
+"subj": "Amazon.com order of Iron Maiden: Burning Ambition.",
+"amts": [
+"$9.99",
+"$0.00"
+],
+"att": []
+},
+{
+"vendor": "Chase",
+"id": "19fab7195ddcc003",
+"d": "2026-07-28",
+"from": "Chase <no.reply.alerts@chase.com>",
+"subj": " Your account\u2019s available balance is below your $50.00 limit for account ending in (\u20268870)",
+"amts": [
+"$50.00"
+],
+"att": []
+},
+{
+"vendor": "Apple",
+"id": "19faafb14e3ada18",
+"d": "2026-07-28",
+"from": "Klarna <noreply-us@klarna.com>",
+"subj": "Your Apple Upgrade lease",
+"amts": [
+"$57.99"
+],
+"att": []
+},
+{
+"vendor": "Apple",
+"id": "19faa7fb3e71c296",
+"d": "2026-07-28",
+"from": "Klarna <noreply-us@klarna.com>",
+"subj": "Thanks for choosing Klarna for your Apple Upgrade lease",
+"amts": [
+"$57.99"
+],
+"att": [
+"klarna-lease-agreement.pdf"
+]
+},
+{
+"vendor": "Chase",
+"id": "19fa876eb533f055",
+"d": "2026-07-28",
+"from": "Fandango <fandango@movies.fandango.com>",
+"subj": "Fandango Purchase Confirmation - Please Read",
+"amts": [
+"$50.50"
+],
+"att": []
+},
+{
+"vendor": "Amazon",
+"id": "19f9b0f064eaeaa5",
+"d": "2026-07-25",
+"from": "\"Amazon.com\" <digital-no-reply@amazon.com>",
+"subj": "Amazon.com order of Margin Call.",
+"amts": [
+"$3.99",
+"$0.00"
+],
+"att": []
+},
+{
+"vendor": "Chase",
+"id": "19f99e667a405cef",
+"d": "2026-07-25",
+"from": "Chase <no.reply.alerts@chase.com>",
+"subj": " Your account\u2019s available balance is below your $50.00 limit for account ending in (\u20268870)",
+"amts": [
+"$50.00"
+],
+"att": []
+},
+{
+"vendor": "Chase",
+"id": "19f94a219176eed9",
+"d": "2026-07-24",
+"from": "Chase <no.reply.alerts@chase.com>",
+"subj": "Your latest statement is now available",
+"amts": [],
+"att": []
+},
+{
+"vendor": "Chase",
+"id": "19f8bc3611b08688",
+"d": "2026-07-22",
+"from": "Chase Fraud Alert <Chase@fraudalert.chase.com>",
+"subj": "Action Needed: Please confirm activity",
+"amts": [
+"$200.00"
+],
+"att": []
+},
+{
+"vendor": "Amazon",
+"id": "19f8bbba95d18f20",
+"d": "2026-07-22",
+"from": "Amazon Product Safety Team <order-update@amazon.com>",
+"subj": "Important Message about your Past Amazon Order",
+"amts": [],
+"att": []
+},
+{
+"vendor": "Amazon",
+"id": "19f77c010a686abe",
+"d": "2026-07-18",
+"from": "\"Amazon.com\" <digital-no-reply@amazon.com>",
+"subj": "Amazon.com order of A Good Year.",
+"amts": [
+"$3.99",
+"-$3.00",
+"$0.99",
+"$0.00"
+],
+"att": []
+},
+{
+"vendor": "Chase",
+"id": "19f6ad3b8d2d5bff",
+"d": "2026-07-16",
+"from": "Chase <no.reply.alerts@chase.com>",
+"subj": " Your account\u2019s available balance is below your $50.00 limit for account ending in (\u20268870)",
+"amts": [
+"$50.00"
+],
+"att": []
+},
+{
+"vendor": "Chase",
+"id": "19f6bceccb2ebba2",
+"d": "2026-07-16",
+"from": "Chase <no.reply.alerts@chase.com>",
+"subj": " Your account\u2019s available balance is below your $50.00 limit for account ending in (\u20268870)",
+"amts": [
+"$50.00",
+"$49.72"
+],
+"att": []
+},
+{
+"vendor": "PayPal",
+"id": "19f67e7e8fb85a5f",
+"d": "2026-07-15",
+"from": "PayPal <noreply@service.paypal.com>",
+"subj": "Paul, your June account statement is available.",
+"amts": [],
+"att": []
+},
+{
+"vendor": "Chase",
+"id": "19f669b8228a2533",
+"d": "2026-07-15",
+"from": "Chase <no.reply.alerts@chase.com>",
+"subj": "Your scheduled auto loan payment",
+"amts": [
+"$574.63"
+],
+"att": []
+},
+{
+"vendor": "Venmo",
+"id": "19f63351e0aab00e",
+"d": "2026-07-14",
+"from": "Venmo <venmo@venmo.com>",
+"subj": "You paid Brian Troyer $50.00",
+"amts": [
+"$50.00"
+],
+"att": []
+},
+{
+"vendor": "Amazon",
+"id": "19f612b2c6ccfdbc",
+"d": "2026-07-14",
+"from": "\"Amazon.fr\" <payments-update@amazon.fr>",
+"subj": "Payment declined: Update your information so we can ship your order.",
+"amts": [],
+"att": []
+},
+{
+"vendor": "Amazon",
+"id": "19f6128b03e7347d",
+"d": "2026-07-14",
+"from": "\"Amazon.fr\" <confirmation-commande@amazon.fr>",
+"subj": "Ordered: \u20662\u2069 \"LanBlu Solar Fountain with...\" and \u20665\u2069 more items",
+"amts": [],
+"att": []
+},
+{
+"vendor": "Chase",
+"id": "19f5c68411a53e84",
+"d": "2026-07-13",
+"from": "Chase <no.reply.alerts@chase.com>",
+"subj": " Your account\u2019s available balance is below your $50.00 limit for account ending in (\u20268870)",
+"amts": [
+"$50.00",
+"$46.72"
+],
+"att": []
+},
+{
+"vendor": "Amazon",
+"id": "19f541f63c459b1f",
+"d": "2026-07-11",
+"from": "\"Amazon.com\" <digital-no-reply@amazon.com>",
+"subj": "Amazon.com order of Pressure (2026).",
+"amts": [
+"$19.99",
+"$0.00"
+],
+"att": []
+},
+{
+"vendor": "Amazon",
+"id": "19f53f33fd56d9c4",
+"d": "2026-07-11",
+"from": "\"Amazon.com\" <auto-confirm@amazon.com>",
+"subj": "Ordered: \u20661\u2069 Book item",
+"amts": [],
+"att": []
+},
+{
+"vendor": "Amazon",
+"id": "19f5391727558320",
+"d": "2026-07-11",
+"from": "\"Amazon.com\" <auto-confirm@amazon.com>",
+"subj": "Ordered: \u20665\u2069 Apparel items",
+"amts": [],
+"att": []
+},
+{
+"vendor": "Alaska",
+"id": "19f4cb0daf6c6781",
+"d": "2026-07-10",
+"from": "Paul Bjork <pvb421@gmail.com>",
+"subj": "Fwd: Your Alaska Airlines credit certificate",
+"amts": [
+"$193.40"
+],
+"att": []
+},
+{
+"vendor": "Chase",
+"id": "19f478028c39e076",
+"d": "2026-07-09",
+"from": "Chase <no.reply.alerts@chase.com>",
+"subj": "We accepted your check deposit(s)",
+"amts": [
+"$2,000.00",
+"$500.00",
+"$1,500.00"
+],
+"att": []
+},
+{
+"vendor": "Chase",
+"id": "19f46c672e899335",
+"d": "2026-07-09",
+"from": "Chase <no.reply.alerts@chase.com>",
+"subj": " Your account\u2019s available balance is below your $50.00 limit for account ending in (\u20269257)",
+"amts": [
+"$50.00"
+],
+"att": []
+},
+{
+"vendor": "Chase",
+"id": "19f4707f49078b01",
+"d": "2026-07-09",
+"from": "Chase <no.reply.alerts@chase.com>",
+"subj": " Your account\u2019s available balance is below your $50.00 limit for account ending in (\u20269257)",
+"amts": [
+"$50.00"
+],
+"att": []
+},
+{
+"vendor": "Chase",
+"id": "19f46b2dc628735e",
+"d": "2026-07-09",
+"from": "Chase <no.reply.alerts@chase.com>",
+"subj": " Your account\u2019s available balance is below your $50.00 limit for account ending in (\u20268870)",
+"amts": [
+"$50.00"
+],
+"att": []
+},
+{
+"vendor": "Chase",
+"id": "19f4703f7b7a0e6f",
+"d": "2026-07-09",
+"from": "Chase <no.reply.alerts@chase.com>",
+"subj": " Your account\u2019s available balance is below your $50.00 limit for account ending in (\u20268870)",
+"amts": [
+"$50.00"
+],
+"att": []
+},
+{
+"vendor": "Chase",
+"id": "19f44feb1a4a7e8b",
+"d": "2026-07-08",
+"from": "Fandango <fandango@movies.fandango.com>",
+"subj": "Fandango Purchase Confirmation - Please Read",
+"amts": [
+"$50.50"
+],
+"att": []
+},
+{
+"vendor": "Chase",
+"id": "19f3c7989b4dfbf0",
+"d": "2026-07-07",
+"from": "Chase <no.reply.alerts@chase.com>",
+"subj": " Your account\u2019s available balance is below your $50.00 limit for account ending in (\u20268870)",
+"amts": [
+"$50.00",
+"$21.02"
+],
+"att": []
+},
+{
+"vendor": "Chase",
+"id": "19f2befe2546cc75",
+"d": "2026-07-04",
+"from": "Chase <no.reply.alerts@chase.com>",
+"subj": "Your auto account statement is available",
+"amts": [
+"$574.63"
+],
+"att": []
+},
+{
+"vendor": "Amazon",
+"id": "19f288131ed95175",
+"d": "2026-07-03",
+"from": "\"Amazon.com\" <auto-confirm@amazon.com>",
+"subj": "Ordered: \"Breville BOV845BSS Smart...\"",
+"amts": [],
+"att": []
+},
+{
+"vendor": "Venmo",
+"id": "19f2485a5ac30004",
+"d": "2026-07-02",
+"from": "Venmo <venmo@venmo.com>",
+"subj": "Your Venmo instant transfer has been sent",
+"amts": [
+"$1000.00",
+"$17.50",
+"$982.50"
+],
+"att": []
+},
+{
+"vendor": "Venmo",
+"id": "19f23ce35def2722",
+"d": "2026-07-02",
+"from": "Venmo <venmo@venmo.com>",
+"subj": "Alec Bjork paid you $500.00",
+"amts": [
+"$500.00"
+],
+"att": []
+},
+{
+"vendor": "Chase",
+"id": "19f1ee8e48cdb8d7",
+"d": "2026-07-01",
+"from": "Chase <no.reply.alerts@chase.com>",
+"subj": "Your credit card payment is scheduled",
+"amts": [
+"$751.00"
+],
+"att": []
+},
+{
+"vendor": "Chase",
+"id": "19f1e789c52ca48a",
+"d": "2026-07-01",
+"from": "Chase <no.reply.alerts@chase.com>",
+"subj": " Your account\u2019s available balance is below your $50.00 limit for account ending in (\u20268870)",
+"amts": [
+"$50.00",
+"$12.90"
+],
+"att": []
+},
+{
+"vendor": "Apple",
+"id": "1a04ae3287a73585",
+"d": "2026-08-28",
+"from": "paul bjork <pvb421@gmail.com>",
+"subj": "Fwd: Lease payment received for your Apple Upgrade 16-inch MacBook Pro - Space Black",
+"amts": [
+"$57.99"
+],
+"att": []
+},
+{
+"vendor": "Amazon",
+"id": "1a049d8727e904e6",
+"d": "2026-08-28",
+"from": "\"Amazon.com\" <auto-confirm@amazon.com>",
+"subj": "Ordered: 2 Personal Care items",
+"amts": [],
+"att": []
+},
+{
+"vendor": "Harbor Freight",
+"id": "1a0446189be85421",
+"d": "2026-08-27",
+"from": "Harbor Freight Tools <no-reply@harborfreight.com>",
+"subj": "Your receipt from Harbor Freight | GRESHAM  OR #00169",
+"amts": [
+"$89.99",
+"$59.99",
+"$149.98",
+"$0.00"
+],
+"att": []
+},
+{
+"vendor": "Harbor Freight",
+"id": "1a0451a8f4c59865",
+"d": "2026-08-27",
+"from": "Harbor Freight Tools <no-reply@harborfreight.com>",
+"subj": "Your receipt from Harbor Freight | GRESHAM  OR #00169",
+"amts": [
+"$89.99",
+"$59.99",
+"$149.98",
+"$0.00"
+],
+"att": []
+},
+{
+"vendor": "Venmo",
+"id": "1a040c50a66ae4e8",
+"d": "2026-08-26",
+"from": "Venmo <venmo@venmo.com>",
+"subj": "You paid Alec Bjork $500.00",
+"amts": [
+"$500.00"
+],
+"att": []
+},
+{
+"vendor": "Chase",
+"id": "1a03f0c876481cb0",
+"d": "2026-08-26",
+"from": "Chase <no.reply.alerts@chase.com>",
+"subj": "Your latest statement is now available",
+"amts": [],
+"att": []
+},
+{
+"vendor": "Amazon",
+"id": "1a03bc2740f0607c",
+"d": "2026-08-25",
+"from": "\"Amazon.com\" <digital-no-reply@amazon.com>",
+"subj": "Amazon.com order of Dune: Part Two (Bonus X-Ray Edition).",
+"amts": [
+"$7.99",
+"$0.00"
+],
+"att": []
+},
+{
+"vendor": "Apple",
+"id": "1a03b18dc02087cd",
+"d": "2026-08-25",
+"from": "Klarna <noreply-us@klarna.com>",
+"subj": "Upcoming lease payment for your Apple 16-inch MacBook Pro - Space Black",
+"amts": [
+"$57.99"
+],
+"att": []
+},
+{
+"vendor": "Amazon",
+"id": "1a0394a788524514",
+"d": "2026-08-25",
+"from": "\"Amazon.com\" <auto-confirm@amazon.com>",
+"subj": "Ordered: 2 Office items",
+"amts": [],
+"att": []
+},
+{
+"vendor": "Chase",
+"id": "1a0352a5b1ef1263",
+"d": "2026-08-24",
+"from": "Fandango <fandango@movies.fandango.com>",
+"subj": "Fandango Purchase Confirmation - Please Read",
+"amts": [
+"$101.00"
+],
+"att": []
+},
+{
+"vendor": "Chase",
+"id": "1a0352c8b727f5a2",
+"d": "2026-08-24",
+"from": "Fandango <fandango@movies.fandango.com>",
+"subj": "Fandango Purchase Confirmation - Please Read",
+"amts": [
+"$101.00"
+],
+"att": []
+},
+{
+"vendor": "Chase",
+"id": "1a0371e32c84f8ce",
+"d": "2026-08-24",
+"from": "Fandango <fandango@movies.fandango.com>",
+"subj": "Fandango Purchase Confirmation - Please Read",
+"amts": [
+"$33.38"
+],
+"att": []
+},
+{
+"vendor": "Amazon",
+"id": "1a0215570e243f5e",
+"d": "2026-08-20",
+"from": "\"return@amazon.com\" <return@amazon.com>",
+"subj": "Advance refund issued for WALI Solar Powered Fake Camera....",
+"amts": [
+"$79.98",
+"-$8.00",
+"$71.98",
+"$12.99",
+"$7.99"
+],
+"att": []
+},
+{
+"vendor": "Amazon",
+"id": "1a02154d9142c2fb",
+"d": "2026-08-20",
+"from": "\"return@amazon.com\" <return@amazon.com>",
+"subj": "Advance refund issued for SEHMUA 4G LTE Cellular Solar....",
+"amts": [
+"$39.99",
+"$5.39"
+],
+"att": []
+},
+{
+"vendor": "Amazon",
+"id": "1a0211e98eb368ca",
+"d": "2026-08-20",
+"from": "\"return@amazon.com\" <return@amazon.com>",
+"subj": "Advance refund issued for ForoGore 2 Pack 12\" x....",
+"amts": [
+"$36.99",
+"$39.99",
+"$68.98",
+"$78.98"
+],
+"att": []
+},
+{
+"vendor": "Amazon",
+"id": "1a020b5a768ba86c",
+"d": "2026-08-20",
+"from": "\"return@amazon.com\" <return@amazon.com>",
+"subj": "Advance refund issued for Amazon Basics Electronic Keypad....",
+"amts": [
+"$36.59",
+"$37.79",
+"-$1.20",
+"$14.48",
+"$17.67",
+"$17.31"
+],
+"att": []
+},
+{
+"vendor": "Amazon",
+"id": "1a020afe65e559c0",
+"d": "2026-08-20",
+"from": "\"return@amazon.com\" <return@amazon.com>",
+"subj": "Dropoff confirmed for Amazon Basics Electronic Keypad...",
+"amts": [
+"$37.79",
+"$0.00",
+"-$1.20",
+"$36.59",
+"$14.48",
+"$17.67",
+"$17.31"
+],
+"att": []
+},
+{
+"vendor": "Amazon",
+"id": "1a020afe185dbc0d",
+"d": "2026-08-20",
+"from": "\"return@amazon.com\" <return@amazon.com>",
+"subj": "Dropoff confirmed for SEHMUA 4G LTE Cellular Solar...",
+"amts": [
+"$39.99",
+"$0.00",
+"$5.39"
+],
+"att": []
+},
+{
+"vendor": "Amazon",
+"id": "1a020af8e6b8922e",
+"d": "2026-08-20",
+"from": "\"return@amazon.com\" <return@amazon.com>",
+"subj": "Dropoff confirmed for ForoGore 2 Pack 12\" x...",
+"amts": [
+"$36.99",
+"$0.00",
+"$39.99",
+"$68.98",
+"$78.98"
+],
+"att": []
+},
+{
+"vendor": "Amazon",
+"id": "1a020ae8d2a0d3b3",
+"d": "2026-08-20",
+"from": "\"return@amazon.com\" <return@amazon.com>",
+"subj": "Dropoff confirmed for 2x WALI Solar Powered Fake Camera....",
+"amts": [
+"$12.99",
+"$7.99"
+],
+"att": []
+},
+{
+"vendor": "PayPal",
+"id": "1a01b5cd887221e3",
+"d": "2026-08-19",
+"from": "\"service@paypal.com\" <service@paypal.com>",
+"subj": "You sent a z\u0142\u00a0659.75\u00a0PLN payment",
+"amts": [
+"$185.00",
+"$4.99",
+"$189.99",
+"$1.00"
+],
+"att": []
+},
+{
+"vendor": "Amazon",
+"id": "1a01a86de328af0c",
+"d": "2026-08-19",
+"from": "\"return@amazon.com\" <return@amazon.com>",
+"subj": "Return request confirmed for ForoGore 2 Pack 12\" x...",
+"amts": [
+"$36.99",
+"$0.00",
+"$39.99",
+"$68.98",
+"$78.98"
+],
+"att": []
+},
+{
+"vendor": "Amazon",
+"id": "1a01a8613ad56e01",
+"d": "2026-08-19",
+"from": "\"return@amazon.com\" <return@amazon.com>",
+"subj": "Return request confirmed for Amazon Basics Electronic Keypad...",
+"amts": [
+"$37.79",
+"$0.00",
+"-$1.20",
+"$36.59",
+"$14.48",
+"$17.67",
+"$17.31"
+],
+"att": []
+},
+{
+"vendor": "Amazon",
+"id": "1a01a84a51634e69",
+"d": "2026-08-19",
+"from": "\"return@amazon.com\" <return@amazon.com>",
+"subj": "Return request confirmed for 2xWALI Solar Powered Fake Camera...",
+"amts": [
+"$79.98",
+"$0.00",
+"-$8.00",
+"$71.98",
+"$9.99",
+"$7.99"
+],
+"att": []
+},
+{
+"vendor": "Amazon",
+"id": "1a01a83876d7821a",
+"d": "2026-08-19",
+"from": "\"return@amazon.com\" <return@amazon.com>",
+"subj": "Return request confirmed for SEHMUA 4G LTE Cellular Solar...",
+"amts": [
+"$39.99",
+"$0.00",
+"$48.98",
+"$4.99",
+"$5.59"
+],
+"att": []
+},
+{
+"vendor": "Alaska",
+"id": "1a0081ab677be31d",
+"d": "2026-08-15",
+"from": "Alaska Airlines Reservation <reservation@email.alaskaair.com>",
+"subj": "Your flight is booked: SLIWDX to Portland on 10/18/2026",
+"amts": [
+"$514.42",
+"$53.98",
+"$568.40",
+"$1,136.80"
+],
+"att": []
+},
+{
+"vendor": "Uber",
+"id": "1a0081871069659e",
+"d": "2026-08-15",
+"from": "\"The Inn at Mattei's Tavern, Auberge Collection\" <noreply@reservations",
+"subj": "Your reservation for The Inn at Mattei's Tavern is confirmed",
+"amts": [
+"$1,721.67",
+"$5,904.60",
+"$2.50"
+],
+"att": []
+},
+{
+"vendor": "Chase",
+"id": "1a008127b4e6a8c8",
+"d": "2026-08-15",
+"from": "United Airlines <Receipts@united.com>",
+"subj": "Thanks for your purchase with United",
+"amts": [],
+"att": []
+},
+{
+"vendor": "Chase",
+"id": "1a008127c25485f3",
+"d": "2026-08-15",
+"from": "United Airlines <Receipts@united.com>",
+"subj": "Thanks for your purchase with United",
+"amts": [],
+"att": []
+},
+{
+"vendor": "PayPal",
+"id": "1a00801e146a8151",
+"d": "2026-08-15",
+"from": "PayPal <noreply@service.paypal.com>",
+"subj": "Paul, your July account statement is available.",
+"amts": [],
+"att": []
+},
+{
+"vendor": "Chase",
+"id": "1a00720101c80a9e",
+"d": "2026-08-15",
+"from": "Etsy Transactions <transaction@account.etsy.com>",
+"subj": "Your Etsy Purchase from Thebeezkneezvintage (4146099591)",
+"amts": [
+"$220.00",
+"$88.19",
+"$0.00",
+"$308.19"
+],
+"att": []
+},
+{
+"vendor": "Chase",
+"id": "1a0060df4f5a6eea",
+"d": "2026-08-15",
+"from": "Chase <no.reply.alerts@chase.com>",
+"subj": "Your scheduled auto loan payment",
+"amts": [
+"$574.63"
+],
+"att": []
+},
+{
+"vendor": "Amazon",
+"id": "19ffcb1c98dc12e3",
+"d": "2026-08-13",
+"from": "\"Amazon.com\" <auto-confirm@amazon.com>",
+"subj": "Ordered: \u20664\u2069 Hardware items",
+"amts": [],
+"att": []
+},
+{
+"vendor": "Venmo",
+"id": "19ffaa23c1244145",
+"d": "2026-08-13",
+"from": "Venmo <venmo@venmo.com>",
+"subj": "You paid Ramon Garcia alcaraz $825.00",
+"amts": [
+"$825.00"
+],
+"att": []
+},
+{
+"vendor": "Harbor Freight",
+"id": "19fecba09fc40c98",
+"d": "2026-08-10",
+"from": "Harbor Freight <HarborFreight@eml.harborfreight.com>",
+"subj": "Your Receipt From Harbor Freight Store #0891",
+"amts": [
+"$14.99",
+"$1.24",
+"$16.23"
+],
+"att": []
+},
+{
+"vendor": "Chase",
+"id": "19fe0d1541c19543",
+"d": "2026-08-08",
+"from": "Chase <no.reply.alerts@chase.com>",
+"subj": "Your credit card statement is available",
+"amts": [
+"$737.00",
+"$22435.77"
+],
+"att": []
+},
+{
+"vendor": "Chase",
+"id": "19fdc2c1d23db4c1",
+"d": "2026-08-07",
+"from": "Chase <no.reply.alerts@chase.com>",
+"subj": " Your account\u2019s available balance is below your $50.00 limit for account ending in (\u20268870)",
+"amts": [
+"$50.00"
+],
+"att": []
+},
+{
+"vendor": "Amazon",
+"id": "19fdbff63e687d93",
+"d": "2026-08-07",
+"from": "\"Amazon.com\" <auto-confirm@amazon.com>",
+"subj": "Ordered: \u20663\u2069 Camera and Lighting & Fans items",
+"amts": [],
+"att": []
+},
+{
+"vendor": "Amazon",
+"id": "19fd7497ad0c636e",
+"d": "2026-08-06",
+"from": "\"Amazon.com\" <auto-confirm@amazon.com>",
+"subj": "Ordered: \u20663\u2069 Camera items",
+"amts": [],
+"att": []
+},
+{
+"vendor": "Chase",
+"id": "19fd6f64d7df5ab2",
+"d": "2026-08-06",
+"from": "Chase <no.reply.alerts@chase.com>",
+"subj": " Your account\u2019s available balance is below your $50.00 limit for account ending in (\u20268870)",
+"amts": [
+"$50.00"
+],
+"att": []
+},
+{
+"vendor": "Chase",
+"id": "19fd7bf92a6d1f88",
+"d": "2026-08-06",
+"from": "Chase <no.reply.alerts@chase.com>",
+"subj": " Your account\u2019s available balance is below your $50.00 limit for account ending in (\u20268870)",
+"amts": [
+"$50.00",
+"$46.57"
+],
+"att": []
+},
+{
+"vendor": "Chase",
+"id": "19fd5bbd80e101bf",
+"d": "2026-08-06",
+"from": "Chase <no.reply.alerts@chase.com>",
+"subj": "Your auto account statement is available",
+"amts": [
+"$574.63"
+],
+"att": []
+},
+{
+"vendor": "Venmo",
+"id": "19fcfc618095ed23",
+"d": "2026-08-04",
+"from": "Venmo <venmo@venmo.com>",
+"subj": "Your Venmo instant transfer has been sent",
+"amts": [
+"$500.00",
+"$8.75",
+"$491.25"
+],
+"att": []
+},
+{
+"vendor": "Venmo",
+"id": "19fcf225755ab486",
+"d": "2026-08-04",
+"from": "Venmo <venmo@venmo.com>",
+"subj": "Alec Bjork paid you $500.00",
+"amts": [
+"$500.00"
+],
+"att": []
+},
+{
+"vendor": "Chase",
+"id": "19fcd058d8fb667d",
+"d": "2026-08-04",
+"from": "Chase <no.reply.alerts@chase.com>",
+"subj": "Your credit card payment is scheduled",
+"amts": [
+"$725.00"
+],
+"att": []
+},
+{
+"vendor": "Chase",
+"id": "19fc781fa3ad8199",
+"d": "2026-08-03",
+"from": "Chase <no.reply.alerts@chase.com>",
+"subj": " Your account\u2019s available balance is below your $50.00 limit for account ending in (\u20268870)",
+"amts": [
+"$50.00"
+],
+"att": []
+},
+{
+"vendor": "Chase",
+"id": "19fc89962b029e81",
+"d": "2026-08-03",
+"from": "Chase <no.reply.alerts@chase.com>",
+"subj": " Your account\u2019s available balance is below your $50.00 limit for account ending in (\u20268870)",
+"amts": [
+"$50.00"
+],
+"att": []
+},
+{
+"vendor": "Amazon",
+"id": "19fc08a21e0ce0ed",
+"d": "2026-08-01",
+"from": "\"Amazon.com\" <auto-confirm@amazon.com>",
+"subj": "Ordered: \u20661\u2069 Electronics item",
+"amts": [],
+"att": []
+},
+{
+"vendor": "Chase",
+"id": "19fbf2ea02b30aaa",
+"d": "2026-08-01",
+"from": "Chase <no.reply.alerts@chase.com>",
+"subj": "We accepted your check deposit(s)",
+"amts": [
+"$57.10"
+],
+"att": []
+},
+{
+"vendor": "Amazon",
+"id": "1a0a8884269277e6",
+"d": "2026-09-15",
+"from": "\"Amazon.com\" <auto-confirm@amazon.com>",
+"subj": "Ordered 2 items: Cookbooks",
+"amts": [],
+"att": []
+},
+{
+"vendor": "Chase",
+"id": "1a0a5bd49ca8066e",
+"d": "2026-09-15",
+"from": "Chase <no.reply.alerts@chase.com>",
+"subj": "Your scheduled auto loan payment",
+"amts": [
+"$574.63"
+],
+"att": []
+},
+{
+"vendor": "Zelle",
+"id": "1a0a381112dcc6e1",
+"d": "2026-09-15",
+"from": "Chase <no.reply.alerts@chase.com>",
+"subj": "We canceled your Zelle\u00ae request",
+"amts": [
+"$150.00"
+],
+"att": []
+},
+{
+"vendor": "Amazon",
+"id": "1a09657c048a7c5e",
+"d": "2026-09-12",
+"from": "\"Amazon.com\" <auto-confirm@amazon.com>",
+"subj": "Ordered 1 item: Wall Lights",
+"amts": [],
+"att": []
+},
+{
+"vendor": "Chase",
+"id": "1a095ed94e7db544",
+"d": "2026-09-12",
+"from": "Etsy Transactions <transaction@account.etsy.com>",
+"subj": "Your Etsy Purchase from WallHorizon (4171285603)",
+"amts": [
+"$180.30",
+"$90.15",
+"$5.99",
+"$0.00",
+"$96.14"
+],
+"att": []
+},
+{
+"vendor": "Chase",
+"id": "1a095e8c24876b8c",
+"d": "2026-09-12",
+"from": "Etsy Transactions <transaction@account.etsy.com>",
+"subj": "Your Etsy Purchase from malisvintage (4172548526)",
+"amts": [
+"$98.00",
+"$14.70",
+"$45.19",
+"$0.00",
+"$128.49",
+"$203.49"
+],
+"att": []
+},
+{
+"vendor": "Chase",
+"id": "1a095e8be45c6b06",
+"d": "2026-09-12",
+"from": "Etsy Transactions <transaction@account.etsy.com>",
+"subj": "Your Etsy Purchase from STRStrangeThings (4172548524)",
+"amts": [
+"$75.00",
+"$0.00",
+"$203.49"
+],
+"att": []
+},
+{
+"vendor": "Chase",
+"id": "1a0884823b8d63ad",
+"d": "2026-09-09",
+"from": "paul bjork <pvb421@gmail.com>",
+"subj": "Fwd: Here's Your Wi-Fi Onboard Receipt - Check Out Your Purchase Details! - Order #429046472SSAS",
+"amts": [
+"$8.00",
+"$0.00"
+],
+"att": []
+},
+{
+"vendor": "Amazon",
+"id": "1a0878a9d57516fe",
+"d": "2026-09-09",
+"from": "\"Amazon.com\" <digital-no-reply@amazon.com>",
+"subj": "Amazon.com order of BlackBerry.",
+"amts": [
+"$3.99",
+"$0.00"
+],
+"att": []
+},
+{
+"vendor": "Chase",
+"id": "1a08018e864475db",
+"d": "2026-09-08",
+"from": "Chase <no.reply.alerts@chase.com>",
+"subj": "Your credit card statement is available",
+"amts": [
+"$728.00",
+"$22215.38"
+],
+"att": []
+},
+{
+"vendor": "Chase",
+"id": "1a070a7f8d42d201",
+"d": "2026-09-05",
+"from": "Chase <no.reply.alerts@chase.com>",
+"subj": "Your auto account statement is available",
+"amts": [
+"$574.63"
+],
+"att": []
+},
+{
+"vendor": "Amazon",
+"id": "1a06e56741310a6d",
+"d": "2026-09-04",
+"from": "\"Amazon.com\" <auto-confirm@amazon.com>",
+"subj": "Ordered 1 item: Building Supplies",
+"amts": [],
+"att": []
+},
+{
+"vendor": "Chase",
+"id": "1a06037e2da0bb00",
+"d": "2026-09-01",
+"from": "Chase <no.reply.alerts@chase.com>",
+"subj": "Your credit card payment is scheduled",
+"amts": [
+"$737.00"
+],
+"att": []
+}
+]
