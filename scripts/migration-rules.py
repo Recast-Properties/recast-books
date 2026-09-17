@@ -77,9 +77,11 @@ def main():
             if d is keep: continue
             o = by_mailbox[d[3]].get(d[2], {}); o["verdict"] = "dismiss"
             o["note"] = "; ".join(filter(None, [o.get("note"), f"D-026.5 {d[1]} duplicate of {keep[2]} ({cents/100:.2f})"])); by_mailbox[d[3]][d[2]] = o; counts["D-026.5"] += 1
-    for mailbox, ov in by_mailbox.items():
-        json.dump({"mailbox": mailbox, "built": datetime.datetime.now().isoformat(timespec="minutes"), "overrides": ov}, open(os.path.join(a.out, f"books-repost-{mailbox}.json"), "w"), indent=0)
-        print(mailbox, "overrides:", len(ov))
+    # One file: repostAll runs from the paul@ poller and repost-all walks the whole docs
+    # store, whichever mailbox a document came from.
+    allov = {}
+    for mailbox, ov in by_mailbox.items(): allov.update(ov); print(mailbox, "overrides:", len(ov))
+    json.dump({"mailbox": "paul", "built": datetime.datetime.now().isoformat(timespec="minutes"), "overrides": allov}, open(os.path.join(a.out, "books-repost-paul.json"), "w"), indent=0)
     print("by rule:", dict(counts))
 
 if __name__ == "__main__":
