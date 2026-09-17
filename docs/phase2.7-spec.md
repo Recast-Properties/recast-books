@@ -97,14 +97,25 @@ receipt). Approve, Dismiss (with a reason), Reprocess.
 The queue **stays in Netlify Blobs** — one source of truth that the poller, the ingest job,
 the web Inbox, the digest and the model's `search_docs` all read. The `Inbox` tab this
 section once planned would have been a second copy of that state. What moved in-process is
-the slow part: **Approve** fetches the envelope fresh (refuses anything no longer pending),
-files the attachment to Drive through `storeDocument_`, builds the entries with the same
-`buildEntriesFromModel` (`lib/gate.mjs`, now generated into `lib.gs`) and posts them with
-`postBatchEntries_` under the writer's lock — no Netlify → cold writer hops — then one cheap
-call records it: `POST /api/inbox {action:"mark-posted"}`. If that last call fails after the
-post, the sidebar says so, names the txn_ids, and tells Paul to run
-`scripts/mark-posted.mjs` rather than approve again. Dismiss and Reprocess are the existing
-`/api/inbox` verbs, proxied.
+the slow part, in two steps so the user waits only for the ledger write (8.4 s → ~2.5 s,
+2026-09-16 late):
+
+- **`inboxApprove`** (the click): owner check and posting ctx from 6-hour caches (cleared by
+  every writer upsert or period change and by a hand edit on Accounts/Properties/Periods/
+  Users), `buildEntriesFromModel` (`lib/gate.mjs`, generated into `lib.gs`) on the possibly
+  edited entries, `POST /api/inbox {action:"mark-posted"}` **first** — refused `NOT_PENDING` if
+  the web Inbox or the ingest got there, nothing posted yet — then `postBatchEntries_` under
+  the writer's lock with the line-block refresh deferred. If the post fails after the mark,
+  `mark-pending` puts the card back. The dialog shows "Posted <txn_id> · filing…" and the
+  stopwatch line.
+- **`inboxFinish`** (the dialog calls it at once; Apps Script runs it to completion even if
+  the window closes): fetch the bytes from `/api/file`, file to Drive through
+  `storeDocument_` (folder ids cached 6 h), write `doc_url` onto the Journal lines
+  (`setDocUrl_`) and the envelope (`mark-posted` again with the same txn_ids patches only
+  `doc_url`), rebuild the property tab's line blocks, poke the cache. A failure here is
+  reported in red on the card but the entry is already posted.
+
+Dismiss and Reprocess are the existing `/api/inbox` verbs, proxied.
 
 Auth: the sidebar calls the site with the same `POLLER_SECRET` script property `warmCache_`
 uses (`x-poller-secret`, now accepted by `/api/inbox` and `/api/file`); the Users-tab owner
