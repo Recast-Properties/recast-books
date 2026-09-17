@@ -276,6 +276,8 @@ Function routes (all JSON; all but `books-config` require `Authorization: Bearer
 - Netlify site `recast-books`, id `048233af-83fd-4885-8b28-1e88d5623c3e`, custom domain
   `books.recast-properties.com` attached; `SESSION_SECRET` set (production contexts).
 - Workbook **Recast Books**: `12QVyxm3KnLD7CDC8mFAPd5ulZuRXRluNDi4qK4BBxKM`
+- Workbook **Recast Books STAGING** (D-025, Drive copy made 2026-09-17, the Phase 4 scratchpad;
+  archived after cutover): `1ElTwWQ4xekYjtiXEybOuRfC28vWtkWNI5-NcjVOxWBw`
   (https://docs.google.com/spreadsheets/d/12QVyxm3KnLD7CDC8mFAPd5ulZuRXRluNDi4qK4BBxKM/edit),
   created by `setup()` on 2026-09-11. The writer is the only thing that writes to it.
 
