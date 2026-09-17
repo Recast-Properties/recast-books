@@ -1806,3 +1806,32 @@ function selfTest() {
     fromCents(interestCents) + ' on the fixture advance');
   return { ok: true, txn_id: entry.txn_id, interest: fromCents(interestCents) };
 }
+
+// ---- D-013 / D-025: clear the Journal once, by hand, from the editor --------------
+// Not a menu item and never a button (D-013). Deletes every data row of the Journal
+// (headers stay) and rebuilds Totals. Refuses unless Script Property CLEAR_CONFIRM
+// equals this workbook's id - so the property must be set on THIS project, minutes
+// before, on purpose; it is deleted again on success. Used on the STAGING copy between
+// reruns (D-025) and exactly once on the real workbook at cutover (D-013).
+function clearBooks() {
+  var props = PropertiesService.getScriptProperties();
+  var ss = openOrCreateWorkbook_(props);
+  var confirm = props.getProperty('CLEAR_CONFIRM') || '';
+  if (confirm !== ss.getId()) {
+    fail_('CLEAR_NOT_CONFIRMED', 'Set Script Property CLEAR_CONFIRM to this workbook id (' + ss.getId() +
+      ') and run again. Workbook name: ' + ss.getName());
+  }
+  var lock = LockService.getScriptLock();
+  lock.waitLock(30000);
+  try {
+    var sh = ss.getSheetByName('Journal');
+    var rows = sh.getLastRow() - 1;
+    if (rows > 0) sh.deleteRows(2, rows);
+    props.deleteProperty('CLEAR_CONFIRM');
+    setupTotals();
+    console.log('CLEARED Journal: ' + rows + ' row(s) removed from "' + ss.getName() + '" (' + ss.getId() + ')');
+    return { cleared: rows, workbook: ss.getName() };
+  } finally {
+    lock.releaseLock();
+  }
+}
