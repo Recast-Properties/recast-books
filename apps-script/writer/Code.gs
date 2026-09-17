@@ -1349,7 +1349,7 @@ function setupPropertyTab(name) {
     paint(s, 1, 1, C.head); paint(s, 2, 1, C.total); set(s, 1, 'Rehab by trade', true);
     set(s, 2, '=' + net(rehabF), true); var tradeHead = s++;
     var TRADES_N = 30;
-    set(s, 1, '=IFERROR(SORT(UNIQUE(FILTER(' + J('K') + ',' + live.replace(/\(' + J('C') + '<=\$B\$1\)/, '1') + '*' + rehabF + '*(' + J('K') + '<>"")))),"")');
+    set(s, 1, '=IFERROR(SORT(UNIQUE(FILTER(' + J('K') + ',' + live + '*' + rehabF + '*(' + J('K') + '<>"")))),"")');
     for (var t = 0; t < TRADES_N; t++) {
       var tr = s + t;
       set(tr, 2, '=IF(A' + tr + '="","",' + net(rehabF + '*(' + J('K') + '&""=A' + tr + ')') + ')');
