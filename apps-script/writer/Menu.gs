@@ -43,12 +43,13 @@ function onOpen() {
 /** The active user's Users.role, or null if they are not listed. */
 function currentUserRole_(ss) {
   var email = String(Session.getActiveUser().getEmail() || '').toLowerCase();
-  // ponytail: 5-min role cache - a demotion on Users takes up to 5 min to bite; clear 'role:<email>' if that ever matters
+  // 6 h role cache; onPropertyTabEdit clears it on any Users-tab edit (the old email may
+  // also be cleared by hand: CacheService key 'role:<email>').
   var cache = CacheService.getScriptCache();
   var cached = cache.get('role:' + email);
   if (cached) return cached === '-' ? null : cached;
   var role = readUserRole_(ss, email);
-  cache.put('role:' + email, role || '-', 300);
+  cache.put('role:' + email, role || '-', 21600);
   return role;
 }
 
@@ -94,8 +95,9 @@ function requireOwner_(ss, allowAnyRole) {
  *  sheets instead of over HTTP - accounts (active only), properties (open only, per
  *  lib.gs's isOpenProperty), periods, today in America/Chicago. */
 function buildCtx_(ss) {
-  // Six sheet reads (~1.1 s) - cached 2 min as plain arrays; any writer upsert or
-  // period change clears it, and postBatchEntries_ re-checks the period lock itself.
+  // Six sheet reads (~1.1 s) - cached 6 h as plain arrays. Cleared by every writer upsert
+  // and period change (Code.gs) and by a hand edit on Accounts/Properties/Periods (the
+  // onEdit trigger); postBatchEntries_ re-checks the period lock itself regardless.
   var cache = CacheService.getScriptCache();
   var cached = cache.get('ctx');
   if (cached) {
@@ -105,7 +107,7 @@ function buildCtx_(ss) {
   }
   var built = readCtx_(ss);
   cache.put('ctx', JSON.stringify({ accounts: Array.from(built.accounts.entries()), properties: Array.from(built.properties),
-    periods: Array.from(built.periods.entries()) }), 120);
+    periods: Array.from(built.periods.entries()) }), 21600);
   return makeCtx(built);
 }
 
@@ -909,6 +911,7 @@ function inboxApprove(req) {
   var marked = false;
   try {
     requireOwner_(ss);
+    lap('role');
     var entries = Array.isArray(req.entries) ? req.entries : [];
     if (!docId) return { ok: false, error: 'BAD_REQUEST', message: 'docId is required' };
     if (!entries.length) return { ok: false, error: 'BAD_REQUEST', message: 'no entries to approve' };
@@ -917,6 +920,7 @@ function inboxApprove(req) {
     for (var k in (req.model || {})) model[k] = req.model[k];
     model.entries = entries;
     var ctx = buildCtx_(ss);
+    lap('ctx');
     var postedBy = Session.getActiveUser().getEmail();
     var built = buildEntriesFromModel(model, ctx, { posted_by: postedBy, doc_url: '', allow_duplicate_hash: true });
     var txnIds = built.map(function (e) { return e.txn_id; });

@@ -1643,8 +1643,12 @@ function onPropertyTabEdit(e) {
   try {
     var range = e.range;
     var editedSheet = range.getSheet();
-    if (editedSheet.getName() === 'Bank accounts') { mirrorBankAccountEdit_(editedSheet, range); return; }
-    if (editedSheet.getName() === 'Users') { guardLastOwnerEdit_(e, editedSheet, range); return; }
+    var edited = editedSheet.getName();
+    // Menu.gs caches the posting ctx and each user's role (6 h); a hand edit on one of
+    // these tabs is the only change the writer's own invalidation would not see.
+    if (edited === 'Accounts' || edited === 'Properties' || edited === 'Periods') { CacheService.getScriptCache().remove('ctx'); return; }
+    if (edited === 'Bank accounts') { mirrorBankAccountEdit_(editedSheet, range); return; }
+    if (edited === 'Users') { clearRoleCache_(editedSheet); guardLastOwnerEdit_(e, editedSheet, range); return; }
 
     var col = range.getColumn();
     var isPaidBox = range.getNumRows() === 1 && range.getNumColumns() === 1 && range.getRow() >= 6 &&
@@ -1712,6 +1716,15 @@ function mirrorBankAccountEdit_(sh, range) {
 // phase2.7-spec.md section 4 guard (b): refuses to change the last listed owner's
 // role away from "owner" - reverts the cell and toasts instead of throwing, since
 // this runs from a user's own edit, not a menu action with a dialog to show an error in.
+function clearRoleCache_(usersSheet) {
+  var cols = headerIndex_(usersSheet);
+  var last = usersSheet.getLastRow();
+  if (last < 2 || !cols['email']) return;
+  var keys = usersSheet.getRange(2, cols['email'], last - 1, 1).getValues()
+    .map(function (r) { return 'role:' + String(r[0]).toLowerCase(); });
+  CacheService.getScriptCache().removeAll(keys);
+}
+
 function guardLastOwnerEdit_(e, sh, range) {
   if (range.getNumRows() !== 1 || range.getNumColumns() !== 1) return; // only single-cell role edits are guarded
   var cols = headerIndex_(sh);
