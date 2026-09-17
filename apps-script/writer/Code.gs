@@ -1340,6 +1340,24 @@ function setupPropertyTab(name) {
   s++;
   set(s, 1, 'Back to Recast account', true); set(s, 2, '=G' + recastNetRow, true); paint(s, 1, 1, C.sub); paint(s, 2, 1, C.tan); s++;
 
+  // ---- Heavy template (D-002, D-026.8): rehab by trade ---------------------------
+  // The old heavy tab (104 Ashburne) had one block per trade; here the trade is a
+  // Journal column (K), so the breakdown is a live pivot: distinct trades on this
+  // property's rehab lines, each with its net. UNIQUE spills at most a few dozen rows.
+  if (String(registry.template || '').toLowerCase() === 'heavy') {
+    s += 1;
+    paint(s, 1, 1, C.head); paint(s, 2, 1, C.total); set(s, 1, 'Rehab by trade', true);
+    set(s, 2, '=' + net(rehabF), true); var tradeHead = s++;
+    var TRADES_N = 30;
+    set(s, 1, '=IFERROR(SORT(UNIQUE(FILTER(' + J('K') + ',' + live.replace(/\(' + J('C') + '<=\$B\$1\)/, '1') + '*' + rehabF + '*(' + J('K') + '<>"")))),"")');
+    for (var t = 0; t < TRADES_N; t++) {
+      var tr = s + t;
+      set(tr, 2, '=IF(A' + tr + '="","",' + net(rehabF + '*(' + J('K') + '&""=A' + tr + ')') + ')');
+    }
+    set(s + TRADES_N, 1, '(no trade)'); set(s + TRADES_N, 2, '=' + net(rehabF + '*(' + J('K') + '&""="")'));
+    s += TRADES_N + 1;
+  }
+
   // ---- Line blocks: REHAB COSTS (J:P), UTILITIES (R:X) ----------------------------
   var lineBlock = function (top, c0, title, crit, asOfBound) {
     set(top, c0, title, true);
