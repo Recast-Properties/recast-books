@@ -1,0 +1,8680 @@
+[
+{
+"tab": "Cash Advances",
+"row": 6,
+"col": 2,
+"payee": "Purchase",
+"date": "2025-12-02",
+"desc": "",
+"amt": 325000.0,
+"flags": []
+},
+{
+"tab": "Cash Advances",
+"row": 7,
+"col": 2,
+"payee": "Dennis Paid Julio",
+"date": "2025-12-10",
+"desc": "",
+"amt": 200.0,
+"flags": []
+},
+{
+"tab": "Cash Advances",
+"row": 8,
+"col": 2,
+"payee": "Dennis Paid Julio",
+"date": "2025-12-11",
+"desc": "",
+"amt": 200.0,
+"flags": []
+},
+{
+"tab": "Cash Advances",
+"row": 9,
+"col": 2,
+"payee": "Dennis Paid Julio",
+"date": "2026-01-08",
+"desc": "",
+"amt": 200.0,
+"flags": []
+},
+{
+"tab": "Cash Advances",
+"row": 10,
+"col": 2,
+"payee": "Dennis Paid Juanito",
+"date": "2026-01-12",
+"desc": "",
+"amt": 7000.0,
+"flags": []
+},
+{
+"tab": "Cash Advances",
+"row": 11,
+"col": 2,
+"payee": "Dennis Paid Juanito",
+"date": "2026-01-23",
+"desc": "",
+"amt": 7000.0,
+"flags": []
+},
+{
+"tab": "Cash Advances",
+"row": 12,
+"col": 2,
+"payee": "Robinson Air",
+"date": "2026-01-24",
+"desc": "",
+"amt": 606.7,
+"flags": []
+},
+{
+"tab": "Cash Advances",
+"row": 13,
+"col": 2,
+"payee": "Draw",
+"date": "2026-02-04",
+"desc": "",
+"amt": 50000.0,
+"flags": []
+},
+{
+"tab": "Cash Advances",
+"row": 14,
+"col": 2,
+"payee": "Draw",
+"date": "2026-03-06",
+"desc": "",
+"amt": 60000.0,
+"flags": []
+},
+{
+"tab": "Cash Advances",
+"row": 15,
+"col": 2,
+"payee": "Draw",
+"date": "2026-03-30",
+"desc": "",
+"amt": 20000.0,
+"flags": []
+},
+{
+"tab": "Cash Advances",
+"row": 16,
+"col": 2,
+"payee": "Draw",
+"date": "2026-04-08",
+"desc": "",
+"amt": 20000.0,
+"flags": []
+},
+{
+"tab": "Cash Advances",
+"row": 17,
+"col": 2,
+"payee": "Dennis Paid Julio",
+"date": "2026-04-10",
+"desc": "",
+"amt": 400.0,
+"flags": []
+},
+{
+"tab": "Cash Advances",
+"row": 18,
+"col": 2,
+"payee": "Dennis Paid Dump",
+"date": "2026-04-16",
+"desc": "",
+"amt": 21.0,
+"flags": []
+},
+{
+"tab": "Cash Advances",
+"row": 19,
+"col": 2,
+"payee": "Listing Fee",
+"date": "2026-04-22",
+"desc": "",
+"amt": 199.0,
+"flags": []
+},
+{
+"tab": "Cash Advances",
+"row": 20,
+"col": 2,
+"payee": "Robinson Air",
+"date": "2026-05-05",
+"desc": "",
+"amt": 1065.74,
+"flags": []
+},
+{
+"tab": "Cash Advances",
+"row": 21,
+"col": 2,
+"payee": "Dennis Paid Julio",
+"date": "2026-05-04",
+"desc": "",
+"amt": 250.0,
+"flags": []
+},
+{
+"tab": "Cash Advances",
+"row": 22,
+"col": 2,
+"payee": "Listing Fee",
+"date": "2026-05-07",
+"desc": "",
+"amt": 299.0,
+"flags": []
+},
+{
+"tab": "Cash Advances",
+"row": 23,
+"col": 2,
+"payee": "Dennis Paid Julio",
+"date": "2026-05-21",
+"desc": "",
+"amt": 250.0,
+"flags": []
+},
+{
+"tab": "Cash Advances",
+"row": 24,
+"col": 2,
+"payee": "Draw",
+"date": "2026-06-29",
+"desc": "",
+"amt": 8000.0,
+"flags": []
+},
+{
+"tab": "Cash Advances",
+"row": 25,
+"col": 2,
+"payee": "Dennis Paid Julio",
+"date": "2026-07-13",
+"desc": "",
+"amt": 150.0,
+"flags": []
+},
+{
+"tab": "Cash Advances",
+"row": 26,
+"col": 2,
+"payee": "Dennis Paid Julio",
+"date": "2026-07-27",
+"desc": "",
+"amt": 300.0,
+"flags": []
+},
+{
+"tab": "881 Newport",
+"row": 4,
+"col": 11,
+"payee": "Effren",
+"date": "2026-07-07",
+"desc": "Landscaping",
+"amt": 300.0,
+"flags": [
+true,
+false
+]
+},
+{
+"tab": "881 Newport",
+"row": 4,
+"col": 19,
+"payee": "Rocket Water",
+"date": "2026-06-29",
+"desc": "Water",
+"amt": 150.0,
+"flags": [
+true,
+false,
+false
+]
+},
+{
+"tab": "881 Newport",
+"row": 5,
+"col": 11,
+"payee": "Effren",
+"date": "2026-07-07",
+"desc": "Landscaping",
+"amt": 55.0,
+"flags": [
+true,
+false,
+false
+]
+},
+{
+"tab": "881 Newport",
+"row": 5,
+"col": 19,
+"payee": "TXU",
+"date": "2026-06-29",
+"desc": "Electricity",
+"amt": 63.23,
+"flags": [
+true,
+false,
+false
+]
+},
+{
+"tab": "881 Newport",
+"row": 6,
+"col": 11,
+"payee": "Home Depot",
+"date": "2026-07-01",
+"desc": "Drywall Panel",
+"amt": 7.56,
+"flags": [
+true,
+false,
+false
+]
+},
+{
+"tab": "881 Newport",
+"row": 6,
+"col": 19,
+"payee": "Rocket Water",
+"date": "2026-08-30",
+"desc": "Water",
+"amt": 144.72,
+"flags": [
+false,
+false,
+true
+]
+},
+{
+"tab": "881 Newport",
+"row": 7,
+"col": 11,
+"payee": "Home Depot",
+"date": "2026-07-01",
+"desc": "Plug",
+"amt": 3.77,
+"flags": [
+true,
+false,
+false
+]
+},
+{
+"tab": "881 Newport",
+"row": 7,
+"col": 19,
+"payee": "TXU",
+"date": "2026-08-26",
+"desc": "Electricity",
+"amt": 88.72,
+"flags": [
+false,
+false,
+true
+]
+},
+{
+"tab": "881 Newport",
+"row": 8,
+"col": 11,
+"payee": "Home Depot",
+"date": "2026-07-01",
+"desc": "Roller Trays",
+"amt": 6.47,
+"flags": [
+true,
+false,
+false
+]
+},
+{
+"tab": "881 Newport",
+"row": 8,
+"col": 19,
+"payee": "TXU",
+"date": "2026-09-10",
+"desc": "Electricity",
+"amt": 118.12,
+"flags": [
+false,
+false,
+true
+]
+},
+{
+"tab": "881 Newport",
+"row": 9,
+"col": 11,
+"payee": "Home Depot",
+"date": "2026-07-01",
+"desc": "Roller Covers",
+"amt": 10.8,
+"flags": [
+true,
+false,
+false
+]
+},
+{
+"tab": "881 Newport",
+"row": 9,
+"col": 19,
+"payee": "Rocket Water",
+"date": "2026-09-11",
+"desc": "Water",
+"amt": 194.74,
+"flags": [
+false,
+false,
+true
+]
+},
+{
+"tab": "881 Newport",
+"row": 10,
+"col": 11,
+"payee": "Home Depot",
+"date": "2026-07-01",
+"desc": "Paint",
+"amt": 28.56,
+"flags": [
+true,
+false,
+false
+]
+},
+{
+"tab": "881 Newport",
+"row": 11,
+"col": 11,
+"payee": "Home Depot",
+"date": "2026-07-01",
+"desc": "Toilet Seat",
+"amt": 25.56,
+"flags": [
+true,
+false,
+false
+]
+},
+{
+"tab": "881 Newport",
+"row": 12,
+"col": 11,
+"payee": "Lowes",
+"date": "2026-07-06",
+"desc": "Paint",
+"amt": 90.87,
+"flags": [
+true,
+false,
+false
+]
+},
+{
+"tab": "881 Newport",
+"row": 13,
+"col": 11,
+"payee": "Lowes",
+"date": "2026-07-06",
+"desc": "Paint",
+"amt": 23.79,
+"flags": [
+true,
+false,
+false
+]
+},
+{
+"tab": "881 Newport",
+"row": 14,
+"col": 11,
+"payee": "Juanito",
+"date": "2026-07-06",
+"desc": "Garage Painting",
+"amt": 500.0,
+"flags": [
+true,
+false,
+false
+]
+},
+{
+"tab": "881 Newport",
+"row": 15,
+"col": 11,
+"payee": "Mariana",
+"date": "2026-07-06",
+"desc": "Cleaning",
+"amt": 500.0,
+"flags": [
+true,
+false,
+false
+]
+},
+{
+"tab": "881 Newport",
+"row": 16,
+"col": 11,
+"payee": "Home Depot",
+"date": "2026-07-08",
+"desc": "Caulk",
+"amt": 14.59,
+"flags": [
+true,
+false,
+false
+]
+},
+{
+"tab": "881 Newport",
+"row": 17,
+"col": 11,
+"payee": "Home Depot",
+"date": "2026-07-08",
+"desc": "Painters Towels",
+"amt": 16.22,
+"flags": [
+true,
+false,
+false
+]
+},
+{
+"tab": "881 Newport",
+"row": 18,
+"col": 11,
+"payee": "Home Depot",
+"date": "2026-07-08",
+"desc": "Towels",
+"amt": 51.12,
+"flags": [
+true,
+false,
+false
+]
+},
+{
+"tab": "881 Newport",
+"row": 19,
+"col": 11,
+"payee": "Home Depot",
+"date": "2026-07-08",
+"desc": "Wall Texture",
+"amt": 21.63,
+"flags": [
+true,
+false,
+false
+]
+},
+{
+"tab": "881 Newport",
+"row": 20,
+"col": 11,
+"payee": "Home Depot",
+"date": "2026-07-08",
+"desc": "Paint",
+"amt": 28.56,
+"flags": [
+true,
+false,
+false
+]
+},
+{
+"tab": "881 Newport",
+"row": 21,
+"col": 11,
+"payee": "Home Depot",
+"date": "2026-07-08",
+"desc": "Toilet Paper",
+"amt": 8.1,
+"flags": [
+true,
+false,
+false
+]
+},
+{
+"tab": "881 Newport",
+"row": 22,
+"col": 11,
+"payee": "Home Depot",
+"date": "2026-07-08",
+"desc": "Paint",
+"amt": 28.56,
+"flags": [
+true,
+false,
+false
+]
+},
+{
+"tab": "881 Newport",
+"row": 23,
+"col": 11,
+"payee": "Effren - 1372",
+"date": "2026-07-19",
+"desc": "Landscaping",
+"amt": 110.0,
+"flags": [
+true,
+false,
+false
+]
+},
+{
+"tab": "881 Newport",
+"row": 24,
+"col": 11,
+"payee": "Efren - 1390",
+"date": "2026-08-30",
+"desc": "Landscaping",
+"amt": 110.0,
+"flags": [
+false,
+false,
+true
+]
+},
+{
+"tab": "881 Newport",
+"row": 25,
+"col": 11,
+"payee": "Lowes",
+"date": "2026-09-05",
+"desc": "Roofing Nails",
+"amt": 7.01,
+"flags": [
+false,
+false,
+true
+]
+},
+{
+"tab": "881 Newport",
+"row": 26,
+"col": 11,
+"payee": "Lowes",
+"date": "2026-09-05",
+"desc": "Ashphalt Caulk",
+"amt": 6.47,
+"flags": [
+false,
+false,
+true
+]
+},
+{
+"tab": "881 Newport",
+"row": 27,
+"col": 11,
+"payee": "Neighborhood Management",
+"date": "2026-09-09",
+"desc": "HOA Release",
+"amt": 375.0,
+"flags": [
+false,
+false,
+true
+]
+},
+{
+"tab": "469 Brushwood",
+"row": 4,
+"col": 11,
+"payee": "Home Depot",
+"date": "2026-09-01",
+"desc": "Door Lock Set",
+"amt": 61.62,
+"flags": [
+false,
+false,
+true
+]
+},
+{
+"tab": "469 Brushwood",
+"row": 4,
+"col": 19,
+"payee": "Waxahachie Watwr",
+"date": "2026-09-01",
+"desc": "Water",
+"amt": 100.0,
+"flags": [
+false,
+false,
+true
+]
+},
+{
+"tab": "469 Brushwood",
+"row": 5,
+"col": 11,
+"payee": "Home Depot",
+"date": "2026-09-02",
+"desc": "Front Door Latch",
+"amt": 54.09,
+"flags": [
+false,
+false,
+true
+]
+},
+{
+"tab": "469 Brushwood",
+"row": 6,
+"col": 11,
+"payee": "Home Depot",
+"date": "2026-09-02",
+"desc": "Microwave",
+"amt": 339.99,
+"flags": [
+false,
+false,
+true
+]
+},
+{
+"tab": "469 Brushwood",
+"row": 7,
+"col": 11,
+"payee": "Home Depot",
+"date": "2026-09-02",
+"desc": "REFUND: Front Door Latch",
+"amt": -54.09,
+"flags": [
+false,
+false,
+true
+]
+},
+{
+"tab": "469 Brushwood",
+"row": 8,
+"col": 11,
+"payee": "Home Depot",
+"date": "2026-09-02",
+"desc": "Waether Stripping",
+"amt": 12.95,
+"flags": [
+false,
+false,
+true
+]
+},
+{
+"tab": "469 Brushwood",
+"row": 9,
+"col": 11,
+"payee": "Home Depot",
+"date": "2026-09-02",
+"desc": "Sponges",
+"amt": 7.56,
+"flags": [
+false,
+false,
+true
+]
+},
+{
+"tab": "469 Brushwood",
+"row": 10,
+"col": 11,
+"payee": "Home Depot",
+"date": "2026-09-02",
+"desc": "Door Stops",
+"amt": 8.16,
+"flags": [
+false,
+false,
+true
+]
+},
+{
+"tab": "469 Brushwood",
+"row": 11,
+"col": 11,
+"payee": "Home Depot",
+"date": "2026-09-02",
+"desc": "Paint Rollers",
+"amt": 10.8,
+"flags": [
+false,
+false,
+true
+]
+},
+{
+"tab": "469 Brushwood",
+"row": 12,
+"col": 11,
+"payee": "Home Depot",
+"date": "2026-09-02",
+"desc": "Scrub Brush",
+"amt": 19.45,
+"flags": [
+false,
+false,
+true
+]
+},
+{
+"tab": "469 Brushwood",
+"row": 13,
+"col": 11,
+"payee": "Home Depot",
+"date": "2026-09-02",
+"desc": "Waether Stripping",
+"amt": 8.58,
+"flags": [
+false,
+false,
+true
+]
+},
+{
+"tab": "469 Brushwood",
+"row": 14,
+"col": 11,
+"payee": "Home Depot",
+"date": "2026-09-02",
+"desc": "Concrete Degreaser",
+"amt": 19.46,
+"flags": [
+false,
+false,
+true
+]
+},
+{
+"tab": "469 Brushwood",
+"row": 15,
+"col": 11,
+"payee": "Home Depot",
+"date": "2026-09-02",
+"desc": "Roller Trays",
+"amt": 6.47,
+"flags": [
+false,
+false,
+true
+]
+},
+{
+"tab": "469 Brushwood",
+"row": 16,
+"col": 11,
+"payee": "Home Depot",
+"date": "2026-09-02",
+"desc": "Paint",
+"amt": 15.57,
+"flags": [
+false,
+false,
+true
+]
+},
+{
+"tab": "469 Brushwood",
+"row": 17,
+"col": 11,
+"payee": "Home Depot",
+"date": "2026-09-03",
+"desc": "Liquid Nails",
+"amt": 3.77,
+"flags": [
+false,
+false,
+true
+]
+},
+{
+"tab": "469 Brushwood",
+"row": 18,
+"col": 11,
+"payee": "Home Depot",
+"date": "2026-09-03",
+"desc": "Goo Gone",
+"amt": 5.39,
+"flags": [
+false,
+false,
+true
+]
+},
+{
+"tab": "469 Brushwood",
+"row": 19,
+"col": 11,
+"payee": "Home Depot",
+"date": "2026-09-03",
+"desc": "Paint",
+"amt": 46.55,
+"flags": [
+false,
+false,
+true
+]
+},
+{
+"tab": "469 Brushwood",
+"row": 20,
+"col": 11,
+"payee": "Floor & Decor",
+"date": "2026-09-03",
+"desc": "Flooring Transition",
+"amt": 42.41,
+"flags": [
+false,
+false,
+true
+]
+},
+{
+"tab": "469 Brushwood",
+"row": 21,
+"col": 11,
+"payee": "Home Depot",
+"date": "2026-09-04",
+"desc": "Kilz Primer",
+"amt": 14.7,
+"flags": [
+false,
+false,
+true
+]
+},
+{
+"tab": "469 Brushwood",
+"row": 22,
+"col": 11,
+"payee": "Lowes",
+"date": "2026-09-04",
+"desc": "Mop",
+"amt": 14.05,
+"flags": [
+false,
+false,
+true
+]
+},
+{
+"tab": "469 Brushwood",
+"row": 23,
+"col": 11,
+"payee": "Lowes",
+"date": "2026-09-04",
+"desc": "Garage Floor Paint",
+"amt": 43.28,
+"flags": [
+false,
+false,
+true
+]
+},
+{
+"tab": "469 Brushwood",
+"row": 24,
+"col": 11,
+"payee": "Lowes",
+"date": "2026-09-04",
+"desc": "Paint Roller",
+"amt": 7.56,
+"flags": [
+false,
+false,
+true
+]
+},
+{
+"tab": "469 Brushwood",
+"row": 25,
+"col": 11,
+"payee": "Lowes",
+"date": "2026-09-04",
+"desc": "Caulk",
+"amt": 14.59,
+"flags": [
+false,
+false,
+true
+]
+},
+{
+"tab": "469 Brushwood",
+"row": 26,
+"col": 11,
+"payee": "Lowes",
+"date": "2026-09-05",
+"desc": "Spray Paint",
+"amt": 8.1,
+"flags": [
+false,
+false,
+true
+]
+},
+{
+"tab": "469 Brushwood",
+"row": 27,
+"col": 11,
+"payee": "Home Depot",
+"date": "2026-09-07",
+"desc": "Stain",
+"amt": 41.55,
+"flags": [
+false,
+false,
+true
+]
+},
+{
+"tab": "469 Brushwood",
+"row": 28,
+"col": 11,
+"payee": "Home Depot",
+"date": "2026-09-06",
+"desc": "Brushes",
+"amt": 32.41,
+"flags": [
+false,
+false,
+true
+]
+},
+{
+"tab": "469 Brushwood",
+"row": 29,
+"col": 11,
+"payee": "Home Depot",
+"date": "2026-09-06",
+"desc": "Stain",
+"amt": 41.55,
+"flags": [
+false,
+false,
+true
+]
+},
+{
+"tab": "469 Brushwood",
+"row": 30,
+"col": 11,
+"payee": "Mariana",
+"date": "2026-09-07",
+"desc": "Cleaning",
+"amt": 250.0,
+"flags": [
+true,
+false,
+false
+]
+},
+{
+"tab": "469 Brushwood",
+"row": 31,
+"col": 11,
+"payee": "Joe Iley",
+"date": "2026-09-06",
+"desc": "Listing Fee",
+"amt": 299.0,
+"flags": [
+false,
+false,
+true
+]
+},
+{
+"tab": "469 Brushwood",
+"row": 32,
+"col": 11,
+"payee": "Home Depot",
+"date": "2026-09-08",
+"desc": "Painters Caulk",
+"amt": 4.31,
+"flags": [
+false,
+false,
+true
+]
+},
+{
+"tab": "469 Brushwood",
+"row": 33,
+"col": 11,
+"payee": "Home Depot",
+"date": "2026-09-08",
+"desc": "Wall Switch Plate",
+"amt": 2.68,
+"flags": [
+false,
+false,
+true
+]
+},
+{
+"tab": "469 Brushwood",
+"row": 34,
+"col": 11,
+"payee": "FedEx",
+"date": "2026-09-08",
+"desc": "Marketing Sheets",
+"amt": 50.0,
+"flags": [
+true,
+false,
+false
+]
+},
+{
+"tab": "469 Brushwood",
+"row": 35,
+"col": 11,
+"payee": "Homes,com",
+"date": "2026-09-10",
+"desc": "Advertising",
+"amt": 384.29,
+"flags": [
+false,
+false,
+true
+]
+},
+{
+"tab": "366 Mesa",
+"row": 3,
+"col": 11,
+"payee": "Carlos",
+"date": "2026-08-15",
+"desc": "Siding Supplies",
+"amt": 500.0,
+"flags": [
+false,
+false,
+true
+]
+},
+{
+"tab": "366 Mesa",
+"row": 3,
+"col": 19,
+"payee": "HILCO",
+"date": "2026-08-19",
+"desc": "Electricity",
+"amt": 200.0,
+"flags": [
+false,
+false,
+true
+]
+},
+{
+"tab": "366 Mesa",
+"row": 4,
+"col": 11,
+"payee": "Carlos",
+"date": "2026-08-19",
+"desc": "Siding Insatll",
+"amt": 500.0,
+"flags": [
+false,
+false,
+true
+]
+},
+{
+"tab": "366 Mesa",
+"row": 5,
+"col": 11,
+"payee": "Carlos",
+"date": "2026-08-19",
+"desc": "Siding Insatll",
+"amt": 500.0,
+"flags": [
+false,
+false,
+true
+]
+},
+{
+"tab": "366 Mesa",
+"row": 6,
+"col": 11,
+"payee": "Carlos",
+"date": "2026-08-19",
+"desc": "Siding Insatll",
+"amt": 500.0,
+"flags": [
+false,
+false,
+true
+]
+},
+{
+"tab": "366 Mesa",
+"row": 7,
+"col": 11,
+"payee": "Carlos",
+"date": "2026-08-20",
+"desc": "Siding Insatll",
+"amt": 500.0,
+"flags": [
+false,
+false,
+true
+]
+},
+{
+"tab": "366 Mesa",
+"row": 8,
+"col": 11,
+"payee": "Carlos -  Check 1146",
+"date": "2026-08-28",
+"desc": "Siding Insatll",
+"amt": 1500.0,
+"flags": [
+false,
+true,
+false
+]
+},
+{
+"tab": "366 Mesa",
+"row": 9,
+"col": 11,
+"payee": "Juanito -  Check 1147",
+"date": "2026-08-28",
+"desc": "Painting",
+"amt": 2000.0,
+"flags": [
+false,
+true,
+false
+]
+},
+{
+"tab": "366 Mesa",
+"row": 10,
+"col": 11,
+"payee": "James Haroce",
+"date": "2026-08-26",
+"desc": "Siding ",
+"amt": 1500.0,
+"flags": [
+false,
+true,
+false
+]
+},
+{
+"tab": "366 Mesa",
+"row": 11,
+"col": 11,
+"payee": "Carlos",
+"date": "2026-08-18",
+"desc": "Soffit",
+"amt": 220.0,
+"flags": [
+false,
+true,
+false
+]
+},
+{
+"tab": "366 Mesa",
+"row": 12,
+"col": 11,
+"payee": "Home Depot",
+"date": "2026-08-18",
+"desc": "Pipe coupling",
+"amt": 1.18,
+"flags": [
+false,
+true,
+false
+]
+},
+{
+"tab": "366 Mesa",
+"row": 14,
+"col": 11,
+"payee": "Home Depot",
+"date": "2026-09-02",
+"desc": "?",
+"amt": 20.72,
+"flags": [
+false,
+true,
+false
+]
+},
+{
+"tab": "366 Mesa",
+"row": 15,
+"col": 11,
+"payee": "Home Depot",
+"date": "2026-08-03",
+"desc": "?",
+"amt": 19.66,
+"flags": [
+false,
+true,
+false
+]
+},
+{
+"tab": "366 Mesa",
+"row": 16,
+"col": 11,
+"payee": "Amazon",
+"date": "2026-08-11",
+"desc": "Door Lock",
+"amt": 36.59,
+"flags": [
+false,
+false,
+true
+]
+},
+{
+"tab": "366 Mesa",
+"row": 17,
+"col": 11,
+"payee": "Home Depot",
+"date": "2026-08-13",
+"desc": "5/4 PT Siding Trim",
+"amt": 147.89,
+"flags": [
+false,
+false,
+true
+]
+},
+{
+"tab": "366 Mesa",
+"row": 18,
+"col": 11,
+"payee": "Lowe's",
+"date": "2026-08-13",
+"desc": "Exterior Lights",
+"amt": 60.57,
+"flags": [
+false,
+false,
+true
+]
+},
+{
+"tab": "366 Mesa",
+"row": 19,
+"col": 11,
+"payee": "Lowe's",
+"date": "2026-08-13",
+"desc": "Light Bulbs",
+"amt": 9.72,
+"flags": [
+false,
+false,
+true
+]
+},
+{
+"tab": "366 Mesa",
+"row": 20,
+"col": 11,
+"payee": "Lowe's",
+"date": "2026-08-13",
+"desc": "Nail Guards",
+"amt": 43.84,
+"flags": [
+false,
+false,
+true
+]
+},
+{
+"tab": "366 Mesa",
+"row": 21,
+"col": 11,
+"payee": "Lowe's",
+"date": "2026-08-13",
+"desc": "1x4 x10 PT Siding Trim",
+"amt": 204.7,
+"flags": [
+false,
+false,
+true
+]
+},
+{
+"tab": "366 Mesa",
+"row": 22,
+"col": 11,
+"payee": "Lowe's",
+"date": "2026-08-13",
+"desc": "1x3x8 For Pergola",
+"amt": 148.09,
+"flags": [
+false,
+false,
+true
+]
+},
+{
+"tab": "366 Mesa",
+"row": 23,
+"col": 11,
+"payee": "Lowe's",
+"date": "2026-08-13",
+"desc": "Flashing",
+"amt": 75.47,
+"flags": [
+false,
+false,
+true
+]
+},
+{
+"tab": "366 Mesa",
+"row": 24,
+"col": 11,
+"payee": "Lowe's",
+"date": "2026-08-13",
+"desc": "Skirting",
+"amt": 595.0,
+"flags": [
+false,
+false,
+true
+]
+},
+{
+"tab": "366 Mesa",
+"row": 25,
+"col": 11,
+"payee": "Home Depot",
+"date": "2026-08-14",
+"desc": "SCrews",
+"amt": 11.88,
+"flags": [
+false,
+false,
+true
+]
+},
+{
+"tab": "366 Mesa",
+"row": 26,
+"col": 11,
+"payee": "Home Depot",
+"date": "2026-08-14",
+"desc": "Door Lock Sets",
+"amt": 69.61,
+"flags": [
+false,
+false,
+true
+]
+},
+{
+"tab": "366 Mesa",
+"row": 27,
+"col": 11,
+"payee": "Home Depot",
+"date": "2026-08-14",
+"desc": "5/4 PT Siding Trim",
+"amt": 44.08,
+"flags": [
+false,
+false,
+true
+]
+},
+{
+"tab": "366 Mesa",
+"row": 28,
+"col": 11,
+"payee": "Lowe's",
+"date": "2026-09-03",
+"desc": "Skirting",
+"amt": 239.0,
+"flags": [
+false,
+false,
+true
+]
+},
+{
+"tab": "136 Bowling Green",
+"row": 3,
+"col": 10,
+"payee": "Amazon",
+"date": "2026-06-25",
+"desc": "Door Lock",
+"amt": 31.03,
+"flags": [
+true,
+false
+]
+},
+{
+"tab": "136 Bowling Green",
+"row": 4,
+"col": 10,
+"payee": "Home Depot",
+"date": "2026-06-25",
+"desc": "Roller Trays",
+"amt": 6.47,
+"flags": [
+true,
+false
+]
+},
+{
+"tab": "136 Bowling Green",
+"row": 5,
+"col": 10,
+"payee": "Home Depot",
+"date": "2026-06-25",
+"desc": "Drywall Panel",
+"amt": 7.56,
+"flags": [
+true,
+false
+]
+},
+{
+"tab": "136 Bowling Green",
+"row": 6,
+"col": 10,
+"payee": "Home Depot",
+"date": "2026-06-25",
+"desc": "9V Batteries",
+"amt": 33.28,
+"flags": [
+true,
+false
+]
+},
+{
+"tab": "136 Bowling Green",
+"row": 7,
+"col": 10,
+"payee": "Home Depot",
+"date": "2026-06-25",
+"desc": "Drywayll Mud",
+"amt": 11.71,
+"flags": [
+true,
+false
+]
+},
+{
+"tab": "136 Bowling Green",
+"row": 7,
+"col": 17,
+"payee": "City of Red Oak",
+"date": "2026-06-27",
+"desc": "Water",
+"amt": 116.15,
+"flags": [
+true,
+false
+]
+},
+{
+"tab": "136 Bowling Green",
+"row": 8,
+"col": 10,
+"payee": "Home Depot",
+"date": "2026-06-25",
+"desc": "Paint",
+"amt": 60.59,
+"flags": [
+true,
+false
+]
+},
+{
+"tab": "136 Bowling Green",
+"row": 8,
+"col": 17,
+"payee": "TXU",
+"date": "2026-07-29",
+"desc": "Electricity",
+"amt": 102.12,
+"flags": [
+true,
+false
+]
+},
+{
+"tab": "136 Bowling Green",
+"row": 9,
+"col": 10,
+"payee": "Home Depot",
+"date": "2026-06-25",
+"desc": "Door Lock Set",
+"amt": 45.97,
+"flags": [
+true,
+false
+]
+},
+{
+"tab": "136 Bowling Green",
+"row": 9,
+"col": 17,
+"payee": "City of Red Oak",
+"date": "2026-08-18",
+"desc": "Water",
+"amt": 447.47,
+"flags": [
+true,
+false
+]
+},
+{
+"tab": "136 Bowling Green",
+"row": 10,
+"col": 10,
+"payee": "Home Depot",
+"date": "2026-06-26",
+"desc": "Toilet Paper",
+"amt": 8.04,
+"flags": [
+true,
+false
+]
+},
+{
+"tab": "136 Bowling Green",
+"row": 11,
+"col": 10,
+"payee": "Home Depot",
+"date": "2026-06-26",
+"desc": "Drywall Tape",
+"amt": 14.38,
+"flags": [
+true,
+false
+]
+},
+{
+"tab": "136 Bowling Green",
+"row": 12,
+"col": 10,
+"payee": "Home Depot",
+"date": "2026-06-26",
+"desc": "Drywayll Mud",
+"amt": 11.71,
+"flags": [
+true,
+false
+]
+},
+{
+"tab": "136 Bowling Green",
+"row": 13,
+"col": 10,
+"payee": "Home Depot",
+"date": "2026-06-26",
+"desc": "Pole Sander",
+"amt": 16.22,
+"flags": [
+true,
+false
+]
+},
+{
+"tab": "136 Bowling Green",
+"row": 14,
+"col": 10,
+"payee": "Home Depot",
+"date": "2026-06-26",
+"desc": "Taping Knife",
+"amt": 12.97,
+"flags": [
+true,
+false
+]
+},
+{
+"tab": "136 Bowling Green",
+"row": 15,
+"col": 10,
+"payee": "Home Depot",
+"date": "2026-06-26",
+"desc": "Sand Paper",
+"amt": 6.47,
+"flags": [
+true,
+false
+]
+},
+{
+"tab": "136 Bowling Green",
+"row": 16,
+"col": 10,
+"payee": "Home Depot",
+"date": "2026-06-26",
+"desc": "9V Batteries",
+"amt": 12.85,
+"flags": [
+true,
+false
+]
+},
+{
+"tab": "136 Bowling Green",
+"row": 17,
+"col": 10,
+"payee": "Home Depot",
+"date": "2026-06-26",
+"desc": "Light Bulbs",
+"amt": 19.01,
+"flags": [
+true,
+false
+]
+},
+{
+"tab": "136 Bowling Green",
+"row": 18,
+"col": 10,
+"payee": "Home Depot",
+"date": "2026-06-26",
+"desc": "Front Door Handle",
+"amt": 43.21,
+"flags": [
+true,
+false
+]
+},
+{
+"tab": "136 Bowling Green",
+"row": 19,
+"col": 10,
+"payee": "Home Depot",
+"date": "2026-06-27",
+"desc": "Wall Texture",
+"amt": 43.26,
+"flags": [
+true,
+false
+]
+},
+{
+"tab": "136 Bowling Green",
+"row": 20,
+"col": 10,
+"payee": "Effren",
+"date": "2026-06-27",
+"desc": "Landscaping",
+"amt": 315.0,
+"flags": [
+false,
+true
+]
+},
+{
+"tab": "136 Bowling Green",
+"row": 21,
+"col": 10,
+"payee": "Home Depot",
+"date": "2026-06-28",
+"desc": "Stain Striker",
+"amt": 107.17,
+"flags": [
+true,
+false
+]
+},
+{
+"tab": "136 Bowling Green",
+"row": 22,
+"col": 10,
+"payee": "Home Depot",
+"date": "2026-06-28",
+"desc": "Screws",
+"amt": 1.97,
+"flags": [
+true,
+false
+]
+},
+{
+"tab": "136 Bowling Green",
+"row": 23,
+"col": 10,
+"payee": "Home Depot",
+"date": "2026-06-28",
+"desc": "Rolloer Covers",
+"amt": 5.06,
+"flags": [
+true,
+false
+]
+},
+{
+"tab": "136 Bowling Green",
+"row": 24,
+"col": 10,
+"payee": "Home Depot",
+"date": "2026-06-28",
+"desc": "Great Stuff",
+"amt": 4.85,
+"flags": [
+true,
+false
+]
+},
+{
+"tab": "136 Bowling Green",
+"row": 25,
+"col": 10,
+"payee": "Home Depot",
+"date": "2026-06-28",
+"desc": "Wall Texture",
+"amt": 21.63,
+"flags": [
+true,
+false
+]
+},
+{
+"tab": "136 Bowling Green",
+"row": 26,
+"col": 10,
+"payee": "Home Depot",
+"date": "2026-06-28",
+"desc": "Bondo",
+"amt": 23.79,
+"flags": [
+true,
+false
+]
+},
+{
+"tab": "136 Bowling Green",
+"row": 27,
+"col": 10,
+"payee": "Ace Hardware",
+"date": "2026-06-30",
+"desc": "Door Stop",
+"amt": 3.24,
+"flags": [
+true,
+false
+]
+},
+{
+"tab": "136 Bowling Green",
+"row": 28,
+"col": 10,
+"payee": "Ace Hardware",
+"date": "2026-06-30",
+"desc": "Toilet Roll Bar",
+"amt": 4.32,
+"flags": [
+true,
+false
+]
+},
+{
+"tab": "136 Bowling Green",
+"row": 29,
+"col": 10,
+"payee": "Ace Hardware",
+"date": "2026-06-30",
+"desc": "Weed & Feed",
+"amt": 62.76,
+"flags": [
+true,
+false
+]
+},
+{
+"tab": "136 Bowling Green",
+"row": 30,
+"col": 10,
+"payee": "Ace Hardware",
+"date": "2026-06-02",
+"desc": "Door Locks",
+"amt": 57.36,
+"flags": [
+false,
+true
+]
+},
+{
+"tab": "136 Bowling Green",
+"row": 31,
+"col": 10,
+"payee": "Ace Hardware",
+"date": "2026-06-28",
+"desc": "Paint Roller",
+"amt": 10.81,
+"flags": [
+true,
+false
+]
+},
+{
+"tab": "136 Bowling Green",
+"row": 32,
+"col": 10,
+"payee": "Hunter",
+"date": "2026-06-28",
+"desc": "Fan Remotes",
+"amt": 122.17,
+"flags": [
+true,
+false
+]
+},
+{
+"tab": "136 Bowling Green",
+"row": 33,
+"col": 10,
+"payee": "Lowes",
+"date": "2026-06-28",
+"desc": "Garage Floor Paint",
+"amt": 129.84,
+"flags": [
+true,
+false
+]
+},
+{
+"tab": "136 Bowling Green",
+"row": 34,
+"col": 10,
+"payee": "Lowes",
+"date": "2026-06-28",
+"desc": "Wasp Spray",
+"amt": 14.55,
+"flags": [
+true,
+false
+]
+},
+{
+"tab": "136 Bowling Green",
+"row": 35,
+"col": 10,
+"payee": "Lowes",
+"date": "2026-06-28",
+"desc": "Door Matt",
+"amt": 14.05,
+"flags": [
+true,
+false
+]
+},
+{
+"tab": "136 Bowling Green",
+"row": 36,
+"col": 10,
+"payee": "Mariana",
+"date": "2026-06-29",
+"desc": "Cleaning",
+"amt": 500.0,
+"flags": [
+true,
+false
+]
+},
+{
+"tab": "136 Bowling Green",
+"row": 37,
+"col": 10,
+"payee": "City of Corsicana",
+"date": "2026-07-01",
+"desc": "Dump",
+"amt": 25.8,
+"flags": [
+false,
+true
+]
+},
+{
+"tab": "136 Bowling Green",
+"row": 38,
+"col": 10,
+"payee": "Lupe",
+"date": "2026-06-30",
+"desc": "Carpet Laying",
+"amt": 160.0,
+"flags": [
+true,
+true
+]
+},
+{
+"tab": "136 Bowling Green",
+"row": 39,
+"col": 10,
+"payee": "Effren - 1372",
+"date": "2026-07-07",
+"desc": "Landscaping",
+"amt": 55.0,
+"flags": [
+true,
+false
+]
+},
+{
+"tab": "136 Bowling Green",
+"row": 40,
+"col": 10,
+"payee": "Lowe's",
+"date": "2026-06-29",
+"desc": "Carpet ",
+"amt": 431.21,
+"flags": [
+false,
+true
+]
+},
+{
+"tab": "136 Bowling Green",
+"row": 41,
+"col": 10,
+"payee": "Effren - 1373",
+"date": "2026-07-19",
+"desc": "Landscaping",
+"amt": 110.0,
+"flags": [
+true,
+false
+]
+},
+{
+"tab": "136 Bowling Green",
+"row": 42,
+"col": 10,
+"payee": "Home Depot",
+"date": "2026-08-05",
+"desc": "Door Jamb Repair Kit",
+"amt": 32.77,
+"flags": [
+true,
+false
+]
+},
+{
+"tab": "136 Bowling Green",
+"row": 43,
+"col": 10,
+"payee": "Ace Hardware",
+"date": "2026-08-05",
+"desc": "Padlock",
+"amt": 22.99,
+"flags": [
+true,
+false
+]
+},
+{
+"tab": "136 Bowling Green",
+"row": 44,
+"col": 10,
+"payee": "McCoy's",
+"date": "2026-08-06",
+"desc": "Trim",
+"amt": 45.56,
+"flags": [
+true,
+false
+]
+},
+{
+"tab": "136 Bowling Green",
+"row": 45,
+"col": 10,
+"payee": "Ace Hardware",
+"date": "2026-08-06",
+"desc": "Caulk",
+"amt": 7.13,
+"flags": [
+true,
+false
+]
+},
+{
+"tab": "136 Bowling Green",
+"row": 46,
+"col": 10,
+"payee": "The Home Depot",
+"date": "2026-08-03",
+"desc": "HWTSTAT - Honeywell T5 7-Day 2-Stage Programmable Thermostat (SKU 085267851534)",
+"amt": 107.15,
+"flags": [
+true,
+false
+]
+},
+{
+"tab": "104 Ashburne",
+"row": 3,
+"col": 13,
+"payee": "Juan Garcia",
+"date": "2026-01-12",
+"desc": "Drywall/Supplies/Painting",
+"amt": 7000.0,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 3,
+"col": 18,
+"payee": "City of Corsicana",
+"date": "2026-01-12",
+"desc": "Dump",
+"amt": 27.3,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 3,
+"col": 23,
+"payee": "Home Depot",
+"date": "2026-01-16",
+"desc": "Light Bulbs",
+"amt": 25.94,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 3,
+"col": 28,
+"payee": "Floor & Decor",
+"date": "2026-02-10",
+"desc": "Shower Tile",
+"amt": 750.06,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 3,
+"col": 33,
+"payee": "Home Depot",
+"date": "2026-02-17",
+"desc": "Shark Bite Toilet Connectors",
+"amt": 44.99,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 3,
+"col": 38,
+"payee": "Julio",
+"date": "2026-01-05",
+"desc": "Clean out",
+"amt": 200.0,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 3,
+"col": 43,
+"payee": "Julio",
+"date": "2026-01-12",
+"desc": "Labor",
+"amt": 200.0,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 3,
+"col": 48,
+"payee": "Juan Gonzalez",
+"date": "2026-01-15",
+"desc": "Chimney repair",
+"amt": 1000.0,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 3,
+"col": 53,
+"payee": "Lowes",
+"date": "2026-02-19",
+"desc": "Kitchen Sink",
+"amt": 399.44,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 3,
+"col": 58,
+"payee": "Amazon",
+"date": "2026-02-27",
+"desc": "Cooktop",
+"amt": 1731.99,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 3,
+"col": 63,
+"payee": "eBay",
+"date": "2026-01-14",
+"desc": "Control Unit",
+"amt": 378.47,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 3,
+"col": 68,
+"payee": "Home Depot",
+"date": "2026-01-14",
+"desc": "Wall Plates",
+"amt": 4.33,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 3,
+"col": 73,
+"payee": "Shalom Granite",
+"date": "2026-02-20",
+"desc": "Counters ",
+"amt": 3558.0,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 3,
+"col": 78,
+"payee": "Sunstate",
+"date": "2026-05-05",
+"desc": "Lift",
+"amt": 904.18,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 3,
+"col": 83,
+"payee": "Berret Pest Control",
+"date": "2026-01-14",
+"desc": "Pest Control",
+"amt": 270.63,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 3,
+"col": 88,
+"payee": "Foremost Insurance Group",
+"date": "2026-01-14",
+"desc": "FIrst payment",
+"amt": 392.62,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 3,
+"col": 93,
+"payee": "City of Ovilla",
+"date": "2026-01-05",
+"desc": "Deposit",
+"amt": 150.0,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 3,
+"col": 98,
+"payee": "Home Depot",
+"date": "2026-01-08",
+"desc": "Dish Soap",
+"amt": 12.43,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 3,
+"col": 103,
+"payee": "Shell",
+"date": "2026-01-10",
+"desc": "Batteries",
+"amt": 6.48,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 3,
+"col": 108,
+"payee": "Shell",
+"date": "2026-01-12",
+"desc": "Gas",
+"amt": 46.14,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 3,
+"col": 113,
+"payee": "Aces Photography",
+"date": "2026-04-24",
+"desc": "Photos",
+"amt": 628.0,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 4,
+"col": 13,
+"payee": "Juan Garcia",
+"date": "2026-01-23",
+"desc": "Paint & Floor Installation",
+"amt": 7000.0,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 4,
+"col": 18,
+"payee": "City of Corsicana",
+"date": "2026-01-16",
+"desc": "Dump",
+"amt": 27.3,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 4,
+"col": 23,
+"payee": "Lowes",
+"date": "2026-02-10",
+"desc": "Entry Chandelier",
+"amt": 173.18,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 4,
+"col": 28,
+"payee": "Wayfair",
+"date": "2026-02-08",
+"desc": "Tub & Faucet",
+"amt": 816.18,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 4,
+"col": 33,
+"payee": "Home Depot",
+"date": "2026-02-17",
+"desc": "1/2 Wall Flanges",
+"amt": 6.95,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 4,
+"col": 38,
+"payee": "Atlas Pools",
+"date": "2026-02-12",
+"desc": "Deposit",
+"amt": 2000.0,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 4,
+"col": 43,
+"payee": "Julio",
+"date": "2026-01-13",
+"desc": "Labor",
+"amt": 200.0,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 4,
+"col": 48,
+"payee": "Waxahachie Glass",
+"date": "2026-03-30",
+"desc": "Window Replacement",
+"amt": 518.78,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 4,
+"col": 53,
+"payee": "Home Depot",
+"date": "2026-03-06",
+"desc": "Kitchen Faucet",
+"amt": 128.82,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 4,
+"col": 58,
+"payee": "Luxury 4 Less Appliance",
+"date": "2026-04-21",
+"desc": "Cooktop install",
+"amt": 175.0,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 4,
+"col": 63,
+"payee": "Amazon",
+"date": "2026-01-20",
+"desc": "Pipe Tape",
+"amt": 69.68,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 4,
+"col": 68,
+"payee": "Amazon",
+"date": "2026-01-09",
+"desc": "Door Lock",
+"amt": 36.11,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 4,
+"col": 73,
+"payee": "Shalom Granite",
+"date": "2026-03-06",
+"desc": "Counters ",
+"amt": 4950.0,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 4,
+"col": 88,
+"payee": "Foremost Insurance Group",
+"date": "2026-02-08",
+"desc": "Feb",
+"amt": 374.58,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 4,
+"col": 93,
+"payee": "Energy Texas",
+"date": "2026-01-13",
+"desc": "Electricity",
+"amt": 43.57,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 4,
+"col": 98,
+"payee": "Window Man",
+"date": "2026-04-16",
+"desc": "WIndow Cleaning",
+"amt": 858.68,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 4,
+"col": 103,
+"payee": "Home Depot",
+"date": "2026-01-10",
+"desc": "Batteries",
+"amt": 4.74,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 4,
+"col": 108,
+"payee": "Shell",
+"date": "2026-01-14",
+"desc": "Gas",
+"amt": 49.3,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 4,
+"col": 113,
+"payee": "Vista Print",
+"date": "2026-05-08",
+"desc": "SIgnage",
+"amt": 406.04,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 5,
+"col": 13,
+"payee": "Juan Garcia",
+"date": "2026-02-09",
+"desc": "Paint & Floor Installation",
+"amt": 7000.0,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 5,
+"col": 18,
+"payee": "City of Corsicana",
+"date": "2026-01-16",
+"desc": "Dump",
+"amt": 27.3,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 5,
+"col": 23,
+"payee": "Home Depot",
+"date": "2026-02-10",
+"desc": "Light Bulbs",
+"amt": 86.51,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 5,
+"col": 28,
+"payee": "Amazon",
+"date": "0126-02-11",
+"desc": "Shower Glass",
+"amt": 324.74,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 5,
+"col": 33,
+"payee": "Home Depot",
+"date": "2026-02-18",
+"desc": "Wax Rings",
+"amt": 19.42,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 5,
+"col": 38,
+"payee": "Atlas Pools",
+"date": "2026-03-01",
+"desc": "Deposit",
+"amt": 2000.0,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 5,
+"col": 43,
+"payee": "Julio",
+"date": "2026-01-14",
+"desc": "Labor",
+"amt": 200.0,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 5,
+"col": 48,
+"payee": "Waxahachie Glass",
+"date": "2026-04-21",
+"desc": "Window Replacement",
+"amt": 878.18,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 5,
+"col": 53,
+"payee": "Barker Door",
+"date": "2026-03-09",
+"desc": "Drawers",
+"amt": 254.5,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 5,
+"col": 58,
+"payee": "Luxury 4 Less Appliance",
+"date": "2026-04-10",
+"desc": "Appliaces",
+"amt": 10319.56,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 5,
+"col": 63,
+"payee": "Amazon",
+"date": "2026-01-20",
+"desc": "6 Pack Electrical Tape",
+"amt": 6.36,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 5,
+"col": 68,
+"payee": "Amazon",
+"date": "2026-02-10",
+"desc": "Hinges",
+"amt": 324.66,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 5,
+"col": 73,
+"payee": "Floor & Decor",
+"date": "2026-03-07",
+"desc": "Backsplash TIle",
+"amt": 248.39,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 5,
+"col": 88,
+"payee": "Foremost Insurance Group",
+"date": "2026-03-10",
+"desc": "March",
+"amt": 374.58,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 5,
+"col": 93,
+"payee": "Atmos Energy",
+"date": "2026-03-08",
+"desc": "Natural Gas",
+"amt": 642.6,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 5,
+"col": 98,
+"payee": "Marianna",
+"date": "2026-01-14",
+"desc": "Cleaning",
+"amt": 500.0,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 5,
+"col": 103,
+"payee": "Home Depot",
+"date": "2026-01-11",
+"desc": "Dowel",
+"amt": 4.48,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 5,
+"col": 108,
+"payee": "Shell",
+"date": "2026-01-16",
+"desc": "Gas",
+"amt": 52.98,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 6,
+"col": 13,
+"payee": "Chinos LLC",
+"date": "2026-02-10",
+"desc": "Flooring",
+"amt": 13500.0,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 6,
+"col": 18,
+"payee": "Julio",
+"date": "2026-01-09",
+"desc": "Labor",
+"amt": 200.0,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 6,
+"col": 23,
+"payee": "Home Depot",
+"date": "2026-02-10",
+"desc": "Spray Paint for chandeliers",
+"amt": 7.55,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 6,
+"col": 28,
+"payee": "Amazon",
+"date": "2026-02-09",
+"desc": "Tub drain",
+"amt": 49.78,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 6,
+"col": 33,
+"payee": "Ideal Resurfacing",
+"date": "2026-02-19",
+"desc": "Tub REsurface",
+"amt": 400.0,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 6,
+"col": 38,
+"payee": "Atlas Pools",
+"date": "2026-03-06",
+"desc": "Deposit",
+"amt": 2025.0,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 6,
+"col": 43,
+"payee": "Julio",
+"date": "2026-01-15",
+"desc": "Labor",
+"amt": 200.0,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 6,
+"col": 48,
+"payee": "Sunstate Ren tals",
+"date": "2026-04-21",
+"desc": "Lift Rental",
+"amt": 922.26,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 6,
+"col": 53,
+"payee": "Amazon",
+"date": "2026-03-17",
+"desc": "Under Cabinet Lights",
+"amt": 154.53,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 6,
+"col": 63,
+"payee": "Lowes",
+"date": "2026-01-17",
+"desc": "Pipe insulation",
+"amt": 18.06,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 6,
+"col": 68,
+"payee": "Amazon",
+"date": "2026-02-09",
+"desc": "Drawer pulls",
+"amt": 249.97,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 6,
+"col": 73,
+"payee": "Home Depot",
+"date": "2026-03-08",
+"desc": "Drywall for backsplash",
+"amt": 14.38,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 6,
+"col": 88,
+"payee": "Foremost Insurance Group",
+"date": "2026-04-09",
+"desc": "April",
+"amt": 374.58,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 6,
+"col": 93,
+"payee": "HOA",
+"date": "2026-01-30",
+"desc": "Ashburne Glen Homeowners Association",
+"amt": 259.09,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 6,
+"col": 98,
+"payee": "Marianna",
+"date": "2026-09-07",
+"desc": "Cleaning",
+"amt": 450.0,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 6,
+"col": 103,
+"payee": "Home Depot",
+"date": "2026-01-11",
+"desc": "Screws",
+"amt": 16.91,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 6,
+"col": 108,
+"payee": "Shell",
+"date": "2026-02-01",
+"desc": "Gas",
+"amt": 49.45,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 7,
+"col": 13,
+"payee": "Juan Garcia",
+"date": "2026-02-20",
+"desc": "Paint & Floor Installation",
+"amt": 7000.0,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 7,
+"col": 18,
+"payee": "Julio",
+"date": "2026-01-16",
+"desc": "Labor",
+"amt": 200.0,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 7,
+"col": 23,
+"payee": "Home Depot",
+"date": "2026-02-16",
+"desc": "Light Bulbs",
+"amt": 56.2,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 7,
+"col": 28,
+"payee": "Amazon",
+"date": "2026-02-09",
+"desc": "Tub drain",
+"amt": 41.01,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 7,
+"col": 33,
+"payee": "Home Depot",
+"date": "2026-02-20",
+"desc": "Shark Bite Toilet Connectors",
+"amt": 44.99,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 7,
+"col": 38,
+"payee": "Atlas Pools",
+"date": "2026-03-13",
+"desc": "Payment",
+"amt": 4025.0,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 7,
+"col": 43,
+"payee": "Lowes",
+"date": "2026-01-13",
+"desc": "Yard debris bags",
+"amt": 13.42,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 7,
+"col": 53,
+"payee": "Amazon",
+"date": "2026-03-17",
+"desc": "Under Cabinet Lights",
+"amt": 32.46,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 7,
+"col": 63,
+"payee": "Home Depot",
+"date": "2026-01-10",
+"desc": "Thermostat",
+"amt": 37.87,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 7,
+"col": 68,
+"payee": "Lowes",
+"date": "2026-02-04",
+"desc": "Door Knobs",
+"amt": 219.14,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 7,
+"col": 73,
+"payee": "Seconds & Surplus",
+"date": "2026-04-03",
+"desc": "Bath Vanities",
+"amt": 701.42,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 7,
+"col": 88,
+"payee": "Foremost Insurance Group",
+"date": "2026-05-09",
+"desc": "May",
+"amt": 374.58,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 7,
+"col": 93,
+"payee": "Energy Texas",
+"date": "2026-03-06",
+"desc": "Electricity",
+"amt": 240.17,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 7,
+"col": 103,
+"payee": "Home Depot",
+"date": "2026-01-11",
+"desc": "Electrical Tape",
+"amt": 3.12,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 7,
+"col": 108,
+"payee": "Jiffy Lube",
+"date": "2026-02-01",
+"desc": "Oil Chnege",
+"amt": 73.51,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 8,
+"col": 13,
+"payee": "Home Depot",
+"date": "2026-02-17",
+"desc": "Floor Protection",
+"amt": 123.34,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 8,
+"col": 18,
+"payee": "Home Depot",
+"date": "2026-01-07",
+"desc": "Garbage Bags",
+"amt": 64.89,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 8,
+"col": 23,
+"payee": "Home Depot",
+"date": "2026-02-19",
+"desc": "Hall & Closet Lights",
+"amt": 64.89,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 8,
+"col": 28,
+"payee": "Home Depot",
+"date": "2026-02-03",
+"desc": "Shower Faucet",
+"amt": 312.84,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 8,
+"col": 33,
+"payee": "Home Depot",
+"date": "2026-02-20",
+"desc": "Angle Stops",
+"amt": 72.8,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 8,
+"col": 38,
+"payee": "Atlas Pools",
+"date": "2026-03-29",
+"desc": "Payment",
+"amt": 2177.0,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 8,
+"col": 43,
+"payee": "Home Depot",
+"date": "2026-01-14",
+"desc": "Trash Bags",
+"amt": 64.89,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 8,
+"col": 53,
+"payee": "Salvador Campos",
+"date": "2026-03-14",
+"desc": "Kitchen Backsplash",
+"amt": 700.0,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 8,
+"col": 63,
+"payee": "Home Depot",
+"date": "2026-01-10",
+"desc": "Thermostat",
+"amt": 75.73,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 8,
+"col": 68,
+"payee": "Lowes",
+"date": "2026-02-04",
+"desc": "Door Knobs",
+"amt": 140.68,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 8,
+"col": 73,
+"payee": "Seconds & Surplus",
+"date": "2026-04-11",
+"desc": "Butcher Vlock",
+"amt": 432.98,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 8,
+"col": 88,
+"payee": "Foremost Insurance Group",
+"date": "2026-06-09",
+"desc": "June",
+"amt": 374.58,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 8,
+"col": 93,
+"payee": "City of Ovilla",
+"date": "2026-02-23",
+"desc": "Water",
+"amt": 49.14,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 8,
+"col": 103,
+"payee": "Home Depot",
+"date": "2026-01-11",
+"desc": "Wire Nuts",
+"amt": 5.39,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 8,
+"col": 108,
+"payee": "Harbor Freight",
+"date": "2026-01-21",
+"desc": "Trailer Light",
+"amt": 16.99,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 9,
+"col": 13,
+"payee": "Home Depot",
+"date": "2026-02-17",
+"desc": "Tape for Floor Protection",
+"amt": 42.74,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 9,
+"col": 18,
+"payee": "Julio",
+"date": "2026-01-06",
+"desc": "Labor",
+"amt": 200.0,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 9,
+"col": 23,
+"payee": "Home Depot",
+"date": "2026-02-19",
+"desc": "Master Closet LED lights",
+"amt": 86.57,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 9,
+"col": 28,
+"payee": "Lowes",
+"date": "2026-02-03",
+"desc": "Shower Niche",
+"amt": 91.99,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 9,
+"col": 33,
+"payee": "Home Depot",
+"date": "2026-03-02",
+"desc": "Copper Pipe",
+"amt": 16.19,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 9,
+"col": 38,
+"payee": "Atlas Pools",
+"date": "2026-03-20",
+"desc": "Valve replacements",
+"amt": 490.0,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 9,
+"col": 43,
+"payee": "Julio",
+"date": "2026-02-12",
+"desc": "Labor",
+"amt": 100.0,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 9,
+"col": 53,
+"payee": "Home Depot",
+"date": "2026-04-10",
+"desc": "Kitchen Faucet",
+"amt": 189.57,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 9,
+"col": 63,
+"payee": "Robinson Air",
+"date": "2026-01-24",
+"desc": "HVAC",
+"amt": 606.7,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 9,
+"col": 68,
+"payee": "Lowes",
+"date": "2026-02-04",
+"desc": "Door Knobs",
+"amt": 70.1,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 9,
+"col": 88,
+"payee": "Foremost Insurance Group",
+"date": "2026-07-09",
+"desc": "July",
+"amt": 374.58,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 9,
+"col": 93,
+"payee": "Atmos Energy",
+"date": "2026-03-27",
+"desc": "Natural Gas",
+"amt": 141.59,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 9,
+"col": 103,
+"payee": "Home Depot",
+"date": "2026-01-11",
+"desc": "Old Work Box",
+"amt": 7.56,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 9,
+"col": 108,
+"payee": "Harbor Freight",
+"date": "2026-01-21",
+"desc": "Trailer Light",
+"amt": 16.99,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 10,
+"col": 13,
+"payee": "Home Depot",
+"date": "2026-02-19",
+"desc": "Spray Paint",
+"amt": 7.56,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 10,
+"col": 18,
+"payee": "Julio",
+"date": "2026-02-11",
+"desc": "Labor",
+"amt": 200.0,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 10,
+"col": 23,
+"payee": "Home Depot",
+"date": "2026-02-19",
+"desc": "Light Bulbs",
+"amt": 55.14,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 10,
+"col": 28,
+"payee": "Home Depot",
+"date": "2026-02-10",
+"desc": "Angle Stops",
+"amt": 49.54,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 10,
+"col": 33,
+"payee": "Home Depot",
+"date": "2026-03-02",
+"desc": "Sharkbite Fittings ",
+"amt": 32.28,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 10,
+"col": 38,
+"payee": "Atlas Pools",
+"date": "2026-03-20",
+"desc": "Floaty thing",
+"amt": 21.65,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 10,
+"col": 43,
+"payee": "Julio",
+"date": "2026-02-16",
+"desc": "Labor",
+"amt": 200.0,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 10,
+"col": 63,
+"payee": "Robinson Air",
+"date": "2026-05-05",
+"desc": "HVAC",
+"amt": 1065.74,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 10,
+"col": 68,
+"payee": "Lowes",
+"date": "2026-02-04",
+"desc": "Smokle Detectors",
+"amt": 148.95,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 10,
+"col": 88,
+"payee": "Foremost Insurance Group",
+"date": "2026-08-07",
+"desc": "August",
+"amt": 374.58,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 10,
+"col": 93,
+"payee": "Atmos Energy",
+"date": "2026-05-08",
+"desc": "Natural Gas",
+"amt": 197.0,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 10,
+"col": 103,
+"payee": "Home Depot",
+"date": "2026-01-11",
+"desc": "Lag Screws",
+"amt": 8.16,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 10,
+"col": 108,
+"payee": "Home Depot",
+"date": "2026-02-01",
+"desc": "Trailer Lumber",
+"amt": 160.17,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 11,
+"col": 13,
+"payee": "Home Depot",
+"date": "2026-02-19",
+"desc": "Floor Protection",
+"amt": 123.34,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 11,
+"col": 18,
+"payee": "City of Corsicana",
+"date": "2026-02-11",
+"desc": "Dump",
+"amt": 22.5,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 11,
+"col": 23,
+"payee": "Home Depot",
+"date": "2026-02-19",
+"desc": "Recessed LED Replacements",
+"amt": 75.71,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 11,
+"col": 28,
+"payee": "Salvador Campos",
+"date": "2026-02-13",
+"desc": "Shower TIle Labor",
+"amt": 3880.0,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 11,
+"col": 33,
+"payee": "Home Depot",
+"date": "2026-03-05",
+"desc": "Plunger",
+"amt": 10.8,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 11,
+"col": 38,
+"payee": "Home Depot",
+"date": "2026-03-13",
+"desc": "Hose",
+"amt": 43.28,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 11,
+"col": 43,
+"payee": "Julio",
+"date": "2026-02-17",
+"desc": "Labor",
+"amt": 200.0,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 11,
+"col": 68,
+"payee": "MyKnobs.com",
+"date": "2026-02-17",
+"desc": "Double door knobs",
+"amt": 268.15,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 11,
+"col": 88,
+"payee": "Foremost Insurance Group",
+"date": "2026-09-07",
+"desc": "Sept",
+"amt": 374.58,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 11,
+"col": 93,
+"payee": "Energy Texas",
+"date": "2026-04-06",
+"desc": "Electricity",
+"amt": 68.76,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 11,
+"col": 103,
+"payee": "Home Depot",
+"date": "2026-01-07",
+"desc": "Paper Towels",
+"amt": 1.06,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 11,
+"col": 108,
+"payee": "Shell",
+"date": "2026-02-03",
+"desc": "Gas",
+"amt": 45.17,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 12,
+"col": 13,
+"payee": "Architectual Depot",
+"date": "2026-02-22",
+"desc": "Quarter Round",
+"amt": 695.33,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 12,
+"col": 18,
+"payee": "Julio",
+"date": "2026-02-12",
+"desc": "Labor",
+"amt": 100.0,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 12,
+"col": 23,
+"payee": "Home Depot",
+"date": "2026-02-19",
+"desc": "Closet Light",
+"amt": 32.44,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 12,
+"col": 28,
+"payee": "Home Depot",
+"date": "2026-02-12",
+"desc": "PEX",
+"amt": 10.47,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 12,
+"col": 33,
+"payee": "Home Depot",
+"date": "2026-03-05",
+"desc": "Toilet",
+"amt": 117.99,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 12,
+"col": 38,
+"payee": "Amazon",
+"date": "2026-03-17",
+"desc": "Aiper Pool Robot",
+"amt": 411.34,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 12,
+"col": 43,
+"payee": "Julio",
+"date": "2026-02-18",
+"desc": "Labor",
+"amt": 200.0,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 12,
+"col": 68,
+"payee": "Home Depot",
+"date": "2026-02-28",
+"desc": "Threaded Rod",
+"amt": 2.48,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 12,
+"col": 93,
+"payee": "Energy Texas",
+"date": "2026-05-04",
+"desc": "Electricity",
+"amt": 80.22,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 12,
+"col": 103,
+"payee": "Home Depot",
+"date": "2026-01-07",
+"desc": "Masks",
+"amt": 10.8,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 12,
+"col": 108,
+"payee": "Home Depot",
+"date": "2026-02-04",
+"desc": "Trailer Screws etc",
+"amt": 31.04,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 13,
+"col": 13,
+"payee": "Home Depot",
+"date": "2026-03-01",
+"desc": "Floor Protection",
+"amt": 164.45,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 13,
+"col": 18,
+"payee": "Home Depot",
+"date": "2026-02-11",
+"desc": "Garbage Bags",
+"amt": 32.44,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 13,
+"col": 23,
+"payee": "Amazon",
+"date": "2026-02-24",
+"desc": "Light Bulbs",
+"amt": 10.81,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 13,
+"col": 28,
+"payee": "Home Depot",
+"date": "2026-02-12",
+"desc": "Sharkbite Fittings",
+"amt": 39.99,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 13,
+"col": 33,
+"payee": "Home Depot",
+"date": "2026-03-11",
+"desc": "Angle Stops",
+"amt": 31.51,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 13,
+"col": 38,
+"payee": "Leslies Pool Supply",
+"date": "2026-03-27",
+"desc": "Polaris",
+"amt": 540.17,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 13,
+"col": 43,
+"payee": "Home Depot",
+"date": "2026-03-12",
+"desc": "Weed Killer",
+"amt": 8.63,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 13,
+"col": 68,
+"payee": "MyKnobs.com",
+"date": "2026-03-06",
+"desc": "Double door knobs",
+"amt": 289.69,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 13,
+"col": 93,
+"payee": "City of Ovilla",
+"date": "2026-05-05",
+"desc": "Water",
+"amt": 131.53,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 13,
+"col": 103,
+"payee": "Home Depot",
+"date": "2026-01-10",
+"desc": "Drywall Achors",
+"amt": 7.67,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 13,
+"col": 108,
+"payee": "Exxon",
+"date": "2026-02-18",
+"desc": "Gas",
+"amt": 52.44,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 14,
+"col": 13,
+"payee": "Home Depot",
+"date": "2026-03-01",
+"desc": "Tape for Floor Protection",
+"amt": 42.74,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 14,
+"col": 18,
+"payee": "City of Corsicana",
+"date": "2026-02-12",
+"desc": "Dump",
+"amt": 27.3,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 14,
+"col": 23,
+"payee": "Lowes",
+"date": "2026-02-19",
+"desc": "Celing Fans",
+"amt": 865.96,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 14,
+"col": 28,
+"payee": "Lowes",
+"date": "2026-02-13",
+"desc": "Grout",
+"amt": 54.08,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 14,
+"col": 33,
+"payee": "Home Depot",
+"date": "2026-03-11",
+"desc": "Angle Stop",
+"amt": 15.76,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 14,
+"col": 38,
+"payee": "Atlas Pools",
+"date": "2026-03-31",
+"desc": "New Pump",
+"amt": 2120.0,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 14,
+"col": 43,
+"payee": "Home Depot",
+"date": "2026-03-12",
+"desc": "Weed & Feed",
+"amt": 75.74,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 14,
+"col": 68,
+"payee": "Lowes",
+"date": "2026-03-21",
+"desc": "Door Knobs",
+"amt": 98.42,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 14,
+"col": 93,
+"payee": "Energy Texas",
+"date": "2026-06-04",
+"desc": "Electricity",
+"amt": 139.21,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 14,
+"col": 103,
+"payee": "Home Depot",
+"date": "2026-01-14",
+"desc": "Old Work Boxes",
+"amt": 9.46,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 14,
+"col": 108,
+"payee": "Shell",
+"date": "2026-02-12",
+"desc": "Gas",
+"amt": 53.73,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 15,
+"col": 13,
+"payee": "Lowes",
+"date": "2026-03-02",
+"desc": "Moldings",
+"amt": 28.52,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 15,
+"col": 18,
+"payee": "City of Corsicana",
+"date": "2026-02-20",
+"desc": "Dump",
+"amt": 22.5,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 15,
+"col": 23,
+"payee": "Lowes",
+"date": "2026-02-19",
+"desc": "Celing Fan Drownrod",
+"amt": 70.34,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 15,
+"col": 28,
+"payee": "Home Depot",
+"date": "2026-02-15",
+"desc": "2x4's",
+"amt": 15.33,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 15,
+"col": 33,
+"payee": "Home Depot",
+"date": "2026-03-16",
+"desc": "Sand Mix",
+"amt": 25.59,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 15,
+"col": 38,
+"payee": "Leslies Pool Supply",
+"date": "2026-04-04",
+"desc": "Timer pegs",
+"amt": 8.65,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 15,
+"col": 43,
+"payee": "Julio",
+"date": "2026-03-17",
+"desc": "Labor",
+"amt": 200.0,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 15,
+"col": 68,
+"payee": "Home Depot",
+"date": "2026-03-24",
+"desc": "Door Weather Stripping",
+"amt": 112.53,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 15,
+"col": 93,
+"payee": "Atmos Energy",
+"date": "2026-06-04",
+"desc": "Natural Gas",
+"amt": 31.31,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 15,
+"col": 103,
+"payee": "Home Depot",
+"date": "2026-01-14",
+"desc": "Old Work Box",
+"amt": 6.47,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 15,
+"col": 108,
+"payee": "J&P Auto Repair",
+"date": "2026-02-12",
+"desc": "Trailer Tire",
+"amt": 52.0,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 16,
+"col": 13,
+"payee": "Home Depot",
+"date": "2026-03-05",
+"desc": "Baseboards & Trim",
+"amt": 425.84,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 16,
+"col": 18,
+"payee": "Julio",
+"date": "2026-02-20",
+"desc": "Labor",
+"amt": 200.0,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 16,
+"col": 23,
+"payee": "Home Depot",
+"date": "2026-02-19",
+"desc": "Light Switches",
+"amt": 69.24,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 16,
+"col": 28,
+"payee": "Home Depot",
+"date": "2026-02-18",
+"desc": "Pex Turnsouts",
+"amt": 10.63,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 16,
+"col": 33,
+"payee": "Home Depot",
+"date": "2026-03-16",
+"desc": "Shower Faucet",
+"amt": 161.29,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 16,
+"col": 38,
+"payee": "Atlas Pools",
+"date": "2026-04-17",
+"desc": "New Filter",
+"amt": 1800.0,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 16,
+"col": 43,
+"payee": "FNF Irrigation",
+"date": "2026-03-19",
+"desc": "Controller and DIagnosis",
+"amt": 45000.0,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 16,
+"col": 68,
+"payee": "Home Depot",
+"date": "2026-03-30",
+"desc": "Crawl Space Door",
+"amt": 261.42,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 16,
+"col": 93,
+"payee": "Energy Texas",
+"date": "2026-07-06",
+"desc": "Electricity",
+"amt": 226.82,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 16,
+"col": 103,
+"payee": "Home Depot",
+"date": "2026-01-15",
+"desc": "Old Work Box",
+"amt": 6.47,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 16,
+"col": 108,
+"payee": "Shell",
+"date": "2026-02-14",
+"desc": "Gas",
+"amt": 50.0,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 17,
+"col": 13,
+"payee": "Armandre Vega",
+"date": "2026-03-05",
+"desc": "Flexible Quarter Round",
+"amt": 98.97,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 17,
+"col": 18,
+"payee": "Julio",
+"date": "2026-02-13",
+"desc": "Labor",
+"amt": 200.0,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 17,
+"col": 23,
+"payee": "Home Depot",
+"date": "2026-03-05",
+"desc": "Old Work Boxes",
+"amt": 8.57,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 17,
+"col": 28,
+"payee": "Pebble Tile Shop",
+"date": "2026-02-22",
+"desc": "Tile Sample",
+"amt": 14.99,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 17,
+"col": 33,
+"payee": "Home Depot",
+"date": "2026-03-16",
+"desc": "Shower Niche",
+"amt": 78.99,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 17,
+"col": 38,
+"payee": "Atlas Pools",
+"date": "2026-04-17",
+"desc": "Service",
+"amt": 185.0,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 17,
+"col": 43,
+"payee": "Home Depot",
+"date": "2026-03-30",
+"desc": "Fence Boards",
+"amt": 39.34,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 17,
+"col": 68,
+"payee": "Waxahachie Glass",
+"date": "2026-03-30",
+"desc": "Glass Deposit",
+"amt": 518.78,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 17,
+"col": 93,
+"payee": "Atmos Energy",
+"date": "2026-07-13",
+"desc": "Natural Gas",
+"amt": 31.6,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 17,
+"col": 103,
+"payee": "Home Depot",
+"date": "2026-01-15",
+"desc": "Wood Dowel",
+"amt": 7.34,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 17,
+"col": 108,
+"payee": "HGO Tire SHop",
+"date": "2026-02-17",
+"desc": "Flat Tire",
+"amt": 20.0,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 18,
+"col": 13,
+"payee": "Lowes",
+"date": "2026-03-05",
+"desc": "Moldings",
+"amt": 32.41,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 18,
+"col": 18,
+"payee": "Julio",
+"date": "2026-02-18",
+"desc": "Labor",
+"amt": 200.0,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 18,
+"col": 23,
+"payee": "Home Depot",
+"date": "2026-03-05",
+"desc": "Outlets",
+"amt": 6.47,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 18,
+"col": 28,
+"payee": "Lowes",
+"date": "2026-02-19",
+"desc": "Sinks",
+"amt": 142.85,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 18,
+"col": 33,
+"payee": "Home Depot",
+"date": "2026-03-16",
+"desc": "Backer Board",
+"amt": 50.77,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 18,
+"col": 38,
+"payee": "Atlas Pools",
+"date": "2026-04-17",
+"desc": "Service",
+"amt": 196.47,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 18,
+"col": 43,
+"payee": "Julio",
+"date": "2026-05-08",
+"desc": "Lawn Maintenance",
+"amt": 100.0,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 18,
+"col": 68,
+"payee": "Lowes",
+"date": "2026-03-30",
+"desc": "Door Knobs",
+"amt": 59.49,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 18,
+"col": 93,
+"payee": "Energy Texas",
+"date": "2026-08-03",
+"desc": "Electricity",
+"amt": 371.16,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 18,
+"col": 103,
+"payee": "Home Depot",
+"date": "2026-02-10",
+"desc": "Shop Towels",
+"amt": 3.77,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 18,
+"col": 108,
+"payee": "O'Reily",
+"date": "2026-02-17",
+"desc": "Lug Nut",
+"amt": 3.45,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 19,
+"col": 13,
+"payee": "Juan Garcia",
+"date": "2026-03-06",
+"desc": "Paint & Floor Installation",
+"amt": 2500.0,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 19,
+"col": 18,
+"payee": "Home Depot",
+"date": "2026-03-04",
+"desc": "Garbage Bags",
+"amt": 32.44,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 19,
+"col": 23,
+"payee": "Home Depot",
+"date": "2026-03-05",
+"desc": "Outlet Covers",
+"amt": 5.85,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 19,
+"col": 28,
+"payee": "Home Depot",
+"date": "2026-02-15",
+"desc": "PT 2x4's",
+"amt": 60.79,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 19,
+"col": 33,
+"payee": "Floor & Decor",
+"date": "2026-03-18",
+"desc": "Shower Tile",
+"amt": 378.94,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 19,
+"col": 38,
+"payee": "Atlas Pools",
+"date": "2026-05-18",
+"desc": "New Timer",
+"amt": 350.0,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 19,
+"col": 43,
+"payee": "Home Depot",
+"date": "2026-04-02",
+"desc": "Grass Seed",
+"amt": 205.06,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 19,
+"col": 68,
+"payee": "Home Depot",
+"date": "2026-04-01",
+"desc": "oor weather stripping",
+"amt": 22.5,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 19,
+"col": 93,
+"payee": "Atmos Energy",
+"date": "2026-08-10",
+"desc": "Natural Gas",
+"amt": 35.79,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 19,
+"col": 103,
+"payee": "Home Depot",
+"date": "2026-02-11",
+"desc": "Gloves",
+"amt": 9.17,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 19,
+"col": 108,
+"payee": "Shell",
+"date": "2026-02-18",
+"desc": "Gas",
+"amt": 51.48,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 20,
+"col": 13,
+"payee": "Home Depot",
+"date": "2026-03-12",
+"desc": "Quarter Round",
+"amt": 52.53,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 20,
+"col": 18,
+"payee": "City of Corsicana",
+"date": "2026-03-10",
+"desc": "Dump",
+"amt": 27.3,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 20,
+"col": 23,
+"payee": "Home Depot",
+"date": "2026-03-05",
+"desc": "LED Strip Lights For Cabinets",
+"amt": 302.97,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 20,
+"col": 28,
+"payee": "Home Depot",
+"date": "2026-03-05",
+"desc": "Sink Faucets",
+"amt": 365.89,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 20,
+"col": 33,
+"payee": "Lowes",
+"date": "2026-03-18",
+"desc": "Slutters",
+"amt": 54.02,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 20,
+"col": 38,
+"payee": "Atlas Pools",
+"date": "2026-05-18",
+"desc": "Service",
+"amt": 256.01,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 20,
+"col": 43,
+"payee": "Julio",
+"date": "2026-04-02",
+"desc": "Labor",
+"amt": 200.0,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 20,
+"col": 68,
+"payee": "Lowes",
+"date": "2026-04-01",
+"desc": "Door Knobs",
+"amt": 20.55,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 20,
+"col": 93,
+"payee": "City of Ovilla",
+"date": "2026-08-10",
+"desc": "Water",
+"amt": 182.67,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 20,
+"col": 103,
+"payee": "Home Depot",
+"date": "2026-02-13",
+"desc": "Shop Towels",
+"amt": 3.77,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 20,
+"col": 108,
+"payee": "Shell",
+"date": "2026-02-20",
+"desc": "Gas",
+"amt": 55.15,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 21,
+"col": 13,
+"payee": "Lowes",
+"date": "2026-03-13",
+"desc": "Quarter Round",
+"amt": 48.32,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 21,
+"col": 18,
+"payee": "Julio",
+"date": "2026-03-10",
+"desc": "Labor",
+"amt": 200.0,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 21,
+"col": 23,
+"payee": "Wayfiar",
+"date": "2026-03-09",
+"desc": "Dining Room Light",
+"amt": 15262.0,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 21,
+"col": 28,
+"payee": "The Tile Shop",
+"date": "2026-03-07",
+"desc": "Tile for bathtub plaform",
+"amt": 373.67,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 21,
+"col": 33,
+"payee": "Lowes",
+"date": "2026-03-19",
+"desc": "Grout",
+"amt": 54.08,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 21,
+"col": 38,
+"payee": "Atlas Pools",
+"date": "2026-06-11",
+"desc": "Service",
+"amt": 256.01,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 21,
+"col": 43,
+"payee": "Julio",
+"date": "2026-04-03",
+"desc": "Labor",
+"amt": 200.0,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 21,
+"col": 68,
+"payee": "Home Depot",
+"date": "2026-04-01",
+"desc": "Door stops",
+"amt": 15.86,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 21,
+"col": 103,
+"payee": "Home Depot",
+"date": "2026-02-12",
+"desc": "Screws",
+"amt": 15.66,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 21,
+"col": 108,
+"payee": "Shell",
+"date": "2026-03-04",
+"desc": "Gas",
+"amt": 55.96,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 22,
+"col": 13,
+"payee": "FedEx",
+"date": "2026-03-13",
+"desc": "Shipping to Felxitions",
+"amt": 11.9,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 22,
+"col": 18,
+"payee": "Julio",
+"date": "2026-03-23",
+"desc": "Labor",
+"amt": 200.0,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 22,
+"col": 23,
+"payee": "Lumens",
+"date": "2026-03-13",
+"desc": "Laundry Bath Light",
+"amt": 120.81,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 22,
+"col": 28,
+"payee": "Floor & Decor",
+"date": "2026-03-07",
+"desc": "Tile for bathtub plaform",
+"amt": 136.4,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 22,
+"col": 33,
+"payee": "Home Depot",
+"date": "2026-03-19",
+"desc": "Vanith Top",
+"amt": 545.27,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 22,
+"col": 38,
+"payee": "Atlas Pools",
+"date": "2026-06-30",
+"desc": "Service",
+"amt": 256.01,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 22,
+"col": 43,
+"payee": "Julio",
+"date": "2026-04-05",
+"desc": "Labor",
+"amt": 200.0,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 22,
+"col": 68,
+"payee": "Lowes",
+"date": "2026-04-03",
+"desc": "Front Door Lock Set",
+"amt": 156.94,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 22,
+"col": 103,
+"payee": "Home Depot",
+"date": "2026-02-15",
+"desc": "Screws",
+"amt": 16.91,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 22,
+"col": 108,
+"payee": "Shell",
+"date": "2026-03-07",
+"desc": "Gas",
+"amt": 59.25,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 23,
+"col": 13,
+"payee": "Lowes",
+"date": "2026-03-16",
+"desc": "3/4 round, garage trim and stair faces",
+"amt": 465.73,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 23,
+"col": 18,
+"payee": "City of Corsicana",
+"date": "2026-03-23",
+"desc": "Dump",
+"amt": 27.3,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 23,
+"col": 23,
+"payee": "Wauyfair",
+"date": "2026-03-21",
+"desc": "Single Bath Light Fixture",
+"amt": 76.85,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 23,
+"col": 28,
+"payee": "Home Depot",
+"date": "2026-03-08",
+"desc": "OSB Subfloor",
+"amt": 54.08,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 23,
+"col": 33,
+"payee": "Floor & Decor",
+"date": "2026-03-19",
+"desc": "RETURN",
+"amt": -121.02,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 23,
+"col": 38,
+"payee": "Atlas Pools",
+"date": "2026-07-30",
+"desc": "Service",
+"amt": 256.01,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 23,
+"col": 43,
+"payee": "Julio",
+"date": "2026-04-06",
+"desc": "Labor",
+"amt": 200.0,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 23,
+"col": 68,
+"payee": "Home Depot",
+"date": "2026-04-03",
+"desc": "Front Door Lock Set",
+"amt": 113.64,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 23,
+"col": 103,
+"payee": "Home Depot",
+"date": "2026-02-16",
+"desc": "Screws",
+"amt": 39.75,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 23,
+"col": 108,
+"payee": "Shell",
+"date": "2026-03-10",
+"desc": "Gas",
+"amt": 69.27,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 24,
+"col": 13,
+"payee": "Home Depot",
+"date": "2026-03-17",
+"desc": "Quarter Round",
+"amt": 64.63,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 24,
+"col": 18,
+"payee": "City of Corsicana",
+"date": "2026-04-08",
+"desc": "Dump",
+"amt": 27.3,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 24,
+"col": 23,
+"payee": "Lowes",
+"date": "2026-03-21",
+"desc": "Downrod",
+"amt": 18.97,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 24,
+"col": 28,
+"payee": "Home Depot",
+"date": "2026-03-12",
+"desc": "Molding",
+"amt": 75.86,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 24,
+"col": 33,
+"payee": "Floor & Decor",
+"date": "2026-03-19",
+"desc": "Tile",
+"amt": 18.71,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 24,
+"col": 38,
+"payee": "Atlas Pools",
+"date": "2026-09-01",
+"desc": "Service - August",
+"amt": 256.01,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 24,
+"col": 43,
+"payee": "Julio",
+"date": "2026-04-07",
+"desc": "Labor",
+"amt": 200.0,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 24,
+"col": 68,
+"payee": "Shade Screen Solutions",
+"date": "2026-06-26",
+"desc": "Window Screens",
+"amt": 927.88,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 24,
+"col": 103,
+"payee": "Home Depot",
+"date": "2026-02-16",
+"desc": "Thread Dope",
+"amt": 4.16,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 24,
+"col": 108,
+"payee": "Shell",
+"date": "2026-03-13",
+"desc": "Gas",
+"amt": 70.6,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 25,
+"col": 13,
+"payee": "Flexitions",
+"date": "2026-03-18",
+"desc": "Curved Stair Moldings",
+"amt": 653.34,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 25,
+"col": 23,
+"payee": "Lowes",
+"date": "2026-03-21",
+"desc": "RETURN celing fan",
+"amt": -108.23,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 25,
+"col": 28,
+"payee": "Home Depot",
+"date": "2026-03-12",
+"desc": "FJP 1x6",
+"amt": 32.99,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 25,
+"col": 33,
+"payee": "Floor & Decor",
+"date": "2026-03-19",
+"desc": "Tile",
+"amt": 18.71,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 25,
+"col": 38,
+"payee": "Atlas Pools",
+"date": "2026-09-01",
+"desc": "Service - Sept",
+"amt": 256.01,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 25,
+"col": 43,
+"payee": "The Greenery",
+"date": "2026-04-08",
+"desc": "Mulch",
+"amt": 259.15,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 25,
+"col": 103,
+"payee": "Harbor Freight",
+"date": "2026-02-16",
+"desc": "Staples",
+"amt": 2.15,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 25,
+"col": 108,
+"payee": "Shell",
+"date": "2026-03-16",
+"desc": "Gas",
+"amt": 72.08,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 26,
+"col": 13,
+"payee": "Armander Vega",
+"date": "2026-03-24",
+"desc": "Exterior Paint",
+"amt": 3889.0,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 26,
+"col": 23,
+"payee": "Lowes",
+"date": "2026-03-19",
+"desc": "Celing Fans",
+"amt": 898.3,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 26,
+"col": 28,
+"payee": "Home Depot",
+"date": "2026-03-12",
+"desc": "Backer Board",
+"amt": 78.21,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 26,
+"col": 33,
+"payee": "Salvador Campos",
+"date": "2026-03-20",
+"desc": "Shower Tile",
+"amt": 2910.0,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 26,
+"col": 43,
+"payee": "Home Depot",
+"date": "2026-04-08",
+"desc": "Landscape Fabric & Supplies",
+"amt": 879.31,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 26,
+"col": 103,
+"payee": "Harbor Freight",
+"date": "2026-02-16",
+"desc": "Wire Nuts",
+"amt": 5.4,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 26,
+"col": 108,
+"payee": "Waltons Brakes & Mufflers",
+"date": "2026-03-16",
+"desc": "Brakes",
+"amt": 593.77,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 27,
+"col": 13,
+"payee": "Juan Garcia",
+"date": "2026-03-30",
+"desc": "Exterior Paint",
+"amt": 1670.0,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 27,
+"col": 23,
+"payee": "Home Depot",
+"date": "2026-03-22",
+"desc": "Outlets, GFI's & Switches",
+"amt": 307.17,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 27,
+"col": 28,
+"payee": "Lowes",
+"date": "2026-03-13",
+"desc": "Grout",
+"amt": 60.81,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 27,
+"col": 33,
+"payee": "Home Depot",
+"date": "2026-03-23",
+"desc": "Angle Stops",
+"amt": 78.64,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 27,
+"col": 43,
+"payee": "FNF Irrigation",
+"date": "2026-04-09",
+"desc": "Irrigation Repair",
+"amt": 965.0,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 27,
+"col": 103,
+"payee": "Home Depot",
+"date": "2026-02-18",
+"desc": "Screws",
+"amt": 15.32,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 27,
+"col": 108,
+"payee": "Shell",
+"date": "2026-03-19",
+"desc": "Gas",
+"amt": 13.06,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 28,
+"col": 13,
+"payee": "50 Floors",
+"date": "2026-03-31",
+"desc": "Stair Carpet",
+"amt": 491.5,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 28,
+"col": 23,
+"payee": "Home Depot",
+"date": "2026-03-22",
+"desc": "LED Tape for Master Bth Soffet",
+"amt": 75.74,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 28,
+"col": 28,
+"payee": "Home Depot",
+"date": "2026-03-15",
+"desc": "Brass Plumbing Fittings",
+"amt": 36.72,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 28,
+"col": 33,
+"payee": "Lowes",
+"date": "2026-03-25",
+"desc": "Tiolet",
+"amt": 107.17,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 28,
+"col": 43,
+"payee": "The Greenery",
+"date": "2026-04-08",
+"desc": "Mulch & Rock",
+"amt": 1156.15,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 28,
+"col": 103,
+"payee": "Home Depot",
+"date": "2026-02-18",
+"desc": "Zip Ties",
+"amt": 4.73,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 28,
+"col": 108,
+"payee": "Shell",
+"date": "2026-03-20",
+"desc": "Gas",
+"amt": 75.47,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 29,
+"col": 13,
+"payee": "Home Depot",
+"date": "2026-04-01",
+"desc": "Quarter Round",
+"amt": 38.78,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 29,
+"col": 23,
+"payee": "Home Depot",
+"date": "2026-03-22",
+"desc": "LED Shower light",
+"amt": 17.83,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 29,
+"col": 28,
+"payee": "Salvador Campos",
+"date": "2026-03-14",
+"desc": "Tub Platform Tile",
+"amt": 1200.0,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 29,
+"col": 33,
+"payee": "Lowes",
+"date": "2026-03-25",
+"desc": "Mirrow",
+"amt": 77.92,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 29,
+"col": 43,
+"payee": "Julio & Friend",
+"date": "2026-04-10",
+"desc": "Labor",
+"amt": 800.0,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 29,
+"col": 103,
+"payee": "Home Depot",
+"date": "2026-02-19",
+"desc": "AAA Batteries",
+"amt": 23.67,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 29,
+"col": 108,
+"payee": "AutoXZone",
+"date": "2026-03-23",
+"desc": "Oil",
+"amt": 38.95,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 30,
+"col": 13,
+"payee": "Lowes",
+"date": "2026-04-01",
+"desc": "Quarter Round",
+"amt": 34.47,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 30,
+"col": 23,
+"payee": "Lowes",
+"date": "2026-03-19",
+"desc": "18\" Downrod",
+"amt": 25.88,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 30,
+"col": 28,
+"payee": "LightsLux",
+"date": "2026-03-21",
+"desc": "Pendandt",
+"amt": 160.0,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 30,
+"col": 33,
+"payee": "Lowes",
+"date": "2026-03-25",
+"desc": "Pedastal Sink",
+"amt": 119.08,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 30,
+"col": 43,
+"payee": "Julio & Friend",
+"date": "2026-04-10",
+"desc": "Labor",
+"amt": 400.0,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 30,
+"col": 103,
+"payee": "Home Depot",
+"date": "2026-02-19",
+"desc": "Wire Connectors",
+"amt": 11.7,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 30,
+"col": 108,
+"payee": "Shell",
+"date": "2026-03-23",
+"desc": "Gas",
+"amt": 67.5,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 31,
+"col": 13,
+"payee": "Lowes",
+"date": "2026-04-03",
+"desc": "Quarter Round",
+"amt": 25.76,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 31,
+"col": 23,
+"payee": "Home Depot",
+"date": "2026-03-25",
+"desc": "New Work Boxes",
+"amt": 16.33,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 31,
+"col": 28,
+"payee": "Lowes",
+"date": "2026-03-21",
+"desc": "Window Trim",
+"amt": 31.01,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 31,
+"col": 33,
+"payee": "Home Depot",
+"date": "2026-03-25",
+"desc": "Hydro Seats",
+"amt": 49.75,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 31,
+"col": 43,
+"payee": "The Greenery",
+"date": "2026-04-13",
+"desc": "Mulch & Rock",
+"amt": 342.63,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 31,
+"col": 103,
+"payee": "Home Depot",
+"date": "2026-02-19",
+"desc": "Utility Blades",
+"amt": 4.28,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 31,
+"col": 108,
+"payee": "HGO Tire SHop",
+"date": "2026-03-23",
+"desc": "Tire",
+"amt": 135.0,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 32,
+"col": 13,
+"payee": "Home Depot",
+"date": "2026-04-01",
+"desc": "Stair Moldings",
+"amt": 350.28,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 32,
+"col": 23,
+"payee": "Home Depot",
+"date": "2026-03-26",
+"desc": "Wall Plates",
+"amt": 17.08,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 32,
+"col": 28,
+"payee": "Lowes",
+"date": "2026-03-21",
+"desc": "Window Trim",
+"amt": 86.25,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 32,
+"col": 33,
+"payee": "Home Depot",
+"date": "2026-03-29",
+"desc": "Toggle Bolts",
+"amt": 10.11,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 32,
+"col": 43,
+"payee": "The Greenery",
+"date": "2026-04-14",
+"desc": "Mulch & Rock",
+"amt": 75.78,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 32,
+"col": 103,
+"payee": "Home Depot",
+"date": "2026-02-19",
+"desc": "Saw Blade",
+"amt": 54.09,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 32,
+"col": 108,
+"payee": "Shell",
+"date": "2026-03-25",
+"desc": "Gas",
+"amt": 65.48,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 33,
+"col": 13,
+"payee": "Home Depot",
+"date": "2026-04-05",
+"desc": "Eurethane",
+"amt": 45.4,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 33,
+"col": 23,
+"payee": "Home Depot",
+"date": "2026-03-26",
+"desc": "Old Work Boxes",
+"amt": 9.18,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 33,
+"col": 28,
+"payee": "Sherwin Williams",
+"date": "2026-03-22",
+"desc": "Paint Supplies",
+"amt": 55.72,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 33,
+"col": 33,
+"payee": "Home Depot",
+"date": "2026-03-29",
+"desc": "P Trap",
+"amt": 5.82,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 33,
+"col": 43,
+"payee": "Julio",
+"date": "2026-04-13",
+"desc": "Labor",
+"amt": 200.0,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 33,
+"col": 103,
+"payee": "Home Depot",
+"date": "2026-02-14",
+"desc": "Ram Set Ammo",
+"amt": 16.22,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 33,
+"col": 108,
+"payee": "Shell",
+"date": "2026-03-25",
+"desc": "Gas",
+"amt": 65.48,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 34,
+"col": 13,
+"payee": "Home Depot",
+"date": "2026-04-08",
+"desc": "Floor mats",
+"amt": 81.22,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 34,
+"col": 23,
+"payee": "Home Depot",
+"date": "2026-03-26",
+"desc": "LED light strip",
+"amt": 64.92,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 34,
+"col": 28,
+"payee": "Home Depot",
+"date": "2026-03-24",
+"desc": "FJP 1x6",
+"amt": 32.41,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 34,
+"col": 33,
+"payee": "Home Depot",
+"date": "2026-03-29",
+"desc": "Extension Tube",
+"amt": 5.81,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 34,
+"col": 43,
+"payee": "Julio",
+"date": "2026-04-14",
+"desc": "Labor",
+"amt": 200.0,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 34,
+"col": 103,
+"payee": "Home Depot",
+"date": "2026-02-14",
+"desc": "Ram Set Nails",
+"amt": 37.87,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 34,
+"col": 108,
+"payee": "Shell",
+"date": "2026-03-27",
+"desc": "Gas",
+"amt": 70.54,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 35,
+"col": 13,
+"payee": "Home Depot",
+"date": "2026-04-08",
+"desc": "Carpet protect film",
+"amt": 47.63,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 35,
+"col": 23,
+"payee": "Wayfair",
+"date": "2026-03-28",
+"desc": "Kitchen Pendant Lights",
+"amt": 362.6,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 35,
+"col": 28,
+"payee": "Miffron.com",
+"date": "2026-03-25",
+"desc": "Vanity Lights",
+"amt": 594.0,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 35,
+"col": 33,
+"payee": "Home Depot",
+"date": "2026-03-29",
+"desc": "Wall Flanges",
+"amt": 19.42,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 35,
+"col": 43,
+"payee": "Julio",
+"date": "2026-04-15",
+"desc": "Labor",
+"amt": 300.0,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 35,
+"col": 103,
+"payee": "Home Depot",
+"date": "2026-03-02",
+"desc": "Paper Towels",
+"amt": 14.05,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 35,
+"col": 108,
+"payee": "Shell",
+"date": "2026-03-30",
+"desc": "Gas",
+"amt": 74.95,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 36,
+"col": 13,
+"payee": "Home Depot",
+"date": "2026-04-08",
+"desc": "Paint",
+"amt": 62.74,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 36,
+"col": 23,
+"payee": "Wayfair",
+"date": "2026-03-29",
+"desc": "Wall Sconce",
+"amt": 80.09,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 36,
+"col": 28,
+"payee": "Lowes",
+"date": "2026-03-25",
+"desc": "Tiolet",
+"amt": 107.17,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 36,
+"col": 33,
+"payee": "Home Depot",
+"date": "2026-04-01",
+"desc": "P traps",
+"amt": 34.91,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 36,
+"col": 43,
+"payee": "Julio",
+"date": "2026-05-21",
+"desc": "Labor",
+"amt": 250.0,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 36,
+"col": 103,
+"payee": "Home Depot",
+"date": "2026-03-04",
+"desc": "Packing Tape",
+"amt": 7.51,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 36,
+"col": 108,
+"payee": "Shell",
+"date": "2026-04-03",
+"desc": "Gas",
+"amt": 71.66,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 37,
+"col": 13,
+"payee": "Sherwin Williams",
+"date": "2026-04-08",
+"desc": "Paint",
+"amt": 51.62,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 37,
+"col": 23,
+"payee": "Home Depot",
+"date": "2026-03-29",
+"desc": "LED can light",
+"amt": 17.83,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 37,
+"col": 28,
+"payee": "Lowes",
+"date": "2026-03-25",
+"desc": "FJP 1x8",
+"amt": 44.01,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 37,
+"col": 33,
+"payee": "Home Depot",
+"date": "2026-04-01",
+"desc": "angle stops",
+"amt": 27.0,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 37,
+"col": 43,
+"payee": "Julio",
+"date": "2026-05-29",
+"desc": "Labor",
+"amt": 200.0,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 37,
+"col": 103,
+"payee": "UPS Store",
+"date": "2026-03-04",
+"desc": "Packing Tape",
+"amt": 5.73,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 37,
+"col": 108,
+"payee": "Valero",
+"date": "2026-04-06",
+"desc": "Gas",
+"amt": 74.73,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 38,
+"col": 23,
+"payee": "Lowes",
+"date": "2026-03-30",
+"desc": "Exterior Celing Fans",
+"amt": 340.9,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 38,
+"col": 28,
+"payee": "Lowes",
+"date": "2026-03-19",
+"desc": "Water Supplies",
+"amt": 33.25,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 38,
+"col": 33,
+"payee": "Home Depot",
+"date": "2026-04-02",
+"desc": "Gaskets",
+"amt": 8.31,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 38,
+"col": 43,
+"payee": "Julio",
+"date": "2026-06-24",
+"desc": "Labor",
+"amt": 150.0,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 38,
+"col": 103,
+"payee": "Home Depot",
+"date": "2026-03-06",
+"desc": "Toilet Paper",
+"amt": 8.1,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 38,
+"col": 108,
+"payee": "Shell",
+"date": "2026-04-09",
+"desc": "Gas",
+"amt": 79.3,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 39,
+"col": 23,
+"payee": "Lowes",
+"date": "2026-04-03",
+"desc": "Smolke Detectors",
+"amt": 80.06,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 39,
+"col": 28,
+"payee": "Home Depot",
+"date": "2026-02-26",
+"desc": "Plumbing & Lumber",
+"amt": 273.72,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 39,
+"col": 33,
+"payee": "Home Depot",
+"date": "2026-04-09",
+"desc": "Toilet parts",
+"amt": 40.01,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 39,
+"col": 43,
+"payee": "Julio",
+"date": "2026-03-23",
+"desc": "Deck Repair",
+"amt": 300.0,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 39,
+"col": 103,
+"payee": "Home Depot",
+"date": "2026-03-06",
+"desc": "Multi Tool Blades",
+"amt": 36.74,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 39,
+"col": 108,
+"payee": "Shell",
+"date": "2026-04-11",
+"desc": "Gas",
+"amt": 69.27,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 40,
+"col": 23,
+"payee": "Lowes",
+"date": "2026-04-03",
+"desc": "Batteries",
+"amt": 11.8,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 40,
+"col": 28,
+"payee": "Home Depot",
+"date": "2026-03-26",
+"desc": "Closet Shelf",
+"amt": 23.79,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 40,
+"col": 33,
+"payee": "Home Depot",
+"date": "2026-06-16",
+"desc": "Bathroom Fan",
+"amt": 23.82,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 40,
+"col": 43,
+"payee": "Julio",
+"date": "2026-07-07",
+"desc": "Labor",
+"amt": 150.0,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 40,
+"col": 103,
+"payee": "Chase",
+"date": "2026-03-06",
+"desc": "Checks",
+"amt": 6.0,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 40,
+"col": 108,
+"payee": "Shell",
+"date": "2026-04-15",
+"desc": "Gas",
+"amt": 10.97,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 41,
+"col": 23,
+"payee": "Lowes",
+"date": "2026-04-03",
+"desc": "Electrical Straps",
+"amt": 7.53,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 41,
+"col": 28,
+"payee": "Home Depot",
+"date": "2026-03-26",
+"desc": "Hose Clamp",
+"amt": 2.53,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 41,
+"col": 33,
+"payee": "Home Depot",
+"date": "2026-06-16",
+"desc": "Roof Vent",
+"amt": 38.97,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 41,
+"col": 43,
+"payee": "Falcon Creek Lawn Care - INV 1390",
+"date": "2026-08-30",
+"desc": "Trim Bushes",
+"amt": 150.0,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 41,
+"col": 103,
+"payee": "Home Depot",
+"date": "2026-03-08",
+"desc": "Multi Tool Blades",
+"amt": 18.37,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 41,
+"col": 108,
+"payee": "Shell",
+"date": "2026-05-04",
+"desc": "Gas",
+"amt": 66.51,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 42,
+"col": 23,
+"payee": "Home Depot",
+"date": "2026-04-05",
+"desc": "Smokle Detectors",
+"amt": 85.42,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 42,
+"col": 28,
+"payee": "Home Depot",
+"date": "2026-03-26",
+"desc": "Wall Flanges",
+"amt": 12.95,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 42,
+"col": 33,
+"payee": "Armandre Vega",
+"date": "2026-06-18",
+"desc": "Bath Fan and Vent",
+"amt": 550.0,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 42,
+"col": 43,
+"payee": "Keith Pfaff",
+"date": "2026-09-01",
+"desc": "Irrigation Repair",
+"amt": 50.0,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 42,
+"col": 103,
+"payee": "Home Depot",
+"date": "2026-03-10",
+"desc": "Screws",
+"amt": 16.91,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 42,
+"col": 108,
+"payee": "Shell",
+"date": "2026-05-07",
+"desc": "Gas",
+"amt": 82.43,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 43,
+"col": 23,
+"payee": "Home Depot",
+"date": "2026-04-05",
+"desc": "Light Bulbs",
+"amt": 63.76,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 43,
+"col": 28,
+"payee": "Home Depot",
+"date": "2026-03-26",
+"desc": "P Trap",
+"amt": 5.82,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 43,
+"col": 33,
+"payee": "Home Depot",
+"date": "2026-06-30",
+"desc": "Flange Covers",
+"amt": 56.31,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 43,
+"col": 43,
+"payee": "Julio",
+"date": "2026-09-01",
+"desc": "Labor",
+"amt": 150.0,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 43,
+"col": 103,
+"payee": "Home Depot",
+"date": "2026-03-12",
+"desc": "Screws",
+"amt": 16.05,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 43,
+"col": 108,
+"payee": "Jiffy Lube",
+"date": "2026-05-08",
+"desc": "Oil Change",
+"amt": 73.51,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 44,
+"col": 23,
+"payee": "Home Depot",
+"date": "2026-04-09",
+"desc": "wire connectors",
+"amt": 16.19,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 44,
+"col": 28,
+"payee": "Verity Plumbing",
+"date": "2026-07-03",
+"desc": "Hat Water Heater",
+"amt": 2636.67,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 44,
+"col": 33,
+"payee": "Home Depot",
+"date": "2026-06-30",
+"desc": "Caulk",
+"amt": 19.98,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 44,
+"col": 43,
+"payee": "Keith Pfaff",
+"date": "2026-09-05",
+"desc": "Irrigation Repair",
+"amt": 135.0,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 44,
+"col": 103,
+"payee": "Home Depot",
+"date": "2026-03-12",
+"desc": "Screws",
+"amt": 29.74,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 44,
+"col": 108,
+"payee": "Midlothian Municipal Counrt",
+"date": "2026-05-08",
+"desc": "Traffic TIcket",
+"amt": 280.95,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 45,
+"col": 23,
+"payee": "Home Depot",
+"date": "2026-04-09",
+"desc": "Outlets & Testet",
+"amt": 168.53,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 45,
+"col": 43,
+"payee": "Julio",
+"date": "2026-09-08",
+"desc": "Labor",
+"amt": 150.0,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 45,
+"col": 103,
+"payee": "Home Depot",
+"date": "2026-03-12",
+"desc": "Finish Nails",
+"amt": 47.61,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 45,
+"col": 108,
+"payee": "Shell",
+"date": "2026-06-17",
+"desc": "Gas",
+"amt": 66.64,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 46,
+"col": 23,
+"payee": "Home Depot",
+"date": "2026-04-15",
+"desc": "Outlets & Testet",
+"amt": 113.99,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 46,
+"col": 103,
+"payee": "Home Depot",
+"date": "2026-03-15",
+"desc": "Shims",
+"amt": 8.92,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 47,
+"col": 23,
+"payee": "Cool Hand Electric",
+"date": "2026-06-30",
+"desc": "60 Amp Dsiconnect",
+"amt": 564.0,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 47,
+"col": 103,
+"payee": "Home Depot",
+"date": "2026-03-15",
+"desc": "Wood Filler",
+"amt": 20.55,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 48,
+"col": 23,
+"payee": "Cool Hand Electric",
+"date": "2026-07-02",
+"desc": "Circuit ground and misc",
+"amt": 1207.0,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 48,
+"col": 103,
+"payee": "Home Depot",
+"date": "2026-03-15",
+"desc": "Sanding Discs",
+"amt": 21.56,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 49,
+"col": 103,
+"payee": "Home Depot",
+"date": "2026-03-15",
+"desc": "Dremel DIscs",
+"amt": 18.37,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 50,
+"col": 103,
+"payee": "Home Depot",
+"date": "2026-03-15",
+"desc": "Threaded Rod",
+"amt": 3.07,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 51,
+"col": 103,
+"payee": "Home Depot",
+"date": "2026-03-15",
+"desc": "Screws",
+"amt": 28.52,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 52,
+"col": 103,
+"payee": "UPS Store",
+"date": "2026-03-17",
+"desc": "Packing Tape",
+"amt": 3.57,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 53,
+"col": 103,
+"payee": "Home Depot",
+"date": "2026-03-18",
+"desc": "Threaded Rod",
+"amt": 3.07,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 54,
+"col": 103,
+"payee": "Home Depot",
+"date": "2026-03-18",
+"desc": "Dowels",
+"amt": 3.64,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 55,
+"col": 103,
+"payee": "Home Depot",
+"date": "2026-03-18",
+"desc": "Screws",
+"amt": 47.76,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 56,
+"col": 103,
+"payee": "Home Depot",
+"date": "2026-03-18",
+"desc": "Screws",
+"amt": 79.51,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 57,
+"col": 103,
+"payee": "Lowes",
+"date": "2026-03-21",
+"desc": "Glass Scraper & Blades",
+"amt": 9.48,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 58,
+"col": 103,
+"payee": "Lowes",
+"date": "2026-03-21",
+"desc": "Spray Bottle",
+"amt": 4.31,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 59,
+"col": 103,
+"payee": "Lowes",
+"date": "2026-03-21",
+"desc": "Multi Tool Blade",
+"amt": 18.38,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 60,
+"col": 103,
+"payee": "Home Depot",
+"date": "2026-03-22",
+"desc": "Microfiber Towels",
+"amt": 10.8,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 61,
+"col": 103,
+"payee": "Home Depot",
+"date": "2026-03-22",
+"desc": "Teflon Tape",
+"amt": 1.06,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 62,
+"col": 103,
+"payee": "Home Depot",
+"date": "2026-03-22",
+"desc": "Dremel Post",
+"amt": 14.04,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 63,
+"col": 103,
+"payee": "Home Depot",
+"date": "2026-03-22",
+"desc": "Shopvac Filters",
+"amt": 37.86,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 64,
+"col": 103,
+"payee": "Home Depot",
+"date": "2026-03-22",
+"desc": "Tile Drill Bits",
+"amt": 23.78,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 65,
+"col": 103,
+"payee": "Home Depot",
+"date": "2026-03-22",
+"desc": "Windex",
+"amt": 5.27,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 66,
+"col": 103,
+"payee": "Home Depot",
+"date": "2026-03-23",
+"desc": "Abrasive Cloth",
+"amt": 5.37,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 67,
+"col": 103,
+"payee": "Home Depot",
+"date": "2026-03-23",
+"desc": "Shop Towels",
+"amt": 14.05,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 68,
+"col": 103,
+"payee": "Lowes",
+"date": "2026-03-25",
+"desc": "Tri for Garage",
+"amt": 10.91,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 69,
+"col": 103,
+"payee": "Lowes",
+"date": "2026-03-19",
+"desc": "Silicone Caulk",
+"amt": 20.96,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 70,
+"col": 103,
+"payee": "Amazon",
+"date": "2026-03-06",
+"desc": "Rat Traps",
+"amt": 43.28,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 71,
+"col": 103,
+"payee": "Home Depot",
+"date": "2026-03-25",
+"desc": "Tapcon Scres & Bit",
+"amt": 14.68,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 72,
+"col": 103,
+"payee": "Home Depot",
+"date": "2026-03-26",
+"desc": "Clorox Wipes",
+"amt": 7.56,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 73,
+"col": 103,
+"payee": "Home Depot",
+"date": "2026-03-29",
+"desc": "Tapcon Screws",
+"amt": 8.64,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 74,
+"col": 103,
+"payee": "Home Depot",
+"date": "2026-03-30",
+"desc": "Tapcon Screws",
+"amt": 5.89,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 75,
+"col": 103,
+"payee": "Home Depot",
+"date": "2026-04-01",
+"desc": "Angle Grinder discs",
+"amt": 25.37,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 76,
+"col": 103,
+"payee": "Home Depot",
+"date": "2026-04-01",
+"desc": "Caulk",
+"amt": 10.8,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 77,
+"col": 103,
+"payee": "Home Depot",
+"date": "2026-04-01",
+"desc": "Adhesive",
+"amt": 15.67,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 78,
+"col": 103,
+"payee": "Home Depot",
+"date": "2026-04-01",
+"desc": "Self Leveler",
+"amt": 37.89,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 79,
+"col": 103,
+"payee": "Home Depot",
+"date": "2026-04-01",
+"desc": "Big Gap Filler",
+"amt": 6.47,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 80,
+"col": 103,
+"payee": "Home Depot",
+"date": "2026-04-01",
+"desc": "Spray Paint",
+"amt": 22.67,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 81,
+"col": 103,
+"payee": "Home Depot",
+"date": "2026-04-01",
+"desc": "Latex Gloves",
+"amt": 10.8,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 82,
+"col": 103,
+"payee": "Home Depot",
+"date": "2026-04-02",
+"desc": "Caulk",
+"amt": 58.37,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 83,
+"col": 103,
+"payee": "Lowes",
+"date": "2026-04-03",
+"desc": "1/8 sheet plywood",
+"amt": 18.38,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 84,
+"col": 103,
+"payee": "Lowes",
+"date": "2026-04-03",
+"desc": "sanded plywood",
+"amt": 28.12,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 85,
+"col": 103,
+"payee": "Lowes",
+"date": "2026-04-03",
+"desc": "Blue Tape",
+"amt": 8.64,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 86,
+"col": 103,
+"payee": "Lowes",
+"date": "2026-04-03",
+"desc": "Titebond Glue",
+"amt": 4.31,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 87,
+"col": 103,
+"payee": "Lowes",
+"date": "2026-04-04",
+"desc": "Broom",
+"amt": 17.3,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 88,
+"col": 103,
+"payee": "Home Depot",
+"date": "2026-04-05",
+"desc": "Drill Bit",
+"amt": 9.17,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 89,
+"col": 103,
+"payee": "Home Depot",
+"date": "2026-04-05",
+"desc": "Drill Bit",
+"amt": 9.17,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 90,
+"col": 103,
+"payee": "Home Depot",
+"date": "2026-04-05",
+"desc": "Nuts & Bolts",
+"amt": 14.4,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 91,
+"col": 103,
+"payee": "Home Depot",
+"date": "2026-04-06",
+"desc": "Bondo",
+"amt": 23.79,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 92,
+"col": 103,
+"payee": "Home Depot",
+"date": "2026-04-06",
+"desc": "Caulk",
+"amt": 15.67,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 93,
+"col": 103,
+"payee": "Home Depot",
+"date": "2026-04-06",
+"desc": "Drill Bit",
+"amt": 18.34,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 94,
+"col": 103,
+"payee": "Home Depot",
+"date": "2026-04-08",
+"desc": "Windex",
+"amt": 12.95,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 95,
+"col": 103,
+"payee": "Home Depot",
+"date": "2026-04-08",
+"desc": "Micro Filber Roll",
+"amt": 21.61,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 96,
+"col": 103,
+"payee": "Home Depot",
+"date": "2026-04-08",
+"desc": "Caulk",
+"amt": 43.78,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 97,
+"col": 103,
+"payee": "Home Depot",
+"date": "2026-04-09",
+"desc": "Screws",
+"amt": 15.09,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 98,
+"col": 103,
+"payee": "Home Depot",
+"date": "2026-04-10",
+"desc": "Misc Supplies",
+"amt": 151.28,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 99,
+"col": 103,
+"payee": "Home Depot",
+"date": "2026-04-10",
+"desc": "Misc Supplies",
+"amt": 76.7,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 100,
+"col": 103,
+"payee": "Home Depot",
+"date": "2026-04-10",
+"desc": "Misc Supplies",
+"amt": 263.29,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 101,
+"col": 103,
+"payee": "Home Depot",
+"date": "2026-04-10",
+"desc": "Plumbing parts",
+"amt": 12.87,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 102,
+"col": 103,
+"payee": "Home Depot",
+"date": "2026-04-13",
+"desc": "Misc Supplies",
+"amt": 897.0,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 103,
+"col": 103,
+"payee": "Ace Hardware",
+"date": "2026-04-13",
+"desc": "Misc Supplies",
+"amt": 64.47,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 104,
+"col": 103,
+"payee": "Home Depot",
+"date": "2026-04-13",
+"desc": "Misc Supplies",
+"amt": 320.23,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 105,
+"col": 103,
+"payee": "Home Depot",
+"date": "2026-04-14",
+"desc": "Misc Supplies",
+"amt": 133.19,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 106,
+"col": 103,
+"payee": "Home Depot",
+"date": "2026-04-15",
+"desc": "Misc Supplies",
+"amt": 51.38,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 107,
+"col": 103,
+"payee": "Home Depot",
+"date": "2026-05-05",
+"desc": "Misc Supplies",
+"amt": 118.49,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 108,
+"col": 103,
+"payee": "Home Depot",
+"date": "2026-05-07",
+"desc": "Misc Supplies",
+"amt": 157.2,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 109,
+"col": 103,
+"payee": "Home Depot",
+"date": "2026-05-07",
+"desc": "Misc Supplies",
+"amt": 23.78,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 110,
+"col": 103,
+"payee": "Lowes",
+"date": "2026-05-07",
+"desc": "Misc Supplies",
+"amt": 6.8,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 111,
+"col": 103,
+"payee": "Home Depot",
+"date": "2026-05-27",
+"desc": "Spackle",
+"amt": 10.26,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 112,
+"col": 103,
+"payee": "Home Depot",
+"date": "2026-05-27",
+"desc": "Zip Ties",
+"amt": 3.72,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 113,
+"col": 103,
+"payee": "Home Depot",
+"date": "2026-06-16",
+"desc": "2x4",
+"amt": 4.03,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 114,
+"col": 103,
+"payee": "Home Depot",
+"date": "2026-06-16",
+"desc": "Drill Bit",
+"amt": 14.04,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 115,
+"col": 103,
+"payee": "Home Depot",
+"date": "2026-06-16",
+"desc": "Screws",
+"amt": 44.03,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 116,
+"col": 103,
+"payee": "Home Depot",
+"date": "2026-06-16",
+"desc": "Spray Paint",
+"amt": 7.56,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 117,
+"col": 103,
+"payee": "Home Depot",
+"date": "2026-06-16",
+"desc": "1x4's",
+"amt": 33.2,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 118,
+"col": 103,
+"payee": "Home Depot",
+"date": "2026-06-16",
+"desc": "Garbage Bags",
+"amt": 32.44,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 119,
+"col": 103,
+"payee": "Home Depot",
+"date": "2026-06-16",
+"desc": "Nuts and bolts",
+"amt": 22.09,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 120,
+"col": 103,
+"payee": "Home Depot",
+"date": "2026-06-16",
+"desc": "Roofing Nails",
+"amt": 14.04,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 121,
+"col": 103,
+"payee": "Home Depot",
+"date": "2026-06-16",
+"desc": "Nuts and Bolts",
+"amt": 2.89,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 122,
+"col": 103,
+"payee": "Home Depot",
+"date": "2026-06-16",
+"desc": "Threaded Rod",
+"amt": 23.82,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 123,
+"col": 103,
+"payee": "Home Depot",
+"date": "2026-06-16",
+"desc": "1x4",
+"amt": 19.92,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 124,
+"col": 103,
+"payee": "Home Depot",
+"date": "2026-06-18",
+"desc": "Dryer Vent Tape",
+"amt": 8.1,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 125,
+"col": 103,
+"payee": "Home Depot",
+"date": "2026-06-18",
+"desc": "1x4",
+"amt": 39.84,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 126,
+"col": 103,
+"payee": "Home Depot",
+"date": "2026-06-18",
+"desc": "Great Stuff",
+"amt": 4.85,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 127,
+"col": 103,
+"payee": "Home Depot",
+"date": "2026-06-18",
+"desc": "Nuts and bolts",
+"amt": 3.4,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 128,
+"col": 103,
+"payee": "Ace Hardware",
+"date": "2026-06-19",
+"desc": "Screws",
+"amt": 25.28,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 129,
+"col": 103,
+"payee": "Home Depot",
+"date": "2026-06-30",
+"desc": "Great Stuff",
+"amt": 4.85,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 130,
+"col": 103,
+"payee": "Home Depot",
+"date": "2026-06-30",
+"desc": "1x5",
+"amt": 50.44,
+"flags": []
+},
+{
+"tab": "104 Ashburne",
+"row": 131,
+"col": 103,
+"payee": "Home Depot",
+"date": "2026-08-11",
+"desc": "Batteries",
+"amt": 12.85,
+"flags": []
+},
+{
+"tab": "1616 Granite RECONCILED",
+"row": 3,
+"col": 7,
+"payee": "Salvador Campos",
+"date": "2026-05-18",
+"desc": "Roof",
+"amt": 380.0,
+"flags": [
+true,
+false
+]
+},
+{
+"tab": "1616 Granite RECONCILED",
+"row": 4,
+"col": 7,
+"payee": "Home Depot",
+"date": "2026-05-27",
+"desc": "Cooktop",
+"amt": 596.54,
+"flags": [
+true,
+false
+]
+},
+{
+"tab": "1616 Granite RECONCILED",
+"row": 5,
+"col": 7,
+"payee": "Home Depot",
+"date": "2026-05-27",
+"desc": "Paper Towels",
+"amt": 1.6,
+"flags": [
+true,
+false
+]
+},
+{
+"tab": "1616 Granite RECONCILED",
+"row": 5,
+"col": 14,
+"payee": "City of Waxahachie",
+"date": "2026-05-27",
+"desc": "Water",
+"amt": 103.95,
+"flags": [
+true,
+false
+]
+},
+{
+"tab": "1616 Granite RECONCILED",
+"row": 6,
+"col": 7,
+"payee": "Home Depot",
+"date": "2026-05-27",
+"desc": "Sponges",
+"amt": 3.77,
+"flags": [
+true,
+false
+]
+},
+{
+"tab": "1616 Granite RECONCILED",
+"row": 6,
+"col": 14,
+"payee": "TXU",
+"date": "2026-06-16",
+"desc": "Electricity",
+"amt": 161.17,
+"flags": [
+true,
+false
+]
+},
+{
+"tab": "1616 Granite RECONCILED",
+"row": 7,
+"col": 7,
+"payee": "Home Depot",
+"date": "2026-05-27",
+"desc": "Orange Peel",
+"amt": 21.63,
+"flags": [
+true,
+false
+]
+},
+{
+"tab": "1616 Granite RECONCILED",
+"row": 7,
+"col": 14,
+"payee": "TXU",
+"date": "2026-07-25",
+"desc": "Electricity",
+"amt": 261.76,
+"flags": [
+true,
+false
+]
+},
+{
+"tab": "1616 Granite RECONCILED",
+"row": 8,
+"col": 7,
+"payee": "Home Depot",
+"date": "2026-05-28",
+"desc": "Grass Seed",
+"amt": 346.27,
+"flags": [
+true,
+false
+]
+},
+{
+"tab": "1616 Granite RECONCILED",
+"row": 8,
+"col": 14,
+"payee": "City of Waxahachie",
+"date": "2026-07-29",
+"desc": "Water",
+"amt": 950.02,
+"flags": [
+true,
+false
+]
+},
+{
+"tab": "1616 Granite RECONCILED",
+"row": 9,
+"col": 7,
+"payee": "Home Depot",
+"date": "2026-05-28",
+"desc": "Landscape Fabric Staples",
+"amt": 17.29,
+"flags": [
+true,
+false
+]
+},
+{
+"tab": "1616 Granite RECONCILED",
+"row": 10,
+"col": 7,
+"payee": "Home Depot",
+"date": "2026-05-28",
+"desc": "Paint",
+"amt": 57.12,
+"flags": [
+true,
+false
+]
+},
+{
+"tab": "1616 Granite RECONCILED",
+"row": 11,
+"col": 7,
+"payee": "Home Depot",
+"date": "2026-05-29",
+"desc": "Batteries for door lock",
+"amt": 4.73,
+"flags": [
+true,
+false
+]
+},
+{
+"tab": "1616 Granite RECONCILED",
+"row": 12,
+"col": 7,
+"payee": "Home Depot",
+"date": "2026-05-29",
+"desc": "Toilet Parts",
+"amt": 23.79,
+"flags": [
+true,
+false
+]
+},
+{
+"tab": "1616 Granite RECONCILED",
+"row": 13,
+"col": 7,
+"payee": "Home Depot",
+"date": "2026-05-29",
+"desc": "Irrigation Elbos",
+"amt": 4.17,
+"flags": [
+true,
+false
+]
+},
+{
+"tab": "1616 Granite RECONCILED",
+"row": 14,
+"col": 7,
+"payee": "Home Depot",
+"date": "2026-05-29",
+"desc": "Door Stop",
+"amt": 3.43,
+"flags": [
+true,
+false
+]
+},
+{
+"tab": "1616 Granite RECONCILED",
+"row": 15,
+"col": 7,
+"payee": "Home Depot",
+"date": "2026-05-29",
+"desc": "Black Mulch",
+"amt": 79.46,
+"flags": [
+true,
+false
+]
+},
+{
+"tab": "1616 Granite RECONCILED",
+"row": 16,
+"col": 7,
+"payee": "Home Depot",
+"date": "2026-05-29",
+"desc": "Black Spray Paint",
+"amt": 7.56,
+"flags": [
+true,
+false
+]
+},
+{
+"tab": "1616 Granite RECONCILED",
+"row": 17,
+"col": 7,
+"payee": "Home Depot",
+"date": "2026-05-29",
+"desc": "Door Stop",
+"amt": 4.31,
+"flags": [
+true,
+false
+]
+},
+{
+"tab": "1616 Granite RECONCILED",
+"row": 18,
+"col": 7,
+"payee": "Home Depot",
+"date": "2026-05-29",
+"desc": "Lawn Utility Box",
+"amt": 64.53,
+"flags": [
+true,
+false
+]
+},
+{
+"tab": "1616 Granite RECONCILED",
+"row": 19,
+"col": 7,
+"payee": "Home Depot",
+"date": "2026-05-29",
+"desc": "Toilet Seat",
+"amt": 32.45,
+"flags": [
+true,
+false
+]
+},
+{
+"tab": "1616 Granite RECONCILED",
+"row": 20,
+"col": 7,
+"payee": "Home Depot",
+"date": "2026-05-29",
+"desc": "Irrigation Couplings",
+"amt": 3.71,
+"flags": [
+true,
+false
+]
+},
+{
+"tab": "1616 Granite RECONCILED",
+"row": 21,
+"col": 7,
+"payee": "Home Depot",
+"date": "2026-05-29",
+"desc": "Plastic Edging",
+"amt": 194.62,
+"flags": [
+true,
+false
+]
+},
+{
+"tab": "1616 Granite RECONCILED",
+"row": 22,
+"col": 7,
+"payee": "Lowes",
+"date": "2026-05-30",
+"desc": "Door Mat",
+"amt": 14.05,
+"flags": [
+true,
+false
+]
+},
+{
+"tab": "1616 Granite RECONCILED",
+"row": 23,
+"col": 7,
+"payee": "Lowes",
+"date": "2026-05-30",
+"desc": "Irrigation Riser",
+"amt": 0.92,
+"flags": [
+true,
+false
+]
+},
+{
+"tab": "1616 Granite RECONCILED",
+"row": 24,
+"col": 7,
+"payee": "Lowes",
+"date": "2026-05-30",
+"desc": "Irrigation Sprinkler",
+"amt": 9.61,
+"flags": [
+true,
+false
+]
+},
+{
+"tab": "1616 Granite RECONCILED",
+"row": 25,
+"col": 7,
+"payee": "Home Depot",
+"date": "2026-05-30",
+"desc": "Wire Nuts",
+"amt": 4.85,
+"flags": [
+true,
+false
+]
+},
+{
+"tab": "1616 Granite RECONCILED",
+"row": 26,
+"col": 7,
+"payee": "Home Depot",
+"date": "2026-05-30",
+"desc": "Ring Door Bell",
+"amt": 43.29,
+"flags": [
+true,
+false
+]
+},
+{
+"tab": "1616 Granite RECONCILED",
+"row": 27,
+"col": 7,
+"payee": "Home Depot",
+"date": "2026-05-30",
+"desc": "Irrigation Bubbler",
+"amt": 1.87,
+"flags": [
+true,
+false
+]
+},
+{
+"tab": "1616 Granite RECONCILED",
+"row": 28,
+"col": 7,
+"payee": "Lowes",
+"date": "2026-05-31",
+"desc": "Floor Paint",
+"amt": 42.2,
+"flags": [
+true,
+false
+]
+},
+{
+"tab": "1616 Granite RECONCILED",
+"row": 29,
+"col": 7,
+"payee": "Home Depot",
+"date": "2026-05-31",
+"desc": "Roller Cover",
+"amt": 5.06,
+"flags": [
+true,
+false
+]
+},
+{
+"tab": "1616 Granite RECONCILED",
+"row": 30,
+"col": 7,
+"payee": "Home Depot",
+"date": "2026-05-31",
+"desc": "Concrete Stain",
+"amt": 43.28,
+"flags": [
+true,
+false
+]
+},
+{
+"tab": "1616 Granite RECONCILED",
+"row": 31,
+"col": 7,
+"payee": "Home Depot",
+"date": "2026-05-31",
+"desc": "Irrigation Sprinkler",
+"amt": 9.17,
+"flags": [
+true,
+false
+]
+},
+{
+"tab": "1616 Granite RECONCILED",
+"row": 32,
+"col": 7,
+"payee": "Julio & Friend",
+"date": "2026-05-29",
+"desc": "Landscaping",
+"amt": 600.0,
+"flags": [
+true,
+false
+]
+},
+{
+"tab": "1616 Granite RECONCILED",
+"row": 33,
+"col": 7,
+"payee": "Amazon",
+"date": "2026-05-27",
+"desc": "Curtain Rods",
+"amt": 72.65,
+"flags": [
+true,
+false
+]
+},
+{
+"tab": "1616 Granite RECONCILED",
+"row": 34,
+"col": 7,
+"payee": "Amazon",
+"date": "2026-05-27",
+"desc": "Curtain Rods & Door Lock",
+"amt": 105.15,
+"flags": [
+true,
+false
+]
+},
+{
+"tab": "1616 Granite RECONCILED",
+"row": 35,
+"col": 7,
+"payee": "Amazon",
+"date": "2026-05-27",
+"desc": "Exterior Light",
+"amt": 111.42,
+"flags": [
+true,
+false
+]
+},
+{
+"tab": "1616 Granite RECONCILED",
+"row": 36,
+"col": 7,
+"payee": "Amazon",
+"date": "2026-05-27",
+"desc": "Curtain Rods",
+"amt": 30.8,
+"flags": [
+true,
+false
+]
+},
+{
+"tab": "1616 Granite RECONCILED",
+"row": 37,
+"col": 7,
+"payee": "50floor",
+"date": "2026-06-01",
+"desc": "Carpet",
+"amt": 1319.0,
+"flags": [
+true,
+false
+]
+},
+{
+"tab": "1616 Granite RECONCILED",
+"row": 38,
+"col": 7,
+"payee": "Mariana",
+"date": "2026-06-01",
+"desc": "Mariana",
+"amt": 500.0,
+"flags": [
+true,
+false
+]
+},
+{
+"tab": "1616 Granite RECONCILED",
+"row": 39,
+"col": 7,
+"payee": "Tom Thumb",
+"date": "2026-06-02",
+"desc": "Light Bulbs",
+"amt": 19.45,
+"flags": [
+true,
+false
+]
+},
+{
+"tab": "1616 Granite RECONCILED",
+"row": 40,
+"col": 7,
+"payee": "Julio + Friend",
+"date": "2026-06-02",
+"desc": "Landscaping",
+"amt": 600.0,
+"flags": [
+true,
+false
+]
+},
+{
+"tab": "1616 Granite RECONCILED",
+"row": 41,
+"col": 7,
+"payee": "50floor",
+"date": "2026-06-12",
+"desc": "Carpet",
+"amt": 1319.0,
+"flags": [
+true,
+false
+]
+},
+{
+"tab": "1616 Granite RECONCILED",
+"row": 43,
+"col": 7,
+"payee": "Home Depot",
+"date": "2026-06-28",
+"desc": "Toilet Kits",
+"amt": 40.01,
+"flags": [
+true,
+false
+]
+},
+{
+"tab": "1616 Granite RECONCILED",
+"row": 44,
+"col": 7,
+"payee": "Julio",
+"date": "2026-06-26",
+"desc": "Landscaping",
+"amt": 200.0,
+"flags": [
+true,
+false
+]
+},
+{
+"tab": "1616 Granite RECONCILED",
+"row": 45,
+"col": 7,
+"payee": "Lowes",
+"date": "2026-06-29",
+"desc": "Furnace Filter",
+"amt": 37.86,
+"flags": [
+true,
+false
+]
+},
+{
+"tab": "1616 Granite RECONCILED",
+"row": 46,
+"col": 7,
+"payee": "Lowes",
+"date": "2026-06-29",
+"desc": "Spring Hinges",
+"amt": 43.26,
+"flags": [
+true,
+false
+]
+},
+{
+"tab": "1616 Granite RECONCILED",
+"row": 47,
+"col": 7,
+"payee": "Community Archives",
+"date": "2026-07-07",
+"desc": "HOA Right to Sell",
+"amt": 465.0,
+"flags": [
+true,
+false
+]
+},
+{
+"tab": "1616 Granite RECONCILED",
+"row": 48,
+"col": 7,
+"payee": "Daniel/Roofer",
+"date": "2026-07-03",
+"desc": "Roof Repair",
+"amt": 300.0,
+"flags": [
+false,
+true
+]
+},
+{
+"tab": "1616 Granite RECONCILED",
+"row": 49,
+"col": 7,
+"payee": "Effren - 1372",
+"date": "2026-07-07",
+"desc": "Landscaping",
+"amt": 70.0,
+"flags": [
+true,
+false
+]
+},
+{
+"tab": "1616 Granite RECONCILED",
+"row": 50,
+"col": 7,
+"payee": "Julio",
+"date": "2026-06-12",
+"desc": "Landscaping",
+"amt": 200.0,
+"flags": [
+false,
+true
+]
+},
+{
+"tab": "1616 Granite RECONCILED",
+"row": 51,
+"col": 7,
+"payee": "Julio",
+"date": "2026-06-22",
+"desc": "Landscaping",
+"amt": 200.0,
+"flags": [
+false,
+true
+]
+},
+{
+"tab": "1616 Granite RECONCILED",
+"row": 52,
+"col": 7,
+"payee": "Effren - 1373",
+"date": "2026-07-15",
+"desc": "Landscaping",
+"amt": 110.0,
+"flags": [
+true,
+false
+]
+},
+{
+"tab": "1616 Granite RECONCILED",
+"row": 53,
+"col": 7,
+"payee": "Effren - 1374",
+"date": "2026-07-24",
+"desc": "Landscaping",
+"amt": 70.0,
+"flags": [
+true,
+false
+]
+},
+{
+"tab": "1616 Granite RECONCILED",
+"row": 54,
+"col": 7,
+"payee": "Home Depot",
+"date": "2026-05-08",
+"desc": "Weed and Feed",
+"amt": 107.06,
+"flags": [
+false,
+true
+]
+},
+{
+"tab": "1616 Granite RECONCILED",
+"row": 55,
+"col": 7,
+"payee": "Home Depot",
+"date": "2026-06-22",
+"desc": "Mulch",
+"amt": 264.55,
+"flags": [
+false,
+true
+]
+},
+{
+"tab": "1616 Granite RECONCILED",
+"row": 56,
+"col": 7,
+"payee": "Lowes",
+"date": "2026-06-10",
+"desc": "Floor Paint",
+"amt": 37.97,
+"flags": [
+false,
+true
+]
+},
+{
+"tab": "1616 Granite RECONCILED",
+"row": 57,
+"col": 7,
+"payee": "Sherwin WIlliams",
+"date": "2026-05-26",
+"desc": "Sherwin WIllains",
+"amt": 24.24,
+"flags": [
+false,
+true
+]
+},
+{
+"tab": "1616 Granite RECONCILED",
+"row": 58,
+"col": 7,
+"payee": "Sherwin WIlliams",
+"date": "2026-05-26",
+"desc": "Sherwin WIllains",
+"amt": 33.81,
+"flags": [
+false,
+true
+]
+},
+{
+"tab": "1616 Granite RECONCILED",
+"row": 59,
+"col": 7,
+"payee": "Verity Plumbing",
+"date": "2026-08-05",
+"desc": "Misc plumbing",
+"amt": 1526.46,
+"flags": [
+true,
+false
+]
+},
+{
+"tab": "280 Sparkling RECONCILED",
+"row": 3,
+"col": 7,
+"payee": "Home Depot",
+"date": "2026-06-20",
+"desc": "Paint Supplies",
+"amt": 43.26,
+"flags": [
+true,
+false
+]
+},
+{
+"tab": "280 Sparkling RECONCILED",
+"row": 4,
+"col": 7,
+"payee": "Home Depot",
+"date": "2026-06-21",
+"desc": "Paint Roller Trays",
+"amt": 6.47,
+"flags": [
+true,
+false
+]
+},
+{
+"tab": "280 Sparkling RECONCILED",
+"row": 5,
+"col": 7,
+"payee": "Home Depot",
+"date": "2026-06-21",
+"desc": "Irrigation Parts",
+"amt": 3.71,
+"flags": [
+true,
+false
+]
+},
+{
+"tab": "280 Sparkling RECONCILED",
+"row": 6,
+"col": 7,
+"payee": "Home Depot",
+"date": "2026-06-22",
+"desc": "Drop Cloth",
+"amt": 32.45,
+"flags": [
+true,
+false
+]
+},
+{
+"tab": "280 Sparkling RECONCILED",
+"row": 7,
+"col": 7,
+"payee": "Home Depot",
+"date": "2026-06-22",
+"desc": "Celing Paint",
+"amt": 14.27,
+"flags": [
+true,
+false
+]
+},
+{
+"tab": "280 Sparkling RECONCILED",
+"row": 8,
+"col": 7,
+"payee": "Home Depot",
+"date": "2026-06-22",
+"desc": "Paint",
+"amt": 12.54,
+"flags": [
+true,
+false
+]
+},
+{
+"tab": "280 Sparkling RECONCILED",
+"row": 9,
+"col": 7,
+"payee": "Home Depot",
+"date": "2026-06-23",
+"desc": "Roller Covers",
+"amt": 10.8,
+"flags": [
+true,
+false
+]
+},
+{
+"tab": "280 Sparkling RECONCILED",
+"row": 10,
+"col": 7,
+"payee": "Home Depot",
+"date": "2026-06-23",
+"desc": "Wall Texture",
+"amt": 21.63,
+"flags": [
+true,
+false
+]
+},
+{
+"tab": "280 Sparkling RECONCILED",
+"row": 11,
+"col": 7,
+"payee": "Sherwin Williams",
+"date": "2026-06-23",
+"desc": "Paint",
+"amt": 118.97,
+"flags": [
+true,
+false
+]
+},
+{
+"tab": "280 Sparkling RECONCILED",
+"row": 12,
+"col": 7,
+"payee": "Home Depot",
+"date": "2026-06-28",
+"desc": "PVC Couplings",
+"amt": 4.03,
+"flags": [
+true,
+false
+]
+},
+{
+"tab": "280 Sparkling RECONCILED",
+"row": 13,
+"col": 7,
+"payee": "Home Depot",
+"date": "2026-06-28",
+"desc": "PVC",
+"amt": 2.79,
+"flags": [
+true,
+false
+]
+},
+{
+"tab": "280 Sparkling RECONCILED",
+"row": 14,
+"col": 7,
+"payee": "Home Depot",
+"date": "2026-06-28",
+"desc": "PVC Couplings",
+"amt": 2.42,
+"flags": [
+true,
+false
+]
+},
+{
+"tab": "280 Sparkling RECONCILED",
+"row": 15,
+"col": 7,
+"payee": "Home Depot",
+"date": "2026-06-28",
+"desc": "Painters Towels",
+"amt": 9.93,
+"flags": [
+true,
+false
+]
+},
+{
+"tab": "280 Sparkling RECONCILED",
+"row": 16,
+"col": 7,
+"payee": "Home Depot",
+"date": "2026-06-28",
+"desc": "PVC Cement",
+"amt": 16.22,
+"flags": [
+true,
+false
+]
+},
+{
+"tab": "280 Sparkling RECONCILED",
+"row": 17,
+"col": 7,
+"payee": "Julio",
+"date": "2026-06-04",
+"desc": "Landscaping",
+"amt": 200.0,
+"flags": [
+true,
+false
+]
+},
+{
+"tab": "280 Sparkling RECONCILED",
+"row": 18,
+"col": 7,
+"payee": "Home Depot",
+"date": "2026-06-27",
+"desc": "PVC Couplings",
+"amt": 2.01,
+"flags": [
+false,
+true
+]
+},
+{
+"tab": "280 Sparkling RECONCILED",
+"row": 19,
+"col": 7,
+"payee": "Effren - 1372",
+"date": "2026-07-07",
+"desc": "Landscaping",
+"amt": 55.0,
+"flags": [
+true,
+false
+]
+},
+{
+"tab": "280 Sparkling RECONCILED",
+"row": 20,
+"col": 7,
+"payee": "Mission Real Estate Group",
+"date": "2026-06-25",
+"desc": "MLS Listing",
+"amt": 299.0,
+"flags": [
+false,
+true
+]
+},
+{
+"tab": "280 Sparkling RECONCILED",
+"row": 21,
+"col": 7,
+"payee": "Effren - 1373",
+"date": "2026-07-19",
+"desc": "Landscaping",
+"amt": 110.0,
+"flags": [
+true,
+false
+]
+},
+{
+"tab": "280 Sparkling RECONCILED",
+"row": 22,
+"col": 7,
+"payee": "Community Archives",
+"date": "2026-07-24",
+"desc": "HOA release",
+"amt": 485.0,
+"flags": [
+true,
+false
+]
+},
+{
+"tab": "280 Sparkling RECONCILED",
+"row": 23,
+"col": 7,
+"payee": "NEXGEN SEAMLESS GUTTERS",
+"date": "2026-08-03",
+"desc": "Roof Repair",
+"amt": 200.0,
+"flags": [
+false,
+true
+]
+},
+{
+"tab": "280 Sparkling RECONCILED",
+"row": 24,
+"col": 7,
+"payee": "Effren - 1374",
+"date": "2026-08-05",
+"desc": "Landscaping",
+"amt": 55.0,
+"flags": [
+true,
+false
+]
+},
+{
+"tab": "280 Sparkling RECONCILED",
+"row": 25,
+"col": 7,
+"payee": "Home Depot",
+"date": "2026-06-23",
+"desc": "Mulch",
+"amt": 248.15,
+"flags": [
+false,
+true
+]
+},
+{
+"tab": "280 Sparkling RECONCILED",
+"row": 26,
+"col": 7,
+"payee": "Home Depot",
+"date": "2026-06-23",
+"desc": "Laandscape Staples",
+"amt": 60.56,
+"flags": [
+false,
+true
+]
+},
+{
+"tab": "280 Sparkling RECONCILED",
+"row": 27,
+"col": 7,
+"payee": "Home Depot",
+"date": "2026-07-01",
+"desc": "PVC Couplings",
+"amt": 1.33,
+"flags": [
+false,
+true
+]
+},
+{
+"tab": "280 Sparkling RECONCILED",
+"row": 28,
+"col": 7,
+"payee": "Julio",
+"date": "2026-06-12",
+"desc": "Landscaping",
+"amt": 200.0,
+"flags": [
+false,
+true
+]
+},
+{
+"tab": "280 Sparkling RECONCILED",
+"row": 29,
+"col": 7,
+"payee": "Home Depot",
+"date": "2026-06-28",
+"desc": "PVC",
+"amt": 6.47,
+"flags": [
+false,
+true
+]
+},
+{
+"tab": "280 Sparkling RECONCILED",
+"row": 30,
+"col": 7,
+"payee": "Home Depot",
+"date": "2026-06-27",
+"desc": "PVC",
+"amt": 5.72,
+"flags": [
+false,
+true
+]
+},
+{
+"tab": "280 Sparkling RECONCILED",
+"row": 31,
+"col": 7,
+"payee": "Walmart",
+"date": "2026-06-27",
+"desc": "Fertilizer",
+"amt": 140.73,
+"flags": [
+false,
+true
+]
+},
+{
+"tab": "280 Sparkling RECONCILED",
+"row": 32,
+"col": 7,
+"payee": "Home Depot",
+"date": "2026-06-02",
+"desc": "Door Lock Set",
+"amt": 34.01,
+"flags": [
+false,
+true
+]
+},
+{
+"tab": "280 Sparkling RECONCILED",
+"row": 36,
+"col": 7,
+"payee": "TXU",
+"date": "2026-06-16",
+"desc": "Electricity",
+"amt": 161.17,
+"flags": [
+true,
+false
+]
+},
+{
+"tab": "280 Sparkling RECONCILED",
+"row": 37,
+"col": 7,
+"payee": "Waxahachie Water",
+"date": "2026-06-17",
+"desc": "Water",
+"amt": 200.0,
+"flags": [
+false,
+true
+]
+},
+{
+"tab": "280 Sparkling RECONCILED",
+"row": 38,
+"col": 7,
+"payee": "TXU",
+"date": "2026-08-05",
+"desc": "Electricity",
+"amt": 228.64,
+"flags": [
+true,
+false
+]
+},
+{
+"tab": "280 Sparkling RECONCILED",
+"row": 39,
+"col": 7,
+"payee": "Waxahachie Water",
+"date": "2026-08-05",
+"desc": "Water",
+"amt": 187.5,
+"flags": [
+true,
+false
+]
+},
+{
+"tab": "Sparkling for Title",
+"row": 3,
+"col": 2,
+"payee": "Home Depot",
+"date": "2026-06-20",
+"desc": "Paint Supplies",
+"amt": 43.26,
+"flags": []
+},
+{
+"tab": "Sparkling for Title",
+"row": 3,
+"col": 7,
+"payee": "TXU",
+"date": "2026-06-16",
+"desc": "Electricity",
+"amt": 161.17,
+"flags": []
+},
+{
+"tab": "Sparkling for Title",
+"row": 4,
+"col": 2,
+"payee": "Home Depot",
+"date": "2026-06-21",
+"desc": "Paint Roller Trays",
+"amt": 6.47,
+"flags": []
+},
+{
+"tab": "Sparkling for Title",
+"row": 4,
+"col": 7,
+"payee": "Waxahachie Water",
+"date": "2026-06-17",
+"desc": "Water",
+"amt": 200.0,
+"flags": []
+},
+{
+"tab": "Sparkling for Title",
+"row": 5,
+"col": 2,
+"payee": "Home Depot",
+"date": "2026-06-21",
+"desc": "Irrigation Parts",
+"amt": 3.71,
+"flags": []
+},
+{
+"tab": "Sparkling for Title",
+"row": 5,
+"col": 7,
+"payee": "TXU",
+"date": "2026-08-05",
+"desc": "Electricity",
+"amt": 228.64,
+"flags": []
+},
+{
+"tab": "Sparkling for Title",
+"row": 6,
+"col": 2,
+"payee": "Home Depot",
+"date": "2026-06-22",
+"desc": "Drop Cloth",
+"amt": 32.45,
+"flags": []
+},
+{
+"tab": "Sparkling for Title",
+"row": 6,
+"col": 7,
+"payee": "Waxahachie Water",
+"date": "2026-08-05",
+"desc": "Water",
+"amt": 187.5,
+"flags": []
+},
+{
+"tab": "Sparkling for Title",
+"row": 7,
+"col": 2,
+"payee": "Home Depot",
+"date": "2026-06-22",
+"desc": "Celing Paint",
+"amt": 14.27,
+"flags": []
+},
+{
+"tab": "Sparkling for Title",
+"row": 8,
+"col": 2,
+"payee": "Home Depot",
+"date": "2026-06-22",
+"desc": "Paint",
+"amt": 12.54,
+"flags": []
+},
+{
+"tab": "Sparkling for Title",
+"row": 9,
+"col": 2,
+"payee": "Home Depot",
+"date": "2026-06-23",
+"desc": "Roller Covers",
+"amt": 10.8,
+"flags": []
+},
+{
+"tab": "Sparkling for Title",
+"row": 10,
+"col": 2,
+"payee": "Home Depot",
+"date": "2026-06-23",
+"desc": "Wall Texture",
+"amt": 21.63,
+"flags": []
+},
+{
+"tab": "Sparkling for Title",
+"row": 11,
+"col": 2,
+"payee": "Sherwin Williams",
+"date": "2026-06-23",
+"desc": "Paint",
+"amt": 118.97,
+"flags": []
+},
+{
+"tab": "Sparkling for Title",
+"row": 12,
+"col": 2,
+"payee": "Home Depot",
+"date": "2026-06-28",
+"desc": "PVC Couplings",
+"amt": 4.03,
+"flags": []
+},
+{
+"tab": "Sparkling for Title",
+"row": 13,
+"col": 2,
+"payee": "Home Depot",
+"date": "2026-06-28",
+"desc": "PVC",
+"amt": 2.79,
+"flags": []
+},
+{
+"tab": "Sparkling for Title",
+"row": 14,
+"col": 2,
+"payee": "Home Depot",
+"date": "2026-06-28",
+"desc": "PVC Couplings",
+"amt": 2.42,
+"flags": []
+},
+{
+"tab": "Sparkling for Title",
+"row": 15,
+"col": 2,
+"payee": "Home Depot",
+"date": "2026-06-28",
+"desc": "Painters Towels",
+"amt": 9.93,
+"flags": []
+},
+{
+"tab": "Sparkling for Title",
+"row": 16,
+"col": 2,
+"payee": "Home Depot",
+"date": "2026-06-28",
+"desc": "PVC Cement",
+"amt": 16.22,
+"flags": []
+},
+{
+"tab": "Sparkling for Title",
+"row": 17,
+"col": 2,
+"payee": "Home Depot",
+"date": "2026-06-02",
+"desc": "Door Lockset",
+"amt": 34.01,
+"flags": []
+},
+{
+"tab": "Sparkling for Title",
+"row": 18,
+"col": 2,
+"payee": "Julio Camacho",
+"date": "2026-06-04",
+"desc": "Landscaping",
+"amt": 200.0,
+"flags": []
+},
+{
+"tab": "Sparkling for Title",
+"row": 19,
+"col": 2,
+"payee": "Home Depot",
+"date": "2026-06-27",
+"desc": "PVC Couplings",
+"amt": 2.01,
+"flags": []
+},
+{
+"tab": "Sparkling for Title",
+"row": 20,
+"col": 2,
+"payee": "Falcon Creek Lawn Care",
+"date": "2026-07-07",
+"desc": "Landscaping",
+"amt": 55.0,
+"flags": []
+},
+{
+"tab": "Sparkling for Title",
+"row": 21,
+"col": 2,
+"payee": "Mission Real Estate Group",
+"date": "2026-06-25",
+"desc": "MLS Listing",
+"amt": 299.0,
+"flags": []
+},
+{
+"tab": "Sparkling for Title",
+"row": 22,
+"col": 2,
+"payee": "Juanito Garcia",
+"date": "2026-06-28",
+"desc": "Painting",
+"amt": 1000.0,
+"flags": []
+},
+{
+"tab": "Sparkling for Title",
+"row": 23,
+"col": 2,
+"payee": "Juanito Garcia",
+"date": "2026-06-29",
+"desc": "Irrigation Repair",
+"amt": 1200.0,
+"flags": []
+},
+{
+"tab": "Sparkling for Title",
+"row": 24,
+"col": 2,
+"payee": "Falcon Creek Lawn Care",
+"date": "2026-07-19",
+"desc": "Landscaping",
+"amt": 110.0,
+"flags": []
+},
+{
+"tab": "Sparkling for Title",
+"row": 25,
+"col": 2,
+"payee": "Community Archives",
+"date": "2026-07-24",
+"desc": "HOA Release",
+"amt": 485.0,
+"flags": []
+},
+{
+"tab": "Sparkling for Title",
+"row": 26,
+"col": 2,
+"payee": "NEXGEN SEAMLESS GUTTERS",
+"date": "2026-08-03",
+"desc": "Roof Repair",
+"amt": 200.0,
+"flags": []
+},
+{
+"tab": "Sparkling for Title",
+"row": 27,
+"col": 2,
+"payee": "Falcon Creek Lawn Care",
+"date": "2026-08-05",
+"desc": "Landscaping",
+"amt": 55.0,
+"flags": []
+}
+]
