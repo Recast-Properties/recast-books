@@ -35,7 +35,7 @@ function listBooksMail() {
   var LIMIT_MS = 230000;          // stay well inside the 6-minute ceiling
   var props = PropertiesService.getScriptProperties();
   var cur = JSON.parse(props.getProperty('bm_cursor') || '{"w":0,"off":0,"part":0}');
-  var mailbox = Session.getActiveUser().getEmail().split('@')[0] || 'unknown';
+  var mailbox = props.getProperty('MAILBOX') || 'paul';   // same property the poller uses
   var rows = [];
   var stopped = false;
 
