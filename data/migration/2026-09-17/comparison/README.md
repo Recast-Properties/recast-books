@@ -4,8 +4,8 @@ Documents: 412  status {'dismissed': 111, 'pending': 218, 'posted': 80, 'error':
 Hold reasons: [('NOT_POST_VERDICT', 184), ('PAYER_UNKNOWN', 132), ('LOW_CONFIDENCE', 128), ('TOTAL_MISMATCH', 114), ('ZERO_TOTAL', 32), ('OVER_CEILING', 12), ('NEEDS_HUMAN_274D', 5), ('BAD_DATE', 1), ('ENTRY_INVALID:BAD_ACCOUNT', 1), ('ENTRY_INVALID:BAD_AMOUNT', 1)]
 
 ## A · documents with an old-sheet id: 180  (net equal: 171; net differs: 9; property differs from old tab: 0)
-## B · documents matched by vendor/date/amount: 232  {'junk (dismissed)': 92, 'in mail, not in old books': 97, 'property row now documented': 21, 'manual row now documented': 22}
-## C · old rows nothing covers: 699  by (tab, had a message id): {('RECAST BIZ', False): 53, ('881 Newport', False): 29, ('469 Brushwood', False): 18, ('366 Mesa', False): 25, ('136 Bowling Green', False): 47, ('104 Ashburne', False): 418, ('1616 Granite RECONCILED', False): 48, ('280 Sparkling RECONCILED', False): 33, ('Sparkling for Title', False): 28}
+## B · documents matched by vendor/date/amount: 232  {'twin': 27, 'junk (dismissed)': 92, 'in mail, not in old books': 71, 'property row now documented': 20, 'manual row now documented': 22}
+## C · old rows nothing covers: 712  by (tab, had a message id): {('RECAST BIZ', False): 53, ('881 Newport', False): 29, ('469 Brushwood', False): 30, ('366 Mesa', False): 26, ('136 Bowling Green', False): 47, ('104 Ashburne', False): 418, ('1616 Granite RECONCILED', False): 48, ('280 Sparkling RECONCILED', False): 33, ('Sparkling for Title', False): 28}
 ## D · vendor-days where net differs: 302  (sum of diffs $-23,123.93)
 
 Largest net differences:

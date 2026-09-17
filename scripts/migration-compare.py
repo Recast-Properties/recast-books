@@ -77,8 +77,23 @@ def main():
                       "status": e["status"], "verdict": e["verdict"], "holds": ",".join(e["holds"]), "paid_from": e["paid_from"]})
             used_rows.update(r["_k"] for r in rs); used_docs.add(docId)
 
+    # ---- twins: the same receipt arriving twice (original + Paul's forward, or a re-send).
+    # Keyed on vendor + invoice number, or vendor + date + total when there is no invoice.
+    # The copy that carries the old-sheet id wins; the other is reported as its twin, never
+    # as "in mail, not in old books". (The gate's own invoice-number rail refuses the twin
+    # at post time; this just keeps the report honest.)
+    twin_of = {}
+    seen = {}
+    for docId, e in sorted(env.items(), key=lambda kv: (kv[1]["msg"] not in by_msg, kv[0])):
+        if e["verdict"] == "dismiss": continue
+        k = (norm_vendor(e["vendor"]), e["invoice"].strip().lower()) if e["invoice"].strip() else (norm_vendor(e["vendor"]), e["date"], e["total"])
+        if k in seen and k[0]: twin_of[docId] = seen[k]
+        else: seen[k] = docId
+    B = [{"docId": d, "date": env[d]["date"], "vendor": env[d]["vendor"], "new_cents": env[d]["total"], "matched_rows": 0, "old_cents": 0, "diff_cents": "",
+          "old_where": "", "new_where": "", "status": env[d]["status"], "verdict": env[d]["verdict"], "holds": ",".join(env[d]["holds"]), "paid_from": env[d]["paid_from"],
+          "subject": env[d]["subject"], "bucket": f"twin of {t}"} for d, t in twin_of.items() if d not in used_docs]
+    used_docs.update(d for d in twin_of if d not in used_docs)
     # ---- B. documents without a sheet id: match old rows by vendor + date window + amount ----
-    B = []
     idx = collections.defaultdict(list)
     for r in rows:
         if r["_k"] in used_rows or not r.get("date"): continue
@@ -135,7 +150,7 @@ def main():
     # ---- summary ----------------------------------------------------------------------
     st = collections.Counter(e["status"] for e in env.values()); vd = collections.Counter(e["verdict"] for e in env.values())
     hold = collections.Counter(h for e in env.values() for h in e["holds"])
-    Aexact = sum(1 for x in A if x["diff_cents"] == 0); Bb = collections.Counter(x["bucket"] for x in B)
+    Aexact = sum(1 for x in A if x["diff_cents"] == 0); Bb = collections.Counter(x["bucket"].split(" of ")[0] for x in B)
     Cc = collections.Counter((x["tab"], x["had_msg"]) for x in C)
     reroute = sum(1 for x in A if x["old_where"] and x["new_where"] and x["old_where"].split("/")[0] != x["new_where"].split(";")[0]
                   and not (x["old_where"].startswith("RECAST BIZ") and x["new_where"] == "OVERHEAD"))

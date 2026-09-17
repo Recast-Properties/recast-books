@@ -1,7 +1,33 @@
 docId,date,vendor,new_cents,matched_rows,old_cents,diff_cents,old_where,new_where,status,verdict,holds,paid_from,subject,bucket
+gm-19cd51fd9bd47e79,2026-03-09,Uber,2064,0,0,,,,posted,post,,PAUL,[Personal] Your Monday morning trip with Uber,twin of gm-19cd2e224f6f1a62
+gm-19cf195d283b5d97,2026-03-12,Atmos Energy,14159,0,0,,,,pending,hold,"NOT_POST_VERDICT,LOW_CONFIDENCE,TOTAL_MISMATCH",UNKNOWN,Fwd: Your Atmos Energy Bill is Available online,twin of gm-19ce9537b630b426
+gm-19d03d98b3a5a7ba,2026-03-18,Uber,1413,0,0,,,,pending,post,LOW_CONFIDENCE,PAUL,[Personal] Your Wednesday morning trip with Uber,twin of gm-19d018c094ba828a
+gm-19d2b63316714ed9,2026-03-25,The Home Depot,24150,0,0,,,,pending,hold,"NOT_POST_VERDICT,LOW_CONFIDENCE,TOTAL_MISMATCH",UNKNOWN,"Order #WK19546976 Shipped: Your order is on its way, Paul!",twin of gm-19d25017467ed73d
+gm-19d5f817ea2b6572,2026-04-05,The Home Depot,23072,0,0,,,,pending,hold,"NOT_POST_VERDICT,LOW_CONFIDENCE,PAYER_UNKNOWN",UNKNOWN,"Order #WN53994669 Shipped: Your order is on its way, Paul!",twin of gm-19d5e0ce39d91e0d
+gm-19fab18f36381981,2026-07-28,Airtable,2400,0,0,,,,pending,post,PAYER_UNKNOWN,UNKNOWN,Fwd: Your Airtable statement for the Recast Properties works,twin of gm-19fab055cbb61f0f
+gm-19fbdd4e5aa09d1c,2026-08-01,"Anthropic, PBC",1008,0,0,,,,pending,post,PAYER_UNKNOWN,UNKNOWN,"Fwd: Your receipt from Anthropic, PBC #2135-8253-3824",twin of gm-19fbdd2ef4ea4e0d
+gm-19fbe2a3ee2f7a2a,2026-08-01,"Anthropic, PBC",1018,0,0,,,,pending,post,PAYER_UNKNOWN,UNKNOWN,"Fwd: Your receipt from Anthropic, PBC #2032-8278-9339",twin of gm-19fbe29ea09a37b5
+gm-19fbe65982558c20,2026-08-01,"Anthropic, PBC",1032,0,0,,,,pending,post,PAYER_UNKNOWN,UNKNOWN,"Fwd: Your receipt from Anthropic, PBC #2121-0703-9633",twin of gm-19fbe56019131180
+gm-19fbf1e7616016f5,2026-08-01,"Anthropic, PBC",1009,0,0,,,,pending,post,PAYER_UNKNOWN,UNKNOWN,"Fwd: Your receipt from Anthropic, PBC #2142-9322-5168",twin of gm-19fbee3afeeecc0a
+gm-19fbf1eacc26b061,2026-08-01,"Anthropic, PBC",1026,0,0,,,,pending,post,PAYER_UNKNOWN,UNKNOWN,"Fwd: Your receipt from Anthropic, PBC #2236-8917-9024",twin of gm-19fbf12e03e5f1aa
+gm-19fbf73d7c005a52,2026-08-01,"Anthropic, PBC",1012,0,0,,,,pending,post,PAYER_UNKNOWN,UNKNOWN,"Fwd: Your receipt from Anthropic, PBC #2076-7130-2448",twin of gm-19fbf41426b2ff88
+gm-19fbf73f9efeb96a,2026-08-01,"Anthropic, PBC",1035,0,0,,,,pending,post,"LOW_CONFIDENCE,PAYER_UNKNOWN",UNKNOWN,"Fwd: Your receipt from Anthropic, PBC #2950-2647-2068",twin of gm-19fbf712d46e54d7
+gm-19fc3d4987729c55,2026-08-02,Uber,12503,0,0,,,,pending,post,PAYER_UNKNOWN,UNKNOWN,[Personal] Your Sunday afternoon trip with Uber,twin of gm-19fc5fc8e6e71cfd
+gm-19fc94ab6c53f72a,2026-08-03,TXU Energy,16402,0,0,,,,pending,hold,"NOT_POST_VERDICT,LOW_CONFIDENCE,TOTAL_MISMATCH",UNKNOWN,Your bill’s ready,twin of gm-19f25012d4d53e5c
+gm-19fedc399c40210d,2026-06-30,"CoreLogic Solutions, LLC (Cotality)",20000,0,0,,,,pending,post,"LOW_CONFIDENCE,PAYER_UNKNOWN",UNKNOWN,Fwd: Recast Properties LLC | 2010-676365 | Past Due Notice,twin of gm-19f3911357838426
+gm-19ffd2fc94389366,2026-08-13,"Anthropic, PBC",10000,0,0,,,,pending,hold,"NOT_POST_VERDICT,LOW_CONFIDENCE",PAUL,"Fwd: Your receipt from Anthropic, PBC #2686-5099-4443",twin of gm-19ffc9d2c8640a96
+gm-1a0001f6e0be51ac,2026-08-14,"Netlify, Inc.",2000,0,0,,,,pending,post,"LOW_CONFIDENCE,PAYER_UNKNOWN",UNKNOWN,"Fwd: Payment received for Netlify, Inc. invoice (#SFWGOE-000",twin of gm-19ffdd917bf87cc8
+gm-1a02640992bd98cb,2026-08-21,"Anthropic, PBC",1166,0,0,,,,pending,post,PAYER_UNKNOWN,UNKNOWN,"Fwd: Your receipt from Anthropic, PBC #2323-6125-6968",twin of gm-1a0263487ec5681d
+gm-1a034dad57b6c4b6,2026-08-24,"Anthropic, PBC",1012,0,0,,,,pending,post,PAYER_UNKNOWN,UNKNOWN,"Fwd: Your receipt from Anthropic, PBC #2248-9349-9496",twin of gm-1a034a3e530b278d
+gm-1a036c3ddc757a80,2026-08-24,"Anthropic, PBC",1019,0,0,,,,pending,post,PAYER_UNKNOWN,UNKNOWN,"Fwd: Your receipt from Anthropic, PBC #2929-8845-3599",twin of gm-1a03655e62fd3a7b
+gm-1a036c3fb3b44d63,2026-08-24,"Anthropic, PBC",1033,0,0,,,,pending,post,PAYER_UNKNOWN,UNKNOWN,"Fwd: Your receipt from Anthropic, PBC #2716-1965-0164",twin of gm-1a03684911c406b7
+gm-1a0640d53a18c970,2026-09-02,The Home Depot,15805,0,0,,,,pending,post,PAYER_UNKNOWN,UNKNOWN,Fwd: We received your order!,twin of gm-1a0637f9de324f8d
+gm-1a06712801707981,2026-09-03,"Telnyx, LLC",500,0,0,,,,pending,post,LOW_CONFIDENCE,PAUL,Fwd: [Telnyx LLC] Payment Success,twin of gm-1a06712197566970
+gm-1a0929e5d3d0882c,2026-09-11,"Anthropic, PBC",1353,0,0,,,,dismissed,post,,PAUL,"Fwd: Your receipt from Anthropic, PBC #2674-0381-8290",twin of gm-1a0927ee3ea81c8c
+gm-1a09c42a0bd2824b,2026-09-13,"Anthropic, PBC",10000,0,0,,,,posted,post,,PAUL,"Your receipt from Anthropic, PBC #2268-3974-1772",twin of gm-1a09c4ab97c57360
+gm-1a09daca14e9caa5,2026-09-13,"Netlify, Inc.",0,0,0,,,,dismissed,hold,"NOT_POST_VERDICT,LOW_CONFIDENCE,ZERO_TOTAL",UNKNOWN,"Payment received for Netlify, Inc. invoice (#SFWGOE-00008)",twin of gm-1a09dd4b4cfb2200
 gm-19e2ef35ec86793e,2026-05-16,VistaPrint,0,0,0,,,,dismissed,dismiss,"NOT_POST_VERDICT,ZERO_TOTAL",UNKNOWN,Your order is on its way,junk (dismissed)
 gm-1a0abd07f9ef8da3,2026-09-16,Uber Eats,0,0,0,,,,dismissed,dismiss,"NOT_POST_VERDICT,ZERO_TOTAL",UNKNOWN,Delicious deals are waiting for your next orders 🍴,junk (dismissed)
-gm-1a09daca14e9caa5,2026-09-13,"Netlify, Inc.",0,0,0,,,,dismissed,hold,"NOT_POST_VERDICT,LOW_CONFIDENCE,ZERO_TOTAL",UNKNOWN,"Payment received for Netlify, Inc. invoice (#SFWGOE-00008)","in mail, not in old books"
 gm-19c69f8e2ceb81a7,2026-02-13,Atmos Energy,64260,0,0,,,,pending,hold,"NOT_POST_VERDICT,OVER_CEILING,TOTAL_MISMATCH",UNKNOWN,Your Atmos Energy Bill is Available online,"in mail, not in old books"
 gm-1a0360f3727f13d6,2026-08-24,"Anthropic, PBC",1001,0,0,,,OVERHEAD,pending,post,PAYER_UNKNOWN,UNKNOWN,"Fwd: Your receipt from Anthropic, PBC #2363-5979-4769","in mail, not in old books"
 gm-19d2a51f5dffc8be,2026-03-26,The Home Depot,-5314,8,14383,-19697,104 Ashburne/;104 Ashburne/;104 Ashburne/;104 Ashburne/;104 Ashburne/;104 Ashburne/;104 Ashburne/;104 Ashburne/,,pending,hold,"NOT_POST_VERDICT,LOW_CONFIDENCE,ZERO_TOTAL,TOTAL_MISMATCH",PAUL,Your Electronic Receipt,property row now documented
@@ -32,10 +58,7 @@ gm-19bc2ac9659bedac,2026-01-15,The Home Depot,24867,3,2331,22536,RECAST BIZ/Tool
 gm-1a01b3905e998087,2026-08-19,Uber Eats,3416,0,0,,,,dismissed,dismiss,"NOT_POST_VERDICT,TOTAL_MISMATCH",PAUL,[Personal] Your Wednesday morning order with Uber Eats,junk (dismissed)
 gm-19d2bc665d8c4747,2026-03-19,The Home Depot,50371,1,54527,-4156,104 Ashburne/,,pending,hold,"NOT_POST_VERDICT,LOW_CONFIDENCE,OVER_CEILING,TOTAL_MISMATCH",UNKNOWN,"Your order's ready! Pick it up by Thursday, April 2",property row now documented
 gm-1a0360f5a5d640a9,2026-08-24,"Anthropic, PBC",1029,0,0,,,OVERHEAD,pending,post,PAYER_UNKNOWN,UNKNOWN,"Fwd: Your receipt from Anthropic, PBC #2945-3640-9269","in mail, not in old books"
-gm-19fbf1e7616016f5,2026-08-01,"Anthropic, PBC",1009,0,0,,,OVERHEAD,pending,post,PAYER_UNKNOWN,UNKNOWN,"Fwd: Your receipt from Anthropic, PBC #2142-9322-5168","in mail, not in old books"
-gm-1a0929e5d3d0882c,2026-09-11,"Anthropic, PBC",1353,0,0,,,OVERHEAD,dismissed,post,,PAUL,"Fwd: Your receipt from Anthropic, PBC #2674-0381-8290","in mail, not in old books"
 gm-19c8b34b8addc1ea,2026-01-18,American Airlines,57560,0,0,,,OVERHEAD,pending,post,"OVER_CEILING,PAYER_UNKNOWN",UNKNOWN,Fwd: 02/01/26,"in mail, not in old books"
-gm-19fedc399c40210d,2026-06-30,"CoreLogic Solutions, LLC (Cotality)",20000,0,0,,,OVERHEAD,pending,post,"LOW_CONFIDENCE,PAYER_UNKNOWN",UNKNOWN,Fwd: Recast Properties LLC | 2010-676365 | Past Due Notice,"in mail, not in old books"
 gm-19d74d499464e068,2026-04-09,Uber Eats,8751,0,0,,,,dismissed,dismiss,"NOT_POST_VERDICT,TOTAL_MISMATCH",PAUL,[Personal] Your Thursday evening order with Uber Eats,junk (dismissed)
 gm-19eaa297fd46db4d,2026-06-08,Uber Eats,6036,0,0,,,,dismissed,dismiss,"NOT_POST_VERDICT,TOTAL_MISMATCH",PAUL,[Personal] Your Monday evening order with Uber Eats,junk (dismissed)
 gm-19d25017467ed73d,2026-03-25,The Home Depot,24150,3,8076,16074,104 Ashburne/;104 Ashburne/;104 Ashburne/,,pending,hold,"NOT_POST_VERDICT,LOW_CONFIDENCE,TOTAL_MISMATCH",UNKNOWN,Order confirmed. We're processing your order now!,property row now documented
@@ -43,7 +66,6 @@ gm-19dd8aee1f2fb6b2,2026-04-29,Uber,8598,0,0,,,OVERHEAD,posted,post,,PAUL,[Perso
 gm-19fbd6f62ead3153,2026-08-01,TXU Energy,0,0,0,,,,dismissed,dismiss,"NOT_POST_VERDICT,ZERO_TOTAL",UNKNOWN,"Easy ways to pay your bill, Pauil",junk (dismissed)
 gm-1a04a3897d07eefb,2026-08-28,Uber Eats,7325,0,0,,,,dismissed,dismiss,"NOT_POST_VERDICT,TOTAL_MISMATCH",PAUL,[Personal] Your Friday afternoon order with Uber Eats,junk (dismissed)
 gm-1a0645dc3777ea76,2026-09-02,"Telnyx, LLC",500,0,0,,,OVERHEAD,dismissed,dismiss,,PAUL,Fwd: [Telnyx LLC] Payment Success,junk (dismissed)
-gm-1a0001f6e0be51ac,2026-08-14,"Netlify, Inc.",2000,0,0,,,OVERHEAD,pending,post,"LOW_CONFIDENCE,PAYER_UNKNOWN",UNKNOWN,"Fwd: Payment received for Netlify, Inc. invoice (#SFWGOE-000","in mail, not in old books"
 gm-19e8eaeb03cf2a86,2026-06-03,Uber,11398,0,0,,,OVERHEAD,posted,post,,PAUL,[Personal] Your Wednesday morning trip with Uber,"in mail, not in old books"
 gm-1a09257dfd763708,2026-09-11,"Anthropic, PBC",1034,0,0,,,,dismissed,dismiss,"NOT_POST_VERDICT,TOTAL_MISMATCH",1402,"Fwd: Your receipt from Anthropic, PBC #2142-6159-3565",junk (dismissed)
 gm-19f6b62d3d65e926,2026-07-10,City of Waxahachie - Water Billing Department,91392,0,0,,,1616 Granite,pending,post,"OVER_CEILING,PAYER_UNKNOWN",UNKNOWN,City of Waxachie Utility Bill,"in mail, not in old books"
@@ -54,7 +76,6 @@ gm-1a08ad44e24175cc,2026-09-09,Uber,3239,0,0,,,OVERHEAD,posted,post,,PAUL,[Perso
 gm-19ea514de14ef2ca,2026-06-07,Uber Eats,3871,0,0,,,,dismissed,dismiss,"NOT_POST_VERDICT,TOTAL_MISMATCH",PAUL,[Personal] Your Sunday evening order with Uber Eats,junk (dismissed)
 gm-19ca95245c0779f1,2026-03-01,Uber,4398,0,0,,,OVERHEAD,posted,post,,PAUL,[Personal] Your Sunday morning trip with Uber,"in mail, not in old books"
 gm-19fa9491039be96b,2026-07-28,Texas Secretary of State,200,0,0,,,OVERHEAD,posted,post,,PAUL,Fwd: Packing Slip for Session : 072826FZ4657 (email id: 5857,"in mail, not in old books"
-gm-19fbf73d7c005a52,2026-08-01,"Anthropic, PBC",1012,0,0,,,OVERHEAD,pending,post,PAYER_UNKNOWN,UNKNOWN,"Fwd: Your receipt from Anthropic, PBC #2076-7130-2448","in mail, not in old books"
 gm-1a091043bc28193b,2026-09-11,TXU Energy,20498,0,0,,,,pending,hold,"NOT_POST_VERDICT,LOW_CONFIDENCE,TOTAL_MISMATCH",UNKNOWN,Your payment's complete,"in mail, not in old books"
 gm-19c8b34790f6f503,2026-01-10,American Airlines,31650,0,0,,,OVERHEAD,posted,post,,PAUL,Fwd: 01/17/26,"in mail, not in old books"
 gm-1a002503a4424f00,2026-08-13,Atmos Energy,3160,0,0,,,,pending,hold,"NOT_POST_VERDICT,LOW_CONFIDENCE,TOTAL_MISMATCH",UNKNOWN,Your Atmos Energy Bill is Available online,"in mail, not in old books"
@@ -71,24 +92,19 @@ gm-19e519b814eef443,2026-05-22,Uber Eats,2560,0,0,,,,dismissed,dismiss,"NOT_POST
 gm-19faef91b36eaf81,2026-07-29,Uber Eats,3525,0,0,,,,dismissed,dismiss,"NOT_POST_VERDICT,TOTAL_MISMATCH",PAUL,[Personal] Your Wednesday morning order with Uber Eats,junk (dismissed)
 gm-1a06da589b0fc446,2026-09-04,"Lowe's Home Centers, LLC",27050,3,3620,23430,469 Brushwood/;469 Brushwood/;469 Brushwood/,469 Brushwood,pending,post,LOW_CONFIDENCE,1401,Your Lowe's Purchase Receipt,property row now documented
 gm-1a09ba0217448a08,2026-09-13,Uber Eats,2651,0,0,,,,dismissed,dismiss,"NOT_POST_VERDICT,TOTAL_MISMATCH",PAUL,[Personal] Your Sunday morning order with Uber Eats,junk (dismissed)
-gm-1a09c42a0bd2824b,2026-09-13,"Anthropic, PBC",10000,0,0,,,OVERHEAD,posted,post,,PAUL,"Your receipt from Anthropic, PBC #2268-3974-1772","in mail, not in old books"
 gm-19c7be8f6b3c531b,2026-02-20,The Home Depot,13507,1,1729,11778,RECAST BIZ/Tools,OVERHEAD,pending,hold,"NOT_POST_VERDICT,LOW_CONFIDENCE,TOTAL_MISMATCH",PAUL,Your Electronic Receipt,manual row now documented
 gm-19d4571464925cf5,2026-03-31,Uber Eats,10514,0,0,,,,dismissed,dismiss,"NOT_POST_VERDICT,TOTAL_MISMATCH",PAUL,[Personal] Your Tuesday afternoon order with Uber Eats,junk (dismissed)
 gm-19ed80dfe6dc2f18,2026-06-18,Apify Technologies s.r.o.,2900,1,2900,0,RECAST BIZ/Website,OVERHEAD,dismissed,dismiss,,PAUL,Apify invoice #202606180127 payment successful,manual row now documented
 gm-1a016949d078f6cf,2026-08-18,TXU Energy,21364,0,0,,,,pending,hold,"NOT_POST_VERDICT,LOW_CONFIDENCE,TOTAL_MISMATCH",UNKNOWN,Your payment's complete,"in mail, not in old books"
-gm-19d2b63316714ed9,2026-03-25,The Home Depot,24150,0,0,,,,pending,hold,"NOT_POST_VERDICT,LOW_CONFIDENCE,TOTAL_MISMATCH",UNKNOWN,"Order #WK19546976 Shipped: Your order is on its way, Paul!","in mail, not in old books"
 gm-19c4cb602c2d527c,2026-02-11,The Home Depot,4161,2,4161,0,104 Ashburne/;104 Ashburne/,OVERHEAD,pending,post,LOW_CONFIDENCE,PAUL,Your Electronic Receipt,property row now documented
 gm-19d88691bc0bdfdd,2026-04-13,Uber Eats,10625,0,0,,,,dismissed,dismiss,"NOT_POST_VERDICT,TOTAL_MISMATCH",PAUL,[Personal] Your Monday afternoon order with Uber Eats,junk (dismissed)
 gm-19eb89a46da9d793,2026-06-11,Uber Eats,2582,0,0,,,,dismissed,dismiss,"NOT_POST_VERDICT,TOTAL_MISMATCH",PAUL,[Personal] Your Thursday afternoon order with Uber Eats,junk (dismissed)
 gm-19c8af7557e199d5,2026-01-22,American Airlines,4028,0,0,,,,dismissed,dismiss,"NOT_POST_VERDICT,TOTAL_MISMATCH",UNKNOWN,Fwd: Your purchase receipt - KAIZZQ,junk (dismissed)
-gm-19fbe65982558c20,2026-08-01,"Anthropic, PBC",1032,0,0,,,OVERHEAD,pending,post,PAYER_UNKNOWN,UNKNOWN,"Fwd: Your receipt from Anthropic, PBC #2121-0703-9633","in mail, not in old books"
 gm-19ec2e5f3c880eb3,2026-06-13,"Netlify, Inc.",1340,1,0,1340,RECAST BIZ/Website,OVERHEAD,pending,post,PAYER_UNKNOWN,UNKNOWN,"Payment received for Netlify, Inc. invoice (#SFWGOE-00004)",manual row now documented
 gm-19d0dd332401e5c5,2026-03-20,Uber Eats,8404,0,0,,,,dismissed,dismiss,"NOT_POST_VERDICT,TOTAL_MISMATCH",PAUL,[Personal] Your Friday evening order with Uber Eats,junk (dismissed)
-gm-1a034dad57b6c4b6,2026-08-24,"Anthropic, PBC",1012,0,0,,,OVERHEAD,pending,post,PAYER_UNKNOWN,UNKNOWN,"Fwd: Your receipt from Anthropic, PBC #2248-9349-9496","in mail, not in old books"
 gm-19ca6cf04236bd89,2026-02-28,The Home Depot,284,1,248,36,104 Ashburne/,OVERHEAD,pending,post,LOW_CONFIDENCE,PAUL,Your Electronic Receipt,property row now documented
 gm-19e2257005de0d6e,2026-05-13,VistaPrint,40584,0,0,,,OVERHEAD,pending,post,PAYER_UNKNOWN,UNKNOWN,Your order is confirmed,"in mail, not in old books"
 gm-19e4dcba01c8ee66,2026-05-21,Uber Eats,8385,0,0,,,,dismissed,dismiss,"NOT_POST_VERDICT,TOTAL_MISMATCH",PAUL,[Personal] Your Thursday evening order with Uber Eats,junk (dismissed)
-gm-19cf195d283b5d97,2026-03-12,Atmos Energy,14159,0,0,,,,pending,hold,"NOT_POST_VERDICT,LOW_CONFIDENCE,TOTAL_MISMATCH",UNKNOWN,Fwd: Your Atmos Energy Bill is Available online,"in mail, not in old books"
 gm-19c5d297b5829e55,2026-02-14,The Home Depot,35312,3,9519,25793,104 Ashburne/;104 Ashburne/;RECAST BIZ/Tools,OVERHEAD,pending,post,PAYER_UNKNOWN,UNKNOWN,Your Electronic Receipt,manual row now documented
 gm-1a016b2fac76a50d,2026-08-14,City of Waxahachie - Water Billing Department,44349,0,0,,,,pending,hold,"NOT_POST_VERDICT,LOW_CONFIDENCE,TOTAL_MISMATCH",UNKNOWN,City of Waxachie Utility Bill,"in mail, not in old books"
 gm-1a0a689e471fc97e,2026-09-15,Uber Eats,4258,0,0,,,,dismissed,dismiss,"NOT_POST_VERDICT,TOTAL_MISMATCH",PAUL,[Personal] Your Tuesday morning order with Uber Eats,junk (dismissed)
@@ -100,22 +116,18 @@ gm-19fb4c7970b0f7a7,2026-07-30,Uber Eats,5737,0,0,,,,dismissed,dismiss,"NOT_POST
 gm-19d557a02bada3be,2026-03-31,"CoreLogic Solutions, LLC",20000,0,0,,,OVERHEAD,pending,hold,"NOT_POST_VERDICT,LOW_CONFIDENCE,PAYER_UNKNOWN",UNKNOWN,Property Intelligence Invoice #30857690,"in mail, not in old books"
 gm-19c76c4996bae8b0,2026-02-19,The Home Depot,39012,12,55563,-16551,RECAST BIZ/Tools;RECAST BIZ/Tools;104 Ashburne/;104 Ashburne/;104 Ashburne/;104 Ashburne/;104 Ashburne/;104 Ashburne/;104 Ashburne/;104 Ashburne/;104 Ashburne/;104 Ashburne/,,pending,hold,"NOT_POST_VERDICT,LOW_CONFIDENCE,TOTAL_MISMATCH",PAUL,Your Electronic Receipt,manual row now documented
 gm-19d4fef69c52ef33,2026-03-30,The Home Depot,24150,3,30665,-6515,104 Ashburne/;104 Ashburne/;104 Ashburne/,,pending,hold,"NOT_POST_VERDICT,LOW_CONFIDENCE,TOTAL_MISMATCH",UNKNOWN,"Your order's ready! Pick it up by Thursday, April 9",property row now documented
-gm-1a0640d53a18c970,2026-09-02,The Home Depot,15805,13,46971,-31166,469 Brushwood/;469 Brushwood/;469 Brushwood/;469 Brushwood/;469 Brushwood/;469 Brushwood/;469 Brushwood/;469 Brushwood/;469 Brushwood/;469 Brushwood/;469 Brushwood/;469 Brushwood/;366 Mesa/,OVERHEAD,pending,post,PAYER_UNKNOWN,UNKNOWN,Fwd: We received your order!,property row now documented
 gm-19e8ef3d9338fabb,2026-05-31,"CoreLogic Solutions, LLC",20000,0,0,,,OVERHEAD,pending,post,"LOW_CONFIDENCE,PAYER_UNKNOWN",UNKNOWN,Property Intelligence Invoice #30875629,"in mail, not in old books"
 gm-19cb0399a28a4bdb,2026-03-02,The Home Depot,14738,5,28221,-13483,RECAST BIZ/Tools;RECAST BIZ/Tools;104 Ashburne/;104 Ashburne/;104 Ashburne/,,pending,hold,"NOT_POST_VERDICT,LOW_CONFIDENCE,TOTAL_MISMATCH",PAUL,Your Electronic Receipt,manual row now documented
 gm-19ebf24ef82905c2,2026-06-13,VistaPrint,0,0,0,,,,dismissed,dismiss,"NOT_POST_VERDICT,ZERO_TOTAL",UNKNOWN,Your order is on its way,junk (dismissed)
-gm-19fbdd4e5aa09d1c,2026-08-01,"Anthropic, PBC",1008,0,0,,,OVERHEAD,pending,post,PAYER_UNKNOWN,UNKNOWN,"Fwd: Your receipt from Anthropic, PBC #2135-8253-3824","in mail, not in old books"
 gm-1a024bdf36f04195,2026-08-21,TXU Energy,16402,0,0,,,1616 Granite,pending,post,"LOW_CONFIDENCE,PAYER_UNKNOWN",UNKNOWN,Your payment's complete,"in mail, not in old books"
 gm-19cd5489c5fd928b,2026-03-09,The Home Depot,8383,0,0,,,,pending,hold,"NOT_POST_VERDICT,LOW_CONFIDENCE,TOTAL_MISMATCH",PAUL,Your Electronic Receipt,"in mail, not in old books"
 gm-19bc4186ab17e432,2026-01-15,The Home Depot,398,2,22189,-21791,RECAST BIZ/Tools;104 Ashburne/,OVERHEAD,pending,post,LOW_CONFIDENCE,PAUL,Your Electronic Receipt,manual row now documented
 gm-19c8b34d7d965e72,2026-02-04,American Airlines,46240,0,0,,,OVERHEAD,pending,post,PAYER_UNKNOWN,UNKNOWN,Fwd: 02/09/26,"in mail, not in old books"
-gm-1a036c3ddc757a80,2026-08-24,"Anthropic, PBC",1019,0,0,,,OVERHEAD,pending,post,PAYER_UNKNOWN,UNKNOWN,"Fwd: Your receipt from Anthropic, PBC #2929-8845-3599","in mail, not in old books"
 gm-19e48a74ef5b17e3,2026-05-20,Uber Eats,4286,0,0,,,,dismissed,dismiss,"NOT_POST_VERDICT,TOTAL_MISMATCH",PAUL,[Personal] Your Wednesday evening order with Uber Eats,junk (dismissed)
 gm-19f1e7a4d47322d9,2026-07-01,Amazon,10675,0,0,,,,pending,hold,"NOT_POST_VERDICT,LOW_CONFIDENCE,TOTAL_MISMATCH",UNKNOWN,"Fwd: Ordered: ""Gerber 28-990 WHITE Maxwell...""","in mail, not in old books"
 gm-19e4ddd64ad25b74,2026-05-22,VistaPrint,0,0,0,,,,dismissed,dismiss,"NOT_POST_VERDICT,ZERO_TOTAL",UNKNOWN,Your order is on its way,junk (dismissed)
 gm-19c61b20c24fc994,2026-02-15,The Home Depot,13768,4,10491,3277,RECAST BIZ/Tools;104 Ashburne/;104 Ashburne/;104 Ashburne/,,pending,hold,"NOT_POST_VERDICT,LOW_CONFIDENCE,TOTAL_MISMATCH",PAUL,Your Electronic Receipt,manual row now documented
 gm-19fe29270591d10e,2026-08-08,TXU Energy,21364,0,0,,,,pending,hold,"NOT_POST_VERDICT,LOW_CONFIDENCE,TOTAL_MISMATCH",UNKNOWN,Your bill’s ready,"in mail, not in old books"
-gm-19fbe2a3ee2f7a2a,2026-08-01,"Anthropic, PBC",1018,0,0,,,OVERHEAD,pending,post,PAYER_UNKNOWN,UNKNOWN,"Fwd: Your receipt from Anthropic, PBC #2032-8278-9339","in mail, not in old books"
 gm-19d27d0d67438d1a,2026-03-25,Uber Eats,10934,0,0,,,,dismissed,dismiss,"NOT_POST_VERDICT,TOTAL_MISMATCH",PAUL,[Personal] Your Wednesday evening order with Uber Eats,junk (dismissed)
 gm-19c06bf48af8927b,2026-01-28,Atmos Energy,5765,0,0,,,,pending,hold,"NOT_POST_VERDICT,LOW_CONFIDENCE,TOTAL_MISMATCH",UNKNOWN,Your Atmos Energy bill is due,"in mail, not in old books"
 gm-19ec948fa7abf0a6,2026-06-14,Uber Eats,4271,0,0,,,,dismissed,dismiss,"NOT_POST_VERDICT,TOTAL_MISMATCH",PAUL,[Personal] Your Sunday evening order with Uber Eats,junk (dismissed)
@@ -131,7 +143,6 @@ gm-19c484998d6bf67a,2026-02-10,Lowe's Home Improvement,23806,2,19914,3892,RECAST
 gm-19f729ff137be6f5,2026-07-18,Apify Technologies s.r.o.,2900,0,0,,,OVERHEAD,dismissed,dismiss,,PAUL,Fwd: Apify invoice #202607180489 payment successful,junk (dismissed)
 gm-19e6bede7c89a94c,2026-05-27,Uber Eats,4546,0,0,,,,dismissed,dismiss,"NOT_POST_VERDICT,TOTAL_MISMATCH",PAUL,[Personal] Your Wednesday evening order with Uber Eats,junk (dismissed)
 gm-19e6b8cbc5333ece,2026-05-27,Uber One,999,0,0,,,OVERHEAD,pending,hold,"NOT_POST_VERDICT,LOW_CONFIDENCE",PAUL,Uber One payment confirmation,"in mail, not in old books"
-gm-1a02640992bd98cb,2026-08-21,"Anthropic, PBC",1166,0,0,,,OVERHEAD,pending,post,PAYER_UNKNOWN,UNKNOWN,"Fwd: Your receipt from Anthropic, PBC #2323-6125-6968","in mail, not in old books"
 gm-19ed62e9b6ad57a5,2026-06-17,Uber Eats,0,0,0,,,,dismissed,dismiss,"NOT_POST_VERDICT,ZERO_TOTAL",UNKNOWN,Fuel up the squad 🍕,junk (dismissed)
 gm-19ed69af26494e70,2026-06-17,Lowe's Home Improvement,4917,0,0,,,1616 Granite,posted,post,,PAUL,Your Lowe's Purchase Receipt,"in mail, not in old books"
 gm-19f6822d74e813b1,2026-07-14,Atmos Energy,3579,0,0,,,,pending,hold,"NOT_POST_VERDICT,LOW_CONFIDENCE,TOTAL_MISMATCH",UNKNOWN,Your Atmos Energy Bill is Available online,"in mail, not in old books"
@@ -147,11 +158,9 @@ gm-19cbddaad84b15f2,2026-02-28,"CoreLogic Solutions, LLC",20000,0,0,,,OVERHEAD,p
 gm-19c8b33a6493fb67,2026-01-03,American Airlines,2500,0,0,,,,dismissed,dismiss,"NOT_POST_VERDICT,LOW_CONFIDENCE,TOTAL_MISMATCH",PAUL,Fwd: Your Wi-Fi receipt,junk (dismissed)
 gm-19df3eb2823f97db,2026-05-04,Uber Eats,5965,0,0,,,,dismissed,dismiss,"NOT_POST_VERDICT,TOTAL_MISMATCH",PAUL,[Personal] Your Monday morning order with Uber Eats,junk (dismissed)
 gm-19c8b330a6ce7e93,2026-01-02,American Airlines,6668,0,0,,,,dismissed,dismiss,"NOT_POST_VERDICT,LOW_CONFIDENCE,TOTAL_MISMATCH",UNKNOWN,Fwd: Your purchase receipt - GPMGCC,junk (dismissed)
-gm-19fab18f36381981,2026-07-28,Airtable,2400,0,0,,,OVERHEAD,pending,post,PAYER_UNKNOWN,UNKNOWN,Fwd: Your Airtable statement for the Recast Properties works,"in mail, not in old books"
 gm-19e69a959fac0eb6,2026-05-27,TXU Energy,0,0,0,,,,dismissed,dismiss,"NOT_POST_VERDICT,ZERO_TOTAL",UNKNOWN,You're on Paperless Billing,junk (dismissed)
 gm-19d63f17bf22f9fa,2026-04-06,The Home Depot,18152,3,5780,12372,104 Ashburne/;104 Ashburne/;104 Ashburne/,,pending,hold,"NOT_POST_VERDICT,LOW_CONFIDENCE,TOTAL_MISMATCH",PAUL,We received your order!,property row now documented
 gm-19b944ec9eb500c7,2025-12-31,"CoreLogic Solutions, LLC",20000,0,0,,,OVERHEAD,pending,post,"LOW_CONFIDENCE,PAYER_UNKNOWN",UNKNOWN,Property Intelligence Invoice #30831839,"in mail, not in old books"
-gm-19ffd2fc94389366,2026-08-13,"Anthropic, PBC",10000,0,0,,,OVERHEAD,pending,hold,"NOT_POST_VERDICT,LOW_CONFIDENCE",PAUL,"Fwd: Your receipt from Anthropic, PBC #2686-5099-4443","in mail, not in old books"
 gm-19f060b917f5e444,2026-06-26,Uber One,0,0,0,,,,dismissed,dismiss,"NOT_POST_VERDICT,ZERO_TOTAL",UNKNOWN,"Paul, add a different payment method",junk (dismissed)
 gm-19eb75e58b4bc3fe,2026-06-11,North Texas Tollway Authority (NTTA),4000,1,4000,0,RECAST BIZ/Gas/Truck/Trailer,OVERHEAD,pending,post,PAYER_UNKNOWN,UNKNOWN,toll tag,manual row now documented
 gm-1a091750aaf73526,2026-09-11,Southwest Airlines,0,0,0,,,,dismissed,dismiss,"NOT_POST_VERDICT,ZERO_TOTAL",,"Hi, Paul! You've got a Rapid Rewards account statement.",junk (dismissed)
@@ -164,7 +173,6 @@ gm-19e1daca71f67095,2026-05-12,Uber Eats,4154,0,0,,,,dismissed,dismiss,"NOT_POST
 gm-19f1f88d99a6e35e,2026-07-01,Uber One,999,0,0,,,OVERHEAD,pending,hold,"NOT_POST_VERDICT,LOW_CONFIDENCE,PAYER_UNKNOWN",UNKNOWN,Uber One payment confirmation,"in mail, not in old books"
 gm-19e8ec62c8a4a79e,2026-06-03,Uber,3148,0,0,,,OVERHEAD,pending,post,PAYER_UNKNOWN,UNKNOWN,[Personal] Your Wednesday morning trip with Uber,"in mail, not in old books"
 gm-19fb4e165e9dde83,2026-07-30,Uber One,0,0,0,,,,dismissed,dismiss,"NOT_POST_VERDICT,ZERO_TOTAL",UNKNOWN,"Paul, add a different payment method",junk (dismissed)
-gm-1a06712801707981,2026-09-03,"Telnyx, LLC",500,0,0,,,OVERHEAD,pending,post,LOW_CONFIDENCE,PAUL,Fwd: [Telnyx LLC] Payment Success,"in mail, not in old books"
 gm-19c8b340ca661091,2026-01-22,American Airlines,4028,0,0,,,,dismissed,dismiss,"NOT_POST_VERDICT,LOW_CONFIDENCE,TOTAL_MISMATCH",UNKNOWN,Fwd: Your purchase receipt - KAIZZQ,junk (dismissed)
 gm-19efa2e8ed562228,2026-06-24,Uber,0,0,0,,,,dismissed,dismiss,"NOT_POST_VERDICT,ZERO_TOTAL",UNKNOWN,Got summer plans? Uber teen accounts can help ☀️,junk (dismissed)
 gm-19f483c31d80247c,2026-07-09,Uber,3127,0,0,,,OVERHEAD,pending,post,PAYER_UNKNOWN,UNKNOWN,[Personal] Your Thursday morning trip with Uber,"in mail, not in old books"
@@ -174,8 +182,6 @@ gm-1a022abae6163359,2026-08-20,Uber Eats,4277,0,0,,,,dismissed,dismiss,"NOT_POST
 gm-19dfd51cc731e898,2026-04-30,"CoreLogic Solutions, LLC",20000,0,0,,,OVERHEAD,pending,hold,"NOT_POST_VERDICT,LOW_CONFIDENCE,PAYER_UNKNOWN",UNKNOWN,Property Intelligence Invoice #30860459,"in mail, not in old books"
 gm-19c8b345b925a040,2026-02-22,American Airlines,38039,0,0,,,OVERHEAD,dismissed,dismiss,,PAUL,Fwd: Your trip confirmation (PDX - DFW),junk (dismissed)
 gm-19c66d875dd9e7bd,2026-02-16,The Home Depot,18338,0,0,,,OVERHEAD,pending,hold,"NOT_POST_VERDICT,LOW_CONFIDENCE",PAUL,Your Electronic Receipt,"in mail, not in old books"
-gm-19fbf1eacc26b061,2026-08-01,"Anthropic, PBC",1026,0,0,,,OVERHEAD,pending,post,PAYER_UNKNOWN,UNKNOWN,"Fwd: Your receipt from Anthropic, PBC #2236-8917-9024","in mail, not in old books"
-gm-19fc3d4987729c55,2026-08-02,Uber,12503,0,0,,,OVERHEAD,pending,post,PAYER_UNKNOWN,UNKNOWN,[Personal] Your Sunday afternoon trip with Uber,"in mail, not in old books"
 gm-19c76792ce5e1fe9,2026-02-19,Lowe's Home Improvement,147859,4,147859,0,104 Ashburne/;104 Ashburne/;104 Ashburne/;104 Ashburne/,,pending,hold,"NOT_POST_VERDICT,LOW_CONFIDENCE,OVER_CEILING,TOTAL_MISMATCH",PAUL,Your Lowe's Purchase Receipt,property row now documented
 gm-19d3b04cef08acc9,2026-03-29,Uber Eats,0,0,0,,,,dismissed,dismiss,"NOT_POST_VERDICT,ZERO_TOTAL",UNKNOWN,It’s not too late to get Easter essentials,junk (dismissed)
 gm-19c8af9aac03e3ca,2026-02-22,American Airlines,38039,0,0,,,OVERHEAD,dismissed,dismiss,,PAUL,Fwd: Your trip confirmation (PDX - DFW),junk (dismissed)
@@ -197,7 +203,6 @@ gm-1a025de52b01608d,2026-08-21,"Anthropic, PBC",1087,0,0,,,,dismissed,dismiss,"N
 gm-1a066c4d6b0da9a5,2026-09-03,"Energy Texas (Rhythm Ops, LLC)",48443,0,0,,,,pending,hold,"NOT_POST_VERDICT,LOW_CONFIDENCE,TOTAL_MISMATCH",PAUL,All set! We received your payment through Auto Pay.,"in mail, not in old books"
 gm-19f543ed6718cb1f,2026-07-11,Uber Eats,6847,0,0,,,,dismissed,dismiss,"NOT_POST_VERDICT,TOTAL_MISMATCH",UNKNOWN,[Personal] Your Saturday evening order with Uber Eats,junk (dismissed)
 gm-19cfc795423b2590,2026-03-17,Uber,1399,0,0,,,OVERHEAD,pending,post,PAYER_UNKNOWN,UNKNOWN,[Personal] Your Tuesday morning trip with Uber,"in mail, not in old books"
-gm-1a036c3fb3b44d63,2026-08-24,"Anthropic, PBC",1033,0,0,,,OVERHEAD,pending,post,PAYER_UNKNOWN,UNKNOWN,"Fwd: Your receipt from Anthropic, PBC #2716-1965-0164","in mail, not in old books"
 gm-1a09c4f555b2a635,2026-09-13,Uber Eats,8788,0,0,,,,dismissed,dismiss,"NOT_POST_VERDICT,TOTAL_MISMATCH",PAUL,[Personal] Your Sunday morning order with Uber Eats,junk (dismissed)
 gm-1a063d2d6f876fa8,2026-09-02,Uber Eats,2480,0,0,,,,dismissed,dismiss,"NOT_POST_VERDICT,TOTAL_MISMATCH",PAUL,[Personal] Your Wednesday afternoon order with Uber Eats,junk (dismissed)
 gm-19fde07c55491b91,2026-08-07,Uber,6598,0,0,,,OVERHEAD,pending,post,PAYER_UNKNOWN,UNKNOWN,[Personal] Your Friday afternoon trip with Uber,"in mail, not in old books"
@@ -208,10 +213,7 @@ gm-19cb9e86dc1c5092,2026-03-04,The Home Depot,3996,1,751,3245,104 Ashburne/,OVER
 gm-19f18a7ab38c52cf,2026-06-30,The Home Depot,-7457,4,13158,-20615,104 Ashburne/;104 Ashburne/;104 Ashburne/;104 Ashburne/,,pending,hold,"NOT_POST_VERDICT,LOW_CONFIDENCE,ZERO_TOTAL,TOTAL_MISMATCH",PAUL,Your Electronic Receipt,property row now documented
 gm-19c48c68567fa017,2026-02-10,The Home Depot,20087,6,19710,377,RECAST BIZ/Tools;RECAST BIZ/Tools;RECAST BIZ/Tools;104 Ashburne/;104 Ashburne/;104 Ashburne/,,pending,hold,"NOT_POST_VERDICT,TOTAL_MISMATCH",PAUL,Your Electronic Receipt,manual row now documented
 gm-19c8af55bd059fa1,2026-01-02,American Airlines,6668,0,0,,,,dismissed,dismiss,"NOT_POST_VERDICT,LOW_CONFIDENCE,TOTAL_MISMATCH",UNKNOWN,Fwd: Your purchase receipt - GPMGCC,junk (dismissed)
-gm-19d03d98b3a5a7ba,2026-03-18,Uber,1413,0,0,,,OVERHEAD,pending,post,LOW_CONFIDENCE,PAUL,[Personal] Your Wednesday morning trip with Uber,"in mail, not in old books"
-gm-19cd51fd9bd47e79,2026-03-09,Uber,2064,0,0,,,OVERHEAD,posted,post,,PAUL,[Personal] Your Monday morning trip with Uber,"in mail, not in old books"
 gm-19de3fdad52b3d5a,2026-05-01,Uber Eats,2228,0,0,,,,dismissed,dismiss,"NOT_POST_VERDICT,TOTAL_MISMATCH",PAUL,[Personal] Your Friday morning order with Uber Eats,junk (dismissed)
-gm-19fc94ab6c53f72a,2026-08-03,TXU Energy,16402,0,0,,,,pending,hold,"NOT_POST_VERDICT,LOW_CONFIDENCE,TOTAL_MISMATCH",UNKNOWN,Your bill’s ready,"in mail, not in old books"
 gm-19eb7ae65da2fd3a,2026-06-11,VistaPrint,24171,0,0,,,OVERHEAD,pending,post,PAYER_UNKNOWN,UNKNOWN,Your order is confirmed,"in mail, not in old books"
 gm-19ecaef8f8dbb488,2026-06-14,Uber,4499,0,0,,,OVERHEAD,posted,post,,PAUL,[Personal] Your Monday morning trip with Uber,"in mail, not in old books"
 gm-19f25012d4d53e5c,2026-07-02,TXU Energy,10216,0,0,,,,pending,hold,"NOT_POST_VERDICT,LOW_CONFIDENCE,TOTAL_MISMATCH",UNKNOWN,Your first bill's ready,"in mail, not in old books"
@@ -224,10 +226,8 @@ gm-19fec5224c8ebacf,2026-08-10,Uber,10534,0,0,,,OVERHEAD,pending,post,PAYER_UNKN
 gm-19f4cb0d9a24bfd1,2026-07-10,Alaska Airlines,0,0,0,,,,dismissed,dismiss,"NOT_POST_VERDICT,ZERO_TOTAL",UNKNOWN,Fwd: Your Alaska Airlines credit certificate,junk (dismissed)
 gm-19f8bc3b31c1a71d,2026-07-22,Uber,20000,0,0,,,OVERHEAD,pending,hold,"NOT_POST_VERDICT,LOW_CONFIDENCE,NEEDS_HUMAN_274D",PAUL,Uber: Your receipt,"in mail, not in old books"
 gm-19fb9ca58cd7c9a2,2026-07-31,Uber Eats,4192,0,0,,,,dismissed,dismiss,"NOT_POST_VERDICT,TOTAL_MISMATCH",PAUL,[Personal] Your Friday morning order with Uber Eats,junk (dismissed)
-gm-19fbf73f9efeb96a,2026-08-01,"Anthropic, PBC",1035,0,0,,,OVERHEAD,pending,post,"LOW_CONFIDENCE,PAYER_UNKNOWN",UNKNOWN,"Fwd: Your receipt from Anthropic, PBC #2950-2647-2068","in mail, not in old books"
 gm-19f1332b00123385,2026-06-29,TXU Energy,0,1,6323,-6323,881 Newport/,,dismissed,dismiss,"NOT_POST_VERDICT,ZERO_TOTAL",UNKNOWN,You're on Paperless Billing,property row now documented
 gm-19e43365aa5c476d,2026-05-19,Uber Eats,6070,0,0,,,,dismissed,dismiss,"NOT_POST_VERDICT,TOTAL_MISMATCH",PAUL,[Personal] Your Tuesday evening order with Uber Eats,junk (dismissed)
 gm-19c774f69781c13a,2026-02-19,The Home Depot,17848,1,12334,5514,104 Ashburne/,1616 Granite,pending,hold,"NOT_POST_VERDICT,LOW_CONFIDENCE",PAUL,Your Electronic Receipt,property row now documented
 gm-19c6ce38c37d7ca4,2026-02-17,The Home Depot,16608,1,4274,12334,104 Ashburne/,OVERHEAD,pending,hold,"NOT_POST_VERDICT,LOW_CONFIDENCE",PAUL,Your Electronic Receipt,property row now documented
-gm-19d5f817ea2b6572,2026-04-05,The Home Depot,23072,0,0,,,1616 Granite,pending,hold,"NOT_POST_VERDICT,LOW_CONFIDENCE,PAYER_UNKNOWN",UNKNOWN,"Order #WN53994669 Shipped: Your order is on its way, Paul!","in mail, not in old books"
 gm-19bbebe1e4fc35df,2026-01-13,Atmos Energy,5765,0,0,,,,pending,hold,"NOT_POST_VERDICT,LOW_CONFIDENCE,TOTAL_MISMATCH",UNKNOWN,Your Atmos Energy Bill is Available online,"in mail, not in old books"

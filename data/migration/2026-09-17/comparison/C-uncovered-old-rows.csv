@@ -83,6 +83,18 @@ PROP-49,881 Newport,,2026-09-05,Lowes,647,Ashphalt Caulk,False
 PROP-50,881 Newport,,2026-09-09,Neighborhood Management,37500,HOA Release,False
 PROP-51,469 Brushwood,,2026-09-01,Home Depot,6162,Door Lock Set,False
 PROP-52,469 Brushwood,,2026-09-01,Waxahachie Watwr,10000,Water,False
+PROP-53,469 Brushwood,,2026-09-02,Home Depot,5409,Front Door Latch,False
+PROP-54,469 Brushwood,,2026-09-02,Home Depot,33999,Microwave,False
+PROP-55,469 Brushwood,,2026-09-02,Home Depot,-5409,REFUND: Front Door Latch,False
+PROP-56,469 Brushwood,,2026-09-02,Home Depot,1295,Waether Stripping,False
+PROP-57,469 Brushwood,,2026-09-02,Home Depot,756,Sponges,False
+PROP-58,469 Brushwood,,2026-09-02,Home Depot,816,Door Stops,False
+PROP-59,469 Brushwood,,2026-09-02,Home Depot,1080,Paint Rollers,False
+PROP-60,469 Brushwood,,2026-09-02,Home Depot,1945,Scrub Brush,False
+PROP-61,469 Brushwood,,2026-09-02,Home Depot,858,Waether Stripping,False
+PROP-62,469 Brushwood,,2026-09-02,Home Depot,1946,Concrete Degreaser,False
+PROP-63,469 Brushwood,,2026-09-02,Home Depot,647,Roller Trays,False
+PROP-64,469 Brushwood,,2026-09-02,Home Depot,1557,Paint,False
 PROP-65,469 Brushwood,,2026-09-03,Home Depot,377,Liquid Nails,False
 PROP-66,469 Brushwood,,2026-09-03,Home Depot,539,Goo Gone,False
 PROP-67,469 Brushwood,,2026-09-03,Home Depot,4655,Paint,False
@@ -110,6 +122,7 @@ PROP-91,366 Mesa,,2026-08-28,Juanito -  Check 1147,200000,Painting,False
 PROP-92,366 Mesa,,2026-08-26,James Haroce,150000,Siding ,False
 PROP-93,366 Mesa,,2026-08-18,Carlos,22000,Soffit,False
 PROP-94,366 Mesa,,2026-08-18,Home Depot,118,Pipe coupling,False
+PROP-95,366 Mesa,,2026-09-02,Home Depot,2072,?,False
 PROP-96,366 Mesa,,2026-08-03,Home Depot,1966,?,False
 PROP-97,366 Mesa,,2026-08-11,Amazon,3659,Door Lock,False
 PROP-98,366 Mesa,,2026-08-13,Home Depot,14789,5/4 PT Siding Trim,False
