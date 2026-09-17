@@ -202,3 +202,34 @@ lookup for named gaps only:
 - Uber Eats, Venmo to family, Fandango etc.: personal, never read.
 
 Replay reads from pvb421: **a few dozen by id**, ≈ $5–10.
+
+## 11 · Staging replay, run 1 — what it produced and what Paul decides next (2026-09-17 afternoon)
+
+Machinery: `apps-script/poller/Listing.gs` (`listBooksMail`, `replayIds`, `repostAll`),
+`clearBooks()` + `migrationRegisterProperties()` in the writer, `repost`/`repost-all` +
+`fromStored` + `overrides` in the functions, `scripts/migration-compare.py`. Staging ids in
+`phase0-spec.md` §10. CHANGELOG 2026-09-17 has the run log (API auto-recharge outran once).
+
+**paul@ (412 envelopes, comparison run 2):** 171 of 180 sheet-id documents tie to the cent;
+22 manual and 20 property rows now carry a document; 27 twins collapsed; 71 documents in
+mail with nothing in the old books (~$12.5K). **properties@:** 528 in flight; the first 43
+were 42 real receipts (the Ashburne phone photos).
+
+**Why most of it sits in Pending:** `PAYER_UNKNOWN` on 111 post-verdict documents ($9,269):
+69 receipts show no card at all, 24 mention 5450 in a way the model did not accept, a
+handful name cards on no account (6774, 3746, 7952, 9179, 7274). Overall `paid_from`:
+PAUL 204, UNKNOWN 204.
+
+**Decisions Paul gives once (applied by `repostAll` with `books-repost-<mailbox>.json`
+overrides, never card by card):**
+1. Which account each unlisted card is: 6774, 3746, 7952, 9179, 7274.
+2. The default payer when a receipt shows no card, by period (e.g. "Jan–May personal Visa,
+   June onward Citizens 1401") or by vendor (Anthropic 33, Uber 14, AA 9, Adobe 7, Netlify 6).
+3. Property attribution: where the old books put a receipt on a property tab, the old
+   attribution wins over the model's guess (recommended) — or not.
+4. `[Personal]`-tagged Uber rides (16 unfiled + the ones already on Travel): business
+   airport runs stay; which are personal.
+5. Utilities found in mail but on no tab (Atmos 10, TXU 7, Waxahachie 3, Energy Texas 2):
+   property costs to add, or already paid from an account the property tabs never tracked.
+6. Sold properties flip from `held` to `sold` (with settlement dates for Ashburne and
+   Newport, still missing) only at the tie-out.
