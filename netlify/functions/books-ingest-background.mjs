@@ -371,6 +371,9 @@ export default async (req) => {
       }));
       model = { ...model, entries, paid_from: o.paid_from && (!model.paid_from || model.paid_from === "UNKNOWN") ? o.paid_from : model.paid_from,
                 overrides: { ...o, applied_at: new Date().toISOString() } };
+      // A rule can also dismiss ("personal Uber ride that is not an airport run", "the bill
+      // whose payment is already posted") - the verdict flips, the read stays on record.
+      if (o.verdict === "dismiss") model = { ...model, verdict: "dismiss", why: `${model.why || ""} [rule: ${o.note || "dismissed by migration rule"}]` };
     }
 
     const gateResult = evaluateGate(model, ctx, settings, { postedEntries });

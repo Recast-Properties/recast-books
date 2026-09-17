@@ -504,3 +504,23 @@ temp first to iron it out would ultimately give us a scratchpad." Answers Q-8.
    only for real mistakes after cutover. Staging is archived beside the old workbook.
 
 **Why:** the real journal must never see a draft; the mess lives in the copy.
+
+---
+
+## D-026 · Migration review rules — 2026-09-17 · Paul
+
+Given once, applied to every stored read by `repostAll` overrides (D-025), never card by card.
+
+1. **Cards on no account are personal.** 6774, 3746, 7952, 9179, 7274 are Paul's personal
+   credit cards; 9166 is his personal debit card and default. All post `paid_from = PAUL`
+   (2030 Due to owner).
+2. **No card on the receipt:** before 2026-08-01 (Citizens 1401 opened in August) the payer
+   is PAUL. From August on, an unknown payer stays held for Paul's approval — no default.
+3. **Property attribution:** where the old books put a receipt on a property tab, that
+   attribution wins over the bookkeeper's guess.
+4. **`[Personal]` Uber rides:** airport runs are business; every other personal-tagged ride
+   is dismissed.
+5. **Utilities found in mail but on no tab** are added, deduplicated: Paul forwarded bills
+   *and* payments for the same charge, so a bill and its payment are one cost (the payment
+   wins). Paul stops forwarding bills.
+6. Settlement dates for 104 Ashburne and 881 Newport: still owed by Paul.
