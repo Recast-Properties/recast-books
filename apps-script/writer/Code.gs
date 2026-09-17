@@ -722,6 +722,7 @@ function setPeriodStatus_(period, status, props) {
     }
   }
   var closedAt = status === 'closed' ? new Date() : '';
+  CacheService.getScriptCache().remove('ctx');
 
   if (row === -1) {
     var newRow = new Array(maxColIndex_(cols)).fill('');
@@ -780,6 +781,7 @@ function action_upsert_(body, props) {
 // was created. `cols` is the sheet's headerIndex_() map (callers already have it, so
 // this never re-reads row 1).
 function upsertRow_(sheet, cols, keyColumn, rowData) {
+  CacheService.getScriptCache().remove('ctx'); // Menu.gs buildCtx_ caches Accounts/Properties/Periods
   var existingRow = findRowByValue_(sheet, cols[keyColumn], rowData[keyColumn]);
   var created = existingRow === -1;
   if (created) {
@@ -851,7 +853,9 @@ function action_postBatch_(body, props) {
 
 // Unwrapped body of the old action_postBatch_ (see postEntry_'s comment) - Menu.gs's
 // postInterest_ posts one entry per advance this way, all-or-nothing under one lock.
-function postBatchEntries_(entries, props) {
+// skipRefresh: the caller refreshes the property tab's line blocks itself, later
+// (Menu.gs inboxFinish - the rebuild is ~1 s the Inbox user need not wait for).
+function postBatchEntries_(entries, props, skipRefresh) {
   if (!Array.isArray(entries) || entries.length === 0) {
     fail_('BAD_ENTRY', 'entries must be a non-empty array');
   }
@@ -886,7 +890,7 @@ function postBatchEntries_(entries, props) {
     sheet.getRange(startRow, 1, allRows.length, allRows[0].length).setValues(allRows);
 
     postedIds.forEach(function (txnId) { cache.put('txn:' + txnId, '1', 21600); });
-    refreshLineBlocksFor_(ss, entries.reduce(function (acc, en) { return acc.concat(en.lines); }, []));
+    if (!skipRefresh) refreshLineBlocksFor_(ss, entries.reduce(function (acc, en) { return acc.concat(en.lines); }, []));
 
     return { ok: true, posted: postedIds, rows: [startRow, startRow + allRows.length - 1] };
   } finally {
@@ -922,16 +926,49 @@ function action_storeDocument_(body, props) {
 // Unwrapped body of action_storeDocument_ - Menu.gs's inboxApprove files the receipt
 // in-process this way before it posts (the web app's approve does the same over HTTP).
 function storeDocument_(name, mime, base64, folder, props) {
-  var target = getOrCreateDocsRootFolder_(props);
-  folder.forEach(function (segment) {
-    target = getOrCreateSubfolder_(target, String(segment));
-  });
+  var target = docsFolderFor_(folder, props);
 
   var bytes = Utilities.base64Decode(base64);
   var blob = Utilities.newBlob(bytes, mime, name);
   var file = target.createFile(blob);
 
   return { ok: true, fileId: file.getId(), url: file.getUrl(), folderUrl: target.getUrl() };
+}
+
+// The folder for a path like ["2026", "1616 Granite"]: walked once, then its id is
+// cached for 6 h (each getFoldersByName hop is ~0.5 s of Drive time - Inbox timing
+// 2026-09-16: the walk plus createFile was 2.6 s of an 8.4 s approve).
+function docsFolderFor_(folder, props) {
+  var cache = CacheService.getScriptCache();
+  var key = 'folder:' + folder.join('/');
+  var id = cache.get(key);
+  if (id) {
+    try { return DriveApp.getFolderById(id); } catch (err) { /* trashed - walk again */ }
+  }
+  var target = getOrCreateDocsRootFolder_(props);
+  folder.forEach(function (segment) {
+    target = getOrCreateSubfolder_(target, String(segment));
+  });
+  cache.put(key, target.getId(), 21600);
+  return target;
+}
+
+/** Fills doc_url on every Journal line of the given txn_ids (Menu.gs inboxFinish:
+ *  the Inbox posts first and files to Drive afterwards, so the link lands late). */
+function setDocUrl_(txnIds, url, props) {
+  var ss = openWorkbook_(props);
+  var sheet = ss.getSheetByName('Journal');
+  var cols = headerIndex_(sheet);
+  var last = sheet.getLastRow();
+  if (last < 2 || !cols['doc_url'] || !url) return 0;
+  var ids = sheet.getRange(2, cols['txn_id'], last - 1, 1).getValues();
+  var want = {};
+  txnIds.forEach(function (t) { want[String(t)] = true; });
+  var n = 0;
+  for (var i = 0; i < ids.length; i++) {
+    if (want[String(ids[i][0])]) { sheet.getRange(i + 2, cols['doc_url']).setValue(url); n++; }
+  }
+  return n;
 }
 
 function getOrCreateDocsRootFolder_(props) {

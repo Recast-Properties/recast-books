@@ -220,11 +220,18 @@ export default async (req) => {
     if (body.action === "mark-posted") {
       const envelope = await loadEnvelope(docsStore, docId);
       if (!envelope) return json(404, { error: "NOT_FOUND", message: `no envelope for docId ${docId}` });
+      const txn_ids = Array.isArray(body.txn_ids) ? body.txn_ids.map(String).filter(Boolean) : [];
+      if (!txn_ids.length) return json(400, { error: "BAD_REQUEST", message: "txn_ids is required" });
+      // Same txn_ids again on a posted envelope: the workbook filed the document after
+      // posting (inboxFinish) and is bringing the Drive link - patch it, nothing else.
+      if (envelope.status === "posted" && JSON.stringify(envelope.result?.txn_ids || []) === JSON.stringify(txn_ids)) {
+        const patched = { ...envelope, result: { ...envelope.result, doc_url: body.doc_url || envelope.result?.doc_url || "" } };
+        await docsStore.setJSON(`doc/${docId}`, patched);
+        return json(200, { docId, status: "posted", txn_ids, doc_url: patched.result.doc_url });
+      }
       if (envelope.status !== "pending" && envelope.status !== "posting") {
         return json(409, { error: "NOT_PENDING", message: `envelope is "${envelope.status}", not pending` });
       }
-      const txn_ids = Array.isArray(body.txn_ids) ? body.txn_ids.map(String).filter(Boolean) : [];
-      if (!txn_ids.length) return json(400, { error: "BAD_REQUEST", message: "txn_ids is required" });
       const updated = {
         ...envelope,
         status: "posted",
@@ -233,6 +240,18 @@ export default async (req) => {
       };
       await docsStore.setJSON(`doc/${docId}`, updated);
       return json(200, { docId, status: "posted", txn_ids });
+    }
+
+    if (body.action === "mark-pending") {
+      // The workbook marked a card posted and then its own post failed: put it back.
+      const envelope = await loadEnvelope(docsStore, docId);
+      if (!envelope) return json(404, { error: "NOT_FOUND", message: `no envelope for docId ${docId}` });
+      if (envelope.status !== "posted" || !envelope.review?.in_process) {
+        return json(409, { error: "NOT_REVERTIBLE", message: `envelope is "${envelope.status}"; only an in-process post can be reverted` });
+      }
+      const reverted = { ...envelope, status: "pending", result: { txn_ids: [], rows: null, doc_url: envelope.result?.doc_url || "" }, review: null };
+      await docsStore.setJSON(`doc/${docId}`, reverted);
+      return json(200, { docId, status: "pending" });
     }
 
     if (body.action === "dismiss") {
@@ -309,7 +328,7 @@ export default async (req) => {
       return json(200, { docId, deleted: true });
     }
 
-    return json(400, { error: "BAD_REQUEST", message: "action must be approve, mark-posted, dismiss, reprocess or delete" });
+    return json(400, { error: "BAD_REQUEST", message: "action must be approve, mark-posted, mark-pending, dismiss, reprocess or delete" });
   }
 
   return json(405, { error: "METHOD_NOT_ALLOWED" });

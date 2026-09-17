@@ -221,6 +221,30 @@ test("mark-posted refuses an envelope that is not pending, and an empty txn_ids"
   assert.equal(res2.status, 400);
 });
 
+test("mark-posted again with the same txn_ids only patches doc_url; mark-pending reverts an in-process post", { skip }, async () => {
+  await seedEnvelope("gm-mp5");
+  await handler(pollerReq("POST", { body: { action: "mark-posted", docId: "gm-mp5", txn_ids: ["t1"], by: "paul@recast-properties.com" } }));
+  const again = await handler(pollerReq("POST", { body: { action: "mark-posted", docId: "gm-mp5", txn_ids: ["t1"], doc_url: "https://drive/late" } }));
+  assert.equal(again.status, 200);
+  let envelope = await getDocsStore().get("doc/gm-mp5", { type: "json" });
+  assert.equal(envelope.status, "posted");
+  assert.equal(envelope.result.doc_url, "https://drive/late");
+  assert.equal(envelope.review.by, "paul@recast-properties.com");
+  const other = await handler(pollerReq("POST", { body: { action: "mark-posted", docId: "gm-mp5", txn_ids: ["t2"] } }));
+  assert.equal(other.status, 409);
+
+  const revert = await handler(pollerReq("POST", { body: { action: "mark-pending", docId: "gm-mp5" } }));
+  assert.equal(revert.status, 200);
+  envelope = await getDocsStore().get("doc/gm-mp5", { type: "json" });
+  assert.equal(envelope.status, "pending");
+  assert.equal(envelope.review, null);
+  assert.deepEqual(envelope.result.txn_ids, []);
+
+  await seedEnvelope("gm-mp6", { status: "posted", review: { action: "approve", by: "web" } });
+  const notOurs = await handler(pollerReq("POST", { body: { action: "mark-pending", docId: "gm-mp6" } }));
+  assert.equal(notOurs.status, 409);
+});
+
 test("a session still cannot mark-posted without the owner role", { skip }, async () => {
   await seedEnvelope("gm-mp4");
   const res = await handler(req("POST", { token: session("partner"), body: { action: "mark-posted", docId: "gm-mp4", txn_ids: ["x"] } }));

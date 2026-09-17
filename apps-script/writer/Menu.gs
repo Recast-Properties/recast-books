@@ -43,6 +43,16 @@ function onOpen() {
 /** The active user's Users.role, or null if they are not listed. */
 function currentUserRole_(ss) {
   var email = String(Session.getActiveUser().getEmail() || '').toLowerCase();
+  // ponytail: 5-min role cache - a demotion on Users takes up to 5 min to bite; clear 'role:<email>' if that ever matters
+  var cache = CacheService.getScriptCache();
+  var cached = cache.get('role:' + email);
+  if (cached) return cached === '-' ? null : cached;
+  var role = readUserRole_(ss, email);
+  cache.put('role:' + email, role || '-', 300);
+  return role;
+}
+
+function readUserRole_(ss, email) {
   var sheet = ss.getSheetByName('Users');
   var cols = headerIndex_(sheet);
   var lastRow = sheet.getLastRow();
@@ -84,6 +94,22 @@ function requireOwner_(ss, allowAnyRole) {
  *  sheets instead of over HTTP - accounts (active only), properties (open only, per
  *  lib.gs's isOpenProperty), periods, today in America/Chicago. */
 function buildCtx_(ss) {
+  // Six sheet reads (~1.1 s) - cached 2 min as plain arrays; any writer upsert or
+  // period change clears it, and postBatchEntries_ re-checks the period lock itself.
+  var cache = CacheService.getScriptCache();
+  var cached = cache.get('ctx');
+  if (cached) {
+    var c = JSON.parse(cached);
+    return makeCtx({ accounts: new Map(c.accounts), properties: new Set(c.properties), periods: new Map(c.periods),
+      today: Utilities.formatDate(new Date(), 'America/Chicago', 'yyyy-MM-dd') });
+  }
+  var built = readCtx_(ss);
+  cache.put('ctx', JSON.stringify({ accounts: Array.from(built.accounts.entries()), properties: Array.from(built.properties),
+    periods: Array.from(built.periods.entries()) }), 120);
+  return makeCtx(built);
+}
+
+function readCtx_(ss) {
   var accSheet = ss.getSheetByName('Accounts');
   var accCols = headerIndex_(accSheet);
   var accLast = accSheet.getLastRow();
@@ -118,7 +144,7 @@ function buildCtx_(ss) {
   perRows.forEach(function (r) { periods.set(normalizePeriod_(r[perCols['period'] - 1]), r[perCols['status'] - 1]); });
 
   var today = Utilities.formatDate(new Date(), 'America/Chicago', 'yyyy-MM-dd');
-  return makeCtx({ accounts: accounts, properties: properties, periods: periods, today: today });
+  return { accounts: accounts, properties: properties, periods: periods, today: today };
 }
 
 /** Account/property/bank-account lists and the current interest rate, for the
@@ -866,64 +892,96 @@ function driveFileName_(model, original, index) {
   return model.date + ' ' + vendor + ' ' + (cents / 100).toFixed(2) + suffix + ext;
 }
 
-/** Approve: file to Drive, build + post the (possibly edited) entries in-process, then
- *  mark the envelope posted. Same rules as the web approve (buildEntriesFromModel,
- *  allow_duplicate_hash, gate NOT applied - the human is the gate). */
+/** Approve, step one - the only part the user waits for. Builds the (possibly edited)
+ *  entries with the same rules as the web approve (buildEntriesFromModel,
+ *  allow_duplicate_hash, gate NOT applied - the human is the gate), marks the envelope
+ *  posted on the site FIRST (refused with NOT_PENDING if the web Inbox or the ingest got
+ *  there first - nothing posted yet), then posts under the writer's lock with the line-
+ *  block refresh deferred. Drive filing, doc_url, line blocks and the cache poke are
+ *  inboxFinish, which the dialog calls after "Posted" is already on screen.
+ *  Timing 2026-09-16 before this split: 8.4 s; the post itself is under a second. */
 function inboxApprove(req) {
   var props = PropertiesService.getScriptProperties();
   var ss = openWorkbook_(props);
-  var txnIds = null;
+  var t0 = Date.now(), timings = [];
+  var lap = function (label) { timings.push(label + ' ' + (Date.now() - t0) + 'ms'); t0 = Date.now(); };
+  var docId = String(req.docId || '');
+  var marked = false;
   try {
     requireOwner_(ss);
-    var docId = String(req.docId || '');
     var entries = Array.isArray(req.entries) ? req.entries : [];
     if (!docId) return { ok: false, error: 'BAD_REQUEST', message: 'docId is required' };
     if (!entries.length) return { ok: false, error: 'BAD_REQUEST', message: 'no entries to approve' };
 
-    // Fresh read right before posting: the web Inbox or the ingest may have moved it.
-    // ponytail: a claim step would close the last few hundred ms; one user, not worth a verb
-    var env = (siteFetchJson_('/api/inbox?status=all&docId=' + encodeURIComponent(docId)).envelopes || [])[0];
-    if (!env) return { ok: false, error: 'NOT_FOUND', message: 'no envelope for ' + docId };
-    if (env.status !== 'pending') return { ok: false, error: 'NOT_PENDING', message: 'this document is "' + env.status + '" now, not pending - refresh the list' };
-
     var model = {};
-    for (var k in (env.model || {})) model[k] = env.model[k];
+    for (var k in (req.model || {})) model[k] = req.model[k];
     model.entries = entries;
     var ctx = buildCtx_(ss);
     var postedBy = Session.getActiveUser().getEmail();
+    var built = buildEntriesFromModel(model, ctx, { posted_by: postedBy, doc_url: '', allow_duplicate_hash: true });
+    var txnIds = built.map(function (e) { return e.txn_id; });
+    lap('build');
 
-    // A pending item was never filed to Drive on the way in; file it now (web approve
-    // does the same via storeAttachmentsToDrive). Folder: <year>/<property or OVERHEAD>.
-    var docUrl = (env.result && env.result.doc_url) || '';
-    if (!docUrl) {
-      var first = entries[0] || {};
-      var folder = [String(first.date || ctx.today).slice(0, 4), first.property || 'OVERHEAD'];
-      var atts = env.attachments || [];
-      for (var i = 0; i < atts.length; i++) {
-        var key = atts[i].key || ('att/' + docId + '/' + i);
-        var bytes = siteFetchRaw_('/api/file?key=' + encodeURIComponent(key)).getContent();
-        var stored = storeDocument_(driveFileName_(model, atts[i].name || ('attachment-' + i), i),
-          atts[i].mime || 'application/octet-stream', Utilities.base64Encode(bytes), folder, props);
-        if (!docUrl) docUrl = stored.url;
-      }
-    }
+    siteFetchJson_('/api/inbox', 'post', { action: 'mark-posted', docId: docId, txn_ids: txnIds, rows: null,
+      doc_url: '', by: postedBy, note: req.note || '' });
+    marked = true;
+    lap('mark');
 
-    var built = buildEntriesFromModel(model, ctx, { posted_by: postedBy, doc_url: docUrl, allow_duplicate_hash: true });
-    var result = postBatchEntries_(built, props);
-    txnIds = built.map(function (e) { return e.txn_id; });
-
-    siteFetchJson_('/api/inbox', 'post', { action: 'mark-posted', docId: docId, txn_ids: txnIds, rows: result.rows,
-      doc_url: docUrl, by: postedBy, note: req.note || '' });
-    warmCache_();
-    return { ok: true, txn_ids: txnIds, doc_url: docUrl, entries: built };
+    var result = postBatchEntries_(built, props, true);
+    lap('post');
+    return { ok: true, txn_ids: txnIds, rows: result.rows, entries: built, timings: timings.join(', ') };
   } catch (err) {
-    if (txnIds) {
-      // Posted, but the card is still pending on the site: say so loudly, never re-post.
-      warmCache_();
-      return { ok: false, error: 'MARK_FAILED', message: 'POSTED ' + txnIds.join(', ') + ' but the card could not be marked posted (' +
-        String((err && err.message) || err) + '). Do NOT approve it again - from the repo run: node scripts/mark-posted.mjs ' + req.docId + ' ' + txnIds[0] };
+    var message = String((err && err.message) || err);
+    if (marked) {
+      // Marked posted but the post itself failed: put the card back so it can be retried.
+      try { siteFetchJson_('/api/inbox', 'post', { action: 'mark-pending', docId: docId }); }
+      catch (e2) { message += ' - AND the card could not be put back to pending (' + String((e2 && e2.message) || e2) + '); it shows as posted on the site with nothing in the Journal'; }
     }
-    return { ok: false, error: (err && err.code) || 'INTERNAL', message: String((err && err.message) || err) };
+    return { ok: false, error: (err && err.code) || 'INTERNAL', message: message };
+  }
+}
+
+/** Approve, step two (the dialog calls it right after inboxApprove returns): fetch the
+ *  attachment bytes, file to Drive under <year>/<property or OVERHEAD>, write doc_url on
+ *  the posted Journal lines and the envelope, rebuild the property tab's line blocks,
+ *  poke the site cache. Everything here is recoverable by hand; the entry is already posted. */
+function inboxFinish(req) {
+  var props = PropertiesService.getScriptProperties();
+  var t0 = Date.now(), timings = [];
+  var lap = function (label) { timings.push(label + ' ' + (Date.now() - t0) + 'ms'); t0 = Date.now(); };
+  try {
+    var docId = String(req.docId || '');
+    var txnIds = req.txn_ids || [];
+    var entries = req.entries || [];
+    var model = req.model || {};
+    var first = entries[0] || {};
+    var year = String(first.date || Utilities.formatDate(new Date(), 'America/Chicago', 'yyyy-MM-dd')).slice(0, 4);
+    var folder = [year, first.property || 'OVERHEAD'];
+
+    var docUrl = '';
+    var atts = req.attachments || [];
+    for (var i = 0; i < atts.length; i++) {
+      var key = atts[i].key || ('att/' + docId + '/' + i);
+      var bytes = siteFetchRaw_('/api/file?key=' + encodeURIComponent(key)).getContent();
+      lap('fetch bytes');
+      var stored = storeDocument_(driveFileName_(model, atts[i].name || ('attachment-' + i), i),
+        atts[i].mime || 'application/octet-stream', Utilities.base64Encode(bytes), folder, props);
+      if (!docUrl) docUrl = stored.url;
+      lap('drive file');
+    }
+    if (docUrl) {
+      setDocUrl_(txnIds, docUrl, props);
+      siteFetchJson_('/api/inbox', 'post', { action: 'mark-posted', docId: docId, txn_ids: txnIds, doc_url: docUrl, by: Session.getActiveUser().getEmail() });
+      lap('doc_url');
+    }
+    var ss = openWorkbook_(props);
+    refreshLineBlocksFor_(ss, entries);
+    lap('line blocks');
+    warmCache_();
+    lap('warm');
+    return { ok: true, doc_url: docUrl, timings: timings.join(', ') };
+  } catch (err) {
+    return { ok: false, error: (err && err.code) || 'INTERNAL', message: String((err && err.message) || err), timings: timings.join(', ') };
   }
 }
 

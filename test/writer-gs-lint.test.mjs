@@ -153,8 +153,13 @@ test("storeDocument: creates/reuses a root Drive folder, walks nested folder seg
   const nextFn = source.indexOf("\nfunction ", anchor + 1);
   const body = source.slice(anchor, nextFn === -1 ? source.length : nextFn);
 
-  assert.ok(body.includes("getOrCreateDocsRootFolder_"), "storeDocument does not create/reuse the root folder");
-  assert.ok(body.includes("getOrCreateSubfolder_"), "storeDocument does not walk nested folder segments");
+  assert.ok(body.includes("docsFolderFor_"), "storeDocument does not resolve the folder");
+  const fAnchor = source.indexOf("function docsFolderFor_(");
+  assert.ok(fAnchor !== -1, "docsFolderFor_ not found");
+  const fNext = source.indexOf("\nfunction ", fAnchor + 1);
+  const fBody = source.slice(fAnchor, fNext === -1 ? source.length : fNext);
+  assert.ok(fBody.includes("getOrCreateDocsRootFolder_"), "folder walk does not create/reuse the root folder");
+  assert.ok(fBody.includes("getOrCreateSubfolder_"), "folder walk does not walk nested folder segments");
   assert.ok(body.includes("Utilities.base64Decode"), "storeDocument does not decode the base64 payload");
   assert.ok(body.includes("createFile"), "storeDocument does not create a Drive file");
   assert.ok(body.includes("fileId:") && body.includes("url:") && body.includes("folderUrl:"),

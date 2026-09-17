@@ -207,10 +207,21 @@
       }
       busy(true);
       msg.classList.add('hidden');
-      callServer_('inboxApprove', { docId: env.docId, entries: entries }).then(function (r) {
+      callServer_('inboxApprove', { docId: env.docId, entries: entries, model: env.model || {} }).then(function (r) {
         if (!r.ok) return fail(r);
         done('Posted ' + r.txn_ids.map(function (t) { return '<code>' + escapeHtml_(t) + '</code>'; }).join(', ') +
-          (r.doc_url ? ' &middot; <a href="' + escapeHtml_(r.doc_url) + '" target="_blank" rel="noopener">Drive file</a>' : ''));
+          ' <span data-finish="1">&middot; filing...</span>' +
+          (r.timings ? '<div class="docid">' + escapeHtml_(r.timings) + '</div>' : ''));
+        // Step two runs while the user moves on: Drive filing, doc_url, line blocks, cache.
+        var slot = msg.querySelector('[data-finish]');
+        callServer_('inboxFinish', { docId: env.docId, txn_ids: r.txn_ids, entries: entries, model: env.model || {}, attachments: env.attachments || [] }).then(function (f) {
+          if (f.ok) {
+            slot.innerHTML = (f.doc_url ? '&middot; <a href="' + escapeHtml_(f.doc_url) + '" target="_blank" rel="noopener">Drive file</a>' : '&middot; filed') +
+              (f.timings ? ' <span class="docid">(' + escapeHtml_(f.timings) + ')</span>' : '');
+          } else {
+            slot.innerHTML = '<span style="color:#a50e0e">&middot; posted, but filing failed: ' + escapeHtml_(f.message) + '</span>';
+          }
+        }, function (err) { slot.innerHTML = '<span style="color:#a50e0e">&middot; posted, but filing failed: ' + escapeHtml_(err && err.message ? err.message : err) + '</span>'; });
       }, function (err) { fail({ error: 'SCRIPT', message: err && err.message ? err.message : err }); });
     };
 
