@@ -233,3 +233,29 @@ overrides, never card by card):**
    property costs to add, or already paid from an account the property tabs never tracked.
 6. Sold properties flip from `held` to `sold` (with settlement dates for Ashburne and
    Newport, still missing) only at the tie-out.
+
+## 12 · Comparison run 3 — both mailboxes, 937 envelopes (2026-09-17 13:30)
+
+`data/migration/2026-09-17/comparison/`. Status: 240 posted, 499 pending, 139 dismissed,
+59 errors (staging writer overloaded under ~100 concurrent ingests; 48 of them keep their
+stored read and just re-post, 8 need a paid re-read). Verdicts: 620 post, 168 hold, 141
+dismiss.
+
+- **A:** 180 sheet-id documents, 171 net-equal. **B:** 260 property rows and 50 manual rows
+  now documented; 64 twins; 266 "in mail, not in old books". **C:** 285 old rows still
+  uncovered (from 1,000+), 155 of them Ashburne.
+- The "not in old books" $1.56M is mostly the **acquisition receipts** (ServiceLink /
+  Auction.com sale receipts: Sparkling $393,701, White Rock $369,000, Bowling Green
+  $294,651) and Dennis's **$20,000 draws** - they belong to the Advances lane (D-011/D-022),
+  not the receipts lane → **D-026.7**: dismissed from the ledger lane, document kept.
+- **Old-books finding:** FNF Irrigation on 2026-03-19 is $45,000.00 on the Ashburne tab; the
+  two documents read $900. Almost certainly a typo in the old books (a $450 or $4,500 job).
+  Paul to confirm; it changes Ashburne's rehab total by up to $44,100.
+- Ellis County property tax $16,031.25 (Ashburne, 2026-03-30) read cleanly, held only for
+  the $500 ceiling; not on the old tab by that name.
+- Rules (`scripts/migration-rules.py`) now produce 405 overrides: 273 pre-August payer =
+  PAUL, 59 personal cards, 106 old-tab property attributions, 6 acquisition/draw dismissals,
+  5 non-airport rides, 3 utility bill/payment twins.
+
+Next: clear staging, `repostAll` with the overrides (no model cost), comparison run 4, then
+the tie-out per property against the snapshot.

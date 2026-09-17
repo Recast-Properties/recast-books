@@ -1,0 +1,1676 @@
+{
+"mailbox": "paul",
+"built": "2026-09-17T13:29",
+"overrides": {
+"gm-19b944ec9eb500c7": {
+"paid_from": "PAUL",
+"note": "D-026.2 before CNB opened"
+},
+"gm-19b7f78e16ffe521": {
+"paid_from": "PAUL",
+"note": "D-026.1 personal card 6774"
+},
+"gm-19c8b330a6ce7e93": {
+"paid_from": "PAUL",
+"note": "D-026.1 personal card 6774"
+},
+"gm-19c8af55bd059fa1": {
+"paid_from": "PAUL",
+"note": "D-026.1 personal card 6774"
+},
+"gm-19b95bd9421b177a": {
+"paid_from": "PAUL",
+"note": "D-026.1 personal card 7952"
+},
+"gm-19b98a40a8155855": {
+"paid_from": "PAUL",
+"property": "104 Ashburne",
+"note": "D-026.1 personal card 6774; D-026.3 old tab 104 Ashburne"
+},
+"gm-19bae03eddedc8bc": {
+"paid_from": "PAUL",
+"property": "104 Ashburne",
+"note": "D-026.2 before CNB opened; D-026.3 old tab 104 Ashburne"
+},
+"gm-19bbebe1e4fc35df": {
+"paid_from": "PAUL",
+"note": "D-026.2 before CNB opened"
+},
+"gm-19bbd77ef94aa401": {
+"paid_from": "PAUL",
+"property": "104 Ashburne",
+"note": "D-026.2 before CNB opened; D-026.3 old tab 104 Ashburne"
+},
+"gm-19bc2ac9659bedac": {
+"paid_from": "PAUL",
+"property": "104 Ashburne",
+"note": "D-026.2 before CNB opened; D-026.3 old tab 104 Ashburne"
+},
+"gm-19c8b34b8addc1ea": {
+"paid_from": "PAUL",
+"note": "D-026.2 before CNB opened"
+},
+"gm-19c8af7557e199d5": {
+"paid_from": "PAUL",
+"note": "D-026.1 personal card 3746"
+},
+"gm-19be69823c636c61": {
+"paid_from": "PAUL",
+"note": "D-026.1 personal card 3746"
+},
+"gm-19c8b340ca661091": {
+"paid_from": "PAUL",
+"note": "D-026.1 personal card 3746"
+},
+"gm-19bed96836d525c1": {
+"paid_from": "PAUL",
+"note": "D-026.2 before CNB opened"
+},
+"gm-19c8b349964c680d": {
+"paid_from": "PAUL",
+"note": "D-026.2 before CNB opened"
+},
+"gm-19bed40e1c196d6f": {
+"paid_from": "PAUL",
+"note": "D-026.1 personal card 3746"
+},
+"gm-19c06bf48af8927b": {
+"paid_from": "PAUL",
+"note": "D-026.1 personal card 9166"
+},
+"gm-19c04f7096f10f6a": {
+"paid_from": "PAUL",
+"note": "D-026.2 before CNB opened"
+},
+"gm-19c2d8b7905f7407": {
+"paid_from": "PAUL",
+"note": "D-026.2 before CNB opened"
+},
+"gm-19c19857065d6852": {
+"paid_from": "PAUL",
+"note": "D-026.2 before CNB opened"
+},
+"gm-19c1eedb38c22d7c": {
+"paid_from": "PAUL",
+"note": "D-026.2 before CNB opened"
+},
+"gm-19c28c64aa9a29ea": {
+"property": "104 Ashburne",
+"note": "D-026.3 old tab 104 Ashburne"
+},
+"gm-19c8b34d7d965e72": {
+"paid_from": "PAUL",
+"note": "D-026.2 before CNB opened"
+},
+"gm-19c484998d6bf67a": {
+"property": "104 Ashburne",
+"note": "D-026.3 old tab 104 Ashburne"
+},
+"gm-19c48c68567fa017": {
+"property": "104 Ashburne",
+"note": "D-026.3 old tab 104 Ashburne"
+},
+"gm-19c53346e24bf709": {
+"paid_from": "PAUL",
+"note": "D-026.2 before CNB opened"
+},
+"gm-19c52d5f502531fb": {
+"property": "104 Ashburne",
+"note": "D-026.3 old tab 104 Ashburne"
+},
+"gm-19c69f8e2ceb81a7": {
+"paid_from": "PAUL",
+"note": "D-026.2 before CNB opened"
+},
+"gm-19c576d1036e4a39": {
+"property": "104 Ashburne",
+"note": "D-026.3 old tab 104 Ashburne"
+},
+"gm-19c5d297b5829e55": {
+"paid_from": "PAUL",
+"note": "D-026.2 before CNB opened"
+},
+"gm-19c6859ab582b6f5": {
+"property": "104 Ashburne",
+"note": "D-026.3 old tab 104 Ashburne"
+},
+"gm-19c77b8ad0ecc11d": {
+"property": "104 Ashburne",
+"note": "D-026.3 old tab 104 Ashburne"
+},
+"gm-19c76c4996bae8b0": {
+"property": "104 Ashburne",
+"note": "D-026.3 old tab 104 Ashburne"
+},
+"gm-19c76792ce5e1fe9": {
+"property": "104 Ashburne",
+"note": "D-026.3 old tab 104 Ashburne"
+},
+"gm-19c976016b5f86ab": {
+"paid_from": "PAUL",
+"note": "D-026.2 before CNB opened"
+},
+"gm-19ca48d4952784bc": {
+"paid_from": "PAUL",
+"note": "D-026.2 before CNB opened"
+},
+"gm-19cbddaad84b15f2": {
+"paid_from": "PAUL",
+"note": "D-026.2 before CNB opened"
+},
+"gm-19caba0d41d86d9b": {
+"property": "104 Ashburne",
+"note": "D-026.3 old tab 104 Ashburne"
+},
+"gm-19cb0399a28a4bdb": {
+"property": "104 Ashburne",
+"note": "D-026.3 old tab 104 Ashburne"
+},
+"gm-19cb8fc101144ecd": {
+"paid_from": "PAUL",
+"note": "D-026.2 before CNB opened"
+},
+"gm-19cd2e224f6f1a62": {
+"paid_from": "PAUL",
+"note": "D-026.2 before CNB opened"
+},
+"gm-19cd51fd9bd47e79": {
+"verdict": "dismiss",
+"note": "D-026.4 personal ride, not an airport run"
+},
+"gm-19cf195d283b5d97": {
+"paid_from": "PAUL",
+"note": "D-026.2 before CNB opened"
+},
+"gm-19ce9537b630b426": {
+"paid_from": "PAUL",
+"note": "D-026.2 before CNB opened"
+},
+"gm-19cfc84803ba58b2": {
+"verdict": "dismiss",
+"note": "D-026.4 personal ride, not an airport run"
+},
+"gm-19cfc795423b2590": {
+"paid_from": "PAUL",
+"verdict": "dismiss",
+"note": "D-026.2 before CNB opened; D-026.4 personal ride, not an airport run"
+},
+"gm-19d018c094ba828a": {
+"paid_from": "PAUL",
+"note": "D-026.2 before CNB opened"
+},
+"gm-19d03d98b3a5a7ba": {
+"verdict": "dismiss",
+"note": "D-026.4 personal ride, not an airport run"
+},
+"gm-19d2bc665d8c4747": {
+"paid_from": "PAUL",
+"note": "D-026.2 before CNB opened"
+},
+"gm-19d25017467ed73d": {
+"paid_from": "PAUL",
+"note": "D-026.2 before CNB opened"
+},
+"gm-19d2b63316714ed9": {
+"paid_from": "PAUL",
+"note": "D-026.2 before CNB opened"
+},
+"gm-19d2a51f5dffc8be": {
+"property": "104 Ashburne",
+"note": "D-026.3 old tab 104 Ashburne"
+},
+"gm-19d3b04cef08acc9": {
+"paid_from": "PAUL",
+"note": "D-026.2 before CNB opened"
+},
+"gm-19d4fef69c52ef33": {
+"paid_from": "PAUL",
+"note": "D-026.2 before CNB opened"
+},
+"gm-19d557a02bada3be": {
+"paid_from": "PAUL",
+"note": "D-026.2 before CNB opened"
+},
+"gm-19d5efbb6c70fdac": {
+"paid_from": "PAUL",
+"note": "D-026.2 before CNB opened"
+},
+"gm-19d5e0ce39d91e0d": {
+"paid_from": "PAUL",
+"note": "D-026.1 personal card 7274"
+},
+"gm-19d5f817ea2b6572": {
+"paid_from": "PAUL",
+"note": "D-026.2 before CNB opened"
+},
+"gm-19d93811d3ff2158": {
+"paid_from": "PAUL",
+"note": "D-026.2 before CNB opened"
+},
+"gm-19db58b5f04785a3": {
+"paid_from": "PAUL",
+"note": "D-026.1 personal card 7952"
+},
+"gm-19db82cfee25dd9a": {
+"paid_from": "PAUL",
+"note": "D-026.2 before CNB opened"
+},
+"gm-19dbb6f1acd728e1": {
+"paid_from": "PAUL",
+"note": "D-026.2 before CNB opened"
+},
+"gm-19dfd51cc731e898": {
+"paid_from": "PAUL",
+"note": "D-026.2 before CNB opened"
+},
+"gm-19dea69d38d734dd": {
+"paid_from": "PAUL",
+"note": "D-026.2 before CNB opened"
+},
+"gm-19df0779b2ab5adc": {
+"paid_from": "PAUL",
+"note": "D-026.2 before CNB opened"
+},
+"gm-19df59f328692144": {
+"paid_from": "PAUL",
+"note": "D-026.1 personal card 9166"
+},
+"gm-19e2379ba3158c72": {
+"paid_from": "PAUL",
+"note": "D-026.2 before CNB opened"
+},
+"gm-19e2257005de0d6e": {
+"paid_from": "PAUL",
+"note": "D-026.2 before CNB opened"
+},
+"gm-19e2ef35ec86793e": {
+"paid_from": "PAUL",
+"note": "D-026.2 before CNB opened"
+},
+"gm-19e3b835c3cbf906": {
+"paid_from": "PAUL",
+"note": "D-026.2 before CNB opened"
+},
+"gm-19e405b93f31acd0": {
+"paid_from": "PAUL",
+"note": "D-026.1 personal card 9179"
+},
+"gm-19e405194f5a413e": {
+"paid_from": "PAUL",
+"note": "D-026.2 before CNB opened"
+},
+"gm-19e4c9406185e0cc": {
+"paid_from": "PAUL",
+"note": "D-026.2 before CNB opened"
+},
+"gm-19e4ddd64ad25b74": {
+"paid_from": "PAUL",
+"note": "D-026.2 before CNB opened"
+},
+"gm-19e5314e0f9e427d": {
+"paid_from": "PAUL",
+"note": "D-026.2 before CNB opened"
+},
+"gm-19e575bcb9c67408": {
+"paid_from": "PAUL",
+"note": "D-026.2 before CNB opened"
+},
+"gm-19e61acb0d8aa215": {
+"paid_from": "PAUL",
+"note": "D-026.2 before CNB opened"
+},
+"gm-19e65b63793cbc49": {
+"paid_from": "PAUL",
+"note": "D-026.1 personal card 9166"
+},
+"gm-19e69a959fac0eb6": {
+"paid_from": "PAUL",
+"note": "D-026.2 before CNB opened"
+},
+"gm-19fadc2228dff5b7": {
+"paid_from": "PAUL",
+"note": "D-026.2 before CNB opened"
+},
+"gm-19e8ef3d9338fabb": {
+"paid_from": "PAUL",
+"note": "D-026.2 before CNB opened"
+},
+"gm-19e83a9d2e976907": {
+"paid_from": "PAUL",
+"note": "D-026.2 before CNB opened"
+},
+"gm-19e8bb78a4e55e51": {
+"paid_from": "PAUL",
+"note": "D-026.2 before CNB opened"
+},
+"gm-19e8da60ee339b4c": {
+"paid_from": "PAUL",
+"note": "D-026.1 personal card 9166"
+},
+"gm-19e8d223d827423f": {
+"paid_from": "PAUL",
+"note": "D-026.2 before CNB opened"
+},
+"gm-19e8da6655b4fd78": {
+"paid_from": "PAUL",
+"note": "D-026.2 before CNB opened"
+},
+"gm-19e8e8bac46f3744": {
+"paid_from": "PAUL",
+"note": "D-026.2 before CNB opened"
+},
+"gm-19e8ec62c8a4a79e": {
+"paid_from": "PAUL",
+"note": "D-026.2 before CNB opened"
+},
+"gm-19e8da5544f8de83": {
+"paid_from": "PAUL",
+"note": "D-026.2 before CNB opened"
+},
+"gm-19e9a230618686d5": {
+"paid_from": "PAUL",
+"note": "D-026.2 before CNB opened"
+},
+"gm-19ebe2f8faafa480": {
+"paid_from": "PAUL",
+"note": "D-026.2 before CNB opened"
+},
+"gm-19eb75e58b4bc3fe": {
+"paid_from": "PAUL",
+"note": "D-026.2 before CNB opened"
+},
+"gm-19eb500f304fe49f": {
+"paid_from": "PAUL",
+"note": "D-026.2 before CNB opened"
+},
+"gm-19eb7ae65da2fd3a": {
+"paid_from": "PAUL",
+"note": "D-026.2 before CNB opened"
+},
+"gm-19ec2e5f3c880eb3": {
+"paid_from": "PAUL",
+"note": "D-026.2 before CNB opened"
+},
+"gm-19ebf24ef82905c2": {
+"paid_from": "PAUL",
+"note": "D-026.2 before CNB opened"
+},
+"gm-19ec6c508497414f": {
+"paid_from": "PAUL",
+"note": "D-026.1 personal card 9166"
+},
+"gm-19ec5d0e953d7fe8": {
+"verdict": "dismiss",
+"note": "D-026.4 personal ride, not an airport run"
+},
+"gm-19ec7c800ed8d214": {
+"paid_from": "PAUL",
+"note": "D-026.2 before CNB opened"
+},
+"gm-19ecc2db49560ec3": {
+"paid_from": "PAUL",
+"note": "D-026.1 personal card 9166"
+},
+"gm-19eccb04208c09a3": {
+"paid_from": "PAUL",
+"note": "D-026.2 before CNB opened"
+},
+"gm-19ed79b1f9970494": {
+"paid_from": "PAUL",
+"note": "D-026.2 before CNB opened"
+},
+"gm-19ed62e9b6ad57a5": {
+"paid_from": "PAUL",
+"note": "D-026.2 before CNB opened"
+},
+"gm-19efa2e8ed562228": {
+"paid_from": "PAUL",
+"note": "D-026.2 before CNB opened"
+},
+"gm-19ef789d865a7327": {
+"paid_from": "PAUL",
+"note": "D-026.2 before CNB opened"
+},
+"gm-19f060b917f5e444": {
+"paid_from": "PAUL",
+"note": "D-026.2 before CNB opened"
+},
+"gm-19f0e8f114dc7682": {
+"paid_from": "PAUL",
+"note": "D-026.2 before CNB opened"
+},
+"gm-19fadc276c34266d": {
+"paid_from": "PAUL",
+"note": "D-026.1 personal card 9166"
+},
+"gm-19f1332b00123385": {
+"paid_from": "PAUL",
+"property": "881 Newport",
+"note": "D-026.2 before CNB opened; D-026.3 old tab 881 Newport"
+},
+"gm-19fedc399c40210d": {
+"paid_from": "PAUL",
+"note": "D-026.2 before CNB opened"
+},
+"gm-19feda8c39546b1e": {
+"paid_from": "PAUL",
+"note": "D-026.2 before CNB opened"
+},
+"gm-19f18a7ab38c52cf": {
+"property": "104 Ashburne",
+"note": "D-026.3 old tab 104 Ashburne"
+},
+"gm-19f3911357838426": {
+"paid_from": "PAUL",
+"note": "D-026.2 before CNB opened"
+},
+"gm-19f1e7a4d47322d9": {
+"paid_from": "PAUL",
+"note": "D-026.2 before CNB opened"
+},
+"gm-19f1f88d99a6e35e": {
+"paid_from": "PAUL",
+"note": "D-026.2 before CNB opened"
+},
+"gm-19f25012d4d53e5c": {
+"paid_from": "PAUL",
+"note": "D-026.2 before CNB opened"
+},
+"gm-19f2814b497d9ce6": {
+"paid_from": "PAUL",
+"note": "D-026.2 before CNB opened"
+},
+"gm-19f2b284dd6abfa3": {
+"paid_from": "PAUL",
+"note": "D-026.2 before CNB opened"
+},
+"gm-19f33b33613aa7d0": {
+"paid_from": "PAUL",
+"note": "D-026.2 before CNB opened"
+},
+"gm-19f386e6271bf3a3": {
+"paid_from": "PAUL",
+"note": "D-026.2 before CNB opened"
+},
+"gm-19f44aea0050f298": {
+"paid_from": "PAUL",
+"note": "D-026.2 before CNB opened"
+},
+"gm-19f46fdd8557e660": {
+"paid_from": "PAUL",
+"note": "D-026.2 before CNB opened"
+},
+"gm-19f4a8381560b260": {
+"paid_from": "PAUL",
+"note": "D-026.2 before CNB opened"
+},
+"gm-19f483c31d80247c": {
+"paid_from": "PAUL",
+"note": "D-026.2 before CNB opened"
+},
+"gm-19f6b62d3d65e926": {
+"paid_from": "PAUL",
+"note": "D-026.2 before CNB opened"
+},
+"gm-19f4cb0d9a24bfd1": {
+"paid_from": "PAUL",
+"note": "D-026.2 before CNB opened"
+},
+"gm-19f543ed6718cb1f": {
+"paid_from": "PAUL",
+"note": "D-026.2 before CNB opened"
+},
+"gm-19f5e409c27380b0": {
+"paid_from": "PAUL",
+"note": "D-026.1 personal card 9166"
+},
+"gm-19f5e35c4f615eba": {
+"paid_from": "PAUL",
+"note": "D-026.2 before CNB opened"
+},
+"gm-19f6822d74e813b1": {
+"paid_from": "PAUL",
+"note": "D-026.2 before CNB opened"
+},
+"gm-19f68264fe89f4a7": {
+"paid_from": "PAUL",
+"note": "D-026.2 before CNB opened"
+},
+"gm-19f6ca190ea84909": {
+"paid_from": "PAUL",
+"note": "D-026.2 before CNB opened"
+},
+"gm-19f77d553b3a99d5": {
+"paid_from": "PAUL",
+"note": "D-026.2 before CNB opened"
+},
+"gm-19f8b7ddb19790db": {
+"paid_from": "PAUL",
+"note": "D-026.2 before CNB opened"
+},
+"gm-19f9184a17f104a4": {
+"paid_from": "PAUL",
+"note": "D-026.2 before CNB opened"
+},
+"gm-19f981f1de5b9c75": {
+"paid_from": "PAUL",
+"note": "D-026.1 personal card 9166"
+},
+"gm-19f984ffa91befa3": {
+"paid_from": "PAUL",
+"note": "D-026.2 before CNB opened"
+},
+"gm-19fa86e509c8209e": {
+"paid_from": "PAUL",
+"note": "D-026.2 before CNB opened"
+},
+"gm-19fab055cbb61f0f": {
+"paid_from": "PAUL",
+"note": "D-026.1 personal card 9166"
+},
+"gm-19fab18f36381981": {
+"paid_from": "PAUL",
+"note": "D-026.2 before CNB opened"
+},
+"gm-19fb4e165e9dde83": {
+"paid_from": "PAUL",
+"note": "D-026.2 before CNB opened"
+},
+"gm-19fb54e6cdc547ce": {
+"paid_from": "PAUL",
+"note": "D-026.2 before CNB opened"
+},
+"gm-19fd7d4ee3154fea": {
+"paid_from": "PAUL",
+"note": "D-026.2 before CNB opened"
+},
+"gm-19fbfb4f8ae13c63": {
+"paid_from": "PAUL",
+"note": "D-026.1 personal card 9166"
+},
+"gm-19fbf712d46e54d7": {
+"paid_from": "PAUL",
+"note": "D-026.1 personal card 9166"
+},
+"gm-19fbe29ea09a37b5": {
+"paid_from": "PAUL",
+"note": "D-026.1 personal card 9166"
+},
+"gm-19fbe99ddf4009d6": {
+"paid_from": "PAUL",
+"note": "D-026.1 personal card 9166"
+},
+"gm-19fbf73d7c005a52": {
+"paid_from": "PAUL",
+"note": "D-026.1 personal card 9166"
+},
+"gm-19fbf41426b2ff88": {
+"paid_from": "PAUL",
+"note": "D-026.1 personal card 9166"
+},
+"gm-19fbe65982558c20": {
+"paid_from": "PAUL",
+"note": "D-026.1 personal card 9166"
+},
+"gm-19fbf12e03e5f1aa": {
+"paid_from": "PAUL",
+"note": "D-026.1 personal card 9166"
+},
+"gm-19fbf9e0a5d7e903": {
+"paid_from": "PAUL",
+"note": "D-026.1 personal card 9166"
+},
+"gm-1a0001f6e0be51ac": {
+"paid_from": "PAUL",
+"note": "D-026.1 personal card 9166"
+},
+"gm-1a004a419e6a327a": {
+"paid_from": "PAUL",
+"note": "D-026.1 personal card 9166"
+},
+"gm-1a0263487ec5681d": {
+"paid_from": "PAUL",
+"note": "D-026.1 personal card 9166"
+},
+"gm-1a0360f3727f13d6": {
+"paid_from": "PAUL",
+"note": "D-026.1 personal card 9166"
+},
+"gm-1a034a3e530b278d": {
+"paid_from": "PAUL",
+"note": "D-026.1 personal card 9166"
+},
+"gm-1a035c853a691f99": {
+"paid_from": "PAUL",
+"note": "D-026.1 personal card 9166"
+},
+"gm-1a034dad57b6c4b6": {
+"paid_from": "PAUL",
+"note": "D-026.1 personal card 9166"
+},
+"gm-1a035f622ce533a3": {
+"paid_from": "PAUL",
+"note": "D-026.1 personal card 9166"
+},
+"gm-1a036c3b2ec73f14": {
+"paid_from": "PAUL",
+"note": "D-026.1 personal card 9166"
+},
+"gm-1a0640d53a18c970": {
+"paid_from": "PAUL",
+"note": "D-026.1 personal card 7274"
+},
+"gm-19b8f5147938f4fc": {
+"paid_from": "PAUL",
+"note": "D-026.2 before CNB opened"
+},
+"gm-19bae80800798f37": {
+"paid_from": "PAUL",
+"note": "D-026.1 personal card 6774"
+},
+"gm-19b9ef373c8332d3": {
+"property": "104 Ashburne",
+"note": "D-026.3 old tab 104 Ashburne"
+},
+"gm-19ba4950d7e2561c": {
+"paid_from": "PAUL",
+"note": "D-026.2 before CNB opened"
+},
+"gm-19c01b786d4e78d7": {
+"paid_from": "PAUL",
+"note": "D-026.2 before CNB opened"
+},
+"gm-19bae832dd56cffa": {
+"paid_from": "PAUL",
+"note": "D-026.2 before CNB opened"
+},
+"gm-19badcf888c0b1cb": {
+"paid_from": "PAUL",
+"property": "104 Ashburne",
+"note": "D-026.2 before CNB opened; D-026.3 old tab 104 Ashburne"
+},
+"gm-19c01b7410af7c7f": {
+"paid_from": "PAUL",
+"note": "D-026.2 before CNB opened"
+},
+"gm-19bb302267f0364b": {
+"paid_from": "PAUL",
+"property": "104 Ashburne",
+"note": "D-026.2 before CNB opened; D-026.3 old tab 104 Ashburne"
+},
+"gm-19bb34a7b73dc87b": {
+"paid_from": "PAUL",
+"note": "D-026.1 personal card 3746"
+},
+"gm-19bbcabe2cd4e9fa": {
+"paid_from": "PAUL",
+"property": "104 Ashburne",
+"note": "D-026.2 before CNB opened; D-026.3 old tab 104 Ashburne"
+},
+"gm-19bbd41a87b2b698": {
+"paid_from": "PAUL",
+"property": "104 Ashburne",
+"note": "D-026.2 before CNB opened; D-026.3 old tab 104 Ashburne"
+},
+"gm-19bbf1890ac56e0f": {
+"paid_from": "PAUL",
+"note": "D-026.2 before CNB opened"
+},
+"gm-19bc4405fa0bc7e5": {
+"paid_from": "PAUL",
+"note": "D-026.2 before CNB opened"
+},
+"gm-19bc2775a6872115": {
+"paid_from": "PAUL",
+"property": "104 Ashburne",
+"note": "D-026.2 before CNB opened; D-026.3 old tab 104 Ashburne"
+},
+"gm-19bc8a7d88d9c798": {
+"paid_from": "PAUL",
+"property": "104 Ashburne",
+"note": "D-026.1 personal card 3746; D-026.3 old tab 104 Ashburne"
+},
+"gm-19bcc629a4d83e4e": {
+"paid_from": "PAUL",
+"note": "D-026.2 before CNB opened"
+},
+"gm-19c01b8ce2add604": {
+"paid_from": "PAUL",
+"note": "D-026.2 before CNB opened"
+},
+"gm-19c01b8a81785554": {
+"paid_from": "PAUL",
+"note": "D-026.2 before CNB opened"
+},
+"gm-19c01b85d135afa6": {
+"paid_from": "PAUL",
+"note": "D-026.2 before CNB opened"
+},
+"gm-19c1bbf8d22774d9": {
+"paid_from": "PAUL",
+"note": "D-026.2 before CNB opened"
+},
+"gm-19c1afb3be5acff0": {
+"paid_from": "PAUL",
+"property": "104 Ashburne",
+"note": "D-026.2 before CNB opened; D-026.3 old tab 104 Ashburne"
+},
+"gm-19c1fc34982c2b29": {
+"paid_from": "PAUL",
+"note": "D-026.2 before CNB opened"
+},
+"gm-19c54bfd346362be": {
+"paid_from": "PAUL",
+"note": "D-026.2 before CNB opened"
+},
+"gm-19c28915ee4c0912": {
+"paid_from": "PAUL",
+"note": "D-026.2 before CNB opened"
+},
+"gm-19c265b1151d57f5": {
+"paid_from": "PAUL",
+"property": "104 Ashburne",
+"note": "D-026.2 before CNB opened; D-026.3 old tab 104 Ashburne"
+},
+"gm-19c3e4d6fcbb69bf": {
+"paid_from": "PAUL",
+"note": "D-026.2 before CNB opened"
+},
+"gm-19c51f2daddbeabd": {
+"paid_from": "PAUL",
+"note": "D-026.2 before CNB opened"
+},
+"gm-19c51e70660fc809": {
+"paid_from": "PAUL",
+"note": "D-026.2 before CNB opened"
+},
+"gm-19c51f0d0ef588d9": {
+"paid_from": "PAUL",
+"note": "D-026.2 before CNB opened"
+},
+"gm-19c488e7c2b56593": {
+"property": "104 Ashburne",
+"note": "D-026.3 old tab 104 Ashburne"
+},
+"gm-19c51e93e64f8c9d": {
+"paid_from": "PAUL",
+"note": "D-026.2 before CNB opened"
+},
+"gm-19c524ab00c8adef": {
+"property": "104 Ashburne",
+"note": "D-026.3 old tab 104 Ashburne"
+},
+"gm-19cd04f780897c76": {
+"paid_from": "PAUL",
+"note": "D-026.2 before CNB opened"
+},
+"gm-19c5737c9d880d55": {
+"property": "104 Ashburne",
+"note": "D-026.3 old tab 104 Ashburne"
+},
+"gm-19c9b48187cc7444": {
+"paid_from": "PAUL",
+"property": "104 Ashburne",
+"note": "D-026.2 before CNB opened; D-026.3 old tab 104 Ashburne"
+},
+"gm-19c5cde22d3b278d": {
+"paid_from": "PAUL",
+"property": "104 Ashburne",
+"note": "D-026.2 before CNB opened; D-026.3 old tab 104 Ashburne"
+},
+"gm-19c9b4b38c3229d6": {
+"paid_from": "PAUL",
+"note": "D-026.2 before CNB opened"
+},
+"gm-19c678226649aa40": {
+"property": "104 Ashburne",
+"note": "D-026.3 old tab 104 Ashburne"
+},
+"gm-19c6bc67c11b5ac6": {
+"property": "104 Ashburne",
+"note": "D-026.3 old tab 104 Ashburne"
+},
+"gm-19c6be8d0bd458c9": {
+"property": "104 Ashburne",
+"note": "D-026.3 old tab 104 Ashburne"
+},
+"gm-19c727fe5c8e59ee": {
+"paid_from": "PAUL",
+"note": "D-026.2 before CNB opened"
+},
+"gm-19c72800f7d3e852": {
+"paid_from": "PAUL",
+"note": "D-026.2 before CNB opened"
+},
+"gm-19c7092d542413e0": {
+"property": "104 Ashburne",
+"note": "D-026.3 old tab 104 Ashburne"
+},
+"gm-19c72576226cdb22": {
+"paid_from": "PAUL",
+"property": "104 Ashburne",
+"note": "D-026.2 before CNB opened; D-026.3 old tab 104 Ashburne"
+},
+"gm-19c768d3b6197026": {
+"property": "104 Ashburne",
+"note": "D-026.3 old tab 104 Ashburne"
+},
+"gm-19cc51b6b845dd1f": {
+"paid_from": "PAUL",
+"note": "D-026.2 before CNB opened"
+},
+"gm-19c9b3740b02575c": {
+"paid_from": "PAUL",
+"note": "D-026.1 personal card 9166"
+},
+"gm-19c7351495140b60": {
+"paid_from": "PAUL",
+"note": "D-026.2 before CNB opened"
+},
+"gm-19c7cfbc9a6c86a0": {
+"property": "104 Ashburne",
+"note": "D-026.3 old tab 104 Ashburne"
+},
+"gm-19c7bb272d77da5a": {
+"property": "104 Ashburne",
+"note": "D-026.3 old tab 104 Ashburne"
+},
+"gm-19c86e9af6ee7c6d": {
+"paid_from": "PAUL",
+"note": "D-026.2 before CNB opened"
+},
+"gm-19c86f8d07703a61": {
+"paid_from": "PAUL",
+"note": "D-026.2 before CNB opened"
+},
+"gm-19c9f7ea96a8f794": {
+"paid_from": "PAUL",
+"note": "D-026.2 before CNB opened"
+},
+"gm-19cab7819599377d": {
+"paid_from": "PAUL",
+"note": "D-026.2 before CNB opened"
+},
+"gm-19cb001414554a99": {
+"property": "104 Ashburne",
+"note": "D-026.3 old tab 104 Ashburne"
+},
+"gm-19cba38a160751ad": {
+"paid_from": "PAUL",
+"property": "104 Ashburne",
+"note": "D-026.2 before CNB opened; D-026.3 old tab 104 Ashburne"
+},
+"gm-19cbac340f4e5a7b": {
+"paid_from": "PAUL",
+"note": "D-026.2 before CNB opened"
+},
+"gm-19cbe988cb289b26": {
+"paid_from": "PAUL",
+"note": "D-026.2 before CNB opened"
+},
+"gm-19cbe5fe4bbbc3d4": {
+"paid_from": "PAUL",
+"note": "D-026.2 before CNB opened"
+},
+"gm-19cbf798cd5a28c5": {
+"property": "104 Ashburne",
+"note": "D-026.3 old tab 104 Ashburne"
+},
+"gm-19cbe5c17963dd8d": {
+"paid_from": "PAUL",
+"note": "D-026.2 before CNB opened"
+},
+"gm-19cc2d06f909de9a": {
+"paid_from": "PAUL",
+"note": "D-026.2 before CNB opened"
+},
+"gm-19cc5d6126f9b0e8": {
+"paid_from": "PAUL",
+"note": "D-026.2 before CNB opened"
+},
+"gm-19cc11e7f5b50560": {
+"property": "104 Ashburne",
+"note": "D-026.3 old tab 104 Ashburne"
+},
+"gm-19cc528798a2a3e5": {
+"paid_from": "PAUL",
+"note": "D-026.2 before CNB opened"
+},
+"gm-19cc51b9d5d50855": {
+"paid_from": "PAUL",
+"note": "D-026.2 before CNB opened"
+},
+"gm-19cc387a05beb25b": {
+"property": "104 Ashburne",
+"note": "D-026.3 old tab 104 Ashburne"
+},
+"gm-19cc48fef5154a25": {
+"paid_from": "PAUL",
+"note": "D-026.2 before CNB opened"
+},
+"gm-19cc9f61226563fe": {
+"paid_from": "PAUL",
+"note": "D-026.2 before CNB opened"
+},
+"gm-19cc98e8a2850d78": {
+"paid_from": "PAUL",
+"note": "D-026.2 before CNB opened"
+},
+"gm-19cc95f39c8dcc89": {
+"paid_from": "PAUL",
+"property": "104 Ashburne",
+"note": "D-026.2 before CNB opened; D-026.3 old tab 104 Ashburne"
+},
+"gm-19cd5e3f4729e97b": {
+"paid_from": "PAUL",
+"note": "D-026.1 personal card 9166"
+},
+"gm-19cd960f41184363": {
+"paid_from": "PAUL",
+"note": "D-026.2 before CNB opened"
+},
+"gm-19cd5d25a07e5bb1": {
+"paid_from": "PAUL",
+"note": "D-026.2 before CNB opened"
+},
+"gm-19cd8db842855d26": {
+"property": "104 Ashburne",
+"note": "D-026.3 old tab 104 Ashburne"
+},
+"gm-19cddf3d9dcd3db2": {
+"property": "104 Ashburne",
+"note": "D-026.3 old tab 104 Ashburne"
+},
+"gm-19cf195a4573ff01": {
+"paid_from": "PAUL",
+"note": "D-026.2 before CNB opened"
+},
+"gm-19ce39f32dd9c9c0": {
+"property": "104 Ashburne",
+"note": "D-026.3 old tab 104 Ashburne"
+},
+"gm-19ce4d01e565051f": {
+"property": "104 Ashburne",
+"note": "D-026.3 old tab 104 Ashburne"
+},
+"gm-19ce84ad1be595c1": {
+"paid_from": "PAUL",
+"note": "D-026.2 before CNB opened"
+},
+"gm-19ce7f2d328e4ac8": {
+"paid_from": "PAUL",
+"property": "104 Ashburne",
+"note": "D-026.2 before CNB opened; D-026.3 old tab 104 Ashburne"
+},
+"gm-19cfcae97bf0260e": {
+"paid_from": "PAUL",
+"note": "D-026.2 before CNB opened"
+},
+"gm-19cf2444d6efb00f": {
+"property": "104 Ashburne",
+"note": "D-026.3 old tab 104 Ashburne"
+},
+"gm-19cf4858a126476a": {
+"paid_from": "PAUL",
+"note": "D-026.2 before CNB opened"
+},
+"gm-19cf920b5859de0b": {
+"paid_from": "PAUL",
+"note": "D-026.2 before CNB opened"
+},
+"gm-19cf81ba91c8c90f": {
+"paid_from": "PAUL",
+"property": "104 Ashburne",
+"note": "D-026.2 before CNB opened; D-026.3 old tab 104 Ashburne"
+},
+"gm-19cf927112794782": {
+"paid_from": "PAUL",
+"note": "D-026.2 before CNB opened"
+},
+"gm-19d013bd0045dbda": {
+"paid_from": "PAUL",
+"property": "104 Ashburne",
+"note": "D-026.2 before CNB opened; D-026.3 old tab 104 Ashburne"
+},
+"gm-19cfc60f0514c660": {
+"paid_from": "PAUL",
+"note": "D-026.2 before CNB opened"
+},
+"gm-19d015260a55727a": {
+"paid_from": "PAUL",
+"note": "D-026.2 before CNB opened"
+},
+"gm-19d02f0310a87049": {
+"paid_from": "PAUL",
+"note": "D-026.2 before CNB opened"
+},
+"gm-19d0df1ad5bf9d6c": {
+"paid_from": "PAUL",
+"note": "D-026.2 before CNB opened"
+},
+"gm-19d069c13314e2b8": {
+"paid_from": "PAUL",
+"note": "D-026.2 before CNB opened"
+},
+"gm-19d064b856ef56ce": {
+"property": "104 Ashburne",
+"note": "D-026.3 old tab 104 Ashburne"
+},
+"gm-19d22c318a9ae172": {
+"paid_from": "PAUL",
+"note": "D-026.2 before CNB opened"
+},
+"gm-19d06dcf2f70ce53": {
+"paid_from": "PAUL",
+"note": "D-026.2 before CNB opened"
+},
+"gm-19d3c4ca8ef8ddfb": {
+"property": "104 Ashburne",
+"note": "D-026.3 old tab 104 Ashburne"
+},
+"gm-19d3c4c75f8aa4e3": {
+"paid_from": "PAUL",
+"property": "104 Ashburne",
+"note": "D-026.1 personal card 9166; D-026.3 old tab 104 Ashburne"
+},
+"gm-19d0df1e8fcc615c": {
+"paid_from": "PAUL",
+"note": "D-026.1 personal card 9166"
+},
+"gm-19d0b8a1ba69dd09": {
+"paid_from": "PAUL",
+"property": "104 Ashburne",
+"note": "D-026.2 before CNB opened; D-026.3 old tab 104 Ashburne"
+},
+"gm-19d20cf12a8888da": {
+"paid_from": "PAUL",
+"note": "D-026.2 before CNB opened"
+},
+"gm-19d16d3ec604edb7": {
+"property": "104 Ashburne",
+"note": "D-026.3 old tab 104 Ashburne"
+},
+"gm-19d22c0ca88727d6": {
+"paid_from": "PAUL",
+"note": "D-026.2 before CNB opened"
+},
+"gm-19d1cc95a5026d98": {
+"paid_from": "PAUL",
+"note": "D-026.2 before CNB opened"
+},
+"gm-19d253342e722062": {
+"paid_from": "PAUL",
+"note": "D-026.2 before CNB opened"
+},
+"gm-19d1bf70a202aea4": {
+"property": "104 Ashburne",
+"note": "D-026.3 old tab 104 Ashburne"
+},
+"gm-19d1b148cdad166d": {
+"paid_from": "PAUL",
+"property": "104 Ashburne",
+"note": "D-026.2 before CNB opened; D-026.3 old tab 104 Ashburne"
+},
+"gm-19d3c391d5212401": {
+"paid_from": "PAUL",
+"property": "104 Ashburne",
+"note": "D-026.2 before CNB opened; D-026.3 old tab 104 Ashburne"
+},
+"gm-19d253064d2268c2": {
+"property": "104 Ashburne",
+"note": "D-026.3 old tab 104 Ashburne"
+},
+"gm-19d2556d29835a4b": {
+"property": "104 Ashburne",
+"note": "D-026.3 old tab 104 Ashburne"
+},
+"gm-19d2501dd152fc92": {
+"paid_from": "PAUL",
+"note": "D-026.2 before CNB opened"
+},
+"gm-19d22ca91fcea1b2": {
+"paid_from": "PAUL",
+"note": "D-026.2 before CNB opened"
+},
+"gm-19d2c0314cc37287": {
+"paid_from": "PAUL",
+"property": "104 Ashburne",
+"note": "D-026.2 before CNB opened; D-026.3 old tab 104 Ashburne"
+},
+"gm-19d3118d6bcc3a7f": {
+"paid_from": "PAUL",
+"property": "104 Ashburne",
+"note": "D-026.2 before CNB opened; D-026.3 old tab 104 Ashburne"
+},
+"gm-19d60b2c1dd91b48": {
+"paid_from": "PAUL",
+"note": "D-026.2 before CNB opened; D-026.5 payment duplicate of gm-19d405df0d679aff (518.78)",
+"verdict": "dismiss"
+},
+"gm-19d400cec1201a16": {
+"paid_from": "PAUL",
+"property": "104 Ashburne",
+"note": "D-026.2 before CNB opened; D-026.3 old tab 104 Ashburne"
+},
+"gm-19d405df0d679aff": {
+"paid_from": "PAUL",
+"note": "D-026.2 before CNB opened"
+},
+"gm-19d40334634a85c4": {
+"paid_from": "PAUL",
+"note": "D-026.2 before CNB opened"
+},
+"gm-19d3ef1b89eb4900": {
+"paid_from": "PAUL",
+"verdict": "dismiss",
+"note": "D-026.2 before CNB opened; D-026.7 acquisition/advance - migrates from the Cash Advances tab"
+},
+"gm-19d46e442dd379c4": {
+"paid_from": "PAUL",
+"property": "104 Ashburne",
+"note": "D-026.2 before CNB opened; D-026.3 old tab 104 Ashburne"
+},
+"gm-19d4a3ee589e436a": {
+"paid_from": "PAUL",
+"note": "D-026.2 before CNB opened"
+},
+"gm-19d4918fa3edc702": {
+"property": "104 Ashburne",
+"note": "D-026.3 old tab 104 Ashburne"
+},
+"gm-19d55c64fef934ea": {
+"paid_from": "PAUL",
+"note": "D-026.2 before CNB opened"
+},
+"gm-19d54f911af97475": {
+"paid_from": "PAUL",
+"property": "104 Ashburne",
+"note": "D-026.2 before CNB opened; D-026.3 old tab 104 Ashburne"
+},
+"gm-19d54f9e0010bc8c": {
+"paid_from": "PAUL",
+"note": "D-026.2 before CNB opened"
+},
+"gm-19d551c2e7db7daf": {
+"paid_from": "PAUL",
+"property": "104 Ashburne",
+"note": "D-026.2 before CNB opened; D-026.3 old tab 104 Ashburne"
+},
+"gm-19d593d6a8a5082a": {
+"paid_from": "PAUL",
+"note": "D-026.2 before CNB opened"
+},
+"gm-19d5e139b4ae4612": {
+"property": "104 Ashburne",
+"note": "D-026.3 old tab 104 Ashburne"
+},
+"gm-19d6380481e76f15": {
+"paid_from": "PAUL",
+"note": "D-026.2 before CNB opened"
+},
+"gm-19d6117a5116478b": {
+"paid_from": "PAUL",
+"note": "D-026.2 before CNB opened"
+},
+"gm-19d69ac67a04af90": {
+"paid_from": "PAUL",
+"property": "104 Ashburne",
+"note": "D-026.2 before CNB opened; D-026.3 old tab 104 Ashburne"
+},
+"gm-19d7239ecfe05f99": {
+"paid_from": "PAUL",
+"note": "D-026.2 before CNB opened"
+},
+"gm-19d6fef6089eb265": {
+"paid_from": "PAUL",
+"note": "D-026.2 before CNB opened"
+},
+"gm-19d7239afdc082f8": {
+"verdict": "dismiss",
+"note": "D-026.7 acquisition/advance - migrates from the Cash Advances tab"
+},
+"gm-19d6ee18dbed6f84": {
+"property": "104 Ashburne",
+"note": "D-026.3 old tab 104 Ashburne"
+},
+"gm-19d7301fafc82a83": {
+"property": "104 Ashburne",
+"note": "D-026.3 old tab 104 Ashburne"
+},
+"gm-19d74595d34b67cc": {
+"paid_from": "PAUL",
+"property": "104 Ashburne",
+"note": "D-026.2 before CNB opened; D-026.3 old tab 104 Ashburne"
+},
+"gm-19d7558ca4a9a38d": {
+"paid_from": "PAUL",
+"note": "D-026.2 before CNB opened"
+},
+"gm-19d798bb326eaf63": {
+"paid_from": "PAUL",
+"note": "D-026.2 before CNB opened"
+},
+"gm-19d7e6e5e1ce5426": {
+"paid_from": "PAUL",
+"note": "D-026.2 before CNB opened"
+},
+"gm-19d86af34f4c2840": {
+"paid_from": "PAUL",
+"property": "104 Ashburne",
+"note": "D-026.2 before CNB opened; D-026.3 old tab 104 Ashburne"
+},
+"gm-19d86e82a24ba657": {
+"property": "104 Ashburne",
+"note": "D-026.3 old tab 104 Ashburne"
+},
+"gm-19d9259fe2484c26": {
+"property": "104 Ashburne",
+"note": "D-026.3 old tab 104 Ashburne"
+},
+"gm-19d9700278f64d44": {
+"paid_from": "PAUL",
+"note": "D-026.2 before CNB opened"
+},
+"gm-19f3f6ac03e9a878": {
+"paid_from": "PAUL",
+"note": "D-026.2 before CNB opened"
+},
+"gm-19d98540dce2874d": {
+"paid_from": "PAUL",
+"note": "D-026.2 before CNB opened"
+},
+"gm-19d9c13674f5e083": {
+"paid_from": "PAUL",
+"note": "D-026.2 before CNB opened"
+},
+"gm-19d9c2bdd7c7d9c1": {
+"paid_from": "PAUL",
+"note": "D-026.1 personal card 9166"
+},
+"gm-19db68cdc0f2c8e2": {
+"paid_from": "PAUL",
+"note": "D-026.2 before CNB opened"
+},
+"gm-19d9c07d5c6edf7f": {
+"paid_from": "PAUL",
+"note": "D-026.2 before CNB opened"
+},
+"gm-19db09cc256ad72b": {
+"paid_from": "PAUL",
+"note": "D-026.2 before CNB opened"
+},
+"gm-19dc05be6c2af277": {
+"paid_from": "PAUL",
+"note": "D-026.2 before CNB opened"
+},
+"gm-19df4b2c6e1e5aee": {
+"paid_from": "PAUL",
+"property": "104 Ashburne",
+"note": "D-026.2 before CNB opened; D-026.3 old tab 104 Ashburne"
+},
+"gm-19f0781872fdb552": {
+"paid_from": "PAUL",
+"note": "D-026.2 before CNB opened"
+},
+"gm-19dfd55f48f159ef": {
+"property": "104 Ashburne",
+"note": "D-026.3 old tab 104 Ashburne"
+},
+"gm-19e03c938a0f72b2": {
+"property": "104 Ashburne",
+"note": "D-026.3 old tab 104 Ashburne"
+},
+"gm-19f3f6ba1c53dd95": {
+"paid_from": "PAUL",
+"note": "D-026.2 before CNB opened"
+},
+"gm-19e03f3e7be5d988": {
+"paid_from": "PAUL",
+"note": "D-026.2 before CNB opened"
+},
+"gm-19e032c2f5fd1063": {
+"paid_from": "PAUL",
+"property": "104 Ashburne",
+"note": "D-026.2 before CNB opened; D-026.3 old tab 104 Ashburne"
+},
+"gm-19e0966e7b7f7240": {
+"paid_from": "PAUL",
+"note": "D-026.2 before CNB opened"
+},
+"gm-19e091cb11fddeec": {
+"property": "104 Ashburne",
+"note": "D-026.3 old tab 104 Ashburne"
+},
+"gm-19e09b39421dc9af": {
+"paid_from": "PAUL",
+"note": "D-026.2 before CNB opened"
+},
+"gm-19e3b8a5fee70d22": {
+"paid_from": "PAUL",
+"note": "D-026.2 before CNB opened"
+},
+"gm-19e3b9d4d703ee57": {
+"paid_from": "PAUL",
+"note": "D-026.1 personal card 9166"
+},
+"gm-19e3b9e38c92919f": {
+"paid_from": "PAUL",
+"note": "D-026.2 before CNB opened"
+},
+"gm-19e8f766f533f78b": {
+"property": "1616 Granite",
+"note": "D-026.3 old tab 1616 Granite"
+},
+"gm-19e8f7613aa25c25": {
+"property": "104 Ashburne",
+"note": "D-026.3 old tab 104 Ashburne"
+},
+"gm-19e8f7927b019869": {
+"paid_from": "PAUL",
+"note": "D-026.2 before CNB opened"
+},
+"gm-19e8f7902ff23d1b": {
+"paid_from": "PAUL",
+"note": "D-026.2 before CNB opened"
+},
+"gm-19e8f7d48435a6ab": {
+"property": "1616 Granite",
+"note": "D-026.3 old tab 1616 Granite"
+},
+"gm-19eb746f47e8d76d": {
+"paid_from": "PAUL",
+"note": "D-026.2 before CNB opened"
+},
+"gm-19eb7c8c1ca9b3d9": {
+"verdict": "dismiss",
+"note": "D-026.7 acquisition/advance - migrates from the Cash Advances tab"
+},
+"gm-19eb7c57e325911e": {
+"paid_from": "PAUL",
+"verdict": "dismiss",
+"note": "D-026.1 personal card 9166; D-026.7 acquisition/advance - migrates from the Cash Advances tab"
+},
+"gm-19eb748efca975f8": {
+"paid_from": "PAUL",
+"verdict": "dismiss",
+"note": "D-026.2 before CNB opened; D-026.7 acquisition/advance - migrates from the Cash Advances tab"
+},
+"gm-19e8f7ef66615f5a": {
+"property": "1616 Granite",
+"note": "D-026.3 old tab 1616 Granite"
+},
+"gm-19f22f9951be5a8d": {
+"paid_from": "PAUL",
+"note": "D-026.2 before CNB opened"
+},
+"gm-19e8f2fed7efab1f": {
+"paid_from": "PAUL",
+"verdict": "dismiss",
+"note": "D-026.2 before CNB opened; D-026.7 acquisition/advance - migrates from the Cash Advances tab"
+},
+"gm-19ebc1789358c9a5": {
+"paid_from": "PAUL",
+"note": "D-026.2 before CNB opened"
+},
+"gm-19ed0e0fdd1f096a": {
+"paid_from": "PAUL",
+"note": "D-026.2 before CNB opened"
+},
+"gm-19ed0f37232547f4": {
+"paid_from": "PAUL",
+"note": "D-026.1 personal card 9166"
+},
+"gm-19ed8190a6945042": {
+"property": "104 Ashburne",
+"note": "D-026.3 old tab 104 Ashburne"
+},
+"gm-19f3f6e400041553": {
+"paid_from": "PAUL",
+"note": "D-026.2 before CNB opened"
+},
+"gm-19ed81985682b730": {
+"paid_from": "PAUL",
+"property": "104 Ashburne",
+"note": "D-026.2 before CNB opened; D-026.3 old tab 104 Ashburne"
+},
+"gm-19ed8195997d06ad": {
+"paid_from": "PAUL",
+"note": "D-026.2 before CNB opened"
+},
+"gm-19f045704cd8dd76": {
+"paid_from": "PAUL",
+"note": "D-026.2 before CNB opened"
+},
+"gm-19edc17308bcd897": {
+"property": "104 Ashburne",
+"note": "D-026.3 old tab 104 Ashburne"
+},
+"gm-19edb74b0d81508a": {
+"paid_from": "PAUL",
+"note": "D-026.2 before CNB opened"
+},
+"gm-19f043eebcbd0976": {
+"paid_from": "PAUL",
+"note": "D-026.2 before CNB opened"
+},
+"gm-19f076ae56b2925a": {
+"paid_from": "PAUL",
+"note": "D-026.2 before CNB opened"
+},
+"gm-19ef53c9b3142449": {
+"paid_from": "PAUL",
+"note": "D-026.1 personal card 7274"
+},
+"gm-19efaed25d50c403": {
+"paid_from": "PAUL",
+"note": "D-026.2 before CNB opened"
+},
+"gm-19eff3e752656e54": {
+"paid_from": "PAUL",
+"note": "D-026.2 before CNB opened"
+},
+"gm-19f57221a343c4d6": {
+"paid_from": "PAUL",
+"note": "D-026.2 before CNB opened"
+},
+"gm-19f00ab9125115f9": {
+"paid_from": "PAUL",
+"note": "D-026.2 before CNB opened"
+},
+"gm-19f57268c36be87a": {
+"paid_from": "PAUL",
+"note": "D-026.2 before CNB opened"
+},
+"gm-19f0452f77f79ab8": {
+"paid_from": "PAUL",
+"note": "D-026.2 before CNB opened"
+},
+"gm-19f059f5de8379eb": {
+"property": "136 Bowling Green",
+"note": "D-026.3 old tab 136 Bowling Green"
+},
+"gm-19f03e5017a7c259": {
+"paid_from": "PAUL",
+"note": "D-026.2 before CNB opened"
+},
+"gm-19f0b0b7538d446b": {
+"paid_from": "PAUL",
+"note": "D-026.2 before CNB opened"
+},
+"gm-19f3f68f0a53b2e9": {
+"paid_from": "PAUL",
+"note": "D-026.2 before CNB opened"
+},
+"gm-19f0e855936a44de": {
+"property": "104 Ashburne",
+"note": "D-026.3 old tab 104 Ashburne"
+},
+"gm-19f0f64b937a63fa": {
+"paid_from": "PAUL",
+"note": "D-026.2 before CNB opened"
+},
+"gm-19f14d6639a04bb7": {
+"paid_from": "PAUL",
+"note": "D-026.2 before CNB opened"
+},
+"gm-19f14d68fd88ea5f": {
+"paid_from": "PAUL",
+"note": "D-026.2 before CNB opened"
+},
+"gm-19f138efc8a67a8f": {
+"paid_from": "PAUL",
+"note": "D-026.2 before CNB opened"
+},
+"gm-19f19bb75c14f4c6": {
+"paid_from": "PAUL",
+"note": "D-026.2 before CNB opened"
+},
+"gm-19f3f6d3919a5816": {
+"paid_from": "PAUL",
+"note": "D-026.2 before CNB opened"
+},
+"gm-19f18b33a88ea898": {
+"property": "104 Ashburne",
+"note": "D-026.3 old tab 104 Ashburne"
+},
+"gm-19f19badba627de1": {
+"property": "104 Ashburne",
+"note": "D-026.3 old tab 104 Ashburne"
+},
+"gm-19f3f6a3d8a8000d": {
+"paid_from": "PAUL",
+"note": "D-026.2 before CNB opened"
+},
+"gm-19f6bc755fba151a": {
+"paid_from": "PAUL",
+"note": "D-026.2 before CNB opened"
+},
+"gm-19f3f6f42dde4929": {
+"paid_from": "PAUL",
+"note": "D-026.2 before CNB opened"
+},
+"gm-19f390f745f748d4": {
+"paid_from": "PAUL",
+"note": "D-026.2 before CNB opened"
+},
+"gm-19f3cf70fa754ed2": {
+"paid_from": "PAUL",
+"note": "D-026.2 before CNB opened"
+},
+"gm-19f3f5b5bd0654e2": {
+"paid_from": "PAUL",
+"note": "D-026.2 before CNB opened"
+},
+"gm-19f3f5c3cbc8f50e": {
+"paid_from": "PAUL",
+"property": "280 Sparkling",
+"note": "D-026.2 before CNB opened; D-026.3 old tab 280 Sparkling"
+},
+"gm-19f99daa6dab8453": {
+"paid_from": "PAUL",
+"note": "D-026.2 before CNB opened"
+},
+"gm-19f3f70854369633": {
+"paid_from": "PAUL",
+"note": "D-026.2 before CNB opened"
+},
+"gm-19f42c17927282a4": {
+"property": "881 Newport",
+"note": "D-026.3 old tab 881 Newport"
+},
+"gm-19f3f6f506f7c073": {
+"paid_from": "PAUL",
+"note": "D-026.1 personal card 9166"
+},
+"gm-19f43e16247dc4bd": {
+"property": "881 Newport",
+"note": "D-026.3 old tab 881 Newport"
+},
+"gm-19f5c7193197e0a6": {
+"paid_from": "PAUL",
+"note": "D-026.2 before CNB opened"
+},
+"gm-19f86e5bf7f12281": {
+"paid_from": "PAUL",
+"property": "280 Sparkling",
+"note": "D-026.2 before CNB opened; D-026.3 old tab 280 Sparkling"
+},
+"gm-19fb337be62617b6": {
+"paid_from": "PAUL",
+"note": "D-026.2 before CNB opened"
+},
+"gm-19f956c4d89292d8": {
+"paid_from": "PAUL",
+"note": "D-026.2 before CNB opened"
+},
+"gm-19f99e711bce8059": {
+"paid_from": "PAUL",
+"note": "D-026.1 personal card 9166"
+},
+"gm-19f98341582eb450": {
+"property": "1616 Granite",
+"note": "D-026.3 old tab 1616 Granite"
+},
+"gm-19fae6d7ce78c68a": {
+"paid_from": "PAUL",
+"property": "136 Bowling Green",
+"note": "D-026.2 before CNB opened; D-026.3 old tab 136 Bowling Green"
+},
+"gm-19fba44b9851a310": {
+"paid_from": "PAUL",
+"note": "D-026.2 before CNB opened"
+},
+"gm-19fd24ebc9ed8431": {
+"paid_from": "PAUL",
+"note": "D-026.2 before CNB opened"
+},
+"gm-19fba4473773cb78": {
+"paid_from": "PAUL",
+"note": "D-026.2 before CNB opened"
+},
+"gm-19fd34b701a40539": {
+"property": "136 Bowling Green",
+"note": "D-026.3 old tab 136 Bowling Green"
+},
+"gm-19fdc9754b121789": {
+"property": "1616 Granite",
+"note": "D-026.3 old tab 1616 Granite"
+},
+"gm-1a0713ee9ba98b99": {
+"property": "366 Mesa",
+"note": "D-026.3 old tab 366 Mesa"
+},
+"gm-19ff0fce9ebc581d": {
+"paid_from": "PAUL",
+"note": "D-026.1 personal card 9166"
+},
+"gm-1a0175f65049f28b": {
+"paid_from": "PAUL",
+"note": "D-026.1 personal card 9166"
+},
+"gm-1a05ab0fab9330ec": {
+"property": "104 Ashburne",
+"note": "D-026.3 old tab 104 Ashburne"
+},
+"gm-1a05e91af6af152b": {
+"paid_from": "PAUL",
+"note": "D-026.1 personal card 9166"
+},
+"gm-1a05e92632b068ee": {
+"paid_from": "PAUL",
+"note": "D-026.1 personal card 9166"
+},
+"gm-1a0721755474cd9d": {
+"property": "469 Brushwood",
+"note": "D-026.3 old tab 469 Brushwood"
+},
+"gm-19e0744995840e57": {
+"verdict": "dismiss",
+"note": "D-026.5 payment duplicate of gm-19dfabd73aaac412 (1065.74)"
+},
+"gm-19fc8cb445b3e345": {
+"verdict": "dismiss",
+"note": "D-026.5 payment duplicate of gm-19fc8ca461cafa79 (371.16)"
+}
+}
+}
