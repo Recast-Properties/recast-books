@@ -1835,3 +1835,29 @@ function clearBooks() {
     lock.releaseLock();
   }
 }
+
+// ---- Phase 4 (D-024): register every property the old workbook carries -----------
+// Facts read from the 2026-09-17 snapshot (data/migration/2026-09-17/old-workbook-
+// snapshot.xlsx): purchase date and principal from each tab's Purchase line, status
+// from the Sales tab. Settlement dates known only where the tab records an end date;
+// Paul fills the rest. Idempotent: addProperty upserts by name. Run from the editor
+// on the STAGING project first; on the real workbook at cutover.
+function migrationRegisterProperties() {
+  var list = [
+    { name: '104 Ashburne', address: '104 Ashburne Glen Ln, Red Oak TX', status: 'sold', purchase_date: '2025-12-02', purchase_price: '325000', template: 'Heavy', dennis_funded: 'true', notes: 'Phase 4 migration; sold 2026 (Sales tab); settlement date to confirm' },
+    { name: '1616 Granite', address: '1616 Granite Way, Waxahachie TX', status: 'sold', purchase_date: '2026-04-07', purchase_price: '279001', settlement_date: '2026-07-27', template: 'Light', dennis_funded: 'true', notes: 'Phase 4 migration' },
+    { name: '280 Sparkling', address: '280 Sparkling Springs, Waxahachie TX', status: 'sold', purchase_date: '2026-06-02', purchase_price: '196850.50', settlement_date: '2026-08-06', template: 'Light', dennis_funded: 'true', notes: 'Phase 4 migration' },
+    { name: '881 Newport', address: '881 Newport Dr, Ferris TX 75125', status: 'sold', purchase_date: '2026-06-29', purchase_price: '207000', template: 'Light', dennis_funded: 'true', notes: 'Phase 4 migration; sold (Sales tab); settlement date to confirm' },
+    { name: '136 Bowling Green', address: '136 Bowling Green', status: 'held', purchase_date: '2026-06-02', purchase_price: '294651', template: 'Light', dennis_funded: 'true', notes: 'Phase 4 migration' },
+    { name: '206 White Rock', address: '206 White Rock', status: 'held', purchase_date: '2026-06-02', purchase_price: '184500', template: 'Light', dennis_funded: 'true', notes: 'Phase 4 migration' },
+    { name: '366 Mesa', address: '366 Mesa', status: 'held', purchase_date: '2026-08-04', purchase_price: '123645', template: 'Light', dennis_funded: 'true', notes: 'Phase 4 migration' },
+    { name: '469 Brushwood', address: '469 Brushwood Ln, Waxahachie TX 75165', status: 'held', purchase_date: '2026-09-01', purchase_price: '253000', template: 'Light', dennis_funded: 'true', notes: 'Phase 4 migration' }
+  ];
+  var out = [];
+  for (var i = 0; i < list.length; i++) {
+    var r = addProperty(list[i]);
+    out.push(list[i].name + ' -> ' + (r.ok ? (r.created ? 'created' : 'updated') : 'FAILED ' + r.message));
+  }
+  console.log(out.join('\n'));
+  return out;
+}
