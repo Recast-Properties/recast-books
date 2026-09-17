@@ -423,6 +423,34 @@ became values the writer writes (`refreshLineBlocks_`) after every post, void, b
 rebuild, with the txn_id in a white-on-white column beside each block. Gated on 1616
 Granite: 1401 -> PAUL, boxes flipped, Journal shows void + re-post.
 
+## 2026-09-17 — Phase 4 staging replay, run 1 (D-024/D-025)
+
+Built and ran the forensic migration's first pass into the **STAGING** copy of the workbook.
+- Listings (read-only `listBooksMail`, `apps-script/poller/Listing.gs`): paul@ 3,454 messages,
+  properties@ 530, pvb421@ 4,253 (personal; used by id only). Finding: no poller project ever
+  existed under properties@ (Phase 2.6 instance never created); a fresh one holds the listing
+  and the poller code now (`1jbU7FfRFTNgKPpy8aDm7kg8ll5oFJdPmzqWaxr8ZJmSvA9gN9p4cWFyB`).
+- Staging: Drive copy of the workbook (bound writer came with it; script id in
+  `phase0-spec.md` §10), its own Drive folder, `clearBooks()` (guarded by `CLEAR_CONFIRM`),
+  `WRITER_URL` on Netlify switched to the staging deployment (Paul ran env:set + deploy),
+  `migrationRegisterProperties()` registered all eight properties as **held** (the upload
+  and the gate accept documents for held properties only; sold flips at tie-out).
+- Replay: `replayIds` sends an explicit id list from a Drive file (`books-replay-<mailbox>.json`,
+  `reprocess` flag for retries, `built` stamp resets the cursor, self-continues by trigger).
+  `repost` / `repost-all` inbox verbs and the ingest's `fromStored` branch re-post from the
+  stored read without a second model call.
+- paul@: 396 sent. The API account's auto-recharge could not keep up with the burst; 136
+  reads failed with "credit balance is too low" and came back as fake holds; retried after
+  Paul topped up. Comparison run 2 (`scripts/migration-compare.py`,
+  `data/migration/2026-09-17/comparison/`): 171 of 180 sheet-id documents tie to the cent,
+  22 manual and 20 property rows now documented, 71 documents in mail with nothing in the old
+  books (~$12.5K, mostly personal-tagged Uber rides, utilities, CoreLogic), 27 twins collapsed.
+- properties@: 528 in flight (first 43 read: 42 real receipts - the Ashburne phone photos are
+  the paper trail behind the 418 uncovered Ashburne rows).
+- Dominant hold is `PAYER_UNKNOWN` (old receipts don't show the card; one is a Mastercard
+  ending 6774 that is on no account). To be resolved by rules Paul gives once, applied at
+  re-post, not card by card.
+
 ## 2026-09-16 (evening) — D-024: forensic migration next, old books close at cutover
 
 Paul asked whether the old RECAST BIZ books could be forensically recreated in the new
