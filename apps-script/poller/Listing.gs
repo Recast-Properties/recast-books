@@ -163,3 +163,44 @@ function replayIdsReset() {
   PropertiesService.getScriptProperties().deleteProperty('replay_idx');
   console.log('replay index cleared');
 }
+
+// ---- Phase 4 re-post: post again from the STORED reads, no model call ---------------
+// Drives /api/inbox {action:"repost-all"} page by page (D-025). Optional Drive file
+// books-repost-<mailbox>.json: {"only":[docId,...], "overrides":{docId|"*":{paid_from,property}}}
+// carries Paul's review rules; without it every stored read re-posts as is. Used after a
+// clearBooks() on staging, and once at cutover on the real workbook.
+function repostAll() {
+  var props = PropertiesService.getScriptProperties();
+  var secret = props.getProperty('POLLER_SECRET');
+  if (!secret) throw new Error('Missing script property POLLER_SECRET');
+  var mailbox = props.getProperty('MAILBOX') || 'paul';
+  var base = (props.getProperty('BOOKS_UPLOAD_URL') || CONFIG.DEFAULT_UPLOAD_URL).replace(/\/api\/upload$/, '');
+  var spec = {};
+  var files = DriveApp.getFilesByName('books-repost-' + mailbox + '.json');
+  if (files.hasNext()) spec = JSON.parse(files.next().getBlob().getDataAsString());
+  var after = props.getProperty('repost_after') || '';
+  var t0 = Date.now(), fired = 0, skipped = 0, done = false;
+  while (Date.now() - t0 < 200000) {
+    var res = UrlFetchApp.fetch(base + '/api/inbox', {
+      method: 'post', contentType: 'application/json', headers: { 'x-poller-secret': secret },
+      payload: JSON.stringify({ action: 'repost-all', after: after, limit: 20, only: spec.only || undefined, overrides: spec.overrides || undefined }),
+      muteHttpExceptions: true
+    });
+    if (res.getResponseCode() !== 200) { console.error('repost-all HTTP ' + res.getResponseCode() + ' ' + res.getContentText().slice(0, 200)); break; }
+    var data = JSON.parse(res.getContentText());
+    fired += data.fired.length; skipped += data.skipped.length; after = data.after || after; done = !!data.done;
+    props.setProperty('repost_after', after);
+    if (done) break;
+    Utilities.sleep(20000);   // let the ingests drain before the next page
+  }
+  ScriptApp.getProjectTriggers().forEach(function (t) { if (t.getHandlerFunction() === 'repostAll') ScriptApp.deleteTrigger(t); });
+  if (!done) ScriptApp.newTrigger('repostAll').timeBased().after(60 * 1000).create();
+  if (done) props.deleteProperty('repost_after');
+  console.log('REPOST ' + mailbox + ' fired=' + fired + ' skipped=' + skipped + ' after=' + after + ' done=' + done);
+  return { fired: fired, skipped: skipped, done: done };
+}
+
+function repostAllReset() {
+  PropertiesService.getScriptProperties().deleteProperty('repost_after');
+  console.log('repost cursor cleared');
+}

@@ -5,7 +5,7 @@
 //   POST /api/inbox {action:"dismiss", docId, note}               (owner)
 //   POST /api/inbox {action:"reprocess", docId}                   (owner)
 //   POST /api/inbox {action:"repost", docId}                      (owner/poller; D-025, re-post from the stored read)
-//   POST /api/inbox {action:"repost-all", after?, limit?}         (owner/poller; D-025, paged)
+//   POST /api/inbox {action:"repost-all", after?, limit?, only?:[docId], overrides?:{docId|"*":{paid_from?,property?}}}  (owner/poller; D-025, paged)
 //   POST /api/inbox {action:"delete", docId}                      (owner; dry/error only)
 //
 // Every POST verb here is owner-only (task brief: "Owner-only verbs in books-inbox") -
@@ -148,8 +148,10 @@ export default async (req) => {
     if (body.action === "repost-all") {
       const limit = Math.min(Math.max(parseInt(body.limit, 10) || 20, 1), 100);
       const after = String(body.after || "");
+      const only = Array.isArray(body.only) ? new Set(body.only.map(String)) : null;
+      const overrides = body.overrides && typeof body.overrides === "object" ? body.overrides : {};
       const { blobs } = await docsStore.list({ prefix: "doc/" });
-      const keys = blobs.map((b) => b.key).filter((k) => k > `doc/${after}`).sort().slice(0, limit);
+      const keys = blobs.map((b) => b.key).filter((k) => k > `doc/${after}` && (!only || only.has(k.slice(4)))).sort().slice(0, limit);
       const fired = [], skipped = [];
       const origin = new URL(req.url).origin;
       for (const key of keys) {
@@ -160,7 +162,7 @@ export default async (req) => {
         const res = await fetch(`${origin}/api/ingest-bg`, {
           method: "POST",
           headers: { "content-type": "application/json", "x-poller-secret": process.env.POLLER_SECRET },
-          body: JSON.stringify({ docId: id, fromStored: true }),
+          body: JSON.stringify({ docId: id, fromStored: true, overrides: overrides[id] || overrides["*"] || undefined }),
         });
         fired.push({ docId: id, http: res.status });
       }

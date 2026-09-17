@@ -350,13 +350,28 @@ export default async (req) => {
     // verbs invoke this with {docId, fromStored:true}; the gate and every
     // deterministic step below still run fresh against the current ledger.
     const fromStored = body.fromStored === true && envelope.model && envelope.model.verdict;
-    const { model, transcript_summary, usage } = fromStored
+    let { model, transcript_summary, usage } = fromStored
       ? (({ usage: u, transcript_summary: t, ...m }) => ({ model: m, usage: u, transcript_summary: t }))(envelope.model)
       : await runBookkeeper({
           envelope: { ...envelope, context },
           attachments: attachmentsForModel,
           deps,
         });
+    // Phase 4 review rules (D-025): a re-post may carry overrides Paul decided once for
+    // many documents - `paid_from` (resolves PAYER_UNKNOWN: "6774 is my Chase card",
+    // "everything before June was the personal Visa") and `property` (the old books'
+    // attribution wins over the model's guess). Applied to the stored read only; the
+    // gate and duplicate checks still run on the result. Recorded on the envelope.
+    if (fromStored && body.overrides && typeof body.overrides === "object") {
+      const o = body.overrides;
+      const entries = (model.entries || []).map((e) => ({
+        ...e,
+        paid_from: o.paid_from && (!e.paid_from || e.paid_from === "UNKNOWN") ? o.paid_from : e.paid_from,
+        property: o.property ? o.property : e.property,
+      }));
+      model = { ...model, entries, paid_from: o.paid_from && (!model.paid_from || model.paid_from === "UNKNOWN") ? o.paid_from : model.paid_from,
+                overrides: { ...o, applied_at: new Date().toISOString() } };
+    }
 
     const gateResult = evaluateGate(model, ctx, settings, { postedEntries });
 
