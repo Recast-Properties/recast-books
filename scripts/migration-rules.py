@@ -41,7 +41,7 @@ def main():
                 t = tabs[0].replace(" RECONCILED", "").replace("Sparkling for Title", "280 Sparkling")
                 old_prop[r["docId"]] = t
                 # D-026.8: the old heavy-template block (Ashburne) becomes the line's trade
-                blocks = set(w.split("/", 1)[1] for w in where if "/" in w and w.split("/", 1)[1])
+                blocks = set(w.split("/", 1)[1] for w in where if "/" in w and w.split("/", 1)[1] and w.split("/", 1)[0] == tabs[0])
                 if len(blocks) == 1: old_trade[r["docId"]] = blocks.pop()
 
     by_mailbox = collections.defaultdict(dict); counts = collections.Counter()
