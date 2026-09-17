@@ -124,6 +124,9 @@ function replayIds() {
   var list = spec.ids || [];
   var reprocess = spec.reprocess === true;   // retry list: re-ingest docs the API failed on
 
+  // A new list (different `built` stamp) starts from index 0 on its own.
+  var built = String(spec.built || '');
+  if (props.getProperty('replay_built') !== built) { props.setProperty('replay_built', built); props.deleteProperty('replay_idx'); }
   var i = parseInt(props.getProperty('replay_idx') || '0', 10);
   var log = [], ok = 0, skipped = 0, bad = 0;
   for (; i < list.length; i++) {
