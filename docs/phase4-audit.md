@@ -259,3 +259,9 @@ dismiss.
 
 Next: clear staging, `repostAll` with the overrides (no model cost), comparison run 4, then
 the tie-out per property against the snapshot.
+
+## 13 · Corrections register (Phase 4 2b — every intentional difference from the snapshot)
+
+| # | date | where | was | now | who / why |
+|---|---|---|---|---|---|
+| C-1 | 2026-09-17 | 104 Ashburne, FNF Irrigation 2026-03-19 | $45,000.00 | $450.00 | Paul: typo in the old books; fixed in the old workbook the same day; `property-rows.json` patched with the note |

@@ -4012,8 +4012,9 @@ false
 "payee": "FNF Irrigation",
 "date": "2026-03-19",
 "desc": "Controller and DIagnosis",
-"amt": 45000.0,
-"flags": []
+"amt": 450.0,
+"flags": [],
+"correction": "C-1 2026-09-17 Paul: $45,000.00 was a typo, actual $450.00"
 },
 {
 "tab": "104 Ashburne",
