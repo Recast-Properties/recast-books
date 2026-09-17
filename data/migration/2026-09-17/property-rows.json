@@ -2073,7 +2073,8 @@ false
 "date": "2026-01-12",
 "desc": "Drywall/Supplies/Painting",
 "amt": 7000.0,
-"flags": []
+"flags": [],
+"block": "Paint & Flooring"
 },
 {
 "tab": "104 Ashburne",
@@ -2083,7 +2084,8 @@ false
 "date": "2026-01-12",
 "desc": "Dump",
 "amt": 27.3,
-"flags": []
+"flags": [],
+"block": "Trash"
 },
 {
 "tab": "104 Ashburne",
@@ -2093,7 +2095,8 @@ false
 "date": "2026-01-16",
 "desc": "Light Bulbs",
 "amt": 25.94,
-"flags": []
+"flags": [],
+"block": "Lighting & Electrical"
 },
 {
 "tab": "104 Ashburne",
@@ -2103,7 +2106,8 @@ false
 "date": "2026-02-10",
 "desc": "Shower Tile",
 "amt": 750.06,
-"flags": []
+"flags": [],
+"block": "Master Bath"
 },
 {
 "tab": "104 Ashburne",
@@ -2113,7 +2117,8 @@ false
 "date": "2026-02-17",
 "desc": "Shark Bite Toilet Connectors",
 "amt": 44.99,
-"flags": []
+"flags": [],
+"block": "Small Baths"
 },
 {
 "tab": "104 Ashburne",
@@ -2123,7 +2128,8 @@ false
 "date": "2026-01-05",
 "desc": "Clean out",
 "amt": 200.0,
-"flags": []
+"flags": [],
+"block": "Pool"
 },
 {
 "tab": "104 Ashburne",
@@ -2133,7 +2139,8 @@ false
 "date": "2026-01-12",
 "desc": "Labor",
 "amt": 200.0,
-"flags": []
+"flags": [],
+"block": "Landscaping"
 },
 {
 "tab": "104 Ashburne",
@@ -2143,7 +2150,8 @@ false
 "date": "2026-01-15",
 "desc": "Chimney repair",
 "amt": 1000.0,
-"flags": []
+"flags": [],
+"block": "Chimney/FIreplace/Glass"
 },
 {
 "tab": "104 Ashburne",
@@ -2153,7 +2161,8 @@ false
 "date": "2026-02-19",
 "desc": "Kitchen Sink",
 "amt": 399.44,
-"flags": []
+"flags": [],
+"block": "Kitchen"
 },
 {
 "tab": "104 Ashburne",
@@ -2163,7 +2172,8 @@ false
 "date": "2026-02-27",
 "desc": "Cooktop",
 "amt": 1731.99,
-"flags": []
+"flags": [],
+"block": "Appliances"
 },
 {
 "tab": "104 Ashburne",
@@ -2173,7 +2183,8 @@ false
 "date": "2026-01-14",
 "desc": "Control Unit",
 "amt": 378.47,
-"flags": []
+"flags": [],
+"block": "HVAC"
 },
 {
 "tab": "104 Ashburne",
@@ -2183,7 +2194,8 @@ false
 "date": "2026-01-14",
 "desc": "Wall Plates",
 "amt": 4.33,
-"flags": []
+"flags": [],
+"block": "House Hardware"
 },
 {
 "tab": "104 Ashburne",
@@ -2193,7 +2205,8 @@ false
 "date": "2026-02-20",
 "desc": "Counters ",
 "amt": 3558.0,
-"flags": []
+"flags": [],
+"block": "Countertops & Backsplash"
 },
 {
 "tab": "104 Ashburne",
@@ -2203,7 +2216,8 @@ false
 "date": "2026-05-05",
 "desc": "Lift",
 "amt": 904.18,
-"flags": []
+"flags": [],
+"block": "Equipment Rentals"
 },
 {
 "tab": "104 Ashburne",
@@ -2213,7 +2227,8 @@ false
 "date": "2026-01-14",
 "desc": "Pest Control",
 "amt": 270.63,
-"flags": []
+"flags": [],
+"block": "Pest Control"
 },
 {
 "tab": "104 Ashburne",
@@ -2223,7 +2238,8 @@ false
 "date": "2026-01-14",
 "desc": "FIrst payment",
 "amt": 392.62,
-"flags": []
+"flags": [],
+"block": "Insurance - Farmers Insurance"
 },
 {
 "tab": "104 Ashburne",
@@ -2233,7 +2249,8 @@ false
 "date": "2026-01-05",
 "desc": "Deposit",
 "amt": 150.0,
-"flags": []
+"flags": [],
+"block": "Utilities"
 },
 {
 "tab": "104 Ashburne",
@@ -2243,7 +2260,8 @@ false
 "date": "2026-01-08",
 "desc": "Dish Soap",
 "amt": 12.43,
-"flags": []
+"flags": [],
+"block": "Cleaning"
 },
 {
 "tab": "104 Ashburne",
@@ -2253,7 +2271,8 @@ false
 "date": "2026-01-10",
 "desc": "Batteries",
 "amt": 6.48,
-"flags": []
+"flags": [],
+"block": "Supplies"
 },
 {
 "tab": "104 Ashburne",
@@ -2263,7 +2282,8 @@ false
 "date": "2026-01-12",
 "desc": "Gas",
 "amt": 46.14,
-"flags": []
+"flags": [],
+"block": "Gas/Truck/Trailer"
 },
 {
 "tab": "104 Ashburne",
@@ -2273,7 +2293,8 @@ false
 "date": "2026-04-24",
 "desc": "Photos",
 "amt": 628.0,
-"flags": []
+"flags": [],
+"block": "Marketing"
 },
 {
 "tab": "104 Ashburne",
@@ -2283,7 +2304,8 @@ false
 "date": "2026-01-23",
 "desc": "Paint & Floor Installation",
 "amt": 7000.0,
-"flags": []
+"flags": [],
+"block": "Paint & Flooring"
 },
 {
 "tab": "104 Ashburne",
@@ -2293,7 +2315,8 @@ false
 "date": "2026-01-16",
 "desc": "Dump",
 "amt": 27.3,
-"flags": []
+"flags": [],
+"block": "Trash"
 },
 {
 "tab": "104 Ashburne",
@@ -2303,7 +2326,8 @@ false
 "date": "2026-02-10",
 "desc": "Entry Chandelier",
 "amt": 173.18,
-"flags": []
+"flags": [],
+"block": "Lighting & Electrical"
 },
 {
 "tab": "104 Ashburne",
@@ -2313,7 +2337,8 @@ false
 "date": "2026-02-08",
 "desc": "Tub & Faucet",
 "amt": 816.18,
-"flags": []
+"flags": [],
+"block": "Master Bath"
 },
 {
 "tab": "104 Ashburne",
@@ -2323,7 +2348,8 @@ false
 "date": "2026-02-17",
 "desc": "1/2 Wall Flanges",
 "amt": 6.95,
-"flags": []
+"flags": [],
+"block": "Small Baths"
 },
 {
 "tab": "104 Ashburne",
@@ -2333,7 +2359,8 @@ false
 "date": "2026-02-12",
 "desc": "Deposit",
 "amt": 2000.0,
-"flags": []
+"flags": [],
+"block": "Pool"
 },
 {
 "tab": "104 Ashburne",
@@ -2343,7 +2370,8 @@ false
 "date": "2026-01-13",
 "desc": "Labor",
 "amt": 200.0,
-"flags": []
+"flags": [],
+"block": "Landscaping"
 },
 {
 "tab": "104 Ashburne",
@@ -2353,7 +2381,8 @@ false
 "date": "2026-03-30",
 "desc": "Window Replacement",
 "amt": 518.78,
-"flags": []
+"flags": [],
+"block": "Chimney/FIreplace/Glass"
 },
 {
 "tab": "104 Ashburne",
@@ -2363,7 +2392,8 @@ false
 "date": "2026-03-06",
 "desc": "Kitchen Faucet",
 "amt": 128.82,
-"flags": []
+"flags": [],
+"block": "Kitchen"
 },
 {
 "tab": "104 Ashburne",
@@ -2373,7 +2403,8 @@ false
 "date": "2026-04-21",
 "desc": "Cooktop install",
 "amt": 175.0,
-"flags": []
+"flags": [],
+"block": "Appliances"
 },
 {
 "tab": "104 Ashburne",
@@ -2383,7 +2414,8 @@ false
 "date": "2026-01-20",
 "desc": "Pipe Tape",
 "amt": 69.68,
-"flags": []
+"flags": [],
+"block": "HVAC"
 },
 {
 "tab": "104 Ashburne",
@@ -2393,7 +2425,8 @@ false
 "date": "2026-01-09",
 "desc": "Door Lock",
 "amt": 36.11,
-"flags": []
+"flags": [],
+"block": "House Hardware"
 },
 {
 "tab": "104 Ashburne",
@@ -2403,7 +2436,8 @@ false
 "date": "2026-03-06",
 "desc": "Counters ",
 "amt": 4950.0,
-"flags": []
+"flags": [],
+"block": "Countertops & Backsplash"
 },
 {
 "tab": "104 Ashburne",
@@ -2413,7 +2447,8 @@ false
 "date": "2026-02-08",
 "desc": "Feb",
 "amt": 374.58,
-"flags": []
+"flags": [],
+"block": "Insurance - Farmers Insurance"
 },
 {
 "tab": "104 Ashburne",
@@ -2423,7 +2458,8 @@ false
 "date": "2026-01-13",
 "desc": "Electricity",
 "amt": 43.57,
-"flags": []
+"flags": [],
+"block": "Utilities"
 },
 {
 "tab": "104 Ashburne",
@@ -2433,7 +2469,8 @@ false
 "date": "2026-04-16",
 "desc": "WIndow Cleaning",
 "amt": 858.68,
-"flags": []
+"flags": [],
+"block": "Cleaning"
 },
 {
 "tab": "104 Ashburne",
@@ -2443,7 +2480,8 @@ false
 "date": "2026-01-10",
 "desc": "Batteries",
 "amt": 4.74,
-"flags": []
+"flags": [],
+"block": "Supplies"
 },
 {
 "tab": "104 Ashburne",
@@ -2453,7 +2491,8 @@ false
 "date": "2026-01-14",
 "desc": "Gas",
 "amt": 49.3,
-"flags": []
+"flags": [],
+"block": "Gas/Truck/Trailer"
 },
 {
 "tab": "104 Ashburne",
@@ -2463,7 +2502,8 @@ false
 "date": "2026-05-08",
 "desc": "SIgnage",
 "amt": 406.04,
-"flags": []
+"flags": [],
+"block": "Marketing"
 },
 {
 "tab": "104 Ashburne",
@@ -2473,7 +2513,8 @@ false
 "date": "2026-02-09",
 "desc": "Paint & Floor Installation",
 "amt": 7000.0,
-"flags": []
+"flags": [],
+"block": "Paint & Flooring"
 },
 {
 "tab": "104 Ashburne",
@@ -2483,7 +2524,8 @@ false
 "date": "2026-01-16",
 "desc": "Dump",
 "amt": 27.3,
-"flags": []
+"flags": [],
+"block": "Trash"
 },
 {
 "tab": "104 Ashburne",
@@ -2493,7 +2535,8 @@ false
 "date": "2026-02-10",
 "desc": "Light Bulbs",
 "amt": 86.51,
-"flags": []
+"flags": [],
+"block": "Lighting & Electrical"
 },
 {
 "tab": "104 Ashburne",
@@ -2503,7 +2546,8 @@ false
 "date": "0126-02-11",
 "desc": "Shower Glass",
 "amt": 324.74,
-"flags": []
+"flags": [],
+"block": "Master Bath"
 },
 {
 "tab": "104 Ashburne",
@@ -2513,7 +2557,8 @@ false
 "date": "2026-02-18",
 "desc": "Wax Rings",
 "amt": 19.42,
-"flags": []
+"flags": [],
+"block": "Small Baths"
 },
 {
 "tab": "104 Ashburne",
@@ -2523,7 +2568,8 @@ false
 "date": "2026-03-01",
 "desc": "Deposit",
 "amt": 2000.0,
-"flags": []
+"flags": [],
+"block": "Pool"
 },
 {
 "tab": "104 Ashburne",
@@ -2533,7 +2579,8 @@ false
 "date": "2026-01-14",
 "desc": "Labor",
 "amt": 200.0,
-"flags": []
+"flags": [],
+"block": "Landscaping"
 },
 {
 "tab": "104 Ashburne",
@@ -2543,7 +2590,8 @@ false
 "date": "2026-04-21",
 "desc": "Window Replacement",
 "amt": 878.18,
-"flags": []
+"flags": [],
+"block": "Chimney/FIreplace/Glass"
 },
 {
 "tab": "104 Ashburne",
@@ -2553,7 +2601,8 @@ false
 "date": "2026-03-09",
 "desc": "Drawers",
 "amt": 254.5,
-"flags": []
+"flags": [],
+"block": "Kitchen"
 },
 {
 "tab": "104 Ashburne",
@@ -2563,7 +2612,8 @@ false
 "date": "2026-04-10",
 "desc": "Appliaces",
 "amt": 10319.56,
-"flags": []
+"flags": [],
+"block": "Appliances"
 },
 {
 "tab": "104 Ashburne",
@@ -2573,7 +2623,8 @@ false
 "date": "2026-01-20",
 "desc": "6 Pack Electrical Tape",
 "amt": 6.36,
-"flags": []
+"flags": [],
+"block": "HVAC"
 },
 {
 "tab": "104 Ashburne",
@@ -2583,7 +2634,8 @@ false
 "date": "2026-02-10",
 "desc": "Hinges",
 "amt": 324.66,
-"flags": []
+"flags": [],
+"block": "House Hardware"
 },
 {
 "tab": "104 Ashburne",
@@ -2593,7 +2645,8 @@ false
 "date": "2026-03-07",
 "desc": "Backsplash TIle",
 "amt": 248.39,
-"flags": []
+"flags": [],
+"block": "Countertops & Backsplash"
 },
 {
 "tab": "104 Ashburne",
@@ -2603,7 +2656,8 @@ false
 "date": "2026-03-10",
 "desc": "March",
 "amt": 374.58,
-"flags": []
+"flags": [],
+"block": "Insurance - Farmers Insurance"
 },
 {
 "tab": "104 Ashburne",
@@ -2613,7 +2667,8 @@ false
 "date": "2026-03-08",
 "desc": "Natural Gas",
 "amt": 642.6,
-"flags": []
+"flags": [],
+"block": "Utilities"
 },
 {
 "tab": "104 Ashburne",
@@ -2623,7 +2678,8 @@ false
 "date": "2026-01-14",
 "desc": "Cleaning",
 "amt": 500.0,
-"flags": []
+"flags": [],
+"block": "Cleaning"
 },
 {
 "tab": "104 Ashburne",
@@ -2633,7 +2689,8 @@ false
 "date": "2026-01-11",
 "desc": "Dowel",
 "amt": 4.48,
-"flags": []
+"flags": [],
+"block": "Supplies"
 },
 {
 "tab": "104 Ashburne",
@@ -2643,7 +2700,8 @@ false
 "date": "2026-01-16",
 "desc": "Gas",
 "amt": 52.98,
-"flags": []
+"flags": [],
+"block": "Gas/Truck/Trailer"
 },
 {
 "tab": "104 Ashburne",
@@ -2653,7 +2711,8 @@ false
 "date": "2026-02-10",
 "desc": "Flooring",
 "amt": 13500.0,
-"flags": []
+"flags": [],
+"block": "Paint & Flooring"
 },
 {
 "tab": "104 Ashburne",
@@ -2663,7 +2722,8 @@ false
 "date": "2026-01-09",
 "desc": "Labor",
 "amt": 200.0,
-"flags": []
+"flags": [],
+"block": "Trash"
 },
 {
 "tab": "104 Ashburne",
@@ -2673,7 +2733,8 @@ false
 "date": "2026-02-10",
 "desc": "Spray Paint for chandeliers",
 "amt": 7.55,
-"flags": []
+"flags": [],
+"block": "Lighting & Electrical"
 },
 {
 "tab": "104 Ashburne",
@@ -2683,7 +2744,8 @@ false
 "date": "2026-02-09",
 "desc": "Tub drain",
 "amt": 49.78,
-"flags": []
+"flags": [],
+"block": "Master Bath"
 },
 {
 "tab": "104 Ashburne",
@@ -2693,7 +2755,8 @@ false
 "date": "2026-02-19",
 "desc": "Tub REsurface",
 "amt": 400.0,
-"flags": []
+"flags": [],
+"block": "Small Baths"
 },
 {
 "tab": "104 Ashburne",
@@ -2703,7 +2766,8 @@ false
 "date": "2026-03-06",
 "desc": "Deposit",
 "amt": 2025.0,
-"flags": []
+"flags": [],
+"block": "Pool"
 },
 {
 "tab": "104 Ashburne",
@@ -2713,7 +2777,8 @@ false
 "date": "2026-01-15",
 "desc": "Labor",
 "amt": 200.0,
-"flags": []
+"flags": [],
+"block": "Landscaping"
 },
 {
 "tab": "104 Ashburne",
@@ -2723,7 +2788,8 @@ false
 "date": "2026-04-21",
 "desc": "Lift Rental",
 "amt": 922.26,
-"flags": []
+"flags": [],
+"block": "Chimney/FIreplace/Glass"
 },
 {
 "tab": "104 Ashburne",
@@ -2733,7 +2799,8 @@ false
 "date": "2026-03-17",
 "desc": "Under Cabinet Lights",
 "amt": 154.53,
-"flags": []
+"flags": [],
+"block": "Kitchen"
 },
 {
 "tab": "104 Ashburne",
@@ -2743,7 +2810,8 @@ false
 "date": "2026-01-17",
 "desc": "Pipe insulation",
 "amt": 18.06,
-"flags": []
+"flags": [],
+"block": "HVAC"
 },
 {
 "tab": "104 Ashburne",
@@ -2753,7 +2821,8 @@ false
 "date": "2026-02-09",
 "desc": "Drawer pulls",
 "amt": 249.97,
-"flags": []
+"flags": [],
+"block": "House Hardware"
 },
 {
 "tab": "104 Ashburne",
@@ -2763,7 +2832,8 @@ false
 "date": "2026-03-08",
 "desc": "Drywall for backsplash",
 "amt": 14.38,
-"flags": []
+"flags": [],
+"block": "Countertops & Backsplash"
 },
 {
 "tab": "104 Ashburne",
@@ -2773,7 +2843,8 @@ false
 "date": "2026-04-09",
 "desc": "April",
 "amt": 374.58,
-"flags": []
+"flags": [],
+"block": "Insurance - Farmers Insurance"
 },
 {
 "tab": "104 Ashburne",
@@ -2783,7 +2854,8 @@ false
 "date": "2026-01-30",
 "desc": "Ashburne Glen Homeowners Association",
 "amt": 259.09,
-"flags": []
+"flags": [],
+"block": "Utilities"
 },
 {
 "tab": "104 Ashburne",
@@ -2793,7 +2865,8 @@ false
 "date": "2026-09-07",
 "desc": "Cleaning",
 "amt": 450.0,
-"flags": []
+"flags": [],
+"block": "Cleaning"
 },
 {
 "tab": "104 Ashburne",
@@ -2803,7 +2876,8 @@ false
 "date": "2026-01-11",
 "desc": "Screws",
 "amt": 16.91,
-"flags": []
+"flags": [],
+"block": "Supplies"
 },
 {
 "tab": "104 Ashburne",
@@ -2813,7 +2887,8 @@ false
 "date": "2026-02-01",
 "desc": "Gas",
 "amt": 49.45,
-"flags": []
+"flags": [],
+"block": "Gas/Truck/Trailer"
 },
 {
 "tab": "104 Ashburne",
@@ -2823,7 +2898,8 @@ false
 "date": "2026-02-20",
 "desc": "Paint & Floor Installation",
 "amt": 7000.0,
-"flags": []
+"flags": [],
+"block": "Paint & Flooring"
 },
 {
 "tab": "104 Ashburne",
@@ -2833,7 +2909,8 @@ false
 "date": "2026-01-16",
 "desc": "Labor",
 "amt": 200.0,
-"flags": []
+"flags": [],
+"block": "Trash"
 },
 {
 "tab": "104 Ashburne",
@@ -2843,7 +2920,8 @@ false
 "date": "2026-02-16",
 "desc": "Light Bulbs",
 "amt": 56.2,
-"flags": []
+"flags": [],
+"block": "Lighting & Electrical"
 },
 {
 "tab": "104 Ashburne",
@@ -2853,7 +2931,8 @@ false
 "date": "2026-02-09",
 "desc": "Tub drain",
 "amt": 41.01,
-"flags": []
+"flags": [],
+"block": "Master Bath"
 },
 {
 "tab": "104 Ashburne",
@@ -2863,7 +2942,8 @@ false
 "date": "2026-02-20",
 "desc": "Shark Bite Toilet Connectors",
 "amt": 44.99,
-"flags": []
+"flags": [],
+"block": "Small Baths"
 },
 {
 "tab": "104 Ashburne",
@@ -2873,7 +2953,8 @@ false
 "date": "2026-03-13",
 "desc": "Payment",
 "amt": 4025.0,
-"flags": []
+"flags": [],
+"block": "Pool"
 },
 {
 "tab": "104 Ashburne",
@@ -2883,7 +2964,8 @@ false
 "date": "2026-01-13",
 "desc": "Yard debris bags",
 "amt": 13.42,
-"flags": []
+"flags": [],
+"block": "Landscaping"
 },
 {
 "tab": "104 Ashburne",
@@ -2893,7 +2975,8 @@ false
 "date": "2026-03-17",
 "desc": "Under Cabinet Lights",
 "amt": 32.46,
-"flags": []
+"flags": [],
+"block": "Kitchen"
 },
 {
 "tab": "104 Ashburne",
@@ -2903,7 +2986,8 @@ false
 "date": "2026-01-10",
 "desc": "Thermostat",
 "amt": 37.87,
-"flags": []
+"flags": [],
+"block": "HVAC"
 },
 {
 "tab": "104 Ashburne",
@@ -2913,7 +2997,8 @@ false
 "date": "2026-02-04",
 "desc": "Door Knobs",
 "amt": 219.14,
-"flags": []
+"flags": [],
+"block": "House Hardware"
 },
 {
 "tab": "104 Ashburne",
@@ -2923,7 +3008,8 @@ false
 "date": "2026-04-03",
 "desc": "Bath Vanities",
 "amt": 701.42,
-"flags": []
+"flags": [],
+"block": "Countertops & Backsplash"
 },
 {
 "tab": "104 Ashburne",
@@ -2933,7 +3019,8 @@ false
 "date": "2026-05-09",
 "desc": "May",
 "amt": 374.58,
-"flags": []
+"flags": [],
+"block": "Insurance - Farmers Insurance"
 },
 {
 "tab": "104 Ashburne",
@@ -2943,7 +3030,8 @@ false
 "date": "2026-03-06",
 "desc": "Electricity",
 "amt": 240.17,
-"flags": []
+"flags": [],
+"block": "Utilities"
 },
 {
 "tab": "104 Ashburne",
@@ -2953,7 +3041,8 @@ false
 "date": "2026-01-11",
 "desc": "Electrical Tape",
 "amt": 3.12,
-"flags": []
+"flags": [],
+"block": "Supplies"
 },
 {
 "tab": "104 Ashburne",
@@ -2963,7 +3052,8 @@ false
 "date": "2026-02-01",
 "desc": "Oil Chnege",
 "amt": 73.51,
-"flags": []
+"flags": [],
+"block": "Gas/Truck/Trailer"
 },
 {
 "tab": "104 Ashburne",
@@ -2973,7 +3063,8 @@ false
 "date": "2026-02-17",
 "desc": "Floor Protection",
 "amt": 123.34,
-"flags": []
+"flags": [],
+"block": "Paint & Flooring"
 },
 {
 "tab": "104 Ashburne",
@@ -2983,7 +3074,8 @@ false
 "date": "2026-01-07",
 "desc": "Garbage Bags",
 "amt": 64.89,
-"flags": []
+"flags": [],
+"block": "Trash"
 },
 {
 "tab": "104 Ashburne",
@@ -2993,7 +3085,8 @@ false
 "date": "2026-02-19",
 "desc": "Hall & Closet Lights",
 "amt": 64.89,
-"flags": []
+"flags": [],
+"block": "Lighting & Electrical"
 },
 {
 "tab": "104 Ashburne",
@@ -3003,7 +3096,8 @@ false
 "date": "2026-02-03",
 "desc": "Shower Faucet",
 "amt": 312.84,
-"flags": []
+"flags": [],
+"block": "Master Bath"
 },
 {
 "tab": "104 Ashburne",
@@ -3013,7 +3107,8 @@ false
 "date": "2026-02-20",
 "desc": "Angle Stops",
 "amt": 72.8,
-"flags": []
+"flags": [],
+"block": "Small Baths"
 },
 {
 "tab": "104 Ashburne",
@@ -3023,7 +3118,8 @@ false
 "date": "2026-03-29",
 "desc": "Payment",
 "amt": 2177.0,
-"flags": []
+"flags": [],
+"block": "Pool"
 },
 {
 "tab": "104 Ashburne",
@@ -3033,7 +3129,8 @@ false
 "date": "2026-01-14",
 "desc": "Trash Bags",
 "amt": 64.89,
-"flags": []
+"flags": [],
+"block": "Landscaping"
 },
 {
 "tab": "104 Ashburne",
@@ -3043,7 +3140,8 @@ false
 "date": "2026-03-14",
 "desc": "Kitchen Backsplash",
 "amt": 700.0,
-"flags": []
+"flags": [],
+"block": "Kitchen"
 },
 {
 "tab": "104 Ashburne",
@@ -3053,7 +3151,8 @@ false
 "date": "2026-01-10",
 "desc": "Thermostat",
 "amt": 75.73,
-"flags": []
+"flags": [],
+"block": "HVAC"
 },
 {
 "tab": "104 Ashburne",
@@ -3063,7 +3162,8 @@ false
 "date": "2026-02-04",
 "desc": "Door Knobs",
 "amt": 140.68,
-"flags": []
+"flags": [],
+"block": "House Hardware"
 },
 {
 "tab": "104 Ashburne",
@@ -3073,7 +3173,8 @@ false
 "date": "2026-04-11",
 "desc": "Butcher Vlock",
 "amt": 432.98,
-"flags": []
+"flags": [],
+"block": "Countertops & Backsplash"
 },
 {
 "tab": "104 Ashburne",
@@ -3083,7 +3184,8 @@ false
 "date": "2026-06-09",
 "desc": "June",
 "amt": 374.58,
-"flags": []
+"flags": [],
+"block": "Insurance - Farmers Insurance"
 },
 {
 "tab": "104 Ashburne",
@@ -3093,7 +3195,8 @@ false
 "date": "2026-02-23",
 "desc": "Water",
 "amt": 49.14,
-"flags": []
+"flags": [],
+"block": "Utilities"
 },
 {
 "tab": "104 Ashburne",
@@ -3103,7 +3206,8 @@ false
 "date": "2026-01-11",
 "desc": "Wire Nuts",
 "amt": 5.39,
-"flags": []
+"flags": [],
+"block": "Supplies"
 },
 {
 "tab": "104 Ashburne",
@@ -3113,7 +3217,8 @@ false
 "date": "2026-01-21",
 "desc": "Trailer Light",
 "amt": 16.99,
-"flags": []
+"flags": [],
+"block": "Gas/Truck/Trailer"
 },
 {
 "tab": "104 Ashburne",
@@ -3123,7 +3228,8 @@ false
 "date": "2026-02-17",
 "desc": "Tape for Floor Protection",
 "amt": 42.74,
-"flags": []
+"flags": [],
+"block": "Paint & Flooring"
 },
 {
 "tab": "104 Ashburne",
@@ -3133,7 +3239,8 @@ false
 "date": "2026-01-06",
 "desc": "Labor",
 "amt": 200.0,
-"flags": []
+"flags": [],
+"block": "Trash"
 },
 {
 "tab": "104 Ashburne",
@@ -3143,7 +3250,8 @@ false
 "date": "2026-02-19",
 "desc": "Master Closet LED lights",
 "amt": 86.57,
-"flags": []
+"flags": [],
+"block": "Lighting & Electrical"
 },
 {
 "tab": "104 Ashburne",
@@ -3153,7 +3261,8 @@ false
 "date": "2026-02-03",
 "desc": "Shower Niche",
 "amt": 91.99,
-"flags": []
+"flags": [],
+"block": "Master Bath"
 },
 {
 "tab": "104 Ashburne",
@@ -3163,7 +3272,8 @@ false
 "date": "2026-03-02",
 "desc": "Copper Pipe",
 "amt": 16.19,
-"flags": []
+"flags": [],
+"block": "Small Baths"
 },
 {
 "tab": "104 Ashburne",
@@ -3173,7 +3283,8 @@ false
 "date": "2026-03-20",
 "desc": "Valve replacements",
 "amt": 490.0,
-"flags": []
+"flags": [],
+"block": "Pool"
 },
 {
 "tab": "104 Ashburne",
@@ -3183,7 +3294,8 @@ false
 "date": "2026-02-12",
 "desc": "Labor",
 "amt": 100.0,
-"flags": []
+"flags": [],
+"block": "Landscaping"
 },
 {
 "tab": "104 Ashburne",
@@ -3193,7 +3305,8 @@ false
 "date": "2026-04-10",
 "desc": "Kitchen Faucet",
 "amt": 189.57,
-"flags": []
+"flags": [],
+"block": "Kitchen"
 },
 {
 "tab": "104 Ashburne",
@@ -3203,7 +3316,8 @@ false
 "date": "2026-01-24",
 "desc": "HVAC",
 "amt": 606.7,
-"flags": []
+"flags": [],
+"block": "HVAC"
 },
 {
 "tab": "104 Ashburne",
@@ -3213,7 +3327,8 @@ false
 "date": "2026-02-04",
 "desc": "Door Knobs",
 "amt": 70.1,
-"flags": []
+"flags": [],
+"block": "House Hardware"
 },
 {
 "tab": "104 Ashburne",
@@ -3223,7 +3338,8 @@ false
 "date": "2026-07-09",
 "desc": "July",
 "amt": 374.58,
-"flags": []
+"flags": [],
+"block": "Insurance - Farmers Insurance"
 },
 {
 "tab": "104 Ashburne",
@@ -3233,7 +3349,8 @@ false
 "date": "2026-03-27",
 "desc": "Natural Gas",
 "amt": 141.59,
-"flags": []
+"flags": [],
+"block": "Utilities"
 },
 {
 "tab": "104 Ashburne",
@@ -3243,7 +3360,8 @@ false
 "date": "2026-01-11",
 "desc": "Old Work Box",
 "amt": 7.56,
-"flags": []
+"flags": [],
+"block": "Supplies"
 },
 {
 "tab": "104 Ashburne",
@@ -3253,7 +3371,8 @@ false
 "date": "2026-01-21",
 "desc": "Trailer Light",
 "amt": 16.99,
-"flags": []
+"flags": [],
+"block": "Gas/Truck/Trailer"
 },
 {
 "tab": "104 Ashburne",
@@ -3263,7 +3382,8 @@ false
 "date": "2026-02-19",
 "desc": "Spray Paint",
 "amt": 7.56,
-"flags": []
+"flags": [],
+"block": "Paint & Flooring"
 },
 {
 "tab": "104 Ashburne",
@@ -3273,7 +3393,8 @@ false
 "date": "2026-02-11",
 "desc": "Labor",
 "amt": 200.0,
-"flags": []
+"flags": [],
+"block": "Trash"
 },
 {
 "tab": "104 Ashburne",
@@ -3283,7 +3404,8 @@ false
 "date": "2026-02-19",
 "desc": "Light Bulbs",
 "amt": 55.14,
-"flags": []
+"flags": [],
+"block": "Lighting & Electrical"
 },
 {
 "tab": "104 Ashburne",
@@ -3293,7 +3415,8 @@ false
 "date": "2026-02-10",
 "desc": "Angle Stops",
 "amt": 49.54,
-"flags": []
+"flags": [],
+"block": "Master Bath"
 },
 {
 "tab": "104 Ashburne",
@@ -3303,7 +3426,8 @@ false
 "date": "2026-03-02",
 "desc": "Sharkbite Fittings ",
 "amt": 32.28,
-"flags": []
+"flags": [],
+"block": "Small Baths"
 },
 {
 "tab": "104 Ashburne",
@@ -3313,7 +3437,8 @@ false
 "date": "2026-03-20",
 "desc": "Floaty thing",
 "amt": 21.65,
-"flags": []
+"flags": [],
+"block": "Pool"
 },
 {
 "tab": "104 Ashburne",
@@ -3323,7 +3448,8 @@ false
 "date": "2026-02-16",
 "desc": "Labor",
 "amt": 200.0,
-"flags": []
+"flags": [],
+"block": "Landscaping"
 },
 {
 "tab": "104 Ashburne",
@@ -3333,7 +3459,8 @@ false
 "date": "2026-05-05",
 "desc": "HVAC",
 "amt": 1065.74,
-"flags": []
+"flags": [],
+"block": "HVAC"
 },
 {
 "tab": "104 Ashburne",
@@ -3343,7 +3470,8 @@ false
 "date": "2026-02-04",
 "desc": "Smokle Detectors",
 "amt": 148.95,
-"flags": []
+"flags": [],
+"block": "House Hardware"
 },
 {
 "tab": "104 Ashburne",
@@ -3353,7 +3481,8 @@ false
 "date": "2026-08-07",
 "desc": "August",
 "amt": 374.58,
-"flags": []
+"flags": [],
+"block": "Insurance - Farmers Insurance"
 },
 {
 "tab": "104 Ashburne",
@@ -3363,7 +3492,8 @@ false
 "date": "2026-05-08",
 "desc": "Natural Gas",
 "amt": 197.0,
-"flags": []
+"flags": [],
+"block": "Utilities"
 },
 {
 "tab": "104 Ashburne",
@@ -3373,7 +3503,8 @@ false
 "date": "2026-01-11",
 "desc": "Lag Screws",
 "amt": 8.16,
-"flags": []
+"flags": [],
+"block": "Supplies"
 },
 {
 "tab": "104 Ashburne",
@@ -3383,7 +3514,8 @@ false
 "date": "2026-02-01",
 "desc": "Trailer Lumber",
 "amt": 160.17,
-"flags": []
+"flags": [],
+"block": "Gas/Truck/Trailer"
 },
 {
 "tab": "104 Ashburne",
@@ -3393,7 +3525,8 @@ false
 "date": "2026-02-19",
 "desc": "Floor Protection",
 "amt": 123.34,
-"flags": []
+"flags": [],
+"block": "Paint & Flooring"
 },
 {
 "tab": "104 Ashburne",
@@ -3403,7 +3536,8 @@ false
 "date": "2026-02-11",
 "desc": "Dump",
 "amt": 22.5,
-"flags": []
+"flags": [],
+"block": "Trash"
 },
 {
 "tab": "104 Ashburne",
@@ -3413,7 +3547,8 @@ false
 "date": "2026-02-19",
 "desc": "Recessed LED Replacements",
 "amt": 75.71,
-"flags": []
+"flags": [],
+"block": "Lighting & Electrical"
 },
 {
 "tab": "104 Ashburne",
@@ -3423,7 +3558,8 @@ false
 "date": "2026-02-13",
 "desc": "Shower TIle Labor",
 "amt": 3880.0,
-"flags": []
+"flags": [],
+"block": "Master Bath"
 },
 {
 "tab": "104 Ashburne",
@@ -3433,7 +3569,8 @@ false
 "date": "2026-03-05",
 "desc": "Plunger",
 "amt": 10.8,
-"flags": []
+"flags": [],
+"block": "Small Baths"
 },
 {
 "tab": "104 Ashburne",
@@ -3443,7 +3580,8 @@ false
 "date": "2026-03-13",
 "desc": "Hose",
 "amt": 43.28,
-"flags": []
+"flags": [],
+"block": "Pool"
 },
 {
 "tab": "104 Ashburne",
@@ -3453,7 +3591,8 @@ false
 "date": "2026-02-17",
 "desc": "Labor",
 "amt": 200.0,
-"flags": []
+"flags": [],
+"block": "Landscaping"
 },
 {
 "tab": "104 Ashburne",
@@ -3463,7 +3602,8 @@ false
 "date": "2026-02-17",
 "desc": "Double door knobs",
 "amt": 268.15,
-"flags": []
+"flags": [],
+"block": "House Hardware"
 },
 {
 "tab": "104 Ashburne",
@@ -3473,7 +3613,8 @@ false
 "date": "2026-09-07",
 "desc": "Sept",
 "amt": 374.58,
-"flags": []
+"flags": [],
+"block": "Insurance - Farmers Insurance"
 },
 {
 "tab": "104 Ashburne",
@@ -3483,7 +3624,8 @@ false
 "date": "2026-04-06",
 "desc": "Electricity",
 "amt": 68.76,
-"flags": []
+"flags": [],
+"block": "Utilities"
 },
 {
 "tab": "104 Ashburne",
@@ -3493,7 +3635,8 @@ false
 "date": "2026-01-07",
 "desc": "Paper Towels",
 "amt": 1.06,
-"flags": []
+"flags": [],
+"block": "Supplies"
 },
 {
 "tab": "104 Ashburne",
@@ -3503,7 +3646,8 @@ false
 "date": "2026-02-03",
 "desc": "Gas",
 "amt": 45.17,
-"flags": []
+"flags": [],
+"block": "Gas/Truck/Trailer"
 },
 {
 "tab": "104 Ashburne",
@@ -3513,7 +3657,8 @@ false
 "date": "2026-02-22",
 "desc": "Quarter Round",
 "amt": 695.33,
-"flags": []
+"flags": [],
+"block": "Paint & Flooring"
 },
 {
 "tab": "104 Ashburne",
@@ -3523,7 +3668,8 @@ false
 "date": "2026-02-12",
 "desc": "Labor",
 "amt": 100.0,
-"flags": []
+"flags": [],
+"block": "Trash"
 },
 {
 "tab": "104 Ashburne",
@@ -3533,7 +3679,8 @@ false
 "date": "2026-02-19",
 "desc": "Closet Light",
 "amt": 32.44,
-"flags": []
+"flags": [],
+"block": "Lighting & Electrical"
 },
 {
 "tab": "104 Ashburne",
@@ -3543,7 +3690,8 @@ false
 "date": "2026-02-12",
 "desc": "PEX",
 "amt": 10.47,
-"flags": []
+"flags": [],
+"block": "Master Bath"
 },
 {
 "tab": "104 Ashburne",
@@ -3553,7 +3701,8 @@ false
 "date": "2026-03-05",
 "desc": "Toilet",
 "amt": 117.99,
-"flags": []
+"flags": [],
+"block": "Small Baths"
 },
 {
 "tab": "104 Ashburne",
@@ -3563,7 +3712,8 @@ false
 "date": "2026-03-17",
 "desc": "Aiper Pool Robot",
 "amt": 411.34,
-"flags": []
+"flags": [],
+"block": "Pool"
 },
 {
 "tab": "104 Ashburne",
@@ -3573,7 +3723,8 @@ false
 "date": "2026-02-18",
 "desc": "Labor",
 "amt": 200.0,
-"flags": []
+"flags": [],
+"block": "Landscaping"
 },
 {
 "tab": "104 Ashburne",
@@ -3583,7 +3734,8 @@ false
 "date": "2026-02-28",
 "desc": "Threaded Rod",
 "amt": 2.48,
-"flags": []
+"flags": [],
+"block": "House Hardware"
 },
 {
 "tab": "104 Ashburne",
@@ -3593,7 +3745,8 @@ false
 "date": "2026-05-04",
 "desc": "Electricity",
 "amt": 80.22,
-"flags": []
+"flags": [],
+"block": "Utilities"
 },
 {
 "tab": "104 Ashburne",
@@ -3603,7 +3756,8 @@ false
 "date": "2026-01-07",
 "desc": "Masks",
 "amt": 10.8,
-"flags": []
+"flags": [],
+"block": "Supplies"
 },
 {
 "tab": "104 Ashburne",
@@ -3613,7 +3767,8 @@ false
 "date": "2026-02-04",
 "desc": "Trailer Screws etc",
 "amt": 31.04,
-"flags": []
+"flags": [],
+"block": "Gas/Truck/Trailer"
 },
 {
 "tab": "104 Ashburne",
@@ -3623,7 +3778,8 @@ false
 "date": "2026-03-01",
 "desc": "Floor Protection",
 "amt": 164.45,
-"flags": []
+"flags": [],
+"block": "Paint & Flooring"
 },
 {
 "tab": "104 Ashburne",
@@ -3633,7 +3789,8 @@ false
 "date": "2026-02-11",
 "desc": "Garbage Bags",
 "amt": 32.44,
-"flags": []
+"flags": [],
+"block": "Trash"
 },
 {
 "tab": "104 Ashburne",
@@ -3643,7 +3800,8 @@ false
 "date": "2026-02-24",
 "desc": "Light Bulbs",
 "amt": 10.81,
-"flags": []
+"flags": [],
+"block": "Lighting & Electrical"
 },
 {
 "tab": "104 Ashburne",
@@ -3653,7 +3811,8 @@ false
 "date": "2026-02-12",
 "desc": "Sharkbite Fittings",
 "amt": 39.99,
-"flags": []
+"flags": [],
+"block": "Master Bath"
 },
 {
 "tab": "104 Ashburne",
@@ -3663,7 +3822,8 @@ false
 "date": "2026-03-11",
 "desc": "Angle Stops",
 "amt": 31.51,
-"flags": []
+"flags": [],
+"block": "Small Baths"
 },
 {
 "tab": "104 Ashburne",
@@ -3673,7 +3833,8 @@ false
 "date": "2026-03-27",
 "desc": "Polaris",
 "amt": 540.17,
-"flags": []
+"flags": [],
+"block": "Pool"
 },
 {
 "tab": "104 Ashburne",
@@ -3683,7 +3844,8 @@ false
 "date": "2026-03-12",
 "desc": "Weed Killer",
 "amt": 8.63,
-"flags": []
+"flags": [],
+"block": "Landscaping"
 },
 {
 "tab": "104 Ashburne",
@@ -3693,7 +3855,8 @@ false
 "date": "2026-03-06",
 "desc": "Double door knobs",
 "amt": 289.69,
-"flags": []
+"flags": [],
+"block": "House Hardware"
 },
 {
 "tab": "104 Ashburne",
@@ -3703,7 +3866,8 @@ false
 "date": "2026-05-05",
 "desc": "Water",
 "amt": 131.53,
-"flags": []
+"flags": [],
+"block": "Utilities"
 },
 {
 "tab": "104 Ashburne",
@@ -3713,7 +3877,8 @@ false
 "date": "2026-01-10",
 "desc": "Drywall Achors",
 "amt": 7.67,
-"flags": []
+"flags": [],
+"block": "Supplies"
 },
 {
 "tab": "104 Ashburne",
@@ -3723,7 +3888,8 @@ false
 "date": "2026-02-18",
 "desc": "Gas",
 "amt": 52.44,
-"flags": []
+"flags": [],
+"block": "Gas/Truck/Trailer"
 },
 {
 "tab": "104 Ashburne",
@@ -3733,7 +3899,8 @@ false
 "date": "2026-03-01",
 "desc": "Tape for Floor Protection",
 "amt": 42.74,
-"flags": []
+"flags": [],
+"block": "Paint & Flooring"
 },
 {
 "tab": "104 Ashburne",
@@ -3743,7 +3910,8 @@ false
 "date": "2026-02-12",
 "desc": "Dump",
 "amt": 27.3,
-"flags": []
+"flags": [],
+"block": "Trash"
 },
 {
 "tab": "104 Ashburne",
@@ -3753,7 +3921,8 @@ false
 "date": "2026-02-19",
 "desc": "Celing Fans",
 "amt": 865.96,
-"flags": []
+"flags": [],
+"block": "Lighting & Electrical"
 },
 {
 "tab": "104 Ashburne",
@@ -3763,7 +3932,8 @@ false
 "date": "2026-02-13",
 "desc": "Grout",
 "amt": 54.08,
-"flags": []
+"flags": [],
+"block": "Master Bath"
 },
 {
 "tab": "104 Ashburne",
@@ -3773,7 +3943,8 @@ false
 "date": "2026-03-11",
 "desc": "Angle Stop",
 "amt": 15.76,
-"flags": []
+"flags": [],
+"block": "Small Baths"
 },
 {
 "tab": "104 Ashburne",
@@ -3783,7 +3954,8 @@ false
 "date": "2026-03-31",
 "desc": "New Pump",
 "amt": 2120.0,
-"flags": []
+"flags": [],
+"block": "Pool"
 },
 {
 "tab": "104 Ashburne",
@@ -3793,7 +3965,8 @@ false
 "date": "2026-03-12",
 "desc": "Weed & Feed",
 "amt": 75.74,
-"flags": []
+"flags": [],
+"block": "Landscaping"
 },
 {
 "tab": "104 Ashburne",
@@ -3803,7 +3976,8 @@ false
 "date": "2026-03-21",
 "desc": "Door Knobs",
 "amt": 98.42,
-"flags": []
+"flags": [],
+"block": "House Hardware"
 },
 {
 "tab": "104 Ashburne",
@@ -3813,7 +3987,8 @@ false
 "date": "2026-06-04",
 "desc": "Electricity",
 "amt": 139.21,
-"flags": []
+"flags": [],
+"block": "Utilities"
 },
 {
 "tab": "104 Ashburne",
@@ -3823,7 +3998,8 @@ false
 "date": "2026-01-14",
 "desc": "Old Work Boxes",
 "amt": 9.46,
-"flags": []
+"flags": [],
+"block": "Supplies"
 },
 {
 "tab": "104 Ashburne",
@@ -3833,7 +4009,8 @@ false
 "date": "2026-02-12",
 "desc": "Gas",
 "amt": 53.73,
-"flags": []
+"flags": [],
+"block": "Gas/Truck/Trailer"
 },
 {
 "tab": "104 Ashburne",
@@ -3843,7 +4020,8 @@ false
 "date": "2026-03-02",
 "desc": "Moldings",
 "amt": 28.52,
-"flags": []
+"flags": [],
+"block": "Paint & Flooring"
 },
 {
 "tab": "104 Ashburne",
@@ -3853,7 +4031,8 @@ false
 "date": "2026-02-20",
 "desc": "Dump",
 "amt": 22.5,
-"flags": []
+"flags": [],
+"block": "Trash"
 },
 {
 "tab": "104 Ashburne",
@@ -3863,7 +4042,8 @@ false
 "date": "2026-02-19",
 "desc": "Celing Fan Drownrod",
 "amt": 70.34,
-"flags": []
+"flags": [],
+"block": "Lighting & Electrical"
 },
 {
 "tab": "104 Ashburne",
@@ -3873,7 +4053,8 @@ false
 "date": "2026-02-15",
 "desc": "2x4's",
 "amt": 15.33,
-"flags": []
+"flags": [],
+"block": "Master Bath"
 },
 {
 "tab": "104 Ashburne",
@@ -3883,7 +4064,8 @@ false
 "date": "2026-03-16",
 "desc": "Sand Mix",
 "amt": 25.59,
-"flags": []
+"flags": [],
+"block": "Small Baths"
 },
 {
 "tab": "104 Ashburne",
@@ -3893,7 +4075,8 @@ false
 "date": "2026-04-04",
 "desc": "Timer pegs",
 "amt": 8.65,
-"flags": []
+"flags": [],
+"block": "Pool"
 },
 {
 "tab": "104 Ashburne",
@@ -3903,7 +4086,8 @@ false
 "date": "2026-03-17",
 "desc": "Labor",
 "amt": 200.0,
-"flags": []
+"flags": [],
+"block": "Landscaping"
 },
 {
 "tab": "104 Ashburne",
@@ -3913,7 +4097,8 @@ false
 "date": "2026-03-24",
 "desc": "Door Weather Stripping",
 "amt": 112.53,
-"flags": []
+"flags": [],
+"block": "House Hardware"
 },
 {
 "tab": "104 Ashburne",
@@ -3923,7 +4108,8 @@ false
 "date": "2026-06-04",
 "desc": "Natural Gas",
 "amt": 31.31,
-"flags": []
+"flags": [],
+"block": "Utilities"
 },
 {
 "tab": "104 Ashburne",
@@ -3933,7 +4119,8 @@ false
 "date": "2026-01-14",
 "desc": "Old Work Box",
 "amt": 6.47,
-"flags": []
+"flags": [],
+"block": "Supplies"
 },
 {
 "tab": "104 Ashburne",
@@ -3943,7 +4130,8 @@ false
 "date": "2026-02-12",
 "desc": "Trailer Tire",
 "amt": 52.0,
-"flags": []
+"flags": [],
+"block": "Gas/Truck/Trailer"
 },
 {
 "tab": "104 Ashburne",
@@ -3953,7 +4141,8 @@ false
 "date": "2026-03-05",
 "desc": "Baseboards & Trim",
 "amt": 425.84,
-"flags": []
+"flags": [],
+"block": "Paint & Flooring"
 },
 {
 "tab": "104 Ashburne",
@@ -3963,7 +4152,8 @@ false
 "date": "2026-02-20",
 "desc": "Labor",
 "amt": 200.0,
-"flags": []
+"flags": [],
+"block": "Trash"
 },
 {
 "tab": "104 Ashburne",
@@ -3973,7 +4163,8 @@ false
 "date": "2026-02-19",
 "desc": "Light Switches",
 "amt": 69.24,
-"flags": []
+"flags": [],
+"block": "Lighting & Electrical"
 },
 {
 "tab": "104 Ashburne",
@@ -3983,7 +4174,8 @@ false
 "date": "2026-02-18",
 "desc": "Pex Turnsouts",
 "amt": 10.63,
-"flags": []
+"flags": [],
+"block": "Master Bath"
 },
 {
 "tab": "104 Ashburne",
@@ -3993,7 +4185,8 @@ false
 "date": "2026-03-16",
 "desc": "Shower Faucet",
 "amt": 161.29,
-"flags": []
+"flags": [],
+"block": "Small Baths"
 },
 {
 "tab": "104 Ashburne",
@@ -4003,7 +4196,8 @@ false
 "date": "2026-04-17",
 "desc": "New Filter",
 "amt": 1800.0,
-"flags": []
+"flags": [],
+"block": "Pool"
 },
 {
 "tab": "104 Ashburne",
@@ -4014,7 +4208,8 @@ false
 "desc": "Controller and DIagnosis",
 "amt": 450.0,
 "flags": [],
-"correction": "C-1 2026-09-17 Paul: $45,000.00 was a typo, actual $450.00"
+"correction": "C-1 2026-09-17 Paul: $45,000.00 was a typo, actual $450.00",
+"block": "Landscaping"
 },
 {
 "tab": "104 Ashburne",
@@ -4024,7 +4219,8 @@ false
 "date": "2026-03-30",
 "desc": "Crawl Space Door",
 "amt": 261.42,
-"flags": []
+"flags": [],
+"block": "House Hardware"
 },
 {
 "tab": "104 Ashburne",
@@ -4034,7 +4230,8 @@ false
 "date": "2026-07-06",
 "desc": "Electricity",
 "amt": 226.82,
-"flags": []
+"flags": [],
+"block": "Utilities"
 },
 {
 "tab": "104 Ashburne",
@@ -4044,7 +4241,8 @@ false
 "date": "2026-01-15",
 "desc": "Old Work Box",
 "amt": 6.47,
-"flags": []
+"flags": [],
+"block": "Supplies"
 },
 {
 "tab": "104 Ashburne",
@@ -4054,7 +4252,8 @@ false
 "date": "2026-02-14",
 "desc": "Gas",
 "amt": 50.0,
-"flags": []
+"flags": [],
+"block": "Gas/Truck/Trailer"
 },
 {
 "tab": "104 Ashburne",
@@ -4064,7 +4263,8 @@ false
 "date": "2026-03-05",
 "desc": "Flexible Quarter Round",
 "amt": 98.97,
-"flags": []
+"flags": [],
+"block": "Paint & Flooring"
 },
 {
 "tab": "104 Ashburne",
@@ -4074,7 +4274,8 @@ false
 "date": "2026-02-13",
 "desc": "Labor",
 "amt": 200.0,
-"flags": []
+"flags": [],
+"block": "Trash"
 },
 {
 "tab": "104 Ashburne",
@@ -4084,7 +4285,8 @@ false
 "date": "2026-03-05",
 "desc": "Old Work Boxes",
 "amt": 8.57,
-"flags": []
+"flags": [],
+"block": "Lighting & Electrical"
 },
 {
 "tab": "104 Ashburne",
@@ -4094,7 +4296,8 @@ false
 "date": "2026-02-22",
 "desc": "Tile Sample",
 "amt": 14.99,
-"flags": []
+"flags": [],
+"block": "Master Bath"
 },
 {
 "tab": "104 Ashburne",
@@ -4104,7 +4307,8 @@ false
 "date": "2026-03-16",
 "desc": "Shower Niche",
 "amt": 78.99,
-"flags": []
+"flags": [],
+"block": "Small Baths"
 },
 {
 "tab": "104 Ashburne",
@@ -4114,7 +4318,8 @@ false
 "date": "2026-04-17",
 "desc": "Service",
 "amt": 185.0,
-"flags": []
+"flags": [],
+"block": "Pool"
 },
 {
 "tab": "104 Ashburne",
@@ -4124,7 +4329,8 @@ false
 "date": "2026-03-30",
 "desc": "Fence Boards",
 "amt": 39.34,
-"flags": []
+"flags": [],
+"block": "Landscaping"
 },
 {
 "tab": "104 Ashburne",
@@ -4134,7 +4340,8 @@ false
 "date": "2026-03-30",
 "desc": "Glass Deposit",
 "amt": 518.78,
-"flags": []
+"flags": [],
+"block": "House Hardware"
 },
 {
 "tab": "104 Ashburne",
@@ -4144,7 +4351,8 @@ false
 "date": "2026-07-13",
 "desc": "Natural Gas",
 "amt": 31.6,
-"flags": []
+"flags": [],
+"block": "Utilities"
 },
 {
 "tab": "104 Ashburne",
@@ -4154,7 +4362,8 @@ false
 "date": "2026-01-15",
 "desc": "Wood Dowel",
 "amt": 7.34,
-"flags": []
+"flags": [],
+"block": "Supplies"
 },
 {
 "tab": "104 Ashburne",
@@ -4164,7 +4373,8 @@ false
 "date": "2026-02-17",
 "desc": "Flat Tire",
 "amt": 20.0,
-"flags": []
+"flags": [],
+"block": "Gas/Truck/Trailer"
 },
 {
 "tab": "104 Ashburne",
@@ -4174,7 +4384,8 @@ false
 "date": "2026-03-05",
 "desc": "Moldings",
 "amt": 32.41,
-"flags": []
+"flags": [],
+"block": "Paint & Flooring"
 },
 {
 "tab": "104 Ashburne",
@@ -4184,7 +4395,8 @@ false
 "date": "2026-02-18",
 "desc": "Labor",
 "amt": 200.0,
-"flags": []
+"flags": [],
+"block": "Trash"
 },
 {
 "tab": "104 Ashburne",
@@ -4194,7 +4406,8 @@ false
 "date": "2026-03-05",
 "desc": "Outlets",
 "amt": 6.47,
-"flags": []
+"flags": [],
+"block": "Lighting & Electrical"
 },
 {
 "tab": "104 Ashburne",
@@ -4204,7 +4417,8 @@ false
 "date": "2026-02-19",
 "desc": "Sinks",
 "amt": 142.85,
-"flags": []
+"flags": [],
+"block": "Master Bath"
 },
 {
 "tab": "104 Ashburne",
@@ -4214,7 +4428,8 @@ false
 "date": "2026-03-16",
 "desc": "Backer Board",
 "amt": 50.77,
-"flags": []
+"flags": [],
+"block": "Small Baths"
 },
 {
 "tab": "104 Ashburne",
@@ -4224,7 +4439,8 @@ false
 "date": "2026-04-17",
 "desc": "Service",
 "amt": 196.47,
-"flags": []
+"flags": [],
+"block": "Pool"
 },
 {
 "tab": "104 Ashburne",
@@ -4234,7 +4450,8 @@ false
 "date": "2026-05-08",
 "desc": "Lawn Maintenance",
 "amt": 100.0,
-"flags": []
+"flags": [],
+"block": "Landscaping"
 },
 {
 "tab": "104 Ashburne",
@@ -4244,7 +4461,8 @@ false
 "date": "2026-03-30",
 "desc": "Door Knobs",
 "amt": 59.49,
-"flags": []
+"flags": [],
+"block": "House Hardware"
 },
 {
 "tab": "104 Ashburne",
@@ -4254,7 +4472,8 @@ false
 "date": "2026-08-03",
 "desc": "Electricity",
 "amt": 371.16,
-"flags": []
+"flags": [],
+"block": "Utilities"
 },
 {
 "tab": "104 Ashburne",
@@ -4264,7 +4483,8 @@ false
 "date": "2026-02-10",
 "desc": "Shop Towels",
 "amt": 3.77,
-"flags": []
+"flags": [],
+"block": "Supplies"
 },
 {
 "tab": "104 Ashburne",
@@ -4274,7 +4494,8 @@ false
 "date": "2026-02-17",
 "desc": "Lug Nut",
 "amt": 3.45,
-"flags": []
+"flags": [],
+"block": "Gas/Truck/Trailer"
 },
 {
 "tab": "104 Ashburne",
@@ -4284,7 +4505,8 @@ false
 "date": "2026-03-06",
 "desc": "Paint & Floor Installation",
 "amt": 2500.0,
-"flags": []
+"flags": [],
+"block": "Paint & Flooring"
 },
 {
 "tab": "104 Ashburne",
@@ -4294,7 +4516,8 @@ false
 "date": "2026-03-04",
 "desc": "Garbage Bags",
 "amt": 32.44,
-"flags": []
+"flags": [],
+"block": "Trash"
 },
 {
 "tab": "104 Ashburne",
@@ -4304,7 +4527,8 @@ false
 "date": "2026-03-05",
 "desc": "Outlet Covers",
 "amt": 5.85,
-"flags": []
+"flags": [],
+"block": "Lighting & Electrical"
 },
 {
 "tab": "104 Ashburne",
@@ -4314,7 +4538,8 @@ false
 "date": "2026-02-15",
 "desc": "PT 2x4's",
 "amt": 60.79,
-"flags": []
+"flags": [],
+"block": "Master Bath"
 },
 {
 "tab": "104 Ashburne",
@@ -4324,7 +4549,8 @@ false
 "date": "2026-03-18",
 "desc": "Shower Tile",
 "amt": 378.94,
-"flags": []
+"flags": [],
+"block": "Small Baths"
 },
 {
 "tab": "104 Ashburne",
@@ -4334,7 +4560,8 @@ false
 "date": "2026-05-18",
 "desc": "New Timer",
 "amt": 350.0,
-"flags": []
+"flags": [],
+"block": "Pool"
 },
 {
 "tab": "104 Ashburne",
@@ -4344,7 +4571,8 @@ false
 "date": "2026-04-02",
 "desc": "Grass Seed",
 "amt": 205.06,
-"flags": []
+"flags": [],
+"block": "Landscaping"
 },
 {
 "tab": "104 Ashburne",
@@ -4354,7 +4582,8 @@ false
 "date": "2026-04-01",
 "desc": "oor weather stripping",
 "amt": 22.5,
-"flags": []
+"flags": [],
+"block": "House Hardware"
 },
 {
 "tab": "104 Ashburne",
@@ -4364,7 +4593,8 @@ false
 "date": "2026-08-10",
 "desc": "Natural Gas",
 "amt": 35.79,
-"flags": []
+"flags": [],
+"block": "Utilities"
 },
 {
 "tab": "104 Ashburne",
@@ -4374,7 +4604,8 @@ false
 "date": "2026-02-11",
 "desc": "Gloves",
 "amt": 9.17,
-"flags": []
+"flags": [],
+"block": "Supplies"
 },
 {
 "tab": "104 Ashburne",
@@ -4384,7 +4615,8 @@ false
 "date": "2026-02-18",
 "desc": "Gas",
 "amt": 51.48,
-"flags": []
+"flags": [],
+"block": "Gas/Truck/Trailer"
 },
 {
 "tab": "104 Ashburne",
@@ -4394,7 +4626,8 @@ false
 "date": "2026-03-12",
 "desc": "Quarter Round",
 "amt": 52.53,
-"flags": []
+"flags": [],
+"block": "Paint & Flooring"
 },
 {
 "tab": "104 Ashburne",
@@ -4404,7 +4637,8 @@ false
 "date": "2026-03-10",
 "desc": "Dump",
 "amt": 27.3,
-"flags": []
+"flags": [],
+"block": "Trash"
 },
 {
 "tab": "104 Ashburne",
@@ -4414,7 +4648,8 @@ false
 "date": "2026-03-05",
 "desc": "LED Strip Lights For Cabinets",
 "amt": 302.97,
-"flags": []
+"flags": [],
+"block": "Lighting & Electrical"
 },
 {
 "tab": "104 Ashburne",
@@ -4424,7 +4659,8 @@ false
 "date": "2026-03-05",
 "desc": "Sink Faucets",
 "amt": 365.89,
-"flags": []
+"flags": [],
+"block": "Master Bath"
 },
 {
 "tab": "104 Ashburne",
@@ -4434,7 +4670,8 @@ false
 "date": "2026-03-18",
 "desc": "Slutters",
 "amt": 54.02,
-"flags": []
+"flags": [],
+"block": "Small Baths"
 },
 {
 "tab": "104 Ashburne",
@@ -4444,7 +4681,8 @@ false
 "date": "2026-05-18",
 "desc": "Service",
 "amt": 256.01,
-"flags": []
+"flags": [],
+"block": "Pool"
 },
 {
 "tab": "104 Ashburne",
@@ -4454,7 +4692,8 @@ false
 "date": "2026-04-02",
 "desc": "Labor",
 "amt": 200.0,
-"flags": []
+"flags": [],
+"block": "Landscaping"
 },
 {
 "tab": "104 Ashburne",
@@ -4464,7 +4703,8 @@ false
 "date": "2026-04-01",
 "desc": "Door Knobs",
 "amt": 20.55,
-"flags": []
+"flags": [],
+"block": "House Hardware"
 },
 {
 "tab": "104 Ashburne",
@@ -4474,7 +4714,8 @@ false
 "date": "2026-08-10",
 "desc": "Water",
 "amt": 182.67,
-"flags": []
+"flags": [],
+"block": "Utilities"
 },
 {
 "tab": "104 Ashburne",
@@ -4484,7 +4725,8 @@ false
 "date": "2026-02-13",
 "desc": "Shop Towels",
 "amt": 3.77,
-"flags": []
+"flags": [],
+"block": "Supplies"
 },
 {
 "tab": "104 Ashburne",
@@ -4494,7 +4736,8 @@ false
 "date": "2026-02-20",
 "desc": "Gas",
 "amt": 55.15,
-"flags": []
+"flags": [],
+"block": "Gas/Truck/Trailer"
 },
 {
 "tab": "104 Ashburne",
@@ -4504,7 +4747,8 @@ false
 "date": "2026-03-13",
 "desc": "Quarter Round",
 "amt": 48.32,
-"flags": []
+"flags": [],
+"block": "Paint & Flooring"
 },
 {
 "tab": "104 Ashburne",
@@ -4514,7 +4758,8 @@ false
 "date": "2026-03-10",
 "desc": "Labor",
 "amt": 200.0,
-"flags": []
+"flags": [],
+"block": "Trash"
 },
 {
 "tab": "104 Ashburne",
@@ -4524,7 +4769,8 @@ false
 "date": "2026-03-09",
 "desc": "Dining Room Light",
 "amt": 15262.0,
-"flags": []
+"flags": [],
+"block": "Lighting & Electrical"
 },
 {
 "tab": "104 Ashburne",
@@ -4534,7 +4780,8 @@ false
 "date": "2026-03-07",
 "desc": "Tile for bathtub plaform",
 "amt": 373.67,
-"flags": []
+"flags": [],
+"block": "Master Bath"
 },
 {
 "tab": "104 Ashburne",
@@ -4544,7 +4791,8 @@ false
 "date": "2026-03-19",
 "desc": "Grout",
 "amt": 54.08,
-"flags": []
+"flags": [],
+"block": "Small Baths"
 },
 {
 "tab": "104 Ashburne",
@@ -4554,7 +4802,8 @@ false
 "date": "2026-06-11",
 "desc": "Service",
 "amt": 256.01,
-"flags": []
+"flags": [],
+"block": "Pool"
 },
 {
 "tab": "104 Ashburne",
@@ -4564,7 +4813,8 @@ false
 "date": "2026-04-03",
 "desc": "Labor",
 "amt": 200.0,
-"flags": []
+"flags": [],
+"block": "Landscaping"
 },
 {
 "tab": "104 Ashburne",
@@ -4574,7 +4824,8 @@ false
 "date": "2026-04-01",
 "desc": "Door stops",
 "amt": 15.86,
-"flags": []
+"flags": [],
+"block": "House Hardware"
 },
 {
 "tab": "104 Ashburne",
@@ -4584,7 +4835,8 @@ false
 "date": "2026-02-12",
 "desc": "Screws",
 "amt": 15.66,
-"flags": []
+"flags": [],
+"block": "Supplies"
 },
 {
 "tab": "104 Ashburne",
@@ -4594,7 +4846,8 @@ false
 "date": "2026-03-04",
 "desc": "Gas",
 "amt": 55.96,
-"flags": []
+"flags": [],
+"block": "Gas/Truck/Trailer"
 },
 {
 "tab": "104 Ashburne",
@@ -4604,7 +4857,8 @@ false
 "date": "2026-03-13",
 "desc": "Shipping to Felxitions",
 "amt": 11.9,
-"flags": []
+"flags": [],
+"block": "Paint & Flooring"
 },
 {
 "tab": "104 Ashburne",
@@ -4614,7 +4868,8 @@ false
 "date": "2026-03-23",
 "desc": "Labor",
 "amt": 200.0,
-"flags": []
+"flags": [],
+"block": "Trash"
 },
 {
 "tab": "104 Ashburne",
@@ -4624,7 +4879,8 @@ false
 "date": "2026-03-13",
 "desc": "Laundry Bath Light",
 "amt": 120.81,
-"flags": []
+"flags": [],
+"block": "Lighting & Electrical"
 },
 {
 "tab": "104 Ashburne",
@@ -4634,7 +4890,8 @@ false
 "date": "2026-03-07",
 "desc": "Tile for bathtub plaform",
 "amt": 136.4,
-"flags": []
+"flags": [],
+"block": "Master Bath"
 },
 {
 "tab": "104 Ashburne",
@@ -4644,7 +4901,8 @@ false
 "date": "2026-03-19",
 "desc": "Vanith Top",
 "amt": 545.27,
-"flags": []
+"flags": [],
+"block": "Small Baths"
 },
 {
 "tab": "104 Ashburne",
@@ -4654,7 +4912,8 @@ false
 "date": "2026-06-30",
 "desc": "Service",
 "amt": 256.01,
-"flags": []
+"flags": [],
+"block": "Pool"
 },
 {
 "tab": "104 Ashburne",
@@ -4664,7 +4923,8 @@ false
 "date": "2026-04-05",
 "desc": "Labor",
 "amt": 200.0,
-"flags": []
+"flags": [],
+"block": "Landscaping"
 },
 {
 "tab": "104 Ashburne",
@@ -4674,7 +4934,8 @@ false
 "date": "2026-04-03",
 "desc": "Front Door Lock Set",
 "amt": 156.94,
-"flags": []
+"flags": [],
+"block": "House Hardware"
 },
 {
 "tab": "104 Ashburne",
@@ -4684,7 +4945,8 @@ false
 "date": "2026-02-15",
 "desc": "Screws",
 "amt": 16.91,
-"flags": []
+"flags": [],
+"block": "Supplies"
 },
 {
 "tab": "104 Ashburne",
@@ -4694,7 +4956,8 @@ false
 "date": "2026-03-07",
 "desc": "Gas",
 "amt": 59.25,
-"flags": []
+"flags": [],
+"block": "Gas/Truck/Trailer"
 },
 {
 "tab": "104 Ashburne",
@@ -4704,7 +4967,8 @@ false
 "date": "2026-03-16",
 "desc": "3/4 round, garage trim and stair faces",
 "amt": 465.73,
-"flags": []
+"flags": [],
+"block": "Paint & Flooring"
 },
 {
 "tab": "104 Ashburne",
@@ -4714,7 +4978,8 @@ false
 "date": "2026-03-23",
 "desc": "Dump",
 "amt": 27.3,
-"flags": []
+"flags": [],
+"block": "Trash"
 },
 {
 "tab": "104 Ashburne",
@@ -4724,7 +4989,8 @@ false
 "date": "2026-03-21",
 "desc": "Single Bath Light Fixture",
 "amt": 76.85,
-"flags": []
+"flags": [],
+"block": "Lighting & Electrical"
 },
 {
 "tab": "104 Ashburne",
@@ -4734,7 +5000,8 @@ false
 "date": "2026-03-08",
 "desc": "OSB Subfloor",
 "amt": 54.08,
-"flags": []
+"flags": [],
+"block": "Master Bath"
 },
 {
 "tab": "104 Ashburne",
@@ -4744,7 +5011,8 @@ false
 "date": "2026-03-19",
 "desc": "RETURN",
 "amt": -121.02,
-"flags": []
+"flags": [],
+"block": "Small Baths"
 },
 {
 "tab": "104 Ashburne",
@@ -4754,7 +5022,8 @@ false
 "date": "2026-07-30",
 "desc": "Service",
 "amt": 256.01,
-"flags": []
+"flags": [],
+"block": "Pool"
 },
 {
 "tab": "104 Ashburne",
@@ -4764,7 +5033,8 @@ false
 "date": "2026-04-06",
 "desc": "Labor",
 "amt": 200.0,
-"flags": []
+"flags": [],
+"block": "Landscaping"
 },
 {
 "tab": "104 Ashburne",
@@ -4774,7 +5044,8 @@ false
 "date": "2026-04-03",
 "desc": "Front Door Lock Set",
 "amt": 113.64,
-"flags": []
+"flags": [],
+"block": "House Hardware"
 },
 {
 "tab": "104 Ashburne",
@@ -4784,7 +5055,8 @@ false
 "date": "2026-02-16",
 "desc": "Screws",
 "amt": 39.75,
-"flags": []
+"flags": [],
+"block": "Supplies"
 },
 {
 "tab": "104 Ashburne",
@@ -4794,7 +5066,8 @@ false
 "date": "2026-03-10",
 "desc": "Gas",
 "amt": 69.27,
-"flags": []
+"flags": [],
+"block": "Gas/Truck/Trailer"
 },
 {
 "tab": "104 Ashburne",
@@ -4804,7 +5077,8 @@ false
 "date": "2026-03-17",
 "desc": "Quarter Round",
 "amt": 64.63,
-"flags": []
+"flags": [],
+"block": "Paint & Flooring"
 },
 {
 "tab": "104 Ashburne",
@@ -4814,7 +5088,8 @@ false
 "date": "2026-04-08",
 "desc": "Dump",
 "amt": 27.3,
-"flags": []
+"flags": [],
+"block": "Trash"
 },
 {
 "tab": "104 Ashburne",
@@ -4824,7 +5099,8 @@ false
 "date": "2026-03-21",
 "desc": "Downrod",
 "amt": 18.97,
-"flags": []
+"flags": [],
+"block": "Lighting & Electrical"
 },
 {
 "tab": "104 Ashburne",
@@ -4834,7 +5110,8 @@ false
 "date": "2026-03-12",
 "desc": "Molding",
 "amt": 75.86,
-"flags": []
+"flags": [],
+"block": "Master Bath"
 },
 {
 "tab": "104 Ashburne",
@@ -4844,7 +5121,8 @@ false
 "date": "2026-03-19",
 "desc": "Tile",
 "amt": 18.71,
-"flags": []
+"flags": [],
+"block": "Small Baths"
 },
 {
 "tab": "104 Ashburne",
@@ -4854,7 +5132,8 @@ false
 "date": "2026-09-01",
 "desc": "Service - August",
 "amt": 256.01,
-"flags": []
+"flags": [],
+"block": "Pool"
 },
 {
 "tab": "104 Ashburne",
@@ -4864,7 +5143,8 @@ false
 "date": "2026-04-07",
 "desc": "Labor",
 "amt": 200.0,
-"flags": []
+"flags": [],
+"block": "Landscaping"
 },
 {
 "tab": "104 Ashburne",
@@ -4874,7 +5154,8 @@ false
 "date": "2026-06-26",
 "desc": "Window Screens",
 "amt": 927.88,
-"flags": []
+"flags": [],
+"block": "House Hardware"
 },
 {
 "tab": "104 Ashburne",
@@ -4884,7 +5165,8 @@ false
 "date": "2026-02-16",
 "desc": "Thread Dope",
 "amt": 4.16,
-"flags": []
+"flags": [],
+"block": "Supplies"
 },
 {
 "tab": "104 Ashburne",
@@ -4894,7 +5176,8 @@ false
 "date": "2026-03-13",
 "desc": "Gas",
 "amt": 70.6,
-"flags": []
+"flags": [],
+"block": "Gas/Truck/Trailer"
 },
 {
 "tab": "104 Ashburne",
@@ -4904,7 +5187,8 @@ false
 "date": "2026-03-18",
 "desc": "Curved Stair Moldings",
 "amt": 653.34,
-"flags": []
+"flags": [],
+"block": "Paint & Flooring"
 },
 {
 "tab": "104 Ashburne",
@@ -4914,7 +5198,8 @@ false
 "date": "2026-03-21",
 "desc": "RETURN celing fan",
 "amt": -108.23,
-"flags": []
+"flags": [],
+"block": "Lighting & Electrical"
 },
 {
 "tab": "104 Ashburne",
@@ -4924,7 +5209,8 @@ false
 "date": "2026-03-12",
 "desc": "FJP 1x6",
 "amt": 32.99,
-"flags": []
+"flags": [],
+"block": "Master Bath"
 },
 {
 "tab": "104 Ashburne",
@@ -4934,7 +5220,8 @@ false
 "date": "2026-03-19",
 "desc": "Tile",
 "amt": 18.71,
-"flags": []
+"flags": [],
+"block": "Small Baths"
 },
 {
 "tab": "104 Ashburne",
@@ -4944,7 +5231,8 @@ false
 "date": "2026-09-01",
 "desc": "Service - Sept",
 "amt": 256.01,
-"flags": []
+"flags": [],
+"block": "Pool"
 },
 {
 "tab": "104 Ashburne",
@@ -4954,7 +5242,8 @@ false
 "date": "2026-04-08",
 "desc": "Mulch",
 "amt": 259.15,
-"flags": []
+"flags": [],
+"block": "Landscaping"
 },
 {
 "tab": "104 Ashburne",
@@ -4964,7 +5253,8 @@ false
 "date": "2026-02-16",
 "desc": "Staples",
 "amt": 2.15,
-"flags": []
+"flags": [],
+"block": "Supplies"
 },
 {
 "tab": "104 Ashburne",
@@ -4974,7 +5264,8 @@ false
 "date": "2026-03-16",
 "desc": "Gas",
 "amt": 72.08,
-"flags": []
+"flags": [],
+"block": "Gas/Truck/Trailer"
 },
 {
 "tab": "104 Ashburne",
@@ -4984,7 +5275,8 @@ false
 "date": "2026-03-24",
 "desc": "Exterior Paint",
 "amt": 3889.0,
-"flags": []
+"flags": [],
+"block": "Paint & Flooring"
 },
 {
 "tab": "104 Ashburne",
@@ -4994,7 +5286,8 @@ false
 "date": "2026-03-19",
 "desc": "Celing Fans",
 "amt": 898.3,
-"flags": []
+"flags": [],
+"block": "Lighting & Electrical"
 },
 {
 "tab": "104 Ashburne",
@@ -5004,7 +5297,8 @@ false
 "date": "2026-03-12",
 "desc": "Backer Board",
 "amt": 78.21,
-"flags": []
+"flags": [],
+"block": "Master Bath"
 },
 {
 "tab": "104 Ashburne",
@@ -5014,7 +5308,8 @@ false
 "date": "2026-03-20",
 "desc": "Shower Tile",
 "amt": 2910.0,
-"flags": []
+"flags": [],
+"block": "Small Baths"
 },
 {
 "tab": "104 Ashburne",
@@ -5024,7 +5319,8 @@ false
 "date": "2026-04-08",
 "desc": "Landscape Fabric & Supplies",
 "amt": 879.31,
-"flags": []
+"flags": [],
+"block": "Landscaping"
 },
 {
 "tab": "104 Ashburne",
@@ -5034,7 +5330,8 @@ false
 "date": "2026-02-16",
 "desc": "Wire Nuts",
 "amt": 5.4,
-"flags": []
+"flags": [],
+"block": "Supplies"
 },
 {
 "tab": "104 Ashburne",
@@ -5044,7 +5341,8 @@ false
 "date": "2026-03-16",
 "desc": "Brakes",
 "amt": 593.77,
-"flags": []
+"flags": [],
+"block": "Gas/Truck/Trailer"
 },
 {
 "tab": "104 Ashburne",
@@ -5054,7 +5352,8 @@ false
 "date": "2026-03-30",
 "desc": "Exterior Paint",
 "amt": 1670.0,
-"flags": []
+"flags": [],
+"block": "Paint & Flooring"
 },
 {
 "tab": "104 Ashburne",
@@ -5064,7 +5363,8 @@ false
 "date": "2026-03-22",
 "desc": "Outlets, GFI's & Switches",
 "amt": 307.17,
-"flags": []
+"flags": [],
+"block": "Lighting & Electrical"
 },
 {
 "tab": "104 Ashburne",
@@ -5074,7 +5374,8 @@ false
 "date": "2026-03-13",
 "desc": "Grout",
 "amt": 60.81,
-"flags": []
+"flags": [],
+"block": "Master Bath"
 },
 {
 "tab": "104 Ashburne",
@@ -5084,7 +5385,8 @@ false
 "date": "2026-03-23",
 "desc": "Angle Stops",
 "amt": 78.64,
-"flags": []
+"flags": [],
+"block": "Small Baths"
 },
 {
 "tab": "104 Ashburne",
@@ -5094,7 +5396,8 @@ false
 "date": "2026-04-09",
 "desc": "Irrigation Repair",
 "amt": 965.0,
-"flags": []
+"flags": [],
+"block": "Landscaping"
 },
 {
 "tab": "104 Ashburne",
@@ -5104,7 +5407,8 @@ false
 "date": "2026-02-18",
 "desc": "Screws",
 "amt": 15.32,
-"flags": []
+"flags": [],
+"block": "Supplies"
 },
 {
 "tab": "104 Ashburne",
@@ -5114,7 +5418,8 @@ false
 "date": "2026-03-19",
 "desc": "Gas",
 "amt": 13.06,
-"flags": []
+"flags": [],
+"block": "Gas/Truck/Trailer"
 },
 {
 "tab": "104 Ashburne",
@@ -5124,7 +5429,8 @@ false
 "date": "2026-03-31",
 "desc": "Stair Carpet",
 "amt": 491.5,
-"flags": []
+"flags": [],
+"block": "Paint & Flooring"
 },
 {
 "tab": "104 Ashburne",
@@ -5134,7 +5440,8 @@ false
 "date": "2026-03-22",
 "desc": "LED Tape for Master Bth Soffet",
 "amt": 75.74,
-"flags": []
+"flags": [],
+"block": "Lighting & Electrical"
 },
 {
 "tab": "104 Ashburne",
@@ -5144,7 +5451,8 @@ false
 "date": "2026-03-15",
 "desc": "Brass Plumbing Fittings",
 "amt": 36.72,
-"flags": []
+"flags": [],
+"block": "Master Bath"
 },
 {
 "tab": "104 Ashburne",
@@ -5154,7 +5462,8 @@ false
 "date": "2026-03-25",
 "desc": "Tiolet",
 "amt": 107.17,
-"flags": []
+"flags": [],
+"block": "Small Baths"
 },
 {
 "tab": "104 Ashburne",
@@ -5164,7 +5473,8 @@ false
 "date": "2026-04-08",
 "desc": "Mulch & Rock",
 "amt": 1156.15,
-"flags": []
+"flags": [],
+"block": "Landscaping"
 },
 {
 "tab": "104 Ashburne",
@@ -5174,7 +5484,8 @@ false
 "date": "2026-02-18",
 "desc": "Zip Ties",
 "amt": 4.73,
-"flags": []
+"flags": [],
+"block": "Supplies"
 },
 {
 "tab": "104 Ashburne",
@@ -5184,7 +5495,8 @@ false
 "date": "2026-03-20",
 "desc": "Gas",
 "amt": 75.47,
-"flags": []
+"flags": [],
+"block": "Gas/Truck/Trailer"
 },
 {
 "tab": "104 Ashburne",
@@ -5194,7 +5506,8 @@ false
 "date": "2026-04-01",
 "desc": "Quarter Round",
 "amt": 38.78,
-"flags": []
+"flags": [],
+"block": "Paint & Flooring"
 },
 {
 "tab": "104 Ashburne",
@@ -5204,7 +5517,8 @@ false
 "date": "2026-03-22",
 "desc": "LED Shower light",
 "amt": 17.83,
-"flags": []
+"flags": [],
+"block": "Lighting & Electrical"
 },
 {
 "tab": "104 Ashburne",
@@ -5214,7 +5528,8 @@ false
 "date": "2026-03-14",
 "desc": "Tub Platform Tile",
 "amt": 1200.0,
-"flags": []
+"flags": [],
+"block": "Master Bath"
 },
 {
 "tab": "104 Ashburne",
@@ -5224,7 +5539,8 @@ false
 "date": "2026-03-25",
 "desc": "Mirrow",
 "amt": 77.92,
-"flags": []
+"flags": [],
+"block": "Small Baths"
 },
 {
 "tab": "104 Ashburne",
@@ -5234,7 +5550,8 @@ false
 "date": "2026-04-10",
 "desc": "Labor",
 "amt": 800.0,
-"flags": []
+"flags": [],
+"block": "Landscaping"
 },
 {
 "tab": "104 Ashburne",
@@ -5244,7 +5561,8 @@ false
 "date": "2026-02-19",
 "desc": "AAA Batteries",
 "amt": 23.67,
-"flags": []
+"flags": [],
+"block": "Supplies"
 },
 {
 "tab": "104 Ashburne",
@@ -5254,7 +5572,8 @@ false
 "date": "2026-03-23",
 "desc": "Oil",
 "amt": 38.95,
-"flags": []
+"flags": [],
+"block": "Gas/Truck/Trailer"
 },
 {
 "tab": "104 Ashburne",
@@ -5264,7 +5583,8 @@ false
 "date": "2026-04-01",
 "desc": "Quarter Round",
 "amt": 34.47,
-"flags": []
+"flags": [],
+"block": "Paint & Flooring"
 },
 {
 "tab": "104 Ashburne",
@@ -5274,7 +5594,8 @@ false
 "date": "2026-03-19",
 "desc": "18\" Downrod",
 "amt": 25.88,
-"flags": []
+"flags": [],
+"block": "Lighting & Electrical"
 },
 {
 "tab": "104 Ashburne",
@@ -5284,7 +5605,8 @@ false
 "date": "2026-03-21",
 "desc": "Pendandt",
 "amt": 160.0,
-"flags": []
+"flags": [],
+"block": "Master Bath"
 },
 {
 "tab": "104 Ashburne",
@@ -5294,7 +5616,8 @@ false
 "date": "2026-03-25",
 "desc": "Pedastal Sink",
 "amt": 119.08,
-"flags": []
+"flags": [],
+"block": "Small Baths"
 },
 {
 "tab": "104 Ashburne",
@@ -5304,7 +5627,8 @@ false
 "date": "2026-04-10",
 "desc": "Labor",
 "amt": 400.0,
-"flags": []
+"flags": [],
+"block": "Landscaping"
 },
 {
 "tab": "104 Ashburne",
@@ -5314,7 +5638,8 @@ false
 "date": "2026-02-19",
 "desc": "Wire Connectors",
 "amt": 11.7,
-"flags": []
+"flags": [],
+"block": "Supplies"
 },
 {
 "tab": "104 Ashburne",
@@ -5324,7 +5649,8 @@ false
 "date": "2026-03-23",
 "desc": "Gas",
 "amt": 67.5,
-"flags": []
+"flags": [],
+"block": "Gas/Truck/Trailer"
 },
 {
 "tab": "104 Ashburne",
@@ -5334,7 +5660,8 @@ false
 "date": "2026-04-03",
 "desc": "Quarter Round",
 "amt": 25.76,
-"flags": []
+"flags": [],
+"block": "Paint & Flooring"
 },
 {
 "tab": "104 Ashburne",
@@ -5344,7 +5671,8 @@ false
 "date": "2026-03-25",
 "desc": "New Work Boxes",
 "amt": 16.33,
-"flags": []
+"flags": [],
+"block": "Lighting & Electrical"
 },
 {
 "tab": "104 Ashburne",
@@ -5354,7 +5682,8 @@ false
 "date": "2026-03-21",
 "desc": "Window Trim",
 "amt": 31.01,
-"flags": []
+"flags": [],
+"block": "Master Bath"
 },
 {
 "tab": "104 Ashburne",
@@ -5364,7 +5693,8 @@ false
 "date": "2026-03-25",
 "desc": "Hydro Seats",
 "amt": 49.75,
-"flags": []
+"flags": [],
+"block": "Small Baths"
 },
 {
 "tab": "104 Ashburne",
@@ -5374,7 +5704,8 @@ false
 "date": "2026-04-13",
 "desc": "Mulch & Rock",
 "amt": 342.63,
-"flags": []
+"flags": [],
+"block": "Landscaping"
 },
 {
 "tab": "104 Ashburne",
@@ -5384,7 +5715,8 @@ false
 "date": "2026-02-19",
 "desc": "Utility Blades",
 "amt": 4.28,
-"flags": []
+"flags": [],
+"block": "Supplies"
 },
 {
 "tab": "104 Ashburne",
@@ -5394,7 +5726,8 @@ false
 "date": "2026-03-23",
 "desc": "Tire",
 "amt": 135.0,
-"flags": []
+"flags": [],
+"block": "Gas/Truck/Trailer"
 },
 {
 "tab": "104 Ashburne",
@@ -5404,7 +5737,8 @@ false
 "date": "2026-04-01",
 "desc": "Stair Moldings",
 "amt": 350.28,
-"flags": []
+"flags": [],
+"block": "Paint & Flooring"
 },
 {
 "tab": "104 Ashburne",
@@ -5414,7 +5748,8 @@ false
 "date": "2026-03-26",
 "desc": "Wall Plates",
 "amt": 17.08,
-"flags": []
+"flags": [],
+"block": "Lighting & Electrical"
 },
 {
 "tab": "104 Ashburne",
@@ -5424,7 +5759,8 @@ false
 "date": "2026-03-21",
 "desc": "Window Trim",
 "amt": 86.25,
-"flags": []
+"flags": [],
+"block": "Master Bath"
 },
 {
 "tab": "104 Ashburne",
@@ -5434,7 +5770,8 @@ false
 "date": "2026-03-29",
 "desc": "Toggle Bolts",
 "amt": 10.11,
-"flags": []
+"flags": [],
+"block": "Small Baths"
 },
 {
 "tab": "104 Ashburne",
@@ -5444,7 +5781,8 @@ false
 "date": "2026-04-14",
 "desc": "Mulch & Rock",
 "amt": 75.78,
-"flags": []
+"flags": [],
+"block": "Landscaping"
 },
 {
 "tab": "104 Ashburne",
@@ -5454,7 +5792,8 @@ false
 "date": "2026-02-19",
 "desc": "Saw Blade",
 "amt": 54.09,
-"flags": []
+"flags": [],
+"block": "Supplies"
 },
 {
 "tab": "104 Ashburne",
@@ -5464,7 +5803,8 @@ false
 "date": "2026-03-25",
 "desc": "Gas",
 "amt": 65.48,
-"flags": []
+"flags": [],
+"block": "Gas/Truck/Trailer"
 },
 {
 "tab": "104 Ashburne",
@@ -5474,7 +5814,8 @@ false
 "date": "2026-04-05",
 "desc": "Eurethane",
 "amt": 45.4,
-"flags": []
+"flags": [],
+"block": "Paint & Flooring"
 },
 {
 "tab": "104 Ashburne",
@@ -5484,7 +5825,8 @@ false
 "date": "2026-03-26",
 "desc": "Old Work Boxes",
 "amt": 9.18,
-"flags": []
+"flags": [],
+"block": "Lighting & Electrical"
 },
 {
 "tab": "104 Ashburne",
@@ -5494,7 +5836,8 @@ false
 "date": "2026-03-22",
 "desc": "Paint Supplies",
 "amt": 55.72,
-"flags": []
+"flags": [],
+"block": "Master Bath"
 },
 {
 "tab": "104 Ashburne",
@@ -5504,7 +5847,8 @@ false
 "date": "2026-03-29",
 "desc": "P Trap",
 "amt": 5.82,
-"flags": []
+"flags": [],
+"block": "Small Baths"
 },
 {
 "tab": "104 Ashburne",
@@ -5514,7 +5858,8 @@ false
 "date": "2026-04-13",
 "desc": "Labor",
 "amt": 200.0,
-"flags": []
+"flags": [],
+"block": "Landscaping"
 },
 {
 "tab": "104 Ashburne",
@@ -5524,7 +5869,8 @@ false
 "date": "2026-02-14",
 "desc": "Ram Set Ammo",
 "amt": 16.22,
-"flags": []
+"flags": [],
+"block": "Supplies"
 },
 {
 "tab": "104 Ashburne",
@@ -5534,7 +5880,8 @@ false
 "date": "2026-03-25",
 "desc": "Gas",
 "amt": 65.48,
-"flags": []
+"flags": [],
+"block": "Gas/Truck/Trailer"
 },
 {
 "tab": "104 Ashburne",
@@ -5544,7 +5891,8 @@ false
 "date": "2026-04-08",
 "desc": "Floor mats",
 "amt": 81.22,
-"flags": []
+"flags": [],
+"block": "Paint & Flooring"
 },
 {
 "tab": "104 Ashburne",
@@ -5554,7 +5902,8 @@ false
 "date": "2026-03-26",
 "desc": "LED light strip",
 "amt": 64.92,
-"flags": []
+"flags": [],
+"block": "Lighting & Electrical"
 },
 {
 "tab": "104 Ashburne",
@@ -5564,7 +5913,8 @@ false
 "date": "2026-03-24",
 "desc": "FJP 1x6",
 "amt": 32.41,
-"flags": []
+"flags": [],
+"block": "Master Bath"
 },
 {
 "tab": "104 Ashburne",
@@ -5574,7 +5924,8 @@ false
 "date": "2026-03-29",
 "desc": "Extension Tube",
 "amt": 5.81,
-"flags": []
+"flags": [],
+"block": "Small Baths"
 },
 {
 "tab": "104 Ashburne",
@@ -5584,7 +5935,8 @@ false
 "date": "2026-04-14",
 "desc": "Labor",
 "amt": 200.0,
-"flags": []
+"flags": [],
+"block": "Landscaping"
 },
 {
 "tab": "104 Ashburne",
@@ -5594,7 +5946,8 @@ false
 "date": "2026-02-14",
 "desc": "Ram Set Nails",
 "amt": 37.87,
-"flags": []
+"flags": [],
+"block": "Supplies"
 },
 {
 "tab": "104 Ashburne",
@@ -5604,7 +5957,8 @@ false
 "date": "2026-03-27",
 "desc": "Gas",
 "amt": 70.54,
-"flags": []
+"flags": [],
+"block": "Gas/Truck/Trailer"
 },
 {
 "tab": "104 Ashburne",
@@ -5614,7 +5968,8 @@ false
 "date": "2026-04-08",
 "desc": "Carpet protect film",
 "amt": 47.63,
-"flags": []
+"flags": [],
+"block": "Paint & Flooring"
 },
 {
 "tab": "104 Ashburne",
@@ -5624,7 +5979,8 @@ false
 "date": "2026-03-28",
 "desc": "Kitchen Pendant Lights",
 "amt": 362.6,
-"flags": []
+"flags": [],
+"block": "Lighting & Electrical"
 },
 {
 "tab": "104 Ashburne",
@@ -5634,7 +5990,8 @@ false
 "date": "2026-03-25",
 "desc": "Vanity Lights",
 "amt": 594.0,
-"flags": []
+"flags": [],
+"block": "Master Bath"
 },
 {
 "tab": "104 Ashburne",
@@ -5644,7 +6001,8 @@ false
 "date": "2026-03-29",
 "desc": "Wall Flanges",
 "amt": 19.42,
-"flags": []
+"flags": [],
+"block": "Small Baths"
 },
 {
 "tab": "104 Ashburne",
@@ -5654,7 +6012,8 @@ false
 "date": "2026-04-15",
 "desc": "Labor",
 "amt": 300.0,
-"flags": []
+"flags": [],
+"block": "Landscaping"
 },
 {
 "tab": "104 Ashburne",
@@ -5664,7 +6023,8 @@ false
 "date": "2026-03-02",
 "desc": "Paper Towels",
 "amt": 14.05,
-"flags": []
+"flags": [],
+"block": "Supplies"
 },
 {
 "tab": "104 Ashburne",
@@ -5674,7 +6034,8 @@ false
 "date": "2026-03-30",
 "desc": "Gas",
 "amt": 74.95,
-"flags": []
+"flags": [],
+"block": "Gas/Truck/Trailer"
 },
 {
 "tab": "104 Ashburne",
@@ -5684,7 +6045,8 @@ false
 "date": "2026-04-08",
 "desc": "Paint",
 "amt": 62.74,
-"flags": []
+"flags": [],
+"block": "Paint & Flooring"
 },
 {
 "tab": "104 Ashburne",
@@ -5694,7 +6056,8 @@ false
 "date": "2026-03-29",
 "desc": "Wall Sconce",
 "amt": 80.09,
-"flags": []
+"flags": [],
+"block": "Lighting & Electrical"
 },
 {
 "tab": "104 Ashburne",
@@ -5704,7 +6067,8 @@ false
 "date": "2026-03-25",
 "desc": "Tiolet",
 "amt": 107.17,
-"flags": []
+"flags": [],
+"block": "Master Bath"
 },
 {
 "tab": "104 Ashburne",
@@ -5714,7 +6078,8 @@ false
 "date": "2026-04-01",
 "desc": "P traps",
 "amt": 34.91,
-"flags": []
+"flags": [],
+"block": "Small Baths"
 },
 {
 "tab": "104 Ashburne",
@@ -5724,7 +6089,8 @@ false
 "date": "2026-05-21",
 "desc": "Labor",
 "amt": 250.0,
-"flags": []
+"flags": [],
+"block": "Landscaping"
 },
 {
 "tab": "104 Ashburne",
@@ -5734,7 +6100,8 @@ false
 "date": "2026-03-04",
 "desc": "Packing Tape",
 "amt": 7.51,
-"flags": []
+"flags": [],
+"block": "Supplies"
 },
 {
 "tab": "104 Ashburne",
@@ -5744,7 +6111,8 @@ false
 "date": "2026-04-03",
 "desc": "Gas",
 "amt": 71.66,
-"flags": []
+"flags": [],
+"block": "Gas/Truck/Trailer"
 },
 {
 "tab": "104 Ashburne",
@@ -5754,7 +6122,8 @@ false
 "date": "2026-04-08",
 "desc": "Paint",
 "amt": 51.62,
-"flags": []
+"flags": [],
+"block": "Paint & Flooring"
 },
 {
 "tab": "104 Ashburne",
@@ -5764,7 +6133,8 @@ false
 "date": "2026-03-29",
 "desc": "LED can light",
 "amt": 17.83,
-"flags": []
+"flags": [],
+"block": "Lighting & Electrical"
 },
 {
 "tab": "104 Ashburne",
@@ -5774,7 +6144,8 @@ false
 "date": "2026-03-25",
 "desc": "FJP 1x8",
 "amt": 44.01,
-"flags": []
+"flags": [],
+"block": "Master Bath"
 },
 {
 "tab": "104 Ashburne",
@@ -5784,7 +6155,8 @@ false
 "date": "2026-04-01",
 "desc": "angle stops",
 "amt": 27.0,
-"flags": []
+"flags": [],
+"block": "Small Baths"
 },
 {
 "tab": "104 Ashburne",
@@ -5794,7 +6166,8 @@ false
 "date": "2026-05-29",
 "desc": "Labor",
 "amt": 200.0,
-"flags": []
+"flags": [],
+"block": "Landscaping"
 },
 {
 "tab": "104 Ashburne",
@@ -5804,7 +6177,8 @@ false
 "date": "2026-03-04",
 "desc": "Packing Tape",
 "amt": 5.73,
-"flags": []
+"flags": [],
+"block": "Supplies"
 },
 {
 "tab": "104 Ashburne",
@@ -5814,7 +6188,8 @@ false
 "date": "2026-04-06",
 "desc": "Gas",
 "amt": 74.73,
-"flags": []
+"flags": [],
+"block": "Gas/Truck/Trailer"
 },
 {
 "tab": "104 Ashburne",
@@ -5824,7 +6199,8 @@ false
 "date": "2026-03-30",
 "desc": "Exterior Celing Fans",
 "amt": 340.9,
-"flags": []
+"flags": [],
+"block": "Lighting & Electrical"
 },
 {
 "tab": "104 Ashburne",
@@ -5834,7 +6210,8 @@ false
 "date": "2026-03-19",
 "desc": "Water Supplies",
 "amt": 33.25,
-"flags": []
+"flags": [],
+"block": "Master Bath"
 },
 {
 "tab": "104 Ashburne",
@@ -5844,7 +6221,8 @@ false
 "date": "2026-04-02",
 "desc": "Gaskets",
 "amt": 8.31,
-"flags": []
+"flags": [],
+"block": "Small Baths"
 },
 {
 "tab": "104 Ashburne",
@@ -5854,7 +6232,8 @@ false
 "date": "2026-06-24",
 "desc": "Labor",
 "amt": 150.0,
-"flags": []
+"flags": [],
+"block": "Landscaping"
 },
 {
 "tab": "104 Ashburne",
@@ -5864,7 +6243,8 @@ false
 "date": "2026-03-06",
 "desc": "Toilet Paper",
 "amt": 8.1,
-"flags": []
+"flags": [],
+"block": "Supplies"
 },
 {
 "tab": "104 Ashburne",
@@ -5874,7 +6254,8 @@ false
 "date": "2026-04-09",
 "desc": "Gas",
 "amt": 79.3,
-"flags": []
+"flags": [],
+"block": "Gas/Truck/Trailer"
 },
 {
 "tab": "104 Ashburne",
@@ -5884,7 +6265,8 @@ false
 "date": "2026-04-03",
 "desc": "Smolke Detectors",
 "amt": 80.06,
-"flags": []
+"flags": [],
+"block": "Lighting & Electrical"
 },
 {
 "tab": "104 Ashburne",
@@ -5894,7 +6276,8 @@ false
 "date": "2026-02-26",
 "desc": "Plumbing & Lumber",
 "amt": 273.72,
-"flags": []
+"flags": [],
+"block": "Master Bath"
 },
 {
 "tab": "104 Ashburne",
@@ -5904,7 +6287,8 @@ false
 "date": "2026-04-09",
 "desc": "Toilet parts",
 "amt": 40.01,
-"flags": []
+"flags": [],
+"block": "Small Baths"
 },
 {
 "tab": "104 Ashburne",
@@ -5914,7 +6298,8 @@ false
 "date": "2026-03-23",
 "desc": "Deck Repair",
 "amt": 300.0,
-"flags": []
+"flags": [],
+"block": "Landscaping"
 },
 {
 "tab": "104 Ashburne",
@@ -5924,7 +6309,8 @@ false
 "date": "2026-03-06",
 "desc": "Multi Tool Blades",
 "amt": 36.74,
-"flags": []
+"flags": [],
+"block": "Supplies"
 },
 {
 "tab": "104 Ashburne",
@@ -5934,7 +6320,8 @@ false
 "date": "2026-04-11",
 "desc": "Gas",
 "amt": 69.27,
-"flags": []
+"flags": [],
+"block": "Gas/Truck/Trailer"
 },
 {
 "tab": "104 Ashburne",
@@ -5944,7 +6331,8 @@ false
 "date": "2026-04-03",
 "desc": "Batteries",
 "amt": 11.8,
-"flags": []
+"flags": [],
+"block": "Lighting & Electrical"
 },
 {
 "tab": "104 Ashburne",
@@ -5954,7 +6342,8 @@ false
 "date": "2026-03-26",
 "desc": "Closet Shelf",
 "amt": 23.79,
-"flags": []
+"flags": [],
+"block": "Master Bath"
 },
 {
 "tab": "104 Ashburne",
@@ -5964,7 +6353,8 @@ false
 "date": "2026-06-16",
 "desc": "Bathroom Fan",
 "amt": 23.82,
-"flags": []
+"flags": [],
+"block": "Small Baths"
 },
 {
 "tab": "104 Ashburne",
@@ -5974,7 +6364,8 @@ false
 "date": "2026-07-07",
 "desc": "Labor",
 "amt": 150.0,
-"flags": []
+"flags": [],
+"block": "Landscaping"
 },
 {
 "tab": "104 Ashburne",
@@ -5984,7 +6375,8 @@ false
 "date": "2026-03-06",
 "desc": "Checks",
 "amt": 6.0,
-"flags": []
+"flags": [],
+"block": "Supplies"
 },
 {
 "tab": "104 Ashburne",
@@ -5994,7 +6386,8 @@ false
 "date": "2026-04-15",
 "desc": "Gas",
 "amt": 10.97,
-"flags": []
+"flags": [],
+"block": "Gas/Truck/Trailer"
 },
 {
 "tab": "104 Ashburne",
@@ -6004,7 +6397,8 @@ false
 "date": "2026-04-03",
 "desc": "Electrical Straps",
 "amt": 7.53,
-"flags": []
+"flags": [],
+"block": "Lighting & Electrical"
 },
 {
 "tab": "104 Ashburne",
@@ -6014,7 +6408,8 @@ false
 "date": "2026-03-26",
 "desc": "Hose Clamp",
 "amt": 2.53,
-"flags": []
+"flags": [],
+"block": "Master Bath"
 },
 {
 "tab": "104 Ashburne",
@@ -6024,7 +6419,8 @@ false
 "date": "2026-06-16",
 "desc": "Roof Vent",
 "amt": 38.97,
-"flags": []
+"flags": [],
+"block": "Small Baths"
 },
 {
 "tab": "104 Ashburne",
@@ -6034,7 +6430,8 @@ false
 "date": "2026-08-30",
 "desc": "Trim Bushes",
 "amt": 150.0,
-"flags": []
+"flags": [],
+"block": "Landscaping"
 },
 {
 "tab": "104 Ashburne",
@@ -6044,7 +6441,8 @@ false
 "date": "2026-03-08",
 "desc": "Multi Tool Blades",
 "amt": 18.37,
-"flags": []
+"flags": [],
+"block": "Supplies"
 },
 {
 "tab": "104 Ashburne",
@@ -6054,7 +6452,8 @@ false
 "date": "2026-05-04",
 "desc": "Gas",
 "amt": 66.51,
-"flags": []
+"flags": [],
+"block": "Gas/Truck/Trailer"
 },
 {
 "tab": "104 Ashburne",
@@ -6064,7 +6463,8 @@ false
 "date": "2026-04-05",
 "desc": "Smokle Detectors",
 "amt": 85.42,
-"flags": []
+"flags": [],
+"block": "Lighting & Electrical"
 },
 {
 "tab": "104 Ashburne",
@@ -6074,7 +6474,8 @@ false
 "date": "2026-03-26",
 "desc": "Wall Flanges",
 "amt": 12.95,
-"flags": []
+"flags": [],
+"block": "Master Bath"
 },
 {
 "tab": "104 Ashburne",
@@ -6084,7 +6485,8 @@ false
 "date": "2026-06-18",
 "desc": "Bath Fan and Vent",
 "amt": 550.0,
-"flags": []
+"flags": [],
+"block": "Small Baths"
 },
 {
 "tab": "104 Ashburne",
@@ -6094,7 +6496,8 @@ false
 "date": "2026-09-01",
 "desc": "Irrigation Repair",
 "amt": 50.0,
-"flags": []
+"flags": [],
+"block": "Landscaping"
 },
 {
 "tab": "104 Ashburne",
@@ -6104,7 +6507,8 @@ false
 "date": "2026-03-10",
 "desc": "Screws",
 "amt": 16.91,
-"flags": []
+"flags": [],
+"block": "Supplies"
 },
 {
 "tab": "104 Ashburne",
@@ -6114,7 +6518,8 @@ false
 "date": "2026-05-07",
 "desc": "Gas",
 "amt": 82.43,
-"flags": []
+"flags": [],
+"block": "Gas/Truck/Trailer"
 },
 {
 "tab": "104 Ashburne",
@@ -6124,7 +6529,8 @@ false
 "date": "2026-04-05",
 "desc": "Light Bulbs",
 "amt": 63.76,
-"flags": []
+"flags": [],
+"block": "Lighting & Electrical"
 },
 {
 "tab": "104 Ashburne",
@@ -6134,7 +6540,8 @@ false
 "date": "2026-03-26",
 "desc": "P Trap",
 "amt": 5.82,
-"flags": []
+"flags": [],
+"block": "Master Bath"
 },
 {
 "tab": "104 Ashburne",
@@ -6144,7 +6551,8 @@ false
 "date": "2026-06-30",
 "desc": "Flange Covers",
 "amt": 56.31,
-"flags": []
+"flags": [],
+"block": "Small Baths"
 },
 {
 "tab": "104 Ashburne",
@@ -6154,7 +6562,8 @@ false
 "date": "2026-09-01",
 "desc": "Labor",
 "amt": 150.0,
-"flags": []
+"flags": [],
+"block": "Landscaping"
 },
 {
 "tab": "104 Ashburne",
@@ -6164,7 +6573,8 @@ false
 "date": "2026-03-12",
 "desc": "Screws",
 "amt": 16.05,
-"flags": []
+"flags": [],
+"block": "Supplies"
 },
 {
 "tab": "104 Ashburne",
@@ -6174,7 +6584,8 @@ false
 "date": "2026-05-08",
 "desc": "Oil Change",
 "amt": 73.51,
-"flags": []
+"flags": [],
+"block": "Gas/Truck/Trailer"
 },
 {
 "tab": "104 Ashburne",
@@ -6184,7 +6595,8 @@ false
 "date": "2026-04-09",
 "desc": "wire connectors",
 "amt": 16.19,
-"flags": []
+"flags": [],
+"block": "Lighting & Electrical"
 },
 {
 "tab": "104 Ashburne",
@@ -6194,7 +6606,8 @@ false
 "date": "2026-07-03",
 "desc": "Hat Water Heater",
 "amt": 2636.67,
-"flags": []
+"flags": [],
+"block": "Master Bath"
 },
 {
 "tab": "104 Ashburne",
@@ -6204,7 +6617,8 @@ false
 "date": "2026-06-30",
 "desc": "Caulk",
 "amt": 19.98,
-"flags": []
+"flags": [],
+"block": "Small Baths"
 },
 {
 "tab": "104 Ashburne",
@@ -6214,7 +6628,8 @@ false
 "date": "2026-09-05",
 "desc": "Irrigation Repair",
 "amt": 135.0,
-"flags": []
+"flags": [],
+"block": "Landscaping"
 },
 {
 "tab": "104 Ashburne",
@@ -6224,7 +6639,8 @@ false
 "date": "2026-03-12",
 "desc": "Screws",
 "amt": 29.74,
-"flags": []
+"flags": [],
+"block": "Supplies"
 },
 {
 "tab": "104 Ashburne",
@@ -6234,7 +6650,8 @@ false
 "date": "2026-05-08",
 "desc": "Traffic TIcket",
 "amt": 280.95,
-"flags": []
+"flags": [],
+"block": "Gas/Truck/Trailer"
 },
 {
 "tab": "104 Ashburne",
@@ -6244,7 +6661,8 @@ false
 "date": "2026-04-09",
 "desc": "Outlets & Testet",
 "amt": 168.53,
-"flags": []
+"flags": [],
+"block": "Lighting & Electrical"
 },
 {
 "tab": "104 Ashburne",
@@ -6254,7 +6672,8 @@ false
 "date": "2026-09-08",
 "desc": "Labor",
 "amt": 150.0,
-"flags": []
+"flags": [],
+"block": "Landscaping"
 },
 {
 "tab": "104 Ashburne",
@@ -6264,7 +6683,8 @@ false
 "date": "2026-03-12",
 "desc": "Finish Nails",
 "amt": 47.61,
-"flags": []
+"flags": [],
+"block": "Supplies"
 },
 {
 "tab": "104 Ashburne",
@@ -6274,7 +6694,8 @@ false
 "date": "2026-06-17",
 "desc": "Gas",
 "amt": 66.64,
-"flags": []
+"flags": [],
+"block": "Gas/Truck/Trailer"
 },
 {
 "tab": "104 Ashburne",
@@ -6284,7 +6705,8 @@ false
 "date": "2026-04-15",
 "desc": "Outlets & Testet",
 "amt": 113.99,
-"flags": []
+"flags": [],
+"block": "Lighting & Electrical"
 },
 {
 "tab": "104 Ashburne",
@@ -6294,7 +6716,8 @@ false
 "date": "2026-03-15",
 "desc": "Shims",
 "amt": 8.92,
-"flags": []
+"flags": [],
+"block": "Supplies"
 },
 {
 "tab": "104 Ashburne",
@@ -6304,7 +6727,8 @@ false
 "date": "2026-06-30",
 "desc": "60 Amp Dsiconnect",
 "amt": 564.0,
-"flags": []
+"flags": [],
+"block": "Lighting & Electrical"
 },
 {
 "tab": "104 Ashburne",
@@ -6314,7 +6738,8 @@ false
 "date": "2026-03-15",
 "desc": "Wood Filler",
 "amt": 20.55,
-"flags": []
+"flags": [],
+"block": "Supplies"
 },
 {
 "tab": "104 Ashburne",
@@ -6324,7 +6749,8 @@ false
 "date": "2026-07-02",
 "desc": "Circuit ground and misc",
 "amt": 1207.0,
-"flags": []
+"flags": [],
+"block": "Lighting & Electrical"
 },
 {
 "tab": "104 Ashburne",
@@ -6334,7 +6760,8 @@ false
 "date": "2026-03-15",
 "desc": "Sanding Discs",
 "amt": 21.56,
-"flags": []
+"flags": [],
+"block": "Supplies"
 },
 {
 "tab": "104 Ashburne",
@@ -6344,7 +6771,8 @@ false
 "date": "2026-03-15",
 "desc": "Dremel DIscs",
 "amt": 18.37,
-"flags": []
+"flags": [],
+"block": "Supplies"
 },
 {
 "tab": "104 Ashburne",
@@ -6354,7 +6782,8 @@ false
 "date": "2026-03-15",
 "desc": "Threaded Rod",
 "amt": 3.07,
-"flags": []
+"flags": [],
+"block": "Supplies"
 },
 {
 "tab": "104 Ashburne",
@@ -6364,7 +6793,8 @@ false
 "date": "2026-03-15",
 "desc": "Screws",
 "amt": 28.52,
-"flags": []
+"flags": [],
+"block": "Supplies"
 },
 {
 "tab": "104 Ashburne",
@@ -6374,7 +6804,8 @@ false
 "date": "2026-03-17",
 "desc": "Packing Tape",
 "amt": 3.57,
-"flags": []
+"flags": [],
+"block": "Supplies"
 },
 {
 "tab": "104 Ashburne",
@@ -6384,7 +6815,8 @@ false
 "date": "2026-03-18",
 "desc": "Threaded Rod",
 "amt": 3.07,
-"flags": []
+"flags": [],
+"block": "Supplies"
 },
 {
 "tab": "104 Ashburne",
@@ -6394,7 +6826,8 @@ false
 "date": "2026-03-18",
 "desc": "Dowels",
 "amt": 3.64,
-"flags": []
+"flags": [],
+"block": "Supplies"
 },
 {
 "tab": "104 Ashburne",
@@ -6404,7 +6837,8 @@ false
 "date": "2026-03-18",
 "desc": "Screws",
 "amt": 47.76,
-"flags": []
+"flags": [],
+"block": "Supplies"
 },
 {
 "tab": "104 Ashburne",
@@ -6414,7 +6848,8 @@ false
 "date": "2026-03-18",
 "desc": "Screws",
 "amt": 79.51,
-"flags": []
+"flags": [],
+"block": "Supplies"
 },
 {
 "tab": "104 Ashburne",
@@ -6424,7 +6859,8 @@ false
 "date": "2026-03-21",
 "desc": "Glass Scraper & Blades",
 "amt": 9.48,
-"flags": []
+"flags": [],
+"block": "Supplies"
 },
 {
 "tab": "104 Ashburne",
@@ -6434,7 +6870,8 @@ false
 "date": "2026-03-21",
 "desc": "Spray Bottle",
 "amt": 4.31,
-"flags": []
+"flags": [],
+"block": "Supplies"
 },
 {
 "tab": "104 Ashburne",
@@ -6444,7 +6881,8 @@ false
 "date": "2026-03-21",
 "desc": "Multi Tool Blade",
 "amt": 18.38,
-"flags": []
+"flags": [],
+"block": "Supplies"
 },
 {
 "tab": "104 Ashburne",
@@ -6454,7 +6892,8 @@ false
 "date": "2026-03-22",
 "desc": "Microfiber Towels",
 "amt": 10.8,
-"flags": []
+"flags": [],
+"block": "Supplies"
 },
 {
 "tab": "104 Ashburne",
@@ -6464,7 +6903,8 @@ false
 "date": "2026-03-22",
 "desc": "Teflon Tape",
 "amt": 1.06,
-"flags": []
+"flags": [],
+"block": "Supplies"
 },
 {
 "tab": "104 Ashburne",
@@ -6474,7 +6914,8 @@ false
 "date": "2026-03-22",
 "desc": "Dremel Post",
 "amt": 14.04,
-"flags": []
+"flags": [],
+"block": "Supplies"
 },
 {
 "tab": "104 Ashburne",
@@ -6484,7 +6925,8 @@ false
 "date": "2026-03-22",
 "desc": "Shopvac Filters",
 "amt": 37.86,
-"flags": []
+"flags": [],
+"block": "Supplies"
 },
 {
 "tab": "104 Ashburne",
@@ -6494,7 +6936,8 @@ false
 "date": "2026-03-22",
 "desc": "Tile Drill Bits",
 "amt": 23.78,
-"flags": []
+"flags": [],
+"block": "Supplies"
 },
 {
 "tab": "104 Ashburne",
@@ -6504,7 +6947,8 @@ false
 "date": "2026-03-22",
 "desc": "Windex",
 "amt": 5.27,
-"flags": []
+"flags": [],
+"block": "Supplies"
 },
 {
 "tab": "104 Ashburne",
@@ -6514,7 +6958,8 @@ false
 "date": "2026-03-23",
 "desc": "Abrasive Cloth",
 "amt": 5.37,
-"flags": []
+"flags": [],
+"block": "Supplies"
 },
 {
 "tab": "104 Ashburne",
@@ -6524,7 +6969,8 @@ false
 "date": "2026-03-23",
 "desc": "Shop Towels",
 "amt": 14.05,
-"flags": []
+"flags": [],
+"block": "Supplies"
 },
 {
 "tab": "104 Ashburne",
@@ -6534,7 +6980,8 @@ false
 "date": "2026-03-25",
 "desc": "Tri for Garage",
 "amt": 10.91,
-"flags": []
+"flags": [],
+"block": "Supplies"
 },
 {
 "tab": "104 Ashburne",
@@ -6544,7 +6991,8 @@ false
 "date": "2026-03-19",
 "desc": "Silicone Caulk",
 "amt": 20.96,
-"flags": []
+"flags": [],
+"block": "Supplies"
 },
 {
 "tab": "104 Ashburne",
@@ -6554,7 +7002,8 @@ false
 "date": "2026-03-06",
 "desc": "Rat Traps",
 "amt": 43.28,
-"flags": []
+"flags": [],
+"block": "Supplies"
 },
 {
 "tab": "104 Ashburne",
@@ -6564,7 +7013,8 @@ false
 "date": "2026-03-25",
 "desc": "Tapcon Scres & Bit",
 "amt": 14.68,
-"flags": []
+"flags": [],
+"block": "Supplies"
 },
 {
 "tab": "104 Ashburne",
@@ -6574,7 +7024,8 @@ false
 "date": "2026-03-26",
 "desc": "Clorox Wipes",
 "amt": 7.56,
-"flags": []
+"flags": [],
+"block": "Supplies"
 },
 {
 "tab": "104 Ashburne",
@@ -6584,7 +7035,8 @@ false
 "date": "2026-03-29",
 "desc": "Tapcon Screws",
 "amt": 8.64,
-"flags": []
+"flags": [],
+"block": "Supplies"
 },
 {
 "tab": "104 Ashburne",
@@ -6594,7 +7046,8 @@ false
 "date": "2026-03-30",
 "desc": "Tapcon Screws",
 "amt": 5.89,
-"flags": []
+"flags": [],
+"block": "Supplies"
 },
 {
 "tab": "104 Ashburne",
@@ -6604,7 +7057,8 @@ false
 "date": "2026-04-01",
 "desc": "Angle Grinder discs",
 "amt": 25.37,
-"flags": []
+"flags": [],
+"block": "Supplies"
 },
 {
 "tab": "104 Ashburne",
@@ -6614,7 +7068,8 @@ false
 "date": "2026-04-01",
 "desc": "Caulk",
 "amt": 10.8,
-"flags": []
+"flags": [],
+"block": "Supplies"
 },
 {
 "tab": "104 Ashburne",
@@ -6624,7 +7079,8 @@ false
 "date": "2026-04-01",
 "desc": "Adhesive",
 "amt": 15.67,
-"flags": []
+"flags": [],
+"block": "Supplies"
 },
 {
 "tab": "104 Ashburne",
@@ -6634,7 +7090,8 @@ false
 "date": "2026-04-01",
 "desc": "Self Leveler",
 "amt": 37.89,
-"flags": []
+"flags": [],
+"block": "Supplies"
 },
 {
 "tab": "104 Ashburne",
@@ -6644,7 +7101,8 @@ false
 "date": "2026-04-01",
 "desc": "Big Gap Filler",
 "amt": 6.47,
-"flags": []
+"flags": [],
+"block": "Supplies"
 },
 {
 "tab": "104 Ashburne",
@@ -6654,7 +7112,8 @@ false
 "date": "2026-04-01",
 "desc": "Spray Paint",
 "amt": 22.67,
-"flags": []
+"flags": [],
+"block": "Supplies"
 },
 {
 "tab": "104 Ashburne",
@@ -6664,7 +7123,8 @@ false
 "date": "2026-04-01",
 "desc": "Latex Gloves",
 "amt": 10.8,
-"flags": []
+"flags": [],
+"block": "Supplies"
 },
 {
 "tab": "104 Ashburne",
@@ -6674,7 +7134,8 @@ false
 "date": "2026-04-02",
 "desc": "Caulk",
 "amt": 58.37,
-"flags": []
+"flags": [],
+"block": "Supplies"
 },
 {
 "tab": "104 Ashburne",
@@ -6684,7 +7145,8 @@ false
 "date": "2026-04-03",
 "desc": "1/8 sheet plywood",
 "amt": 18.38,
-"flags": []
+"flags": [],
+"block": "Supplies"
 },
 {
 "tab": "104 Ashburne",
@@ -6694,7 +7156,8 @@ false
 "date": "2026-04-03",
 "desc": "sanded plywood",
 "amt": 28.12,
-"flags": []
+"flags": [],
+"block": "Supplies"
 },
 {
 "tab": "104 Ashburne",
@@ -6704,7 +7167,8 @@ false
 "date": "2026-04-03",
 "desc": "Blue Tape",
 "amt": 8.64,
-"flags": []
+"flags": [],
+"block": "Supplies"
 },
 {
 "tab": "104 Ashburne",
@@ -6714,7 +7178,8 @@ false
 "date": "2026-04-03",
 "desc": "Titebond Glue",
 "amt": 4.31,
-"flags": []
+"flags": [],
+"block": "Supplies"
 },
 {
 "tab": "104 Ashburne",
@@ -6724,7 +7189,8 @@ false
 "date": "2026-04-04",
 "desc": "Broom",
 "amt": 17.3,
-"flags": []
+"flags": [],
+"block": "Supplies"
 },
 {
 "tab": "104 Ashburne",
@@ -6734,7 +7200,8 @@ false
 "date": "2026-04-05",
 "desc": "Drill Bit",
 "amt": 9.17,
-"flags": []
+"flags": [],
+"block": "Supplies"
 },
 {
 "tab": "104 Ashburne",
@@ -6744,7 +7211,8 @@ false
 "date": "2026-04-05",
 "desc": "Drill Bit",
 "amt": 9.17,
-"flags": []
+"flags": [],
+"block": "Supplies"
 },
 {
 "tab": "104 Ashburne",
@@ -6754,7 +7222,8 @@ false
 "date": "2026-04-05",
 "desc": "Nuts & Bolts",
 "amt": 14.4,
-"flags": []
+"flags": [],
+"block": "Supplies"
 },
 {
 "tab": "104 Ashburne",
@@ -6764,7 +7233,8 @@ false
 "date": "2026-04-06",
 "desc": "Bondo",
 "amt": 23.79,
-"flags": []
+"flags": [],
+"block": "Supplies"
 },
 {
 "tab": "104 Ashburne",
@@ -6774,7 +7244,8 @@ false
 "date": "2026-04-06",
 "desc": "Caulk",
 "amt": 15.67,
-"flags": []
+"flags": [],
+"block": "Supplies"
 },
 {
 "tab": "104 Ashburne",
@@ -6784,7 +7255,8 @@ false
 "date": "2026-04-06",
 "desc": "Drill Bit",
 "amt": 18.34,
-"flags": []
+"flags": [],
+"block": "Supplies"
 },
 {
 "tab": "104 Ashburne",
@@ -6794,7 +7266,8 @@ false
 "date": "2026-04-08",
 "desc": "Windex",
 "amt": 12.95,
-"flags": []
+"flags": [],
+"block": "Supplies"
 },
 {
 "tab": "104 Ashburne",
@@ -6804,7 +7277,8 @@ false
 "date": "2026-04-08",
 "desc": "Micro Filber Roll",
 "amt": 21.61,
-"flags": []
+"flags": [],
+"block": "Supplies"
 },
 {
 "tab": "104 Ashburne",
@@ -6814,7 +7288,8 @@ false
 "date": "2026-04-08",
 "desc": "Caulk",
 "amt": 43.78,
-"flags": []
+"flags": [],
+"block": "Supplies"
 },
 {
 "tab": "104 Ashburne",
@@ -6824,7 +7299,8 @@ false
 "date": "2026-04-09",
 "desc": "Screws",
 "amt": 15.09,
-"flags": []
+"flags": [],
+"block": "Supplies"
 },
 {
 "tab": "104 Ashburne",
@@ -6834,7 +7310,8 @@ false
 "date": "2026-04-10",
 "desc": "Misc Supplies",
 "amt": 151.28,
-"flags": []
+"flags": [],
+"block": "Supplies"
 },
 {
 "tab": "104 Ashburne",
@@ -6844,7 +7321,8 @@ false
 "date": "2026-04-10",
 "desc": "Misc Supplies",
 "amt": 76.7,
-"flags": []
+"flags": [],
+"block": "Supplies"
 },
 {
 "tab": "104 Ashburne",
@@ -6854,7 +7332,8 @@ false
 "date": "2026-04-10",
 "desc": "Misc Supplies",
 "amt": 263.29,
-"flags": []
+"flags": [],
+"block": "Supplies"
 },
 {
 "tab": "104 Ashburne",
@@ -6864,7 +7343,8 @@ false
 "date": "2026-04-10",
 "desc": "Plumbing parts",
 "amt": 12.87,
-"flags": []
+"flags": [],
+"block": "Supplies"
 },
 {
 "tab": "104 Ashburne",
@@ -6874,7 +7354,8 @@ false
 "date": "2026-04-13",
 "desc": "Misc Supplies",
 "amt": 897.0,
-"flags": []
+"flags": [],
+"block": "Supplies"
 },
 {
 "tab": "104 Ashburne",
@@ -6884,7 +7365,8 @@ false
 "date": "2026-04-13",
 "desc": "Misc Supplies",
 "amt": 64.47,
-"flags": []
+"flags": [],
+"block": "Supplies"
 },
 {
 "tab": "104 Ashburne",
@@ -6894,7 +7376,8 @@ false
 "date": "2026-04-13",
 "desc": "Misc Supplies",
 "amt": 320.23,
-"flags": []
+"flags": [],
+"block": "Supplies"
 },
 {
 "tab": "104 Ashburne",
@@ -6904,7 +7387,8 @@ false
 "date": "2026-04-14",
 "desc": "Misc Supplies",
 "amt": 133.19,
-"flags": []
+"flags": [],
+"block": "Supplies"
 },
 {
 "tab": "104 Ashburne",
@@ -6914,7 +7398,8 @@ false
 "date": "2026-04-15",
 "desc": "Misc Supplies",
 "amt": 51.38,
-"flags": []
+"flags": [],
+"block": "Supplies"
 },
 {
 "tab": "104 Ashburne",
@@ -6924,7 +7409,8 @@ false
 "date": "2026-05-05",
 "desc": "Misc Supplies",
 "amt": 118.49,
-"flags": []
+"flags": [],
+"block": "Supplies"
 },
 {
 "tab": "104 Ashburne",
@@ -6934,7 +7420,8 @@ false
 "date": "2026-05-07",
 "desc": "Misc Supplies",
 "amt": 157.2,
-"flags": []
+"flags": [],
+"block": "Supplies"
 },
 {
 "tab": "104 Ashburne",
@@ -6944,7 +7431,8 @@ false
 "date": "2026-05-07",
 "desc": "Misc Supplies",
 "amt": 23.78,
-"flags": []
+"flags": [],
+"block": "Supplies"
 },
 {
 "tab": "104 Ashburne",
@@ -6954,7 +7442,8 @@ false
 "date": "2026-05-07",
 "desc": "Misc Supplies",
 "amt": 6.8,
-"flags": []
+"flags": [],
+"block": "Supplies"
 },
 {
 "tab": "104 Ashburne",
@@ -6964,7 +7453,8 @@ false
 "date": "2026-05-27",
 "desc": "Spackle",
 "amt": 10.26,
-"flags": []
+"flags": [],
+"block": "Supplies"
 },
 {
 "tab": "104 Ashburne",
@@ -6974,7 +7464,8 @@ false
 "date": "2026-05-27",
 "desc": "Zip Ties",
 "amt": 3.72,
-"flags": []
+"flags": [],
+"block": "Supplies"
 },
 {
 "tab": "104 Ashburne",
@@ -6984,7 +7475,8 @@ false
 "date": "2026-06-16",
 "desc": "2x4",
 "amt": 4.03,
-"flags": []
+"flags": [],
+"block": "Supplies"
 },
 {
 "tab": "104 Ashburne",
@@ -6994,7 +7486,8 @@ false
 "date": "2026-06-16",
 "desc": "Drill Bit",
 "amt": 14.04,
-"flags": []
+"flags": [],
+"block": "Supplies"
 },
 {
 "tab": "104 Ashburne",
@@ -7004,7 +7497,8 @@ false
 "date": "2026-06-16",
 "desc": "Screws",
 "amt": 44.03,
-"flags": []
+"flags": [],
+"block": "Supplies"
 },
 {
 "tab": "104 Ashburne",
@@ -7014,7 +7508,8 @@ false
 "date": "2026-06-16",
 "desc": "Spray Paint",
 "amt": 7.56,
-"flags": []
+"flags": [],
+"block": "Supplies"
 },
 {
 "tab": "104 Ashburne",
@@ -7024,7 +7519,8 @@ false
 "date": "2026-06-16",
 "desc": "1x4's",
 "amt": 33.2,
-"flags": []
+"flags": [],
+"block": "Supplies"
 },
 {
 "tab": "104 Ashburne",
@@ -7034,7 +7530,8 @@ false
 "date": "2026-06-16",
 "desc": "Garbage Bags",
 "amt": 32.44,
-"flags": []
+"flags": [],
+"block": "Supplies"
 },
 {
 "tab": "104 Ashburne",
@@ -7044,7 +7541,8 @@ false
 "date": "2026-06-16",
 "desc": "Nuts and bolts",
 "amt": 22.09,
-"flags": []
+"flags": [],
+"block": "Supplies"
 },
 {
 "tab": "104 Ashburne",
@@ -7054,7 +7552,8 @@ false
 "date": "2026-06-16",
 "desc": "Roofing Nails",
 "amt": 14.04,
-"flags": []
+"flags": [],
+"block": "Supplies"
 },
 {
 "tab": "104 Ashburne",
@@ -7064,7 +7563,8 @@ false
 "date": "2026-06-16",
 "desc": "Nuts and Bolts",
 "amt": 2.89,
-"flags": []
+"flags": [],
+"block": "Supplies"
 },
 {
 "tab": "104 Ashburne",
@@ -7074,7 +7574,8 @@ false
 "date": "2026-06-16",
 "desc": "Threaded Rod",
 "amt": 23.82,
-"flags": []
+"flags": [],
+"block": "Supplies"
 },
 {
 "tab": "104 Ashburne",
@@ -7084,7 +7585,8 @@ false
 "date": "2026-06-16",
 "desc": "1x4",
 "amt": 19.92,
-"flags": []
+"flags": [],
+"block": "Supplies"
 },
 {
 "tab": "104 Ashburne",
@@ -7094,7 +7596,8 @@ false
 "date": "2026-06-18",
 "desc": "Dryer Vent Tape",
 "amt": 8.1,
-"flags": []
+"flags": [],
+"block": "Supplies"
 },
 {
 "tab": "104 Ashburne",
@@ -7104,7 +7607,8 @@ false
 "date": "2026-06-18",
 "desc": "1x4",
 "amt": 39.84,
-"flags": []
+"flags": [],
+"block": "Supplies"
 },
 {
 "tab": "104 Ashburne",
@@ -7114,7 +7618,8 @@ false
 "date": "2026-06-18",
 "desc": "Great Stuff",
 "amt": 4.85,
-"flags": []
+"flags": [],
+"block": "Supplies"
 },
 {
 "tab": "104 Ashburne",
@@ -7124,7 +7629,8 @@ false
 "date": "2026-06-18",
 "desc": "Nuts and bolts",
 "amt": 3.4,
-"flags": []
+"flags": [],
+"block": "Supplies"
 },
 {
 "tab": "104 Ashburne",
@@ -7134,7 +7640,8 @@ false
 "date": "2026-06-19",
 "desc": "Screws",
 "amt": 25.28,
-"flags": []
+"flags": [],
+"block": "Supplies"
 },
 {
 "tab": "104 Ashburne",
@@ -7144,7 +7651,8 @@ false
 "date": "2026-06-30",
 "desc": "Great Stuff",
 "amt": 4.85,
-"flags": []
+"flags": [],
+"block": "Supplies"
 },
 {
 "tab": "104 Ashburne",
@@ -7154,7 +7662,8 @@ false
 "date": "2026-06-30",
 "desc": "1x5",
 "amt": 50.44,
-"flags": []
+"flags": [],
+"block": "Supplies"
 },
 {
 "tab": "104 Ashburne",
@@ -7164,7 +7673,8 @@ false
 "date": "2026-08-11",
 "desc": "Batteries",
 "amt": 12.85,
-"flags": []
+"flags": [],
+"block": "Supplies"
 },
 {
 "tab": "1616 Granite RECONCILED",
