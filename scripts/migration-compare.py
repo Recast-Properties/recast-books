@@ -48,9 +48,20 @@ def load_envelopes(d):
             "paid_from": m.get("paid_from") or "", "invoice": m.get("invoice_number") or "",
             "holds": list((e.get("gate") or {}).get("reasons") or []), "subject": (e.get("subject") or "")[:60],
             "channel": e.get("channel") or "", "lines": lines, "posted": bool((e.get("result") or {}).get("txn_ids")),
-            "why": (m.get("why") or "")[:160],
+            "why": (m.get("why") or "")[:160], "dup_of": m.get("duplicate_of") or "",
+            # every amount the document shows: the read's total and lines, plus any $x.xx in the mail text
+            "amts": {int(m.get("receipt_total_cents") or 0)} | {l["cents"] for l in lines}
+                    | {int(round(float(x.replace(",", "")) * 100)) for x in re.findall(r"(\d{1,3}(?:,\d{3})*\.\d{2})", (e.get("subject") or "") + " " + (e.get("bodyText") or ""))},
+            "blob": ((m.get("vendor") or "") + " " + (e.get("subject") or "") + " " + (e.get("from") or "") + " " + (e.get("bodyText") or "")[:600]).lower(),
         }
     return out
+
+STOP = {"home", "check", "friend", "llc", "inc", "the", "and", "group", "store", "shop", "company"}
+def vtoks(p): return [t for t in re.sub(r"[^a-z0-9 ]", " ", (p or "").lower()).split() if len(t) > 3 and t not in STOP]
+def vendor_match(payee, e):
+    a, b = norm_vendor(payee), norm_vendor(e["vendor"])
+    if a and a == b: return True
+    return any(t in e["blob"] for t in vtoks(payee))
 
 def main():
     ap = argparse.ArgumentParser(); ap.add_argument("--env", required=True); ap.add_argument("--inv", required=True); ap.add_argument("--out", required=True)
@@ -91,41 +102,67 @@ def main():
         else: seen[k] = docId
     B = [{"docId": d, "date": env[d]["date"], "vendor": env[d]["vendor"], "new_cents": env[d]["total"], "matched_rows": 0, "old_cents": 0, "diff_cents": "",
           "old_where": "", "new_where": "", "status": env[d]["status"], "verdict": env[d]["verdict"], "holds": ",".join(env[d]["holds"]), "paid_from": env[d]["paid_from"],
-          "subject": env[d]["subject"], "bucket": f"twin of {t}"} for d, t in twin_of.items() if d not in used_docs]
+          "subject": env[d]["subject"], "bucket": f"twin of {t}", "weak_candidates": ""} for d, t in twin_of.items() if d not in used_docs]
     used_docs.update(d for d in twin_of if d not in used_docs)
-    # ---- B. documents without a sheet id: match old rows by vendor + date window + amount ----
-    idx = collections.defaultdict(list)
-    for r in rows:
-        if r["_k"] in used_rows or not r.get("date"): continue
-        idx[(norm_vendor(r["payee"]), r["cents"])].append(r)
+    # ---- B. documents without a sheet id: match old rows to documents -----------------------
+    # The forensic rule (D-024): every old row is matched to its document. Rows were typed
+    # from receipts days or weeks after the purchase, often split by trade block, so one
+    # document may explain several rows and the window is wide. A twin the model dismissed
+    # as duplicate_of X is credited to X. Strong = vendor and amount agree; weak = only one
+    # of them does (reported as a candidate for Paul, never counted as documented).
+    def survivor(d):
+        # duplicate_of is a docId, or a txn_id from a run whose Journal is gone (reads happen once,
+        # D-025): then the original is the live document with the same vendor and the id's date.
+        seen = set()
+        while env[d]["dup_of"] and d not in seen:
+            seen.add(d); dup = env[d]["dup_of"]
+            if dup in env: d = dup; continue
+            m = re.match(r"^[a-z]+-(\d{4})(\d{2})(\d{2})-", dup)
+            if not m: break
+            ymd = "-".join(m.groups()); e = env[d]
+            cands = [x for x, y in env.items() if x != d and y["date"] == ymd and norm_vendor(y["vendor"]) == norm_vendor(e["vendor"])]
+            cands.sort(key=lambda x: (env[x]["verdict"] == "dismiss", env[x]["total"] != e["total"], x))
+            if not cands: break
+            d = cands[0]
+        return d
+    rest = [r for r in rows if r["_k"] not in used_rows and r.get("date")]
+    docs = [(d, e) for d, e in env.items() if e["date"]]
+    row_doc = {}
+    for r in rest:
+        d0 = pd(r["date"]); best = None
+        for d, e in docs:
+            dd = abs((pd(e["date"] or "") or d0) - d0).days if pd(e["date"] or "") else 999
+            if dd > 45: continue
+            v = vendor_match(r["payee"], e); amt = r["cents"] in e["amts"]
+            near = bool(e["total"]) and abs(e["total"] - r["cents"]) <= max(200, r["cents"] * 3 // 100)
+            rank = (0, dd) if v and amt else (1, dd) if v and near else (2, dd) if amt and dd <= 20 else (3, dd) if v and dd <= 10 else None
+            if rank and (best is None or rank < best[0]): best = (rank, d)
+        if best:
+            d = survivor(best[1])   # a dismissed receipt that is not a twin is a candidate for Paul, never "documented"
+            row_doc[r["_k"]] = (d, "strong" if best[0][0] <= 1 and env[d]["verdict"] != "dismiss" else "weak")
+    by_doc = collections.defaultdict(list)
+    for k, (d, s) in row_doc.items(): by_doc[d].append((k, s))
+    rk = {r["_k"]: r for r in rows}
     for docId, e in env.items():
-        if docId in used_docs or not e["date"]: continue
-        d = pd(e["date"]); nv = norm_vendor(e["vendor"]); hit = []
-        cands = [e["total"]] + [l["cents"] for l in e["lines"]]
-        for c in cands:
-            for r in idx.get((nv, c), []):
-                rd = pd(r["date"])
-                if rd and d and abs((rd - d).days) <= 5 and r["_k"] not in used_rows: hit.append(r)
-        if not hit:
-            # same vendor, same day, any amount (a receipt the old books split by line)
-            for (v, c), rs in idx.items():
-                if v != nv: continue
-                for r in rs:
-                    rd = pd(r["date"])
-                    if rd and d and rd == d and r["_k"] not in used_rows: hit.append(r)
-        hit = list({r["_k"]: r for r in hit}.values())
+        if docId in used_docs:   # an A document or a twin's survivor also explains these rows
+            used_rows.update(k for k, s in by_doc.get(docId, []) if s == "strong"); continue
+        hit = [rk[k] for k, s in by_doc.get(docId, []) if s == "strong"]
+        weak = [rk[k] for k, s in by_doc.get(docId, []) if s == "weak"]
         old = sum(r["cents"] for r in hit); new = e["total"] or sum(l["cents"] for l in e["lines"])
         B.append({"docId": docId, "date": e["date"], "vendor": e["vendor"], "new_cents": new, "matched_rows": len(hit), "old_cents": old,
                   "diff_cents": new - old if hit else "", "old_where": ";".join(f"{r['tab']}/{r['block']}" for r in hit),
                   "new_where": ";".join(sorted(set(l["property"] for l in e["lines"]))), "status": e["status"], "verdict": e["verdict"],
                   "holds": ",".join(e["holds"]), "paid_from": e["paid_from"], "subject": e["subject"],
-                  "bucket": "manual row now documented" if hit and any(k.startswith("BIZ") for k in (r["_k"] for r in hit))
-                            else "property row now documented" if hit else ("junk (dismissed)" if e["verdict"] == "dismiss" else "in mail, not in old books")})
+                  "bucket": "manual row now documented" if hit and any(r["_k"].startswith("BIZ") for r in hit)
+                            else "property row now documented" if hit else ("junk (dismissed)" if e["verdict"] == "dismiss" else "in mail, not in old books"),
+                  "weak_candidates": ";".join(f"{r['tab']}/{r['payee'][:20]}/{money(r['cents'])}" for r in weak)})
         used_rows.update(r["_k"] for r in hit); used_docs.add(docId)
 
     # ---- C. old rows nothing covers ------------------------------------------------------
     C = [{"key": r["_k"], "tab": r["tab"], "block": r.get("block", ""), "date": r.get("date", ""), "payee": r.get("payee", ""), "cents": r["cents"],
-          "desc": (r.get("desc") or "")[:60], "had_msg": bool(r.get("msg"))} for r in rows if r["_k"] not in used_rows]
+          "desc": (r.get("desc") or "")[:60], "had_msg": bool(r.get("msg")),
+          "candidate_doc": row_doc.get(r["_k"], ("", ""))[0], "candidate_vendor": env[row_doc[r["_k"]][0]]["vendor"] if r["_k"] in row_doc else "",
+          "candidate_status": env[row_doc[r["_k"]][0]]["status"] if r["_k"] in row_doc else ""} for r in rows if r["_k"] not in used_rows]
 
     # ---- D. net per vendor per day (the rule from BUILD-PLAN: never line by line) --------
     net = collections.defaultdict(lambda: [0, 0, 0, 0])   # old cents, new cents, old rows, docs
@@ -151,14 +188,14 @@ def main():
     st = collections.Counter(e["status"] for e in env.values()); vd = collections.Counter(e["verdict"] for e in env.values())
     hold = collections.Counter(h for e in env.values() for h in e["holds"])
     Aexact = sum(1 for x in A if x["diff_cents"] == 0); Bb = collections.Counter(x["bucket"].split(" of ")[0] for x in B)
-    Cc = collections.Counter((x["tab"], x["had_msg"]) for x in C)
+    Cc = collections.Counter((x["tab"], x["had_msg"]) for x in C); Cw = sum(1 for x in C if x["candidate_doc"])
     reroute = sum(1 for x in A if x["old_where"] and x["new_where"] and x["old_where"].split("/")[0] != x["new_where"].split(";")[0]
                   and not (x["old_where"].startswith("RECAST BIZ") and x["new_where"] == "OVERHEAD"))
     lines = [f"# Phase 4 comparison — {datetime.date.today().isoformat()}", "",
              f"Documents: {len(env)}  status {dict(st)}  verdict {dict(vd)}", f"Hold reasons: {hold.most_common()}", "",
              f"## A · documents with an old-sheet id: {len(A)}  (net equal: {Aexact}; net differs: {len(A)-Aexact}; property differs from old tab: {reroute})",
              f"## B · documents matched by vendor/date/amount: {len(B)}  {dict(Bb)}",
-             f"## C · old rows nothing covers: {len(C)}  by (tab, had a message id): {dict(Cc)}",
+             f"## C · old rows nothing covers: {len(C)}  (with a weak candidate document: {Cw})  by (tab, had a message id): {dict(Cc)}",
              f"## D · vendor-days where net differs: {len(D)}  (sum of diffs ${sum(x['diff_cents'] for x in D)/100:,.2f})", "",
              "Largest net differences:"]
     for x in sorted(D, key=lambda x: -abs(x["diff_cents"]))[:25]:

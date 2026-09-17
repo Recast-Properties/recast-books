@@ -1,0 +1,279 @@
+key,tab,block,date,payee,cents,desc,match,docId,doc_date,doc_vendor,doc_total,doc_status,doc_verdict,doc_channel,doc_subject,n_cands
+BIZ-36,RECAST BIZ,Tools,2026-02-16,Harbor Freight,3462,Roto Hammer Bits,vendor+date,gm-19c678226649aa40,2026-02-16,Harbor Freight Tools,25077,pending,post,104 Ashburne,Fwd: Your receipt from Harbor Freight | DESOTO  TX #03667,1
+BIZ-37,RECAST BIZ,Tools,2026-02-16,Harbor Freight,12448,Roto Hammer Drill,vendor+date,gm-19c678226649aa40,2026-02-16,Harbor Freight Tools,25077,pending,post,104 Ashburne,Fwd: Your receipt from Harbor Freight | DESOTO  TX #03667,1
+BIZ-51,RECAST BIZ,Tools,2026-03-15,Home Depot,10496,Tool Bags,vendor+~amount,gm-19ccf1f38113d4f9,2026-03-08,The Home Depot,10675,dismissed,dismiss,104 Ashburne,,43
+BIZ-56,RECAST BIZ,Tools,2026-04-01,Home Depot,2108,Drill bits,vendor+date,gm-19d4918fa3edc702,2026-04-01,The Home Depot,28109,dismissed,dismiss,104 Ashburne,,43
+BIZ-78,RECAST BIZ,Marketing,2026-06-21,VistaPrint,17099,Real Estate Sign Riders,vendor+date,gm-19ebf24ef82905c2,2026-06-13,VistaPrint,0,dismissed,dismiss,receipts,Your order is on its way,2
+BIZ-79,RECAST BIZ,Marketing,2026-06-21,VistaPrint,14769,Real Estate Yard Signs,amount+vendor,gm-19e2257005de0d6e,2026-05-13,VistaPrint,40584,posted,post,receipts,Your order is confirmed,3
+BIZ-80,RECAST BIZ,Marketing,2026-06-24,The Home Depot,673,Zip ties for signs,vendor+~amount,gm-19f0e8b993f57cd0,2026-06-28,The Home Depot,635,posted,post,136 Bowling Green,,33
+BIZ-167,RECAST BIZ,Office,2026-06-25,The Home Depot,247,MED BOX - MEDIUM BOX 20X16X15,amount+vendor,gm-19ef4d5d26caf1e4,2026-06-23,The Home Depot,3243,dismissed,dismiss,280 Sparkling,,32
+BIZ-168,RECAST BIZ,Office,2026-06-25,The Home Depot,247,MED BOX - MEDIUM BOX 20X16X15,amount+vendor,gm-19ef4d5d26caf1e4,2026-06-23,The Home Depot,3243,dismissed,dismiss,280 Sparkling,,32
+BIZ-169,RECAST BIZ,Office,2026-06-25,The Home Depot,751,2X60 CL TAPE - SCOTCH HVYDUTY 54YDS RD 1PK,vendor+~amount,gm-19f0e8b993f57cd0,2026-06-28,The Home Depot,635,posted,post,136 Bowling Green,,33
+BIZ-174,RECAST BIZ,Gas/Truck/Trailer,2026-06-11,North Texas Tollway Authority,9257,toll tag,vendor+~amount,gm-19e8d1415d216814,2026-06-03,Uber,9498,pending,post,travel,[Personal] Your Wednesday morning trip with Uber,5
+BIZ-176,RECAST BIZ,Gas/Truck/Trailer,2026-06-22,Shell,5470,Regular fuel 17.425G @ $3.139/gal,vendor+date,gm-19ed81985682b730,2026-06-17,Shell,6664,pending,post,104 Ashburne,Fwd: 104,2
+BIZ-177,RECAST BIZ,Gas/Truck/Trailer,2026-06-24,O'Reilly Auto Parts,4545,VAL SYN5-20-5QT 5QT MOTOROIL,vendor+date,gm-19f00ab9125115f9,2026-06-25,Amazon,3103,pending,post,136 Bowling Green,"Fwd: Ordered: ""Amazon Basics Electronic...""",4
+BIZ-178,RECAST BIZ,Gas/Truck/Trailer,2026-06-26,Shell,6940,Fuel - 18.762 gallons,vendor+date,gm-19f15c359e34964b,2026-06-29,Shell,5804,posted,post,receipts,,2
+BIZ-205,RECAST BIZ,Subscriptions,2026-06-13,"Anthropic, PBC",10000,"Max plan - 5x (Jun 13–Jul 13, 2026)",amount+vendor,gm-19e8ed8492f559bc,2026-06-03,"Anthropic, PBC",2000,pending,post,receipts,"Your receipt from Anthropic, PBC #2634-9183-4841",9
+BIZ-206,RECAST BIZ,Subscriptions,2026-06-13,"Anthropic, PBC",-1334,Unused time on Claude Pro after 13 Jun 2026,vendor+date,gm-19e8ed8492f559bc,2026-06-03,"Anthropic, PBC",2000,pending,post,receipts,"Your receipt from Anthropic, PBC #2634-9183-4841",1
+BIZ-207,RECAST BIZ,Subscriptions,2026-06-18,CoreLogic Inc,20000,CoreLogic IVR Charge_2010-676365,amount+vendor,gm-19ea4315de57f9f1,2026-06-07,CoreLogic Inc (Cotality),20000,pending,post,receipts,cotality reciept,10
+BIZ-263,RECAST BIZ,Website,,Apify,2900,Monthly Apify subscription,none,,,,,,,,,0
+BIZ-283,RECAST BIZ,Interest,,420 Alyssa,66667,,none,,,,,,,,,0
+PROP-21,881 Newport,,2026-07-07,Effren,30000,Landscaping,amount+vendor,gm-19f3f5c3cbc8f50e,2026-07-07,Falcon Creek Lawn Care,53500,pending,post,280 Sparkling,effren,5
+PROP-22,881 Newport,,2026-06-29,Rocket Water,15000,Water,amount+vendor,gm-19f2375f3f8eeb7c,2026-06-29,Rockett Special Utility District,15000,posted,post,881 Newport,Fwd: 881,7
+PROP-23,881 Newport,,2026-07-07,Effren,5500,Landscaping,amount+vendor,gm-19f3f5c3cbc8f50e,2026-07-07,Falcon Creek Lawn Care,53500,pending,post,280 Sparkling,effren,7
+PROP-25,881 Newport,,2026-07-01,Home Depot,756,Drywall Panel,amount+vendor,gm-19f00c2049c512fe,2026-06-25,The Home Depot,17659,dismissed,dismiss,136 Bowling Green,,36
+PROP-26,881 Newport,,2026-08-30,Rocket Water,14472,Water,amount+vendor,gm-1a0395f7d5566e0d,2026-08-25,Rockett Special Utility District,14472,pending,post,881 Newport,Fwd: Rockett Special Utility District Late Notice,2
+PROP-27,881 Newport,,2026-07-01,Home Depot,377,Plug,amount+vendor,gm-19ed69af26494e70,2026-06-17,Lowe's Home Improvement,4917,dismissed,dismiss,receipts,Your Lowe's Purchase Receipt,33
+PROP-29,881 Newport,,2026-07-01,Home Depot,647,Roller Trays,amount+vendor,gm-19f00c2049c512fe,2026-06-25,The Home Depot,17659,dismissed,dismiss,136 Bowling Green,,33
+PROP-31,881 Newport,,2026-07-01,Home Depot,1080,Roller Covers,amount+vendor,gm-19ef4d5d26caf1e4,2026-06-23,The Home Depot,3243,dismissed,dismiss,280 Sparkling,,33
+PROP-32,881 Newport,,2026-09-11,Rocket Water,19474,Water,amount+vendor,gm-1a091a295143ec7b,2026-09-11,"Rockett Special Utility District (assumed from ""rocket water"")",19474,pending,hold,881 Newport,rocket water,4
+PROP-34,881 Newport,,2026-07-01,Home Depot,2556,Toilet Seat,vendor+~amount,gm-19f37c23af674543,2026-07-06,"Lowe's Home Centers, LLC",2379,dismissed,dismiss,881 Newport,,33
+PROP-37,881 Newport,,2026-07-06,Juanito,50000,Garage Painting,amount+vendor,gm-19f390f745f748d4,2026-07-06,Juanito and Mariana (unidentified labor payees),100000,pending,hold,881 Newport,Juanito and Mariana,4
+PROP-38,881 Newport,,2026-07-06,Mariana,50000,Cleaning,amount+vendor,gm-19f390f745f748d4,2026-07-06,Juanito and Mariana (unidentified labor payees),100000,pending,hold,881 Newport,Juanito and Mariana,4
+PROP-41,881 Newport,,2026-07-08,Home Depot,5112,Towels,vendor+~amount,gm-19ed69af26494e70,2026-06-17,Lowe's Home Improvement,4917,dismissed,dismiss,receipts,Your Lowe's Purchase Receipt,22
+PROP-43,881 Newport,,2026-07-08,Home Depot,2856,Paint,amount+vendor,gm-19f237650c695b39,2026-07-01,The Home Depot,11815,dismissed,dismiss,881 Newport,Fwd: 881,22
+PROP-45,881 Newport,,2026-07-08,Home Depot,2856,Paint,amount+vendor,gm-19f237650c695b39,2026-07-01,The Home Depot,11815,dismissed,dismiss,881 Newport,Fwd: 881,22
+PROP-46,881 Newport,,2026-07-19,Effren - 1372,11000,Landscaping,amount,gm-19f86e5bf7f12281,2026-07-19,Falcon Creek Lawn Care,47000,dismissed,dismiss,280 Sparkling,Fwd: Lawn maintenance invoice,4
+PROP-47,881 Newport,,2026-08-30,Efren - 1390,11000,Landscaping,amount+vendor,gm-1a05ab0fab9330ec,2026-08-30,Falcon Creek Lawn Care,42500,pending,post,280 Sparkling,Fwd: Services for august 2026,4
+PROP-52,469 Brushwood,,2026-09-01,Waxahachie Watwr,10000,Water,amount+vendor,gm-1a016b2550cd44d5,2026-08-14,City of Waxahachie - Water Billing Department,61291,pending,hold,receipts,City of Waxachie Utility Bill,20
+PROP-62,469 Brushwood,,2026-09-02,Home Depot,1946,Concrete Degreaser,vendor+~amount,gm-19ff17e1bc0effd7,2026-08-11,The Home Depot,2094,dismissed,dismiss,104 Ashburne,,28
+PROP-67,469 Brushwood,,2026-09-03,Home Depot,4655,Paint,vendor+date,gm-1a0670481531c3e9,2026-09-03,"Lowe's Home Centers, LLC",23900,pending,post,366 Mesa,Fwd: PO#Mesa - Thanks for Your Order! #300902246263178667,27
+PROP-68,469 Brushwood,,2026-09-03,Floor & Decor,4241,Flooring Transition,vendor+~amount,gm-1a067bd438f39de3,2026-09-03,Floor and Decor,4221,dismissed,dismiss,469 Brushwood,,2
+PROP-71,469 Brushwood,,2026-09-04,Lowes,4328,Garage Floor Paint,vendor+date,gm-1a06da589b0fc446,2026-09-04,"Lowe's Home Centers, LLC",27050,pending,post,receipts,Your Lowe's Purchase Receipt,2
+PROP-78,469 Brushwood,,2026-09-07,Mariana,25000,Cleaning,vendor+date,gm-1a07ec26660d7659,2026-09-07,Mariana Martinez,70000,pending,hold,469 Brushwood,Mariana,1
+PROP-79,469 Brushwood,,2026-09-06,Joe Iley,29900,Listing Fee,amount+vendor,gm-1a080c871b33bb67,2026-09-08,Iley &amp; Iley Financial-Mission Real Estate Group,29900,pending,hold,469 Brushwood,Listing Fee,5
+PROP-84,366 Mesa,,2026-08-15,Carlos,50000,Siding Supplies,amount+vendor,gm-1a007f1fdf7903ee,2026-08-15,Carlos A Ibarra,50000,pending,post,366 Mesa,Fwd: Notification - Your $500.00 to Carlos A Ibarra was sent,2
+PROP-85,366 Mesa,,2026-08-19,HILCO,20000,Electricity,amount+vendor,gm-1a016b98c4cb1ee6,2026-08-18,HILCO Electric Cooperative,20000,dismissed,dismiss,366 Mesa,Fwd: Payment Confirmation,10
+PROP-86,366 Mesa,,2026-08-19,Carlos,50000,Siding Insatll,amount+vendor,gm-1a007f1fdf7903ee,2026-08-15,Carlos A Ibarra,50000,pending,post,366 Mesa,Fwd: Notification - Your $500.00 to Carlos A Ibarra was sent,2
+PROP-87,366 Mesa,,2026-08-19,Carlos,50000,Siding Insatll,amount+vendor,gm-1a007f1fdf7903ee,2026-08-15,Carlos A Ibarra,50000,pending,post,366 Mesa,Fwd: Notification - Your $500.00 to Carlos A Ibarra was sent,2
+PROP-88,366 Mesa,,2026-08-19,Carlos,50000,Siding Insatll,amount+vendor,gm-1a007f1fdf7903ee,2026-08-15,Carlos A Ibarra,50000,pending,post,366 Mesa,Fwd: Notification - Your $500.00 to Carlos A Ibarra was sent,2
+PROP-89,366 Mesa,,2026-08-20,Carlos,50000,Siding Insatll,amount+vendor,gm-1a007f1fdf7903ee,2026-08-15,Carlos A Ibarra,50000,pending,post,366 Mesa,Fwd: Notification - Your $500.00 to Carlos A Ibarra was sent,2
+PROP-90,366 Mesa,,2026-08-28,Carlos -  Check 1146,150000,Siding Insatll,none,,,,,,,,,0
+PROP-91,366 Mesa,,2026-08-28,Juanito -  Check 1147,200000,Painting,none,,,,,,,,,0
+PROP-92,366 Mesa,,2026-08-26,James Haroce,150000,Siding ,none,,,,,,,,,0
+PROP-93,366 Mesa,,2026-08-18,Carlos,22000,Soffit,vendor+date,gm-1a007f1fdf7903ee,2026-08-15,Carlos A Ibarra,50000,pending,post,366 Mesa,Fwd: Notification - Your $500.00 to Carlos A Ibarra was sent,1
+PROP-94,366 Mesa,,2026-08-18,Home Depot,118,Pipe coupling,vendor+date,gm-1a0244d540acaf53,2026-08-21,American Airlines,54140,pending,post,travel,Your trip confirmation (PDX - DFW),11
+PROP-95,366 Mesa,,2026-09-02,Home Depot,2072,?,vendor+~amount,gm-19ff17e1bc0effd7,2026-08-11,The Home Depot,2094,dismissed,dismiss,104 Ashburne,,28
+PROP-96,366 Mesa,,2026-08-03,Home Depot,1966,?,vendor+~amount,gm-19ff17e1bc0effd7,2026-08-11,The Home Depot,2094,dismissed,dismiss,104 Ashburne,,13
+PROP-107,366 Mesa,,2026-08-14,Home Depot,6961,Door Lock Sets,vendor+date,gm-1a000805d296df8b,2026-08-14,The Home Depot,8726,dismissed,dismiss,366 Mesa,,16
+PROP-113,136 Bowling Green,,2026-06-25,Home Depot,3328,9V Batteries,vendor+~amount,gm-19ef4d5d26caf1e4,2026-06-23,The Home Depot,3243,dismissed,dismiss,280 Sparkling,,34
+PROP-115,136 Bowling Green,,2026-06-27,City of Red Oak,11615,Water,amount+vendor,gm-19ed16988e311cba,2026-06-16,City of Red Oak - Utility Billing,11615,dismissed,dismiss,136 Bowling Green,Water bill,4
+PROP-119,136 Bowling Green,,2026-08-18,City of Red Oak,44747,Water,amount,gm-1a0161453c5660f8,2026-08-18,Red Oak Municipal Payments - Utility Billing,44747,dismissed,dismiss,136 Bowling Green,Fwd: Payment confirmation,6
+PROP-120,136 Bowling Green,,2026-06-26,Home Depot,804,Toilet Paper,vendor+~amount,gm-19f0e8b993f57cd0,2026-06-28,The Home Depot,635,posted,post,136 Bowling Green,,35
+PROP-121,136 Bowling Green,,2026-06-26,Home Depot,1438,Drywall Tape,vendor+~amount,gm-19ef1303ff9ed1ad,2026-06-22,The Home Depot,1254,dismissed,dismiss,280 Sparkling,,35
+PROP-123,136 Bowling Green,,2026-06-26,Home Depot,1622,Pole Sander,amount+vendor,gm-19f41acfd298c9d7,2026-07-08,The Home Depot,8793,dismissed,dismiss,881 Newport,,35
+PROP-124,136 Bowling Green,,2026-06-26,Home Depot,1297,Taping Knife,amount+vendor,gm-19ed818d6be0fb42,2026-06-16,The Home Depot,12666,dismissed,dismiss,104 Ashburne,Fwd: 104,35
+PROP-128,136 Bowling Green,,2026-06-26,Home Depot,4321,Front Door Handle,vendor+~amount,gm-19f093595e1ff13a,2026-06-27,The Home Depot,4326,dismissed,dismiss,136 Bowling Green,,38
+PROP-137,136 Bowling Green,,2026-06-30,Ace Hardware,324,Door Stop,amount+vendor,gm-19f1a71858c0d365,2026-06-30,Keith Ace Hardware - Red Oak,7032,error,post,136 Bowling Green,,2
+PROP-138,136 Bowling Green,,2026-06-30,Ace Hardware,432,Toilet Roll Bar,amount+vendor,gm-19f1a71858c0d365,2026-06-30,Keith Ace Hardware - Red Oak,7032,error,post,136 Bowling Green,,2
+PROP-139,136 Bowling Green,,2026-06-30,Ace Hardware,6276,Weed & Feed,amount+vendor,gm-19f1a71858c0d365,2026-06-30,Keith Ace Hardware - Red Oak,7032,error,post,136 Bowling Green,,2
+PROP-140,136 Bowling Green,,2026-06-02,Ace Hardware,5736,Door Locks,amount+vendor,gm-19f3f696a2755181,2026-06-02,Keith Ace Hardware - Red Oak,5736,posted,post,136 Bowling Green,,1
+PROP-141,136 Bowling Green,,2026-06-28,Ace Hardware,1081,Paint Roller,amount+vendor,gm-19f0ee822c4aa5ef,2026-06-28,Keith Ace Hardware - Red Oak,1081,error,post,136 Bowling Green,,4
+PROP-142,136 Bowling Green,,2026-06-28,Hunter,12217,Fan Remotes,amount+vendor,gm-19f0f64b937a63fa,2026-06-28,Hunter Fan,12217,posted,post,136 Bowling Green,Fwd: Order 452616 confirmed,1
+PROP-143,136 Bowling Green,,2026-06-28,Lowes,12984,Garage Floor Paint,none,,,,,,,,,0
+PROP-146,136 Bowling Green,,2026-06-29,Mariana,50000,Cleaning,amount+vendor,gm-19f138efc8a67a8f,2026-06-29,Mariana (cleaner),50000,pending,post,136 Bowling Green,Mariana,3
+PROP-147,136 Bowling Green,,2026-07-01,City of Corsicana,2580,Dump,amount+vendor,gm-19f3f6a3d8a8000d,2026-07-01,City of Corsicana - Landfill,2580,posted,post,136 Bowling Green,,4
+PROP-148,136 Bowling Green,,2026-06-30,Lupe,16000,Carpet Laying,amount,gm-19f3f6d3919a5816,2026-06-30,"Handwritten payment log - 136 Bowling Green (payees: unnamed carpet installer; ""FALCON"")",47500,pending,hold,136 Bowling Green,,3
+PROP-149,136 Bowling Green,,2026-07-07,Effren - 1372,5500,Landscaping,amount+vendor,gm-19f3f5c3cbc8f50e,2026-07-07,Falcon Creek Lawn Care,53500,pending,post,280 Sparkling,effren,7
+PROP-150,136 Bowling Green,,2026-06-29,Lowe's,43121,Carpet ,vendor+date,gm-19f154ce61fa47c1,2026-06-29,"Lowe's Home Centers, LLC",3786,dismissed,dismiss,1616 Granite,,6
+PROP-151,136 Bowling Green,,2026-07-19,Effren - 1373,11000,Landscaping,amount+vendor,gm-19f86e5bf7f12281,2026-07-19,Falcon Creek Lawn Care,47000,dismissed,dismiss,280 Sparkling,Fwd: Lawn maintenance invoice,4
+PROP-153,136 Bowling Green,,2026-08-05,Ace Hardware,2299,Padlock,vendor+date,gm-19fd4002e0935c03,2026-08-05,Keith Ace Hardware - Red Oak,2922,posted,post,136 Bowling Green,,3
+PROP-154,136 Bowling Green,,2026-08-06,McCoy's,4556,Trim,vendor+~amount,gm-19fd7f3f3ed0e605,2026-08-06,McCoy's Building Supply,4456,dismissed,dismiss,136 Bowling Green,,1
+PROP-155,136 Bowling Green,,2026-08-06,Ace Hardware,713,Caulk,amount+vendor,gm-19fd84c06f959785,2026-08-06,Keith Ace Hardware - Red Oak,713,dismissed,dismiss,136 Bowling Green,,3
+PROP-156,136 Bowling Green,,2026-08-03,The Home Depot,10715,HWTSTAT - Honeywell T5 7-Day 2-Stage Programmable Thermostat,vendor+~amount,gm-1a063139bc9a9a33,2026-09-02,The Home Depot,10901,dismissed,dismiss,469 Brushwood,,14
+PROP-157,104 Ashburne,Paint & Flooring,2026-01-12,Juan Garcia,700000,Drywall/Supplies/Painting,vendor+date,gm-19bc4405fa0bc7e5,2026-01-15,Juan Gonzalez,100000,pending,post,104 Ashburne,,1
+PROP-160,104 Ashburne,Master Bath,2026-02-10,Floor & Decor,75006,Shower Tile,amount+vendor,gm-19c47f0f4b6b4731,2026-02-10,Floor and Decor,75006,pending,post,104 Ashburne,Tile,8
+PROP-162,104 Ashburne,Pool,2026-01-05,Julio,20000,Clean out,amount,gm-19b944ec9eb500c7,2025-12-31,"CoreLogic Solutions, LLC",20000,pending,post,receipts,Property Intelligence Invoice #30831839,2
+PROP-163,104 Ashburne,Landscaping,2026-01-12,Julio,20000,Labor,amount,gm-19b944ec9eb500c7,2025-12-31,"CoreLogic Solutions, LLC",20000,pending,post,receipts,Property Intelligence Invoice #30831839,2
+PROP-167,104 Ashburne,HVAC,2026-01-14,eBay,37847,Control Unit,amount+vendor,gm-19c01a73986c43df,2026-01-14,eBay (seller zmfc86),37847,dismissed,dismiss,104 Ashburne,Fwd: Order confirmed: Brand New Ion System Control SYST0101C,1
+PROP-169,104 Ashburne,Countertops & Backsplash,2026-02-20,Shalom Granite,355800,Counters ,amount+vendor,gm-19cc51b6b845dd1f,2026-02-19,Shalom Granite,850800,pending,post,104 Ashburne,,1
+PROP-170,104 Ashburne,Equipment Rentals,2026-05-05,Sunstate,90418,Lift,amount+vendor,gm-19f0781872fdb552,2026-05-05,Sunstate Equipment,90418,pending,post,104 Ashburne,Fwd: Sunstate Invoice: 14354633-001,2
+PROP-171,104 Ashburne,Pest Control,2026-01-14,Berret Pest Control,27063,Pest Control,vendor+date,gm-19c01a73986c43df,2026-01-14,eBay (seller zmfc86),37847,dismissed,dismiss,104 Ashburne,Fwd: Order confirmed: Brand New Ion System Control SYST0101C,1
+PROP-177,104 Ashburne,Marketing,2026-04-24,Aces Photography,62800,Photos,amount+vendor,gm-19dc05be6c2af277,2026-04-24,Aces Real Estate Media,62800,pending,post,104 Ashburne,aces,1
+PROP-178,104 Ashburne,Paint & Flooring,2026-01-23,Juan Garcia,700000,Paint & Floor Installation,vendor+date,gm-19bc4405fa0bc7e5,2026-01-15,Juan Gonzalez,100000,pending,post,104 Ashburne,,1
+PROP-181,104 Ashburne,Master Bath,2026-02-08,Wayfair,81618,Tub & Faucet,none,,,,,,,,,0
+PROP-183,104 Ashburne,Pool,2026-02-12,Atlas Pools,200000,Deposit,amount+vendor,gm-19cab7819599377d,2026-03-01,Micky Atlas Pools,200000,pending,post,104 Ashburne,,3
+PROP-184,104 Ashburne,Landscaping,2026-01-13,Julio,20000,Labor,amount,gm-19b944ec9eb500c7,2025-12-31,"CoreLogic Solutions, LLC",20000,pending,post,receipts,Property Intelligence Invoice #30831839,2
+PROP-190,104 Ashburne,Countertops & Backsplash,2026-03-06,Shalom Granite,495000,Counters ,amount+vendor,gm-19cc51b6b845dd1f,2026-02-19,Shalom Granite,850800,pending,post,104 Ashburne,,1
+PROP-192,104 Ashburne,Utilities,2026-01-13,Energy Texas,4357,Electricity,vendor+date,gm-19bbebe1e4fc35df,2026-01-13,Atmos Energy,5765,pending,hold,receipts,Your Atmos Energy Bill is Available online,1
+PROP-193,104 Ashburne,Cleaning,2026-04-16,Window Man,85868,WIndow Cleaning,vendor+~amount,gm-19d98540dce2874d,2026-04-16,Window Man Window Cleaning,84868,pending,post,104 Ashburne,,3
+PROP-194,104 Ashburne,Supplies,2026-01-10,Home Depot,474,Batteries,vendor+~amount,gm-19bc1e5948839629,2026-01-15,The Home Depot,647,dismissed,dismiss,104 Ashburne,,23
+PROP-196,104 Ashburne,Marketing,2026-05-08,Vista Print,40604,SIgnage,amount+vendor,gm-19e0966e7b7f7240,2026-05-08,VistaPrint,40604,pending,hold,104 Ashburne,Fwd: Your order is confirmed,5
+PROP-197,104 Ashburne,Paint & Flooring,2026-02-09,Juan Garcia,700000,Paint & Floor Installation,none,,,,,,,,,0
+PROP-200,104 Ashburne,Master Bath,0126-02-11,Amazon,32474,Shower Glass,none,,,,,,,,,0
+PROP-203,104 Ashburne,Landscaping,2026-01-14,Julio,20000,Labor,amount,gm-19b944ec9eb500c7,2025-12-31,"CoreLogic Solutions, LLC",20000,pending,post,receipts,Property Intelligence Invoice #30831839,3
+PROP-206,104 Ashburne,Appliances,2026-04-10,Luxury 4 Less Appliance,1031956,Appliaces,amount+vendor,gm-19d985398a604372,2026-04-16,Luxury 4 Less Appliances,17500,pending,post,104 Ashburne,Fwd: Payment confirmation: Invoice #3158-(Luxury 4 Less Appl,4
+PROP-209,104 Ashburne,Countertops & Backsplash,2026-03-07,Floor & Decor,24839,Backsplash TIle,vendor+date,gm-19cc98e8a2850d78,2026-03-07,The Tile Shop,37367,posted,post,104 Ashburne,,4
+PROP-211,104 Ashburne,Utilities,2026-03-08,Atmos Energy,64260,Natural Gas,amount+vendor,gm-19ce9537b630b426,2026-03-12,Atmos Energy,14159,pending,hold,receipts,Your Atmos Energy Bill is Available online,6
+PROP-212,104 Ashburne,Cleaning,2026-01-14,Marianna,50000,Cleaning,none,,,,,,,,,0
+PROP-215,104 Ashburne,Paint & Flooring,2026-02-10,Chinos LLC,1350000,Flooring,vendor+date,gm-19c521cfa5452bd9,2026-02-12,,0,pending,hold,104 Ashburne,Flooring,1
+PROP-216,104 Ashburne,Trash,2026-01-09,Julio,20000,Labor,amount,gm-19b944ec9eb500c7,2025-12-31,"CoreLogic Solutions, LLC",20000,pending,post,receipts,Property Intelligence Invoice #30831839,2
+PROP-219,104 Ashburne,Small Baths,2026-02-19,Ideal Resurfacing,40000,Tub REsurface,amount+vendor,gm-19c7351495140b60,2026-02-19,Ideal Resurfacing and Flooring,40000,posted,post,104 Ashburne,,10
+PROP-221,104 Ashburne,Landscaping,2026-01-15,Julio,20000,Labor,amount,gm-19b944ec9eb500c7,2025-12-31,"CoreLogic Solutions, LLC",20000,pending,post,receipts,Property Intelligence Invoice #30831839,3
+PROP-222,104 Ashburne,Chimney/FIreplace/Glass,2026-04-21,Sunstate Ren tals,92226,Lift Rental,amount+vendor,gm-19f0781872fdb552,2026-05-05,Sunstate Equipment,90418,pending,post,104 Ashburne,Fwd: Sunstate Invoice: 14354633-001,15
+PROP-225,104 Ashburne,House Hardware,2026-02-09,Amazon,24997,Drawer pulls,vendor+date,gm-19c51f2daddbeabd,2026-02-09,Amazon,9079,posted,post,104 Ashburne,"Fwd: Ordered: ""Freestanding Tub Drain..."" and 1 more item",4
+PROP-227,104 Ashburne,Insurance - Farmers Insurance,2026-04-09,Foremost Insurance Group,37458,April,amount+vendor,gm-19d22c0ca88727d6,2026-03-22,Farmers Insurance,37458,pending,post,104 Ashburne,Fwd: Your Farmers Insurance bill is ready to be viewed.,3
+PROP-228,104 Ashburne,Utilities,2026-01-30,HOA,25909,Ashburne Glen Homeowners Association,amount,gm-19c0fc92279d93d1,2026-01-30,Ashburne Glen Homeowners Association,25909,dismissed,dismiss,104 Ashburne,Fwd: Online payment received,1
+PROP-229,104 Ashburne,Cleaning,2026-09-07,Marianna,45000,Cleaning,none,,,,,,,,,0
+PROP-232,104 Ashburne,Paint & Flooring,2026-02-20,Juan Garcia,700000,Paint & Floor Installation,none,,,,,,,,,0
+PROP-233,104 Ashburne,Trash,2026-01-16,Julio,20000,Labor,amount,gm-19c2d8b7905f7407,2026-01-31,"CoreLogic Solutions, LLC",20000,pending,hold,receipts,Property Intelligence Invoice #30837466,3
+PROP-242,104 Ashburne,Countertops & Backsplash,2026-04-03,Seconds & Surplus,70142,Bath Vanities,amount+vendor,gm-19d5549008d4307d,2026-04-03,Seconds &amp; Surplus,70142,pending,post,104 Ashburne,,2
+PROP-243,104 Ashburne,Insurance - Farmers Insurance,2026-05-09,Foremost Insurance Group,37458,May,amount+vendor,gm-19f043eebcbd0976,2026-06-19,Farmers Insurance,37458,pending,post,104 Ashburne,Fwd: Your Farmers Insurance bill is ready to be viewed.,2
+PROP-246,104 Ashburne,Gas/Truck/Trailer,2026-02-01,Jiffy Lube,7351,Oil Chnege,amount+vendor,gm-19c1afb84540f732,2026-02-01,"Jiffy Lube #3752 (Premium Velocity Auto, LLC)",7351,dismissed,dismiss,104 Ashburne,,2
+PROP-252,104 Ashburne,Pool,2026-03-29,Atlas Pools,217700,Payment,vendor+~amount,gm-19d46e442dd379c4,2026-03-31,Atlas Pools,212000,dismissed,dismiss,104 Ashburne,Fwd: Atlas Pools Payment Confirmation - Invoice 16542,6
+PROP-257,104 Ashburne,Countertops & Backsplash,2026-04-11,Seconds & Surplus,43298,Butcher Vlock,amount+vendor,gm-19d7ec4e31eef94b,2026-04-11,Seconds &amp; Surplus,43298,dismissed,dismiss,104 Ashburne,,2
+PROP-258,104 Ashburne,Insurance - Farmers Insurance,2026-06-09,Foremost Insurance Group,37458,June,amount+vendor,gm-19f043eebcbd0976,2026-06-19,Farmers Insurance,37458,pending,post,104 Ashburne,Fwd: Your Farmers Insurance bill is ready to be viewed.,3
+PROP-261,104 Ashburne,Gas/Truck/Trailer,2026-01-21,Harbor Freight,1699,Trailer Light,amount+vendor,gm-19c15ffa4a0176b8,2026-01-31,Harbor Freight,1699,pending,post,104 Ashburne,,2
+PROP-263,104 Ashburne,Trash,2026-01-06,Julio,20000,Labor,amount,gm-19b944ec9eb500c7,2025-12-31,"CoreLogic Solutions, LLC",20000,pending,post,receipts,Property Intelligence Invoice #30831839,2
+PROP-268,104 Ashburne,Landscaping,2026-02-12,Julio,10000,Labor,amount,gm-19cc51b6b845dd1f,2026-02-19,Shalom Granite,850800,pending,post,104 Ashburne,,2
+PROP-270,104 Ashburne,HVAC,2026-01-24,Robinson Air,60670,HVAC,amount+vendor,gm-19c23984521412b9,2026-01-24,"Robinson Air &amp; Electric, Inc.",60670,pending,post,104 Ashburne,,1
+PROP-273,104 Ashburne,Utilities,2026-03-27,Atmos Energy,14159,Natural Gas,amount+vendor,gm-19ce9537b630b426,2026-03-12,Atmos Energy,14159,pending,hold,receipts,Your Atmos Energy Bill is Available online,5
+PROP-275,104 Ashburne,Gas/Truck/Trailer,2026-01-21,Harbor Freight,1699,Trailer Light,amount+vendor,gm-19c15ffa4a0176b8,2026-01-31,Harbor Freight,1699,pending,post,104 Ashburne,,2
+PROP-277,104 Ashburne,Trash,2026-02-11,Julio,20000,Labor,amount+vendor,gm-19d1cc95a5026d98,2026-03-23,Julio,50000,pending,hold,104 Ashburne,Julio,7
+PROP-282,104 Ashburne,Landscaping,2026-02-16,Julio,20000,Labor,amount+vendor,gm-19d1cc95a5026d98,2026-03-23,Julio,50000,pending,hold,104 Ashburne,Julio,7
+PROP-283,104 Ashburne,HVAC,2026-05-05,Robinson Air,106574,HVAC,amount+vendor,gm-19dfabd73aaac412,2026-03-28,"Robinson Air &amp; Electric, Inc.",106574,pending,post,104 Ashburne,,3
+PROP-290,104 Ashburne,Trash,2026-02-11,City of Corsicana,2250,Dump,amount+vendor,gm-19c524a368afa28e,2026-02-11,City of Corsicana - Landfill,2250,dismissed,dismiss,104 Ashburne,,7
+PROP-292,104 Ashburne,Master Bath,2026-02-13,Salvador Campos,388000,Shower TIle Labor,none,,,,,,,,,0
+PROP-293,104 Ashburne,Small Baths,2026-03-05,Home Depot,1080,Plunger,amount+vendor,gm-19cb1566e7f23282,2026-03-02,"Lowe's Home Centers, LLC",2852,dismissed,dismiss,104 Ashburne,,33
+PROP-295,104 Ashburne,Landscaping,2026-02-17,Julio,20000,Labor,amount+vendor,gm-19d1cc95a5026d98,2026-03-23,Julio,50000,pending,hold,104 Ashburne,Julio,7
+PROP-296,104 Ashburne,House Hardware,2026-02-17,MyKnobs.com,26815,Double door knobs,amount+vendor,gm-19c72800f7d3e852,2026-02-17,"MyKnobs, Inc",26815,posted,post,104 Ashburne,Fwd: MyKnobs: Thank you for your order MYK-3310567,1
+PROP-297,104 Ashburne,Insurance - Farmers Insurance,2026-09-07,Foremost Insurance Group,37458,Sept,amount+vendor,gm-1a0175f65049f28b,2026-08-18,Farmers Insurance,37458,pending,post,104 Ashburne,Fwd: Your Farmers Insurance bill is ready to be viewed.,5
+PROP-301,104 Ashburne,Paint & Flooring,2026-02-22,Architectual Depot,69533,Quarter Round,amount+vendor,gm-19c86e9af6ee7c6d,2026-02-22,ArchitecturalDepot.com,69533,pending,post,104 Ashburne,Fwd: Your ArchitecturalDepot.com Order #1636620,39
+PROP-302,104 Ashburne,Trash,2026-02-12,Julio,10000,Labor,amount,gm-19cc51b6b845dd1f,2026-02-19,Shalom Granite,850800,pending,post,104 Ashburne,,2
+PROP-307,104 Ashburne,Landscaping,2026-02-18,Julio,20000,Labor,amount+vendor,gm-19d1cc95a5026d98,2026-03-23,Julio,50000,pending,hold,104 Ashburne,Julio,7
+PROP-309,104 Ashburne,Utilities,2026-05-04,Energy Texas,8022,Electricity,amount+vendor,gm-19db68cdc0f2c8e2,2026-04-17,Energy Texas,8022,posted,post,104 Ashburne,"Fwd: Your $80.22 bill set for Auto Pay on May 4, 2026 is now",4
+PROP-314,104 Ashburne,Lighting & Electrical,2026-02-24,Amazon,1081,Light Bulbs,amount,gm-19c76c4996bae8b0,2026-02-19,The Home Depot,39012,pending,hold,receipts,Your Electronic Receipt,4
+PROP-317,104 Ashburne,Pool,2026-03-27,Leslies Pool Supply,54017,Polaris,amount+vendor,gm-19d31434155164f2,2026-03-27,Leslie's Pool Supplies,54017,pending,post,104 Ashburne,,10
+PROP-320,104 Ashburne,Utilities,2026-05-05,City of Ovilla,13153,Water,vendor+date,gm-19e07440dfd3573d,2026-05-07,"Jiffy Lube #3752 (Premium Velocity Auto, LLC)",7351,posted,post,104 Ashburne,,2
+PROP-321,104 Ashburne,Supplies,2026-01-10,Home Depot,767,Drywall Achors,vendor+~amount,gm-19bc1e5948839629,2026-01-15,The Home Depot,647,dismissed,dismiss,104 Ashburne,,23
+PROP-322,104 Ashburne,Gas/Truck/Trailer,2026-02-18,Exxon,5244,Gas,amount+vendor,gm-19c4777f162998eb,2026-02-10,Exxon,5244,dismissed,dismiss,104 Ashburne,,1
+PROP-324,104 Ashburne,Trash,2026-02-12,City of Corsicana,2730,Dump,amount+vendor,gm-19c53f820df5b90c,2026-02-12,City of Corsicana - Landfill,2730,dismissed,dismiss,104 Ashburne,,8
+PROP-331,104 Ashburne,Utilities,2026-06-04,Energy Texas,13921,Electricity,vendor+date,gm-19e8d1415d216814,2026-06-03,Uber,9498,pending,post,travel,[Personal] Your Wednesday morning trip with Uber,6
+PROP-335,104 Ashburne,Trash,2026-02-20,City of Corsicana,2250,Dump,amount+vendor,gm-19c7cfac1157869b,2026-02-20,City of Corsicana - Landfill,2250,dismissed,dismiss,104 Ashburne,,7
+PROP-339,104 Ashburne,Pool,2026-04-04,Leslies Pool Supply,865,Timer pegs,amount+vendor,gm-19d5491d71583652,2026-04-03,Leslie's Pool Supplies,865,dismissed,dismiss,104 Ashburne,,3
+PROP-342,104 Ashburne,Utilities,2026-06-04,Atmos Energy,3131,Natural Gas,amount+vendor,gm-19ebe2f8faafa480,2026-06-11,Atmos Energy,3160,pending,hold,receipts,Your Atmos Energy Bill is Available online,4
+PROP-344,104 Ashburne,Gas/Truck/Trailer,2026-02-12,J&P Auto Repair,5200,Trailer Tire,amount+vendor,gm-19c53948b4990f97,2026-02-12,J &amp; P Auto Repair,5200,dismissed,dismiss,104 Ashburne,,11
+PROP-346,104 Ashburne,Trash,2026-02-20,Julio,20000,Labor,amount+vendor,gm-19d1cc95a5026d98,2026-03-23,Julio,50000,pending,hold,104 Ashburne,Julio,7
+PROP-353,104 Ashburne,Utilities,2026-07-06,Energy Texas,22682,Electricity,amount+vendor,gm-19f37bd652dbc0b5,2026-07-06,"Energy Texas (Rhythm Ops, LLC)",22682,pending,hold,104 Ashburne,Fwd: All set! We received your payment through Auto Pay.,11
+PROP-357,104 Ashburne,Trash,2026-02-13,Julio,20000,Labor,amount+vendor,gm-19d1cc95a5026d98,2026-03-23,Julio,50000,pending,hold,104 Ashburne,Julio,7
+PROP-368,104 Ashburne,Trash,2026-02-18,Julio,20000,Labor,amount+vendor,gm-19d1cc95a5026d98,2026-03-23,Julio,50000,pending,hold,104 Ashburne,Julio,7
+PROP-373,104 Ashburne,Landscaping,2026-05-08,Julio,10000,Lawn Maintenance,amount,gm-19e2bdde2e385830,2026-05-15,"Anthropic, PBC",4500,dismissed,dismiss,receipts,"Your receipt from Anthropic, PBC #2519-3176-4184",6
+PROP-377,104 Ashburne,Gas/Truck/Trailer,2026-02-17,O'Reily,345,Lug Nut,amount,gm-19c6bce6982d294b,2026-02-17,O'Reilly Auto Parts,345,dismissed,dismiss,104 Ashburne,,1
+PROP-378,104 Ashburne,Paint & Flooring,2026-03-06,Juan Garcia,250000,Paint & Floor Installation,amount+vendor,gm-19cc51b9d5d50855,2026-03-06,Juanito (unidentified labor payee),250000,pending,hold,104 Ashburne,Juanito payment,3
+PROP-380,104 Ashburne,Lighting & Electrical,2026-03-05,Home Depot,585,Outlet Covers,amount+vendor,gm-19d7842c261c0b2b,2026-04-10,The Home Depot,7670,dismissed,dismiss,104 Ashburne,,34
+PROP-382,104 Ashburne,Small Baths,2026-03-18,Floor & Decor,37894,Shower Tile,vendor+~amount,gm-19cc98e8a2850d78,2026-03-07,The Tile Shop,37367,posted,post,104 Ashburne,,7
+PROP-384,104 Ashburne,Landscaping,2026-04-02,Home Depot,20506,Grass Seed,vendor+~amount,gm-19d6d01dadaa68e4,2026-04-08,The Home Depot,20708,posted,post,104 Ashburne,,46
+PROP-385,104 Ashburne,House Hardware,2026-04-01,Home Depot,2250,oor weather stripping,amount,gm-19f0781872fdb552,2026-05-05,Sunstate Equipment,90418,pending,post,104 Ashburne,Fwd: Sunstate Invoice: 14354633-001,46
+PROP-390,104 Ashburne,Trash,2026-03-10,City of Corsicana,2730,Dump,amount+vendor,gm-19cd97e8d0053cdd,2026-03-10,City of Corsicana - Landfill,2730,dismissed,dismiss,104 Ashburne,,6
+PROP-395,104 Ashburne,Landscaping,2026-04-02,Julio,20000,Labor,amount+vendor,gm-19d1cc95a5026d98,2026-03-23,Julio,50000,pending,hold,104 Ashburne,Julio,14
+PROP-401,104 Ashburne,Trash,2026-03-10,Julio,20000,Labor,amount+vendor,gm-19d1cc95a5026d98,2026-03-23,Julio,50000,pending,hold,104 Ashburne,Julio,10
+PROP-402,104 Ashburne,Lighting & Electrical,2026-03-09,Wayfiar,1526200,Dining Room Light,none,,,,,,,,,0
+PROP-405,104 Ashburne,Pool,2026-06-11,Atlas Pools,25601,Service,amount+vendor,gm-19eb746f47e8d76d,2026-06-01,Atlas Pools,25601,posted,post,104 Ashburne,Fwd: Atlas Pools Invoice #17785,3
+PROP-410,104 Ashburne,Paint & Flooring,2026-03-13,FedEx,1190,Shipping to Felxitions,amount+vendor,gm-19ce84ad1be595c1,2026-03-13,FedEx Office,1190,pending,post,104 Ashburne,,1
+PROP-413,104 Ashburne,Master Bath,2026-03-07,Floor & Decor,13640,Tile for bathtub plaform,vendor+date,gm-19cc98e8a2850d78,2026-03-07,The Tile Shop,37367,posted,post,104 Ashburne,,4
+PROP-415,104 Ashburne,Pool,2026-06-30,Atlas Pools,25601,Service,amount+vendor,gm-19f99e711bce8059,2026-07-25,Atlas Pools,25601,posted,post,104 Ashburne,Fwd: Atlas Pools Payment Confirmation - Invoice 18218,3
+PROP-416,104 Ashburne,Landscaping,2026-04-05,Julio,20000,Labor,amount+vendor,gm-19d1cc95a5026d98,2026-03-23,Julio,50000,pending,hold,104 Ashburne,Julio,14
+PROP-421,104 Ashburne,Trash,2026-03-23,City of Corsicana,2730,Dump,amount+vendor,gm-19d1cd018ff7d685,2026-03-23,City of Corsicana - Landfill,2730,dismissed,dismiss,104 Ashburne,,5
+PROP-422,104 Ashburne,Lighting & Electrical,2026-03-21,Wauyfair,7685,Single Bath Light Fixture,amount,gm-19d0446213881f8d,2026-03-18,Wayfair,7685,posted,post,104 Ashburne,Fwd: Order received! Does everything look right?,1
+PROP-424,104 Ashburne,Small Baths,2026-03-19,Floor & Decor,-12102,RETURN,vendor+date,gm-19d07518d663dbfe,2026-03-19,Floor and Decor,1871,posted,post,104 Ashburne,,5
+PROP-426,104 Ashburne,Landscaping,2026-04-06,Julio,20000,Labor,amount+vendor,gm-19d1cc95a5026d98,2026-03-23,Julio,50000,pending,hold,104 Ashburne,Julio,15
+PROP-429,104 Ashburne,Gas/Truck/Trailer,2026-03-10,Shell,6927,Gas,amount+vendor,gm-19d86af34f4c2840,2026-04-13,Shell,6927,pending,post,104 Ashburne,,11
+PROP-431,104 Ashburne,Trash,2026-04-08,City of Corsicana,2730,Dump,amount+vendor,gm-19d6e8c47f186ff0,2026-04-08,City of Corsicana - Landfill,2730,dismissed,dismiss,104 Ashburne,,6
+PROP-434,104 Ashburne,Small Baths,2026-03-19,Floor & Decor,1871,Tile,amount+vendor,gm-19d07518d663dbfe,2026-03-19,Floor and Decor,1871,posted,post,104 Ashburne,,6
+PROP-436,104 Ashburne,Landscaping,2026-04-07,Julio,20000,Labor,amount+vendor,gm-19d1cc95a5026d98,2026-03-23,Julio,50000,pending,hold,104 Ashburne,Julio,15
+PROP-443,104 Ashburne,Small Baths,2026-03-19,Floor & Decor,1871,Tile,amount+vendor,gm-19d07518d663dbfe,2026-03-19,Floor and Decor,1871,posted,post,104 Ashburne,,6
+PROP-445,104 Ashburne,Landscaping,2026-04-08,The Greenery,25915,Mulch,amount+vendor,gm-19d6ec0ee16a06b1,2026-04-08,"Green's Greenery, LLC",25915,posted,post,104 Ashburne,,5
+PROP-448,104 Ashburne,Paint & Flooring,2026-03-24,Armander Vega,388900,Exterior Paint,amount+vendor,gm-19d20ce0a13a68af,2026-03-24,Armando Vega,388900,pending,hold,104 Ashburne,,1
+PROP-454,104 Ashburne,Gas/Truck/Trailer,2026-03-16,Waltons Brakes & Mufflers,59377,Brakes,amount,gm-19d018e208f5ce58,2026-03-18,Walton's Muffler Brake &amp; Tire,59377,pending,post,104 Ashburne,,1
+PROP-455,104 Ashburne,Paint & Flooring,2026-03-30,Juan Garcia,167000,Exterior Paint,vendor+date,gm-19d40334634a85c4,2026-03-30,"None identified (email from Paul Bjork, subject only)",0,pending,dismiss,104 Ashburne,1670 Juan,1
+PROP-457,104 Ashburne,Master Bath,2026-03-13,Lowes,6081,Grout,vendor+date,gm-19cf78c3c07ff0f6,2026-03-16,"Lowe's Home Centers, LLC",46573,dismissed,dismiss,104 Ashburne,Your Lowe's Purchase Receipt,1
+PROP-462,104 Ashburne,Paint & Flooring,2026-03-31,50 Floors,49150,Stair Carpet,none,,,,,,,,,0
+PROP-466,104 Ashburne,Landscaping,2026-04-08,The Greenery,115615,Mulch & Rock,amount+vendor,gm-19d78e051da2f255,2026-04-10,"Green's Greenery, LLC",115615,pending,post,104 Ashburne,,5
+PROP-469,104 Ashburne,Paint & Flooring,2026-04-01,Home Depot,3878,Quarter Round,vendor+~amount,gm-19d724c5c326c549,2026-04-09,The Home Depot,4001,dismissed,dismiss,104 Ashburne,,46
+PROP-473,104 Ashburne,Landscaping,2026-04-10,Julio & Friend,80000,Labor,amount,gm-19d557a02bada3be,2026-03-31,"CoreLogic Solutions, LLC",20000,pending,hold,receipts,Property Intelligence Invoice #30857690,8
+PROP-475,104 Ashburne,Gas/Truck/Trailer,2026-03-23,AutoXZone,3895,Oil,amount,gm-19d1aff5eaa6fee2,2026-03-23,AutoZone,3895,dismissed,dismiss,104 Ashburne,,1
+PROP-476,104 Ashburne,Paint & Flooring,2026-04-01,Lowes,3447,Quarter Round,amount,gm-19d20cf12a8888da,2026-03-21,The Home Depot,38993,pending,post,104 Ashburne,,1
+PROP-479,104 Ashburne,Small Baths,2026-03-25,Lowes,11908,Pedastal Sink,vendor+date,gm-19cf78c3c07ff0f6,2026-03-16,"Lowe's Home Centers, LLC",46573,dismissed,dismiss,104 Ashburne,Your Lowe's Purchase Receipt,1
+PROP-480,104 Ashburne,Landscaping,2026-04-10,Julio & Friend,40000,Labor,amount+vendor,gm-19d7e6e5e1ce5426,2026-04-11,Julio (unidentified labor),40000,pending,hold,104 Ashburne,Julio and friend 400,14
+PROP-487,104 Ashburne,Landscaping,2026-04-13,The Greenery,34263,Mulch & Rock,amount+vendor,gm-19d89b71f0d374da,2026-04-13,"Green's Greenery, LLC",34263,posted,post,104 Ashburne,Fwd: Receipt / Tax invoice (#11964),5
+PROP-490,104 Ashburne,Paint & Flooring,2026-04-01,Home Depot,35028,Stair Moldings,amount+vendor,gm-19d54f9e0010bc8c,2026-04-03,The Home Depot,37918,posted,post,104 Ashburne,,44
+PROP-494,104 Ashburne,Landscaping,2026-04-14,The Greenery,7578,Mulch & Rock,amount+vendor,gm-19d8d1dab8225467,2026-04-14,"Green's Greenery, LLC",7578,posted,post,104 Ashburne,,5
+PROP-501,104 Ashburne,Landscaping,2026-04-13,Julio,20000,Labor,amount+vendor,gm-19d1cc95a5026d98,2026-03-23,Julio,50000,pending,hold,104 Ashburne,Julio,15
+PROP-508,104 Ashburne,Landscaping,2026-04-14,Julio,20000,Labor,amount+vendor,gm-19d1cc95a5026d98,2026-03-23,Julio,50000,pending,hold,104 Ashburne,Julio,14
+PROP-513,104 Ashburne,Master Bath,2026-03-25,Miffron.com,59400,Vanity Lights,amount+vendor,gm-19d22ca91fcea1b2,2026-03-25,Miffron,59400,pending,post,104 Ashburne,Fwd: Receipt for your PayPal payment,1
+PROP-514,104 Ashburne,Small Baths,2026-03-29,Home Depot,1942,Wall Flanges,amount+vendor,gm-19d1b92fe12a4c7d,2026-03-23,The Home Depot,9807,posted,post,104 Ashburne,,44
+PROP-515,104 Ashburne,Landscaping,2026-04-15,Julio,30000,Labor,amount+vendor,gm-19d1cc95a5026d98,2026-03-23,Julio,50000,pending,hold,104 Ashburne,Julio,6
+PROP-522,104 Ashburne,Landscaping,2026-05-21,Julio,25000,Labor,amount+vendor,gm-19e4a94c6d49832a,2026-05-21,Julio (last name unknown),25000,pending,hold,104 Ashburne,Julio,1
+PROP-525,104 Ashburne,Paint & Flooring,2026-04-08,Sherwin Williams,5162,Paint,amount+vendor,gm-19d8d3df9a1c4d81,2026-04-14,Sherwin-Williams,5162,dismissed,dismiss,104 Ashburne,,1
+PROP-528,104 Ashburne,Small Baths,2026-04-01,Home Depot,2700,angle stops,vendor+~amount,gm-19d3a708f16b12eb,2026-03-29,The Home Depot,2573,dismissed,dismiss,104 Ashburne,,44
+PROP-529,104 Ashburne,Landscaping,2026-05-29,Julio,20000,Labor,amount+vendor,gm-19f0452f77f79ab8,2026-06-26,"Julio (subcontractor, full name not given)",20000,pending,hold,1616 Granite,julio 200,12
+PROP-530,104 Ashburne,Supplies,2026-03-04,UPS Store,573,Packing Tape,amount+vendor,gm-19cbac340f4e5a7b,2026-03-04,The UPS Store #5780,573,pending,post,104 Ashburne,,7
+PROP-534,104 Ashburne,Small Baths,2026-04-02,Home Depot,831,Gaskets,vendor+~amount,gm-19d2c0314cc37287,2026-03-26,The Home Depot,840,pending,hold,104 Ashburne,,45
+PROP-535,104 Ashburne,Landscaping,2026-06-24,Julio,15000,Labor,amount+vendor,gm-19efaed25d50c403,2026-06-24,Julio (unidentified individual),15000,pending,hold,104 Ashburne,Julio $150,5
+PROP-539,104 Ashburne,Master Bath,2026-02-26,Home Depot,27372,Plumbing & Lumber,amount+vendor,gm-19c9b4b38c3229d6,2026-02-15,The Home Depot,27372,posted,post,104 Ashburne,,44
+PROP-542,104 Ashburne,Supplies,2026-03-06,Home Depot,3674,Multi Tool Blades,vendor+~amount,gm-19cf3177d3ee370b,2026-03-15,The Home Depot,3672,posted,post,104 Ashburne,,35
+PROP-547,104 Ashburne,Landscaping,2026-07-07,Julio,15000,Labor,amount+vendor,gm-19f3cf70fa754ed2,2026-07-07,Julio (unidentified labor),15000,pending,hold,104 Ashburne,Julio $150,5
+PROP-548,104 Ashburne,Supplies,2026-03-06,Chase,600,Checks,amount+vendor,gm-19cc48fef5154a25,2026-03-06,"JPMorgan Chase Bank, N.A.",600,posted,post,104 Ashburne,,7
+PROP-558,104 Ashburne,Small Baths,2026-06-18,Armandre Vega,55000,Bath Fan and Vent,amount,gm-19edb74b0d81508a,2026-06-18,Unknown (no vendor named in email),55000,pending,hold,104 Ashburne,Armadre fan,2
+PROP-565,104 Ashburne,Landscaping,2026-09-01,Julio,15000,Labor,amount+vendor,gm-1a05e23b4b8b9be7,2026-09-01,Julio (unidentified landscaping labor),15000,pending,hold,104 Ashburne,$150 Julio,5
+PROP-567,104 Ashburne,Gas/Truck/Trailer,2026-05-08,Jiffy Lube,7351,Oil Change,amount+vendor,gm-19e07440dfd3573d,2026-05-07,"Jiffy Lube #3752 (Premium Velocity Auto, LLC)",7351,posted,post,104 Ashburne,,1
+PROP-568,104 Ashburne,Lighting & Electrical,2026-04-09,Home Depot,1619,wire connectors,amount+vendor,gm-19cb001414554a99,2026-03-02,The Home Depot,14738,pending,hold,104 Ashburne,,39
+PROP-574,104 Ashburne,Lighting & Electrical,2026-04-09,Home Depot,16853,Outlets & Testet,vendor+date,gm-19d724c5c326c549,2026-04-09,The Home Depot,4001,dismissed,dismiss,104 Ashburne,,38
+PROP-575,104 Ashburne,Landscaping,2026-09-08,Julio,15000,Labor,amount+vendor,gm-1a0817e06f3faaf4,2026-09-08,Julio Camacho,15000,pending,hold,104 Ashburne,Julio,5
+PROP-579,104 Ashburne,Supplies,2026-03-15,Home Depot,892,Shims,vendor+~amount,gm-19d2c0314cc37287,2026-03-26,The Home Depot,840,pending,hold,104 Ashburne,,43
+PROP-580,104 Ashburne,Lighting & Electrical,2026-06-30,Cool Hand Electric,56400,60 Amp Dsiconnect,amount+vendor,gm-19f19bb75c14f4c6,2026-06-30,Cool Hand Electric &amp; Air,56400,pending,post,104 Ashburne,Fwd: Your Invoice from Cool Hand Electric & Air,8
+PROP-582,104 Ashburne,Lighting & Electrical,2026-07-02,Cool Hand Electric,120700,Circuit ground and misc,amount+vendor,gm-19f6bc755fba151a,2026-07-02,Cool Hand Electric & Air,120700,pending,post,104 Ashburne,Fwd: Your Invoice from Cool Hand Electric & Air,8
+PROP-583,104 Ashburne,Supplies,2026-03-15,Home Depot,2156,Sanding Discs,vendor+date,gm-19cf2444d6efb00f,2026-03-15,The Home Depot,31359,dismissed,dismiss,104 Ashburne,,42
+PROP-586,104 Ashburne,Supplies,2026-03-15,Home Depot,2852,Screws,amount+vendor,gm-19cb1566e7f23282,2026-03-02,"Lowe's Home Centers, LLC",2852,dismissed,dismiss,104 Ashburne,,43
+PROP-587,104 Ashburne,Supplies,2026-03-17,UPS Store,357,Packing Tape,amount+vendor,gm-19cfc60f0514c660,2026-03-17,The UPS Store #5780,357,posted,post,104 Ashburne,,11
+PROP-590,104 Ashburne,Supplies,2026-03-18,Home Depot,4776,Screws,vendor+date,gm-19d019ce67d9c5c3,2026-03-18,The Home Depot,5447,posted,post,104 Ashburne,,40
+PROP-608,104 Ashburne,Supplies,2026-03-29,Home Depot,864,Tapcon Screws,amount+vendor,gm-19d535a923f6b186,2026-04-03,"Lowe's Home Centers, LLC",34172,posted,post,104 Ashburne,,46
+PROP-610,104 Ashburne,Supplies,2026-04-01,Home Depot,2537,Angle Grinder discs,vendor+~amount,gm-19d3a708f16b12eb,2026-03-29,The Home Depot,2573,dismissed,dismiss,104 Ashburne,,44
+PROP-611,104 Ashburne,Supplies,2026-04-01,Home Depot,1080,Caulk,amount+vendor,gm-19d7d96bd9768097,2026-04-11,The Home Depot,18151,dismissed,dismiss,104 Ashburne,,44
+PROP-616,104 Ashburne,Supplies,2026-04-01,Home Depot,1080,Latex Gloves,amount+vendor,gm-19d7d96bd9768097,2026-04-11,The Home Depot,18151,dismissed,dismiss,104 Ashburne,,44
+PROP-638,104 Ashburne,Supplies,2026-04-13,Ace Hardware,6447,Misc Supplies,amount+vendor,gm-19d8733a36c6906d,2026-04-13,Keith Ace Hardware - Red Oak,6447,posted,post,104 Ashburne,,1
+PROP-660,104 Ashburne,Supplies,2026-06-18,Home Depot,3984,1x4,vendor+~amount,gm-19f154ce61fa47c1,2026-06-29,"Lowe's Home Centers, LLC",3786,dismissed,dismiss,1616 Granite,,26
+PROP-663,104 Ashburne,Supplies,2026-06-19,Ace Hardware,2528,Screws,amount+vendor,gm-19ee097df3be19ff,2026-06-19,Keith Ace Hardware - Red Oak,2528,dismissed,dismiss,104 Ashburne,104,2
+PROP-667,1616 Granite RECONCILED,,2026-05-18,Salvador Campos,38000,Roof,amount+vendor,gm-19eb74ea0bc8977b,2026-05-18,Vicktor Campos,38000,posted,post,1616 Granite,Fwd: Screenshot 2026-05-18 at 11.51.27 AM,1
+PROP-690,1616 Granite RECONCILED,,2026-05-30,Lowes,1405,Door Mat,amount,gm-19f0fbce663c9387,2026-06-28,"Lowe's Home Centers, LLC",18764,dismissed,dismiss,136 Bowling Green,,3
+PROP-691,1616 Granite RECONCILED,,2026-05-30,Lowes,92,Irrigation Riser,vendor+date,gm-19e79a903622d62d,2026-05-30,"Lowe's Home Centers, LLC",2458,pending,hold,receipts,Your Lowe's Purchase Receipt,2
+PROP-692,1616 Granite RECONCILED,,2026-05-30,Lowes,961,Irrigation Sprinkler,vendor+date,gm-19e79a903622d62d,2026-05-30,"Lowe's Home Centers, LLC",2458,pending,hold,receipts,Your Lowe's Purchase Receipt,2
+PROP-698,1616 Granite RECONCILED,,2026-05-31,Home Depot,4328,Concrete Stain,vendor+~amount,gm-19e8f7e31d1a4101,2026-05-31,"Lowe's Home Centers, LLC",4220,posted,post,1616 Granite,Fwd: Your Lowe's Purchase Receipt,28
+PROP-700,1616 Granite RECONCILED,,2026-05-29,Julio & Friend,60000,Landscaping,vendor+date,gm-19e4a94c6d49832a,2026-05-21,Julio (last name unknown),25000,pending,hold,104 Ashburne,Julio,1
+PROP-701,1616 Granite RECONCILED,,2026-05-27,Amazon,7265,Curtain Rods,vendor+date,gm-19e8ed8492f559bc,2026-06-03,"Anthropic, PBC",2000,pending,post,receipts,"Your receipt from Anthropic, PBC #2634-9183-4841",2
+PROP-702,1616 Granite RECONCILED,,2026-05-27,Amazon,10515,Curtain Rods & Door Lock,vendor+~amount,gm-19f1e7a4d47322d9,2026-07-01,Amazon,10675,pending,hold,receipts,"Fwd: Ordered: ""Gerber 28-990 WHITE Maxwell...""",3
+PROP-703,1616 Granite RECONCILED,,2026-05-27,Amazon,11142,Exterior Light,vendor+date,gm-19e8ed8492f559bc,2026-06-03,"Anthropic, PBC",2000,pending,post,receipts,"Your receipt from Anthropic, PBC #2634-9183-4841",2
+PROP-704,1616 Granite RECONCILED,,2026-05-27,Amazon,3080,Curtain Rods,vendor+~amount,gm-19f00ab9125115f9,2026-06-25,Amazon,3103,pending,post,136 Bowling Green,"Fwd: Ordered: ""Amazon Basics Electronic...""",3
+PROP-705,1616 Granite RECONCILED,,2026-06-01,50floor,131900,Carpet,vendor+~amount,gm-19ebc1789358c9a5,2026-06-12,50Floor,133900,pending,post,1616 Granite,Receipt from 50Floor #PRrT,1
+PROP-706,1616 Granite RECONCILED,,2026-06-01,Mariana,50000,Mariana,amount+vendor,gm-19f138efc8a67a8f,2026-06-29,Mariana (cleaner),50000,pending,post,136 Bowling Green,Mariana,3
+PROP-708,1616 Granite RECONCILED,,2026-06-02,Julio + Friend,60000,Landscaping,none,,,,,,,,,0
+PROP-711,1616 Granite RECONCILED,,2026-06-26,Julio,20000,Landscaping,amount+vendor,gm-19f0452f77f79ab8,2026-06-26,"Julio (subcontractor, full name not given)",20000,pending,hold,1616 Granite,julio 200,14
+PROP-714,1616 Granite RECONCILED,,2026-07-07,Community Archives,46500,HOA Right to Sell,amount+vendor,gm-19f3f5b5bd0654e2,2026-07-07,Community Archives (Goodwin &amp; Company),46500,pending,post,1616 Granite,Fwd: Payment Requested for Order #RKDQB,1
+PROP-716,1616 Granite RECONCILED,,2026-07-07,Effren - 1372,7000,Landscaping,amount+vendor,gm-19f3f5c3cbc8f50e,2026-07-07,Falcon Creek Lawn Care,53500,pending,post,280 Sparkling,effren,4
+PROP-717,1616 Granite RECONCILED,,2026-06-12,Julio,20000,Landscaping,amount+vendor,gm-19f0452f77f79ab8,2026-06-26,"Julio (subcontractor, full name not given)",20000,pending,hold,1616 Granite,julio 200,10
+PROP-718,1616 Granite RECONCILED,,2026-06-22,Julio,20000,Landscaping,amount+vendor,gm-19f0452f77f79ab8,2026-06-26,"Julio (subcontractor, full name not given)",20000,pending,hold,1616 Granite,julio 200,13
+PROP-719,1616 Granite RECONCILED,,2026-07-15,Effren - 1373,11000,Landscaping,amount+vendor,gm-19f86e5bf7f12281,2026-07-19,Falcon Creek Lawn Care,47000,dismissed,dismiss,280 Sparkling,Fwd: Lawn maintenance invoice,4
+PROP-720,1616 Granite RECONCILED,,2026-07-24,Effren - 1374,7000,Landscaping,amount+vendor,gm-19fd24ebc9ed8431,2026-07-30,Falcon Creek Lawn Care,23500,posted,post,280 Sparkling,Fwd: Lawn maintenance,3
+PROP-721,1616 Granite RECONCILED,,2026-05-08,Home Depot,10706,Weed and Feed,vendor+~amount,gm-19d2a6dc500a3a1c,2026-03-26,The Home Depot,10463,dismissed,dismiss,104 Ashburne,,7
+PROP-722,1616 Granite RECONCILED,,2026-06-22,Home Depot,26455,Mulch,vendor+date,gm-19ef063b7f56ea6f,2026-06-22,The Home Depot,4672,posted,post,280 Sparkling,,32
+PROP-723,1616 Granite RECONCILED,,2026-06-10,Lowes,3797,Floor Paint,amount,gm-19ec7c49ce79aefb,2026-06-14,Uber Eats,3797,dismissed,dismiss,travel,[Personal] Your Sunday morning order with Uber Eats,3
+PROP-724,1616 Granite RECONCILED,,2026-05-26,Sherwin WIlliams,2424,Sherwin WIllains,none,,,,,,,,,0
+PROP-725,1616 Granite RECONCILED,,2026-05-26,Sherwin WIlliams,3381,Sherwin WIllains,none,,,,,,,,,0
+PROP-741,280 Sparkling RECONCILED,,2026-06-04,Julio,20000,Landscaping,amount+vendor,gm-19f0452f77f79ab8,2026-06-26,"Julio (subcontractor, full name not given)",20000,pending,hold,1616 Granite,julio 200,9
+PROP-743,280 Sparkling RECONCILED,,2026-07-07,Effren - 1372,5500,Landscaping,amount+vendor,gm-19f3f5c3cbc8f50e,2026-07-07,Falcon Creek Lawn Care,53500,pending,post,280 Sparkling,effren,7
+PROP-744,280 Sparkling RECONCILED,,2026-06-25,Mission Real Estate Group,29900,MLS Listing,amount,gm-19f3f6f506f7c073,2026-07-08,Handwritten expense worksheet (Paul) - multiple vendors,269144,pending,hold,104 Ashburne,,2
+PROP-745,280 Sparkling RECONCILED,,2026-07-19,Effren - 1373,11000,Landscaping,amount+vendor,gm-19f86e5bf7f12281,2026-07-19,Falcon Creek Lawn Care,47000,dismissed,dismiss,280 Sparkling,Fwd: Lawn maintenance invoice,4
+PROP-746,280 Sparkling RECONCILED,,2026-07-24,Community Archives,48500,HOA release,amount+vendor,gm-19f956c4d89292d8,2026-07-23,Community Archives (Goodwin &amp; Company),48500,pending,hold,280 Sparkling,Fwd: Payment Requested for Order #R168A,1
+PROP-748,280 Sparkling RECONCILED,,2026-08-05,Effren - 1374,5500,Landscaping,amount+vendor,gm-19fd24ebc9ed8431,2026-07-30,Falcon Creek Lawn Care,23500,posted,post,280 Sparkling,Fwd: Lawn maintenance,7
+PROP-751,280 Sparkling RECONCILED,,2026-07-01,Home Depot,133,PVC Couplings,amount+vendor,gm-19fdc01a4d613ee4,2026-08-07,"Various (Paul's handwritten expense log - Julio, DL, City of Waxahachie, Home Depot, Walmart)",106497,pending,hold,280 Sparkling,,32
+PROP-752,280 Sparkling RECONCILED,,2026-06-12,Julio,20000,Landscaping,amount+vendor,gm-19f0452f77f79ab8,2026-06-26,"Julio (subcontractor, full name not given)",20000,pending,hold,1616 Granite,julio 200,10
+PROP-754,280 Sparkling RECONCILED,,2026-06-27,Home Depot,572,PVC,amount+vendor,gm-19fdc01a4d613ee4,2026-08-07,"Various (Paul's handwritten expense log - Julio, DL, City of Waxahachie, Home Depot, Walmart)",106497,pending,hold,280 Sparkling,,33
+PROP-755,280 Sparkling RECONCILED,,2026-06-27,Walmart,14073,Fertilizer,amount+vendor,gm-19fdc01a4d613ee4,2026-08-07,"Various (Paul's handwritten expense log - Julio, DL, City of Waxahachie, Home Depot, Walmart)",106497,pending,hold,280 Sparkling,,1
+PROP-759,280 Sparkling RECONCILED,,2026-08-05,TXU,22864,Electricity,amount,gm-1a01692ff072014f,2026-08-18,TXU Energy,21364,pending,hold,280 Sparkling,TXU,1
+PROP-766,Sparkling for Title,,2026-08-05,TXU,22864,Electricity,amount,gm-1a01692ff072014f,2026-08-18,TXU Energy,21364,pending,hold,280 Sparkling,TXU,1
+PROP-780,Sparkling for Title,,2026-06-04,Julio Camacho,20000,Landscaping,amount+vendor,gm-19f0452f77f79ab8,2026-06-26,"Julio (subcontractor, full name not given)",20000,pending,hold,1616 Granite,julio 200,9
+PROP-783,Sparkling for Title,,2026-06-25,Mission Real Estate Group,29900,MLS Listing,amount,gm-19f3f6f506f7c073,2026-07-08,Handwritten expense worksheet (Paul) - multiple vendors,269144,pending,hold,104 Ashburne,,2
+PROP-784,Sparkling for Title,,2026-06-28,Juanito Garcia,100000,Painting,amount+vendor,gm-19f57221a343c4d6,2026-06-25,Garcia Home Repair,100000,pending,post,280 Sparkling,,3
+PROP-785,Sparkling for Title,,2026-06-29,Juanito Garcia,120000,Irrigation Repair,amount+vendor,gm-19f57268c36be87a,2026-06-25,Garcia Home Repair,120000,pending,post,280 Sparkling,,3
+PROP-787,Sparkling for Title,,2026-07-24,Community Archives,48500,HOA Release,amount+vendor,gm-19f956c4d89292d8,2026-07-23,Community Archives (Goodwin &amp; Company),48500,pending,hold,280 Sparkling,Fwd: Payment Requested for Order #R168A,1
+PROP-789,Sparkling for Title,,2026-08-05,Falcon Creek Lawn Care,5500,Landscaping,amount+vendor,gm-19fd24ebc9ed8431,2026-07-30,Falcon Creek Lawn Care,23500,posted,post,280 Sparkling,Fwd: Lawn maintenance,7

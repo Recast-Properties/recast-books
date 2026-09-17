@@ -357,6 +357,21 @@ export default async (req) => {
           attachments: attachmentsForModel,
           deps,
         });
+    // D-025: reads happen once, but the ledger a read was made against may be gone
+    // (staging is cleared between runs). A stored "dismiss, duplicate of <txn>" whose txn
+    // is on no book now is not a duplicate - it is the only read of that receipt (2026-09-17:
+    // 94 documents, 177 old rows). Replay it as the read: post when the model kept its
+    // entries, hold when it did not. The gate's duplicate rails still run against the
+    // current ledger, so a real twin posted meanwhile is still refused.
+    if (fromStored && model.verdict === "dismiss" && /^receipt-/.test(String(model.duplicate_of || ""))) {
+      const whole = await readTab(writer, "Journal", { all: true });
+      const known = new Set(flattenJournalLines(whole.headers, whole.rows).map((l) => l.txn_id));
+      if (!known.has(model.duplicate_of)) {
+        const verdict = (model.entries || []).length ? "post" : "hold";
+        model = { ...model, verdict, duplicate_of: "",
+                  why: `${model.why || ""} [rule: ${model.duplicate_of} is not on the books, the dismiss was against an earlier run's ledger - replayed as ${verdict}]` };
+      }
+    }
     // Phase 4 review rules (D-025): a re-post may carry overrides Paul decided once for
     // many documents - `paid_from` (resolves PAYER_UNKNOWN: "6774 is my Chase card",
     // "everything before June was the personal Visa") and `property` (the old books'
