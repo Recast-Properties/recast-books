@@ -146,8 +146,10 @@ test("WRITER_VERSION is 0.4.0", () => {
 });
 
 test("storeDocument: creates/reuses a root Drive folder, walks nested folder segments, and returns fileId/url/folderUrl", () => {
-  const anchor = source.indexOf("function action_storeDocument_(");
-  assert.ok(anchor !== -1, "action_storeDocument_ not found");
+  assert.ok(source.includes("function action_storeDocument_("), "action_storeDocument_ not found");
+  // The body is the unwrapped storeDocument_ (Menu.gs's inboxApprove files in-process through it).
+  const anchor = source.indexOf("function storeDocument_(");
+  assert.ok(anchor !== -1, "storeDocument_ not found");
   const nextFn = source.indexOf("\nfunction ", anchor + 1);
   const body = source.slice(anchor, nextFn === -1 ? source.length : nextFn);
 

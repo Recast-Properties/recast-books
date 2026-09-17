@@ -23,6 +23,7 @@ import {
   authErrorResponse,
   todayChicago,
   storeAttachmentsToDrive,
+  pollerSecretOk,
   WriterError,
 } from "./_shared.mjs";
 import { buildEntriesFromModel } from "../../lib/gate.mjs";
@@ -71,13 +72,16 @@ export default async (req) => {
   const configErr = requireConfig(["WRITER_URL", "WRITER_SECRET", "SESSION_SECRET", "POLLER_SECRET"]);
   if (configErr) return configErr;
 
-  let session;
-  try {
-    session = getSessionPayload(req);
-  } catch (err) {
-    const resp = authErrorResponse(err);
-    if (resp) return resp;
-    throw err;
+  const isPoller = pollerSecretOk(req);
+  let session = null;
+  if (!isPoller) {
+    try {
+      session = getSessionPayload(req);
+    } catch (err) {
+      const resp = authErrorResponse(err);
+      if (resp) return resp;
+      throw err;
+    }
   }
 
   const writer = getWriter();
@@ -89,18 +93,23 @@ export default async (req) => {
     if (status !== "all" && !STATUSES.has(status)) {
       return json(400, { error: "BAD_REQUEST", message: `unknown status "${status}"` });
     }
+    const onlyDocId = url.searchParams.get("docId") || "";
+    if (onlyDocId && !validateDocId(onlyDocId)) {
+      return json(400, { error: "BAD_REQUEST", message: "bad docId" });
+    }
     const limitParam = Number(url.searchParams.get("limit"));
     const limit = Number.isFinite(limitParam) && limitParam > 0 ? Math.min(limitParam, 500) : 50;
 
     let envelopes;
     try {
-      const { blobs } = await docsStore.list({ prefix: "doc/" });
+      const { blobs } = await docsStore.list({ prefix: onlyDocId ? `doc/${onlyDocId}` : "doc/" });
       const loaded = await Promise.all((blobs || []).map((b) => docsStore.get(b.key, { type: "json" })));
       envelopes = loaded.filter(Boolean);
     } catch (err) {
       return json(502, { error: "STORE_ERROR", message: String((err && err.message) || err) });
     }
 
+    if (onlyDocId) envelopes = envelopes.filter((e) => e.docId === onlyDocId);
     if (status !== "all") envelopes = envelopes.filter((e) => e.status === status);
     envelopes.sort((a, b) => {
       const ta = a.startedAt || a.receivedAt || "";
@@ -112,12 +121,14 @@ export default async (req) => {
   }
 
   if (req.method === "POST") {
-    try {
-      requireRole(session, ["owner"]);
-    } catch (err) {
-      const resp = authErrorResponse(err);
-      if (resp) return resp;
-      throw err;
+    if (!isPoller) {
+      try {
+        requireRole(session, ["owner"]);
+      } catch (err) {
+        const resp = authErrorResponse(err);
+        if (resp) return resp;
+        throw err;
+      }
     }
 
     let body;
@@ -126,6 +137,7 @@ export default async (req) => {
     } catch {
       return json(400, { error: "BAD_REQUEST", message: "expected a JSON body" });
     }
+    const by = isPoller ? String(body.by || "workbook") : session.email;
 
     const docId = body.docId;
     if (!validateDocId(docId)) {
@@ -166,7 +178,7 @@ export default async (req) => {
       let entries;
       try {
         entries = buildEntriesFromModel(modelForBuild, ctx, {
-          posted_by: session.email,
+          posted_by: by,
           doc_url,
           allow_duplicate_hash: true,
         });
@@ -198,11 +210,29 @@ export default async (req) => {
         ...envelope,
         status: "posted",
         result: { txn_ids: entries.map((e) => e.txn_id), rows: postResult.rows, doc_url },
-        review: { action: "approve", by: session.email, at: new Date().toISOString(), note: body.note || "" },
+        review: { action: "approve", by, at: new Date().toISOString(), note: body.note || "" },
       };
       await docsStore.setJSON(`doc/${docId}`, updated);
       await invalidateJournalCache(writer);
       return json(200, { docId, status: "posted", txn_ids: updated.result.txn_ids, rows: postResult.rows });
+    }
+
+    if (body.action === "mark-posted") {
+      const envelope = await loadEnvelope(docsStore, docId);
+      if (!envelope) return json(404, { error: "NOT_FOUND", message: `no envelope for docId ${docId}` });
+      if (envelope.status !== "pending" && envelope.status !== "posting") {
+        return json(409, { error: "NOT_PENDING", message: `envelope is "${envelope.status}", not pending` });
+      }
+      const txn_ids = Array.isArray(body.txn_ids) ? body.txn_ids.map(String).filter(Boolean) : [];
+      if (!txn_ids.length) return json(400, { error: "BAD_REQUEST", message: "txn_ids is required" });
+      const updated = {
+        ...envelope,
+        status: "posted",
+        result: { txn_ids, rows: body.rows ?? null, doc_url: body.doc_url || envelope.result?.doc_url || "" },
+        review: { action: "approve", by, at: new Date().toISOString(), note: body.note || "", in_process: true },
+      };
+      await docsStore.setJSON(`doc/${docId}`, updated);
+      return json(200, { docId, status: "posted", txn_ids });
     }
 
     if (body.action === "dismiss") {
@@ -213,7 +243,7 @@ export default async (req) => {
       const updated = {
         ...envelope,
         status: "dismissed",
-        review: { action: "dismiss", by: session.email, at: new Date().toISOString(), note: body.note },
+        review: { action: "dismiss", by, at: new Date().toISOString(), note: body.note },
       };
       await docsStore.setJSON(`doc/${docId}`, updated);
       return json(200, { docId, status: "dismissed" });
@@ -279,7 +309,7 @@ export default async (req) => {
       return json(200, { docId, deleted: true });
     }
 
-    return json(400, { error: "BAD_REQUEST", message: "action must be approve, dismiss, reprocess or delete" });
+    return json(400, { error: "BAD_REQUEST", message: "action must be approve, mark-posted, dismiss, reprocess or delete" });
   }
 
   return json(405, { error: "METHOD_NOT_ALLOWED" });

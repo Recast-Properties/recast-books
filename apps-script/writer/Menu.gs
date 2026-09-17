@@ -17,6 +17,7 @@ function onOpen() {
     .addItem('New expense...', 'showExpenseDialog')
     .addItem('New journal entry...', 'showJournalDialog')
     .addItem('Void selected entry...', 'voidSelected')
+    .addItem('Inbox...', 'showInboxSidebar')
     .addSeparator()
     .addItem('Add property...', 'showPropertyDialog')
     .addItem('Rebuild property tab', 'rebuildPropertyTab')
@@ -789,6 +790,162 @@ function promptProperty_(ss, title) {
   var name = resp.getResponseText().trim();
   if (names.indexOf(name) === -1) { ui.alert('"' + name + '" is not on the Properties tab.'); return null; }
   return name;
+}
+
+// ---- Inbox (receipts waiting for review) ---------------------------------------------------
+// The queue stays in Netlify Blobs (one source of truth: the poller, the ingest job, the
+// web Inbox and the digest all read it). The sidebar reads it over HTTP with the same
+// POLLER_SECRET warmCache_ uses, then Approve files the document to Drive and posts the
+// entries IN-PROCESS - the slow hops (Netlify -> cold writer web app, two or three per
+// approve) are gone - and one cheap call marks the envelope posted. Dismiss and
+// Reprocess are the existing /api/inbox verbs, proxied.
+
+/** UrlFetchApp to the site with the poller secret. Returns the HTTPResponse; throws a
+ *  fail_ with the API's error code on any non-2xx. */
+function siteFetchRaw_(path, method, body) {
+  var props = PropertiesService.getScriptProperties();
+  var secret = props.getProperty('POLLER_SECRET');
+  if (!secret) fail_('NO_SECRET', 'Script property POLLER_SECRET is not set (Project settings > Script properties).');
+  var siteUrl = (props.getProperty('SITE_URL') || 'https://books.recast-properties.com').replace(/\/+$/, '');
+  var params = { method: method || 'get', headers: { 'x-poller-secret': secret }, muteHttpExceptions: true };
+  if (body) { params.contentType = 'application/json'; params.payload = JSON.stringify(body); }
+  var res = UrlFetchApp.fetch(siteUrl + path, params);
+  var code = res.getResponseCode();
+  if (code >= 300) {
+    var data = null;
+    try { data = JSON.parse(res.getContentText()); } catch (e) { /* not JSON */ }
+    fail_((data && data.error) || 'HTTP_' + code, (data && data.message) || res.getContentText().slice(0, 200));
+  }
+  return res;
+}
+
+function siteFetchJson_(path, method, body) {
+  return JSON.parse(siteFetchRaw_(path, method, body).getContentText());
+}
+
+function showInboxSidebar() {
+  var ss = openIfOwner_();
+  if (!ss) return;
+  var html = HtmlService.createTemplateFromFile('Inbox').evaluate().setTitle('Inbox');
+  SpreadsheetApp.getUi().showSidebar(html);
+}
+
+/** Pending envelopes (newest first, no bytes) plus the pickers the editor needs. */
+function inboxList() {
+  var ss = openWorkbook_(PropertiesService.getScriptProperties());
+  try {
+    requireOwner_(ss);
+    var resp = siteFetchJson_('/api/inbox?status=pending&limit=100');
+    var pickers = pickerData_(ss);
+    return { ok: true, envelopes: resp.envelopes || [], total: resp.total, pickers: pickers,
+      user: Session.getActiveUser().getEmail(), site: PropertiesService.getScriptProperties().getProperty('SITE_URL') || 'https://books.recast-properties.com' };
+  } catch (err) {
+    return { ok: false, error: (err && err.code) || 'INTERNAL', message: String((err && err.message) || err) };
+  }
+}
+
+/** 480 px JPEG thumbnail of an image attachment as a data URI (PDFs have none). */
+function inboxThumb(key) {
+  try {
+    var res = siteFetchRaw_('/api/file?key=' + encodeURIComponent(key) + '&thumb=1');
+    return { ok: true, dataUri: 'data:image/jpeg;base64,' + Utilities.base64Encode(res.getContent()) };
+  } catch (err) {
+    return { ok: false, error: (err && err.code) || 'INTERNAL', message: String((err && err.message) || err) };
+  }
+}
+
+/** "<date> <vendor> <total>.<ext>" - netlify/functions/_shared.mjs driveFileName, copied. */
+function driveFileName_(model, original, index) {
+  var vendor = String((model && model.vendor) || '').trim().replace(/[\\/:*?"<>|]+/g, '').slice(0, 60);
+  var cents = Number(model && model.receipt_total_cents);
+  if (!(model && model.date) || !vendor || !isFinite(cents)) return original;
+  var ext = (original.match(/\.[A-Za-z0-9]{1,5}$/) || [''])[0].toLowerCase();
+  var suffix = index > 0 ? ' (' + (index + 1) + ')' : '';
+  return model.date + ' ' + vendor + ' ' + (cents / 100).toFixed(2) + suffix + ext;
+}
+
+/** Approve: file to Drive, build + post the (possibly edited) entries in-process, then
+ *  mark the envelope posted. Same rules as the web approve (buildEntriesFromModel,
+ *  allow_duplicate_hash, gate NOT applied - the human is the gate). */
+function inboxApprove(req) {
+  var props = PropertiesService.getScriptProperties();
+  var ss = openWorkbook_(props);
+  var txnIds = null;
+  try {
+    requireOwner_(ss);
+    var docId = String(req.docId || '');
+    var entries = Array.isArray(req.entries) ? req.entries : [];
+    if (!docId) return { ok: false, error: 'BAD_REQUEST', message: 'docId is required' };
+    if (!entries.length) return { ok: false, error: 'BAD_REQUEST', message: 'no entries to approve' };
+
+    // Fresh read right before posting: the web Inbox or the ingest may have moved it.
+    // ponytail: a claim step would close the last few hundred ms; one user, not worth a verb
+    var env = (siteFetchJson_('/api/inbox?status=all&docId=' + encodeURIComponent(docId)).envelopes || [])[0];
+    if (!env) return { ok: false, error: 'NOT_FOUND', message: 'no envelope for ' + docId };
+    if (env.status !== 'pending') return { ok: false, error: 'NOT_PENDING', message: 'this document is "' + env.status + '" now, not pending - refresh the list' };
+
+    var model = {};
+    for (var k in (env.model || {})) model[k] = env.model[k];
+    model.entries = entries;
+    var ctx = buildCtx_(ss);
+    var postedBy = Session.getActiveUser().getEmail();
+
+    // A pending item was never filed to Drive on the way in; file it now (web approve
+    // does the same via storeAttachmentsToDrive). Folder: <year>/<property or OVERHEAD>.
+    var docUrl = (env.result && env.result.doc_url) || '';
+    if (!docUrl) {
+      var first = entries[0] || {};
+      var folder = [String(first.date || ctx.today).slice(0, 4), first.property || 'OVERHEAD'];
+      var atts = env.attachments || [];
+      for (var i = 0; i < atts.length; i++) {
+        var key = atts[i].key || ('att/' + docId + '/' + i);
+        var bytes = siteFetchRaw_('/api/file?key=' + encodeURIComponent(key)).getContent();
+        var stored = storeDocument_(driveFileName_(model, atts[i].name || ('attachment-' + i), i),
+          atts[i].mime || 'application/octet-stream', Utilities.base64Encode(bytes), folder, props);
+        if (!docUrl) docUrl = stored.url;
+      }
+    }
+
+    var built = buildEntriesFromModel(model, ctx, { posted_by: postedBy, doc_url: docUrl, allow_duplicate_hash: true });
+    var result = postBatchEntries_(built, props);
+    txnIds = built.map(function (e) { return e.txn_id; });
+
+    siteFetchJson_('/api/inbox', 'post', { action: 'mark-posted', docId: docId, txn_ids: txnIds, rows: result.rows,
+      doc_url: docUrl, by: postedBy, note: req.note || '' });
+    warmCache_();
+    return { ok: true, txn_ids: txnIds, doc_url: docUrl, entries: built };
+  } catch (err) {
+    if (txnIds) {
+      // Posted, but the card is still pending on the site: say so loudly, never re-post.
+      warmCache_();
+      return { ok: false, error: 'MARK_FAILED', message: 'POSTED ' + txnIds.join(', ') + ' but the card could not be marked posted (' +
+        String((err && err.message) || err) + '). Do NOT approve it again - from the repo run: node scripts/mark-posted.mjs ' + req.docId + ' ' + txnIds[0] };
+    }
+    return { ok: false, error: (err && err.code) || 'INTERNAL', message: String((err && err.message) || err) };
+  }
+}
+
+function inboxDismiss(req) {
+  var ss = openWorkbook_(PropertiesService.getScriptProperties());
+  try {
+    requireOwner_(ss);
+    if (!req.note) return { ok: false, error: 'BAD_REQUEST', message: 'a reason is required' };
+    siteFetchJson_('/api/inbox', 'post', { action: 'dismiss', docId: req.docId, note: req.note, by: Session.getActiveUser().getEmail() });
+    return { ok: true };
+  } catch (err) {
+    return { ok: false, error: (err && err.code) || 'INTERNAL', message: String((err && err.message) || err) };
+  }
+}
+
+function inboxReprocess(req) {
+  var ss = openWorkbook_(PropertiesService.getScriptProperties());
+  try {
+    requireOwner_(ss);
+    siteFetchJson_('/api/inbox', 'post', { action: 'reprocess', docId: req.docId, by: Session.getActiveUser().getEmail() });
+    return { ok: true };
+  } catch (err) {
+    return { ok: false, error: (err && err.code) || 'INTERNAL', message: String((err && err.message) || err) };
+  }
 }
 
 // ---- Self test ----------------------------------------------------------------------------

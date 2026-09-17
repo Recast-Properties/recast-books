@@ -10,6 +10,7 @@ import { resetDocsStoreForTests, getDocsStore } from "../netlify/functions/_shar
 import { installFakeBlobsContext, makeFakeDocsStore } from "./helpers/fake-docs-store.mjs";
 
 process.env.SESSION_SECRET = "session-secret";
+process.env.POLLER_SECRET = "poller-secret";
 installFakeBlobsContext();
 
 const { default: handler } = await import("../netlify/functions/books-file.mjs");
@@ -40,6 +41,15 @@ beforeEach(() => {
 test("no session -> 401", async () => {
   const res = await handler(req({ key: "att/doc1/0" }));
   assert.equal(res.status, 401);
+});
+
+test("x-poller-secret reads without a session (the workbook's Inbox sidebar)", async () => {
+  const store = getDocsStore();
+  await store.set("att/doc9/0", Buffer.from("bytes").toString("base64"), { metadata: { contentType: "text/plain" } });
+  const r = new Request("https://books.test/api/file?key=att/doc9/0", { headers: { "x-poller-secret": process.env.POLLER_SECRET } });
+  const res = await handler(r);
+  assert.equal(res.status, 200);
+  assert.equal(await res.text(), "bytes");
 });
 
 test("a key outside att/ is rejected", async () => {

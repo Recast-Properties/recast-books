@@ -16,3 +16,7 @@ Menu.gs adds a **Recast Books** menu to the workbook for posting/reports in-proc
    `WRITER_URL` = the `/exec` URL, `WRITER_SECRET` = the secret from step 4.
 8. Re-running `setup` is safe: same workbook, same secret, no-op.
 9. Visit the `/exec` URL in a browser - it should show `{"ok":true,...}`.
+
+Script properties the menu needs beyond what `setup` writes: `POLLER_SECRET` (the
+Netlify env var of the same name) — the cache-warm poke and the Inbox sidebar send it as
+`x-poller-secret`; optional `SITE_URL` (defaults to https://books.recast-properties.com).

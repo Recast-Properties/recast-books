@@ -181,6 +181,52 @@ test("GET rejects an unknown status", { skip }, async () => {
   assert.equal(res.status, 400);
 });
 
+// ---- the workbook sidebar (Menu.gs inboxList/inboxApprove): poller secret, docId, mark-posted
+
+function pollerReq(method, { body, search = "" } = {}) {
+  return new Request(`https://books.test/api/inbox${search}`, {
+    method,
+    headers: { "content-type": "application/json", "x-poller-secret": process.env.POLLER_SECRET },
+    body: body ? JSON.stringify(body) : undefined,
+  });
+}
+
+test("GET with x-poller-secret needs no session and ?docId= narrows to one envelope", { skip }, async () => {
+  await seedEnvelope("gm-s1", { status: "pending" });
+  await seedEnvelope("gm-s2", { status: "posted" });
+  const res = await handler(pollerReq("GET", { search: "?status=all&docId=gm-s2" }));
+  assert.equal(res.status, 200);
+  const body = await res.json();
+  assert.deepEqual(body.envelopes.map((e) => e.docId), ["gm-s2"]);
+});
+
+test("mark-posted records an in-process post on a pending envelope, by from the body", { skip }, async () => {
+  await seedEnvelope("gm-mp1");
+  const res = await handler(pollerReq("POST", { body: { action: "mark-posted", docId: "gm-mp1", txn_ids: ["receipt-20260910-abc"], rows: [7, 8], doc_url: "https://drive/x", by: "paul@recast-properties.com" } }));
+  assert.equal(res.status, 200);
+  const envelope = await getDocsStore().get("doc/gm-mp1", { type: "json" });
+  assert.equal(envelope.status, "posted");
+  assert.deepEqual(envelope.result, { txn_ids: ["receipt-20260910-abc"], rows: [7, 8], doc_url: "https://drive/x" });
+  assert.equal(envelope.review.by, "paul@recast-properties.com");
+  assert.equal(envelope.review.in_process, true);
+  assert.equal(writerCalls.length, 0); // nothing posted from here - the workbook already did
+});
+
+test("mark-posted refuses an envelope that is not pending, and an empty txn_ids", { skip }, async () => {
+  await seedEnvelope("gm-mp2", { status: "posted" });
+  const res = await handler(pollerReq("POST", { body: { action: "mark-posted", docId: "gm-mp2", txn_ids: ["x"] } }));
+  assert.equal(res.status, 409);
+  await seedEnvelope("gm-mp3");
+  const res2 = await handler(pollerReq("POST", { body: { action: "mark-posted", docId: "gm-mp3", txn_ids: [] } }));
+  assert.equal(res2.status, 400);
+});
+
+test("a session still cannot mark-posted without the owner role", { skip }, async () => {
+  await seedEnvelope("gm-mp4");
+  const res = await handler(req("POST", { token: session("partner"), body: { action: "mark-posted", docId: "gm-mp4", txn_ids: ["x"] } }));
+  assert.equal(res.status, 403);
+});
+
 // ---- approve -----------------------------------------------------------------------
 
 test("approve is owner-only", { skip }, async () => {

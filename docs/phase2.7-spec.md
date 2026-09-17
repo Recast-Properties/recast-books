@@ -86,13 +86,31 @@ copied), with `POLLER_SECRET` as a script property. Worst case without it: a pro
 added in the sheet is unknown to the Inbox pickers and the model's `list_properties` for
 up to 15 minutes. The D-012 duplicate check already reads fresh.
 
-## 6 · Inbox review — step two, not this phase
+## 6 · Inbox review in the workbook — built 2026-09-16
 
-Approve/dismiss in the sheet would be ~1 s instead of 3–5 s, but only if the queue moves
-from Blobs to an `Inbox` tab written by the ingest job — a change to the live pipeline.
-Deferred until the bound project has run for a week: then the ingest job writes cards to
-the tab through the writer, a sidebar reads them, approve/dismiss post in-process, and
-reprocess alone calls Netlify. Spec'd separately when we get there.
+**Recast Books → Inbox…** opens a sidebar (`Inbox.html`) listing every pending document:
+vendor, date, total, confidence, thumbnail (click to enlarge; PDFs link to the web Inbox),
+Claude's note, the gate's reasons, and the same editable entries as the web card (property,
+paid from, items with account/amount/description/purpose, running total against the
+receipt). Approve, Dismiss (with a reason), Reprocess.
+
+The queue **stays in Netlify Blobs** — one source of truth that the poller, the ingest job,
+the web Inbox, the digest and the model's `search_docs` all read. The `Inbox` tab this
+section once planned would have been a second copy of that state. What moved in-process is
+the slow part: **Approve** fetches the envelope fresh (refuses anything no longer pending),
+files the attachment to Drive through `storeDocument_`, builds the entries with the same
+`buildEntriesFromModel` (`lib/gate.mjs`, now generated into `lib.gs`) and posts them with
+`postBatchEntries_` under the writer's lock — no Netlify → cold writer hops — then one cheap
+call records it: `POST /api/inbox {action:"mark-posted"}`. If that last call fails after the
+post, the sidebar says so, names the txn_ids, and tells Paul to run
+`scripts/mark-posted.mjs` rather than approve again. Dismiss and Reprocess are the existing
+`/api/inbox` verbs, proxied.
+
+Auth: the sidebar calls the site with the same `POLLER_SECRET` script property `warmCache_`
+uses (`x-poller-secret`, now accepted by `/api/inbox` and `/api/file`); the Users-tab owner
+check runs in the workbook first, and `by` carries the user's email into the envelope's
+review record. The web Inbox stays as it was — it is still the place for Posted, Dismissed,
+Dry runs and Errors.
 
 ## 7 · Phase 3 under this shape
 

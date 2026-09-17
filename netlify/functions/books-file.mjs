@@ -1,13 +1,14 @@
 // netlify/functions/books-file.mjs — path /api/file — phase2-spec.md section 5
 //   GET /api/file?key=att/<docId>/<i>[&thumb=1]
 //     -> streams the attachment bytes with the stored mime; ?thumb=1 returns a
-//        jimp-resized 480px JPEG (PDFs 404 for thumb). Session-gated, any role.
+//        jimp-resized 480px JPEG (PDFs 404 for thumb). Session-gated, any role -
+//        or header x-poller-secret (the workbook's Inbox sidebar, Menu.gs).
 //
 // Bytes live in the "books-docs" Blobs store at att/<docId>/<i>, stored as base64
 // text by books-upload.mjs (metadata carries contentType/filename) - this is the
 // only function that ever reads them back out for a browser.
 
-import { requireConfig, json, getDocsStore, getSessionPayload, authErrorResponse } from "./_shared.mjs";
+import { requireConfig, json, getDocsStore, getSessionPayload, authErrorResponse, pollerSecretOk } from "./_shared.mjs";
 import { Jimp, JimpMime } from "jimp";
 
 const KEY_RE = /^att\/[A-Za-z0-9_-]{1,200}\/\d+$/;
@@ -19,12 +20,14 @@ export default async (req) => {
 
   if (req.method !== "GET") return json(405, { error: "METHOD_NOT_ALLOWED" });
 
-  try {
-    getSessionPayload(req);
-  } catch (err) {
-    const resp = authErrorResponse(err);
-    if (resp) return resp;
-    throw err;
+  if (!pollerSecretOk(req)) {
+    try {
+      getSessionPayload(req);
+    } catch (err) {
+      const resp = authErrorResponse(err);
+      if (resp) return resp;
+      throw err;
+    }
   }
 
   const url = new URL(req.url);

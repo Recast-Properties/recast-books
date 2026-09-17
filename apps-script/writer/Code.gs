@@ -916,7 +916,12 @@ function action_storeDocument_(body, props) {
   if (!Array.isArray(folder) || folder.length === 0) {
     fail_('BAD_REQUEST', 'folder must be a non-empty array of path segments');
   }
+  return jsonOutput_(storeDocument_(name, mime, base64, folder, props));
+}
 
+// Unwrapped body of action_storeDocument_ - Menu.gs's inboxApprove files the receipt
+// in-process this way before it posts (the web app's approve does the same over HTTP).
+function storeDocument_(name, mime, base64, folder, props) {
   var target = getOrCreateDocsRootFolder_(props);
   folder.forEach(function (segment) {
     target = getOrCreateSubfolder_(target, String(segment));
@@ -926,7 +931,7 @@ function action_storeDocument_(body, props) {
   var blob = Utilities.newBlob(bytes, mime, name);
   var file = target.createFile(blob);
 
-  return jsonOutput_({ ok: true, fileId: file.getId(), url: file.getUrl(), folderUrl: target.getUrl() });
+  return { ok: true, fileId: file.getId(), url: file.getUrl(), folderUrl: target.getUrl() };
 }
 
 function getOrCreateDocsRootFolder_(props) {

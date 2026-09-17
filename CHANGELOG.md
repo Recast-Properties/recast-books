@@ -445,3 +445,16 @@ ran (a cold-writer 502 on the pre-read). `books-warm-background` — already kic
 poller every 15 min — now re-invokes ingest for every `error` envelope with no `model`
 (nothing filed, voided or posted yet), at most twice (`retries` on the envelope); anything
 that errored after the model ran still waits for the Inbox's Reprocess verb.
+
+## 2026-09-16 — Inbox review in the workbook
+
+`docs/phase2.7-spec.md` §6 (the deferred "step two"): **Recast Books → Inbox…** opens a
+sidebar of pending receipts with the web card's fields, editable, plus thumbnail, Claude's
+note and the gate reasons. Approve files the document to Drive and posts the entries
+in-process (same `buildEntriesFromModel` — `lib/gate.mjs` joins the generated `lib.gs`),
+then records it with a new `mark-posted` verb on `/api/inbox`; Dismiss and Reprocess proxy
+the existing verbs. The queue stays in Blobs — the `Inbox` tab first planned would have
+been a second copy of the same state. `/api/inbox` and `/api/file` now also accept
+`x-poller-secret` (the sidebar's auth; the workbook checks the Users tab first). Web Inbox
+unchanged. 389 tests.
+

@@ -1,0 +1,250 @@
+<?!= include_('Style') ?>
+<style>
+  body { padding: 8px 10px; }
+  .top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
+  .top h3 { margin: 0; }
+  .top button { padding: 4px 10px; font-size: 12px; margin: 0; }
+  .card { border: 1px solid #ddd; border-radius: 4px; padding: 8px; margin-bottom: 10px; }
+  .card .head { display: flex; justify-content: space-between; align-items: baseline; }
+  .card .vendor { font-weight: bold; font-size: 13px; }
+  .card .sub { color: #555; font-size: 11px; margin: 2px 0 6px; }
+  .pill { font-size: 10px; padding: 1px 6px; border-radius: 8px; background: #eee; }
+  .pill.high { background: #e6f4ea; color: #137333; }
+  .pill.medium { background: #fef7e0; color: #b06000; }
+  .pill.low { background: #fce8e6; color: #a50e0e; }
+  .thumb { display: block; max-width: 100%; max-height: 220px; border: 1px solid #ddd; margin-bottom: 6px; cursor: zoom-in; }
+  .thumb.big { max-height: none; cursor: zoom-out; }
+  .pdf { display: inline-block; padding: 6px 10px; border: 1px solid #ddd; background: #f6f6f6; font-size: 11px; margin-bottom: 6px; }
+  .why { background: #f6f6f6; border-left: 3px solid #bbb; padding: 4px 8px; font-size: 11px; margin-bottom: 6px; }
+  .chips { margin-bottom: 6px; }
+  .chip { display: inline-block; font-size: 10px; background: #fef7e0; color: #b06000; padding: 1px 6px; border-radius: 3px; margin: 0 4px 3px 0; }
+  .entry { border-top: 1px dashed #ddd; padding-top: 6px; margin-top: 6px; }
+  .item { background: #fafafa; padding: 4px 6px; margin-bottom: 4px; border-radius: 3px; position: relative; }
+  .item .rm { position: absolute; right: 2px; top: 2px; border: none; background: none; color: #999; font-size: 14px; padding: 0 4px; margin: 0; }
+  .item input, .item select, .entry select { margin-bottom: 4px; }
+  .add { font-size: 11px; padding: 3px 8px; margin: 0 0 6px; }
+  .totals { font-size: 11px; margin: 4px 0 6px; }
+  .totals.ok { color: #137333; }
+  .totals.off { color: #a50e0e; font-weight: bold; }
+  .verbs button { font-size: 12px; padding: 5px 10px; margin: 0 6px 4px 0; }
+  .note { margin-top: 6px; }
+  .docid { font-size: 10px; color: #999; word-break: break-all; }
+  a { color: #1a73e8; }
+</style>
+
+<div class="top">
+  <h3>Inbox <span id="count"></span></h3>
+  <div><button id="refresh">Refresh</button></div>
+</div>
+<div id="msg" class="msg hidden"></div>
+<div id="list">Loading...</div>
+<p class="rc-small" style="font-size:11px;color:#777;">Posted, dismissed and errored items: <a id="weblink" href="#" target="_blank" rel="noopener">web Inbox</a>.</p>
+
+<script>
+  var DATA = { envelopes: [], pickers: { accounts: [], properties: [], bankAccounts: [] }, site: '' };
+  var EDIT = {}; // docId -> editable entries (deep copy of model.entries)
+
+  function money_(cents) { return '$' + (Number(cents || 0) / 100).toFixed(2); }
+  function cents_(v) {
+    var n = Math.round(parseFloat(String(v).replace(/[$,\s]/g, '')) * 100);
+    return isFinite(n) ? n : 0;
+  }
+  function opt_(value, label, selected) {
+    return '<option value="' + escapeHtml_(value) + '"' + (selected ? ' selected' : '') + '>' + escapeHtml_(label) + '</option>';
+  }
+  function accountOpts_(sel) {
+    return opt_('', 'Choose...', !sel) + DATA.pickers.accounts.map(function (a) { return opt_(a.code, a.code + ' ' + a.name, a.code === sel); }).join('');
+  }
+  function propertyOpts_(sel) {
+    return DATA.pickers.properties.map(function (p) { return opt_(p, p, p === sel); }).join('') + opt_('OVERHEAD', 'OVERHEAD', sel === 'OVERHEAD');
+  }
+  function paidFromOpts_(sel) {
+    // D-014: UNKNOWN never silently becomes the first account; the engine refuses it.
+    var html = (!sel || sel === 'UNKNOWN') ? opt_('UNKNOWN', '- assign account -', true) : '';
+    html += DATA.pickers.bankAccounts.map(function (b) { return opt_(b.code, b.code + ' ' + b.name, b.code === sel); }).join('');
+    return html + opt_('PAUL', 'PAUL (personal)', sel === 'PAUL') + opt_('DENNIS', 'DENNIS (direct)', sel === 'DENNIS');
+  }
+
+  function totalsLine_(env) {
+    var entries = EDIT[env.docId] || [];
+    var sum = 0;
+    entries.forEach(function (e) { (e.items || []).forEach(function (it) { sum += Number(it.amount_cents) || 0; }); });
+    var rt = Number((env.model && env.model.receipt_total_cents) || 0);
+    var ok = sum === rt;
+    return '<div class="totals ' + (ok ? 'ok' : 'off') + '">Entries ' + money_(sum) + ' / receipt ' + money_(rt) + (ok ? ' - matches' : ' - does not match') + '</div>';
+  }
+
+  function renderCard_(env) {
+    var m = env.model || {};
+    var gate = env.gate || {};
+    var d = escapeHtml_(env.docId);
+    var entries = EDIT[env.docId] || (EDIT[env.docId] = JSON.parse(JSON.stringify(m.entries || [])));
+    var props = []; entries.forEach(function (e) { if (e.property && props.indexOf(e.property) < 0) props.push(e.property); });
+
+    var atts = (env.attachments || []).map(function (a, i) {
+      if (String(a.mime || '').indexOf('image/') === 0) {
+        return '<img class="thumb" data-key="' + escapeHtml_(a.key || ('att/' + env.docId + '/' + i)) + '" alt="" title="Click to enlarge">';
+      }
+      return '<a class="pdf" href="' + escapeHtml_(DATA.site) + '/#inbox/' + d + '" target="_blank" rel="noopener">PDF: ' + escapeHtml_(a.name || 'open in web Inbox') + '</a>';
+    }).join('');
+
+    var chips = (gate.reasons || []).map(function (r) { return '<span class="chip">' + escapeHtml_(r) + '</span>'; }).join('');
+
+    var entriesHtml = entries.map(function (e, ei) {
+      var items = (e.items || []).map(function (it, ii) {
+        return '<div class="item">' +
+          '<button class="rm" data-rm="' + ei + ':' + ii + '" title="Remove item">&times;</button>' +
+          '<select data-e="' + ei + '" data-i="' + ii + '" data-f="account">' + accountOpts_(it.account) + '</select>' +
+          '<div class="row"><div><input data-e="' + ei + '" data-i="' + ii + '" data-f="amount" value="' + escapeHtml_((Number(it.amount_cents || 0) / 100).toFixed(2)) + '" placeholder="Amount"></div>' +
+          '<div style="flex:2"><input data-e="' + ei + '" data-i="' + ii + '" data-f="description" value="' + escapeHtml_(it.description || '') + '" placeholder="Description"></div></div>' +
+          '<input data-e="' + ei + '" data-i="' + ii + '" data-f="business_purpose" value="' + escapeHtml_(it.business_purpose || '') + '" placeholder="Business purpose (274(d) accounts)">' +
+          '</div>';
+      }).join('');
+      return '<div class="entry">' +
+        '<div class="row"><div><label>Property</label><select data-e="' + ei + '" data-f="property">' + propertyOpts_(e.property) + '</select></div>' +
+        '<div><label>Paid from</label><select data-e="' + ei + '" data-f="paid_from">' + paidFromOpts_(e.paid_from) + '</select></div></div>' +
+        items + '<button class="add" data-add="' + ei + '">+ item</button></div>';
+    }).join('');
+
+    return '<div class="card" data-doc="' + d + '">' +
+      '<div class="head"><span class="vendor">' + escapeHtml_(m.vendor || '(no vendor)') + '</span><span class="pill ' + escapeHtml_(m.confidence || '') + '">' + escapeHtml_(m.confidence || '-') + '</span></div>' +
+      '<div class="sub">' + escapeHtml_(m.date || '-') + ' &middot; ' + (m.receipt_total_cents != null ? money_(m.receipt_total_cents) : '-') + ' &middot; ' + escapeHtml_(props.join(', ') || '-') + ' &middot; ' + escapeHtml_(env.channel || '') + '</div>' +
+      atts +
+      (m.why ? '<div class="why">' + escapeHtml_(m.why) + '</div>' : '') +
+      (chips ? '<div class="chips">' + chips + '</div>' : '') +
+      entriesHtml +
+      '<div class="tot">' + totalsLine_(env) + '</div>' +
+      '<div class="verbs"><button class="primary" data-approve="1">Approve</button><button data-dismiss="1">Dismiss</button><button data-reprocess="1">Reprocess</button></div>' +
+      '<div class="note hidden"><input data-note="1" placeholder="Reason"><button data-dismiss-go="1">Dismiss it</button><button data-dismiss-cancel="1">Cancel</button></div>' +
+      '<div class="msg hidden" data-msg="1"></div>' +
+      '<div class="docid">' + d + '</div>' +
+      '</div>';
+  }
+
+  function render_() {
+    var list = document.getElementById('list');
+    document.getElementById('count').textContent = DATA.envelopes.length ? '(' + DATA.envelopes.length + ')' : '';
+    if (!DATA.envelopes.length) { list.innerHTML = '<p>Nothing waiting.</p>'; return; }
+    list.innerHTML = DATA.envelopes.map(renderCard_).join('');
+    DATA.envelopes.forEach(wire_);
+  }
+
+  function findEnv_(docId) {
+    for (var i = 0; i < DATA.envelopes.length; i++) if (DATA.envelopes[i].docId === docId) return DATA.envelopes[i];
+    return null;
+  }
+
+  function rerender_(docId) {
+    var env = findEnv_(docId);
+    var old = document.querySelector('.card[data-doc="' + docId + '"]');
+    if (!env || !old) return;
+    var tmp = document.createElement('div');
+    tmp.innerHTML = renderCard_(env);
+    old.parentNode.replaceChild(tmp.firstElementChild, old);
+    wire_(env);
+  }
+
+  function wire_(env) {
+    var card = document.querySelector('.card[data-doc="' + env.docId + '"]');
+    if (!card) return;
+    var entries = EDIT[env.docId];
+    var msg = card.querySelector('[data-msg]');
+
+    card.querySelectorAll('img.thumb').forEach(function (img) {
+      callServer_('inboxThumb', img.dataset.key).then(function (r) {
+        if (r.ok) img.src = r.dataUri; else img.alt = 'No preview';
+      });
+      img.onclick = function () { img.classList.toggle('big'); };
+    });
+
+    card.querySelectorAll('[data-f]').forEach(function (el) {
+      var h = function () {
+        var e = entries[Number(el.dataset.e)];
+        if (el.dataset.i === undefined) e[el.dataset.f] = el.value;
+        else if (el.dataset.f === 'amount') e.items[Number(el.dataset.i)].amount_cents = cents_(el.value);
+        else e.items[Number(el.dataset.i)][el.dataset.f] = el.value;
+        card.querySelector('.tot').innerHTML = totalsLine_(env);
+      };
+      el.addEventListener('change', h);
+      if (el.tagName === 'INPUT') el.addEventListener('input', h);
+    });
+    card.querySelectorAll('[data-rm]').forEach(function (b) {
+      b.onclick = function () {
+        var p = b.dataset.rm.split(':');
+        var e = entries[Number(p[0])];
+        if (e.items.length <= 1) return;
+        e.items.splice(Number(p[1]), 1);
+        rerender_(env.docId);
+      };
+    });
+    card.querySelectorAll('[data-add]').forEach(function (b) {
+      b.onclick = function () {
+        entries[Number(b.dataset.add)].items.push({ account: '', amount_cents: 0, description: '', trade: '', business_purpose: '' });
+        rerender_(env.docId);
+      };
+    });
+
+    var busy = function (on) { card.querySelectorAll('.verbs button').forEach(function (b) { b.disabled = on; }); };
+    var done = function (html) {
+      showMsg_(msg, true, html);
+      card.querySelectorAll('.entry, .tot, .verbs, .note, img.thumb, .pdf').forEach(function (n) { n.classList.add('hidden'); });
+      DATA.envelopes = DATA.envelopes.filter(function (e) { return e.docId !== env.docId; });
+      document.getElementById('count').textContent = DATA.envelopes.length ? '(' + DATA.envelopes.length + ')' : '';
+    };
+    var fail = function (r) { busy(false); showMsg_(msg, false, '<b>' + escapeHtml_(r.error || 'ERROR') + '</b> - ' + escapeHtml_(r.message || r)); };
+
+    var approveBtn = card.querySelector('[data-approve]');
+    approveBtn.onclick = function () {
+      if (approveBtn.dataset.armed !== '1') {
+        approveBtn.dataset.armed = '1';
+        approveBtn.textContent = 'Post ' + entries.length + (entries.length === 1 ? ' entry - sure?' : ' entries - sure?');
+        setTimeout(function () { approveBtn.dataset.armed = ''; approveBtn.textContent = 'Approve'; }, 4000);
+        return;
+      }
+      busy(true);
+      msg.classList.add('hidden');
+      callServer_('inboxApprove', { docId: env.docId, entries: entries }).then(function (r) {
+        if (!r.ok) return fail(r);
+        done('Posted ' + r.txn_ids.map(function (t) { return '<code>' + escapeHtml_(t) + '</code>'; }).join(', ') +
+          (r.doc_url ? ' &middot; <a href="' + escapeHtml_(r.doc_url) + '" target="_blank" rel="noopener">Drive file</a>' : ''));
+      }, function (err) { fail({ error: 'SCRIPT', message: err && err.message ? err.message : err }); });
+    };
+
+    var note = card.querySelector('.note');
+    card.querySelector('[data-dismiss]').onclick = function () { note.classList.remove('hidden'); note.querySelector('input').focus(); };
+    card.querySelector('[data-dismiss-cancel]').onclick = function () { note.classList.add('hidden'); };
+    card.querySelector('[data-dismiss-go]').onclick = function () {
+      var reason = note.querySelector('input').value.trim();
+      if (!reason) return;
+      busy(true);
+      callServer_('inboxDismiss', { docId: env.docId, note: reason }).then(function (r) {
+        if (!r.ok) return fail(r);
+        done('Dismissed - ' + escapeHtml_(reason));
+      }, function (err) { fail({ error: 'SCRIPT', message: err && err.message ? err.message : err }); });
+    };
+
+    card.querySelector('[data-reprocess]').onclick = function () {
+      busy(true);
+      callServer_('inboxReprocess', { docId: env.docId }).then(function (r) {
+        if (!r.ok) return fail(r);
+        done('Reprocessing - the bookkeeper is re-reading it; Refresh in a minute.');
+      }, function (err) { fail({ error: 'SCRIPT', message: err && err.message ? err.message : err }); });
+    };
+  }
+
+  function load_() {
+    var top = document.getElementById('msg');
+    top.classList.add('hidden');
+    document.getElementById('list').innerHTML = 'Loading...';
+    callServer_('inboxList').then(function (r) {
+      if (!r.ok) { showMsg_(top, false, '<b>' + escapeHtml_(r.error) + '</b> - ' + escapeHtml_(r.message)); document.getElementById('list').innerHTML = ''; return; }
+      DATA = r;
+      EDIT = {};
+      document.getElementById('weblink').href = r.site + '/#inbox';
+      render_();
+    }, function (err) { showMsg_(top, false, escapeHtml_(err && err.message ? err.message : err)); });
+  }
+
+  document.getElementById('refresh').onclick = load_;
+  load_();
+</script>
