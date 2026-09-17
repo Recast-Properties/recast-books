@@ -345,11 +345,18 @@ export default async (req) => {
     // its own regardless of this hint).
     const mailboxHint = propertyMailboxHint(ctx, envelope);
     if (mailboxHint) context.property_mailbox_hint = mailboxHint;
-    const { model, transcript_summary, usage } = await runBookkeeper({
-      envelope: { ...envelope, context },
-      attachments: attachmentsForModel,
-      deps,
-    });
+    // D-025: a replay re-posts from the READ already stored on the envelope instead
+    // of paying for a second model read. books-inbox.mjs's `repost` / `repost-all`
+    // verbs invoke this with {docId, fromStored:true}; the gate and every
+    // deterministic step below still run fresh against the current ledger.
+    const fromStored = body.fromStored === true && envelope.model && envelope.model.verdict;
+    const { model, transcript_summary, usage } = fromStored
+      ? (({ usage: u, transcript_summary: t, ...m }) => ({ model: m, usage: u, transcript_summary: t }))(envelope.model)
+      : await runBookkeeper({
+          envelope: { ...envelope, context },
+          attachments: attachmentsForModel,
+          deps,
+        });
 
     const gateResult = evaluateGate(model, ctx, settings, { postedEntries });
 

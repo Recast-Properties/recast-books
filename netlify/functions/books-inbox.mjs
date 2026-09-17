@@ -4,6 +4,8 @@
 //   POST /api/inbox {action:"approve", docId, entries?, note?}    (owner)
 //   POST /api/inbox {action:"dismiss", docId, note}               (owner)
 //   POST /api/inbox {action:"reprocess", docId}                   (owner)
+//   POST /api/inbox {action:"repost", docId}                      (owner/poller; D-025, re-post from the stored read)
+//   POST /api/inbox {action:"repost-all", after?, limit?}         (owner/poller; D-025, paged)
 //   POST /api/inbox {action:"delete", docId}                      (owner; dry/error only)
 //
 // Every POST verb here is owner-only (task brief: "Owner-only verbs in books-inbox") -
@@ -139,9 +141,51 @@ export default async (req) => {
     }
     const by = isPoller ? String(body.by || "workbook") : session.email;
 
+    // D-025 staging reruns: re-post every document that already carries a stored
+    // read, without a second model call. Pages through the docs store so the
+    // caller (a local script) controls the pace; each doc is handed to ingest-bg
+    // with fromStored:true. Skips dry runs, test uploads and docs with no verdict.
+    if (body.action === "repost-all") {
+      const limit = Math.min(Math.max(parseInt(body.limit, 10) || 20, 1), 100);
+      const after = String(body.after || "");
+      const { blobs } = await docsStore.list({ prefix: "doc/" });
+      const keys = blobs.map((b) => b.key).filter((k) => k > `doc/${after}`).sort().slice(0, limit);
+      const fired = [], skipped = [];
+      const origin = new URL(req.url).origin;
+      for (const key of keys) {
+        const id = key.slice(4);
+        const env = await docsStore.get(key, { type: "json" });
+        if (!env || env.dryRun || id.startsWith("dry-") || id.startsWith("up-test-") || !env.model || !env.model.verdict) { skipped.push(id); continue; }
+        await docsStore.setJSON(key, { ...env, status: "processing", startedAt: new Date().toISOString(), finishedAt: "", error: "", gate: null, result: null });
+        const res = await fetch(`${origin}/api/ingest-bg`, {
+          method: "POST",
+          headers: { "content-type": "application/json", "x-poller-secret": process.env.POLLER_SECRET },
+          body: JSON.stringify({ docId: id, fromStored: true }),
+        });
+        fired.push({ docId: id, http: res.status });
+      }
+      const last = keys.length ? keys[keys.length - 1].slice(4) : "";
+      return json(200, { fired, skipped, after: last, done: keys.length < limit });
+    }
+
     const docId = body.docId;
     if (!validateDocId(docId)) {
       return json(400, { error: "BAD_REQUEST", message: "docId is required" });
+    }
+
+    if (body.action === "repost") {
+      const envelope = await loadEnvelope(docsStore, docId);
+      if (!envelope) return json(404, { error: "NOT_FOUND", message: `no envelope for docId ${docId}` });
+      if (!envelope.model || !envelope.model.verdict) return json(409, { error: "NO_STORED_READ", message: "this document has no stored model read; use reprocess" });
+      await docsStore.setJSON(`doc/${docId}`, { ...envelope, status: "processing", startedAt: new Date().toISOString(), finishedAt: "", error: "", gate: null, result: null });
+      const origin = new URL(req.url).origin;
+      const res = await fetch(`${origin}/api/ingest-bg`, {
+        method: "POST",
+        headers: { "content-type": "application/json", "x-poller-secret": process.env.POLLER_SECRET },
+        body: JSON.stringify({ docId, fromStored: true }),
+      });
+      if (res.status !== 202 && res.status !== 200) return json(502, { error: "INGEST_INVOKE", message: `ingest-bg returned HTTP ${res.status}` });
+      return json(202, { docId, status: "processing", fromStored: true });
     }
 
     if (body.action === "approve") {
