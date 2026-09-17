@@ -59,9 +59,11 @@ edit it; a test keeps it in sync); the web app keeps Dashboard, Inbox, Upload, S
 costs). The old standalone writer project is dormant. **Inbox review in the sheet built 2026-09-16**
 (spec §6: Recast Books → Inbox… sidebar; the queue stays in Blobs, Approve files and posts
 in-process, `mark-posted` records it; `lib/gate.mjs` is in `lib.gs` now; approve is split so the
-user waits only for the post, ~2.5 s - see CHANGELOG 2026-09-16 late). Next: Phase 3
+user waits only for the post, ~2.5 s - see CHANGELOG 2026-09-16 late). Next: **Phase 4
+migration, forensic, ahead of Phase 3 (D-024, 2026-09-16)** — inventory the old workbook,
+dry-run mail sweep of paul@, three-way match report, then the D-013 clear and post. Phase 3
 (statement uploads — D-019 dropped Plaid; `docs/phase3-spec.md` to be revised for the menu
-shape).
+shape) follows.
 
 Policy learned in the Phase 2 gate (D-012): the bookkeeper decides the easy cases itself —
 PDX↔DFW travel posts with a written purpose; a confident dismiss is final; duplicates are

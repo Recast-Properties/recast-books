@@ -423,6 +423,17 @@ became values the writer writes (`refreshLineBlocks_`) after every post, void, b
 rebuild, with the txn_id in a white-on-white column beside each block. Gated on 1616
 Granite: 1401 -> PAUL, boxes flipped, Journal shows void + re-post.
 
+## 2026-09-16 (evening) — D-024: forensic migration next, old books close at cutover
+
+Paul asked whether the old RECAST BIZ books could be forensically recreated in the new
+system from the receipts in paul@/receipts@/travel@, then decided: migrate everything old,
+close those books, start fresh. Recorded as D-024. Phase 4 now runs before Phase 3, is
+forensic (every old row matched to its mail document and replayed; manual rows carried with
+a `NO_DOC` flag until statements prove them), and absorbs Phase 6 (no 14-day parallel run).
+Method is in `BUILD-PLAN.md` §7 under the phase table. Facts that make it feasible: the
+poller already runs as paul@ and all three addresses are one mailbox; its dry-run takes any
+Gmail query; the old workbook is readable via gviz. Docs only — nothing ran. Starts tomorrow.
+
 ## 2026-09-16 — Poller audit; HEIC photos now convert
 
 Independent audit of both receipts pollers over the 09-11..09-16 parallel run (27 Gmail

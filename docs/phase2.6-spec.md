@@ -162,5 +162,5 @@ mailbox hint; prompt-sync. `npm test` green.
 5. Old receipts system untouched; properties@ mail carries only the `books-done` label.
 
 Known limit: the mailbox holds a third of Granite's history (Home Depot runs went to
-receipts@); the rest arrives with the Phase 4 migration. Everything posted here is
+receipts@); the rest arrives with the Phase 4 migration (forensic, D-024). Everything posted here is
 cleared under D-013.

@@ -452,3 +452,29 @@ parallel. One posting engine: `lib/` is generated into `lib.gs`, never rewritten
 once); menu writes poke Netlify's cache warmer; Dennis and the accountant see the books by
 workbook sharing rather than a web role. Inbox review moves later, as its own step, once
 the bound project has proven itself (spec §6). Spec: `docs/phase2.7-spec.md`.
+
+---
+
+## D-024 · Migrate everything, close the old books, start fresh — 2026-09-16 · Paul
+
+Paul: "what i would want is to do the migration of all the old stuff and close those books
+and start fresh from that point in the new system." Context: "the old books are a
+combination of manually entered receipts and the first version of the receipts poller" and
+"the two systems are not aligned in how they are tracking."
+
+**Decided:** Phase 4 (migration) moves ahead of Phase 3 (banking) and absorbs Phase 6: the
+old workbook closes at a cutover date and there is no 14-day parallel run, the tie-out is
+the proof. The migration is **forensic**, not a copy of block totals: every expense row in
+the old workbook is matched to its source document in the paul@ mailbox (receipts@ and
+travel@ deliver there) and replayed through the new bookkeeper so it carries a real read
+and a Drive filing. Rows with no document (manually entered) migrate as
+`source = migration` with `doc_url` empty and a `NO_DOC` flag, to be proven against bank
+statements when Phase 3 lands. Rows found in mail but absent from the old workbook, and
+rows duplicated in it, are reported as the alignment findings before anything posts.
+D-013 stands: the clear happens first, then history posts, then receipts since 2026-09-11
+replay.
+
+**Order:** inventory the old workbook (read-only) → dry-run mail sweep (no posting, no
+labels) → three-way match report → Paul reviews the findings → D-013 clear → post → tie
+out each property total and RECAST BIZ block to the baseline, with every intentional
+difference as a dated correction (Phase 4 2b).

@@ -21,8 +21,9 @@ accountant's packet. **Claude is the bookkeeper.** It reads every document, deci
 it is and where it posts, matches bank lines, and calls deterministic code for the
 things code must own: arithmetic, the balanced double entry, duplicate identity, the
 posting gate, period locks. Paul keeps using the old workbook and the old receipts
-bookkeeper until the parallel run proves the new one, then the old workbook goes
-read-only and is archived, never deleted.
+bookkeeper until the Phase 4 migration closes the old books at a cutover date (D-024:
+migration runs before banking, is forensic, and replaces the parallel run); then the old
+workbook goes read-only and is archived, never deleted.
 
 ## 2 · The accounting model
 
@@ -313,9 +314,26 @@ a proven system.
 | 1 | **Ledger core** | Properties (add one), Vendors, Bank accounts, manual journal entry, Dennis `Advances` with accrual engine, all reports from the journal. | Reports tie: TB balances; BS = P&L + equity; the accrual engine reproduces the existing cash-advance tab to the cent on Paul's real advances. |
 | 2 | **Receipt bookkeeper v2** | Gmail poller on receipts@/travel@ under its own label, plus web upload; Claude director with the tools above; Inbox/Review; morning digest. Writes only to the new workbook. | Golden set of 30 receipts from the live system: every autofile decision matches or is judged better by Paul; zero duplicates across the twin set. |
 | 3 | **Banking** | Statement upload (OFX/QFX first; CSV, PDF fallback) into the Feed tab, matching job, proposals, per-account monthly reconciliation to the statement's closing balance (D-019, no Plaid). | One full month of Citizens reconciles with every line matched or explained. |
-| 4 | **Migration** | One-time clear of the new workbook (D-013); Phase 0 snapshot of the old workbook (dated copy in Drive, block totals recorded); 2a faithful copy of every property tab, RECAST BIZ block, and the cash-advance tab as journal entries with `source = migration`; 2b logged corrections; opening balances; Due-to-Paul ledger built from every Paul-paid row. | 2a: every property total, net profit and RECAST BIZ block total matches the baseline to the cent. 2b: sum of dated corrections explains the entire difference. |
+| 4 | **Migration** (D-024: runs before Phase 3, forensic, replaces Phase 6) | One-time clear of the new workbook (D-013); Phase 0 snapshot of the old workbook (dated copy in Drive, block totals recorded); 2a faithful copy of every property tab, RECAST BIZ block, and the cash-advance tab as journal entries with `source = migration`; 2b logged corrections; opening balances; Due-to-Paul ledger built from every Paul-paid row. | 2a: every property total, net profit and RECAST BIZ block total matches the baseline to the cent. 2b: sum of dated corrections explains the entire difference. |
 | 5 | **Close, 1099, packet, sell wizard** | Monthly close with lock and snapshot (OVERHEAD lines only; a property locks at sale with a Dennis interest true-up, post-sale costs to COGS, partner adjustment balance — D-015); 1099 module; accountant packet export; Sell wizard with the **Payout report** and the per-property **closing tab** (estimate vs actual); Dennis and accountant read-only views. | A dry-run close of the prior month passes; a past sale (Ashburne) re-run through the wizard reproduces the recorded outcome. |
-| 6 | **Parallel run and cutover** | Both bookkeepers run for 14 days; daily diff of row count, dollar total, per-account and per-property distribution. | 14 consecutive days of zero unexplained variance. Then: old workbook read-only, archived; old poller off; new one live. |
+| 6 | ~~**Parallel run and cutover**~~ | Absorbed into Phase 4 by D-024: the old books close at the migration cutover date and the tie-out is the proof. Cutover mechanics stay: old workbook read-only, archived; old poller off; new one live. | — |
+
+**Phase 4 method (D-024, 2026-09-16).** The old books are a mix of manually entered rows and
+the v1 receipts poller, and the two systems do not track the same way, so the migration is
+forensic rather than a copy of block totals:
+1. Inventory the old workbook read-only: every RECAST BIZ, property-tab and cash-advance row,
+   split into poller-filed (has a document link) and manual.
+2. Dry-run mail sweep of paul@ over the whole period (receipts@ and travel@ deliver there);
+   no posting, no labels. The existing poller's dry-run with a wider `after:` date does this.
+3. Three-way match report: each old row is matched to a document, manual-only, in mail but
+   missing from the sheet, or duplicated in the sheet. The last two are the alignment findings.
+   Paul reviews before anything posts.
+4. D-013 clear. Matched documents replay through the bookkeeper (real read, Drive filing);
+   manual rows post as `source = migration`, `doc_url` empty, description tagged `NO_DOC`,
+   proven later against statements in Phase 3. Receipts since 2026-09-11 replay last.
+5. Tie out every property total and RECAST BIZ block to the Phase 0 baseline; every
+   intentional difference is a dated correction (2b). Replayed reads cost API money; size the
+   mailbox first.
 
 **Guardrails, every phase:** nothing ever writes to the old workbook; every script dry-runs
 and reports before applying; the writer backs up before its first write of the day;
