@@ -120,7 +120,9 @@ function replayIds() {
   var mailbox = props.getProperty('MAILBOX') || 'paul';
   var files = DriveApp.getFilesByName('books-replay-' + mailbox + '.json');
   if (!files.hasNext()) throw new Error('No Drive file books-replay-' + mailbox + '.json');
-  var list = JSON.parse(files.next().getBlob().getDataAsString()).ids || [];
+  var spec = JSON.parse(files.next().getBlob().getDataAsString());
+  var list = spec.ids || [];
+  var reprocess = spec.reprocess === true;   // retry list: re-ingest docs the API failed on
 
   var i = parseInt(props.getProperty('replay_idx') || '0', 10);
   var log = [], ok = 0, skipped = 0, bad = 0;
@@ -130,6 +132,7 @@ function replayIds() {
     try {
       var m = GmailApp.getMessageById(it.id);
       var payload = buildPayload_(m, false, it.ch || undefined);
+      if (reprocess) payload.reprocess = true;
       var res = postUpload_(uploadUrl, secret, payload);
       if (res.ok) { if (res.skipped) skipped++; else ok++; }
       else { bad++; }
