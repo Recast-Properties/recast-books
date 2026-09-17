@@ -169,10 +169,12 @@ export async function refreshTab(writer, tab, { timeoutMs } = {}) {
   // 2026-09-14: the writer answers POST with a redirect, and a slow Journal read once
   // landed the follow-up on doGet - an "ok" body with no headers/rows, which was then
   // stored as the Journal snapshot and took every report down. Never store that.
-  if (!Array.isArray(resp?.headers) || !Array.isArray(resp?.rows)) {
+  // A tab with headers and no rows is a real answer (the staging Journal right after
+  // clearBooks, 2026-09-17); only a body with no headers is the doGet misfire.
+  if (!Array.isArray(resp?.headers) || resp.headers.length === 0) {
     throw new WriterError("BAD_RESPONSE", `writer read of ${tab} returned no rows`);
   }
-  const snapshot = { fetchedAt: Date.now(), headers: resp.headers, rows: resp.rows };
+  const snapshot = { fetchedAt: Date.now(), headers: resp.headers, rows: Array.isArray(resp.rows) ? resp.rows : [] };
   await getCacheStore().setJSON(`tab/${tab}`, snapshot);
   return { headers: snapshot.headers, rows: snapshot.rows };
 }

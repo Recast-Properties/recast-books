@@ -370,7 +370,14 @@ export default async (req) => {
         property: o.property ? o.property : e.property,
         // `trade` carries the old heavy-template block name (Ashburne's 21 categories), so
         // the per-trade view of the property tab reproduces the old layout (D-002).
-        items: o.trade ? (e.items || []).map((it) => ({ ...it, trade: o.trade })) : e.items,
+        // Old-tab attribution wins (D-026.3), and overhead never touches a property
+        // (D-010): a tools/supplies line (65xx) the old books carried on a property becomes
+        // rehab materials (1030). Fuel (66xx) and meals (67xx) stay as read and hold.
+        items: (e.items || []).map((it) => ({
+          ...it,
+          trade: o.trade ? o.trade : it.trade,
+          account: o.property && o.property !== "OVERHEAD" && /^65/.test(String(it.account || "")) ? "1030" : it.account,
+        })),
       }));
       model = { ...model, entries, paid_from: o.paid_from && (!model.paid_from || model.paid_from === "UNKNOWN") ? o.paid_from : model.paid_from,
                 overrides: { ...o, applied_at: new Date().toISOString() } };
