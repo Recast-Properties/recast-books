@@ -1153,6 +1153,8 @@ function setupPropertyTab(name) {
   // registry's contract_price.
   var keptSalePrice = readLabelledValue_(sh, 'Sale Price');
   var registry = propertyRow_(ss, name);
+  var heavy = String((registry || {}).template || '').toLowerCase() === 'heavy';
+  var BC = heavy ? PT_BLOCK_COLS_HEAVY : PT_BLOCK_COLS;   // Rehab Costs / Utilities block columns
   // A previous build's spacer column A (empty, name in B1) is removed so the build
   // below starts at column A again and re-inserts exactly one.
   if (sh.getLastColumn() > 1 && sh.getRange(1, 1).isBlank() && !sh.getRange(1, 2).isBlank()) sh.deleteColumn(1);
@@ -1189,7 +1191,7 @@ function setupPropertyTab(name) {
   var holdingF = eq('I', 'Holding');
   var costLineF = ne('I', '');
 
-  var WIDTH = 24; // A..X
+  var WIDTH = heavy ? 27 : 24; // A..X, or A..AA with the trade block
   var grid = [];
   var bold = [];
   // Colours copied from the old workbook's tab (Paul, 2026-09-15): section heads green
@@ -1340,23 +1342,6 @@ function setupPropertyTab(name) {
   s++;
   set(s, 1, 'Back to Recast account', true); set(s, 2, '=G' + recastNetRow, true); paint(s, 1, 1, C.sub); paint(s, 2, 1, C.tan); s++;
 
-  // ---- Heavy template (D-002, D-026.8): rehab by trade ---------------------------
-  // The old heavy tab (104 Ashburne) had one block per trade; here the trade is a
-  // Journal column (K), so the breakdown is a live pivot: distinct trades on this
-  // property's rehab lines, each with its net. UNIQUE spills at most a few dozen rows.
-  if (String(registry.template || '').toLowerCase() === 'heavy') {
-    s += 1;
-    paint(s, 1, 1, C.head); paint(s, 2, 1, C.total); set(s, 1, 'Rehab by trade', true);
-    set(s, 2, '=' + net(rehabF), true); var tradeHead = s++;
-    var TRADES_N = 30;
-    set(s, 1, '=IFERROR(SORT(UNIQUE(FILTER(' + J('K') + ',' + live + '*' + rehabF + '*(' + J('K') + '<>"")))),"")');
-    for (var t = 0; t < TRADES_N; t++) {
-      var tr = s + t;
-      set(tr, 2, '=IF(A' + tr + '="","",' + net(rehabF + '*(' + J('K') + '&""=A' + tr + ')') + ')');
-    }
-    set(s + TRADES_N, 1, '(no trade)'); set(s + TRADES_N, 2, '=' + net(rehabF + '*(' + J('K') + '&""="")'));
-    s += TRADES_N + 1;
-  }
 
   // ---- Line blocks: REHAB COSTS (J:P), UTILITIES (R:X) ----------------------------
   var lineBlock = function (top, c0, title, crit, asOfBound) {
@@ -1374,8 +1359,24 @@ function setupPropertyTab(name) {
     // (2026-09-15). onPropertyTabEdit turns that click into a void + re-post.
     return top + 2 + LINES_N;
   };
-  lineBlock(4, 10, 'Rehab Costs', rehabF + '*' + live);
-  lineBlock(4, 18, 'Utilities', holdingF + '*' + live);
+  // Heavy template (D-002, D-026.8): 'Rehab by trade' at J:K, between the Dennis blocks
+  // and Rehab Costs (Paul, 2026-09-17). Trade is a Journal column (K), so this is a live
+  // pivot: distinct trades on the property's rehab lines with their nets, plus a
+  // '(no trade)' line so the block always sums to Rehab Costs.
+  if (heavy) {
+    set(4, 10, 'Rehab by trade', true); set(4, 11, '=' + net(rehabF), true);
+    paint(4, 10, 1, C.head); paint(4, 11, 1, C.total);
+    set(5, 10, 'Trade', true); set(5, 11, 'Amount', true); paint(5, 10, 2, C.sub);
+    set(6, 10, '=IFERROR(SORT(UNIQUE(FILTER(' + J('K') + ',' + live + '*' + rehabF + '*(' + J('K') + '<>"")))),"")');
+    var TRADES_N = 30;
+    for (var t = 0; t < TRADES_N; t++) {
+      var tr = 6 + t;
+      set(tr, 11, '=IF(J' + tr + '="","",' + net(rehabF + '*(' + J('K') + '&""=J' + tr + ')') + ')');
+    }
+    set(6 + TRADES_N, 10, '(no trade)'); set(6 + TRADES_N, 11, '=' + net(rehabF + '*(' + J('K') + '&""="")'));
+  }
+  lineBlock(4, BC[0], 'Rehab Costs', rehabF + '*' + live);
+  lineBlock(4, BC[1], 'Utilities', holdingF + '*' + live);
   var needRows = 5 + LINES_N;
   while (grid.length < needRows) grid.push(new Array(WIDTH).fill(''));
   var maxRows = sh.getMaxRows();
@@ -1405,20 +1406,22 @@ function setupPropertyTab(name) {
   sh.getRange(4, 2, grid.length - 3, 1).setNumberFormat(money);
   [purchase, cash].forEach(function (blk) { sh.getRange(blk.first, 4, blk.last - blk.first + 1, 2).setNumberFormat('mm/dd/yyyy'); });
   sh.getRange(4, 6, grid.length - 3, 2).setNumberFormat(money);
-  [10, 18].forEach(function (c) {
+  if (heavy) sh.getRange(4, 11, grid.length - 3, 1).setNumberFormat(money);
+  BC.forEach(function (c) {
     sh.getRange(4, c + 1, grid.length - 3, 1).setNumberFormat('mm/dd/yyyy');
     sh.getRange(4, c + 3, grid.length - 3, 1).setNumberFormat(money);
     sh.getRange(6, c + 4, LINES_N, 3).insertCheckboxes();
     sh.getRange(6, c + 4, LINES_N, 3).clearContent(); // keep the validation, let the block's formula spill into them
     sh.getRange(6, c + PT_TXN_OFFSET, LINES_N, 1).setFontColor('#ffffff'); // txn_id column: present for the trigger, invisible
   });
-  sh.hideColumns(18 + PT_TXN_OFFSET); // Utilities' txn_id column sits past the grid
+  sh.hideColumns(BC[1] + PT_TXN_OFFSET); // Utilities' txn_id column sits past the grid
   refreshLineBlocks_(ss, name);
 
   sh.setColumnWidth(1, 250); sh.setColumnWidth(2, 110); sh.setColumnWidth(3, 20);
   sh.setColumnWidth(4, 190); [5, 6, 7].forEach(function (c) { sh.setColumnWidth(c, 100); });
-  sh.setColumnWidth(9, 20); sh.setColumnWidth(17, 20);
-  [10, 18].forEach(function (c) {
+  sh.setColumnWidth(9, 20); sh.setColumnWidth(BC[1] - 1, 20);
+  if (heavy) { sh.setColumnWidth(10, 190); sh.setColumnWidth(11, 100); sh.setColumnWidth(12, 20); }
+  BC.forEach(function (c) {
     sh.setColumnWidth(c, 150); sh.setColumnWidth(c + 1, 90); sh.setColumnWidth(c + 2, 180);
     sh.setColumnWidth(c + 3, 100); [4, 5, 6].forEach(function (k) { sh.setColumnWidth(c + k, 100); });
   });
@@ -1512,7 +1515,12 @@ function advanceRepaidDates_(ss, name, purchaseKind) {
 // Line blocks (Rehab Costs at J, Utilities at R): payee/date/description/amount, then
 // the Paul Paid / Dennis Paid / Recast Account checkbox columns at c0+4..c0+6 and the
 // txn_id column at c0+7 (Q / Y). The checkbox columns are spills keyed by that txn_id.
-var PT_BLOCK_COLS = [10, 18];
+var PT_BLOCK_COLS = [10, 18];        // Light template
+var PT_BLOCK_COLS_HEAVY = [13, 21];  // Heavy: a 'Rehab by trade' block sits at J:K first (Paul, 2026-09-17)
+function ptBlockCols_(ss, name) {
+  var reg = propertyRow_(ss, name) || {};
+  return String(reg.template || '').toLowerCase() === 'heavy' ? PT_BLOCK_COLS_HEAVY : PT_BLOCK_COLS;
+}
 var PT_TXN_OFFSET = 7;
 var PT_LINES_N = 300;
 var PT_PAID_BY = [['PAUL', '2030'], ['DENNIS', '2010'], ['1401', '']]; // checkbox k -> paid_from, credit account ('' = the bank code itself)
@@ -1550,7 +1558,7 @@ function refreshLineBlocks_(ss, name) {
     out.sort(function (x, y) { return formatIsoDate_(x[1]) < formatIsoDate_(y[1]) ? -1 : formatIsoDate_(x[1]) > formatIsoDate_(y[1]) ? 1 : 0; });
     out = out.slice(0, PT_LINES_N);
     while (out.length < PT_LINES_N) out.push(['', '', '', '', false, false, false, '']);
-    sh.getRange(6, PT_BLOCK_COLS[b], PT_LINES_N, 8).setValues(out);
+    sh.getRange(6, ptBlockCols_(ss, name)[b], PT_LINES_N, 8).setValues(out);
   });
 }
 
@@ -1571,7 +1579,8 @@ function refreshLineBlocksFor_(ss, lines) {
 // voided). A cash box from PAUL/DENNIS lands on 1401; change it on the Journal if it
 // was Chase. Refused (with a toast) when the period is closed or the box was unticked.
 function repaidFromEdit_(e, sh, ss, row, col) {
-  var c0 = col < 18 ? 10 : 18;
+  var bc = ptBlockCols_(ss, sh.getName());
+  var c0 = col < bc[1] ? bc[0] : bc[1];
   var k = col - (c0 + 4);
   var toast = function (msg) { ss.toast(msg, 'Recast Books', 8); };
   var txnId = String(sh.getRange(row, c0 + PT_TXN_OFFSET).getValue() || '');
@@ -1670,7 +1679,7 @@ function onPropertyTabEdit(e) {
 
     var col = range.getColumn();
     var isPaidBox = range.getNumRows() === 1 && range.getNumColumns() === 1 && range.getRow() >= 6 &&
-      PT_BLOCK_COLS.some(function (c0) { return col >= c0 + 4 && col <= c0 + 6; });
+      ptBlockCols_(editedSheet.getParent(), edited).some(function (c0) { return col >= c0 + 4 && col <= c0 + 6; });
     if (col !== PROPERTY_TAB_END_COL && !isPaidBox) return;
     if (range.getNumColumns() !== 1) return;
     var sh = editedSheet;
