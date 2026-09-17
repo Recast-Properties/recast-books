@@ -1,5 +1,6 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
+import { readFileSync } from "node:fs";
 import { Jimp, JimpMime } from "jimp";
 import { runBookkeeper, computeZoomScale, MODEL_ID, MAX_TURNS, MAX_TOKENS_PER_TURN } from "../lib/bookkeeper.mjs";
 
@@ -272,6 +273,23 @@ test("a PDF attachment becomes a document block and zoom refuses it", async () =
   assert.equal(toolResultMsg.content.length, 1);
   assert.equal(toolResultMsg.content[0].is_error, true);
   assert.match(toolResultMsg.content[0].content[0].text, /PDF/);
+});
+
+test("a real HEIC attachment is converted to a JPEG image block the model can zoom on", async () => {
+  const client = scriptedClient([{ stop_reason: "tool_use", content: [toolUse("t1", "decide", DECIDE_INPUT)], usage: usage() }]);
+  await runBookkeeper({
+    envelope: baseEnvelope(),
+    attachments: [{ name: "photo.heic", mime: "image/heic", bytes: readFileSync(new URL("./stubs/tiny.heic", import.meta.url)) }],
+    deps: baseDeps({ anthropic: client }),
+  });
+
+  const content = client.calls[0].messages[0].content;
+  const img = content.find((b) => b.type === "image");
+  assert.ok(img, "expected the HEIC to arrive as an image block");
+  assert.equal(img.source.media_type, "image/jpeg");
+  assert.equal(Buffer.from(img.source.data, "base64").subarray(0, 3).toString("hex"), "ffd8ff", "converted bytes must be a JPEG");
+  const label = content.find((b) => b.type === "text" && /attachment 0: photo\.heic.*zoom/.test(b.text));
+  assert.ok(label, "converted HEIC must be labelled as a zoomable attachment 0");
 });
 
 test("an unreadable HEIC attachment gets a failure note in text, not an image block", async () => {

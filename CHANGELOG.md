@@ -422,3 +422,21 @@ the reason). Sheets cannot toggle a checkbox that shows a formula result, so the
 became values the writer writes (`refreshLineBlocks_`) after every post, void, batch and
 rebuild, with the txn_id in a white-on-white column beside each block. Gated on 1616
 Granite: 1401 -> PAUL, boxes flipped, Journal shows void + re-post.
+
+## 2026-09-16 — Poller audit; HEIC photos now convert
+
+Independent audit of both receipts pollers over the 09-11..09-16 parallel run (27 Gmail
+messages seen by both systems, compared envelope by envelope). The read is the same in
+both; the divergence is the new gate's rails (`PAYER_UNKNOWN`, the $500 ceiling, meals
+always hold, Uber Eats auto-dismiss) plus the old poller's `label:receipts OR label:travel`
+clause, which ingests originals never addressed to receipts@ and is why the old system
+sees original+forward twins. Old system live bug: a split forward double-filed CoreLogic
+09-15 (its txn-number check is keyed on vendor|amount); Paul removed the row by hand.
+
+Fixed here: **HEIC photos could never be read.** `docs/phase2-spec.md` §6 said "the
+ingest converts with jimp if it can" — jimp has no HEIC decoder, so every iPhone HEIC under
+the poller's 3 MB Drive-shrink cap would have held as "could not be converted", and the
+test asserted that failure as correct. `tryConvertHeic` now uses `heic-convert` (the old
+ingest's converter since 2026-06-26); `test/stubs/tiny.heic` is a real HEIC (made with
+macOS `sips`) and the test proves it becomes a zoomable JPEG image block. Still open from
+the audit: `error` envelopes are never retried (thread is labelled `books-done` at upload).

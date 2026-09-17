@@ -19,8 +19,8 @@ same Gmail messages, tags them with its own label `books-done` (never touching
 `receipts-done`), and writes only to the new workbook. Both file the same receipts to
 their own books until Phase 6.
 
-**Dependencies now allowed:** `@anthropic-ai/sdk`, `@netlify/blobs`, `jimp` (installed).
-Nothing else.
+**Dependencies now allowed:** `@anthropic-ai/sdk`, `@netlify/blobs`, `jimp`, `heic-convert`
+(added 2026-09-16 — the same HEIC→JPEG converter the old ingest uses). Nothing else.
 
 ---
 
@@ -208,7 +208,8 @@ creates the Gmail label `books-done`, installs triggers `pollBooks` every 15 min
 `(to:receipts@recast-properties.com OR to:travel@recast-properties.com) after:<START_DATE> -label:books-done`,
 up to 20 threads per run; per message: collect attachments (images, PDFs; skip > 6 MB
 with a note in `bodyText`; convert HEIC to JPEG is NOT required — pass the bytes, the
-ingest converts with jimp if it can, else holds), base64, POST to `/api/upload` with
+ingest converts with `heic-convert` (jimp cannot decode HEIC; corrected 2026-09-16 after
+the audit found every sub-3 MB HEIC would have held), else holds), base64, POST to `/api/upload` with
 `x-poller-secret`, channel from the `to:` address, then add the `books-done` label.
 `dryRunBatch()`: `DRY_QUERY` script property (default `newer_than:30d`), same path with
 `dryRun:true`, does NOT label. `dailyDigest()`: GET `/api/summary?date=<yesterday>` and
