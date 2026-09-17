@@ -1844,10 +1844,10 @@ function clearBooks() {
 // on the STAGING project first; on the real workbook at cutover.
 function migrationRegisterProperties() {
   var list = [
-    { name: '104 Ashburne', address: '104 Ashburne Glen Ln, Red Oak TX', status: 'sold', purchase_date: '2025-12-02', purchase_price: '325000', template: 'Heavy', dennis_funded: 'true', notes: 'Phase 4 migration; sold 2026 (Sales tab); settlement date to confirm' },
-    { name: '1616 Granite', address: '1616 Granite Way, Waxahachie TX', status: 'sold', purchase_date: '2026-04-07', purchase_price: '279001', settlement_date: '2026-07-27', template: 'Light', dennis_funded: 'true', notes: 'Phase 4 migration' },
-    { name: '280 Sparkling', address: '280 Sparkling Springs, Waxahachie TX', status: 'sold', purchase_date: '2026-06-02', purchase_price: '196850.50', settlement_date: '2026-08-06', template: 'Light', dennis_funded: 'true', notes: 'Phase 4 migration' },
-    { name: '881 Newport', address: '881 Newport Dr, Ferris TX 75125', status: 'sold', purchase_date: '2026-06-29', purchase_price: '207000', template: 'Light', dennis_funded: 'true', notes: 'Phase 4 migration; sold (Sales tab); settlement date to confirm' },
+    { name: '104 Ashburne', address: '104 Ashburne Glen Ln, Red Oak TX', status: 'held', purchase_date: '2025-12-02', purchase_price: '325000', template: 'Heavy', dennis_funded: 'true', notes: 'Phase 4 migration; sold 2026 (Sales tab); settlement date to confirm' },
+    { name: '1616 Granite', address: '1616 Granite Way, Waxahachie TX', status: 'held', purchase_date: '2026-04-07', purchase_price: '279001', settlement_date: '2026-07-27', template: 'Light', dennis_funded: 'true', notes: 'Phase 4 migration' },
+    { name: '280 Sparkling', address: '280 Sparkling Springs, Waxahachie TX', status: 'held', purchase_date: '2026-06-02', purchase_price: '196850.50', settlement_date: '2026-08-06', template: 'Light', dennis_funded: 'true', notes: 'Phase 4 migration' },
+    { name: '881 Newport', address: '881 Newport Dr, Ferris TX 75125', status: 'held', purchase_date: '2026-06-29', purchase_price: '207000', template: 'Light', dennis_funded: 'true', notes: 'Phase 4 migration; sold (Sales tab); settlement date to confirm' },
     { name: '136 Bowling Green', address: '136 Bowling Green', status: 'held', purchase_date: '2026-06-02', purchase_price: '294651', template: 'Light', dennis_funded: 'true', notes: 'Phase 4 migration' },
     { name: '206 White Rock', address: '206 White Rock', status: 'held', purchase_date: '2026-06-02', purchase_price: '184500', template: 'Light', dennis_funded: 'true', notes: 'Phase 4 migration' },
     { name: '366 Mesa', address: '366 Mesa', status: 'held', purchase_date: '2026-08-04', purchase_price: '123645', template: 'Light', dennis_funded: 'true', notes: 'Phase 4 migration' },
