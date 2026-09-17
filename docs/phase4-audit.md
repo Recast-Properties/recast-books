@@ -265,3 +265,37 @@ the tie-out per property against the snapshot.
 | # | date | where | was | now | who / why |
 |---|---|---|---|---|---|
 | C-1 | 2026-09-17 | 104 Ashburne, FNF Irrigation 2026-03-19 | $45,000.00 | $450.00 | Paul: typo in the old books; fixed in the old workbook the same day; `property-rows.json` patched with the note |
+
+## 14 · Where the staging run stands at end of day, 2026-09-17
+
+**Done in staging (`Recast Books STAGING`, `1ElTwWQ4…xWBw`):**
+- All 946 documents read once (paul@ 396 + retries, properties@ 528 + 9). Reads are stored on
+  the envelopes in Blobs; every rerun re-posts from them at no cost.
+- Re-post run 1 with the D-026 overrides (414): 127 posted, 342 pending, 274 dismissed
+  (205 by the duplicate rail: the same receipt arriving twice, original + forward or photo
+  + e-receipt; 62 by the model; 7 by rule), 190 errored.
+- Errors explained: 125 "writer read of Journal returned no rows" - `readTab` treated an
+  empty Journal (right after `clearBooks`) as a bad response; fixed in `_shared.mjs`. 61
+  "non-JSON response" / 4 timeouts - the staging writer under ~20 concurrent ingests.
+- 67 held `ENTRY_INVALID:OVERHEAD_ON_PROPERTY`: old-tab attribution (D-026.3) put 65xx tool
+  lines and 66xx fuel lines on Ashburne. Fixed: 65xx → 1030 under a property override;
+  66xx stays overhead by Paul's rule (D-026.9).
+- Properties: all ten registered held (eight real + 413 Green Acres and 200 Janice as
+  pipeline); Ashburne bank-only (`dennis_share_pct` 0, new `dennis_commission_pct` 3, 12%).
+- Advances: `migrationRegisterAdvances()` posted the old Cash Advances schedule - 30 rows,
+  purchases at 9% (Ashburne 12%), Sparkling repaid 2026-08-06. Granite's three were
+  already there. Newport and Ashburne settlement dates still owed by Paul.
+- Heavy tab = old Ashburne layout (trade blocks side by side from column J, in the old
+  block order, `refreshHeavyBlocks_`); the voided factor now comes from Journal columns
+  (the helper-sheet range drifted to 5000 vs 5008 rows → every SUMPRODUCT was #N/A).
+- Corrections register: C-1 FNF Irrigation $45,000 → $450.
+
+**Not yet run (next session, in order):**
+1. Paul: `npm run deploy` (readTab fix, 65xx remap, fuel rule are committed, not deployed).
+2. Paul: `repostAll` in the paul@ poller - `books-repost-paul.json` (built "2026-09-17
+   repost-2") re-posts only the 257 errored/held documents with the trimmed overrides.
+3. Re-download envelopes, comparison run 6, then the tie-out: staging Journal by property
+   vs the snapshot (`old-workbook-snapshot.xlsx`) with the corrections register.
+4. Paul reviews Pending (342: OVER_CEILING 74, PAYER_UNKNOWN 52 August-onward, holds).
+   Decide whether OVER_CEILING approves in bulk for migrated history.
+5. Flip the four sold properties to `sold` with settlement dates; then cutover (D-025).

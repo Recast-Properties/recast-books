@@ -423,6 +423,19 @@ became values the writer writes (`refreshLineBlocks_`) after every post, void, b
 rebuild, with the txn_id in a white-on-white column beside each block. Gated on 1616
 Granite: 1401 -> PAUL, boxes flipped, Journal shows void + re-post.
 
+## 2026-09-17 (late) — Staging re-post, Ashburne bank-only, heavy tab, advances migrated
+
+Full read of both mailboxes done (946 documents). Re-post run 1 into staging with the D-026
+overrides; findings and fixes in `docs/phase4-audit.md` §14: empty-Journal read now valid
+(`_shared.mjs`), property override remaps 65xx → 1030 and never moves fuel (D-026.9),
+`repostAll` resets on a new list, `readTab` #N/A cause on property tabs fixed (voided factor
+from Journal columns). Heavy property tab rebuilt as the old Ashburne layout (trade blocks
+side by side). Ashburne registered bank-only: `Properties.dennis_commission_pct` (new column),
+payout rows for the commission, 12% advances. `migrationRegisterAdvances()` posted the old
+Cash Advances schedule (30 rows). Pipeline properties 413 Green Acres and 200 Janice registered
+so pre-acquisition costs are kept. Pending: deploy + targeted re-post of 257 documents, then
+the tie-out.
+
 ## 2026-09-17 — Phase 4 staging replay, run 1 (D-024/D-025)
 
 Built and ran the forensic migration's first pass into the **STAGING** copy of the workbook.
