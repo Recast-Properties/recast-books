@@ -11,7 +11,7 @@ untouched until the parallel run in Phase 6. See `BUILD-PLAN.md` and `CLAUDE.md`
 
 ## Status
 
-**Phases 0–2.7 built and gated (2026-09-11 → 15)**, see `CLAUDE.md` for the current
+**Phases 0–2.7 built and gated (2026-09-11 → 15); pollers audited 2026-09-16**, see `CLAUDE.md` for the current
 state and `CHANGELOG.md` for the day-by-day. The receipts bookkeeper is live in parallel;
 since Phase 2.7 (D-023) the input side of the books is the **Recast Books** menu in the
 workbook, with the writer bound to it, and the web app keeps sign-in, Inbox, Upload and

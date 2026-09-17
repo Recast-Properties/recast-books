@@ -438,5 +438,10 @@ ingest converts with jimp if it can" — jimp has no HEIC decoder, so every iPho
 the poller's 3 MB Drive-shrink cap would have held as "could not be converted", and the
 test asserted that failure as correct. `tryConvertHeic` now uses `heic-convert` (the old
 ingest's converter since 2026-06-26); `test/stubs/tiny.heic` is a real HEIC (made with
-macOS `sips`) and the test proves it becomes a zoomable JPEG image block. Still open from
-the audit: `error` envelopes are never retried (thread is labelled `books-done` at upload).
+macOS `sips`) and the test proves it becomes a zoomable JPEG image block. Also from
+the audit: **`error` envelopes are now retried.** The poller labels the thread `books-done`
+at upload time, so nothing ever re-sent a document whose ingest crashed before the model
+ran (a cold-writer 502 on the pre-read). `books-warm-background` — already kicked by the
+poller every 15 min — now re-invokes ingest for every `error` envelope with no `model`
+(nothing filed, voided or posted yet), at most twice (`retries` on the envelope); anything
+that errored after the model ran still waits for the Inbox's Reprocess verb.

@@ -7,12 +7,24 @@ process.env.WRITER_URL ||= "https://writer.test";
 process.env.WRITER_SECRET ||= "s";
 process.env.POLLER_SECRET ||= "poller-secret";
 
-const { resetWriterForTests, resetCacheStoreForTests } = await import("../netlify/functions/_shared.mjs");
-const { default: handler, WARM_TABS } = await import("../netlify/functions/books-warm-background.mjs");
+const { resetWriterForTests, resetCacheStoreForTests, resetDocsStoreForTests } = await import("../netlify/functions/_shared.mjs");
+const { default: handler, WARM_TABS, retryErroredDocs, MAX_AUTO_RETRIES } = await import("../netlify/functions/books-warm-background.mjs");
+
+// Minimal in-memory stand-in for the three docs-store calls the retry scan makes.
+function memDocsStore(envelopes) {
+  const items = new Map(envelopes.map((e) => [`doc/${e.docId}`, e]));
+  return {
+    items,
+    list: async () => ({ blobs: [...items.keys()].map((key) => ({ key })) }),
+    get: async (key) => items.get(key) ?? null,
+    setJSON: async (key, value) => { items.set(key, value); },
+  };
+}
 
 test("warm-bg refreshes every tab into the cache; a failing tab is reported, not fatal", async () => {
   const store = makeFakeCacheStore();
   resetCacheStoreForTests(store);
+  resetDocsStoreForTests(memDocsStore([]));
   const seen = [];
   resetWriterForTests();
   globalThis.fetch = async (_url, options) => {
@@ -29,8 +41,47 @@ test("warm-bg refreshes every tab into the cache; a failing tab is reported, not
   assert.match(body.failed[0], /^Vendors: /);
   assert.ok(await store.get("tab/Users"));
   assert.equal(await store.get("tab/Vendors"), null);
+  assert.deepEqual(body.retried, []);
   resetWriterForTests();
   resetCacheStoreForTests(null);
+  resetDocsStoreForTests(null);
+});
+
+test("retryErroredDocs re-invokes ingest only for error docs the model never touched, at most MAX_AUTO_RETRIES times", async () => {
+  const docs = memDocsStore([
+    { docId: "gm-a", status: "error", error: "Writer returned a non-JSON response", model: null },
+    { docId: "gm-b", status: "error", error: "boom after the model ran", model: { verdict: "post" } },
+    { docId: "gm-c", status: "error", error: "still broken", model: null, retries: MAX_AUTO_RETRIES },
+    { docId: "gm-d", status: "pending", model: null },
+  ]);
+  const invoked = [];
+  globalThis.fetch = async (url, opts) => {
+    invoked.push({ url: String(url), body: JSON.parse(opts.body), secret: opts.headers["x-poller-secret"] });
+    return new Response("", { status: 202 });
+  };
+  const retried = await retryErroredDocs("https://books.test", docs);
+  assert.deepEqual(retried, ["gm-a"]);
+  assert.deepEqual(invoked.map((i) => i.body.docId), ["gm-a"]);
+  assert.equal(invoked[0].url, "https://books.test/api/ingest-bg");
+  assert.equal(invoked[0].secret, "poller-secret");
+  const a = docs.items.get("doc/gm-a");
+  assert.equal(a.status, "processing");
+  assert.equal(a.retries, 1);
+  assert.equal(a.error, "");
+  assert.equal(docs.items.get("doc/gm-b").status, "error", "a doc whose model ran is left for a human");
+  assert.equal(docs.items.get("doc/gm-c").status, "error", "a doc at the retry cap is left alone");
+  assert.equal(docs.items.get("doc/gm-d").status, "pending");
+});
+
+test("retryErroredDocs records a failed re-invocation as error again, keeping the retry count", async () => {
+  const docs = memDocsStore([{ docId: "gm-a", status: "error", error: "x", model: null }]);
+  globalThis.fetch = async () => new Response("", { status: 500 });
+  const retried = await retryErroredDocs("https://books.test", docs);
+  assert.deepEqual(retried, []);
+  const a = docs.items.get("doc/gm-a");
+  assert.equal(a.status, "error");
+  assert.equal(a.retries, 1);
+  assert.match(a.error, /HTTP 500/);
 });
 
 test("warm-bg refuses without the poller secret", async () => {
