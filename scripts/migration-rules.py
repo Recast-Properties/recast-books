@@ -41,7 +41,7 @@ def main():
                 old_prop[r["docId"]] = t
 
     by_mailbox = collections.defaultdict(dict); counts = collections.Counter()
-    util_seen = {}   # (vendor, amount) -> docId of the payment, for rule 5
+    util_docs = []   # rule 5: (vendor key, amount, date, docId, mailbox, kind)
     for docId, e in sorted(env.items(), key=lambda kv: (kv[1].get("model") or {}).get("date") or ""):
         m = e.get("model") or {}
         if not m.get("verdict"): continue
@@ -61,22 +61,22 @@ def main():
             text = " ".join([subj] + [x.get("memo") or "" for x in m.get("entries") or []] + [i.get("description") or "" for x in m.get("entries") or [] for i in x.get("items") or []])
             if not AIRPORT.search(text): o["verdict"] = "dismiss"; notes.append("D-026.4 personal ride, not an airport run")
         if UTILITY.search(vendor) and m.get("verdict") == "post":
-            key = (re.sub(r"[^a-z]", "", vendor)[:10], m.get("receipt_total_cents") or 0)
-            if BILL_SUBJ.search(subj) and not PAY_SUBJ.search(subj):
-                if key in util_seen: o["verdict"] = "dismiss"; notes.append(f"D-026.5 bill; payment {util_seen[key]} already read")
-                else: util_seen[key] = docId   # provisional: a later payment supersedes it
-            else:
-                prev = util_seen.get(key)
-                if prev and prev != docId and prev in by_mailbox["paul"] | by_mailbox["properties"] or prev:
-                    # the earlier bill for the same amount becomes the twin of this payment
-                    for mb in by_mailbox.values():
-                        if prev in mb: mb[prev] = {**mb[prev], "verdict": "dismiss", "note": (mb[prev].get("note", "") + f"; D-026.5 bill superseded by payment {docId}").strip("; ")}
-                    if prev not in by_mailbox["paul"] and prev not in by_mailbox["properties"]:
-                        by_mailbox["properties" if (env[prev].get("channel") not in ("receipts", "travel", "upload", None)) else "paul"][prev] = {"verdict": "dismiss", "note": f"D-026.5 bill superseded by payment {docId}"}
-                util_seen[key] = docId
+            util_docs.append((re.sub(r"[^a-z]", "", vendor)[:10], m.get("receipt_total_cents") or 0, date, docId, mailbox,
+                              "payment" if PAY_SUBJ.search(subj) or not BILL_SUBJ.search(subj) else "bill"))
         if o:
             o["note"] = "; ".join(notes); by_mailbox[mailbox][docId] = o
             for n in notes: counts[n.split(" ")[0]] += 1
+    # D-026.5: a bill and its payment are one cost. For each vendor+amount, keep the payment
+    # (or the earliest bill when no payment was forwarded) and dismiss the other copies.
+    groups = collections.defaultdict(list)
+    for key, cents, date, docId, mailbox, kind in util_docs: groups[(key, cents)].append((date, kind, docId, mailbox))
+    for (key, cents), docs in groups.items():
+        if len(docs) < 2: continue
+        docs.sort(); keep = next((d for d in docs if d[1] == "payment"), docs[0])
+        for d in docs:
+            if d is keep: continue
+            o = by_mailbox[d[3]].get(d[2], {}); o["verdict"] = "dismiss"
+            o["note"] = "; ".join(filter(None, [o.get("note"), f"D-026.5 {d[1]} duplicate of {keep[2]} ({cents/100:.2f})"])); by_mailbox[d[3]][d[2]] = o; counts["D-026.5"] += 1
     for mailbox, ov in by_mailbox.items():
         json.dump({"mailbox": mailbox, "built": datetime.datetime.now().isoformat(timespec="minutes"), "overrides": ov}, open(os.path.join(a.out, f"books-repost-{mailbox}.json"), "w"), indent=0)
         print(mailbox, "overrides:", len(ov))
