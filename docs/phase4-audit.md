@@ -83,3 +83,33 @@ of background processing, in batches of 20 per poller run.
 2. Diff the listing against the 189 ids + the 25 new-system docs → the alignment report.
 3. Paul reviews the report and the Ashburne block map.
 4. D-013 clear → migration entries (deterministic) → replays (paid) → tie-out.
+
+## 6 · Forensic check of the manual rows (added same day)
+
+The old system's 2026-08-24 sweep left the whole mailbox listing in Drive
+(`backfill-mail-part-1/2.json`, 1,999 messages, mostly Jan–Jun 2026; copied to
+`data/migration/2026-09-17/gmail-dump-2026-08-24.json`). Matched against the 95 manual
+RECAST BIZ rows by vendor, date and amount, with no Gmail access:
+
+| result | rows |
+|---|---|
+| Vendor email on the same day (mostly Home Depot "Your Electronic Receipt") | 63 |
+| Exact amount + vendor match | 4 |
+| Amount match only (Amazon fwd, toll tag) | 3 |
+| Nothing in the mailbox | 25 |
+
+- The hand-entered Tools rows are **line items from Home Depot e-receipts** Paul got at the
+  register (33 e-receipts in the dump; 47 of the 68 manual tool rows, $1,878 of $4,049, fall
+  on an e-receipt date). Replaying those 33 emails recreates them with documents.
+- No document exists in the mailbox for: Harbor Freight (8 rows, in-store), crew meals
+  (Taco Casa, Uber Eats, Shell — 6 rows), the $625.69 finish nailer (03-12), three June
+  Office rows, the toll-tag replenishment, the 420 Alyssa interest row. These stay
+  `NO_DOC` until bank statements (Phase 3) prove them.
+- Original receipts land in Paul's personal Gmail accounts (`pvb421@gmail.com`,
+  `recastpropertiestravel@gmail.com`, `104ashburne@gmail.com`) and reach the Workspace
+  mailbox only when forwarded. The migration can only see what was forwarded.
+- Property-tab rows (contractors paid by check/Zelle, utilities) were not matched here;
+  utilities likely have emailed bills, contractor labor does not.
+
+Replay cost for the forensic bucket: ~33 Home Depot e-receipts + ~15 other matched
+messages ≈ 50 reads ≈ **$10**, on top of §4.
