@@ -90,10 +90,15 @@ Claude's recommendation: the new books workbook already is the temp until the D-
 becomes final; a third workbook needs a second bound writer, a second `WRITER_URL`, and a
 second paid run. **Answered:** staging is a *copy* of the new workbook with its bound writer; reads stored once, reruns re-post from them; cutover is one clean pass into the real workbook (D-025).
 
-## Q-9 · Which property addresses are gmail.com accounts? — UNANSWERED · Paul
+## Q-9 · Which property addresses are gmail.com accounts? — ANSWERED 2026-09-17 · Paul
 
 `104ashburne@gmail.com`, `pvb421@gmail.com` and `recastpropertiestravel@gmail.com` appear in
 the mailbox as forwarders. The @recast-properties.com property addresses are Google Groups
 into properties@. For Paul's list (104ashburne, 1616granite, 881newport, 136bowlinggreen,
 366mesa, 413greenacres, 469brushwood, 200janice, 206whiterock, 280sparkling) the gmail.com
 ones each need a sign-in and a consent to scan; the groups need none.
+**Answered:** all property addresses are @recast-properties.com groups into properties@;
+`104ashburne@gmail.com` was migrated into the properties@ group (its 333 messages are
+there). `pvb421@gmail.com` is Paul's personal mailbox — listed, used by id only (audit §10).
+`recastpropertiestravel@gmail.com` is a forwarder, not listed. Listings complete: paul@,
+properties@, pvb421@.
