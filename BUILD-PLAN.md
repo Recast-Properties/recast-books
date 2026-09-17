@@ -318,22 +318,43 @@ a proven system.
 | 5 | **Close, 1099, packet, sell wizard** | Monthly close with lock and snapshot (OVERHEAD lines only; a property locks at sale with a Dennis interest true-up, post-sale costs to COGS, partner adjustment balance — D-015); 1099 module; accountant packet export; Sell wizard with the **Payout report** and the per-property **closing tab** (estimate vs actual); Dennis and accountant read-only views. | A dry-run close of the prior month passes; a past sale (Ashburne) re-run through the wizard reproduces the recorded outcome. |
 | 6 | ~~**Parallel run and cutover**~~ | Absorbed into Phase 4 by D-024: the old books close at the migration cutover date and the tie-out is the proof. Cutover mechanics stay: old workbook read-only, archived; old poller off; new one live. | — |
 
-**Phase 4 method (D-024, 2026-09-16).** The old books are a mix of manually entered rows and
-the v1 receipts poller, and the two systems do not track the same way, so the migration is
-forensic rather than a copy of block totals:
-1. Inventory the old workbook read-only: every RECAST BIZ, property-tab and cash-advance row,
-   split into poller-filed (has a document link) and manual.
-2. Dry-run mail sweep of paul@ over the whole period (receipts@ and travel@ deliver there);
-   no posting, no labels. The existing poller's dry-run with a wider `after:` date does this.
-3. Three-way match report: each old row is matched to a document, manual-only, in mail but
-   missing from the sheet, or duplicated in the sheet. The last two are the alignment findings.
-   Paul reviews before anything posts.
-4. D-013 clear. Matched documents replay through the bookkeeper (real read, Drive filing);
-   manual rows post as `source = migration`, `doc_url` empty, description tagged `NO_DOC`,
-   proven later against statements in Phase 3. Receipts since 2026-09-11 replay last.
-5. Tie out every property total and RECAST BIZ block to the Phase 0 baseline; every
-   intentional difference is a dated correction (2b). Replayed reads cost API money; size the
-   mailbox first.
+**Phase 4 method (D-024, 2026-09-16; findings of the 2026-09-17 audit folded in — full
+detail in `docs/phase4-audit.md`).** The old books are a mix of manually entered rows and the
+v1 receipts poller, and the two systems do not track the same way, so the migration is a
+**full re-run of every receipt from mail**, compared against the old books, not a copy:
+
+1. **Inventory** (done 2026-09-17, `data/migration/2026-09-17/`): RECAST BIZ 284 rows, 189
+   carry their Gmail id in the Receipt link, 95 manual; 259 light-template property rows;
+   Ashburne heavy template (21 blocks, needs a block map); Sales, Cost Recapture and Cash
+   Advances tabs are in scope too.
+2. **Mailbox listings, read-only.** One script, modelled on the old `backfill-scan.gs` (never
+   labels, never posts). Run once as paul@ (holds receipts@/travel@) and once as properties@
+   (holds every @recast-properties.com property group, one label each). The consumer Gmail
+   accounts (pvb421@, 104ashburne@, recastpropertiestravel@, any other gmail.com property
+   address) are separate Google accounts: the same script runs signed in as each one, one
+   consent each. Size each listing and quote the replay cost before any replay.
+3. **Re-run everything** through the bookkeeper into the **new books workbook, which is the
+   staging area** (D-013 clear first; the parallel-run data since 09-11 is replaced by the
+   run). No third workbook unless Paul asks. Each receipt is read as line items and each line
+   routes to a property or OVERHEAD, so a Home Depot receipt split between tools and 104
+   Ashburne lands as the receipt supports, not as the old split.
+4. **Compare on net per vendor per day**, never line by line, because the manual rows netted
+   returns: Paul omitted returned items instead of posting the purchase and the credit. The new
+   books carry gross purchase plus return credit. Net matches with different gross = returns
+   netted, fine. A net gap lists the lines behind it: return without an e-receipt (Paul
+   confirms, credit posts `NO_DOC`), receipt line the old books dropped, old row with no
+   document anywhere. Secondary sources for returns: the Home Depot Pro Xtra purchase-history
+   CSV (one download) and the card statements (Phase 3, the final proof).
+5. **Buckets.** Documented rows replay with a real read and Drive filing. Rows with no
+   document in any mailbox (Harbor Freight in-store, crew meals, the finish nailer, some June
+   Office rows, the 420 Alyssa interest) post as `source = migration`, `doc_url` empty,
+   `NO_DOC`. Property contractor rows (check/Zelle, no receipt) are migration entries.
+6. **Paul reviews the comparison report**, then accepts: the run *is* the migration, nothing
+   is paid for twice. Rejected: clear again and rerun. Then tie out every property total and
+   RECAST BIZ block to the snapshot; every intentional difference is a dated correction (2b).
+
+Cost: measured $0.21 per document read (25 live docs, Opus 5). Known so far ≈ 180 + 50 + 25
+reads ≈ $55–75; each new mailbox adds ~$0.21 per receipt it holds.
 
 **Guardrails, every phase:** nothing ever writes to the old workbook; every script dry-runs
 and reports before applying; the writer backs up before its first write of the day;

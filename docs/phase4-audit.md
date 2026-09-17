@@ -113,3 +113,19 @@ RECAST BIZ rows by vendor, date and amount, with no Gmail access:
 
 Replay cost for the forensic bucket: ~33 Home Depot e-receipts + ~15 other matched
 messages ≈ 50 reads ≈ **$10**, on top of §4.
+
+## 7 · Paul's additions, 2026-09-17 (folded into BUILD-PLAN §7, Phase 4 method)
+
+- **Receipts are itemized across tabs.** Many tool receipts sit with the property receipts
+  and were split by hand between RECAST BIZ and a property tab, especially 104 Ashburne. A
+  full re-run routes each line where the receipt supports; the old split is not reproduced.
+- **Scan every mailbox**: pvb421@gmail.com, paul@, travel@, and the property addresses
+  (104ashburne, 1616granite, 881newport, 136bowlinggreen, 366mesa, 413greenacres,
+  469brushwood, 200janice, 206whiterock, 280sparkling). Workspace groups are read via
+  properties@; gmail.com accounts need a per-account run (Q-9).
+- **Temp workbook** proposed by Paul; Claude recommends the new books workbook as the staging
+  area (Q-8).
+- **Returns were netted in the manual rows.** Paul omitted returned items rather than posting
+  purchase + credit. Comparison is therefore on net per vendor per day; the new books carry
+  gross + credit; unexplained net gaps are the findings. Home Depot Pro Xtra purchase history
+  (CSV) and card statements are the secondary sources.

@@ -60,8 +60,10 @@ costs). The old standalone writer project is dormant. **Inbox review in the shee
 (spec §6: Recast Books → Inbox… sidebar; the queue stays in Blobs, Approve files and posts
 in-process, `mark-posted` records it; `lib/gate.mjs` is in `lib.gs` now; approve is split so the
 user waits only for the post, ~2.5 s - see CHANGELOG 2026-09-16 late). Next: **Phase 4
-migration, forensic, ahead of Phase 3 (D-024, 2026-09-16)** — inventory the old workbook,
-dry-run mail sweep of paul@, three-way match report, then the D-013 clear and post. Phase 3
+migration, forensic, ahead of Phase 3 (D-024, 2026-09-16)** — audit done 2026-09-17
+(`docs/phase4-audit.md`, snapshot in `data/migration/2026-09-17/`); next: mailbox listings
+(paul@, properties@, then each gmail.com account), then the full re-run into the new workbook
+and the net-per-vendor-per-day comparison (BUILD-PLAN §7 Phase 4 method; Q-8, Q-9 open). Phase 3
 (statement uploads — D-019 dropped Plaid; `docs/phase3-spec.md` to be revised for the menu
 shape) follows.
 

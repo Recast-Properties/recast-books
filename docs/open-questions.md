@@ -82,3 +82,18 @@ deliberate term of the deal with Dennis rather than an accident of layout.
 Lets sub-$2,500 items be expensed rather than depreciated. The $4,690.15 of tools is
 all small-ticket, so this is almost certainly worth electing. Requires an annual
 election statement on the return — it is not automatic.
+
+## Q-8 · Staging workbook for the re-run? — PROPOSED: use the new books workbook · 2026-09-17
+
+Paul proposed a temp Sheets doc to re-run all receipts into and compare before committing.
+Claude's recommendation: the new books workbook already is the temp until the D-013 clear
+becomes final; a third workbook needs a second bound writer, a second `WRITER_URL`, and a
+second paid run. Paul has not answered. Default is the new workbook; build the temp if he says so.
+
+## Q-9 · Which property addresses are gmail.com accounts? — UNANSWERED · Paul
+
+`104ashburne@gmail.com`, `pvb421@gmail.com` and `recastpropertiestravel@gmail.com` appear in
+the mailbox as forwarders. The @recast-properties.com property addresses are Google Groups
+into properties@. For Paul's list (104ashburne, 1616granite, 881newport, 136bowlinggreen,
+366mesa, 413greenacres, 469brushwood, 200janice, 206whiterock, 280sparkling) the gmail.com
+ones each need a sign-in and a consent to scan; the groups need none.
