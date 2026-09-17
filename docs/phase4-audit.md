@@ -153,3 +153,30 @@ comparison decides.
 **Replay reads for paul@: 180 + 123 + 93 + 25 = 421 → ≈ $63–88** (junk dismissals read
 cheaper than posts). Still to list: properties@ (Workspace, one click as properties@) and
 the gmail.com accounts (Q-9).
+
+## 9 · properties@ mailbox listing, 2026-09-17 (new project under properties@, 2 parts)
+
+`data/migration/2026-09-17/gmail-listing-properties-2026-09-17.json` (530 messages),
+`properties-replay-list.json`. **Finding:** no Recast Books Poller project exists under
+properties@ — the Phase 2.6 instance described in `docs/phase2.6-spec.md` was never created
+there; the listing ran from a fresh project.
+
+| bucket | messages |
+|---|---|
+| All of 2026 in properties@ | 530 |
+| Labelled 104 Ashburne (333 addressed to `104ashburne@gmail.com`, forwarded in) | 369 |
+| Other property labels (Granite 33, Bowling Green 30, Sparkling 22, Brushwood 20, Mesa 15, Newport 14, Green Acres 3, White Rock 2, multi-label 17) | 157 |
+| Receipt-shaped by subject/attachment | 194 |
+| … amount already on a property tab or RECAST BIZ | 107 |
+| … amount on no tab (Ashburne 36, Granite 20, the rest spread) | 87 |
+| Blank subject from pvb421@gmail.com, Jan–Apr — phone photos of receipts, no text body | 281 |
+| Junk | 5 |
+
+The blank-subject photos are receipts too (the Ashburne rehab, sent from Paul's phone);
+they replay like any photo upload. So the properties@ replay is effectively the whole
+mailbox less junk: **≈ 525 reads → $79–110**.
+
+**Combined replay so far (paul@ + properties@): ≈ 946 reads → $140–200.** Still unlisted:
+pvb421@gmail.com and recastpropertiestravel@gmail.com as accounts of their own (Q-9); the
+104ashburne@gmail.com history appears to be already inside properties@ (333 messages
+addressed to it), to be confirmed against that account.
