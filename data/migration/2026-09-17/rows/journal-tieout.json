@@ -1,22 +1,25 @@
 {
- "pass": 3,
- "ran": "2026-09-18 13:00-13:03",
- "journal_snapshot": "books-cache tab/Journal fetched 2026-09-18 13:02:09",
+ "pass": 5,
+ "ran": "2026-09-18 15:41",
+ "journal_snapshot": "books-cache tab/Journal fetched 2026-09-18 15:41:37",
  "by_property": {
-  "OVERHEAD": 2449656,
+  "OVERHEAD": 2443108,
   "881 Newport": 308917,
   "469 Brushwood": 191680,
   "366 Mesa": 964800,
-  "136 Bowling Green": 376163,
-  "104 Ashburne": 16111754,
+  "136 Bowling Green": 406063,
+  "104 Ashburne": 16059486,
   "1616 Granite": 1220487,
   "280 Sparkling": 317978,
-  "Cost Recapture": 136504
+  "Cost Recapture": 150287
  },
- "entries": 1035,
- "cents": 22077939,
+ "entries": 1031,
+ "cents": 22062806,
  "difference_cents": 0,
- "linked": 781,
+ "txn_ids_identical_to_dry_run": true,
+ "debits_equal_credits_cents": 228203898,
+ "linked": 868,
  "advances": 33,
- "advance_orphans": 0
+ "advance_orphans": 0,
+ "independent_reparse": "1,029 parsed cells vs Journal by date+amount: 17 old residuals = $0 Netlify row, C-5, C-6, C-3, C-7, C-8, C-9 x3, C-12, C-15, C-17, C-18, three account-number cells, Sparkling J34 =SUM subtotal; 19 new residuals = C-3, C-8, C-12, C-15, C-10 x4, C-11 x4, C-16, C-19 x2, the four Cost Recapture tab rows"
 }

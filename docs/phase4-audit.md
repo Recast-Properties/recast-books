@@ -874,3 +874,18 @@ flag for the advances registration; Dennis's PayPal receipts for the Granite, Sp
 listing fees; settlement dates for Ashburne and Newport; then the production writer push and the cutover.
 Staging holds pass 4 ($220,774.59); the current dry run ($220,628.06) is pushed and needs one Run.
 
+
+## 28 · Staging pass 5, 2026-09-18 15:41 - the end-of-day books, tied out
+
+Paul ran `migrationRunStaging` at 15:41 on the dry run of §27. Tie-out from the `books-cache` Journal
+snapshot (fetched 15:41:37), two paths. (1) Journal by property = `rows/expected.json`, **$0.00 on all
+nine** (Ashburne $160,594.86, Granite $12,204.87, Bowling Green $4,060.63, Mesa $9,648.00, Newport
+$3,089.17, Sparkling $3,179.78, Brushwood $1,916.80, Cost Recapture $1,502.87, overhead $24,431.08):
+**1,031 entries, $220,628.06**, txn ids identical to `rows/entries.csv`, every entry's amount equal to
+its dry-run amount, debits = credits ($2,282,038.98), no unbalanced txn, **868 entries carry a link**.
+33 advances, none orphaned, account 1000 = $1,863,647.50 (the advances were not re-registered - the list
+did not change). (2) `scripts/migration-audit-indep.py` re-parse vs the Journal on date + amount: every
+old row is there; the residuals are the $0.00 Netlify row, C-3, C-5 … C-9, C-12, C-15, C-17, C-18 on the
+old side (plus four cells the independent parser reads that are not rows: three account numbers and
+Sparkling J34, a `=SUM` subtotal), and C-10 x4, C-11 x4, C-16, C-19 x2 and the four Cost Recapture tab
+rows on the new side. `rows/journal-tieout.json` records it. Staging = the dry run; next is §27's list.
