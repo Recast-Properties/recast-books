@@ -350,7 +350,7 @@ function dollarsOrBlank_(v) {
   return s === '' ? '' : fromCents(toCents(s));
 }
 
-function addProperty(form) {
+function addProperty(form, skipRebuild) {   // skipRebuild: the migration rebuilds every tab once at the end
   var props = PropertiesService.getScriptProperties();
   var ss = openWorkbook_(props);
   try {
@@ -378,12 +378,14 @@ function addProperty(form) {
     var created = upsertRow_(sheet, cols, 'name', row);
 
     var tabRows = null, tabError = null;
-    try {
-      tabRows = setupPropertyTab(name).rows;
-    } catch (err) {
-      tabError = String((err && err.message) || err);
+    if (skipRebuild !== true) {
+      try {
+        tabRows = setupPropertyTab(name).rows;
+      } catch (err) {
+        tabError = String((err && err.message) || err);
+      }
+      warmCache_();
     }
-    warmCache_();
     return { ok: true, name: name, created: created, tabRows: tabRows, tabError: tabError };
   } catch (err) {
     return { ok: false, error: (err && err.code) || 'INTERNAL', message: String((err && err.message) || err) };

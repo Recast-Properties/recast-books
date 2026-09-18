@@ -700,3 +700,22 @@ re-exports the old workbook and diffs it against the 2026-09-17 snapshot.
 wizard re-runs are Granite (and its holdback), Sparkling and Newport; Ashburne joins them when it closes.
 Until then Ashburne is an ordinary held property: corrections are made on its tab, a cost found in mail is a
 row on its tab (C-22), and D-031's Cost Recapture rule does not apply to it.
+
+## D-034 · Property tax: payments post when paid, the closing proration posts at closing, the tab estimates in between - 2026-09-18 · Paul
+
+Paul: "i paid the property tax for ashburne for the year on 3/30. i will also pay pro-rated property tax when
+we sell ... change the way property tax is being logged if needed. i defer to you now that you know the facts."
+Facts checked: Texas property tax is paid in arrears (billed October, due January 31, 7% on February 1 and
++2% a month). The 03-30 payment was tax year **2025** with 9% penalty and interest; a 2026 sale charges the
+seller January 1 → closing on the settlement statement (TREC para. 13), or, once the bill is out, pays the
+bill at closing and credits the seller for the rest of the year. Different tax years - never the same tax twice.
+
+**Decided:** no new mechanism.
+1. A tax payment posts on the day it is paid: Dr 1100 Holding - property tax on the property, penalty and
+   interest included (it is a cost of holding that property), credit whoever paid.
+2. The seller's proration is a line of the closing statement and posts with the sale (Phase 5 sell wizard).
+3. While a property is held, its tab shows posted 1100 plus an estimate of the proration from
+   `Properties.tax_annual` (the latest levy, without penalties). The estimate is a forecast and never posts.
+4. A foreclosure purchase late in the year inherits the whole year's bill (Ashburne: bought 12-02, paid all of
+   2025). That is a cost of the deal, on the property, not overhead.
+

@@ -27246,5 +27246,31 @@
 "skip": "",
 "business_purpose": "Portland-DFW travel for Recast property operations in Ellis County, TX (Paul commutes from Portland to the rehabs)",
 "attendee": ""
+},
+{
+"txn_id": "migration-20260330-50b22faacb14",
+"date": "2026-03-30",
+"property": "104 Ashburne",
+"trade": "Property Tax",
+"account": "1100",
+"account_source": "Paul/Claude (added)",
+"amount_cents": 1603125,
+"payee": "Ellis County Tax Office",
+"description": "2025 property tax, acct 199468, paid in full: levy $14,707.58 + 9% penalty and interest $1,323.67; check #5899",
+"paid_from": "PAUL",
+"paid_from_source": "receipt",
+"source": "migration",
+"docId": "gm-19d3fc513d1b8d07",
+"doc_url": "https://mail.google.com/mail/u/0/#all/19d3fc513d1b8d07",
+"link_kind": "gmail",
+"match": "added",
+"old_tab": "",
+"old_block": "",
+"old_sheet_row": "",
+"flags": "ADDED_NOT_IN_OLD_BOOKS",
+"correction": "C-24 The old Ashburne tab carries it in its summary block (B10 'Property Tax Paid', E10 $16,031.25, inside Total Project Cost), not among the expense rows, so the inventory never saw it. Paul 2026-09-18: 'i paid the property tax for ashburne for the year on 3/30 ... adjust the books for this however you see fit.' Paid by his personal Chase check, a pre-August Ashburne cost like the rest (D-026.2): Due to Paul",
+"skip": "",
+"business_purpose": "",
+"attendee": ""
 }
 ]

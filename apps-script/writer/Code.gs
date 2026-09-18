@@ -1938,16 +1938,18 @@ function clearBooks() {
 var COST_RECAPTURE_PROPERTY = { name: 'Cost Recapture', address: 'Charges after a property has sold', status: 'held', template: 'Light', dennis_funded: 'false', dennis_share_pct: '50',
   notes: 'D-031: post-sale charges, the sold property named in the trade column; reconciled when the next property sells' };
 
-function migrationRegisterProperties() {
+function migrationRegisterProperties(skipRebuild) {
+  // tax_annual: the old tabs' "Property Tax (Prorated)" annual figure - the property tab's estimate of the seller's
+  // proration at closing (Texas taxes are paid in arrears; TREC para. 13). Posted 1100 lines are actual payments.
   var list = [
-    { name: '104 Ashburne', address: '104 Ashburne Glen Ln, Red Oak TX', status: 'held', purchase_date: '2025-12-02', purchase_price: '325000', template: 'Heavy', dennis_funded: 'true', dennis_share_pct: '0', dennis_commission_pct: '3', notes: 'Phase 4 migration; BANK-ONLY deal: Dennis earns 12% interest + 3% of sale, no profit share (Paul 2026-09-17); sold 2026, settlement date to confirm' },
+    { name: '104 Ashburne', tax_annual: '14707.58', address: '104 Ashburne Glen Ln, Red Oak TX', status: 'held', purchase_date: '2025-12-02', purchase_price: '325000', template: 'Heavy', dennis_funded: 'true', dennis_share_pct: '0', dennis_commission_pct: '3', notes: 'Phase 4 migration; BANK-ONLY deal: Dennis earns 12% interest + 3% of sale, no profit share (Paul 2026-09-17); STILL HELD - has not closed (Paul 2026-09-18); tax_annual is the 2025 levy, the $16,031.25 paid 03-30 included 9% penalty and interest' },
     { name: '1616 Granite', address: '1616 Granite Way, Waxahachie TX', status: 'held', purchase_date: '2026-04-07', purchase_price: '279001', settlement_date: '2026-07-27', template: 'Light', dennis_funded: 'true', notes: 'Phase 4 migration' },
     { name: '280 Sparkling', address: '280 Sparkling Springs, Waxahachie TX', status: 'held', purchase_date: '2026-06-02', purchase_price: '196850.50', settlement_date: '2026-08-06', template: 'Light', dennis_funded: 'true', notes: 'Phase 4 migration' },
-    { name: '881 Newport', address: '881 Newport Dr, Ferris TX 75125', status: 'held', purchase_date: '2026-06-29', purchase_price: '207000', template: 'Light', dennis_funded: 'true', notes: 'Phase 4 migration; sold (Sales tab); settlement date to confirm' },
-    { name: '136 Bowling Green', address: '136 Bowling Green', status: 'held', purchase_date: '2026-06-02', purchase_price: '294651', template: 'Light', dennis_funded: 'true', notes: 'Phase 4 migration' },
-    { name: '206 White Rock', address: '206 White Rock', status: 'held', purchase_date: '2026-06-02', purchase_price: '184500', template: 'Light', dennis_funded: 'true', notes: 'Phase 4 migration' },
-    { name: '366 Mesa', address: '366 Mesa', status: 'held', purchase_date: '2026-08-04', purchase_price: '123645', template: 'Light', dennis_funded: 'true', notes: 'Phase 4 migration' },
-    { name: '469 Brushwood', address: '469 Brushwood Ln, Waxahachie TX 75165', status: 'held', purchase_date: '2026-09-01', purchase_price: '253000', template: 'Light', dennis_funded: 'true', notes: 'Phase 4 migration' },
+    { name: '881 Newport', tax_annual: '7941.61', address: '881 Newport Dr, Ferris TX 75125', status: 'held', purchase_date: '2026-06-29', purchase_price: '207000', template: 'Light', dennis_funded: 'true', notes: 'Phase 4 migration; sold (Sales tab); settlement date to confirm' },
+    { name: '136 Bowling Green', tax_annual: '9357', address: '136 Bowling Green', status: 'held', purchase_date: '2026-06-02', purchase_price: '294651', template: 'Light', dennis_funded: 'true', notes: 'Phase 4 migration' },
+    { name: '206 White Rock', tax_annual: '10715.55', address: '206 White Rock', status: 'held', purchase_date: '2026-06-02', purchase_price: '184500', template: 'Light', dennis_funded: 'true', notes: 'Phase 4 migration' },
+    { name: '366 Mesa', tax_annual: '470.57', address: '366 Mesa', status: 'held', purchase_date: '2026-08-04', purchase_price: '123645', template: 'Light', dennis_funded: 'true', notes: 'Phase 4 migration' },
+    { name: '469 Brushwood', tax_annual: '7854', address: '469 Brushwood Ln, Waxahachie TX 75165', status: 'held', purchase_date: '2026-09-01', purchase_price: '253000', template: 'Light', dennis_funded: 'true', notes: 'Phase 4 migration' },
     // Pipeline (Sales tab "Waiting on market"): not purchased. Pre-acquisition costs
     // (eviction checks, earnest money, due diligence) accumulate here so nothing is lost;
     // if the deal never closes they are written off then (Paul, 2026-09-17).
@@ -1959,7 +1961,7 @@ function migrationRegisterProperties() {
   ensureHeaders_(ss0.getSheetByName('Properties'), TAB_HEADERS['Properties']);   // adds dennis_commission_pct
   var out = [];
   for (var i = 0; i < list.length; i++) {
-    var r = addProperty(list[i]);
+    var r = addProperty(list[i], skipRebuild === true);
     out.push(list[i].name + ' -> ' + (r.ok ? (r.created ? 'created' : 'updated') : 'FAILED ' + r.message));
   }
   console.log(out.join('\n'));
@@ -2018,8 +2020,7 @@ function migrationClearReceiptLane() {
 /** One Run for the staging pass: clear the receipt lane, then post the rows. If the log ends
  *  "run again", run migrationPostRows() (not this) until left=0. */
 function migrationRunStaging() {
-  var reg = addProperty(COST_RECAPTURE_PROPERTY);   // idempotent; the entries name it
-  console.log('Cost Recapture -> ' + (reg.ok ? (reg.created ? 'created' : 'updated') : 'FAILED ' + reg.message));
+  migrationRegisterProperties(true);   // idempotent; Cost Recapture included, tax_annual and notes kept current; tabs are rebuilt at the end
   migrationClearReceiptLane();
   return migrationPostRows();
 }

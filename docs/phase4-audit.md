@@ -288,6 +288,7 @@ the tie-out per property against the snapshot.
 | C-21 | 2026-09-18 | 136 Bowling Green, two utility payments the old books left off | not in the old books | added, **$693.26**, 1120, paid from Citizens (1401) | TXU $164.02 of 08-21 (conf 808997400; Paul forwarded it to 136bowlinggreen@; CNB daily summary shows it on card 5450) and City of Red Oak $529.24 of 08-31 (conf JNGKGFWLFQ: $522.02 + $7.22 fees, Visa 5450). Searched within two cents on every old tab and in all three mailboxes first. Paul: "yes to both". Audit §29 |
 | C-22 | 2026-09-18 | 104 Ashburne / Utilities, Energy Texas auto-pay of 09-03 | not in the old books | added, $484.43, 1120, Paul paid (card 9166) | The 08-17 bill (acct ET-7827592) paid by auto-pay, conf PAY04938659; the tab's last electric row is 08-03 $371.16. Paul: "ashburne has not closed. it is still held. file that 484.43 charge" - a row on the tab, not Cost Recapture. Ashburne is $484.43 above the old tab |
 | C-23 | 2026-09-18 | RECAST BIZ / Travel, five American Airlines charges the old books left off | not in the old books | added, **$2,070.30**, 6700 overhead, Paul paid | Fares DFW-PDX 01/17 $316.50, PDX-DFW-PDX 02/01-02/04 $575.60, PDX-DFW-PDX 01/23 $665.80 (its $40.28 seat was already a row), PDX-DFW 02/09 $462.40, and a $50.00 seat of 05-25. Each is Paul's own forward with the travel date as subject; the old Travel block has the airport Uber rides of the same days but not the fares. Paul: "american is most likely NOT personal expenses", then "yes". Overhead is $2,070.30 above the old books. Audit §30 |
+| C-24 | 2026-09-18 | 104 Ashburne, "Property Tax Paid" $16,031.25 (summary block, cell E10) | in the old tab's Total Project Cost, outside the expense rows - the inventory never read it, never posted | posted 2026-03-30, 1100, Paul paid | Ellis County paid-in-full receipt: 2025 levy $14,707.58 + 9% penalty and interest $1,323.67, check #5899 on Paul's personal Chase account. Paul: "i paid the property tax for ashburne for the year on 3/30 ... adjust the books for this however you see fit." Not a difference from the old books - a line of them the migration had missed (like C-12). D-034 |
 
 ## 14 · Where the staging run stands at end of day, 2026-09-17
 
@@ -1050,3 +1051,18 @@ $16,031.25**, part of the tab's Total Project Cost, not among the expense rows, 
 and it has never been posted. It is the only paid tax in the workbook (the other tabs' "Property Tax
 (Prorated)" lines are forecasts with a TODAY() formula). Put to Paul before adding: which account check #5899
 was drawn on.
+
+## 33 · Property tax (D-034): the Ashburne payment posted, the annual figures carried over (2026-09-18)
+
+Paul asked whether selling in 2026 means paying prorated tax or getting a refund. Looked up: Texas tax is
+billed in October and due 01-31 of the next year; the 03-30 payment was the whole of **2025** at the March
+delinquency rate (7% + 2% = 9%; $14,707.58 x 9% = the receipt's $1,323.67). Nothing is paid toward 2026, so
+there is no refund; at a 2026 closing the seller is charged Jan 1 → closing on the settlement statement (TREC
+para. 13). Two tax years, no double payment. **C-24** posts the $16,031.25 (1100, Ashburne, Due to Paul,
+receipt linked). `migrationRegisterProperties` now carries each old tab's annual tax figure into
+`Properties.tax_annual` (Ashburne $14,707.58 - the levy, not the $16,031.25 the old tab prorated; Newport
+$7,941.61, Bowling Green $9,357.00, White Rock $10,715.55, Mesa $470.57, Brushwood $7,854.00) so the new tab's
+"Property Tax (prorated)" line = posted 1100 + the estimate, as the old tabs showed it; Ashburne's note no
+longer says sold. `migrationRunStaging` refreshes the Properties rows itself (no extra tab rebuilds:
+`addProperty(form, skipRebuild)`), so it is still one Run. Dry run **1,040 entries, $239,907.34** (Ashburne
+$177,110.54), all build; the only change is the one entry; 885 linked; list 4: 67. Pushed to staging.
