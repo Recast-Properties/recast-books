@@ -803,3 +803,36 @@ Cash Advances tab is their record); nothing in any mailbox for the other two. Sa
 `migration-compare.py` so the listing is a second source of candidates, and queue the never-read messages
 that match for a read (about $0.21 each) so they can be filed to Drive.
 
+## 26 · Atlas Pools reconciled to its own payment portal (2026-09-18)
+
+Paul supplied the Atlas Pools customer-portal payment list (`evidence/atlas-pools-portal-payments-*.webp`):
+17 succeeded payments, **$18,595.17**. The Ashburne Pool block has 18 Atlas rows, **$18,926.18**.
+The $331.01 difference is two things.
+
+| Atlas received | old row | |
+|---|---|---|
+| 02/12 $2,000.00 (inv 16097) | 02-12 Deposit $2,000.00 | ✓ |
+| 03/02 $2,000.00 | 03-01 Deposit $2,000.00 | ✓ |
+| 03/06 $2,000.00 | 03-06 Deposit **$2,025.00** | +$25.00 |
+| 03/14 $4,000.00 | 03-13 Payment **$4,025.00** | +$25.00 |
+| 03/21 $490.00 (16525), $21.65 (16528, card 9166) | 03-20 $490.00, $21.65 | ✓ |
+| 03/30 $2,152.00 by check | 03-29 Payment **$2,177.00** | +$25.00 |
+| 04/01 $2,120.00 (16542) | 03-31 New Pump $2,120.00 | ✓ |
+| 04/17 $1,800.00 (16950, card 6926), $185.00 (16925, card 5655), $196.47 (16768) | 04-17, three rows | ✓ |
+| 05/18 $350.00 (17517), $256.01 (17310) | 05-18, two rows | ✓ |
+| 06/11 $256.01 (17785) | 06-11 Service | ✓ |
+| - | **06-30 Service $256.01** | no payment at Atlas |
+| 07/25 $256.01 (18218) | 07-30 Service | ✓ |
+| 09/01 $256.01 (18723), $256.01 (18972) | 09-01 Service - August, - Sept | ✓ |
+
+- Invoice 16097 (the renovation): Atlas received $12,152.00 exactly; the rows carry **$75.00 more, $25.00
+  on each of three payments**. Paul: "it's probably the charge for using a card to pay." (The portal
+  shows those payments as "Other" and "Check", so the fee is on Paul's side - a bank or payment-service
+  fee.) Rows kept as typed (D-027); proven on the bank side in Phase 3.
+- **The 06-30 "Service" $256.01 has no payment behind it.** Atlas took five monthly payments (05/18, 06/11,
+  07/25, 09/01, 09/01); the books have six. July's invoice 18218 arrived 07-03 and was paid 07/25 - it
+  looks typed once when billed (06-30) and again when paid (07-30). **Put to Paul.**
+- Cards 6926 and 5655 are on no account → Paul's personal cards (D-026.1); the rows are PAUL already.
+- The two Atlas rows that had no receipt (02-12 $2,000, 03-29 $2,177) are linked to Atlas's payment
+  confirmations in paul@. All 18 Atlas rows but the 06-30 one now carry a document. 868 entries linked.
+

@@ -386,6 +386,18 @@
    "row": "104 Ashburne 2026-03-21 Wauyfair 76.85",
    "docId": "gm-19d0446213881f8d",
    "why": "Claude 2026-09-18, found by searching ALL listed mail for the row's amount, not only the documents that were read: Wayfair order of 03-18, Cepeda 6-light bath bar, $76.85 to the cent; the payee is misspelt in the old books"
+  },
+  {
+   "key": "PROP-183",
+   "row": "104 Ashburne 2026-02-12 Atlas Pools 2000.00",
+   "docId": "gm-19ce3f5cb26f1b83",
+   "why": "Claude 2026-09-18: Atlas Pools' own payment portal (Paul 2026-09-18, evidence/atlas-pools-portal-payments-*.webp): invoice 16097 was paid $2,000 02/12, $2,000 03/02, $2,000 03/06, $4,000 03/14 and $2,152 by check 03/30 = $12,152.00. One of the three identical 'Payment Confirmation - Invoice 16097 ... $2,000.00' emails Atlas sent on 03-12 for the three $2,000 deposits (paul@); the other two deposits carry forwards of the same confirmations"
+  },
+  {
+   "key": "PROP-252",
+   "row": "104 Ashburne 2026-03-29 Atlas Pools 2177.00",
+   "docId": "gm-19d48c027c0e05fa",
+   "why": "Claude 2026-09-18: Atlas Pools' own payment portal (Paul 2026-09-18, evidence/atlas-pools-portal-payments-*.webp): invoice 16097 was paid $2,000 02/12, $2,000 03/02, $2,000 03/06, $4,000 03/14 and $2,152 by check 03/30 = $12,152.00. 'Payment Confirmation - Invoice 16097 ... $2,152.00' of 04-01 (paul@): the final check. The row is $2,177.00 - $25.00 more than Atlas received, like the 03-06 ($2,025) and 03-13 ($4,025) rows; Paul: 'probably the charge for using a card to pay'. Old amount kept (D-027); the $75 is proven on the bank side in Phase 3"
   }
  ],
  "no_link": [

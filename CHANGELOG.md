@@ -637,3 +637,7 @@ $4,950 regression too. C-17 (Shell typed twice). Dry run 1,030 entries, $220,286
 Claude had called undocumented; it sat in paul@, listed but never forwarded, so never read. All listed
 mail searched by amount: nine rows linked by Gmail id, 866 linked, 72.6% of dollars. `phase4-audit.md` §25.
 
+**Atlas Pools reconciled to its portal (§26).** 17 payments $18,595.17 vs 18 rows $18,926.18: $75 of
+payment fees on the renovation invoice (kept), and a 06-30 service row with no payment behind it (asked).
+Evidence folder indexed (`data/migration/2026-09-17/evidence/README.md`).
+
