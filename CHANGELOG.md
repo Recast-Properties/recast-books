@@ -647,3 +647,6 @@ Evidence folder indexed (`data/migration/2026-09-17/evidence/README.md`).
 **C-19.** MLS listing fees the old books left off - Bowling Green (07-01, its tab) and Newport (Cost
 Recapture) - $299 each, Dennis paid (Paul). Dry run 1,031 entries, $220,628.06.
 
+**End of day 2026-09-18.** Paul accepts $36,880 of contractor checks and cash with no receipt. 868 of 1,031
+entries linked (84.2% of rows, 74.7% of dollars; 91% documented or accepted). Open items: `phase4-audit.md` §27.
+

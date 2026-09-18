@@ -1276,5 +1276,11 @@
    "rows": "104 Ashburne / Pool, Atlas Pools 03-06 $2,025.00, 03-13 $4,025.00, 03-29 $2,177.00 - each $25.00 above what Atlas's portal shows it received",
    "said": "Paul 2026-09-18: 'those were most likely wire transfer charges.' Rows kept as typed; the three $25.00 wire fees show on the bank statements in Phase 3"
   }
+ ],
+ "no_document_accepted": [
+  {
+   "rows": "104 Ashburne: Juan Garcia 4 x $7,000.00 (01-12, 01-23, 02-09, 02-20; the first two are Dennis's cash advances, recorded on the Cash Advances tab) and Salvador Campos $3,880.00 (02-13). 366 Mesa, Dennis's checks: Juanito #1147 $2,000.00, Carlos #1146 $1,500.00, James Haroce $1,500.00",
+   "said": "Paul 2026-09-18: 'yep, those just have to roll with no receipts.' Contractor checks and cash; searched in all three mailbox listings, nothing. They migrate at Paul's amounts flagged NO_DOC and are proven from the bank statements in Phase 3"
+  }
  ]
 }

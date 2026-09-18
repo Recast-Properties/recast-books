@@ -848,3 +848,29 @@ Bowling Green on its tab ($4,060.63 now), Newport on Cost Recapture ($1,502.87 n
 Sparkling fees stay without a receipt - Dennis paid them and the PayPal receipts went to him; asked for.
 Dry run **1,031 entries, $220,628.06**, all build; 870 linked.
 
+## 27 · Where the documentation stands at the end of 2026-09-18
+
+Paul, on the contractor checks and cash with nothing in any mailbox - Juan Garcia 4 x $7,000, Salvador
+Campos $3,880, the Mesa checks #1146 / #1147 and James Haroce, **$36,880.00**: "yep, those just have to
+roll with no receipts." Recorded under `no_document_accepted`; they migrate at his amounts, flagged
+NO_DOC, and are proven from the bank statements in Phase 3.
+
+| | entries | $ |
+|---|---:|---:|
+| To post | 1,031 | 220,628.06 |
+| Linked to a receipt | 868 (84.2%) | 164,461.57 (74.7%) |
+| No document, accepted by Paul | 8 | 36,880.00 |
+| Other unlinked: cash labor (Julio, Mariana), small Home Depot rows, the second 50Floor charge | 155 | 19,286.49 |
+
+So **91% of the dollars are either documented or a known no-receipt payment**; the remaining $19.3K is 155
+rows averaging $124. Morning of the same day, before the audit: 76.1% of rows, 68.1% of dollars, one row
+missing, three false additions and about ten wrong links.
+
+**Still open before cutover (§17):** the confirm list (57 rows, all under $310); item 4 differences
+(117 receipts whose total differs from their rows - returns or omitted items, D-028); item 5 in mail and
+not in the books (168 documents - utilities first); item 7 Drive filing, including the never-read paul@
+messages now linked by Gmail id; the listing search folded into `migration-compare.py`; a skip-rebuild
+flag for the advances registration; Dennis's PayPal receipts for the Granite, Sparkling and Newport
+listing fees; settlement dates for Ashburne and Newport; then the production writer push and the cutover.
+Staging holds pass 4 ($220,774.59); the current dry run ($220,628.06) is pushed and needs one Run.
+
