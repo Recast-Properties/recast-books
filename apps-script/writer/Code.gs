@@ -2017,8 +2017,7 @@ function migrationRunStaging() {
  *  (scripts/migration-rows.py) pushed with the staging or cutover writer only, never kept in the
  *  repo's writer folder. No gates: this is history. Every entry is built by the same posting
  *  engine as everything else (balanced, D-010 enforced); if one does not build, nothing posts.
- *  Resumable: a txn_id already in the Journal is skipped, and the pass stops itself after
- *  4.5 minutes - run it again until it logs left=0. Property tabs are rebuilt once, at the end. */
+ *  Resumable: a txn_id already in the Journal is skipped. Property tabs are rebuilt once, at the end. */
 function migrationPostRows() {
   if (typeof MIGRATION_ENTRIES === 'undefined') throw new Error('MigrationData.gs is not in this project');
   var t0 = Date.now();
@@ -2053,11 +2052,24 @@ function migrationPostRows() {
     failed.forEach(function (f) { console.error(f); });
     throw new Error(failed.length + ' entries do not build - nothing posted. First: ' + failed[0]);
   }
+  // One append under the writer's lock. postBatchEntries_ looks each txn_id up in the Journal
+  // with a TextFinder (~0.9 s an entry: 300 entries in 4.5 min, 2026-09-18); here the ids were
+  // already filtered against the Journal above and are unique by construction, and every entry
+  // was built and balanced by the posting engine, so the rows are written in one setValues.
   var posted = 0;
-  for (var i = 0; i < built.length && Date.now() - t0 < 270000; i += 100) {
-    var chunk = built.slice(i, i + 100);
-    postBatchEntries_(chunk, props, true);
-    posted += chunk.length;
+  var lock = LockService.getScriptLock();
+  lock.waitLock(30000);
+  try {
+    var postedAt = new Date();
+    var rows = [];
+    built.forEach(function (entry) {
+      entry.period = String(entry.date).slice(0, 7);
+      entry.lines.forEach(function (line, idx) { rows.push(buildJournalRow_(cols, entry, line, idx + 1, postedAt)); });
+    });
+    if (rows.length) sheet.getRange(sheet.getLastRow() + 1, 1, rows.length, rows[0].length).setValues(rows);
+    posted = built.length;
+  } finally {
+    lock.releaseLock();
   }
   var left = built.length - posted;
   if (!left) rebuildAllPropertyTabs();
