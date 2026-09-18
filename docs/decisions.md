@@ -618,3 +618,17 @@ drifting?" - yes. Asked whether to switch method: "yes."
 
 Supersedes the re-post loop of D-025.3 as the way history reaches the Journal (staging,
 clear-and-rerun and "never correct in place" all stand). D-024, D-026, D-027, D-028 stand.
+
+## D-030 · Dennis's direct payments carry no interest - 2026-09-18 · Paul
+
+Paul, on the 31 rows ticked "Dennis Paid" on Mesa, Sparkling, Granite and Bowling Green
+($8,656.54): "no interest on these. only on cash advances and purchase."
+
+**Decided:** a cost Dennis pays directly (a contractor, a store) posts Dr cost / Cr 2010, owed to
+him and repaid at closing, with **no Advances row and no interest**. Interest accrues only on
+purchase principal and cash advances (D-011, D-022). Refines D-011's "every Dennis advance
+accrues": a direct payment is a payable to Dennis, not an advance.
+**Left as the old books have it:** the 15 direct payments on the 104 Ashburne Cash Draws list
+($18,141.44) were on the old interest schedule at 12% and were migrated as advances
+(`migrationRegisterAdvances`). Ashburne is sold and reconciled; the old books are the target
+(D-027). Paul to say if he wants those treated the new way too.

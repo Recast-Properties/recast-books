@@ -93,7 +93,7 @@ def main():
              "match": r["match"], "old_tab": r["tab"], "old_block": r["block"], "old_sheet_row": r["sheet_row"], "flags": ";".join(flags), "correction": r["correction"]}
         entries.append(e)
         if pf == "UNKNOWN": q.append({"question": "who paid? (no box ticked, no card on the receipt, August or later)", **{k: e[k] for k in ("date", "old_tab", "payee", "description", "amount_cents", "docId")}})
-        if pf == "DENNIS": q.append({"question": "Dennis Paid box: is this already one of the Advances registered from the Cash Advances tab?", **{k: e[k] for k in ("date", "old_tab", "payee", "description", "amount_cents", "docId")}})
+        # Dennis Paid box: Dr cost / Cr 2010, no Advances row, no interest (D-030).
         if not r["date"]: q.append({"question": "row has no date", **{k: e[k] for k in ("date", "old_tab", "payee", "description", "amount_cents", "docId")}})
 
     # Dennis's direct payments were registered as advances (migrationRegisterAdvances posts Dr cost /
