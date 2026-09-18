@@ -379,6 +379,32 @@
    "docId": "gm-19bae80800798f37",
    "register": "C-11",
    "said": "Paul 2026-09-18 (differences batch 1): 'return gloves'"
+  },
+  {
+   "date": "2026-08-30",
+   "property": "136 Bowling Green",
+   "trade": "",
+   "account": "1130",
+   "amount_cents": 11000,
+   "payee": "Falcon Creek Lawn Care",
+   "description": "INV 1390 - grass cutting x2 @ $55 (Bowling Green is held, so an ordinary cost of that property)",
+   "paid_from": "PAUL",
+   "docId": "gm-1a05ab0fab9330ec",
+   "register": "C-10",
+   "said": "Paul 2026-09-18: Falcon Creek invoice 1390 (08-30) has two lines the old books lack; post-sale charges go to the new Cost Recapture tab (D-031)"
+  },
+  {
+   "date": "2026-08-30",
+   "property": "Cost Recapture",
+   "trade": "280 Sparkling",
+   "account": "1130",
+   "amount_cents": 5500,
+   "payee": "Falcon Creek Lawn Care",
+   "description": "INV 1390 - grass cutting x1 @ $55, 280 Sparkling Springs (sold 2026-08-06)",
+   "paid_from": "PAUL",
+   "docId": "gm-1a05ab0fab9330ec",
+   "register": "C-10",
+   "said": "Paul 2026-09-18: Falcon Creek invoice 1390 (08-30) has two lines the old books lack; post-sale charges go to the new Cost Recapture tab (D-031)"
   }
  ]
 }

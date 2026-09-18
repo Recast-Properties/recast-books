@@ -508,3 +508,12 @@ $201,934.95, debits = credits, tabs rebuilt (2 min 20 s in all). Journal by prop
 rows already in through the Ashburne advances − rows Paul removed (C-5 … C-9) ± the fuel rule,
 **$0.00 difference on every property and on overhead**. 766 entries carry their receipt link
 (75.8% of rows, 67.1% of dollars).
+
+**2026-09-18, Cost Recapture (D-031).** The old `Cost Recapture` tab was outside the inventory;
+its four rows ($1,310.04: Sparkling and Granite water 09-01, a $40.00 card fee on both, Sparkling
+TXU 08-18, all Recast-account paid) are now in `property-rows.json` and migrate to the
+`Cost Recapture` property with the sold property in `trade`; three of the four found their
+receipt. Old books are now **1,028 rows, $221,389.05**. Falcon Creek invoice 1390 (08-30): the
+$110.00 Bowling Green line is an ordinary cost of that held property, the $55.00 Sparkling line
+(sold 08-06) goes to Cost Recapture - both added under C-10. `migrationRunStaging` registers the
+property before the pass. Dry run: 1,027 entries, $204,092.96, all build.

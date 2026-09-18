@@ -9,7 +9,6 @@ date,vendor,total,where_the_read_put_it,status,subject,weak_candidates,docId
 2026-09-07,Mariana Martinez,700.00,,pending,Mariana,469 Brushwood/Mariana/250.00,gm-1a07ec26660d7659
 2026-04-03,"Unknown (email from Paul Bjork, subject ""Interest"")",666.67,,pending,Interest,,gm-19d55c64fef934ea
 2026-03-18,Flexitions,653.34,104 Ashburne,pending,Fwd: Order #8246 confirmed,,gm-19d02f1149cf34d6
-2026-08-14,City of Waxahachie - Water Billing Department,612.91,,pending,City of Waxachie Utility Bill,,gm-1a016b2550cd44d5
 2026-03-17,Amazon,596.71,104 Ashburne,pending,2 amazon,104 Ashburne/Amazon/154.53;104 Ashburne/Amazon/411.34,gm-19cfbe563f75f960
 2026-03-18,Walton's Muffler Brake &amp; Tire,593.77,OVERHEAD,pending,,104 Ashburne/Waltons Brakes & Muf/593.77,gm-19d018e208f5ce58
 2026-01-18,American Airlines,575.60,OVERHEAD,pending,Fwd: 02/01/26,,gm-19c8b34b8addc1ea
@@ -50,7 +49,6 @@ date,vendor,total,where_the_read_put_it,status,subject,weak_candidates,docId
 2026-09-16,Home Depot,222.25,1616 Granite,posted,TEST fake receipt 4 (warm caches),,up-test-inbox-warm-0916
 2026-09-16,Home Depot,222.25,1616 Granite,posted,TEST fake receipt 6 (cache b),,up-test-inbox-cache-b-0916
 2026-09-16,Home Depot,222.25,1616 Granite,posted,TEST fake receipt 5 (cache a),,up-test-inbox-cache-a-0916
-2026-08-18,TXU Energy,213.64,280 Sparkling,pending,TXU,,gm-1a01692ff072014f
 2026-08-18,TXU Energy,213.64,,pending,Your payment's complete,,gm-1a016949d078f6cf
 2026-08-08,TXU Energy,213.64,,pending,Your bill’s ready,,gm-19fe29270591d10e
 2026-09-02,TXU Energy,204.98,,pending,Your bill’s ready,,gm-1a064647233912fe
@@ -100,7 +98,7 @@ date,vendor,total,where_the_read_put_it,status,subject,weak_candidates,docId
 2026-09-08,HILCO Electric Cooperative,56.03,366 Mesa,pending,Fwd: Your Electric Bill is Available,,gm-1a082e0fe8079621
 2026-06-29,The Home Depot,54.03,1616 Granite,posted,,,gm-19f15828fb2a31e6
 2026-05-25,American Airlines,50.00,OVERHEAD,posted,Fwd: Your purchase receipt - NCSQUQ,,gm-19e61acb0d8aa215
-2026-09-07,Central States Water Resources,48.45,366 Mesa,pending,Fwd: Central States Water Resources Invoice# 173914055 Notif,,gm-1a082f33d602358c
+2026-09-07,Central States Water Resources,48.45,366 Mesa,pending,Fwd: Central States Water Resources Invoice# 173914055 Notif,Cost Recapture/Waxahachie Water/40.00,gm-1a082f33d602358c
 2026-06-14,Uber,44.99,OVERHEAD,posted,[Personal] Your Monday morning trip with Uber,,gm-19ecaef8f8dbb488
 2026-05-31,"Lowe's Home Centers, LLC",42.20,1616 Granite,posted,Fwd: 1616,,gm-19e8f7e98314deeb
 2026-03-23,AutoZone,38.95,OVERHEAD,posted,,104 Ashburne/AutoXZone/38.95,gm-19d1aff5eaa6fee2

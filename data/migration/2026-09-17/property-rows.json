@@ -9189,5 +9189,65 @@ false
 "desc": "Landscaping",
 "amt": 55.0,
 "flags": []
+},
+{
+"tab": "Cost Recapture",
+"row": 3,
+"col": 1,
+"payee": "Waxahachie Water",
+"date": "2026-09-01",
+"desc": "Water",
+"amt": 612.91,
+"flags": [
+false,
+false,
+true
+],
+"block": "280 Sparkling"
+},
+{
+"tab": "Cost Recapture",
+"row": 4,
+"col": 1,
+"payee": "Waxahachie Water",
+"date": "2026-09-01",
+"desc": "Water",
+"amt": 443.49,
+"flags": [
+false,
+false,
+true
+],
+"block": "1616 Granite"
+},
+{
+"tab": "Cost Recapture",
+"row": 5,
+"col": 1,
+"payee": "Waxahachie Water",
+"date": "2026-09-01",
+"desc": "Card Service Fee",
+"amt": 40.0,
+"flags": [
+false,
+false,
+true
+],
+"block": "Sparkling & Granite"
+},
+{
+"tab": "Cost Recapture",
+"row": 6,
+"col": 1,
+"payee": "TXU",
+"date": "2026-08-18",
+"desc": "Electricity",
+"amt": 213.64,
+"flags": [
+false,
+false,
+true
+],
+"block": "280 Sparkling"
 }
 ]

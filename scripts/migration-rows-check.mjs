@@ -9,7 +9,8 @@ const tab = (n) => { const t = JSON.parse(readFileSync(`${tabs}/tab-${n}.json`, 
 const active = (v) => !["false", "0", "no"].includes(String(v ?? "").trim().toLowerCase());
 const ctx = makeCtx({
   accounts: new Map(tab("Accounts").filter((r) => active(r.active)).map((r) => [String(r.code), { ...r, code: String(r.code), series: String(r.series) }])),
-  properties: new Set(tab("Properties").filter((r) => String(r.status || "").toLowerCase() !== "sold").map((r) => r.name).filter(Boolean)),
+  // "Cost Recapture" (D-031) is registered by migrationRunStaging itself, just before the pass.
+  properties: new Set([...tab("Properties").filter((r) => String(r.status || "").toLowerCase() !== "sold").map((r) => r.name).filter(Boolean), "Cost Recapture"]),
   periods: new Map(tab("Periods").map((r) => [r.period, r.status])),
   today: new Date().toISOString().slice(0, 10),
 });

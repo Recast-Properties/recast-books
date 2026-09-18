@@ -1933,6 +1933,11 @@ function clearBooks() {
 // from the Sales tab. Settlement dates known only where the tab records an end date;
 // Paul fills the rest. Idempotent: addProperty upserts by name. Run from the editor
 // on the STAGING project first; on the real workbook at cutover.
+// D-031: charges dated after a property sold. Registered like a property so the tab, the posting
+// rules and the payout machinery apply unchanged; the sold property's name rides in `trade`.
+var COST_RECAPTURE_PROPERTY = { name: 'Cost Recapture', address: 'Charges after a property has sold', status: 'held', template: 'Light', dennis_funded: 'false', dennis_share_pct: '50',
+  notes: 'D-031: post-sale charges, the sold property named in the trade column; reconciled when the next property sells' };
+
 function migrationRegisterProperties() {
   var list = [
     { name: '104 Ashburne', address: '104 Ashburne Glen Ln, Red Oak TX', status: 'held', purchase_date: '2025-12-02', purchase_price: '325000', template: 'Heavy', dennis_funded: 'true', dennis_share_pct: '0', dennis_commission_pct: '3', notes: 'Phase 4 migration; BANK-ONLY deal: Dennis earns 12% interest + 3% of sale, no profit share (Paul 2026-09-17); sold 2026, settlement date to confirm' },
@@ -1947,7 +1952,8 @@ function migrationRegisterProperties() {
     // (eviction checks, earnest money, due diligence) accumulate here so nothing is lost;
     // if the deal never closes they are written off then (Paul, 2026-09-17).
     { name: '413 Green Acres', address: '413 Green Acres', status: 'held', template: 'Light', dennis_funded: 'false', dennis_share_pct: '50', notes: 'PIPELINE - not purchased; pre-acquisition costs only' },
-    { name: '200 Janice', address: '200 Janice', status: 'held', template: 'Light', dennis_funded: 'false', dennis_share_pct: '50', notes: 'PIPELINE - not purchased; pre-acquisition costs only' }
+    { name: '200 Janice', address: '200 Janice', status: 'held', template: 'Light', dennis_funded: 'false', dennis_share_pct: '50', notes: 'PIPELINE - not purchased; pre-acquisition costs only' },
+    COST_RECAPTURE_PROPERTY
   ];
   var ss0 = openOrCreateWorkbook_(PropertiesService.getScriptProperties());
   ensureHeaders_(ss0.getSheetByName('Properties'), TAB_HEADERS['Properties']);   // adds dennis_commission_pct
@@ -2008,6 +2014,8 @@ function migrationClearReceiptLane() {
 /** One Run for the staging pass: clear the receipt lane, then post the rows. If the log ends
  *  "run again", run migrationPostRows() (not this) until left=0. */
 function migrationRunStaging() {
+  var reg = addProperty(COST_RECAPTURE_PROPERTY);   // idempotent; the entries name it
+  console.log('Cost Recapture -> ' + (reg.ok ? (reg.created ? 'created' : 'updated') : 'FAILED ' + reg.message));
   migrationClearReceiptLane();
   return migrationPostRows();
 }

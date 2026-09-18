@@ -638,3 +638,19 @@ Ashburne Cash Draws list ($18,141.44) are advances at 12%, exactly as migrated
   directly - is an advance at the deal's rate (12%), plus his commission (3%); no profit share.
 - **Partner deal (every other property):** interest on purchase principal and cash advances
   only; a direct payment is owed back at closing with no interest.
+
+## D-031 · Cost Recapture: charges after a property has sold - 2026-09-18 · Paul
+
+Paul: "for charges that happen after the sale date on a property i want to create a tab that
+track them to be reconciled when the next property sells." The old workbook already had it in
+small: the `Cost Recapture` tab ("Recaptured costs after properties have closed and
+reconciled"), four rows, $1,310.04, with the Paul / Dennis / Recast boxes.
+
+**Decided:** a sold property is locked (D-015, D-017), so a charge dated after its settlement
+posts to **`Cost Recapture`**, registered in Properties like any property so the existing tab,
+posting rules and payout machinery apply unchanged. The sold property's name goes in the line's
+`trade` column ("280 Sparkling"), the account says what it was (1120 utilities, 1130 grounds).
+The balance is reconciled between the partners when the next property sells (Phase 5's sell
+wizard picks it up). The old tab's four rows migrate there; so does anything the cleanup finds
+dated after a sale (first: Falcon Creek's $55.00 Sparkling grass cutting, invoice of 2026-08-30,
+Sparkling sold 2026-08-06).
