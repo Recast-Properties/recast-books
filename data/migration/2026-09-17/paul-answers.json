@@ -1282,5 +1282,95 @@
    "rows": "104 Ashburne: Juan Garcia 4 x $7,000.00 (01-12, 01-23, 02-09, 02-20; the first two are Dennis's cash advances, recorded on the Cash Advances tab) and Salvador Campos $3,880.00 (02-13). 366 Mesa, Dennis's checks: Juanito #1147 $2,000.00, Carlos #1146 $1,500.00, James Haroce $1,500.00",
    "said": "Paul 2026-09-18: 'yep, those just have to roll with no receipts.' Contractor checks and cash; searched in all three mailbox listings, nothing. They migrate at Paul's amounts flagged NO_DOC and are proven from the bank statements in Phase 3"
   }
+ ],
+ "mail_settled": [
+  {
+   "docId": "gm-19bbebe1e4fc35df",
+   "why": "Claude 2026-09-18, utilities pass (audit §29): Atmos bill 01-13 $57.65, 104 Ashburne (acct 3076066788): never paid on its own - the 02-13 bill reads 'Previous Balance 57.65 ... TOTAL DUE 642.60', and $642.60 is the 03-08 row"
+  },
+  {
+   "docId": "gm-19c06bf48af8927b",
+   "why": "Claude 2026-09-18, utilities pass (audit §29): Atmos 'bill is due' notice 01-28 for the same $57.65 - inside the 03-08 $642.60 row"
+  },
+  {
+   "docId": "gm-19d93811d3ff2158",
+   "why": "Claude 2026-09-18, utilities pass (audit §29): Atmos bill 04-14 $197.00, Ashburne - the bill behind the 05-08 $197.00 row, which has its own document"
+  },
+  {
+   "docId": "gm-19ebe2f8faafa480",
+   "why": "Claude 2026-09-18, utilities pass (audit §29): Atmos bill 06-11 $31.60, Ashburne - the bill behind the 07-13 $31.60 row"
+  },
+  {
+   "docId": "gm-19f6822d74e813b1",
+   "why": "Claude 2026-09-18, utilities pass (audit §29): Atmos bill 07-14 $35.79, Ashburne - the bill behind the 08-10 $35.79 row"
+  },
+  {
+   "docId": "gm-1a002503a4424f00",
+   "why": "Claude 2026-09-18, utilities pass (audit §29): Atmos bill 08-13 $31.60, Ashburne - a bill with no payment in any mailbox; the 09-14 bill carries it forward ($67.39 = 31.60 + 35.79). Nothing to post until it is paid"
+  },
+  {
+   "docId": "gm-1a0a71a191684dbf",
+   "why": "Claude 2026-09-18, utilities pass (audit §29): Atmos bill 09-14 $67.39, Ashburne - unpaid balance of two months, no payment in any mailbox as of the 09-17 listing. Nothing to post until it is paid"
+  },
+  {
+   "docId": "gm-19cc2d06f909de9a",
+   "why": "Claude 2026-09-18, utilities pass (audit §29): Energy Texas screenshot of 03-06: the usage-comparison panel (cycle 02/13-03/15, still running; 'last bill $240.17'). Not a payment - Ashburne's electric payments run 03-06 $240.17, 04-06 $68.76 and monthly after, all rows"
+  },
+  {
+   "docId": "gm-19f045704cd8dd76",
+   "why": "Claude 2026-09-18, utilities pass (audit §29): Energy Texas bill 06-17 $226.82, Ashburne - the bill behind the 07-06 auto-pay row $226.82"
+  },
+  {
+   "docId": "gm-1a011d9697ffbad1",
+   "why": "Claude 2026-09-18, utilities pass (audit §29): Energy Texas bill 08-17 $484.43, Ashburne - the bill for the 09-03 auto-pay (gm-1a066c4d6b0da9a5), which is the open question; the bill itself posts nothing"
+  },
+  {
+   "docId": "gm-19f6b62d3d65e926",
+   "why": "Claude 2026-09-18, utilities pass (audit §29): City of Waxahachie bill 07-10 $913.92, 1616 Granite - paid 07-29: $913.92 + $36.10 card fee = $950.02, the Granite row"
+  },
+  {
+   "docId": "gm-19fba44b9851a310",
+   "why": "Claude 2026-09-18, utilities pass (audit §29): City of Waxahachie reminder 07-30 $187.50, 280 Sparkling (acct 1-022-11500-002) - the 08-05 $187.50 row"
+  },
+  {
+   "docId": "gm-19fba4473773cb78",
+   "why": "Claude 2026-09-18, utilities pass (audit §29): City of Red Oak bill 07-31 $401.04, 136 Bowling Green - paid late 08-18: $441.06 after the due date + $4.41 + $2.00 fees = $447.47, the Bowling Green row"
+  },
+  {
+   "docId": "gm-19f25012d4d53e5c",
+   "why": "Claude 2026-09-18, utilities pass (audit §29): TXU first bill 07-02 $102.16, acct 900085271895 = 136 Bowling Green - paid 07/25 (conf 806639700, card 9166); the Bowling Green row of 07-29 is typed $102.12 and carries the payment confirmation"
+  },
+  {
+   "docId": "gm-19f6ca190ea84909",
+   "why": "Claude 2026-09-18, utilities pass (audit §29): TXU bill 07-16 $202.21 - 1616 Granite by TXU's own history (evidence/txu-history-1616-granite-*.png); replaced by the final bill of 07/25 $261.76, paid that day, the Granite row"
+  },
+  {
+   "docId": "gm-19fe29270591d10e",
+   "why": "Claude 2026-09-18, utilities pass (audit §29): TXU bill 08-08 $213.64, 280 Sparkling - paid 08-18, the Cost Recapture row"
+  },
+  {
+   "docId": "gm-1a016949d078f6cf",
+   "why": "Claude 2026-09-18, utilities pass (audit §29): TXU payment 08-18 $213.64 (conf 808759731) - the paul@ copy of gm-1a01692ff072014f, which is linked to the Cost Recapture row"
+  },
+  {
+   "docId": "gm-1a064647233912fe",
+   "why": "Claude 2026-09-18, utilities pass (audit §29): TXU bill 09-02 $204.98, 136 Bowling Green - paid 09-10, the C-10 addition"
+  },
+  {
+   "docId": "gm-1a091043bc28193b",
+   "why": "Claude 2026-09-18, utilities pass (audit §29): TXU payment 09-11 $204.98 (conf 810814057) - the paul@ copy of gm-1a091048b80076d7, linked to the C-10 addition"
+  },
+  {
+   "docId": "gm-1a082f33d602358c",
+   "why": "Claude 2026-09-18, utilities pass (audit §29): Central States Water invoice 173914055, $48.45, 366 Mesa - the bill for the scheduled payment of 09-16 (gm-1a0abe18f133138a, $49.54 with fee), which is the open question; the bill itself posts nothing"
+  },
+  {
+   "docId": "gm-1a082e0fe8079621",
+   "why": "Claude 2026-09-18, utilities pass (audit §29): HILCO bill 09-08 $56.03, 366 Mesa, due 09-24 - no payment in any mailbox as of the 09-17 listing. Nothing to post until it is paid; it arrives through live mail after cutover"
+  },
+  {
+   "docId": "gm-19f3f6ac03e9a878",
+   "why": "Claude 2026-09-18, utilities pass (audit §29): City of Corsicana landfill ticket 04-16 $21.00 - not a utility: it is the ticket behind Dennis's cash advance of 04-16 $21.00 ('City of Corsicana dump', D-032), which is financing, not a row"
+  }
  ]
 }

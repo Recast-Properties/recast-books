@@ -19,4 +19,4 @@ The only differences by property are fuel rows Paul's rule moves to overhead (D-
 Accounts: {'block map': 83, 'read': 729, 'D-026.9 fuel block': 58, 'payee': 159, 'Paul/Claude': 11}
 Paid from: {'PAUL': 937, '1401': 66, 'DENNIS': 35, '1402': 2}  (sources: {'read': 634, 'D-026.2': 122, "Paul: 2026-09-18: the other 33 August-onward rows with no payer - 'all personal card ending in 9166'": 34, "Paul: 2026-09-18: camera gimbal - 'that one is recast joint account - citizens'": 1, 'Paul Paid box': 140, 'Recast Account box': 62, 'Dennis Paid box': 33, 'D-032': 3, 'receipt': 11})
 
-Lists for Paul: 1 differences 117 · 2 confirm the match 56 · 3 no document 114 · 4 in mail, not in the books 168 · 5 questions 37
+Lists for Paul: 1 differences 117 · 2 confirm the match 56 · 3 no document 114 · 4 in mail, not in the books 146 · 5 questions 37

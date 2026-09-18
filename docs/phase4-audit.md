@@ -889,3 +889,35 @@ old row is there; the residuals are the $0.00 Netlify row, C-3, C-5 … C-9, C-1
 old side (plus four cells the independent parser reads that are not rows: three account numbers and
 Sparkling J34, a `=SUM` subtotal), and C-10 x4, C-11 x4, C-16, C-19 x2 and the four Cost Recapture tab
 rows on the new side. `rows/journal-tieout.json` records it. Staging = the dry run; next is §27's list.
+
+## 29 · Item 5, utilities: 25 documents in mail and not in the books (2026-09-18 late afternoon)
+
+Each bill was paired with its payment, tied to a property by service address or account number (TXU
+900084832931 Granite, 900085271816 Sparkling, 900085271895 Bowling Green; Atmos 3076066788 and Energy Texas
+ET-7827592 Ashburne; Red Oak 026-0031064-002 Bowling Green; Waxahachie 2-050-03330-003 Granite,
+1-022-11500-002 Sparkling), and every amount was searched on every old tab and in all listed mail first.
+
+**22 need no posting** - recorded one by one under `mail_settled` in `paul-answers.json` (new key;
+`migration-rows.py` takes them off list 4, which is now **146**): 13 bills or reminders whose payment is
+already a row (Atmos $57.65 sits inside the 03-08 $642.60 - "Previous Balance 57.65"; Waxahachie $913.92 +
+$36.10 card fee = the $950.02 Granite row; Red Oak $401.04 paid late as $441.06 + $6.41 fees = the $447.47
+row), two paul@ copies of TXU payments already linked, the Energy Texas usage screenshot of 03-06 (a running
+cycle, not a payment), two bills that only announce an open payment below, three bills with no payment in
+any mailbox yet (Atmos Ashburne $31.60 → $67.39 carried forward; HILCO Mesa $56.03 due 09-24), and the
+Corsicana $21.00 landfill ticket, which is Dennis's 04-16 cash advance (D-032), not a row. Entries, links and
+`MigrationData.gs` are unchanged (1,031, $220,628.06), so nothing to push or rerun.
+
+**Four payments are in mail and on no old tab - Paul's call (D-028), one property at a time:**
+
+| property | date | payment | amount | paid with |
+|---|---|---|---:|---|
+| 136 Bowling Green (held) | 08-21 | TXU, conf 808997400 - Paul forwarded it to 136bowlinggreen@ | 164.02 | Citizens 5450 (CNB daily summary 08-21) |
+| 136 Bowling Green (held) | 08-31 | Red Oak water, conf JNGKGFWLFQ: 522.02 + 5.22 + 2.00 | 529.24 | Citizens Visa 5450 |
+| 104 Ashburne | 09-03 | Energy Texas auto-pay, conf PAY04938659 (bill of 08-17) | 484.43 | card 9166 |
+| 366 Mesa (held) | 09-16 | Central States Water, invoice 173914055: 48.45 + 1.09 fee | 49.54 | not shown |
+
+Also Bowling Green: TXU took **$102.16** on 07/25 (conf 806639700); the row of 07-29 is typed **$102.12**.
+Ashburne's line depends on its closing date (title had 09/10 on 08-31; still unconfirmed on 09-08): before
+the closing it is a row the tab lacks, after it a Cost Recapture line either way (D-031 extended). Energy
+Texas was still sending weekly usage reports for Ashburne on 09-16 and Atmos billed it on 09-14 - if the
+house has closed, both accounts are still open in Recast's name.
