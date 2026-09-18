@@ -778,3 +778,28 @@ TXU (C-16), and near-amount links more than 10 days apart.
 Rule for next time: after any change to the matcher or the answers, diff the links against the last
 committed run and read every link that disappeared before moving on.
 
+## 25 · The matcher only ever looked at what was read (2026-09-18, Paul's Luxury 4 Less invoice)
+
+Paul, on the $10,319.56 Luxury 4 Less row listed as "never had a receipt": he produced invoice 3158 from
+his mail - "this was in this email that you should have found". He is right. The matcher works from the
+968 documents the bookkeeper read, and those are only the mails sent to a receipts or property address.
+Vendor mail that stayed in paul@ (or pvb421) was listed on 2026-09-17, amounts and all
+(`gmail-listing-*.json`, 8,237 messages), and never consulted. Searching every listed message for each
+unlinked row's exact amount found 43 rows with a hit; nine are certain (vendor, amount and date agree) and
+are linked by Gmail id in `paul-answers.json`: **Luxury 4 Less $10,319.56** (QuickBooks payment
+confirmation of 04-10; invoice PDF in `evidence/`; its $175.00 balance is the 04-16 cooktop-install row, so
+the $10,494.56 invoice is explained to the cent), Lowe's ceiling fans $898.30, Wayfair tub $816.18, Red Oak
+water $447.47, Sparkling TXU $228.64, Amazon drawer pulls $249.97 and heaters $169.98, the toll tag $92.57
+(Paul's own note), Wayfair bath bar $76.85. **866 entries linked: 83.9% of rows, 72.6% of dollars.**
+
+Still to settle from that search: Atlas Pools' deposits against invoice 16097 (three payment confirmations
+on 03-12, one on 03-28 - the $2,000 / $2,177 rows), the two $299 Mission listing fees (one PayPal receipt
+of 07-01 forwarded by Dennis - which property?), and the Mesa checks 1146 / 1147 / James Haroce (Dennis's
+checks; nothing in mail). Juan Garcia's 4 x $7,000: two are Dennis's cash advances of 01-12 and 01-23 (the
+Cash Advances tab is their record); nothing in any mailbox for the other two. Salvador Campos $3,880: nothing.
+
+**Standing rule:** "no document" is only said after the row's amount has been searched in ALL listed mail
+(three mailboxes), not only in the documents that were read. To do before cutover: fold this search into
+`migration-compare.py` so the listing is a second source of candidates, and queue the never-read messages
+that match for a read (about $0.21 each) so they can be filed to Drive.
+

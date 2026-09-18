@@ -1,5 +1,4 @@
 date,tab,block,payee,desc,amount
-2026-04-10,104 Ashburne,Appliances,Luxury 4 Less Appliance,Appliaces,"10,319.56"
 2026-01-12,104 Ashburne,Paint & Flooring,Juan Garcia,Drywall/Supplies/Painting,"7,000.00"
 2026-01-23,104 Ashburne,Paint & Flooring,Juan Garcia,Paint & Floor Installation,"7,000.00"
 2026-02-09,104 Ashburne,Paint & Flooring,Juan Garcia,Paint & Floor Installation,"7,000.00"
@@ -11,8 +10,6 @@ date,tab,block,payee,desc,amount
 2026-08-28,366 Mesa,,Carlos -  Check 1146,Siding Insatll,"1,500.00"
 2026-08-26,366 Mesa,,James Haroce,Siding ,"1,500.00"
 2026-06-01,1616 Granite RECONCILED,,50floor,Carpet,"1,319.00"
-2026-03-19,104 Ashburne,Lighting & Electrical,Lowes,Celing Fans,898.30
-2026-02-08,104 Ashburne,Master Bath,Wayfair,Tub & Faucet,816.18
 2026-04-10,104 Ashburne,Landscaping,Julio & Friend,Labor,800.00
 ,RECAST BIZ,Interest,420 Alyssa,,666.67
 2026-05-29,1616 Granite RECONCILED,,Julio & Friend,Landscaping,600.00
@@ -20,7 +17,6 @@ date,tab,block,payee,desc,amount
 2026-01-14,104 Ashburne,Cleaning,Marianna,Cleaning,500.00
 2026-06-01,1616 Granite RECONCILED,,Mariana,Mariana,500.00
 2026-03-31,104 Ashburne,Paint & Flooring,50 Floors,Stair Carpet,491.50
-2026-08-18,136 Bowling Green,,City of Red Oak,Water,447.47
 2026-06-29,136 Bowling Green,,Lowe's,Carpet ,431.21
 2026-04-01,104 Ashburne,Paint & Flooring,Home Depot,Stair Moldings,350.28
 2026-04-15,104 Ashburne,Landscaping,Julio,Labor,300.00
@@ -29,8 +25,6 @@ date,tab,block,payee,desc,amount
 2026-01-14,104 Ashburne,Pest Control,Berret Pest Control,Pest Control,270.63
 2026-06-22,1616 Granite RECONCILED,,Home Depot,Mulch,264.55
 2026-06-30,104 Ashburne,Pool,Atlas Pools,Service,256.01
-2026-02-09,104 Ashburne,House Hardware,Amazon,Drawer pulls,249.97
-2026-08-05,280 Sparkling RECONCILED,,TXU,Electricity,228.64
 2026-08-18,366 Mesa,,Carlos,Soffit,220.00
 2026-04-02,104 Ashburne,Landscaping,Home Depot,Grass Seed,205.06
 2026-01-05,104 Ashburne,Pool,Julio,Clean out,200.00
@@ -75,10 +69,8 @@ date,tab,block,payee,desc,amount
 2026-09-01,469 Brushwood,,Waxahachie Watwr,Water,100.00
 2026-02-12,104 Ashburne,Landscaping,Julio,Labor,100.00
 2026-05-08,104 Ashburne,Landscaping,Julio,Lawn Maintenance,100.00
-2026-06-11,RECAST BIZ,Gas/Truck/Trailer,North Texas Tollway Authority,toll tag,92.57
 2026-04-08,104 Ashburne,Paint & Flooring,Home Depot,Floor mats,81.22
 2026-03-12,104 Ashburne,Master Bath,Home Depot,Backer Board,78.21
-2026-03-21,104 Ashburne,Lighting & Electrical,Wauyfair,Single Bath Light Fixture,76.85
 2026-03-12,104 Ashburne,Landscaping,Home Depot,Weed & Feed,75.74
 2026-03-22,104 Ashburne,Lighting & Electrical,Home Depot,LED Tape for Master Bth Soffet,75.74
 2026-05-27,1616 Granite RECONCILED,,Amazon,Curtain Rods,72.65

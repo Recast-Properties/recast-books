@@ -633,3 +633,7 @@ bulk-refusal mistake of Claude's (row-level refusals built from the wrong "unlin
 links) was caught by diffing against the pre-audit links and fixed the same hour; the Shalom Granite
 $4,950 regression too. C-17 (Shell typed twice). Dry run 1,030 entries, $220,286.07.
 
+**The matcher only looked at what was read.** Paul produced the Luxury 4 Less invoice ($10,319.56) that
+Claude had called undocumented; it sat in paul@, listed but never forwarded, so never read. All listed
+mail searched by amount: nine rows linked by Gmail id, 866 linked, 72.6% of dollars. `phase4-audit.md` §25.
+

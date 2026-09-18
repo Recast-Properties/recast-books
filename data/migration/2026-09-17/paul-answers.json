@@ -332,6 +332,60 @@
    "row": "104 Ashburne 2026-03-17 UPS Store Packing Tape 3.57",
    "docId": "gm-19cfc60f0514c660",
    "why": "Claude 2026-09-18: The UPS Store receipt of the same day for the same amount to the cent"
+  },
+  {
+   "key": "PROP-206",
+   "row": "104 Ashburne 2026-04-10 Luxury 4 Less Appliance 10319.56",
+   "docId": "gm-19d782091362f18d",
+   "why": "Claude 2026-09-18, found by searching ALL listed mail for the row's amount, not only the documents that were read: Paul 2026-09-18 supplied invoice 3158 (evidence/luxury-4-less-invoice-3158.pdf): nine appliances + install, shipped to 104 Ashburne Glen, total $10,494.56, PAYMENT $10,319.56, balance $175.00 (the 04-16 'Cooktop install' row). This is the QuickBooks payment confirmation of 04-10 for $10,319.56 in paul@ - never forwarded to a receipts address, so never read"
+  },
+  {
+   "key": "PROP-449",
+   "row": "104 Ashburne 2026-03-19 Lowes 898.30",
+   "docId": "gm-19d0befa5bef8dc0",
+   "why": "Claude 2026-09-18, found by searching ALL listed mail for the row's amount, not only the documents that were read: Lowe's 'Your Sales Receipt' of 03-20 for order #300902078264435470 placed 03-19, $898.30 (paul@, never forwarded)"
+  },
+  {
+   "key": "PROP-181",
+   "row": "104 Ashburne 2026-02-08 Wayfair 816.18",
+   "docId": "gm-19c3e59aff100239",
+   "why": "Claude 2026-09-18, found by searching ALL listed mail for the row's amount, not only the documents that were read: Wayfair 'Order received!' of 02-08, $816.18 (paul@, never forwarded)"
+  },
+  {
+   "key": "PROP-119",
+   "row": "136 Bowling Green 2026-08-18 City of Red Oak 447.47",
+   "docId": "gm-1a0161453c5660f8",
+   "why": "Claude 2026-09-18, found by searching ALL listed mail for the row's amount, not only the documents that were read: Red Oak Municipal Payments confirmation of 08-18, $447.47 = $441.06 balance + $6.41 fees, 136 Bowling Green account; the read was dismissed as a duplicate of a replay that no longer exists"
+  },
+  {
+   "key": "PROP-759",
+   "row": "280 Sparkling RECONCILED 2026-08-05 TXU 228.64",
+   "docId": "gm-19fd4f099b40700b",
+   "why": "Claude 2026-09-18, found by searching ALL listed mail for the row's amount, not only the documents that were read: TXU 'Your payment's complete' of 08-05, $228.64 (paul@); also on Paul's TXU history screenshot for account 900085271816"
+  },
+  {
+   "key": "PROP-225",
+   "row": "104 Ashburne 2026-02-09 Amazon 249.97",
+   "docId": "gm-19c3e95a4b9ed901",
+   "why": "Claude 2026-09-18, found by searching ALL listed mail for the row's amount, not only the documents that were read: Amazon order confirmation of 02-08, 'Ravinte 25 Pack Drawer...' x7, $249.97 - in Paul's personal Gmail (pvb421), the link opens there only until it is filed to Drive"
+  },
+  {
+   "key": "BIZ-22",
+   "row": "RECAST BIZ 2026-01-20 Amazon 169.98",
+   "docId": "gm-19c01f6e481c14ce",
+   "why": "Claude 2026-09-18, found by searching ALL listed mail for the row's amount, not only the documents that were read: Amazon order confirmation, 2 Vornado Velocity heaters, $169.98, forwarded 01-27 (paul@)"
+  },
+  {
+   "key": "BIZ-174",
+   "row": "RECAST BIZ 2026-06-11 North Texas Tollway Authority 92.57",
+   "docId": "gm-19eb76a3b114e02a",
+   "why": "Claude 2026-09-18, found by searching ALL listed mail for the row's amount, not only the documents that were read: Paul's own email 'toll tag' of 06-11 carrying $92.57 (paul@) - his note is the document"
+  },
+  {
+   "key": "PROP-422",
+   "row": "104 Ashburne 2026-03-21 Wauyfair 76.85",
+   "docId": "gm-19d0446213881f8d",
+   "why": "Claude 2026-09-18, found by searching ALL listed mail for the row's amount, not only the documents that were read: Wayfair order of 03-18, Cepeda 6-light bath bar, $76.85 to the cent; the payee is misspelt in the old books"
   }
  ],
  "no_link": [
