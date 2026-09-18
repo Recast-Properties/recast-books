@@ -580,5 +580,9 @@ return." Confirmed: "yes use that rule."
 4. Inferred, not proven: an item on the receipt and absent from the old books may also be a
    forgotten item or a personal one. The card statements (Phase 3) are the proof - each
    inferred return should appear as a card credit; the flag is cleared or corrected then.
-5. The credit posts automatically when the subset is unique (deterministic, reversible, the
-   statement is the real check). Paul's call, 2026-09-17.
+5. ~~The credit posts automatically when the subset is unique.~~ **Amended the same day:**
+   the first measurement found the unique subsets were bottled water, snacks, batteries and a
+   sawhorse - items left off on purpose, not returns. So every inferred item **holds for
+   Paul**, who marks it a return (credit posts, `RETURN_INFERRED`) or an omitted item (posts
+   as read: a real cost the old books dropped, or personal - due to owner). Paul: "lets make
+   it so i manually determine if its a return or just something like a bottled water."
