@@ -489,3 +489,12 @@ are applied by `scripts/migration-rows.py`; corrections C-5 … C-9 are in §13.
 - Still to do: item 4 differences (113), item 5 in mail not in the books (153), item 6, item 7.
   Staging holds pass 1; the cleaned pass (1,010 entries) is pushed and waits for one Run of
   `migrationRunStaging`.
+
+**2026-09-18, the two personal-Gmail leads:** both had been forwarded to property mailboxes and
+were already in the envelopes - no spend. "Receipt from 50Floor" is the $1,339 receipt already
+linked. "Flooring" (02-12, to 104ashburne@) is "Chinos LLC - Estimate 126" on invoicesimple.com;
+it was never read - the model call failed (`image/png` label on a JPEG → API 400) and the
+document sat in hold with a zero total. One document only. The Chinos $13,500 row is linked to
+it as an estimate. **Bug to fix before live traffic depends on it:** sniff the image type from
+its bytes instead of trusting the attachment's MIME label, and do not let an API failure pass
+as a quiet "hold".

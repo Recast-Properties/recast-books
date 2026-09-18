@@ -83,6 +83,10 @@ def main():
             if r["docId"] != _yes[r["key"]]["docId"]:
                 src = next((x for x in G if x["docId"] == _yes[r["key"]]["docId"]), None)
                 if src: r.update({k: src[k] for k in ("docId", "doc_vendor", "doc_date", "doc_total", "doc_status", "doc_paid_from", "doc_url", "gmail_url")})
+                else:   # a document no row had as a candidate: the Gmail link is its id
+                    did = _yes[r["key"]]["docId"]
+                    r.update({"docId": did, "doc_vendor": "", "doc_date": "", "doc_total": "", "doc_status": "", "doc_paid_from": "", "doc_url": "",
+                              "gmail_url": "https://mail.google.com/mail/u/0/#all/" + did[3:]})
             r["match"] = "strong"
         elif r["key"] in _no and r["match"] == "weak": r["match"] = "none"
     # Paul's near-amount rule (2026-09-18): same vendor, within 10 days, receipt total within 3% or

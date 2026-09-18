@@ -128,6 +128,12 @@
    "row": "104 Ashburne 2026-09-07 Marianna 450.00",
    "docId": "gm-1a07ec26660d7659",
    "why": "Paul 2026-09-18: Mariana cleaned Ashburne again and Brushwood; 'the $450 is correct'. The 9/7 screenshot reads Mariana Martinez $700.00 = $450 Ashburne + $250 Brushwood - one receipt, both rows"
+  },
+  {
+   "key": "PROP-215",
+   "row": "104 Ashburne 2026-02-10 Chinos LLC 13500.00 (Flooring)",
+   "docId": "gm-19c521cfa5452bd9",
+   "why": "Claude 2026-09-18: Paul's forward to the Ashburne mailbox two days later, 'Chinos LLC - Estimate 126' (invoicesimple link + thumbnail) - the only Chinos document; an ESTIMATE, the amount was never read from it (the model call failed: a JPEG labelled PNG)"
   }
  ],
  "no_link": [
