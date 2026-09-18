@@ -107,6 +107,13 @@ def main():
         if c:
             e = min(c, key=lambda e: abs((datetime.date.fromisoformat(e["date"]) - datetime.date.fromisoformat(adv["date"])).days))
             used.add(e["txn_id"]); e["skip"] = "COVERED_BY_ADVANCE " + adv["date"]; e["flags"] = (e["flags"] + ";" if e["flags"] else "") + "COVERED_BY_ADVANCE"
+    # Paul's answers (audit section 17): who paid, by rule. A rule matches on the entry's own fields.
+    ans_path = os.path.join(a.inv, "paul-answers.json")
+    answers = json.load(open(ans_path)) if os.path.exists(ans_path) else {}
+    for e in entries:
+        for rule in answers.get("paid_from", []):
+            if e["paid_from"] == "UNKNOWN" and all(str(e.get(k, "")).startswith(v) if k == "payee" else str(e.get(k, "")) == v for k, v in rule["match"].items()):
+                e["paid_from"], e["paid_from_source"] = rule["paid_from"], "Paul: " + rule["said"]
     for e in entries:
         e.setdefault("skip", "")
         if not e["skip"] and e["amount_cents"] == 0: e["skip"] = "ZERO_AMOUNT (a $0.00 row: nothing to post)"

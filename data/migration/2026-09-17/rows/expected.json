@@ -1,8 +1,8 @@
 {
- "to_post": 980,
- "cents": 19968040,
+ "to_post": 981,
+ "cents": 19980701,
  "by_property": {
-  "OVERHEAD": 2265801,
+  "OVERHEAD": 2278462,
   "881 Newport": 308917,
   "469 Brushwood": 191680,
   "366 Mesa": 964800,
@@ -12,7 +12,7 @@
   "280 Sparkling": 317978
  },
  "held_back": {
-  "PAYER_UNKNOWN": 34,
+  "PAYER_UNKNOWN": 33,
   "ZERO_AMOUNT": 1,
   "NO_DATE": 2,
   "COVERED_BY_ADVANCE": 7
