@@ -397,7 +397,7 @@
    "key": "PROP-252",
    "row": "104 Ashburne 2026-03-29 Atlas Pools 2177.00",
    "docId": "gm-19d48c027c0e05fa",
-   "why": "Claude 2026-09-18: Atlas Pools' own payment portal (Paul 2026-09-18, evidence/atlas-pools-portal-payments-*.webp): invoice 16097 was paid $2,000 02/12, $2,000 03/02, $2,000 03/06, $4,000 03/14 and $2,152 by check 03/30 = $12,152.00. 'Payment Confirmation - Invoice 16097 ... $2,152.00' of 04-01 (paul@): the final check. The row is $2,177.00 - $25.00 more than Atlas received, like the 03-06 ($2,025) and 03-13 ($4,025) rows; Paul: 'probably the charge for using a card to pay'. Old amount kept (D-027); the $75 is proven on the bank side in Phase 3"
+   "why": "Claude 2026-09-18: Atlas Pools' own payment portal (Paul 2026-09-18, evidence/atlas-pools-portal-payments-*.webp): invoice 16097 was paid $2,000 02/12, $2,000 03/02, $2,000 03/06, $4,000 03/14 and $2,152 by check 03/30 = $12,152.00. 'Payment Confirmation - Invoice 16097 ... $2,152.00' of 04-01 (paul@): the final check. The row is $2,177.00 - $25.00 more than Atlas received, like the 03-06 ($2,025) and 03-13 ($4,025) rows; Paul 2026-09-18: 'those were most likely wire transfer charges' - $25.00 a wire, which fits the portal showing those payments as 'Other', not card. Old amount kept (D-027); the $75 is proven on the bank side in Phase 3"
   }
  ],
  "no_link": [
@@ -1233,6 +1233,10 @@
   {
    "rows": "Effren / Falcon Creek: $110.00 x3 on 2026-07-19 and $55.00 x3 on 2026-07-07 across Newport, Bowling Green, Sparkling",
    "said": "Claude 2026-09-18: the per-property lines of invoices 1372 and 1373 - legitimate, not asked"
+  },
+  {
+   "rows": "104 Ashburne / Pool, Atlas Pools 03-06 $2,025.00, 03-13 $4,025.00, 03-29 $2,177.00 - each $25.00 above what Atlas's portal shows it received",
+   "said": "Paul 2026-09-18: 'those were most likely wire transfer charges.' Rows kept as typed; the three $25.00 wire fees show on the bank statements in Phase 3"
   }
  ]
 }

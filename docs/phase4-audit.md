@@ -826,9 +826,10 @@ The $331.01 difference is two things.
 | 09/01 $256.01 (18723), $256.01 (18972) | 09-01 Service - August, - Sept | ✓ |
 
 - Invoice 16097 (the renovation): Atlas received $12,152.00 exactly; the rows carry **$75.00 more, $25.00
-  on each of three payments**. Paul: "it's probably the charge for using a card to pay." (The portal
-  shows those payments as "Other" and "Check", so the fee is on Paul's side - a bank or payment-service
-  fee.) Rows kept as typed (D-027); proven on the bank side in Phase 3.
+  on each of three payments**. Paul, after seeing the portal: "those were most likely wire transfer
+  charges" - $25.00 a wire, which fits the portal showing them as "Other", not card. Rows kept as typed
+  (D-027): the fee was a real cost of paying the contractor. The three wires show on the bank statements
+  in Phase 3.
 - **The 06-30 "Service" $256.01 has no payment behind it.** Atlas took five monthly payments (05/18, 06/11,
   07/25, 09/01, 09/01); the books have six. July's invoice 18218 arrived 07-03 and was paid 07/25 - it
   looks typed once when billed (06-30) and again when paid (07-30). **Put to Paul.**
