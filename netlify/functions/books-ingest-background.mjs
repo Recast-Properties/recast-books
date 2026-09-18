@@ -422,7 +422,9 @@ export default async (req) => {
       usage,
       gateResult,
       ctx,
-      writer,
+      // A re-post from stored reads (D-025) is a bulk run: skip the per-post property tab
+      // rebuild, which runs inside the writer's lock; the tabs are rebuilt once at the end.
+      writer: fromStored ? { ...writer, postBatch: (entries) => writer.postBatch(entries, { skipRefresh: true }) } : writer,
       docsStore,
       // Fresh ledger read (no cache) so a copy processed in parallel is caught.
       recheckDuplicate: async (m) => {

@@ -848,7 +848,7 @@ function checkEntryForPost_(entry, sheet, cols, periodsSheet, cache, seenTxnIds)
 // is written; if one fails, nothing is written and the thrown error carries its
 // txn_id and code (see doPost's catch).
 function action_postBatch_(body, props) {
-  return jsonOutput_(postBatchEntries_(body.entries, props));
+  return jsonOutput_(postBatchEntries_(body.entries, props, body.skipRefresh === true));
 }
 
 // Unwrapped body of the old action_postBatch_ (see postEntry_'s comment) - Menu.gs's
