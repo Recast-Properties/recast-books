@@ -1401,7 +1401,7 @@
   },
   {
    "docId": "gm-1a082f33d602358c",
-   "why": "Claude 2026-09-18, utilities pass (audit §29): Central States Water invoice 173914055, $48.45, 366 Mesa - the bill for the scheduled payment of 09-16 (gm-1a0abe18f133138a, $49.54 with fee), which is the open question; the bill itself posts nothing"
+   "why": "Claude 2026-09-18, utilities pass (audit §29): Central States Water invoice 173914055, $48.45, 366 Mesa - the bill for the payment scheduled on 09-16 (gm-1a0abe18f133138a); the bill itself posts nothing"
   },
   {
    "docId": "gm-1a082e0fe8079621",
@@ -1414,6 +1414,10 @@
   {
    "docId": "gm-19fc94ab6c53f72a",
    "why": "Claude 2026-09-18, utilities pass (audit §29): TXU bill 08-03 $164.02, 136 Bowling Green - the bill for the 08-21 payment, now the C-21 addition"
+  },
+  {
+   "docId": "gm-1a0abe18f133138a",
+   "why": "Claude 2026-09-18, utilities pass (audit §29): Central States Water 'Scheduled Payment Confirmation' of 09-16, 366 Mesa, $48.45 + $1.09 fee = $49.54: 'to be processed on 9/18/2026' - after the 2026-09-17 snapshot, so it is not history. It is a live receipt Paul is holding; it posts through the live pipeline in the cutover replay (payer not shown - the Inbox asks)"
   }
  ]
 }

@@ -951,3 +951,9 @@ was ever sent to Cost Recapture. Its open Atmos and Energy Texas accounts are or
 Newport's settlement date is owed. Dry run **1,034 entries, $221,805.79** (Ashburne $161,079.29), all build;
 the only change against the previous run is the one new entry; pushed to staging, which still holds pass 5.
 Left from §29's table: Mesa, Central States Water $49.54.
+
+**Mesa, Central States Water $49.54 - not a migration item.** The 09-16 email is a *scheduled* payment, "to
+be processed on 9/18/2026": it postdates the 09-17 snapshot, so it is one of the live receipts Paul is
+holding and posts in the cutover replay (independent audit finding 5b), where the Inbox asks who paid.
+Recorded under `mail_settled`. **The utilities are closed:** 25 documents → 22 settled, 3 added (C-21, C-22),
+plus C-20; list 4 stands at 142 documents.
