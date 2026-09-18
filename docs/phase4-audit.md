@@ -1007,3 +1007,11 @@ linked to its receipt; `add` entries can now carry a `business_purpose` (the pos
 6700 and refused the first build). Two AA twins settled. Dry run **1,039 entries, $223,876.09** (overhead
 $26,501.38), all build; the only change against pass 6 is the five new entries; 876 linked; link audit
 unchanged; list 4 **125**. Pushed to staging; staging holds pass 6 until the next Run.
+
+## 31 · List 4 by judgment, continued (2026-09-18 evening)
+
+**Uber, 18 documents, nothing to post.** Nine are Uber's first receipt for a ride, before the tip - the old
+Travel row is the final amount (e.g. 06-03 $94.98 + $19.00 tip = the $113.98 row; 08-30 $99.44 + $30.00 =
+$129.44); five are second copies of a receipt whose row is already linked; three are the $9.99 Uber One
+membership, never once entered in the old books; one is a $200 gift card ("gift to Sarah"). Each is recorded
+under `mail_settled` against its named row (the script asserted that exactly one such row exists).

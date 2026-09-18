@@ -38,7 +38,6 @@ date,vendor,total,where_the_read_put_it,status,subject,weak_candidates,docId
 2026-02-28,"CoreLogic Solutions, LLC",200.00,OVERHEAD,pending,Property Intelligence Invoice #30843590,,gm-19cbddaad84b15f2
 2025-12-31,"CoreLogic Solutions, LLC",200.00,OVERHEAD,pending,Property Intelligence Invoice #30831839,104 Ashburne/Julio/200.00;104 Ashburne/Julio/200.00;104 Ashburne/Julio/200.00;104 Ashburne/Julio/200.00;104 Ashburne/Julio/200.00;104 Ashburne/Julio/200.00;104 Ashburne/Julio/200.00,gm-19b944ec9eb500c7
 2026-04-30,"CoreLogic Solutions, LLC",200.00,OVERHEAD,pending,Property Intelligence Invoice #30860459,,gm-19dfd51cc731e898
-2026-07-22,Uber,200.00,OVERHEAD,pending,Uber: Your receipt,,gm-19f8bc3b31c1a71d
 2026-08-10,The Home Depot,192.15,104 Ashburne;OVERHEAD,pending,,,gm-19fed30f7359ded5
 2026-04-10,The Home Depot,161.28,104 Ashburne,dismissed,,104 Ashburne/Home Depot/189.57;104 Ashburne/Home Depot/151.28,gm-19d775f16740a511
 2026-09-09,Klarna (Apple Upgrade / Saks Fifth Avenue installments),150.73,,dry,Screenshot 2026-09-09 at 4.28.13 PM,,dry-gm-1a08880be459a7a0
@@ -47,20 +46,13 @@ date,vendor,total,where_the_read_put_it,status,subject,weak_candidates,docId
 2026-02-15,The Home Depot,137.68,104 Ashburne,dismissed,,,gm-19c617b59e734eb5
 2026-02-15,The Home Depot,137.68,,pending,Your Electronic Receipt,,gm-19c61b20c24fc994
 2026-02-04,Lowe's Home Improvement,134.23,104 Ashburne,posted,Your Lowe's Purchase Receipt,104 Ashburne/Lowes/140.68,gm-19c28c64aa9a29ea
-2026-06-03,Uber,113.98,OVERHEAD,posted,[Personal] Your Wednesday morning trip with Uber,,gm-19e8eaeb03cf2a86
 2026-04-03,"Lowe's Home Centers, LLC",113.64,104 Ashburne,dismissed,,,gm-19d54141d52bf785
 2026-07-01,Amazon,106.75,,pending,"Fwd: Ordered: ""Gerber 28-990 WHITE Maxwell...""",,gm-19f1e7a4d47322d9
-2026-08-10,Uber,105.34,OVERHEAD,pending,[Personal] Your Monday morning trip with Uber,,gm-19fec5224c8ebacf
-2026-09-09,Uber,103.61,OVERHEAD,dry,[Personal] Your Wednesday morning trip with Uber,,dry-gm-1a08710de38eb831
 2026-09-13,"Anthropic, PBC",100.00,OVERHEAD,posted,"Your receipt from Anthropic, PBC #2268-3974-1772",,gm-1a09c42a0bd2824b
-2026-08-30,Uber,99.44,,dismissed,[Personal] Your Sunday afternoon trip with Uber,,gm-1a053d964db0573d
 2026-03-10,Ping Lighting,99.20,104 Ashburne,posted,Fwd: [Ping Lighting] Order confirmation,,gm-19cd5e3f4729e97b
 2026-03-10,Ping Lighting,99.20,104 Ashburne,posted,Fwd: [Ping Lighting] Payment accepted,,gm-19cd5d25a07e5bb1
-2026-08-15,Uber,98.22,OVERHEAD,posted,[Personal] Your Saturday morning trip with Uber,,gm-1a004ddd53b5d48e
-2026-06-03,Uber,94.98,OVERHEAD,pending,[Personal] Your Wednesday morning trip with Uber,104 Ashburne/Energy Texas/139.21,gm-19e8d1415d216814
 2026-03-16,Wayfair,93.08,104 Ashburne,posted,Fwd: Order received! Does everything look right?,,gm-19cf927112794782
 2026-04-16,The Home Depot,88.83,104 Ashburne;OVERHEAD,dismissed,,,gm-19d960cfeccab6cd
-2026-04-29,Uber,85.98,OVERHEAD,pending,[Personal] Your Wednesday morning trip with Uber,,gm-19dd8aee1f2fb6b2
 2026-09-10,Oregon Registered Agent LLC,84.00,OVERHEAD,dry,,,dry-gm-1a08bee3d03d3f93
 2026-03-09,The Home Depot,83.83,,pending,Your Electronic Receipt,,gm-19cd5489c5fd928b
 2026-03-09,The Home Depot,83.83,104 Ashburne,dismissed,,,gm-19cd5479e52e3fe9
@@ -68,21 +60,14 @@ date,vendor,total,where_the_read_put_it,status,subject,weak_candidates,docId
 2026-04-11,Taco Cabana,73.57,OVERHEAD,pending,,,gm-19d7d9e5cfb8c9f6
 2026-09-07,Rosa's Cafe Tortilla Factory,72.19,OVERHEAD,dry,,,dry-gm-1a07e315889c322c
 2026-03-10,Mobil,69.27,OVERHEAD,posted,,,gm-19cd960f41184363
-2026-08-07,Uber,65.98,OVERHEAD,pending,[Personal] Your Friday afternoon trip with Uber,,gm-19fde07c55491b91
 2026-09-05,"Lowe's Home Centers, LLC",64.93,OVERHEAD,dry,,881 Newport/Lowes/6.47,dry-gm-1a07217d8a060601
 2026-06-29,The Home Depot,62.63,1616 Granite;OVERHEAD,pending,,1616 Granite RECONCILED/Home Depot/264.55,gm-19f1526194ff1558
 2026-03-14,McCoy's Building Supply,61.53,104 Ashburne,dismissed,,,gm-19ced5e82e20e490
-2026-05-03,Uber,54.99,OVERHEAD,dismissed,[Personal] Your Sunday morning trip with Uber,,gm-19dedd4c33011f73
 2026-06-29,The Home Depot,54.03,1616 Granite,posted,,,gm-19f15828fb2a31e6
 2026-06-17,Lowe's Home Improvement,49.17,1616 Granite,dismissed,Your Lowe's Purchase Receipt,,gm-19ed69af26494e70
-2026-06-14,Uber,44.99,OVERHEAD,posted,[Personal] Your Monday morning trip with Uber,,gm-19ecaef8f8dbb488
-2026-03-01,Uber,43.98,OVERHEAD,dismissed,[Personal] Your Sunday morning trip with Uber,,gm-19ca95245c0779f1
 2026-08-02,Walmart,37.86,136 Bowling Green,pending,,,gm-19fc442272873900
 2026-08-13,Amazon,36.99,366 Mesa,pending,Fwd: Ordered: ⁦1⁩ Home Improvement item,,gm-19ffb0e863df3cc0
 2026-09-03,"Adobe, Inc.",34.49,OVERHEAD,dry,"Fwd: Adobe, Inc.: $34.49 USD",,dry-gm-1a069feb80d70f06
-2026-05-23,Uber,33.98,OVERHEAD,pending,[Personal] Your Saturday evening trip with Uber,,gm-19e59aaf2ffc0dd4
-2026-06-03,Uber,31.48,OVERHEAD,posted,[Personal] Your Wednesday morning trip with Uber,,gm-19e8ec62c8a4a79e
-2026-07-09,Uber,31.27,OVERHEAD,error,[Personal] Your Thursday morning trip with Uber,,gm-19f483c31d80247c
 2026-02-16,The Home Depot,30.79,,pending,Your Electronic Receipt,,gm-19c6859ab582b6f5
 2026-02-16,The Home Depot,30.79,104 Ashburne,dismissed,,,gm-19c6823763f5cb17
 2026-07-18,Apify Technologies s.r.o.,29.00,OVERHEAD,dismissed,Fwd: Apify invoice #202607180489 payment successful,,gm-19f729ff137be6f5
@@ -100,9 +85,6 @@ date,vendor,total,where_the_read_put_it,status,subject,weak_candidates,docId
 2026-08-24,"Anthropic, PBC",10.29,OVERHEAD,pending,"Fwd: Your receipt from Anthropic, PBC #2945-3640-9269",,gm-1a0360f5a5d640a9
 2026-08-01,"Anthropic, PBC",10.14,OVERHEAD,posted,"Fwd: Your receipt from Anthropic, PBC #2971-0394-1544",,gm-19fbfb4f8ae13c63
 2026-08-24,"Anthropic, PBC",10.01,OVERHEAD,posted,"Fwd: Your receipt from Anthropic, PBC #2363-5979-4769",,gm-1a0360f3727f13d6
-2026-08-04,Uber One,9.99,OVERHEAD,pending,Uber One payment confirmation,,gm-19fce3556ecc3509
-2026-05-27,Uber One,9.99,OVERHEAD,pending,Uber One payment confirmation,,gm-19e6b8cbc5333ece
-2026-07-01,Uber One,9.99,OVERHEAD,pending,Uber One payment confirmation,,gm-19f1f88d99a6e35e
 2026-09-09,Wi-Fi Onboard (Intelsat),8.00,OVERHEAD,dry,Fwd: Here's Your Wi-Fi Onboard Receipt - Check Out Your Purc,,dry-gm-1a0884827e1945bf
 2026-03-19,Shell,7.57,OVERHEAD,dismissed,,,gm-19d066ca90092950
 2026-09-02,"Telnyx, LLC",5.00,OVERHEAD,dismissed,Fwd: [Telnyx LLC] Payment Success,,gm-1a0645dc3777ea76
