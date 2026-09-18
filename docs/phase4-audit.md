@@ -1084,3 +1084,11 @@ earlier (C-10). 889 linked; amounts unchanged (1,040 entries, $239,907.34); link
 **For Paul, from those invoices:** 1373 bills 1616 Granite 2 x $70 = **$140**; the Granite row is typed
 **$110** ($30 short, on a closed tab). 1374 bills 136 Bowling Green $55 and 881 Newport $55 and **neither has
 a row** (every $55 Falcon Creek row is accounted for by 1372 and 1390).
+
+**Staging pass 7, 16:32-16:35 - tied out.** `migrationRunStaging` refreshed the eleven Properties rows itself
+(tax_annual now on six properties), cleared 2,068 lines, kept 66, posted 1,040. Journal by property =
+`rows/expected.json`, **$0.00 on all nine**: 1,040 entries, **$239,907.34** (Ashburne $177,110.54, overhead
+$26,501.38), ids and per-entry amounts identical to the dry run, debits = credits ($2,301,318.26), 33 advances,
+no orphans. The run used the C-24 push, a few minutes before §34 was pushed, so the Journal still reads
+"Effren" on 13 rows and lacks six Falcon Creek links (885 linked vs the dry run's 889); ids and amounts are
+the same either way - the next Run brings the names.

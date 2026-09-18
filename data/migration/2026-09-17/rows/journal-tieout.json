@@ -1,25 +1,26 @@
 {
- "pass": 6,
- "ran": "2026-09-18 16:05-16:07",
- "journal_snapshot": "books-cache tab/Journal fetched 2026-09-18 16:07:21",
+ "pass": 7,
+ "ran": "2026-09-18 16:32-16:35",
+ "journal_snapshot": "books-cache tab/Journal fetched 2026-09-18 16:35:31",
  "by_property": {
-  "OVERHEAD": 2443108,
+  "OVERHEAD": 2650138,
   "881 Newport": 308917,
   "469 Brushwood": 191680,
   "366 Mesa": 964800,
   "136 Bowling Green": 475393,
-  "104 Ashburne": 16107929,
+  "104 Ashburne": 17711054,
   "1616 Granite": 1220487,
   "280 Sparkling": 317978,
   "Cost Recapture": 150287
  },
- "entries": 1034,
- "cents": 22180579,
+ "entries": 1040,
+ "cents": 23990734,
  "difference_cents": 0,
  "txn_ids_identical_to_dry_run": true,
- "debits_equal_credits_cents": 228321671,
- "linked": 871,
+ "debits_equal_credits_cents": 230131826,
+ "linked": 885,
  "advances": 33,
  "advance_orphans": 0,
- "independent_reparse": "pass 5's residuals plus C-20 (Bowling Green TXU 102.12 -> 102.16), C-21 x2 and C-22 on the new side"
+ "independent_reparse": "pass 6's residuals plus C-23 x5 and C-24 on the new side",
+ "note": "ran on the C-24 push, before the Falcon Creek rename and relinking were pushed: 13 payees still read Effren and 6 Falcon Creek links are not in yet (ids and amounts are the same either way); tax_annual set on six properties"
 }
