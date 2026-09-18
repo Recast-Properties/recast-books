@@ -654,3 +654,39 @@ The balance is reconciled between the partners when the next property sells (Pha
 wizard picks it up). The old tab's four rows migrate there; so does anything the cleanup finds
 dated after a sale (first: Falcon Creek's $55.00 Sparkling grass cutting, invoice of 2026-08-30,
 Sparkling sold 2026-08-06).
+
+## D-032 · Dennis has no direct payments on Ashburne: only cash advances and the purchase loan - 2026-09-18 · Paul
+
+The independent audit found 104 Ashburne $1,619.00 above the old tab: `migrationRegisterAdvances`
+had posted the 15 "Dennis Paid Julio / Juanito / Robinson Air / dump / listing fee" lines of the
+Cash Advances tab ($18,141.44) as Dr rehab / Cr 2010, so each advance *was* a cost. Seven of them
+also sat on the Ashburne tab (held back as `COVERED_BY_ADVANCE`); eight had no row there and
+became cost the old tab never carried. Paul: "this is an error. dennis has no direct payments.
+only cash advances and loan for purchase."
+
+**Decided:** an advance is financing, never a cost. Those 15 lines are cash advances at 12%
+(D-030's bank deal, unchanged) that land on **2030** (Dr 2030 / Cr 2010 - the money paid a
+contractor on Paul's behalf, or reimbursed him, as on Granite and Newport). Every row of the
+Ashburne tab posts as typed, and a row whose receipt says Dennis paid credits 2030, not 2010, so
+the liability to Dennis is counted once - through the advance. Ashburne's cost is the old tab's,
+to the cent. Supersedes the "as migrated" sentence in D-030; the interest rule there stands.
+**Consequence to know:** the eight advances with no tab row ($1,619.00) now reduce Due-to-Paul
+instead of raising Ashburne's cost. If any of those eight was a real job missing from the tab,
+it is added as a row through the corrections register.
+
+## D-033 · The sale side is Phase 5; the Phase 4 gate is expense rows and advances - 2026-09-18 · Paul
+
+The audit noted that BUILD-PLAN's Phase 4 gate names net profit, opening balances and the Sales
+tab, and none is on the cleanup list. Paul: "we have not created the workflow for closing a
+property yet."
+
+**Decided:** Phase 4 migrates every expense row, the advances and the purchases, tied out to the
+old tabs. Sales, settlement entries, repayment of Dennis, payouts, the flip of sold properties to
+`sold`, net profit and the bank / Due-to-Paul balances that depend on them belong to the Phase 5
+sell wizard, which re-runs the five past sales (Granite, Sparkling, Newport, Ashburne, and the
+Granite holdback) against the Sales tab's $243,740.64. Until then the new books' balance sheet is
+knowingly incomplete: sold properties show as held inventory, 1402 carries the Ashburne draws,
+2030 carries every Paul-paid cost. Live receipts are held by Paul until the migration is complete,
+so nothing new posts to staging between the snapshot and the cutover; the cutover checklist still
+re-exports the old workbook and diffs it against the 2026-09-17 snapshot.
+

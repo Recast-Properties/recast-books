@@ -4,10 +4,10 @@ Documents: 968  status {'dismissed': 272, 'pending': 387, 'posted': 272, 'dry': 
 Hold reasons: [('NOT_POST_VERDICT', 334), ('LOW_CONFIDENCE', 288), ('TOTAL_MISMATCH', 150), ('OVER_CEILING', 98), ('ZERO_TOTAL', 61), ('PAYER_UNKNOWN', 60), ('ENTRY_INVALID:OVERHEAD_ON_PROPERTY', 39), ('NEEDS_HUMAN_274D', 29), ('ENTRY_INVALID:BAD_AMOUNT', 7), ('TEST_SEED', 6), ('DUPLICATE: txn_id already posted (cache)', 6), ('MISSING_VENDOR', 1), ('MISSING_DATE', 1), ('DUPLICATE_OF:receipt-20260911-217d4edfceda', 1), ('DUPLICATE_OF:receipt-20260901-68e846e657b5', 1), ('NOT_FOUND: no Journal rows for txn_id receipt-20260429-e652a5e77426', 1), ('DUPLICATE_OF:receipt-20260728-023dbd14fec0', 1), ('NOT_FOUND: no Journal rows for txn_id receipt-20260909-644b6422f4d4', 1)]
 
 ## A · documents with an old-sheet id: 180  (net equal: 171; net differs: 9; property differs from old tab: 0)
-## B · documents matched by vendor/date/amount: 788  {'twin': 53, 'junk (dismissed)': 192, 'property row now documented': 342, 'in mail, not in old books': 158, 'manual row now documented': 43}
-## C · old rows nothing covers: 269  (with a weak candidate document: 252)  by (tab, had a message id): {('RECAST BIZ', False): 27, ('881 Newport', False): 9, ('469 Brushwood', False): 6, ('366 Mesa', False): 18, ('136 Bowling Green', False): 13, ('104 Ashburne', False): 161, ('1616 Granite RECONCILED', False): 26, ('280 Sparkling RECONCILED', False): 8, ('Cost Recapture', False): 1}
-## D · vendor-days where net differs: 488  (sum of diffs $43,907.61)
-## F · receipts above the old rows they explain (D-028 returns): 99  {'hold': 75, 'return inferred': 24}  inferred $619.80
+## B · documents matched by vendor/date/amount: 788  {'twin': 53, 'junk (dismissed)': 179, 'property row now documented': 342, 'in mail, not in old books': 172, 'manual row now documented': 42}
+## C · old rows nothing covers: 273  (with a weak candidate document: 254)  by (tab, had a message id): {('RECAST BIZ', False): 28, ('881 Newport', False): 9, ('469 Brushwood', False): 6, ('366 Mesa', False): 18, ('136 Bowling Green', False): 13, ('104 Ashburne', False): 161, ('1616 Granite RECONCILED', False): 29, ('280 Sparkling RECONCILED', False): 8, ('Cost Recapture', False): 1}
+## D · vendor-days where net differs: 488  (sum of diffs $43,912.41)
+## F · receipts above the old rows they explain (D-028 returns): 95  {'hold': 71, 'return inferred': 24}  inferred $618.16
 
 Largest net differences:
 - 2026-03-30 ellis county tax off old       0.00 new  16,031.25 diff  16,031.25  rows 0 docs 1

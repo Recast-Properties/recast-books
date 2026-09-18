@@ -576,3 +576,36 @@ year-0126 date, the Ashburne header undercounting its rows by $7,038.53 (Paul: i
 the Cost Recapture tab missing from the inventory. Decisions D-030 (interest by deal type) and
 D-031 (Cost Recapture). Corrections C-1a … C-11. State and how to resume: `docs/phase4-audit.md`
 §21.
+
+## 2026-09-18 (later) — Independent audit of the migration, and its fixes
+
+**Audited** by a fresh session, read-only: the snapshot re-parsed with a parser that shares no
+code with the migration (`scripts/migration-audit-indep.py`), compared with the inventory, the dry
+run and the staging Journal; links tested against all 968 envelopes
+(`scripts/migration-audit-links.py`). Report: `docs/phase4-independent-audit.md`.
+
+**Found:** amounts tie on every tab and block except one row the inventory dropped for having no
+date (Granite, Mission Reg listing fee $299, Dennis paid); Granite's purchase and two cash
+advances had Advances rows and no Journal entries (the registration skipped whatever had a row, and
+`clearBooks` leaves that tab); about ten wrong "strong" links from row-by-row placement and two
+loose rules; Ashburne $1,619 above the old tab through advances posted as costs.
+
+**Fixed:** C-12 … C-14 and C-10 in the register; D-032 (Dennis's Ashburne lines are cash advances
+on 2030, every tab row posts), D-033 (the sale side is Phase 5); `migrationRegisterAdvances` is
+clear-and-rerun with Granite on the list; the matcher places best pair first with tighter
+near-amount, exact-amount and twin rules. Dry run rebuilt: 1,035 entries, $220,779.39, all build;
+link audit clean. **Pushed to the staging project; not run there, not committed.** State: `phase4-audit.md` §22.
+
+**Paul's notes and the pollers (same day).** The bookkeeper prompt now reads the subject and
+Paul's typed note first and lets them settle `paid_from` (new rule 3); before, only a card's last
+four could. Falcon Creek 1390's payer came from the bank's Zelle confirmation memo in paul@ (the
+two added lines → 1401); four Mesa rows linked to their Zelle confirmations. `phase3-spec.md` §6a:
+Zelle "was sent" notices join the Daily Summary as a feed source. Prompt change not deployed.
+
+**Staging pass 3 (13:03).** 33 advances re-registered (Granite included, none orphaned), 1,035
+entries posted, $220,779.39; Journal = expected on all nine properties to the cent, and the
+independent re-parse agrees row by row (`phase4-audit.md` §23).
+
+**C-15.** Ashburne, City of Corsicana dump, second row of 01-16: $27.30 → $22.50 (Paul). Dry run
+$220,774.59, pushed to staging, not yet rerun there.
+

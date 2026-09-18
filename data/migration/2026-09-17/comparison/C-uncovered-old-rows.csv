@@ -1,16 +1,16 @@
 key,tab,block,date,payee,cents,desc,had_msg,candidate_doc,candidate_vendor,candidate_status
 BIZ-19,RECAST BIZ,Tools,2026-01-15,Home Depot,21542,Milwaulkie Drill,False,gm-19ba4950d7e2561c,"Lowe's Home Centers, LLC",pending
 BIZ-22,RECAST BIZ,Tools,2026-01-20,Amazon,16998,Space Heaters,False,gm-19c01b85d135afa6,Amazon,posted
-BIZ-31,RECAST BIZ,Tools,2026-02-15,Home Depot,1188,Saw Blade,False,gm-19bbe38eb7de0851,The Home Depot,dismissed
-BIZ-32,RECAST BIZ,Tools,2026-02-16,Home Depot,5951,Saw Horses,False,gm-19c66d875dd9e7bd,The Home Depot,pending
-BIZ-33,RECAST BIZ,Tools,2026-02-16,Home Depot,2375,Scrapers,False,gm-19d3a708f16b12eb,The Home Depot,posted
+BIZ-29,RECAST BIZ,Tools,2026-02-14,Home Depot,24789,Saw,False,gm-19c5d297b5829e55,The Home Depot,posted
+BIZ-31,RECAST BIZ,Tools,2026-02-15,Home Depot,1188,Saw Blade,False,gm-19c617b59e734eb5,The Home Depot,dismissed
 BIZ-36,RECAST BIZ,Tools,2026-02-16,Harbor Freight,3462,Roto Hammer Bits,False,gm-19c678226649aa40,Harbor Freight Tools,pending
 BIZ-37,RECAST BIZ,Tools,2026-02-16,Harbor Freight,12448,Roto Hammer Drill,False,gm-19c678226649aa40,Harbor Freight Tools,pending
-BIZ-40,RECAST BIZ,Tools,2026-02-17,Home Depot,265,Shark Bite Tool,False,gm-19ca6cf04236bd89,The Home Depot,pending
+BIZ-40,RECAST BIZ,Tools,2026-02-17,Home Depot,265,Shark Bite Tool,False,gm-19c6be8d0bd458c9,The Home Depot,dismissed
 BIZ-48,RECAST BIZ,Tools,2026-03-02,Home Depot,19699,Sunp Pump & Hose,False,gm-19cc387a05beb25b,The Home Depot,dismissed
 BIZ-50,RECAST BIZ,Tools,2026-03-12,Home Depot,62569,Finish Nailer & Charger,False,gm-19ce3297652cbfc8,The Home Depot,dismissed
+BIZ-51,RECAST BIZ,Tools,2026-03-15,Home Depot,10496,Tool Bags,False,gm-19ccf1f38113d4f9,The Home Depot,posted
 BIZ-63,RECAST BIZ,Tools,2026-06-16,The Home Depot,4760,Hole Saw,False,gm-19edabdf68ad91f0,The Home Depot,posted
-BIZ-67,RECAST BIZ,Tools,2026-06-29,The Home Depot,2703,"CHANNELLOCK 12"" TONGUE & GROOVE PLIER",False,gm-19e8f76c3b9efa8e,The Home Depot,posted
+BIZ-67,RECAST BIZ,Tools,2026-06-29,The Home Depot,2703,"CHANNELLOCK 12"" TONGUE & GROOVE PLIER",False,gm-19f13a69198b2b6c,The Home Depot,posted
 BIZ-78,RECAST BIZ,Marketing,2026-06-21,VistaPrint,17099,Real Estate Sign Riders,False,gm-19ebf24ef82905c2,VistaPrint,dismissed
 BIZ-80,RECAST BIZ,Marketing,2026-06-24,The Home Depot,673,Zip ties for signs,False,gm-19f0e8b993f57cd0,The Home Depot,posted
 BIZ-87,RECAST BIZ,Meals,2026-01-14,Uber Eats,5882,Crew meal,False,gm-19bbf1890ac56e0f,Uber Eats,dismissed
@@ -19,6 +19,7 @@ BIZ-91,RECAST BIZ,Meals,2026-02-18,Uber Eats,13126,Crew meal,False,gm-19c727ecbd
 BIZ-167,RECAST BIZ,Office,2026-06-25,The Home Depot,247,MED BOX - MEDIUM BOX 20X16X15,False,gm-19f3f68f0a53b2e9,The Home Depot,posted
 BIZ-168,RECAST BIZ,Office,2026-06-25,The Home Depot,247,MED BOX - MEDIUM BOX 20X16X15,False,gm-19f3f68f0a53b2e9,The Home Depot,posted
 BIZ-169,RECAST BIZ,Office,2026-06-25,The Home Depot,751,2X60 CL TAPE - SCOTCH HVYDUTY 54YDS RD 1PK,False,gm-19f0e8b993f57cd0,The Home Depot,posted
+BIZ-174,RECAST BIZ,Gas/Truck/Trailer,2026-06-11,North Texas Tollway Authority,9257,toll tag,False,gm-19eb75e58b4bc3fe,North Texas Tollway Authority (NTTA),posted
 BIZ-176,RECAST BIZ,Gas/Truck/Trailer,2026-06-22,Shell,5470,Regular fuel 17.425G @ $3.139/gal,False,gm-19ed81985682b730,Shell,pending
 BIZ-177,RECAST BIZ,Gas/Truck/Trailer,2026-06-24,O'Reilly Auto Parts,4545,VAL SYN5-20-5QT 5QT MOTOROIL,False,gm-19f00ab9125115f9,Amazon,pending
 BIZ-178,RECAST BIZ,Gas/Truck/Trailer,2026-06-26,Shell,6940,Fuel - 18.762 gallons,False,gm-19f15c359e34964b,Shell,posted
@@ -59,7 +60,7 @@ PROP-102,366 Mesa,,2026-08-13,Lowe's,20470,1x4 x10 PT Siding Trim,False,gm-19ffb
 PROP-103,366 Mesa,,2026-08-13,Lowe's,14809,1x3x8 For Pergola,False,gm-19ffbab89c6e794c,"Lowe's Home Centers, LLC",pending
 PROP-104,366 Mesa,,2026-08-13,Lowe's,7547,Flashing,False,gm-19ffbab89c6e794c,"Lowe's Home Centers, LLC",pending
 PROP-107,366 Mesa,,2026-08-14,Home Depot,6961,Door Lock Sets,False,gm-1a000805d296df8b,The Home Depot,posted
-PROP-113,136 Bowling Green,,2026-06-25,Home Depot,3328,9V Batteries,False,gm-19fd3a7c839fa873,The Home Depot,posted
+PROP-113,136 Bowling Green,,2026-06-25,Home Depot,3328,9V Batteries,False,gm-19f00c2049c512fe,The Home Depot,error
 PROP-119,136 Bowling Green,,2026-08-18,City of Red Oak,44747,Water,False,gm-1a016b2fac76a50d,City of Waxahachie - Water Billing Department,pending
 PROP-120,136 Bowling Green,,2026-06-26,Home Depot,804,Toilet Paper,False,gm-19f0e8b993f57cd0,The Home Depot,posted
 PROP-121,136 Bowling Green,,2026-06-26,Home Depot,1438,Drywall Tape,False,gm-19f059f5de8379eb,The Home Depot,error
@@ -73,14 +74,14 @@ PROP-151,136 Bowling Green,,2026-07-19,Effren - 1373,11000,Landscaping,False,gm-
 PROP-153,136 Bowling Green,,2026-08-05,Ace Hardware,2299,Padlock,False,gm-19fd4002e0935c03,Keith Ace Hardware - Red Oak,posted
 PROP-156,136 Bowling Green,,2026-08-03,The Home Depot,10715,HWTSTAT - Honeywell T5 7-Day 2-Stage Programmable Thermostat,False,gm-19fd34b701a40539,The Home Depot,dismissed
 PROP-157,104 Ashburne,Paint & Flooring,2026-01-12,Juan Garcia,700000,Drywall/Supplies/Painting,False,gm-19bc4405fa0bc7e5,Juan Gonzalez,pending
-PROP-161,104 Ashburne,Small Baths,2026-02-17,Home Depot,4499,Shark Bite Toilet Connectors,False,gm-19cde962bea0354f,The Home Depot,dismissed
+PROP-161,104 Ashburne,Small Baths,2026-02-17,Home Depot,4499,Shark Bite Toilet Connectors,False,gm-19c6be8d0bd458c9,The Home Depot,dismissed
 PROP-162,104 Ashburne,Pool,2026-01-05,Julio,20000,Clean out,False,gm-19b944ec9eb500c7,"CoreLogic Solutions, LLC",pending
 PROP-163,104 Ashburne,Landscaping,2026-01-12,Julio,20000,Labor,False,gm-19b944ec9eb500c7,"CoreLogic Solutions, LLC",pending
 PROP-171,104 Ashburne,Pest Control,2026-01-14,Berret Pest Control,27063,Pest Control,False,gm-19c01a73986c43df,eBay (seller zmfc86),posted
 PROP-178,104 Ashburne,Paint & Flooring,2026-01-23,Juan Garcia,700000,Paint & Floor Installation,False,gm-19bc4405fa0bc7e5,Juan Gonzalez,pending
 PROP-180,104 Ashburne,Lighting & Electrical,2026-02-10,Lowes,17318,Entry Chandelier,False,gm-19c484998d6bf67a,Lowe's Home Improvement,pending
 PROP-181,104 Ashburne,Master Bath,2026-02-08,Wayfair,81618,Tub & Faucet,False,,,
-PROP-182,104 Ashburne,Small Baths,2026-02-17,Home Depot,695,1/2 Wall Flanges,False,gm-19cddf3d9dcd3db2,The Home Depot,posted
+PROP-182,104 Ashburne,Small Baths,2026-02-17,Home Depot,695,1/2 Wall Flanges,False,gm-19c6be8d0bd458c9,The Home Depot,dismissed
 PROP-183,104 Ashburne,Pool,2026-02-12,Atlas Pools,200000,Deposit,False,gm-19cab7819599377d,Micky Atlas Pools,pending
 PROP-184,104 Ashburne,Landscaping,2026-01-13,Julio,20000,Labor,False,gm-19b944ec9eb500c7,"CoreLogic Solutions, LLC",pending
 PROP-192,104 Ashburne,Utilities,2026-01-13,Energy Texas,4357,Electricity,False,gm-19bbebe1e4fc35df,Atmos Energy,pending
@@ -98,14 +99,13 @@ PROP-224,104 Ashburne,HVAC,2026-01-17,Lowes,1806,Pipe insulation,False,gm-19bcc6
 PROP-225,104 Ashburne,House Hardware,2026-02-09,Amazon,24997,Drawer pulls,False,gm-19c51f2daddbeabd,Amazon,posted
 PROP-228,104 Ashburne,Utilities,2026-01-30,HOA,25909,Ashburne Glen Homeowners Association,False,gm-19c0fc92279d93d1,Ashburne Glen Homeowners Association,posted
 PROP-229,104 Ashburne,Cleaning,2026-09-07,Marianna,45000,Cleaning,False,,,
-PROP-230,104 Ashburne,Supplies,2026-01-11,Home Depot,1691,Screws,False,gm-19bae03eddedc8bc,The Home Depot,pending
+PROP-230,104 Ashburne,Supplies,2026-01-11,Home Depot,1691,Screws,False,gm-19badcf888c0b1cb,The Home Depot,dismissed
 PROP-232,104 Ashburne,Paint & Flooring,2026-02-20,Juan Garcia,700000,Paint & Floor Installation,False,,,
 PROP-233,104 Ashburne,Trash,2026-01-16,Julio,20000,Labor,False,gm-19c2d8b7905f7407,"CoreLogic Solutions, LLC",pending
-PROP-236,104 Ashburne,Small Baths,2026-02-20,Home Depot,4499,Shark Bite Toilet Connectors,False,gm-19cde962bea0354f,The Home Depot,dismissed
-PROP-239,104 Ashburne,Kitchen,2026-03-17,Amazon,3246,Under Cabinet Lights,False,gm-19cb9e86dc1c5092,The Home Depot,pending
+PROP-236,104 Ashburne,Small Baths,2026-02-20,Home Depot,4499,Shark Bite Toilet Connectors,False,gm-19c7bb272d77da5a,The Home Depot,dismissed
+PROP-239,104 Ashburne,Kitchen,2026-03-17,Amazon,3246,Under Cabinet Lights,False,gm-19cb9b1055042f0e,The Home Depot,dismissed
 PROP-248,104 Ashburne,Trash,2026-01-07,Home Depot,6489,Garbage Bags,False,gm-19bbd023b3e85f3b,The Home Depot,dismissed
-PROP-249,104 Ashburne,Lighting & Electrical,2026-02-19,Home Depot,6489,Hall & Closet Lights,False,gm-19bbd023b3e85f3b,The Home Depot,dismissed
-PROP-251,104 Ashburne,Small Baths,2026-02-20,Home Depot,7280,Angle Stops,False,gm-19c7be8f6b3c531b,The Home Depot,pending
+PROP-251,104 Ashburne,Small Baths,2026-02-20,Home Depot,7280,Angle Stops,False,gm-19c7bb272d77da5a,The Home Depot,dismissed
 PROP-252,104 Ashburne,Pool,2026-03-29,Atlas Pools,217700,Payment,False,gm-19d253342e722062,Atlas Pools,pending
 PROP-256,104 Ashburne,House Hardware,2026-02-04,Lowes,14068,Door Knobs,False,gm-19c28c64aa9a29ea,Lowe's Home Improvement,posted
 PROP-263,104 Ashburne,Trash,2026-01-06,Julio,20000,Labor,False,gm-19b944ec9eb500c7,"CoreLogic Solutions, LLC",pending
@@ -113,23 +113,23 @@ PROP-265,104 Ashburne,Master Bath,2026-02-03,Lowes,9199,Shower Niche,False,gm-19
 PROP-268,104 Ashburne,Landscaping,2026-02-12,Julio,10000,Labor,False,gm-19cc51b6b845dd1f,Shalom Granite,pending
 PROP-269,104 Ashburne,Kitchen,2026-04-10,Home Depot,18957,Kitchen Faucet,False,gm-19d775f16740a511,The Home Depot,dismissed
 PROP-277,104 Ashburne,Trash,2026-02-11,Julio,20000,Labor,False,gm-19d1cc95a5026d98,Julio,pending
-PROP-279,104 Ashburne,Master Bath,2026-02-10,Home Depot,4954,Angle Stops,False,gm-19c48c68567fa017,The Home Depot,pending
+PROP-279,104 Ashburne,Master Bath,2026-02-10,Home Depot,4954,Angle Stops,False,gm-19c488e7c2b56593,The Home Depot,dismissed
 PROP-282,104 Ashburne,Landscaping,2026-02-16,Julio,20000,Labor,False,gm-19d1cc95a5026d98,Julio,pending
 PROP-292,104 Ashburne,Master Bath,2026-02-13,Salvador Campos,388000,Shower TIle Labor,False,,,
 PROP-295,104 Ashburne,Landscaping,2026-02-17,Julio,20000,Labor,False,gm-19d1cc95a5026d98,Julio,pending
 PROP-302,104 Ashburne,Trash,2026-02-12,Julio,10000,Labor,False,gm-19cc51b6b845dd1f,Shalom Granite,pending
-PROP-304,104 Ashburne,Master Bath,2026-02-12,Home Depot,1047,PEX,False,gm-19bbe393dbd7520b,The Home Depot,dismissed
 PROP-306,104 Ashburne,Pool,2026-03-17,Amazon,41134,Aiper Pool Robot,False,gm-19cfbe563f75f960,Amazon,pending
 PROP-307,104 Ashburne,Landscaping,2026-02-18,Julio,20000,Labor,False,gm-19d1cc95a5026d98,Julio,pending
 PROP-314,104 Ashburne,Lighting & Electrical,2026-02-24,Amazon,1081,Light Bulbs,False,gm-19c76c4996bae8b0,The Home Depot,pending
-PROP-315,104 Ashburne,Master Bath,2026-02-12,Home Depot,3999,Sharkbite Fittings,False,gm-19c4cb602c2d527c,The Home Depot,pending
 PROP-320,104 Ashburne,Utilities,2026-05-05,City of Ovilla,13153,Water,False,gm-19dedd5146ee87ad,Uber,posted
 PROP-321,104 Ashburne,Supplies,2026-01-10,Home Depot,767,Drywall Achors,False,gm-19bc1e5948839629,The Home Depot,dismissed
+PROP-327,104 Ashburne,Small Baths,2026-03-11,Home Depot,1576,Angle Stop,False,gm-19cdd47626a096cb,The Home Depot,dismissed
+PROP-329,104 Ashburne,Landscaping,2026-03-12,Home Depot,7574,Weed & Feed,False,gm-19ce3297652cbfc8,The Home Depot,dismissed
 PROP-330,104 Ashburne,House Hardware,2026-03-21,Lowes,9842,Door Knobs,False,gm-19d11a93764263f8,"Lowe's Home Centers, LLC",posted
 PROP-331,104 Ashburne,Utilities,2026-06-04,Energy Texas,13921,Electricity,False,gm-19e8d1415d216814,Uber,pending
+PROP-337,104 Ashburne,Master Bath,2026-02-15,Home Depot,1533,2x4's,False,gm-19c617b59e734eb5,The Home Depot,dismissed
 PROP-340,104 Ashburne,Landscaping,2026-03-17,Julio,20000,Labor,False,gm-19d1cc95a5026d98,Julio,pending
 PROP-346,104 Ashburne,Trash,2026-02-20,Julio,20000,Labor,False,gm-19d1cc95a5026d98,Julio,pending
-PROP-347,104 Ashburne,Lighting & Electrical,2026-02-19,Home Depot,6924,Light Switches,False,gm-19c70c97dc638c65,The Home Depot,pending
 PROP-356,104 Ashburne,Paint & Flooring,2026-03-05,Armandre Vega,9897,Flexible Quarter Round,False,gm-19cbe5fe4bbbc3d4,Armandre Vega,pending
 PROP-357,104 Ashburne,Trash,2026-02-13,Julio,20000,Labor,False,gm-19d1cc95a5026d98,Julio,pending
 PROP-362,104 Ashburne,Landscaping,2026-03-30,Home Depot,3934,Fence Boards,False,gm-19d724c5c326c549,The Home Depot,posted
@@ -139,7 +139,7 @@ PROP-373,104 Ashburne,Landscaping,2026-05-08,Julio,10000,Lawn Maintenance,False,
 PROP-374,104 Ashburne,House Hardware,2026-03-30,Lowes,5949,Door Knobs,False,gm-19d442100d7bb73f,"Lowe's Home Centers, LLC",posted
 PROP-377,104 Ashburne,Gas/Truck/Trailer,2026-02-17,O'Reily,345,Lug Nut,False,gm-19c6bce6982d294b,O'Reilly Auto Parts,posted
 PROP-380,104 Ashburne,Lighting & Electrical,2026-03-05,Home Depot,585,Outlet Covers,False,gm-19cddf3d9dcd3db2,The Home Depot,posted
-PROP-381,104 Ashburne,Master Bath,2026-02-15,Home Depot,6079,PT 2x4's,False,gm-19c61b20c24fc994,The Home Depot,pending
+PROP-381,104 Ashburne,Master Bath,2026-02-15,Home Depot,6079,PT 2x4's,False,gm-19c617b59e734eb5,The Home Depot,dismissed
 PROP-382,104 Ashburne,Small Baths,2026-03-18,Floor & Decor,37894,Shower Tile,False,gm-19d01359eb674ac2,Floor and Decor,posted
 PROP-384,104 Ashburne,Landscaping,2026-04-02,Home Depot,20506,Grass Seed,False,gm-19d6d01dadaa68e4,The Home Depot,posted
 PROP-385,104 Ashburne,House Hardware,2026-04-01,Home Depot,2250,oor weather stripping,False,gm-19d62dc0a36bb7bd,The Home Depot,dismissed
@@ -153,17 +153,14 @@ PROP-415,104 Ashburne,Pool,2026-06-30,Atlas Pools,25601,Service,False,gm-19f99e7
 PROP-416,104 Ashburne,Landscaping,2026-04-05,Julio,20000,Labor,False,gm-19d1cc95a5026d98,Julio,pending
 PROP-422,104 Ashburne,Lighting & Electrical,2026-03-21,Wauyfair,7685,Single Bath Light Fixture,False,gm-19d0446213881f8d,Wayfair,posted
 PROP-424,104 Ashburne,Small Baths,2026-03-19,Floor & Decor,-12102,RETURN,False,gm-19d07518d663dbfe,Floor and Decor,posted
-PROP-425,104 Ashburne,Pool,2026-07-30,Atlas Pools,25601,Service,False,gm-19f99e711bce8059,Atlas Pools,posted
 PROP-426,104 Ashburne,Landscaping,2026-04-06,Julio,20000,Labor,False,gm-19d1cc95a5026d98,Julio,pending
 PROP-427,104 Ashburne,House Hardware,2026-04-03,Home Depot,11364,Front Door Lock Set,False,gm-19d7301fafc82a83,The Home Depot,dismissed
 PROP-429,104 Ashburne,Gas/Truck/Trailer,2026-03-10,Shell,6927,Gas,False,gm-19d86af34f4c2840,Shell,pending
-PROP-431,104 Ashburne,Trash,2026-04-08,City of Corsicana,2730,Dump,False,gm-19d6e8c47f186ff0,City of Corsicana - Landfill,posted
-PROP-432,104 Ashburne,Lighting & Electrical,2026-03-21,Lowes,1897,Downrod,False,gm-19d593d6a8a5082a,"Lowe's Home Centers, LLC",pending
-PROP-433,104 Ashburne,Master Bath,2026-03-12,Home Depot,7586,Molding,False,gm-19d7842c261c0b2b,The Home Depot,dismissed
+PROP-432,104 Ashburne,Lighting & Electrical,2026-03-21,Lowes,1897,Downrod,False,gm-19d11a93764263f8,"Lowe's Home Centers, LLC",posted
+PROP-433,104 Ashburne,Master Bath,2026-03-12,Home Depot,7586,Molding,False,gm-19ce3297652cbfc8,The Home Depot,dismissed
 PROP-436,104 Ashburne,Landscaping,2026-04-07,Julio,20000,Labor,False,gm-19d1cc95a5026d98,Julio,pending
 PROP-441,104 Ashburne,Lighting & Electrical,2026-03-21,Lowes,-10823,RETURN celing fan,False,gm-19d11a93764263f8,"Lowe's Home Centers, LLC",posted
 PROP-442,104 Ashburne,Master Bath,2026-03-12,Home Depot,3299,FJP 1x6,False,gm-19cdd47626a096cb,The Home Depot,dismissed
-PROP-443,104 Ashburne,Small Baths,2026-03-19,Floor & Decor,1871,Tile,False,gm-19d07518d663dbfe,Floor and Decor,posted
 PROP-449,104 Ashburne,Lighting & Electrical,2026-03-19,Lowes,89830,Celing Fans,False,gm-19d069c13314e2b8,"Lowe's Home Centers, LLC",posted
 PROP-450,104 Ashburne,Master Bath,2026-03-12,Home Depot,7821,Backer Board,False,gm-19d02629b0206123,The Home Depot,dismissed
 PROP-454,104 Ashburne,Gas/Truck/Trailer,2026-03-16,Waltons Brakes & Mufflers,59377,Brakes,False,gm-19d018e208f5ce58,Walton's Muffler Brake &amp; Tire,pending
@@ -171,7 +168,7 @@ PROP-455,104 Ashburne,Paint & Flooring,2026-03-30,Juan Garcia,167000,Exterior Pa
 PROP-456,104 Ashburne,Lighting & Electrical,2026-03-22,Home Depot,30717,"Outlets, GFI's & Switches",False,gm-19cf2444d6efb00f,The Home Depot,dismissed
 PROP-458,104 Ashburne,Small Baths,2026-03-23,Home Depot,7864,Angle Stops,False,gm-19d02629b0206123,The Home Depot,dismissed
 PROP-462,104 Ashburne,Paint & Flooring,2026-03-31,50 Floors,49150,Stair Carpet,False,,,
-PROP-463,104 Ashburne,Lighting & Electrical,2026-03-22,Home Depot,7574,LED Tape for Master Bth Soffet,False,gm-19d7842c261c0b2b,The Home Depot,dismissed
+PROP-463,104 Ashburne,Lighting & Electrical,2026-03-22,Home Depot,7574,LED Tape for Master Bth Soffet,False,gm-19d16d3ec604edb7,The Home Depot,pending
 PROP-469,104 Ashburne,Paint & Flooring,2026-04-01,Home Depot,3878,Quarter Round,False,gm-19d724c5c326c549,The Home Depot,posted
 PROP-473,104 Ashburne,Landscaping,2026-04-10,Julio & Friend,80000,Labor,False,gm-19d7e6e5e1ce5426,Julio (unidentified labor),pending
 PROP-475,104 Ashburne,Gas/Truck/Trailer,2026-03-23,AutoXZone,3895,Oil,False,gm-19d1aff5eaa6fee2,AutoZone,posted
@@ -179,37 +176,40 @@ PROP-476,104 Ashburne,Paint & Flooring,2026-04-01,Lowes,3447,Quarter Round,False
 PROP-477,104 Ashburne,Lighting & Electrical,2026-03-19,Lowes,2588,"18"" Downrod",False,gm-19d069c13314e2b8,"Lowe's Home Centers, LLC",posted
 PROP-483,104 Ashburne,Paint & Flooring,2026-04-03,Lowes,2576,Quarter Round,False,gm-19d535a923f6b186,"Lowe's Home Centers, LLC",posted
 PROP-484,104 Ashburne,Lighting & Electrical,2026-03-25,Home Depot,1633,New Work Boxes,False,gm-19d25017467ed73d,The Home Depot,pending
-PROP-485,104 Ashburne,Master Bath,2026-03-21,Lowes,3101,Window Trim,False,gm-19cbe988cb289b26,"Lowe's Home Centers, LLC",posted
+PROP-485,104 Ashburne,Master Bath,2026-03-21,Lowes,3101,Window Trim,False,gm-19d11a93764263f8,"Lowe's Home Centers, LLC",posted
 PROP-486,104 Ashburne,Small Baths,2026-03-25,Home Depot,4975,Hydro Seats,False,gm-19d25017467ed73d,The Home Depot,pending
-PROP-488,104 Ashburne,Supplies,2026-02-19,Home Depot,428,Utility Blades,False,gm-19ca6cf04236bd89,The Home Depot,pending
 PROP-490,104 Ashburne,Paint & Flooring,2026-04-01,Home Depot,35028,Stair Moldings,False,gm-19d4918fa3edc702,The Home Depot,dismissed
 PROP-491,104 Ashburne,Lighting & Electrical,2026-03-26,Home Depot,1708,Wall Plates,False,gm-19d2a51f5dffc8be,The Home Depot,pending
 PROP-492,104 Ashburne,Master Bath,2026-03-21,Lowes,8625,Window Trim,False,gm-19d11a93764263f8,"Lowe's Home Centers, LLC",posted
-PROP-497,104 Ashburne,Paint & Flooring,2026-04-05,Home Depot,4540,Eurethane,False,gm-19cde962bea0354f,The Home Depot,dismissed
+PROP-497,104 Ashburne,Paint & Flooring,2026-04-05,Home Depot,4540,Eurethane,False,gm-19d5e139b4ae4612,The Home Depot,dismissed
 PROP-498,104 Ashburne,Lighting & Electrical,2026-03-26,Home Depot,918,Old Work Boxes,False,gm-19d2c0314cc37287,The Home Depot,pending
 PROP-501,104 Ashburne,Landscaping,2026-04-13,Julio,20000,Labor,False,gm-19d1cc95a5026d98,Julio,pending
-PROP-504,104 Ashburne,Paint & Flooring,2026-04-08,Home Depot,8122,Floor mats,False,gm-19d02629b0206123,The Home Depot,dismissed
+PROP-503,104 Ashburne,Gas/Truck/Trailer,2026-03-25,Shell,6548,Gas,False,gm-19d253064d2268c2,Shell,pending
+PROP-504,104 Ashburne,Paint & Flooring,2026-04-08,Home Depot,8122,Floor mats,False,gm-19d6d01dadaa68e4,The Home Depot,posted
 PROP-508,104 Ashburne,Landscaping,2026-04-14,Julio,20000,Labor,False,gm-19d1cc95a5026d98,Julio,pending
 PROP-515,104 Ashburne,Landscaping,2026-04-15,Julio,30000,Labor,False,gm-19d1cc95a5026d98,Julio,pending
 PROP-516,104 Ashburne,Supplies,2026-03-02,Home Depot,1405,Paper Towels,False,gm-19cf25c0bd386e41,"Lowe's Home Centers, LLC",posted
 PROP-528,104 Ashburne,Small Baths,2026-04-01,Home Depot,2700,angle stops,False,gm-19d3a708f16b12eb,The Home Depot,posted
 PROP-529,104 Ashburne,Landscaping,2026-05-29,Julio,20000,Labor,False,gm-19e8ef3d9338fabb,"CoreLogic Solutions, LLC",pending
 PROP-530,104 Ashburne,Supplies,2026-03-04,UPS Store,573,Packing Tape,False,gm-19cbac340f4e5a7b,The UPS Store #5780,pending
-PROP-533,104 Ashburne,Master Bath,2026-03-19,Lowes,3325,Water Supplies,False,gm-19cbe988cb289b26,"Lowe's Home Centers, LLC",posted
+PROP-533,104 Ashburne,Master Bath,2026-03-19,Lowes,3325,Water Supplies,False,gm-19d069c13314e2b8,"Lowe's Home Centers, LLC",posted
 PROP-534,104 Ashburne,Small Baths,2026-04-02,Home Depot,831,Gaskets,False,gm-19d2c0314cc37287,The Home Depot,pending
 PROP-542,104 Ashburne,Supplies,2026-03-06,Home Depot,3674,Multi Tool Blades,False,gm-19cf3177d3ee370b,The Home Depot,posted
-PROP-551,104 Ashburne,Master Bath,2026-03-26,Home Depot,253,Hose Clamp,False,gm-19ca6cf04236bd89,The Home Depot,pending
+PROP-545,104 Ashburne,Master Bath,2026-03-26,Home Depot,2379,Closet Shelf,False,gm-19d62dc0a36bb7bd,The Home Depot,dismissed
+PROP-551,104 Ashburne,Master Bath,2026-03-26,Home Depot,253,Hose Clamp,False,gm-19d2a51f5dffc8be,The Home Depot,pending
+PROP-556,104 Ashburne,Lighting & Electrical,2026-04-05,Home Depot,8542,Smokle Detectors,False,gm-19d3ee7e210a8af3,The Home Depot,dismissed
 PROP-558,104 Ashburne,Small Baths,2026-06-18,Armandre Vega,55000,Bath Fan and Vent,False,gm-19edb74b0d81508a,Unknown (no vendor named in email),pending
 PROP-562,104 Ashburne,Lighting & Electrical,2026-04-05,Home Depot,6376,Light Bulbs,False,gm-19d2b6120ef5187f,The Home Depot,dismissed
 PROP-566,104 Ashburne,Supplies,2026-03-12,Home Depot,1605,Screws,False,gm-19ce3297652cbfc8,The Home Depot,dismissed
-PROP-570,104 Ashburne,Small Baths,2026-06-30,Home Depot,1998,Caulk,False,gm-19ff17e1bc0effd7,The Home Depot,posted
+PROP-570,104 Ashburne,Small Baths,2026-06-30,Home Depot,1998,Caulk,False,gm-19f18a7ab38c52cf,The Home Depot,pending
+PROP-572,104 Ashburne,Supplies,2026-03-12,Home Depot,2974,Screws,False,gm-19cdd47626a096cb,The Home Depot,dismissed
 PROP-574,104 Ashburne,Lighting & Electrical,2026-04-09,Home Depot,16853,Outlets & Testet,False,gm-19d724c5c326c549,The Home Depot,posted
-PROP-577,104 Ashburne,Gas/Truck/Trailer,2026-06-17,Shell,6664,Gas,False,gm-19ed81985682b730,Shell,pending
-PROP-579,104 Ashburne,Supplies,2026-03-15,Home Depot,892,Shims,False,gm-19d2c0314cc37287,The Home Depot,pending
+PROP-579,104 Ashburne,Supplies,2026-03-15,Home Depot,892,Shims,False,gm-19cf2444d6efb00f,The Home Depot,dismissed
 PROP-583,104 Ashburne,Supplies,2026-03-15,Home Depot,2156,Sanding Discs,False,gm-19cf2444d6efb00f,The Home Depot,dismissed
 PROP-586,104 Ashburne,Supplies,2026-03-15,Home Depot,2852,Screws,False,gm-19cb1566e7f23282,"Lowe's Home Centers, LLC",posted
 PROP-587,104 Ashburne,Supplies,2026-03-17,UPS Store,357,Packing Tape,False,gm-19cfc60f0514c660,The UPS Store #5780,posted
 PROP-590,104 Ashburne,Supplies,2026-03-18,Home Depot,4776,Screws,False,gm-19d019ce67d9c5c3,The Home Depot,posted
+PROP-596,104 Ashburne,Supplies,2026-03-22,Home Depot,106,Teflon Tape,False,gm-19d16d3ec604edb7,The Home Depot,pending
 PROP-597,104 Ashburne,Supplies,2026-03-22,Home Depot,1404,Dremel Post,False,gm-19d16d3ec604edb7,The Home Depot,pending
 PROP-598,104 Ashburne,Supplies,2026-03-22,Home Depot,3786,Shopvac Filters,False,gm-19cf3177d3ee370b,The Home Depot,posted
 PROP-600,104 Ashburne,Supplies,2026-03-22,Home Depot,527,Windex,False,gm-19d4078f56917fbb,The Home Depot,dismissed
@@ -223,6 +223,7 @@ PROP-612,104 Ashburne,Supplies,2026-04-01,Home Depot,1567,Adhesive,False,gm-19d6
 PROP-623,104 Ashburne,Supplies,2026-04-05,Home Depot,917,Drill Bit,False,gm-19d2c0314cc37287,The Home Depot,pending
 PROP-624,104 Ashburne,Supplies,2026-04-05,Home Depot,917,Drill Bit,False,gm-19d2c0314cc37287,The Home Depot,pending
 PROP-625,104 Ashburne,Supplies,2026-04-05,Home Depot,1440,Nuts & Bolts,False,gm-19d5e139b4ae4612,The Home Depot,dismissed
+PROP-633,104 Ashburne,Supplies,2026-04-10,Home Depot,15128,Misc Supplies,False,gm-19d775f16740a511,The Home Depot,dismissed
 PROP-636,104 Ashburne,Supplies,2026-04-10,Home Depot,1287,Plumbing parts,False,gm-19d775f16740a511,The Home Depot,dismissed
 PROP-641,104 Ashburne,Supplies,2026-04-15,Home Depot,5138,Misc Supplies,False,gm-19d9259fe2484c26,The Home Depot,pending
 PROP-646,104 Ashburne,Supplies,2026-05-27,Home Depot,1026,Spackle,False,gm-19e69ec679ab8f42,The Home Depot,dismissed
@@ -230,11 +231,12 @@ PROP-648,104 Ashburne,Supplies,2026-06-16,Home Depot,403,2x4,False,gm-19ed818d6b
 PROP-650,104 Ashburne,Supplies,2026-06-16,Home Depot,4403,Screws,False,gm-19ed818d6be0fb42,The Home Depot,dismissed
 PROP-651,104 Ashburne,Supplies,2026-06-16,Home Depot,756,Spray Paint,False,gm-19ed818d6be0fb42,The Home Depot,dismissed
 PROP-652,104 Ashburne,Supplies,2026-06-16,Home Depot,3320,1x4's,False,gm-19ed818d6be0fb42,The Home Depot,dismissed
-PROP-654,104 Ashburne,Supplies,2026-06-16,Home Depot,2209,Nuts and bolts,False,gm-19e03c938a0f72b2,The Home Depot,posted
+PROP-654,104 Ashburne,Supplies,2026-06-16,Home Depot,2209,Nuts and bolts,False,gm-19ed818d6be0fb42,The Home Depot,dismissed
 PROP-656,104 Ashburne,Supplies,2026-06-16,Home Depot,289,Nuts and Bolts,False,gm-19ed818d6be0fb42,The Home Depot,dismissed
 PROP-660,104 Ashburne,Supplies,2026-06-18,Home Depot,3984,1x4,False,gm-19edabdf68ad91f0,The Home Depot,posted
 PROP-672,1616 Granite RECONCILED,,2026-06-16,TXU,16117,Electricity,False,gm-19ed79b1f9970494,TXU Energy,dismissed
 PROP-680,1616 Granite RECONCILED,,2026-05-29,Home Depot,2379,Toilet Parts,False,gm-19e758f6dc2ba281,The Home Depot,pending
+PROP-686,1616 Granite RECONCILED,,2026-05-29,Home Depot,6453,Lawn Utility Box,False,gm-19e758f6dc2ba281,The Home Depot,pending
 PROP-687,1616 Granite RECONCILED,,2026-05-29,Home Depot,3245,Toilet Seat,False,gm-19e758f6dc2ba281,The Home Depot,pending
 PROP-688,1616 Granite RECONCILED,,2026-05-29,Home Depot,371,Irrigation Couplings,False,gm-19e758f6dc2ba281,The Home Depot,pending
 PROP-689,1616 Granite RECONCILED,,2026-05-29,Home Depot,19462,Plastic Edging,False,gm-19e758f6dc2ba281,The Home Depot,pending
@@ -245,9 +247,10 @@ PROP-695,1616 Granite RECONCILED,,2026-05-30,Home Depot,187,Irrigation Bubbler,F
 PROP-698,1616 Granite RECONCILED,,2026-05-31,Home Depot,4328,Concrete Stain,False,gm-19e8f7d279f40059,The Home Depot,posted
 PROP-700,1616 Granite RECONCILED,,2026-05-29,Julio & Friend,60000,Landscaping,False,gm-19e4a94c6d49832a,Julio (last name unknown),pending
 PROP-701,1616 Granite RECONCILED,,2026-05-27,Amazon,7265,Curtain Rods,False,gm-19e8ed8492f559bc,"Anthropic, PBC",pending
+PROP-702,1616 Granite RECONCILED,,2026-05-27,Amazon,10515,Curtain Rods & Door Lock,False,gm-19e8ed8492f559bc,"Anthropic, PBC",pending
 PROP-703,1616 Granite RECONCILED,,2026-05-27,Amazon,11142,Exterior Light,False,gm-19e8ed8492f559bc,"Anthropic, PBC",pending
 PROP-704,1616 Granite RECONCILED,,2026-05-27,Amazon,3080,Curtain Rods,False,gm-19e8ed8492f559bc,"Anthropic, PBC",pending
-PROP-705,1616 Granite RECONCILED,,2026-06-01,50floor,131900,Carpet,False,gm-19ebc1789358c9a5,50Floor,pending
+PROP-705,1616 Granite RECONCILED,,2026-06-01,50floor,131900,Carpet,False,,,
 PROP-706,1616 Granite RECONCILED,,2026-06-01,Mariana,50000,Mariana,False,gm-19f138efc8a67a8f,Mariana (cleaner),pending
 PROP-708,1616 Granite RECONCILED,,2026-06-02,Julio + Friend,60000,Landscaping,False,,,
 PROP-710,1616 Granite RECONCILED,,2026-06-28,Home Depot,4001,Toilet Kits,False,gm-19f1526194ff1558,The Home Depot,pending
@@ -256,7 +259,7 @@ PROP-718,1616 Granite RECONCILED,,2026-06-22,Julio,20000,Landscaping,False,gm-19
 PROP-719,1616 Granite RECONCILED,,2026-07-15,Effren - 1373,11000,Landscaping,False,gm-19fb337be62617b6,Falcon Creek Lawn Care,posted
 PROP-721,1616 Granite RECONCILED,,2026-05-08,Home Depot,10706,Weed and Feed,False,gm-19e0304909d9e7ca,The Home Depot,pending
 PROP-722,1616 Granite RECONCILED,,2026-06-22,Home Depot,26455,Mulch,False,gm-19f1526194ff1558,The Home Depot,pending
-PROP-723,1616 Granite RECONCILED,,2026-06-10,Lowes,3797,Floor Paint,False,gm-19f154ce61fa47c1,"Lowe's Home Centers, LLC",posted
+PROP-723,1616 Granite RECONCILED,,2026-06-10,Lowes,3797,Floor Paint,False,gm-19ec7c49ce79aefb,Uber Eats,dismissed
 PROP-724,1616 Granite RECONCILED,,2026-05-26,Sherwin WIlliams,2424,Sherwin WIllains,False,,,
 PROP-725,1616 Granite RECONCILED,,2026-05-26,Sherwin WIlliams,3381,Sherwin WIllains,False,,,
 PROP-728,280 Sparkling RECONCILED,,2026-06-21,Home Depot,647,Paint Roller Trays,False,gm-19f1083966df0eb6,The Home Depot,pending
@@ -268,3 +271,4 @@ PROP-745,280 Sparkling RECONCILED,,2026-07-19,Effren - 1373,11000,Landscaping,Fa
 PROP-752,280 Sparkling RECONCILED,,2026-06-12,Julio,20000,Landscaping,False,gm-19ea4315de57f9f1,CoreLogic Inc (Cotality),pending
 PROP-759,280 Sparkling RECONCILED,,2026-08-05,TXU,22864,Electricity,False,gm-19fc94ab6c53f72a,TXU Energy,pending
 PROP-792,Cost Recapture,Sparkling & Granite,2026-09-01,Waxahachie Water,4000,Card Service Fee,False,gm-1a082f33d602358c,Central States Water Resources,pending
+PROP-794,1616 Granite RECONCILED,,2026-06-02,Mission Reg,29900,Listing Fee,False,,,

@@ -1957,9 +1957,10 @@ true
 "desc": "Carpet Laying",
 "amt": 160.0,
 "flags": [
-true,
+false,
 true
-]
+],
+"correction": "C-13 2026-09-18: both Paul Paid and Dennis Paid were ticked on the old row. Paul: 'dennis paid'"
 },
 {
 "tab": "136 Bowling Green",
@@ -2523,9 +2524,10 @@ false
 "payee": "City of Corsicana",
 "date": "2026-01-16",
 "desc": "Dump",
-"amt": 27.3,
+"amt": 22.5,
 "flags": [],
-"block": "Trash"
+"block": "Trash",
+"correction": "C-15 2026-09-18: typed $27.30; the two City of Corsicana receipts of 01-16 read $27.30 and $22.50. Paul: 'most likely yes' (the second load was $22.50). Ashburne is $4.80 below the old tab"
 },
 {
 "tab": "104 Ashburne",
@@ -9249,5 +9251,19 @@ false,
 true
 ],
 "block": "280 Sparkling"
+},
+{
+"tab": "1616 Granite RECONCILED",
+"row": 42,
+"col": 7,
+"payee": "Mission Reg",
+"date": "2026-06-02",
+"desc": "Listing Fee",
+"amt": 299.0,
+"flags": [
+false,
+true
+],
+"correction": "C-12 2026-09-18: the old row has no date, so the inventory dropped it (independent audit finding 1); inside the header SUM and the tab's Dennis Paid $1,466.63. Paul: 'june 2'"
 }
 ]

@@ -274,8 +274,12 @@ the tie-out per property against the snapshot.
 | C-7 | 2026-09-18 | 104 Ashburne, Waxahachie Glass $518.78, 2026-03-30 | typed twice: "Glass Deposit" (House Hardware) and "Window Replacement" (Chimney/Fireplace/Glass) | one row | Paul: "use the deposit only." One payment, one receipt; the Chimney-block row is dropped and the receipt moves to the deposit row. Ashburne is $518.78 below the old tab |
 | C-8 | 2026-09-18 | 1616 Granite, Mariana $500.00 | dated 2026-06-01 | 2026-06-29 | Paul: "use the email date" (his note "Mariana / Cleaning / $500" of 06-29) |
 | C-9 | 2026-09-18 | 104 Ashburne: Julio $200.00 (02-18) and $100.00 (02-12), each typed under both Landscaping and Trash; Lowe's toilet $107.17 (03-25) under both Small Baths and Master Bath | six rows | three rows | Paul: "the toilet is a duplicate and so are the julio charges if they are the same date." Kept: the Landscaping rows and the Master Bath row (Small Baths already has its own toilet of 03-05); dropped: the two Trash rows and the Small Baths row. Ashburne is $407.17 below the old tab |
-| C-10 | 2026-09-18 | Costs on receipts the old books left off (differences batch 1) | not in the old books | added, $682.97 | Paul: Ashburne Pool - utility pump $172.11 + discharge hose $24.88 (HD 03-02, "kept, not returned"); Ashburne Trash - contractor bags $64.88 (HD 01-07); Ashburne - walk-off mats $81.11 (HD 04-08). Each linked to its receipt. **Retracted 2026-09-18:** a Brushwood microwave $339.99 was added here on Claude's wrong statement that it was not in the old books; it is (Brushwood 09-02 "Microwave") |
+| C-10 | 2026-09-18 | Costs on receipts the old books left off | not in the old books | added, **$712.96** | Paul: Ashburne Pool - utility pump $172.11 + discharge hose $24.88 (HD 03-02, "kept, not returned"); Ashburne Trash - contractor bags $64.88 (HD 01-07); Ashburne - walk-off mats $81.11 (HD 04-08); Falcon Creek invoice 1390 (08-30) - Bowling Green $110.00 and Sparkling $55.00 (the latter to Cost Recapture, D-031); Bowling Green TXU $204.98 (09-10, "after seeing the screenshot"). Each linked to its receipt. (The line read $682.97 until the independent audit: it still counted a Brushwood microwave $339.99 added on Claude's wrong statement and retracted the same day - it is in the old books, Brushwood 09-02 - and left out the Falcon Creek and TXU additions) |
 | C-11 | 2026-09-18 | Returns the old books netted (D-028), confirmed by Paul | not in the old books | purchase + credit, net $0.00 | HD 06-16: 2 HP plunge router $172.12 and hole saw $47.59 ("returns"); HD 01-07: nitrile gloves $12.02 ("return gloves"). Posted gross with a RETURN credit on the purchase date; no return receipt exists - the card statement proves it in Phase 3 |
+| C-12 | 2026-09-18 | 1616 Granite, Mission Reg "Listing Fee" $299.00, Dennis Paid (cell J42) | no date on the old row - the inventory dropped it | 2026-06-02, migrated, 1330 | Independent audit finding 1: the row is inside the header SUM and the tab's "Dennis Paid $1,466.63". Paul: "june 2". Granite's target is **$12,204.87 / 61 rows**, not $11,905.87 / 60 |
+| C-13 | 2026-09-18 | 136 Bowling Green, Lupe "Carpet Laying" $160.00 (06-30) | Paul Paid and Dennis Paid both ticked; migrated as PAUL | DENNIS | Paul: "dennis paid" |
+| C-14 | 2026-09-18 | 280 Sparkling, Mission Real Estate Group "MLS Listing" $299.00 | account 1020 (a payee guess: labor) | 1330 | Paul: a listing fee "should be selling cost". Same for Granite's (C-12); Brushwood's and Ashburne's already were |
+| C-15 | 2026-09-18 | 104 Ashburne / Trash, City of Corsicana "Dump", the second row dated 2026-01-16 | $27.30 | $22.50 | Two loads that day; the receipts read $27.30 and $22.50 (`gm-19bca1bc45709266`). Paul: "most likely yes". Every Corsicana row now has its own receipt. Ashburne is $4.80 below the old tab |
 
 ## 14 · Where the staging run stands at end of day, 2026-09-17
 
@@ -595,3 +599,96 @@ Flanges; a microwave "not in the books" that was; a near-amount rule estimated a
 made 1; a matcher that ignored the property the read had assigned. Standing rules: search the old
 rows for an amount on every tab before telling Paul it is missing; show Paul the stored document,
 not a Gmail link; one question at a time.
+
+## 22 · Independent audit and its fixes, 2026-09-18 (`docs/phase4-independent-audit.md`)
+
+A fresh session re-parsed the snapshot with its own parser and checked the inventory, the dry run,
+the staging Journal and the links. Amounts held except one row; the fixes below are made, the dry
+run is rebuilt and **pushed to the staging project (2026-09-18 07:41); nothing has been run there
+yet, and nothing is pushed to production.**
+
+- **Granite $299 listing fee** (C-12) added to `property-rows.json` - appended, because
+  `paul-answers.json` keys rows by index. Lupe → DENNIS (C-13). Listing fees → 1330 (C-14).
+- **Advances (D-032, finding 2):** `migrationRegisterAdvances` now clears the Advances tab and the
+  advances' Journal lines and posts the whole list (staging, or an empty Journal at cutover; it
+  refuses anywhere else). Granite's three are on the list (9%, repaid 2026-07-27). Ashburne's 15
+  "Dennis Paid ..." lines land on 2030 instead of a rehab account; the seven Ashburne rows held
+  back as `COVERED_BY_ADVANCE` post as typed; an Ashburne row never credits 2010.
+  `advances-direct.json` is gone.
+- **Matcher:** pairs are placed best-first across all rows (row-by-row placement pushed four
+  Corsicana dump runs and two Shell fill-ups one receipt along); a near amount is strong only
+  within 10 days and on the document's own vendor name (not a word in the mail body); the
+  exact-amount rule needs the read's property to agree or the names to resemble (Julio $200 had
+  taken a CoreLogic $200 invoice); a stale duplicate is not a twin when the invoice numbers differ
+  (Atlas Pools paid 18723 and 18972 on one day). 21 links dropped to "confirm", 8 gained, 9 moved.
+  `scripts/migration-audit-links.py` now finds no strong link that a better receipt contradicts.
+- **Scope (D-033):** sales, net profit and balances are Phase 5. Paul is holding live receipts
+  until the migration is complete.
+
+**State of the numbers:** old books 1,029 rows $221,688.05 → **1,035 entries to post,
+$220,779.39**, all build in the posting engine; held back: 6 removed by Paul, one $0.00 row.
+By property: Ashburne $161,117.54, Granite $12,204.87, Bowling Green $3,761.63, Mesa $9,648.00,
+Newport $3,089.17, Sparkling $3,179.78, Brushwood $1,916.80, Cost Recapture $1,365.04, overhead
+$24,496.56. Linked: 777 entries, 75.1% of rows, 63.6% of dollars (the dollar share fell because
+the two $7,000 Juan Garcia rows and the other formerly held-back Ashburne rows now post, unlinked).
+Lists: differences 110 · confirm 232 · no document 31 · in mail, not in the books 170 · questions 37.
+
+**To run (staging, in this order):** the writer + `rows/MigrationData.gs` are pushed (§21 step
+4); Paul runs `migrationRegisterAdvances` (resets and re-posts all 33 advances),
+then `migrationRunStaging`; tie out against `rows/expected.json`; rerun
+`scripts/migration-audit-indep.py` and `migration-audit-links.py`.
+
+**Open with Paul:** who paid Falcon Creek invoice 1390 (the Newport line is ticked Recast
+Account, the other three lines are PAUL - one invoice, one payment); whether the second City of
+Corsicana row on 01-16 ($27.30) is really the $22.50 load; the eight Ashburne cash advances with no
+tab row (D-032 consequence).
+
+**Later the same day - Falcon Creek 1390 answered from the mail, and why the pollers miss Paul's
+notes.** Paul: "they ignore my email titles or text that provide information and context. Falcon
+Creek invoice 1390 is an example. i noted how the invoice was paid in the email." The forwarded
+invoice itself carries no note (both stored copies begin at "Forwarded message"). The note is the
+memo on the bank's Zelle confirmation of 08-31 in paul@ (`gm-1a05aabd4a07b3ac`): "$275.00 to Effren
+Landscaper - Invoice #1390 for Newport, Bowling Green, Sparkling" = $110 + $110 + $55 from the
+Recast Citizens account. So the Newport tick was right and the two added lines are now `1401`, not
+PAUL; Ashburne's $150 was not in that payment and stays as Paul answered. The five Zelle
+confirmations to Carlos Ibarra ($500 each, 08-15 … 08-20) are the documents for the Mesa siding
+rows: four linked (the fifth already had its receipt). Two causes, both real:
+1. **The prompt never said Paul's words count.** `paid_from` keyed on card last-fours; subject and
+   note were passed to the model and left to chance ("Julio / $250 / Dennis paid him" → DENNIS, but
+   "Dennis $400" → PAUL, and "Julio $400 / Sat and for Dennis" → PAUL with the hint noticed and
+   dropped). Fixed in `lib/bookkeeper-prompt.md`: "Read what Paul wrote first" in the method and a
+   new `paid_from` rule 3. **Needs `npm run deploy`** (Paul); live mail is on hold, so no hurry.
+2. **Context that lives in another email never reaches the bookkeeper** - the bank's Zelle
+   notices. That is Phase 3; `phase3-spec.md` §6a now names them as a feed source.
+The old receipts poller in `Recast-site/` has the same first gap; it is out of bounds from here.
+Dry run now: 1,035 entries, $220,779.39, 783 linked; pushed to staging again.
+
+## 23 · Staging pass 3, 2026-09-18 13:03 - the audited books, tied out
+
+Paul ran `migrationRegisterAdvances` (12:43-12:58: 60 old advance lines removed, **33 advances
+posted, none orphaned**; Granite's three back at 9%, repaid 2026-07-27; account 1000 =
+$1,863,647.50, eight purchases; the 15 Ashburne "Dennis Paid ..." lines on 2030, no advance in a
+rehab account) and then `migrationRunStaging` (13:00-13:03: 2,020 lines of pass 2 cleared, 66
+advance lines kept, **1,035 entries posted in one write, $220,779.39**, tabs rebuilt).
+
+Tie-out from the `books-cache` Journal snapshot, two paths: (1) Journal by property =
+`rows/expected.json`, **$0.00 on all nine** (Ashburne $161,117.54, Granite $12,204.87, Bowling
+Green $3,761.63, Mesa $9,648.00, Newport $3,089.17, Sparkling $3,179.78, Brushwood $1,916.80, Cost
+Recapture $1,365.04, overhead $24,496.56), txn ids identical to the dry run, debits = credits
+($2,281,963.15); (2) the independent re-parse of the xlsx vs the Journal, row by row: every old row
+is there, and the only differences are register lines C-3, C-5 … C-9, C-12 and the 13 additions
+(C-10, C-11). 781 entries carry a receipt link. `rows/journal-tieout.json` records it.
+
+Registering 33 advances took 14 minutes because `addAdvance` rebuilds the property tab each time
+(19 rebuilds of Ashburne). Before the cutover run, give the migration path a skip-rebuild flag.
+
+**Next (§17):** item 3 the confirm list (232), item 4 differences (110), item 5 in mail not in
+the books (170), item 6 no document (31), item 7 Drive filing; open questions in §22; then the
+production writer push and the cutover.
+
+**After pass 3 - C-15.** The second City of Corsicana load of 01-16 is $22.50, not $27.30 (Paul:
+"most likely yes"); all ten Corsicana rows now sit on their own receipt. Dry run: 1,035 entries,
+**$220,774.59** (Ashburne $161,112.74), 784 linked, all build; pushed to staging. **Staging still
+holds pass 3 at $220,779.39** - one more Run of `migrationRunStaging` brings it to this number; it
+can wait and ride along with the next batch of cleanup answers.
+

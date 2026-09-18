@@ -125,7 +125,8 @@ def main():
             ymd = "-".join(m.groups()); e = env[d]
             # the twin is the same charge: same vendor, same day AND the same total. Two TXU payments
             # on one day are two charges (Newport $118.12 / Bowling Green $204.98, 2026-09-18).
-            cands = [x for x, y in env.items() if x != d and y["date"] == ymd and norm_vendor(y["vendor"]) == norm_vendor(e["vendor"]) and y["total"] == e["total"]]
+            cands = [x for x, y in env.items() if x != d and y["date"] == ymd and norm_vendor(y["vendor"]) == norm_vendor(e["vendor"]) and y["total"] == e["total"]
+                     and not (y["invoice"] and e["invoice"] and y["invoice"] != e["invoice"])]   # Atlas Pools paid invoices 18723 and 18972 on one day, $256.01 each: two charges
             cands.sort(key=lambda x: (env[x]["verdict"] == "dismiss", x))
             if not cands: break
             d = cands[0]
@@ -164,18 +165,25 @@ def main():
             # amount that merely appears somewhere in the mail text is weaker (ten small Brushwood rows
             # had claimed the $339.99 microwave receipt ahead of the $339.99 row, 2026-09-18).
             whole = bool(e["total"]) and r["cents"] == e["total"]
-            rank = (-1, dd) if v and whole else (0, dd) if v and amt else (1, dd) if v and near else (2, dd) if amt and dd <= 20 else (3, dd) if v and dd <= 10 else None
+            # A near amount is strong only on Paul's terms (same vendor, 10 days) and the vendor must be
+            # the document's own - a word of the payee somewhere in the mail body linked an NTTA toll
+            # to an Uber ride and a Shell fill-up to the next month's (independent audit, 2026-09-18).
+            v_own = norm_vendor(r["payee"]) == norm_vendor(e["vendor"]) or any(t in (e["vendor"] + " " + e["subject"]).lower() for t in vtoks(r["payee"]))
+            rank = (-1, dd) if v and whole else (0, dd) if v and amt else (1, dd) if v_own and near and dd <= 10 else (2, dd) if amt and dd <= 20 else (3, dd) if v and dd <= 10 else None
             if rank and wrong_property(r, e): rank = (4, dd)      # never strong: another property's receipt
             if rank: c.append((rank, d))
         if c: cands[r["_k"]] = sorted(c)
+    # Placed pair by pair, best pair first across ALL rows - not row by row. Row by row, a row
+    # whose own receipt was full took the next visit's receipt and pushed every later row one
+    # receipt along (four City of Corsicana dump runs, two Shell fill-ups; independent audit).
     row_doc = {}; rk0 = {r["_k"]: r for r in rest}
-    for k in sorted(cands, key=lambda k: cands[k][0]):
-        placed = False
-        for rank, d0_ in cands[k]:
-            d = survivor(d0_)   # a dismissed receipt that is not a twin is a candidate for Paul, never "documented"
-            if rank[0] <= 1 and live(d) and cap.get(d, 0) >= rk0[k]["cents"]:
-                cap[d] -= rk0[k]["cents"]; row_doc[k] = (d, "strong"); placed = True; break
-        if not placed: row_doc[k] = (survivor(cands[k][0][1]), "weak")
+    for rank, k, d0_ in sorted((rank, k, d) for k, c in cands.items() for rank, d in c):
+        if k in row_doc or rank[0] > 1: continue
+        d = survivor(d0_)   # a dismissed receipt that is not a twin is a candidate for Paul, never "documented"
+        if live(d) and cap.get(d, 0) >= rk0[k]["cents"]:
+            cap[d] -= rk0[k]["cents"]; row_doc[k] = (d, "strong")
+    for k in cands:
+        if k not in row_doc: row_doc[k] = (survivor(cands[k][0][1]), "weak")
     # Rows that together equal a receipt: the old books split one receipt across rows (Shalom
     # Granite $3,558 + $4,950 = the $8,508 receipt). For a receipt no row has claimed yet, a
     # unique set of unplaced same-vendor rows within 45 days that sums to its total is strong.

@@ -1,16 +1,22 @@
 {
- "pass": 2,
- "fetchedAt": 1789731423231,
+ "pass": 3,
+ "ran": "2026-09-18 13:00-13:03",
+ "journal_snapshot": "books-cache tab/Journal fetched 2026-09-18 13:02:09",
  "by_property": {
   "OVERHEAD": 2449656,
   "881 Newport": 308917,
   "469 Brushwood": 191680,
   "366 Mesa": 964800,
-  "136 Bowling Green": 344665,
-  "104 Ashburne": 14425212,
-  "1616 Granite": 1190587,
-  "280 Sparkling": 317978
+  "136 Bowling Green": 376163,
+  "104 Ashburne": 16111754,
+  "1616 Granite": 1220487,
+  "280 Sparkling": 317978,
+  "Cost Recapture": 136504
  },
- "entries": 1010,
- "linked": 766
+ "entries": 1035,
+ "cents": 22077939,
+ "difference_cents": 0,
+ "linked": 781,
+ "advances": 33,
+ "advance_orphans": 0
 }

@@ -140,6 +140,30 @@
    "row": "881 Newport 2026-09-10 TXU 118.12",
    "docId": "gm-1a09104468189ee2",
    "why": "Paul saw both screenshots 2026-09-18: Newport's own TXU payment ($118.12, acct 900085385050, conf 810814123); the read was a stale-duplicate dismiss, and the matcher had put the row on the Bowling Green receipt"
+  },
+  {
+   "key": "PROP-86",
+   "row": "366 Mesa 2026-08-19 Carlos 500.00",
+   "docId": "gm-1a01c99454c93634",
+   "why": "Claude 2026-09-18: the bank's own Zelle confirmation in paul@ (CNB of Texas, 'You've successfully sent $500.00 to Carlos A Ibarra'), same date and amount; paid from the Recast Citizens account, as Paul's Recast Account box says"
+  },
+  {
+   "key": "PROP-87",
+   "row": "366 Mesa 2026-08-19 Carlos 500.00",
+   "docId": "gm-1a01c9a4ebc0197d",
+   "why": "Claude 2026-09-18: the bank's own Zelle confirmation in paul@ (CNB of Texas, 'You've successfully sent $500.00 to Carlos A Ibarra'), same date and amount; paid from the Recast Citizens account, as Paul's Recast Account box says"
+  },
+  {
+   "key": "PROP-88",
+   "row": "366 Mesa 2026-08-19 Carlos 500.00",
+   "docId": "gm-1a01c9ab2e4af43b",
+   "why": "Claude 2026-09-18: the bank's own Zelle confirmation in paul@ (CNB of Texas, 'You've successfully sent $500.00 to Carlos A Ibarra'), same date and amount; paid from the Recast Citizens account, as Paul's Recast Account box says"
+  },
+  {
+   "key": "PROP-89",
+   "row": "366 Mesa 2026-08-20 Carlos 500.00",
+   "docId": "gm-1a01f29ba390b80f",
+   "why": "Claude 2026-09-18: the bank's own Zelle confirmation in paul@ (CNB of Texas, 'You've successfully sent $500.00 to Carlos A Ibarra'), same date and amount; paid from the Recast Citizens account, as Paul's Recast Account box says"
   }
  ],
  "no_link": [
@@ -381,10 +405,10 @@
    "amount_cents": 11000,
    "payee": "Falcon Creek Lawn Care",
    "description": "INV 1390 - grass cutting x2 @ $55 (Bowling Green is held, so an ordinary cost of that property)",
-   "paid_from": "PAUL",
+   "paid_from": "1401",
    "docId": "gm-1a05ab0fab9330ec",
    "register": "C-10",
-   "said": "Paul 2026-09-18: Falcon Creek invoice 1390 (08-30) has two lines the old books lack; post-sale charges go to the new Cost Recapture tab (D-031)"
+   "said": "Paul 2026-09-18: Falcon Creek invoice 1390 (08-30) has two lines the old books lack; post-sale charges go to the new Cost Recapture tab (D-031) | payer: Paul 2026-09-18 'i noted how the invoice was paid in the email' - the CNB of Texas Zelle confirmation of 2026-08-31 (paul@, gm-1a05aabd4a07b3ac): '$275.00 to Effren Landscaper - Invoice #1390 for Newport, Bowling Green, Sparkling' = $110 + $110 + $55, from the Recast Citizens account"
   },
   {
    "date": "2026-08-30",
@@ -394,10 +418,10 @@
    "amount_cents": 5500,
    "payee": "Falcon Creek Lawn Care",
    "description": "INV 1390 - grass cutting x1 @ $55, 280 Sparkling Springs (sold 2026-08-06)",
-   "paid_from": "PAUL",
+   "paid_from": "1401",
    "docId": "gm-1a05ab0fab9330ec",
    "register": "C-10",
-   "said": "Paul 2026-09-18: Falcon Creek invoice 1390 (08-30) has two lines the old books lack; post-sale charges go to the new Cost Recapture tab (D-031)"
+   "said": "Paul 2026-09-18: Falcon Creek invoice 1390 (08-30) has two lines the old books lack; post-sale charges go to the new Cost Recapture tab (D-031) | payer: Paul 2026-09-18 'i noted how the invoice was paid in the email' - the CNB of Texas Zelle confirmation of 2026-08-31 (paul@, gm-1a05aabd4a07b3ac): '$275.00 to Effren Landscaper - Invoice #1390 for Newport, Bowling Green, Sparkling' = $110 + $110 + $55, from the Recast Citizens account"
   },
   {
    "date": "2026-09-10",

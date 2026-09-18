@@ -22,7 +22,7 @@ import argparse, collections, csv, hashlib, json, os, re
 
 TAB_TO_PROP = {"1616 Granite RECONCILED": "1616 Granite", "280 Sparkling RECONCILED": "280 Sparkling", "RECAST BIZ": "OVERHEAD"}
 RETAIL = ("home depot", "lowe", "amazon", "floor", "wayfair", "wayfiar", "sherwin", "harbor", "walmart", "ebay", "seconds", "mccoy", "myknobs",
-          "barker", "architect", "leslie", "menards", "ace ", "tractor", "50 floor", "50floor", "build.com", "ferguson")
+          "barker", "architect", "leslie", "menards", "ace ", "tractor", "50 floor", "50floor", "build.com", "ferguson", "ups store")
 UTIL = ("txu", "atmos", "energy", "water", "city of ovilla", "city of red oak", "city of waxahachie", "electric co", "rocket", "gexa", "reliant")
 def money(c): return f"{c/100:,.2f}"
 def has(s, words): s = (s or "").lower(); return any(w in s for w in words)
@@ -52,9 +52,9 @@ def account_for(r, prop):
         return HEAVY[blk], "block map"
     if has(who, UTIL): return "1120", "payee"
     if has(who, ("insurance", "foremost", "farmers")): return "1110", "payee"
-    if has(who, ("hoa", "lawn", "mow", "falcon creek", "effren", "pool service")): return "1130", "payee"
+    if not has(r["payee"], RETAIL) and has(who, ("hoa", "lawn", "mow", "falcon creek", "effren", "pool service")): return "1130", "payee"   # a Home Depot "Lawn Utility Box" is materials
     if has(who, ("tax office", "property tax")): return "1100", "payee"
-    if has(who, ("photo", "staging", "sign", "vistaprint", "vista print", "homes.com")): return "1330", "payee"
+    if has(who, ("photo", "staging", "sign", "vistaprint", "vista print", "homes.com", "listing")): return "1330", "payee"   # listing fee: "it should be selling cost" (Paul 2026-09-18)
     if has(who, ("dump", "landfill", "dumpster", "haul")): return "1060", "payee"
     if has(who, ("appliance",)): return "1040", "payee"
     return ("1030", "payee (retailer)") if has(who, RETAIL) else ("1020", "payee (labor)")
@@ -64,7 +64,7 @@ def paid_from_for(r):
     if len(f) >= 2 and sum(bool(x) for x in f) == 1:
         if f[0]: return "PAUL", "Paul Paid box"
         if f[1]: return "DENNIS", "Dennis Paid box"
-        return ("1402" if r["date"] < "2026-08-01" else "1401"), "Recast Account box (ASSUMED: Chase before August, Citizens after)"
+        return ("1402" if r["date"] < "2026-08-01" else "1401"), "Recast Account box (Paul 2026-09-18: all are August-September rows, Citizens 1401)"
     if r["match"] in ("id", "strong") and r["doc_paid_from"] and r["doc_paid_from"] != "UNKNOWN": return r["doc_paid_from"], "read"
     if r["date"] and r["date"] < "2026-08-01": return "PAUL", "D-026.2 (before August)"
     return "UNKNOWN", ""
@@ -114,7 +114,10 @@ def main():
         t, c = int(r["doc_total"] or 0), int(r["cents"])
         try: dd = abs((_dt.date.fromisoformat(r["date"]) - _dt.date.fromisoformat(r["doc_date"])).days)
         except Exception: continue
-        if c > 0 and t == c and dd <= 2 and used_c[r["docId"]] == 0 and r["key"] not in _no:
+        # ...but not blind: the read must put the receipt on the row's property (overhead for RECAST
+        # BIZ), or the names must resemble. Without it Julio's $200 took a CoreLogic $200 invoice.
+        here = r["read_property"] == TAB_TO_PROP.get(r["tab"], r["tab"]) or _same_vendor(r["payee"], r["doc_vendor"])
+        if c > 0 and t == c and dd <= 2 and here and used_c[r["docId"]] == 0 and r["key"] not in _no:
             r["match"] = "strong"; used_c[r["docId"]] += c; exact += 1
     print(f"near-amount rule linked {near} rows; exact-amount-same-day rule linked {exact} rows")
     entries, q = [], []
@@ -125,6 +128,9 @@ def main():
             moved_from, prop = prop, "OVERHEAD"
         else: moved_from = ""
         pf, pf_src = paid_from_for(r)
+        # D-032: on the bank deal everything Dennis put in is an advance on the Cash Advances tab
+        # (Dr 2030 / Cr 2010). A row the receipt says Dennis paid credits 2030, or 2010 counts twice.
+        if prop == "104 Ashburne" and pf == "DENNIS": pf, pf_src = "PAUL", "D-032 (Ashburne: Dennis's money is the cash advance, not the row)"
         linked = r["match"] in ("id", "strong")
         flags = [x for x in (("NO_DOC" if r["match"] == "none" else ""), ("WEAK_MATCH_UNCONFIRMED" if r["match"] == "weak" else ""),
                              ("NO_DATE" if not r["date"] else ""), ("MOVED_TO_OVERHEAD:" + moved_from if moved_from else ""),
@@ -139,17 +145,11 @@ def main():
         # Dennis Paid box: Dr cost / Cr 2010, no Advances row, no interest (D-030).
         if not r["date"]: q.append({"question": "row has no date", **{k: e[k] for k in ("date", "old_tab", "payee", "description", "amount_cents", "docId")}})
 
-    # Dennis's direct payments were registered as advances (migrationRegisterAdvances posts Dr cost /
-    # Cr 2010 and the Advances row). The Ashburne tab lists the same payments in its trade blocks
-    # too ("Cash Draws are what count"), so those block rows are NOT posted again.
-    import datetime
-    direct = json.load(open(os.path.join(a.inv, "advances-direct.json"))); used = set()
-    for adv in direct:
-        c = [e for e in entries if e["property"] == adv["property"] and e["amount_cents"] == adv["amount_cents"] and e["date"] and e["txn_id"] not in used
-             and abs((datetime.date.fromisoformat(e["date"]) - datetime.date.fromisoformat(adv["date"])).days) <= 5]
-        if c:
-            e = min(c, key=lambda e: abs((datetime.date.fromisoformat(e["date"]) - datetime.date.fromisoformat(adv["date"])).days))
-            used.add(e["txn_id"]); e["skip"] = "COVERED_BY_ADVANCE " + adv["date"]; e["flags"] = (e["flags"] + ";" if e["flags"] else "") + "COVERED_BY_ADVANCE"
+    # D-032 (Paul 2026-09-18: "dennis has no direct payments. only cash advances and loan for
+    # purchase"): the "Dennis Paid ..." lines on the Cash Advances tab are cash advances - financing,
+    # registered by migrationRegisterAdvances, never a cost. Every Ashburne row posts as typed, so the
+    # property's cost is the old tab's, to the cent. (Until 2026-09-18 seven rows were held back as
+    # COVERED_BY_ADVANCE and eight advances with no row added $1,619.00 of cost the old tab never had.)
     # Paul's answers (audit section 17): who paid, by rule. A rule matches on the entry's own fields.
     ans_path = os.path.join(a.inv, "paul-answers.json")
     answers = json.load(open(ans_path)) if os.path.exists(ans_path) else {}

@@ -119,6 +119,16 @@ Paul: "we can use those to reconcile every day."
   balances must chain: day N's ending balance minus day N+1's net must equal day N+1's
   ending balance, or the parser reports a gap (a missed email).
 
+**Zelle confirmations carry Paul's memo (added 2026-09-18).** CNB also mails paul@ a
+"Notification - Your $X to <payee> was sent" for every Zelle payment, and the body holds the
+memo Paul typed at the bank: "$275.00 to Effren Landscaper - Invoice #1390 for Newport, Bowling
+Green, Sparkling", "Carlos A Ibarra - 366 Mesa - removed old siding...". Six sit in paul@ for
+2026. That memo is where Paul records how a contractor invoice was paid and for which properties;
+the receipts poller never sees it, because the email is not sent to a receipts address, so the
+invoice read comes back `paid_from UNKNOWN`. The bankfeed poller takes these too (same sender
+family, subject "was sent"): the memo goes on the Feed row, and matching uses the invoice number
+and property names in it to tie the payment to the invoice - payer 1401, split as the memo says.
+
 ## 7 · Not built
 
 No live feed, no balance polling, no bank credentials anywhere, no Plaid. `Bank

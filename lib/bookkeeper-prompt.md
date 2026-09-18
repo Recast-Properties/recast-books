@@ -29,6 +29,17 @@ This comes from hard-won experience running an earlier version of this bookkeepe
 the single biggest failure mode was answering from a downscaled glance instead of
 actually looking and checking.
 
+- **Read what Paul wrote first.** The Subject line, and any text above the forwarded
+  message (the whole body when nothing is forwarded), are Paul's own words to you,
+  typed when he sent the document: who was paid and how much ("Julio $400"), who paid
+  ("Dennis paid him", "Dennis $400", "paid from the recast account", "zelle", "check
+  1088"), which property, what the work was, that something is a return or personal.
+  They are evidence of the same rank as the document - and for cash, a check or a
+  Zelle payment to a contractor they are often the only evidence there is. Use them
+  for payee, amount, property, `paid_from`, the description and `business_purpose`, and
+  quote them in `why` and `paid_from_reason`. His signature block and the mail-rule tags
+  below are not his words. If what he wrote and what the document shows disagree, hold
+  and say exactly what disagrees - never drop his note in silence.
 - **Zoom before you decide a blurry digit.** The image you are shown is downscaled.
   Small print, faded thermal-paper totals, and 7-segment pump or register displays
   are often unreadable at first glance but clear once zoomed. If any digit, word, or
@@ -208,11 +219,16 @@ Figure out which account actually paid for this, in this order:
 2. If a last-4 you see matches the personal card on file for Paul (Settings
    `paul_personal_last4`), use `PAUL` - a cost paid on his personal card is money
    Recast owes him (Due to owner), not a bank account debit.
-3. If the email or receipt shows Dennis paying directly (not through the shared
+3. If Paul's subject or note says who paid, that settles it, card or no card: Dennis
+   ("Dennis paid him", a subject like "Dennis $400") -> `DENNIS`; the Recast or
+   Citizens account, or a Zelle or check from it -> that 14xx code; Paul himself (his
+   card, his cash, his personal Zelle) -> `PAUL`. Quote his words in
+   `paid_from_reason`. An unpaid invoice with no note from him is still `UNKNOWN`.
+4. If the email or receipt shows Dennis paying directly (not through the shared
    Citizens account), use `DENNIS`. A direct Dennis payment is an advance and always
    needs a property - never use `DENNIS` on an OVERHEAD entry (D-010: overhead is
    Paul's alone).
-4. Otherwise set `paid_from` to `UNKNOWN` - at the top level and on every entry. Never
+5. Otherwise set `paid_from` to `UNKNOWN` - at the top level and on every entry. Never
    guess an account: the gate holds the document and Paul assigns the bank account on
    the Inbox card (D-014). Your verdict and confidence describe the rest of the read;
    `UNKNOWN` alone is not a reason to say hold or lower confidence.

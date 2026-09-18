@@ -1970,11 +1970,15 @@ function migrationRegisterProperties() {
 // ---- Phase 4: the old workbook's Dennis advances, as Advances rows (D-011/D-022) ------
 // Purchase principal and cash advances per property tab (2026-09-17 snapshot), Ashburne's
 // Cash Advances tab in full. Rates are the old books' (9%; Ashburne 12%), per advance.
-// `into` is where the money landed: 1000 for a purchase, a bank code for a draw, 2030
-// when it reimbursed Paul, or the rehab account when Dennis paid a contractor directly
-// (that single entry IS the expense - Dr rehab / Cr 2010). 1616 Granite is skipped: its
-// three advances are already on the tab from the Phase 2.6 gate. Sold properties get
-// their repaid_date so interest stops at the sale. Idempotent by advance memo.
+// `into` is where the money landed: 1000 for a purchase, a bank code for a draw, 2030 when it
+// reimbursed Paul or paid a contractor on his behalf. D-032 (Paul 2026-09-18: "dennis has no direct
+// payments. only cash advances and loan for purchase"): an advance is financing, never a cost -
+// the Ashburne tab's own rows carry the cost, so the 15 "Dennis Paid ..." lines land on 2030.
+// Sold properties get their repaid_date so interest stops at the sale.
+// Clear and rerun (D-025.2): the Advances tab and the advances' Journal lines are removed first,
+// then the whole list is posted. Until 2026-09-18 this skipped any advance whose Advances row
+// existed - and clearBooks() leaves that tab alone, so Granite's three (from the Phase 2.6 gate)
+// kept their rows and lost their Journal entries (independent audit, finding 2).
 /** Staging only (D-025.2: never correct in place - clear and rerun). Removes the receipt lane
  *  and any earlier migration pass from the Journal - txn_ids receipt-* and migration-*, and the
  *  voids that name them - and keeps everything else (the advances and purchases registered by
@@ -2085,8 +2089,42 @@ function migrationPostRows() {
   return { posted: posted, already: already, left: left };
 }
 
+/** Empties the Advances tab and removes the advances' own Journal lines, so the list below is
+ *  posted whole. Only where that cannot hurt: a workbook named STAGING, or one whose Journal is
+ *  empty (the cutover, right after clearBooks). Anywhere else it refuses. */
+function migrationResetAdvances_(ss, advSheet) {
+  var journal = ss.getSheetByName('Journal');
+  var jLast = journal.getLastRow();
+  if (ss.getName().indexOf('STAGING') === -1 && jLast > 1) fail_('NOT_EMPTY', 'refusing to reset advances in "' + ss.getName() + '": its Journal has entries. Run clearBooks() first (cutover).');
+  var aLast = advSheet.getLastRow();
+  if (aLast < 2) return;
+  var aCols = headerIndex_(advSheet);
+  var ids = {};
+  advSheet.getRange(2, aCols['source_txn_id'], aLast - 1, 1).getValues().forEach(function (r) { if (r[0]) ids[String(r[0])] = true; });
+  var lock = LockService.getScriptLock();
+  lock.waitLock(30000);
+  try {
+    if (jLast > 1) {
+      var jCols = headerIndex_(journal), width = journal.getLastColumn();
+      var vals = journal.getRange(2, 1, jLast - 1, width).getValues();
+      var keep = vals.filter(function (r) { return !ids[String(r[jCols['txn_id'] - 1])] && !ids[String(r[jCols['void_of'] - 1])]; });
+      journal.getRange(2, 1, jLast - 1, width).clearContent();
+      if (keep.length) journal.getRange(2, 1, keep.length, width).setValues(keep);
+      console.log('RESET advances: ' + (vals.length - keep.length) + ' Journal line(s) removed');
+    }
+    advSheet.getRange(2, 1, aLast - 1, advSheet.getLastColumn()).clearContent();
+    var keys = Object.keys(ids).map(function (id) { return 'txn:' + id; }), cache = CacheService.getScriptCache();
+    for (var i = 0; i < keys.length; i += 100) cache.removeAll(keys.slice(i, i + 100));   // or the re-post reads DUPLICATE from the cache
+  } finally {
+    lock.releaseLock();
+  }
+}
+
 function migrationRegisterAdvances() {
   var L = [
+    ['1616 Granite', 'purchase', '2026-04-07', 279001, '1000', 9, 'Purchase principal (migration)', '2026-07-27'],
+    ['1616 Granite', 'cash', '2026-06-01', 5500, '2030', 9, 'Cash advance, reimbursed Paul - part of a $7,000 check, $1,500 went to Bowling Green (migration)', '2026-07-27'],
+    ['1616 Granite', 'cash', '2026-06-05', 1338, '2030', 9, 'Cash advance, reimbursed Paul (migration)', '2026-07-27'],
     ['280 Sparkling', 'purchase', '2026-06-02', 196850.50, '1000', 9, 'Purchase principal (migration)', '2026-08-06'],
     ['881 Newport', 'purchase', '2026-06-29', 207000, '1000', 9, 'Purchase principal (migration)', ''],
     ['881 Newport', 'cash', '2026-07-09', 2000, '2030', 9, 'Cash advance, reimbursed Paul (migration)', ''],
@@ -2097,39 +2135,34 @@ function migrationRegisterAdvances() {
     ['136 Bowling Green', 'cash', '2026-06-01', 1500, '1402', 9, 'Cash advance (migration)', ''],
     ['206 White Rock', 'purchase', '2026-06-02', 184500, '1000', 9, 'Purchase principal (migration)', ''],
     ['104 Ashburne', 'purchase', '2025-12-02', 325000, '1000', 12, 'Purchase principal, Auction.com (migration)', ''],
-    ['104 Ashburne', 'cash', '2025-12-10', 200, '1020', 12, 'Dennis paid Julio directly - trash removal (migration)', ''],
-    ['104 Ashburne', 'cash', '2025-12-11', 200, '1020', 12, 'Dennis paid Julio directly - pool clean out (migration)', ''],
-    ['104 Ashburne', 'cash', '2026-01-08', 200, '1020', 12, 'Dennis paid Julio directly - labor (migration)', ''],
-    ['104 Ashburne', 'cash', '2026-01-12', 7000, '1020', 12, 'Dennis paid Juanito directly - drywall/supplies/painting (migration)', ''],
-    ['104 Ashburne', 'cash', '2026-01-23', 7000, '1020', 12, 'Dennis paid Juanito directly - painting (migration)', ''],
-    ['104 Ashburne', 'cash', '2026-01-24', 606.70, '1020', 12, 'Dennis paid Robinson Air directly - HVAC (migration)', ''],
+    ['104 Ashburne', 'cash', '2025-12-10', 200, '2030', 12, 'Cash advance - Julio, trash removal (migration)', ''],
+    ['104 Ashburne', 'cash', '2025-12-11', 200, '2030', 12, 'Cash advance - Julio, pool clean out (migration)', ''],
+    ['104 Ashburne', 'cash', '2026-01-08', 200, '2030', 12, 'Cash advance - Julio, labor (migration)', ''],
+    ['104 Ashburne', 'cash', '2026-01-12', 7000, '2030', 12, 'Cash advance - Juanito, drywall/supplies/painting (migration)', ''],
+    ['104 Ashburne', 'cash', '2026-01-23', 7000, '2030', 12, 'Cash advance - Juanito, painting (migration)', ''],
+    ['104 Ashburne', 'cash', '2026-01-24', 606.70, '2030', 12, 'Cash advance - Robinson Air, HVAC (migration)', ''],
     ['104 Ashburne', 'cash', '2026-02-04', 50000, '1402', 12, 'Draw - rehab (migration)', ''],
     ['104 Ashburne', 'cash', '2026-03-06', 60000, '1402', 12, 'Draw - rehab (migration)', ''],
     ['104 Ashburne', 'cash', '2026-03-30', 20000, '1402', 12, 'Draw - rehab (migration)', ''],
     ['104 Ashburne', 'cash', '2026-04-08', 20000, '1402', 12, 'Draw - rehab (migration)', ''],
-    ['104 Ashburne', 'cash', '2026-04-10', 400, '1020', 12, 'Dennis paid Julio directly - labor (migration)', ''],
-    ['104 Ashburne', 'cash', '2026-04-16', 21, '1060', 12, 'Dennis paid City of Corsicana dump directly (migration)', ''],
-    ['104 Ashburne', 'cash', '2026-04-22', 199, '1330', 12, 'Dennis paid listing fee (Iley) directly (migration)', ''],
-    ['104 Ashburne', 'cash', '2026-05-04', 250, '1020', 12, 'Dennis paid Julio directly - labor (migration)', ''],
-    ['104 Ashburne', 'cash', '2026-05-05', 1065.74, '1020', 12, 'Dennis paid Robinson Air directly - HVAC (migration)', ''],
-    ['104 Ashburne', 'cash', '2026-05-07', 299, '1330', 12, 'Dennis paid listing fee (Iley) directly (migration)', ''],
-    ['104 Ashburne', 'cash', '2026-05-21', 250, '1020', 12, 'Dennis paid Julio directly - labor (migration)', ''],
+    ['104 Ashburne', 'cash', '2026-04-10', 400, '2030', 12, 'Cash advance - Julio, labor (migration)', ''],
+    ['104 Ashburne', 'cash', '2026-04-16', 21, '2030', 12, 'Cash advance - City of Corsicana dump (migration)', ''],
+    ['104 Ashburne', 'cash', '2026-04-22', 199, '2030', 12, 'Cash advance - listing fee (Iley) (migration)', ''],
+    ['104 Ashburne', 'cash', '2026-05-04', 250, '2030', 12, 'Cash advance - Julio, labor (migration)', ''],
+    ['104 Ashburne', 'cash', '2026-05-05', 1065.74, '2030', 12, 'Cash advance - Robinson Air, HVAC (migration)', ''],
+    ['104 Ashburne', 'cash', '2026-05-07', 299, '2030', 12, 'Cash advance - listing fee (Iley) (migration)', ''],
+    ['104 Ashburne', 'cash', '2026-05-21', 250, '2030', 12, 'Cash advance - Julio, labor (migration)', ''],
     ['104 Ashburne', 'cash', '2026-06-29', 8000, '1402', 12, 'Draw - buyer repairs (migration)', ''],
-    ['104 Ashburne', 'cash', '2026-07-13', 150, '1020', 12, 'Dennis paid Julio directly - landscaping (migration)', ''],
-    ['104 Ashburne', 'cash', '2026-07-27', 300, '1020', 12, 'Dennis paid Julio directly - landscaping (migration)', '']
+    ['104 Ashburne', 'cash', '2026-07-13', 150, '2030', 12, 'Cash advance - Julio, landscaping (migration)', ''],
+    ['104 Ashburne', 'cash', '2026-07-27', 300, '2030', 12, 'Cash advance - Julio, landscaping (migration)', '']
   ];
   var props = PropertiesService.getScriptProperties();
   var ss = openOrCreateWorkbook_(props);
   var advSheet = ss.getSheetByName('Advances');
-  var cols = headerIndex_(advSheet);
-  var existing = {};
-  if (advSheet.getLastRow() > 1) advSheet.getRange(2, 1, advSheet.getLastRow() - 1, advSheet.getLastColumn()).getValues().forEach(function (r) {
-    existing[String(r[cols['property'] - 1]) + '|' + formatIsoDate_(r[cols['date'] - 1]) + '|' + Number(r[cols['amount'] - 1])] = true;
-  });
+  migrationResetAdvances_(ss, advSheet);
   var out = [];
   L.forEach(function (a) {
     var key = a[0] + '|' + a[2] + '|' + a[3];
-    if (existing[key]) { out.push(key + ' -> exists'); return; }
     var r = addAdvance({ kind: a[1], property: a[0], date: a[2], amount: a[3], into: a[4], rate_pct: a[5], memo: a[6] });
     if (r.ok && a[7]) {
       var c2 = headerIndex_(advSheet);
