@@ -752,16 +752,29 @@ per-property lines of invoices 1372 and 1373; Julio $200 06-12 on Granite and Sp
 as is. he did work for both properties on different days but was paid for both on the same day."
 Recorded under `confirmed_as_is` in `paul-answers.json` so none of them is asked again.
 
-**Confirm list closed out by judgment (2026-09-18, item 3 of §17).** 232 → **30**. Decisions, each with its
-reason in `paul-answers.json`: linked - the Aiper robot (Paul), the cabinet lights, the six Mesa Lowe's
-rows of 08-13 ($542.39 of a $542.40 receipt), 14 rows on the only same-vendor receipt of their day, two
-exact matches with a misspelt payee; refused - 82 impossible candidates and 53 whose receipt is already
-explained to the cent by other rows (nineteen $200 Julio cash days all pointed at the one "200 / 300 for
-deck" note, which belongs to the two 03-23 rows). **845 entries linked, 81.8% of rows, 64.1% of dollars.**
-The 30 left are under $310 each ($1.9K in all): Home Depot days with several receipts, two e-receipt
-wrappers with no content (Floor & Decor, VistaPrint). What is unlinked is mostly what never had a
-receipt: $79.5K, of which the 14 largest rows are $56K - contractor checks and cash (Luxury 4 Less,
-Juan Garcia, Salvador Campos, Atlas Pools, the Mesa checks). Those are proven from the bank side in Phase 3.
-A tolerance on "rows that add up to a receipt" was tried and reverted: it made unique sets ambiguous and
-lost 15 links.
+**Confirm list worked by judgment (2026-09-18, item 3 of §17) - and a mistake of Claude's inside it,
+caught the same hour.** First pass: 232 → 30, by linking the clear cases and refusing the impossible ones
+in bulk. The bulk refusals were wrong in two ways: they were keyed on the **row**, so a refusal of one
+bad candidate blocked the row from every document; and they took "unlinked" from `G-row-map.csv`, which
+does not know about the links `migration-rows.py` adds itself - so six rows that were already correctly
+linked (the HOA dues $259.09, three Uber Eats crew meals, two UPS Store receipts) were refused off their
+own receipts. A comparison against the pre-audit links found it. Fixed: a refusal now names its document
+and refuses that document only; all 136 bulk refusals were removed and rebuilt per document from the true
+unlinked set (98: another vendor's document 35, receipt smaller than the row 13, receipt already
+explained to the cent 48, right amount wrong product 2). Also fixed: the remainder of a partly explained
+receipt can attach rows (the Shalom Granite $4,950 row had fallen off its $8,508 receipt).
+
+Linked by judgment, each with its reason in `paul-answers.json`: the Aiper robot (Paul), the cabinet
+lights, six Mesa Lowe's rows of 08-13 ($542.39 of a $542.40 receipt), 14 rows on the only same-vendor
+receipt of their day, four exact matches with a misspelt or oddly named payee. **857 entries carry a
+receipt: 83.0% of rows, 66.6% of dollars** (pre-audit: 76.1% / 68.1% - fewer dollars because $16.5K of
+Ashburne rows that used to be held back now post, unlinked). Lists: confirm **57** (under $310 each),
+no document 124, differences 117, in mail not in the books 168. What is unlinked is mostly what never had
+a receipt - contractor checks and cash (Luxury 4 Less $10,319.56, Juan Garcia 4 x $7,000, Salvador
+Campos, Atlas Pools, the Mesa checks): proven from the bank side in Phase 3. The 16 links the pre-audit
+run had and this one lacks are all deliberate: wrong vendor (Julio → CoreLogic, toll → Uber), Sparkling's
+TXU (C-16), and near-amount links more than 10 days apart.
+
+Rule for next time: after any change to the matcher or the answers, diff the links against the last
+committed run and read every link that disappeared before moving on.
 

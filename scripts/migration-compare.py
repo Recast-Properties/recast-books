@@ -194,23 +194,29 @@ def main():
     # Rows that together equal a receipt: the old books split one receipt across rows (Shalom
     # Granite $3,558 + $4,950 = the $8,508 receipt). For a receipt no row has claimed yet, a
     # unique set of unplaced same-vendor rows within 45 days that sums to its total is strong.
-    def exact_sets(items, target, cap=2):
+    def exact_sets(items, target, cap=2, need=2):
         found = []
         def rec(i, left, chosen):
             if len(found) >= cap: return
-            if left == 0 and len(chosen) >= 2: found.append(list(chosen)); return
+            if left == 0 and len(chosen) >= need: found.append(list(chosen)); return
             if i >= len(items) or left <= 0: return
             rec(i + 1, left - items[i][1], chosen + [items[i]]); rec(i + 1, left, chosen)
         rec(0, target, []); return found
-    claimed = {d for d, s_ in row_doc.values() if s_ == "strong"} | used_docs
+    # Also for a receipt some rows already sit on: what is left of it, if a unique set of unplaced
+    # same-vendor rows equals it to the cent (a single row is enough then). Without this, placing
+    # Shalom's $3,558 row by its two lines left the $4,950 row off the $8,508 receipt.
+    placed = collections.defaultdict(int)
+    for k_, (d_, s_) in row_doc.items():
+        if s_ == "strong": placed[d_] += rk0[k_]["cents"]
     for d, e in docs:
-        if d in claimed or not e["total"] or e["verdict"] == "dismiss" or survivor(d) != d: continue
+        if d in used_docs or not e["total"] or e["verdict"] == "dismiss" or survivor(d) != d: continue
+        target = e["total"] - placed[d]
+        if target <= 0: continue
         pool = [(r["_k"], r["cents"]) for r in rest if row_doc.get(r["_k"], ("", "weak"))[1] != "strong" and r["cents"] > 0 and vendor_match(r["payee"], e) and not wrong_property(r, e)
                 and pd(r["date"]) and pd(e["date"]) and abs((pd(r["date"]) - pd(e["date"])).days) <= 45][:18]
-        sets = exact_sets(sorted(pool, key=lambda x: -x[1]), e["total"])
+        sets = exact_sets(sorted(pool, key=lambda x: -x[1]), target, need=1 if placed[d] else 2)
         if len(sets) == 1:
-            for k, _c in sets[0]: row_doc[k] = (d, "strong")
-            claimed.add(d)
+            for k, _c in sets[0]: row_doc[k] = (d, "strong"); placed[d] += _c
 
     by_doc = collections.defaultdict(list)
     for k, (d, s) in row_doc.items(): by_doc[d].append((k, s))

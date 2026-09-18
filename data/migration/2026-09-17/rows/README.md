@@ -1,10 +1,10 @@
 # Row-driven migration - DRY RUN (D-029). Nothing is posted.
 
-Old rows: 1029  $221,683.25   entries: 1038  $221,973.17   linked to a receipt: 845 (369 Drive file, 476 Gmail link, to be filed)
+Old rows: 1029  $221,683.25   entries: 1038  $221,973.17   linked to a receipt: 857 (376 Drive file, 481 Gmail link, to be filed)
 
 | property | old rows $ | entries | entries $ | difference | linked |
 |---|---:|---:|---:|---:|---:|
-| 104 Ashburne | 164,979.03 | 468 | 161,776.82 | -3,202.21 | 354 |
+| 104 Ashburne | 164,979.03 | 468 | 161,776.82 | -3,202.21 | 365 |
 | 136 Bowling Green | 3,446.65 | 49 | 3,761.63 | 314.98 | 43 |
 | 1616 Granite | 12,204.87 | 61 | 12,204.87 | 0.00 | 35 |
 | 280 Sparkling | 3,179.78 | 34 | 3,179.78 | 0.00 | 26 |
@@ -12,11 +12,11 @@ Old rows: 1029  $221,683.25   entries: 1038  $221,973.17   linked to a receipt: 
 | 469 Brushwood | 1,916.80 | 33 | 1,916.80 | 0.00 | 31 |
 | 881 Newport | 3,089.17 | 30 | 3,089.17 | 0.00 | 23 |
 | Cost Recapture | 1,310.04 | 6 | 1,203.87 | -106.17 | 5 |
-| OVERHEAD | 21,908.91 | 331 | 25,192.23 | 3,283.32 | 310 |
+| OVERHEAD | 21,908.91 | 331 | 25,192.23 | 3,283.32 | 311 |
 
 The only differences by property are fuel rows Paul's rule moves to overhead (D-026.9): $3,283.32 (43 rows). Everything else is the old row, to the cent.
 
-Accounts: {'block map': 84, 'read': 719, 'D-026.9 fuel block': 58, 'payee': 168, 'Paul/Claude': 9}
-Paid from: {'PAUL': 937, '1401': 66, 'DENNIS': 33, '1402': 2}  (sources: {'read': 621, 'D-026.2': 135, "Paul: 2026-09-18: the other 33 August-onward rows with no payer - 'all personal card ending in 9166'": 34, "Paul: 2026-09-18: camera gimbal - 'that one is recast joint account - citizens'": 1, 'Paul Paid box': 140, 'Recast Account box': 62, 'Dennis Paid box': 33, 'D-032': 3, 'receipt': 9})
+Accounts: {'block map': 84, 'read': 723, 'D-026.9 fuel block': 58, 'payee': 164, 'Paul/Claude': 9}
+Paid from: {'PAUL': 937, '1401': 66, 'DENNIS': 33, '1402': 2}  (sources: {'read': 633, 'D-026.2': 123, "Paul: 2026-09-18: the other 33 August-onward rows with no payer - 'all personal card ending in 9166'": 34, "Paul: 2026-09-18: camera gimbal - 'that one is recast joint account - citizens'": 1, 'Paul Paid box': 140, 'Recast Account box': 62, 'Dennis Paid box': 33, 'D-032': 3, 'receipt': 9})
 
-Lists for Paul: 1 differences 119 · 2 confirm the match 30 · 3 no document 163 · 4 in mail, not in the books 168 · 5 questions 37
+Lists for Paul: 1 differences 117 · 2 confirm the match 57 · 3 no document 124 · 4 in mail, not in the books 168 · 5 questions 37

@@ -40,7 +40,7 @@ date,vendor,total,where_the_read_put_it,status,subject,weak_candidates,docId
 2026-06-30,Berrett Pest Control,270.63,104 Ashburne,pending,Fwd: Receipt for payment to Berrett Pest Control,,gm-19f19bb233837a1e
 2026-01-30,Ashburne Glen Homeowners Association,259.09,104 Ashburne,posted,Fwd: Online payment received,104 Ashburne/HOA/259.09,gm-19c0fc92279d93d1
 2026-06-11,VistaPrint,241.71,OVERHEAD,posted,Your order is confirmed,,gm-19eb7ae65da2fd3a
-2026-03-25,The Home Depot,241.50,,pending,Order confirmed. We're processing your order now!,104 Ashburne/Home Depot/16.33;104 Ashburne/Home Depot/49.75,gm-19d25017467ed73d
+2026-03-25,The Home Depot,241.50,,pending,Order confirmed. We're processing your order now!,,gm-19d25017467ed73d
 2026-03-30,The Home Depot,241.50,,pending,"Your order's ready! Pick it up by Thursday, April 9",,gm-19d4fef69c52ef33
 2026-02-10,Lowe's Home Improvement,238.06,,pending,Your Lowe's Purchase Receipt,104 Ashburne/Lowes/173.18,gm-19c484998d6bf67a
 2026-08-31,"CoreLogic Solutions, LLC",235.00,OVERHEAD,pending,Property Intelligence Invoice #30902041,,gm-1a06877a765d05a1
@@ -53,6 +53,7 @@ date,vendor,total,where_the_read_put_it,status,subject,weak_candidates,docId
 2026-09-16,Home Depot,222.25,1616 Granite,posted,TEST fake receipt 4 (warm caches),,up-test-inbox-warm-0916
 2026-09-16,Home Depot,222.25,1616 Granite,posted,TEST fake receipt 6 (cache b),,up-test-inbox-cache-b-0916
 2026-09-16,Home Depot,222.25,1616 Granite,posted,TEST fake receipt 5 (cache a),,up-test-inbox-cache-a-0916
+2026-03-02,The Home Depot,219.69,OVERHEAD,pending,Your Electronic Receipt,,gm-19caf6b9e1556ade
 2026-08-18,TXU Energy,213.64,,pending,Your payment's complete,,gm-1a016949d078f6cf
 2026-08-08,TXU Energy,213.64,,pending,Your bill’s ready,,gm-19fe29270591d10e
 2026-09-02,TXU Energy,204.98,,pending,Your bill’s ready,,gm-1a064647233912fe
@@ -71,7 +72,6 @@ date,vendor,total,where_the_read_put_it,status,subject,weak_candidates,docId
 2026-08-10,The Home Depot,192.15,104 Ashburne;OVERHEAD,pending,,,gm-19fed30f7359ded5
 2026-07-30,City of Waxahachie - Utility Billing,187.50,280 Sparkling,pending,Fwd: Utility Billing Payment Reminder,,gm-19fba44b9851a310
 2026-02-16,The Home Depot,183.38,OVERHEAD,pending,Your Electronic Receipt,,gm-19c66d875dd9e7bd
-2026-04-06,The Home Depot,181.52,,pending,We received your order!,,gm-19d63f17bf22f9fa
 2026-02-19,The Home Depot,178.48,1616 Granite,pending,Your Electronic Receipt,,gm-19c774f69781c13a
 2026-01-11,The Home Depot,170.63,,pending,Your Electronic Receipt,,gm-19bae03eddedc8bc
 2026-02-17,The Home Depot,166.08,OVERHEAD,pending,Your Electronic Receipt,,gm-19c6ce38c37d7ca4
@@ -161,7 +161,7 @@ date,vendor,total,where_the_read_put_it,status,subject,weak_candidates,docId
 2026-02-02,Floor & Decor,0.00,,pending,Fwd: Your e-Receipt is Enclosed,,gm-19c1fc34982c2b29
 2026-09-08,The Home Depot,-41.55,,dry,,,dry-gm-1a0818a010ad633c
 2026-05-29,The Home Depot,-50.36,1616 Granite,pending,Your Electronic Receipt,1616 Granite RECONCILED/Home Depot/23.79;1616 Granite RECONCILED/Home Depot/64.53;1616 Granite RECONCILED/Home Depot/32.45;1616 Granite RECONCILED/Home Depot/3.71;1616 Granite RECONCILED/Home Depot/194.62,gm-19e758f6dc2ba281
-2026-03-26,The Home Depot,-53.14,,pending,Your Electronic Receipt,104 Ashburne/Home Depot/17.08;104 Ashburne/Home Depot/2.53,gm-19d2a51f5dffc8be
+2026-03-26,The Home Depot,-53.14,,pending,Your Electronic Receipt,104 Ashburne/Home Depot/2.53,gm-19d2a51f5dffc8be
 2026-06-30,The Home Depot,-74.57,,pending,Your Electronic Receipt,104 Ashburne/Home Depot/19.98,gm-19f18a7ab38c52cf
 2026-05-07,The Home Depot,-106.95,104 Ashburne,pending,Refund,1616 Granite RECONCILED/Home Depot/107.06,gm-19e0304909d9e7ca
 2026-04-16,"Lowe's Home Centers, LLC",-128.93,104 Ashburne,pending,Refund,,gm-19d9617b3e88822b

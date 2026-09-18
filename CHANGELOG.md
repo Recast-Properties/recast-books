@@ -628,3 +628,8 @@ Dry run 1,030 entries, $220,512.72. `phase4-audit.md` §24.
 $161.17 too. Sparkling stays as closed; Cost Recapture takes a -$161.17 credit (D-031 extended: errors
 found on a sold property go to Cost Recapture). Dry run 1,031 entries, $220,351.55.
 
+**Confirm list by judgment; refusals are per document now.** 857 entries linked (83.0% of rows). A
+bulk-refusal mistake of Claude's (row-level refusals built from the wrong "unlinked" set buried six good
+links) was caught by diffing against the pre-audit links and fixed the same hour; the Shalom Granite
+$4,950 regression too. C-17 (Shell typed twice). Dry run 1,030 entries, $220,286.07.
+

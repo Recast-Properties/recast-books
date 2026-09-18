@@ -77,7 +77,13 @@ def main():
     # Reviewed matches (audit section 17 item 3): a confirmed candidate counts as linked, a refused
     # one as no document. Keyed by the old row; who decided and why is in paul-answers.json.
     _ans = json.load(open(os.path.join(a.inv, "paul-answers.json"))) if os.path.exists(os.path.join(a.inv, "paul-answers.json")) else {}
-    _yes = {x["key"]: x for x in _ans.get("link", [])}; _no = {x["key"] for x in _ans.get("no_link", [])}
+    _yes = {x["key"]: x for x in _ans.get("link", [])}
+    # A refusal that names its document refuses that document only - the row is free to find its
+    # real receipt later. (Bulk refusals keyed on the row alone had buried six good links, 2026-09-18.)
+    _no = {x["key"] for x in _ans.get("no_link", []) if not x.get("docId")} | {(x["key"], x["docId"]) for x in _ans.get("no_link", []) if x.get("docId")}
+    class _No(set):
+        def __contains__(self, k): return set.__contains__(self, k) or set.__contains__(self, (k, _cur.get(k, "")))
+    _cur = {r["key"]: r["docId"] for r in G}; _no = _No(_no)
     for r in G:
         if r["key"] in _yes:
             if r["docId"] != _yes[r["key"]]["docId"]:
