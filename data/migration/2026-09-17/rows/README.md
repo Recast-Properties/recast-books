@@ -1,10 +1,10 @@
 # Row-driven migration - DRY RUN (D-029). Nothing is posted.
 
-Old rows: 1024  $220,079.01   entries: 1024  $220,079.01   linked to a receipt: 758 (233 Drive file, 525 Gmail link, to be filed)
+Old rows: 1024  $220,079.01   entries: 1024  $220,079.01   linked to a receipt: 759 (233 Drive file, 526 Gmail link, to be filed)
 
 | property | old rows $ | entries | entries $ | difference | linked |
 |---|---:|---:|---:|---:|---:|
-| 104 Ashburne | 164,983.83 | 467 | 161,700.51 | -3,283.32 | 313 |
+| 104 Ashburne | 164,983.83 | 467 | 161,700.51 | -3,283.32 | 314 |
 | 136 Bowling Green | 3,446.65 | 47 | 3,446.65 | 0.00 | 33 |
 | 1616 Granite | 11,905.87 | 60 | 11,905.87 | 0.00 | 35 |
 | 280 Sparkling | 3,179.78 | 34 | 3,179.78 | 0.00 | 26 |
@@ -15,7 +15,7 @@ Old rows: 1024  $220,079.01   entries: 1024  $220,079.01   linked to a receipt: 
 
 The only differences by property are fuel rows Paul's rule moves to overhead (D-026.9): $3,283.32 (43 rows). Everything else is the old row, to the cent.
 
-Accounts: {'block map': 91, 'read': 617, 'D-026.9 fuel block': 58, 'payee': 258}
-Paid from: {'PAUL': 928, '1401': 60, 'DENNIS': 34, '1402': 2}  (sources: {'read': 577, 'D-026.2': 182, "Paul: 2026-09-18: the other 33 August-onward rows with no payer - 'all personal card ending in 9166'": 35, "Paul: 2026-09-18: camera gimbal - 'that one is recast joint account - citizens'": 1, 'Paul Paid box': 140, 'Recast Account box': 58, 'Dennis Paid box': 31})
+Accounts: {'block map': 91, 'read': 618, 'D-026.9 fuel block': 58, 'payee': 257}
+Paid from: {'PAUL': 928, '1401': 60, 'DENNIS': 34, '1402': 2}  (sources: {'read': 578, 'D-026.2': 181, "Paul: 2026-09-18: the other 33 August-onward rows with no payer - 'all personal card ending in 9166'": 35, "Paul: 2026-09-18: camera gimbal - 'that one is recast joint account - citizens'": 1, 'Paul Paid box': 140, 'Recast Account box': 58, 'Dennis Paid box': 31})
 
-Lists for Paul: 1 differences 112 · 2 confirm the match 235 · 3 no document 31 · 4 in mail, not in the books 153 · 5 questions 38
+Lists for Paul: 1 differences 113 · 2 confirm the match 234 · 3 no document 31 · 4 in mail, not in the books 153 · 5 questions 38

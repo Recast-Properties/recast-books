@@ -34,6 +34,17 @@
    },
    "register": "C-6",
    "said": "2026-09-18: the $666.67 '420 Alyssa' interest row - 'remove it from the books'"
+  },
+  {
+   "match": {
+    "old_tab": "104 Ashburne",
+    "old_block": "Chimney/FIreplace/Glass",
+    "payee": "Waxahachie Glass",
+    "date": "2026-03-30",
+    "amount_cents": "51878"
+   },
+   "register": "C-7",
+   "said": "2026-09-18: Waxahachie Glass $518.78 was typed in two blocks - 'use the deposit only'"
   }
  ],
  "link": [
@@ -66,6 +77,12 @@
    "row": "104 Ashburne 2026-03-30 Juan Garcia 1670.00",
    "docId": "gm-19d40334634a85c4",
    "why": "Paul's own note to the Ashburne mailbox that day, subject '1670 Juan' - the record of this payment (Claude, after Paul could not open the link) | Paul 2026-09-18: 'yes that's correct. i paid with a check from my personal account unless that amount matches a dennis cash advance' - no $1,670 advance exists, so PAUL"
+  },
+  {
+   "key": "PROP-363",
+   "row": "104 Ashburne 2026-03-30 Waxahachie Glass 518.78 (Glass Deposit)",
+   "docId": "gm-19d405df0d679aff",
+   "why": "Paul 2026-09-18: the deposit is the real row; the one receipt moves to it"
   }
  ],
  "no_link": [
@@ -138,6 +155,19 @@
    "key": "PROP-706",
    "row": "1616 Granite RECONCILED 2026-06-01 Mariana 500.00",
    "why": "the 6/29 'Mariana Cleaning $500' note went to the Bowling Green mailbox and is that property's row"
+  }
+ ],
+ "redate": [
+  {
+   "match": {
+    "old_tab": "1616 Granite RECONCILED",
+    "payee": "Mariana",
+    "date": "2026-06-01",
+    "amount_cents": "50000"
+   },
+   "date": "2026-06-29",
+   "register": "C-8",
+   "said": "2026-09-18: 'mariana, use the email date' (the 6/29 note 'Mariana / Cleaning / $500')"
   }
  ]
 }

@@ -79,7 +79,11 @@ def main():
     _ans = json.load(open(os.path.join(a.inv, "paul-answers.json"))) if os.path.exists(os.path.join(a.inv, "paul-answers.json")) else {}
     _yes = {x["key"]: x for x in _ans.get("link", [])}; _no = {x["key"] for x in _ans.get("no_link", [])}
     for r in G:
-        if r["key"] in _yes and r["docId"] == _yes[r["key"]]["docId"]: r["match"] = "strong"
+        if r["key"] in _yes:
+            if r["docId"] != _yes[r["key"]]["docId"]:
+                src = next((x for x in G if x["docId"] == _yes[r["key"]]["docId"]), None)
+                if src: r.update({k: src[k] for k in ("docId", "doc_vendor", "doc_date", "doc_total", "doc_status", "doc_paid_from", "doc_url", "gmail_url")})
+            r["match"] = "strong"
         elif r["key"] in _no and r["match"] == "weak": r["match"] = "none"
     entries, q = [], []
     for r in G:
@@ -121,6 +125,11 @@ def main():
         for rule in answers.get("paid_from", []):
             if e["paid_from"] == "UNKNOWN" and all(str(e.get(k, "")).startswith(v) if k == "payee" else str(e.get(k, "")) == v for k, v in rule["match"].items()):
                 e["paid_from"], e["paid_from_source"] = rule["paid_from"], "Paul: " + rule["said"]
+    for e in entries:
+        for rule in answers.get("redate", []):
+            if all(str(e.get(k, "")) == v for k, v in rule["match"].items()):
+                e["date"] = rule["date"]; e["correction"] = (e["correction"] + " | " if e["correction"] else "") + rule.get("register", "") + " " + rule["said"]
+                e["flags"] = (e["flags"] + ";" if e["flags"] else "") + "CORRECTED"
     hit = lambda e, m: all(str(e.get(k, "")).startswith(v) if k == "payee" and v else str(e.get(k, "")) == v for k, v in m.items())
     for e in entries:
         for rule in answers.get("drop", []):
