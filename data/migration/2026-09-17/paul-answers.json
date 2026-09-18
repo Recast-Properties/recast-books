@@ -219,6 +219,10 @@
   {
    "rule": "near-amount link",
    "said": "2026-09-18: Paul 'yes' - same vendor within 10 days and the receipt total within 3% (or $2) of the row: link it, and the gap goes to the return-or-omitted list; every other likely match stays unlinked at Paul's amount"
+  },
+  {
+   "rule": "exact amount, same day",
+   "said": "2026-09-18: Claude's rule, reported to Paul - exact amount within 2 days on a receipt no other row claims is linked regardless of vendor spelling"
   }
  ]
 }

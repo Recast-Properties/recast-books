@@ -103,7 +103,16 @@ def main():
         tol = max(200, c * 3 // 100)
         if t and c > 0 and abs(t - c) <= tol and dd <= 10 and r["doc_status"] != "dismissed" and _same_vendor(r["payee"], r["doc_vendor"]) and used_c[r["docId"]] + c <= t + tol:
             r["match"] = "strong"; used_c[r["docId"]] += c; near += 1
-    print(f"near-amount rule linked {near} rows")
+    # Exact amount, within 2 days, and a receipt no other row has claimed: linked however the
+    # vendor is spelled ("HOA" / "Ashburne Glen Homeowners Association", "Harbor Frieght").
+    exact = 0
+    for r in sorted((x for x in G if x["match"] == "weak"), key=lambda x: -int(x["cents"])):
+        t, c = int(r["doc_total"] or 0), int(r["cents"])
+        try: dd = abs((_dt.date.fromisoformat(r["date"]) - _dt.date.fromisoformat(r["doc_date"])).days)
+        except Exception: continue
+        if c > 0 and t == c and dd <= 2 and used_c[r["docId"]] == 0 and r["key"] not in _no:
+            r["match"] = "strong"; used_c[r["docId"]] += c; exact += 1
+    print(f"near-amount rule linked {near} rows; exact-amount-same-day rule linked {exact} rows")
     entries, q = [], []
     for r in G:
         prop = TAB_TO_PROP.get(r["tab"], r["tab"]); cents = int(r["cents"])
