@@ -83,6 +83,18 @@
    "row": "104 Ashburne 2026-03-30 Waxahachie Glass 518.78 (Glass Deposit)",
    "docId": "gm-19d405df0d679aff",
    "why": "Paul 2026-09-18: the deposit is the real row; the one receipt moves to it"
+  },
+  {
+   "key": "PROP-78",
+   "row": "469 Brushwood 2026-09-07 Mariana 250.00",
+   "docId": "gm-1a07ec26660d7659",
+   "why": "Paul 2026-09-18: Mariana cleaned Ashburne again and Brushwood; 'the $450 is correct'. The 9/7 screenshot reads Mariana Martinez $700.00 = $450 Ashburne + $250 Brushwood - one receipt, both rows"
+  },
+  {
+   "key": "PROP-229",
+   "row": "104 Ashburne 2026-09-07 Marianna 450.00",
+   "docId": "gm-1a07ec26660d7659",
+   "why": "Paul 2026-09-18: Mariana cleaned Ashburne again and Brushwood; 'the $450 is correct'. The 9/7 screenshot reads Mariana Martinez $700.00 = $450 Ashburne + $250 Brushwood - one receipt, both rows"
   }
  ],
  "no_link": [
