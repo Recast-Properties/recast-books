@@ -612,3 +612,10 @@ $220,774.59, pushed to staging, not yet rerun there.
 **Deployed 2026-09-18 13:2x** (`npm run deploy`, deploy `6aad7fed`): the prompt change (Paul's subject and
 note first) and the image-type / API-failure fix are live. Staging pass 4 (13:14) ties out at
 $220,774.59 with C-15.
+
+**Inbox is a collapsed list (2026-09-18).** Paul could not find a document: the sidebar loaded the
+newest 100 of 387 pending and drew every one as a full card. Now each document is one row - vendor
+(or "(no vendor)" + the subject), date, amount, confidence - that toggles open into the same editor;
+thumbnails and fields load on first open; a filter box searches vendor, subject, date, amount,
+property and docId; "Collapse all"; the whole pending queue loads (limit 500). Pushed to staging.
+

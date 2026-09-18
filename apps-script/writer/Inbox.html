@@ -5,7 +5,15 @@
   .top h3 { margin: 0; }
   .top button { padding: 4px 10px; font-size: 12px; margin: 0; }
   .card { border: 1px solid #ddd; border-radius: 4px; padding: 8px; margin-bottom: 10px; }
-  .card .head { display: flex; justify-content: space-between; align-items: baseline; }
+  .card .head { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; cursor: pointer; user-select: none; }
+  .card .head .vendor { flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .card .head .when { flex: 0 0 74px; color: #555; font-size: 11px; }
+  .card .head .amt { flex: 0 0 78px; text-align: right; font-size: 12px; font-variant-numeric: tabular-nums; }
+  .card .head .tw { flex: 0 0 10px; color: #777; font-size: 10px; }
+  .card.closed { padding: 5px 8px; margin-bottom: 4px; }
+  .card.closed .body { display: none; }
+  .card.open .head { margin-bottom: 4px; }
+  #filter { width: 100%; box-sizing: border-box; margin-bottom: 8px; }
   .card .vendor { font-weight: bold; font-size: 13px; }
   .card .sub { color: #555; font-size: 11px; margin: 2px 0 6px; }
   .pill { font-size: 10px; padding: 1px 6px; border-radius: 8px; background: #eee; }
@@ -38,8 +46,9 @@
 
 <div class="top">
   <h3>Inbox <span id="count"></span></h3>
-  <div><button id="refresh">Refresh</button></div>
+  <div><button id="collapse">Collapse all</button> <button id="refresh">Refresh</button></div>
 </div>
+<input id="filter" placeholder="Filter: vendor, subject, date, amount, property...">
 <div id="msg" class="msg hidden"></div>
 <div id="list">Loading...</div>
 <p class="rc-small" style="font-size:11px;color:#777;">Posted, dismissed and errored items: <a id="weblink" href="#" target="_blank" rel="noopener">web Inbox</a>.</p>
@@ -47,6 +56,7 @@
 <script>
   var DATA = { envelopes: [], pickers: { accounts: [], properties: [], bankAccounts: [] }, site: '' };
   var EDIT = {}; // docId -> editable entries (deep copy of model.entries)
+  var OPEN = {}; // docId -> true while its card is toggled open (the list starts collapsed)
 
   function money_(cents) { return '$' + (Number(cents || 0) / 100).toFixed(2); }
   function cents_(v) {
@@ -110,8 +120,16 @@
         items + '<button class="add" data-add="' + ei + '">+ item</button></div>';
     }).join('');
 
-    return '<div class="card" data-doc="' + d + '">' +
-      '<div class="head"><span class="vendor">' + escapeHtml_(m.vendor || '(no vendor)') + '</span><span class="pill ' + escapeHtml_(m.confidence || '') + '">' + escapeHtml_(m.confidence || '-') + '</span></div>' +
+    var isOpen = !!OPEN[env.docId];
+    var title = m.vendor || ('(no vendor) ' + (env.subject || '')).trim();
+    var search = [m.vendor, env.subject, m.date, (Number(m.receipt_total_cents || 0) / 100).toFixed(2), props.join(' '), env.channel, env.from, env.docId].join(' ').toLowerCase();
+    var head = '<div class="head" data-toggle="1"><span class="tw">' + (isOpen ? '&#9662;' : '&#9656;') + '</span>' +
+      '<span class="vendor" title="' + escapeHtml_(title) + '">' + escapeHtml_(title) + '</span>' +
+      '<span class="when">' + escapeHtml_(m.date || String(env.receivedAt || '').slice(0, 10) || '-') + '</span>' +
+      '<span class="amt">' + (m.receipt_total_cents != null ? money_(m.receipt_total_cents) : '-') + '</span>' +
+      '<span class="pill ' + escapeHtml_(m.confidence || '') + '">' + escapeHtml_(m.confidence || '-') + '</span></div>';
+    if (!isOpen) return '<div class="card closed" data-doc="' + d + '" data-search="' + escapeHtml_(search) + '">' + head + '<div class="msg hidden" data-msg="1"></div></div>';
+    return '<div class="card open" data-doc="' + d + '" data-search="' + escapeHtml_(search) + '">' + head + '<div class="body">' +
       '<div class="sub">' + escapeHtml_(m.date || '-') + ' &middot; ' + (m.receipt_total_cents != null ? money_(m.receipt_total_cents) : '-') + ' &middot; ' + escapeHtml_(props.join(', ') || '-') + ' &middot; ' + escapeHtml_(env.channel || '') + '</div>' +
       atts +
       (m.why ? '<div class="why">' + escapeHtml_(m.why) + '</div>' : '') +
@@ -122,7 +140,7 @@
       '<div class="note hidden"><input data-note="1" placeholder="Reason"><button data-dismiss-go="1">Dismiss it</button><button data-dismiss-cancel="1">Cancel</button></div>' +
       '<div class="msg hidden" data-msg="1"></div>' +
       '<div class="docid">' + d + '</div>' +
-      '</div>';
+      '</div></div>';
   }
 
   function render_() {
@@ -131,6 +149,19 @@
     if (!DATA.envelopes.length) { list.innerHTML = '<p>Nothing waiting.</p>'; return; }
     list.innerHTML = DATA.envelopes.map(renderCard_).join('');
     DATA.envelopes.forEach(wire_);
+    filter_();
+  }
+
+  function filter_() {
+    var words = document.getElementById('filter').value.toLowerCase().split(/\s+/).filter(Boolean);
+    var shown = 0;
+    document.querySelectorAll('#list .card').forEach(function (c) {
+      var hit = words.every(function (w) { return c.dataset.search.indexOf(w) >= 0; });
+      c.classList.toggle('hidden', !hit);
+      if (hit) shown++;
+    });
+    var n = DATA.envelopes.length;
+    document.getElementById('count').textContent = n ? '(' + (words.length ? shown + ' of ' + n : n) + ')' : '';
   }
 
   function findEnv_(docId) {
@@ -146,11 +177,14 @@
     tmp.innerHTML = renderCard_(env);
     old.parentNode.replaceChild(tmp.firstElementChild, old);
     wire_(env);
+    filter_();
   }
 
   function wire_(env) {
     var card = document.querySelector('.card[data-doc="' + env.docId + '"]');
     if (!card) return;
+    card.querySelector('[data-toggle]').onclick = function () { OPEN[env.docId] = !OPEN[env.docId]; rerender_(env.docId); };
+    if (!OPEN[env.docId]) return;
     var entries = EDIT[env.docId];
     var msg = card.querySelector('[data-msg]');
 
@@ -261,5 +295,7 @@
   }
 
   document.getElementById('refresh').onclick = load_;
+  document.getElementById('collapse').onclick = function () { OPEN = {}; render_(); };
+  document.getElementById('filter').oninput = filter_;
   load_();
 </script>

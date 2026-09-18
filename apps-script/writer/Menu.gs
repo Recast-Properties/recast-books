@@ -866,7 +866,7 @@ function inboxList() {
   var ss = openWorkbook_(PropertiesService.getScriptProperties());
   try {
     requireOwner_(ss);
-    var resp = siteFetchJson_('/api/inbox?status=pending&limit=100');
+    var resp = siteFetchJson_('/api/inbox?status=pending&limit=500');   // the list is collapsed rows now; 100 hid most of a 387-document queue (2026-09-18)
     var pickers = pickerData_(ss);
     return { ok: true, envelopes: resp.envelopes || [], total: resp.total, pickers: pickers,
       user: Session.getActiveUser().getEmail(), site: PropertiesService.getScriptProperties().getProperty('SITE_URL') || 'https://books.recast-properties.com' };
