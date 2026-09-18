@@ -1066,3 +1066,21 @@ $7,941.61, Bowling Green $9,357.00, White Rock $10,715.55, Mesa $470.57, Brushwo
 longer says sold. `migrationRunStaging` refreshes the Properties rows itself (no extra tab rebuilds:
 `addProperty(form, skipRebuild)`), so it is still one Run. Dry run **1,040 entries, $239,907.34** (Ashburne
 $177,110.54), all build; the only change is the one entry; 885 linked; list 4: 67. Pushed to staging.
+
+## 34 · "Effren" is Falcon Creek Lawn Care; its four invoices read against the rows (2026-09-18)
+
+Paul: 'change "Effren" to Falcon Creek's official name.' New `rename_payee` rule in `paul-answers.json`
+(applied in `migration-rows.py` after the txn id is fixed from the row as typed, so ids, amounts and links do
+not move): 13 rows on Newport, Bowling Green, Granite and Sparkling now read **Falcon Creek Lawn Care**; an
+invoice number typed after the name ("Effren - 1373") moves into the description ("Landscaping - INV 1373");
+the typed name stays in each entry's correction note.
+
+The invoices, line by line: **1372** (07-07, $535) = five rows, all linked, to the cent (the $300 flowerbed
+job is Newport's row). **1373** (07-19, $470): its four rows were unlinked - now linked (Newport's is typed
+"1372" by slip; it is dated 07-19 and is 1373's $110 Newport line). **1374** (07-30, $235): the Granite $70
+and Sparkling $55 rows had been hung on invoice 1372 by the matcher - moved to 1374. **1390**: settled
+earlier (C-10). 889 linked; amounts unchanged (1,040 entries, $239,907.34); link audit unchanged; list 4: 65.
+
+**For Paul, from those invoices:** 1373 bills 1616 Granite 2 x $70 = **$140**; the Granite row is typed
+**$110** ($30 short, on a closed tab). 1374 bills 136 Bowling Green $55 and 881 Newport $55 and **neither has
+a row** (every $55 Falcon Creek row is accounted for by 1372 and 1390).

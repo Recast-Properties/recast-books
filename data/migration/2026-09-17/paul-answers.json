@@ -458,6 +458,42 @@
    "row": "104 Ashburne 2026-04-15 Julio 300.00",
    "docId": "gm-19d9700278f64d44",
    "why": "Claude 2026-09-18 (audit §32). Paul: 'no receipts for these. a lot of them are cash payments' - so his own note is the document. Paul's email of 04-16 'Julio / Mon-wed + 100': Wednesday 04-15, $300 = the day's $200 + the extra $100"
+  },
+  {
+   "key": "PROP-46",
+   "row": "881 Newport 2026-07-19 Effren - 1372 110.00",
+   "docId": "gm-19fb337be62617b6",
+   "why": "Claude 2026-09-18 (audit §34): Falcon Creek invoices read line by line against the rows. invoice 1373 of 07-19 bills 881 Newport 2 x $55 = $110; the row is dated 07-19 and typed '1372' by slip (1372 is 07-07, where Newport is $55 and already a row)"
+  },
+  {
+   "key": "PROP-151",
+   "row": "136 Bowling Green 2026-07-19 Effren - 1373 110.00",
+   "docId": "gm-19fb337be62617b6",
+   "why": "Claude 2026-09-18 (audit §34): Falcon Creek invoices read line by line against the rows. invoice 1373: 136 Bowling Green 2 x $55 = $110"
+  },
+  {
+   "key": "PROP-745",
+   "row": "280 Sparkling RECONCILED 2026-07-19 Effren - 1373 110.00",
+   "docId": "gm-19fb337be62617b6",
+   "why": "Claude 2026-09-18 (audit §34): Falcon Creek invoices read line by line against the rows. invoice 1373: 280 Sparkling Springs 2 x $55 = $110"
+  },
+  {
+   "key": "PROP-719",
+   "row": "1616 Granite RECONCILED 2026-07-15 Effren - 1373 110.00",
+   "docId": "gm-19fb337be62617b6",
+   "why": "Claude 2026-09-18 (audit §34): Falcon Creek invoices read line by line against the rows. invoice 1373 is this row's invoice; it bills 1616 Granite 2 x $70 = $140 and the row is typed $110 - the $30 is put to Paul"
+  },
+  {
+   "key": "PROP-720",
+   "row": "1616 Granite RECONCILED 2026-07-24 Effren - 1374 70.00",
+   "docId": "gm-19fd24ebc9ed8431",
+   "why": "Claude 2026-09-18 (audit §34): Falcon Creek invoices read line by line against the rows. invoice 1374 (week of 7/24): 1616 Granite $70 - the matcher had hung it on invoice 1372, whose Granite $70 is the 07-07 row"
+  },
+  {
+   "key": "PROP-748",
+   "row": "280 Sparkling RECONCILED 2026-08-05 Effren - 1374 55.00",
+   "docId": "gm-19fd24ebc9ed8431",
+   "why": "Claude 2026-09-18 (audit §34): Falcon Creek invoices read line by line against the rows. invoice 1374 (week of 7/24): 280 Sparkling Springs $55 - the matcher had hung it on the other copy of invoice 1372"
   }
  ],
  "no_link": [
@@ -1781,6 +1817,17 @@
   {
    "docId": "gm-1a06877a765d05a1",
    "why": "Claude 2026-09-18 (audit §32): CoreLogic (Cotality) monthly invoice. The old books carry the payments as Paul typed them (05-12, 06-07, 06-18, 06-30 $200 each, 09-15 $235). Paul: 'cotality's payment system is archaic and i cant see my payment history. will have to wait for a bank statement.' Parked for Phase 3: invoices are matched to payments from the statements; nothing posts from an invoice"
+  },
+  {
+   "docId": "gm-19f86e5bf7f12281",
+   "why": "Claude 2026-09-18 (audit §34): Falcon Creek invoices read line by line against the rows. second copy of Falcon Creek invoice 1373 (the read put all four lines on Sparkling); gm-19fb337be62617b6 is the copy the rows carry"
+  }
+ ],
+ "rename_payee": [
+  {
+   "pattern": "^eff?ren\\b",
+   "payee": "Falcon Creek Lawn Care",
+   "said": "Paul 2026-09-18: 'change \"Effren\" to Falcon Creek's official name' - the invoices (1372, 1373, 1374, 1390) are from Falcon Creek Lawn Care; Efren Ramirez is the owner"
   }
  ]
 }

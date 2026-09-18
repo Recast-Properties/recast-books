@@ -172,6 +172,16 @@ def main():
     for e in entries:
         for rule in answers.get("drop", []):
             if hit(e, rule["match"]): e["skip"] = "DROPPED_BY_PAUL " + rule.get("register", "") + ": " + rule["said"]
+    # paul-answers.json "rename_payee": Paul asked for a vendor's proper name. The txn_id is already fixed from
+    # the row as typed, so ids and links do not move; the typed name stays in the correction note, and an
+    # invoice number typed after the name ("Effren - 1372") moves into the description.
+    for e in entries:
+        for rule in answers.get("rename_payee", []):
+            if re.match(rule["pattern"], e["payee"], re.I):
+                m = re.search(r"(\d{3,})\s*$", e["payee"])
+                if m and m.group(1) not in e["description"]: e["description"] = (e["description"] + " - INV " + m.group(1)).strip(" -")
+                e["correction"] = (e["correction"] + " | " if e["correction"] else "") + f"payee typed '{e['payee']}' in the old books; " + rule["said"]
+                e["payee"] = rule["payee"]
     for e in entries:
         e.setdefault("skip", "")
         if not e["skip"] and e["amount_cents"] == 0: e["skip"] = "ZERO_AMOUNT (a $0.00 row: nothing to post)"
