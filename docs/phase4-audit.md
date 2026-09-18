@@ -1092,3 +1092,14 @@ $26,501.38), ids and per-entry amounts identical to the dry run, debits = credit
 no orphans. The run used the C-24 push, a few minutes before §34 was pushed, so the Journal still reads
 "Effren" on 13 rows and lacks six Falcon Creek links (885 linked vs the dry run's 889); ids and amounts are
 the same either way - the next Run brings the names.
+
+## 35 · Falcon Creek: what the reconciliation covered (Paul: "you reconciled against all falcon creek invoices? dennis wrote him a check for 136 bowling green")
+
+Every Falcon Creek / Efren Ramirez message in the three mailboxes was listed (search on the sender, the name
+and "lawn"): **four invoices** - 1372 (07-07, $535), 1373 (07-19, $470), 1374 (07-30, $235), 1390 (08-30,
+$425) - and Paul's note "Effren $315" of 06-27, for which no invoice exists. That $315 is the Bowling Green
+row of 06-27, **already Dennis paid**: Paul's handwritten Bowling Green log reads "6-26 FALCON 315.00 CK 1082"
+(and "6-30 Carpet laid 160.00 CK 1088" - Lupe's row, now linked to the log; 890 linked). What the
+reconciliation does **not** cover is Falcon Creek's side: payments. Mail shows only the CNB Zelle of 08-31
+($275, invoice 1390) and that "Effren Landscaper" was added as a Zelle recipient on Paul's Chase on 07-09;
+how 1373 and 1374 were paid, and by whom, is not in any mailbox.

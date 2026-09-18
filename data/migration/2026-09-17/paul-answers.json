@@ -494,6 +494,12 @@
    "row": "280 Sparkling RECONCILED 2026-08-05 Effren - 1374 55.00",
    "docId": "gm-19fd24ebc9ed8431",
    "why": "Claude 2026-09-18 (audit §34): Falcon Creek invoices read line by line against the rows. invoice 1374 (week of 7/24): 280 Sparkling Springs $55 - the matcher had hung it on the other copy of invoice 1372"
+  },
+  {
+   "key": "PROP-148",
+   "row": "136 Bowling Green 2026-06-30 Lupe 160.00",
+   "docId": "gm-19f3f6d3919a5816",
+   "why": "Claude 2026-09-18 (audit §35): Paul's handwritten 'Bowling Green' payment log reads '6-30 Carpet laid 160.00 CK 1088' - this row, paid by Dennis's check (C-13: 'dennis paid'). Its other line, '6-26 FALCON 315.00 CK 1082', is the Falcon Creek $315 row of 06-27, already Dennis paid and carrying Paul's note 'Effren $315'"
   }
  ],
  "no_link": [
