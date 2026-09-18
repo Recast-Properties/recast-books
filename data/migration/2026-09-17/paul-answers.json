@@ -847,5 +847,15 @@
    "what": "C-11 return pair: Milwaukee hole saw $47.59 purchase + credit, overhead, Home Depot 2026-06-16",
    "why": "Claude's error, found 2026-09-18 while preparing the confirm list: the old books already have it. The matcher compared to the exact cent and never added two items together, so the old row stayed unlinked and the receipt looked unexplained; the independent audit then re-checked each addition by its single exact amount and missed it too. Paul's answer was given on Claude's wrong statement that it was missing. Old row: RECAST BIZ / Tools, The Home Depot 06-16 'Hole Saw' $47.60. The old books carry it as a cost, so that is what migrates; if it really was returned, the card statement shows the credit in Phase 3. The router return ($172.12) stands - no old row."
   }
+ ],
+ "confirmed_as_is": [
+  {
+   "rows": "1616 Granite RECONCILED row 50 and 280 Sparkling RECONCILED row 28: Julio, Landscaping, 2026-06-12, $200.00 each",
+   "said": "Paul 2026-09-18: 'keep it as is. he did work for both properties on different days but was paid for both on the same day' - two real payments, not a double entry"
+  },
+  {
+   "rows": "Effren / Falcon Creek: $110.00 x3 on 2026-07-19 and $55.00 x3 on 2026-07-07 across Newport, Bowling Green, Sparkling",
+   "said": "Claude 2026-09-18: the per-property lines of invoices 1372 and 1373 - legitimate, not asked"
+  }
  ]
 }

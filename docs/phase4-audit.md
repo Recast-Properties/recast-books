@@ -745,3 +745,10 @@ $11.70) are not: a differences-list job (item 4).
 is migrated as closed, and any discrepancy found afterwards is a Cost Recapture line naming the
 property - never an edit to the closed tab.
 
+**Double-entry scan of the old books (2026-09-18, rows of $50+ with the same payee, date and amount and
+fewer receipts than rows).** Five groups: TXU $161.17 → C-16; Shell $65.48 → C-17 (dropped; dry run
+**1,030 entries, $220,286.07**); Mariana $500 06-29 → settled earlier (C-8); Effren $110 x3 / $55 x3 → the
+per-property lines of invoices 1372 and 1373; Julio $200 06-12 on Granite and Sparkling → Paul: "keep it
+as is. he did work for both properties on different days but was paid for both on the same day."
+Recorded under `confirmed_as_is` in `paul-answers.json` so none of them is asked again.
+
