@@ -417,3 +417,25 @@ those were errors. do not document those. do not create a new sparkling title ta
 migrated, not listed; their two Garcia Home Repair documents (`gm-19f57268…`, `gm-19f57221…`)
 are excluded from the review list and are to be dismissed by rule, never posted. The new books
 have one Sparkling tab. No open question now changes a number: next is step 3, the bulk pass.
+
+## 17 · Cleanup sequence before cutover (Paul, 2026-09-18: "all migrated, mapped and clean before we switch over")
+
+After the staging pass ties out, Paul is walked through these one at a time, biggest closure
+first. Each answer becomes a rule or a register line, then a rerun (clear + post, minutes, free).
+1. **Who paid** - the 34 August-onward rows with no payer (mostly RECAST BIZ subscriptions and
+   fuel): answered by group, not row by row. Then the 2 undated rows. → amounts reach 100%.
+2. **Dennis-paid rows** (31, light tabs, $8,656.54): interest-bearing advances, or settled at
+   closing without interest? One answer per property.
+3. **Confirm the match** (284 weak candidates): shown largest first with the receipt link;
+   yes / no / different receipt. Confirmed links raise documented dollars from 49% to ~79%.
+4. **Differences** (112 receipts whose total differs from their rows): D-028 - return, omitted
+   item, or a typed amount to correct (register).
+5. **In mail, not in the books** (158 documents): real cost to add (register), personal, or
+   belongs to the Advances lane.
+6. **No document** (18 rows, $45,094, contractor checks): post `NO_DOC`, proven in Phase 3.
+7. Drive filing of the Gmail-linked receipts (resumable job), sold properties flipped with
+   settlement dates (Ashburne and Newport owed), production writer pushed, then cutover (D-025):
+   the same pass into the real workbook, tie-out, old workbook read-only.
+**Clean means:** every old row is in the Journal at the amount Paul typed or a registered
+correction; every row that has a receipt carries its link; every exception is on a list Paul
+has seen and answered; and the property totals equal the old tabs plus the register.
