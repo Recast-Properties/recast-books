@@ -268,45 +268,6 @@
  ],
  "add": [
   {
-   "date": "2026-03-02",
-   "property": "104 Ashburne",
-   "trade": "Pool",
-   "account": "1030",
-   "amount_cents": 17211,
-   "payee": "Home Depot",
-   "description": "1/3 HP submersible utility pump",
-   "paid_from": "PAUL",
-   "docId": "gm-19caf33c58069d0d",
-   "register": "C-10",
-   "said": "Paul 2026-09-18 (differences batch 1): 'those were kept, not returned. log them for ashburne pool'"
-  },
-  {
-   "date": "2026-03-02",
-   "property": "104 Ashburne",
-   "trade": "Pool",
-   "account": "1030",
-   "amount_cents": 2488,
-   "payee": "Home Depot",
-   "description": "Sump pump discharge hose kit 1-1/4 in x 24 ft",
-   "paid_from": "PAUL",
-   "docId": "gm-19caf33c58069d0d",
-   "register": "C-10",
-   "said": "Paul 2026-09-18 (differences batch 1): same"
-  },
-  {
-   "date": "2026-01-07",
-   "property": "104 Ashburne",
-   "trade": "Trash",
-   "account": "1030",
-   "amount_cents": 6488,
-   "payee": "Home Depot",
-   "description": "Husky 42 gal contractor bags 50ct x2",
-   "paid_from": "PAUL",
-   "docId": "gm-19bae80800798f37",
-   "register": "C-10",
-   "said": "Paul 2026-09-18 (differences batch 1): 'log bags for ashburne trash'"
-  },
-  {
    "date": "2026-04-08",
    "property": "104 Ashburne",
    "trade": "Supplies",
@@ -340,32 +301,6 @@
    "amount_cents": -17212,
    "payee": "Home Depot",
    "description": "RETURN: 2 HP EVS plunge router (no return receipt; date of the return unknown - proven on the card statement, Phase 3)",
-   "paid_from": "PAUL",
-   "docId": "gm-19ed8190a6945042",
-   "register": "C-11",
-   "said": "Paul 2026-09-18 (differences batch 1): 'returns'"
-  },
-  {
-   "date": "2026-06-16",
-   "property": "OVERHEAD",
-   "trade": "",
-   "account": "6510",
-   "amount_cents": 4759,
-   "payee": "Home Depot",
-   "description": "Milwaukee 4-1/4 in bi-metal hole saw and arbor (purchased; returned)",
-   "paid_from": "PAUL",
-   "docId": "gm-19ed8190a6945042",
-   "register": "C-11",
-   "said": "Paul 2026-09-18 (differences batch 1): 'returns'"
-  },
-  {
-   "date": "2026-06-16",
-   "property": "OVERHEAD",
-   "trade": "",
-   "account": "6510",
-   "amount_cents": -4759,
-   "payee": "Home Depot",
-   "description": "RETURN: Milwaukee 4-1/4 in bi-metal hole saw and arbor (no return receipt; date of the return unknown - proven on the card statement, Phase 3)",
    "paid_from": "PAUL",
    "docId": "gm-19ed8190a6945042",
    "register": "C-11",
@@ -441,6 +376,18 @@
   {
    "what": "C-10 addition: Frigidaire microwave $339.99, 469 Brushwood, 2026-09-02",
    "why": "Claude's error, 2026-09-18: the old Brushwood tab already has it (Home Depot 09-02 'Microwave' $339.99). The matcher had let ten small rows claim that receipt, so the receipt looked unexplained. Paul's 'log that for brushwood' was based on Claude's wrong statement."
+  },
+  {
+   "what": "C-10 addition: utility pump $172.11 + discharge hose $24.88, 104 Ashburne Pool, Home Depot 2026-03-02",
+   "why": "Claude's error, found 2026-09-18 while preparing the confirm list: the old books already have it. The matcher compared to the exact cent and never added two items together, so the old row stayed unlinked and the receipt looked unexplained; the independent audit then re-checked each addition by its single exact amount and missed it too. Paul's answer was given on Claude's wrong statement that it was missing. Old row: RECAST BIZ / Tools, Home Depot 03-02 'Sunp Pump & Hose' $196.99 = the two items."
+  },
+  {
+   "what": "C-10 addition: Husky contractor bags $64.88, 104 Ashburne Trash, Home Depot 2026-01-07",
+   "why": "Claude's error, found 2026-09-18 while preparing the confirm list: the old books already have it. The matcher compared to the exact cent and never added two items together, so the old row stayed unlinked and the receipt looked unexplained; the independent audit then re-checked each addition by its single exact amount and missed it too. Paul's answer was given on Claude's wrong statement that it was missing. Old row: 104 Ashburne / Trash, Home Depot 01-07 'Garbage Bags' $64.89 (one cent of tax rounding)."
+  },
+  {
+   "what": "C-11 return pair: Milwaukee hole saw $47.59 purchase + credit, overhead, Home Depot 2026-06-16",
+   "why": "Claude's error, found 2026-09-18 while preparing the confirm list: the old books already have it. The matcher compared to the exact cent and never added two items together, so the old row stayed unlinked and the receipt looked unexplained; the independent audit then re-checked each addition by its single exact amount and missed it too. Paul's answer was given on Claude's wrong statement that it was missing. Old row: RECAST BIZ / Tools, The Home Depot 06-16 'Hole Saw' $47.60. The old books carry it as a cost, so that is what migrates; if it really was returned, the card statement shows the credit in Phase 3. The router return ($172.12) stands - no old row."
   }
  ]
 }

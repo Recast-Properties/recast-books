@@ -58,7 +58,7 @@ gm-19bb77e42342d32c,2026-01-13,"Lowe's Home Centers, LLC",1342,1,1342,0,104 Ashb
 gm-19f99e711bce8059,2026-07-25,Atlas Pools,25601,1,25601,0,104 Ashburne/Pool,104 Ashburne,posted,post,,PAUL,Fwd: Atlas Pools Payment Confirmation - Invoice 18218,property row now documented,104 Ashburne/Atlas Pools/256.01
 gm-19d5491d71583652,2026-04-03,Leslie's Pool Supplies,865,1,865,0,104 Ashburne/Pool,104 Ashburne,posted,post,,PAUL,,property row now documented,
 gm-19ef4d5d26caf1e4,2026-06-23,The Home Depot,3243,2,3243,0,280 Sparkling RECONCILED/;280 Sparkling RECONCILED/,280 Sparkling,posted,post,,PAUL,,property row now documented,
-gm-19f0fbce663c9387,2026-06-28,"Lowe's Home Centers, LLC",18764,2,2860,15904,136 Bowling Green/;136 Bowling Green/,136 Bowling Green,posted,post,,PAUL,,property row now documented,136 Bowling Green/Lowes/129.84;136 Bowling Green/Lowe's/431.21
+gm-19f0fbce663c9387,2026-06-28,"Lowe's Home Centers, LLC",18764,3,15844,2920,136 Bowling Green/;136 Bowling Green/;136 Bowling Green/,136 Bowling Green,posted,post,,PAUL,,property row now documented,136 Bowling Green/Lowe's/431.21
 gm-19d018e208f5ce58,2026-03-18,Walton's Muffler Brake &amp; Tire,59377,0,0,,,OVERHEAD,pending,post,OVER_CEILING,PAUL,,"in mail, not in old books",104 Ashburne/Waltons Brakes & Muf/593.77
 gm-1a0abd07f9ef8da3,2026-09-16,Uber Eats,0,0,0,,,,dismissed,dismiss,"NOT_POST_VERDICT,ZERO_TOTAL",UNKNOWN,Delicious deals are waiting for your next orders 🍴,junk (dismissed),
 dry-gm-1a08880be459a7a0,2026-09-09,Klarna (Apple Upgrade / Saks Fifth Avenue installments),15073,0,0,,,,dry,hold,"NOT_POST_VERDICT,LOW_CONFIDENCE,TOTAL_MISMATCH",,Screenshot 2026-09-09 at 4.28.13 PM,"in mail, not in old books",
@@ -83,7 +83,7 @@ gm-19d46fc2dd5b39fa,2026-03-30,The Home Depot,26142,1,26142,0,104 Ashburne/House
 gm-19f154ce61fa47c1,2026-06-29,"Lowe's Home Centers, LLC",3786,1,3786,0,1616 Granite RECONCILED/,1616 Granite,posted,post,,PAUL,,property row now documented,
 gm-19c01b8ce2add604,2026-01-20,Amazon,636,1,636,0,104 Ashburne/HVAC,104 Ashburne,dismissed,dismiss,,PAUL,"Fwd: Ordered: ""SWRT 6 Pack Black...""",property row now documented,
 gm-19f3f696a2755181,2026-06-02,Keith Ace Hardware - Red Oak,5736,1,5736,0,136 Bowling Green/,136 Bowling Green,posted,post,,DENNIS,,property row now documented,
-gm-19cf79150281a75a,2026-03-16,"Lowe's Home Centers, LLC",46573,0,0,,,104 Ashburne,posted,post,,PAUL,,"in mail, not in old books",
+gm-19cf79150281a75a,2026-03-16,"Lowe's Home Centers, LLC",46573,8,46573,0,RECAST BIZ/Tools;104 Ashburne/Master Bath;104 Ashburne/House Hardware;104 Ashburne/House Hardware;104 Ashburne/Master Bath;104 Ashburne/Master Bath;104 Ashburne/Master Bath;104 Ashburne/Lighting & Electrical,104 Ashburne,posted,post,,PAUL,,manual row now documented,
 gm-19f46fdd8557e660,2026-07-09,Uber,12270,0,0,,,,dismissed,dismiss,"NOT_POST_VERDICT,TOTAL_MISMATCH",PAUL,[Personal] Your Thursday morning trip with Uber,junk (dismissed),
 gm-1a004ddd53b5d48e,2026-08-15,Uber,9822,0,0,,,OVERHEAD,posted,post,,PAUL,[Personal] Your Saturday morning trip with Uber,"in mail, not in old books",
 gm-19ef53c9b3142449,2026-06-23,Sherwin-Williams,11897,1,11897,0,280 Sparkling RECONCILED/,280 Sparkling,posted,post,,PAUL,,property row now documented,
@@ -94,7 +94,7 @@ gm-19c8af65b973a176,2026-01-03,American Airlines,2500,0,0,,,,dismissed,dismiss,"
 gm-19d78c9cf7bcc5c4,2026-04-10,The Home Depot,26329,1,26329,0,104 Ashburne/Supplies,104 Ashburne,posted,post,,PAUL,,property row now documented,
 gm-1a0a86956b682704,2026-09-16,American Airlines,0,0,0,,,,dismissed,dismiss,"NOT_POST_VERDICT,ZERO_TOTAL",UNKNOWN,Update to select AAdvantage® benefits,junk (dismissed),
 gm-19c1afb84540f732,2026-02-01,"Jiffy Lube #3752 (Premium Velocity Auto, LLC)",7351,1,7351,0,104 Ashburne/Gas/Truck/Trailer,OVERHEAD,posted,post,,PAUL,,property row now documented,
-gm-19e8f7d279f40059,2026-05-30,The Home Depot,4514,1,4329,185,1616 Granite RECONCILED/,1616 Granite,posted,post,,PAUL,Fwd: 1616,property row now documented,1616 Granite RECONCILED/Home Depot/43.28
+gm-19e8f7d279f40059,2026-05-30,The Home Depot,4514,1,4329,185,1616 Granite RECONCILED/,1616 Granite,posted,post,,PAUL,Fwd: 1616,property row now documented,
 gm-19d3c4ca8ef8ddfb,2026-03-20,Atlas Pools,2165,1,2165,0,104 Ashburne/Pool,,pending,hold,"NOT_POST_VERDICT,LOW_CONFIDENCE,TOTAL_MISMATCH",PAUL,Fwd: Atlas Pools Payment Confirmation - Invoice 16528,property row now documented,
 gm-19f2814b497d9ce6,2026-07-03,TXU Energy,0,0,0,,,,dismissed,dismiss,"NOT_POST_VERDICT,ZERO_TOTAL",PAUL,"Pauil, save more on summer bills each month",junk (dismissed),
 gm-19d3118d6bcc3a7f,2026-03-27,Shell,7054,1,7054,0,104 Ashburne/Gas/Truck/Trailer,104 Ashburne,pending,post,ENTRY_INVALID:OVERHEAD_ON_PROPERTY,PAUL,,property row now documented,
@@ -102,12 +102,12 @@ gm-19d8d3df9a1c4d81,2026-04-14,Sherwin-Williams,5162,1,5162,0,104 Ashburne/Paint
 gm-19ec7c49ce79aefb,2026-06-14,Uber Eats,3797,0,0,,,,dismissed,dismiss,"NOT_POST_VERDICT,TOTAL_MISMATCH",PAUL,[Personal] Your Sunday morning order with Uber Eats,junk (dismissed),1616 Granite RECONCILED/Lowes/37.97
 gm-1a0a84da1ac5985e,2026-09-15,Uber Eats,5843,0,0,,,,dismissed,dismiss,"NOT_POST_VERDICT,TOTAL_MISMATCH",PAUL,[Personal] Your Tuesday evening order with Uber Eats,junk (dismissed),
 gm-19ed79b1f9970494,2026-06-17,TXU Energy,0,0,0,,,,dismissed,dismiss,"NOT_POST_VERDICT,ZERO_TOTAL",PAUL,"Pauil, here’s a quick look at your first bill",junk (dismissed),1616 Granite RECONCILED/TXU/161.17
-gm-19caf33c58069d0d,2026-03-02,The Home Depot,21969,1,2270,19699,RECAST BIZ/Tools,OVERHEAD,pending,post,LOW_CONFIDENCE,PAUL,,manual row now documented,
+gm-19caf33c58069d0d,2026-03-02,The Home Depot,21969,2,21969,0,RECAST BIZ/Tools;RECAST BIZ/Tools,OVERHEAD,pending,post,LOW_CONFIDENCE,PAUL,,manual row now documented,
 gm-19f5e409c27380b0,2026-07-14,"Netlify, Inc.",2000,0,0,,,OVERHEAD,posted,post,,PAUL,"Fwd: Payment received for Netlify, Inc. invoice (#SFWGOE-000","in mail, not in old books",
 dry-gm-1a08bee3d03d3f93,2026-09-10,Oregon Registered Agent LLC,8400,0,0,,,OVERHEAD,dry,post,,1402,,"in mail, not in old books",
 gm-19d55c64fef934ea,2026-04-03,"Unknown (email from Paul Bjork, subject ""Interest"")",66667,0,0,,,,pending,hold,"NOT_POST_VERDICT,LOW_CONFIDENCE,OVER_CEILING,TOTAL_MISMATCH",PAUL,Interest,"in mail, not in old books",
 gm-19c53346e24bf709,2026-02-12,Atmos Energy,0,0,0,,,,dismissed,dismiss,"NOT_POST_VERDICT,ZERO_TOTAL",PAUL,Understanding your winter gas bill,junk (dismissed),
-gm-19c54bfd346362be,2026-02-03,"Lowe's Home Centers, LLC",76899,2,36809,40090,104 Ashburne/House Hardware;104 Ashburne/House Hardware,104 Ashburne,pending,post,OVER_CEILING,PAUL,,property row now documented,
+gm-19c54bfd346362be,2026-02-03,"Lowe's Home Centers, LLC",76899,3,43819,33080,104 Ashburne/House Hardware;104 Ashburne/House Hardware;104 Ashburne/House Hardware,104 Ashburne,pending,post,OVER_CEILING,PAUL,,property row now documented,
 gm-19c57380bae96d98,2026-02-13,"Lowe's Home Centers, LLC",5408,1,5408,0,104 Ashburne/Master Bath,104 Ashburne,posted,post,,PAUL,Fwd: Your Lowe's Purchase Receipt,property row now documented,
 gm-1a064647233912fe,2026-09-02,TXU Energy,20498,0,0,,,,pending,hold,"NOT_POST_VERDICT,LOW_CONFIDENCE,TOTAL_MISMATCH",UNKNOWN,Your bill’s ready,"in mail, not in old books",
 gm-19d253064d2268c2,2026-03-25,Shell,6548,1,6548,0,104 Ashburne/Gas/Truck/Trailer,104 Ashburne,pending,post,ENTRY_INVALID:OVERHEAD_ON_PROPERTY,PAUL,,property row now documented,104 Ashburne/Shell/65.48
@@ -124,9 +124,9 @@ gm-19cc5d6126f9b0e8,2026-03-06,Amazon,14611,1,4328,10283,104 Ashburne/Supplies,1
 gm-19e0744995840e57,2026-03-28,"Robinson Air &amp; Electric, Inc.",106574,0,0,,,104 Ashburne,dismissed,dismiss,"NOT_POST_VERDICT,OVER_CEILING",DENNIS,,junk (dismissed),
 gm-19e3b8a5fee70d22,2026-05-18,Sunstate Equipment,92226,1,92226,0,104 Ashburne/Chimney/FIreplace/Glass,104 Ashburne,pending,post,"LOW_CONFIDENCE,OVER_CEILING",PAUL,Fwd: Your payment summary,property row now documented,
 gm-1a01692ff072014f,2026-08-18,TXU Energy,21364,1,21364,0,Cost Recapture/280 Sparkling,280 Sparkling,pending,hold,"NOT_POST_VERDICT,LOW_CONFIDENCE,PAYER_UNKNOWN",UNKNOWN,TXU,property row now documented,
-gm-19fd34b701a40539,2026-08-05,The Home Depot,6424,0,0,,,136 Bowling Green,dismissed,dismiss,,PAUL,,junk (dismissed),136 Bowling Green/The Home Depot/107.15
-gm-19c28915ee4c0912,2026-02-03,"Lowe's Home Centers, LLC",76899,0,0,,,104 Ashburne,pending,post,"LOW_CONFIDENCE,OVER_CEILING",PAUL,Lowe’s Reciept ,"in mail, not in old books",104 Ashburne/Lowes/91.99
-gm-19caba0d41d86d9b,2026-03-01,The Home Depot,20719,0,0,,,104 Ashburne,pending,hold,"NOT_POST_VERDICT,LOW_CONFIDENCE",PAUL,Your Electronic Receipt,"in mail, not in old books",
+gm-19fd34b701a40539,2026-08-05,The Home Depot,6424,1,1622,4802,136 Bowling Green/,136 Bowling Green,dismissed,dismiss,,PAUL,,property row now documented,136 Bowling Green/The Home Depot/107.15
+gm-19c28915ee4c0912,2026-02-03,"Lowe's Home Centers, LLC",76899,0,0,,,104 Ashburne,pending,post,"LOW_CONFIDENCE,OVER_CEILING",PAUL,Lowe’s Reciept ,"in mail, not in old books",
+gm-19caba0d41d86d9b,2026-03-01,The Home Depot,20719,8,20719,0,RECAST BIZ/Tools;RECAST BIZ/Tools;104 Ashburne/Small Baths;104 Ashburne/Master Bath;104 Ashburne/Landscaping;104 Ashburne/Lighting & Electrical;104 Ashburne/Master Bath;104 Ashburne/Paint & Flooring,104 Ashburne,pending,hold,"NOT_POST_VERDICT,LOW_CONFIDENCE",PAUL,Your Electronic Receipt,manual row now documented,
 gm-19f86e5bf7f12281,2026-07-19,Falcon Creek Lawn Care,47000,0,0,,,280 Sparkling,dismissed,dismiss,,PAUL,Fwd: Lawn maintenance invoice,junk (dismissed),
 gm-19e8f7e98314deeb,2026-05-31,"Lowe's Home Centers, LLC",4220,0,0,,,1616 Granite,posted,post,,PAUL,Fwd: 1616,"in mail, not in old books",
 dry-gm-1a07e315889c322c,2026-09-07,Rosa's Cafe Tortilla Factory,7219,0,0,,,OVERHEAD,dry,hold,"NOT_POST_VERDICT,LOW_CONFIDENCE,NEEDS_HUMAN_274D",1402,,"in mail, not in old books",
@@ -145,13 +145,13 @@ gm-19e8f766f533f78b,2026-05-27,The Home Depot,59654,0,0,,,,dismissed,dismiss,"NO
 gm-19fbfb4f8ae13c63,2026-08-01,"Anthropic, PBC",1014,0,0,,,OVERHEAD,posted,post,,PAUL,"Fwd: Your receipt from Anthropic, PBC #2971-0394-1544","in mail, not in old books",
 gm-19cc11e7f5b50560,2026-03-06,Atlas Pools,202500,1,202500,0,104 Ashburne/Pool,104 Ashburne,pending,post,"LOW_CONFIDENCE,OVER_CEILING,ENTRY_INVALID:OVERHEAD_ON_PROPERTY",1402,,property row now documented,
 gm-19d07810db483152,2026-03-19,Floor and Decor,1871,1,1871,0,104 Ashburne/Small Baths,104 Ashburne,dismissed,dismiss,,PAUL,,property row now documented,
-gm-19d069c13314e2b8,2026-03-19,"Lowe's Home Centers, LLC",5408,1,5408,0,104 Ashburne/Small Baths,104 Ashburne,posted,post,,PAUL,,property row now documented,104 Ashburne/Lowes/898.30;104 Ashburne/Lowes/25.88;104 Ashburne/Lowes/33.25;104 Ashburne/Lowes/20.96
+gm-19d069c13314e2b8,2026-03-19,"Lowe's Home Centers, LLC",5408,1,5408,0,104 Ashburne/Small Baths,104 Ashburne,posted,post,,PAUL,,property row now documented,104 Ashburne/Lowes/898.30;104 Ashburne/Lowes/25.88;104 Ashburne/Lowes/33.25
 dry-gm-1a08ad44e24175cc,2026-09-09,Uber,3239,0,0,,,,dry,dismiss,"NOT_POST_VERDICT,LOW_CONFIDENCE,TOTAL_MISMATCH",,[Personal] Your Wednesday afternoon trip with Uber,junk (dismissed),
-gm-19c77b8ad0ecc11d,2026-02-19,The Home Depot,10815,2,10815,0,104 Ashburne/Lighting & Electrical;104 Ashburne/Lighting & Electrical,104 Ashburne,pending,hold,"NOT_POST_VERDICT,LOW_CONFIDENCE",PAUL,Your Electronic Receipt,property row now documented,
-gm-19f093595e1ff13a,2026-06-27,The Home Depot,4326,1,4326,0,136 Bowling Green/,136 Bowling Green,dismissed,dismiss,,PAUL,,property row now documented,136 Bowling Green/Home Depot/43.21
-gm-19bc2ac9659bedac,2026-01-15,The Home Depot,24867,1,863,24004,RECAST BIZ/Tools,104 Ashburne,posted,post,,PAUL,Your Electronic Receipt,manual row now documented,
+gm-19c77b8ad0ecc11d,2026-02-19,The Home Depot,10815,1,7571,3244,104 Ashburne/Lighting & Electrical,104 Ashburne,pending,hold,"NOT_POST_VERDICT,LOW_CONFIDENCE",PAUL,Your Electronic Receipt,property row now documented,
+gm-19f093595e1ff13a,2026-06-27,The Home Depot,4326,1,4326,0,136 Bowling Green/,136 Bowling Green,dismissed,dismiss,,PAUL,,property row now documented,
+gm-19bc2ac9659bedac,2026-01-15,The Home Depot,24867,2,22405,2462,RECAST BIZ/Tools;RECAST BIZ/Tools,104 Ashburne,posted,post,,PAUL,Your Electronic Receipt,manual row now documented,
 gm-1a01b3905e998087,2026-08-19,Uber Eats,3416,0,0,,,,dismissed,dismiss,"NOT_POST_VERDICT,TOTAL_MISMATCH",PAUL,[Personal] Your Wednesday morning order with Uber Eats,junk (dismissed),
-gm-19d11a93764263f8,2026-03-21,"Lowe's Home Centers, LLC",29723,6,29723,0,RECAST BIZ/Tools;104 Ashburne/House Hardware;104 Ashburne/Master Bath;104 Ashburne/Small Baths;104 Ashburne/Lighting & Electrical;104 Ashburne/Supplies,104 Ashburne,posted,post,,PAUL,,manual row now documented,104 Ashburne/Lowes/98.42;104 Ashburne/Lowes/18.97;104 Ashburne/Lowes/-108.23;104 Ashburne/Lowes/31.01;104 Ashburne/Lowes/86.25
+gm-19d11a93764263f8,2026-03-21,"Lowe's Home Centers, LLC",29723,0,0,,,104 Ashburne,posted,post,,PAUL,,"in mail, not in old books",104 Ashburne/Lowes/18.97;104 Ashburne/Lowes/-108.23;104 Ashburne/Lowes/9.48
 gm-19bc4405fa0bc7e5,2026-01-15,Juan Gonzalez,100000,1,100000,0,104 Ashburne/Chimney/FIreplace/Glass,104 Ashburne,pending,post,OVER_CEILING,PAUL,,property row now documented,"104 Ashburne/Juan Garcia/7,000.00;104 Ashburne/Juan Garcia/7,000.00"
 gm-19d7301fafc82a83,2026-04-09,The Home Depot,11124,3,9512,1612,RECAST BIZ/Tools;104 Ashburne/Supplies;104 Ashburne/Paint & Flooring,104 Ashburne,dismissed,dismiss,,PAUL,,manual row now documented,104 Ashburne/Home Depot/113.64
 gm-1a0a0d8b7d7973b2,2026-09-09,"Neighborhood Management, Inc. (CondoCerts)",37500,0,0,,,,dismissed,dismiss,"NOT_POST_VERDICT,LOW_CONFIDENCE,TOTAL_MISMATCH",1401,Fwd: GRJ-A40402 Order Confirmation,junk (dismissed),
@@ -159,7 +159,7 @@ gm-19fc8ca461cafa79,2026-08-03,Energy Texas,37116,1,37116,0,104 Ashburne/Utiliti
 gm-19cab7819599377d,2026-03-01,Micky Atlas Pools,200000,1,200000,0,104 Ashburne/Pool,104 Ashburne,pending,post,"LOW_CONFIDENCE,OVER_CEILING",PAUL,,property row now documented,"104 Ashburne/Atlas Pools/2,000.00"
 gm-1a0360f5a5d640a9,2026-08-24,"Anthropic, PBC",1029,0,0,,,OVERHEAD,pending,post,PAYER_UNKNOWN,UNKNOWN,"Fwd: Your receipt from Anthropic, PBC #2945-3640-9269","in mail, not in old books",
 gm-1a091a295143ec7b,2026-09-11,"Rockett Special Utility District (assumed from ""rocket water"")",19474,1,19474,0,881 Newport/,881 Newport,pending,hold,"NOT_POST_VERDICT,LOW_CONFIDENCE,PAYER_UNKNOWN",UNKNOWN,rocket water,property row now documented,
-gm-19c521cfa5452bd9,,,0,0,0,,,,pending,hold,"NOT_POST_VERDICT,LOW_CONFIDENCE,MISSING_VENDOR,MISSING_DATE,ZERO_TOTAL",,Flooring,"in mail, not in old books",
+gm-19c521cfa5452bd9,2026-02-12,Chino's H.R. Home Renovations (Chinos LLC),0,0,0,,,,pending,hold,"NOT_POST_VERDICT,LOW_CONFIDENCE,ZERO_TOTAL",UNKNOWN,Flooring,"in mail, not in old books","104 Ashburne/Chinos LLC/13,500.00"
 gm-19e8f7c50d0fbad4,2026-05-29,The Home Depot,2965,1,473,2492,1616 Granite RECONCILED/,1616 Granite,posted,post,,PAUL,Fwd: 1616,property row now documented,
 gm-19c51e70660fc809,2026-02-10,Floor &amp; Decor,0,0,0,,,,pending,hold,"NOT_POST_VERDICT,ZERO_TOTAL",PAUL,Fwd: Your e-Receipt is Enclosed,"in mail, not in old books",
 gm-19c8b34b8addc1ea,2026-01-18,American Airlines,57560,0,0,,,OVERHEAD,pending,post,OVER_CEILING,PAUL,Fwd: 02/01/26,"in mail, not in old books",
@@ -169,14 +169,14 @@ gm-19c7cfbc9a6c86a0,2026-02-20,Shell,5515,1,5515,0,104 Ashburne/Gas/Truck/Traile
 gm-19ce4d01e565051f,2026-03-13,Atlas Pools,402500,1,402500,0,104 Ashburne/Pool,104 Ashburne,pending,post,"LOW_CONFIDENCE,OVER_CEILING,ENTRY_INVALID:OVERHEAD_ON_PROPERTY",1402,,property row now documented,
 gm-19d9617b3e88822b,2026-04-16,"Lowe's Home Centers, LLC",-12893,0,0,,,104 Ashburne,pending,post,"ZERO_TOTAL,ENTRY_INVALID:BAD_AMOUNT",PAUL,Refund,"in mail, not in old books",
 gm-19d8db0dbb2e6309,2026-04-14,Shell,1999,0,0,,,OVERHEAD,pending,hold,"NOT_POST_VERDICT,LOW_CONFIDENCE,NEEDS_HUMAN_274D",PAUL,,"in mail, not in old books",
-gm-19c768d3b6197026,2026-02-19,The Home Depot,39012,9,31661,7351,RECAST BIZ/Tools;RECAST BIZ/Tools;104 Ashburne/Lighting & Electrical;104 Ashburne/Paint & Flooring;104 Ashburne/Supplies;104 Ashburne/Supplies;104 Ashburne/Supplies;104 Ashburne/Supplies;RECAST BIZ/Tools,104 Ashburne,dismissed,dismiss,,PAUL,,manual row now documented,
+gm-19c768d3b6197026,2026-02-19,The Home Depot,39012,9,39466,-454,RECAST BIZ/Tools;RECAST BIZ/Tools;104 Ashburne/Lighting & Electrical;104 Ashburne/Lighting & Electrical;104 Ashburne/Paint & Flooring;104 Ashburne/Lighting & Electrical;104 Ashburne/Lighting & Electrical;104 Ashburne/Lighting & Electrical;104 Ashburne/Supplies,104 Ashburne,dismissed,dismiss,,PAUL,,manual row now documented,104 Ashburne/Home Depot/11.70;104 Ashburne/Home Depot/54.09
 gm-19d74d499464e068,2026-04-09,Uber Eats,8751,0,0,,,,dismissed,dismiss,"NOT_POST_VERDICT,TOTAL_MISMATCH",PAUL,[Personal] Your Thursday evening order with Uber Eats,junk (dismissed),
 gm-19eaa297fd46db4d,2026-06-08,Uber Eats,6036,0,0,,,,dismissed,dismiss,"NOT_POST_VERDICT,TOTAL_MISMATCH",PAUL,[Personal] Your Monday evening order with Uber Eats,junk (dismissed),
 gm-19f3f6d3919a5816,2026-06-30,"Handwritten payment log - 136 Bowling Green (payees: unnamed carpet installer; ""FALCON"")",47500,0,0,,,136 Bowling Green,pending,hold,"NOT_POST_VERDICT,LOW_CONFIDENCE",PAUL,,"in mail, not in old books",136 Bowling Green/Lupe/160.00
 gm-19f6bc755fba151a,2026-07-02,Cool Hand Electric & Air,120700,1,120700,0,104 Ashburne/Lighting & Electrical,104 Ashburne,pending,post,OVER_CEILING,PAUL,Fwd: Your Invoice from Cool Hand Electric & Air,property row now documented,
 gm-19d072688657e4c8,2026-03-19,Harbor Freight,40267,0,0,,,,error,dismiss,,PAUL,Fwd: Your receipt from Harbor Freight | WAXAHACHIE  TX #0089,junk (dismissed),
 gm-19f076ae56b2925a,2026-06-19,Farmers Insurance,37458,1,37458,0,104 Ashburne/Insurance - Farmers Insurance,104 Ashburne,pending,post,LOW_CONFIDENCE,PAUL,Fwd: Your Farmers Insurance bill is ready to be viewed.,property row now documented,
-gm-19ce39f32dd9c9c0,2026-03-12,The Home Depot,67329,1,4761,62568,104 Ashburne/Supplies,104 Ashburne,pending,post,OVER_CEILING,PAUL,,property row now documented,
+gm-19ce39f32dd9c9c0,2026-03-12,The Home Depot,67329,2,67330,-1,RECAST BIZ/Tools;104 Ashburne/Supplies,104 Ashburne,pending,post,OVER_CEILING,PAUL,,manual row now documented,
 gm-19cd97e8d0053cdd,2026-03-10,City of Corsicana - Landfill,2730,1,2730,0,104 Ashburne/Trash,104 Ashburne,dismissed,dismiss,,PAUL,,property row now documented,
 gm-19d9c2bdd7c7d9c1,2026-04-17,Atlas Pools,19647,1,19647,0,104 Ashburne/Pool,104 Ashburne,posted,post,,PAUL,Fwd: Atlas Pools Payment Confirmation - Invoice 16768,property row now documented,
 gm-19d25017467ed73d,2026-03-25,The Home Depot,24150,0,0,,,,pending,hold,"NOT_POST_VERDICT,LOW_CONFIDENCE,TOTAL_MISMATCH",PAUL,Order confirmed. We're processing your order now!,"in mail, not in old books",104 Ashburne/Home Depot/16.33;104 Ashburne/Home Depot/49.75
@@ -188,8 +188,8 @@ gm-19cd8c81d22de209,2026-03-10,Foremost Insurance Group,37458,1,37458,0,104 Ashb
 gm-19d5e139b4ae4612,2026-04-05,The Home Depot,28844,0,0,,,104 Ashburne,dismissed,dismiss,,PAUL,,junk (dismissed),104 Ashburne/Home Depot/45.40;104 Ashburne/Home Depot/14.40
 gm-19cb1495d71c53af,2026-03-02,The Home Depot,3228,1,3228,0,104 Ashburne/Small Baths,104 Ashburne,dismissed,dismiss,,PAUL,,property row now documented,
 gm-19d7ec4e31eef94b,2026-04-11,Seconds &amp; Surplus,43298,1,43298,0,104 Ashburne/Countertops & Backsplash,104 Ashburne,error,post,,PAUL,,property row now documented,
-gm-19c617b59e734eb5,2026-02-15,The Home Depot,13768,0,0,,,104 Ashburne,dismissed,dismiss,NOT_POST_VERDICT,PAUL,,junk (dismissed),RECAST BIZ/Home Depot/11.88;104 Ashburne/Home Depot/15.33;104 Ashburne/Home Depot/60.79
-gm-19f1526194ff1558,2026-06-29,The Home Depot,6263,0,0,,,1616 Granite;OVERHEAD,pending,hold,"NOT_POST_VERDICT,NEEDS_HUMAN_274D",PAUL,,"in mail, not in old books",1616 Granite RECONCILED/Home Depot/40.01;1616 Granite RECONCILED/Home Depot/264.55
+gm-19c617b59e734eb5,2026-02-15,The Home Depot,13768,0,0,,,104 Ashburne,dismissed,dismiss,NOT_POST_VERDICT,PAUL,,junk (dismissed),
+gm-19f1526194ff1558,2026-06-29,The Home Depot,6263,0,0,,,1616 Granite;OVERHEAD,pending,hold,"NOT_POST_VERDICT,NEEDS_HUMAN_274D",PAUL,,"in mail, not in old books",1616 Granite RECONCILED/Home Depot/264.55
 gm-19bb302267f0364b,2026-01-12,Shell,4614,1,4614,0,104 Ashburne/Gas/Truck/Trailer,104 Ashburne,pending,post,ENTRY_INVALID:OVERHEAD_ON_PROPERTY,PAUL,,property row now documented,
 gm-19ffb6db8e1403dc,2026-08-13,The Home Depot,14789,1,14789,0,366 Mesa/,366 Mesa,posted,post,,1401,,property row now documented,
 gm-19dd8aee1f2fb6b2,2026-04-29,Uber,8598,0,0,,,OVERHEAD,pending,post,DUPLICATE: txn_id already posted (cache),PAUL,[Personal] Your Wednesday morning trip with Uber,"in mail, not in old books",
@@ -209,21 +209,21 @@ gm-1a05e91af6af152b,2026-09-01,Atlas Pools,25601,1,25601,0,104 Ashburne/Pool,104
 gm-19cf920b5859de0b,2026-03-16,Wayfair,9308,0,0,,,104 Ashburne,dismissed,dismiss,,PAUL,Screenshot 2026-03-16 at 7.09.49 PM,junk (dismissed),
 gm-19e0454d3ab6e5b6,2026-05-07,"Lowe's Home Centers, LLC",680,1,680,0,104 Ashburne/Supplies,104 Ashburne,posted,post,,PAUL,,property row now documented,
 gm-19d0df1e8fcc615c,2026-03-20,Atlas Pools,49000,0,0,,,,dismissed,dismiss,"NOT_POST_VERDICT,LOW_CONFIDENCE,TOTAL_MISMATCH",PAUL,Fwd: Atlas Pools Payment Confirmation - Invoice 16525,junk (dismissed),
-gm-1a0a0befad5d6040,2026-09-05,"Lowe's Home Centers, LLC",2806,1,810,1996,469 Brushwood/,469 Brushwood,pending,hold,"NOT_POST_VERDICT,LOW_CONFIDENCE",1401,Fwd:,property row now documented,
+gm-1a0a0befad5d6040,2026-09-05,"Lowe's Home Centers, LLC",2806,2,1511,1295,881 Newport/;469 Brushwood/,469 Brushwood,pending,hold,"NOT_POST_VERDICT,LOW_CONFIDENCE",1401,Fwd:,property row now documented,
 gm-19e8eaeb03cf2a86,2026-06-03,Uber,11398,0,0,,,OVERHEAD,posted,post,,PAUL,[Personal] Your Wednesday morning trip with Uber,"in mail, not in old books",
 gm-1a09257dfd763708,2026-09-11,"Anthropic, PBC",1034,0,0,,,,dismissed,dismiss,"NOT_POST_VERDICT,TOTAL_MISMATCH",1402,"Fwd: Your receipt from Anthropic, PBC #2142-6159-3565",junk (dismissed),
 dry-gm-1a0872fe98c4eb97,2026-09-09,Uber Eats,0,0,0,,,,dry,dismiss,"NOT_POST_VERDICT,ZERO_TOTAL",,Delicious deals are waiting for your next orders 🍴,junk (dismissed),
-gm-19e69ec679ab8f42,2026-05-27,The Home Depot,1399,1,372,1027,104 Ashburne/Supplies,104 Ashburne,dismissed,dismiss,,PAUL,,property row now documented,104 Ashburne/Home Depot/10.26
+gm-19e69ec679ab8f42,2026-05-27,The Home Depot,1399,2,1398,1,104 Ashburne/Supplies;104 Ashburne/Supplies,104 Ashburne,dismissed,dismiss,,PAUL,,property row now documented,
 gm-19d535a923f6b186,2026-04-03,"Lowe's Home Centers, LLC",34172,9,32667,1505,104 Ashburne/House Hardware;104 Ashburne/Lighting & Electrical;104 Ashburne/Lighting & Electrical;104 Ashburne/Supplies;104 Ashburne/Supplies;104 Ashburne/Supplies;104 Ashburne/Supplies;104 Ashburne/Supplies;104 Ashburne/Supplies,104 Ashburne,posted,post,,PAUL,,property row now documented,104 Ashburne/Lowes/25.76
 gm-19ed0e0fdd1f096a,2026-06-16,TXU Energy,16117,1,16117,0,280 Sparkling RECONCILED/,280 Sparkling,posted,post,,PAUL,Your payment's complete,property row now documented,
 gm-19f6b62d3d65e926,2026-07-10,City of Waxahachie - Water Billing Department,91392,0,0,,,1616 Granite,pending,post,OVER_CEILING,PAUL,City of Waxachie Utility Bill,"in mail, not in old books",
 gm-19e8f7d48435a6ab,2026-05-30,The Home Depot,783,1,485,298,1616 Granite RECONCILED/,1616 Granite,pending,hold,"NOT_POST_VERDICT,LOW_CONFIDENCE,NEEDS_HUMAN_274D,ENTRY_INVALID:OVERHEAD_ON_PROPERTY",PAUL,Fwd: 1616,property row now documented,
 gm-19e4c9406185e0cc,2026-05-21,Uber One,0,0,0,,,,dismissed,dismiss,"NOT_POST_VERDICT,ZERO_TOTAL",PAUL,"Paul, add a different payment method",junk (dismissed),
 gm-19ca6987ecb649fd,2026-02-28,The Home Depot,284,1,248,36,104 Ashburne/House Hardware,104 Ashburne,dismissed,dismiss,,PAUL,,property row now documented,
-gm-19cb9b1055042f0e,2026-03-04,The Home Depot,3996,0,0,,,104 Ashburne,dismissed,dismiss,,PAUL,,junk (dismissed),104 Ashburne/Amazon/32.46
-gm-19cddf3d9dcd3db2,2026-03-11,The Home Depot,668,1,863,-195,104 Ashburne/Landscaping,104 Ashburne,posted,post,,PAUL,,property row now documented,104 Ashburne/Home Depot/5.85
+gm-19cb9b1055042f0e,2026-03-04,The Home Depot,3996,1,751,3245,104 Ashburne/Supplies,104 Ashburne,dismissed,dismiss,,PAUL,,property row now documented,
+gm-19cddf3d9dcd3db2,2026-03-11,The Home Depot,668,1,863,-195,104 Ashburne/Landscaping,104 Ashburne,posted,post,,PAUL,,property row now documented,
 gm-19d60b2c1dd91b48,2026-03-30,Waxahachie Glass Corp.,51878,0,0,,,104 Ashburne,pending,dismiss,"NOT_POST_VERDICT,LOW_CONFIDENCE,OVER_CEILING",PAUL,,junk (dismissed),
-gm-19cb001414554a99,2026-03-02,The Home Depot,14738,2,3238,11500,104 Ashburne/Small Baths;104 Ashburne/Lighting & Electrical,104 Ashburne,pending,hold,"NOT_POST_VERDICT,LOW_CONFIDENCE,NEEDS_HUMAN_274D,ENTRY_INVALID:OVERHEAD_ON_PROPERTY",PAUL,,property row now documented,
+gm-19cb001414554a99,2026-03-02,The Home Depot,14738,4,6048,8690,104 Ashburne/Small Baths;104 Ashburne/Supplies;104 Ashburne/Supplies;104 Ashburne/Lighting & Electrical,104 Ashburne,pending,hold,"NOT_POST_VERDICT,LOW_CONFIDENCE,NEEDS_HUMAN_274D,ENTRY_INVALID:OVERHEAD_ON_PROPERTY",PAUL,,property row now documented,
 gm-19d836e862f87487,2026-04-12,Uber Eats,5507,0,0,,,,dismissed,dismiss,"NOT_POST_VERDICT,TOTAL_MISMATCH",PAUL,[Personal] Your Sunday afternoon order with Uber Eats,junk (dismissed),
 gm-19e8e8bac46f3744,2026-06-03,American Airlines,0,0,0,,,,dismissed,dismiss,"NOT_POST_VERDICT,ZERO_TOTAL",PAUL,Your Trip Credit,junk (dismissed),
 gm-19ff17e1bc0effd7,2026-08-11,The Home Depot,2094,2,2094,0,RECAST BIZ/Gas/Truck/Trailer;104 Ashburne/Supplies,104 Ashburne,posted,post,,PAUL,,manual row now documented,
@@ -243,12 +243,12 @@ gm-19c4777f162998eb,2026-02-10,Exxon,5244,1,5244,0,104 Ashburne/Gas/Truck/Traile
 gm-19fa9491039be96b,2026-07-28,Texas Secretary of State,200,0,0,,,OVERHEAD,dismissed,dismiss,,PAUL,Fwd: Packing Slip for Session : 072826FZ4657 (email id: 5857,junk (dismissed),
 gm-19e8f7a71589f76e,2026-03-19,Harbor Freight Tools,40267,0,0,,,,dismissed,dismiss,"NOT_POST_VERDICT,TOTAL_MISMATCH",PAUL,Fwd: Fwd: Your receipt from Harbor Freight | WAXAHACHIE  TX ,junk (dismissed),
 gm-19eb748efca975f8,2026-06-02,"Auction.com, LLC (Trustee: Ghidotti Berger LLP)",36900000,0,0,,,206 White Rock,pending,dismiss,"NOT_POST_VERDICT,LOW_CONFIDENCE,OVER_CEILING",PAUL,Fwd: 206 White Rock Ct - Reciept,junk (dismissed),
-gm-19f1083966df0eb6,2026-06-28,The Home Depot,747,1,403,344,280 Sparkling RECONCILED/,280 Sparkling;OVERHEAD,pending,hold,"NOT_POST_VERDICT,NEEDS_HUMAN_274D",PAUL,,property row now documented,280 Sparkling RECONCILED/Home Depot/6.47;280 Sparkling RECONCILED/Home Depot/16.22
+gm-19f1083966df0eb6,2026-06-28,The Home Depot,747,1,403,344,280 Sparkling RECONCILED/,280 Sparkling;OVERHEAD,pending,hold,"NOT_POST_VERDICT,NEEDS_HUMAN_274D",PAUL,,property row now documented,280 Sparkling RECONCILED/Home Depot/16.22
 gm-19ed0f37232547f4,2026-06-16,TXU Energy,16117,0,0,,,,dismissed,dismiss,"NOT_POST_VERDICT,LOW_CONFIDENCE,TOTAL_MISMATCH",PAUL,Fwd: Your payment's complete,junk (dismissed),
 gm-19f3f70854369633,2026-07-08,Handwritten check register (Paul Bjork) - Ashburne job,0,0,0,,,,pending,hold,"NOT_POST_VERDICT,LOW_CONFIDENCE,ZERO_TOTAL",PAUL,,"in mail, not in old books",
 gm-19c9b48187cc7444,2026-02-14,The Home Depot,35312,0,0,,,,dismissed,dismiss,"NOT_POST_VERDICT,LOW_CONFIDENCE,TOTAL_MISMATCH",PAUL,Fwd: Your Electronic Receipt,junk (dismissed),
 gm-1a091043bc28193b,2026-09-11,TXU Energy,20498,0,0,,,,pending,hold,"NOT_POST_VERDICT,LOW_CONFIDENCE,TOTAL_MISMATCH",UNKNOWN,Your payment's complete,"in mail, not in old books",
-gm-19f00c2049c512fe,2026-06-25,The Home Depot,17659,7,15048,2611,136 Bowling Green/;136 Bowling Green/;136 Bowling Green/;136 Bowling Green/;136 Bowling Green/;136 Bowling Green/;136 Bowling Green/,136 Bowling Green,error,post,,PAUL,,property row now documented,136 Bowling Green/Home Depot/33.28
+gm-19f00c2049c512fe,2026-06-25,The Home Depot,17659,7,17729,-70,136 Bowling Green/;136 Bowling Green/;136 Bowling Green/;136 Bowling Green/;136 Bowling Green/;136 Bowling Green/;136 Bowling Green/,136 Bowling Green,error,post,,PAUL,,property row now documented,136 Bowling Green/Home Depot/6.47
 gm-19e8f7ef66615f5a,2026-06-02,Tom Thumb,3187,1,1945,1242,1616 Granite RECONCILED/,1616 Granite,pending,hold,"NOT_POST_VERDICT,NEEDS_HUMAN_274D,ENTRY_INVALID:OVERHEAD_ON_PROPERTY",PAUL,Fwd: 1616,property row now documented,
 gm-19fd4fc19fb9a050,2026-08-05,Verity Plumbing,152646,1,152646,0,1616 Granite RECONCILED/,1616 Granite,pending,post,"OVER_CEILING,PAYER_UNKNOWN",UNKNOWN,"Fwd: Invoice 2365 due from Verity Plumbing - $1,526.46",property row now documented,
 gm-19c8b34790f6f503,2026-01-10,American Airlines,31650,0,0,,,OVERHEAD,dismissed,dismiss,,PAUL,Fwd: 01/17/26,junk (dismissed),
@@ -257,14 +257,14 @@ gm-19c265b1151d57f5,2026-02-03,Shell,4517,1,4517,0,104 Ashburne/Gas/Truck/Traile
 gm-19d4078f56917fbb,2026-03-30,The Home Depot,589,1,589,0,104 Ashburne/Supplies,104 Ashburne,dismissed,dismiss,,PAUL,,property row now documented,104 Ashburne/Home Depot/5.27;104 Ashburne/Home Depot/5.37
 gm-1a002503a4424f00,2026-08-13,Atmos Energy,3160,0,0,,,,pending,hold,"NOT_POST_VERDICT,LOW_CONFIDENCE,TOTAL_MISMATCH",UNKNOWN,Your Atmos Energy Bill is Available online,"in mail, not in old books",
 gm-19e2ce117249cd00,2026-05-15,Apify Technologies s.r.o.,31320,0,0,,,OVERHEAD,posted,post,,PAUL,Apify invoice #202605152143 payment successful,"in mail, not in old books",
-gm-19badcf888c0b1cb,2026-01-11,The Home Depot,17063,10,13788,3275,RECAST BIZ/Tools;RECAST BIZ/Tools;RECAST BIZ/Tools;RECAST BIZ/Tools;104 Ashburne/Supplies;104 Ashburne/Supplies;104 Ashburne/Supplies;104 Ashburne/Supplies;104 Ashburne/Supplies;104 Ashburne/Lighting & Electrical,104 Ashburne,dismissed,dismiss,,PAUL,,manual row now documented,104 Ashburne/Home Depot/16.91
+gm-19badcf888c0b1cb,2026-01-11,The Home Depot,17063,11,15479,1584,RECAST BIZ/Tools;RECAST BIZ/Tools;RECAST BIZ/Tools;RECAST BIZ/Tools;104 Ashburne/Supplies;104 Ashburne/Supplies;104 Ashburne/Supplies;104 Ashburne/Supplies;104 Ashburne/Supplies;104 Ashburne/Supplies;104 Ashburne/Lighting & Electrical,104 Ashburne,dismissed,dismiss,,PAUL,,manual row now documented,
 gm-1a0a52dc6c2dfccf,2026-09-15,American Airlines,0,0,0,,,,dismissed,dismiss,"NOT_POST_VERDICT,ZERO_TOTAL",UNKNOWN,It's time to check in - WVMXWG,junk (dismissed),
 gm-1a05ab4094033830,2026-08-31,Red Oak Municipal Payments - Utility Billing,52924,0,0,,,136 Bowling Green,pending,post,OVER_CEILING,1401,Fwd: Payment confirmation,"in mail, not in old books",
 up-test-inbox-timing-0916,2026-09-16,Home Depot,22225,0,0,,,1616 Granite,posted,post,"LOW_CONFIDENCE,TEST_SEED",PAUL,TEST fake receipt 2 (timing),"in mail, not in old books",
 gm-19e8f76c3b9efa8e,2026-05-27,The Home Depot,2700,3,2700,0,1616 Granite RECONCILED/;1616 Granite RECONCILED/;1616 Granite RECONCILED/,1616 Granite,posted,post,,PAUL,Fwd: 1616,property row now documented,
 gm-19c5737c9d880d55,2026-02-13,The Home Depot,14341,0,0,,,,dismissed,dismiss,"NOT_POST_VERDICT,LOW_CONFIDENCE,TOTAL_MISMATCH",PAUL,Home Depot,junk (dismissed),
 gm-19c6bc67c11b5ac6,2026-02-17,HGO Tire Shop,2000,1,2000,0,104 Ashburne/Gas/Truck/Trailer,104 Ashburne,pending,post,ENTRY_INVALID:OVERHEAD_ON_PROPERTY,PAUL,,property row now documented,
-dry-gm-1a07217d8a060601,2026-09-05,"Lowe's Home Centers, LLC",6493,0,0,,,OVERHEAD,dry,post,LOW_CONFIDENCE,1402,,"in mail, not in old books",881 Newport/Lowes/7.01;881 Newport/Lowes/6.47
+dry-gm-1a07217d8a060601,2026-09-05,"Lowe's Home Centers, LLC",6493,0,0,,,OVERHEAD,dry,post,LOW_CONFIDENCE,1402,,"in mail, not in old books",881 Newport/Lowes/6.47
 gm-19e8d1415d216814,2026-06-03,Uber,9498,0,0,,,OVERHEAD,pending,post,DUPLICATE: txn_id already posted (cache),PAUL,[Personal] Your Wednesday morning trip with Uber,"in mail, not in old books",104 Ashburne/Energy Texas/139.21
 dry-gm-1a090de755523067,2026-09-11,American Airlines,34140,0,0,,,OVERHEAD,dry,hold,"NOT_POST_VERDICT,LOW_CONFIDENCE,NEEDS_HUMAN_274D",1402,Your trip confirmation (PDX - DFW),"in mail, not in old books",
 gm-19fb54e6cdc547ce,2026-07-31,City of Waxahachie - Water Billing Department,18750,1,18750,0,280 Sparkling RECONCILED/,,pending,hold,"NOT_POST_VERDICT,LOW_CONFIDENCE,TOTAL_MISMATCH",PAUL,City of Waxachie Utility Bill,property row now documented,
@@ -275,7 +275,7 @@ gm-19f956c4d89292d8,2026-07-23,Community Archives (Goodwin &amp; Company),48500,
 gm-19fc7a31eae2a240,2026-08-03,NexGen Seamless Gutters,20000,1,20000,0,280 Sparkling RECONCILED/,280 Sparkling,pending,post,PAYER_UNKNOWN,UNKNOWN,Fwd: Invoice 4655 from NexGen Seamless Gutters,property row now documented,
 gm-19c1bbf8d22774d9,2026-02-01,The Home Depot,16017,1,16017,0,104 Ashburne/Gas/Truck/Trailer,104 Ashburne,pending,hold,"NOT_POST_VERDICT,LOW_CONFIDENCE",PAUL,Fwd: We received your order!,property row now documented,
 gm-19d2ce89b36942b0,2026-03-26,Uber Eats,7751,0,0,,,,dismissed,dismiss,"NOT_POST_VERDICT,TOTAL_MISMATCH",PAUL,[Personal] Your Thursday evening order with Uber Eats,junk (dismissed),
-gm-19d20cf12a8888da,2026-03-21,The Home Depot,38993,0,0,,,104 Ashburne,pending,post,LOW_CONFIDENCE,PAUL,,"in mail, not in old books",104 Ashburne/Lowes/34.47
+gm-19d20cf12a8888da,2026-03-21,The Home Depot,38993,0,0,,,104 Ashburne,pending,post,LOW_CONFIDENCE,PAUL,,"in mail, not in old books",104 Ashburne/Amazon/32.46
 gm-19cd4498993d9ac5,2026-03-09,Uber Eats,5565,0,0,,,,dismissed,dismiss,"NOT_POST_VERDICT,TOTAL_MISMATCH",PAUL,[Personal] Your Monday afternoon order with Uber Eats,junk (dismissed),
 gm-19f77d553b3a99d5,2026-07-19,Uber Eats,0,0,0,,,,dismissed,dismiss,"NOT_POST_VERDICT,ZERO_TOTAL",PAUL,Your order from Pizza Minute cannot be fulfilled,junk (dismissed),
 gm-19c1616e0c3f33fa,2026-01-31,Harbor Freight,1699,1,1699,0,104 Ashburne/Gas/Truck/Trailer,OVERHEAD,pending,post,LOW_CONFIDENCE,PAUL,,property row now documented,
@@ -288,14 +288,14 @@ gm-19e03c938a0f72b2,2026-05-07,The Home Depot,2378,1,2378,0,104 Ashburne/Supplie
 gm-19e091cb11fddeec,2026-05-08,Midlothian Municipal Court (Municipal Online Payments),28095,1,28095,0,104 Ashburne/Gas/Truck/Trailer,,pending,hold,"NOT_POST_VERDICT,TOTAL_MISMATCH",PAUL,Fwd: MIDLOTHIAN MUNICIPAL COURT - THANK YOU FOR YOUR PAYMENT,property row now documented,
 gm-19bbcabe2cd4e9fa,2026-01-14,Shell,4930,1,4930,0,104 Ashburne/Gas/Truck/Trailer,104 Ashburne,pending,post,ENTRY_INVALID:OVERHEAD_ON_PROPERTY,PAUL,,property row now documented,
 gm-19faef91b36eaf81,2026-07-29,Uber Eats,3525,0,0,,,,dismissed,dismiss,"NOT_POST_VERDICT,TOTAL_MISMATCH",PAUL,[Personal] Your Wednesday morning order with Uber Eats,junk (dismissed),
-gm-19c6be8d0bd458c9,2026-02-17,The Home Depot,6755,2,2592,4163,RECAST BIZ/Tools;RECAST BIZ/Tools,104 Ashburne,dismissed,dismiss,,PAUL,,manual row now documented,RECAST BIZ/Home Depot/2.65;104 Ashburne/Home Depot/44.99;104 Ashburne/Home Depot/6.95
-gm-19cf25c0bd386e41,2026-03-15,"Lowe's Home Centers, LLC",1405,1,1405,0,RECAST BIZ/Tools,OVERHEAD,posted,post,,PAUL,,manual row now documented,104 Ashburne/Home Depot/14.05;104 Ashburne/Home Depot/14.05
+gm-19c6be8d0bd458c9,2026-02-17,The Home Depot,6755,2,2592,4163,RECAST BIZ/Tools;RECAST BIZ/Tools,104 Ashburne,dismissed,dismiss,,PAUL,,manual row now documented,
+gm-19cf25c0bd386e41,2026-03-15,"Lowe's Home Centers, LLC",1405,1,1405,0,RECAST BIZ/Tools,OVERHEAD,posted,post,,PAUL,,manual row now documented,104 Ashburne/Home Depot/14.04
 gm-19bc8a7d88d9c798,2026-01-16,Shell,5298,1,5298,0,104 Ashburne/Gas/Truck/Trailer,104 Ashburne,pending,post,ENTRY_INVALID:OVERHEAD_ON_PROPERTY,PAUL,,property row now documented,
 gm-19f2375f3f8eeb7c,2026-06-29,Rockett Special Utility District,15000,1,15000,0,881 Newport/,881 Newport,posted,post,,PAUL,Fwd: 881,property row now documented,
 gm-19cc98e8a2850d78,2026-03-07,The Tile Shop,37367,1,37367,0,104 Ashburne/Master Bath,104 Ashburne,posted,post,,PAUL,,property row now documented,
 gm-1a06da589b0fc446,2026-09-04,"Lowe's Home Centers, LLC",27050,3,3620,23430,469 Brushwood/;469 Brushwood/;469 Brushwood/,469 Brushwood,pending,post,LOW_CONFIDENCE,1401,Your Lowe's Purchase Receipt,property row now documented,469 Brushwood/Lowes/43.28
 gm-19c51f0d0ef588d9,2026-02-10,Amazon,32466,1,32466,0,104 Ashburne/House Hardware,104 Ashburne,posted,post,,PAUL,"Fwd: Ordered: 6 ""Goldenwarm 24 Pack Black...""",property row now documented,
-gm-19c77180389ec215,2026-02-19,The Home Depot,17848,2,17848,0,104 Ashburne/Lighting & Electrical;104 Ashburne/Paint & Flooring,104 Ashburne,dismissed,dismiss,,PAUL,,property row now documented,
+gm-19c77180389ec215,2026-02-19,The Home Depot,17848,1,12334,5514,104 Ashburne/Paint & Flooring,104 Ashburne,dismissed,dismiss,,PAUL,,property row now documented,
 gm-19e0304909d9e7ca,2026-05-07,The Home Depot,-10695,0,0,,,104 Ashburne,pending,post,"ZERO_TOTAL,ENTRY_INVALID:BAD_AMOUNT",PAUL,Refund,"in mail, not in old books",1616 Granite RECONCILED/Home Depot/107.06
 gm-1a09ba0217448a08,2026-09-13,Uber Eats,2651,0,0,,,,dismissed,dismiss,"NOT_POST_VERDICT,TOTAL_MISMATCH",PAUL,[Personal] Your Sunday morning order with Uber Eats,junk (dismissed),
 gm-19cd5e12f4e9d9b7,2026-03-09,AllModern,21434,0,0,,,104 Ashburne,dismissed,dismiss,,PAUL,Fwd: Order received! Does everything look right?,junk (dismissed),
@@ -303,21 +303,21 @@ gm-19fed3edc8e2cd4e,2026-08-10,City of Ovilla,18267,1,18267,0,104 Ashburne/Utili
 gm-19efaed25d50c403,2026-06-24,Julio (unidentified individual),15000,1,15000,0,104 Ashburne/Landscaping,104 Ashburne,pending,hold,"NOT_POST_VERDICT,LOW_CONFIDENCE",PAUL,Julio $150,property row now documented,
 gm-1a09c42a0bd2824b,2026-09-13,"Anthropic, PBC",10000,0,0,,,OVERHEAD,posted,post,,PAUL,"Your receipt from Anthropic, PBC #2268-3974-1772","in mail, not in old books",
 gm-19d22ca3e531094d,2026-03-19,FNF irrigation,45000,0,0,,,104 Ashburne,dismissed,dismiss,,PAUL,Fwd: Your receipt from FNF irrigation is ready — Invoice #42,junk (dismissed),
-gm-19e8f7927b019869,2026-05-28,The Home Depot,40683,2,36356,4327,1616 Granite RECONCILED/;1616 Granite RECONCILED/,1616 Granite,posted,post,,PAUL,Fwd: 1616,property row now documented,
-gm-19c7be8f6b3c531b,2026-02-20,The Home Depot,13507,1,1729,11778,RECAST BIZ/Tools,OVERHEAD,pending,hold,"NOT_POST_VERDICT,LOW_CONFIDENCE,TOTAL_MISMATCH",PAUL,Your Electronic Receipt,manual row now documented,
+gm-19e8f7927b019869,2026-05-28,The Home Depot,40683,3,40684,-1,1616 Granite RECONCILED/;1616 Granite RECONCILED/;1616 Granite RECONCILED/,1616 Granite,posted,post,,PAUL,Fwd: 1616,property row now documented,
+gm-19c7be8f6b3c531b,2026-02-20,The Home Depot,13507,0,0,,,OVERHEAD,pending,hold,"NOT_POST_VERDICT,LOW_CONFIDENCE,TOTAL_MISMATCH",PAUL,Your Electronic Receipt,"in mail, not in old books",
 gm-19d887edb5a8b804,2026-04-13,The Home Depot,32023,1,32023,0,104 Ashburne/Supplies,104 Ashburne,dismissed,dismiss,,PAUL,,property row now documented,
 gm-19db68cdc0f2c8e2,2026-04-17,Energy Texas,8022,1,8022,0,104 Ashburne/Utilities,104 Ashburne,posted,post,,PAUL,"Fwd: Your $80.22 bill set for Auto Pay on May 4, 2026 is now",property row now documented,
 gm-19fae353e2050985,2026-07-29,City of Waxahachie - Utility Billing (Municipal Online Payments),95002,1,95002,0,1616 Granite RECONCILED/,1616 Granite,pending,hold,"NOT_POST_VERDICT,LOW_CONFIDENCE,OVER_CEILING",PAUL,Fwd: Payment confirmation,property row now documented,
 gm-19d4571464925cf5,2026-03-31,Uber Eats,10514,0,0,,,,dismissed,dismiss,"NOT_POST_VERDICT,TOTAL_MISMATCH",PAUL,[Personal] Your Tuesday afternoon order with Uber Eats,junk (dismissed),
 gm-19e8f7d75cafd8c7,2026-05-30,The Home Depot,4514,0,0,,,1616 Granite,dismissed,dismiss,,PAUL,Fwd: 1616,junk (dismissed),
-gm-19cc51b6b845dd1f,2026-02-19,Shalom Granite,850800,2,850800,0,104 Ashburne/Countertops & Backsplash;104 Ashburne/Countertops & Backsplash,104 Ashburne,pending,post,OVER_CEILING,PAUL,,property row now documented,104 Ashburne/Julio/100.00;104 Ashburne/Julio/100.00
+gm-19cc51b6b845dd1f,2026-02-19,Shalom Granite,850800,1,355800,495000,104 Ashburne/Countertops & Backsplash,104 Ashburne,pending,post,OVER_CEILING,PAUL,,property row now documented,104 Ashburne/Julio/100.00;104 Ashburne/Julio/100.00
 gm-19ed80dfe6dc2f18,2026-06-18,Apify Technologies s.r.o.,2900,1,2900,0,RECAST BIZ/Website,OVERHEAD,posted,post,,PAUL,Apify invoice #202606180127 payment successful,manual row now documented,
 gm-1a016949d078f6cf,2026-08-18,TXU Energy,21364,0,0,,,,pending,hold,"NOT_POST_VERDICT,LOW_CONFIDENCE,TOTAL_MISMATCH",UNKNOWN,Your payment's complete,"in mail, not in old books",
 gm-19bbd41a87b2b698,2026-01-14,The Home Depot,2025,2,2025,0,RECAST BIZ/Tools;104 Ashburne/Supplies,104 Ashburne,pending,post,LOW_CONFIDENCE,PAUL,,manual row now documented,
 gm-19f0ee822c4aa5ef,2026-06-28,Keith Ace Hardware - Red Oak,1081,1,1081,0,136 Bowling Green/,136 Bowling Green,error,post,,PAUL,,property row now documented,
 gm-19ce9e96ec55aec5,2026-03-13,Lumens,12081,1,12081,0,104 Ashburne/Lighting & Electrical,104 Ashburne,posted,post,,PAUL,Fwd: Confirmation of your Order,property row now documented,
-gm-19f0e8b993f57cd0,2026-06-28,The Home Depot,635,1,506,129,136 Bowling Green/,136 Bowling Green,posted,post,,PAUL,,property row now documented,RECAST BIZ/The Home Depot/6.73;RECAST BIZ/The Home Depot/7.51;136 Bowling Green/Home Depot/8.04
-gm-19c4cb602c2d527c,2026-02-11,The Home Depot,4161,2,4161,0,104 Ashburne/Trash;104 Ashburne/Supplies,OVERHEAD,pending,post,LOW_CONFIDENCE,PAUL,Your Electronic Receipt,property row now documented,
+gm-19f0e8b993f57cd0,2026-06-28,The Home Depot,635,1,804,-169,136 Bowling Green/,136 Bowling Green,posted,post,,PAUL,,property row now documented,RECAST BIZ/The Home Depot/6.73;RECAST BIZ/The Home Depot/7.51
+gm-19c4cb602c2d527c,2026-02-11,The Home Depot,4161,2,4161,0,104 Ashburne/Trash;104 Ashburne/Supplies,OVERHEAD,pending,post,LOW_CONFIDENCE,PAUL,Your Electronic Receipt,property row now documented,104 Ashburne/Home Depot/9.18
 gm-19dc05be6c2af277,2026-04-24,Aces Real Estate Media,62800,1,62800,0,104 Ashburne/Marketing,104 Ashburne,pending,post,OVER_CEILING,PAUL,aces,property row now documented,
 gm-19d88691bc0bdfdd,2026-04-13,Uber Eats,10625,0,0,,,,dismissed,dismiss,"NOT_POST_VERDICT,TOTAL_MISMATCH",PAUL,[Personal] Your Monday afternoon order with Uber Eats,junk (dismissed),
 gm-19c727ecbd076934,2026-02-18,Uber Eats,13126,0,0,,,,pending,dismiss,"NOT_POST_VERDICT,LOW_CONFIDENCE,TOTAL_MISMATCH",PAUL,Fwd: [Personal] Your Wednesday afternoon order with Uber Eat,junk (dismissed),RECAST BIZ/Uber Eats/131.26
@@ -340,7 +340,7 @@ gm-19ca6cf04236bd89,2026-02-28,The Home Depot,284,1,428,-144,104 Ashburne/Suppli
 gm-19e2257005de0d6e,2026-05-13,VistaPrint,40584,1,14769,25815,RECAST BIZ/Marketing,OVERHEAD,posted,post,,PAUL,Your order is confirmed,manual row now documented,
 gm-19d8733a36c6906d,2026-04-13,Keith Ace Hardware - Red Oak,6447,1,6447,0,104 Ashburne/Supplies,104 Ashburne;OVERHEAD,posted,post,,PAUL,,property row now documented,
 gm-19e4dcba01c8ee66,2026-05-21,Uber Eats,8385,0,0,,,,dismissed,dismiss,"NOT_POST_VERDICT,TOTAL_MISMATCH",PAUL,[Personal] Your Thursday evening order with Uber Eats,junk (dismissed),
-gm-19c5d297b5829e55,2026-02-14,The Home Depot,35312,3,9519,25793,RECAST BIZ/Tools;104 Ashburne/Supplies;104 Ashburne/Supplies,OVERHEAD,posted,post,,PAUL,Your Electronic Receipt,manual row now documented,RECAST BIZ/Home Depot/247.89
+gm-19c5d297b5829e55,2026-02-14,The Home Depot,35312,4,34308,1004,RECAST BIZ/Tools;RECAST BIZ/Tools;104 Ashburne/Supplies;104 Ashburne/Supplies,OVERHEAD,posted,post,,PAUL,Your Electronic Receipt,manual row now documented,104 Ashburne/Home Depot/37.86
 gm-19d400cec1201a16,2026-03-30,Shell,7495,1,7495,0,104 Ashburne/Gas/Truck/Trailer,104 Ashburne,pending,post,ENTRY_INVALID:OVERHEAD_ON_PROPERTY,PAUL,,property row now documented,
 gm-19ce84ad1be595c1,2026-03-13,FedEx Office,1190,1,1190,0,104 Ashburne/Paint & Flooring,104 Ashburne,pending,post,LOW_CONFIDENCE,PAUL,,property row now documented,
 gm-19f37bd652dbc0b5,2026-07-06,"Energy Texas (Rhythm Ops, LLC)",22682,1,22682,0,104 Ashburne/Utilities,104 Ashburne,pending,hold,"NOT_POST_VERDICT,LOW_CONFIDENCE",PAUL,Fwd: All set! We received your payment through Auto Pay.,property row now documented,
@@ -349,9 +349,9 @@ gm-19d6117a5116478b,2026-04-06,Julio (unidentified labor),40000,0,0,,,104 Ashbur
 up-test-inbox-warm-0916,2026-09-16,Home Depot,22225,0,0,,,1616 Granite,posted,post,"LOW_CONFIDENCE,TEST_SEED",PAUL,TEST fake receipt 4 (warm caches),"in mail, not in old books",
 gm-19d2647307183ef9,2026-03-25,The Home Depot,9859,1,1783,8076,104 Ashburne/Lighting & Electrical,104 Ashburne,dismissed,dismiss,,PAUL,,property row now documented,
 gm-1a016b2fac76a50d,2026-08-14,City of Waxahachie - Water Billing Department,44349,1,44349,0,Cost Recapture/1616 Granite,,pending,hold,"NOT_POST_VERDICT,LOW_CONFIDENCE,TOTAL_MISMATCH",UNKNOWN,City of Waxachie Utility Bill,property row now documented,136 Bowling Green/City of Red Oak/447.47
-gm-19d2c0314cc37287,2026-03-26,The Home Depot,840,1,582,258,104 Ashburne/Master Bath,104 Ashburne,pending,hold,"NOT_POST_VERDICT,NEEDS_HUMAN_274D,ENTRY_INVALID:OVERHEAD_ON_PROPERTY",PAUL,,property row now documented,104 Ashburne/Home Depot/9.18;104 Ashburne/Home Depot/8.31;104 Ashburne/Home Depot/9.17;104 Ashburne/Home Depot/9.17
-gm-19d01359eb674ac2,2026-03-18,Floor and Decor,42319,0,0,,,104 Ashburne,posted,post,,PAUL,,"in mail, not in old books",104 Ashburne/Floor & Decor/378.94
-gm-19f42c17927282a4,2026-07-08,The Home Depot,5534,1,2163,3371,881 Newport/,881 Newport,pending,hold,"NOT_POST_VERDICT,LOW_CONFIDENCE,NEEDS_HUMAN_274D,ENTRY_INVALID:OVERHEAD_ON_PROPERTY",PAUL,,property row now documented,
+gm-19d2c0314cc37287,2026-03-26,The Home Depot,840,1,582,258,104 Ashburne/Master Bath,104 Ashburne,pending,hold,"NOT_POST_VERDICT,NEEDS_HUMAN_274D,ENTRY_INVALID:OVERHEAD_ON_PROPERTY",PAUL,,property row now documented,104 Ashburne/Home Depot/8.31;104 Ashburne/Home Depot/9.17;104 Ashburne/Home Depot/9.17
+gm-19d01359eb674ac2,2026-03-18,Floor and Decor,42319,1,37894,4425,104 Ashburne/Small Baths,104 Ashburne,posted,post,,PAUL,,property row now documented,
+gm-19f42c17927282a4,2026-07-08,The Home Depot,5534,2,5019,515,881 Newport/;881 Newport/,881 Newport,pending,hold,"NOT_POST_VERDICT,LOW_CONFIDENCE,NEEDS_HUMAN_274D,ENTRY_INVALID:OVERHEAD_ON_PROPERTY",PAUL,,property row now documented,
 gm-19d54f9e0010bc8c,2026-04-03,The Home Depot,37918,0,0,,,104 Ashburne,posted,post,,PAUL,,"in mail, not in old books",
 gm-19d5549008d4307d,2026-04-03,Seconds &amp; Surplus,70142,1,70142,0,104 Ashburne/Countertops & Backsplash,104 Ashburne,pending,post,OVER_CEILING,PAUL,,property row now documented,
 gm-1a0a689e471fc97e,2026-09-15,Uber Eats,4258,0,0,,,,dismissed,dismiss,"NOT_POST_VERDICT,TOTAL_MISMATCH",PAUL,[Personal] Your Tuesday morning order with Uber Eats,junk (dismissed),
@@ -360,12 +360,12 @@ gm-1a007f1fdf7903ee,2026-08-15,Carlos A Ibarra,50000,1,50000,0,366 Mesa/,366 Mes
 gm-19cbe988cb289b26,2026-03-05,"Lowe's Home Centers, LLC",3241,1,3241,0,104 Ashburne/Paint & Flooring,104 Ashburne,posted,post,,PAUL,,property row now documented,
 gm-1a082efc7888e5ef,2026-09-08,Justice of the Peace Precinct 1 (JP #1),14400,0,0,,,413 Green Acres,pending,post,LOW_CONFIDENCE,1401,Fwd: Green acres eviction check,"in mail, not in old books",
 gm-19bc2775a6872115,2026-01-15,The Home Depot,24867,2,1468,23399,RECAST BIZ/Tools;104 Ashburne/Supplies,104 Ashburne,dismissed,dismiss,,PAUL,,manual row now documented,
-gm-19eea5d1a93a9656,2026-06-21,The Home Depot,1019,1,371,648,280 Sparkling RECONCILED/,280 Sparkling,posted,post,,PAUL,,property row now documented,280 Sparkling RECONCILED/Home Depot/9.93
-gm-19ccf1f38113d4f9,2026-03-08,The Home Depot,10675,3,8683,1992,104 Ashburne/Countertops & Backsplash;104 Ashburne/Master Bath;104 Ashburne/Supplies,104 Ashburne,posted,post,,PAUL,,property row now documented,RECAST BIZ/Home Depot/104.96
+gm-19eea5d1a93a9656,2026-06-21,The Home Depot,1019,2,1018,1,280 Sparkling RECONCILED/;280 Sparkling RECONCILED/,280 Sparkling,posted,post,,PAUL,,property row now documented,280 Sparkling RECONCILED/Home Depot/9.93
+gm-19ccf1f38113d4f9,2026-03-08,The Home Depot,10675,3,8683,1992,104 Ashburne/Countertops & Backsplash;104 Ashburne/Master Bath;104 Ashburne/Supplies,104 Ashburne,posted,post,,PAUL,,property row now documented,
 gm-19fd24ebc9ed8431,2026-07-30,Falcon Creek Lawn Care,23500,0,0,,,136 Bowling Green;1616 Granite;280 Sparkling;881 Newport,posted,post,,PAUL,Fwd: Lawn maintenance,"in mail, not in old books",
-gm-19bae832dd56cffa,2026-01-10,The Home Depot,8341,1,7573,768,104 Ashburne/HVAC,104 Ashburne,posted,post,,PAUL,,property row now documented,
+gm-19bae832dd56cffa,2026-01-10,The Home Depot,8341,2,8340,1,104 Ashburne/HVAC;104 Ashburne/Supplies,104 Ashburne,posted,post,,PAUL,,property row now documented,
 gm-19cbddb92c61a37a,2026-03-05,The Home Depot,36589,1,36589,0,104 Ashburne/Master Bath,104 Ashburne,dismissed,dismiss,,PAUL,,property row now documented,
-gm-19edabdf68ad91f0,2026-06-18,The Home Depot,4793,1,810,3983,104 Ashburne/Supplies,104 Ashburne,posted,post,,PAUL,,property row now documented,RECAST BIZ/The Home Depot/47.60;104 Ashburne/Home Depot/39.84
+gm-19edabdf68ad91f0,2026-06-18,The Home Depot,4793,2,4794,-1,104 Ashburne/Supplies;104 Ashburne/Supplies,104 Ashburne,posted,post,,PAUL,,property row now documented,
 gm-19fd7d4ee3154fea,2026-07-31,"CoreLogic Solutions, LLC",20000,0,0,,,OVERHEAD,pending,post,LOW_CONFIDENCE,PAUL,Property Intelligence Invoice #30889149,"in mail, not in old books",
 gm-19c53948b4990f97,2026-02-12,J &amp; P Auto Repair,5200,1,5200,0,104 Ashburne/Gas/Truck/Trailer,OVERHEAD,posted,post,,PAUL,,property row now documented,
 gm-19c8b349964c680d,2026-01-23,American Airlines,70608,0,0,,,OVERHEAD,pending,hold,"NOT_POST_VERDICT,LOW_CONFIDENCE,OVER_CEILING",PAUL,Fwd: 01/23/26,"in mail, not in old books",
@@ -379,7 +379,7 @@ gm-19fb4c7970b0f7a7,2026-07-30,Uber Eats,5737,0,0,,,,dismissed,dismiss,"NOT_POST
 gm-19fec5d90578892d,2026-08-07,Foremost Insurance Group,37458,1,37458,0,104 Ashburne/Insurance - Farmers Insurance,104 Ashburne,error,post,,PAUL,Fwd: Payment Confirmation from Foremost Insurance Group®.,property row now documented,
 gm-1a06cc096121cd45,2026-09-04,The Home Depot,1470,1,1470,0,469 Brushwood/,469 Brushwood,posted,post,,1401,,property row now documented,
 gm-19d02f1149cf34d6,2026-03-18,Flexitions,65334,0,0,,,104 Ashburne,pending,post,OVER_CEILING,PAUL,Fwd: Order #8246 confirmed,"in mail, not in old books",
-gm-19ed8190a6945042,2026-06-16,The Home Depot,58945,7,30016,28929,RECAST BIZ/Tools;RECAST BIZ/Tools;104 Ashburne/Small Baths;104 Ashburne/Supplies;104 Ashburne/Supplies;104 Ashburne/Supplies;104 Ashburne/Supplies,104 Ashburne,pending,post,OVER_CEILING,PAUL,Fwd: 104,manual row now documented,
+gm-19ed8190a6945042,2026-06-16,The Home Depot,58945,8,34776,24169,RECAST BIZ/Tools;RECAST BIZ/Tools;RECAST BIZ/Tools;104 Ashburne/Small Baths;104 Ashburne/Supplies;104 Ashburne/Supplies;104 Ashburne/Supplies;104 Ashburne/Supplies,104 Ashburne,pending,post,OVER_CEILING,PAUL,Fwd: 104,manual row now documented,
 gm-19d557a02bada3be,2026-03-31,"CoreLogic Solutions, LLC",20000,0,0,,,OVERHEAD,pending,hold,"NOT_POST_VERDICT,LOW_CONFIDENCE",PAUL,Property Intelligence Invoice #30857690,"in mail, not in old books",
 gm-19c76c4996bae8b0,2026-02-19,The Home Depot,39012,0,0,,,,pending,hold,"NOT_POST_VERDICT,LOW_CONFIDENCE,TOTAL_MISMATCH",PAUL,Your Electronic Receipt,"in mail, not in old books",104 Ashburne/Amazon/10.81
 gm-19d4fef69c52ef33,2026-03-30,The Home Depot,24150,0,0,,,,pending,hold,"NOT_POST_VERDICT,LOW_CONFIDENCE,TOTAL_MISMATCH",PAUL,"Your order's ready! Pick it up by Thursday, April 9","in mail, not in old books",
@@ -390,19 +390,19 @@ gm-19e8f76eff8186bc,2026-05-27,City of Waxahachie,10395,1,10395,0,1616 Granite R
 gm-19b9ef373c8332d3,2026-01-08,The Home Depot,12277,2,3620,8657,RECAST BIZ/Tools;104 Ashburne/Cleaning,104 Ashburne,pending,post,LOW_CONFIDENCE,PAUL,Receipt,manual row now documented,
 gm-19c86e9af6ee7c6d,2026-02-22,ArchitecturalDepot.com,69533,1,69533,0,104 Ashburne/Paint & Flooring,104 Ashburne,pending,post,OVER_CEILING,PAUL,Fwd: Your ArchitecturalDepot.com Order #1636620,property row now documented,
 gm-19ef5388be1807c4,2026-06-23,The Home Depot,3243,0,0,,,280 Sparkling,dismissed,dismiss,NOT_POST_VERDICT,PAUL,Fwd:,junk (dismissed),
-gm-19d62dc0a36bb7bd,2026-04-06,The Home Depot,2379,1,2379,0,104 Ashburne/Supplies,104 Ashburne,dismissed,dismiss,,PAUL,,property row now documented,104 Ashburne/Home Depot/22.50;104 Ashburne/Home Depot/23.79
+gm-19d62dc0a36bb7bd,2026-04-06,The Home Depot,2379,1,2379,0,104 Ashburne/Supplies,104 Ashburne,dismissed,dismiss,,PAUL,,property row now documented,104 Ashburne/Home Depot/22.50;104 Ashburne/Home Depot/23.79;104 Ashburne/Home Depot/23.78
 gm-19d89042467353f7,2026-04-13,The Home Depot,12698,1,12698,0,RECAST BIZ/Tools,104 Ashburne;OVERHEAD,dismissed,dismiss,,PAUL,,manual row now documented,
 gm-19c01b7410af7c7f,2026-01-11,Amazon,515,1,515,0,RECAST BIZ/Tools,104 Ashburne,posted,post,,PAUL,"Fwd: Ordered: ""GRK CARD40-1 Carded T-40...""",manual row now documented,
 gm-19fd7f3f3ed0e605,2026-08-06,McCoy's Building Supply,4456,1,4556,-100,136 Bowling Green/,136 Bowling Green,posted,post,,PAUL,,property row now documented,
 gm-19e8ef3d9338fabb,2026-05-31,"CoreLogic Solutions, LLC",20000,0,0,,,OVERHEAD,pending,post,LOW_CONFIDENCE,PAUL,Property Intelligence Invoice #30875629,"in mail, not in old books",104 Ashburne/Julio/200.00
 gm-19c51f2daddbeabd,2026-02-09,Amazon,9079,2,9079,0,104 Ashburne/Master Bath;104 Ashburne/Master Bath,104 Ashburne,posted,post,,PAUL,"Fwd: Ordered: ""Freestanding Tub Drain..."" and 1 more item",property row now documented,104 Ashburne/Amazon/249.97
-gm-19c7bb272d77da5a,2026-02-20,The Home Depot,13507,0,0,,,104 Ashburne,dismissed,dismiss,,PAUL,,junk (dismissed),104 Ashburne/Home Depot/44.99;104 Ashburne/Home Depot/72.80
+gm-19c7bb272d77da5a,2026-02-20,The Home Depot,13507,1,1729,11778,RECAST BIZ/Tools,104 Ashburne,dismissed,dismiss,,PAUL,,manual row now documented,104 Ashburne/Home Depot/72.80
 gm-19fc8cb445b3e345,2026-08-03,Energy Texas,37116,0,0,,,104 Ashburne,dismissed,dismiss,NOT_POST_VERDICT,PAUL,Fwd: All set! We received your payment through Auto Pay.,junk (dismissed),
 gm-19d985398a604372,2026-04-16,Luxury 4 Less Appliances,17500,1,17500,0,104 Ashburne/Appliances,104 Ashburne,pending,post,LOW_CONFIDENCE,PAUL,Fwd: Payment confirmation: Invoice #3158-(Luxury 4 Less Appl,property row now documented,"104 Ashburne/Luxury 4 Less Applia/10,319.56"
 gm-19cf78c3c07ff0f6,2026-03-16,"Lowe's Home Centers, LLC",46573,1,46573,0,104 Ashburne/Paint & Flooring,104 Ashburne,dismissed,dismiss,,PAUL,Your Lowe's Purchase Receipt,property row now documented,
 gm-19cf927112794782,2026-03-16,Wayfair,9308,0,0,,,104 Ashburne,posted,post,,PAUL,Fwd: Order received! Does everything look right?,"in mail, not in old books",
 gm-19c9f7ea96a8f794,2026-02-27,Amazon,173199,1,173199,0,104 Ashburne/Appliances,104 Ashburne,pending,post,OVER_CEILING,PAUL,"Fwd: Ordered: ""GASLAND Electric Downdraft...""",property row now documented,
-gm-19d1b92fe12a4c7d,2026-03-23,The Home Depot,9807,1,1942,7865,104 Ashburne/Small Baths,104 Ashburne,posted,post,,PAUL,,property row now documented,
+gm-19d1b92fe12a4c7d,2026-03-23,The Home Depot,9807,2,9806,1,104 Ashburne/Small Baths;104 Ashburne/Small Baths,104 Ashburne,posted,post,,PAUL,,property row now documented,
 gm-19cb0399a28a4bdb,2026-03-02,The Home Depot,14738,0,0,,,,pending,hold,"NOT_POST_VERDICT,LOW_CONFIDENCE,TOTAL_MISMATCH",PAUL,Your Electronic Receipt,"in mail, not in old books",
 gm-19d0716277e58567,2026-03-19,"Lowe's Home Centers, LLC",40478,0,0,,,104 Ashburne,posted,post,,PAUL,,"in mail, not in old books",
 gm-19ebf24ef82905c2,2026-06-13,VistaPrint,0,0,0,,,,dismissed,dismiss,"NOT_POST_VERDICT,ZERO_TOTAL",PAUL,Your order is on its way,junk (dismissed),"RECAST BIZ/VistaPrint/170.99;RECAST BIZ/Netlify, Inc./0.00"
@@ -413,12 +413,12 @@ gm-1a024bdf36f04195,2026-08-21,TXU Energy,16402,0,0,,,1616 Granite,pending,post,
 gm-19cd5489c5fd928b,2026-03-09,The Home Depot,8383,0,0,,,,pending,hold,"NOT_POST_VERDICT,LOW_CONFIDENCE,TOTAL_MISMATCH",PAUL,Your Electronic Receipt,"in mail, not in old books",
 gm-19d4a3ee589e436a,2026-04-01,The Home Depot,9358,4,8289,1069,104 Ashburne/House Hardware;104 Ashburne/Supplies;104 Ashburne/Supplies;104 Ashburne/Supplies,104 Ashburne,posted,post,,PAUL,,property row now documented,
 gm-1a072177407c7875,2026-09-05,"Lowe's Home Centers, LLC",2806,0,0,,,469 Brushwood,dismissed,dismiss,,1401,,junk (dismissed),
-gm-19d7d96bd9768097,2026-04-11,The Home Depot,18151,4,4320,13831,104 Ashburne/Supplies;104 Ashburne/Supplies;104 Ashburne/Supplies;104 Ashburne/Small Baths,104 Ashburne;OVERHEAD,posted,post,,PAUL,,property row now documented,
+gm-19d7d96bd9768097,2026-04-11,The Home Depot,18151,3,3447,14704,104 Ashburne/Supplies;104 Ashburne/Supplies;104 Ashburne/Supplies,104 Ashburne;OVERHEAD,posted,post,,PAUL,,property row now documented,
 gm-19bc4186ab17e432,2026-01-15,The Home Depot,398,1,433,-35,104 Ashburne/House Hardware,OVERHEAD,pending,post,LOW_CONFIDENCE,PAUL,Your Electronic Receipt,property row now documented,
-gm-19cf2444d6efb00f,2026-03-15,The Home Depot,31359,5,11539,19820,RECAST BIZ/Tools;104 Ashburne/Supplies;104 Ashburne/Supplies;104 Ashburne/Supplies;104 Ashburne/Supplies,104 Ashburne,dismissed,dismiss,,PAUL,,manual row now documented,104 Ashburne/Home Depot/307.17;104 Ashburne/Home Depot/8.92;104 Ashburne/Home Depot/21.56
+gm-19cf2444d6efb00f,2026-03-15,The Home Depot,31359,10,30606,753,RECAST BIZ/Tools;RECAST BIZ/Tools;104 Ashburne/Supplies;104 Ashburne/Supplies;104 Ashburne/Supplies;104 Ashburne/Supplies;104 Ashburne/Supplies;104 Ashburne/Supplies;104 Ashburne/Supplies;104 Ashburne/Small Baths,104 Ashburne,dismissed,dismiss,,PAUL,,manual row now documented,104 Ashburne/Home Depot/75.74;104 Ashburne/Home Depot/307.17;104 Ashburne/Home Depot/75.74;104 Ashburne/Home Depot/21.56
 gm-19c8b34d7d965e72,2026-02-04,American Airlines,46240,0,0,,,OVERHEAD,posted,post,,PAUL,Fwd: 02/09/26,"in mail, not in old books",
 gm-1a05e23b4b8b9be7,2026-09-01,Julio (unidentified landscaping labor),15000,1,15000,0,104 Ashburne/Landscaping,104 Ashburne,pending,hold,"NOT_POST_VERDICT,LOW_CONFIDENCE,PAYER_UNKNOWN",UNKNOWN,$150 Julio,property row now documented,
-gm-19c488e7c2b56593,2026-02-10,The Home Depot,20087,5,14756,5331,RECAST BIZ/Tools;RECAST BIZ/Tools;RECAST BIZ/Tools;104 Ashburne/Lighting & Electrical;104 Ashburne/Lighting & Electrical,104 Ashburne,dismissed,dismiss,,PAUL,,manual row now documented,104 Ashburne/Home Depot/49.54
+gm-19c488e7c2b56593,2026-02-10,The Home Depot,20087,7,20087,0,RECAST BIZ/Tools;RECAST BIZ/Tools;RECAST BIZ/Tools;104 Ashburne/Lighting & Electrical;104 Ashburne/Lighting & Electrical;104 Ashburne/Master Bath;104 Ashburne/Supplies,104 Ashburne,dismissed,dismiss,,PAUL,,manual row now documented,
 gm-19c3d95342917012,2026-02-08,Foremost Insurance Group,37458,1,37458,0,104 Ashburne/Insurance - Farmers Insurance,104 Ashburne,posted,post,,PAUL,Fwd: Payment Confirmation from Foremost Insurance Group®.,property row now documented,
 gm-19e48a74ef5b17e3,2026-05-20,Uber Eats,4286,0,0,,,,dismissed,dismiss,"NOT_POST_VERDICT,TOTAL_MISMATCH",PAUL,[Personal] Your Wednesday evening order with Uber Eats,junk (dismissed),
 gm-19f3f6f506f7c073,2026-07-08,Handwritten expense worksheet (Paul) - multiple vendors,269144,0,0,,,,pending,hold,"NOT_POST_VERDICT,LOW_CONFIDENCE,OVER_CEILING,TOTAL_MISMATCH",PAUL,,"in mail, not in old books",
@@ -439,14 +439,14 @@ gm-1a03bba34c61e16d,2026-08-25,Uber Eats,3882,0,0,,,,dismissed,dismiss,"NOT_POST
 gm-19d551c2e7db7daf,2026-04-03,Shell,7166,1,7166,0,104 Ashburne/Gas/Truck/Trailer,104 Ashburne,pending,post,ENTRY_INVALID:OVERHEAD_ON_PROPERTY,PAUL,,property row now documented,
 gm-19f6ca190ea84909,2026-07-16,TXU Energy,20221,0,0,,,,pending,hold,"NOT_POST_VERDICT,LOW_CONFIDENCE,TOTAL_MISMATCH",PAUL,Your bill’s ready,"in mail, not in old books",
 gm-1a0716dcb2254415,2026-09-05,Keith Pfaff,13500,1,13500,0,104 Ashburne/Landscaping,104 Ashburne,pending,hold,"NOT_POST_VERDICT,LOW_CONFIDENCE,PAYER_UNKNOWN",UNKNOWN,,property row now documented,
-gm-19d02629b0206123,2026-03-18,The Home Depot,7951,1,7951,0,104 Ashburne/Supplies,104 Ashburne,dismissed,dismiss,,PAUL,,property row now documented,104 Ashburne/Home Depot/78.21;104 Ashburne/Home Depot/78.64
+gm-19d02629b0206123,2026-03-18,The Home Depot,7951,1,7951,0,104 Ashburne/Supplies,104 Ashburne,dismissed,dismiss,,PAUL,,property row now documented,104 Ashburne/Home Depot/78.21
 dry-gm-1a091750aaf73526,2026-09-11,Southwest Airlines,0,0,0,,,,dry,dismiss,"NOT_POST_VERDICT,ZERO_TOTAL",,"Hi, Paul! You've got a Rapid Rewards account statement.",junk (dismissed),
 gm-19ef063b7f56ea6f,2026-06-22,The Home Depot,4672,2,4672,0,280 Sparkling RECONCILED/;280 Sparkling RECONCILED/,280 Sparkling,posted,post,,PAUL,,property row now documented,
 gm-19fed30f7359ded5,2026-08-10,The Home Depot,19215,0,0,,,104 Ashburne;OVERHEAD,pending,hold,"NOT_POST_VERDICT,LOW_CONFIDENCE,NEEDS_HUMAN_274D",PAUL,,"in mail, not in old books",
 gm-19ed818d6be0fb42,2026-06-16,The Home Depot,12666,2,4764,7902,104 Ashburne/Small Baths;104 Ashburne/Supplies,104 Ashburne,dismissed,dismiss,,PAUL,Fwd: 104,property row now documented,104 Ashburne/Home Depot/4.03;104 Ashburne/Home Depot/44.03;104 Ashburne/Home Depot/7.56;104 Ashburne/Home Depot/33.20;104 Ashburne/Home Depot/22.09;104 Ashburne/Home Depot/2.89
 gm-19c6859ab582b6f5,2026-02-16,The Home Depot,3079,0,0,,,,pending,hold,"NOT_POST_VERDICT,LOW_CONFIDENCE,TOTAL_MISMATCH",PAUL,Your Electronic Receipt,"in mail, not in old books",
 gm-19d9700278f64d44,2026-04-16,Julio (unidentified labor),0,0,0,,,,pending,hold,"NOT_POST_VERDICT,LOW_CONFIDENCE,ZERO_TOTAL",PAUL,Julio,"in mail, not in old books",
-gm-19ed8195997d06ad,2026-06-17,The Home Depot,7788,1,2921,4867,RECAST BIZ/Tools,OVERHEAD,posted,post,,PAUL,Fwd: 104,manual row now documented,
+gm-19ed8195997d06ad,2026-06-17,The Home Depot,7788,2,5841,1947,RECAST BIZ/Tools;RECAST BIZ/Tools,OVERHEAD,posted,post,,PAUL,Fwd: 104,manual row now documented,
 gm-19d74595d34b67cc,2026-04-09,Shell,7930,1,7930,0,104 Ashburne/Gas/Truck/Trailer,104 Ashburne,pending,post,ENTRY_INVALID:OVERHEAD_ON_PROPERTY,PAUL,,property row now documented,
 gm-19e341b8a2ece48e,2026-05-16,Uber Eats,6022,0,0,,,,dismissed,dismiss,"NOT_POST_VERDICT,TOTAL_MISMATCH",PAUL,[Personal] Your Saturday evening order with Uber Eats,junk (dismissed),
 gm-19d8d13776d4e5c2,2026-04-14,The Home Depot,13319,1,13319,0,104 Ashburne/Supplies,104 Ashburne,posted,post,,PAUL,,property row now documented,
@@ -470,15 +470,15 @@ gm-19cc51b9d5d50855,2026-03-06,Juanito (unidentified labor payee),250000,1,25000
 gm-19ed69af26494e70,2026-06-17,Lowe's Home Improvement,4917,0,0,,,1616 Granite,dismissed,dismiss,,PAUL,Your Lowe's Purchase Receipt,junk (dismissed),
 gm-1a0b0a1f4cf065d9,2026-09-17,Uber,0,0,0,,,,dismissed,dismiss,"NOT_POST_VERDICT,ZERO_TOTAL",UNKNOWN,Meet your new Safety Hub,junk (dismissed),
 gm-19f6822d74e813b1,2026-07-14,Atmos Energy,3579,0,0,,,,pending,hold,"NOT_POST_VERDICT,LOW_CONFIDENCE,TOTAL_MISMATCH",PAUL,Your Atmos Energy Bill is Available online,"in mail, not in old books",
-gm-19d3a4c4d7090e19,2026-03-29,The Home Depot,8764,2,1593,7171,104 Ashburne/Small Baths;104 Ashburne/Small Baths,104 Ashburne,error,post,,PAUL,,property row now documented,
+gm-19d3a4c4d7090e19,2026-03-29,The Home Depot,8764,3,2174,6590,104 Ashburne/Small Baths;104 Ashburne/Small Baths;104 Ashburne/Small Baths,104 Ashburne,error,post,,PAUL,,property row now documented,
 gm-19b8f5147938f4fc,2026-01-05,City of Ovilla,15000,1,15000,0,104 Ashburne/Utilities,104 Ashburne,posted,post,,PAUL,Ovilla Water deposit,property row now documented,
 gm-19df4b2c6e1e5aee,2026-05-04,Shell,6651,1,6651,0,104 Ashburne/Gas/Truck/Trailer,104 Ashburne,pending,post,ENTRY_INVALID:OVERHEAD_ON_PROPERTY,PAUL,,property row now documented,
 gm-19f98359d5c7120b,2026-07-25,TXU Energy,26176,1,26176,0,1616 Granite RECONCILED/,1616 Granite,dismissed,dismiss,,PAUL,final electric bill,property row now documented,
 gm-1a0395f7d5566e0d,2026-08-25,Rockett Special Utility District,14472,1,14472,0,881 Newport/,881 Newport,pending,post,"LOW_CONFIDENCE,PAYER_UNKNOWN",UNKNOWN,Fwd: Rockett Special Utility District Late Notice,property row now documented,
 gm-1a088f9429235a8c,2026-09-09,Uber Eats,6427,0,0,,,,dismissed,dismiss,"NOT_POST_VERDICT,TOTAL_MISMATCH",PAUL,[Personal] Your Wednesday afternoon order with Uber Eats,junk (dismissed),
 gm-19f8b7ddb19790db,2026-07-22,Google Cloud,0,0,0,,,,dismissed,dismiss,"NOT_POST_VERDICT,ZERO_TOTAL",PAUL,[Action Advised] Secure Google Cloud Identity users with req,junk (dismissed),
-gm-19f059f5de8379eb,2026-06-26,The Home Depot,14491,2,3186,11305,136 Bowling Green/;136 Bowling Green/,136 Bowling Green,error,post,,PAUL,,property row now documented,136 Bowling Green/Home Depot/14.38;136 Bowling Green/Home Depot/16.22;136 Bowling Green/Home Depot/12.97
-gm-19cf3177d3ee370b,2026-03-15,The Home Depot,3672,1,3672,0,104 Ashburne/Master Bath,104 Ashburne,posted,post,,PAUL,,property row now documented,104 Ashburne/Home Depot/36.74;104 Ashburne/Home Depot/37.86;104 Ashburne/Home Depot/14.68
+gm-19f059f5de8379eb,2026-06-26,The Home Depot,14491,3,7507,6984,136 Bowling Green/;136 Bowling Green/;136 Bowling Green/,136 Bowling Green,error,post,,PAUL,,property row now documented,136 Bowling Green/Home Depot/14.38;136 Bowling Green/Home Depot/12.97
+gm-19cf3177d3ee370b,2026-03-15,The Home Depot,3672,1,3672,0,104 Ashburne/Master Bath,104 Ashburne,posted,post,,PAUL,,property row now documented,104 Ashburne/Home Depot/36.74;104 Ashburne/Home Depot/14.68
 gm-19dfd55f48f159ef,2026-05-06,The Home Depot,11849,1,11849,0,104 Ashburne/Supplies,104 Ashburne,error,post,,PAUL,,property row now documented,104 Ashburne/Home Depot/8.64
 gm-19d6e8c47f186ff0,2026-04-08,City of Corsicana - Landfill,2730,1,2730,0,104 Ashburne/Trash,104 Ashburne,posted,post,,PAUL,,property row now documented,
 gm-19dead3708324233,2026-05-02,Uber Eats,3506,0,0,,,,dismissed,dismiss,"NOT_POST_VERDICT,TOTAL_MISMATCH",PAUL,[Personal] Your Saturday afternoon order with Uber Eats,junk (dismissed),
@@ -490,7 +490,7 @@ gm-19d6461d769e7e56,2026-04-06,The Home Depot,3401,2,3401,0,104 Ashburne/Supplie
 gm-1a07c578a33b385e,2026-09-07,The Home Depot,4155,1,4155,0,469 Brushwood/,469 Brushwood,posted,post,,1401,,property row now documented,469 Brushwood/Home Depot/41.55
 gm-19f1a71858c0d365,2026-06-30,Keith Ace Hardware - Red Oak,7032,3,7032,0,136 Bowling Green/;136 Bowling Green/;136 Bowling Green/,136 Bowling Green,error,post,,PAUL,,property row now documented,
 gm-19dac60cfc28e66d,2026-04-20,Uber Eats,4331,0,0,,,,dismissed,dismiss,"NOT_POST_VERDICT,TOTAL_MISMATCH",PAUL,[Personal] Your Monday morning order with Uber Eats,junk (dismissed),
-gm-19d2556d29835a4b,2026-03-25,"Lowe's Home Centers, LLC",48680,5,34718,13962,104 Ashburne/Small Baths;104 Ashburne/Small Baths;104 Ashburne/Master Bath;104 Ashburne/Master Bath;104 Ashburne/Supplies,104 Ashburne,dismissed,dismiss,,PAUL,,property row now documented,
+gm-19d2556d29835a4b,2026-03-25,"Lowe's Home Centers, LLC",48680,6,46626,2054,104 Ashburne/Small Baths;104 Ashburne/Small Baths;104 Ashburne/Small Baths;104 Ashburne/Master Bath;104 Ashburne/Master Bath;104 Ashburne/Supplies,104 Ashburne,dismissed,dismiss,,PAUL,,property row now documented,
 gm-19e2379ba3158c72,2026-05-12,Atmos Energy,3131,1,3131,0,104 Ashburne/Utilities,,pending,hold,"NOT_POST_VERDICT,LOW_CONFIDENCE,TOTAL_MISMATCH",PAUL,Your Atmos Energy Bill is Available online,property row now documented,
 gm-19d20029c2d90ba7,2026-03-24,The Home Depot,14494,2,14494,0,104 Ashburne/House Hardware;104 Ashburne/Master Bath,104 Ashburne,posted,post,,PAUL,,property row now documented,
 gm-19eccb04208c09a3,2026-06-15,Uber,0,0,0,,,,dismissed,dismiss,"NOT_POST_VERDICT,ZERO_TOTAL",PAUL,Traveling? Save up to US$85,junk (dismissed),
@@ -508,15 +508,15 @@ gm-19d63f17bf22f9fa,2026-04-06,The Home Depot,18152,0,0,,,,pending,hold,"NOT_POS
 gm-19b944ec9eb500c7,2025-12-31,"CoreLogic Solutions, LLC",20000,0,0,,,OVERHEAD,pending,post,LOW_CONFIDENCE,PAUL,Property Intelligence Invoice #30831839,"in mail, not in old books",104 Ashburne/Julio/200.00;104 Ashburne/Julio/200.00;104 Ashburne/Julio/200.00;104 Ashburne/Julio/200.00;104 Ashburne/Julio/200.00;104 Ashburne/Julio/200.00;104 Ashburne/Julio/200.00
 gm-19d064b856ef56ce,2026-03-19,Shell,1306,1,1306,0,104 Ashburne/Gas/Truck/Trailer,104 Ashburne,pending,post,ENTRY_INVALID:OVERHEAD_ON_PROPERTY,PAUL,,property row now documented,
 gm-19fb337be62617b6,2026-07-19,Falcon Creek Lawn Care,47000,0,0,,,136 Bowling Green;1616 Granite;280 Sparkling;881 Newport,posted,post,,PAUL,Fwd: Lawn maintenance invoice,"in mail, not in old books",881 Newport/Effren - 1372/110.00;136 Bowling Green/Effren - 1373/110.00;1616 Granite RECONCILED/Effren - 1373/110.00;280 Sparkling RECONCILED/Effren - 1373/110.00
-gm-19d442100d7bb73f,2026-03-30,"Lowe's Home Centers, LLC",34090,1,34090,0,104 Ashburne/Lighting & Electrical,104 Ashburne,posted,post,,PAUL,,property row now documented,104 Ashburne/Lowes/59.49
+gm-19d442100d7bb73f,2026-03-30,"Lowe's Home Centers, LLC",34090,1,34090,0,104 Ashburne/Lighting & Electrical,104 Ashburne,posted,post,,PAUL,,property row now documented,
 gm-1a05e92632b068ee,2026-09-01,Atlas Pools,25601,1,25601,0,104 Ashburne/Pool,104 Ashburne,posted,post,,PAUL,Fwd: Atlas Pools Payment Confirmation - Invoice 18972,property row now documented,
-gm-19d3a708f16b12eb,2026-03-29,The Home Depot,2573,1,581,1992,104 Ashburne/Small Baths,104 Ashburne,posted,post,,PAUL,,property row now documented,104 Ashburne/Home Depot/27.00;104 Ashburne/Home Depot/25.37
+gm-19d3a708f16b12eb,2026-03-29,The Home Depot,2573,1,2700,-127,104 Ashburne/Small Baths,104 Ashburne,posted,post,,PAUL,,property row now documented,104 Ashburne/Home Depot/25.37
 gm-19cd4e0777d35c4c,2026-03-09,Barker Door,25450,1,25450,0,104 Ashburne/Kitchen,104 Ashburne,posted,post,,PAUL,Fwd: Barker Door Order Confirmation,property row now documented,
 gm-19fd84c06f959785,2026-08-06,Keith Ace Hardware - Red Oak,713,1,713,0,136 Bowling Green/,136 Bowling Green,posted,post,,PAUL,,property row now documented,
 gm-19f060b917f5e444,2026-06-26,Uber One,0,0,0,,,,dismissed,dismiss,"NOT_POST_VERDICT,ZERO_TOTAL",PAUL,"Paul, add a different payment method",junk (dismissed),
-gm-19eb75e58b4bc3fe,2026-06-11,North Texas Tollway Authority (NTTA),4000,1,4000,0,RECAST BIZ/Gas/Truck/Trailer,OVERHEAD,posted,post,,PAUL,toll tag,manual row now documented,RECAST BIZ/North Texas Tollway /92.57
+gm-19eb75e58b4bc3fe,2026-06-11,North Texas Tollway Authority (NTTA),4000,1,4000,0,RECAST BIZ/Gas/Truck/Trailer,OVERHEAD,posted,post,,PAUL,toll tag,manual row now documented,RECAST BIZ/North Texas Tollway /92.57;1616 Granite RECONCILED/Home Depot/40.01
 gm-19d013bd0045dbda,2026-03-17,Julio,0,0,0,,,,pending,hold,"NOT_POST_VERDICT,LOW_CONFIDENCE,ZERO_TOTAL",PAUL,Julio 3/17,"in mail, not in old books",
-gm-19f43e16247dc4bd,2026-07-08,The Home Depot,3665,1,810,2855,881 Newport/,881 Newport,dismissed,dismiss,,PAUL,,property row now documented,
+gm-19f43e16247dc4bd,2026-07-08,The Home Depot,3665,2,3666,-1,881 Newport/;881 Newport/,881 Newport,dismissed,dismiss,,PAUL,,property row now documented,
 gm-19ce7f2d328e4ac8,2026-03-13,Shell,7060,1,7060,0,104 Ashburne/Gas/Truck/Trailer,104 Ashburne,pending,post,ENTRY_INVALID:OVERHEAD_ON_PROPERTY,PAUL,,property row now documented,
 gm-1a091750aaf73526,2026-09-11,Southwest Airlines,0,0,0,,,,dismissed,dismiss,"NOT_POST_VERDICT,ZERO_TOTAL",,"Hi, Paul! You've got a Rapid Rewards account statement.",junk (dismissed),
 gm-19d0446213881f8d,2026-03-18,Wayfair,7685,0,0,,,104 Ashburne,posted,post,,PAUL,Fwd: Order received! Does everything look right?,"in mail, not in old books",104 Ashburne/Wauyfair/76.85
@@ -529,11 +529,11 @@ gm-19e07440dfd3573d,2026-05-07,"Jiffy Lube #3752 (Premium Velocity Auto, LLC)",7
 gm-19dedd4c33011f73,2026-05-03,Uber,5499,0,0,,,OVERHEAD,dismissed,dismiss,,PAUL,[Personal] Your Sunday morning trip with Uber,junk (dismissed),
 gm-1a0a71a191684dbf,2026-09-14,Atmos Energy,6739,0,0,,,,pending,hold,"NOT_POST_VERDICT,LOW_CONFIDENCE,TOTAL_MISMATCH",UNKNOWN,Your Atmos Energy Bill is Available online,"in mail, not in old books",
 gm-1a024d155f98964f,2026-08-21,TXU Energy,16402,0,0,,,,dismissed,dismiss,"NOT_POST_VERDICT,LOW_CONFIDENCE,TOTAL_MISMATCH",UNKNOWN,Fwd: Your payment's complete,junk (dismissed),
-gm-19bcc629a4d83e4e,2026-01-17,"Lowe's Home Centers, LLC",18034,0,0,,,104 Ashburne,posted,post,,PAUL,Fwd: Your Lowe's Purchase Receipt,"in mail, not in old books",104 Ashburne/Lowes/18.06
+gm-19bcc629a4d83e4e,2026-01-17,"Lowe's Home Centers, LLC",18034,1,1806,16228,104 Ashburne/HVAC,104 Ashburne,posted,post,,PAUL,Fwd: Your Lowe's Purchase Receipt,property row now documented,
 gm-19db09cc256ad72b,2026-04-21,Waxahachie Glass Corp.,87818,1,87818,0,104 Ashburne/Chimney/FIreplace/Glass,104 Ashburne,pending,hold,"NOT_POST_VERDICT,LOW_CONFIDENCE,OVER_CEILING",PAUL,Intuit QuickBooks,property row now documented,
-gm-19caf6b9e1556ade,2026-03-02,The Home Depot,21969,6,21969,0,RECAST BIZ/Tools;RECAST BIZ/Tools;RECAST BIZ/Tools;104 Ashburne/Lighting & Electrical;104 Ashburne/Master Bath;104 Ashburne/Master Bath,OVERHEAD,pending,post,LOW_CONFIDENCE,PAUL,Your Electronic Receipt,manual row now documented,
+gm-19caf6b9e1556ade,2026-03-02,The Home Depot,21969,6,21969,0,RECAST BIZ/Tools;RECAST BIZ/Tools;104 Ashburne/Small Baths;104 Ashburne/Small Baths;104 Ashburne/Small Baths;104 Ashburne/Paint & Flooring,OVERHEAD,pending,post,LOW_CONFIDENCE,PAUL,Your Electronic Receipt,manual row now documented,
 gm-19d02f0310a87049,2026-03-18,Flexitions,65334,1,65334,0,104 Ashburne/Paint & Flooring,104 Ashburne,pending,hold,"NOT_POST_VERDICT,LOW_CONFIDENCE,OVER_CEILING",PAUL,Fwd: Updated Invoice,property row now documented,
-gm-19c70c97dc638c65,2026-02-18,The Home Depot,6956,1,6924,32,104 Ashburne/Lighting & Electrical,,pending,hold,"NOT_POST_VERDICT,LOW_CONFIDENCE,TOTAL_MISMATCH",PAUL,Your Electronic Receipt,property row now documented,
+gm-19c70c97dc638c65,2026-02-18,The Home Depot,6956,0,0,,,,pending,hold,"NOT_POST_VERDICT,LOW_CONFIDENCE,TOTAL_MISMATCH",PAUL,Your Electronic Receipt,"in mail, not in old books",
 gm-19ce7245dbb4ed86,2026-03-13,"Lowe's Home Centers, LLC",10914,1,4832,6082,104 Ashburne/Paint & Flooring,104 Ashburne,posted,post,,PAUL,,property row now documented,
 gm-19c72800f7d3e852,2026-02-17,"MyKnobs, Inc",26815,1,26815,0,104 Ashburne/House Hardware,104 Ashburne,posted,post,,PAUL,Fwd: MyKnobs: Thank you for your order MYK-3310567,property row now documented,
 gm-19cc49cbe08d9420,2026-03-06,The Home Depot,12882,1,12882,0,104 Ashburne/Kitchen,104 Ashburne,posted,post,,PAUL,,property row now documented,
@@ -550,12 +550,12 @@ gm-19c8b340ca661091,2026-01-22,American Airlines,4028,0,0,,,,dismissed,dismiss,"
 gm-19cd5e3f4729e97b,2026-03-10,Ping Lighting,9920,0,0,,,104 Ashburne,posted,post,,PAUL,Fwd: [Ping Lighting] Order confirmation,"in mail, not in old books",
 dry-gm-1a0884827e1945bf,2026-09-09,Wi-Fi Onboard (Intelsat),800,0,0,,,OVERHEAD,dry,hold,"NOT_POST_VERDICT,LOW_CONFIDENCE,NEEDS_HUMAN_274D",1402,Fwd: Here's Your Wi-Fi Onboard Receipt - Check Out Your Purc,"in mail, not in old books",
 gm-19efa2e8ed562228,2026-06-24,Uber,0,0,0,,,,dismissed,dismiss,"NOT_POST_VERDICT,ZERO_TOTAL",PAUL,Got summer plans? Uber teen accounts can help ☀️,junk (dismissed),
-gm-19cc387a05beb25b,2026-03-06,The Home Depot,19960,2,12609,7351,104 Ashburne/Supplies;104 Ashburne/Small Baths,104 Ashburne,dismissed,dismiss,,PAUL,,property row now documented,RECAST BIZ/Home Depot/196.99
+gm-19cc387a05beb25b,2026-03-06,The Home Depot,19960,2,12609,7351,104 Ashburne/Supplies;104 Ashburne/Small Baths,104 Ashburne,dismissed,dismiss,,PAUL,,property row now documented,
 gm-19d9299078f0128e,2026-04-15,Shell,1095,1,1097,-2,104 Ashburne/Gas/Truck/Trailer,104 Ashburne,pending,post,ENTRY_INVALID:OVERHEAD_ON_PROPERTY,PAUL,,property row now documented,
 gm-19c51e93e64f8c9d,2026-02-11,Amazon,32474,1,32474,0,104 Ashburne/Master Bath,104 Ashburne,posted,post,,PAUL,"Fwd: Ordered: ""Shower Glass Door Panel...""",property row now documented,
 gm-19f483c31d80247c,2026-07-09,Uber,3127,0,0,,,OVERHEAD,error,post,,PAUL,[Personal] Your Thursday morning trip with Uber,"in mail, not in old books",
 gm-19dfabd73aaac412,2026-03-28,"Robinson Air &amp; Electric, Inc.",106574,1,106574,0,104 Ashburne/HVAC,104 Ashburne,pending,post,OVER_CEILING,DENNIS,,property row now documented,
-gm-19d6ee18dbed6f84,2026-04-08,The Home Depot,89118,1,87931,1187,104 Ashburne/Landscaping,104 Ashburne,pending,post,"OVER_CEILING,ENTRY_INVALID:OVERHEAD_ON_PROPERTY",PAUL,,property row now documented,
+gm-19d6ee18dbed6f84,2026-04-08,The Home Depot,89118,1,87931,1187,104 Ashburne/Landscaping,104 Ashburne,pending,post,"OVER_CEILING,ENTRY_INVALID:OVERHEAD_ON_PROPERTY",PAUL,,property row now documented,104 Ashburne/Lowes/20.96
 gm-19d253342e722062,2026-03-23,Atlas Pools,212000,1,212000,0,104 Ashburne/Pool,104 Ashburne,pending,post,"LOW_CONFIDENCE,OVER_CEILING",PAUL,Fwd: Atlas Pools Invoice #16542,property row now documented,"104 Ashburne/Atlas Pools/2,177.00"
 gm-19d5efbb6c70fdac,2026-04-05,Uber Eats,0,0,0,,,,dismissed,dismiss,"NOT_POST_VERDICT,ZERO_TOTAL",PAUL,"Paul, host the best Easter ever 🥞",junk (dismissed),
 gm-1a016bc89b8a6a2d,2026-08-18,TXU Energy,21364,0,0,,,,dismissed,dismiss,"NOT_POST_VERDICT,LOW_CONFIDENCE,TOTAL_MISMATCH",UNKNOWN,Fwd: Your payment's complete,junk (dismissed),
@@ -569,7 +569,7 @@ gm-1a0721755474cd9d,2026-09-05,"Lowe's Home Centers, LLC",2806,0,0,,,469 Brushwo
 gm-19f18b33a88ea898,2026-06-30,The Home Depot,19731,1,5631,14100,104 Ashburne/Small Baths,104 Ashburne,dismissed,dismiss,,PAUL,,property row now documented,
 gm-1a022abae6163359,2026-08-20,Uber Eats,4277,0,0,,,,dismissed,dismiss,"NOT_POST_VERDICT,TOTAL_MISMATCH",PAUL,[Personal] Your Thursday evening order with Uber Eats,junk (dismissed),
 gm-19dfd51cc731e898,2026-04-30,"CoreLogic Solutions, LLC",20000,0,0,,,OVERHEAD,pending,hold,"NOT_POST_VERDICT,LOW_CONFIDENCE",PAUL,Property Intelligence Invoice #30860459,"in mail, not in old books",
-gm-19bae80800798f37,2026-01-07,The Home Depot,39355,12,30585,8770,RECAST BIZ/Tools;RECAST BIZ/Tools;RECAST BIZ/Tools;RECAST BIZ/Tools;RECAST BIZ/Tools;RECAST BIZ/Tools;RECAST BIZ/Tools;RECAST BIZ/Tools;RECAST BIZ/Tools;RECAST BIZ/Tools;RECAST BIZ/Tools;104 Ashburne/Supplies,104 Ashburne;OVERHEAD,posted,post,,PAUL,,manual row now documented,
+gm-19bae80800798f37,2026-01-07,The Home Depot,39355,13,37074,2281,RECAST BIZ/Tools;RECAST BIZ/Tools;RECAST BIZ/Tools;RECAST BIZ/Tools;RECAST BIZ/Tools;RECAST BIZ/Tools;RECAST BIZ/Tools;RECAST BIZ/Tools;RECAST BIZ/Tools;RECAST BIZ/Tools;RECAST BIZ/Tools;104 Ashburne/Trash;104 Ashburne/Supplies,104 Ashburne;OVERHEAD,posted,post,,PAUL,,manual row now documented,
 gm-19e8f7e6652f7e3e,2026-05-31,The Home Depot,5174,2,1423,3751,1616 Granite RECONCILED/;1616 Granite RECONCILED/,1616 Granite,pending,hold,"NOT_POST_VERDICT,NEEDS_HUMAN_274D,ENTRY_INVALID:OVERHEAD_ON_PROPERTY",PAUL,Fwd: 1616,property row now documented,
 up-test-inbox-cache-a-0916,2026-09-16,Home Depot,22225,0,0,,,1616 Granite,posted,post,"LOW_CONFIDENCE,TEST_SEED",PAUL,TEST fake receipt 5 (cache a),"in mail, not in old books",
 gm-19c0fc92279d93d1,2026-01-30,Ashburne Glen Homeowners Association,25909,0,0,,,104 Ashburne,posted,post,,PAUL,Fwd: Online payment received,"in mail, not in old books",104 Ashburne/HOA/259.09
@@ -578,12 +578,12 @@ gm-19c5cde22d3b278d,2026-02-14,Shell,5000,1,5000,0,104 Ashburne/Gas/Truck/Traile
 gm-19c8b345b925a040,2026-02-22,American Airlines,38039,0,0,,,OVERHEAD,dismissed,dismiss,NOT_POST_VERDICT,PAUL,Fwd: Your trip confirmation (PDX - DFW),junk (dismissed),
 gm-19c66d875dd9e7bd,2026-02-16,The Home Depot,18338,0,0,,,OVERHEAD,pending,hold,"NOT_POST_VERDICT,LOW_CONFIDENCE",PAUL,Your Electronic Receipt,"in mail, not in old books",
 dry-gm-1a0818a010ad633c,2026-09-08,The Home Depot,-4155,0,0,,,,dry,hold,"NOT_POST_VERDICT,LOW_CONFIDENCE,ZERO_TOTAL,TOTAL_MISMATCH",,,"in mail, not in old books",
-gm-1a063139bc9a9a33,2026-09-02,The Home Depot,10901,8,8954,1947,469 Brushwood/;469 Brushwood/;469 Brushwood/;469 Brushwood/;469 Brushwood/;469 Brushwood/;469 Brushwood/;469 Brushwood/,469 Brushwood,dismissed,dismiss,,1401,,property row now documented,
-gm-19d019ce67d9c5c3,2026-03-18,The Home Depot,5447,2,3608,1839,104 Ashburne/Supplies;104 Ashburne/Trash,104 Ashburne,posted,post,,PAUL,,property row now documented,104 Ashburne/Home Depot/52.53;104 Ashburne/Home Depot/47.76
+gm-1a063139bc9a9a33,2026-09-02,The Home Depot,10901,9,10900,1,469 Brushwood/;469 Brushwood/;469 Brushwood/;469 Brushwood/;469 Brushwood/;469 Brushwood/;469 Brushwood/;469 Brushwood/;469 Brushwood/,469 Brushwood,dismissed,dismiss,,1401,,property row now documented,
+gm-19d019ce67d9c5c3,2026-03-18,The Home Depot,5447,3,5447,0,104 Ashburne/Supplies;104 Ashburne/Supplies;104 Ashburne/Supplies,104 Ashburne,posted,post,,PAUL,,property row now documented,
 gm-19d46e442dd379c4,2026-03-31,Atlas Pools,212000,0,0,,,,dismissed,dismiss,"NOT_POST_VERDICT,LOW_CONFIDENCE,OVER_CEILING,TOTAL_MISMATCH",PAUL,Fwd: Atlas Pools Payment Confirmation - Invoice 16542,junk (dismissed),
-gm-19f0e855936a44de,2026-06-28,The Home Depot,33068,5,15941,17127,136 Bowling Green/;136 Bowling Green/;136 Bowling Green/;136 Bowling Green/;136 Bowling Green/,104 Ashburne,dismissed,dismiss,,PAUL,,property row now documented,
+gm-19f0e855936a44de,2026-06-28,The Home Depot,33068,6,16447,16621,136 Bowling Green/;136 Bowling Green/;136 Bowling Green/;136 Bowling Green/;136 Bowling Green/;136 Bowling Green/,104 Ashburne,dismissed,dismiss,,PAUL,,property row now documented,
 gm-19c6cab5d43c229e,2026-02-17,The Home Depot,16608,2,16608,0,104 Ashburne/Paint & Flooring;104 Ashburne/Paint & Flooring,104 Ashburne,dismissed,dismiss,,PAUL,,property row now documented,
-gm-19d492744d5f21c2,2026-04-01,"Lowe's Home Centers, LLC",5501,1,2055,3446,104 Ashburne/House Hardware,104 Ashburne,posted,post,,PAUL,,property row now documented,
+gm-19d492744d5f21c2,2026-04-01,"Lowe's Home Centers, LLC",5501,2,5502,-1,104 Ashburne/House Hardware;104 Ashburne/Paint & Flooring,104 Ashburne,posted,post,,PAUL,,property row now documented,
 gm-19c76792ce5e1fe9,2026-02-19,Lowe's Home Improvement,147859,0,0,,,,pending,hold,"NOT_POST_VERDICT,LOW_CONFIDENCE,OVER_CEILING,TOTAL_MISMATCH",PAUL,Your Lowe's Purchase Receipt,"in mail, not in old books",
 gm-19c47f0f4b6b4731,2026-02-10,Floor and Decor,75006,1,75006,0,104 Ashburne/Master Bath,104 Ashburne,pending,post,OVER_CEILING,PAUL,Tile,property row now documented,
 dry-gm-1a088f9429235a8c,2026-09-09,Uber Eats,6427,0,0,,,,dry,dismiss,"NOT_POST_VERDICT,TOTAL_MISMATCH",,[Personal] Your Wednesday afternoon order with Uber Eats,junk (dismissed),
@@ -602,7 +602,7 @@ gm-19f0f64b937a63fa,2026-06-28,Hunter Fan,12217,1,12217,0,136 Bowling Green/,136
 gm-19f3f5c3cbc8f50e,2026-07-07,Falcon Creek Lawn Care,53500,2,11000,42500,280 Sparkling RECONCILED/;280 Sparkling RECONCILED/,280 Sparkling,pending,post,"LOW_CONFIDENCE,OVER_CEILING",PAUL,effren,property row now documented,
 gm-19cc95f39c8dcc89,2026-03-07,Shell,5925,1,5925,0,104 Ashburne/Gas/Truck/Trailer,104 Ashburne,pending,post,ENTRY_INVALID:OVERHEAD_ON_PROPERTY,PAUL,,property row now documented,
 gm-19c8af9aac03e3ca,2026-02-22,American Airlines,38039,0,0,,,OVERHEAD,dismissed,dismiss,NOT_POST_VERDICT,PAUL,Fwd: Your trip confirmation (PDX - DFW),junk (dismissed),
-gm-19c529f443b9a66e,2026-02-12,The Home Depot,15667,2,4054,11613,RECAST BIZ/Tools;104 Ashburne/Supplies,104 Ashburne;OVERHEAD,pending,post,LOW_CONFIDENCE,PAUL,,manual row now documented,
+gm-19c529f443b9a66e,2026-02-12,The Home Depot,15667,4,9100,6567,RECAST BIZ/Tools;104 Ashburne/Master Bath;104 Ashburne/Master Bath;104 Ashburne/Supplies,104 Ashburne;OVERHEAD,pending,post,LOW_CONFIDENCE,PAUL,,manual row now documented,
 gm-19ced5e82e20e490,2026-03-14,McCoy's Building Supply,6153,0,0,,,104 Ashburne,dismissed,dismiss,,PAUL,,junk (dismissed),
 gm-19c8bf46eab10e3a,2026-02-23,City of Ovilla,5086,1,4914,172,104 Ashburne/Utilities,104 Ashburne,posted,post,,PAUL,"Fwd: [BJORK, PAUL] Payment Confirmation",property row now documented,
 gm-19cd5d25a07e5bb1,2026-03-10,Ping Lighting,9920,0,0,,,104 Ashburne,posted,post,,PAUL,Fwd: [Ping Lighting] Payment accepted,"in mail, not in old books",
@@ -616,7 +616,7 @@ gm-19cd8db842855d26,2026-03-10,The Home Depot,8725,2,3382,5343,104 Ashburne/Supp
 gm-1a09d2509bb2c60a,2026-09-13,American Airlines,0,0,0,,,,dismissed,dismiss,"NOT_POST_VERDICT,ZERO_TOTAL",UNKNOWN,"Paul, prepare for your upcoming trip to Dallas/Ft.Worth",junk (dismissed),
 gm-1a016b98c4cb1ee6,2026-08-18,HILCO Electric Cooperative,20000,0,0,,,366 Mesa,dismissed,dismiss,,1401,Fwd: Payment Confirmation,junk (dismissed),
 gm-19c524b0019a1464,2026-02-11,Taco Casa,3113,1,3113,0,RECAST BIZ/Meals,OVERHEAD,pending,hold,"NOT_POST_VERDICT,LOW_CONFIDENCE,NEEDS_HUMAN_274D",PAUL,,manual row now documented,
-gm-19bc1e5948839629,2026-01-15,The Home Depot,647,1,647,0,104 Ashburne/Supplies,104 Ashburne,dismissed,dismiss,,PAUL,,property row now documented,104 Ashburne/Home Depot/4.74;104 Ashburne/Home Depot/7.67
+gm-19bc1e5948839629,2026-01-15,The Home Depot,647,1,647,0,104 Ashburne/Supplies,104 Ashburne,dismissed,dismiss,,PAUL,,property row now documented,
 gm-1a0a1db6d5efae57,2026-09-14,Uber,0,0,0,,,,dismissed,dismiss,"NOT_POST_VERDICT,ZERO_TOTAL",UNKNOWN,Boost your Uber One savings with an annual plan,junk (dismissed),
 gm-19d93811d3ff2158,2026-04-14,Atmos Energy,19700,0,0,,,,pending,hold,"NOT_POST_VERDICT,LOW_CONFIDENCE,TOTAL_MISMATCH",PAUL,Your Atmos Energy Bill is Available online,"in mail, not in old books",
 gm-19f14d68fd88ea5f,2026-06-29,None identified (email note from Paul Bjork),0,0,0,,,,pending,dismiss,"NOT_POST_VERDICT,LOW_CONFIDENCE,ZERO_TOTAL",PAUL,Reimbursed,junk (dismissed),
@@ -628,17 +628,17 @@ gm-19e8f7902ff23d1b,2026-05-28,The Home Depot,5712,1,5712,0,1616 Granite RECONCI
 gm-19f00ab9125115f9,2026-06-25,Amazon,3103,1,3103,0,136 Bowling Green/,136 Bowling Green,pending,post,LOW_CONFIDENCE,PAUL,"Fwd: Ordered: ""Amazon Basics Electronic...""",property row now documented,RECAST BIZ/O'Reilly Auto Parts/45.45
 gm-19e196800d142e61,2026-05-11,Uber Eats,3864,0,0,,,,dismissed,dismiss,"NOT_POST_VERDICT,TOTAL_MISMATCH",PAUL,[Personal] Your Monday afternoon order with Uber Eats,junk (dismissed),
 gm-1a080c871b33bb67,2026-09-08,Iley &amp; Iley Financial-Mission Real Estate Group,29900,1,29900,0,469 Brushwood/,469 Brushwood,pending,hold,"NOT_POST_VERDICT,LOW_CONFIDENCE",1401,Listing Fee,property row now documented,
-gm-19ba4950d7e2561c,2026-01-09,"Lowe's Home Centers, LLC",36049,0,0,,,104 Ashburne;OVERHEAD,pending,hold,"NOT_POST_VERDICT,NEEDS_HUMAN_274D",PAUL,Fwd: Your Lowe's Purchase Receipt,"in mail, not in old books",RECAST BIZ/Home Depot/215.42
+gm-19ba4950d7e2561c,2026-01-09,"Lowe's Home Centers, LLC",36049,0,0,,,104 Ashburne;OVERHEAD,pending,hold,"NOT_POST_VERDICT,NEEDS_HUMAN_274D",PAUL,Fwd: Your Lowe's Purchase Receipt,"in mail, not in old books",
 gm-1a0818cc8dbe30b9,2026-09-08,The Home Depot,699,2,699,0,469 Brushwood/;469 Brushwood/,469 Brushwood,dismissed,dismiss,,1401,,property row now documented,
 gm-19d8d1dab8225467,2026-04-14,"Green's Greenery, LLC",7578,1,7578,0,104 Ashburne/Landscaping,104 Ashburne,posted,post,,PAUL,,property row now documented,
 gm-19d40334634a85c4,2026-03-30,"None identified (email from Paul Bjork, subject only)",0,0,0,,,,pending,dismiss,"NOT_POST_VERDICT,LOW_CONFIDENCE,ZERO_TOTAL",PAUL,1670 Juan,junk (dismissed),"104 Ashburne/Juan Garcia/1,670.00"
 gm-19d7e6d319ca7b28,2026-04-11,Shell,2239,1,2172,67,RECAST BIZ/Meals,OVERHEAD,pending,hold,"NOT_POST_VERDICT,LOW_CONFIDENCE,NEEDS_HUMAN_274D",PAUL,,manual row now documented,
-gm-19d16d3ec604edb7,2026-03-22,The Home Depot,51416,0,0,,,104 Ashburne,pending,post,OVER_CEILING,PAUL,,"in mail, not in old books",104 Ashburne/Home Depot/75.74;104 Ashburne/Home Depot/1.06;104 Ashburne/Home Depot/14.04
+gm-19d16d3ec604edb7,2026-03-22,The Home Depot,51416,0,0,,,104 Ashburne,pending,post,OVER_CEILING,PAUL,,"in mail, not in old books",104 Ashburne/Home Depot/1.06
 gm-19eb74ea0bc8977b,2026-05-18,Vicktor Campos,38000,1,38000,0,1616 Granite RECONCILED/,1616 Granite,posted,post,,PAUL,Fwd: Screenshot 2026-05-18 at 11.51.27 AM,property row now documented,
 gm-19f3f68f0a53b2e9,2026-06-27,The Home Depot,201,1,201,0,280 Sparkling RECONCILED/,280 Sparkling,posted,post,,PAUL,,property row now documented,RECAST BIZ/The Home Depot/2.47;RECAST BIZ/The Home Depot/2.47
 gm-19f3f6a3d8a8000d,2026-07-01,City of Corsicana - Landfill,2580,1,2580,0,136 Bowling Green/,881 Newport,posted,post,,PAUL,,property row now documented,
 gm-19d066ca90092950,2026-03-19,Shell,757,0,0,,,OVERHEAD,dismissed,dismiss,,PAUL,,junk (dismissed),
-gm-19c66a1cdb487a56,2026-02-16,The Home Depot,18338,4,10658,7680,104 Ashburne/Lighting & Electrical;104 Ashburne/Supplies;104 Ashburne/Supplies;104 Ashburne/Supplies,104 Ashburne;OVERHEAD,dismissed,dismiss,,PAUL,,property row now documented,
+gm-19c66a1cdb487a56,2026-02-16,The Home Depot,18338,6,17797,541,RECAST BIZ/Tools;104 Ashburne/Lighting & Electrical;104 Ashburne/Supplies;104 Ashburne/Supplies;RECAST BIZ/Tools;104 Ashburne/Supplies,104 Ashburne;OVERHEAD,dismissed,dismiss,,PAUL,,manual row now documented,
 gm-19ef789d865a7327,2026-06-24,Anthropic (Claude Team),0,0,0,,,,dismissed,dismiss,"NOT_POST_VERDICT,ZERO_TOTAL",PAUL,Here's where most people start with Claude,junk (dismissed),
 gm-19c3e4d6fcbb69bf,2026-02-08,Amazon,100121,0,0,,,104 Ashburne,pending,post,OVER_CEILING,PAUL,"Fwd: Ordered: 2 ""60 in Ceiling Fan of..."" and 8 more items","in mail, not in old books",
 gm-19d926697aea1558,2026-04-15,Braum's,2293,0,0,,,OVERHEAD,pending,hold,"NOT_POST_VERDICT,NEEDS_HUMAN_274D",PAUL,,"in mail, not in old books",
@@ -649,16 +649,16 @@ gm-19f19badba627de1,2026-06-30,The Home Depot,6125,2,5529,596,104 Ashburne/Suppl
 gm-19fba4473773cb78,2026-07-31,City of Red Oak - Utility Billing,40104,0,0,,,136 Bowling Green,posted,post,,PAUL,Fwd: City of Red Oak Utility Bill,"in mail, not in old books",
 gm-19d925f537016a06,2026-04-15,The Home Depot,11399,1,11399,0,104 Ashburne/Lighting & Electrical,104 Ashburne,dismissed,dismiss,,PAUL,,property row now documented,
 gm-19d9259fe2484c26,2026-04-15,The Home Depot,-49106,0,0,,,104 Ashburne,pending,post,"ZERO_TOTAL,ENTRY_INVALID:BAD_AMOUNT",PAUL,Refund,"in mail, not in old books",104 Ashburne/Home Depot/51.38
-gm-19ce3297652cbfc8,2026-03-12,The Home Depot,38527,0,0,,,104 Ashburne,dismissed,dismiss,,PAUL,,junk (dismissed),RECAST BIZ/Home Depot/625.69;104 Ashburne/Home Depot/75.74;104 Ashburne/Home Depot/75.86;104 Ashburne/Home Depot/16.05
+gm-19ce3297652cbfc8,2026-03-12,The Home Depot,38527,0,0,,,104 Ashburne,dismissed,dismiss,,PAUL,,junk (dismissed),104 Ashburne/Home Depot/75.86;104 Ashburne/Home Depot/16.05
 gm-19d6ec0ee16a06b1,2026-04-08,"Green's Greenery, LLC",25915,1,25915,0,104 Ashburne/Landscaping,104 Ashburne,posted,post,,PAUL,,property row now documented,
-gm-19c576d1036e4a39,2026-02-13,The Home Depot,14341,3,14718,-377,RECAST BIZ/Tools;104 Ashburne/Supplies;104 Ashburne/Supplies,104 Ashburne,posted,post,,PAUL,Your Electronic Receipt,manual row now documented,
+gm-19c576d1036e4a39,2026-02-13,The Home Depot,14341,2,14341,0,RECAST BIZ/Tools;104 Ashburne/Supplies,104 Ashburne,posted,post,,PAUL,Your Electronic Receipt,manual row now documented,
 gm-19d0df1ad5bf9d6c,2026-03-18,Atlas Pools,49000,1,49000,0,104 Ashburne/Pool,104 Ashburne,pending,post,LOW_CONFIDENCE,PAUL,Screenshot 2026-03-20 at 8.10.26 PM,property row now documented,
 gm-19d960d58c421ba0,2026-04-16,The Home Depot,-21479,0,0,,,104 Ashburne,pending,post,"LOW_CONFIDENCE,ZERO_TOTAL,ENTRY_INVALID:BAD_AMOUNT",PAUL,Refund,"in mail, not in old books",
 gm-19cbf798cd5a28c5,2026-03-05,The Home Depot,33356,3,31801,1555,104 Ashburne/Lighting & Electrical;104 Ashburne/Lighting & Electrical;104 Ashburne/Lighting & Electrical,104 Ashburne,dismissed,dismiss,,PAUL,,property row now documented,
 gm-19d31434155164f2,2026-03-27,Leslie's Pool Supplies,54017,1,54017,0,104 Ashburne/Pool,104 Ashburne,pending,post,OVER_CEILING,PAUL,,property row now documented,
 gm-19fb04320268465f,2026-07-29,Uber Eats,4377,0,0,,,,dismissed,dismiss,"NOT_POST_VERDICT,TOTAL_MISMATCH",PAUL,[Personal] Your Wednesday afternoon order with Uber Eats,junk (dismissed),
 gm-19f138efc8a67a8f,2026-06-29,Mariana (cleaner),50000,1,50000,0,136 Bowling Green/,136 Bowling Green,pending,post,LOW_CONFIDENCE,PAUL,Mariana,property row now documented,1616 Granite RECONCILED/Mariana/500.00
-gm-19bbd023b3e85f3b,2026-01-14,The Home Depot,6489,1,6489,0,104 Ashburne/Landscaping,104 Ashburne,dismissed,dismiss,,PAUL,,property row now documented,104 Ashburne/Home Depot/64.89
+gm-19bbd023b3e85f3b,2026-01-14,The Home Depot,6489,1,6489,0,104 Ashburne/Landscaping,104 Ashburne,dismissed,dismiss,,PAUL,,property row now documented,
 gm-1a016b2550cd44d5,2026-08-14,City of Waxahachie - Water Billing Department,61291,1,61291,0,Cost Recapture/280 Sparkling,,pending,hold,"NOT_POST_VERDICT,LOW_CONFIDENCE,OVER_CEILING,TOTAL_MISMATCH",UNKNOWN,City of Waxachie Utility Bill,property row now documented,
 gm-19db82cfee25dd9a,2026-04-22,Uber Eats,11330,0,0,,,,dismissed,dismiss,"NOT_POST_VERDICT,TOTAL_MISMATCH",PAUL,[Personal] Your Wednesday evening order with Uber Eats,junk (dismissed),
 gm-19e3b835c3cbf906,2026-05-18,Apify Technologies s.r.o.,0,0,0,,,,dismissed,dismiss,"NOT_POST_VERDICT,ZERO_TOTAL",PAUL,Apify invoice #202605152143 was canceled,junk (dismissed),
@@ -668,14 +668,14 @@ gm-19d1b148cdad166d,2026-03-23,Shell,6750,1,6750,0,104 Ashburne/Gas/Truck/Traile
 gm-1a025de52b01608d,2026-08-21,"Anthropic, PBC",1087,0,0,,,,dismissed,dismiss,"NOT_POST_VERDICT,TOTAL_MISMATCH",PAUL,"Fwd: Your receipt from Anthropic, PBC #2332-6479-3034",junk (dismissed),
 gm-1a066c4d6b0da9a5,2026-09-03,"Energy Texas (Rhythm Ops, LLC)",48443,0,0,,,,pending,hold,"NOT_POST_VERDICT,LOW_CONFIDENCE,TOTAL_MISMATCH",PAUL,All set! We received your payment through Auto Pay.,"in mail, not in old books",
 gm-19f543ed6718cb1f,2026-07-11,Uber Eats,6847,0,0,,,,dismissed,dismiss,"NOT_POST_VERDICT,TOTAL_MISMATCH",PAUL,[Personal] Your Saturday evening order with Uber Eats,junk (dismissed),
-gm-1a0623f8d71b7b81,2026-09-02,The Home Depot,5409,1,5409,0,469 Brushwood/,469 Brushwood,dismissed,dismiss,,1401,,property row now documented,469 Brushwood/Home Depot/19.46
+gm-1a0623f8d71b7b81,2026-09-02,The Home Depot,5409,1,5409,0,469 Brushwood/,469 Brushwood,dismissed,dismiss,,1401,,property row now documented,
 gm-1a0670481531c3e9,2026-09-03,"Lowe's Home Centers, LLC",23900,1,23900,0,366 Mesa/,366 Mesa,pending,post,LOW_CONFIDENCE,1401,Fwd: PO#Mesa - Thanks for Your Order! #300902246263178667,property row now documented,
 gm-1a067bd438f39de3,2026-09-03,Floor and Decor,4221,1,4241,-20,469 Brushwood/,469 Brushwood,posted,post,,1401,,property row now documented,
 gm-19cfc795423b2590,2026-03-17,Uber,1399,0,0,,,OVERHEAD,dismissed,dismiss,NOT_POST_VERDICT,PAUL,[Personal] Your Tuesday morning trip with Uber,junk (dismissed),
 gm-19bc7ada89276079,2026-01-16,Taco Casa,3113,1,3113,0,RECAST BIZ/Meals,OVERHEAD,pending,hold,"NOT_POST_VERDICT,LOW_CONFIDENCE,NEEDS_HUMAN_274D",PAUL,,manual row now documented,
 gm-19f57268c36be87a,2026-06-25,Garcia Home Repair,120000,0,0,,,280 Sparkling,pending,post,OVER_CEILING,PAUL,,"in mail, not in old books",
 gm-19f045704cd8dd76,2026-06-17,"Energy Texas (Rhythm Ops, LLC)",22682,0,0,,,104 Ashburne,posted,post,,PAUL,"Fwd: Your $226.82 bill set for Auto Pay on July 6, 2026 is n","in mail, not in old books",
-gm-19d724c5c326c549,2026-04-09,The Home Depot,4001,1,4001,0,104 Ashburne/Small Baths,104 Ashburne,posted,post,,PAUL,,property row now documented,104 Ashburne/Home Depot/39.34;104 Ashburne/Home Depot/38.78;104 Ashburne/Home Depot/168.53
+gm-19d724c5c326c549,2026-04-09,The Home Depot,4001,1,4001,0,104 Ashburne/Small Baths,104 Ashburne,posted,post,,PAUL,,property row now documented,104 Ashburne/Home Depot/168.53
 gm-19d5372eebc4fd19,2026-04-03,Harbor Freight,8225,1,8225,0,RECAST BIZ/Tools,OVERHEAD,posted,post,,PAUL,,manual row now documented,
 gm-19ef1303ff9ed1ad,2026-06-22,The Home Depot,1254,1,1254,0,280 Sparkling RECONCILED/,280 Sparkling,dismissed,dismiss,,PAUL,,property row now documented,
 gm-19d960cfeccab6cd,2026-04-16,The Home Depot,8883,0,0,,,104 Ashburne;OVERHEAD,dismissed,dismiss,,PAUL,,junk (dismissed),
@@ -695,7 +695,7 @@ gm-19d4086fb41b7037,2026-03-30,"Lowe's Home Centers, LLC",34090,0,0,,,104 Ashbur
 gm-19e61acb0d8aa215,2026-05-25,American Airlines,5000,0,0,,,OVERHEAD,posted,post,,PAUL,Fwd: Your purchase receipt - NCSQUQ,"in mail, not in old books",
 gm-1a0ad85276e694e0,2026-09-16,Uber,9592,0,0,,,,dismissed,dismiss,"NOT_POST_VERDICT,TOTAL_MISMATCH",PAUL,[Personal] Your Wednesday afternoon trip with Uber,junk (dismissed),
 gm-19ba9077d85c3222,2026-01-10,Shell,648,1,648,0,104 Ashburne/Supplies,104 Ashburne,posted,post,,PAUL,,property row now documented,
-gm-19cb9e86dc1c5092,2026-03-04,The Home Depot,3996,1,751,3245,104 Ashburne/Supplies,OVERHEAD,pending,hold,"NOT_POST_VERDICT,LOW_CONFIDENCE",PAUL,Your Electronic Receipt,property row now documented,
+gm-19cb9e86dc1c5092,2026-03-04,The Home Depot,3996,1,3244,752,104 Ashburne/Trash,OVERHEAD,pending,hold,"NOT_POST_VERDICT,LOW_CONFIDENCE",PAUL,Your Electronic Receipt,property row now documented,
 dry-gm-1a083f30d9e415bb,2026-09-09,Alaska Airlines,55940,0,0,,,OVERHEAD,dry,hold,"NOT_POST_VERDICT,LOW_CONFIDENCE,OVER_CEILING,NEEDS_HUMAN_274D",PAUL,Fwd: Your flight is booked: KPQHJU to Portland on 09/09/2026,"in mail, not in old books",
 gm-19e032c2f5fd1063,2026-05-07,Shell,8243,1,8243,0,104 Ashburne/Gas/Truck/Trailer,104 Ashburne,pending,post,ENTRY_INVALID:OVERHEAD_ON_PROPERTY,PAUL,,property row now documented,
 gm-19bbe38eb7de0851,2026-01-14,The Home Depot,1296,1,1296,0,RECAST BIZ/Tools,OVERHEAD,dismissed,dismiss,,PAUL,,manual row now documented,
@@ -708,20 +708,20 @@ gm-19d2b6120ef5187f,2026-03-26,The Home Depot,6492,1,6492,0,104 Ashburne/Lightin
 gm-19c8af55bd059fa1,2026-01-02,American Airlines,6668,0,0,,,,dismissed,dismiss,"NOT_POST_VERDICT,LOW_CONFIDENCE,TOTAL_MISMATCH",PAUL,Fwd: Your purchase receipt - GPMGCC,junk (dismissed),
 gm-19d03d98b3a5a7ba,2026-03-18,Uber,1413,0,0,,,OVERHEAD,pending,dismiss,"NOT_POST_VERDICT,LOW_CONFIDENCE",PAUL,[Personal] Your Wednesday morning trip with Uber,junk (dismissed),
 gm-1a03ea5890cac04e,2026-08-26,TXU Energy,8872,1,8872,0,881 Newport/,881 Newport,pending,post,PAYER_UNKNOWN,UNKNOWN,Fwd: Your payment's complete,property row now documented,
-gm-19cb1566e7f23282,2026-03-02,"Lowe's Home Centers, LLC",2852,1,2852,0,104 Ashburne/Paint & Flooring,104 Ashburne,posted,post,,PAUL,,property row now documented,104 Ashburne/Home Depot/28.52
+gm-19cb1566e7f23282,2026-03-02,"Lowe's Home Centers, LLC",2852,1,2852,0,104 Ashburne/Paint & Flooring,104 Ashburne,posted,post,,PAUL,,property row now documented,
 gm-19bc7ad57db634c2,2026-01-16,City of Corsicana - Landfill,2730,1,2730,0,104 Ashburne/Trash,104 Ashburne,posted,post,,PAUL,,property row now documented,
 gm-19ed16988e311cba,2026-06-16,City of Red Oak - Utility Billing,11615,1,11615,0,136 Bowling Green/,136 Bowling Green,posted,post,,PAUL,Water bill,property row now documented,
 gm-19cd51fd9bd47e79,2026-03-09,Uber,2064,0,0,,,OVERHEAD,dismissed,dismiss,NOT_POST_VERDICT,PAUL,[Personal] Your Monday morning trip with Uber,junk (dismissed),
 gm-19de3fdad52b3d5a,2026-05-01,Uber Eats,2228,0,0,,,,dismissed,dismiss,"NOT_POST_VERDICT,TOTAL_MISMATCH",PAUL,[Personal] Your Friday morning order with Uber Eats,junk (dismissed),
-gm-19f237650c695b39,2026-07-01,The Home Depot,11815,3,8568,3247,881 Newport/;881 Newport/;881 Newport/,881 Newport,posted,post,,PAUL,Fwd: 881,property row now documented,881 Newport/Home Depot/7.56;881 Newport/Home Depot/3.77;881 Newport/Home Depot/6.47;881 Newport/Home Depot/10.80;881 Newport/Home Depot/25.56
+gm-19f237650c695b39,2026-07-01,The Home Depot,11815,1,2856,8959,881 Newport/,881 Newport,posted,post,,PAUL,Fwd: 881,property row now documented,881 Newport/Home Depot/7.56;881 Newport/Home Depot/3.77;881 Newport/Home Depot/6.47;881 Newport/Home Depot/10.80;881 Newport/Home Depot/25.56
 gm-19e8f7613aa25c25,2026-05-27,The Home Depot,59654,1,59654,0,1616 Granite RECONCILED/,104 Ashburne,pending,post,OVER_CEILING,PAUL,Fwd: Order confirmed. We're processing your order now!,property row now documented,
 gm-19f37c23af674543,2026-07-06,"Lowe's Home Centers, LLC",2379,1,2379,0,881 Newport/,881 Newport,dismissed,dismiss,,PAUL,,property row now documented,
 gm-19e8f7e31d1a4101,2026-05-31,"Lowe's Home Centers, LLC",4220,1,4220,0,1616 Granite RECONCILED/,1616 Granite,posted,post,,PAUL,Fwd: Your Lowe's Purchase Receipt,property row now documented,
 gm-19eb746f47e8d76d,2026-06-01,Atlas Pools,25601,1,25601,0,104 Ashburne/Pool,104 Ashburne,posted,post,,PAUL,Fwd: Atlas Pools Invoice #17785,property row now documented,
 gm-19eb7ae65da2fd3a,2026-06-11,VistaPrint,24171,0,0,,,OVERHEAD,posted,post,,PAUL,Your order is confirmed,"in mail, not in old books",
 gm-19cbe5c17963dd8d,2026-03-05,The Home Depot,42584,1,42584,0,104 Ashburne/Paint & Flooring,104 Ashburne,posted,post,,PAUL,,property row now documented,
-gm-19ffbab89c6e794c,2026-08-13,"Lowe's Home Centers, LLC",54240,0,0,,,366 Mesa,pending,post,OVER_CEILING,1401,,"in mail, not in old books",366 Mesa/Lowe's/60.57;366 Mesa/Lowe's/9.72;366 Mesa/Lowe's/43.84;366 Mesa/Lowe's/204.70;366 Mesa/Lowe's/148.09;366 Mesa/Lowe's/75.47
-gm-19c678226649aa40,2026-02-16,Harbor Freight Tools,25077,6,11034,14043,RECAST BIZ/Tools;RECAST BIZ/Tools;RECAST BIZ/Tools;RECAST BIZ/Tools;104 Ashburne/Supplies;104 Ashburne/Supplies,104 Ashburne,pending,post,LOW_CONFIDENCE,PAUL,Fwd: Your receipt from Harbor Freight | DESOTO  TX #03667,manual row now documented,RECAST BIZ/Harbor Freight/34.62;RECAST BIZ/Harbor Freight/124.48
+gm-19ffbab89c6e794c,2026-08-13,"Lowe's Home Centers, LLC",54240,1,6057,48183,366 Mesa/,366 Mesa,pending,post,OVER_CEILING,1401,,property row now documented,366 Mesa/Lowe's/9.72;366 Mesa/Lowe's/43.84;366 Mesa/Lowe's/204.70;366 Mesa/Lowe's/148.09;366 Mesa/Lowe's/75.47
+gm-19c678226649aa40,2026-02-16,Harbor Freight Tools,25077,7,14496,10581,RECAST BIZ/Tools;RECAST BIZ/Tools;RECAST BIZ/Tools;RECAST BIZ/Tools;RECAST BIZ/Tools;104 Ashburne/Supplies;104 Ashburne/Supplies,104 Ashburne,pending,post,LOW_CONFIDENCE,PAUL,Fwd: Your receipt from Harbor Freight | DESOTO  TX #03667,manual row now documented,RECAST BIZ/Harbor Freight/124.48
 gm-19d22c0ca88727d6,2026-03-22,Farmers Insurance,37458,1,37458,0,104 Ashburne/Insurance - Farmers Insurance,104 Ashburne,pending,post,LOW_CONFIDENCE,PAUL,Fwd: Your Farmers Insurance bill is ready to be viewed.,property row now documented,
 gm-19e3b9e38c92919f,2026-05-18,Atlas Pools,25601,1,25601,0,104 Ashburne/Pool,104 Ashburne,pending,post,LOW_CONFIDENCE,PAUL,Fwd: Atlas Pools Payment Confirmation - Invoice 17310,property row now documented,
 gm-19d7d9e5cfb8c9f6,2026-04-11,Taco Cabana,7357,0,0,,,OVERHEAD,pending,hold,"NOT_POST_VERDICT,LOW_CONFIDENCE,NEEDS_HUMAN_274D",PAUL,,"in mail, not in old books",
@@ -734,9 +734,9 @@ gm-19e8f7c1c4dffe11,2026-05-29,The Home Depot,3598,2,760,2838,1616 Granite RECON
 gm-19bbd77ef94aa401,2026-01-14,The Home Depot,2025,0,0,,,104 Ashburne,pending,hold,"NOT_POST_VERDICT,LOW_CONFIDENCE",PAUL,Your Electronic Receipt,"in mail, not in old books",
 gm-1a053d964db0573d,2026-08-30,Uber,9944,0,0,,,,dismissed,dismiss,"NOT_POST_VERDICT,LOW_CONFIDENCE,TOTAL_MISMATCH",UNKNOWN,[Personal] Your Sunday afternoon trip with Uber,junk (dismissed),
 gm-19f4189f59e51a5d,2026-07-08,Foremost Insurance Group,37458,1,37458,0,104 Ashburne/Insurance - Farmers Insurance,104 Ashburne,posted,post,,PAUL,Fwd: Payment Confirmation from Foremost Insurance Group®.,property row now documented,
-gm-19edc17308bcd897,2026-06-18,The Home Depot,9636,4,5582,4054,104 Ashburne/Supplies;104 Ashburne/Supplies;RECAST BIZ/Tools;RECAST BIZ/Tools,104 Ashburne,error,post,,PAUL,,manual row now documented,
+gm-19edc17308bcd897,2026-06-18,The Home Depot,9636,3,2662,6974,104 Ashburne/Supplies;104 Ashburne/Supplies;RECAST BIZ/Tools,104 Ashburne,error,post,,PAUL,,manual row now documented,
 gm-19c01b786d4e78d7,2026-01-09,Amazon,3611,1,3611,0,104 Ashburne/House Hardware,104 Ashburne,posted,post,,PAUL,"Fwd: Ordered: ""Amazon Basics Electronic...""",property row now documented,
-gm-19cdd47626a096cb,2026-03-11,The Home Depot,3151,1,3151,0,104 Ashburne/Small Baths,104 Ashburne,dismissed,dismiss,,PAUL,,property row now documented,104 Ashburne/Home Depot/15.76;104 Ashburne/Home Depot/32.99;104 Ashburne/Home Depot/29.74
+gm-19cdd47626a096cb,2026-03-11,The Home Depot,3151,1,3151,0,104 Ashburne/Small Baths,104 Ashburne,dismissed,dismiss,,PAUL,,property row now documented,104 Ashburne/Home Depot/32.99
 dry-gm-1a08dc3752960a45,2026-09-10,Uber Eats,14312,0,0,,,,dry,dismiss,"NOT_POST_VERDICT,TOTAL_MISMATCH",,[Personal] Your Thursday afternoon order with Uber Eats,junk (dismissed),
 gm-1a08cc9b0171c64c,2026-09-10,Homes.com,38429,1,38429,0,469 Brushwood/,469 Brushwood,posted,post,,1401,"Fwd: Your Listing Boost Confirmation for 469 Brushwood Ln, W",property row now documented,
 gm-19d89b71f0d374da,2026-04-13,"Green's Greenery, LLC",34263,1,34263,0,104 Ashburne/Landscaping,104 Ashburne,posted,post,,PAUL,Fwd: Receipt / Tax invoice (#11964),property row now documented,
@@ -756,7 +756,7 @@ gm-19c72576226cdb22,2026-02-18,Shell,5148,1,5148,0,104 Ashburne/Gas/Truck/Traile
 gm-19d0df09db44b037,2026-03-20,Atlas Pools,2165,0,0,,,104 Ashburne,dismissed,dismiss,,PAUL,Fwd: Atlas Pools Payment Confirmation - Invoice 16528,junk (dismissed),
 gm-19f8bc3b31c1a71d,2026-07-22,Uber,20000,0,0,,,OVERHEAD,pending,hold,"NOT_POST_VERDICT,LOW_CONFIDENCE,NEEDS_HUMAN_274D",PAUL,Uber: Your receipt,"in mail, not in old books",
 gm-1a07d2aab4818b57,2026-09-06,The Home Depot,11551,1,3241,8310,469 Brushwood/,469 Brushwood,posted,post,,1401,,property row now documented,
-gm-19d775f16740a511,2026-04-10,The Home Depot,16128,0,0,,,104 Ashburne,dismissed,dismiss,,PAUL,,junk (dismissed),104 Ashburne/Home Depot/189.57;104 Ashburne/Home Depot/151.28;104 Ashburne/Home Depot/12.87
+gm-19d775f16740a511,2026-04-10,The Home Depot,16128,0,0,,,104 Ashburne,dismissed,dismiss,,PAUL,,junk (dismissed),104 Ashburne/Home Depot/189.57;104 Ashburne/Home Depot/151.28
 gm-19fb9ca58cd7c9a2,2026-07-31,Uber Eats,4192,0,0,,,,dismissed,dismiss,"NOT_POST_VERDICT,TOTAL_MISMATCH",PAUL,[Personal] Your Friday morning order with Uber Eats,junk (dismissed),
 gm-19d3ee7e210a8af3,2026-03-30,The Home Depot,8523,1,1783,6740,104 Ashburne/Lighting & Electrical,104 Ashburne,dismissed,dismiss,,PAUL,,property row now documented,104 Ashburne/Home Depot/85.42
 gm-19bca1bc45709266,2026-01-16,City of Corsicana - Landfill,2250,1,2250,0,104 Ashburne/Trash,104 Ashburne,dismissed,dismiss,,PAUL,,property row now documented,
@@ -776,13 +776,13 @@ gm-19e8f79b34b79d66,2026-05-29,The Home Depot,7946,1,7946,0,1616 Granite RECONCI
 gm-19c6ce38c37d7ca4,2026-02-17,The Home Depot,16608,0,0,,,OVERHEAD,pending,hold,"NOT_POST_VERDICT,LOW_CONFIDENCE",PAUL,Your Electronic Receipt,"in mail, not in old books",
 gm-19c778128ef1dc61,2026-02-19,The Home Depot,10815,0,0,,,104 Ashburne,dismissed,dismiss,,PAUL,,junk (dismissed),
 gm-19d98540dce2874d,2026-04-16,Window Man Window Cleaning,84868,1,85868,-1000,104 Ashburne/Cleaning,104 Ashburne,pending,post,OVER_CEILING,PAUL,,property row now documented,
-gm-19cd60fc58534aca,2026-03-09,Wayfair,26411,0,0,,,104 Ashburne,dismissed,dismiss,,PAUL,Fwd: Order received! Does everything look right?,junk (dismissed),
+gm-19cd60fc58534aca,2026-03-09,Wayfair,26411,0,0,,,104 Ashburne,dismissed,dismiss,,PAUL,Fwd: Order received! Does everything look right?,junk (dismissed),104 Ashburne/Wayfiar/152.62
 gm-19c01b85d135afa6,2026-01-20,Amazon,27622,0,0,,,104 Ashburne,posted,post,,PAUL,"Fwd: Ordered: 2 ""Dreo Smart Wall Heater...""","in mail, not in old books",RECAST BIZ/Amazon/169.98
 gm-19e8f79855b1df77,2026-05-29,The Home Depot,30327,2,1187,29140,1616 Granite RECONCILED/;1616 Granite RECONCILED/,1616 Granite,posted,post,,PAUL,Fwd: 1616,property row now documented,
 gm-19bbebe1e4fc35df,2026-01-13,Atmos Energy,5765,0,0,,,,pending,hold,"NOT_POST_VERDICT,LOW_CONFIDENCE,TOTAL_MISMATCH",PAUL,Your Atmos Energy Bill is Available online,"in mail, not in old books",104 Ashburne/Energy Texas/43.57
 gm-19d9c13674f5e083,2026-04-16,Window Man Window Cleaning,84868,0,0,,,,dismissed,dismiss,"NOT_POST_VERDICT,LOW_CONFIDENCE,OVER_CEILING,TOTAL_MISMATCH",PAUL,,junk (dismissed),
 gm-19d0d690ad99ec5c,2026-03-20,Salvador Campos,291000,1,291000,0,104 Ashburne/Small Baths,104 Ashburne,pending,post,OVER_CEILING,PAUL,,property row now documented,
-gm-19ba9590cb81d5f0,2026-01-10,The Home Depot,4260,1,3787,473,104 Ashburne/HVAC,104 Ashburne,posted,post,,PAUL,,property row now documented,
+gm-19ba9590cb81d5f0,2026-01-10,The Home Depot,4260,2,4261,-1,104 Ashburne/Supplies;104 Ashburne/HVAC,104 Ashburne,posted,post,,PAUL,,property row now documented,
 gm-19c23984521412b9,2026-01-24,"Robinson Air &amp; Electric, Inc.",60670,1,60670,0,104 Ashburne/HVAC,104 Ashburne,pending,post,OVER_CEILING,DENNIS,,property row now documented,
 gm-1a08690be954f2cc,2026-09-03,TXU Energy,0,0,0,,,,dismissed,dismiss,"NOT_POST_VERDICT,ZERO_TOTAL",UNKNOWN,,junk (dismissed),
 gm-1a05ab0fab9330ec,2026-08-30,Falcon Creek Lawn Care,42500,1,15000,27500,104 Ashburne/Landscaping,104 Ashburne,pending,post,PAYER_UNKNOWN,UNKNOWN,Fwd: Services for august 2026,property row now documented,

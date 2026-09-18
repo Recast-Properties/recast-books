@@ -29,7 +29,7 @@ net profit, opening balances) are on no pending list.
 | Every block header on every tab vs the rows under it | all equal, except the Ashburne ranges that stop short: +$6,435.91 in 5 blocks + two text cells $602.62 = **$7,038.53**, exactly C-4 |
 | Text-typed amounts (`450,00`, `152,62`), the year-0126 date | found independently; C-1a, C-2, C-3 are right |
 | Staging Journal (pass 2, 1,010 entries) vs old rows, row by row on property + date + amount | every residual is a registered item: 7 covered by advances, C-3, C-5..C-9, 4 refunds posted with sides swapped (signs correct) |
-| Pending dry run (1,027 to post, $203,957.95) vs old rows | same; the 13 additions are each absent from every old tab (searched by amount on all tabs) |
+| Pending dry run (1,027 to post, $203,957.95) vs old rows | same. ~~the 13 additions are each absent from every old tab~~ **Wrong, corrected the same afternoon:** that check searched each addition's single exact amount. Five additions were already in the old books - the pump + hose as one $196.99 row, the contractor bags at $64.89 (one cent off), the hole saw at $47.60 - and are retracted (`phase4-audit.md` §24) |
 | Block-level: all 11 RECAST BIZ blocks and all 21 Ashburne blocks, old vs posted + held | $0.00 difference on every block |
 | Payer tick boxes (Paul / Dennis / Recast Account), re-read from the sheet for the 5 light tabs | 211 of 211 ticked rows agree with `paid_from` (19 Mesa rows carry no tick) |
 | Dennis's Ashburne schedule in `migrationRegisterAdvances` vs the Cash Advances tab | 21 of 21 rows, $176,141.44 of draws, to the cent |

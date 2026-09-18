@@ -619,3 +619,8 @@ newest 100 of 387 pending and drew every one as a full card. Now each document i
 thumbnails and fields load on first open; a filter box searches vendor, subject, date, amount,
 property and docId; "Collapse all"; the whole pending queue loads (limit 500). Pushed to staging.
 
+**One-cent blind spot (afternoon).** The matcher now accepts a receipt line within a cent and a row
+equal to two same-day lines: 39 more rows linked (825), confirm list 232 → 185. It exposed three
+wrong additions (pump + hose, contractor bags, hole saw pair) - in the old books all along; retracted.
+Dry run 1,030 entries, $220,512.72. `phase4-audit.md` §24.
+

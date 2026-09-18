@@ -159,7 +159,14 @@ def main():
             if dd > 45: continue
             v = vendor_match(r["payee"], e)
             read_amts = {l["cents"] for l in e["lines"]} | {e["total"]}
-            amt = r["cents"] in read_amts or (not e["lines"] and r["cents"] in e["amts"])   # mail-text amounts only when the read has no lines
+            # Within a cent: Paul typed each item with its share of the tax and the read rounds that
+            # share the other way half the time ($64.89 typed, $64.88 read). And a row that is two
+            # items of a same-day receipt typed as one ("Sunp Pump & Hose" $196.99 = $172.11 + $24.88).
+            # Missing both made three items look "not in the old books" (independent audit, 2026-09-18).
+            ls_ = [l["cents"] for l in e["lines"]]
+            amt = any(abs(r["cents"] - x) <= 1 for x in read_amts) or (not e["lines"] and r["cents"] in e["amts"])   # mail-text amounts only when the read has no lines
+            if not amt and dd <= 1 and len(ls_) <= 40:
+                amt = any(abs(r["cents"] - x - y) <= 1 for i_, x in enumerate(ls_) for y in ls_[i_ + 1:])
             near = bool(e["total"]) and abs(e["total"] - r["cents"]) <= max(200, r["cents"] * 3 // 100)
             # A row equal to the receipt's TOTAL is the best evidence there is and places first; an
             # amount that merely appears somewhere in the mail text is weaker (ten small Brushwood rows

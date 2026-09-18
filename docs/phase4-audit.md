@@ -274,8 +274,8 @@ the tie-out per property against the snapshot.
 | C-7 | 2026-09-18 | 104 Ashburne, Waxahachie Glass $518.78, 2026-03-30 | typed twice: "Glass Deposit" (House Hardware) and "Window Replacement" (Chimney/Fireplace/Glass) | one row | Paul: "use the deposit only." One payment, one receipt; the Chimney-block row is dropped and the receipt moves to the deposit row. Ashburne is $518.78 below the old tab |
 | C-8 | 2026-09-18 | 1616 Granite, Mariana $500.00 | dated 2026-06-01 | 2026-06-29 | Paul: "use the email date" (his note "Mariana / Cleaning / $500" of 06-29) |
 | C-9 | 2026-09-18 | 104 Ashburne: Julio $200.00 (02-18) and $100.00 (02-12), each typed under both Landscaping and Trash; Lowe's toilet $107.17 (03-25) under both Small Baths and Master Bath | six rows | three rows | Paul: "the toilet is a duplicate and so are the julio charges if they are the same date." Kept: the Landscaping rows and the Master Bath row (Small Baths already has its own toilet of 03-05); dropped: the two Trash rows and the Small Baths row. Ashburne is $407.17 below the old tab |
-| C-10 | 2026-09-18 | Costs on receipts the old books left off | not in the old books | added, **$712.96** | Paul: Ashburne Pool - utility pump $172.11 + discharge hose $24.88 (HD 03-02, "kept, not returned"); Ashburne Trash - contractor bags $64.88 (HD 01-07); Ashburne - walk-off mats $81.11 (HD 04-08); Falcon Creek invoice 1390 (08-30) - Bowling Green $110.00 and Sparkling $55.00 (the latter to Cost Recapture, D-031); Bowling Green TXU $204.98 (09-10, "after seeing the screenshot"). Each linked to its receipt. (The line read $682.97 until the independent audit: it still counted a Brushwood microwave $339.99 added on Claude's wrong statement and retracted the same day - it is in the old books, Brushwood 09-02 - and left out the Falcon Creek and TXU additions) |
-| C-11 | 2026-09-18 | Returns the old books netted (D-028), confirmed by Paul | not in the old books | purchase + credit, net $0.00 | HD 06-16: 2 HP plunge router $172.12 and hole saw $47.59 ("returns"); HD 01-07: nitrile gloves $12.02 ("return gloves"). Posted gross with a RETURN credit on the purchase date; no return receipt exists - the card statement proves it in Phase 3 |
+| C-10 | 2026-09-18 | Costs on receipts the old books left off | not in the old books | added, **$451.09** | Paul: Ashburne - walk-off mats $81.11 (HD 04-08); Falcon Creek invoice 1390 (08-30) - Bowling Green $110.00 and Sparkling $55.00 (the latter to Cost Recapture, D-031), paid by Zelle from Citizens; Bowling Green TXU $204.98 (09-10). Each linked to its receipt. **Retracted, all Claude's errors:** a Brushwood microwave $339.99 (it is Brushwood 09-02 "Microwave"); the utility pump $172.11 + discharge hose $24.88 (they are RECAST BIZ / Tools 03-02 "Sunp Pump & Hose" $196.99); the contractor bags $64.88 (they are Ashburne / Trash 01-07 "Garbage Bags" $64.89). The matcher compared to the exact cent and never summed two items, so those old rows sat unlinked and their receipts looked unexplained |
+| C-11 | 2026-09-18 | Returns the old books netted (D-028), confirmed by Paul | not in the old books | purchase + credit, net $0.00 | HD 06-16: 2 HP plunge router $172.12 ("returns"); HD 01-07: nitrile gloves $12.02 ("return gloves"). Posted gross with a RETURN credit on the purchase date; no return receipt exists - the card statement proves it in Phase 3. **Retracted:** the hole saw $47.59 pair - the old books carry it (RECAST BIZ / Tools 06-16 "Hole Saw" $47.60), so it migrates as that row |
 | C-12 | 2026-09-18 | 1616 Granite, Mission Reg "Listing Fee" $299.00, Dennis Paid (cell J42) | no date on the old row - the inventory dropped it | 2026-06-02, migrated, 1330 | Independent audit finding 1: the row is inside the header SUM and the tab's "Dennis Paid $1,466.63". Paul: "june 2". Granite's target is **$12,204.87 / 61 rows**, not $11,905.87 / 60 |
 | C-13 | 2026-09-18 | 136 Bowling Green, Lupe "Carpet Laying" $160.00 (06-30) | Paul Paid and Dennis Paid both ticked; migrated as PAUL | DENNIS | Paul: "dennis paid" |
 | C-14 | 2026-09-18 | 280 Sparkling, Mission Real Estate Group "MLS Listing" $299.00 | account 1020 (a payee guess: labor) | 1330 | Paul: a listing fee "should be selling cost". Same for Granite's (C-12); Brushwood's and Ashburne's already were |
@@ -707,4 +707,22 @@ estimate, not proof of payment (Phase 3). The document stays held in the Inbox w
 no posting - the row is migrated and linked. **Gap noted, not built:** documents whose content sits
 behind a link (invoicesimple, Yardbook) read as empty; a fetch-the-link tool for the bookkeeper would
 close it if it keeps happening.
+
+## 24 · The one-cent blind spot, 2026-09-18 afternoon
+
+Preparing the confirm list, Claude tested every weak row against the line items of same-vendor
+receipts. 60 rows had an item-level match the matcher had missed, for two reasons: it compared a row
+to a receipt line **to the exact cent** (Paul typed each item with its tax share; the read rounds the
+share the other way about half the time), and it never tried **two items typed as one row**. Three of
+those rows were the "missing" items behind earlier additions - see C-10 and C-11: the pump + hose, the
+contractor bags and the hole saw were in the old books all along. The independent audit's own check of
+the additions (single exact amounts) missed them too. Retracted in `paul-answers.json`.
+
+Matcher now: a line within one cent counts; a row equal to two lines of a same-day (±1) receipt counts.
+Result: **825 entries linked** (was 786), confirm list 232 → **185**, no document 31 → 27. Dry run:
+**1,030 entries, $220,512.72** (Ashburne $160,850.87, overhead $24,436.95), all build; link audit
+clean. Pushed to staging; staging still holds pass 4 ($220,774.59) until the next Run.
+
+Standing rule, sharpened: before telling Paul an item is not in his books, search every tab for the
+amount **within two cents, and for the sum of the receipt's unexplained items**, not just the exact figure.
 
