@@ -1177,16 +1177,20 @@ function setupPropertyTab(name) {
   // spilling 5000 rows on this tab would make Sheets grow the tab back past the line
   // blocks (Paul, 2026-09-15: "didnt work").
   ensureJournalHelpers_(ss);
-  var VOIDED = "'" + HELPER_SHEET + "'!$A$2:$A$" + N;
+  // The helper column, sized from the Journal range itself: when Sheets grows the Journal
+  // references (rows inserted: 5000 -> 5008 on the staging copy, 2026-09-17) this grows with
+  // them, so the SUMPRODUCT arrays always agree. INDEX:INDEX is not volatile.
+  var VOIDED = "INDEX('" + HELPER_SHEET + "'!$A:$A,2):INDEX('" + HELPER_SHEET + "'!$A:$A,ROWS(" + J('A') + ")+1)";
   var eq = function (col, v) { return '(' + J(col) + '&""="' + v + '")'; };
   var ne = function (col, v) { return '(' + J(col) + '&""<>"' + v + '")'; };
 
   // Journal columns: C date, E account, F debit, G credit, H property, I cost_class,
   // L payee, M description, N paid_from, P source, Y void_of. Voided flag: AD.
-  // Voided = the txn_id is named by some void_of (Y). Both sides are Journal ranges, so
-  // Sheets grows them together when rows are inserted; the helper-sheet range did not
-  // and every SUMPRODUCT went #N/A on the staging copy (2026-09-17).
-  var live = ne('P', 'void') + '*ISNA(MATCH(' + J('A') + ',' + J('Y') + ',0))*' + eq('H', safeName) + '*(' + J('C') + '<=$B$1)';
+  // Voided = the txn_id is named by some void_of (Y). That lookup is O(rows^2): it is computed
+  // ONCE, in the helper column, and every formula reads the flag. 2026-09-17's #N/A fix put
+  // the MATCH inside every SUMPRODUCT instead - hundreds of 5000-row lookups per Journal
+  // append; the staging workbook stalled for minutes and the writer's reads timed out.
+  var live = ne('P', 'void') + '*(' + VOIDED + '<>TRUE)*' + eq('H', safeName) + '*(' + J('C') + '<=$B$1)';
   var net = function (factor) { return 'SUMPRODUCT(' + factor + '*' + live + '*(' + J('F') + '-' + J('G') + '))'; };
   var deb = function (factor) { return 'SUMPRODUCT(' + factor + '*' + live + '*' + J('F') + ')'; };
   var cred = function (factor) { return 'SUMPRODUCT(' + factor + '*' + live + '*' + J('G') + ')'; };
