@@ -410,6 +410,12 @@
    "row": "104 Ashburne 2026-03-29 Atlas Pools 2177.00",
    "docId": "gm-19d48c027c0e05fa",
    "why": "Claude 2026-09-18: Atlas Pools' own payment portal (Paul 2026-09-18, evidence/atlas-pools-portal-payments-*.webp): invoice 16097 was paid $2,000 02/12, $2,000 03/02, $2,000 03/06, $4,000 03/14 and $2,152 by check 03/30 = $12,152.00. 'Payment Confirmation - Invoice 16097 ... $2,152.00' of 04-01 (paul@): the final check. The row is $2,177.00 - $25.00 more than Atlas received, like the 03-06 ($2,025) and 03-13 ($4,025) rows; Paul 2026-09-18: 'those were most likely wire transfer charges' - $25.00 a wire, which fits the portal showing those payments as 'Other', not card. Old amount kept (D-027); the $75 is proven on the bank side in Phase 3"
+  },
+  {
+   "key": "PROP-429",
+   "row": "104 Ashburne 2026-03-10 Shell 69.27",
+   "docId": "gm-19cd960f41184363",
+   "why": "Claude 2026-09-18: the only fuel receipt of 03-10 is a Mobil pump receipt for exactly $69.27; the row says 'Shell' as nearly every Gas row does. Same day, same amount to the cent, no other row claims it (the matcher's exact-amount rule wants the names to resemble, and Mobil/Shell do not)"
   }
  ],
  "no_link": [
@@ -1568,6 +1574,86 @@
   {
    "docId": "gm-19f1f88d99a6e35e",
    "why": "Claude 2026-09-18 (audit §31): Uber One membership $9.99 of 2026-07-01 - a personal subscription billed monthly and never once entered in the old books; not a Recast cost"
+  },
+  {
+   "docId": "dry-gm-1a083f30d9e415bb",
+   "why": "Claude 2026-09-18 (audit §31): dry-run copy of gm-1a083f30d9e415bb, which an entry carries (Alaska Airlines $559.40)"
+  },
+  {
+   "docId": "gm-1a09c42a0bd2824b",
+   "why": "Claude 2026-09-18 (audit §31): second copy of the Anthropic, PBC receipt $100.00: the row of 2026-09-13 carries gm-1a09c4ab97c57360"
+  },
+  {
+   "docId": "dry-gm-1a08bee3d03d3f93",
+   "why": "Claude 2026-09-18 (audit §31): dry-run copy of gm-1a08bee3d03d3f93, which an entry carries (Oregon Registered Agent LLC $84.00)"
+  },
+  {
+   "docId": "dry-gm-1a07e315889c322c",
+   "why": "Claude 2026-09-18 (audit §31): dry-run copy of gm-1a07e315889c322c, which an entry carries (Rosa's Cafe Tortilla Factory $72.19)"
+  },
+  {
+   "docId": "dry-gm-1a07217d8a060601",
+   "why": "Claude 2026-09-18 (audit §31): dry-run copy of gm-1a07217d8a060601, which an entry carries (Lowe's Home Centers, LLC $64.93)"
+  },
+  {
+   "docId": "dry-gm-1a069feb80d70f06",
+   "why": "Claude 2026-09-18 (audit §31): dry-run copy of gm-1a069feb80d70f06, which an entry carries (Adobe, Inc. $34.49)"
+  },
+  {
+   "docId": "gm-19f729ff137be6f5",
+   "why": "Claude 2026-09-18 (audit §31): second copy of the Apify Technologies s.r.o. receipt $29.00: the row of 2026-07-18 carries gm-19f729408be2654a"
+  },
+  {
+   "docId": "gm-1a01248bc54f61c1",
+   "why": "Claude 2026-09-18 (audit §31): second copy of the Apify Technologies s.r.o. receipt $29.00: the row of 2026-08-18 carries gm-1a01237668c6f478"
+  },
+  {
+   "docId": "gm-19f5e409c27380b0",
+   "why": "Claude 2026-09-18 (audit §31): second copy of the Netlify, Inc. receipt $20.00: the row of 2026-07-14 carries gm-19f5e35c4f615eba"
+  },
+  {
+   "docId": "up-98ee9368-1ac4-40e0-ba06-07cb11986b67",
+   "why": "Claude 2026-09-18 (audit §31): second copy of the FedEx Office receipt $12.75: the row of 2026-08-28 carries gm-1a04a6adddd5fc8b"
+  },
+  {
+   "docId": "gm-1a025de52b01608d",
+   "why": "Claude 2026-09-18 (audit §31): second copy of the Anthropic, PBC receipt $10.87: the row of 2026-08-21 carries gm-1a025d96013ed071"
+  },
+  {
+   "docId": "dry-gm-1a08752080169ebc",
+   "why": "Claude 2026-09-18 (audit §31): second copy of the Anthropic, PBC receipt $10.69: the row of 2026-09-09 carries gm-1a08760e4d30f4c6"
+  },
+  {
+   "docId": "gm-1a09257dfd763708",
+   "why": "Claude 2026-09-18 (audit §31): second copy of the Anthropic, PBC receipt $10.34: the row of 2026-09-11 carries gm-1a0925642f9693c5"
+  },
+  {
+   "docId": "gm-1a0360f5a5d640a9",
+   "why": "Claude 2026-09-18 (audit §31): second copy of the Anthropic, PBC receipt $10.29: the row of 2026-08-24 carries gm-1a035f622ce533a3"
+  },
+  {
+   "docId": "gm-19fbfb4f8ae13c63",
+   "why": "Claude 2026-09-18 (audit §31): second copy of the Anthropic, PBC receipt $10.14: the row of 2026-08-01 carries gm-19fbf9e0a5d7e903"
+  },
+  {
+   "docId": "gm-1a0360f3727f13d6",
+   "why": "Claude 2026-09-18 (audit §31): second copy of the Anthropic, PBC receipt $10.01: the row of 2026-08-24 carries gm-1a035c853a691f99"
+  },
+  {
+   "docId": "dry-gm-1a0884827e1945bf",
+   "why": "Claude 2026-09-18 (audit §31): dry-run copy of gm-1a0884827e1945bf, which an entry carries (Wi-Fi Onboard (Intelsat) $8.00)"
+  },
+  {
+   "docId": "gm-1a0645dc3777ea76",
+   "why": "Claude 2026-09-18 (audit §31): second copy of the Telnyx, LLC receipt $5.00: the row of 2026-09-02 carries gm-1a0645b04525b4ed"
+  },
+  {
+   "docId": "gm-19d55c64fef934ea",
+   "why": "Claude 2026-09-18 (audit §31): Paul's note 'Interest' $666.67 of 04-03 - the '420 Alyssa' interest row Paul removed from the books (C-6)"
+  },
+  {
+   "docId": "gm-19d7558ca4a9a38d",
+   "why": "Claude 2026-09-18 (audit §31): second photo of the Shell fill-up $79.30; the Gas row of 04-09 carries gm-…95d34b67cc"
   }
  ]
 }

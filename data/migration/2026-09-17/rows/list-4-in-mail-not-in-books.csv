@@ -2,8 +2,6 @@ date,vendor,total,where_the_read_put_it,status,subject,weak_candidates,docId
 2026-03-30,"Ellis County Tax Office (Richard Rozier, Tax Assessor-Collector)","16,031.25",104 Ashburne,pending,Property tax,,gm-19d3fc513d1b8d07
 2026-07-08,Handwritten expense worksheet (Paul) - multiple vendors,"2,691.44",,pending,,,gm-19f3f6f506f7c073
 2026-02-08,Amazon,"1,001.21",104 Ashburne,pending,"Fwd: Ordered: 2 ""60 in Ceiling Fan of..."" and 8 more items",,gm-19c3e4d6fcbb69bf
-2026-04-03,"Unknown (email from Paul Bjork, subject ""Interest"")",666.67,,pending,Interest,,gm-19d55c64fef934ea
-2026-09-09,Alaska Airlines,559.40,OVERHEAD,dry,Fwd: Your flight is booked: KPQHJU to Portland on 09/09/2026,,dry-gm-1a083f30d9e415bb
 2026-06-30,"Handwritten payment log - 136 Bowling Green (payees: unnamed carpet installer; ""FALCON"")",475.00,136 Bowling Green,pending,,136 Bowling Green/Lupe/160.00,gm-19f3f6d3919a5816
 2026-07-19,Falcon Creek Lawn Care,470.00,136 Bowling Green;1616 Granite;280 Sparkling;881 Newport,posted,Fwd: Lawn maintenance invoice,881 Newport/Effren - 1372/110.00;136 Bowling Green/Effren - 1373/110.00;1616 Granite RECONCILED/Effren - 1373/110.00;280 Sparkling RECONCILED/Effren - 1373/110.00,gm-19fb337be62617b6
 2026-03-19,"Lowe's Home Centers, LLC",404.78,104 Ashburne,posted,,,gm-19d0716277e58567
@@ -48,46 +46,27 @@ date,vendor,total,where_the_read_put_it,status,subject,weak_candidates,docId
 2026-02-04,Lowe's Home Improvement,134.23,104 Ashburne,posted,Your Lowe's Purchase Receipt,104 Ashburne/Lowes/140.68,gm-19c28c64aa9a29ea
 2026-04-03,"Lowe's Home Centers, LLC",113.64,104 Ashburne,dismissed,,,gm-19d54141d52bf785
 2026-07-01,Amazon,106.75,,pending,"Fwd: Ordered: ""Gerber 28-990 WHITE Maxwell...""",,gm-19f1e7a4d47322d9
-2026-09-13,"Anthropic, PBC",100.00,OVERHEAD,posted,"Your receipt from Anthropic, PBC #2268-3974-1772",,gm-1a09c42a0bd2824b
 2026-03-10,Ping Lighting,99.20,104 Ashburne,posted,Fwd: [Ping Lighting] Order confirmation,,gm-19cd5e3f4729e97b
 2026-03-10,Ping Lighting,99.20,104 Ashburne,posted,Fwd: [Ping Lighting] Payment accepted,,gm-19cd5d25a07e5bb1
 2026-03-16,Wayfair,93.08,104 Ashburne,posted,Fwd: Order received! Does everything look right?,,gm-19cf927112794782
 2026-04-16,The Home Depot,88.83,104 Ashburne;OVERHEAD,dismissed,,,gm-19d960cfeccab6cd
-2026-09-10,Oregon Registered Agent LLC,84.00,OVERHEAD,dry,,,dry-gm-1a08bee3d03d3f93
 2026-03-09,The Home Depot,83.83,,pending,Your Electronic Receipt,,gm-19cd5489c5fd928b
 2026-03-09,The Home Depot,83.83,104 Ashburne,dismissed,,,gm-19cd5479e52e3fe9
-2026-04-10,Shell,79.30,OVERHEAD,posted,,,gm-19d7558ca4a9a38d
 2026-04-11,Taco Cabana,73.57,OVERHEAD,pending,,,gm-19d7d9e5cfb8c9f6
-2026-09-07,Rosa's Cafe Tortilla Factory,72.19,OVERHEAD,dry,,,dry-gm-1a07e315889c322c
-2026-03-10,Mobil,69.27,OVERHEAD,posted,,,gm-19cd960f41184363
-2026-09-05,"Lowe's Home Centers, LLC",64.93,OVERHEAD,dry,,881 Newport/Lowes/6.47,dry-gm-1a07217d8a060601
 2026-06-29,The Home Depot,62.63,1616 Granite;OVERHEAD,pending,,1616 Granite RECONCILED/Home Depot/264.55,gm-19f1526194ff1558
 2026-03-14,McCoy's Building Supply,61.53,104 Ashburne,dismissed,,,gm-19ced5e82e20e490
 2026-06-29,The Home Depot,54.03,1616 Granite,posted,,,gm-19f15828fb2a31e6
 2026-06-17,Lowe's Home Improvement,49.17,1616 Granite,dismissed,Your Lowe's Purchase Receipt,,gm-19ed69af26494e70
 2026-08-02,Walmart,37.86,136 Bowling Green,pending,,,gm-19fc442272873900
 2026-08-13,Amazon,36.99,366 Mesa,pending,Fwd: Ordered: ⁦1⁩ Home Improvement item,,gm-19ffb0e863df3cc0
-2026-09-03,"Adobe, Inc.",34.49,OVERHEAD,dry,"Fwd: Adobe, Inc.: $34.49 USD",,dry-gm-1a069feb80d70f06
 2026-02-16,The Home Depot,30.79,,pending,Your Electronic Receipt,,gm-19c6859ab582b6f5
 2026-02-16,The Home Depot,30.79,104 Ashburne,dismissed,,,gm-19c6823763f5cb17
-2026-07-18,Apify Technologies s.r.o.,29.00,OVERHEAD,dismissed,Fwd: Apify invoice #202607180489 payment successful,,gm-19f729ff137be6f5
-2026-08-18,Apify Technologies s.r.o.,29.00,OVERHEAD,posted,Fwd: Apify invoice #202608180334 payment successful,,gm-1a01248bc54f61c1
 2026-03-15,Amazon,25.32,104 Ashburne,posted,"Fwd: Ordered: ""3-1/2 Inches Heavy Duty...""",,gm-19cf4858a126476a
 2026-04-15,Braum's,22.93,OVERHEAD,pending,,,gm-19d926697aea1558
-2026-07-14,"Netlify, Inc.",20.00,OVERHEAD,posted,"Fwd: Payment received for Netlify, Inc. invoice (#SFWGOE-000",,gm-19f5e409c27380b0
 2026-04-14,Shell,19.99,OVERHEAD,pending,,,gm-19d8db0dbb2e6309
 2026-06-13,"Netlify, Inc.",13.40,OVERHEAD,posted,"Payment received for Netlify, Inc. invoice (#SFWGOE-00004)",,gm-19ec2e5f3c880eb3
-2026-08-28,FedEx Office,12.75,OVERHEAD,posted,,,up-98ee9368-1ac4-40e0-ba06-07cb11986b67
 2026-08-02,7-Eleven,11.90,136 Bowling Green,dismissed,,,gm-19fc454ddc47341f
-2026-08-21,"Anthropic, PBC",10.87,,dismissed,"Fwd: Your receipt from Anthropic, PBC #2332-6479-3034",,gm-1a025de52b01608d
-2026-09-09,"Anthropic, PBC",10.69,OVERHEAD,dry,"Your receipt from Anthropic, PBC #2911-4142-0601",,dry-gm-1a08752080169ebc
-2026-09-11,"Anthropic, PBC",10.34,,dismissed,"Fwd: Your receipt from Anthropic, PBC #2142-6159-3565",,gm-1a09257dfd763708
-2026-08-24,"Anthropic, PBC",10.29,OVERHEAD,pending,"Fwd: Your receipt from Anthropic, PBC #2945-3640-9269",,gm-1a0360f5a5d640a9
-2026-08-01,"Anthropic, PBC",10.14,OVERHEAD,posted,"Fwd: Your receipt from Anthropic, PBC #2971-0394-1544",,gm-19fbfb4f8ae13c63
-2026-08-24,"Anthropic, PBC",10.01,OVERHEAD,posted,"Fwd: Your receipt from Anthropic, PBC #2363-5979-4769",,gm-1a0360f3727f13d6
-2026-09-09,Wi-Fi Onboard (Intelsat),8.00,OVERHEAD,dry,Fwd: Here's Your Wi-Fi Onboard Receipt - Check Out Your Purc,,dry-gm-1a0884827e1945bf
 2026-03-19,Shell,7.57,OVERHEAD,dismissed,,,gm-19d066ca90092950
-2026-09-02,"Telnyx, LLC",5.00,OVERHEAD,dismissed,Fwd: [Telnyx LLC] Payment Success,,gm-1a0645dc3777ea76
 2026-07-28,Texas Secretary of State,2.00,OVERHEAD,dismissed,Fwd: Packing Slip for Session : 072826FZ4657 (email id: 5857,,gm-19fa9491039be96b
 2026-03-07,Floor &amp; Decor,0.00,,pending,Fwd: Your e-Receipt is Enclosed,104 Ashburne/Floor & Decor/248.39;104 Ashburne/Floor & Decor/136.40,gm-19cc9f61226563fe
 2026-02-10,Floor &amp; Decor,0.00,,pending,Fwd: Your e-Receipt is Enclosed,,gm-19c51e70660fc809

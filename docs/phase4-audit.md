@@ -1015,3 +1015,14 @@ Travel row is the final amount (e.g. 06-03 $94.98 + $19.00 tip = the $113.98 row
 $129.44); five are second copies of a receipt whose row is already linked; three are the $9.99 Uber One
 membership, never once entered in the old books; one is a $200 gift card ("gift to Sarah"). Each is recorded
 under `mail_settled` against its named row (the script asserted that exactly one such row exists).
+
+**Copies and twins, 20 documents, nothing to post.** Six dry-run copies (`dry-gm-…`) of a document an entry
+carries; twelve second copies of a subscription receipt (Anthropic x7, Apify x2, Netlify, FedEx, Telnyx) -
+the script required a same-vendor row of the same amount within a day carrying a *different* document;
+a second photo of the Shell fill-up of 04-09; Paul's "Interest" $666.67 note, which is the 420 Alyssa row he
+removed (C-6). **One link gained:** the Ashburne Gas row of 03-10 "Shell" $69.27 is a Mobil pump receipt of
+the same day and amount (877 linked). Entries and amounts unchanged (1,039, $223,876.09); link audit
+unchanged. **List 4: 86** - what is left: Home Depot / Lowe's (37), CoreLogic invoices against five payment
+rows (8), Amazon (5), Paul's Julio notes and handwritten logs (evidence for cash-labor rows, to be linked),
+four unread Floor & Decor e-receipts, the Ellis County tax bill $16,031.25, Falcon Creek $470 + $235,
+Berrett Pest $270.63, VistaPrint $241.71, Apify $313.20, and small singles.
