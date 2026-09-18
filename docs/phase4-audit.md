@@ -921,3 +921,11 @@ Ashburne's line depends on its closing date (title had 09/10 on 08-31; still unc
 the closing it is a row the tab lacks, after it a Cost Recapture line either way (D-031 extended). Energy
 Texas was still sending weekly usage reports for Ashburne on 09-16 and Atmos billed it on 09-14 - if the
 house has closed, both accounts are still open in Recast's name.
+
+**Skip-rebuild flag (§23's 14 minutes), same afternoon.** `addAdvance(form, skipRebuild)`: the menu dialog
+calls it with one argument and behaves as before; `migrationRegisterAdvances` passes `true`, then rebuilds
+each property's tab once and warms the cache once. Syntax-checked, `npm test` 392 pass, pushed to the
+STAGING project with the unchanged `MigrationData.gs`; **not yet run** - it is proven the next time the
+advances list changes or at the cutover rehearsal. Link audit rerun on a fresh download of all 968
+envelopes: clean (section one lists only the old poller's Uber id link); 15 links point at never-read
+paul@ messages by Gmail id, to be read and filed (item 4 of the handoff).
