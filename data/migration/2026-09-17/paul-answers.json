@@ -1500,6 +1500,34 @@
    "docId": "gm-19fb337be62617b6",
    "register": "C-25",
    "said": "Paul 2026-09-18: 'dennis only paid that $315. my guess is i paid those falcon invoices from my chase account as zelle payments' - and his Chase Zelle history (evidence/chase-zelle-sent-*.webp) shows it: invoice 1373 $470.00 on 07-24 and invoice 1374 $235.00 on 08-11, each paid in full from his personal Chase. The invoice line was paid and is not in the old books (every Falcon Creek row is accounted for by invoices 1372, 1373, 1374 and 1390)"
+  },
+  {
+   "date": "2026-04-03",
+   "property": "104 Ashburne",
+   "trade": "Paint & Flooring",
+   "account": "1030",
+   "amount_cents": 37918,
+   "payee": "Armandre Vega",
+   "description": "Materials for Ashburne - reimbursed by Zelle (memo 'materials for ashburne')",
+   "paid_from": "PAUL",
+   "docId": "",
+   "evidence": "chase-zelle-sent-1-mar-to-apr.webp",
+   "register": "C-26",
+   "said": "Paul 2026-09-18: 'treat the two vega payments as their own entries. materials and labor.' Zelle from his personal Chase (evidence/chase-zelle-sent-1-mar-to-apr.webp); on no old tab under any payee and in no mailbox (searched within two cents and as sums)"
+  },
+  {
+   "date": "2026-04-04",
+   "property": "104 Ashburne",
+   "trade": "Paint & Flooring",
+   "account": "1020",
+   "amount_cents": 35000,
+   "payee": "Armandre Vega",
+   "description": "Labor - Zelle (memo '104 ashburne glen')",
+   "paid_from": "PAUL",
+   "docId": "",
+   "evidence": "chase-zelle-sent-1-mar-to-apr.webp",
+   "register": "C-26",
+   "said": "Paul 2026-09-18: 'treat the two vega payments as their own entries. materials and labor.' Zelle from his personal Chase (evidence/chase-zelle-sent-1-mar-to-apr.webp); on no old tab under any payee and in no mailbox (searched within two cents and as sums)"
   }
  ],
  "retracted": [
@@ -1538,6 +1566,10 @@
   {
    "rows": "104 Ashburne: Juan Garcia 4 x $7,000.00 (01-12, 01-23, 02-09, 02-20; the first two are Dennis's cash advances, recorded on the Cash Advances tab) and Salvador Campos $3,880.00 (02-13). 366 Mesa, Dennis's checks: Juanito #1147 $2,000.00, Carlos #1146 $1,500.00, James Haroce $1,500.00",
    "said": "Paul 2026-09-18: 'yep, those just have to roll with no receipts.' Contractor checks and cash; searched in all three mailbox listings, nothing. They migrate at Paul's amounts flagged NO_DOC and are proven from the bank statements in Phase 3"
+  },
+  {
+   "rows": "Mariana (Mariana Martinez), cleaning: 136 Bowling Green 06-29 $500.00 and 1616 Granite 06-29 $500.00",
+   "said": "Paul 2026-09-18: 'yes, those mariana payments were either check or cash.' She was added as a Zelle recipient only on 07-06; the Bowling Green row carries Paul's own note of 06-29, the Granite row has nothing and needs nothing"
   }
  ],
  "mail_settled": [

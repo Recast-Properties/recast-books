@@ -290,6 +290,7 @@ the tie-out per property against the snapshot.
 | C-23 | 2026-09-18 | RECAST BIZ / Travel, five American Airlines charges the old books left off | not in the old books | added, **$2,070.30**, 6700 overhead, Paul paid | Fares DFW-PDX 01/17 $316.50, PDX-DFW-PDX 02/01-02/04 $575.60, PDX-DFW-PDX 01/23 $665.80 (its $40.28 seat was already a row), PDX-DFW 02/09 $462.40, and a $50.00 seat of 05-25. Each is Paul's own forward with the travel date as subject; the old Travel block has the airport Uber rides of the same days but not the fares. Paul: "american is most likely NOT personal expenses", then "yes". Overhead is $2,070.30 above the old books. Audit §30 |
 | C-24 | 2026-09-18 | 104 Ashburne, "Property Tax Paid" $16,031.25 (summary block, cell E10) | in the old tab's Total Project Cost, outside the expense rows - the inventory never read it, never posted | posted 2026-03-30, 1100, Paul paid | Ellis County paid-in-full receipt: 2025 levy $14,707.58 + 9% penalty and interest $1,323.67, check #5899 on Paul's personal Chase account. Paul: "i paid the property tax for ashburne for the year on 3/30 ... adjust the books for this however you see fit." Not a difference from the old books - a line of them the migration had missed (like C-12). D-034 |
 | C-25 | 2026-09-18 | Falcon Creek Lawn Care, invoice lines paid and not in the old books | not in the old books | added, **$140.00**, 1130, Paul paid | Invoice 1374 (07-30): 136 Bowling Green $55.00 on its tab; 881 Newport $55.00 on Cost Recapture (Newport is sold). Invoice 1373 (07-19): 1616 Granite billed $140.00, the closed tab carries $110.00 - $30.00 on Cost Recapture. Paul's Chase Zelle history (`evidence/chase-zelle-sent-*.webp`) shows both invoices paid in full from his personal account (1373 $470.00 on 07-24, 1374 $235.00 on 08-11); Paul: "dennis only paid that $315 ... i paid those falcon invoices from my chase account". Audit §37 |
+| C-26 | 2026-09-18 | 104 Ashburne / Paint & Flooring, two Zelle payments to Armandre Vega | not in the old books | added, **$729.18**, Paul paid: 04-03 $379.18 materials (1030), 04-04 $350.00 labor (1020) | On Paul's Chase Zelle history only (`evidence/chase-zelle-sent-1-mar-to-apr.webp`; memos "materials for ashburne", "104 ashburne glen"); on no old tab under any payee, in no mailbox. Paul: "treat the two vega payments as their own entries. materials and labor." No mail document - the entry carries `EVIDENCE:` and gets its Drive link at filing (item 7). Ashburne is $729.18 above the old tab |
 
 ## 14 · Where the staging run stands at end of day, 2026-09-17
 
@@ -1145,3 +1146,8 @@ Pools line). Dry run **1,043 entries, $240,047.34** (Bowling Green $4,808.93, Co
 build; the only change is the three C-25 entries; pushed to staging. **Open with Paul:** the two Vega
 payments of 04-03 and 04-04 ($729.18) - by the 03-05 pattern they may sit under Home Depot rows he typed
 from Vega's receipts, but no row or combination of rows identifies them.
+
+**Vega answered - C-26; Mariana's 06-29 payments were check or cash (Paul), recorded under
+`no_document_accepted`.** An `add` with no mail document now names a file under `evidence/` instead
+(`EVIDENCE:` flag, Drive link at filing). Dry run **1,045 entries, $240,776.52** (Ashburne $177,839.72), all
+build; the only change is the two entries; pushed to staging. Paul's Zelle history is fully reconciled.

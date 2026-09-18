@@ -194,11 +194,12 @@ def main():
     # They are additions to the old books, each a register line; a return is a purchase and its credit.
     urls = {r["docId"]: (r["doc_url"] or r["gmail_url"], "drive" if r["doc_url"] else "gmail") for r in G if r["docId"]}
     for i, x in enumerate(answers.get("add", [])):
-        link, kind = urls.get(x["docId"], ("https://mail.google.com/mail/u/0/#all/" + x["docId"][3:], "gmail"))
+        # no docId: the proof is a file Paul supplied (x["evidence"], under evidence/), filed to Drive with the rest (item 7)
+        link, kind = urls.get(x["docId"], ("https://mail.google.com/mail/u/0/#all/" + x["docId"][3:], "gmail")) if x["docId"] else ("", "evidence")
         entries.append({"txn_id": "migration-" + x["date"].replace("-", "") + "-" + hashlib.sha256(f"add|{i}|{x['docId']}|{x['description']}|{x['amount_cents']}".encode()).hexdigest()[:12],
                         "date": x["date"], "property": x["property"], "trade": x["trade"], "account": x["account"], "account_source": "Paul/Claude (added)", "amount_cents": x["amount_cents"],
                         "payee": x["payee"], "description": x["description"], "paid_from": x["paid_from"], "paid_from_source": "receipt", "source": "migration", "docId": x["docId"], "doc_url": link,
-                        "link_kind": kind, "match": "added", "old_tab": "", "old_block": "", "old_sheet_row": "", "flags": ("RETURN_CONFIRMED_BY_PAUL" if x["register"] == "C-11" else "CORRECTION_TO_A_CLOSED_PROPERTY" if x["amount_cents"] < 0 else "ADDED_NOT_IN_OLD_BOOKS"),
+                        "link_kind": kind, "match": "added", "old_tab": "", "old_block": "", "old_sheet_row": "", "flags": ("RETURN_CONFIRMED_BY_PAUL" if x["register"] == "C-11" else "CORRECTION_TO_A_CLOSED_PROPERTY" if x["amount_cents"] < 0 else "ADDED_NOT_IN_OLD_BOOKS") + (";EVIDENCE:" + x["evidence"] if x.get("evidence") else ""),
                         "correction": x["register"] + " " + x["said"], "skip": "", "business_purpose": x.get("business_purpose", ""), "attendee": ""})
 
     # "Sparkling for Title" is not migrated at all (Paul, 2026-09-18): RECONCILED is the tab; the
