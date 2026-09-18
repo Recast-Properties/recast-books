@@ -359,3 +359,12 @@ Loose ends: `books-repost-paul.json` (repost-8) sits in Paul's Drive, harmless; 
 document at a time; acquisition receipts and Dennis draws are still Pending in staging
 (D-026.7 - irrelevant once history is row-driven); staging holds a half-finished
 document-driven Journal that step 4 clears.
+
+**Frozen map, 2026-09-18 05:00 (968 envelopes, fresh download; `comparison/` and `tieout/`):**
+of 1,053 old rows, **893 have a strong document match** (171 of 180 sheet-id documents tie to
+the cent; 285 property rows and 44 manual rows documented by match), **141 have a weak
+candidate** to confirm (75 on a pending document, 49 on a posted one, 15 on a dismissed one,
+2 on an errored one; $48.4K) and **19 have no document anywhere** ($60.5K). 166 documents are
+in mail and match no old row. Report F: 59 receipts total more than the rows they explain
+(12 resolve to one subset of items, $292.72; 47 hold). Staging Journal: 781 lines, 272
+documents posted, 387 pending - the half-finished document-driven state that D-029 replaces.

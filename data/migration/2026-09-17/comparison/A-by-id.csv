@@ -104,7 +104,7 @@ gm-19f981f1de5b9c75,2026-07-25,ExpressVPN,1,1559,1559,0,RECAST BIZ/Subscriptions
 gm-19dd8b6fdc1e6675,2026-04-29,Uber,1,10318,10318,0,RECAST BIZ/Travel,OVERHEAD,pending,post,NOT_FOUND: no Journal rows for txn_id receipt-20260429-e652a5e77426,PAUL
 gm-19cfc84803ba58b2,2026-03-17,Uber,1,1899,1899,0,RECAST BIZ/Travel,OVERHEAD,dismissed,dismiss,NOT_POST_VERDICT,PAUL
 gm-19e65c38cfb62bff,2026-05-26,Uber,1,10079,10079,0,RECAST BIZ/Travel,OVERHEAD,pending,post,DUPLICATE: txn_id already posted (cache),PAUL
-gm-19dedd5146ee87ad,2026-05-03,Uber,1,6324,6324,0,RECAST BIZ/Travel,OVERHEAD,dismissed,dismiss,NOT_POST_VERDICT,PAUL
+gm-19dedd5146ee87ad,2026-05-03,Uber,1,6324,6324,0,RECAST BIZ/Travel,OVERHEAD,posted,post,,PAUL
 gm-1a07796cc6f0bfa8,2026-09-06,Tom Thumb Express,1,7898,7898,0,RECAST BIZ/Gas/Truck/Trailer,OVERHEAD,pending,post,PAYER_UNKNOWN,UNKNOWN
 gm-1a0394bf02758212,2026-08-25,Amazon,1,11358,3790,-7568,RECAST BIZ/Office,OVERHEAD,dismissed,dismiss,,PAUL
 gm-1a0ab5d2e5a8921f,2026-09-16,Uber,1,9592,9592,0,RECAST BIZ/Travel,OVERHEAD,pending,post,PAYER_UNKNOWN,UNKNOWN
@@ -159,7 +159,7 @@ gm-19fd41148faee741,2026-08-05,Shell,1,6466,6466,0,RECAST BIZ/Gas/Truck/Trailer,
 gm-1a0888ae58f005e9,2026-09-09,Uber,1,3239,3239,0,RECAST BIZ/Travel,,dismissed,dismiss,"NOT_POST_VERDICT,TOTAL_MISMATCH",UNKNOWN
 gm-1a036c3b2ec73f14,2026-08-24,"Anthropic, PBC",1,1007,1007,0,RECAST BIZ/Subscriptions,OVERHEAD,posted,post,,PAUL
 gm-19c19857065d6852,2026-02-01,Uber,1,4899,4899,0,RECAST BIZ/Travel,OVERHEAD,posted,post,,PAUL
-gm-1a04a3178e6ef1c7,2026-08-27,Oregon Secretary of State - Corporation Division,1,10000,10000,0,RECAST BIZ/Business,OVERHEAD,dismissed,dismiss,,PAUL
+gm-1a04a3178e6ef1c7,2026-08-27,Oregon Secretary of State - Corporation Division,1,10000,10000,0,RECAST BIZ/Business,OVERHEAD,error,post,,PAUL
 gm-1a05d57329a431d5,2026-09-01,Butter &amp; Grace,1,2624,2591,-33,RECAST BIZ/Meals,OVERHEAD,pending,hold,"NOT_POST_VERDICT,NEEDS_HUMAN_274D",PAUL
 gm-1a0ac1f04a1796a6,2026-09-16,Alaska Airlines,2,35340,35340,0,RECAST BIZ/Travel;RECAST BIZ/Travel,OVERHEAD,posted,post,,PAUL
 gm-19fbee3afeeecc0a,2026-08-01,"Anthropic, PBC",1,1009,1009,0,RECAST BIZ/Subscriptions,OVERHEAD,pending,post,PAYER_UNKNOWN,UNKNOWN
