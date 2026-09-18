@@ -214,5 +214,11 @@
    "register": "C-8",
    "said": "2026-09-18: 'mariana, use the email date' (the 6/29 note 'Mariana / Cleaning / $500')"
   }
+ ],
+ "rules": [
+  {
+   "rule": "near-amount link",
+   "said": "2026-09-18: Paul 'yes' - same vendor within 10 days and the receipt total within 3% (or $2) of the row: link it, and the gap goes to the return-or-omitted list; every other likely match stays unlinked at Paul's amount"
+  }
  ]
 }

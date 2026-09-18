@@ -85,6 +85,25 @@ def main():
                 if src: r.update({k: src[k] for k in ("docId", "doc_vendor", "doc_date", "doc_total", "doc_status", "doc_paid_from", "doc_url", "gmail_url")})
             r["match"] = "strong"
         elif r["key"] in _no and r["match"] == "weak": r["match"] = "none"
+    # Paul's near-amount rule (2026-09-18): same vendor, within 10 days, receipt total within 3% or
+    # $2 of the row, and the receipt still has room for it -> linked; the gap lands on list 1.
+    import datetime as _dt
+    def _same_vendor(a_, b_):
+        n = lambda x: re.sub(r"[^a-z0-9 ]", " ", (x or "").lower().replace("&amp;", " "))
+        a_, b_ = n(a_), n(b_)
+        return any(t in b_ for t in a_.split() if len(t) > 3 and t not in ("home", "store", "company")) or ("lowe" in a_ and "lowe" in b_)
+    used_c = collections.defaultdict(int)
+    for r in G:
+        if r["match"] in ("id", "strong") and r["docId"]: used_c[r["docId"]] += int(r["cents"])
+    near = 0
+    for r in sorted((x for x in G if x["match"] == "weak"), key=lambda x: -int(x["cents"])):
+        t, c = int(r["doc_total"] or 0), int(r["cents"])
+        try: dd = abs((_dt.date.fromisoformat(r["date"]) - _dt.date.fromisoformat(r["doc_date"])).days)
+        except Exception: continue
+        tol = max(200, c * 3 // 100)
+        if t and c > 0 and abs(t - c) <= tol and dd <= 10 and r["doc_status"] != "dismissed" and _same_vendor(r["payee"], r["doc_vendor"]) and used_c[r["docId"]] + c <= t + tol:
+            r["match"] = "strong"; used_c[r["docId"]] += c; near += 1
+    print(f"near-amount rule linked {near} rows")
     entries, q = [], []
     for r in G:
         prop = TAB_TO_PROP.get(r["tab"], r["tab"]); cents = int(r["cents"])
