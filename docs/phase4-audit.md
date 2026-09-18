@@ -409,3 +409,11 @@ The row ↔ document map it posts from is `comparison/G-row-map.csv`.
 assumption, the two Sparkling rows); then step 3 (`migrationPostRows()` bulk pass in the writer)
 and step 4 (clear staging, post, tie out). The weak-match and difference lists do not block the
 pass - rows post either way; links and return credits follow Paul's review.
+
+**Paul, 2026-09-18:** (1) C-4 confirmed - the rows below the header ranges are included. (2) The
+"Recast Account" boxes are all August-September rows → Citizens 1401; no assumption needed.
+(3) The two Juanito Garcia rows on `Sparkling for Title` ($1,000 + $1,200): "those were removed.
+those were errors. do not document those. do not create a new sparkling title tab." Not
+migrated, not listed; their two Garcia Home Repair documents (`gm-19f57268…`, `gm-19f57221…`)
+are excluded from the review list and are to be dismissed by rule, never posted. The new books
+have one Sparkling tab. No open question now changes a number: next is step 3, the bulk pass.

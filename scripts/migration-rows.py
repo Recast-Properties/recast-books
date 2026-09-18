@@ -11,7 +11,7 @@ Reads the row <-> document map (comparison/G-row-map.csv) and writes, under --ou
   list-3-no-document.csv       rows with no document anywhere (NO_DOC, proven in Phase 3)
   list-4-in-mail-not-in-books.csv   documents that match no old row - review, not postings
   list-5-questions.csv         rows the rules cannot settle (payer unknown, Dennis-paid rows
-                               vs the Advances already registered, the Sparkling Title tab)
+                               vs the Advances already registered)
   README.md                    totals by property against the inventory (exact by construction)
 
 Deterministic. No model, no network.
@@ -96,15 +96,9 @@ def main():
         if pf == "DENNIS": q.append({"question": "Dennis Paid box: is this already one of the Advances registered from the Cash Advances tab?", **{k: e[k] for k in ("date", "old_tab", "payee", "description", "amount_cents", "docId")}})
         if not r["date"]: q.append({"question": "row has no date", **{k: e[k] for k in ("date", "old_tab", "payee", "description", "amount_cents", "docId")}})
 
-    # the duplicate Sparkling tab: rows it has that RECONCILED does not
-    prop_rows = json.load(open(os.path.join(a.inv, "property-rows.json")))
-    rec = collections.Counter(round(x["amt"], 2) for x in prop_rows if x["tab"] == "280 Sparkling RECONCILED")
-    for x in prop_rows:
-        if x["tab"] == "Sparkling for Title":
-            if rec[round(x["amt"], 2)] > 0: rec[round(x["amt"], 2)] -= 1
-            else: q.append({"question": "on 'Sparkling for Title' but not on '280 Sparkling RECONCILED' (RECONCILED is the source): a real Sparkling cost?", "date": x["date"],
-                            "old_tab": x["tab"], "payee": x["payee"], "description": x.get("desc") or "", "amount_cents": int(round(x["amt"] * 100)), "docId": ""})
-
+    # "Sparkling for Title" is not migrated at all (Paul, 2026-09-18): RECONCILED is the tab; the
+    # two Juanito Garcia rows only the Title tab had ($1,000 + $1,200, late June) "were errors.
+    # do not document those." Their two documents are excluded from the review list as well.
     def w(name, recs, fields=None):
         with open(os.path.join(a.out, name), "w", newline="") as f:
             if not recs: return
@@ -130,7 +124,8 @@ def main():
                                    for r in sorted(G, key=lambda r: -int(r["cents"])) if r["match"] == "weak"])
     w("list-3-no-document.csv", [{"date": r["date"], "tab": r["tab"], "block": r["block"], "payee": r["payee"], "desc": r["desc"], "amount": money(int(r["cents"]))}
                                  for r in sorted(G, key=lambda r: -int(r["cents"])) if r["match"] == "none"])
-    B = [x for x in csv.DictReader(open(os.path.join(a.cmp, "B-by-match.csv"))) if x["bucket"] == "in mail, not in old books"]
+    NOT_OURS = {"gm-19f57268c36be87a", "gm-19f57221a343c4d6"}   # Garcia Home Repair $1,200 / $1,000: errors, per Paul
+    B = [x for x in csv.DictReader(open(os.path.join(a.cmp, "B-by-match.csv"))) if x["bucket"] == "in mail, not in old books" and x["docId"] not in NOT_OURS]
     w("list-4-in-mail-not-in-books.csv", [{"date": x["date"], "vendor": x["vendor"], "total": money(int(x["new_cents"] or 0)), "where_the_read_put_it": x["new_where"], "status": x["status"],
                                            "subject": x["subject"], "weak_candidates": x.get("weak_candidates", ""), "docId": x["docId"]} for x in sorted(B, key=lambda x: -int(x["new_cents"] or 0))])
     w("list-5-questions.csv", q)

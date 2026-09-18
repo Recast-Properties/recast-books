@@ -18,4 +18,4 @@ The only differences by property are fuel rows Paul's rule moves to overhead (D-
 Accounts: {'block map': 96, 'read': 589, 'D-026.9 fuel block': 58, 'payee': 281}
 Paid from: {'PAUL': 893, 'UNKNOWN': 36, '1401': 59, 'DENNIS': 34, '1402': 2}  (sources: {'read': 541, 'D-026.2': 218, 'none': 36, 'Paul Paid box': 140, 'Recast Account box': 58, 'Dennis Paid box': 31})
 
-Lists for Paul: 1 differences 112 · 2 confirm the match 284 · 3 no document 18 · 4 in mail, not in the books 160 · 5 questions 74
+Lists for Paul: 1 differences 112 · 2 confirm the match 284 · 3 no document 18 · 4 in mail, not in the books 158 · 5 questions 72
