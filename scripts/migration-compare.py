@@ -155,6 +155,27 @@ def main():
             if rank[0] <= 1 and env[d]["verdict"] != "dismiss" and cap.get(d, 0) >= rk0[k]["cents"]:
                 cap[d] -= rk0[k]["cents"]; row_doc[k] = (d, "strong"); placed = True; break
         if not placed: row_doc[k] = (survivor(cands[k][0][1]), "weak")
+    # Rows that together equal a receipt: the old books split one receipt across rows (Shalom
+    # Granite $3,558 + $4,950 = the $8,508 receipt). For a receipt no row has claimed yet, a
+    # unique set of unplaced same-vendor rows within 45 days that sums to its total is strong.
+    def exact_sets(items, target, cap=2):
+        found = []
+        def rec(i, left, chosen):
+            if len(found) >= cap: return
+            if left == 0 and len(chosen) >= 2: found.append(list(chosen)); return
+            if i >= len(items) or left <= 0: return
+            rec(i + 1, left - items[i][1], chosen + [items[i]]); rec(i + 1, left, chosen)
+        rec(0, target, []); return found
+    claimed = {d for d, s_ in row_doc.values() if s_ == "strong"} | used_docs
+    for d, e in docs:
+        if d in claimed or not e["total"] or e["verdict"] == "dismiss" or survivor(d) != d: continue
+        pool = [(r["_k"], r["cents"]) for r in rest if row_doc.get(r["_k"], ("", "weak"))[1] != "strong" and r["cents"] > 0 and vendor_match(r["payee"], e)
+                and pd(r["date"]) and pd(e["date"]) and abs((pd(r["date"]) - pd(e["date"])).days) <= 45][:18]
+        sets = exact_sets(sorted(pool, key=lambda x: -x[1]), e["total"])
+        if len(sets) == 1:
+            for k, _c in sets[0]: row_doc[k] = (d, "strong")
+            claimed.add(d)
+
     by_doc = collections.defaultdict(list)
     for k, (d, s) in row_doc.items(): by_doc[d].append((k, s))
     rk = {r["_k"]: r for r in rows}
