@@ -561,3 +561,18 @@ what the warm job retries (max 2) and the Inbox shows as a failure. Refusal, `ma
 "network error -> hold" now pins the throw. **Not deployed** (`npm run deploy` is Paul's step).
 After the deploy, `gm-19c521cfa5452bd9` itself needs Reprocess from the Inbox: it carries the
 old hold `model`, so the warm job will not pick it up.
+
+## 2026-09-18 (morning) — Row-driven migration built, two staging passes tied out, cleanup under way
+
+D-029 in code: `scripts/migration-compare.py` exports the row ↔ document map (capacity rule,
+exact-set rule, the read's property respected, whole-receipt rows first);
+`scripts/migration-rows.py` turns it and `paul-answers.json` into entries, five review lists and
+a generated `MigrationData.gs`; `scripts/migration-rows-check.mjs` builds every entry in the real
+posting engine; the writer gained `migrationPostRows()` (one append under the lock),
+`migrationClearReceiptLane()` (STAGING-only) and `migrationRunStaging()`. Staging pass 1 (980
+entries) and pass 2 (1,010) both tied out to $0.00 on every property. Old-books findings: two
+comma-typo text amounts the parser had inflated ($45,000 / $15,262 were $450.00 / $152.62), a
+year-0126 date, the Ashburne header undercounting its rows by $7,038.53 (Paul: include them),
+the Cost Recapture tab missing from the inventory. Decisions D-030 (interest by deal type) and
+D-031 (Cost Recapture). Corrections C-1a … C-11. State and how to resume: `docs/phase4-audit.md`
+§21.

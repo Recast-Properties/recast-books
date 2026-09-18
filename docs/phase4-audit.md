@@ -533,3 +533,65 @@ receipt were unexplained; both are in the old books as single rows. The microwav
 withdrawn (`paul-answers.json` → `retracted`). Every other addition was re-verified against the
 old rows. Rule for the rest of the cleanup: before telling Paul something is not in his books,
 search the old rows for that amount on any tab.
+
+## 21 · PAUSED 2026-09-18 mid-morning - where we are, what is pending, how to resume
+
+**Method (settled):** D-029 row-driven migration. The old row is the entry, the receipt is the
+evidence; D-027 the old books are the target; D-028 items absent from the old books are Paul's
+call; D-030 interest by deal type (Ashburne = bank deal, 12% on everything in its cash advance
+column; every other property = partner deal, interest on purchase and cash advances only);
+D-031 Cost Recapture for charges after a sale.
+
+**The pipeline (each step is deterministic, minutes, free):**
+1. `python3 scripts/migration-compare.py --env <envelopes> --inv data/migration/2026-09-17 --out data/migration/2026-09-17/comparison`
+   → `G-row-map.csv` (row ↔ document). Envelopes: fresh download of `books-docs` (968 files; the
+   copy used today is in the session scratchpad and must be re-downloaded in a new session -
+   `netlify-cli blobs:list/get books-docs`, ~10 min).
+2. `python3 scripts/migration-rows.py --inv … --cmp …/comparison --out …/rows` applies
+   `paul-answers.json` (who paid, drops, redates, links, refusals, additions, retractions) →
+   `entries.csv`, five lists, `MigrationData.gs`, `expected.json`.
+3. `node scripts/migration-rows-check.mjs <dir with tab-Accounts/Properties/Periods.json> …/rows`
+   builds every entry in the real posting engine; totals must equal `expected.json`.
+4. Push to STAGING: copy `apps-script/writer/*` + `rows/MigrationData.gs` into a scratch folder
+   whose `.clasp.json` has scriptId `1Hh0ppVeZepu8GClShAINt4bxNZNNxW1dzZK_xFdmlh6hQ5fCtqdwvtL5`,
+   `clasp push -f`. (Never keep MigrationData.gs in the repo's writer folder.)
+5. Paul runs `migrationRunStaging` in the staging editor (~2.5 min); tie out from the
+   `books-cache` `tab/Journal` snapshot against `expected.json` and the old tabs.
+
+**State of the numbers (dry run `3e5df39`, pushed to staging, NOT yet run there):**
+old books 1,028 rows $221,389.05 (the Cost Recapture tab now included) → 1,027 entries to post,
+$203,957.95, all build; 7 Ashburne rows already in through Dennis's advances ($16,522.44); 6 rows
+removed by Paul (C-5 … C-9, $1,621.62); one $0.00 row; 13 additions (C-10 costs the old books
+left off, C-11 three returns posted gross + credit, net $0). Linked to a receipt: 782 entries,
+76.1% of rows, 68.1% of dollars. **Staging currently holds pass 2** (1,010 entries, tied out §20)
+- it predates Cost Recapture, the additions and the matcher correction.
+
+**Cleanup (§17) status:** item 1 closed (payers, undated rows). Item 2 closed (D-030). Item 3:
+the 20 largest decided, rules applied, 223 likely matches remain unlinked at Paul's amounts.
+Item 4 differences: batch 1 done (A-E, F, G); ~28 un-itemised Home Depot receipts parked until
+the receipts open from Drive. Item 5 (156 documents in mail, not in the books): not started -
+**proposal waiting on Paul:** Claude sorts the utility documents first (pair bill + payment, tie
+each to a property by service address, post-sale → Cost Recapture, drop what the books already
+carry) and brings one short table per property. Items 6-7 not started.
+
+**Pending on Paul:** (a) yes/no to the utilities proposal; (b) one Run of `migrationRunStaging`;
+(c) `npm run deploy` for the image-type fix below; (d) settlement dates for Ashburne and Newport.
+
+**Open engineering items:**
+- **Production writer not pushed** (formula fix `e2cf118`, `postBatch skipRefresh`,
+  `migrationPostRows`, Cost Recapture). Push + `clasp deploy -i` before anything rebuilds a
+  production property tab; at cutover the same pass runs there behind `clearBooks`.
+- The image-type / API-failure fix (`lib/bookkeeper.mjs`, CHANGELOG 2026-09-18) was written by a
+  separate session in this same folder and was swept into commit `f32b435` ("Staging pass 2 ties
+  out") by `git add -A`. Code and tests are fine (392 pass); **not deployed**. After the deploy,
+  `gm-19c521cfa5452bd9` needs Reprocess from the Inbox.
+- Gmail links do not open across accounts: item 7 files every linked document to Drive
+  (including a text rendering of body-only notes) so the Journal carries a Drive URL.
+- `books-repost-paul.json` (repost-8) still sits in Paul's Drive, unused; `repostWatch` was never
+  installed; the poller pages one document at a time. All harmless under D-029.
+
+**Lessons recorded today (Claude's errors, corrected):** a "Windex duplicate" that was Wall
+Flanges; a microwave "not in the books" that was; a near-amount rule estimated at ~50 links that
+made 1; a matcher that ignored the property the read had assigned. Standing rules: search the old
+rows for an amount on every tab before telling Paul it is missing; show Paul the stored document,
+not a Gmail link; one question at a time.
