@@ -196,11 +196,29 @@ function repostAll() {
     if (done) break;
     Utilities.sleep(20000);   // one at a time: each post is 3 full Journal reads and the workbook recalculates after every append
   }
-  ScriptApp.getProjectTriggers().forEach(function (t) { if (t.getHandlerFunction() === 'repostAll') ScriptApp.deleteTrigger(t); });
+  var triggers = ScriptApp.getProjectTriggers();
+  triggers.forEach(function (t) { if (t.getHandlerFunction() === 'repostAll') ScriptApp.deleteTrigger(t); });
+  if (!triggers.some(function (t) { return t.getHandlerFunction() === 'repostWatch'; })) ScriptApp.newTrigger('repostWatch').timeBased().everyMinutes(5).create();
   if (!done) ScriptApp.newTrigger('repostAll').timeBased().after(60 * 1000).create();
   if (done) props.deleteProperty('repost_after');
   console.log('REPOST ' + mailbox + ' fired=' + fired + ' skipped=' + skipped + ' after=' + after + ' done=' + done);
   return { fired: fired, skipped: skipped, done: done };
+}
+
+/** Runs every 5 minutes (installed by repostAll's first manual run): when the Drive list
+ *  carries a new `built` stamp, re-post it. Claude uploads a list; nobody presses Run.
+ *  Remove it under Triggers in the editor, or run repostWatchOff(). */
+function repostWatch() {
+  var props = PropertiesService.getScriptProperties();
+  var mailbox = props.getProperty('MAILBOX') || 'paul';
+  var files = DriveApp.getFilesByName('books-repost-' + mailbox + '.json');
+  if (!files.hasNext()) return;
+  var built = String(JSON.parse(files.next().getBlob().getDataAsString()).built || '');
+  if (built && built !== props.getProperty('repost_built')) repostAll();
+}
+
+function repostWatchOff() {
+  ScriptApp.getProjectTriggers().forEach(function (t) { if (t.getHandlerFunction() === 'repostWatch') ScriptApp.deleteTrigger(t); });
 }
 
 function repostAllReset() {
