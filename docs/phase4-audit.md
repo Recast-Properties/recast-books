@@ -439,3 +439,15 @@ first. Each answer becomes a rule or a register line, then a rerun (clear + post
 **Clean means:** every old row is in the Journal at the amount Paul typed or a registered
 correction; every row that has a receipt carries its link; every exception is on a list Paul
 has seen and answered; and the property totals equal the old tabs plus the register.
+
+## 18 · Staging pass 1, 2026-09-18 05:33 - ties out to the cent
+
+`migrationRunStaging` cleared the receipt lane (721 lines removed, the 60 advance/purchase lines
+kept) and `migrationPostRows` posted **980 entries, $199,680.40**, debits = credits, tabs rebuilt.
+Journal by property = the old tab − held-back rows ± the fuel rule, **difference $0.00 on every
+property and on overhead** (`rows/journal-tieout.json`). 686 posted entries carry a receipt link.
+Held back, $20,398.61: 7 Ashburne rows already in the Journal through Dennis's advances
+($16,522.44), 34 rows with no payer ($3,180.50), 2 undated ($695.67), one $0.00 row.
+Reconciled against the old books: **98.2% of dollars** (posted + covered by advances); the rest
+is §17 item 1. First pass took 4.5 min for 300 entries (per-entry TextFinder lookup in
+`postBatchEntries_`); the pass now appends once under the lock - 680 entries in seconds.
