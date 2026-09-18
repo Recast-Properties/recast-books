@@ -17649,7 +17649,7 @@
 "old_sheet_row": "22",
 "flags": "NO_DOC",
 "correction": "",
-"skip": "",
+"skip": "DROPPED_BY_PAUL C-18: 2026-09-18: Atlas Pools' portal shows five monthly service payments (05/18, 06/11, 07/25, 09/01, 09/01); the books have six. Paul: 'use the screenshots i gave you as the guide. that is what was paid.' The 06-30 Service $256.01 has no payment behind it - dropped",
 "business_purpose": "",
 "attendee": ""
 },

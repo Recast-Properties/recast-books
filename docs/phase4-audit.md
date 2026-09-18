@@ -282,6 +282,7 @@ the tie-out per property against the snapshot.
 | C-15 | 2026-09-18 | 104 Ashburne / Trash, City of Corsicana "Dump", the second row dated 2026-01-16 | $27.30 | $22.50 | Two loads that day; the receipts read $27.30 and $22.50 (`gm-19bca1bc45709266`). Paul: "most likely yes". Every Corsicana row now has its own receipt. Ashburne is $4.80 below the old tab |
 | C-16 | 2026-09-18 | 280 Sparkling, TXU "Electricity" $161.17 (06-16, row 36) | on the Sparkling tab **and** on 1616 Granite (row 6) | Sparkling row stays as closed; **Cost Recapture credit -$161.17** (trade 280 Sparkling, 1120, dated 2026-09-18, reduces Due to Paul) | Paul's TXU history for both accounts (`evidence/txu-history-*.png`): the 06/16 $161.17 is Granite's (acct 900084832931; Granite = $161.17 + $261.76 = $422.93, the old tab exactly). Sparkling's account shows only $228.64 (08/05) and $213.64 (08/18). Paul: "the discrepancies need to be accounted for in the cost recapture tab since those properties are actually locked in reality." The payment confirmation is relinked to the Granite row; it only arrived through the Sparkling mailbox |
 | C-17 | 2026-09-18 | 104 Ashburne / Gas-Truck-Trailer, Shell "Gas" $65.48 (03-25), rows 32 and 33 | two rows | one row | Paul: "typed twice." One Shell receipt that day (18.714 gal @ $3.499, card 9166), linked to row 32; row 33 dropped. The fuel block migrates to overhead (D-026.9) and Ashburne closed on its cash draws, not its rows, so this is a plain drop like C-5 and C-9, not a Cost Recapture line. Overhead is $65.48 below the old books |
+| C-18 | 2026-09-18 | 104 Ashburne / Pool, Atlas Pools "Service" $256.01 (06-30, row 22) | six monthly service rows | five | Atlas's payment portal (`evidence/atlas-pools-portal-payments-*.webp`) shows five service payments: 05/18, 06/11, 07/25, 09/01, 09/01. Paul: "use the screenshots i gave you as the guide. that is what was paid." July's invoice was typed when billed (06-30) and again when paid (07-30); the 06-30 row is dropped. Ashburne closed on its cash draws, so a plain drop like C-7, C-9. Ashburne is $256.01 below the old tab |
 
 ## 14 · Where the staging run stands at end of day, 2026-09-17
 
@@ -832,8 +833,11 @@ The $331.01 difference is two things.
   in Phase 3.
 - **The 06-30 "Service" $256.01 has no payment behind it.** Atlas took five monthly payments (05/18, 06/11,
   07/25, 09/01, 09/01); the books have six. July's invoice 18218 arrived 07-03 and was paid 07/25 - it
-  looks typed once when billed (06-30) and again when paid (07-30). **Put to Paul.**
+  looks typed once when billed (06-30) and again when paid (07-30). **Paul: the portal is the guide - dropped, C-18.**
 - Cards 6926 and 5655 are on no account → Paul's personal cards (D-026.1); the rows are PAUL already.
 - The two Atlas rows that had no receipt (02-12 $2,000, 03-29 $2,177) are linked to Atlas's payment
   confirmations in paul@. All 18 Atlas rows but the 06-30 one now carry a document. 868 entries linked.
+
+**After C-18:** the Ashburne Atlas rows are 17, $18,670.17 = the portal's $18,595.17 + the three $25.00
+wires. Dry run **1,029 entries, $220,030.06** (Ashburne $160,594.86).
 

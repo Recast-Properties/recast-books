@@ -90,6 +90,18 @@
    },
    "register": "C-17",
    "said": "2026-09-18: Shell $65.48 of 03-25 sits on rows 32 and 33 of Ashburne's Gas block; one receipt (18.714 gal @ $3.499, card 9166) - 'typed twice'. Row 32 keeps the receipt; row 33 is dropped"
+  },
+  {
+   "match": {
+    "old_tab": "104 Ashburne",
+    "old_block": "Pool",
+    "old_sheet_row": "22",
+    "payee": "Atlas Pools",
+    "date": "2026-06-30",
+    "amount_cents": "25601"
+   },
+   "register": "C-18",
+   "said": "2026-09-18: Atlas Pools' portal shows five monthly service payments (05/18, 06/11, 07/25, 09/01, 09/01); the books have six. Paul: 'use the screenshots i gave you as the guide. that is what was paid.' The 06-30 Service $256.01 has no payment behind it - dropped"
   }
  ],
  "link": [
