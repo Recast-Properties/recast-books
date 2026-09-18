@@ -78,6 +78,18 @@
    },
    "register": "C-9",
    "said": "2026-09-18: 'the toilet is a duplicate and so are the julio charges if they are the same date'"
+  },
+  {
+   "match": {
+    "old_tab": "104 Ashburne",
+    "old_block": "Gas/Truck/Trailer",
+    "old_sheet_row": "33",
+    "payee": "Shell",
+    "date": "2026-03-25",
+    "amount_cents": "6548"
+   },
+   "register": "C-17",
+   "said": "2026-09-18: Shell $65.48 of 03-25 sits on rows 32 and 33 of Ashburne's Gas block; one receipt (18.714 gal @ $3.499, card 9166) - 'typed twice'. Row 32 keeps the receipt; row 33 is dropped"
   }
  ],
  "link": [

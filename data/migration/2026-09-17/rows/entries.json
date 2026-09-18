@@ -19937,7 +19937,7 @@
 "old_sheet_row": "33",
 "flags": "WEAK_MATCH_UNCONFIRMED;MOVED_TO_OVERHEAD:104 Ashburne",
 "correction": "",
-"skip": "",
+"skip": "DROPPED_BY_PAUL C-17: 2026-09-18: Shell $65.48 of 03-25 sits on rows 32 and 33 of Ashburne's Gas block; one receipt (18.714 gal @ $3.499, card 9166) - 'typed twice'. Row 32 keeps the receipt; row 33 is dropped",
 "business_purpose": "Migrated from the old books (Gas/Truck/Trailer): Gas",
 "attendee": ""
 },

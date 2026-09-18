@@ -1,8 +1,8 @@
 {
- "to_post": 1031,
- "cents": 22035155,
+ "to_post": 1030,
+ "cents": 22028607,
  "by_property": {
-  "OVERHEAD": 2449656,
+  "OVERHEAD": 2443108,
   "881 Newport": 308917,
   "469 Brushwood": 191680,
   "366 Mesa": 964800,
@@ -14,6 +14,6 @@
  },
  "held_back": {
   "ZERO_AMOUNT": 1,
-  "DROPPED_BY_PAUL": 6
+  "DROPPED_BY_PAUL": 7
  }
 }
