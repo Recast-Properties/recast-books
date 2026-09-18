@@ -34,7 +34,10 @@ front door.
 4. **Overhead never touches a property** (D-010). **Every Dennis advance is against a
    property and its interest is that property's cost** (D-011, D-021, D-022). D-010 is
    enforced in `lib/posting.mjs`; the interest accrual is the close job in `books-dennis.mjs`.
-5. **Dry run, back up, tie out twice** for anything touching history (Phase 4).
+5. **Dry run, back up, tie out twice** for anything touching history (Phase 4). **The old
+   books are the target (D-027):** the migration reproduces them row by row in the new
+   system with the receipt linked; the read is evidence, the old row wins, differences go
+   through the corrections register.
 6. **Paul acts one step at a time.** When he must do something (console, editor,
    Terminal), give exactly one step and wait.
 

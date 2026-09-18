@@ -537,3 +537,27 @@ Given once, applied to every stored read by `repostAll` overrides (D-025), never
 9. **Gas / truck / trailer is a general business expense**, never a property cost, even where
    the old Ashburne tab carried it: "make them all a general business expense." A re-post
    override never moves a fuel-only entry onto a property.
+
+## D-027 · The old books are the target; the new books reproduce them, with the receipt linked — 2026-09-17 · Paul
+
+Paul: "in the end i want the new books to match the old books as closely as possible but in
+the new system with links to the receipts. that needs to be the priority."
+
+**Decided:** the measure of Phase 4 is how closely the new Journal matches the old workbook,
+property by property and row by row, with every entry linked to its receipt. In order:
+
+1. **Every old row gets its document.** The comparison's job is to find the receipt behind
+   each old row, in any mailbox, before anything else - a row is `NO_DOC` only after the
+   search has failed everywhere (D-024's bucket, now the last resort, not a residual).
+2. **Where the receipt and the old row disagree, the old row wins by default** - property,
+   trade block, amount as typed (D-026.3 generalised). The receipt's read is evidence, the
+   old row is the target; a difference the receipt clearly proves (a typo like C-1) is fixed
+   through the corrections register, dated, and nowhere else.
+3. **The new system's rails are not a reason to differ.** A gate that holds migrated
+   history (ceiling, unknown payer, a stale duplicate) is a rule to set once for the
+   migration, never a reason to leave old rows out.
+4. **Done** = each property's Journal total equals the snapshot plus the corrections register,
+   and each Journal entry carries its `doc_url`.
+
+Supersedes the wording in BUILD-PLAN §7 step 3 ("lands as the receipt supports, not as the
+old split"): the old split is the target; the finer read stays on the envelope.

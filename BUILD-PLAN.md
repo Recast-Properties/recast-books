@@ -336,9 +336,10 @@ v1 receipts poller, and the two systems do not track the same way, so the migrat
 3. **Re-run everything** through the bookkeeper into a **staging copy of the new workbook**
    (D-025: File → Make a copy brings the bound writer; `WRITER_URL` points at it for the
    staging period; reads are stored once and reruns re-post from them; never correct in
-   place — change the rule, clear, rerun; cutover is one clean pass into the real workbook). Each receipt is read as line items and each line
-   routes to a property or OVERHEAD, so a Home Depot receipt split between tools and 104
-   Ashburne lands as the receipt supports, not as the old split.
+   place — change the rule, clear, rerun; cutover is one clean pass into the real workbook). Each receipt is read as line items, and the
+   **old books are the target (D-027)**: the read is evidence, the old row's property, block
+   and amount win, and the entry carries the receipt's `doc_url`. The finer read stays on the
+   envelope; a difference the receipt proves goes through the corrections register.
 4. **Compare on net per vendor per day**, never line by line, because the manual rows netted
    returns: Paul omitted returned items instead of posting the purchase and the credit. The new
    books carry gross purchase plus return credit. Net matches with different gross = returns
@@ -350,7 +351,9 @@ v1 receipts poller, and the two systems do not track the same way, so the migrat
    document in any mailbox (Harbor Freight in-store, crew meals, the finish nailer, some June
    Office rows, the 420 Alyssa interest) post as `source = migration`, `doc_url` empty,
    `NO_DOC`. Property contractor rows (check/Zelle, no receipt) are migration entries.
-6. **Paul reviews the comparison report** (with the rule-change log between runs). Iterate
+6. **The priority is the match** (D-027): the new Journal reproduces the old workbook property
+   by property and row by row, each entry linked to its receipt. Everything below serves that.
+7. **Paul reviews the comparison report** (with the rule-change log between runs). Iterate
    in staging until clean. Then cutover: D-013 clear of the real workbook, one deterministic
    pass from the accepted reads and mapping, tie out every property total and RECAST BIZ
    block to the snapshot; every intentional difference is a dated correction (2b).
