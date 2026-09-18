@@ -720,7 +720,7 @@ the additions (single exact amounts) missed them too. Retracted in `paul-answers
 
 Matcher now: a line within one cent counts; a row equal to two lines of a same-day (±1) receipt counts.
 Result: **825 entries linked** (was 786), confirm list 232 → **185**, no document 31 → 27. Dry run:
-**1,030 entries, $220,512.72** (Ashburne $160,850.87, overhead $24,436.95), all build; link audit
+**1,030 entries, $220,512.72** (Ashburne $160,850.87, overhead $24,496.56), all build; link audit
 clean. Pushed to staging; staging still holds pass 4 ($220,774.59) until the next Run.
 
 Standing rule, sharpened: before telling Paul an item is not in his books, search every tab for the
