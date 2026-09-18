@@ -289,6 +289,7 @@ the tie-out per property against the snapshot.
 | C-22 | 2026-09-18 | 104 Ashburne / Utilities, Energy Texas auto-pay of 09-03 | not in the old books | added, $484.43, 1120, Paul paid (card 9166) | The 08-17 bill (acct ET-7827592) paid by auto-pay, conf PAY04938659; the tab's last electric row is 08-03 $371.16. Paul: "ashburne has not closed. it is still held. file that 484.43 charge" - a row on the tab, not Cost Recapture. Ashburne is $484.43 above the old tab |
 | C-23 | 2026-09-18 | RECAST BIZ / Travel, five American Airlines charges the old books left off | not in the old books | added, **$2,070.30**, 6700 overhead, Paul paid | Fares DFW-PDX 01/17 $316.50, PDX-DFW-PDX 02/01-02/04 $575.60, PDX-DFW-PDX 01/23 $665.80 (its $40.28 seat was already a row), PDX-DFW 02/09 $462.40, and a $50.00 seat of 05-25. Each is Paul's own forward with the travel date as subject; the old Travel block has the airport Uber rides of the same days but not the fares. Paul: "american is most likely NOT personal expenses", then "yes". Overhead is $2,070.30 above the old books. Audit §30 |
 | C-24 | 2026-09-18 | 104 Ashburne, "Property Tax Paid" $16,031.25 (summary block, cell E10) | in the old tab's Total Project Cost, outside the expense rows - the inventory never read it, never posted | posted 2026-03-30, 1100, Paul paid | Ellis County paid-in-full receipt: 2025 levy $14,707.58 + 9% penalty and interest $1,323.67, check #5899 on Paul's personal Chase account. Paul: "i paid the property tax for ashburne for the year on 3/30 ... adjust the books for this however you see fit." Not a difference from the old books - a line of them the migration had missed (like C-12). D-034 |
+| C-25 | 2026-09-18 | Falcon Creek Lawn Care, invoice lines paid and not in the old books | not in the old books | added, **$140.00**, 1130, Paul paid | Invoice 1374 (07-30): 136 Bowling Green $55.00 on its tab; 881 Newport $55.00 on Cost Recapture (Newport is sold). Invoice 1373 (07-19): 1616 Granite billed $140.00, the closed tab carries $110.00 - $30.00 on Cost Recapture. Paul's Chase Zelle history (`evidence/chase-zelle-sent-*.webp`) shows both invoices paid in full from his personal account (1373 $470.00 on 07-24, 1374 $235.00 on 08-11); Paul: "dennis only paid that $315 ... i paid those falcon invoices from my chase account". Audit §37 |
 
 ## 14 · Where the staging run stands at end of day, 2026-09-17
 
@@ -1118,3 +1119,29 @@ how 1373 and 1374 were paid, and by whom, is not in any mailbox.
   $318.68 - a $50.40 difference for the differences list. **Order of 06-11, $241.71 (yard signs + riders), has
   no row** - to put to Paul.
 - **Apify $313.20 (05-15 annual plan):** C-5 recorded it as canceled; refund not yet confirmed in mail.
+
+## 37 · Paul's Chase Zelle history against the books (2026-09-18 evening)
+
+Paul sent five screenshots of his personal Chase "Money Sent" list, 03-05 → 09-07 (filed in `evidence/`), and
+asked whether they reconcile other payments or uncover anything missed. Line by line:
+
+| Zelle | memo | books |
+|---|---|---|
+| 09-07 Mariana Martinez $700.00 | "Brushwood and Ashburne" | Brushwood Cleaning $250.00 + Ashburne "Marianna" Cleaning $450.00, both on Paul's own forward of this payment ✓ |
+| 09-01 Keith Pfaff $50.00, 08-20 $135.00 | Ashburne repair | the two Irrigation Repair rows ($135 is typed 09-05) ✓ |
+| 08-31 Effren Landscaper $150.00 | invoice 1390 | Ashburne "Trim Bushes" $150.00, Paul paid ✓ (the other $275 of 1390 went from Citizens, §22) |
+| 08-11 $235.00 | invoice 1374 | paid in full; rows carried $125 - **C-25** adds Bowling Green $55 and Newport $55 |
+| 07-24 $470.00 | invoice 1373 | paid in full; rows carried $440 - **C-25** adds Granite's $30 |
+| 07-09 $500.00 + 07-10 $35.00 | invoice 1372 pt 1, pt 2 | $535.00 = the five rows ✓ |
+| 07-06 Mariana Martinez $500.00 | 881 Newport | Newport Cleaning $500.00 ✓ |
+| 06-18 Armandre Vega $450.00 + $100.00 | "saving my ass", "ceiling" | Ashburne "Bath Fan and Vent" $550.00 ✓ |
+| 04-04 Armandre Vega $350.00 | "104 ashburne glen" | **no row** at the amount, under any payee |
+| 04-03 Armandre Vega $379.18 | "materials for ashburne" | **no row** at the amount; not in any mailbox |
+| 03-05 Armandre Vega $524.81 (a first try rejected) | "104 Ashburne Supplies" | Vega "Flexible Quarter Round" $98.97 + Home Depot "Baseboards & Trim" $425.84 = $524.81 ✓ - Paul types what Vega bought under the store's name, which also explains that receipt's "difference" on list 1 |
+
+Not on the screens: Mariana's two 06-29 payments (she was added as a Zelle recipient on 07-06 - cash before
+that), Vega's $3,889.00 exterior paint of 03-24, and everything before 03-05 (the list cuts off at an Atlas
+Pools line). Dry run **1,043 entries, $240,047.34** (Bowling Green $4,808.93, Cost Recapture $1,587.87), all
+build; the only change is the three C-25 entries; pushed to staging. **Open with Paul:** the two Vega
+payments of 04-03 and 04-04 ($729.18) - by the 03-05 pattern they may sit under Home Depot rows he typed
+from Vega's receipts, but no row or combination of rows identifies them.
