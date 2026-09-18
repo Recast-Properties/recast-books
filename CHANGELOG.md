@@ -545,3 +545,19 @@ pushed.** Also: bulk re-posts skip the per-post tab rebuild; `repostWatch` in th
 Decisions D-027 (old books are the target, receipt linked), D-028 (omitted items hold for Paul:
 return or not; report F), **D-029 (row-driven migration: post the old row, attach the
 receipt)**. State and next steps: `docs/phase4-audit.md` §15.
+
+## 2026-09-18 — Image type from the bytes; an API failure is an `error`, not a hold
+
+`gm-19c521cfa5452bd9` (a forward to the 104 Ashburne mailbox; JPEG thumbnail `791f9390-...jpg`
+declared `image/png`) was sent as `image/png`, the API answered 400 ("appears to be a
+image/jpeg image"), and the ingest kept the failure text in `model.why` and left the document
+in Pending with a zero total - a failure that looked like a normal hold. **Fix 1:**
+`sniffImageMime` in `lib/bookkeeper.mjs` reads the magic bytes (JPEG, PNG, GIF, WEBP); the
+declared MIME type and the extension are only the fallback. **Fix 2:** a failed
+`messages.create` now throws out of `runBookkeeper` instead of returning a hold, so the ingest's
+existing catch saves an `error` envelope (`error`, `error_stack`, no `model`) - which is exactly
+what the warm job retries (max 2) and the Inbox shows as a failure. Refusal, `max_tokens` and
+"no decide call" stay holds: those are answers, not failures. The old test that pinned
+"network error -> hold" now pins the throw. **Not deployed** (`npm run deploy` is Paul's step).
+After the deploy, `gm-19c521cfa5452bd9` itself needs Reprocess from the Inbox: it carries the
+old hold `model`, so the warm job will not pick it up.

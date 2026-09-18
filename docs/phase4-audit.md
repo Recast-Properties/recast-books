@@ -498,3 +498,11 @@ document sat in hold with a zero total. One document only. The Chinos $13,500 ro
 it as an estimate. **Bug to fix before live traffic depends on it:** sniff the image type from
 its bytes instead of trusting the attachment's MIME label, and do not let an API failure pass
 as a quiet "hold".
+
+## 20 · Staging pass 2, 2026-09-18 06:38 - the cleaned books, tied out
+
+`migrationRunStaging`: 1,960 lines of pass 1 cleared, **1,010 entries posted in one write**,
+$201,934.95, debits = credits, tabs rebuilt (2 min 20 s in all). Journal by property = old tab −
+rows already in through the Ashburne advances − rows Paul removed (C-5 … C-9) ± the fuel rule,
+**$0.00 difference on every property and on overhead**. 766 entries carry their receipt link
+(75.8% of rows, 67.1% of dollars).

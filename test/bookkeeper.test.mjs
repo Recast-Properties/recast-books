@@ -2,7 +2,7 @@ import { test } from "node:test";
 import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
 import { Jimp, JimpMime } from "jimp";
-import { runBookkeeper, computeZoomScale, MODEL_ID, MAX_TURNS, MAX_TOKENS_PER_TURN } from "../lib/bookkeeper.mjs";
+import { runBookkeeper, sniffImageMime, computeZoomScale, MODEL_ID, MAX_TURNS, MAX_TOKENS_PER_TURN } from "../lib/bookkeeper.mjs";
 
 // ---- fixtures ---------------------------------------------------------------------
 
@@ -459,13 +459,16 @@ test("MAX_TURNS without a decide call ends in a hold and stops exactly at the ca
   assert.equal(result.usage.turns, 24);
 });
 
-test("a thrown network error from the Anthropic client ends in a hold, not an exception", async () => {
+// Until 2026-09-18 this ended in a hold; a failed call is not a read, so it throws and
+// ingest saves an `error` envelope (no `model`) that the warm job retries.
+test("a thrown network error from the Anthropic client throws, with the cause kept", async () => {
   const client = makeFakeClient(() => {
     throw new Error("ECONNRESET");
   });
-  const result = await runBookkeeper({ envelope: baseEnvelope(), attachments: [], deps: baseDeps({ anthropic: client }) });
-  assert.equal(result.model.verdict, "hold");
-  assert.match(result.model.why, /ECONNRESET/);
+  await assert.rejects(
+    runBookkeeper({ envelope: baseEnvelope(), attachments: [], deps: baseDeps({ anthropic: client }) }),
+    (err) => /Anthropic API call failed \(turn 1\): ECONNRESET/.test(err.message) && err.cause?.message === "ECONNRESET",
+  );
 });
 
 // ---- decide normalization -----------------------------------------------------------
@@ -498,4 +501,30 @@ test("tool_use.input given as a JSON string (not a pre-parsed object) is parsed,
   const result = await runBookkeeper({ envelope: baseEnvelope(), attachments: [], deps: baseDeps({ anthropic: client }) });
   assert.equal(result.model.verdict, "post");
   assert.equal(result.model.vendor, "Home Depot");
+});
+
+// ---- image type by magic bytes (2026-09-18, gm-19c521cfa5452bd9) --------
+
+test("sniffImageMime reads JPEG, PNG, GIF and WEBP from the bytes and nothing else", () => {
+  const pad = (bytes) => Buffer.concat([Buffer.from(bytes), Buffer.alloc(16)]);
+  assert.equal(sniffImageMime(pad([0xff, 0xd8, 0xff, 0xe0])), "image/jpeg");
+  assert.equal(sniffImageMime(pad([0x89, 0x50, 0x4e, 0x47])), "image/png");
+  assert.equal(sniffImageMime(pad([...Buffer.from("GIF89a")])), "image/gif");
+  assert.equal(sniffImageMime(Buffer.concat([Buffer.from("RIFF"), Buffer.alloc(4), Buffer.from("WEBPVP8 ")])), "image/webp");
+  assert.equal(sniffImageMime(Buffer.concat([Buffer.from("RIFF"), Buffer.alloc(4), Buffer.from("WAVEfmt ")])), "");
+  assert.equal(sniffImageMime(pad([...Buffer.from("%PDF-1.7")])), "");
+  assert.equal(sniffImageMime(Buffer.from([0xff, 0xd8])), "");
+  assert.equal(sniffImageMime(null), "");
+});
+
+test("a JPEG declared image/png is sent as image/jpeg (the bytes win)", async () => {
+  const jpeg = await new Jimp({ width: 40, height: 40, color: 0xffffffff }).getBuffer(JimpMime.jpeg);
+  const client = scriptedClient([{ stop_reason: "tool_use", content: [toolUse("t1", "decide", DECIDE_INPUT)], usage: usage() }]);
+  await runBookkeeper({
+    envelope: baseEnvelope(),
+    attachments: [{ name: "791f9390.jpg", mime: "image/png", bytes: jpeg }],
+    deps: baseDeps({ anthropic: client }),
+  });
+  const image = client.calls[0].messages[0].content.find((b) => b.type === "image");
+  assert.equal(image.source.media_type, "image/jpeg");
 });
