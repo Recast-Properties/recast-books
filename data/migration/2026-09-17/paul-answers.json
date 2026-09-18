@@ -1,7 +1,20 @@
 {
  "_about": "Paul's answers during the Phase 4 cleanup (audit section 17). Each rule is applied by scripts/migration-rows.py; 'said' is what he said and when.",
  "paid_from": [
-  {"match": {"old_tab": "RECAST BIZ", "old_block": "Marketing", "payee": "Amazon.com", "date": "2026-09-02"}, "paid_from": "1401",
-   "said": "2026-09-18: camera gimbal - 'that one is recast joint account - citizens'"}
+  {
+   "match": {
+    "old_tab": "RECAST BIZ",
+    "old_block": "Marketing",
+    "payee": "Amazon.com",
+    "date": "2026-09-02"
+   },
+   "paid_from": "1401",
+   "said": "2026-09-18: camera gimbal - 'that one is recast joint account - citizens'"
+  },
+  {
+   "match": {},
+   "paid_from": "PAUL",
+   "said": "2026-09-18: the other 33 August-onward rows with no payer - 'all personal card ending in 9166'"
+  }
  ]
 }

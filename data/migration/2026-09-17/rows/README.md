@@ -16,6 +16,6 @@ Old rows: 1024  $220,079.01   entries: 1024  $220,079.01   linked to a receipt: 
 The only differences by property are fuel rows Paul's rule moves to overhead (D-026.9): $3,283.32 (43 rows). Everything else is the old row, to the cent.
 
 Accounts: {'block map': 96, 'read': 589, 'D-026.9 fuel block': 58, 'payee': 281}
-Paid from: {'PAUL': 893, 'UNKNOWN': 35, '1401': 60, 'DENNIS': 34, '1402': 2}  (sources: {'read': 541, 'D-026.2': 218, 'none': 35, "Paul: 2026-09-18: camera gimbal - 'that one is recast joint account - citizens'": 1, 'Paul Paid box': 140, 'Recast Account box': 58, 'Dennis Paid box': 31})
+Paid from: {'PAUL': 928, '1401': 60, 'DENNIS': 34, '1402': 2}  (sources: {'read': 541, 'D-026.2': 218, "Paul: 2026-09-18: the other 33 August-onward rows with no payer - 'all personal card ending in 9166'": 35, "Paul: 2026-09-18: camera gimbal - 'that one is recast joint account - citizens'": 1, 'Paul Paid box': 140, 'Recast Account box': 58, 'Dennis Paid box': 31})
 
 Lists for Paul: 1 differences 112 · 2 confirm the match 284 · 3 no document 18 · 4 in mail, not in the books 158 · 5 questions 72
