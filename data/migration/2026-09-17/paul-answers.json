@@ -134,6 +134,12 @@
    "row": "104 Ashburne 2026-02-10 Chinos LLC 13500.00 (Flooring)",
    "docId": "gm-19c521cfa5452bd9",
    "why": "Claude 2026-09-18: Paul's forward to the Ashburne mailbox two days later, 'Chinos LLC - Estimate 126' (invoicesimple link + thumbnail) - the only Chinos document; an ESTIMATE, the amount was never read from it (the model call failed: a JPEG labelled PNG)"
+  },
+  {
+   "key": "PROP-30",
+   "row": "881 Newport 2026-09-10 TXU 118.12",
+   "docId": "gm-1a09104468189ee2",
+   "why": "Paul saw both screenshots 2026-09-18: Newport's own TXU payment ($118.12, acct 900085385050, conf 810814123); the read was a stale-duplicate dismiss, and the matcher had put the row on the Bowling Green receipt"
   }
  ],
  "no_link": [
@@ -405,6 +411,19 @@
    "docId": "gm-1a05ab0fab9330ec",
    "register": "C-10",
    "said": "Paul 2026-09-18: Falcon Creek invoice 1390 (08-30) has two lines the old books lack; post-sale charges go to the new Cost Recapture tab (D-031)"
+  },
+  {
+   "date": "2026-09-10",
+   "property": "136 Bowling Green",
+   "trade": "",
+   "account": "1120",
+   "amount_cents": 20498,
+   "payee": "TXU Energy",
+   "description": "Electric service payment, acct 900085271895, conf 810814057",
+   "paid_from": "1401",
+   "docId": "gm-1a091048b80076d7",
+   "register": "C-10",
+   "said": "Paul 2026-09-18, after seeing the screenshot: 'this is all for bowling green. this should not be a newport charge'"
   }
  ]
 }
