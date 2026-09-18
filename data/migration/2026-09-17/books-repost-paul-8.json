@@ -1,0 +1,30 @@
+{
+"mailbox": "paul",
+"built": "2026-09-18 repost-8",
+"only": [
+"gm-19d072688657e4c8",
+"gm-19d169241a90532d",
+"gm-19d3a4c4d7090e19",
+"gm-19d7ec4e31eef94b",
+"gm-19dfd55f48f159ef",
+"gm-19edc17308bcd897",
+"gm-19f00c2049c512fe",
+"gm-1a04a3178e6ef1c7"
+],
+"overrides": {
+"gm-19d169241a90532d": {
+"trade": "Master Bath"
+},
+"gm-19d3a4c4d7090e19": {
+"trade": "Small Baths"
+},
+"gm-19dfd55f48f159ef": {
+"property": "104 Ashburne",
+"trade": "Supplies"
+},
+"gm-19edc17308bcd897": {
+"property": "104 Ashburne",
+"trade": "Supplies"
+}
+}
+}
