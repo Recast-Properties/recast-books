@@ -1,26 +1,21 @@
 date,vendor,total,where_the_read_put_it,status,subject,weak_candidates,docId
 2026-03-30,"Ellis County Tax Office (Richard Rozier, Tax Assessor-Collector)","16,031.25",104 Ashburne,pending,Property tax,,gm-19d3fc513d1b8d07
-2026-07-08,Handwritten expense worksheet (Paul) - multiple vendors,"2,691.44",,pending,,,gm-19f3f6f506f7c073
 2026-02-08,Amazon,"1,001.21",104 Ashburne,pending,"Fwd: Ordered: 2 ""60 in Ceiling Fan of..."" and 8 more items",,gm-19c3e4d6fcbb69bf
 2026-06-30,"Handwritten payment log - 136 Bowling Green (payees: unnamed carpet installer; ""FALCON"")",475.00,136 Bowling Green,pending,,136 Bowling Green/Lupe/160.00,gm-19f3f6d3919a5816
 2026-07-19,Falcon Creek Lawn Care,470.00,136 Bowling Green;1616 Granite;280 Sparkling;881 Newport,posted,Fwd: Lawn maintenance invoice,881 Newport/Effren - 1372/110.00;136 Bowling Green/Effren - 1373/110.00;1616 Granite RECONCILED/Effren - 1373/110.00;280 Sparkling RECONCILED/Effren - 1373/110.00,gm-19fb337be62617b6
 2026-03-19,"Lowe's Home Centers, LLC",404.78,104 Ashburne,posted,,,gm-19d0716277e58567
 2026-04-06,Julio (unidentified labor),400.00,104 Ashburne,pending,Julio $400,,gm-19d6117a5116478b
-2026-04-10,Unknown (email note re: Dennis),400.00,,pending,Dennis $400,,gm-19d798bb326eaf63
 2026-03-21,The Home Depot,389.93,104 Ashburne,pending,,104 Ashburne/Amazon/32.46,gm-19d20cf12a8888da
 2026-03-12,The Home Depot,385.27,104 Ashburne,dismissed,,104 Ashburne/Home Depot/16.05,gm-19ce3297652cbfc8
 2026-04-03,The Home Depot,379.18,104 Ashburne,posted,,,gm-19d54f9e0010bc8c
 2026-01-09,"Lowe's Home Centers, LLC",360.49,104 Ashburne;OVERHEAD,pending,Fwd: Your Lowe's Purchase Receipt,,gm-19ba4950d7e2561c
 2026-05-15,Apify Technologies s.r.o.,313.20,OVERHEAD,posted,Apify invoice #202605152143 payment successful,,gm-19e2ce117249cd00
-2026-05-07,Iley &amp; Iley Financia... (name truncated on receipt),299.00,104 Ashburne,pending,,,gm-19f3f6ba1c53dd95
-2026-05-07,Unknown (not named on document),299.00,104 Ashburne,pending,Listing fee,,gm-19e03f3e7be5d988
 2026-04-05,The Home Depot,288.44,104 Ashburne,dismissed,,104 Ashburne/Home Depot/45.40;104 Ashburne/Home Depot/14.40,gm-19d5e139b4ae4612
 2026-01-20,Amazon,276.22,104 Ashburne,posted,"Fwd: Ordered: 2 ""Dreo Smart Wall Heater...""",RECAST BIZ/Amazon/169.98,gm-19c01b85d135afa6
 2026-06-30,Berrett Pest Control,270.63,104 Ashburne,pending,Fwd: Receipt for payment to Berrett Pest Control,,gm-19f19bb233837a1e
 2026-06-11,VistaPrint,241.71,OVERHEAD,posted,Your order is confirmed,,gm-19eb7ae65da2fd3a
 2026-03-25,The Home Depot,241.50,,pending,Order confirmed. We're processing your order now!,,gm-19d25017467ed73d
 2026-03-30,The Home Depot,241.50,,pending,"Your order's ready! Pick it up by Thursday, April 9",,gm-19d4fef69c52ef33
-2026-08-31,"CoreLogic Solutions, LLC",235.00,OVERHEAD,pending,Property Intelligence Invoice #30902041,,gm-1a06877a765d05a1
 2026-07-30,Falcon Creek Lawn Care,235.00,136 Bowling Green;1616 Granite;280 Sparkling;881 Newport,posted,Fwd: Lawn maintenance,,gm-19fd24ebc9ed8431
 2026-04-05,The Home Depot,230.72,1616 Granite,pending,Order confirmed. We're processing your order now!,,gm-19d5e0ce39d91e0d
 2026-09-16,Home Depot,222.25,1616 Granite,posted,TEST fake Home Depot receipt,,up-test-inbox-dialog-0916
@@ -29,17 +24,9 @@ date,vendor,total,where_the_read_put_it,status,subject,weak_candidates,docId
 2026-09-16,Home Depot,222.25,1616 Granite,posted,TEST fake receipt 6 (cache b),,up-test-inbox-cache-b-0916
 2026-09-16,Home Depot,222.25,1616 Granite,posted,TEST fake receipt 5 (cache a),,up-test-inbox-cache-a-0916
 2026-03-09,AllModern,214.34,104 Ashburne,dismissed,Fwd: Order received! Does everything look right?,,gm-19cd5e12f4e9d9b7
-2026-01-31,"CoreLogic Solutions, LLC",200.00,OVERHEAD,pending,Property Intelligence Invoice #30837466,104 Ashburne/Julio/200.00,gm-19c2d8b7905f7407
-2026-07-31,"CoreLogic Solutions, LLC",200.00,OVERHEAD,pending,Property Intelligence Invoice #30889149,,gm-19fd7d4ee3154fea
-2026-03-31,"CoreLogic Solutions, LLC",200.00,OVERHEAD,pending,Property Intelligence Invoice #30857690,,gm-19d557a02bada3be
-2026-05-31,"CoreLogic Solutions, LLC",200.00,OVERHEAD,pending,Property Intelligence Invoice #30875629,104 Ashburne/Julio/200.00,gm-19e8ef3d9338fabb
-2026-02-28,"CoreLogic Solutions, LLC",200.00,OVERHEAD,pending,Property Intelligence Invoice #30843590,,gm-19cbddaad84b15f2
-2025-12-31,"CoreLogic Solutions, LLC",200.00,OVERHEAD,pending,Property Intelligence Invoice #30831839,104 Ashburne/Julio/200.00;104 Ashburne/Julio/200.00;104 Ashburne/Julio/200.00;104 Ashburne/Julio/200.00;104 Ashburne/Julio/200.00;104 Ashburne/Julio/200.00;104 Ashburne/Julio/200.00,gm-19b944ec9eb500c7
-2026-04-30,"CoreLogic Solutions, LLC",200.00,OVERHEAD,pending,Property Intelligence Invoice #30860459,,gm-19dfd51cc731e898
 2026-08-10,The Home Depot,192.15,104 Ashburne;OVERHEAD,pending,,,gm-19fed30f7359ded5
 2026-04-10,The Home Depot,161.28,104 Ashburne,dismissed,,104 Ashburne/Home Depot/189.57;104 Ashburne/Home Depot/151.28,gm-19d775f16740a511
 2026-09-09,Klarna (Apple Upgrade / Saks Fifth Avenue installments),150.73,,dry,Screenshot 2026-09-09 at 4.28.13 PM,,dry-gm-1a08880be459a7a0
-2026-06-25,Julio (unidentified labor),150.00,104 Ashburne,pending,Julio 150,,gm-19eff3e752656e54
 2026-09-08,Justice of the Peace Precinct 1 (JP #1),144.00,413 Green Acres,pending,Fwd: Green acres eviction check,,gm-1a082efc7888e5ef
 2026-02-15,The Home Depot,137.68,104 Ashburne,dismissed,,,gm-19c617b59e734eb5
 2026-02-15,The Home Depot,137.68,,pending,Your Electronic Receipt,,gm-19c61b20c24fc994
@@ -70,12 +57,7 @@ date,vendor,total,where_the_read_put_it,status,subject,weak_candidates,docId
 2026-07-28,Texas Secretary of State,2.00,OVERHEAD,dismissed,Fwd: Packing Slip for Session : 072826FZ4657 (email id: 5857,,gm-19fa9491039be96b
 2026-03-07,Floor &amp; Decor,0.00,,pending,Fwd: Your e-Receipt is Enclosed,104 Ashburne/Floor & Decor/248.39;104 Ashburne/Floor & Decor/136.40,gm-19cc9f61226563fe
 2026-02-10,Floor &amp; Decor,0.00,,pending,Fwd: Your e-Receipt is Enclosed,,gm-19c51e70660fc809
-2026-04-03,Julio,0.00,,pending,"Julio 4/2, 4/3",,gm-19d54f911af97475
 2026-03-18,Floor &amp; Decor,0.00,,pending,Fwd: Your e-Receipt is Enclosed,,gm-19d015260a55727a
-2026-07-08,Handwritten check register (Paul Bjork) - Ashburne job,0.00,,pending,,,gm-19f3f70854369633
-2026-04-07,Julio (unidentified labor),0.00,,pending,Julio 4/7,,gm-19d7239ecfe05f99
-2026-04-16,Julio (unidentified labor),0.00,,pending,Julio,,gm-19d9700278f64d44
-2026-03-17,Julio,0.00,,pending,Julio 3/17,,gm-19d013bd0045dbda
 2026-02-02,Floor & Decor,0.00,,pending,Fwd: Your e-Receipt is Enclosed,,gm-19c1fc34982c2b29
 2026-09-08,The Home Depot,-41.55,,dry,,,dry-gm-1a0818a010ad633c
 2026-05-29,The Home Depot,-50.36,1616 Granite,pending,Your Electronic Receipt,1616 Granite RECONCILED/Home Depot/23.79;1616 Granite RECONCILED/Home Depot/64.53;1616 Granite RECONCILED/Home Depot/32.45;1616 Granite RECONCILED/Home Depot/3.71;1616 Granite RECONCILED/Home Depot/194.62,gm-19e758f6dc2ba281

@@ -1026,3 +1026,27 @@ unchanged. **List 4: 86** - what is left: Home Depot / Lowe's (37), CoreLogic in
 rows (8), Amazon (5), Paul's Julio notes and handwritten logs (evidence for cash-labor rows, to be linked),
 four unread Floor & Decor e-receipts, the Ellis County tax bill $16,031.25, Falcon Creek $470 + $235,
 Berrett Pest $270.63, VistaPrint $241.71, Apify $313.20, and small singles.
+
+## 32 · Paul's notes are the documents for cash labor; CoreLogic parked; the Ashburne tax (2026-09-18 evening)
+
+Paul, on the Julio notes and handwritten logs: "no receipts for these. a lot of them are cash payments."
+So his own note is the document. Seven Ashburne Julio rows now carry the email that names their day:
+"Julio 3/17" (03-17), "Julio 4/2, 4/3" (two rows), "Julio 4/7", and "Julio / Mon-wed + 100" of 04-16 = Mon
+04-13 $200, Tue 04-14 $200, Wed 04-15 $300 (the day plus the extra $100). **884 linked.** Settled without a
+posting: the second "Julio 150" copy, "Dennis $400" (his 04-10 cash advance, D-032), the handwritten ASHBURNE
+worksheet (every line on it is one of Dennis's registered advances), the check register, and the two $299
+listing-fee documents of 05-07 (the 05-07 advance).
+
+CoreLogic / Cotality, eight monthly invoices against five payment rows: Paul - "cotality's payment system is
+archaic and i cant see my payment history. will have to wait for a bank statement." Parked for Phase 3 under
+`mail_settled`; the rows stay as typed.
+
+Dry run unchanged in amount (1,039 entries, $223,876.09); the only entry changes are the seven links; link
+audit unchanged. Lists: confirm 54, no document 108, **list 4: 68**.
+
+**Found while checking the Ellis County tax receipt ($16,031.25, 03-30, check #5899):** §12 said it was "not
+on the old tab by that name". It is - in the Ashburne summary block, **B10 "Property Tax Paid" / E10
+$16,031.25**, part of the tab's Total Project Cost, not among the expense rows, so the inventory never saw it
+and it has never been posted. It is the only paid tax in the workbook (the other tabs' "Property Tax
+(Prorated)" lines are forecasts with a TODAY() formula). Put to Paul before adding: which account check #5899
+was drawn on.

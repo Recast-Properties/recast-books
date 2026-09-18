@@ -416,6 +416,48 @@
    "row": "104 Ashburne 2026-03-10 Shell 69.27",
    "docId": "gm-19cd960f41184363",
    "why": "Claude 2026-09-18: the only fuel receipt of 03-10 is a Mobil pump receipt for exactly $69.27; the row says 'Shell' as nearly every Gas row does. Same day, same amount to the cent, no other row claims it (the matcher's exact-amount rule wants the names to resemble, and Mobil/Shell do not)"
+  },
+  {
+   "key": "PROP-340",
+   "row": "104 Ashburne 2026-03-17 Julio 200.00",
+   "docId": "gm-19d013bd0045dbda",
+   "why": "Claude 2026-09-18 (audit §32). Paul: 'no receipts for these. a lot of them are cash payments' - so his own note is the document. Paul's email 'Julio 3/17' (sent 03-18 to the Ashburne mailbox) is the record of this cash payment: same man, same day"
+  },
+  {
+   "key": "PROP-395",
+   "row": "104 Ashburne 2026-04-02 Julio 200.00",
+   "docId": "gm-19d54f911af97475",
+   "why": "Claude 2026-09-18 (audit §32). Paul: 'no receipts for these. a lot of them are cash payments' - so his own note is the document. Paul's email 'Julio 4/2, 4/3' names this day"
+  },
+  {
+   "key": "PROP-406",
+   "row": "104 Ashburne 2026-04-03 Julio 200.00",
+   "docId": "gm-19d54f911af97475",
+   "why": "Claude 2026-09-18 (audit §32). Paul: 'no receipts for these. a lot of them are cash payments' - so his own note is the document. Paul's email 'Julio 4/2, 4/3' names this day"
+  },
+  {
+   "key": "PROP-436",
+   "row": "104 Ashburne 2026-04-07 Julio 200.00",
+   "docId": "gm-19d7239ecfe05f99",
+   "why": "Claude 2026-09-18 (audit §32). Paul: 'no receipts for these. a lot of them are cash payments' - so his own note is the document. Paul's email 'Julio 4/7' names this day"
+  },
+  {
+   "key": "PROP-501",
+   "row": "104 Ashburne 2026-04-13 Julio 200.00",
+   "docId": "gm-19d9700278f64d44",
+   "why": "Claude 2026-09-18 (audit §32). Paul: 'no receipts for these. a lot of them are cash payments' - so his own note is the document. Paul's email of 04-16 'Julio / Mon-wed + 100': Monday 04-13"
+  },
+  {
+   "key": "PROP-508",
+   "row": "104 Ashburne 2026-04-14 Julio 200.00",
+   "docId": "gm-19d9700278f64d44",
+   "why": "Claude 2026-09-18 (audit §32). Paul: 'no receipts for these. a lot of them are cash payments' - so his own note is the document. Paul's email of 04-16 'Julio / Mon-wed + 100': Tuesday 04-14"
+  },
+  {
+   "key": "PROP-515",
+   "row": "104 Ashburne 2026-04-15 Julio 300.00",
+   "docId": "gm-19d9700278f64d44",
+   "why": "Claude 2026-09-18 (audit §32). Paul: 'no receipts for these. a lot of them are cash payments' - so his own note is the document. Paul's email of 04-16 'Julio / Mon-wed + 100': Wednesday 04-15, $300 = the day's $200 + the extra $100"
   }
  ],
  "no_link": [
@@ -1654,6 +1696,78 @@
   {
    "docId": "gm-19d7558ca4a9a38d",
    "why": "Claude 2026-09-18 (audit §31): second photo of the Shell fill-up $79.30; the Gas row of 04-09 carries gm-…95d34b67cc"
+  },
+  {
+   "docId": "gm-19d013bd0045dbda",
+   "why": "Claude 2026-09-18 (audit §32): Paul's note 'Julio 3/17' - now the document of the 03-17 $200 row"
+  },
+  {
+   "docId": "gm-19d54f911af97475",
+   "why": "Claude 2026-09-18 (audit §32): Paul's note 'Julio 4/2, 4/3' - now the document of those two $200 rows"
+  },
+  {
+   "docId": "gm-19d7239ecfe05f99",
+   "why": "Claude 2026-09-18 (audit §32): Paul's note 'Julio 4/7' - now the document of the 04-07 $200 row"
+  },
+  {
+   "docId": "gm-19d9700278f64d44",
+   "why": "Claude 2026-09-18 (audit §32): Paul's note 'Julio / Mon-wed + 100' - now the document of the 04-13, 04-14 and 04-15 rows ($200, $200, $300)"
+  },
+  {
+   "docId": "gm-19eff3e752656e54",
+   "why": "Claude 2026-09-18 (audit §32): Paul's note 'Julio 150' - a second copy; the 06-24 $150 row already carries the other copy"
+  },
+  {
+   "docId": "gm-19d798bb326eaf63",
+   "why": "Claude 2026-09-18 (audit §32): Paul's note 'Dennis $400' of 04-10 - Dennis's cash advance of 04-10 $400 'Julio, labor' (D-032): financing, not a row"
+  },
+  {
+   "docId": "gm-19f3f6f506f7c073",
+   "why": "Claude 2026-09-18 (audit §32): Paul's handwritten ASHBURNE worksheet (Robinson Air $606.70 and $1,065.74, MLS $199 and $299, dump $21 cash, Julio) - the source of Dennis's Ashburne cash advances (D-032); every line on it is an advance already registered, none is a missing row"
+  },
+  {
+   "docId": "gm-19f3f70854369633",
+   "why": "Claude 2026-09-18 (audit §32): Paul's handwritten Ashburne check register - a log, no total; kept as evidence for the contractor-check rows accepted without a receipt"
+  },
+  {
+   "docId": "gm-19f3f6ba1c53dd95",
+   "why": "Claude 2026-09-18 (audit §32): Iley & Iley $299.00 of 05-07, Ashburne - the receipt behind Dennis's cash advance of 05-07 'listing fee (Iley)' (D-032)"
+  },
+  {
+   "docId": "gm-19e03f3e7be5d988",
+   "why": "Claude 2026-09-18 (audit §32): Paul's note 'Listing fee' $299.00 of 05-07 - the same 05-07 advance"
+  },
+  {
+   "docId": "gm-19b944ec9eb500c7",
+   "why": "Claude 2026-09-18 (audit §32): CoreLogic (Cotality) monthly invoice. The old books carry the payments as Paul typed them (05-12, 06-07, 06-18, 06-30 $200 each, 09-15 $235). Paul: 'cotality's payment system is archaic and i cant see my payment history. will have to wait for a bank statement.' Parked for Phase 3: invoices are matched to payments from the statements; nothing posts from an invoice"
+  },
+  {
+   "docId": "gm-19c2d8b7905f7407",
+   "why": "Claude 2026-09-18 (audit §32): CoreLogic (Cotality) monthly invoice. The old books carry the payments as Paul typed them (05-12, 06-07, 06-18, 06-30 $200 each, 09-15 $235). Paul: 'cotality's payment system is archaic and i cant see my payment history. will have to wait for a bank statement.' Parked for Phase 3: invoices are matched to payments from the statements; nothing posts from an invoice"
+  },
+  {
+   "docId": "gm-19cbddaad84b15f2",
+   "why": "Claude 2026-09-18 (audit §32): CoreLogic (Cotality) monthly invoice. The old books carry the payments as Paul typed them (05-12, 06-07, 06-18, 06-30 $200 each, 09-15 $235). Paul: 'cotality's payment system is archaic and i cant see my payment history. will have to wait for a bank statement.' Parked for Phase 3: invoices are matched to payments from the statements; nothing posts from an invoice"
+  },
+  {
+   "docId": "gm-19d557a02bada3be",
+   "why": "Claude 2026-09-18 (audit §32): CoreLogic (Cotality) monthly invoice. The old books carry the payments as Paul typed them (05-12, 06-07, 06-18, 06-30 $200 each, 09-15 $235). Paul: 'cotality's payment system is archaic and i cant see my payment history. will have to wait for a bank statement.' Parked for Phase 3: invoices are matched to payments from the statements; nothing posts from an invoice"
+  },
+  {
+   "docId": "gm-19dfd51cc731e898",
+   "why": "Claude 2026-09-18 (audit §32): CoreLogic (Cotality) monthly invoice. The old books carry the payments as Paul typed them (05-12, 06-07, 06-18, 06-30 $200 each, 09-15 $235). Paul: 'cotality's payment system is archaic and i cant see my payment history. will have to wait for a bank statement.' Parked for Phase 3: invoices are matched to payments from the statements; nothing posts from an invoice"
+  },
+  {
+   "docId": "gm-19e8ef3d9338fabb",
+   "why": "Claude 2026-09-18 (audit §32): CoreLogic (Cotality) monthly invoice. The old books carry the payments as Paul typed them (05-12, 06-07, 06-18, 06-30 $200 each, 09-15 $235). Paul: 'cotality's payment system is archaic and i cant see my payment history. will have to wait for a bank statement.' Parked for Phase 3: invoices are matched to payments from the statements; nothing posts from an invoice"
+  },
+  {
+   "docId": "gm-19fd7d4ee3154fea",
+   "why": "Claude 2026-09-18 (audit §32): CoreLogic (Cotality) monthly invoice. The old books carry the payments as Paul typed them (05-12, 06-07, 06-18, 06-30 $200 each, 09-15 $235). Paul: 'cotality's payment system is archaic and i cant see my payment history. will have to wait for a bank statement.' Parked for Phase 3: invoices are matched to payments from the statements; nothing posts from an invoice"
+  },
+  {
+   "docId": "gm-1a06877a765d05a1",
+   "why": "Claude 2026-09-18 (audit §32): CoreLogic (Cotality) monthly invoice. The old books carry the payments as Paul typed them (05-12, 06-07, 06-18, 06-30 $200 each, 09-15 $235). Paul: 'cotality's payment system is archaic and i cant see my payment history. will have to wait for a bank statement.' Parked for Phase 3: invoices are matched to payments from the statements; nothing posts from an invoice"
   }
  ]
 }
