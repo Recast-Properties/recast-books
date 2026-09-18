@@ -1,26 +1,26 @@
 {
- "pass": 7,
- "ran": "2026-09-18 16:32-16:35",
- "journal_snapshot": "books-cache tab/Journal fetched 2026-09-18 16:35:31",
+ "pass": 8,
+ "ran": "2026-09-18 18:39-18:41",
+ "journal_snapshot": "books-cache tab/Journal fetched 2026-09-18 18:40:33",
  "by_property": {
   "OVERHEAD": 2650138,
   "881 Newport": 308917,
   "469 Brushwood": 191680,
   "366 Mesa": 964800,
-  "136 Bowling Green": 475393,
-  "104 Ashburne": 17711054,
+  "136 Bowling Green": 480893,
+  "104 Ashburne": 17783972,
   "1616 Granite": 1220487,
   "280 Sparkling": 317978,
-  "Cost Recapture": 150287
+  "Cost Recapture": 158787
  },
- "entries": 1040,
- "cents": 23990734,
+ "entries": 1045,
+ "cents": 24077652,
  "difference_cents": 0,
  "txn_ids_identical_to_dry_run": true,
- "debits_equal_credits_cents": 230131826,
- "linked": 885,
+ "debits_equal_credits_cents": 230218744,
+ "linked": 894,
  "advances": 33,
  "advance_orphans": 0,
- "independent_reparse": "pass 6's residuals plus C-23 x5 and C-24 on the new side",
- "note": "ran on the C-24 push, before the Falcon Creek rename and relinking were pushed: 13 payees still read Effren and 6 Falcon Creek links are not in yet (ids and amounts are the same either way); tax_annual set on six properties"
+ "independent_reparse": "pass 7's residuals plus C-25 x3 and C-26 x2 on the new side",
+ "note": "payees and doc_urls identical to the dry run (Falcon Creek Lawn Care on 13 rows, no 'Effren' left)"
 }

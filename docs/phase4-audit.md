@@ -1151,3 +1151,8 @@ from Vega's receipts, but no row or combination of rows identifies them.
 `no_document_accepted`.** An `add` with no mail document now names a file under `evidence/` instead
 (`EVIDENCE:` flag, Drive link at filing). Dry run **1,045 entries, $240,776.52** (Ashburne $177,839.72), all
 build; the only change is the two entries; pushed to staging. Paul's Zelle history is fully reconciled.
+
+**Staging pass 8, 18:39-18:41 - tied out.** 2,090 lines cleared, 66 kept, 1,045 posted. Journal by property =
+`rows/expected.json`, **$0.00 on all nine**: 1,045 entries, **$240,776.52**, ids, amounts, payees and
+document links identical to the dry run (no "Effren" left; 894 linked), debits = credits ($2,302,187.44), 33
+advances, no orphans. Staging = the dry run.
