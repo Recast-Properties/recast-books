@@ -609,3 +609,6 @@ independent re-parse agrees row by row (`phase4-audit.md` §23).
 **C-15.** Ashburne, City of Corsicana dump, second row of 01-16: $27.30 → $22.50 (Paul). Dry run
 $220,774.59, pushed to staging, not yet rerun there.
 
+**Deployed 2026-09-18 13:2x** (`npm run deploy`, deploy `6aad7fed`): the prompt change (Paul's subject and
+note first) and the image-type / API-failure fix are live. Staging pass 4 (13:14) ties out at
+$220,774.59 with C-15.

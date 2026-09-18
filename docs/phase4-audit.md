@@ -692,3 +692,7 @@ production writer push and the cutover.
 holds pass 3 at $220,779.39** - one more Run of `migrationRunStaging` brings it to this number; it
 can wait and ride along with the next batch of cleanup answers.
 
+**Pass 4, 13:14, and the deploy.** Paul reran `migrationRunStaging`: 1,035 entries, $220,774.59, $0.00 on
+every property, ids identical to the dry run, 782 linked. `npm run deploy` done (deploy `6aad7fed`):
+the prompt change and the image-type fix are live. Still owed from §21: Reprocess `gm-19c521cfa5452bd9`
+(the Chinos estimate) from the Inbox.
