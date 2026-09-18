@@ -194,6 +194,132 @@
    "row": "1616 Granite RECONCILED 2026-06-16 TXU 161.17",
    "docId": "gm-19ed0e0fdd1f096a",
    "why": "Claude: the payment confirmation (#803295274) carries the Granite account number 900084832931; it only arrived through the Sparkling mailbox. Paul 2026-09-18, TXU Billing & Payment History screenshots (data/migration/2026-09-17/evidence/txu-history-*.png): account 900084832931, 1616 Granite Way, paid $161.17 on 06/16 and $261.76 on 07/25; account 900085271816, 280 Sparkling Springs, paid $228.64 on 08/05 and $213.64 on 08/18"
+  },
+  {
+   "key": "PROP-100",
+   "row": "366 Mesa 2026-08-13 Lowe's Light Bulbs 9.72",
+   "docId": "gm-19ffbab89c6e794c",
+   "why": "Claude 2026-09-18: the six Lowe's rows typed on Mesa for 08-13 add to $542.39; the Lowe's receipt of 08-13 is $542.40 - one receipt typed as six rows, a cent of tax rounding"
+  },
+  {
+   "key": "PROP-101",
+   "row": "366 Mesa 2026-08-13 Lowe's Nail Guards 43.84",
+   "docId": "gm-19ffbab89c6e794c",
+   "why": "Claude 2026-09-18: the six Lowe's rows typed on Mesa for 08-13 add to $542.39; the Lowe's receipt of 08-13 is $542.40 - one receipt typed as six rows, a cent of tax rounding"
+  },
+  {
+   "key": "PROP-102",
+   "row": "366 Mesa 2026-08-13 Lowe's 1x4 x10 PT Siding Trim 204.70",
+   "docId": "gm-19ffbab89c6e794c",
+   "why": "Claude 2026-09-18: the six Lowe's rows typed on Mesa for 08-13 add to $542.39; the Lowe's receipt of 08-13 is $542.40 - one receipt typed as six rows, a cent of tax rounding"
+  },
+  {
+   "key": "PROP-103",
+   "row": "366 Mesa 2026-08-13 Lowe's 1x3x8 For Pergola 148.09",
+   "docId": "gm-19ffbab89c6e794c",
+   "why": "Claude 2026-09-18: the six Lowe's rows typed on Mesa for 08-13 add to $542.39; the Lowe's receipt of 08-13 is $542.40 - one receipt typed as six rows, a cent of tax rounding"
+  },
+  {
+   "key": "PROP-104",
+   "row": "366 Mesa 2026-08-13 Lowe's Flashing 75.47",
+   "docId": "gm-19ffbab89c6e794c",
+   "why": "Claude 2026-09-18: the six Lowe's rows typed on Mesa for 08-13 add to $542.39; the Lowe's receipt of 08-13 is $542.40 - one receipt typed as six rows, a cent of tax rounding"
+  },
+  {
+   "key": "PROP-180",
+   "row": "104 Ashburne 2026-02-10 Lowes Entry Chandelier 173.18",
+   "docId": "gm-19c484998d6bf67a",
+   "why": "Claude 2026-09-18: the only Lowe's Home Improvement receipt in any mailbox for 2026-02-10 ($238.06), same day as the row, and it has room for it; Paul typed part of the receipt (D-028 covers the rest)"
+  },
+  {
+   "key": "PROP-402",
+   "row": "104 Ashburne 2026-03-09 Wayfiar Dining Room Light 152.62",
+   "docId": "gm-19cd60fc58534aca",
+   "why": "Claude 2026-09-18: the only Wayfair receipt in any mailbox for 2026-03-09 ($264.11), same day as the row, and it has room for it; Paul typed part of the receipt (D-028 covers the rest)"
+  },
+  {
+   "key": "PROP-356",
+   "row": "104 Ashburne 2026-03-05 Armandre Vega Flexible Quarter Round 98.97",
+   "docId": "gm-19cbe5fe4bbbc3d4",
+   "why": "Claude 2026-09-18: the only Armandre Vega receipt in any mailbox for 2026-03-05 ($524.81), same day as the row, and it has room for it; Paul typed part of the receipt (D-028 covers the rest)"
+  },
+  {
+   "key": "PROP-251",
+   "row": "104 Ashburne 2026-02-20 Home Depot Angle Stops 72.80",
+   "docId": "gm-19c7bb272d77da5a",
+   "why": "Claude 2026-09-18: the only The Home Depot receipt in any mailbox for 2026-02-20 ($135.07), same day as the row, and it has room for it; Paul typed part of the receipt (D-028 covers the rest)"
+  },
+  {
+   "key": "PROP-67",
+   "row": "469 Brushwood 2026-09-03 Home Depot Paint 46.55",
+   "docId": "gm-1a0679d10dfb58fc",
+   "why": "Claude 2026-09-18: the only The Home Depot receipt in any mailbox for 2026-09-03 ($55.87), same day as the row, and it has room for it; Paul typed part of the receipt (D-028 covers the rest)"
+  },
+  {
+   "key": "PROP-71",
+   "row": "469 Brushwood 2026-09-04 Lowes Garage Floor Paint 43.28",
+   "docId": "gm-1a06da589b0fc446",
+   "why": "Claude 2026-09-18: the only Lowe's Home Centers, LLC receipt in any mailbox for 2026-09-04 ($270.50), same day as the row, and it has room for it; Paul typed part of the receipt (D-028 covers the rest)"
+  },
+  {
+   "key": "PROP-153",
+   "row": "136 Bowling Green 2026-08-05 Ace Hardware Padlock 22.99",
+   "docId": "gm-19fd4002e0935c03",
+   "why": "Claude 2026-09-18: the only Keith Ace Hardware - Red Oak receipt in any mailbox for 2026-08-05 ($29.22), same day as the row, and it has room for it; Paul typed part of the receipt (D-028 covers the rest)"
+  },
+  {
+   "key": "PROP-432",
+   "row": "104 Ashburne 2026-03-21 Lowes Downrod 18.97",
+   "docId": "gm-19d11a93764263f8",
+   "why": "Claude 2026-09-18: the only Lowe's Home Centers, LLC receipt in any mailbox for 2026-03-21 ($297.23), same day as the row, and it has room for it; Paul typed part of the receipt (D-028 covers the rest)"
+  },
+  {
+   "key": "PROP-121",
+   "row": "136 Bowling Green 2026-06-26 Home Depot Drywall Tape 14.38",
+   "docId": "gm-19f059f5de8379eb",
+   "why": "Claude 2026-09-18: the only The Home Depot receipt in any mailbox for 2026-06-26 ($144.91), same day as the row, and it has room for it; Paul typed part of the receipt (D-028 covers the rest)"
+  },
+  {
+   "key": "PROP-690",
+   "row": "1616 Granite RECONCILED 2026-05-30 Lowes Door Mat 14.05",
+   "docId": "gm-19e79a903622d62d",
+   "why": "Claude 2026-09-18: the only Lowe's Home Centers, LLC receipt in any mailbox for 2026-05-30 ($24.58), same day as the row, and it has room for it; Paul typed part of the receipt (D-028 covers the rest)"
+  },
+  {
+   "key": "PROP-124",
+   "row": "136 Bowling Green 2026-06-26 Home Depot Taping Knife 12.97",
+   "docId": "gm-19f059f5de8379eb",
+   "why": "Claude 2026-09-18: the only The Home Depot receipt in any mailbox for 2026-06-26 ($144.91), same day as the row, and it has room for it; Paul typed part of the receipt (D-028 covers the rest)"
+  },
+  {
+   "key": "PROP-592",
+   "row": "104 Ashburne 2026-03-21 Lowes Glass Scraper & Blades 9.48",
+   "docId": "gm-19d11a93764263f8",
+   "why": "Claude 2026-09-18: the only Lowe's Home Centers, LLC receipt in any mailbox for 2026-03-21 ($297.23), same day as the row, and it has room for it; Paul typed part of the receipt (D-028 covers the rest)"
+  },
+  {
+   "key": "PROP-27",
+   "row": "881 Newport 2026-07-01 Home Depot Plug 3.77",
+   "docId": "gm-19f237650c695b39",
+   "why": "Claude 2026-09-18: the only The Home Depot receipt in any mailbox for 2026-07-01 ($118.15), same day as the row, and it has room for it; Paul typed part of the receipt (D-028 covers the rest)"
+  },
+  {
+   "key": "PROP-596",
+   "row": "104 Ashburne 2026-03-22 Home Depot Teflon Tape 1.06",
+   "docId": "gm-19d16d3ec604edb7",
+   "why": "Claude 2026-09-18: the only The Home Depot receipt in any mailbox for 2026-03-22 ($514.16), same day as the row, and it has room for it; Paul typed part of the receipt (D-028 covers the rest)"
+  },
+  {
+   "key": "PROP-377",
+   "row": "104 Ashburne 2026-02-17 O'Reily Lug Nut 3.45",
+   "docId": "gm-19c6bce6982d294b",
+   "why": "Claude 2026-09-18: same day, receipt total equals the row to the cent; the payee is only misspelt in the old books (O'Reily / O'Reilly Auto Parts)"
+  },
+  {
+   "key": "PROP-475",
+   "row": "104 Ashburne 2026-03-23 AutoXZone Oil 38.95",
+   "docId": "gm-19d1aff5eaa6fee2",
+   "why": "Claude 2026-09-18: same day, receipt total equals the row to the cent; the payee is only misspelt in the old books (AutoXZone / AutoZone)"
   }
  ],
  "no_link": [
@@ -686,6 +812,271 @@
    "key": "PROP-757",
    "row": "280 Sparkling RECONCILED 2026-06-16 TXU 161.17",
    "why": "Claude: that receipt is 1616 Granite's payment (account 900084832931). Sparkling's TXU account shows no $161.17 at all. Paul 2026-09-18, TXU Billing & Payment History screenshots (data/migration/2026-09-17/evidence/txu-history-*.png): account 900084832931, 1616 Granite Way, paid $161.17 on 06/16 and $261.76 on 07/25; account 900085271816, 280 Sparkling Springs, paid $228.64 on 08/05 and $213.64 on 08/18"
+  },
+  {
+   "key": "BIZ-80",
+   "row": "RECAST BIZ 2026-06-24 The Home Depot 6.73",
+   "why": "Claude 2026-09-18: the candidate (The Home Depot, 2026-06-28, $6.35) is already explained to the cent by other rows; it has no room for this one"
+  },
+  {
+   "key": "BIZ-87",
+   "row": "RECAST BIZ 2026-01-14 Uber Eats 58.82",
+   "why": "Claude 2026-09-18: the candidate (Uber Eats, 2026-01-14, $58.82) is already explained to the cent by other rows; it has no room for this one"
+  },
+  {
+   "key": "BIZ-90",
+   "row": "RECAST BIZ 2026-02-18 Uber Eats 37.58",
+   "why": "Claude 2026-09-18: the candidate (Uber Eats, 2026-02-18, $37.58) is already explained to the cent by other rows; it has no room for this one"
+  },
+  {
+   "key": "BIZ-91",
+   "row": "RECAST BIZ 2026-02-18 Uber Eats 131.26",
+   "why": "Claude 2026-09-18: the candidate (Uber Eats, 2026-02-18, $131.26) is already explained to the cent by other rows; it has no room for this one"
+  },
+  {
+   "key": "BIZ-167",
+   "row": "RECAST BIZ 2026-06-25 The Home Depot 2.47",
+   "why": "Claude 2026-09-18: the candidate (The Home Depot, 2026-06-27, $2.01) is already explained to the cent by other rows; it has no room for this one"
+  },
+  {
+   "key": "BIZ-168",
+   "row": "RECAST BIZ 2026-06-25 The Home Depot 2.47",
+   "why": "Claude 2026-09-18: the candidate (The Home Depot, 2026-06-27, $2.01) is already explained to the cent by other rows; it has no room for this one"
+  },
+  {
+   "key": "BIZ-169",
+   "row": "RECAST BIZ 2026-06-25 The Home Depot 7.51",
+   "why": "Claude 2026-09-18: the candidate (The Home Depot, 2026-06-28, $6.35) is already explained to the cent by other rows; it has no room for this one"
+  },
+  {
+   "key": "BIZ-176",
+   "row": "RECAST BIZ 2026-06-22 Shell 54.70",
+   "why": "Claude 2026-09-18: the candidate (Shell, 2026-06-17, $66.64) is already explained to the cent by other rows; it has no room for this one"
+  },
+  {
+   "key": "BIZ-206",
+   "row": "RECAST BIZ 2026-06-13 Anthropic, PBC -13.34",
+   "why": "Claude 2026-09-18: the candidate (Anthropic, PBC, 2026-06-03, $20.00) is already explained to the cent by other rows; it has no room for this one"
+  },
+  {
+   "key": "PROP-77",
+   "row": "469 Brushwood 2026-09-06 Home Depot 41.55",
+   "why": "Claude 2026-09-18: the candidate (The Home Depot, 2026-09-07, $41.55) is already explained to the cent by other rows; it has no room for this one"
+  },
+  {
+   "key": "PROP-93",
+   "row": "366 Mesa 2026-08-18 Carlos 220.00",
+   "why": "Claude 2026-09-18: the candidate (Carlos A Ibarra, 2026-08-15, $500.00) is already explained to the cent by other rows; it has no room for this one"
+  },
+  {
+   "key": "PROP-95",
+   "row": "366 Mesa 2026-09-02 Home Depot 20.72",
+   "why": "Claude 2026-09-18: the candidate (The Home Depot, 2026-09-02, $158.05) is already explained to the cent by other rows; it has no room for this one"
+  },
+  {
+   "key": "PROP-96",
+   "row": "366 Mesa 2026-08-03 Home Depot 19.66",
+   "why": "Claude 2026-09-18: the candidate (The Home Depot, 2026-08-07, $161.29) is already explained to the cent by other rows; it has no room for this one"
+  },
+  {
+   "key": "PROP-277",
+   "row": "104 Ashburne 2026-02-11 Julio 200.00",
+   "why": "Claude 2026-09-18: the candidate (Julio, 2026-03-23, $500.00) is already explained to the cent by other rows; it has no room for this one"
+  },
+  {
+   "key": "PROP-282",
+   "row": "104 Ashburne 2026-02-16 Julio 200.00",
+   "why": "Claude 2026-09-18: the candidate (Julio, 2026-03-23, $500.00) is already explained to the cent by other rows; it has no room for this one"
+  },
+  {
+   "key": "PROP-295",
+   "row": "104 Ashburne 2026-02-17 Julio 200.00",
+   "why": "Claude 2026-09-18: the candidate (Julio, 2026-03-23, $500.00) is already explained to the cent by other rows; it has no room for this one"
+  },
+  {
+   "key": "PROP-307",
+   "row": "104 Ashburne 2026-02-18 Julio 200.00",
+   "why": "Claude 2026-09-18: the candidate (Julio, 2026-03-23, $500.00) is already explained to the cent by other rows; it has no room for this one"
+  },
+  {
+   "key": "PROP-340",
+   "row": "104 Ashburne 2026-03-17 Julio 200.00",
+   "why": "Claude 2026-09-18: the candidate (Julio, 2026-03-23, $500.00) is already explained to the cent by other rows; it has no room for this one"
+  },
+  {
+   "key": "PROP-346",
+   "row": "104 Ashburne 2026-02-20 Julio 200.00",
+   "why": "Claude 2026-09-18: the candidate (Julio, 2026-03-23, $500.00) is already explained to the cent by other rows; it has no room for this one"
+  },
+  {
+   "key": "PROP-357",
+   "row": "104 Ashburne 2026-02-13 Julio 200.00",
+   "why": "Claude 2026-09-18: the candidate (Julio, 2026-03-23, $500.00) is already explained to the cent by other rows; it has no room for this one"
+  },
+  {
+   "key": "PROP-368",
+   "row": "104 Ashburne 2026-02-18 Julio 200.00",
+   "why": "Claude 2026-09-18: the candidate (Julio, 2026-03-23, $500.00) is already explained to the cent by other rows; it has no room for this one"
+  },
+  {
+   "key": "PROP-384",
+   "row": "104 Ashburne 2026-04-02 Home Depot 205.06",
+   "why": "Claude 2026-09-18: the candidate (The Home Depot, 2026-04-08, $207.08) is already explained to the cent by other rows; it has no room for this one"
+  },
+  {
+   "key": "PROP-385",
+   "row": "104 Ashburne 2026-04-01 Home Depot 22.50",
+   "why": "Claude 2026-09-18: the candidate (The Home Depot, 2026-04-06, $23.79) is already explained to the cent by other rows; it has no room for this one"
+  },
+  {
+   "key": "PROP-395",
+   "row": "104 Ashburne 2026-04-02 Julio 200.00",
+   "why": "Claude 2026-09-18: the candidate (Julio, 2026-03-23, $500.00) is already explained to the cent by other rows; it has no room for this one"
+  },
+  {
+   "key": "PROP-401",
+   "row": "104 Ashburne 2026-03-10 Julio 200.00",
+   "why": "Claude 2026-09-18: the candidate (Julio, 2026-03-23, $500.00) is already explained to the cent by other rows; it has no room for this one"
+  },
+  {
+   "key": "PROP-406",
+   "row": "104 Ashburne 2026-04-03 Julio 200.00",
+   "why": "Claude 2026-09-18: the candidate (Julio, 2026-03-23, $500.00) is already explained to the cent by other rows; it has no room for this one"
+  },
+  {
+   "key": "PROP-415",
+   "row": "104 Ashburne 2026-06-30 Atlas Pools 256.01",
+   "why": "Claude 2026-09-18: the candidate (Atlas Pools, 2026-07-25, $256.01) is already explained to the cent by other rows; it has no room for this one"
+  },
+  {
+   "key": "PROP-416",
+   "row": "104 Ashburne 2026-04-05 Julio 200.00",
+   "why": "Claude 2026-09-18: the candidate (Julio, 2026-03-23, $500.00) is already explained to the cent by other rows; it has no room for this one"
+  },
+  {
+   "key": "PROP-424",
+   "row": "104 Ashburne 2026-03-19 Floor & Decor -121.02",
+   "why": "Claude 2026-09-18: the candidate (Floor and Decor, 2026-03-19, $18.71) is already explained to the cent by other rows; it has no room for this one"
+  },
+  {
+   "key": "PROP-426",
+   "row": "104 Ashburne 2026-04-06 Julio 200.00",
+   "why": "Claude 2026-09-18: the candidate (Julio, 2026-03-23, $500.00) is already explained to the cent by other rows; it has no room for this one"
+  },
+  {
+   "key": "PROP-429",
+   "row": "104 Ashburne 2026-03-10 Shell 69.27",
+   "why": "Claude 2026-09-18: the candidate (Shell, 2026-04-13, $69.27) is already explained to the cent by other rows; it has no room for this one"
+  },
+  {
+   "key": "PROP-436",
+   "row": "104 Ashburne 2026-04-07 Julio 200.00",
+   "why": "Claude 2026-09-18: the candidate (Julio, 2026-03-23, $500.00) is already explained to the cent by other rows; it has no room for this one"
+  },
+  {
+   "key": "PROP-442",
+   "row": "104 Ashburne 2026-03-12 Home Depot 32.99",
+   "why": "Claude 2026-09-18: the candidate (The Home Depot, 2026-03-11, $31.51) is already explained to the cent by other rows; it has no room for this one"
+  },
+  {
+   "key": "PROP-477",
+   "row": "104 Ashburne 2026-03-19 Lowes 25.88",
+   "why": "Claude 2026-09-18: the candidate (Lowe's Home Centers, LLC, 2026-03-19, $54.08) is already explained to the cent by other rows; it has no room for this one"
+  },
+  {
+   "key": "PROP-481",
+   "row": "104 Ashburne 2026-02-19 Home Depot 11.70",
+   "why": "Claude 2026-09-18: the candidate (The Home Depot, 2026-02-19, $390.12) is already explained to the cent by other rows; it has no room for this one"
+  },
+  {
+   "key": "PROP-495",
+   "row": "104 Ashburne 2026-02-19 Home Depot 54.09",
+   "why": "Claude 2026-09-18: the candidate (The Home Depot, 2026-02-19, $390.12) is already explained to the cent by other rows; it has no room for this one"
+  },
+  {
+   "key": "PROP-498",
+   "row": "104 Ashburne 2026-03-26 Home Depot 9.18",
+   "why": "Claude 2026-09-18: the candidate (The Home Depot, 2026-02-11, $41.61) is already explained to the cent by other rows; it has no room for this one"
+  },
+  {
+   "key": "PROP-501",
+   "row": "104 Ashburne 2026-04-13 Julio 200.00",
+   "why": "Claude 2026-09-18: the candidate (Julio, 2026-03-23, $500.00) is already explained to the cent by other rows; it has no room for this one"
+  },
+  {
+   "key": "PROP-503",
+   "row": "104 Ashburne 2026-03-25 Shell 65.48",
+   "why": "Claude 2026-09-18: the candidate (Shell, 2026-03-25, $65.48) is already explained to the cent by other rows; it has no room for this one"
+  },
+  {
+   "key": "PROP-504",
+   "row": "104 Ashburne 2026-04-08 Home Depot 81.22",
+   "why": "Claude 2026-09-18: the candidate (The Home Depot, 2026-04-08, $207.08) is already explained to the cent by other rows; it has no room for this one"
+  },
+  {
+   "key": "PROP-508",
+   "row": "104 Ashburne 2026-04-14 Julio 200.00",
+   "why": "Claude 2026-09-18: the candidate (Julio, 2026-03-23, $500.00) is already explained to the cent by other rows; it has no room for this one"
+  },
+  {
+   "key": "PROP-515",
+   "row": "104 Ashburne 2026-04-15 Julio 300.00",
+   "why": "Claude 2026-09-18: the candidate (Julio, 2026-03-23, $500.00) is already explained to the cent by other rows; it has no room for this one"
+  },
+  {
+   "key": "PROP-533",
+   "row": "104 Ashburne 2026-03-19 Lowes 33.25",
+   "why": "Claude 2026-09-18: the candidate (Lowe's Home Centers, LLC, 2026-03-19, $54.08) is already explained to the cent by other rows; it has no room for this one"
+  },
+  {
+   "key": "PROP-545",
+   "row": "104 Ashburne 2026-03-26 Home Depot 23.79",
+   "why": "Claude 2026-09-18: the candidate (The Home Depot, 2026-04-06, $23.79) is already explained to the cent by other rows; it has no room for this one"
+  },
+  {
+   "key": "PROP-562",
+   "row": "104 Ashburne 2026-04-05 Home Depot 63.76",
+   "why": "Claude 2026-09-18: the candidate (The Home Depot, 2026-03-26, $64.92) is already explained to the cent by other rows; it has no room for this one"
+  },
+  {
+   "key": "PROP-599",
+   "row": "104 Ashburne 2026-03-22 Home Depot 23.78",
+   "why": "Claude 2026-09-18: the candidate (The Home Depot, 2026-04-06, $23.79) is already explained to the cent by other rows; it has no room for this one"
+  },
+  {
+   "key": "PROP-600",
+   "row": "104 Ashburne 2026-03-22 Home Depot 5.27",
+   "why": "Claude 2026-09-18: the candidate (The Home Depot, 2026-03-30, $5.89) is already explained to the cent by other rows; it has no room for this one"
+  },
+  {
+   "key": "PROP-601",
+   "row": "104 Ashburne 2026-03-23 Home Depot 5.37",
+   "why": "Claude 2026-09-18: the candidate (The Home Depot, 2026-03-30, $5.89) is already explained to the cent by other rows; it has no room for this one"
+  },
+  {
+   "key": "PROP-608",
+   "row": "104 Ashburne 2026-03-29 Home Depot 8.64",
+   "why": "Claude 2026-09-18: the candidate (The Home Depot, 2026-05-06, $118.49) is already explained to the cent by other rows; it has no room for this one"
+  },
+  {
+   "key": "PROP-610",
+   "row": "104 Ashburne 2026-04-01 Home Depot 25.37",
+   "why": "Claude 2026-09-18: the candidate (The Home Depot, 2026-03-29, $25.73) is already explained to the cent by other rows; it has no room for this one"
+  },
+  {
+   "key": "PROP-717",
+   "row": "1616 Granite RECONCILED 2026-06-12 Julio 200.00",
+   "why": "Claude 2026-09-18: the candidate (Julio (subcontractor, full nam, 2026-06-26, $200.00) is already explained to the cent by other rows; it has no room for this one"
+  },
+  {
+   "key": "PROP-718",
+   "row": "1616 Granite RECONCILED 2026-06-22 Julio 200.00",
+   "why": "Claude 2026-09-18: the candidate (Julio (subcontractor, full nam, 2026-06-26, $200.00) is already explained to the cent by other rows; it has no room for this one"
+  },
+  {
+   "key": "PROP-739",
+   "row": "280 Sparkling RECONCILED 2026-06-28 Home Depot 9.93",
+   "why": "Claude 2026-09-18: the candidate (The Home Depot, 2026-06-21, $10.19) is already explained to the cent by other rows; it has no room for this one"
   }
  ],
  "redate": [

@@ -752,3 +752,16 @@ per-property lines of invoices 1372 and 1373; Julio $200 06-12 on Granite and Sp
 as is. he did work for both properties on different days but was paid for both on the same day."
 Recorded under `confirmed_as_is` in `paul-answers.json` so none of them is asked again.
 
+**Confirm list closed out by judgment (2026-09-18, item 3 of §17).** 232 → **30**. Decisions, each with its
+reason in `paul-answers.json`: linked - the Aiper robot (Paul), the cabinet lights, the six Mesa Lowe's
+rows of 08-13 ($542.39 of a $542.40 receipt), 14 rows on the only same-vendor receipt of their day, two
+exact matches with a misspelt payee; refused - 82 impossible candidates and 53 whose receipt is already
+explained to the cent by other rows (nineteen $200 Julio cash days all pointed at the one "200 / 300 for
+deck" note, which belongs to the two 03-23 rows). **845 entries linked, 81.8% of rows, 64.1% of dollars.**
+The 30 left are under $310 each ($1.9K in all): Home Depot days with several receipts, two e-receipt
+wrappers with no content (Floor & Decor, VistaPrint). What is unlinked is mostly what never had a
+receipt: $79.5K, of which the 14 largest rows are $56K - contractor checks and cash (Luxury 4 Less,
+Juan Garcia, Salvador Campos, Atlas Pools, the Mesa checks). Those are proven from the bank side in Phase 3.
+A tolerance on "rows that add up to a receipt" was tried and reverted: it made unique sets ambiguous and
+lost 15 links.
+
