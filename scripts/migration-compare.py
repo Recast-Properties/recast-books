@@ -71,7 +71,9 @@ def main():
     prop = json.load(open(os.path.join(a.inv, "property-rows.json")))
     for i, r in enumerate(biz): r["_k"] = f"BIZ-{i}"; r["cents"] = int(round((r.get("amt") or 0) * 100)); r["tab"] = "RECAST BIZ"
     for i, r in enumerate(prop): r["_k"] = f"PROP-{i}"; r["cents"] = int(round((r.get("amt") or 0) * 100)); r["block"] = r.get("block") or ""
-    rows = biz + [r for r in prop if r["tab"] not in ("Cash Advances",)]
+    # Cash Advances is the advances lane; "Sparkling for Title" duplicates 280 Sparkling RECONCILED
+    # (audit section 2) - RECONCILED is the row source, the Title tab's two extra rows go to Paul.
+    rows = biz + [r for r in prop if r["tab"] not in ("Cash Advances", "Sparkling for Title")]
 
     by_msg = collections.defaultdict(list)
     for r in biz:

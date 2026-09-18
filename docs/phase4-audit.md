@@ -265,6 +265,10 @@ the tie-out per property against the snapshot.
 | # | date | where | was | now | who / why |
 |---|---|---|---|---|---|
 | C-1 | 2026-09-17 | 104 Ashburne, FNF Irrigation 2026-03-19 | $45,000.00 | $450.00 | Paul: typo in the old books; fixed in the old workbook the same day; `property-rows.json` patched with the note |
+| C-1a | 2026-09-18 | same row | — | — | The snapshot cell is the **text** `450,00` (comma for decimal). The $45,000 was the inventory parser's misreading, never a number in the old books; as text the row was never in the header total |
+| C-2 | 2026-09-18 | 104 Ashburne, "Wayfiar" Dining Room Light 2026-03-09 | $15,262.00 (parser) | $152.62 | Same typo: the cell is the text `152,62`. Never counted in the old header |
+| C-3 | 2026-09-18 | 104 Ashburne, Amazon Shower Glass | date `2/11/0126` | 2026-02-11 | Date typo; it hid the row from the matcher |
+| C-4 | 2026-09-18 | 104 Ashburne header "Rehab Total" | $157,945.30 | $164,983.83 of typed rows | **Paul to confirm.** The header's block SUM ranges stop short: 22 rows typed below them ($6,435.91: Lighting & Electrical 2, Pool 3, Landscaping 13, Chimney 1, Utilities 3 - `ashburne-rows-outside-header.json`) plus the two text cells ($602.62) were never counted. Header + $7,038.53 = the rows, to the cent. The migration posts the rows |
 
 ## 14 · Where the staging run stands at end of day, 2026-09-17
 

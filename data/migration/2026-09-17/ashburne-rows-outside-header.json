@@ -1,0 +1,178 @@
+[
+ {
+  "block": "Lighting & Electrical",
+  "row": 47,
+  "date": "2026-06-30",
+  "payee": "Cool Hand Electric",
+  "desc": "60 Amp Dsiconnect",
+  "amt": 564.0
+ },
+ {
+  "block": "Lighting & Electrical",
+  "row": 48,
+  "date": "2026-07-02",
+  "payee": "Cool Hand Electric",
+  "desc": "Circuit ground and misc",
+  "amt": 1207.0
+ },
+ {
+  "block": "Pool",
+  "row": 23,
+  "date": "2026-07-30",
+  "payee": "Atlas Pools",
+  "desc": "Service",
+  "amt": 256.01
+ },
+ {
+  "block": "Pool",
+  "row": 24,
+  "date": "2026-09-01",
+  "payee": "Atlas Pools",
+  "desc": "Service - August",
+  "amt": 256.01
+ },
+ {
+  "block": "Pool",
+  "row": 25,
+  "date": "2026-09-01",
+  "payee": "Atlas Pools",
+  "desc": "Service - Sept",
+  "amt": 256.01
+ },
+ {
+  "block": "Landscaping",
+  "row": 33,
+  "date": "2026-04-13",
+  "payee": "Julio",
+  "desc": "Labor",
+  "amt": 200.0
+ },
+ {
+  "block": "Landscaping",
+  "row": 34,
+  "date": "2026-04-14",
+  "payee": "Julio",
+  "desc": "Labor",
+  "amt": 200.0
+ },
+ {
+  "block": "Landscaping",
+  "row": 35,
+  "date": "2026-04-15",
+  "payee": "Julio",
+  "desc": "Labor",
+  "amt": 300.0
+ },
+ {
+  "block": "Landscaping",
+  "row": 36,
+  "date": "2026-05-21",
+  "payee": "Julio",
+  "desc": "Labor",
+  "amt": 250.0
+ },
+ {
+  "block": "Landscaping",
+  "row": 37,
+  "date": "2026-05-29",
+  "payee": "Julio",
+  "desc": "Labor",
+  "amt": 200.0
+ },
+ {
+  "block": "Landscaping",
+  "row": 38,
+  "date": "2026-06-24",
+  "payee": "Julio",
+  "desc": "Labor",
+  "amt": 150.0
+ },
+ {
+  "block": "Landscaping",
+  "row": 39,
+  "date": "2026-03-23",
+  "payee": "Julio",
+  "desc": "Deck Repair",
+  "amt": 300.0
+ },
+ {
+  "block": "Landscaping",
+  "row": 40,
+  "date": "2026-07-07",
+  "payee": "Julio",
+  "desc": "Labor",
+  "amt": 150.0
+ },
+ {
+  "block": "Landscaping",
+  "row": 41,
+  "date": "2026-08-30",
+  "payee": "Falcon Creek Lawn Care - INV 1390",
+  "desc": "Trim Bushes",
+  "amt": 150.0
+ },
+ {
+  "block": "Landscaping",
+  "row": 42,
+  "date": "2026-09-01",
+  "payee": "Keith Pfaff",
+  "desc": "Irrigation Repair",
+  "amt": 50.0
+ },
+ {
+  "block": "Landscaping",
+  "row": 43,
+  "date": "2026-09-01",
+  "payee": "Julio",
+  "desc": "Labor",
+  "amt": 150.0
+ },
+ {
+  "block": "Landscaping",
+  "row": 44,
+  "date": "2026-09-05",
+  "payee": "Keith Pfaff",
+  "desc": "Irrigation Repair",
+  "amt": 135.0
+ },
+ {
+  "block": "Landscaping",
+  "row": 45,
+  "date": "2026-09-08",
+  "payee": "Julio",
+  "desc": "Labor",
+  "amt": 150.0
+ },
+ {
+  "block": "Chimney/FIreplace/Glass",
+  "row": 6,
+  "date": "2026-04-21",
+  "payee": "Sunstate Ren tals",
+  "desc": "Lift Rental",
+  "amt": 922.26
+ },
+ {
+  "block": "Utilities",
+  "row": 18,
+  "date": "2026-08-03",
+  "payee": "Energy Texas",
+  "desc": "Electricity",
+  "amt": 371.16
+ },
+ {
+  "block": "Utilities",
+  "row": 19,
+  "date": "2026-08-10",
+  "payee": "Atmos Energy",
+  "desc": "Natural Gas",
+  "amt": 35.79
+ },
+ {
+  "block": "Utilities",
+  "row": 20,
+  "date": "2026-08-10",
+  "payee": "City of Ovilla",
+  "desc": "Water",
+  "amt": 182.67
+ }
+]

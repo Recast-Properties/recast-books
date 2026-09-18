@@ -54,7 +54,6 @@ PROP-185,104 Ashburne,Chimney/FIreplace/Glass,2026-03-30,Waxahachie Glass,51878,
 PROP-190,104 Ashburne,Countertops & Backsplash,2026-03-06,Shalom Granite,495000,Counters ,False,,,
 PROP-192,104 Ashburne,Utilities,2026-01-13,Energy Texas,4357,Electricity,False,gm-19bbebe1e4fc35df,Atmos Energy,pending
 PROP-197,104 Ashburne,Paint & Flooring,2026-02-09,Juan Garcia,700000,Paint & Floor Installation,False,,,
-PROP-200,104 Ashburne,Master Bath,0126-02-11,Amazon,32474,Shower Glass,False,,,
 PROP-203,104 Ashburne,Landscaping,2026-01-14,Julio,20000,Labor,False,gm-19b944ec9eb500c7,"CoreLogic Solutions, LLC",pending
 PROP-206,104 Ashburne,Appliances,2026-04-10,Luxury 4 Less Appliance,1031956,Appliaces,False,gm-19d985398a604372,Luxury 4 Less Appliances,pending
 PROP-209,104 Ashburne,Countertops & Backsplash,2026-03-07,Floor & Decor,24839,Backsplash TIle,False,gm-19cc9f61226563fe,Floor &amp; Decor,pending
@@ -97,7 +96,7 @@ PROP-377,104 Ashburne,Gas/Truck/Trailer,2026-02-17,O'Reily,345,Lug Nut,False,gm-
 PROP-381,104 Ashburne,Master Bath,2026-02-15,Home Depot,6079,PT 2x4's,False,gm-19c61b20c24fc994,The Home Depot,pending
 PROP-382,104 Ashburne,Small Baths,2026-03-18,Floor & Decor,37894,Shower Tile,False,gm-19d015260a55727a,Floor &amp; Decor,pending
 PROP-390,104 Ashburne,Trash,2026-03-10,City of Corsicana,2730,Dump,False,gm-19cd97e8d0053cdd,City of Corsicana - Landfill,dismissed
-PROP-402,104 Ashburne,Lighting & Electrical,2026-03-09,Wayfiar,1526200,Dining Room Light,False,,,
+PROP-402,104 Ashburne,Lighting & Electrical,2026-03-09,Wayfiar,15262,Dining Room Light,False,,,
 PROP-413,104 Ashburne,Master Bath,2026-03-07,Floor & Decor,13640,Tile for bathtub plaform,False,gm-19cc9f61226563fe,Floor &amp; Decor,pending
 PROP-418,104 Ashburne,Supplies,2026-02-15,Home Depot,1691,Screws,False,gm-19cd8db842855d26,The Home Depot,dismissed
 PROP-422,104 Ashburne,Lighting & Electrical,2026-03-21,Wauyfair,7685,Single Bath Light Fixture,False,gm-19d0446213881f8d,Wayfair,posted
@@ -157,5 +156,3 @@ PROP-725,1616 Granite RECONCILED,,2026-05-26,Sherwin WIlliams,3381,Sherwin WIlla
 PROP-744,280 Sparkling RECONCILED,,2026-06-25,Mission Real Estate Group,29900,MLS Listing,False,gm-19f3911357838426,"CoreLogic Solutions, LLC",pending
 PROP-745,280 Sparkling RECONCILED,,2026-07-19,Effren - 1373,11000,Landscaping,False,gm-19fb337be62617b6,Falcon Creek Lawn Care,posted
 PROP-759,280 Sparkling RECONCILED,,2026-08-05,TXU,22864,Electricity,False,gm-19fc94ab6c53f72a,TXU Energy,pending
-PROP-766,Sparkling for Title,,2026-08-05,TXU,22864,Electricity,False,gm-19fc94ab6c53f72a,TXU Energy,pending
-PROP-783,Sparkling for Title,,2026-06-25,Mission Real Estate Group,29900,MLS Listing,False,gm-19f3911357838426,"CoreLogic Solutions, LLC",pending

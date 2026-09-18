@@ -2543,11 +2543,12 @@ false
 "row": 5,
 "col": 28,
 "payee": "Amazon",
-"date": "0126-02-11",
+"date": "2026-02-11",
 "desc": "Shower Glass",
 "amt": 324.74,
 "flags": [],
-"block": "Master Bath"
+"block": "Master Bath",
+"correction": "C-3 2026-09-18: date typed 2/11/0126, read as 2026-02-11"
 },
 {
 "tab": "104 Ashburne",
@@ -4208,7 +4209,7 @@ false
 "desc": "Controller and DIagnosis",
 "amt": 450.0,
 "flags": [],
-"correction": "C-1 2026-09-17 Paul: $45,000.00 was a typo, actual $450.00",
+"correction": "C-1 2026-09-17/18: the cell is the text '450,00' (comma typo) - $450.00; the parser read 45,000. Paul confirmed $450",
 "block": "Landscaping"
 },
 {
@@ -4768,9 +4769,10 @@ false
 "payee": "Wayfiar",
 "date": "2026-03-09",
 "desc": "Dining Room Light",
-"amt": 15262.0,
+"amt": 152.62,
 "flags": [],
-"block": "Lighting & Electrical"
+"block": "Lighting & Electrical",
+"correction": "C-2 2026-09-18: the cell is the text '152,62' (comma typo) - $152.62, never $15,262; the inventory parser misread it"
 },
 {
 "tab": "104 Ashburne",

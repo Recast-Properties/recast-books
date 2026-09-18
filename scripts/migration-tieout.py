@@ -18,8 +18,8 @@ from importlib import import_module
 load_envelopes = import_module("migration-compare").load_envelopes
 
 TAB_TO_PROP = {"1616 Granite RECONCILED": "1616 Granite", "280 Sparkling RECONCILED": "280 Sparkling",
-               "Sparkling for Title": "280 Sparkling", "RECAST BIZ": "OVERHEAD"}
-SKIP_TABS = {"Cash Advances"}                       # advances lane (D-011/D-022), not receipts
+               "RECAST BIZ": "OVERHEAD"}
+SKIP_TABS = {"Cash Advances", "Sparkling for Title"}   # advances lane (D-011/D-022); the duplicate Sparkling tab (audit section 2: pick RECONCILED)
 PAY_SIDE = ("14", "15", "20")                       # cash, prepaid, liabilities: the credit side of a receipt
 def money(c): return f"{c/100:,.2f}"
 
