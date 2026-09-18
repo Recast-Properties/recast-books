@@ -628,7 +628,13 @@ Paul, on the 31 rows ticked "Dennis Paid" on Mesa, Sparkling, Granite and Bowlin
 him and repaid at closing, with **no Advances row and no interest**. Interest accrues only on
 purchase principal and cash advances (D-011, D-022). Refines D-011's "every Dennis advance
 accrues": a direct payment is a payable to Dennis, not an advance.
-**Left as the old books have it:** the 15 direct payments on the 104 Ashburne Cash Draws list
-($18,141.44) were on the old interest schedule at 12% and were migrated as advances
-(`migrationRegisterAdvances`). Ashburne is sold and reconciled; the old books are the target
-(D-027). Paul to say if he wants those treated the new way too.
+**104 Ashburne is the exception, confirmed by Paul the same day:** "for ashburne those were cash
+advances at 12% .. they were in the cash advance column in the ashburne tab. for ashburne dennis
+is the bank at 12%. for all other properties he is my partner and he does not charge interest on
+direct expenses, only cash advances and property purchase." So the 15 direct payments on the
+Ashburne Cash Draws list ($18,141.44) are advances at 12%, exactly as migrated
+(`migrationRegisterAdvances`); nothing changes there. The rule by deal type:
+- **Bank deal (Ashburne):** everything Dennis puts in - purchase, draws, and what he pays
+  directly - is an advance at the deal's rate (12%), plus his commission (3%); no profit share.
+- **Partner deal (every other property):** interest on purchase principal and cash advances
+  only; a direct payment is owed back at closing with no interest.
