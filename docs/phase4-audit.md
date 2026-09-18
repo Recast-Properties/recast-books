@@ -463,3 +463,29 @@ his own inbox. The durable link is the Drive file: §17 item 7 files **every** l
 to Drive, including a text rendering of body-only notes (Paul's "1670 Juan", "Mariana /
 Cleaning / $500"), and the Journal carries the Drive URL. Until then, show Paul the stored
 content, not the Gmail link, for anything from a property mailbox.
+
+## 19 · Cleanup progress, 2026-09-18 morning (items 1-3 of §17)
+
+Paul's answers live in `data/migration/2026-09-17/paul-answers.json` (who said what, when) and
+are applied by `scripts/migration-rows.py`; corrections C-5 … C-9 are in §13.
+- **Item 1 closed:** the gimbal was the Citizens joint account; the other 33 no-payer rows were
+  Paul's personal card (9166) → PAUL. Apify duplicate dropped (C-5), "420 Alyssa" interest
+  removed (C-6). **Every old row is accounted for:** 1,010 posting ($201,934.95), 7 already in
+  through the Ashburne advances ($16,522.44), 6 removed by Paul ($1,621.62), one $0.00 row.
+- **Item 2 closed (D-030):** Ashburne is the bank deal - 12% on everything in its cash advance
+  column, direct payments included, as migrated. Every other property is a partner deal:
+  interest on purchase and cash advances only; the 31 Dennis-paid rows are owed back at closing
+  with no interest.
+- **Item 3:** the 20 largest likely matches decided (5 linked, 14 refused, the 50floor pair per
+  Paul); Waxahachie Glass typed twice (C-7), Granite Mariana redated (C-8), three more Ashburne
+  double entries dropped (C-9); Mariana's six cleanings reconciled with Paul's account, the 9/7
+  $700 screenshot covering Ashburne $450 + Brushwood $250. Rules: near-amount (Paul) linked 1 -
+  73 of its candidates were coincidences on receipts that belong to other rows - and
+  exact-amount-same-day (Claude) linked 8. **Linked: 765 rows, 60.4% of dollars, 75.7% of rows.**
+  The 245 unlinked rows are $79,936; the top 12 are $53,094 (Chinos LLC $13,500, Luxury 4 Less
+  $10,319.56, Juan Garcia 2 × $7,000, Salvador Campos, Atlas Pools, the Mesa checks). Leads in
+  the personal Gmail listing, not yet read: "Flooring" 2026-02-12 (Chinos?) and "Receipt from
+  50Floor" 2026-06-12.
+- Still to do: item 4 differences (113), item 5 in mail not in the books (153), item 6, item 7.
+  Staging holds pass 1; the cleaned pass (1,010 entries) is pushed and waits for one Run of
+  `migrationRunStaging`.
