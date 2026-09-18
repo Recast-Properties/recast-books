@@ -1969,6 +1969,49 @@ function migrationRegisterProperties() {
 // (that single entry IS the expense - Dr rehab / Cr 2010). 1616 Granite is skipped: its
 // three advances are already on the tab from the Phase 2.6 gate. Sold properties get
 // their repaid_date so interest stops at the sale. Idempotent by advance memo.
+/** Staging only (D-025.2: never correct in place - clear and rerun). Removes the receipt lane
+ *  and any earlier migration pass from the Journal - txn_ids receipt-* and migration-*, and the
+ *  voids that name them - and keeps everything else (the advances and purchases registered by
+ *  migrationRegisterAdvances, whose Advances rows would otherwise point at nothing).
+ *  Refuses any workbook whose name does not say STAGING; the real workbook is cleared once, at
+ *  cutover, by clearBooks() behind its own confirmation (D-013). */
+function migrationClearReceiptLane() {
+  var props = PropertiesService.getScriptProperties();
+  var ss = openOrCreateWorkbook_(props);
+  if (ss.getName().indexOf('STAGING') === -1) fail_('NOT_STAGING', 'refusing to clear "' + ss.getName() + '"');
+  var lock = LockService.getScriptLock();
+  lock.waitLock(30000);
+  try {
+    var sh = ss.getSheetByName('Journal');
+    var cols = headerIndex_(sh);
+    var last = sh.getLastRow();
+    if (last < 2) return { removed: 0, kept: 0 };
+    var width = sh.getLastColumn();
+    var vals = sh.getRange(2, 1, last - 1, width).getValues();
+    var gone = function (id) { id = String(id || ''); return id.indexOf('receipt-') === 0 || id.indexOf('migration-') === 0; };
+    var keep = [], removedIds = {};
+    vals.forEach(function (r) {
+      if (gone(r[cols['txn_id'] - 1]) || gone(r[cols['void_of'] - 1])) removedIds['txn:' + r[cols['txn_id'] - 1]] = true;
+      else keep.push(r);
+    });
+    sh.getRange(2, 1, last - 1, width).clearContent();
+    if (keep.length) sh.getRange(2, 1, keep.length, width).setValues(keep);
+    var keys = Object.keys(removedIds), cache = CacheService.getScriptCache();
+    for (var i = 0; i < keys.length; i += 100) cache.removeAll(keys.slice(i, i + 100));   // or a rerun reads DUPLICATE from the cache
+    console.log('CLEARED receipt lane: ' + (vals.length - keep.length) + ' line(s) removed, ' + keep.length + ' kept, in "' + ss.getName() + '"');
+    return { removed: vals.length - keep.length, kept: keep.length };
+  } finally {
+    lock.releaseLock();
+  }
+}
+
+/** One Run for the staging pass: clear the receipt lane, then post the rows. If the log ends
+ *  "run again", run migrationPostRows() (not this) until left=0. */
+function migrationRunStaging() {
+  migrationClearReceiptLane();
+  return migrationPostRows();
+}
+
 /** D-029: the row-driven migration's bulk pass - the old rows, posted as Paul typed them, each
  *  with its receipt link. MIGRATION_ENTRIES is a generated MigrationData.gs
  *  (scripts/migration-rows.py) pushed with the staging or cutover writer only, never kept in the
