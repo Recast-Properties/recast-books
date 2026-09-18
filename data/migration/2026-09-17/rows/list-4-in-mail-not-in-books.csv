@@ -2,13 +2,10 @@ date,vendor,total,where_the_read_put_it,status,subject,weak_candidates,docId
 2026-03-30,"Ellis County Tax Office (Richard Rozier, Tax Assessor-Collector)","16,031.25",104 Ashburne,pending,Property tax,,gm-19d3fc513d1b8d07
 2026-07-08,Handwritten expense worksheet (Paul) - multiple vendors,"2,691.44",,pending,,,gm-19f3f6f506f7c073
 2026-02-08,Amazon,"1,001.21",104 Ashburne,pending,"Fwd: Ordered: 2 ""60 in Ceiling Fan of..."" and 8 more items",,gm-19c3e4d6fcbb69bf
-2026-01-23,American Airlines,706.08,OVERHEAD,pending,Fwd: 01/23/26,,gm-19c8b349964c680d
 2026-04-03,"Unknown (email from Paul Bjork, subject ""Interest"")",666.67,,pending,Interest,,gm-19d55c64fef934ea
-2026-01-18,American Airlines,575.60,OVERHEAD,pending,Fwd: 02/01/26,,gm-19c8b34b8addc1ea
 2026-09-09,Alaska Airlines,559.40,OVERHEAD,dry,Fwd: Your flight is booked: KPQHJU to Portland on 09/09/2026,,dry-gm-1a083f30d9e415bb
 2026-06-30,"Handwritten payment log - 136 Bowling Green (payees: unnamed carpet installer; ""FALCON"")",475.00,136 Bowling Green,pending,,136 Bowling Green/Lupe/160.00,gm-19f3f6d3919a5816
 2026-07-19,Falcon Creek Lawn Care,470.00,136 Bowling Green;1616 Granite;280 Sparkling;881 Newport,posted,Fwd: Lawn maintenance invoice,881 Newport/Effren - 1372/110.00;136 Bowling Green/Effren - 1373/110.00;1616 Granite RECONCILED/Effren - 1373/110.00;280 Sparkling RECONCILED/Effren - 1373/110.00,gm-19fb337be62617b6
-2026-02-04,American Airlines,462.40,OVERHEAD,posted,Fwd: 02/09/26,,gm-19c8b34d7d965e72
 2026-03-19,"Lowe's Home Centers, LLC",404.78,104 Ashburne,posted,,,gm-19d0716277e58567
 2026-04-06,Julio (unidentified labor),400.00,104 Ashburne,pending,Julio $400,,gm-19d6117a5116478b
 2026-04-10,Unknown (email note re: Dennis),400.00,,pending,Dennis $400,,gm-19d798bb326eaf63
@@ -16,7 +13,6 @@ date,vendor,total,where_the_read_put_it,status,subject,weak_candidates,docId
 2026-03-12,The Home Depot,385.27,104 Ashburne,dismissed,,104 Ashburne/Home Depot/16.05,gm-19ce3297652cbfc8
 2026-04-03,The Home Depot,379.18,104 Ashburne,posted,,,gm-19d54f9e0010bc8c
 2026-01-09,"Lowe's Home Centers, LLC",360.49,104 Ashburne;OVERHEAD,pending,Fwd: Your Lowe's Purchase Receipt,,gm-19ba4950d7e2561c
-2026-01-10,American Airlines,316.50,OVERHEAD,dismissed,Fwd: 01/17/26,,gm-19c8b34790f6f503
 2026-05-15,Apify Technologies s.r.o.,313.20,OVERHEAD,posted,Apify invoice #202605152143 payment successful,,gm-19e2ce117249cd00
 2026-05-07,Iley &amp; Iley Financia... (name truncated on receipt),299.00,104 Ashburne,pending,,,gm-19f3f6ba1c53dd95
 2026-05-07,Unknown (not named on document),299.00,104 Ashburne,pending,Listing fee,,gm-19e03f3e7be5d988
@@ -78,7 +74,6 @@ date,vendor,total,where_the_read_put_it,status,subject,weak_candidates,docId
 2026-03-14,McCoy's Building Supply,61.53,104 Ashburne,dismissed,,,gm-19ced5e82e20e490
 2026-05-03,Uber,54.99,OVERHEAD,dismissed,[Personal] Your Sunday morning trip with Uber,,gm-19dedd4c33011f73
 2026-06-29,The Home Depot,54.03,1616 Granite,posted,,,gm-19f15828fb2a31e6
-2026-05-25,American Airlines,50.00,OVERHEAD,posted,Fwd: Your purchase receipt - NCSQUQ,,gm-19e61acb0d8aa215
 2026-06-17,Lowe's Home Improvement,49.17,1616 Granite,dismissed,Your Lowe's Purchase Receipt,,gm-19ed69af26494e70
 2026-06-14,Uber,44.99,OVERHEAD,posted,[Personal] Your Monday morning trip with Uber,,gm-19ecaef8f8dbb488
 2026-03-01,Uber,43.98,OVERHEAD,dismissed,[Personal] Your Sunday morning trip with Uber,,gm-19ca95245c0779f1

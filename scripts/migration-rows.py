@@ -189,7 +189,7 @@ def main():
                         "date": x["date"], "property": x["property"], "trade": x["trade"], "account": x["account"], "account_source": "Paul/Claude (added)", "amount_cents": x["amount_cents"],
                         "payee": x["payee"], "description": x["description"], "paid_from": x["paid_from"], "paid_from_source": "receipt", "source": "migration", "docId": x["docId"], "doc_url": link,
                         "link_kind": kind, "match": "added", "old_tab": "", "old_block": "", "old_sheet_row": "", "flags": ("RETURN_CONFIRMED_BY_PAUL" if x["register"] == "C-11" else "CORRECTION_TO_A_CLOSED_PROPERTY" if x["amount_cents"] < 0 else "ADDED_NOT_IN_OLD_BOOKS"),
-                        "correction": x["register"] + " " + x["said"], "skip": "", "business_purpose": "", "attendee": ""})
+                        "correction": x["register"] + " " + x["said"], "skip": "", "business_purpose": x.get("business_purpose", ""), "attendee": ""})
 
     # "Sparkling for Title" is not migrated at all (Paul, 2026-09-18): RECONCILED is the tab; the
     # two Juanito Garcia rows only the Title tab had ($1,000 + $1,200, late June) "were errors.

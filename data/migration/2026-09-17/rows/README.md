@@ -1,6 +1,6 @@
 # Row-driven migration - DRY RUN (D-029). Nothing is posted.
 
-Old rows: 1029  $221,683.29   entries: 1043  $223,748.90   linked to a receipt: 873 (376 Drive file, 497 Gmail link, to be filed)
+Old rows: 1029  $221,683.29   entries: 1048  $225,819.20   linked to a receipt: 878 (376 Drive file, 502 Gmail link, to be filed)
 
 | property | old rows $ | entries | entries $ | difference | linked |
 |---|---:|---:|---:|---:|---:|
@@ -12,11 +12,11 @@ Old rows: 1029  $221,683.29   entries: 1043  $223,748.90   linked to a receipt: 
 | 469 Brushwood | 1,916.80 | 33 | 1,916.80 | 0.00 | 31 |
 | 881 Newport | 3,089.17 | 30 | 3,089.17 | 0.00 | 23 |
 | Cost Recapture | 1,310.04 | 7 | 1,502.87 | 192.83 | 6 |
-| OVERHEAD | 21,908.91 | 331 | 25,192.23 | 3,283.32 | 313 |
+| OVERHEAD | 21,908.91 | 336 | 27,262.53 | 5,353.62 | 318 |
 
 The only differences by property are fuel rows Paul's rule moves to overhead (D-026.9): $3,283.32 (43 rows). Everything else is the old row, to the cent.
 
-Accounts: {'block map': 83, 'read': 729, 'D-026.9 fuel block': 58, 'payee': 159, 'Paul/Claude': 14}
-Paid from: {'PAUL': 938, '1401': 68, 'DENNIS': 35, '1402': 2}  (sources: {'read': 634, 'D-026.2': 122, "Paul: 2026-09-18: the other 33 August-onward rows with no payer - 'all personal card ending in 9166'": 34, "Paul: 2026-09-18: camera gimbal - 'that one is recast joint account - citizens'": 1, 'Paul Paid box': 140, 'Recast Account box': 62, 'Dennis Paid box': 33, 'D-032': 3, 'receipt': 14})
+Accounts: {'block map': 83, 'read': 729, 'D-026.9 fuel block': 58, 'payee': 159, 'Paul/Claude': 19}
+Paid from: {'PAUL': 943, '1401': 68, 'DENNIS': 35, '1402': 2}  (sources: {'read': 634, 'D-026.2': 122, "Paul: 2026-09-18: the other 33 August-onward rows with no payer - 'all personal card ending in 9166'": 34, "Paul: 2026-09-18: camera gimbal - 'that one is recast joint account - citizens'": 1, 'Paul Paid box': 140, 'Recast Account box': 62, 'Dennis Paid box': 33, 'D-032': 3, 'receipt': 19})
 
-Lists for Paul: 1 differences 116 · 2 confirm the match 56 · 3 no document 114 · 4 in mail, not in the books 130 · 5 questions 37
+Lists for Paul: 1 differences 116 · 2 confirm the match 56 · 3 no document 114 · 4 in mail, not in the books 125 · 5 questions 37
