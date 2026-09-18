@@ -16,7 +16,6 @@ date,vendor,total,where_the_read_put_it,status,subject,weak_candidates,docId
 2026-03-12,The Home Depot,385.27,104 Ashburne,dismissed,,104 Ashburne/Home Depot/16.05,gm-19ce3297652cbfc8
 2026-04-03,The Home Depot,379.18,104 Ashburne,posted,,,gm-19d54f9e0010bc8c
 2026-01-09,"Lowe's Home Centers, LLC",360.49,104 Ashburne;OVERHEAD,pending,Fwd: Your Lowe's Purchase Receipt,,gm-19ba4950d7e2561c
-2026-09-11,American Airlines,341.40,OVERHEAD,dry,Your trip confirmation (PDX - DFW),,dry-gm-1a090de755523067
 2026-01-10,American Airlines,316.50,OVERHEAD,dismissed,Fwd: 01/17/26,,gm-19c8b34790f6f503
 2026-05-15,Apify Technologies s.r.o.,313.20,OVERHEAD,posted,Apify invoice #202605152143 payment successful,,gm-19e2ce117249cd00
 2026-05-07,Iley &amp; Iley Financia... (name truncated on receipt),299.00,104 Ashburne,pending,,,gm-19f3f6ba1c53dd95
@@ -94,7 +93,6 @@ date,vendor,total,where_the_read_put_it,status,subject,weak_candidates,docId
 2026-07-18,Apify Technologies s.r.o.,29.00,OVERHEAD,dismissed,Fwd: Apify invoice #202607180489 payment successful,,gm-19f729ff137be6f5
 2026-08-18,Apify Technologies s.r.o.,29.00,OVERHEAD,posted,Fwd: Apify invoice #202608180334 payment successful,,gm-1a01248bc54f61c1
 2026-03-15,Amazon,25.32,104 Ashburne,posted,"Fwd: Ordered: ""3-1/2 Inches Heavy Duty...""",,gm-19cf4858a126476a
-2026-01-03,American Airlines,25.00,,dismissed,Fwd: Your Wi-Fi receipt,,gm-19c8af65b973a176
 2026-04-15,Braum's,22.93,OVERHEAD,pending,,,gm-19d926697aea1558
 2026-07-14,"Netlify, Inc.",20.00,OVERHEAD,posted,"Fwd: Payment received for Netlify, Inc. invoice (#SFWGOE-000",,gm-19f5e409c27380b0
 2026-04-14,Shell,19.99,OVERHEAD,pending,,,gm-19d8db0dbb2e6309

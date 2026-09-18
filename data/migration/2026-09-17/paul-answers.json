@@ -1418,6 +1418,14 @@
   {
    "docId": "gm-1a0abe18f133138a",
    "why": "Claude 2026-09-18, utilities pass (audit §29): Central States Water 'Scheduled Payment Confirmation' of 09-16, 366 Mesa, $48.45 + $1.09 fee = $49.54: 'to be processed on 9/18/2026' - after the 2026-09-17 snapshot, so it is not history. It is a live receipt Paul is holding; it posts through the live pipeline in the cutover replay (payer not shown - the Inbox asks)"
+  },
+  {
+   "docId": "dry-gm-1a090de755523067",
+   "why": "Claude 2026-09-18 (audit §30): dry-run copy of gm-1a090de755523067 (AA PDX-DFW 09-16, $341.40, ticket 0012376397295), which is linked to the Travel row of 09-11"
+  },
+  {
+   "docId": "gm-19c8af65b973a176",
+   "why": "Claude 2026-09-18 (audit §30): forwarded copy of the AA Wi-Fi receipt CHKWAPRTY6LJ0, $25.00 - the Travel row of 01-03 carries gm-19b8471a1e2e4b6c, the original"
   }
  ]
 }
