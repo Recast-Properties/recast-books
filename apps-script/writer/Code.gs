@@ -1969,6 +1969,59 @@ function migrationRegisterProperties() {
 // (that single entry IS the expense - Dr rehab / Cr 2010). 1616 Granite is skipped: its
 // three advances are already on the tab from the Phase 2.6 gate. Sold properties get
 // their repaid_date so interest stops at the sale. Idempotent by advance memo.
+/** D-029: the row-driven migration's bulk pass - the old rows, posted as Paul typed them, each
+ *  with its receipt link. MIGRATION_ENTRIES is a generated MigrationData.gs
+ *  (scripts/migration-rows.py) pushed with the staging or cutover writer only, never kept in the
+ *  repo's writer folder. No gates: this is history. Every entry is built by the same posting
+ *  engine as everything else (balanced, D-010 enforced); if one does not build, nothing posts.
+ *  Resumable: a txn_id already in the Journal is skipped, and the pass stops itself after
+ *  4.5 minutes - run it again until it logs left=0. Property tabs are rebuilt once, at the end. */
+function migrationPostRows() {
+  if (typeof MIGRATION_ENTRIES === 'undefined') throw new Error('MigrationData.gs is not in this project');
+  var t0 = Date.now();
+  var props = PropertiesService.getScriptProperties();
+  var ss = openOrCreateWorkbook_(props);
+  var ctx = buildCtx_(ss);
+  var sheet = ss.getSheetByName('Journal');
+  var cols = headerIndex_(sheet);
+  var have = {};
+  if (sheet.getLastRow() > 1) {
+    sheet.getRange(2, cols['txn_id'], sheet.getLastRow() - 1, 1).getValues().forEach(function (r) { have[String(r[0])] = true; });
+  }
+  var built = [], failed = [], already = 0;
+  MIGRATION_ENTRIES.forEach(function (e) {
+    if (have[e.txn_id]) { already++; return; }
+    try {
+      var entry = buildEntry({
+        type: 'expense', date: e.date, amount_cents: Math.abs(e.amount_cents), payee: e.payee, description: e.description,
+        account: e.account, property: e.property, paid_from: e.paid_from, trade: e.trade || '', memo: e.memo || '',
+        doc_url: e.doc_url || '', business_purpose: e.business_purpose || '', attendee: e.attendee || '',
+        source: 'migration', posted_by: 'migration'
+      }, ctx);
+      // A negative old row is a refund Paul typed: the same entry with its sides swapped.
+      if (e.amount_cents < 0) entry.lines.forEach(function (l) { var d = l.debit; l.debit = l.credit; l.credit = d; });
+      entry.txn_id = e.txn_id;   // identity is the old row (tab, row, block), not the amount: the old books repeat rows
+      built.push(entry);
+    } catch (err) {
+      failed.push(e.txn_id + ' ' + e.date + ' ' + e.payee + ': ' + ((err && err.code) || '') + ' ' + ((err && err.message) || err));
+    }
+  });
+  if (failed.length) {
+    failed.forEach(function (f) { console.error(f); });
+    throw new Error(failed.length + ' entries do not build - nothing posted. First: ' + failed[0]);
+  }
+  var posted = 0;
+  for (var i = 0; i < built.length && Date.now() - t0 < 270000; i += 100) {
+    var chunk = built.slice(i, i + 100);
+    postBatchEntries_(chunk, props, true);
+    posted += chunk.length;
+  }
+  var left = built.length - posted;
+  if (!left) rebuildAllPropertyTabs();
+  console.log('MIGRATION entries=' + MIGRATION_ENTRIES.length + ' already=' + already + ' posted=' + posted + ' left=' + left + (left ? ' - run again' : ' - tabs rebuilt'));
+  return { posted: posted, already: already, left: left };
+}
+
 function migrationRegisterAdvances() {
   var L = [
     ['280 Sparkling', 'purchase', '2026-06-02', 196850.50, '1000', 9, 'Purchase principal (migration)', '2026-08-06'],

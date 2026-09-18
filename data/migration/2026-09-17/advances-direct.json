@@ -1,0 +1,107 @@
+[
+ {
+  "property": "104 Ashburne",
+  "date": "2025-12-10",
+  "amount_cents": 20000,
+  "into": "1020",
+  "memo": "Dennis paid Julio directly - trash removal (migration)"
+ },
+ {
+  "property": "104 Ashburne",
+  "date": "2025-12-11",
+  "amount_cents": 20000,
+  "into": "1020",
+  "memo": "Dennis paid Julio directly - pool clean out (migration)"
+ },
+ {
+  "property": "104 Ashburne",
+  "date": "2026-01-08",
+  "amount_cents": 20000,
+  "into": "1020",
+  "memo": "Dennis paid Julio directly - labor (migration)"
+ },
+ {
+  "property": "104 Ashburne",
+  "date": "2026-01-12",
+  "amount_cents": 700000,
+  "into": "1020",
+  "memo": "Dennis paid Juanito directly - drywall/supplies/painting (migration)"
+ },
+ {
+  "property": "104 Ashburne",
+  "date": "2026-01-23",
+  "amount_cents": 700000,
+  "into": "1020",
+  "memo": "Dennis paid Juanito directly - painting (migration)"
+ },
+ {
+  "property": "104 Ashburne",
+  "date": "2026-01-24",
+  "amount_cents": 60670,
+  "into": "1020",
+  "memo": "Dennis paid Robinson Air directly - HVAC (migration)"
+ },
+ {
+  "property": "104 Ashburne",
+  "date": "2026-04-10",
+  "amount_cents": 40000,
+  "into": "1020",
+  "memo": "Dennis paid Julio directly - labor (migration)"
+ },
+ {
+  "property": "104 Ashburne",
+  "date": "2026-04-16",
+  "amount_cents": 2100,
+  "into": "1060",
+  "memo": "Dennis paid City of Corsicana dump directly (migration)"
+ },
+ {
+  "property": "104 Ashburne",
+  "date": "2026-04-22",
+  "amount_cents": 19900,
+  "into": "1330",
+  "memo": "Dennis paid listing fee (Iley) directly (migration)"
+ },
+ {
+  "property": "104 Ashburne",
+  "date": "2026-05-04",
+  "amount_cents": 25000,
+  "into": "1020",
+  "memo": "Dennis paid Julio directly - labor (migration)"
+ },
+ {
+  "property": "104 Ashburne",
+  "date": "2026-05-05",
+  "amount_cents": 106574,
+  "into": "1020",
+  "memo": "Dennis paid Robinson Air directly - HVAC (migration)"
+ },
+ {
+  "property": "104 Ashburne",
+  "date": "2026-05-07",
+  "amount_cents": 29900,
+  "into": "1330",
+  "memo": "Dennis paid listing fee (Iley) directly (migration)"
+ },
+ {
+  "property": "104 Ashburne",
+  "date": "2026-05-21",
+  "amount_cents": 25000,
+  "into": "1020",
+  "memo": "Dennis paid Julio directly - labor (migration)"
+ },
+ {
+  "property": "104 Ashburne",
+  "date": "2026-07-13",
+  "amount_cents": 15000,
+  "into": "1020",
+  "memo": "Dennis paid Julio directly - landscaping (migration)"
+ },
+ {
+  "property": "104 Ashburne",
+  "date": "2026-07-27",
+  "amount_cents": 30000,
+  "into": "1020",
+  "memo": "Dennis paid Julio directly - landscaping (migration)"
+ }
+]
