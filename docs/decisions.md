@@ -655,6 +655,12 @@ wizard picks it up). The old tab's four rows migrate there; so does anything the
 dated after a sale (first: Falcon Creek's $55.00 Sparkling grass cutting, invoice of 2026-08-30,
 Sparkling sold 2026-08-06).
 
+**Extended 2026-09-18 (Paul):** "if there are discrepancies then the discrepancies need to be accounted
+for in the cost recapture tab since those properties are actually locked in reality." A sold property's
+tab migrates exactly as it was closed; an error found afterwards (first: TXU $161.17 typed on both
+Granite and Sparkling, C-16) is a Cost Recapture line - a credit when the closed tab was too high -
+naming the property in `trade`. It is never an edit to the closed tab.
+
 ## D-032 · Dennis has no direct payments on Ashburne: only cash advances and the purchase loan - 2026-09-18 · Paul
 
 The independent audit found 104 Ashburne $1,619.00 above the old tab: `migrationRegisterAdvances`

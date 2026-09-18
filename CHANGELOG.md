@@ -624,3 +624,7 @@ equal to two same-day lines: 39 more rows linked (825), confirm list 232 → 185
 wrong additions (pump + hose, contractor bags, hole saw pair) - in the old books all along; retracted.
 Dry run 1,030 entries, $220,512.72. `phase4-audit.md` §24.
 
+**C-16, TXU reconciled to the utility's own history.** Granite ties exactly; Sparkling carried Granite's
+$161.17 too. Sparkling stays as closed; Cost Recapture takes a -$161.17 credit (D-031 extended: errors
+found on a sold property go to Cost Recapture). Dry run 1,031 entries, $220,351.55.
+

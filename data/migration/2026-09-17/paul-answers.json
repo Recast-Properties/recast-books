@@ -176,6 +176,12 @@
    "row": "104 Ashburne 2026-03-17 Amazon 154.53",
    "docId": "gm-19cfbe563f75f960",
    "why": "Claude 2026-09-18: Amazon order 114-3239103-9026664 of 03-17, three Ansen under-cabinet lights = $154.53 exactly, shipped to 104 Ashburne Glen (the same envelope as the Aiper robot Paul confirmed)"
+  },
+  {
+   "key": "PROP-672",
+   "row": "1616 Granite RECONCILED 2026-06-16 TXU 161.17",
+   "docId": "gm-19ed0e0fdd1f096a",
+   "why": "Claude: the payment confirmation (#803295274) carries the Granite account number 900084832931; it only arrived through the Sparkling mailbox. Paul 2026-09-18, TXU Billing & Payment History screenshots (data/migration/2026-09-17/evidence/txu-history-*.png): account 900084832931, 1616 Granite Way, paid $161.17 on 06/16 and $261.76 on 07/25; account 900085271816, 280 Sparkling Springs, paid $228.64 on 08/05 and $213.64 on 08/18"
   }
  ],
  "no_link": [
@@ -663,6 +669,11 @@
    "key": "PROP-688",
    "row": "1616 Granite RECONCILED 2026-05-29 Home Depot 3.71",
    "why": "Claude 2026-09-18: a receipt line has this amount but it is a different product (read against the row's description) - a coincidence"
+  },
+  {
+   "key": "PROP-757",
+   "row": "280 Sparkling RECONCILED 2026-06-16 TXU 161.17",
+   "why": "Claude: that receipt is 1616 Granite's payment (account 900084832931). Sparkling's TXU account shows no $161.17 at all. Paul 2026-09-18, TXU Billing & Payment History screenshots (data/migration/2026-09-17/evidence/txu-history-*.png): account 900084832931, 1616 Granite Way, paid $161.17 on 06/16 and $261.76 on 07/25; account 900085271816, 280 Sparkling Springs, paid $228.64 on 08/05 and $213.64 on 08/18"
   }
  ],
  "redate": [
@@ -792,6 +803,19 @@
    "docId": "gm-1a091048b80076d7",
    "register": "C-10",
    "said": "Paul 2026-09-18, after seeing the screenshot: 'this is all for bowling green. this should not be a newport charge'"
+  },
+  {
+   "date": "2026-09-18",
+   "property": "Cost Recapture",
+   "trade": "280 Sparkling",
+   "account": "1120",
+   "amount_cents": -16117,
+   "payee": "TXU",
+   "description": "Correction: TXU $161.17 of 06-16 was 1616 Granite's payment (acct 900084832931), typed on both the Granite and Sparkling tabs; Sparkling's cost was overstated",
+   "paid_from": "PAUL",
+   "docId": "gm-19ed0e0fdd1f096a",
+   "register": "C-16",
+   "said": "Paul 2026-09-18, with the TXU history for both accounts: 'if there are discrepancies then the discrepancies need to be accounted for in the cost recapture tab since those properties are actually locked in reality'. Granite reconciles to TXU exactly ($422.93); Sparkling's tab carries $161.17 TXU never billed it. The Sparkling row stays as closed; the credit sits on Cost Recapture, and because the row was Paul-paid it reduces Due to Paul"
   }
  ],
  "retracted": [

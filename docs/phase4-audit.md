@@ -280,6 +280,7 @@ the tie-out per property against the snapshot.
 | C-13 | 2026-09-18 | 136 Bowling Green, Lupe "Carpet Laying" $160.00 (06-30) | Paul Paid and Dennis Paid both ticked; migrated as PAUL | DENNIS | Paul: "dennis paid" |
 | C-14 | 2026-09-18 | 280 Sparkling, Mission Real Estate Group "MLS Listing" $299.00 | account 1020 (a payee guess: labor) | 1330 | Paul: a listing fee "should be selling cost". Same for Granite's (C-12); Brushwood's and Ashburne's already were |
 | C-15 | 2026-09-18 | 104 Ashburne / Trash, City of Corsicana "Dump", the second row dated 2026-01-16 | $27.30 | $22.50 | Two loads that day; the receipts read $27.30 and $22.50 (`gm-19bca1bc45709266`). Paul: "most likely yes". Every Corsicana row now has its own receipt. Ashburne is $4.80 below the old tab |
+| C-16 | 2026-09-18 | 280 Sparkling, TXU "Electricity" $161.17 (06-16, row 36) | on the Sparkling tab **and** on 1616 Granite (row 6) | Sparkling row stays as closed; **Cost Recapture credit -$161.17** (trade 280 Sparkling, 1120, dated 2026-09-18, reduces Due to Paul) | Paul's TXU history for both accounts (`evidence/txu-history-*.png`): the 06/16 $161.17 is Granite's (acct 900084832931; Granite = $161.17 + $261.76 = $422.93, the old tab exactly). Sparkling's account shows only $228.64 (08/05) and $213.64 (08/18). Paul: "the discrepancies need to be accounted for in the cost recapture tab since those properties are actually locked in reality." The payment confirmation is relinked to the Granite row; it only arrived through the Sparkling mailbox |
 
 ## 14 · Where the staging run stands at end of day, 2026-09-17
 
@@ -737,4 +738,9 @@ at a time: **TXU $161.17 of 06-16 is typed on both 1616 Granite (Utilities row 6
 03-25 is typed twice in Ashburne's Gas block (rows 32, 33)** - one receipt. Receipt d3b6197026 (HD
 02-19, $390.12) is over-claimed and two rows that belong on it (saw blade $54.09, wire connectors
 $11.70) are not: a differences-list job (item 4).
+
+**TXU, Granite and Sparkling reconciled to the utility (C-16).** Dry run: **1,031 entries, $220,351.55**
+(Cost Recapture $1,203.87), 827 linked, all build. Rule from Paul for every sold property: the old tab
+is migrated as closed, and any discrepancy found afterwards is a Cost Recapture line naming the
+property - never an edit to the closed tab.
 
