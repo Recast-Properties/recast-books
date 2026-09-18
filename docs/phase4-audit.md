@@ -726,3 +726,15 @@ clean. Pushed to staging; staging still holds pass 4 ($220,774.59) until the nex
 Standing rule, sharpened: before telling Paul an item is not in his books, search every tab for the
 amount **within two cents, and for the sum of the receipt's unexplained items**, not just the exact figure.
 
+**Confirm list, first pass by judgment (2026-09-18 afternoon).** Paul confirmed the Aiper pool robot
+($411.34, Amazon order of 03-17; the $1.50 is a coupon split). Claude then sorted the rest and recorded
+each decision in `paul-answers.json`: linked the under-cabinet lights ($154.53, the other order in the
+same envelope); refused 82 candidates that cannot be the receipt - another vendor's document (42), a
+receipt that totals less than the row, a line with the right amount and the wrong product. Lists now:
+confirm **102**, no document 109, linked **826** of 1,030. Two old-books findings to put to Paul, one
+at a time: **TXU $161.17 of 06-16 is typed on both 1616 Granite (Utilities row 6) and 280 Sparkling
+(row 36)** - one payment, confirmation 803295274, sent to the Sparkling mailbox; and **Shell $65.48 of
+03-25 is typed twice in Ashburne's Gas block (rows 32, 33)** - one receipt. Receipt d3b6197026 (HD
+02-19, $390.12) is over-claimed and two rows that belong on it (saw blade $54.09, wire connectors
+$11.70) are not: a differences-list job (item 4).
+

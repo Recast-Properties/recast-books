@@ -164,6 +164,18 @@
    "row": "366 Mesa 2026-08-20 Carlos 500.00",
    "docId": "gm-1a01f29ba390b80f",
    "why": "Claude 2026-09-18: the bank's own Zelle confirmation in paul@ (CNB of Texas, 'You've successfully sent $500.00 to Carlos A Ibarra'), same date and amount; paid from the Recast Citizens account, as Paul's Recast Account box says"
+  },
+  {
+   "key": "PROP-306",
+   "row": "104 Ashburne 2026-03-17 Amazon Aiper Pool Robot 411.34",
+   "docId": "gm-19cfbe563f75f960",
+   "why": "Paul 2026-09-18 'yes': Amazon order 114-7245888-9285812 of 03-17, shipped to 104 Ashburne Glen, line 'AIPER Surfer S2 solar pool skimmer robot' $409.84 with tax share and coupon; same item, day and address; the $1.50 is the coupon split. Old amount kept (D-027)"
+  },
+  {
+   "key": "PROP-223",
+   "row": "104 Ashburne 2026-03-17 Amazon 154.53",
+   "docId": "gm-19cfbe563f75f960",
+   "why": "Claude 2026-09-18: Amazon order 114-3239103-9026664 of 03-17, three Ansen under-cabinet lights = $154.53 exactly, shipped to 104 Ashburne Glen (the same envelope as the Aiper robot Paul confirmed)"
   }
  ],
  "no_link": [
@@ -241,6 +253,416 @@
    "key": "PROP-557",
    "row": "104 Ashburne 2026-03-26 Home Depot 12.95 (Wall Flanges, Master Bath)",
    "why": "Claude 2026-09-18: a 3/26 purchase the matcher hung on the 4/8 receipt by amount; not Windex, not a duplicate (Claude had told Paul otherwise and corrected it)"
+  },
+  {
+   "key": "BIZ-177",
+   "row": "RECAST BIZ 2026-06-24 O'Reilly Auto Parts 45.45",
+   "why": "Claude 2026-09-18: the only candidate is another vendor's document (Amazon, 2026-06-25) - a coincidence of amount or date, not this row's receipt"
+  },
+  {
+   "key": "BIZ-259",
+   "row": "RECAST BIZ 2026-06-13 Netlify, Inc. 0.00",
+   "why": "Claude 2026-09-18: the only candidate is another vendor's document (VistaPrint, 2026-06-13) - a coincidence of amount or date, not this row's receipt"
+  },
+  {
+   "key": "PROP-46",
+   "row": "881 Newport 2026-07-19 Effren - 1372 110.00",
+   "why": "Claude 2026-09-18: the only candidate is another vendor's document (Falcon Creek Lawn Care, 2026-07-19) - a coincidence of amount or date, not this row's receipt"
+  },
+  {
+   "key": "PROP-52",
+   "row": "469 Brushwood 2026-09-01 Waxahachie Watwr 100.00",
+   "why": "Claude 2026-09-18: the only candidate is another vendor's document (Oregon Secretary of State - Corporation , 2026-08-27) - a coincidence of amount or date, not this row's receipt"
+  },
+  {
+   "key": "PROP-148",
+   "row": "136 Bowling Green 2026-06-30 Lupe 160.00",
+   "why": "Claude 2026-09-18: the only candidate is another vendor's document (Handwritten payment log - 136 Bowling Gr, 2026-06-30) - a coincidence of amount or date, not this row's receipt"
+  },
+  {
+   "key": "PROP-151",
+   "row": "136 Bowling Green 2026-07-19 Effren - 1373 110.00",
+   "why": "Claude 2026-09-18: the only candidate is another vendor's document (Falcon Creek Lawn Care, 2026-07-19) - a coincidence of amount or date, not this row's receipt"
+  },
+  {
+   "key": "PROP-162",
+   "row": "104 Ashburne 2026-01-05 Julio 200.00",
+   "why": "Claude 2026-09-18: the only candidate is another vendor's document (CoreLogic Solutions, LLC, 2025-12-31) - a coincidence of amount or date, not this row's receipt"
+  },
+  {
+   "key": "PROP-163",
+   "row": "104 Ashburne 2026-01-12 Julio 200.00",
+   "why": "Claude 2026-09-18: the only candidate is another vendor's document (CoreLogic Solutions, LLC, 2025-12-31) - a coincidence of amount or date, not this row's receipt"
+  },
+  {
+   "key": "PROP-171",
+   "row": "104 Ashburne 2026-01-14 Berret Pest Control 270.63",
+   "why": "Claude 2026-09-18: the only candidate is another vendor's document (eBay (seller zmfc86), 2026-01-14) - a coincidence of amount or date, not this row's receipt"
+  },
+  {
+   "key": "PROP-184",
+   "row": "104 Ashburne 2026-01-13 Julio 200.00",
+   "why": "Claude 2026-09-18: the only candidate is another vendor's document (CoreLogic Solutions, LLC, 2025-12-31) - a coincidence of amount or date, not this row's receipt"
+  },
+  {
+   "key": "PROP-203",
+   "row": "104 Ashburne 2026-01-14 Julio 200.00",
+   "why": "Claude 2026-09-18: the only candidate is another vendor's document (CoreLogic Solutions, LLC, 2025-12-31) - a coincidence of amount or date, not this row's receipt"
+  },
+  {
+   "key": "PROP-216",
+   "row": "104 Ashburne 2026-01-09 Julio 200.00",
+   "why": "Claude 2026-09-18: the only candidate is another vendor's document (CoreLogic Solutions, LLC, 2025-12-31) - a coincidence of amount or date, not this row's receipt"
+  },
+  {
+   "key": "PROP-221",
+   "row": "104 Ashburne 2026-01-15 Julio 200.00",
+   "why": "Claude 2026-09-18: the only candidate is another vendor's document (CoreLogic Solutions, LLC, 2025-12-31) - a coincidence of amount or date, not this row's receipt"
+  },
+  {
+   "key": "PROP-228",
+   "row": "104 Ashburne 2026-01-30 HOA 259.09",
+   "why": "Claude 2026-09-18: the only candidate is another vendor's document (Ashburne Glen Homeowners Association, 2026-01-30) - a coincidence of amount or date, not this row's receipt"
+  },
+  {
+   "key": "PROP-233",
+   "row": "104 Ashburne 2026-01-16 Julio 200.00",
+   "why": "Claude 2026-09-18: the only candidate is another vendor's document (CoreLogic Solutions, LLC, 2026-01-31) - a coincidence of amount or date, not this row's receipt"
+  },
+  {
+   "key": "PROP-239",
+   "row": "104 Ashburne 2026-03-17 Amazon 32.46",
+   "why": "Claude 2026-09-18: the only candidate is another vendor's document (The Home Depot, 2026-03-21) - a coincidence of amount or date, not this row's receipt"
+  },
+  {
+   "key": "PROP-263",
+   "row": "104 Ashburne 2026-01-06 Julio 200.00",
+   "why": "Claude 2026-09-18: the only candidate is another vendor's document (CoreLogic Solutions, LLC, 2025-12-31) - a coincidence of amount or date, not this row's receipt"
+  },
+  {
+   "key": "PROP-268",
+   "row": "104 Ashburne 2026-02-12 Julio 100.00",
+   "why": "Claude 2026-09-18: the only candidate is another vendor's document (Shalom Granite, 2026-02-19) - a coincidence of amount or date, not this row's receipt"
+  },
+  {
+   "key": "PROP-302",
+   "row": "104 Ashburne 2026-02-12 Julio 100.00",
+   "why": "Claude 2026-09-18: the only candidate is another vendor's document (Shalom Granite, 2026-02-19) - a coincidence of amount or date, not this row's receipt"
+  },
+  {
+   "key": "PROP-314",
+   "row": "104 Ashburne 2026-02-24 Amazon 10.81",
+   "why": "Claude 2026-09-18: the only candidate is another vendor's document (The Home Depot, 2026-02-19) - a coincidence of amount or date, not this row's receipt"
+  },
+  {
+   "key": "PROP-320",
+   "row": "104 Ashburne 2026-05-05 City of Ovilla 131.53",
+   "why": "Claude 2026-09-18: the only candidate is another vendor's document (Uber, 2026-05-03) - a coincidence of amount or date, not this row's receipt"
+  },
+  {
+   "key": "PROP-331",
+   "row": "104 Ashburne 2026-06-04 Energy Texas 139.21",
+   "why": "Claude 2026-09-18: the only candidate is another vendor's document (Uber, 2026-06-03) - a coincidence of amount or date, not this row's receipt"
+  },
+  {
+   "key": "PROP-373",
+   "row": "104 Ashburne 2026-05-08 Julio 100.00",
+   "why": "Claude 2026-09-18: the only candidate is another vendor's document (Oregon Secretary of State (NICUSA), 2026-05-18) - a coincidence of amount or date, not this row's receipt"
+  },
+  {
+   "key": "PROP-422",
+   "row": "104 Ashburne 2026-03-21 Wauyfair 76.85",
+   "why": "Claude 2026-09-18: the only candidate is another vendor's document (Wayfair, 2026-03-18) - a coincidence of amount or date, not this row's receipt"
+  },
+  {
+   "key": "PROP-529",
+   "row": "104 Ashburne 2026-05-29 Julio 200.00",
+   "why": "Claude 2026-09-18: the only candidate is another vendor's document (CoreLogic Solutions, LLC, 2026-05-31) - a coincidence of amount or date, not this row's receipt"
+  },
+  {
+   "key": "PROP-530",
+   "row": "104 Ashburne 2026-03-04 UPS Store 5.73",
+   "why": "Claude 2026-09-18: the only candidate is another vendor's document (The UPS Store #5780, 2026-03-04) - a coincidence of amount or date, not this row's receipt"
+  },
+  {
+   "key": "PROP-587",
+   "row": "104 Ashburne 2026-03-17 UPS Store 3.57",
+   "why": "Claude 2026-09-18: the only candidate is another vendor's document (The UPS Store #5780, 2026-03-17) - a coincidence of amount or date, not this row's receipt"
+  },
+  {
+   "key": "PROP-597",
+   "row": "104 Ashburne 2026-03-22 Home Depot 14.04",
+   "why": "Claude 2026-09-18: the only candidate is another vendor's document (Lowe's Home Centers, LLC, 2026-03-15) - a coincidence of amount or date, not this row's receipt"
+  },
+  {
+   "key": "PROP-604",
+   "row": "104 Ashburne 2026-03-19 Lowes 20.96",
+   "why": "Claude 2026-09-18: the only candidate is another vendor's document (The Home Depot, 2026-04-08) - a coincidence of amount or date, not this row's receipt"
+  },
+  {
+   "key": "PROP-695",
+   "row": "1616 Granite RECONCILED 2026-05-30 Home Depot 1.87",
+   "why": "Claude 2026-09-18: the only candidate is another vendor's document (Lowe's Home Centers, LLC, 2026-05-30) - a coincidence of amount or date, not this row's receipt"
+  },
+  {
+   "key": "PROP-701",
+   "row": "1616 Granite RECONCILED 2026-05-27 Amazon 72.65",
+   "why": "Claude 2026-09-18: the only candidate is another vendor's document (Anthropic, PBC, 2026-06-03) - a coincidence of amount or date, not this row's receipt"
+  },
+  {
+   "key": "PROP-702",
+   "row": "1616 Granite RECONCILED 2026-05-27 Amazon 105.15",
+   "why": "Claude 2026-09-18: the only candidate is another vendor's document (Anthropic, PBC, 2026-06-03) - a coincidence of amount or date, not this row's receipt"
+  },
+  {
+   "key": "PROP-703",
+   "row": "1616 Granite RECONCILED 2026-05-27 Amazon 111.42",
+   "why": "Claude 2026-09-18: the only candidate is another vendor's document (Anthropic, PBC, 2026-06-03) - a coincidence of amount or date, not this row's receipt"
+  },
+  {
+   "key": "PROP-704",
+   "row": "1616 Granite RECONCILED 2026-05-27 Amazon 30.80",
+   "why": "Claude 2026-09-18: the only candidate is another vendor's document (Anthropic, PBC, 2026-06-03) - a coincidence of amount or date, not this row's receipt"
+  },
+  {
+   "key": "PROP-710",
+   "row": "1616 Granite RECONCILED 2026-06-28 Home Depot 40.01",
+   "why": "Claude 2026-09-18: the only candidate is another vendor's document (North Texas Tollway Authority (NTTA), 2026-06-11) - a coincidence of amount or date, not this row's receipt"
+  },
+  {
+   "key": "PROP-719",
+   "row": "1616 Granite RECONCILED 2026-07-15 Effren - 1373 110.00",
+   "why": "Claude 2026-09-18: the only candidate is another vendor's document (Falcon Creek Lawn Care, 2026-07-19) - a coincidence of amount or date, not this row's receipt"
+  },
+  {
+   "key": "PROP-723",
+   "row": "1616 Granite RECONCILED 2026-06-10 Lowes 37.97",
+   "why": "Claude 2026-09-18: the only candidate is another vendor's document (Uber Eats, 2026-06-14) - a coincidence of amount or date, not this row's receipt"
+  },
+  {
+   "key": "PROP-741",
+   "row": "280 Sparkling RECONCILED 2026-06-04 Julio 200.00",
+   "why": "Claude 2026-09-18: the only candidate is another vendor's document (CoreLogic Inc (Cotality), 2026-06-07) - a coincidence of amount or date, not this row's receipt"
+  },
+  {
+   "key": "PROP-744",
+   "row": "280 Sparkling RECONCILED 2026-06-25 Mission Real Estate Group 299.00",
+   "why": "Claude 2026-09-18: the only candidate is another vendor's document (CoreLogic Solutions, LLC, 2026-06-30) - a coincidence of amount or date, not this row's receipt"
+  },
+  {
+   "key": "PROP-745",
+   "row": "280 Sparkling RECONCILED 2026-07-19 Effren - 1373 110.00",
+   "why": "Claude 2026-09-18: the only candidate is another vendor's document (Falcon Creek Lawn Care, 2026-07-19) - a coincidence of amount or date, not this row's receipt"
+  },
+  {
+   "key": "PROP-752",
+   "row": "280 Sparkling RECONCILED 2026-06-12 Julio 200.00",
+   "why": "Claude 2026-09-18: the only candidate is another vendor's document (CoreLogic Inc (Cotality), 2026-06-07) - a coincidence of amount or date, not this row's receipt"
+  },
+  {
+   "key": "PROP-759",
+   "row": "280 Sparkling RECONCILED 2026-08-05 TXU 228.64",
+   "why": "Claude 2026-09-18: the only candidate is another vendor's document (TXU Energy, 2026-08-03) - a coincidence of amount or date, not this row's receipt"
+  },
+  {
+   "key": "PROP-119",
+   "row": "136 Bowling Green 2026-08-18 City of Red Oak 447.47",
+   "why": "Claude 2026-09-18: the candidate is a City of Waxahachie water bill ($443.49, the Granite charge on Cost Recapture); this row is City of Red Oak water for Bowling Green"
+  },
+  {
+   "key": "BIZ-174",
+   "row": "RECAST BIZ 2026-06-11 North Texas Tollway Authority 92.57",
+   "why": "Claude 2026-09-18: the candidate receipt totals $40.00, less than the row - it cannot be this row's receipt"
+  },
+  {
+   "key": "BIZ-178",
+   "row": "RECAST BIZ 2026-06-26 Shell 69.40",
+   "why": "Claude 2026-09-18: the candidate receipt totals $58.04, less than the row - it cannot be this row's receipt"
+  },
+  {
+   "key": "PROP-150",
+   "row": "136 Bowling Green 2026-06-29 Lowe's 431.21",
+   "why": "Claude 2026-09-18: the candidate receipt totals $187.64, less than the row - it cannot be this row's receipt"
+  },
+  {
+   "key": "PROP-156",
+   "row": "136 Bowling Green 2026-08-03 The Home Depot 107.15",
+   "why": "Claude 2026-09-18: the candidate receipt totals $64.24, less than the row - it cannot be this row's receipt"
+  },
+  {
+   "key": "PROP-225",
+   "row": "104 Ashburne 2026-02-09 Amazon 249.97",
+   "why": "Claude 2026-09-18: the candidate receipt totals $90.79, less than the row - it cannot be this row's receipt"
+  },
+  {
+   "key": "PROP-256",
+   "row": "104 Ashburne 2026-02-04 Lowes 140.68",
+   "why": "Claude 2026-09-18: the candidate receipt totals $134.23, less than the row - it cannot be this row's receipt"
+  },
+  {
+   "key": "PROP-269",
+   "row": "104 Ashburne 2026-04-10 Home Depot 189.57",
+   "why": "Claude 2026-09-18: the candidate receipt totals $161.28, less than the row - it cannot be this row's receipt"
+  },
+  {
+   "key": "PROP-427",
+   "row": "104 Ashburne 2026-04-03 Home Depot 113.64",
+   "why": "Claude 2026-09-18: the candidate receipt totals $111.24, less than the row - it cannot be this row's receipt"
+  },
+  {
+   "key": "PROP-490",
+   "row": "104 Ashburne 2026-04-01 Home Depot 350.28",
+   "why": "Claude 2026-09-18: the candidate receipt totals $281.09, less than the row - it cannot be this row's receipt"
+  },
+  {
+   "key": "PROP-491",
+   "row": "104 Ashburne 2026-03-26 Home Depot 17.08",
+   "why": "Claude 2026-09-18: the candidate receipt totals $-53.14, less than the row - it cannot be this row's receipt"
+  },
+  {
+   "key": "PROP-551",
+   "row": "104 Ashburne 2026-03-26 Home Depot 2.53",
+   "why": "Claude 2026-09-18: the candidate receipt totals $-53.14, less than the row - it cannot be this row's receipt"
+  },
+  {
+   "key": "PROP-570",
+   "row": "104 Ashburne 2026-06-30 Home Depot 19.98",
+   "why": "Claude 2026-09-18: the candidate receipt totals $-74.57, less than the row - it cannot be this row's receipt"
+  },
+  {
+   "key": "PROP-574",
+   "row": "104 Ashburne 2026-04-09 Home Depot 168.53",
+   "why": "Claude 2026-09-18: the candidate receipt totals $40.01, less than the row - it cannot be this row's receipt"
+  },
+  {
+   "key": "PROP-641",
+   "row": "104 Ashburne 2026-04-15 Home Depot 51.38",
+   "why": "Claude 2026-09-18: the candidate receipt totals $-491.06, less than the row - it cannot be this row's receipt"
+  },
+  {
+   "key": "PROP-680",
+   "row": "1616 Granite RECONCILED 2026-05-29 Home Depot 23.79",
+   "why": "Claude 2026-09-18: the candidate receipt totals $-50.36, less than the row - it cannot be this row's receipt"
+  },
+  {
+   "key": "PROP-686",
+   "row": "1616 Granite RECONCILED 2026-05-29 Home Depot 64.53",
+   "why": "Claude 2026-09-18: the candidate receipt totals $-50.36, less than the row - it cannot be this row's receipt"
+  },
+  {
+   "key": "PROP-687",
+   "row": "1616 Granite RECONCILED 2026-05-29 Home Depot 32.45",
+   "why": "Claude 2026-09-18: the candidate receipt totals $-50.36, less than the row - it cannot be this row's receipt"
+  },
+  {
+   "key": "PROP-689",
+   "row": "1616 Granite RECONCILED 2026-05-29 Home Depot 194.62",
+   "why": "Claude 2026-09-18: the candidate receipt totals $-50.36, less than the row - it cannot be this row's receipt"
+  },
+  {
+   "key": "PROP-721",
+   "row": "1616 Granite RECONCILED 2026-05-08 Home Depot 107.06",
+   "why": "Claude 2026-09-18: the candidate receipt totals $-106.95, less than the row - it cannot be this row's receipt"
+  },
+  {
+   "key": "PROP-722",
+   "row": "1616 Granite RECONCILED 2026-06-22 Home Depot 264.55",
+   "why": "Claude 2026-09-18: the candidate receipt totals $62.63, less than the row - it cannot be this row's receipt"
+  },
+  {
+   "key": "PROP-450",
+   "row": "104 Ashburne 2026-03-12 Home Depot 78.21",
+   "why": "Claude 2026-09-18: a receipt line has this amount but it is a different product (read against the row's description) - a coincidence"
+  },
+  {
+   "key": "PROP-329",
+   "row": "104 Ashburne 2026-03-12 Home Depot 75.74",
+   "why": "Claude 2026-09-18: a receipt line has this amount but it is a different product (read against the row's description) - a coincidence"
+  },
+  {
+   "key": "PROP-463",
+   "row": "104 Ashburne 2026-03-22 Home Depot 75.74",
+   "why": "Claude 2026-09-18: a receipt line has this amount but it is a different product (read against the row's description) - a coincidence"
+  },
+  {
+   "key": "PROP-486",
+   "row": "104 Ashburne 2026-03-25 Home Depot 49.75",
+   "why": "Claude 2026-09-18: a receipt line has this amount but it is a different product (read against the row's description) - a coincidence"
+  },
+  {
+   "key": "PROP-542",
+   "row": "104 Ashburne 2026-03-06 Home Depot 36.74",
+   "why": "Claude 2026-09-18: a receipt line has this amount but it is a different product (read against the row's description) - a coincidence"
+  },
+  {
+   "key": "PROP-34",
+   "row": "881 Newport 2026-07-01 Home Depot 25.56",
+   "why": "Claude 2026-09-18: a receipt line has this amount but it is a different product (read against the row's description) - a coincidence"
+  },
+  {
+   "key": "PROP-654",
+   "row": "104 Ashburne 2026-06-16 Home Depot 22.09",
+   "why": "Claude 2026-09-18: a receipt line has this amount but it is a different product (read against the row's description) - a coincidence"
+  },
+  {
+   "key": "PROP-583",
+   "row": "104 Ashburne 2026-03-15 Home Depot 21.56",
+   "why": "Claude 2026-09-18: a receipt line has this amount but it is a different product (read against the row's description) - a coincidence"
+  },
+  {
+   "key": "PROP-740",
+   "row": "280 Sparkling RECONCILED 2026-06-28 Home Depot 16.22",
+   "why": "Claude 2026-09-18: a receipt line has this amount but it is a different product (read against the row's description) - a coincidence"
+  },
+  {
+   "key": "PROP-566",
+   "row": "104 Ashburne 2026-03-12 Home Depot 16.05",
+   "why": "Claude 2026-09-18: a receipt line has this amount but it is a different product (read against the row's description) - a coincidence"
+  },
+  {
+   "key": "PROP-612",
+   "row": "104 Ashburne 2026-04-01 Home Depot 15.67",
+   "why": "Claude 2026-09-18: a receipt line has this amount but it is a different product (read against the row's description) - a coincidence"
+  },
+  {
+   "key": "PROP-606",
+   "row": "104 Ashburne 2026-03-25 Home Depot 14.68",
+   "why": "Claude 2026-09-18: a receipt line has this amount but it is a different product (read against the row's description) - a coincidence"
+  },
+  {
+   "key": "PROP-31",
+   "row": "881 Newport 2026-07-01 Home Depot 10.80",
+   "why": "Claude 2026-09-18: a receipt line has this amount but it is a different product (read against the row's description) - a coincidence"
+  },
+  {
+   "key": "PROP-25",
+   "row": "881 Newport 2026-07-01 Home Depot 7.56",
+   "why": "Claude 2026-09-18: a receipt line has this amount but it is a different product (read against the row's description) - a coincidence"
+  },
+  {
+   "key": "PROP-651",
+   "row": "104 Ashburne 2026-06-16 Home Depot 7.56",
+   "why": "Claude 2026-09-18: a receipt line has this amount but it is a different product (read against the row's description) - a coincidence"
+  },
+  {
+   "key": "PROP-29",
+   "row": "881 Newport 2026-07-01 Home Depot 6.47",
+   "why": "Claude 2026-09-18: a receipt line has this amount but it is a different product (read against the row's description) - a coincidence"
+  },
+  {
+   "key": "PROP-125",
+   "row": "136 Bowling Green 2026-06-26 Home Depot 6.47",
+   "why": "Claude 2026-09-18: a receipt line has this amount but it is a different product (read against the row's description) - a coincidence"
+  },
+  {
+   "key": "PROP-648",
+   "row": "104 Ashburne 2026-06-16 Home Depot 4.03",
+   "why": "Claude 2026-09-18: a receipt line has this amount but it is a different product (read against the row's description) - a coincidence"
+  },
+  {
+   "key": "PROP-688",
+   "row": "1616 Granite RECONCILED 2026-05-29 Home Depot 3.71",
+   "why": "Claude 2026-09-18: a receipt line has this amount but it is a different product (read against the row's description) - a coincidence"
   }
  ],
  "redate": [

@@ -21,8 +21,90 @@ date,tab,block,payee,desc,amount
 2026-01-14,104 Ashburne,Cleaning,Marianna,Cleaning,500.00
 2026-06-01,1616 Granite RECONCILED,,Mariana,Mariana,500.00
 2026-03-31,104 Ashburne,Paint & Flooring,50 Floors,Stair Carpet,491.50
+2026-08-18,136 Bowling Green,,City of Red Oak,Water,447.47
+2026-06-29,136 Bowling Green,,Lowe's,Carpet ,431.21
+2026-04-01,104 Ashburne,Paint & Flooring,Home Depot,Stair Moldings,350.28
+2026-06-25,280 Sparkling RECONCILED,,Mission Real Estate Group,MLS Listing,299.00
 2026-06-02,1616 Granite RECONCILED,,Mission Reg,Listing Fee,299.00
+2026-01-14,104 Ashburne,Pest Control,Berret Pest Control,Pest Control,270.63
+2026-06-22,1616 Granite RECONCILED,,Home Depot,Mulch,264.55
+2026-01-30,104 Ashburne,Utilities,HOA,Ashburne Glen Homeowners Association,259.09
+2026-02-09,104 Ashburne,House Hardware,Amazon,Drawer pulls,249.97
+2026-08-05,280 Sparkling RECONCILED,,TXU,Electricity,228.64
+2026-01-05,104 Ashburne,Pool,Julio,Clean out,200.00
+2026-01-12,104 Ashburne,Landscaping,Julio,Labor,200.00
+2026-01-13,104 Ashburne,Landscaping,Julio,Labor,200.00
+2026-01-14,104 Ashburne,Landscaping,Julio,Labor,200.00
+2026-01-09,104 Ashburne,Trash,Julio,Labor,200.00
+2026-01-15,104 Ashburne,Landscaping,Julio,Labor,200.00
+2026-01-16,104 Ashburne,Trash,Julio,Labor,200.00
+2026-01-06,104 Ashburne,Trash,Julio,Labor,200.00
+2026-05-29,104 Ashburne,Landscaping,Julio,Labor,200.00
+2026-06-04,280 Sparkling RECONCILED,,Julio,Landscaping,200.00
+2026-06-12,280 Sparkling RECONCILED,,Julio,Landscaping,200.00
+2026-05-29,1616 Granite RECONCILED,,Home Depot,Plastic Edging,194.62
+2026-04-10,104 Ashburne,Kitchen,Home Depot,Kitchen Faucet,189.57
+2026-04-09,104 Ashburne,Lighting & Electrical,Home Depot,Outlets & Testet,168.53
+2026-06-30,136 Bowling Green,,Lupe,Carpet Laying,160.00
+2026-02-04,104 Ashburne,House Hardware,Lowes,Door Knobs,140.68
+2026-06-04,104 Ashburne,Utilities,Energy Texas,Electricity,139.21
+2026-05-05,104 Ashburne,Utilities,City of Ovilla,Water,131.53
+2026-04-03,104 Ashburne,House Hardware,Home Depot,Front Door Lock Set,113.64
+2026-05-27,1616 Granite RECONCILED,,Amazon,Exterior Light,111.42
+2026-07-19,881 Newport,,Effren - 1372,Landscaping,110.00
+2026-07-19,136 Bowling Green,,Effren - 1373,Landscaping,110.00
+2026-07-15,1616 Granite RECONCILED,,Effren - 1373,Landscaping,110.00
+2026-07-19,280 Sparkling RECONCILED,,Effren - 1373,Landscaping,110.00
+2026-08-03,136 Bowling Green,,The Home Depot,HWTSTAT - Honeywell T5 7-Day 2-Stage Programmable Thermostat (SKU 085267851534),107.15
+2026-05-08,1616 Granite RECONCILED,,Home Depot,Weed and Feed,107.06
+2026-05-27,1616 Granite RECONCILED,,Amazon,Curtain Rods & Door Lock,105.15
+2026-09-01,469 Brushwood,,Waxahachie Watwr,Water,100.00
+2026-02-12,104 Ashburne,Landscaping,Julio,Labor,100.00
+2026-02-12,104 Ashburne,Trash,Julio,Labor,100.00
+2026-05-08,104 Ashburne,Landscaping,Julio,Lawn Maintenance,100.00
+2026-06-11,RECAST BIZ,Gas/Truck/Trailer,North Texas Tollway Authority,toll tag,92.57
+2026-03-12,104 Ashburne,Master Bath,Home Depot,Backer Board,78.21
+2026-03-21,104 Ashburne,Lighting & Electrical,Wauyfair,Single Bath Light Fixture,76.85
+2026-03-12,104 Ashburne,Landscaping,Home Depot,Weed & Feed,75.74
+2026-03-22,104 Ashburne,Lighting & Electrical,Home Depot,LED Tape for Master Bth Soffet,75.74
+2026-05-27,1616 Granite RECONCILED,,Amazon,Curtain Rods,72.65
+2026-06-26,RECAST BIZ,Gas/Truck/Trailer,Shell,Fuel - 18.762 gallons,69.40
+2026-05-29,1616 Granite RECONCILED,,Home Depot,Lawn Utility Box,64.53
+2026-04-15,104 Ashburne,Supplies,Home Depot,Misc Supplies,51.38
+2026-03-25,104 Ashburne,Small Baths,Home Depot,Hydro Seats,49.75
+2026-06-24,RECAST BIZ,Gas/Truck/Trailer,O'Reilly Auto Parts,VAL SYN5-20-5QT 5QT MOTOROIL,45.45
+2026-06-28,1616 Granite RECONCILED,,Home Depot,Toilet Kits,40.01
+2026-06-10,1616 Granite RECONCILED,,Lowes,Floor Paint,37.97
+2026-03-06,104 Ashburne,Supplies,Home Depot,Multi Tool Blades,36.74
 2026-05-26,1616 Granite RECONCILED,,Sherwin WIlliams,Sherwin WIllains,33.81
+2026-03-17,104 Ashburne,Kitchen,Amazon,Under Cabinet Lights,32.46
+2026-05-29,1616 Granite RECONCILED,,Home Depot,Toilet Seat,32.45
+2026-05-27,1616 Granite RECONCILED,,Amazon,Curtain Rods,30.80
 ,RECAST BIZ,Website,Apify,Monthly Apify subscription,29.00
+2026-07-01,881 Newport,,Home Depot,Toilet Seat,25.56
 2026-05-26,1616 Granite RECONCILED,,Sherwin WIlliams,Sherwin WIllains,24.24
+2026-05-29,1616 Granite RECONCILED,,Home Depot,Toilet Parts,23.79
+2026-06-16,104 Ashburne,Supplies,Home Depot,Nuts and bolts,22.09
+2026-03-15,104 Ashburne,Supplies,Home Depot,Sanding Discs,21.56
+2026-03-19,104 Ashburne,Supplies,Lowes,Silicone Caulk,20.96
+2026-06-30,104 Ashburne,Small Baths,Home Depot,Caulk,19.98
+2026-03-26,104 Ashburne,Lighting & Electrical,Home Depot,Wall Plates,17.08
+2026-06-28,280 Sparkling RECONCILED,,Home Depot,PVC Cement,16.22
+2026-03-12,104 Ashburne,Supplies,Home Depot,Screws,16.05
+2026-04-01,104 Ashburne,Supplies,Home Depot,Adhesive,15.67
+2026-03-25,104 Ashburne,Supplies,Home Depot,Tapcon Scres & Bit,14.68
+2026-03-22,104 Ashburne,Supplies,Home Depot,Dremel Post,14.04
 2026-03-26,104 Ashburne,Master Bath,Home Depot,Wall Flanges,12.95
+2026-02-24,104 Ashburne,Lighting & Electrical,Amazon,Light Bulbs,10.81
+2026-07-01,881 Newport,,Home Depot,Roller Covers,10.80
+2026-07-01,881 Newport,,Home Depot,Drywall Panel,7.56
+2026-06-16,104 Ashburne,Supplies,Home Depot,Spray Paint,7.56
+2026-07-01,881 Newport,,Home Depot,Roller Trays,6.47
+2026-06-26,136 Bowling Green,,Home Depot,Sand Paper,6.47
+2026-03-04,104 Ashburne,Supplies,UPS Store,Packing Tape,5.73
+2026-06-16,104 Ashburne,Supplies,Home Depot,2x4,4.03
+2026-05-29,1616 Granite RECONCILED,,Home Depot,Irrigation Couplings,3.71
+2026-03-17,104 Ashburne,Supplies,UPS Store,Packing Tape,3.57
+2026-03-26,104 Ashburne,Master Bath,Home Depot,Hose Clamp,2.53
+2026-05-30,1616 Granite RECONCILED,,Home Depot,Irrigation Bubbler,1.87
+2026-06-13,RECAST BIZ,Website,"Netlify, Inc.","Netlify, Inc. invoice (#SFWGOE-00004)",0.00
