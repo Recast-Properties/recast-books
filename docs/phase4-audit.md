@@ -957,3 +957,9 @@ be processed on 9/18/2026": it postdates the 09-17 snapshot, so it is one of the
 holding and posts in the cutover replay (independent audit finding 5b), where the Inbox asks who paid.
 Recorded under `mail_settled`. **The utilities are closed:** 25 documents → 22 settled, 3 added (C-21, C-22),
 plus C-20; list 4 stands at 142 documents.
+
+**Staging pass 6, 16:05-16:07 - tied out.** Paul ran `migrationRunStaging` (2,062 lines of pass 5 cleared, 66
+advance lines kept, 1,034 posted). Journal by property = `rows/expected.json`, **$0.00 on all nine**: 1,034
+entries, **$221,805.79**, txn ids and per-entry amounts identical to the dry run, debits = credits
+($2,283,216.71), 871 linked, 33 advances, no orphans. The differences from pass 5 are exactly C-20, C-21 x2
+and C-22. Staging = the dry run.
