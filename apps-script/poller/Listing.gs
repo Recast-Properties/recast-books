@@ -186,7 +186,7 @@ function repostAll() {
   while (Date.now() - t0 < 200000) {
     var res = UrlFetchApp.fetch(base + '/api/inbox', {
       method: 'post', contentType: 'application/json', headers: { 'x-poller-secret': secret },
-      payload: JSON.stringify({ action: 'repost-all', after: after, limit: 20, only: spec.only || undefined, overrides: spec.overrides || undefined }),
+      payload: JSON.stringify({ action: 'repost-all', after: after, limit: 5, only: spec.only || undefined, overrides: spec.overrides || undefined }),
       muteHttpExceptions: true
     });
     if (res.getResponseCode() !== 200) { console.error('repost-all HTTP ' + res.getResponseCode() + ' ' + res.getContentText().slice(0, 200)); break; }
@@ -194,7 +194,7 @@ function repostAll() {
     fired += data.fired.length; skipped += data.skipped.length; after = data.after || after; done = !!data.done;
     props.setProperty('repost_after', after);
     if (done) break;
-    Utilities.sleep(20000);   // let the ingests drain before the next page
+    Utilities.sleep(15000);   // let the ingests drain: each post is ~3 writer calls, Apps Script allows ~30 at once
   }
   ScriptApp.getProjectTriggers().forEach(function (t) { if (t.getHandlerFunction() === 'repostAll') ScriptApp.deleteTrigger(t); });
   if (!done) ScriptApp.newTrigger('repostAll').timeBased().after(60 * 1000).create();
