@@ -223,7 +223,12 @@ def main():
     # paul-answers.json "mail_settled": documents Claude or Paul has decided need no posting (a bill whose
     # payment is a row, a twin, a notice), each with its reason - they leave the review list.
     SETTLED = {x["docId"] for x in answers.get("mail_settled", [])} | {x["docId"] for x in answers.get("add", [])}   # an added document is in the books
-    B = [x for x in csv.DictReader(open(os.path.join(a.cmp, "B-by-match.csv"))) if x["bucket"] == "in mail, not in old books" and x["docId"] not in NOT_OURS and x["docId"] not in SETTLED]
+    # a document an entry already carries (paul-answers links included), or its same-day same-total twin, is in the books
+    Ball = list(csv.DictReader(open(os.path.join(a.cmp, "B-by-match.csv"))))
+    in_books = {e["docId"] for e in entries if e["docId"] and not e["skip"]}
+    twins = {(x["date"], x["new_cents"]) for x in Ball if x["docId"] in in_books and int(x["new_cents"] or 0)}
+    B = [x for x in Ball if x["bucket"] == "in mail, not in old books" and x["docId"] not in NOT_OURS and x["docId"] not in SETTLED
+         and x["docId"] not in in_books and (x["date"], x["new_cents"]) not in twins]
     w("list-4-in-mail-not-in-books.csv", [{"date": x["date"], "vendor": x["vendor"], "total": money(int(x["new_cents"] or 0)), "where_the_read_put_it": x["new_where"], "status": x["status"],
                                            "subject": x["subject"], "weak_candidates": x.get("weak_candidates", ""), "docId": x["docId"]} for x in sorted(B, key=lambda x: -int(x["new_cents"] or 0))])
     w("list-5-questions.csv", q)

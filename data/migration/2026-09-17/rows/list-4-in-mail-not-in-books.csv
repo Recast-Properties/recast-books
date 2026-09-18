@@ -1,43 +1,32 @@
 date,vendor,total,where_the_read_put_it,status,subject,weak_candidates,docId
 2026-03-30,"Ellis County Tax Office (Richard Rozier, Tax Assessor-Collector)","16,031.25",104 Ashburne,pending,Property tax,,gm-19d3fc513d1b8d07
 2026-07-08,Handwritten expense worksheet (Paul) - multiple vendors,"2,691.44",,pending,,,gm-19f3f6f506f7c073
-2026-02-19,Lowe's Home Improvement,"1,478.59",,pending,Your Lowe's Purchase Receipt,,gm-19c76792ce5e1fe9
 2026-02-08,Amazon,"1,001.21",104 Ashburne,pending,"Fwd: Ordered: 2 ""60 in Ceiling Fan of..."" and 8 more items",,gm-19c3e4d6fcbb69bf
-2026-02-03,"Lowe's Home Centers, LLC",768.99,104 Ashburne,pending,Lowe’s Reciept ,,gm-19c28915ee4c0912
 2026-01-23,American Airlines,706.08,OVERHEAD,pending,Fwd: 01/23/26,,gm-19c8b349964c680d
-2026-09-07,Mariana Martinez,700.00,,pending,Mariana,469 Brushwood/Mariana/250.00,gm-1a07ec26660d7659
 2026-04-03,"Unknown (email from Paul Bjork, subject ""Interest"")",666.67,,pending,Interest,,gm-19d55c64fef934ea
-2026-03-18,Flexitions,653.34,104 Ashburne,pending,Fwd: Order #8246 confirmed,,gm-19d02f1149cf34d6
-2026-03-17,Amazon,596.71,104 Ashburne,pending,2 amazon,104 Ashburne/Amazon/154.53;104 Ashburne/Amazon/411.34,gm-19cfbe563f75f960
-2026-03-18,Walton's Muffler Brake &amp; Tire,593.77,OVERHEAD,pending,,104 Ashburne/Waltons Brakes & Muf/593.77,gm-19d018e208f5ce58
 2026-01-18,American Airlines,575.60,OVERHEAD,pending,Fwd: 02/01/26,,gm-19c8b34b8addc1ea
 2026-09-09,Alaska Airlines,559.40,OVERHEAD,dry,Fwd: Your flight is booked: KPQHJU to Portland on 09/09/2026,,dry-gm-1a083f30d9e415bb
-2026-06-18,Unknown (no vendor named in email),550.00,104 Ashburne,pending,Armadre fan,104 Ashburne/Armandre Vega/550.00,gm-19edb74b0d81508a
-2026-03-05,Armandre Vega,524.81,104 Ashburne,pending,Send money,104 Ashburne/Armandre Vega/98.97,gm-19cbe5fe4bbbc3d4
-2026-03-22,The Home Depot,514.16,104 Ashburne,pending,,104 Ashburne/Home Depot/1.06,gm-19d16d3ec604edb7
 2026-06-30,"Handwritten payment log - 136 Bowling Green (payees: unnamed carpet installer; ""FALCON"")",475.00,136 Bowling Green,pending,,136 Bowling Green/Lupe/160.00,gm-19f3f6d3919a5816
 2026-07-19,Falcon Creek Lawn Care,470.00,136 Bowling Green;1616 Granite;280 Sparkling;881 Newport,posted,Fwd: Lawn maintenance invoice,881 Newport/Effren - 1372/110.00;136 Bowling Green/Effren - 1373/110.00;1616 Granite RECONCILED/Effren - 1373/110.00;280 Sparkling RECONCILED/Effren - 1373/110.00,gm-19fb337be62617b6
 2026-02-04,American Airlines,462.40,OVERHEAD,posted,Fwd: 02/09/26,,gm-19c8b34d7d965e72
 2026-03-19,"Lowe's Home Centers, LLC",404.78,104 Ashburne,posted,,,gm-19d0716277e58567
 2026-04-06,Julio (unidentified labor),400.00,104 Ashburne,pending,Julio $400,,gm-19d6117a5116478b
 2026-04-10,Unknown (email note re: Dennis),400.00,,pending,Dennis $400,,gm-19d798bb326eaf63
-2026-01-07,The Home Depot,393.55,104 Ashburne,posted,Your Electronic Receipt,,gm-19b98a40a8155855
-2026-02-19,The Home Depot,390.12,,pending,Your Electronic Receipt,104 Ashburne/Amazon/10.81,gm-19c76c4996bae8b0
 2026-03-21,The Home Depot,389.93,104 Ashburne,pending,,104 Ashburne/Amazon/32.46,gm-19d20cf12a8888da
+2026-03-12,The Home Depot,385.27,104 Ashburne,dismissed,,104 Ashburne/Home Depot/16.05,gm-19ce3297652cbfc8
 2026-04-03,The Home Depot,379.18,104 Ashburne,posted,,,gm-19d54f9e0010bc8c
 2026-01-09,"Lowe's Home Centers, LLC",360.49,104 Ashburne;OVERHEAD,pending,Fwd: Your Lowe's Purchase Receipt,,gm-19ba4950d7e2561c
 2026-09-11,American Airlines,341.40,OVERHEAD,dry,Your trip confirmation (PDX - DFW),,dry-gm-1a090de755523067
+2026-01-10,American Airlines,316.50,OVERHEAD,dismissed,Fwd: 01/17/26,,gm-19c8b34790f6f503
 2026-05-15,Apify Technologies s.r.o.,313.20,OVERHEAD,posted,Apify invoice #202605152143 payment successful,,gm-19e2ce117249cd00
 2026-05-07,Iley &amp; Iley Financia... (name truncated on receipt),299.00,104 Ashburne,pending,,,gm-19f3f6ba1c53dd95
 2026-05-07,Unknown (not named on document),299.00,104 Ashburne,pending,Listing fee,,gm-19e03f3e7be5d988
-2026-03-21,"Lowe's Home Centers, LLC",297.23,104 Ashburne,posted,,104 Ashburne/Lowes/18.97;104 Ashburne/Lowes/-108.23;104 Ashburne/Lowes/9.48,gm-19d11a93764263f8
+2026-04-05,The Home Depot,288.44,104 Ashburne,dismissed,,104 Ashburne/Home Depot/45.40;104 Ashburne/Home Depot/14.40,gm-19d5e139b4ae4612
 2026-01-20,Amazon,276.22,104 Ashburne,posted,"Fwd: Ordered: 2 ""Dreo Smart Wall Heater...""",RECAST BIZ/Amazon/169.98,gm-19c01b85d135afa6
 2026-06-30,Berrett Pest Control,270.63,104 Ashburne,pending,Fwd: Receipt for payment to Berrett Pest Control,,gm-19f19bb233837a1e
-2026-01-30,Ashburne Glen Homeowners Association,259.09,104 Ashburne,posted,Fwd: Online payment received,104 Ashburne/HOA/259.09,gm-19c0fc92279d93d1
 2026-06-11,VistaPrint,241.71,OVERHEAD,posted,Your order is confirmed,,gm-19eb7ae65da2fd3a
 2026-03-25,The Home Depot,241.50,,pending,Order confirmed. We're processing your order now!,,gm-19d25017467ed73d
 2026-03-30,The Home Depot,241.50,,pending,"Your order's ready! Pick it up by Thursday, April 9",,gm-19d4fef69c52ef33
-2026-02-10,Lowe's Home Improvement,238.06,,pending,Your Lowe's Purchase Receipt,104 Ashburne/Lowes/173.18,gm-19c484998d6bf67a
 2026-08-31,"CoreLogic Solutions, LLC",235.00,OVERHEAD,pending,Property Intelligence Invoice #30902041,,gm-1a06877a765d05a1
 2026-07-30,Falcon Creek Lawn Care,235.00,136 Bowling Green;1616 Granite;280 Sparkling;881 Newport,posted,Fwd: Lawn maintenance,,gm-19fd24ebc9ed8431
 2026-04-05,The Home Depot,230.72,1616 Granite,pending,Order confirmed. We're processing your order now!,,gm-19d5e0ce39d91e0d
@@ -46,8 +35,7 @@ date,vendor,total,where_the_read_put_it,status,subject,weak_candidates,docId
 2026-09-16,Home Depot,222.25,1616 Granite,posted,TEST fake receipt 2 (timing),,up-test-inbox-timing-0916
 2026-09-16,Home Depot,222.25,1616 Granite,posted,TEST fake receipt 6 (cache b),,up-test-inbox-cache-b-0916
 2026-09-16,Home Depot,222.25,1616 Granite,posted,TEST fake receipt 5 (cache a),,up-test-inbox-cache-a-0916
-2026-03-02,The Home Depot,219.69,OVERHEAD,pending,Your Electronic Receipt,,gm-19caf6b9e1556ade
-2026-02-10,The Home Depot,200.87,,pending,Your Electronic Receipt,,gm-19c48c68567fa017
+2026-03-09,AllModern,214.34,104 Ashburne,dismissed,Fwd: Order received! Does everything look right?,,gm-19cd5e12f4e9d9b7
 2026-01-31,"CoreLogic Solutions, LLC",200.00,OVERHEAD,pending,Property Intelligence Invoice #30837466,104 Ashburne/Julio/200.00,gm-19c2d8b7905f7407
 2026-07-31,"CoreLogic Solutions, LLC",200.00,OVERHEAD,pending,Property Intelligence Invoice #30889149,,gm-19fd7d4ee3154fea
 2026-03-31,"CoreLogic Solutions, LLC",200.00,OVERHEAD,pending,Property Intelligence Invoice #30857690,,gm-19d557a02bada3be
@@ -57,45 +45,44 @@ date,vendor,total,where_the_read_put_it,status,subject,weak_candidates,docId
 2026-04-30,"CoreLogic Solutions, LLC",200.00,OVERHEAD,pending,Property Intelligence Invoice #30860459,,gm-19dfd51cc731e898
 2026-07-22,Uber,200.00,OVERHEAD,pending,Uber: Your receipt,,gm-19f8bc3b31c1a71d
 2026-08-10,The Home Depot,192.15,104 Ashburne;OVERHEAD,pending,,,gm-19fed30f7359ded5
-2026-02-16,The Home Depot,183.38,OVERHEAD,pending,Your Electronic Receipt,,gm-19c66d875dd9e7bd
-2026-02-19,The Home Depot,178.48,1616 Granite,pending,Your Electronic Receipt,,gm-19c774f69781c13a
-2026-01-11,The Home Depot,170.63,,pending,Your Electronic Receipt,,gm-19bae03eddedc8bc
-2026-02-17,The Home Depot,166.08,OVERHEAD,pending,Your Electronic Receipt,,gm-19c6ce38c37d7ca4
-2026-02-12,The Home Depot,156.67,,pending,Your Electronic Receipt,,gm-19c52d5f502531fb
+2026-04-10,The Home Depot,161.28,104 Ashburne,dismissed,,104 Ashburne/Home Depot/189.57;104 Ashburne/Home Depot/151.28,gm-19d775f16740a511
 2026-09-09,Klarna (Apple Upgrade / Saks Fifth Avenue installments),150.73,,dry,Screenshot 2026-09-09 at 4.28.13 PM,,dry-gm-1a08880be459a7a0
 2026-06-25,Julio (unidentified labor),150.00,104 Ashburne,pending,Julio 150,,gm-19eff3e752656e54
-2026-03-02,The Home Depot,147.38,,pending,Your Electronic Receipt,,gm-19cb0399a28a4bdb
 2026-09-08,Justice of the Peace Precinct 1 (JP #1),144.00,413 Green Acres,pending,Fwd: Green acres eviction check,,gm-1a082efc7888e5ef
+2026-02-15,The Home Depot,137.68,104 Ashburne,dismissed,,,gm-19c617b59e734eb5
 2026-02-15,The Home Depot,137.68,,pending,Your Electronic Receipt,,gm-19c61b20c24fc994
-2026-02-20,The Home Depot,135.07,OVERHEAD,pending,Your Electronic Receipt,,gm-19c7be8f6b3c531b
 2026-02-04,Lowe's Home Improvement,134.23,104 Ashburne,posted,Your Lowe's Purchase Receipt,104 Ashburne/Lowes/140.68,gm-19c28c64aa9a29ea
 2026-06-03,Uber,113.98,OVERHEAD,posted,[Personal] Your Wednesday morning trip with Uber,,gm-19e8eaeb03cf2a86
+2026-04-03,"Lowe's Home Centers, LLC",113.64,104 Ashburne,dismissed,,,gm-19d54141d52bf785
 2026-07-01,Amazon,106.75,,pending,"Fwd: Ordered: ""Gerber 28-990 WHITE Maxwell...""",,gm-19f1e7a4d47322d9
 2026-08-10,Uber,105.34,OVERHEAD,pending,[Personal] Your Monday morning trip with Uber,,gm-19fec5224c8ebacf
 2026-09-09,Uber,103.61,OVERHEAD,dry,[Personal] Your Wednesday morning trip with Uber,,dry-gm-1a08710de38eb831
 2026-09-13,"Anthropic, PBC",100.00,OVERHEAD,posted,"Your receipt from Anthropic, PBC #2268-3974-1772",,gm-1a09c42a0bd2824b
+2026-08-30,Uber,99.44,,dismissed,[Personal] Your Sunday afternoon trip with Uber,,gm-1a053d964db0573d
 2026-03-10,Ping Lighting,99.20,104 Ashburne,posted,Fwd: [Ping Lighting] Order confirmation,,gm-19cd5e3f4729e97b
 2026-03-10,Ping Lighting,99.20,104 Ashburne,posted,Fwd: [Ping Lighting] Payment accepted,,gm-19cd5d25a07e5bb1
 2026-08-15,Uber,98.22,OVERHEAD,posted,[Personal] Your Saturday morning trip with Uber,,gm-1a004ddd53b5d48e
 2026-06-03,Uber,94.98,OVERHEAD,pending,[Personal] Your Wednesday morning trip with Uber,104 Ashburne/Energy Texas/139.21,gm-19e8d1415d216814
 2026-03-16,Wayfair,93.08,104 Ashburne,posted,Fwd: Order received! Does everything look right?,,gm-19cf927112794782
+2026-04-16,The Home Depot,88.83,104 Ashburne;OVERHEAD,dismissed,,,gm-19d960cfeccab6cd
 2026-04-29,Uber,85.98,OVERHEAD,pending,[Personal] Your Wednesday morning trip with Uber,,gm-19dd8aee1f2fb6b2
 2026-09-10,Oregon Registered Agent LLC,84.00,OVERHEAD,dry,,,dry-gm-1a08bee3d03d3f93
 2026-03-09,The Home Depot,83.83,,pending,Your Electronic Receipt,,gm-19cd5489c5fd928b
+2026-03-09,The Home Depot,83.83,104 Ashburne,dismissed,,,gm-19cd5479e52e3fe9
 2026-04-10,Shell,79.30,OVERHEAD,posted,,,gm-19d7558ca4a9a38d
-2026-03-18,Wayfair,76.85,104 Ashburne,posted,Fwd: Order received! Does everything look right?,104 Ashburne/Wauyfair/76.85,gm-19d0446213881f8d
 2026-04-11,Taco Cabana,73.57,OVERHEAD,pending,,,gm-19d7d9e5cfb8c9f6
 2026-09-07,Rosa's Cafe Tortilla Factory,72.19,OVERHEAD,dry,,,dry-gm-1a07e315889c322c
-2026-02-18,The Home Depot,69.56,,pending,Your Electronic Receipt,,gm-19c70c97dc638c65
 2026-03-10,Mobil,69.27,OVERHEAD,posted,,,gm-19cd960f41184363
 2026-08-07,Uber,65.98,OVERHEAD,pending,[Personal] Your Friday afternoon trip with Uber,,gm-19fde07c55491b91
 2026-09-05,"Lowe's Home Centers, LLC",64.93,OVERHEAD,dry,,881 Newport/Lowes/6.47,dry-gm-1a07217d8a060601
 2026-06-29,The Home Depot,62.63,1616 Granite;OVERHEAD,pending,,1616 Granite RECONCILED/Home Depot/264.55,gm-19f1526194ff1558
+2026-03-14,McCoy's Building Supply,61.53,104 Ashburne,dismissed,,,gm-19ced5e82e20e490
+2026-05-03,Uber,54.99,OVERHEAD,dismissed,[Personal] Your Sunday morning trip with Uber,,gm-19dedd4c33011f73
 2026-06-29,The Home Depot,54.03,1616 Granite,posted,,,gm-19f15828fb2a31e6
 2026-05-25,American Airlines,50.00,OVERHEAD,posted,Fwd: Your purchase receipt - NCSQUQ,,gm-19e61acb0d8aa215
+2026-06-17,Lowe's Home Improvement,49.17,1616 Granite,dismissed,Your Lowe's Purchase Receipt,,gm-19ed69af26494e70
 2026-06-14,Uber,44.99,OVERHEAD,posted,[Personal] Your Monday morning trip with Uber,,gm-19ecaef8f8dbb488
-2026-05-31,"Lowe's Home Centers, LLC",42.20,1616 Granite,posted,Fwd: 1616,,gm-19e8f7e98314deeb
-2026-03-23,AutoZone,38.95,OVERHEAD,posted,,104 Ashburne/AutoXZone/38.95,gm-19d1aff5eaa6fee2
+2026-03-01,Uber,43.98,OVERHEAD,dismissed,[Personal] Your Sunday morning trip with Uber,,gm-19ca95245c0779f1
 2026-08-02,Walmart,37.86,136 Bowling Green,pending,,,gm-19fc442272873900
 2026-08-13,Amazon,36.99,366 Mesa,pending,Fwd: Ordered: ⁦1⁩ Home Improvement item,,gm-19ffb0e863df3cc0
 2026-09-03,"Adobe, Inc.",34.49,OVERHEAD,dry,"Fwd: Adobe, Inc.: $34.49 USD",,dry-gm-1a069feb80d70f06
@@ -103,16 +90,20 @@ date,vendor,total,where_the_read_put_it,status,subject,weak_candidates,docId
 2026-06-03,Uber,31.48,OVERHEAD,posted,[Personal] Your Wednesday morning trip with Uber,,gm-19e8ec62c8a4a79e
 2026-07-09,Uber,31.27,OVERHEAD,error,[Personal] Your Thursday morning trip with Uber,,gm-19f483c31d80247c
 2026-02-16,The Home Depot,30.79,,pending,Your Electronic Receipt,,gm-19c6859ab582b6f5
-2026-08-05,Keith Ace Hardware - Red Oak,29.22,136 Bowling Green,posted,,136 Bowling Green/Ace Hardware/22.99,gm-19fd4002e0935c03
+2026-02-16,The Home Depot,30.79,104 Ashburne,dismissed,,,gm-19c6823763f5cb17
+2026-07-18,Apify Technologies s.r.o.,29.00,OVERHEAD,dismissed,Fwd: Apify invoice #202607180489 payment successful,,gm-19f729ff137be6f5
 2026-08-18,Apify Technologies s.r.o.,29.00,OVERHEAD,posted,Fwd: Apify invoice #202608180334 payment successful,,gm-1a01248bc54f61c1
 2026-03-15,Amazon,25.32,104 Ashburne,posted,"Fwd: Ordered: ""3-1/2 Inches Heavy Duty...""",,gm-19cf4858a126476a
+2026-01-03,American Airlines,25.00,,dismissed,Fwd: Your Wi-Fi receipt,,gm-19c8af65b973a176
 2026-04-15,Braum's,22.93,OVERHEAD,pending,,,gm-19d926697aea1558
-2026-01-14,The Home Depot,20.25,104 Ashburne,pending,Your Electronic Receipt,,gm-19bbd77ef94aa401
 2026-07-14,"Netlify, Inc.",20.00,OVERHEAD,posted,"Fwd: Payment received for Netlify, Inc. invoice (#SFWGOE-000",,gm-19f5e409c27380b0
 2026-04-14,Shell,19.99,OVERHEAD,pending,,,gm-19d8db0dbb2e6309
 2026-06-13,"Netlify, Inc.",13.40,OVERHEAD,posted,"Payment received for Netlify, Inc. invoice (#SFWGOE-00004)",,gm-19ec2e5f3c880eb3
 2026-08-28,FedEx Office,12.75,OVERHEAD,posted,,,up-98ee9368-1ac4-40e0-ba06-07cb11986b67
+2026-08-02,7-Eleven,11.90,136 Bowling Green,dismissed,,,gm-19fc454ddc47341f
+2026-08-21,"Anthropic, PBC",10.87,,dismissed,"Fwd: Your receipt from Anthropic, PBC #2332-6479-3034",,gm-1a025de52b01608d
 2026-09-09,"Anthropic, PBC",10.69,OVERHEAD,dry,"Your receipt from Anthropic, PBC #2911-4142-0601",,dry-gm-1a08752080169ebc
+2026-09-11,"Anthropic, PBC",10.34,,dismissed,"Fwd: Your receipt from Anthropic, PBC #2142-6159-3565",,gm-1a09257dfd763708
 2026-08-24,"Anthropic, PBC",10.29,OVERHEAD,pending,"Fwd: Your receipt from Anthropic, PBC #2945-3640-9269",,gm-1a0360f5a5d640a9
 2026-08-01,"Anthropic, PBC",10.14,OVERHEAD,posted,"Fwd: Your receipt from Anthropic, PBC #2971-0394-1544",,gm-19fbfb4f8ae13c63
 2026-08-24,"Anthropic, PBC",10.01,OVERHEAD,posted,"Fwd: Your receipt from Anthropic, PBC #2363-5979-4769",,gm-1a0360f3727f13d6
@@ -120,11 +111,10 @@ date,vendor,total,where_the_read_put_it,status,subject,weak_candidates,docId
 2026-05-27,Uber One,9.99,OVERHEAD,pending,Uber One payment confirmation,,gm-19e6b8cbc5333ece
 2026-07-01,Uber One,9.99,OVERHEAD,pending,Uber One payment confirmation,,gm-19f1f88d99a6e35e
 2026-09-09,Wi-Fi Onboard (Intelsat),8.00,OVERHEAD,dry,Fwd: Here's Your Wi-Fi Onboard Receipt - Check Out Your Purc,,dry-gm-1a0884827e1945bf
-2026-03-04,The UPS Store #5780,5.73,OVERHEAD,pending,,104 Ashburne/UPS Store/5.73,gm-19cbac340f4e5a7b
-2026-03-17,The UPS Store #5780,3.57,OVERHEAD,posted,,104 Ashburne/UPS Store/3.57,gm-19cfc60f0514c660
-2026-02-17,O'Reilly Auto Parts,3.45,OVERHEAD,posted,,104 Ashburne/O'Reily/3.45,gm-19c6bce6982d294b
+2026-03-19,Shell,7.57,OVERHEAD,dismissed,,,gm-19d066ca90092950
+2026-09-02,"Telnyx, LLC",5.00,OVERHEAD,dismissed,Fwd: [Telnyx LLC] Payment Success,,gm-1a0645dc3777ea76
+2026-07-28,Texas Secretary of State,2.00,OVERHEAD,dismissed,Fwd: Packing Slip for Session : 072826FZ4657 (email id: 5857,,gm-19fa9491039be96b
 2026-03-07,Floor &amp; Decor,0.00,,pending,Fwd: Your e-Receipt is Enclosed,104 Ashburne/Floor & Decor/248.39;104 Ashburne/Floor & Decor/136.40,gm-19cc9f61226563fe
-2026-02-12,Chino's H.R. Home Renovations (Chinos LLC),0.00,,dismissed,Flooring,"104 Ashburne/Chinos LLC/13,500.00",gm-19c521cfa5452bd9
 2026-02-10,Floor &amp; Decor,0.00,,pending,Fwd: Your e-Receipt is Enclosed,,gm-19c51e70660fc809
 2026-04-03,Julio,0.00,,pending,"Julio 4/2, 4/3",,gm-19d54f911af97475
 2026-03-18,Floor &amp; Decor,0.00,,pending,Fwd: Your e-Receipt is Enclosed,,gm-19d015260a55727a

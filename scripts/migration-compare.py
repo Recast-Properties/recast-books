@@ -232,7 +232,7 @@ def main():
                   "new_where": ";".join(sorted(set(l["property"] for l in e["lines"]))), "status": e["status"], "verdict": e["verdict"],
                   "holds": ",".join(e["holds"]), "paid_from": e["paid_from"], "subject": e["subject"],
                   "bucket": "manual row now documented" if hit and any(r["_k"].startswith("BIZ") for r in hit)
-                            else "property row now documented" if hit else ("junk (dismissed)" if e["verdict"] == "dismiss" else "in mail, not in old books"),
+                            else "property row now documented" if hit else ("in mail, not in old books" if live(docId) else "junk (dismissed)"),   # a lone stale-duplicate dismiss is a real receipt (see live)
                   "weak_candidates": ";".join(f"{r['tab']}/{r['payee'][:20]}/{money(r['cents'])}" for r in weak)})
         used_rows.update(r["_k"] for r in hit); used_docs.add(docId)
 

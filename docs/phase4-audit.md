@@ -963,3 +963,40 @@ advance lines kept, 1,034 posted). Journal by property = `rows/expected.json`, *
 entries, **$221,805.79**, txn ids and per-entry amounts identical to the dry run, debits = credits
 ($2,283,216.71), 871 linked, 33 advances, no orphans. The differences from pass 5 are exactly C-20, C-21 x2
 and C-22. Staging = the dry run.
+
+## 30 · A hole in list 4: receipts dismissed as duplicates of their own earlier staging post (2026-09-18)
+
+Paul: "american is most likely NOT personal expenses." Checking the American Airlines documents against the
+old Travel block found a ticket that was on **no list at all**: AA $316.50 (DFW-PDX 01/17), status
+`dismissed` with the rail note "the writer already holds receipt-20260110-... posted moments earlier by a
+twin". That earlier post was the 09-17 document-driven replay, cleared since (D-029) - so the only read of
+the receipt sat in the comparison's "junk (dismissed)" bucket. The matcher already lets such a lone
+stale-duplicate dismiss *link* to a row (`live`, §22); the bucket line did not use the same test. Fixed in
+`migration-compare.py` (one line). 23 documents joined list 4 that way (nine Home Depot, two Lowe's, the AA
+ticket, AllModern $214.34, McCoy's, two Uber rides, small subscriptions).
+
+Second fix, `migration-rows.py`: list 4 was built from the comparison alone, so it still showed documents
+that `paul-answers.json` had since linked, and forwarded twins of linked receipts. A document an entry
+carries, or its same-day same-total twin, now leaves the list: 33 left (16 carried by an entry, 17 twins -
+each checked, every twin is the same vendor). **List 4: 132.** Entries, links and `MigrationData.gs` are
+byte-identical to pass 6; link audit unchanged.
+
+## 30 · A hole in list 4: receipts dismissed as duplicates of their own earlier staging post (2026-09-18)
+
+Paul: "american is most likely NOT personal expenses." Checking the American Airlines documents against the
+old Travel block found a ticket that was on **no list at all**: AA $316.50 (DFW-PDX 01/17), status
+`dismissed`. Paul: "who marked it junk?" - nobody's judgment. (1) The live pipeline's duplicate-invoice rail
+dismissed it during the 09-17 document-driven replay ("the writer already holds receipt-20260110-... posted
+moments earlier by a twin"), over the model's own verdict of "new charge, post"; that post was cleared under
+D-029, and no second copy of the ticket exists among the 968 envelopes (most likely the same message
+processed twice at once). (2) `migration-compare.py` then bucketed every dismissed document with no matching
+row as "junk (dismissed)". The matcher already lets such a lone stale-duplicate dismiss *link* to a row
+(`live`, §22); the bucket line did not use the same test. Fixed (one line). 23 documents joined list 4 that
+way (nine Home Depot, two Lowe's, the AA ticket, AllModern $214.34, McCoy's, two Uber rides, small
+subscriptions).
+
+Second fix, `migration-rows.py`: list 4 was built from the comparison alone, so it still showed documents
+that `paul-answers.json` had since linked, and forwarded twins of linked receipts. A document an entry
+carries, or its same-day same-total twin, now leaves the list: 33 left (16 carried by an entry, 17 twins -
+each checked, every twin is the same vendor). **List 4: 132.** Entries, links and `MigrationData.gs` are
+byte-identical to pass 6; link audit unchanged.
