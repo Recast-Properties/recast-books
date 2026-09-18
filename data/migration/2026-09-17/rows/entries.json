@@ -26645,7 +26645,9 @@
 "old_sheet_row": "",
 "flags": "ADDED_NOT_IN_OLD_BOOKS",
 "correction": "C-10 Paul 2026-09-18 (differences batch 1): 'those were kept, not returned. log them for ashburne pool'",
-"skip": ""
+"skip": "",
+"business_purpose": "",
+"attendee": ""
 },
 {
 "txn_id": "migration-20260302-774d3e9f6890",
@@ -26669,7 +26671,9 @@
 "old_sheet_row": "",
 "flags": "ADDED_NOT_IN_OLD_BOOKS",
 "correction": "C-10 Paul 2026-09-18 (differences batch 1): same",
-"skip": ""
+"skip": "",
+"business_purpose": "",
+"attendee": ""
 },
 {
 "txn_id": "migration-20260902-4114c82b7b98",
@@ -26693,7 +26697,9 @@
 "old_sheet_row": "",
 "flags": "ADDED_NOT_IN_OLD_BOOKS",
 "correction": "C-10 Paul 2026-09-18 (differences batch 1): 'log that for brushwood' (receipt shows the Citizens card 5450)",
-"skip": ""
+"skip": "",
+"business_purpose": "",
+"attendee": ""
 },
 {
 "txn_id": "migration-20260107-4da45c6b1434",
@@ -26717,7 +26723,9 @@
 "old_sheet_row": "",
 "flags": "ADDED_NOT_IN_OLD_BOOKS",
 "correction": "C-10 Paul 2026-09-18 (differences batch 1): 'log bags for ashburne trash'",
-"skip": ""
+"skip": "",
+"business_purpose": "",
+"attendee": ""
 },
 {
 "txn_id": "migration-20260408-ade482ec6a2f",
@@ -26741,7 +26749,9 @@
 "old_sheet_row": "",
 "flags": "ADDED_NOT_IN_OLD_BOOKS",
 "correction": "C-10 Paul 2026-09-18 (differences batch 1): 'matts are for ashburne. log them'",
-"skip": ""
+"skip": "",
+"business_purpose": "",
+"attendee": ""
 },
 {
 "txn_id": "migration-20260616-d9968e8af5a4",
@@ -26765,7 +26775,9 @@
 "old_sheet_row": "",
 "flags": "RETURN_CONFIRMED_BY_PAUL",
 "correction": "C-11 Paul 2026-09-18 (differences batch 1): 'returns'",
-"skip": ""
+"skip": "",
+"business_purpose": "",
+"attendee": ""
 },
 {
 "txn_id": "migration-20260616-7b1eaca14100",
@@ -26789,7 +26801,9 @@
 "old_sheet_row": "",
 "flags": "RETURN_CONFIRMED_BY_PAUL",
 "correction": "C-11 Paul 2026-09-18 (differences batch 1): 'returns'",
-"skip": ""
+"skip": "",
+"business_purpose": "",
+"attendee": ""
 },
 {
 "txn_id": "migration-20260616-d37a8e412c05",
@@ -26813,7 +26827,9 @@
 "old_sheet_row": "",
 "flags": "RETURN_CONFIRMED_BY_PAUL",
 "correction": "C-11 Paul 2026-09-18 (differences batch 1): 'returns'",
-"skip": ""
+"skip": "",
+"business_purpose": "",
+"attendee": ""
 },
 {
 "txn_id": "migration-20260616-9f145f4e003a",
@@ -26837,7 +26853,9 @@
 "old_sheet_row": "",
 "flags": "RETURN_CONFIRMED_BY_PAUL",
 "correction": "C-11 Paul 2026-09-18 (differences batch 1): 'returns'",
-"skip": ""
+"skip": "",
+"business_purpose": "",
+"attendee": ""
 },
 {
 "txn_id": "migration-20260107-6489416df35a",
@@ -26861,7 +26879,9 @@
 "old_sheet_row": "",
 "flags": "RETURN_CONFIRMED_BY_PAUL",
 "correction": "C-11 Paul 2026-09-18 (differences batch 1): 'return gloves'",
-"skip": ""
+"skip": "",
+"business_purpose": "",
+"attendee": ""
 },
 {
 "txn_id": "migration-20260107-b0eb68ca1bfb",
@@ -26885,6 +26905,8 @@
 "old_sheet_row": "",
 "flags": "RETURN_CONFIRMED_BY_PAUL",
 "correction": "C-11 Paul 2026-09-18 (differences batch 1): 'return gloves'",
-"skip": ""
+"skip": "",
+"business_purpose": "",
+"attendee": ""
 }
 ]
