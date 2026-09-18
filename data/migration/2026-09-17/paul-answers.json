@@ -500,6 +500,12 @@
    "row": "136 Bowling Green 2026-06-30 Lupe 160.00",
    "docId": "gm-19f3f6d3919a5816",
    "why": "Claude 2026-09-18 (audit §35): Paul's handwritten 'Bowling Green' payment log reads '6-30 Carpet laid 160.00 CK 1088' - this row, paid by Dennis's check (C-13: 'dennis paid'). Its other line, '6-26 FALCON 315.00 CK 1082', is the Falcon Creek $315 row of 06-27, already Dennis paid and carrying Paul's note 'Effren $315'"
+  },
+  {
+   "key": "PROP-171",
+   "row": "104 Ashburne 2026-01-14 Berret Pest Control 270.63",
+   "docId": "gm-19f19bb233837a1e",
+   "why": "Claude 2026-09-18 (audit §36): the only Berrett Pest Control business in any mailbox is one job - quote 06-29, 'Completed Service' 06-30 ($250.00 + $20.63 tax), payment receipt 06-30 for $270.63 on card 9166, account 1172065 opened with that quote. The row is $270.63 to the cent; its typed date 01-14 has nothing behind it (date put to Paul; the row stays as typed meanwhile)"
   }
  ],
  "no_link": [

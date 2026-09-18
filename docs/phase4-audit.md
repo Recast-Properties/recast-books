@@ -1103,3 +1103,18 @@ row of 06-27, **already Dennis paid**: Paul's handwritten Bowling Green log read
 reconciliation does **not** cover is Falcon Creek's side: payments. Mail shows only the CNB Zelle of 08-31
 ($275, invoice 1390) and that "Effren Landscaper" was added as a Zelle recipient on Paul's Chase on 07-09;
 how 1373 and 1374 were paid, and by whom, is not in any mailbox.
+
+## 36 · Singles on list 4, first findings (2026-09-18 evening)
+
+- **Falcon Creek, Paul:** "dennis only paid that $315. my guess is i paid those falcon invoices from my chase
+  account as zelle payments. let me look." Waiting on his Chase Zelle history before touching invoice 1373's
+  Granite $140 / $110 or 1374's two missing $55 lines.
+- **Berrett Pest Control $270.63:** the Ashburne row is typed 01-14; every Berrett message (quote 06-29,
+  service and payment 06-30, card 9166) is one job in June and the account was opened with that quote. Row
+  linked to the receipt (891 linked); the 01-14 date is a question for Paul (redate to 06-30?).
+- **VistaPrint:** order of 05-08 $406.04 was cancelled on 05-13 for a $406.04 merchandise credit and re-placed
+  the same day at $405.84 on the credit - one cost, the Ashburne "Signage" row of 05-08. Order of 06-21 totals
+  $369.08 (items $294.39 + shipping $52.98 + tax $21.71) against two overhead rows of $170.99 + $147.69 =
+  $318.68 - a $50.40 difference for the differences list. **Order of 06-11, $241.71 (yard signs + riders), has
+  no row** - to put to Paul.
+- **Apify $313.20 (05-15 annual plan):** C-5 recorded it as canceled; refund not yet confirmed in mail.
