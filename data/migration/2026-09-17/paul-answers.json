@@ -26,6 +26,14 @@
    },
    "register": "C-5",
    "said": "2026-09-18: the undated $29 Apify row is a duplicate (four charges May-Aug, five rows) - 'agreed', drop it"
+  },
+  {
+   "match": {
+    "old_tab": "RECAST BIZ",
+    "payee": "420 Alyssa"
+   },
+   "register": "C-6",
+   "said": "2026-09-18: the $666.67 '420 Alyssa' interest row - 'remove it from the books'"
   }
  ]
 }

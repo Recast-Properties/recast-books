@@ -270,6 +270,7 @@ the tie-out per property against the snapshot.
 | C-3 | 2026-09-18 | 104 Ashburne, Amazon Shower Glass | date `2/11/0126` | 2026-02-11 | Date typo; it hid the row from the matcher |
 | C-4 | 2026-09-18 | 104 Ashburne header "Rehab Total" | $157,945.30 | $164,983.83 of typed rows | **Confirmed by Paul 2026-09-18: "those totals outside the ranges should be included."** The header's block SUM ranges stop short: 22 rows typed below them ($6,435.91: Lighting & Electrical 2, Pool 3, Landscaping 13, Chimney 1, Utilities 3 - `ashburne-rows-outside-header.json`) plus the two text cells ($602.62) were never counted. Header + $7,038.53 = the rows, to the cent. The migration posts the rows |
 | C-5 | 2026-09-18 | RECAST BIZ / Website, Apify $29.00, undated | one of five $29 rows | dropped | Paul: a duplicate. The subscription began 2026-05-18 (first invoice 05-15 canceled); four charges May-Aug, all dated and in mail. Overhead is $29.00 below the old sheet |
+| C-6 | 2026-09-18 | RECAST BIZ / Interest, "420 Alyssa" $666.67, undated, no description | in overhead | removed | Paul: "remove it from the books." No such property exists in either workbook; the amount is one month at 8% on $100,000. Overhead is $666.67 below the old sheet |
 
 ## 14 · Where the staging run stands at end of day, 2026-09-17
 
