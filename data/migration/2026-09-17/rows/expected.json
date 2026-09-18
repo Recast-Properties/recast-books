@@ -13,7 +13,8 @@
  },
  "held_back": {
   "ZERO_AMOUNT": 1,
-  "NO_DATE": 2,
+  "DROPPED_BY_PAUL": 1,
+  "NO_DATE": 1,
   "COVERED_BY_ADVANCE": 7
  }
 }

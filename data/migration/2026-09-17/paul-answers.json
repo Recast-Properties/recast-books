@@ -16,5 +16,16 @@
    "paid_from": "PAUL",
    "said": "2026-09-18: the other 33 August-onward rows with no payer - 'all personal card ending in 9166'"
   }
+ ],
+ "drop": [
+  {
+   "match": {
+    "old_tab": "RECAST BIZ",
+    "payee": "Apify",
+    "date": ""
+   },
+   "register": "C-5",
+   "said": "2026-09-18: the undated $29 Apify row is a duplicate (four charges May-Aug, five rows) - 'agreed', drop it"
+  }
  ]
 }

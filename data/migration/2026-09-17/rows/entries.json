@@ -6859,7 +6859,7 @@
 "old_sheet_row": "",
 "flags": "NO_DOC;NO_DATE",
 "correction": "",
-"skip": "NO_DATE (Paul to date it)",
+"skip": "DROPPED_BY_PAUL C-5: 2026-09-18: the undated $29 Apify row is a duplicate (four charges May-Aug, five rows) - 'agreed', drop it",
 "business_purpose": "",
 "attendee": ""
 },
