@@ -299,3 +299,63 @@ the tie-out per property against the snapshot.
 4. Paul reviews Pending (342: OVER_CEILING 74, PAYER_UNKNOWN 52 August-onward, holds).
    Decide whether OVER_CEILING approves in bulk for migrated history.
 5. Flip the four sold properties to `sold` with settlement dates; then cutover (D-025).
+
+## 15 · 2026-09-18 early morning — what the re-post taught us, the change of method, next steps
+
+**Done since §14** (commits `0d457bb` … `0206063`):
+- Deploy of the three fixes; `repostAll` of the 257 (repost-2). Comparison run 6 and the first
+  tie-out by property (`scripts/migration-tieout.py`, `data/migration/2026-09-17/tieout/`).
+- **Matcher rewritten** (`scripts/migration-compare.py`): 45-day window, amounts also read from
+  the mail body, a twin dismissed as `duplicate_of` credited to its original, weak matches
+  reported as candidates (report C carries the candidate), never counted as documented.
+  Result: of 278 rows the strict matcher called uncovered, **19 have no document anywhere**
+  (~$60.5K: Juan Garcia 2 × $7,000, Chinos LLC $13,500, Wayfair $15,262 + $816, Shalom Granite
+  $4,950, Salvador Campos $3,880, checks 1146/1147, James Haroce, Marianna, Julio + friend,
+  50 Floors, 420 Alyssa, small Amazon / Sherwin-Williams / Apify). Nothing for them in the
+  pvb421 listing. These are D-024's `NO_DOC` rows.
+- **Stale-duplicate bug:** 94 receipts (177 old rows, $13.5K, 64 on Ashburne) existed only as a
+  read that said "dismiss, duplicate of receipt-…" where that transaction came from an earlier
+  replay and vanished at `clearBooks`. Reads happen once, so every re-post replayed the dismiss.
+  Rule added in the ingest: a stored dismiss whose `duplicate_of` txn is not in the Journal
+  replays as the read (post with entries, hold without). After five passes: **74 posted, 10
+  dismissed, 2 pending, 8 not yet through** (`books-repost-paul-8.json`, in Drive, not run).
+- **Why the passes kept failing (root cause, fixed):** commit `1e8a823` had put the "is this txn
+  voided" lookup - `ISNA(MATCH(Journal!A2:A5000, Journal!Y2:Y5000, 0))` - inside every
+  SUMPRODUCT of every property tab. Each Journal append made the workbook recalculate for
+  minutes; writer reads timed out, misfired onto doGet ("returned no rows") or came back as
+  HTML. Page size (20 → 5 → 3 → 1) was never the cause. Fixed `e2cf118`: formulas read the
+  helper column again, through a drift-proof `INDEX(...):INDEX(..., ROWS(Journal range)+1)`.
+  Staging writer pushed and deployed (@3); Paul ran `rebuildAllPropertyTabs` on staging.
+  **The production writer has NOT been pushed** - do it before anything rebuilds a production
+  property tab (`clasp push -f` + `clasp deploy -i` from `apps-script/writer/`, then rebuild).
+- Also fixed: a bulk re-post skips the per-post property tab rebuild (`postBatch skipRefresh`,
+  it ran inside the writer's lock); `repostWatch` in the poller re-posts on its own when the
+  Drive list carries a new build stamp (**not installed** - it installs on the next manual
+  `repostAll`; with D-029 it may never be needed).
+- **Decisions:** D-027 (the old books are the target, receipt linked), D-028 (items on a
+  receipt and absent from the old books hold for Paul: return or omitted; report F), **D-029
+  (the migration is row-driven)**.
+
+**Why the method changed (D-029).** The document-driven re-post measured the bookkeeper, not
+the books: 396 documents in Pending behind live-mail rails, amounts following the receipt, and
+a post path that cannot do bulk. Paul's priority is the match with the link. So history posts
+from the old rows and the matched receipt is attached.
+
+**Next steps, in order:**
+1. Re-run `migration-compare.py` + `migration-tieout.py` on the fresh envelope download (the
+   94 changed state) and freeze the row↔document map: strong / weak candidate / none.
+2. Build `scripts/migration-rows.py`: old rows + map → entries (D-029.1-2), a difference list
+   (D-029.3, with report F), a confirm-the-match list (weak), a `NO_DOC` list, and the
+   in-mail-not-in-books review list. Dry run only; Paul reads the lists.
+3. Writer: `migrationPostRows()` - one bulk pass under one lock, `source = migration`,
+   `doc_url` set, tabs rebuilt once. Drive filing for matched documents not yet filed is a
+   separate, resumable job (it is slow: ~2.4 MB photos through Apps Script).
+4. `clearBooks` on staging, register properties and advances, run the pass, tie out every
+   property and RECAST BIZ block to the snapshot + corrections register. Expect exact.
+5. Paul reviews the four lists; rules change, rerun. Then sold properties flip with settlement
+   dates (Ashburne and Newport still owed), then cutover (D-025) with the same pass.
+
+Loose ends: `books-repost-paul.json` (repost-8) sits in Paul's Drive, harmless; poller pages 1
+document at a time; acquisition receipts and Dennis draws are still Pending in staging
+(D-026.7 - irrelevant once history is row-driven); staging holds a half-finished
+document-driven Journal that step 4 clears.

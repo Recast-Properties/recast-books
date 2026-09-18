@@ -529,3 +529,19 @@ Six seeded test receipts (`up-test-inbox-*-0916`, fake Home Depot $222.25) were 
 during this: six Journal entries on 1616 Granite paid from PAUL and six Drive files under
 Recast Books/2026/1616 Granite - all to go in the Phase 4 clear (D-013).
 
+
+## 2026-09-18 — Phase 4: forensic matcher, two staging bugs, and the switch to a row-driven migration
+
+Deploy + `repostAll` of 257; comparison run 6; first tie-out by property
+(`scripts/migration-tieout.py`). Paul: the receipts behind the "uncovered" rows exist. They do:
+the matcher was too strict (exact amount, ±5 days). Rewritten - 19 old rows (~$60.5K, contractor
+checks + Wayfair) have no document anywhere, the rest have one. **Bug 1:** 94 receipts could
+never post because their only stored read was "dismiss, duplicate of <txn from an earlier
+replay>"; the ingest now replays such a read as the read. **Bug 2 (root cause of five failed
+re-post passes):** `1e8a823` inlined a 5000-row MATCH into every property tab SUMPRODUCT, so each
+Journal append stalled the workbook for minutes; formulas read the helper column again through a
+drift-proof range (`e2cf118`), staging writer @3, tabs rebuilt. **Production writer not yet
+pushed.** Also: bulk re-posts skip the per-post tab rebuild; `repostWatch` in the poller.
+Decisions D-027 (old books are the target, receipt linked), D-028 (omitted items hold for Paul:
+return or not; report F), **D-029 (row-driven migration: post the old row, attach the
+receipt)**. State and next steps: `docs/phase4-audit.md` §15.

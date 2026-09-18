@@ -65,8 +65,10 @@ in-process, `mark-posted` records it; `lib/gate.mjs` is in `lib.gs` now; approve
 user waits only for the post, ~2.5 s - see CHANGELOG 2026-09-16 late). Next: **Phase 4
 migration, forensic, ahead of Phase 3 (D-024, 2026-09-16)** — audit done 2026-09-17
 (`docs/phase4-audit.md`, snapshot in `data/migration/2026-09-17/`). Listings, reads (946 docs)
-and staging re-post run 1 done 2026-09-17; **state and the next five steps are in
-`docs/phase4-audit.md` §14** (deploy → `repostAll` of 257 → comparison → tie-out → cutover).
+and the staging re-posts done 2026-09-17/18. **Method changed 2026-09-18 (D-029): the
+migration is row-driven - post the old row, attach the matched receipt (D-027 the old books
+are the target, D-028 returns hold for Paul). State and next steps: `docs/phase4-audit.md`
+§15.** The production writer still needs the 2026-09-18 formula fix pushed (§15).
 Staging ids in `phase0-spec.md` §10; `WRITER_URL` points at STAGING until cutover. Phase 3
 (statement uploads — D-019 dropped Plaid; `docs/phase3-spec.md` to be revised for the menu
 shape) follows.

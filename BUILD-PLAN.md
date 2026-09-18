@@ -351,9 +351,13 @@ v1 receipts poller, and the two systems do not track the same way, so the migrat
    document in any mailbox (Harbor Freight in-store, crew meals, the finish nailer, some June
    Office rows, the 420 Alyssa interest) post as `source = migration`, `doc_url` empty,
    `NO_DOC`. Property contractor rows (check/Zelle, no receipt) are migration entries.
-6. **The priority is the match** (D-027): the new Journal reproduces the old workbook property
+6. **Row-driven (D-029, 2026-09-18):** history is posted **from the old rows** - date, amount,
+   property, block as Paul typed them - and the receipt the comparison matched is attached
+   (`doc_url`); the re-run of step 3 supplies the reads and the links, not the postings. The
+   live pipeline's gates never apply to history. State and next steps: `phase4-audit.md` §15.
+7. **The priority is the match** (D-027): the new Journal reproduces the old workbook property
    by property and row by row, each entry linked to its receipt. Everything below serves that.
-7. **Paul reviews the comparison report** (with the rule-change log between runs). Iterate
+8. **Paul reviews the comparison report** (with the rule-change log between runs). Iterate
    in staging until clean. Then cutover: D-013 clear of the real workbook, one deterministic
    pass from the accepted reads and mapping, tie out every property total and RECAST BIZ
    block to the snapshot; every intentional difference is a dated correction (2b).

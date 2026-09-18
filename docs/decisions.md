@@ -586,3 +586,35 @@ return." Confirmed: "yes use that rule."
    Paul**, who marks it a return (credit posts, `RETURN_INFERRED`) or an omitted item (posts
    as read: a real cost the old books dropped, or personal - due to owner). Paul: "lets make
    it so i manually determine if its a return or just something like a bottled water."
+
+## D-029 · The migration is row-driven: the old row is posted, the receipt is attached — 2026-09-18 · Paul
+
+Context: through 2026-09-17/18 the staging migration was document-driven - every receipt
+re-posted through the live bookkeeper pipeline (model read → gate → post). Result after a full
+day: 396 documents in Pending behind rails built for live mail (ceiling, unknown payer, low
+confidence), amounts and splits following the receipt rather than Paul's row, D-027's "the old
+row wins" implemented nowhere but the property/trade overrides, and a post path (three full
+Journal reads + Drive filing per document) too slow and fragile for bulk. Paul: "are we
+drifting?" - yes. Asked whether to switch method: "yes."
+
+**Decided:** Phase 4 posts **from the old rows**, not from the documents.
+1. For each old row (property tabs + RECAST BIZ, corrections register applied): one entry with
+   the old row's date, amount, property and trade block; account from the matched read when
+   there is one, else from the block map. `source = migration`.
+2. The receipt the matcher found (comparison reports A/B, strong matches only) is attached:
+   `doc_url` on the entry, the model's read kept on the envelope as evidence. One document may
+   carry several rows (the old books split receipts by block).
+3. Receipt total ≠ the rows it explains → listed for Paul's return-or-omitted review (D-028);
+   nothing posts from the difference until he marks it.
+4. Rows with only a weak candidate are listed for Paul to confirm the match; rows with no
+   document anywhere post `NO_DOC` (D-024), proven against bank statements in Phase 3.
+5. Documents in mail that match no old row ("in mail, not in old books") are a review list,
+   not postings: utilities already decided (D-026.5) post; the rest wait for Paul.
+6. Posting is one bulk, deterministic pass inside the writer (no gates, no per-document Journal
+   reads, property tabs rebuilt once at the end). The tie-out is exact by construction;
+   what remains to check is the links and the difference list.
+7. The receipts pipeline is for live mail from the cutover date forward. Its gates never
+   apply to history. The 946 stored reads and the matcher are what supply the links.
+
+Supersedes the re-post loop of D-025.3 as the way history reaches the Journal (staging,
+clear-and-rerun and "never correct in place" all stand). D-024, D-026, D-027, D-028 stand.
