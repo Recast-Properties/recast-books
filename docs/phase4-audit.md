@@ -696,3 +696,15 @@ can wait and ride along with the next batch of cleanup answers.
 every property, ids identical to the dry run, 782 linked. `npm run deploy` done (deploy `6aad7fed`):
 the prompt change and the image-type fix are live. Still owed from §21: Reprocess `gm-19c521cfa5452bd9`
 (the Chinos estimate) from the Inbox.
+
+**Chinos LLC, closed (2026-09-18 13:27).** Paul reprocessed `gm-19c521cfa5452bd9` after the deploy: the
+read now succeeds (the JPEG-labelled-PNG failure is gone) and it opens with Paul's subject, as the new
+prompt asks - but the attachment is only the company logo; the estimate is behind an invoicesimple
+link the bookkeeper cannot open. Opened in a browser: **Estimate 126, 02/10/2026, $13,500.00, "Flooring
+Materials", 5,250 sq ft of vinyl plank, to Paul at 104 Ashburne Glen** - the old row's date and amount
+exactly; the row is already 1030 materials. Text saved in `data/migration/2026-09-17/evidence/`. It is an
+estimate, not proof of payment (Phase 3). The document stays held in the Inbox with a $0 total; it needs
+no posting - the row is migrated and linked. **Gap noted, not built:** documents whose content sits
+behind a link (invoicesimple, Yardbook) read as empty; a fetch-the-link tool for the bookkeeper would
+close it if it keeps happening.
+
