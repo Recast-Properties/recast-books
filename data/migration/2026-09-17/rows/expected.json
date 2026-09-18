@@ -1,19 +1,19 @@
 {
- "to_post": 1013,
- "cents": 20234212,
+ "to_post": 1010,
+ "cents": 20193495,
  "by_property": {
   "OVERHEAD": 2449656,
   "881 Newport": 308917,
   "469 Brushwood": 191680,
   "366 Mesa": 964800,
   "136 Bowling Green": 344665,
-  "104 Ashburne": 14465929,
+  "104 Ashburne": 14425212,
   "1616 Granite": 1190587,
   "280 Sparkling": 317978
  },
  "held_back": {
   "ZERO_AMOUNT": 1,
-  "DROPPED_BY_PAUL": 3,
+  "DROPPED_BY_PAUL": 6,
   "COVERED_BY_ADVANCE": 7
  }
 }

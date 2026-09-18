@@ -14711,7 +14711,7 @@
 "old_sheet_row": "12",
 "flags": "WEAK_MATCH_UNCONFIRMED",
 "correction": "",
-"skip": "",
+"skip": "DROPPED_BY_PAUL C-9: 2026-09-18: 'the toilet is a duplicate and so are the julio charges if they are the same date'",
 "business_purpose": "",
 "attendee": ""
 },
@@ -16427,7 +16427,7 @@
 "old_sheet_row": "18",
 "flags": "WEAK_MATCH_UNCONFIRMED",
 "correction": "",
-"skip": "",
+"skip": "DROPPED_BY_PAUL C-9: 2026-09-18: 'the toilet is a duplicate and so are the julio charges if they are the same date'",
 "business_purpose": "",
 "attendee": ""
 },
@@ -18949,7 +18949,7 @@
 "old_sheet_row": "28",
 "flags": "WEAK_MATCH_UNCONFIRMED",
 "correction": "",
-"skip": "",
+"skip": "DROPPED_BY_PAUL C-9: 2026-09-18: 'the toilet is a duplicate and so are the julio charges if they are the same date'",
 "business_purpose": "",
 "attendee": ""
 },

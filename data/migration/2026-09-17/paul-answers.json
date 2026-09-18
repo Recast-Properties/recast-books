@@ -45,6 +45,39 @@
    },
    "register": "C-7",
    "said": "2026-09-18: Waxahachie Glass $518.78 was typed in two blocks - 'use the deposit only'"
+  },
+  {
+   "match": {
+    "old_tab": "104 Ashburne",
+    "old_block": "Trash",
+    "payee": "Julio",
+    "date": "2026-02-18",
+    "amount_cents": "20000"
+   },
+   "register": "C-9",
+   "said": "2026-09-18: 'the toilet is a duplicate and so are the julio charges if they are the same date'"
+  },
+  {
+   "match": {
+    "old_tab": "104 Ashburne",
+    "old_block": "Trash",
+    "payee": "Julio",
+    "date": "2026-02-12",
+    "amount_cents": "10000"
+   },
+   "register": "C-9",
+   "said": "2026-09-18: 'the toilet is a duplicate and so are the julio charges if they are the same date'"
+  },
+  {
+   "match": {
+    "old_tab": "104 Ashburne",
+    "old_block": "Small Baths",
+    "payee": "Lowes",
+    "date": "2026-03-25",
+    "amount_cents": "10717"
+   },
+   "register": "C-9",
+   "said": "2026-09-18: 'the toilet is a duplicate and so are the julio charges if they are the same date'"
   }
  ],
  "link": [
