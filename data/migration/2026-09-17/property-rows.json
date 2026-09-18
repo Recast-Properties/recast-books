@@ -1552,11 +1552,12 @@ false
 "payee": "TXU",
 "date": "2026-07-29",
 "desc": "Electricity",
-"amt": 102.12,
+"amt": 102.16,
 "flags": [
 true,
 false
-]
+],
+"correction": "C-20 2026-09-18: typed $102.12; TXU took $102.16 on 07/25 (conf 806639700, card 9166, service address 136 Bowling Green Ave). Paul: 'yes to both'. Bowling Green is $0.04 above the old tab"
 },
 {
 "tab": "136 Bowling Green",

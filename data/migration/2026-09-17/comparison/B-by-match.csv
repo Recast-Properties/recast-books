@@ -159,7 +159,7 @@ gm-19fc8ca461cafa79,2026-08-03,Energy Texas,37116,1,37116,0,104 Ashburne/Utiliti
 gm-19cab7819599377d,2026-03-01,Micky Atlas Pools,200000,1,200000,0,104 Ashburne/Pool,104 Ashburne,pending,post,"LOW_CONFIDENCE,OVER_CEILING",PAUL,,property row now documented,"104 Ashburne/Atlas Pools/2,000.00"
 gm-1a0360f5a5d640a9,2026-08-24,"Anthropic, PBC",1029,0,0,,,OVERHEAD,pending,post,PAYER_UNKNOWN,UNKNOWN,"Fwd: Your receipt from Anthropic, PBC #2945-3640-9269","in mail, not in old books",
 gm-1a091a295143ec7b,2026-09-11,"Rockett Special Utility District (assumed from ""rocket water"")",19474,1,19474,0,881 Newport/,881 Newport,pending,hold,"NOT_POST_VERDICT,LOW_CONFIDENCE,PAYER_UNKNOWN",UNKNOWN,rocket water,property row now documented,
-gm-19c521cfa5452bd9,2026-02-12,Chino's H.R. Home Renovations (Chinos LLC),0,0,0,,,,pending,hold,"NOT_POST_VERDICT,LOW_CONFIDENCE,ZERO_TOTAL",UNKNOWN,Flooring,"in mail, not in old books","104 Ashburne/Chinos LLC/13,500.00"
+gm-19c521cfa5452bd9,2026-02-12,Chino's H.R. Home Renovations (Chinos LLC),0,0,0,,,,dismissed,hold,"NOT_POST_VERDICT,LOW_CONFIDENCE,ZERO_TOTAL",UNKNOWN,Flooring,"in mail, not in old books","104 Ashburne/Chinos LLC/13,500.00"
 gm-19e8f7c50d0fbad4,2026-05-29,The Home Depot,2965,1,473,2492,1616 Granite RECONCILED/,1616 Granite,posted,post,,PAUL,Fwd: 1616,property row now documented,
 gm-19c51e70660fc809,2026-02-10,Floor &amp; Decor,0,0,0,,,,pending,hold,"NOT_POST_VERDICT,ZERO_TOTAL",PAUL,Fwd: Your e-Receipt is Enclosed,"in mail, not in old books",
 gm-19c8b34b8addc1ea,2026-01-18,American Airlines,57560,0,0,,,OVERHEAD,pending,post,OVER_CEILING,PAUL,Fwd: 02/01/26,"in mail, not in old books",
@@ -281,7 +281,7 @@ gm-19f77d553b3a99d5,2026-07-19,Uber Eats,0,0,0,,,,dismissed,dismiss,"NOT_POST_VE
 gm-19c1616e0c3f33fa,2026-01-31,Harbor Freight,1699,1,1699,0,104 Ashburne/Gas/Truck/Trailer,OVERHEAD,pending,post,LOW_CONFIDENCE,PAUL,,property row now documented,
 gm-1a0a73ce436f1651,2026-09-15,CoreLogic Inc,43500,0,0,,,,dismissed,dismiss,"NOT_POST_VERDICT,LOW_CONFIDENCE,TOTAL_MISMATCH",PAUL,Your CoreLogic Inc receipt [#1520-7474],junk (dismissed),
 gm-19d7842c261c0b2b,2026-04-10,The Home Depot,7670,1,7670,0,104 Ashburne/Supplies,104 Ashburne,dismissed,dismiss,,PAUL,,property row now documented,
-gm-19f98341582eb450,2026-07-25,TXU Energy,10216,1,10212,4,136 Bowling Green/,1616 Granite,pending,post,LOW_CONFIDENCE,PAUL,TXU,property row now documented,
+gm-19f98341582eb450,2026-07-25,TXU Energy,10216,1,10216,0,136 Bowling Green/,1616 Granite,pending,post,LOW_CONFIDENCE,PAUL,TXU,property row now documented,
 gm-19f41acfd298c9d7,2026-07-08,The Home Depot,8793,2,3081,5712,881 Newport/;881 Newport/,881 Newport,dismissed,dismiss,,PAUL,,property row now documented,881 Newport/Home Depot/51.12
 gm-19e519b814eef443,2026-05-22,Uber Eats,2560,0,0,,,,dismissed,dismiss,"NOT_POST_VERDICT,TOTAL_MISMATCH",PAUL,[Personal] Your Friday afternoon order with Uber Eats,junk (dismissed),
 gm-19e03c938a0f72b2,2026-05-07,The Home Depot,2378,1,2378,0,104 Ashburne/Supplies,104 Ashburne,posted,post,,PAUL,,property row now documented,
@@ -346,7 +346,6 @@ gm-19ce84ad1be595c1,2026-03-13,FedEx Office,1190,1,1190,0,104 Ashburne/Paint & F
 gm-19f37bd652dbc0b5,2026-07-06,"Energy Texas (Rhythm Ops, LLC)",22682,1,22682,0,104 Ashburne/Utilities,104 Ashburne,pending,hold,"NOT_POST_VERDICT,LOW_CONFIDENCE",PAUL,Fwd: All set! We received your payment through Auto Pay.,property row now documented,
 gm-19c7092d542413e0,2026-02-18,The Home Depot,6956,5,6956,0,RECAST BIZ/Tools;104 Ashburne/Small Baths;104 Ashburne/Master Bath;104 Ashburne/Supplies;104 Ashburne/Supplies,104 Ashburne,dismissed,dismiss,,PAUL,,manual row now documented,
 gm-19d6117a5116478b,2026-04-06,Julio (unidentified labor),40000,0,0,,,104 Ashburne,pending,hold,"NOT_POST_VERDICT,LOW_CONFIDENCE",PAUL,Julio $400,"in mail, not in old books",
-up-test-inbox-warm-0916,2026-09-16,Home Depot,22225,0,0,,,1616 Granite,posted,post,"LOW_CONFIDENCE,TEST_SEED",PAUL,TEST fake receipt 4 (warm caches),"in mail, not in old books",
 gm-19d2647307183ef9,2026-03-25,The Home Depot,9859,1,1783,8076,104 Ashburne/Lighting & Electrical,104 Ashburne,dismissed,dismiss,,PAUL,,property row now documented,
 gm-1a016b2fac76a50d,2026-08-14,City of Waxahachie - Water Billing Department,44349,1,44349,0,Cost Recapture/1616 Granite,,pending,hold,"NOT_POST_VERDICT,LOW_CONFIDENCE,TOTAL_MISMATCH",UNKNOWN,City of Waxachie Utility Bill,property row now documented,136 Bowling Green/City of Red Oak/447.47
 gm-19d2c0314cc37287,2026-03-26,The Home Depot,840,1,582,258,104 Ashburne/Master Bath,104 Ashburne,pending,hold,"NOT_POST_VERDICT,NEEDS_HUMAN_274D,ENTRY_INVALID:OVERHEAD_ON_PROPERTY",PAUL,,property row now documented,104 Ashburne/Home Depot/8.31;104 Ashburne/Home Depot/9.17;104 Ashburne/Home Depot/9.17
@@ -464,6 +463,7 @@ gm-1a00080eaf1523dd,2026-08-14,The Home Depot,4408,1,4408,0,366 Mesa/,366 Mesa,p
 gm-1a0a12d2a90ade46,2026-08-14,City of Waxahachie - Water Billing Department,61291,0,0,,,,dismissed,dismiss,"NOT_POST_VERDICT,LOW_CONFIDENCE,OVER_CEILING,TOTAL_MISMATCH",UNKNOWN,,junk (dismissed),
 gm-19cbe5fe4bbbc3d4,2026-03-05,Armandre Vega,52481,0,0,,,104 Ashburne,pending,hold,"NOT_POST_VERDICT,LOW_CONFIDENCE,OVER_CEILING",PAUL,Send money,"in mail, not in old books",104 Ashburne/Armandre Vega/98.97
 gm-1a000805d296df8b,2026-08-14,The Home Depot,8726,1,1188,7538,366 Mesa/,366 Mesa,posted,post,,PAUL,,property row now documented,366 Mesa/Home Depot/1.18;366 Mesa/Home Depot/69.61
+gm-1a0b4ae03f449106,2026-09-18,Southwest Airlines,0,0,0,,,,dismissed,dismiss,"NOT_POST_VERDICT,ZERO_TOTAL",UNKNOWN,Did someone say double points?,junk (dismissed),
 gm-19e6b8cbc5333ece,2026-05-27,Uber One,999,0,0,,,OVERHEAD,pending,hold,"NOT_POST_VERDICT,LOW_CONFIDENCE",PAUL,Uber One payment confirmation,"in mail, not in old books",
 gm-19ed62e9b6ad57a5,2026-06-17,Uber Eats,0,0,0,,,,dismissed,dismiss,"NOT_POST_VERDICT,ZERO_TOTAL",PAUL,Fuel up the squad 🍕,junk (dismissed),
 gm-19cc51b9d5d50855,2026-03-06,Juanito (unidentified labor payee),250000,1,250000,0,104 Ashburne/Paint & Flooring,104 Ashburne,pending,hold,"NOT_POST_VERDICT,LOW_CONFIDENCE,OVER_CEILING",PAUL,Juanito payment,property row now documented,

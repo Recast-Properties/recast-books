@@ -222,7 +222,7 @@ def main():
     NOT_OURS = {"gm-19f57268c36be87a", "gm-19f57221a343c4d6"}   # Garcia Home Repair $1,200 / $1,000: errors, per Paul
     # paul-answers.json "mail_settled": documents Claude or Paul has decided need no posting (a bill whose
     # payment is a row, a twin, a notice), each with its reason - they leave the review list.
-    SETTLED = {x["docId"] for x in answers.get("mail_settled", [])}
+    SETTLED = {x["docId"] for x in answers.get("mail_settled", [])} | {x["docId"] for x in answers.get("add", [])}   # an added document is in the books
     B = [x for x in csv.DictReader(open(os.path.join(a.cmp, "B-by-match.csv"))) if x["bucket"] == "in mail, not in old books" and x["docId"] not in NOT_OURS and x["docId"] not in SETTLED]
     w("list-4-in-mail-not-in-books.csv", [{"date": x["date"], "vendor": x["vendor"], "total": money(int(x["new_cents"] or 0)), "where_the_read_put_it": x["new_where"], "status": x["status"],
                                            "subject": x["subject"], "weak_candidates": x.get("weak_candidates", ""), "docId": x["docId"]} for x in sorted(B, key=lambda x: -int(x["new_cents"] or 0))])

@@ -1243,6 +1243,32 @@
    "docId": "gm-19f5dc135791e445",
    "register": "C-19",
    "said": "Paul 2026-09-18: 'yes add it and newport too'. Mission, 07-13: 'Mr. Iley sent an invoice to Dennis Little'; agent view 07-14. No receipt seen - $299.00 is the flat fee on every other listing (Granite, Sparkling, Bowling Green, Brushwood, Ashburne). Newport is sold, so it sits on Cost Recapture (D-031 extended). Dennis to forward his PayPal receipt"
+  },
+  {
+   "date": "2026-08-21",
+   "property": "136 Bowling Green",
+   "trade": "",
+   "account": "1120",
+   "amount_cents": 16402,
+   "payee": "TXU Energy",
+   "description": "Electric service payment, acct 900085271895, conf 808997400 - Paul forwarded it to 136bowlinggreen@; CNB daily summary of 08-21 shows it on Citizens 5450",
+   "paid_from": "1401",
+   "docId": "gm-1a024bdf36f04195",
+   "register": "C-21",
+   "said": "Paul 2026-09-18: 'yes to both' - a Bowling Green utility payment in mail and on no old tab (searched within two cents on every tab and in all three mailboxes); same treatment as the $204.98 TXU payment of C-10"
+  },
+  {
+   "date": "2026-08-31",
+   "property": "136 Bowling Green",
+   "trade": "",
+   "account": "1120",
+   "amount_cents": 52924,
+   "payee": "City of Red Oak",
+   "description": "Water/sewer payment, acct 026-0031064-002, conf JNGKGFWLFQ: $522.02 + $5.22 + $2.00 payment fees, Visa 5450",
+   "paid_from": "1401",
+   "docId": "gm-1a05ab4094033830",
+   "register": "C-21",
+   "said": "Paul 2026-09-18: 'yes to both' - a Bowling Green utility payment in mail and on no old tab (searched within two cents on every tab and in all three mailboxes); same treatment as the $204.98 TXU payment of C-10"
   }
  ],
  "retracted": [
@@ -1371,6 +1397,10 @@
   {
    "docId": "gm-19f3f6ac03e9a878",
    "why": "Claude 2026-09-18, utilities pass (audit §29): City of Corsicana landfill ticket 04-16 $21.00 - not a utility: it is the ticket behind Dennis's cash advance of 04-16 $21.00 ('City of Corsicana dump', D-032), which is financing, not a row"
+  },
+  {
+   "docId": "gm-19fc94ab6c53f72a",
+   "why": "Claude 2026-09-18, utilities pass (audit §29): TXU bill 08-03 $164.02, 136 Bowling Green - the bill for the 08-21 payment, now the C-21 addition"
   }
  ]
 }

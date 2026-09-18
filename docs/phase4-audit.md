@@ -284,6 +284,8 @@ the tie-out per property against the snapshot.
 | C-17 | 2026-09-18 | 104 Ashburne / Gas-Truck-Trailer, Shell "Gas" $65.48 (03-25), rows 32 and 33 | two rows | one row | Paul: "typed twice." One Shell receipt that day (18.714 gal @ $3.499, card 9166), linked to row 32; row 33 dropped. The fuel block migrates to overhead (D-026.9) and Ashburne closed on its cash draws, not its rows, so this is a plain drop like C-5 and C-9, not a Cost Recapture line. Overhead is $65.48 below the old books |
 | C-18 | 2026-09-18 | 104 Ashburne / Pool, Atlas Pools "Service" $256.01 (06-30, row 22) | six monthly service rows | five | Atlas's payment portal (`evidence/atlas-pools-portal-payments-*.webp`) shows five service payments: 05/18, 06/11, 07/25, 09/01, 09/01. Paul: "use the screenshots i gave you as the guide. that is what was paid." July's invoice was typed when billed (06-30) and again when paid (07-30); the 06-30 row is dropped. Ashburne closed on its cash draws, so a plain drop like C-7, C-9. Ashburne is $256.01 below the old tab |
 | C-19 | 2026-09-18 | MLS listing fees the old books left off: 136 Bowling Green and 881 Newport | not in the old books | added, $299.00 each, 1330, **Dennis paid** | Every listing goes through Mission Real Estate Group / Iley & Iley at a flat $299. Granite, Sparkling, Brushwood and Ashburne have their fee; Bowling Green and Newport did not. Bowling Green: PayPal receipt to Dennis of 07-01, and Paul's email to Mission that day - "We added and paid for a new listing ... It was for 136 Bowling Green Ave" - on the property's tab (held). Newport: Mission 07-13, "Mr. Iley sent an invoice to Dennis Little", listed 07-14; no receipt seen, amount is the flat fee; Newport is sold, so the line is on **Cost Recapture** (trade 881 Newport, dated 2026-09-18). Paul: "yes add it and newport too." Owed to Dennis at closing, no interest (D-030) |
+| C-20 | 2026-09-18 | 136 Bowling Green, TXU "Electricity" (07-29, row 8) | $102.12 | $102.16 | TXU took $102.16 on 07/25 (conf 806639700, card 9166, service address on the confirmation). Paul: "yes to both". Bowling Green is $0.04 above the old tab |
+| C-21 | 2026-09-18 | 136 Bowling Green, two utility payments the old books left off | not in the old books | added, **$693.26**, 1120, paid from Citizens (1401) | TXU $164.02 of 08-21 (conf 808997400; Paul forwarded it to 136bowlinggreen@; CNB daily summary shows it on card 5450) and City of Red Oak $529.24 of 08-31 (conf JNGKGFWLFQ: $522.02 + $7.22 fees, Visa 5450). Searched within two cents on every old tab and in all three mailboxes first. Paul: "yes to both". Audit §29 |
 
 ## 14 · Where the staging run stands at end of day, 2026-09-17
 
@@ -929,3 +931,11 @@ STAGING project with the unchanged `MigrationData.gs`; **not yet run** - it is p
 advances list changes or at the cutover rehearsal. Link audit rerun on a fresh download of all 968
 envelopes: clean (section one lists only the old poller's Uber id link); 15 links point at never-read
 paul@ messages by Gmail id, to be read and filed (item 4 of the handoff).
+
+**Bowling Green answered (Paul: "yes to both") - C-20, C-21.** The $102.12 row is $102.16; the TXU $164.02
+(08-21) and Red Oak $529.24 (08-31) payments are added on the tab from Citizens. An `add` document now
+leaves list 4 by itself. Pipeline rerun from the matcher on the fresh envelopes: the only entry changes are
+those three (txn-id diff against the previous run; no link disappeared), link audit clean. Dry run **1,033
+entries, $221,321.36** (Bowling Green $4,753.93), all build; differences 116, list 4 **143**. Pushed to
+staging; **staging still holds pass 5 ($220,628.06)** until the next Run of `migrationRunStaging` (the
+advances list did not change). Still open from the table above: Ashburne $484.43, Mesa $49.54.

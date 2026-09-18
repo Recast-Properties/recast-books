@@ -13,7 +13,6 @@ date,vendor,total,where_the_read_put_it,status,subject,weak_candidates,docId
 2026-01-18,American Airlines,575.60,OVERHEAD,pending,Fwd: 02/01/26,,gm-19c8b34b8addc1ea
 2026-09-09,Alaska Airlines,559.40,OVERHEAD,dry,Fwd: Your flight is booked: KPQHJU to Portland on 09/09/2026,,dry-gm-1a083f30d9e415bb
 2026-06-18,Unknown (no vendor named in email),550.00,104 Ashburne,pending,Armadre fan,104 Ashburne/Armandre Vega/550.00,gm-19edb74b0d81508a
-2026-08-31,Red Oak Municipal Payments - Utility Billing,529.24,136 Bowling Green,pending,Fwd: Payment confirmation,,gm-1a05ab4094033830
 2026-03-05,Armandre Vega,524.81,104 Ashburne,pending,Send money,104 Ashburne/Armandre Vega/98.97,gm-19cbe5fe4bbbc3d4
 2026-03-22,The Home Depot,514.16,104 Ashburne,pending,,104 Ashburne/Home Depot/1.06,gm-19d16d3ec604edb7
 2026-09-03,"Energy Texas (Rhythm Ops, LLC)",484.43,,pending,All set! We received your payment through Auto Pay.,,gm-1a066c4d6b0da9a5
@@ -46,7 +45,6 @@ date,vendor,total,where_the_read_put_it,status,subject,weak_candidates,docId
 2026-09-16,Home Depot,222.25,1616 Granite,posted,TEST fake Home Depot receipt,,up-test-inbox-dialog-0916
 2026-09-16,Home Depot,222.25,1616 Granite,posted,TEST fake receipt 3 (fast approve),,up-test-inbox-fast-0916
 2026-09-16,Home Depot,222.25,1616 Granite,posted,TEST fake receipt 2 (timing),,up-test-inbox-timing-0916
-2026-09-16,Home Depot,222.25,1616 Granite,posted,TEST fake receipt 4 (warm caches),,up-test-inbox-warm-0916
 2026-09-16,Home Depot,222.25,1616 Granite,posted,TEST fake receipt 6 (cache b),,up-test-inbox-cache-b-0916
 2026-09-16,Home Depot,222.25,1616 Granite,posted,TEST fake receipt 5 (cache a),,up-test-inbox-cache-a-0916
 2026-03-02,The Home Depot,219.69,OVERHEAD,pending,Your Electronic Receipt,,gm-19caf6b9e1556ade
@@ -64,7 +62,6 @@ date,vendor,total,where_the_read_put_it,status,subject,weak_candidates,docId
 2026-02-19,The Home Depot,178.48,1616 Granite,pending,Your Electronic Receipt,,gm-19c774f69781c13a
 2026-01-11,The Home Depot,170.63,,pending,Your Electronic Receipt,,gm-19bae03eddedc8bc
 2026-02-17,The Home Depot,166.08,OVERHEAD,pending,Your Electronic Receipt,,gm-19c6ce38c37d7ca4
-2026-08-21,TXU Energy,164.02,1616 Granite,pending,Your payment's complete,,gm-1a024bdf36f04195
 2026-02-12,The Home Depot,156.67,,pending,Your Electronic Receipt,,gm-19c52d5f502531fb
 2026-09-09,Klarna (Apple Upgrade / Saks Fifth Avenue installments),150.73,,dry,Screenshot 2026-09-09 at 4.28.13 PM,,dry-gm-1a08880be459a7a0
 2026-06-25,Julio (unidentified labor),150.00,104 Ashburne,pending,Julio 150,,gm-19eff3e752656e54
@@ -128,7 +125,7 @@ date,vendor,total,where_the_read_put_it,status,subject,weak_candidates,docId
 2026-03-17,The UPS Store #5780,3.57,OVERHEAD,posted,,104 Ashburne/UPS Store/3.57,gm-19cfc60f0514c660
 2026-02-17,O'Reilly Auto Parts,3.45,OVERHEAD,posted,,104 Ashburne/O'Reily/3.45,gm-19c6bce6982d294b
 2026-03-07,Floor &amp; Decor,0.00,,pending,Fwd: Your e-Receipt is Enclosed,104 Ashburne/Floor & Decor/248.39;104 Ashburne/Floor & Decor/136.40,gm-19cc9f61226563fe
-2026-02-12,Chino's H.R. Home Renovations (Chinos LLC),0.00,,pending,Flooring,"104 Ashburne/Chinos LLC/13,500.00",gm-19c521cfa5452bd9
+2026-02-12,Chino's H.R. Home Renovations (Chinos LLC),0.00,,dismissed,Flooring,"104 Ashburne/Chinos LLC/13,500.00",gm-19c521cfa5452bd9
 2026-02-10,Floor &amp; Decor,0.00,,pending,Fwd: Your e-Receipt is Enclosed,,gm-19c51e70660fc809
 2026-04-03,Julio,0.00,,pending,"Julio 4/2, 4/3",,gm-19d54f911af97475
 2026-03-18,Floor &amp; Decor,0.00,,pending,Fwd: Your e-Receipt is Enclosed,,gm-19d015260a55727a
