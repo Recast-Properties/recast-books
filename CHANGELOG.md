@@ -643,3 +643,7 @@ Evidence folder indexed (`data/migration/2026-09-17/evidence/README.md`).
 
 
 **C-18.** Atlas Pools 06-30 service $256.01 dropped - no payment behind it on Atlas's portal (Paul: the portal is the guide). Dry run 1,029 entries, $220,030.06.
+
+**C-19.** MLS listing fees the old books left off - Bowling Green (07-01, its tab) and Newport (Cost
+Recapture) - $299 each, Dennis paid (Paul). Dry run 1,031 entries, $220,628.06.
+

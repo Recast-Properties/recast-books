@@ -283,6 +283,7 @@ the tie-out per property against the snapshot.
 | C-16 | 2026-09-18 | 280 Sparkling, TXU "Electricity" $161.17 (06-16, row 36) | on the Sparkling tab **and** on 1616 Granite (row 6) | Sparkling row stays as closed; **Cost Recapture credit -$161.17** (trade 280 Sparkling, 1120, dated 2026-09-18, reduces Due to Paul) | Paul's TXU history for both accounts (`evidence/txu-history-*.png`): the 06/16 $161.17 is Granite's (acct 900084832931; Granite = $161.17 + $261.76 = $422.93, the old tab exactly). Sparkling's account shows only $228.64 (08/05) and $213.64 (08/18). Paul: "the discrepancies need to be accounted for in the cost recapture tab since those properties are actually locked in reality." The payment confirmation is relinked to the Granite row; it only arrived through the Sparkling mailbox |
 | C-17 | 2026-09-18 | 104 Ashburne / Gas-Truck-Trailer, Shell "Gas" $65.48 (03-25), rows 32 and 33 | two rows | one row | Paul: "typed twice." One Shell receipt that day (18.714 gal @ $3.499, card 9166), linked to row 32; row 33 dropped. The fuel block migrates to overhead (D-026.9) and Ashburne closed on its cash draws, not its rows, so this is a plain drop like C-5 and C-9, not a Cost Recapture line. Overhead is $65.48 below the old books |
 | C-18 | 2026-09-18 | 104 Ashburne / Pool, Atlas Pools "Service" $256.01 (06-30, row 22) | six monthly service rows | five | Atlas's payment portal (`evidence/atlas-pools-portal-payments-*.webp`) shows five service payments: 05/18, 06/11, 07/25, 09/01, 09/01. Paul: "use the screenshots i gave you as the guide. that is what was paid." July's invoice was typed when billed (06-30) and again when paid (07-30); the 06-30 row is dropped. Ashburne closed on its cash draws, so a plain drop like C-7, C-9. Ashburne is $256.01 below the old tab |
+| C-19 | 2026-09-18 | MLS listing fees the old books left off: 136 Bowling Green and 881 Newport | not in the old books | added, $299.00 each, 1330, **Dennis paid** | Every listing goes through Mission Real Estate Group / Iley & Iley at a flat $299. Granite, Sparkling, Brushwood and Ashburne have their fee; Bowling Green and Newport did not. Bowling Green: PayPal receipt to Dennis of 07-01, and Paul's email to Mission that day - "We added and paid for a new listing ... It was for 136 Bowling Green Ave" - on the property's tab (held). Newport: Mission 07-13, "Mr. Iley sent an invoice to Dennis Little", listed 07-14; no receipt seen, amount is the flat fee; Newport is sold, so the line is on **Cost Recapture** (trade 881 Newport, dated 2026-09-18). Paul: "yes add it and newport too." Owed to Dennis at closing, no interest (D-030) |
 
 ## 14 · Where the staging run stands at end of day, 2026-09-17
 
@@ -840,4 +841,10 @@ The $331.01 difference is two things.
 
 **After C-18:** the Ashburne Atlas rows are 17, $18,670.17 = the portal's $18,595.17 + the three $25.00
 wires. Dry run **1,029 entries, $220,030.06** (Ashburne $160,594.86).
+
+**Listing fees (C-19).** Paul asked whether Bowling Green has an Iley / Mission row: it has none, and
+neither has Newport, though both were listed through Mission (07-02 and 07-14). Both added, Dennis paid:
+Bowling Green on its tab ($4,060.63 now), Newport on Cost Recapture ($1,502.87 now). The Granite and
+Sparkling fees stay without a receipt - Dennis paid them and the PayPal receipts went to him; asked for.
+Dry run **1,031 entries, $220,628.06**, all build; 870 linked.
 
