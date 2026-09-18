@@ -286,6 +286,7 @@ the tie-out per property against the snapshot.
 | C-19 | 2026-09-18 | MLS listing fees the old books left off: 136 Bowling Green and 881 Newport | not in the old books | added, $299.00 each, 1330, **Dennis paid** | Every listing goes through Mission Real Estate Group / Iley & Iley at a flat $299. Granite, Sparkling, Brushwood and Ashburne have their fee; Bowling Green and Newport did not. Bowling Green: PayPal receipt to Dennis of 07-01, and Paul's email to Mission that day - "We added and paid for a new listing ... It was for 136 Bowling Green Ave" - on the property's tab (held). Newport: Mission 07-13, "Mr. Iley sent an invoice to Dennis Little", listed 07-14; no receipt seen, amount is the flat fee; Newport is sold, so the line is on **Cost Recapture** (trade 881 Newport, dated 2026-09-18). Paul: "yes add it and newport too." Owed to Dennis at closing, no interest (D-030) |
 | C-20 | 2026-09-18 | 136 Bowling Green, TXU "Electricity" (07-29, row 8) | $102.12 | $102.16 | TXU took $102.16 on 07/25 (conf 806639700, card 9166, service address on the confirmation). Paul: "yes to both". Bowling Green is $0.04 above the old tab |
 | C-21 | 2026-09-18 | 136 Bowling Green, two utility payments the old books left off | not in the old books | added, **$693.26**, 1120, paid from Citizens (1401) | TXU $164.02 of 08-21 (conf 808997400; Paul forwarded it to 136bowlinggreen@; CNB daily summary shows it on card 5450) and City of Red Oak $529.24 of 08-31 (conf JNGKGFWLFQ: $522.02 + $7.22 fees, Visa 5450). Searched within two cents on every old tab and in all three mailboxes first. Paul: "yes to both". Audit §29 |
+| C-22 | 2026-09-18 | 104 Ashburne / Utilities, Energy Texas auto-pay of 09-03 | not in the old books | added, $484.43, 1120, Paul paid (card 9166) | The 08-17 bill (acct ET-7827592) paid by auto-pay, conf PAY04938659; the tab's last electric row is 08-03 $371.16. Paul: "ashburne has not closed. it is still held. file that 484.43 charge" - a row on the tab, not Cost Recapture. Ashburne is $484.43 above the old tab |
 
 ## 14 · Where the staging run stands at end of day, 2026-09-17
 
@@ -939,3 +940,14 @@ those three (txn-id diff against the previous run; no link disappeared), link au
 entries, $221,321.36** (Bowling Green $4,753.93), all build; differences 116, list 4 **143**. Pushed to
 staging; **staging still holds pass 5 ($220,628.06)** until the next Run of `migrationRunStaging` (the
 advances list did not change). Still open from the table above: Ashburne $484.43, Mesa $49.54.
+
+**Ashburne answered - C-22, and a fact corrected: 104 Ashburne has NOT closed (Paul, 2026-09-18: "it is
+still held").** The $484.43 Energy Texas payment is a row on the Ashburne tab. Earlier notes that call
+Ashburne sold or closed (D-033's list of past sales, "closed on its cash draws" in C-17 / C-18, the owed
+"settlement date") were wrong about the closing: title had 09/10 pencilled in and the lender never
+confirmed; the Sales tab's $124,872.69 is an expected figure. Nothing already done changes - the Ashburne
+corrections were plain drops on its own tab, which is exactly right for a held property, and no Ashburne line
+was ever sent to Cost Recapture. Its open Atmos and Energy Texas accounts are ordinary holding costs. Only
+Newport's settlement date is owed. Dry run **1,034 entries, $221,805.79** (Ashburne $161,079.29), all build;
+the only change against the previous run is the one new entry; pushed to staging, which still holds pass 5.
+Left from §29's table: Mesa, Central States Water $49.54.

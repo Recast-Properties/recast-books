@@ -1269,6 +1269,19 @@
    "docId": "gm-1a05ab4094033830",
    "register": "C-21",
    "said": "Paul 2026-09-18: 'yes to both' - a Bowling Green utility payment in mail and on no old tab (searched within two cents on every tab and in all three mailboxes); same treatment as the $204.98 TXU payment of C-10"
+  },
+  {
+   "date": "2026-09-03",
+   "property": "104 Ashburne",
+   "trade": "Utilities",
+   "account": "1120",
+   "amount_cents": 48443,
+   "payee": "Energy Texas",
+   "description": "Electricity - auto-pay of the 08-17 bill, acct ET-7827592, conf PAY04938659, card 9166",
+   "paid_from": "PAUL",
+   "docId": "gm-1a066c4d6b0da9a5",
+   "register": "C-22",
+   "said": "Paul 2026-09-18: 'ashburne has not closed. it is still held. file that 484.43 charge' - so it is a row on the Ashburne tab (Utilities), not a Cost Recapture line. Searched within two cents on every old tab and in all three mailboxes first"
   }
  ],
  "retracted": [
