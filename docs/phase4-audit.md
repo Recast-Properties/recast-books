@@ -453,3 +453,10 @@ Held back, $20,398.61: 7 Ashburne rows already in the Journal through Dennis's a
 Reconciled against the old books: **98.2% of dollars** (posted + covered by advances); the rest
 is §17 item 1. First pass took 4.5 min for 300 entries (per-entry TextFinder lookup in
 `postBatchEntries_`); the pass now appends once under the lock - 680 entries in seconds.
+
+**Link finding, 2026-09-18:** a Gmail link only opens in the account that holds the message.
+Documents that arrived through a property mailbox live in properties@, so their links show Paul
+his own inbox. The durable link is the Drive file: §17 item 7 files **every** linked document
+to Drive, including a text rendering of body-only notes (Paul's "1670 Juan", "Mariana /
+Cleaning / $500"), and the Journal carries the Drive URL. Until then, show Paul the stored
+content, not the Gmail link, for anything from a property mailbox.

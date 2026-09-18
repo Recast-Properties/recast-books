@@ -35,5 +35,109 @@
    "register": "C-6",
    "said": "2026-09-18: the $666.67 '420 Alyssa' interest row - 'remove it from the books'"
   }
+ ],
+ "link": [
+  {
+   "key": "PROP-454",
+   "row": "104 Ashburne 2026-03-16 Waltons Brakes & Mufflers 593.77",
+   "docId": "gm-19d018e208f5ce58",
+   "why": "Claude: same amount, 2 days apart; the read spelled the vendor differently"
+  },
+  {
+   "key": "PROP-558",
+   "row": "104 Ashburne 2026-06-18 Armandre Vega 550.00",
+   "docId": "gm-19edb74b0d81508a",
+   "why": "Claude: same amount, same day; the read found no vendor name"
+  },
+  {
+   "key": "PROP-452",
+   "row": "104 Ashburne 2026-04-08 Home Depot 879.31",
+   "docId": "gm-19d6ee18dbed6f84",
+   "why": "Claude: same store, same day, receipt $891.18 vs row $879.31 - the $11.87 goes to the D-028 list"
+  },
+  {
+   "key": "BIZ-50",
+   "row": "RECAST BIZ 2026-03-12 Home Depot 625.69",
+   "docId": "gm-19ce39f32dd9c9c0",
+   "why": "Claude: same store, same day; with the $47.61 Ashburne Supplies row the two rows are the $673.29 receipt (1 cent)"
+  },
+  {
+   "key": "PROP-455",
+   "row": "104 Ashburne 2026-03-30 Juan Garcia 1670.00",
+   "docId": "gm-19d40334634a85c4",
+   "why": "Paul's own note to the Ashburne mailbox that day, subject '1670 Juan' - the record of this payment (Claude, after Paul could not open the link)"
+  }
+ ],
+ "no_link": [
+  {
+   "key": "PROP-206",
+   "row": "104 Ashburne 2026-04-10 Luxury 4 Less Appliance 10319.56",
+   "why": "the receipt found is the $175 cooktop install"
+  },
+  {
+   "key": "PROP-157",
+   "row": "104 Ashburne 2026-01-12 Juan Garcia 7000.00",
+   "why": "the receipt is Juan Gonzalez $1,000 (chimney)"
+  },
+  {
+   "key": "PROP-178",
+   "row": "104 Ashburne 2026-01-23 Juan Garcia 7000.00",
+   "why": "the receipt is Juan Gonzalez $1,000 (chimney)"
+  },
+  {
+   "key": "PROP-252",
+   "row": "104 Ashburne 2026-03-29 Atlas Pools 2177.00",
+   "why": "that receipt belongs to the $2,120 Atlas row"
+  },
+  {
+   "key": "PROP-183",
+   "row": "104 Ashburne 2026-02-12 Atlas Pools 2000.00",
+   "why": "that receipt belongs to the 3/1 $2,000 Atlas row"
+  },
+  {
+   "key": "PROP-449",
+   "row": "104 Ashburne 2026-03-19 Lowes 898.30",
+   "why": "the receipt is $54.08"
+  },
+  {
+   "key": "PROP-473",
+   "row": "104 Ashburne 2026-04-10 Julio & Friend 800.00",
+   "why": "the receipt is $400"
+  },
+  {
+   "key": "PROP-700",
+   "row": "1616 Granite RECONCILED 2026-05-29 Julio & Friend 600.00",
+   "why": "the receipt is $250"
+  },
+  {
+   "key": "PROP-86",
+   "row": "366 Mesa 2026-08-19 Carlos 500.00",
+   "why": "one $500 Carlos receipt, already on the fifth row"
+  },
+  {
+   "key": "PROP-87",
+   "row": "366 Mesa 2026-08-19 Carlos 500.00",
+   "why": "same"
+  },
+  {
+   "key": "PROP-88",
+   "row": "366 Mesa 2026-08-19 Carlos 500.00",
+   "why": "same"
+  },
+  {
+   "key": "PROP-89",
+   "row": "366 Mesa 2026-08-20 Carlos 500.00",
+   "why": "same"
+  },
+  {
+   "key": "PROP-705",
+   "row": "1616 Granite RECONCILED 2026-06-01 50floor 1319.00",
+   "why": "Paul 2026-09-18: 'both charges are correct' - two real $1,319 charges; the $1,339 receipt is on the other row"
+  },
+  {
+   "key": "PROP-706",
+   "row": "1616 Granite RECONCILED 2026-06-01 Mariana 500.00",
+   "why": "the 6/29 'Mariana Cleaning $500' note went to the Bowling Green mailbox and is that property's row"
+  }
  ]
 }

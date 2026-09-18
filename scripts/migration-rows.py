@@ -74,6 +74,13 @@ def main():
     for k in ("inv", "cmp", "out"): ap.add_argument("--" + k, required=True)
     a = ap.parse_args(); os.makedirs(a.out, exist_ok=True)
     G = list(csv.DictReader(open(os.path.join(a.cmp, "G-row-map.csv"))))
+    # Reviewed matches (audit section 17 item 3): a confirmed candidate counts as linked, a refused
+    # one as no document. Keyed by the old row; who decided and why is in paul-answers.json.
+    _ans = json.load(open(os.path.join(a.inv, "paul-answers.json"))) if os.path.exists(os.path.join(a.inv, "paul-answers.json")) else {}
+    _yes = {x["key"]: x for x in _ans.get("link", [])}; _no = {x["key"] for x in _ans.get("no_link", [])}
+    for r in G:
+        if r["key"] in _yes and r["docId"] == _yes[r["key"]]["docId"]: r["match"] = "strong"
+        elif r["key"] in _no and r["match"] == "weak": r["match"] = "none"
     entries, q = [], []
     for r in G:
         prop = TAB_TO_PROP.get(r["tab"], r["tab"]); cents = int(r["cents"])

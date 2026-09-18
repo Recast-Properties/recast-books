@@ -1,24 +1,5 @@
 date,tab,block,payee,desc,amount,candidate_vendor,candidate_date,candidate_total,candidate_status,link,docId
-2026-04-10,104 Ashburne,Appliances,Luxury 4 Less Appliance,Appliaces,"10,319.56",Luxury 4 Less Appliances,2026-04-16,175.00,pending,https://mail.google.com/mail/u/0/#all/19d985398a604372,gm-19d985398a604372
-2026-01-12,104 Ashburne,Paint & Flooring,Juan Garcia,Drywall/Supplies/Painting,"7,000.00",Juan Gonzalez,2026-01-15,"1,000.00",pending,https://mail.google.com/mail/u/0/#all/19bc4405fa0bc7e5,gm-19bc4405fa0bc7e5
-2026-01-23,104 Ashburne,Paint & Flooring,Juan Garcia,Paint & Floor Installation,"7,000.00",Juan Gonzalez,2026-01-15,"1,000.00",pending,https://mail.google.com/mail/u/0/#all/19bc4405fa0bc7e5,gm-19bc4405fa0bc7e5
-2026-03-29,104 Ashburne,Pool,Atlas Pools,Payment,"2,177.00",Atlas Pools,2026-03-23,"2,120.00",pending,https://mail.google.com/mail/u/0/#all/19d253342e722062,gm-19d253342e722062
-2026-02-12,104 Ashburne,Pool,Atlas Pools,Deposit,"2,000.00",Micky Atlas Pools,2026-03-01,"2,000.00",pending,https://mail.google.com/mail/u/0/#all/19cab7819599377d,gm-19cab7819599377d
-2026-03-30,104 Ashburne,Paint & Flooring,Juan Garcia,Exterior Paint,"1,670.00","None identified (email from Paul Bjork, subject only)",2026-03-30,0.00,pending,https://mail.google.com/mail/u/0/#all/19d40334634a85c4,gm-19d40334634a85c4
-2026-06-01,1616 Granite RECONCILED,,50floor,Carpet,"1,319.00",50Floor,2026-06-12,"1,339.00",pending,https://mail.google.com/mail/u/0/#all/19ebc1789358c9a5,gm-19ebc1789358c9a5
-2026-03-19,104 Ashburne,Lighting & Electrical,Lowes,Celing Fans,898.30,"Lowe's Home Centers, LLC",2026-03-19,54.08,posted,https://drive.google.com/file/d/19CDPV6LBlECOIoOzvbWhAXCfix7yM4qa/view?usp=drivesdk,gm-19d069c13314e2b8
-2026-04-08,104 Ashburne,Landscaping,Home Depot,Landscape Fabric & Supplies,879.31,The Home Depot,2026-04-08,891.18,pending,https://mail.google.com/mail/u/0/#all/19d6ee18dbed6f84,gm-19d6ee18dbed6f84
-2026-04-10,104 Ashburne,Landscaping,Julio & Friend,Labor,800.00,Julio (unidentified labor),2026-04-11,400.00,pending,https://mail.google.com/mail/u/0/#all/19d7e6e5e1ce5426,gm-19d7e6e5e1ce5426
-2026-03-12,RECAST BIZ,Tools,Home Depot,Finish Nailer & Charger,625.69,The Home Depot,2026-03-12,673.29,pending,https://mail.google.com/mail/u/0/#all/19ce39f32dd9c9c0,gm-19ce39f32dd9c9c0
-2026-05-29,1616 Granite RECONCILED,,Julio & Friend,Landscaping,600.00,Julio (last name unknown),2026-05-21,250.00,pending,https://mail.google.com/mail/u/0/#all/19e4a94c6d49832a,gm-19e4a94c6d49832a
-2026-03-16,104 Ashburne,Gas/Truck/Trailer,Waltons Brakes & Mufflers,Brakes,593.77,Walton's Muffler Brake &amp; Tire,2026-03-18,593.77,pending,https://mail.google.com/mail/u/0/#all/19d018e208f5ce58,gm-19d018e208f5ce58
-2026-06-18,104 Ashburne,Small Baths,Armandre Vega,Bath Fan and Vent,550.00,Unknown (no vendor named in email),2026-06-18,550.00,pending,https://mail.google.com/mail/u/0/#all/19edb74b0d81508a,gm-19edb74b0d81508a
 2026-03-30,104 Ashburne,House Hardware,Waxahachie Glass,Glass Deposit,518.78,Waxahachie Glass Corp.,2026-03-30,518.78,pending,https://mail.google.com/mail/u/0/#all/19d405df0d679aff,gm-19d405df0d679aff
-2026-08-19,366 Mesa,,Carlos,Siding Insatll,500.00,Carlos A Ibarra,2026-08-15,500.00,pending,https://mail.google.com/mail/u/0/#all/1a007f1fdf7903ee,gm-1a007f1fdf7903ee
-2026-08-19,366 Mesa,,Carlos,Siding Insatll,500.00,Carlos A Ibarra,2026-08-15,500.00,pending,https://mail.google.com/mail/u/0/#all/1a007f1fdf7903ee,gm-1a007f1fdf7903ee
-2026-08-19,366 Mesa,,Carlos,Siding Insatll,500.00,Carlos A Ibarra,2026-08-15,500.00,pending,https://mail.google.com/mail/u/0/#all/1a007f1fdf7903ee,gm-1a007f1fdf7903ee
-2026-08-20,366 Mesa,,Carlos,Siding Insatll,500.00,Carlos A Ibarra,2026-08-15,500.00,pending,https://mail.google.com/mail/u/0/#all/1a007f1fdf7903ee,gm-1a007f1fdf7903ee
-2026-06-01,1616 Granite RECONCILED,,Mariana,Mariana,500.00,Mariana (cleaner),2026-06-29,500.00,pending,https://mail.google.com/mail/u/0/#all/19f138efc8a67a8f,gm-19f138efc8a67a8f
 2026-06-29,136 Bowling Green,,Lowe's,Carpet ,431.21,"Lowe's Home Centers, LLC",2026-06-29,37.86,posted,https://drive.google.com/file/d/1HpPWmv87OLa3ovLJE_5LOtJgZyoFJ-kP/view?usp=drivesdk,gm-19f154ce61fa47c1
 2026-03-05,104 Ashburne,Paint & Flooring,Home Depot,Baseboards & Trim,425.84,The Home Depot,2026-03-05,425.84,posted,https://drive.google.com/file/d/1gniTPBB0vQqeJoqsmahTyb4DWliz0U-y/view?usp=drivesdk,gm-19cbe5c17963dd8d
 2026-03-17,104 Ashburne,Pool,Amazon,Aiper Pool Robot,411.34,Amazon,2026-03-17,596.71,pending,https://mail.google.com/mail/u/0/#all/19cfbe563f75f960,gm-19cfbe563f75f960
