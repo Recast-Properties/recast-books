@@ -7,6 +7,7 @@ Hold reasons: [('NOT_POST_VERDICT', 337), ('LOW_CONFIDENCE', 288), ('TOTAL_MISMA
 ## B · documents matched by vendor/date/amount: 787  {'twin': 53, 'junk (dismissed)': 320, 'property row now documented': 219, 'in mail, not in old books': 162, 'manual row now documented': 33}
 ## C · old rows nothing covers: 302  (with a weak candidate document: 283)  by (tab, had a message id): {('RECAST BIZ', False): 32, ('881 Newport', False): 10, ('469 Brushwood', False): 12, ('366 Mesa', False): 18, ('136 Bowling Green', False): 19, ('104 Ashburne', False): 178, ('1616 Granite RECONCILED', False): 17, ('280 Sparkling RECONCILED', False): 9, ('Sparkling for Title', False): 7}
 ## D · vendor-days where net differs: 503  (sum of diffs $33,722.58)
+## F · receipts above the old rows they explain (D-028 returns): 48  {'hold': 38, 'return inferred': 10}  inferred $250.46
 
 Largest net differences:
 - 2026-03-30 ellis county tax off old       0.00 new  16,031.25 diff  16,031.25  rows 0 docs 1

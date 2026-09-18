@@ -561,3 +561,24 @@ property by property and row by row, with every entry linked to its receipt. In 
 
 Supersedes the wording in BUILD-PLAN §7 step 3 ("lands as the receipt supports, not as the
 old split"): the old split is the target; the finer read stays on the envelope.
+
+## D-028 · Returns the old books netted are inferred from the receipt and posted as credits — 2026-09-17 · Paul
+
+Paul: "i did not enter items that i knew were going to be returned and do not have any
+documentation of those returns … what about a rule that we compare all itemized entries
+against the old books and if they are not there but on a receipt then they most likely are a
+return." Confirmed: "yes use that rule."
+
+**Decided:**
+1. For each receipt matched to old rows, the gap = receipt total − the old rows it explains.
+   A positive gap is a suspected return.
+2. Code finds the subset of the receipt's line items that sums to the gap **to the cent**.
+   Exactly one subset → those items are the return: the purchase posts gross (every item,
+   receipt linked) and a return credit posts against the same receipt and date, flagged
+   `RETURN_INFERRED`, no document. Net equals the old row (D-027).
+3. No subset, or more than one → the receipt holds with the candidates shown; Paul decides.
+4. Inferred, not proven: an item on the receipt and absent from the old books may also be a
+   forgotten item or a personal one. The card statements (Phase 3) are the proof - each
+   inferred return should appear as a card credit; the flag is cleared or corrected then.
+5. The credit posts automatically when the subset is unique (deterministic, reversible, the
+   statement is the real check). Paul's call, 2026-09-17.

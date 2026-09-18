@@ -158,6 +158,30 @@ def main():
                   "weak_candidates": ";".join(f"{r['tab']}/{r['payee'][:20]}/{money(r['cents'])}" for r in weak)})
         used_rows.update(r["_k"] for r in hit); used_docs.add(docId)
 
+    # ---- F. returns the old books netted (D-028): receipt total above the old rows it explains,
+    # resolved to the line items that sum to the gap to the cent. One subset = the return.
+    def subsets(items, target, cap=50):
+        found = []
+        def rec(i, left, chosen):
+            if len(found) > cap: return
+            if left == 0 and chosen: found.append(list(chosen)); return
+            if i >= len(items) or left < 0: return
+            rec(i + 1, left - items[i][1], chosen + [items[i]]); rec(i + 1, left, chosen)
+        rec(0, target, []); return found
+    F = []
+    for x in A + B:
+        rows_n = x.get("old_rows") or x.get("matched_rows") or 0
+        gap = x["new_cents"] - x["old_cents"] if rows_n else 0
+        if gap <= 0 or x["old_cents"] <= 0: continue
+        e = env[x["docId"]]; items = [(l["desc"], l["cents"]) for l in e["lines"] if l["cents"] > 0]
+        subs = subsets(items, gap) if items else []
+        F.append({"docId": x["docId"], "date": x["date"], "vendor": x["vendor"], "receipt_cents": x["new_cents"], "old_cents": x["old_cents"],
+                  "gap_cents": gap, "items": len(items), "subsets": len(subs),
+                  "return_items": " + ".join(f"{d} {money(c)}" for d, c in subs[0]) if len(subs) == 1 else "",
+                  "status": x["status"], "old_where": x["old_where"], # a gap larger than the old rows themselves is an incomplete match (a tool kept, a
+                  # second old row the matcher missed), not a return - hold it
+                  "resolution": "hold: old rows cover less than half" if gap > x["old_cents"] else "return inferred" if len(subs) == 1 else "hold: no subset" if not subs else f"hold: {len(subs)} subsets"})
+
     # ---- C. old rows nothing covers ------------------------------------------------------
     C = [{"key": r["_k"], "tab": r["tab"], "block": r.get("block", ""), "date": r.get("date", ""), "payee": r.get("payee", ""), "cents": r["cents"],
           "desc": (r.get("desc") or "")[:60], "had_msg": bool(r.get("msg")),
@@ -182,7 +206,7 @@ def main():
         if not recs: open(os.path.join(a.out, name), "w").write(""); return
         with open(os.path.join(a.out, name), "w", newline="") as f:
             wr = csv.DictWriter(f, fieldnames=list(recs[0].keys())); wr.writeheader(); wr.writerows(recs)
-    w("A-by-id.csv", A); w("B-by-match.csv", B); w("C-uncovered-old-rows.csv", C); w("D-net-by-vendor-day.csv", D)
+    w("A-by-id.csv", A); w("B-by-match.csv", B); w("F-returns-inferred.csv", F); w("C-uncovered-old-rows.csv", C); w("D-net-by-vendor-day.csv", D)
 
     # ---- summary ----------------------------------------------------------------------
     st = collections.Counter(e["status"] for e in env.values()); vd = collections.Counter(e["verdict"] for e in env.values())
@@ -196,7 +220,8 @@ def main():
              f"## A · documents with an old-sheet id: {len(A)}  (net equal: {Aexact}; net differs: {len(A)-Aexact}; property differs from old tab: {reroute})",
              f"## B · documents matched by vendor/date/amount: {len(B)}  {dict(Bb)}",
              f"## C · old rows nothing covers: {len(C)}  (with a weak candidate document: {Cw})  by (tab, had a message id): {dict(Cc)}",
-             f"## D · vendor-days where net differs: {len(D)}  (sum of diffs ${sum(x['diff_cents'] for x in D)/100:,.2f})", "",
+             f"## D · vendor-days where net differs: {len(D)}  (sum of diffs ${sum(x['diff_cents'] for x in D)/100:,.2f})",
+             f"## F · receipts above the old rows they explain (D-028 returns): {len(F)}  {dict(collections.Counter(x['resolution'].split(':')[0] for x in F))}  inferred ${sum(x['gap_cents'] for x in F if x['resolution'] == 'return inferred')/100:,.2f}", "",
              "Largest net differences:"]
     for x in sorted(D, key=lambda x: -abs(x["diff_cents"]))[:25]:
         lines.append(f"- {x['date']} {x['vendor']:14s} old {money(x['old_cents']):>10} new {money(x['new_cents']):>10} diff {money(x['diff_cents']):>10}  rows {x['old_rows']} docs {x['docs']}")
