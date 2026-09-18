@@ -49,6 +49,7 @@ def load_envelopes(d):
             "holds": list((e.get("gate") or {}).get("reasons") or []), "subject": (e.get("subject") or "")[:60],
             "channel": e.get("channel") or "", "lines": lines, "posted": bool((e.get("result") or {}).get("txn_ids")),
             "why": (m.get("why") or "")[:160], "dup_of": m.get("duplicate_of") or "",
+            "doc_url": (e.get("result") or {}).get("doc_url") or "", "gmail_url": e.get("gmailUrl") or "",
             # every amount the document shows: the read's total and lines, plus any $x.xx in the mail text
             "amts": {int(m.get("receipt_total_cents") or 0)} | {l["cents"] for l in lines}
                     | {int(round(float(x.replace(",", "")) * 100)) for x in re.findall(r"(\d{1,3}(?:,\d{3})*\.\d{2})", (e.get("subject") or "") + " " + (e.get("bodyText") or ""))},
@@ -129,19 +130,31 @@ def main():
         return d
     rest = [r for r in rows if r["_k"] not in used_rows and r.get("date")]
     docs = [(d, e) for d, e in env.items() if e["date"]]
-    row_doc = {}
+    # Capacity: a receipt explains rows only up to its own total. Without it nineteen $200
+    # payments to the same man all hang on one $500 receipt (2026-09-18) - and a wrong link is
+    # worse than none. Rows are placed best match first; a row that does not fit tries its
+    # next candidate, then settles for a weak one (weak never consumes capacity).
+    cap = {d: (e["total"] + max(200, e["total"] * 3 // 100)) if e["total"] else max(e["amts"] or {0}) for d, e in env.items()}
+    for x in A: cap[x["docId"]] = cap.get(x["docId"], 0) - x["old_cents"]
+    cands = {}
     for r in rest:
-        d0 = pd(r["date"]); best = None
+        d0 = pd(r["date"]); c = []
         for d, e in docs:
             dd = abs((pd(e["date"] or "") or d0) - d0).days if pd(e["date"] or "") else 999
             if dd > 45: continue
             v = vendor_match(r["payee"], e); amt = r["cents"] in e["amts"]
             near = bool(e["total"]) and abs(e["total"] - r["cents"]) <= max(200, r["cents"] * 3 // 100)
             rank = (0, dd) if v and amt else (1, dd) if v and near else (2, dd) if amt and dd <= 20 else (3, dd) if v and dd <= 10 else None
-            if rank and (best is None or rank < best[0]): best = (rank, d)
-        if best:
-            d = survivor(best[1])   # a dismissed receipt that is not a twin is a candidate for Paul, never "documented"
-            row_doc[r["_k"]] = (d, "strong" if best[0][0] <= 1 and env[d]["verdict"] != "dismiss" else "weak")
+            if rank: c.append((rank, d))
+        if c: cands[r["_k"]] = sorted(c)
+    row_doc = {}; rk0 = {r["_k"]: r for r in rest}
+    for k in sorted(cands, key=lambda k: cands[k][0]):
+        placed = False
+        for rank, d0_ in cands[k]:
+            d = survivor(d0_)   # a dismissed receipt that is not a twin is a candidate for Paul, never "documented"
+            if rank[0] <= 1 and env[d]["verdict"] != "dismiss" and cap.get(d, 0) >= rk0[k]["cents"]:
+                cap[d] -= rk0[k]["cents"]; row_doc[k] = (d, "strong"); placed = True; break
+        if not placed: row_doc[k] = (survivor(cands[k][0][1]), "weak")
     by_doc = collections.defaultdict(list)
     for k, (d, s) in row_doc.items(): by_doc[d].append((k, s))
     rk = {r["_k"]: r for r in rows}
@@ -204,11 +217,33 @@ def main():
     D = [{"vendor": k[0], "date": k[1], "old_cents": v[0], "new_cents": v[1], "diff_cents": v[1] - v[0], "old_rows": v[2], "docs": v[3]}
          for k, v in sorted(net.items(), key=lambda kv: (kv[0][1], kv[0][0])) if v[0] != v[1] and (v[3] > 0 or k[0] in doc_vendors)]
 
+    # ---- G. the row <-> document map (D-029): every old row, its document, how it was matched ----
+    id_doc = {}
+    for docId, e in env.items():
+        for r in by_msg.get(e["msg"], []) if e["msg"] else []: id_doc.setdefault(r["_k"], docId)
+    doc_rows = collections.defaultdict(list)
+    for r in rows:
+        d = id_doc.get(r["_k"]) or (row_doc.get(r["_k"], ("", ""))[0]); 
+        if d and (r["_k"] in id_doc or row_doc[r["_k"]][1] == "strong"): doc_rows[d].append(r)
+    Gm = []
+    for r in rows:
+        if r["_k"] in id_doc: d, how = id_doc[r["_k"]], "id"
+        elif r["_k"] in row_doc: d, how = row_doc[r["_k"]]
+        else: d, how = "", "none"
+        e = env.get(d) or {}
+        line = next((l for l in e.get("lines", []) if l["cents"] == r["cents"]), None) or (max(e.get("lines", []), key=lambda l: l["cents"]) if e.get("lines") else None)
+        Gm.append({"key": r["_k"], "tab": r["tab"], "block": r.get("block") or "", "sheet_row": r.get("row", ""), "date": r.get("date") or "", "payee": r.get("payee") or "",
+                   "desc": (r.get("desc") or "")[:80], "cents": r["cents"], "flags": json.dumps(r.get("flags") or []), "correction": r.get("correction") or "",
+                   "match": how, "docId": d, "doc_vendor": e.get("vendor", ""), "doc_date": e.get("date", ""), "doc_total": e.get("total", ""), "doc_status": e.get("status", ""),
+                   "doc_paid_from": e.get("paid_from", ""), "read_account": (line or {}).get("account", ""), "read_property": (line or {}).get("property", ""),
+                   "doc_url": e.get("doc_url", ""), "gmail_url": e.get("gmail_url", ""),
+                   "rows_on_doc": len(doc_rows.get(d, [])), "doc_gap_cents": (e.get("total", 0) - sum(x["cents"] for x in doc_rows[d])) if d in doc_rows and how != "weak" else ""})
+
     def w(name, recs):
         if not recs: open(os.path.join(a.out, name), "w").write(""); return
         with open(os.path.join(a.out, name), "w", newline="") as f:
             wr = csv.DictWriter(f, fieldnames=list(recs[0].keys())); wr.writeheader(); wr.writerows(recs)
-    w("A-by-id.csv", A); w("B-by-match.csv", B); w("F-returns-inferred.csv", F); w("C-uncovered-old-rows.csv", C); w("D-net-by-vendor-day.csv", D)
+    w("A-by-id.csv", A); w("B-by-match.csv", B); w("F-returns-inferred.csv", F); w("G-row-map.csv", Gm); w("C-uncovered-old-rows.csv", C); w("D-net-by-vendor-day.csv", D)
 
     # ---- summary ----------------------------------------------------------------------
     st = collections.Counter(e["status"] for e in env.values()); vd = collections.Counter(e["verdict"] for e in env.values())

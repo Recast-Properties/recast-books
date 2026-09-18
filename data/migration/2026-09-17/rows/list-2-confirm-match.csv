@@ -1,0 +1,285 @@
+date,tab,block,payee,desc,amount,candidate_vendor,candidate_date,candidate_total,candidate_status,link,docId
+2026-04-10,104 Ashburne,Appliances,Luxury 4 Less Appliance,Appliaces,"10,319.56",Luxury 4 Less Appliances,2026-04-16,175.00,pending,https://mail.google.com/mail/u/0/#all/19d985398a604372,gm-19d985398a604372
+2026-01-12,104 Ashburne,Paint & Flooring,Juan Garcia,Drywall/Supplies/Painting,"7,000.00",Juan Gonzalez,2026-01-15,"1,000.00",pending,https://mail.google.com/mail/u/0/#all/19bc4405fa0bc7e5,gm-19bc4405fa0bc7e5
+2026-01-23,104 Ashburne,Paint & Flooring,Juan Garcia,Paint & Floor Installation,"7,000.00",Juan Gonzalez,2026-01-15,"1,000.00",pending,https://mail.google.com/mail/u/0/#all/19bc4405fa0bc7e5,gm-19bc4405fa0bc7e5
+2026-02-20,104 Ashburne,Countertops & Backsplash,Shalom Granite,Counters ,"3,558.00",Shalom Granite,2026-02-19,"8,508.00",pending,https://mail.google.com/mail/u/0/#all/19cc51b6b845dd1f,gm-19cc51b6b845dd1f
+2026-03-29,104 Ashburne,Pool,Atlas Pools,Payment,"2,177.00",Atlas Pools,2026-03-23,"2,120.00",pending,https://mail.google.com/mail/u/0/#all/19d253342e722062,gm-19d253342e722062
+2026-02-12,104 Ashburne,Pool,Atlas Pools,Deposit,"2,000.00",Micky Atlas Pools,2026-03-01,"2,000.00",pending,https://mail.google.com/mail/u/0/#all/19cab7819599377d,gm-19cab7819599377d
+2026-03-30,104 Ashburne,Paint & Flooring,Juan Garcia,Exterior Paint,"1,670.00","None identified (email from Paul Bjork, subject only)",2026-03-30,0.00,pending,https://mail.google.com/mail/u/0/#all/19d40334634a85c4,gm-19d40334634a85c4
+2026-06-01,1616 Granite RECONCILED,,50floor,Carpet,"1,319.00",50Floor,2026-06-12,"1,339.00",pending,https://mail.google.com/mail/u/0/#all/19ebc1789358c9a5,gm-19ebc1789358c9a5
+2026-03-19,104 Ashburne,Lighting & Electrical,Lowes,Celing Fans,898.30,"Lowe's Home Centers, LLC",2026-03-19,54.08,posted,https://drive.google.com/file/d/19CDPV6LBlECOIoOzvbWhAXCfix7yM4qa/view?usp=drivesdk,gm-19d069c13314e2b8
+2026-04-08,104 Ashburne,Landscaping,Home Depot,Landscape Fabric & Supplies,879.31,The Home Depot,2026-04-08,891.18,pending,https://mail.google.com/mail/u/0/#all/19d6ee18dbed6f84,gm-19d6ee18dbed6f84
+2026-04-10,104 Ashburne,Landscaping,Julio & Friend,Labor,800.00,Julio (unidentified labor),2026-04-11,400.00,pending,https://mail.google.com/mail/u/0/#all/19d7e6e5e1ce5426,gm-19d7e6e5e1ce5426
+2026-03-12,RECAST BIZ,Tools,Home Depot,Finish Nailer & Charger,625.69,The Home Depot,2026-03-12,673.29,pending,https://mail.google.com/mail/u/0/#all/19ce39f32dd9c9c0,gm-19ce39f32dd9c9c0
+2026-05-29,1616 Granite RECONCILED,,Julio & Friend,Landscaping,600.00,Julio (last name unknown),2026-05-21,250.00,pending,https://mail.google.com/mail/u/0/#all/19e4a94c6d49832a,gm-19e4a94c6d49832a
+2026-03-16,104 Ashburne,Gas/Truck/Trailer,Waltons Brakes & Mufflers,Brakes,593.77,Walton's Muffler Brake &amp; Tire,2026-03-18,593.77,pending,https://mail.google.com/mail/u/0/#all/19d018e208f5ce58,gm-19d018e208f5ce58
+2026-06-18,104 Ashburne,Small Baths,Armandre Vega,Bath Fan and Vent,550.00,Unknown (no vendor named in email),2026-06-18,550.00,pending,https://mail.google.com/mail/u/0/#all/19edb74b0d81508a,gm-19edb74b0d81508a
+2026-03-30,104 Ashburne,House Hardware,Waxahachie Glass,Glass Deposit,518.78,Waxahachie Glass Corp.,2026-03-30,518.78,pending,https://mail.google.com/mail/u/0/#all/19d405df0d679aff,gm-19d405df0d679aff
+2026-08-19,366 Mesa,,Carlos,Siding Insatll,500.00,Carlos A Ibarra,2026-08-15,500.00,pending,https://mail.google.com/mail/u/0/#all/1a007f1fdf7903ee,gm-1a007f1fdf7903ee
+2026-08-19,366 Mesa,,Carlos,Siding Insatll,500.00,Carlos A Ibarra,2026-08-15,500.00,pending,https://mail.google.com/mail/u/0/#all/1a007f1fdf7903ee,gm-1a007f1fdf7903ee
+2026-08-19,366 Mesa,,Carlos,Siding Insatll,500.00,Carlos A Ibarra,2026-08-15,500.00,pending,https://mail.google.com/mail/u/0/#all/1a007f1fdf7903ee,gm-1a007f1fdf7903ee
+2026-08-20,366 Mesa,,Carlos,Siding Insatll,500.00,Carlos A Ibarra,2026-08-15,500.00,pending,https://mail.google.com/mail/u/0/#all/1a007f1fdf7903ee,gm-1a007f1fdf7903ee
+2026-06-01,1616 Granite RECONCILED,,Mariana,Mariana,500.00,Mariana (cleaner),2026-06-29,500.00,pending,https://mail.google.com/mail/u/0/#all/19f138efc8a67a8f,gm-19f138efc8a67a8f
+2026-06-29,136 Bowling Green,,Lowe's,Carpet ,431.21,"Lowe's Home Centers, LLC",2026-06-29,37.86,posted,https://drive.google.com/file/d/1HpPWmv87OLa3ovLJE_5LOtJgZyoFJ-kP/view?usp=drivesdk,gm-19f154ce61fa47c1
+2026-03-05,104 Ashburne,Paint & Flooring,Home Depot,Baseboards & Trim,425.84,The Home Depot,2026-03-05,425.84,posted,https://drive.google.com/file/d/1gniTPBB0vQqeJoqsmahTyb4DWliz0U-y/view?usp=drivesdk,gm-19cbe5c17963dd8d
+2026-03-17,104 Ashburne,Pool,Amazon,Aiper Pool Robot,411.34,Amazon,2026-03-17,596.71,pending,https://mail.google.com/mail/u/0/#all/19cfbe563f75f960,gm-19cfbe563f75f960
+2026-03-19,RECAST BIZ,Tools,Harbor Frieght,Pressure Washer ,402.67,Harbor Freight,2026-03-19,402.67,dismissed,https://drive.google.com/file/d/1iqjFaIDnQkB7N4l6EgQX2iQ7f6r03qAc/view?usp=drivesdk,gm-19d0639545d977c3
+2026-03-18,104 Ashburne,Small Baths,Floor & Decor,Shower Tile,378.94,Floor and Decor,2026-03-18,423.19,posted,https://drive.google.com/file/d/1jo8RBJdJW8NOtY_k7v8kOzor43LhD1in/view?usp=drivesdk,gm-19d01359eb674ac2
+2026-04-01,104 Ashburne,Paint & Flooring,Home Depot,Stair Moldings,350.28,The Home Depot,2026-04-01,93.58,posted,https://drive.google.com/file/d/1bv7Pp9Yb2Xc7unJLH327L9MUkbbPuswv/view?usp=drivesdk,gm-19d4a3ee589e436a
+2026-09-02,469 Brushwood,,Home Depot,Microwave,339.99,The Home Depot,2026-09-02,339.99,pending,https://mail.google.com/mail/u/0/#all/1a06240c78fa29e2,gm-1a06240c78fa29e2
+2026-03-22,104 Ashburne,Lighting & Electrical,Home Depot,"Outlets, GFI's & Switches",307.17,The Home Depot,2026-03-15,36.72,posted,https://drive.google.com/file/d/1Khf1l0UStQxjhBklhnHrIIcDUeXEG_k9/view?usp=drivesdk,gm-19cf3177d3ee370b
+2026-03-05,104 Ashburne,Lighting & Electrical,Home Depot,LED Strip Lights For Cabinets,302.97,The Home Depot,2026-03-05,425.84,posted,https://drive.google.com/file/d/1gniTPBB0vQqeJoqsmahTyb4DWliz0U-y/view?usp=drivesdk,gm-19cbe5c17963dd8d
+2026-04-15,104 Ashburne,Landscaping,Julio,Labor,300.00,Julio,2026-03-23,500.00,pending,https://mail.google.com/mail/u/0/#all/19d1cc95a5026d98,gm-19d1cc95a5026d98
+2026-06-25,280 Sparkling RECONCILED,,Mission Real Estate Group,MLS Listing,299.00,"CoreLogic Solutions, LLC",2026-06-30,200.00,pending,https://mail.google.com/mail/u/0/#all/19f3911357838426,gm-19f3911357838426
+2026-01-14,104 Ashburne,Pest Control,Berret Pest Control,Pest Control,270.63,eBay (seller zmfc86),2026-01-14,378.47,posted,https://mail.google.com/mail/u/0/#all/19c01a73986c43df,gm-19c01a73986c43df
+2026-06-22,1616 Granite RECONCILED,,Home Depot,Mulch,264.55,The Home Depot,2026-06-22,46.72,posted,https://drive.google.com/file/d/1V57oFP9HHqrdCTwVOxZz18JicVofDTa_/view?usp=drivesdk,gm-19ef063b7f56ea6f
+2026-04-10,104 Ashburne,Supplies,Home Depot,Misc Supplies,263.29,The Home Depot,2026-04-10,263.29,posted,https://drive.google.com/file/d/1bOuFpm1xa9Mb-C4-jpV07mgg7LwRAJrC/view?usp=drivesdk,gm-19d78c9cf7bcc5c4
+2026-07-25,1616 Granite RECONCILED,,TXU,Electricity,261.76,TXU Energy,2026-07-25,102.16,pending,https://mail.google.com/mail/u/0/#all/19f98341582eb450,gm-19f98341582eb450
+2026-01-30,104 Ashburne,Utilities,HOA,Ashburne Glen Homeowners Association,259.09,Ashburne Glen Homeowners Association,2026-01-30,259.09,posted,https://mail.google.com/mail/u/0/#all/19c0fc92279d93d1,gm-19c0fc92279d93d1
+2026-06-30,104 Ashburne,Pool,Atlas Pools,Service,256.01,Atlas Pools,2026-07-25,256.01,posted,https://mail.google.com/mail/u/0/#all/19f99e711bce8059,gm-19f99e711bce8059
+2026-07-30,104 Ashburne,Pool,Atlas Pools,Service,256.01,Atlas Pools,2026-07-25,256.01,posted,https://mail.google.com/mail/u/0/#all/19f99e711bce8059,gm-19f99e711bce8059
+2026-09-07,469 Brushwood,,Mariana,Cleaning,250.00,Mariana Martinez,2026-09-07,700.00,pending,https://mail.google.com/mail/u/0/#all/1a07ec26660d7659,gm-1a07ec26660d7659
+2026-02-09,104 Ashburne,House Hardware,Amazon,Drawer pulls,249.97,Amazon,2026-02-09,90.79,posted,https://mail.google.com/mail/u/0/#all/19c51f2daddbeabd,gm-19c51f2daddbeabd
+2026-03-07,104 Ashburne,Countertops & Backsplash,Floor & Decor,Backsplash TIle,248.39,Floor &amp; Decor,2026-03-07,0.00,pending,https://mail.google.com/mail/u/0/#all/19cc9f61226563fe,gm-19cc9f61226563fe
+2026-08-05,280 Sparkling RECONCILED,,TXU,Electricity,228.64,TXU Energy,2026-08-03,164.02,pending,https://mail.google.com/mail/u/0/#all/19fc94ab6c53f72a,gm-19fc94ab6c53f72a
+2026-08-18,366 Mesa,,Carlos,Soffit,220.00,Carlos A Ibarra,2026-08-15,500.00,pending,https://mail.google.com/mail/u/0/#all/1a007f1fdf7903ee,gm-1a007f1fdf7903ee
+2026-01-15,RECAST BIZ,Tools,Home Depot,Milwaulkie Drill,215.42,"Lowe's Home Centers, LLC",2026-01-09,360.49,pending,https://mail.google.com/mail/u/0/#all/19ba4950d7e2561c,gm-19ba4950d7e2561c
+2026-04-02,104 Ashburne,Landscaping,Home Depot,Grass Seed,205.06,The Home Depot,2026-04-08,207.08,posted,https://drive.google.com/file/d/1Svs9tT6_SFjEh5BgW8lSLJaY_r-gdUjN/view?usp=drivesdk,gm-19d6d01dadaa68e4
+2026-08-13,366 Mesa,,Lowe's,1x4 x10 PT Siding Trim,204.70,"Lowe's Home Centers, LLC",2026-08-13,542.40,pending,https://mail.google.com/mail/u/0/#all/19ffbab89c6e794c,gm-19ffbab89c6e794c
+2026-01-05,104 Ashburne,Pool,Julio,Clean out,200.00,"CoreLogic Solutions, LLC",2025-12-31,200.00,pending,https://mail.google.com/mail/u/0/#all/19b944ec9eb500c7,gm-19b944ec9eb500c7
+2026-01-12,104 Ashburne,Landscaping,Julio,Labor,200.00,"CoreLogic Solutions, LLC",2025-12-31,200.00,pending,https://mail.google.com/mail/u/0/#all/19b944ec9eb500c7,gm-19b944ec9eb500c7
+2026-01-13,104 Ashburne,Landscaping,Julio,Labor,200.00,"CoreLogic Solutions, LLC",2025-12-31,200.00,pending,https://mail.google.com/mail/u/0/#all/19b944ec9eb500c7,gm-19b944ec9eb500c7
+2026-01-14,104 Ashburne,Landscaping,Julio,Labor,200.00,"CoreLogic Solutions, LLC",2025-12-31,200.00,pending,https://mail.google.com/mail/u/0/#all/19b944ec9eb500c7,gm-19b944ec9eb500c7
+2026-01-09,104 Ashburne,Trash,Julio,Labor,200.00,"CoreLogic Solutions, LLC",2025-12-31,200.00,pending,https://mail.google.com/mail/u/0/#all/19b944ec9eb500c7,gm-19b944ec9eb500c7
+2026-01-15,104 Ashburne,Landscaping,Julio,Labor,200.00,"CoreLogic Solutions, LLC",2025-12-31,200.00,pending,https://mail.google.com/mail/u/0/#all/19b944ec9eb500c7,gm-19b944ec9eb500c7
+2026-01-16,104 Ashburne,Trash,Julio,Labor,200.00,"CoreLogic Solutions, LLC",2026-01-31,200.00,pending,https://mail.google.com/mail/u/0/#all/19c2d8b7905f7407,gm-19c2d8b7905f7407
+2026-01-06,104 Ashburne,Trash,Julio,Labor,200.00,"CoreLogic Solutions, LLC",2025-12-31,200.00,pending,https://mail.google.com/mail/u/0/#all/19b944ec9eb500c7,gm-19b944ec9eb500c7
+2026-02-11,104 Ashburne,Trash,Julio,Labor,200.00,Julio,2026-03-23,500.00,pending,https://mail.google.com/mail/u/0/#all/19d1cc95a5026d98,gm-19d1cc95a5026d98
+2026-02-16,104 Ashburne,Landscaping,Julio,Labor,200.00,Julio,2026-03-23,500.00,pending,https://mail.google.com/mail/u/0/#all/19d1cc95a5026d98,gm-19d1cc95a5026d98
+2026-02-17,104 Ashburne,Landscaping,Julio,Labor,200.00,Julio,2026-03-23,500.00,pending,https://mail.google.com/mail/u/0/#all/19d1cc95a5026d98,gm-19d1cc95a5026d98
+2026-02-18,104 Ashburne,Landscaping,Julio,Labor,200.00,Julio,2026-03-23,500.00,pending,https://mail.google.com/mail/u/0/#all/19d1cc95a5026d98,gm-19d1cc95a5026d98
+2026-03-17,104 Ashburne,Landscaping,Julio,Labor,200.00,Julio,2026-03-23,500.00,pending,https://mail.google.com/mail/u/0/#all/19d1cc95a5026d98,gm-19d1cc95a5026d98
+2026-02-20,104 Ashburne,Trash,Julio,Labor,200.00,Julio,2026-03-23,500.00,pending,https://mail.google.com/mail/u/0/#all/19d1cc95a5026d98,gm-19d1cc95a5026d98
+2026-02-13,104 Ashburne,Trash,Julio,Labor,200.00,Julio,2026-03-23,500.00,pending,https://mail.google.com/mail/u/0/#all/19d1cc95a5026d98,gm-19d1cc95a5026d98
+2026-02-18,104 Ashburne,Trash,Julio,Labor,200.00,Julio,2026-03-23,500.00,pending,https://mail.google.com/mail/u/0/#all/19d1cc95a5026d98,gm-19d1cc95a5026d98
+2026-04-02,104 Ashburne,Landscaping,Julio,Labor,200.00,Julio,2026-03-23,500.00,pending,https://mail.google.com/mail/u/0/#all/19d1cc95a5026d98,gm-19d1cc95a5026d98
+2026-03-10,104 Ashburne,Trash,Julio,Labor,200.00,Julio,2026-03-23,500.00,pending,https://mail.google.com/mail/u/0/#all/19d1cc95a5026d98,gm-19d1cc95a5026d98
+2026-04-03,104 Ashburne,Landscaping,Julio,Labor,200.00,Julio,2026-03-23,500.00,pending,https://mail.google.com/mail/u/0/#all/19d1cc95a5026d98,gm-19d1cc95a5026d98
+2026-04-05,104 Ashburne,Landscaping,Julio,Labor,200.00,Julio,2026-03-23,500.00,pending,https://mail.google.com/mail/u/0/#all/19d1cc95a5026d98,gm-19d1cc95a5026d98
+2026-04-06,104 Ashburne,Landscaping,Julio,Labor,200.00,Julio,2026-03-23,500.00,pending,https://mail.google.com/mail/u/0/#all/19d1cc95a5026d98,gm-19d1cc95a5026d98
+2026-04-07,104 Ashburne,Landscaping,Julio,Labor,200.00,Julio,2026-03-23,500.00,pending,https://mail.google.com/mail/u/0/#all/19d1cc95a5026d98,gm-19d1cc95a5026d98
+2026-04-13,104 Ashburne,Landscaping,Julio,Labor,200.00,Julio,2026-03-23,500.00,pending,https://mail.google.com/mail/u/0/#all/19d1cc95a5026d98,gm-19d1cc95a5026d98
+2026-04-14,104 Ashburne,Landscaping,Julio,Labor,200.00,Julio,2026-03-23,500.00,pending,https://mail.google.com/mail/u/0/#all/19d1cc95a5026d98,gm-19d1cc95a5026d98
+2026-05-29,104 Ashburne,Landscaping,Julio,Labor,200.00,"Julio (subcontractor, full name not given)",2026-06-26,200.00,pending,https://mail.google.com/mail/u/0/#all/19f0452f77f79ab8,gm-19f0452f77f79ab8
+2026-06-12,1616 Granite RECONCILED,,Julio,Landscaping,200.00,"Julio (subcontractor, full name not given)",2026-06-26,200.00,pending,https://mail.google.com/mail/u/0/#all/19f0452f77f79ab8,gm-19f0452f77f79ab8
+2026-06-22,1616 Granite RECONCILED,,Julio,Landscaping,200.00,"Julio (subcontractor, full name not given)",2026-06-26,200.00,pending,https://mail.google.com/mail/u/0/#all/19f0452f77f79ab8,gm-19f0452f77f79ab8
+2026-06-04,280 Sparkling RECONCILED,,Julio,Landscaping,200.00,"Julio (subcontractor, full name not given)",2026-06-26,200.00,pending,https://mail.google.com/mail/u/0/#all/19f0452f77f79ab8,gm-19f0452f77f79ab8
+2026-06-12,280 Sparkling RECONCILED,,Julio,Landscaping,200.00,"Julio (subcontractor, full name not given)",2026-06-26,200.00,pending,https://mail.google.com/mail/u/0/#all/19f0452f77f79ab8,gm-19f0452f77f79ab8
+2026-03-02,RECAST BIZ,Tools,Home Depot,Sunp Pump & Hose,196.99,The Home Depot,2026-03-06,128.82,posted,https://drive.google.com/file/d/127aDgHlWffvBjEcyqBY_leGPWk8R_NQe/view?usp=drivesdk,gm-19cc49cbe08d9420
+2026-05-29,1616 Granite RECONCILED,,Home Depot,Plastic Edging,194.62,The Home Depot,2026-06-30,-74.57,pending,https://mail.google.com/mail/u/0/#all/19f18a7ab38c52cf,gm-19f18a7ab38c52cf
+2026-04-10,104 Ashburne,Kitchen,Home Depot,Kitchen Faucet,189.57,The Home Depot,2026-04-10,263.29,posted,https://drive.google.com/file/d/1bOuFpm1xa9Mb-C4-jpV07mgg7LwRAJrC/view?usp=drivesdk,gm-19d78c9cf7bcc5c4
+2026-02-10,104 Ashburne,Lighting & Electrical,Lowes,Entry Chandelier,173.18,Lowe's Home Improvement,2026-02-10,238.06,pending,https://mail.google.com/mail/u/0/#all/19c484998d6bf67a,gm-19c484998d6bf67a
+2026-06-21,RECAST BIZ,Marketing,VistaPrint,Real Estate Sign Riders,170.99,VistaPrint,2026-06-13,0.00,dismissed,https://mail.google.com/mail/u/0/#all/19ebf24ef82905c2,gm-19ebf24ef82905c2
+2026-01-20,RECAST BIZ,Tools,Amazon,Space Heaters,169.98,Amazon,2026-01-20,276.22,posted,https://mail.google.com/mail/u/0/#all/19c01b85d135afa6,gm-19c01b85d135afa6
+2026-04-09,104 Ashburne,Lighting & Electrical,Home Depot,Outlets & Testet,168.53,The Home Depot,2026-04-09,40.01,posted,https://drive.google.com/file/d/1VynliTBCglRE2pcQ_tceYqI8HUFy36Mu/view?usp=drivesdk,gm-19d724c5c326c549
+2026-06-16,280 Sparkling RECONCILED,,TXU,Electricity,161.17,TXU Energy,2026-06-16,161.17,posted,https://mail.google.com/mail/u/0/#all/19ed0e0fdd1f096a,gm-19ed0e0fdd1f096a
+2026-06-30,136 Bowling Green,,Lupe,Carpet Laying,160.00,"Handwritten payment log - 136 Bowling Green (payees: unnamed carpet installer; ""FALCON"")",2026-06-30,475.00,pending,https://mail.google.com/mail/u/0/#all/19f3f6d3919a5816,gm-19f3f6d3919a5816
+2026-05-07,104 Ashburne,Supplies,Home Depot,Misc Supplies,157.20,The Home Depot,2026-05-07,-106.95,pending,https://mail.google.com/mail/u/0/#all/19e0304909d9e7ca,gm-19e0304909d9e7ca
+2026-03-17,104 Ashburne,Kitchen,Amazon,Under Cabinet Lights,154.53,Amazon,2026-03-17,596.71,pending,https://mail.google.com/mail/u/0/#all/19cfbe563f75f960,gm-19cfbe563f75f960
+2026-08-13,366 Mesa,,Lowe's,1x3x8 For Pergola,148.09,"Lowe's Home Centers, LLC",2026-08-13,542.40,pending,https://mail.google.com/mail/u/0/#all/19ffbab89c6e794c,gm-19ffbab89c6e794c
+2026-02-04,104 Ashburne,House Hardware,Lowes,Door Knobs,140.68,Lowe's Home Improvement,2026-02-04,134.23,posted,https://mail.google.com/mail/u/0/#all/19c28c64aa9a29ea,gm-19c28c64aa9a29ea
+2026-06-04,104 Ashburne,Utilities,Energy Texas,Electricity,139.21,Uber,2026-06-03,94.98,pending,https://mail.google.com/mail/u/0/#all/19e8d1415d216814,gm-19e8d1415d216814
+2026-03-07,104 Ashburne,Master Bath,Floor & Decor,Tile for bathtub plaform,136.40,Floor &amp; Decor,2026-03-07,0.00,pending,https://mail.google.com/mail/u/0/#all/19cc9f61226563fe,gm-19cc9f61226563fe
+2026-05-05,104 Ashburne,Utilities,City of Ovilla,Water,131.53,Uber,2026-05-03,63.24,posted,https://mail.google.com/mail/u/0/#all/19dedd5146ee87ad,gm-19dedd5146ee87ad
+2026-02-18,RECAST BIZ,Meals,Uber Eats,Crew meal,131.26,Uber Eats,2026-02-18,131.26,pending,https://mail.google.com/mail/u/0/#all/19c727ecbd076934,gm-19c727ecbd076934
+2026-06-28,136 Bowling Green,,Lowes,Garage Floor Paint,129.84,"Lowe's Home Centers, LLC",2026-06-28,187.64,posted,https://drive.google.com/file/d/18AHF8I-xkG6ZKOyBKz5NUN--vR47mqfv/view?usp=drivesdk,gm-19f0fbce663c9387
+2026-02-16,RECAST BIZ,Tools,Harbor Freight,Roto Hammer Drill,124.48,Harbor Freight Tools,2026-02-16,250.77,pending,https://mail.google.com/mail/u/0/#all/19c678226649aa40,gm-19c678226649aa40
+2026-03-25,104 Ashburne,Small Baths,Lowes,Pedastal Sink,119.08,"Lowe's Home Centers, LLC",2026-03-25,486.80,dismissed,https://drive.google.com/file/d/1OBt5kC3UTMvyjrtjyKU1K851MqIr7JWA/view?usp=drivesdk,gm-19d2556d29835a4b
+2026-04-15,104 Ashburne,Lighting & Electrical,Home Depot,Outlets & Testet,113.99,The Home Depot,2026-04-15,-491.06,pending,https://mail.google.com/mail/u/0/#all/19d9259fe2484c26,gm-19d9259fe2484c26
+2026-04-03,104 Ashburne,House Hardware,Home Depot,Front Door Lock Set,113.64,The Home Depot,2026-04-09,40.01,posted,https://drive.google.com/file/d/1VynliTBCglRE2pcQ_tceYqI8HUFy36Mu/view?usp=drivesdk,gm-19d724c5c326c549
+2026-05-27,1616 Granite RECONCILED,,Amazon,Exterior Light,111.42,"Anthropic, PBC",2026-06-03,20.00,pending,https://mail.google.com/mail/u/0/#all/19e8ed8492f559bc,gm-19e8ed8492f559bc
+2026-07-19,881 Newport,,Effren - 1372,Landscaping,110.00,Falcon Creek Lawn Care,2026-07-19,470.00,posted,https://drive.google.com/file/d/1-1m_RG1m8TfjPZ4u4e45iEVZK_BG9pNO/view?usp=drivesdk,gm-19fb337be62617b6
+2026-07-19,136 Bowling Green,,Effren - 1373,Landscaping,110.00,Falcon Creek Lawn Care,2026-07-19,470.00,posted,https://drive.google.com/file/d/1-1m_RG1m8TfjPZ4u4e45iEVZK_BG9pNO/view?usp=drivesdk,gm-19fb337be62617b6
+2026-07-15,1616 Granite RECONCILED,,Effren - 1373,Landscaping,110.00,Falcon Creek Lawn Care,2026-07-19,470.00,posted,https://drive.google.com/file/d/1-1m_RG1m8TfjPZ4u4e45iEVZK_BG9pNO/view?usp=drivesdk,gm-19fb337be62617b6
+2026-07-19,280 Sparkling RECONCILED,,Effren - 1373,Landscaping,110.00,Falcon Creek Lawn Care,2026-07-19,470.00,posted,https://drive.google.com/file/d/1-1m_RG1m8TfjPZ4u4e45iEVZK_BG9pNO/view?usp=drivesdk,gm-19fb337be62617b6
+2026-06-28,136 Bowling Green,,Home Depot,Stain Striker,107.17,The Home Depot,2026-06-28,6.35,posted,https://drive.google.com/file/d/1LDbnvaDUWaehYpm43Pn3u2YCPeYJv8cg/view?usp=drivesdk,gm-19f0e8b993f57cd0
+2026-03-25,104 Ashburne,Small Baths,Lowes,Tiolet,107.17,"Lowe's Home Centers, LLC",2026-03-25,486.80,dismissed,https://drive.google.com/file/d/1OBt5kC3UTMvyjrtjyKU1K851MqIr7JWA/view?usp=drivesdk,gm-19d2556d29835a4b
+2026-03-25,104 Ashburne,Master Bath,Lowes,Tiolet,107.17,"Lowe's Home Centers, LLC",2026-03-25,486.80,dismissed,https://drive.google.com/file/d/1OBt5kC3UTMvyjrtjyKU1K851MqIr7JWA/view?usp=drivesdk,gm-19d2556d29835a4b
+2026-05-08,1616 Granite RECONCILED,,Home Depot,Weed and Feed,107.06,The Home Depot,2026-03-26,-53.14,pending,https://mail.google.com/mail/u/0/#all/19d2a51f5dffc8be,gm-19d2a51f5dffc8be
+2026-03-15,RECAST BIZ,Tools,Home Depot,Tool Bags,104.96,The Home Depot,2026-03-08,106.75,posted,https://drive.google.com/file/d/1YZP3vIlLKmDqA2Z2GYHiZhc4rLiQN0Xv/view?usp=drivesdk,gm-19ccf1f38113d4f9
+2026-09-01,469 Brushwood,,Waxahachie Watwr,Water,100.00,Oregon Secretary of State - Corporation Division,2026-08-27,100.00,error,https://mail.google.com/mail/u/0/#all/1a04a3178e6ef1c7,gm-1a04a3178e6ef1c7
+2026-02-12,104 Ashburne,Landscaping,Julio,Labor,100.00,Shalom Granite,2026-02-19,"8,508.00",pending,https://mail.google.com/mail/u/0/#all/19cc51b6b845dd1f,gm-19cc51b6b845dd1f
+2026-02-12,104 Ashburne,Trash,Julio,Labor,100.00,Shalom Granite,2026-02-19,"8,508.00",pending,https://mail.google.com/mail/u/0/#all/19cc51b6b845dd1f,gm-19cc51b6b845dd1f
+2026-05-08,104 Ashburne,Landscaping,Julio,Lawn Maintenance,100.00,Oregon Secretary of State (NICUSA),2026-05-18,100.00,dismissed,https://mail.google.com/mail/u/0/#all/19e3baaed0e83190,gm-19e3baaed0e83190
+2026-03-05,104 Ashburne,Paint & Flooring,Armandre Vega,Flexible Quarter Round,98.97,Armandre Vega,2026-03-05,524.81,pending,https://mail.google.com/mail/u/0/#all/19cbe5fe4bbbc3d4,gm-19cbe5fe4bbbc3d4
+2026-03-21,104 Ashburne,House Hardware,Lowes,Door Knobs,98.42,"Lowe's Home Centers, LLC",2026-03-21,297.23,posted,https://drive.google.com/file/d/1HM8VakTScJcmLg3JbX6vNGs2Uvnn0vx9/view?usp=drivesdk,gm-19d11a93764263f8
+2026-02-03,104 Ashburne,Master Bath,Lowes,Shower Niche,91.99,"Lowe's Home Centers, LLC",2026-02-03,768.99,pending,https://mail.google.com/mail/u/0/#all/19c28915ee4c0912,gm-19c28915ee4c0912
+2026-03-21,104 Ashburne,Master Bath,Lowes,Window Trim,86.25,"Lowe's Home Centers, LLC",2026-03-21,297.23,posted,https://drive.google.com/file/d/1HM8VakTScJcmLg3JbX6vNGs2Uvnn0vx9/view?usp=drivesdk,gm-19d11a93764263f8
+2026-04-08,104 Ashburne,Paint & Flooring,Home Depot,Floor mats,81.22,The Home Depot,2026-03-18,54.47,posted,https://drive.google.com/file/d/1hpwvObYLqmaPSSlup2IP9TsvwJ37Q46L/view?usp=drivesdk,gm-19d019ce67d9c5c3
+2026-03-18,104 Ashburne,Supplies,Home Depot,Screws,79.51,The Home Depot,2026-03-18,54.47,posted,https://drive.google.com/file/d/1hpwvObYLqmaPSSlup2IP9TsvwJ37Q46L/view?usp=drivesdk,gm-19d019ce67d9c5c3
+2026-03-23,104 Ashburne,Small Baths,Home Depot,Angle Stops,78.64,The Home Depot,2026-03-18,54.47,posted,https://drive.google.com/file/d/1hpwvObYLqmaPSSlup2IP9TsvwJ37Q46L/view?usp=drivesdk,gm-19d019ce67d9c5c3
+2026-03-12,104 Ashburne,Master Bath,Home Depot,Backer Board,78.21,The Home Depot,2026-03-18,54.47,posted,https://drive.google.com/file/d/1hpwvObYLqmaPSSlup2IP9TsvwJ37Q46L/view?usp=drivesdk,gm-19d019ce67d9c5c3
+2026-03-25,104 Ashburne,Small Baths,Lowes,Mirrow,77.92,"Lowe's Home Centers, LLC",2026-03-25,486.80,dismissed,https://drive.google.com/file/d/1OBt5kC3UTMvyjrtjyKU1K851MqIr7JWA/view?usp=drivesdk,gm-19d2556d29835a4b
+2026-03-21,104 Ashburne,Lighting & Electrical,Wauyfair,Single Bath Light Fixture,76.85,Wayfair,2026-03-18,76.85,posted,https://mail.google.com/mail/u/0/#all/19d0446213881f8d,gm-19d0446213881f8d
+2026-04-10,104 Ashburne,Supplies,Home Depot,Misc Supplies,76.70,The Home Depot,2026-04-10,263.29,posted,https://drive.google.com/file/d/1bOuFpm1xa9Mb-C4-jpV07mgg7LwRAJrC/view?usp=drivesdk,gm-19d78c9cf7bcc5c4
+2026-03-12,104 Ashburne,Master Bath,Home Depot,Molding,75.86,The Home Depot,2026-04-10,263.29,posted,https://drive.google.com/file/d/1bOuFpm1xa9Mb-C4-jpV07mgg7LwRAJrC/view?usp=drivesdk,gm-19d78c9cf7bcc5c4
+2026-03-12,104 Ashburne,Landscaping,Home Depot,Weed & Feed,75.74,The Home Depot,2026-04-10,263.29,posted,https://drive.google.com/file/d/1bOuFpm1xa9Mb-C4-jpV07mgg7LwRAJrC/view?usp=drivesdk,gm-19d78c9cf7bcc5c4
+2026-03-22,104 Ashburne,Lighting & Electrical,Home Depot,LED Tape for Master Bth Soffet,75.74,The Home Depot,2026-04-10,263.29,posted,https://drive.google.com/file/d/1bOuFpm1xa9Mb-C4-jpV07mgg7LwRAJrC/view?usp=drivesdk,gm-19d78c9cf7bcc5c4
+2026-08-13,366 Mesa,,Lowe's,Flashing,75.47,"Lowe's Home Centers, LLC",2026-08-13,542.40,pending,https://mail.google.com/mail/u/0/#all/19ffbab89c6e794c,gm-19ffbab89c6e794c
+2026-02-20,104 Ashburne,Small Baths,Home Depot,Angle Stops,72.80,The Home Depot,2026-02-20,135.07,pending,https://mail.google.com/mail/u/0/#all/19c7be8f6b3c531b,gm-19c7be8f6b3c531b
+2026-05-27,1616 Granite RECONCILED,,Amazon,Curtain Rods,72.65,"Anthropic, PBC",2026-06-03,20.00,pending,https://mail.google.com/mail/u/0/#all/19e8ed8492f559bc,gm-19e8ed8492f559bc
+2026-03-15,RECAST BIZ,Tools,Home Depot,Sander,70.33,The Home Depot,2026-03-15,36.72,posted,https://drive.google.com/file/d/1Khf1l0UStQxjhBklhnHrIIcDUeXEG_k9/view?usp=drivesdk,gm-19cf3177d3ee370b
+2026-02-04,104 Ashburne,House Hardware,Lowes,Door Knobs,70.10,Lowe's Home Improvement,2026-02-04,134.23,posted,https://mail.google.com/mail/u/0/#all/19c28c64aa9a29ea,gm-19c28c64aa9a29ea
+2026-08-14,366 Mesa,,Home Depot,Door Lock Sets,69.61,The Home Depot,2026-08-14,87.26,posted,https://drive.google.com/file/d/1OC65derKXGQVjdxfhUbk9VOAiEt8kw68/view?usp=drivesdk,gm-1a000805d296df8b
+2026-06-26,RECAST BIZ,Gas/Truck/Trailer,Shell,Fuel - 18.762 gallons,69.40,Shell,2026-06-29,58.04,posted,https://drive.google.com/file/d/1agh769exx2DuoCNce50dUuza_YlTSxpW/view?usp=drivesdk,gm-19f15c359e34964b
+2026-03-10,104 Ashburne,Gas/Truck/Trailer,Shell,Gas,69.27,Shell,2026-04-13,69.27,pending,https://mail.google.com/mail/u/0/#all/19d86af34f4c2840,gm-19d86af34f4c2840
+2026-02-19,104 Ashburne,Lighting & Electrical,Home Depot,Light Switches,69.24,The Home Depot,2026-02-18,69.56,pending,https://mail.google.com/mail/u/0/#all/19c70c97dc638c65,gm-19c70c97dc638c65
+2026-06-17,104 Ashburne,Gas/Truck/Trailer,Shell,Gas,66.64,Shell,2026-06-17,66.64,pending,https://mail.google.com/mail/u/0/#all/19ed81985682b730,gm-19ed81985682b730
+2026-03-26,104 Ashburne,Lighting & Electrical,Home Depot,LED light strip,64.92,The Home Depot,2026-03-26,-53.14,pending,https://mail.google.com/mail/u/0/#all/19d2a51f5dffc8be,gm-19d2a51f5dffc8be
+2026-01-07,104 Ashburne,Trash,Home Depot,Garbage Bags,64.89,The Home Depot,2026-01-14,20.25,pending,https://mail.google.com/mail/u/0/#all/19bbd41a87b2b698,gm-19bbd41a87b2b698
+2026-02-19,104 Ashburne,Lighting & Electrical,Home Depot,Hall & Closet Lights,64.89,The Home Depot,2026-01-14,20.25,pending,https://mail.google.com/mail/u/0/#all/19bbd41a87b2b698,gm-19bbd41a87b2b698
+2026-01-14,104 Ashburne,Landscaping,Home Depot,Trash Bags,64.89,The Home Depot,2026-01-14,20.25,pending,https://mail.google.com/mail/u/0/#all/19bbd41a87b2b698,gm-19bbd41a87b2b698
+2026-04-05,104 Ashburne,Lighting & Electrical,Home Depot,Light Bulbs,63.76,The Home Depot,2026-03-26,-53.14,pending,https://mail.google.com/mail/u/0/#all/19d2a51f5dffc8be,gm-19d2a51f5dffc8be
+2026-04-08,104 Ashburne,Paint & Flooring,Home Depot,Paint,62.74,The Home Depot,2026-04-09,40.01,posted,https://drive.google.com/file/d/1VynliTBCglRE2pcQ_tceYqI8HUFy36Mu/view?usp=drivesdk,gm-19d724c5c326c549
+2026-03-13,104 Ashburne,Master Bath,Lowes,Grout,60.81,"Lowe's Home Centers, LLC",2026-03-13,109.14,posted,https://drive.google.com/file/d/1gn9pyhkWH1jzk9eyvwixamTRYDtx4l2p/view?usp=drivesdk,gm-19ce7245dbb4ed86
+2026-02-15,104 Ashburne,Master Bath,Home Depot,PT 2x4's,60.79,The Home Depot,2026-02-15,137.68,pending,https://mail.google.com/mail/u/0/#all/19c61b20c24fc994,gm-19c61b20c24fc994
+2026-08-13,366 Mesa,,Lowe's,Exterior Lights,60.57,"Lowe's Home Centers, LLC",2026-08-13,542.40,pending,https://mail.google.com/mail/u/0/#all/19ffbab89c6e794c,gm-19ffbab89c6e794c
+2026-02-16,RECAST BIZ,Tools,Home Depot,Saw Horses,59.51,The Home Depot,2026-02-16,183.38,pending,https://mail.google.com/mail/u/0/#all/19c66d875dd9e7bd,gm-19c66d875dd9e7bd
+2026-03-30,104 Ashburne,House Hardware,Lowes,Door Knobs,59.49,"Lowe's Home Centers, LLC",2026-03-30,340.90,posted,https://drive.google.com/file/d/1c_vFy0-CaX1yvoPm5R18qlwcnX901ctk/view?usp=drivesdk,gm-19d442100d7bb73f
+2026-01-14,RECAST BIZ,Meals,Uber Eats,Crew meal,58.82,Uber Eats,2026-01-14,58.82,dismissed,https://mail.google.com/mail/u/0/#all/19bbf1890ac56e0f,gm-19bbf1890ac56e0f
+2026-06-30,104 Ashburne,Small Baths,Home Depot,Flange Covers,56.31,The Home Depot,2026-06-30,-74.57,pending,https://mail.google.com/mail/u/0/#all/19f18a7ab38c52cf,gm-19f18a7ab38c52cf
+2026-06-22,RECAST BIZ,Gas/Truck/Trailer,Shell,Regular fuel 17.425G @ $3.139/gal,54.70,Shell,2026-06-17,66.64,pending,https://mail.google.com/mail/u/0/#all/19ed81985682b730,gm-19ed81985682b730
+2026-03-12,104 Ashburne,Paint & Flooring,Home Depot,Quarter Round,52.53,The Home Depot,2026-03-18,54.47,posted,https://drive.google.com/file/d/1hpwvObYLqmaPSSlup2IP9TsvwJ37Q46L/view?usp=drivesdk,gm-19d019ce67d9c5c3
+2026-04-15,104 Ashburne,Supplies,Home Depot,Misc Supplies,51.38,The Home Depot,2026-04-15,-491.06,pending,https://mail.google.com/mail/u/0/#all/19d9259fe2484c26,gm-19d9259fe2484c26
+2026-07-08,881 Newport,,Home Depot,Towels,51.12,The Home Depot,2026-05-31,51.74,pending,https://mail.google.com/mail/u/0/#all/19e8f7e6652f7e3e,gm-19e8f7e6652f7e3e
+2026-03-25,104 Ashburne,Small Baths,Home Depot,Hydro Seats,49.75,The Home Depot,2026-03-25,241.50,pending,https://mail.google.com/mail/u/0/#all/19d25017467ed73d,gm-19d25017467ed73d
+2026-02-10,104 Ashburne,Master Bath,Home Depot,Angle Stops,49.54,The Home Depot,2026-02-10,200.87,pending,https://mail.google.com/mail/u/0/#all/19c48c68567fa017,gm-19c48c68567fa017
+2026-03-18,104 Ashburne,Supplies,Home Depot,Screws,47.76,The Home Depot,2026-03-18,54.47,posted,https://drive.google.com/file/d/1hpwvObYLqmaPSSlup2IP9TsvwJ37Q46L/view?usp=drivesdk,gm-19d019ce67d9c5c3
+2026-06-16,RECAST BIZ,Tools,The Home Depot,Hole Saw,47.60,The Home Depot,2026-06-18,47.93,posted,https://drive.google.com/file/d/14Vwq9UQyvA4guQDR9a0hjNvt71QqaZKP/view?usp=drivesdk,gm-19edabdf68ad91f0
+2026-09-03,469 Brushwood,,Home Depot,Paint,46.55,The Home Depot,2026-09-03,55.87,posted,https://drive.google.com/file/d/1Cc5n079-sBSgOR_WLedbPXyISMXyWHyF/view?usp=drivesdk,gm-1a0679d10dfb58fc
+2026-06-24,RECAST BIZ,Gas/Truck/Trailer,O'Reilly Auto Parts,VAL SYN5-20-5QT 5QT MOTOROIL,45.45,Amazon,2026-06-25,31.03,pending,https://mail.google.com/mail/u/0/#all/19f00ab9125115f9,gm-19f00ab9125115f9
+2026-04-05,104 Ashburne,Paint & Flooring,Home Depot,Eurethane,45.40,The Home Depot,2026-03-11,6.68,posted,https://drive.google.com/file/d/1j1WViQ7k1WHOmJZyBUSey6ulfsSND2ln/view?usp=drivesdk,gm-19cddf3d9dcd3db2
+2026-02-17,104 Ashburne,Small Baths,Home Depot,Shark Bite Toilet Connectors,44.99,The Home Depot,2026-03-11,6.68,posted,https://drive.google.com/file/d/1j1WViQ7k1WHOmJZyBUSey6ulfsSND2ln/view?usp=drivesdk,gm-19cddf3d9dcd3db2
+2026-02-20,104 Ashburne,Small Baths,Home Depot,Shark Bite Toilet Connectors,44.99,The Home Depot,2026-03-11,6.68,posted,https://drive.google.com/file/d/1j1WViQ7k1WHOmJZyBUSey6ulfsSND2ln/view?usp=drivesdk,gm-19cddf3d9dcd3db2
+2026-06-16,104 Ashburne,Supplies,Home Depot,Screws,44.03,The Home Depot,2026-06-20,43.26,error,https://mail.google.com/mail/u/0/#all/19ee5f9ddc58dccf,gm-19ee5f9ddc58dccf
+2026-03-25,104 Ashburne,Master Bath,Lowes,FJP 1x8,44.01,"Lowe's Home Centers, LLC",2026-03-25,486.80,dismissed,https://drive.google.com/file/d/1OBt5kC3UTMvyjrtjyKU1K851MqIr7JWA/view?usp=drivesdk,gm-19d2556d29835a4b
+2026-08-13,366 Mesa,,Lowe's,Nail Guards,43.84,"Lowe's Home Centers, LLC",2026-06-29,43.26,posted,https://drive.google.com/file/d/1F69YenaiFerPpinCYk8-9YPs9YYUNIRX/view?usp=drivesdk,gm-19f15bb914268174
+2026-01-13,104 Ashburne,Utilities,Energy Texas,Electricity,43.57,Atmos Energy,2026-01-13,57.65,pending,https://mail.google.com/mail/u/0/#all/19bbebe1e4fc35df,gm-19bbebe1e4fc35df
+2026-09-04,469 Brushwood,,Lowes,Garage Floor Paint,43.28,"Lowe's Home Centers, LLC",2026-09-04,270.50,pending,https://mail.google.com/mail/u/0/#all/1a06da589b0fc446,gm-1a06da589b0fc446
+2026-05-31,1616 Granite RECONCILED,,Home Depot,Concrete Stain,43.28,The Home Depot,2026-05-30,45.14,posted,https://drive.google.com/file/d/1zSpPFW_mjzMdrMO7fK0A4VmO47ZMCLAI/view?usp=drivesdk,gm-19e8f7d279f40059
+2026-06-27,136 Bowling Green,,Home Depot,Wall Texture,43.26,The Home Depot,2026-06-27,2.01,posted,https://mail.google.com/mail/u/0/#all/19f3f68f0a53b2e9,gm-19f3f68f0a53b2e9
+2026-06-26,136 Bowling Green,,Home Depot,Front Door Handle,43.21,The Home Depot,2026-06-27,2.01,posted,https://mail.google.com/mail/u/0/#all/19f3f68f0a53b2e9,gm-19f3f68f0a53b2e9
+2026-09-06,469 Brushwood,,Home Depot,Stain,41.55,The Home Depot,2026-09-07,41.55,posted,https://drive.google.com/file/d/1SElXPZ95McrkuklcFeL5EqwLN7uVnKHk/view?usp=drivesdk,gm-1a07c578a33b385e
+2026-06-28,1616 Granite RECONCILED,,Home Depot,Toilet Kits,40.01,The Home Depot,2026-06-28,6.35,posted,https://drive.google.com/file/d/1LDbnvaDUWaehYpm43Pn3u2YCPeYJv8cg/view?usp=drivesdk,gm-19f0e8b993f57cd0
+2026-02-12,104 Ashburne,Master Bath,Home Depot,Sharkbite Fittings,39.99,The Home Depot,2026-02-11,41.61,pending,https://mail.google.com/mail/u/0/#all/19c4cb602c2d527c,gm-19c4cb602c2d527c
+2026-06-18,104 Ashburne,Supplies,Home Depot,1x4,39.84,The Home Depot,2026-06-18,47.93,posted,https://drive.google.com/file/d/14Vwq9UQyvA4guQDR9a0hjNvt71QqaZKP/view?usp=drivesdk,gm-19edabdf68ad91f0
+2026-03-30,104 Ashburne,Landscaping,Home Depot,Fence Boards,39.34,The Home Depot,2026-04-09,40.01,posted,https://drive.google.com/file/d/1VynliTBCglRE2pcQ_tceYqI8HUFy36Mu/view?usp=drivesdk,gm-19d724c5c326c549
+2026-03-23,104 Ashburne,Gas/Truck/Trailer,AutoXZone,Oil,38.95,AutoZone,2026-03-23,38.95,posted,https://drive.google.com/file/d/1IKvTFnDbZ2SdDEcV3owL7yzvrbUUm3r-/view?usp=drivesdk,gm-19d1aff5eaa6fee2
+2026-04-01,104 Ashburne,Paint & Flooring,Home Depot,Quarter Round,38.78,The Home Depot,2026-04-09,40.01,posted,https://drive.google.com/file/d/1VynliTBCglRE2pcQ_tceYqI8HUFy36Mu/view?usp=drivesdk,gm-19d724c5c326c549
+2026-06-10,1616 Granite RECONCILED,,Lowes,Floor Paint,37.97,"Lowe's Home Centers, LLC",2026-06-29,37.86,posted,https://drive.google.com/file/d/1HpPWmv87OLa3ovLJE_5LOtJgZyoFJ-kP/view?usp=drivesdk,gm-19f154ce61fa47c1
+2026-04-01,104 Ashburne,Supplies,Home Depot,Self Leveler,37.89,The Home Depot,2026-04-01,93.58,posted,https://drive.google.com/file/d/1bv7Pp9Yb2Xc7unJLH327L9MUkbbPuswv/view?usp=drivesdk,gm-19d4a3ee589e436a
+2026-03-22,104 Ashburne,Supplies,Home Depot,Shopvac Filters,37.86,The Home Depot,2026-03-15,36.72,posted,https://drive.google.com/file/d/1Khf1l0UStQxjhBklhnHrIIcDUeXEG_k9/view?usp=drivesdk,gm-19cf3177d3ee370b
+2026-02-18,RECAST BIZ,Meals,Uber Eats,Crew meal,37.58,Uber Eats,2026-02-18,37.58,dismissed,https://mail.google.com/mail/u/0/#all/19c727e9cb2bf076,gm-19c727e9cb2bf076
+2026-03-06,104 Ashburne,Supplies,Home Depot,Multi Tool Blades,36.74,The Home Depot,2026-03-15,36.72,posted,https://drive.google.com/file/d/1Khf1l0UStQxjhBklhnHrIIcDUeXEG_k9/view?usp=drivesdk,gm-19cf3177d3ee370b
+2026-02-16,RECAST BIZ,Tools,Harbor Freight,Roto Hammer Bits,34.62,Harbor Freight Tools,2026-02-16,250.77,pending,https://mail.google.com/mail/u/0/#all/19c678226649aa40,gm-19c678226649aa40
+2026-04-01,104 Ashburne,Paint & Flooring,Lowes,Quarter Round,34.47,The Home Depot,2026-03-21,389.93,pending,https://mail.google.com/mail/u/0/#all/19d20cf12a8888da,gm-19d20cf12a8888da
+2026-06-25,136 Bowling Green,,Home Depot,9V Batteries,33.28,The Home Depot,2026-06-23,32.43,posted,https://drive.google.com/file/d/12Dzamd9VRE1uX-U4VIhFdN0oOy-xVPP-/view?usp=drivesdk,gm-19ef4d5d26caf1e4
+2026-03-19,104 Ashburne,Master Bath,Lowes,Water Supplies,33.25,"Lowe's Home Centers, LLC",2026-03-05,32.41,posted,https://drive.google.com/file/d/1bcxdcWiBvItHY6IRYZ7ytTHGxGv533ry/view?usp=drivesdk,gm-19cbe988cb289b26
+2026-06-16,104 Ashburne,Supplies,Home Depot,1x4's,33.20,The Home Depot,2026-06-23,32.43,posted,https://drive.google.com/file/d/12Dzamd9VRE1uX-U4VIhFdN0oOy-xVPP-/view?usp=drivesdk,gm-19ef4d5d26caf1e4
+2026-03-17,104 Ashburne,Kitchen,Amazon,Under Cabinet Lights,32.46,The Home Depot,2026-03-04,39.96,pending,https://mail.google.com/mail/u/0/#all/19cb9e86dc1c5092,gm-19cb9e86dc1c5092
+2026-05-29,1616 Granite RECONCILED,,Home Depot,Toilet Seat,32.45,The Home Depot,2026-06-22,46.72,posted,https://drive.google.com/file/d/1V57oFP9HHqrdCTwVOxZz18JicVofDTa_/view?usp=drivesdk,gm-19ef063b7f56ea6f
+2026-03-21,104 Ashburne,Master Bath,Lowes,Window Trim,31.01,"Lowe's Home Centers, LLC",2026-03-05,32.41,posted,https://drive.google.com/file/d/1bcxdcWiBvItHY6IRYZ7ytTHGxGv533ry/view?usp=drivesdk,gm-19cbe988cb289b26
+2026-05-27,1616 Granite RECONCILED,,Amazon,Curtain Rods,30.80,Amazon,2026-06-25,31.03,pending,https://mail.google.com/mail/u/0/#all/19f00ab9125115f9,gm-19f00ab9125115f9
+2026-06-17,RECAST BIZ,Tools,The Home Depot,Tool Bag,29.21,The Home Depot,2026-06-17,77.88,posted,https://drive.google.com/file/d/1RJK6W8exngKBTL9dhJVHUWLaJtJdP2ft/view?usp=drivesdk,gm-19ed8195997d06ad
+2026-03-15,104 Ashburne,Supplies,Home Depot,Screws,28.52,"Lowe's Home Centers, LLC",2026-03-02,28.52,posted,https://drive.google.com/file/d/1UHa6Mjac3NkeoahMrgYlbpkGekdHkUud/view?usp=drivesdk,gm-19cb1566e7f23282
+2026-03-23,104 Ashburne,Trash,City of Corsicana,Dump,27.30,City of Corsicana - Landfill,2026-03-23,27.30,posted,https://drive.google.com/file/d/17Dt4fIHGmFwmqfuqOmSxeh3PRza2qg0X/view?usp=drivesdk,gm-19d1cd018ff7d685
+2026-04-08,104 Ashburne,Trash,City of Corsicana,Dump,27.30,City of Corsicana - Landfill,2026-04-08,27.30,posted,https://drive.google.com/file/d/1mv1tqjBRkMPM3sKLDkGbXTVhuB_pxyuW/view?usp=drivesdk,gm-19d6e8c47f186ff0
+2026-06-29,RECAST BIZ,Tools,The Home Depot,"CHANNELLOCK 12"" TONGUE & GROOVE PLIER",27.03,The Home Depot,2026-05-27,27.00,posted,https://drive.google.com/file/d/1KDhFh27_UAb0rDWG8DOgO68S8emtlIBm/view?usp=drivesdk,gm-19e8f76c3b9efa8e
+2026-04-01,104 Ashburne,Small Baths,Home Depot,angle stops,27.00,The Home Depot,2026-03-29,25.73,posted,https://drive.google.com/file/d/1zpsw1UtLt56dMKgx0tBeOEqf_R9zHYQd/view?usp=drivesdk,gm-19d3a708f16b12eb
+2026-02-10,RECAST BIZ,Tools,Lowes,Tape Measure,25.96,Lowe's Home Improvement,2026-02-10,238.06,pending,https://mail.google.com/mail/u/0/#all/19c484998d6bf67a,gm-19c484998d6bf67a
+2026-03-19,104 Ashburne,Lighting & Electrical,Lowes,"18"" Downrod",25.88,"Lowe's Home Centers, LLC",2026-03-19,54.08,posted,https://drive.google.com/file/d/19CDPV6LBlECOIoOzvbWhAXCfix7yM4qa/view?usp=drivesdk,gm-19d069c13314e2b8
+2026-04-03,104 Ashburne,Paint & Flooring,Lowes,Quarter Round,25.76,"Lowe's Home Centers, LLC",2026-04-03,341.72,posted,https://mail.google.com/mail/u/0/#all/19d535a923f6b186,gm-19d535a923f6b186
+2026-07-01,881 Newport,,Home Depot,Toilet Seat,25.56,The Home Depot,2026-05-27,27.00,posted,https://drive.google.com/file/d/1KDhFh27_UAb0rDWG8DOgO68S8emtlIBm/view?usp=drivesdk,gm-19e8f76c3b9efa8e
+2026-07-06,881 Newport,,Lowes,Paint,23.79,"Lowe's Home Centers, LLC",2026-07-06,90.87,posted,https://drive.google.com/file/d/1EhIkX32eKg3or1JQjwVIuRODLmXe3t4U/view?usp=drivesdk,gm-19f375eaba8d8ee8
+2026-06-28,136 Bowling Green,,Home Depot,Bondo,23.79,The Home Depot,2026-06-28,6.35,posted,https://drive.google.com/file/d/1LDbnvaDUWaehYpm43Pn3u2YCPeYJv8cg/view?usp=drivesdk,gm-19f0e8b993f57cd0
+2026-05-29,1616 Granite RECONCILED,,Home Depot,Toilet Parts,23.79,The Home Depot,2026-06-28,6.35,posted,https://drive.google.com/file/d/1LDbnvaDUWaehYpm43Pn3u2YCPeYJv8cg/view?usp=drivesdk,gm-19f0e8b993f57cd0
+2026-02-16,RECAST BIZ,Tools,Home Depot,Scrapers,23.75,The Home Depot,2026-03-29,25.73,posted,https://drive.google.com/file/d/1zpsw1UtLt56dMKgx0tBeOEqf_R9zHYQd/view?usp=drivesdk,gm-19d3a708f16b12eb
+2026-08-05,136 Bowling Green,,Ace Hardware,Padlock,22.99,Keith Ace Hardware - Red Oak,2026-08-05,29.22,posted,https://drive.google.com/file/d/1EfY_Lfa7b7guZgzZkT84kPFDcgUemzxo/view?usp=drivesdk,gm-19fd4002e0935c03
+2026-06-16,104 Ashburne,Supplies,Home Depot,Nuts and bolts,22.09,The Home Depot,2026-05-07,23.78,posted,https://drive.google.com/file/d/1Vv7kn2JEtzPJUjunVg9AbftKYJQQc8tj/view?usp=drivesdk,gm-19e03c938a0f72b2
+2026-03-15,104 Ashburne,Supplies,Home Depot,Sanding Discs,21.56,The Home Depot,2026-03-15,36.72,posted,https://drive.google.com/file/d/1Khf1l0UStQxjhBklhnHrIIcDUeXEG_k9/view?usp=drivesdk,gm-19cf3177d3ee370b
+2026-04-01,RECAST BIZ,Tools,Home Depot,Drill bits,21.08,The Home Depot,2026-04-01,93.58,posted,https://drive.google.com/file/d/1bv7Pp9Yb2Xc7unJLH327L9MUkbbPuswv/view?usp=drivesdk,gm-19d4a3ee589e436a
+2026-03-19,104 Ashburne,Supplies,Lowes,Silicone Caulk,20.96,"Lowe's Home Centers, LLC",2026-03-19,54.08,posted,https://drive.google.com/file/d/19CDPV6LBlECOIoOzvbWhAXCfix7yM4qa/view?usp=drivesdk,gm-19d069c13314e2b8
+2026-09-02,366 Mesa,,Home Depot,?,20.72,The Home Depot,2026-08-11,20.94,posted,https://drive.google.com/file/d/1Sf3mLx-4yZEnb5vdBm4ovpjufF9RS30M/view?usp=drivesdk,gm-19ff17e1bc0effd7
+2026-03-15,104 Ashburne,Supplies,Home Depot,Wood Filler,20.55,The Home Depot,2026-03-15,36.72,posted,https://drive.google.com/file/d/1Khf1l0UStQxjhBklhnHrIIcDUeXEG_k9/view?usp=drivesdk,gm-19cf3177d3ee370b
+2026-06-30,104 Ashburne,Small Baths,Home Depot,Caulk,19.98,The Home Depot,2026-08-11,20.94,posted,https://drive.google.com/file/d/1Sf3mLx-4yZEnb5vdBm4ovpjufF9RS30M/view?usp=drivesdk,gm-19ff17e1bc0effd7
+2026-08-03,366 Mesa,,Home Depot,?,19.66,The Home Depot,2026-08-11,20.94,posted,https://drive.google.com/file/d/1Sf3mLx-4yZEnb5vdBm4ovpjufF9RS30M/view?usp=drivesdk,gm-19ff17e1bc0effd7
+2026-09-02,469 Brushwood,,Home Depot,Concrete Degreaser,19.46,The Home Depot,2026-08-11,20.94,posted,https://drive.google.com/file/d/1Sf3mLx-4yZEnb5vdBm4ovpjufF9RS30M/view?usp=drivesdk,gm-19ff17e1bc0effd7
+2026-03-21,104 Ashburne,Lighting & Electrical,Lowes,Downrod,18.97,"Lowe's Home Centers, LLC",2026-04-04,17.30,pending,https://mail.google.com/mail/u/0/#all/19d593d6a8a5082a,gm-19d593d6a8a5082a
+2026-03-19,104 Ashburne,Small Baths,Floor & Decor,Tile,18.71,Floor and Decor,2026-03-19,18.71,posted,https://drive.google.com/file/d/1iymiaOKtrlJ5dRVrqJqpyvtVmhquXSlf/view?usp=drivesdk,gm-19d07518d663dbfe
+2026-04-06,104 Ashburne,Supplies,Home Depot,Drill Bit,18.34,The Home Depot,2026-04-06,34.01,posted,https://drive.google.com/file/d/1C7ZiYTILoKbZKdoe7W9l8qekhlNuxSLe/view?usp=drivesdk,gm-19d6461d769e7e56
+2026-01-17,104 Ashburne,HVAC,Lowes,Pipe insulation,18.06,"Lowe's Home Centers, LLC",2026-01-17,180.34,posted,https://mail.google.com/mail/u/0/#all/19bcc629a4d83e4e,gm-19bcc629a4d83e4e
+2026-04-09,RECAST BIZ,Tools,Home Depot,Wire Strippers,17.29,The Home Depot,2026-04-09,40.01,posted,https://drive.google.com/file/d/1VynliTBCglRE2pcQ_tceYqI8HUFy36Mu/view?usp=drivesdk,gm-19d724c5c326c549
+2026-03-26,104 Ashburne,Lighting & Electrical,Home Depot,Wall Plates,17.08,The Home Depot,2026-03-26,-53.14,pending,https://mail.google.com/mail/u/0/#all/19d2a51f5dffc8be,gm-19d2a51f5dffc8be
+2026-01-11,104 Ashburne,Supplies,Home Depot,Screws,16.91,The Home Depot,2026-01-11,170.63,pending,https://mail.google.com/mail/u/0/#all/19bae03eddedc8bc,gm-19bae03eddedc8bc
+2026-02-15,104 Ashburne,Supplies,Home Depot,Screws,16.91,The Home Depot,2026-03-10,87.25,dismissed,https://drive.google.com/file/d/1KGu234JiirQkoSSD4_KDCDuwVGj4oBzY/view?usp=drivesdk,gm-19cd8db842855d26
+2026-03-10,104 Ashburne,Supplies,Home Depot,Screws,16.91,The Home Depot,2026-03-10,87.25,dismissed,https://drive.google.com/file/d/1KGu234JiirQkoSSD4_KDCDuwVGj4oBzY/view?usp=drivesdk,gm-19cd8db842855d26
+2026-03-25,104 Ashburne,Lighting & Electrical,Home Depot,New Work Boxes,16.33,The Home Depot,2026-03-25,241.50,pending,https://mail.google.com/mail/u/0/#all/19d25017467ed73d,gm-19d25017467ed73d
+2026-06-26,136 Bowling Green,,Home Depot,Pole Sander,16.22,The Home Depot,2026-07-08,55.34,pending,https://mail.google.com/mail/u/0/#all/19f42c17927282a4,gm-19f42c17927282a4
+2026-06-28,280 Sparkling RECONCILED,,Home Depot,PVC Cement,16.22,The Home Depot,2026-07-08,55.34,pending,https://mail.google.com/mail/u/0/#all/19f42c17927282a4,gm-19f42c17927282a4
+2026-03-12,104 Ashburne,Supplies,Home Depot,Screws,16.05,The Home Depot,2026-03-12,673.29,pending,https://mail.google.com/mail/u/0/#all/19ce39f32dd9c9c0,gm-19ce39f32dd9c9c0
+2026-04-01,104 Ashburne,House Hardware,Home Depot,Door stops,15.86,The Home Depot,2026-04-01,93.58,posted,https://drive.google.com/file/d/1bv7Pp9Yb2Xc7unJLH327L9MUkbbPuswv/view?usp=drivesdk,gm-19d4a3ee589e436a
+2026-03-11,104 Ashburne,Small Baths,Home Depot,Angle Stop,15.76,The Home Depot,2026-03-11,6.68,posted,https://drive.google.com/file/d/1j1WViQ7k1WHOmJZyBUSey6ulfsSND2ln/view?usp=drivesdk,gm-19cddf3d9dcd3db2
+2026-04-01,104 Ashburne,Supplies,Home Depot,Adhesive,15.67,The Home Depot,2026-04-06,34.01,posted,https://drive.google.com/file/d/1C7ZiYTILoKbZKdoe7W9l8qekhlNuxSLe/view?usp=drivesdk,gm-19d6461d769e7e56
+2026-04-06,104 Ashburne,Supplies,Home Depot,Caulk,15.67,The Home Depot,2026-04-06,34.01,posted,https://drive.google.com/file/d/1C7ZiYTILoKbZKdoe7W9l8qekhlNuxSLe/view?usp=drivesdk,gm-19d6461d769e7e56
+2026-02-15,104 Ashburne,Master Bath,Home Depot,2x4's,15.33,The Home Depot,2026-02-15,137.68,pending,https://mail.google.com/mail/u/0/#all/19c61b20c24fc994,gm-19c61b20c24fc994
+2026-04-09,104 Ashburne,Supplies,Home Depot,Screws,15.09,The Home Depot,2026-04-09,40.01,posted,https://drive.google.com/file/d/1VynliTBCglRE2pcQ_tceYqI8HUFy36Mu/view?usp=drivesdk,gm-19d724c5c326c549
+2026-09-04,469 Brushwood,,Home Depot,Kilz Primer,14.70,The Home Depot,2026-09-04,14.70,posted,https://drive.google.com/file/d/1SrVW2xhnQQLyTqumgemDQsFuMLEogMmR/view?usp=drivesdk,gm-1a06cc096121cd45
+2026-03-25,104 Ashburne,Supplies,Home Depot,Tapcon Scres & Bit,14.68,The Home Depot,2026-03-15,36.72,posted,https://drive.google.com/file/d/1Khf1l0UStQxjhBklhnHrIIcDUeXEG_k9/view?usp=drivesdk,gm-19cf3177d3ee370b
+2026-04-05,104 Ashburne,Supplies,Home Depot,Nuts & Bolts,14.40,The Home Depot,2026-04-05,230.72,pending,https://mail.google.com/mail/u/0/#all/19d5e0ce39d91e0d,gm-19d5e0ce39d91e0d
+2026-06-26,136 Bowling Green,,Home Depot,Drywall Tape,14.38,The Home Depot,2026-06-22,46.72,posted,https://drive.google.com/file/d/1V57oFP9HHqrdCTwVOxZz18JicVofDTa_/view?usp=drivesdk,gm-19ef063b7f56ea6f
+2026-03-02,104 Ashburne,Supplies,Home Depot,Paper Towels,14.05,"Lowe's Home Centers, LLC",2026-03-15,14.05,posted,https://drive.google.com/file/d/1EOC-K7bCn9ly0b-UN91I1rAM00bWOM8F/view?usp=drivesdk,gm-19cf25c0bd386e41
+2026-03-23,104 Ashburne,Supplies,Home Depot,Shop Towels,14.05,"Lowe's Home Centers, LLC",2026-03-15,14.05,posted,https://drive.google.com/file/d/1EOC-K7bCn9ly0b-UN91I1rAM00bWOM8F/view?usp=drivesdk,gm-19cf25c0bd386e41
+2026-03-22,104 Ashburne,Supplies,Home Depot,Dremel Post,14.04,The Home Depot,2026-03-22,514.16,pending,https://mail.google.com/mail/u/0/#all/19d16d3ec604edb7,gm-19d16d3ec604edb7
+2026-06-26,136 Bowling Green,,Home Depot,Taping Knife,12.97,The Home Depot,2026-06-22,46.72,posted,https://drive.google.com/file/d/1V57oFP9HHqrdCTwVOxZz18JicVofDTa_/view?usp=drivesdk,gm-19ef063b7f56ea6f
+2026-04-10,104 Ashburne,Supplies,Home Depot,Plumbing parts,12.87,The Home Depot,2026-04-10,263.29,posted,https://drive.google.com/file/d/1bOuFpm1xa9Mb-C4-jpV07mgg7LwRAJrC/view?usp=drivesdk,gm-19d78c9cf7bcc5c4
+2026-02-15,RECAST BIZ,Tools,Home Depot,Saw Blade,11.88,The Home Depot,2026-01-14,20.25,pending,https://mail.google.com/mail/u/0/#all/19bbd41a87b2b698,gm-19bbd41a87b2b698
+2026-04-03,104 Ashburne,Lighting & Electrical,Lowes,Batteries,11.80,"Lowe's Home Centers, LLC",2026-04-03,341.72,posted,https://mail.google.com/mail/u/0/#all/19d535a923f6b186,gm-19d535a923f6b186
+2026-03-25,104 Ashburne,Supplies,Lowes,Tri for Garage,10.91,"Lowe's Home Centers, LLC",2026-03-25,486.80,dismissed,https://drive.google.com/file/d/1OBt5kC3UTMvyjrtjyKU1K851MqIr7JWA/view?usp=drivesdk,gm-19d2556d29835a4b
+2026-02-24,104 Ashburne,Lighting & Electrical,Amazon,Light Bulbs,10.81,The Home Depot,2026-02-19,390.12,pending,https://mail.google.com/mail/u/0/#all/19c76c4996bae8b0,gm-19c76c4996bae8b0
+2026-07-01,881 Newport,,Home Depot,Roller Covers,10.80,The Home Depot,2026-06-23,32.43,posted,https://drive.google.com/file/d/12Dzamd9VRE1uX-U4VIhFdN0oOy-xVPP-/view?usp=drivesdk,gm-19ef4d5d26caf1e4
+2026-02-12,104 Ashburne,Master Bath,Home Depot,PEX,10.47,The Home Depot,2026-01-14,20.25,pending,https://mail.google.com/mail/u/0/#all/19bbd41a87b2b698,gm-19bbd41a87b2b698
+2026-05-27,104 Ashburne,Supplies,Home Depot,Spackle,10.26,The Home Depot,2026-06-21,10.19,posted,https://drive.google.com/file/d/1TCuGcstnP2KBJcC9loCD_5AzWMKCGOC1/view?usp=drivesdk,gm-19eea5d1a93a9656
+2026-06-28,280 Sparkling RECONCILED,,Home Depot,Painters Towels,9.93,The Home Depot,2026-06-21,10.19,posted,https://drive.google.com/file/d/1TCuGcstnP2KBJcC9loCD_5AzWMKCGOC1/view?usp=drivesdk,gm-19eea5d1a93a9656
+2026-08-13,366 Mesa,,Lowe's,Light Bulbs,9.72,"Lowe's Home Centers, LLC",2026-08-13,542.40,pending,https://mail.google.com/mail/u/0/#all/19ffbab89c6e794c,gm-19ffbab89c6e794c
+2026-05-30,1616 Granite RECONCILED,,Lowes,Irrigation Sprinkler,9.61,"Lowe's Home Centers, LLC",2026-05-30,24.58,pending,https://mail.google.com/mail/u/0/#all/19e79a903622d62d,gm-19e79a903622d62d
+2026-03-21,104 Ashburne,Supplies,Lowes,Glass Scraper & Blades,9.48,"Lowe's Home Centers, LLC",2026-03-21,297.23,posted,https://drive.google.com/file/d/1HM8VakTScJcmLg3JbX6vNGs2Uvnn0vx9/view?usp=drivesdk,gm-19d11a93764263f8
+2026-03-26,104 Ashburne,Lighting & Electrical,Home Depot,Old Work Boxes,9.18,The Home Depot,2026-03-26,8.40,pending,https://mail.google.com/mail/u/0/#all/19d2c0314cc37287,gm-19d2c0314cc37287
+2026-04-05,104 Ashburne,Supplies,Home Depot,Drill Bit,9.17,The Home Depot,2026-03-26,8.40,pending,https://mail.google.com/mail/u/0/#all/19d2c0314cc37287,gm-19d2c0314cc37287
+2026-04-05,104 Ashburne,Supplies,Home Depot,Drill Bit,9.17,The Home Depot,2026-03-26,8.40,pending,https://mail.google.com/mail/u/0/#all/19d2c0314cc37287,gm-19d2c0314cc37287
+2026-03-15,104 Ashburne,Supplies,Home Depot,Shims,8.92,The Home Depot,2026-03-26,8.40,pending,https://mail.google.com/mail/u/0/#all/19d2c0314cc37287,gm-19d2c0314cc37287
+2026-03-12,104 Ashburne,Landscaping,Home Depot,Weed Killer,8.63,The Home Depot,2026-03-11,6.68,posted,https://drive.google.com/file/d/1j1WViQ7k1WHOmJZyBUSey6ulfsSND2ln/view?usp=drivesdk,gm-19cddf3d9dcd3db2
+2026-04-02,104 Ashburne,Small Baths,Home Depot,Gaskets,8.31,The Home Depot,2026-03-26,8.40,pending,https://mail.google.com/mail/u/0/#all/19d2c0314cc37287,gm-19d2c0314cc37287
+2026-08-11,RECAST BIZ,Gas/Truck/Trailer,Home Depot,Trailer Cotter Pin,8.09,The Home Depot,2026-08-11,20.94,posted,https://drive.google.com/file/d/1Sf3mLx-4yZEnb5vdBm4ovpjufF9RS30M/view?usp=drivesdk,gm-19ff17e1bc0effd7
+2026-06-26,136 Bowling Green,,Home Depot,Toilet Paper,8.04,The Home Depot,2026-06-28,6.35,posted,https://drive.google.com/file/d/1LDbnvaDUWaehYpm43Pn3u2YCPeYJv8cg/view?usp=drivesdk,gm-19f0e8b993f57cd0
+2026-06-25,RECAST BIZ,Office,The Home Depot,2X60 CL TAPE - SCOTCH HVYDUTY 54YDS RD 1PK,7.51,The Home Depot,2026-06-28,6.35,posted,https://drive.google.com/file/d/1LDbnvaDUWaehYpm43Pn3u2YCPeYJv8cg/view?usp=drivesdk,gm-19f0e8b993f57cd0
+2026-06-24,RECAST BIZ,Marketing,The Home Depot,Zip ties for signs,6.73,The Home Depot,2026-06-28,6.35,posted,https://drive.google.com/file/d/1LDbnvaDUWaehYpm43Pn3u2YCPeYJv8cg/view?usp=drivesdk,gm-19f0e8b993f57cd0
+2026-09-05,881 Newport,,Lowes,Ashphalt Caulk,6.47,The Home Depot,2026-09-02,339.99,pending,https://mail.google.com/mail/u/0/#all/1a06240c78fa29e2,gm-1a06240c78fa29e2
+2026-03-04,104 Ashburne,Supplies,UPS Store,Packing Tape,5.73,The UPS Store #5780,2026-03-04,5.73,pending,https://mail.google.com/mail/u/0/#all/19cbac340f4e5a7b,gm-19cbac340f4e5a7b
+2026-09-08,469 Brushwood,,Home Depot,Painters Caulk,4.31,The Home Depot,2026-09-08,-41.55,dry,https://drive.google.com/file/d/1zIwN7Fq8lUJdfuBgCfRF7dVtC8k9KUip/view?usp=drivesdk,dry-gm-1a0818a010ad633c
+2026-05-29,1616 Granite RECONCILED,,Home Depot,Irrigation Elbos,4.17,The Home Depot,2026-05-29,-50.36,pending,https://mail.google.com/mail/u/0/#all/19e758f6dc2ba281,gm-19e758f6dc2ba281
+2026-07-01,881 Newport,,Home Depot,Plug,3.77,The Home Depot,2026-05-27,27.00,posted,https://drive.google.com/file/d/1KDhFh27_UAb0rDWG8DOgO68S8emtlIBm/view?usp=drivesdk,gm-19e8f76c3b9efa8e
+2026-03-17,104 Ashburne,Supplies,UPS Store,Packing Tape,3.57,The UPS Store #5780,2026-03-17,3.57,posted,https://drive.google.com/file/d/1BVUUzcHPdsnZP96tGaDOuMUU0kTDYDmr/view?usp=drivesdk,gm-19cfc60f0514c660
+2026-02-17,104 Ashburne,Gas/Truck/Trailer,O'Reily,Lug Nut,3.45,O'Reilly Auto Parts,2026-02-17,3.45,posted,https://drive.google.com/file/d/183Y2DLyc7jPK3dOA9KRu7ePJnZuLj0Cm/view?usp=drivesdk,gm-19c6bce6982d294b
+2026-06-16,104 Ashburne,Supplies,Home Depot,Nuts and Bolts,2.89,The Home Depot,2026-06-27,2.01,posted,https://mail.google.com/mail/u/0/#all/19f3f68f0a53b2e9,gm-19f3f68f0a53b2e9
+2026-09-08,469 Brushwood,,Home Depot,Wall Switch Plate,2.68,The Home Depot,2026-09-08,-41.55,dry,https://drive.google.com/file/d/1zIwN7Fq8lUJdfuBgCfRF7dVtC8k9KUip/view?usp=drivesdk,dry-gm-1a0818a010ad633c
+2026-02-17,RECAST BIZ,Tools,Home Depot,Shark Bite Tool,2.65,The Home Depot,2026-02-28,2.84,pending,https://mail.google.com/mail/u/0/#all/19ca6cf04236bd89,gm-19ca6cf04236bd89
+2026-03-26,104 Ashburne,Master Bath,Home Depot,Hose Clamp,2.53,The Home Depot,2026-02-28,2.84,pending,https://mail.google.com/mail/u/0/#all/19ca6cf04236bd89,gm-19ca6cf04236bd89
+2026-06-25,RECAST BIZ,Office,The Home Depot,MED BOX - MEDIUM BOX 20X16X15,2.47,The Home Depot,2026-06-27,2.01,posted,https://mail.google.com/mail/u/0/#all/19f3f68f0a53b2e9,gm-19f3f68f0a53b2e9
+2026-06-25,RECAST BIZ,Office,The Home Depot,MED BOX - MEDIUM BOX 20X16X15,2.47,The Home Depot,2026-06-27,2.01,posted,https://mail.google.com/mail/u/0/#all/19f3f68f0a53b2e9,gm-19f3f68f0a53b2e9
+2026-05-30,1616 Granite RECONCILED,,Home Depot,Irrigation Bubbler,1.87,The Home Depot,2026-06-27,2.01,posted,https://mail.google.com/mail/u/0/#all/19f3f68f0a53b2e9,gm-19f3f68f0a53b2e9
+2026-08-18,366 Mesa,,Home Depot,Pipe coupling,1.18,The Home Depot,2026-08-14,87.26,posted,https://drive.google.com/file/d/1OC65derKXGQVjdxfhUbk9VOAiEt8kw68/view?usp=drivesdk,gm-1a000805d296df8b
+2026-05-30,1616 Granite RECONCILED,,Lowes,Irrigation Riser,0.92,"Lowe's Home Centers, LLC",2026-05-30,24.58,pending,https://mail.google.com/mail/u/0/#all/19e79a903622d62d,gm-19e79a903622d62d
+2026-06-13,RECAST BIZ,Website,"Netlify, Inc.","Netlify, Inc. invoice (#SFWGOE-00004)",0.00,VistaPrint,2026-06-13,0.00,dismissed,https://mail.google.com/mail/u/0/#all/19ebf24ef82905c2,gm-19ebf24ef82905c2
+2026-06-13,RECAST BIZ,Subscriptions,"Anthropic, PBC",Unused time on Claude Pro after 13 Jun 2026,-13.34,"Anthropic, PBC",2026-06-03,20.00,pending,https://mail.google.com/mail/u/0/#all/19e8ed8492f559bc,gm-19e8ed8492f559bc
+2026-03-21,104 Ashburne,Lighting & Electrical,Lowes,RETURN celing fan,-108.23,"Lowe's Home Centers, LLC",2026-03-21,297.23,posted,https://drive.google.com/file/d/1HM8VakTScJcmLg3JbX6vNGs2Uvnn0vx9/view?usp=drivesdk,gm-19d11a93764263f8
+2026-03-19,104 Ashburne,Small Baths,Floor & Decor,RETURN,-121.02,Floor and Decor,2026-03-19,18.71,posted,https://drive.google.com/file/d/1iymiaOKtrlJ5dRVrqJqpyvtVmhquXSlf/view?usp=drivesdk,gm-19d07518d663dbfe

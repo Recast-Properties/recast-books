@@ -372,3 +372,40 @@ candidate** to confirm (75 on a pending document, 49 on a posted one, 15 on a di
 in mail and match no old row. Report F: 59 receipts total more than the rows they explain
 (12 resolve to one subset of items, $292.72; 47 hold). Staging Journal: 781 lines, 272
 documents posted, 387 pending - the half-finished document-driven state that D-029 replaces.
+
+## 16 · Row-driven dry run, 2026-09-18 (D-029 steps 1-2 done; nothing posted)
+
+`scripts/migration-rows.py` → `data/migration/2026-09-17/rows/` (entries + five lists + README).
+The row ↔ document map it posts from is `comparison/G-row-map.csv`.
+
+- **The entries reproduce the old rows to the cent:** 1,024 rows, $220,079.01, by property
+  exactly the old tab totals. The one intended difference: the Ashburne Gas/Truck/Trailer block
+  (43 rows, $3,283.32) posts as overhead 66xx (D-026.9).
+- **Old-books findings (corrections register C-1a … C-4):** the two "huge" rows were comma
+  typos stored as text (`450,00`, `152,62`) that the inventory parser inflated - the Wayfair
+  "$15,262" is a $152.62 light; one date was typed year 0126; and the **Ashburne header
+  undercounts its own rows by $7,038.53** (22 rows typed below the block SUM ranges + the two
+  text cells). Header $157,945.30 + $7,038.53 = $164,983.83 = the rows, to the cent. Paul to
+  confirm the rows are the target (C-4).
+- **Matcher, capacity rule:** a receipt explains rows only up to its own total (before it,
+  nineteen $200 Julio payments hung on one $500 receipt). Result: 189 rows linked by sheet id,
+  533 strong, **284 weak (confirm), 18 none** ($45,094: contractor checks, Wayfair $816,
+  50 Floors, 420 Alyssa, small). Every linked row carries a Drive file (217) or a Gmail link
+  (505, to be filed).
+- `Sparkling for Title` is excluded (duplicate of RECONCILED); its two rows RECONCILED lacks
+  (Juanito Garcia $1,000 + $1,200, late June) are on the questions list - documents for a
+  $2,200 Garcia Home Repair job exist in mail.
+- Accounts: 589 from the matched read, 58 fuel block, 96 block map, 281 by payee (labor 1020 /
+  retailer 1030 / utilities 1120 …) - every entry says which. Paid from: ticked box where the
+  tab has one; else the read; else PAUL before August (D-026.2); 36 unknown → questions.
+  **Assumption to confirm:** a ticked "Recast Account" box = Chase 1402 before 2026-08-01,
+  Citizens 1401 after.
+- Lists: 1 differences 112 (86 receipt > rows - D-028 return/omitted; 26 rows > receipt; 31
+  within $2) · 2 confirm the match 284 · 3 no document 18 · 4 in mail, not in the books 160 ·
+  5 questions 74 (36 payer unknown, 34 Dennis-paid rows to check against the registered
+  Advances, 2 Sparkling, 2 undated).
+
+**Next:** Paul answers the three questions that change numbers (C-4, the Recast Account
+assumption, the two Sparkling rows); then step 3 (`migrationPostRows()` bulk pass in the writer)
+and step 4 (clear staging, post, tie out). The weak-match and difference lists do not block the
+pass - rows post either way; links and return credits follow Paul's review.
