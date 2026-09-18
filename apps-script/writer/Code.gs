@@ -2163,13 +2163,21 @@ function migrationRegisterAdvances() {
   var out = [];
   L.forEach(function (a) {
     var key = a[0] + '|' + a[2] + '|' + a[3];
-    var r = addAdvance({ kind: a[1], property: a[0], date: a[2], amount: a[3], into: a[4], rate_pct: a[5], memo: a[6] });
+    var r = addAdvance({ kind: a[1], property: a[0], date: a[2], amount: a[3], into: a[4], rate_pct: a[5], memo: a[6] }, true);
     if (r.ok && a[7]) {
       var c2 = headerIndex_(advSheet);
       upsertRow_(advSheet, c2, 'advance_id', { advance_id: r.advance_id, repaid_date: a[7], status: 'repaid' });
     }
     out.push(key + ' -> ' + (r.ok ? r.advance_id : 'FAILED ' + r.message));
   });
+  // one rebuild per property, not one per advance (33 advances took 14 minutes, 19 of them Ashburne rebuilds)
+  var seen = {};
+  L.forEach(function (a) {
+    if (seen[a[0]]) return;
+    seen[a[0]] = true;
+    try { setupPropertyTab(a[0]); } catch (err) { out.push(a[0] + ' tab rebuild FAILED ' + String((err && err.message) || err)); }
+  });
+  warmCache_();
   console.log(out.join('\n'));
   return out;
 }

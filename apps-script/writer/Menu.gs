@@ -428,7 +428,8 @@ function rebuildPropertyTab() {
 // kind "purchase" posts the purchase itself (Dr 1000, Cr 2010); kind "cash" lands the
 // money in a bank account or 2030 (Dr 14xx/2030, Cr 2010). Then an Advances row and a
 // property-tab rebuild, same as the web app's two-step flow.
-function addAdvance(form) {
+// skipRebuild: the migration registers 33 advances in a row and rebuilds each tab once at the end.
+function addAdvance(form, skipRebuild) {
   var props = PropertiesService.getScriptProperties();
   var ss = openWorkbook_(props);
   try {
@@ -469,12 +470,14 @@ function addAdvance(form) {
     upsertRow_(advSheet, advCols, 'advance_id', advanceRow);
 
     var tabRows = null, tabError = null;
-    try {
-      tabRows = setupPropertyTab(property).rows;
-    } catch (err) {
-      tabError = String((err && err.message) || err);
+    if (skipRebuild !== true) {
+      try {
+        tabRows = setupPropertyTab(property).rows;
+      } catch (err) {
+        tabError = String((err && err.message) || err);
+      }
+      warmCache_();
     }
-    warmCache_();
     return { ok: true, txn_id: entry.txn_id, advance_id: advanceRow.advance_id, tabRows: tabRows, tabError: tabError };
   } catch (err) {
     return { ok: false, error: (err && err.code) || 'INTERNAL', message: String((err && err.message) || err) };
