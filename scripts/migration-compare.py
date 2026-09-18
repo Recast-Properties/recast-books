@@ -123,8 +123,10 @@ def main():
             m = re.match(r"^[a-z]+-(\d{4})(\d{2})(\d{2})-", dup)
             if not m: break
             ymd = "-".join(m.groups()); e = env[d]
-            cands = [x for x, y in env.items() if x != d and y["date"] == ymd and norm_vendor(y["vendor"]) == norm_vendor(e["vendor"])]
-            cands.sort(key=lambda x: (env[x]["verdict"] == "dismiss", env[x]["total"] != e["total"], x))
+            # the twin is the same charge: same vendor, same day AND the same total. Two TXU payments
+            # on one day are two charges (Newport $118.12 / Bowling Green $204.98, 2026-09-18).
+            cands = [x for x, y in env.items() if x != d and y["date"] == ymd and norm_vendor(y["vendor"]) == norm_vendor(e["vendor"]) and y["total"] == e["total"]]
+            cands.sort(key=lambda x: (env[x]["verdict"] == "dismiss", x))
             if not cands: break
             d = cands[0]
         return d
@@ -134,6 +136,18 @@ def main():
     # payments to the same man all hang on one $500 receipt (2026-09-18) - and a wrong link is
     # worse than none. Rows are placed best match first; a row that does not fit tries its
     # next candidate, then settles for a weak one (weak never consumes capacity).
+    TABP = {"1616 Granite RECONCILED": "1616 Granite", "280 Sparkling RECONCILED": "280 Sparkling"}
+    def wrong_property(r, e):
+        """The bookkeeper read the service address / job and the mailbox it arrived in. If all of that
+        says one specific property and the old row sits on a different property's tab, it is not this
+        row's receipt. Overhead rows and unrouted documents are neutral (the old books split receipts)."""
+        rp = TABP.get(r["tab"], r["tab"])
+        if rp in ("RECAST BIZ", "Cost Recapture"): return False
+        dp = {l["property"] for l in e["lines"] if l["property"] and l["property"] != "OVERHEAD"}
+        if e["channel"] not in ("", "receipts", "travel", "upload"): dp.add(e["channel"])
+        return bool(dp) and rp not in dp
+    # a stale-duplicate dismiss with no same-total twin is the only read of that receipt: it stands
+    live = lambda d: env[d]["verdict"] != "dismiss" or (env[d]["dup_of"] and survivor(d) == d and env[d]["total"])
     cap = {d: (e["total"] + max(200, e["total"] * 3 // 100)) if e["total"] else max(e["amts"] or {0}) for d, e in env.items()}
     for x in A: cap[x["docId"]] = cap.get(x["docId"], 0) - x["old_cents"]
     cands = {}
@@ -142,9 +156,16 @@ def main():
         for d, e in docs:
             dd = abs((pd(e["date"] or "") or d0) - d0).days if pd(e["date"] or "") else 999
             if dd > 45: continue
-            v = vendor_match(r["payee"], e); amt = r["cents"] in e["amts"]
+            v = vendor_match(r["payee"], e)
+            read_amts = {l["cents"] for l in e["lines"]} | {e["total"]}
+            amt = r["cents"] in read_amts or (not e["lines"] and r["cents"] in e["amts"])   # mail-text amounts only when the read has no lines
             near = bool(e["total"]) and abs(e["total"] - r["cents"]) <= max(200, r["cents"] * 3 // 100)
-            rank = (0, dd) if v and amt else (1, dd) if v and near else (2, dd) if amt and dd <= 20 else (3, dd) if v and dd <= 10 else None
+            # A row equal to the receipt's TOTAL is the best evidence there is and places first; an
+            # amount that merely appears somewhere in the mail text is weaker (ten small Brushwood rows
+            # had claimed the $339.99 microwave receipt ahead of the $339.99 row, 2026-09-18).
+            whole = bool(e["total"]) and r["cents"] == e["total"]
+            rank = (-1, dd) if v and whole else (0, dd) if v and amt else (1, dd) if v and near else (2, dd) if amt and dd <= 20 else (3, dd) if v and dd <= 10 else None
+            if rank and wrong_property(r, e): rank = (4, dd)      # never strong: another property's receipt
             if rank: c.append((rank, d))
         if c: cands[r["_k"]] = sorted(c)
     row_doc = {}; rk0 = {r["_k"]: r for r in rest}
@@ -152,7 +173,7 @@ def main():
         placed = False
         for rank, d0_ in cands[k]:
             d = survivor(d0_)   # a dismissed receipt that is not a twin is a candidate for Paul, never "documented"
-            if rank[0] <= 1 and env[d]["verdict"] != "dismiss" and cap.get(d, 0) >= rk0[k]["cents"]:
+            if rank[0] <= 1 and live(d) and cap.get(d, 0) >= rk0[k]["cents"]:
                 cap[d] -= rk0[k]["cents"]; row_doc[k] = (d, "strong"); placed = True; break
         if not placed: row_doc[k] = (survivor(cands[k][0][1]), "weak")
     # Rows that together equal a receipt: the old books split one receipt across rows (Shalom
@@ -169,7 +190,7 @@ def main():
     claimed = {d for d, s_ in row_doc.values() if s_ == "strong"} | used_docs
     for d, e in docs:
         if d in claimed or not e["total"] or e["verdict"] == "dismiss" or survivor(d) != d: continue
-        pool = [(r["_k"], r["cents"]) for r in rest if row_doc.get(r["_k"], ("", "weak"))[1] != "strong" and r["cents"] > 0 and vendor_match(r["payee"], e)
+        pool = [(r["_k"], r["cents"]) for r in rest if row_doc.get(r["_k"], ("", "weak"))[1] != "strong" and r["cents"] > 0 and vendor_match(r["payee"], e) and not wrong_property(r, e)
                 and pd(r["date"]) and pd(e["date"]) and abs((pd(r["date"]) - pd(e["date"])).days) <= 45][:18]
         sets = exact_sets(sorted(pool, key=lambda x: -x[1]), e["total"])
         if len(sets) == 1:

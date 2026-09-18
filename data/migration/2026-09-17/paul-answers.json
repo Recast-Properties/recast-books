@@ -270,19 +270,6 @@
    "said": "Paul 2026-09-18 (differences batch 1): same"
   },
   {
-   "date": "2026-09-02",
-   "property": "469 Brushwood",
-   "trade": "",
-   "account": "1040",
-   "amount_cents": 33999,
-   "payee": "Home Depot",
-   "description": "Frigidaire 1.8 cu ft over-the-range microwave, stainless",
-   "paid_from": "1401",
-   "docId": "gm-1a06240c78fa29e2",
-   "register": "C-10",
-   "said": "Paul 2026-09-18 (differences batch 1): 'log that for brushwood' (receipt shows the Citizens card 5450)"
-  },
-  {
    "date": "2026-01-07",
    "property": "104 Ashburne",
    "trade": "Trash",
@@ -424,6 +411,12 @@
    "docId": "gm-1a091048b80076d7",
    "register": "C-10",
    "said": "Paul 2026-09-18, after seeing the screenshot: 'this is all for bowling green. this should not be a newport charge'"
+  }
+ ],
+ "retracted": [
+  {
+   "what": "C-10 addition: Frigidaire microwave $339.99, 469 Brushwood, 2026-09-02",
+   "why": "Claude's error, 2026-09-18: the old Brushwood tab already has it (Home Depot 09-02 'Microwave' $339.99). The matcher had let ten small rows claim that receipt, so the receipt looked unexplained. Paul's 'log that for brushwood' was based on Claude's wrong statement."
   }
  ]
 }

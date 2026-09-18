@@ -274,7 +274,7 @@ the tie-out per property against the snapshot.
 | C-7 | 2026-09-18 | 104 Ashburne, Waxahachie Glass $518.78, 2026-03-30 | typed twice: "Glass Deposit" (House Hardware) and "Window Replacement" (Chimney/Fireplace/Glass) | one row | Paul: "use the deposit only." One payment, one receipt; the Chimney-block row is dropped and the receipt moves to the deposit row. Ashburne is $518.78 below the old tab |
 | C-8 | 2026-09-18 | 1616 Granite, Mariana $500.00 | dated 2026-06-01 | 2026-06-29 | Paul: "use the email date" (his note "Mariana / Cleaning / $500" of 06-29) |
 | C-9 | 2026-09-18 | 104 Ashburne: Julio $200.00 (02-18) and $100.00 (02-12), each typed under both Landscaping and Trash; Lowe's toilet $107.17 (03-25) under both Small Baths and Master Bath | six rows | three rows | Paul: "the toilet is a duplicate and so are the julio charges if they are the same date." Kept: the Landscaping rows and the Master Bath row (Small Baths already has its own toilet of 03-05); dropped: the two Trash rows and the Small Baths row. Ashburne is $407.17 below the old tab |
-| C-10 | 2026-09-18 | Costs on receipts the old books left off (differences batch 1) | not in the old books | added, $682.97 | Paul: Ashburne Pool - utility pump $172.11 + discharge hose $24.88 (HD 03-02, "kept, not returned"); Ashburne Trash - contractor bags $64.88 (HD 01-07); Ashburne - walk-off mats $81.11 (HD 04-08); 469 Brushwood - Frigidaire microwave $339.99 (HD 09-02, Citizens card). Each linked to its receipt |
+| C-10 | 2026-09-18 | Costs on receipts the old books left off (differences batch 1) | not in the old books | added, $682.97 | Paul: Ashburne Pool - utility pump $172.11 + discharge hose $24.88 (HD 03-02, "kept, not returned"); Ashburne Trash - contractor bags $64.88 (HD 01-07); Ashburne - walk-off mats $81.11 (HD 04-08). Each linked to its receipt. **Retracted 2026-09-18:** a Brushwood microwave $339.99 was added here on Claude's wrong statement that it was not in the old books; it is (Brushwood 09-02 "Microwave") |
 | C-11 | 2026-09-18 | Returns the old books netted (D-028), confirmed by Paul | not in the old books | purchase + credit, net $0.00 | HD 06-16: 2 HP plunge router $172.12 and hole saw $47.59 ("returns"); HD 01-07: nitrile gloves $12.02 ("return gloves"). Posted gross with a RETURN credit on the purchase date; no return receipt exists - the card statement proves it in Phase 3 |
 
 ## 14 · Where the staging run stands at end of day, 2026-09-17
@@ -517,3 +517,19 @@ receipt. Old books are now **1,028 rows, $221,389.05**. Falcon Creek invoice 139
 $110.00 Bowling Green line is an ordinary cost of that held property, the $55.00 Sparkling line
 (sold 08-06) goes to Cost Recapture - both added under C-10. `migrationRunStaging` registers the
 property before the pass. Dry run: 1,027 entries, $204,092.96, all build.
+
+**2026-09-18, matcher corrected after Paul's challenge ("this should be easy … the addresses are
+right there").** The bookkeeper's reads of the two TXU screenshots were correct (amount, card,
+account, service address, property). The failures were in `migration-compare.py`: (1) it never
+used the property the read assigned, so Bowling Green's receipt documented a Newport row; (2) a
+stale-duplicate dismiss was resolved to "the same vendor that day", a different charge; (3) rows
+were placed on receipts in an order that let small rows whose amounts appeared in the mail text
+claim a receipt ahead of the row equal to its total. Fixed: a receipt routed to one property never
+documents a row on another property's tab; a stale duplicate resolves only to a same-total twin,
+otherwise the document stands; a row equal to the receipt total places first, and mail-text
+amounts count only when the read has no lines. 214 links changed. **Consequence found and
+retracted:** Claude had told Paul the $339.99 Brushwood microwave and an $897.00 Home Depot
+receipt were unexplained; both are in the old books as single rows. The microwave addition is
+withdrawn (`paul-answers.json` → `retracted`). Every other addition was re-verified against the
+old rows. Rule for the rest of the cleanup: before telling Paul something is not in his books,
+search the old rows for that amount on any tab.

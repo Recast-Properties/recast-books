@@ -88,7 +88,7 @@ def main():
                     r.update({"docId": did, "doc_vendor": "", "doc_date": "", "doc_total": "", "doc_status": "", "doc_paid_from": "", "doc_url": "",
                               "gmail_url": "https://mail.google.com/mail/u/0/#all/" + did[3:]})
             r["match"] = "strong"
-        elif r["key"] in _no and r["match"] == "weak": r["match"] = "none"
+        elif r["key"] in _no and r["match"] in ("weak", "strong"): r["match"] = "none"   # a reviewed refusal beats the matcher
     # Paul's near-amount rule (2026-09-18): same vendor, within 10 days, receipt total within 3% or
     # $2 of the row, and the receipt still has room for it -> linked; the gap lands on list 1.
     import datetime as _dt
