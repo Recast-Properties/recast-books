@@ -174,6 +174,17 @@ def main():
         e["business_purpose"] = ("Migrated from the old books (" + (e["old_block"] or e["old_tab"]) + "): " + e["description"]).strip(": ") if e["account"] in ("6600", "6700", "6710", "6720") else ""
         e["attendee"] = "per the old books" if e["account"] in ("6710", "6720") else ""
 
+    # Costs the old books left off and returns Paul confirmed (D-028), from paul-answers.json "add".
+    # They are additions to the old books, each a register line; a return is a purchase and its credit.
+    urls = {r["docId"]: (r["doc_url"] or r["gmail_url"], "drive" if r["doc_url"] else "gmail") for r in G if r["docId"]}
+    for i, x in enumerate(answers.get("add", [])):
+        link, kind = urls.get(x["docId"], ("https://mail.google.com/mail/u/0/#all/" + x["docId"][3:], "gmail"))
+        entries.append({"txn_id": "migration-" + x["date"].replace("-", "") + "-" + hashlib.sha256(f"add|{i}|{x['docId']}|{x['description']}|{x['amount_cents']}".encode()).hexdigest()[:12],
+                        "date": x["date"], "property": x["property"], "trade": x["trade"], "account": x["account"], "account_source": "Paul/Claude (added)", "amount_cents": x["amount_cents"],
+                        "payee": x["payee"], "description": x["description"], "paid_from": x["paid_from"], "paid_from_source": "receipt", "source": "migration", "docId": x["docId"], "doc_url": link,
+                        "link_kind": kind, "match": "added", "old_tab": "", "old_block": "", "old_sheet_row": "", "flags": ("RETURN_CONFIRMED_BY_PAUL" if x["register"] == "C-11" else "ADDED_NOT_IN_OLD_BOOKS"),
+                        "correction": x["register"] + " " + x["said"], "skip": ""})
+
     # "Sparkling for Title" is not migrated at all (Paul, 2026-09-18): RECONCILED is the tab; the
     # two Juanito Garcia rows only the Title tab had ($1,000 + $1,200, late June) "were errors.
     # do not document those." Their two documents are excluded from the review list as well.
@@ -236,7 +247,7 @@ def main():
     for e in post: byp[e["property"]] += e["amount_cents"]
     json.dump({"to_post": len(post), "cents": sum(e["amount_cents"] for e in post), "by_property": byp, "held_back": dict(sk)}, open(os.path.join(a.out, "expected.json"), "w"), indent=1)
     assert len({e["txn_id"] for e in entries}) == len(entries), "txn_id collision"
-    assert sum(e["amount_cents"] for e in entries) == sum(int(r["cents"]) for r in G), "entries do not reproduce the rows"
+    assert sum(e["amount_cents"] for e in entries if e["match"] != "added") == sum(int(r["cents"]) for r in G), "entries do not reproduce the rows"
 
 if __name__ == "__main__":
     main()

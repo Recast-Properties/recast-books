@@ -206,6 +206,11 @@
    "key": "PROP-706",
    "row": "1616 Granite RECONCILED 2026-06-01 Mariana 500.00",
    "why": "the 6/29 'Mariana Cleaning $500' note went to the Bowling Green mailbox and is that property's row"
+  },
+  {
+   "key": "PROP-557",
+   "row": "104 Ashburne 2026-03-26 Home Depot 12.95 (Wall Flanges, Master Bath)",
+   "why": "Claude 2026-09-18: a 3/26 purchase the matcher hung on the 4/8 receipt by amount; not Windex, not a duplicate (Claude had told Paul otherwise and corrected it)"
   }
  ],
  "redate": [
@@ -229,6 +234,151 @@
   {
    "rule": "exact amount, same day",
    "said": "2026-09-18: Claude's rule, reported to Paul - exact amount within 2 days on a receipt no other row claims is linked regardless of vendor spelling"
+  }
+ ],
+ "add": [
+  {
+   "date": "2026-03-02",
+   "property": "104 Ashburne",
+   "trade": "Pool",
+   "account": "1030",
+   "amount_cents": 17211,
+   "payee": "Home Depot",
+   "description": "1/3 HP submersible utility pump",
+   "paid_from": "PAUL",
+   "docId": "gm-19caf33c58069d0d",
+   "register": "C-10",
+   "said": "Paul 2026-09-18 (differences batch 1): 'those were kept, not returned. log them for ashburne pool'"
+  },
+  {
+   "date": "2026-03-02",
+   "property": "104 Ashburne",
+   "trade": "Pool",
+   "account": "1030",
+   "amount_cents": 2488,
+   "payee": "Home Depot",
+   "description": "Sump pump discharge hose kit 1-1/4 in x 24 ft",
+   "paid_from": "PAUL",
+   "docId": "gm-19caf33c58069d0d",
+   "register": "C-10",
+   "said": "Paul 2026-09-18 (differences batch 1): same"
+  },
+  {
+   "date": "2026-09-02",
+   "property": "469 Brushwood",
+   "trade": "",
+   "account": "1040",
+   "amount_cents": 33999,
+   "payee": "Home Depot",
+   "description": "Frigidaire 1.8 cu ft over-the-range microwave, stainless",
+   "paid_from": "1401",
+   "docId": "gm-1a06240c78fa29e2",
+   "register": "C-10",
+   "said": "Paul 2026-09-18 (differences batch 1): 'log that for brushwood' (receipt shows the Citizens card 5450)"
+  },
+  {
+   "date": "2026-01-07",
+   "property": "104 Ashburne",
+   "trade": "Trash",
+   "account": "1030",
+   "amount_cents": 6488,
+   "payee": "Home Depot",
+   "description": "Husky 42 gal contractor bags 50ct x2",
+   "paid_from": "PAUL",
+   "docId": "gm-19bae80800798f37",
+   "register": "C-10",
+   "said": "Paul 2026-09-18 (differences batch 1): 'log bags for ashburne trash'"
+  },
+  {
+   "date": "2026-04-08",
+   "property": "104 Ashburne",
+   "trade": "Supplies",
+   "account": "1030",
+   "amount_cents": 8111,
+   "payee": "Home Depot",
+   "description": "TM Enviroback 3x5 walk-off mats x3",
+   "paid_from": "PAUL",
+   "docId": "gm-19d6d01dadaa68e4",
+   "register": "C-10",
+   "said": "Paul 2026-09-18 (differences batch 1): 'matts are for ashburne. log them'"
+  },
+  {
+   "date": "2026-06-16",
+   "property": "OVERHEAD",
+   "trade": "",
+   "account": "6510",
+   "amount_cents": 17212,
+   "payee": "Home Depot",
+   "description": "2 HP EVS plunge router (purchased; returned)",
+   "paid_from": "PAUL",
+   "docId": "gm-19ed8190a6945042",
+   "register": "C-11",
+   "said": "Paul 2026-09-18 (differences batch 1): 'returns'"
+  },
+  {
+   "date": "2026-06-16",
+   "property": "OVERHEAD",
+   "trade": "",
+   "account": "6510",
+   "amount_cents": -17212,
+   "payee": "Home Depot",
+   "description": "RETURN: 2 HP EVS plunge router (no return receipt; date of the return unknown - proven on the card statement, Phase 3)",
+   "paid_from": "PAUL",
+   "docId": "gm-19ed8190a6945042",
+   "register": "C-11",
+   "said": "Paul 2026-09-18 (differences batch 1): 'returns'"
+  },
+  {
+   "date": "2026-06-16",
+   "property": "OVERHEAD",
+   "trade": "",
+   "account": "6510",
+   "amount_cents": 4759,
+   "payee": "Home Depot",
+   "description": "Milwaukee 4-1/4 in bi-metal hole saw and arbor (purchased; returned)",
+   "paid_from": "PAUL",
+   "docId": "gm-19ed8190a6945042",
+   "register": "C-11",
+   "said": "Paul 2026-09-18 (differences batch 1): 'returns'"
+  },
+  {
+   "date": "2026-06-16",
+   "property": "OVERHEAD",
+   "trade": "",
+   "account": "6510",
+   "amount_cents": -4759,
+   "payee": "Home Depot",
+   "description": "RETURN: Milwaukee 4-1/4 in bi-metal hole saw and arbor (no return receipt; date of the return unknown - proven on the card statement, Phase 3)",
+   "paid_from": "PAUL",
+   "docId": "gm-19ed8190a6945042",
+   "register": "C-11",
+   "said": "Paul 2026-09-18 (differences batch 1): 'returns'"
+  },
+  {
+   "date": "2026-01-07",
+   "property": "OVERHEAD",
+   "trade": "",
+   "account": "6500",
+   "amount_cents": 1202,
+   "payee": "Home Depot",
+   "description": "Nitrile coated gloves w/ liner, 3 pairs (purchased; returned)",
+   "paid_from": "PAUL",
+   "docId": "gm-19bae80800798f37",
+   "register": "C-11",
+   "said": "Paul 2026-09-18 (differences batch 1): 'return gloves'"
+  },
+  {
+   "date": "2026-01-07",
+   "property": "OVERHEAD",
+   "trade": "",
+   "account": "6500",
+   "amount_cents": -1202,
+   "payee": "Home Depot",
+   "description": "RETURN: Nitrile coated gloves w/ liner, 3 pairs (no return receipt; date of the return unknown - proven on the card statement, Phase 3)",
+   "paid_from": "PAUL",
+   "docId": "gm-19bae80800798f37",
+   "register": "C-11",
+   "said": "Paul 2026-09-18 (differences batch 1): 'return gloves'"
   }
  ]
 }
