@@ -5741,9 +5741,10 @@ false
 "payee": "Home Depot",
 "date": "2026-04-01",
 "desc": "Stair Moldings",
-"amt": 350.28,
+"amt": 379.18,
 "flags": [],
-"block": "Paint & Flooring"
+"block": "Paint & Flooring",
+"correction": "C-29 2026-09-18: typed $350.28, the pre-tax subtotal of Home Depot receipt gm-19d54f9e0010bc8c (04-03, paid in cash by Armandre Vega); with $28.90 tax the receipt is $379.18, which Paul repaid Vega by Zelle on 04-03. Paul: 'yes correct it'. Ashburne is $28.90 above the old tab"
 },
 {
 "tab": "104 Ashburne",

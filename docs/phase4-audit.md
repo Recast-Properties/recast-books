@@ -293,6 +293,7 @@ the tie-out per property against the snapshot.
 | C-26 | 2026-09-18 | 104 Ashburne / Paint & Flooring, Zelle payment to Armandre Vega | not in the old books | added, **$350.00** labor (1020), 04-04, Paul paid. ~~04-03 $379.18 materials~~ **retracted the same evening - Claude's error, see §38: it is the old row "Home Depot / Stair Moldings" $350.28** | On Paul's Chase Zelle history only (`evidence/chase-zelle-sent-1-mar-to-apr.webp`; memos "materials for ashburne", "104 ashburne glen"); on no old tab under any payee, in no mailbox. Paul: "treat the two vega payments as their own entries. materials and labor." No mail document - the entry carries `EVIDENCE:` and gets its Drive link at filing (item 7). Ashburne is $729.18 above the old tab |
 | C-27 | 2026-09-18 | 104 Ashburne / Pest Control, Berret Pest Control $270.63 | dated 2026-01-14 | 2026-06-30 | Every Berrett message is one job: quote 06-29, service and payment 06-30 ($250.00 + $20.63 tax, card 9166), account opened with that quote; nothing in January. Paul: "yes 6/30". Amount unchanged |
 | C-28 | 2026-09-18 | RECAST BIZ / Advertising, VistaPrint order of 06-11 | not in the old books | added, $241.71, 6000 overhead, Paul paid | Yard signs x2 + sign riders x2 (order VP_R3KPH54N). On no old tab at any amount or combination; the 05-08 / 05-13 order is the Ashburne Signage row, the 06-21 order the two overhead rows. Paul: "add vista print order". Overhead is $241.71 above the old books |
+| C-29 | 2026-09-18 | 104 Ashburne / Paint & Flooring, Home Depot "Stair Moldings" (04-01, row 32) | $350.28 | $379.18 | The row is the pre-tax subtotal of Home Depot receipt `gm-19d54f9e0010bc8c` (04-03, cash, bought by Armandre Vega); with $28.90 tax it is $379.18, what Paul repaid Vega by Zelle that day (`evidence/chase-zelle-sent-1-mar-to-apr.webp`). Paul: "yes correct it". Ashburne is $28.90 above the old tab. Audit §38 |
 
 ## 14 · Where the staging run stands at end of day, 2026-09-17
 
@@ -1184,3 +1185,8 @@ same amount when the payment is a reimbursement to a person.
 Dry run **1,045 entries, $240,639.05** (Ashburne $177,460.54), all build; pushed to staging, which holds
 pass 8 and so still carries the retracted entry until the next Run. **Open with Paul:** the Stair Moldings
 row is $28.90 short of what was paid (tax) - correct it to $379.18 on the held tab, as C-20 did?
+
+**C-29 (Paul: "yes correct it").** Stair Moldings $350.28 → $379.18, patched in `property-rows.json` with its
+note like C-15 and C-20; pipeline rerun from the matcher: the row keeps its receipt, no other entry or link
+moved (the row's txn id changes with its amount, as C-20's did). Dry run **1,045 entries, $240,667.95**
+(Ashburne $177,489.44), all build; 896 linked; link audit unchanged. Pushed to staging.
