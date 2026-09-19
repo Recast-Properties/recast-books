@@ -1171,7 +1171,7 @@ Going through the Home Depot receipts on list 4: receipt `gm-19d54f9e0010bc8c` o
 "Home Depot / Stair Moldings" of 04-01**. Vega bought the trim with cash, Paul repaid him and typed the
 subtotal. So C-26's materials entry doubled a cost the old books already carry: **retracted** (marked
 `retracted` inside `add` so the later additions keep their index and their txn ids - `migration-rows.py`
-skips it), the Stair Moldings row is linked to the receipt (895 linked), and the receipt leaves list 4. The
+skips it), the Stair Moldings row is linked to the receipt (896 linked), and the receipt leaves list 4. The
 $350.00 labor entry stands. Why it was missed: the search before adding looked for $379.18 within two cents
 and as sums of rows - never for the receipt's *subtotal*, and the receipt had not been tied to the Zelle.
 Every addition made today was then re-checked against the subtotals and part-amounts printed on its document
