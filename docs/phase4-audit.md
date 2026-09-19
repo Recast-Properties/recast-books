@@ -291,6 +291,8 @@ the tie-out per property against the snapshot.
 | C-24 | 2026-09-18 | 104 Ashburne, "Property Tax Paid" $16,031.25 (summary block, cell E10) | in the old tab's Total Project Cost, outside the expense rows - the inventory never read it, never posted | posted 2026-03-30, 1100, Paul paid | Ellis County paid-in-full receipt: 2025 levy $14,707.58 + 9% penalty and interest $1,323.67, check #5899 on Paul's personal Chase account. Paul: "i paid the property tax for ashburne for the year on 3/30 ... adjust the books for this however you see fit." Not a difference from the old books - a line of them the migration had missed (like C-12). D-034 |
 | C-25 | 2026-09-18 | Falcon Creek Lawn Care, invoice lines paid and not in the old books | not in the old books | added, **$140.00**, 1130, Paul paid | Invoice 1374 (07-30): 136 Bowling Green $55.00 on its tab; 881 Newport $55.00 on Cost Recapture (Newport is sold). Invoice 1373 (07-19): 1616 Granite billed $140.00, the closed tab carries $110.00 - $30.00 on Cost Recapture. Paul's Chase Zelle history (`evidence/chase-zelle-sent-*.webp`) shows both invoices paid in full from his personal account (1373 $470.00 on 07-24, 1374 $235.00 on 08-11); Paul: "dennis only paid that $315 ... i paid those falcon invoices from my chase account". Audit §37 |
 | C-26 | 2026-09-18 | 104 Ashburne / Paint & Flooring, two Zelle payments to Armandre Vega | not in the old books | added, **$729.18**, Paul paid: 04-03 $379.18 materials (1030), 04-04 $350.00 labor (1020) | On Paul's Chase Zelle history only (`evidence/chase-zelle-sent-1-mar-to-apr.webp`; memos "materials for ashburne", "104 ashburne glen"); on no old tab under any payee, in no mailbox. Paul: "treat the two vega payments as their own entries. materials and labor." No mail document - the entry carries `EVIDENCE:` and gets its Drive link at filing (item 7). Ashburne is $729.18 above the old tab |
+| C-27 | 2026-09-18 | 104 Ashburne / Pest Control, Berret Pest Control $270.63 | dated 2026-01-14 | 2026-06-30 | Every Berrett message is one job: quote 06-29, service and payment 06-30 ($250.00 + $20.63 tax, card 9166), account opened with that quote; nothing in January. Paul: "yes 6/30". Amount unchanged |
+| C-28 | 2026-09-18 | RECAST BIZ / Advertising, VistaPrint order of 06-11 | not in the old books | added, $241.71, 6000 overhead, Paul paid | Yard signs x2 + sign riders x2 (order VP_R3KPH54N). On no old tab at any amount or combination; the 05-08 / 05-13 order is the Ashburne Signage row, the 06-21 order the two overhead rows. Paul: "add vista print order". Overhead is $241.71 above the old books |
 
 ## 14 · Where the staging run stands at end of day, 2026-09-17
 
@@ -1156,3 +1158,7 @@ build; the only change is the two entries; pushed to staging. Paul's Zelle histo
 `rows/expected.json`, **$0.00 on all nine**: 1,045 entries, **$240,776.52**, ids, amounts, payees and
 document links identical to the dry run (no "Effren" left; 894 linked), debits = credits ($2,302,187.44), 33
 advances, no orphans. Staging = the dry run.
+
+**C-27, C-28 (Paul: "yes 6/30 and add vista print order").** Berrett row redated to 06-30; VistaPrint 06-11
+$241.71 added to overhead 6000. Dry run **1,046 entries, $241,018.23** (overhead $26,743.09), all build; the
+only changes are that date and that entry; list 4: 62. Pushed to staging; staging holds pass 8 ($240,776.52).

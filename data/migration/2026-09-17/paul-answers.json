@@ -1184,6 +1184,17 @@
    "date": "2026-06-29",
    "register": "C-8",
    "said": "2026-09-18: 'mariana, use the email date' (the 6/29 note 'Mariana / Cleaning / $500')"
+  },
+  {
+   "match": {
+    "old_tab": "104 Ashburne",
+    "payee": "Berret Pest Control",
+    "date": "2026-01-14",
+    "amount_cents": "27063"
+   },
+   "date": "2026-06-30",
+   "register": "C-27",
+   "said": "2026-09-18: 'yes 6/30' - every Berrett Pest Control message is one job (quote 06-29, service and payment 06-30, $270.63 on card 9166; the account was opened with that quote); nothing in January in any mailbox"
   }
  ],
  "rules": [
@@ -1528,6 +1539,19 @@
    "evidence": "chase-zelle-sent-1-mar-to-apr.webp",
    "register": "C-26",
    "said": "Paul 2026-09-18: 'treat the two vega payments as their own entries. materials and labor.' Zelle from his personal Chase (evidence/chase-zelle-sent-1-mar-to-apr.webp); on no old tab under any payee and in no mailbox (searched within two cents and as sums)"
+  },
+  {
+   "date": "2026-06-11",
+   "property": "OVERHEAD",
+   "trade": "",
+   "account": "6000",
+   "amount_cents": 24171,
+   "payee": "VistaPrint",
+   "description": "Real estate yard signs x2 and sign riders x2, order VP_R3KPH54N: $217.08 - $32.57 SIGNS15 + $42.98 shipping + $14.22 tax",
+   "paid_from": "PAUL",
+   "docId": "gm-19eb7ae65da2fd3a",
+   "register": "C-28",
+   "said": "Paul 2026-09-18: 'add vista print order' - the 06-11 order is on no old tab at any amount or combination; the 05-08 / 05-13 order is the Ashburne Signage row and the 06-21 order is the two overhead rows"
   }
  ],
  "retracted": [

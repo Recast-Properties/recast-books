@@ -9,7 +9,6 @@ date,vendor,total,where_the_read_put_it,status,subject,weak_candidates,docId
 2026-05-15,Apify Technologies s.r.o.,313.20,OVERHEAD,posted,Apify invoice #202605152143 payment successful,,gm-19e2ce117249cd00
 2026-04-05,The Home Depot,288.44,104 Ashburne,dismissed,,104 Ashburne/Home Depot/45.40;104 Ashburne/Home Depot/14.40,gm-19d5e139b4ae4612
 2026-01-20,Amazon,276.22,104 Ashburne,posted,"Fwd: Ordered: 2 ""Dreo Smart Wall Heater...""",RECAST BIZ/Amazon/169.98,gm-19c01b85d135afa6
-2026-06-11,VistaPrint,241.71,OVERHEAD,posted,Your order is confirmed,,gm-19eb7ae65da2fd3a
 2026-03-25,The Home Depot,241.50,,pending,Order confirmed. We're processing your order now!,,gm-19d25017467ed73d
 2026-03-30,The Home Depot,241.50,,pending,"Your order's ready! Pick it up by Thursday, April 9",,gm-19d4fef69c52ef33
 2026-04-05,The Home Depot,230.72,1616 Granite,pending,Order confirmed. We're processing your order now!,,gm-19d5e0ce39d91e0d
