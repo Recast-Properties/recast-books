@@ -1190,3 +1190,10 @@ row is $28.90 short of what was paid (tax) - correct it to $379.18 on the held t
 note like C-15 and C-20; pipeline rerun from the matcher: the row keeps its receipt, no other entry or link
 moved (the row's txn id changes with its amount, as C-20's did). Dry run **1,045 entries, $240,667.95**
 (Ashburne $177,489.44), all build; 896 linked; link audit unchanged. Pushed to staging.
+
+**Staging pass 9, 19:17-19:20 - tied out to the dry run it ran on.** Paul started it 90 seconds before C-29
+was pushed, so it posted the retraction dry run (`58d5506`): 1,045 entries, **$240,639.05**, $0.00 on all
+nine against that run, payees, dates and links identical, 896 linked, 33 advances, no orphans; the retracted
+Vega $379.18 is gone, Berrett reads 06-30, VistaPrint 06-11 is in. Against the current dry run ($240,667.95)
+the one difference is C-29 itself (Stair Moldings $350.28 vs $379.18, one txn id, Ashburne -$28.90). The
+staging project does hold the C-29 data now (checked with `clasp pull`); the next Run brings it.

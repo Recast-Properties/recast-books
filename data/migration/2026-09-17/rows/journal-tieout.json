@@ -1,26 +1,26 @@
 {
- "pass": 8,
- "ran": "2026-09-18 18:39-18:41",
- "journal_snapshot": "books-cache tab/Journal fetched 2026-09-18 18:40:33",
+ "pass": 9,
+ "ran": "2026-09-18 19:17-19:20",
+ "journal_snapshot": "books-cache tab/Journal fetched 2026-09-18 19:22:22",
  "by_property": {
-  "OVERHEAD": 2650138,
+  "OVERHEAD": 2674309,
   "881 Newport": 308917,
   "469 Brushwood": 191680,
   "366 Mesa": 964800,
   "136 Bowling Green": 480893,
-  "104 Ashburne": 17783972,
+  "104 Ashburne": 17746054,
   "1616 Granite": 1220487,
   "280 Sparkling": 317978,
   "Cost Recapture": 158787
  },
  "entries": 1045,
- "cents": 24077652,
+ "cents": 24063905,
  "difference_cents": 0,
  "txn_ids_identical_to_dry_run": true,
- "debits_equal_credits_cents": 230218744,
- "linked": 894,
+ "debits_equal_credits_cents": 230204997,
+ "linked": 896,
  "advances": 33,
  "advance_orphans": 0,
- "independent_reparse": "pass 7's residuals plus C-25 x3 and C-26 x2 on the new side",
- "note": "payees and doc_urls identical to the dry run (Falcon Creek Lawn Care on 13 rows, no 'Effren' left)"
+ "independent_reparse": "pass 8's residuals plus C-27 (redate), C-28, minus the retracted C-26 materials entry",
+ "note": "ran at 19:17:39 on the retraction push (commit 58d5506, dry run $240,639.05) - 90 seconds before C-29 was pushed (19:19). Ties to that dry run to the cent; against the current dry run ($240,667.95) the only difference is C-29: Stair Moldings 350.28 vs 379.18, one txn id. The retracted Vega $379.18 entry is gone; Berrett is 06-30; VistaPrint 06-11 is in"
 }
