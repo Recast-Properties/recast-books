@@ -194,6 +194,7 @@ def main():
     # They are additions to the old books, each a register line; a return is a purchase and its credit.
     urls = {r["docId"]: (r["doc_url"] or r["gmail_url"], "drive" if r["doc_url"] else "gmail") for r in G if r["docId"]}
     for i, x in enumerate(answers.get("add", [])):
+        if x.get("retracted"): continue   # kept in the list so the later additions keep their index, and so their txn ids
         # no docId: the proof is a file Paul supplied (x["evidence"], under evidence/), filed to Drive with the rest (item 7)
         link, kind = urls.get(x["docId"], ("https://mail.google.com/mail/u/0/#all/" + x["docId"][3:], "gmail")) if x["docId"] else ("", "evidence")
         entries.append({"txn_id": "migration-" + x["date"].replace("-", "") + "-" + hashlib.sha256(f"add|{i}|{x['docId']}|{x['description']}|{x['amount_cents']}".encode()).hexdigest()[:12],

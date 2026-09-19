@@ -506,6 +506,12 @@
    "row": "104 Ashburne 2026-01-14 Berret Pest Control 270.63",
    "docId": "gm-19f19bb233837a1e",
    "why": "Claude 2026-09-18 (audit §36): the only Berrett Pest Control business in any mailbox is one job - quote 06-29, 'Completed Service' 06-30 ($250.00 + $20.63 tax), payment receipt 06-30 for $270.63 on card 9166, account 1172065 opened with that quote. The row is $270.63 to the cent; its typed date 01-14 has nothing behind it (date put to Paul; the row stays as typed meanwhile)"
+  },
+  {
+   "key": "PROP-490",
+   "row": "104 Ashburne 2026-04-01 Home Depot 350.28",
+   "docId": "gm-19d54f9e0010bc8c",
+   "why": "Claude 2026-09-18 (audit §38): the row is this receipt's pre-tax subtotal to the cent ($350.28; total $379.18 with $28.90 tax), stair nose and moldings, two days apart. It is the purchase Armandre Vega made in cash and Paul repaid by Zelle on 04-03 ($379.18, 'materials for ashburne')"
   }
  ],
  "no_link": [
@@ -1524,7 +1530,8 @@
    "docId": "",
    "evidence": "chase-zelle-sent-1-mar-to-apr.webp",
    "register": "C-26",
-   "said": "Paul 2026-09-18: 'treat the two vega payments as their own entries. materials and labor.' Zelle from his personal Chase (evidence/chase-zelle-sent-1-mar-to-apr.webp); on no old tab under any payee and in no mailbox (searched within two cents and as sums)"
+   "said": "Paul 2026-09-18: 'treat the two vega payments as their own entries. materials and labor.' Zelle from his personal Chase (evidence/chase-zelle-sent-1-mar-to-apr.webp); on no old tab under any payee and in no mailbox (searched within two cents and as sums)",
+   "retracted": "Claude 2026-09-18, the same evening: WRONG - it is already in the old books. Home Depot receipt gm-19d54f9e0010bc8c of 04-03 (vinyl stair nose, 4-N-1 moldings, quarter round; paid CASH $400.00, change $20.82) totals $379.18 = Vega's Zelle to the cent, and its pre-tax subtotal $350.28 is the Ashburne row 'Home Depot / Stair Moldings' of 04-01. Vega bought the materials with cash and Paul repaid him; Paul typed the subtotal. The amount search looked for $379.18 and sums of rows, never the receipt's subtotal"
   },
   {
    "date": "2026-04-04",
@@ -1570,6 +1577,10 @@
   {
    "what": "C-11 return pair: Milwaukee hole saw $47.59 purchase + credit, overhead, Home Depot 2026-06-16",
    "why": "Claude's error, found 2026-09-18 while preparing the confirm list: the old books already have it. The matcher compared to the exact cent and never added two items together, so the old row stayed unlinked and the receipt looked unexplained; the independent audit then re-checked each addition by its single exact amount and missed it too. Paul's answer was given on Claude's wrong statement that it was missing. Old row: RECAST BIZ / Tools, The Home Depot 06-16 'Hole Saw' $47.60. The old books carry it as a cost, so that is what migrates; if it really was returned, the card statement shows the credit in Phase 3. The router return ($172.12) stands - no old row."
+  },
+  {
+   "what": "C-26 materials entry: Armandre Vega $379.18, 104 Ashburne, 04-03",
+   "why": "Claude 2026-09-18, the same evening: WRONG - it is already in the old books. Home Depot receipt gm-19d54f9e0010bc8c of 04-03 (vinyl stair nose, 4-N-1 moldings, quarter round; paid CASH $400.00, change $20.82) totals $379.18 = Vega's Zelle to the cent, and its pre-tax subtotal $350.28 is the Ashburne row 'Home Depot / Stair Moldings' of 04-01. Vega bought the materials with cash and Paul repaid him; Paul typed the subtotal. The amount search looked for $379.18 and sums of rows, never the receipt's subtotal"
   }
  ],
  "confirmed_as_is": [

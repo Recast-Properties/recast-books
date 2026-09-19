@@ -290,7 +290,7 @@ the tie-out per property against the snapshot.
 | C-23 | 2026-09-18 | RECAST BIZ / Travel, five American Airlines charges the old books left off | not in the old books | added, **$2,070.30**, 6700 overhead, Paul paid | Fares DFW-PDX 01/17 $316.50, PDX-DFW-PDX 02/01-02/04 $575.60, PDX-DFW-PDX 01/23 $665.80 (its $40.28 seat was already a row), PDX-DFW 02/09 $462.40, and a $50.00 seat of 05-25. Each is Paul's own forward with the travel date as subject; the old Travel block has the airport Uber rides of the same days but not the fares. Paul: "american is most likely NOT personal expenses", then "yes". Overhead is $2,070.30 above the old books. Audit §30 |
 | C-24 | 2026-09-18 | 104 Ashburne, "Property Tax Paid" $16,031.25 (summary block, cell E10) | in the old tab's Total Project Cost, outside the expense rows - the inventory never read it, never posted | posted 2026-03-30, 1100, Paul paid | Ellis County paid-in-full receipt: 2025 levy $14,707.58 + 9% penalty and interest $1,323.67, check #5899 on Paul's personal Chase account. Paul: "i paid the property tax for ashburne for the year on 3/30 ... adjust the books for this however you see fit." Not a difference from the old books - a line of them the migration had missed (like C-12). D-034 |
 | C-25 | 2026-09-18 | Falcon Creek Lawn Care, invoice lines paid and not in the old books | not in the old books | added, **$140.00**, 1130, Paul paid | Invoice 1374 (07-30): 136 Bowling Green $55.00 on its tab; 881 Newport $55.00 on Cost Recapture (Newport is sold). Invoice 1373 (07-19): 1616 Granite billed $140.00, the closed tab carries $110.00 - $30.00 on Cost Recapture. Paul's Chase Zelle history (`evidence/chase-zelle-sent-*.webp`) shows both invoices paid in full from his personal account (1373 $470.00 on 07-24, 1374 $235.00 on 08-11); Paul: "dennis only paid that $315 ... i paid those falcon invoices from my chase account". Audit §37 |
-| C-26 | 2026-09-18 | 104 Ashburne / Paint & Flooring, two Zelle payments to Armandre Vega | not in the old books | added, **$729.18**, Paul paid: 04-03 $379.18 materials (1030), 04-04 $350.00 labor (1020) | On Paul's Chase Zelle history only (`evidence/chase-zelle-sent-1-mar-to-apr.webp`; memos "materials for ashburne", "104 ashburne glen"); on no old tab under any payee, in no mailbox. Paul: "treat the two vega payments as their own entries. materials and labor." No mail document - the entry carries `EVIDENCE:` and gets its Drive link at filing (item 7). Ashburne is $729.18 above the old tab |
+| C-26 | 2026-09-18 | 104 Ashburne / Paint & Flooring, Zelle payment to Armandre Vega | not in the old books | added, **$350.00** labor (1020), 04-04, Paul paid. ~~04-03 $379.18 materials~~ **retracted the same evening - Claude's error, see §38: it is the old row "Home Depot / Stair Moldings" $350.28** | On Paul's Chase Zelle history only (`evidence/chase-zelle-sent-1-mar-to-apr.webp`; memos "materials for ashburne", "104 ashburne glen"); on no old tab under any payee, in no mailbox. Paul: "treat the two vega payments as their own entries. materials and labor." No mail document - the entry carries `EVIDENCE:` and gets its Drive link at filing (item 7). Ashburne is $729.18 above the old tab |
 | C-27 | 2026-09-18 | 104 Ashburne / Pest Control, Berret Pest Control $270.63 | dated 2026-01-14 | 2026-06-30 | Every Berrett message is one job: quote 06-29, service and payment 06-30 ($250.00 + $20.63 tax, card 9166), account opened with that quote; nothing in January. Paul: "yes 6/30". Amount unchanged |
 | C-28 | 2026-09-18 | RECAST BIZ / Advertising, VistaPrint order of 06-11 | not in the old books | added, $241.71, 6000 overhead, Paul paid | Yard signs x2 + sign riders x2 (order VP_R3KPH54N). On no old tab at any amount or combination; the 05-08 / 05-13 order is the Ashburne Signage row, the 06-21 order the two overhead rows. Paul: "add vista print order". Overhead is $241.71 above the old books |
 
@@ -1162,3 +1162,25 @@ advances, no orphans. Staging = the dry run.
 **C-27, C-28 (Paul: "yes 6/30 and add vista print order").** Berrett row redated to 06-30; VistaPrint 06-11
 $241.71 added to overhead 6000. Dry run **1,046 entries, $241,018.23** (overhead $26,743.09), all build; the
 only changes are that date and that entry; list 4: 62. Pushed to staging; staging holds pass 8 ($240,776.52).
+
+## 38 · A double count caught the same evening: Vega's $379.18 was already a row (2026-09-18)
+
+Going through the Home Depot receipts on list 4: receipt `gm-19d54f9e0010bc8c` of 04-03 - vinyl stair nose,
+4-N-1 moldings, quarter round; **paid CASH $400.00, change $20.82; total $379.18** - is Vega's Zelle of 04-03
+("materials for ashburne", $379.18) to the cent, and its **pre-tax subtotal $350.28 is the Ashburne row
+"Home Depot / Stair Moldings" of 04-01**. Vega bought the trim with cash, Paul repaid him and typed the
+subtotal. So C-26's materials entry doubled a cost the old books already carry: **retracted** (marked
+`retracted` inside `add` so the later additions keep their index and their txn ids - `migration-rows.py`
+skips it), the Stair Moldings row is linked to the receipt (895 linked), and the receipt leaves list 4. The
+$350.00 labor entry stands. Why it was missed: the search before adding looked for $379.18 within two cents
+and as sums of rows - never for the receipt's *subtotal*, and the receipt had not been tied to the Zelle.
+Every addition made today was then re-checked against the subtotals and part-amounts printed on its document
+(VistaPrint, the AA base fares, Red Oak, the tax levy): no other hit.
+
+**Standing rule, sharpened again:** before adding a cost "not in the old books", search the amount within two
+cents, as a sum of items, **and as the document's pre-tax subtotal** - and look for a store receipt of the
+same amount when the payment is a reimbursement to a person.
+
+Dry run **1,045 entries, $240,639.05** (Ashburne $177,460.54), all build; pushed to staging, which holds
+pass 8 and so still carries the retracted entry until the next Run. **Open with Paul:** the Stair Moldings
+row is $28.90 short of what was paid (tax) - correct it to $379.18 on the held tab, as C-20 did?
