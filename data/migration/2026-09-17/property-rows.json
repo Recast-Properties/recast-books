@@ -2035,11 +2035,12 @@ false
 "payee": "McCoy's",
 "date": "2026-08-06",
 "desc": "Trim",
-"amt": 45.56,
+"amt": 44.56,
 "flags": [
 true,
 false
-]
+],
+"correction": "C-32 2026-09-21: typed $45.56; McCoy's receipt gm-19fd7f3f3ed0e605 of 08-06 is $44.56 (4 casings $41.16 + $3.40 tax, Visa 9166). Paul: 'match the receipts'. Bowling Green is $1.00 below the old tab"
 },
 {
 "tab": "136 Bowling Green",
@@ -2470,9 +2471,10 @@ false
 "payee": "Window Man",
 "date": "2026-04-16",
 "desc": "WIndow Cleaning",
-"amt": 858.68,
+"amt": 848.68,
 "flags": [],
-"block": "Cleaning"
+"block": "Cleaning",
+"correction": "C-32 2026-09-21: typed $858.68; Window Man invoice #33688 of 04-16 is $848.68 ($784.00 + $64.68 tax). Paul: 'match the receipts'. Ashburne is $10.00 below the old tab"
 },
 {
 "tab": "104 Ashburne",
@@ -7315,9 +7317,10 @@ false
 "payee": "Home Depot",
 "date": "2026-04-10",
 "desc": "Misc Supplies",
-"amt": 151.28,
+"amt": 161.28,
 "flags": [],
-"block": "Supplies"
+"block": "Supplies",
+"correction": "C-32 2026-09-21: typed $151.28; Home Depot receipt gm-19d775f16740a511 of 04-10 is $161.28 (subtotal $148.99 + $12.29 tax, debit 9166). Paul: 'match the receipts'. Ashburne is $10.00 above the old tab"
 },
 {
 "tab": "104 Ashburne",

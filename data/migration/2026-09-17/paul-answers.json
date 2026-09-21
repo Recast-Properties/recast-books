@@ -2172,6 +2172,19 @@
    "docId": "gm-1a082efc7888e5ef",
    "register": "C-31",
    "said": "Paul 2026-09-21: 'yes add it to green acres' - his own forward 'Green acres eviction check'; a handwritten Citizens check of 09-08; on no old tab (Green Acres has none). 413 Green Acres is a pipeline property in the new books for exactly these pre-acquisition costs (Paul 2026-09-17)"
+  },
+  {
+   "date": "2026-09-21",
+   "property": "Cost Recapture",
+   "trade": "1616 Granite",
+   "account": "1020",
+   "amount_cents": 2000,
+   "payee": "50Floor",
+   "description": "Correction: 50Floor receipt #PRrT of 06-12 is $1,339.00; the closed Granite tab carries the row at $1,319.00",
+   "paid_from": "PAUL",
+   "docId": "gm-19ebc1789358c9a5",
+   "register": "C-32",
+   "said": "Paul 2026-09-21: 'match the receipts'. Granite is sold, so its tab migrates as closed and the $20.00 is a Cost Recapture line naming it (D-031 extended), not an edit to the row"
   }
  ],
  "retracted": [

@@ -392,7 +392,7 @@ gm-19ef5388be1807c4,2026-06-23,The Home Depot,3243,0,0,,,280 Sparkling,dismissed
 gm-19d62dc0a36bb7bd,2026-04-06,The Home Depot,2379,1,2379,0,104 Ashburne/Supplies,104 Ashburne,dismissed,dismiss,,PAUL,,property row now documented,104 Ashburne/Home Depot/22.50;104 Ashburne/Home Depot/23.79;104 Ashburne/Home Depot/23.78
 gm-19d89042467353f7,2026-04-13,The Home Depot,12698,1,12698,0,RECAST BIZ/Tools,104 Ashburne;OVERHEAD,dismissed,dismiss,,PAUL,,manual row now documented,
 gm-19c01b7410af7c7f,2026-01-11,Amazon,515,1,515,0,RECAST BIZ/Tools,104 Ashburne,posted,post,,PAUL,"Fwd: Ordered: ""GRK CARD40-1 Carded T-40...""",manual row now documented,
-gm-19fd7f3f3ed0e605,2026-08-06,McCoy's Building Supply,4456,1,4556,-100,136 Bowling Green/,136 Bowling Green,posted,post,,PAUL,,property row now documented,
+gm-19fd7f3f3ed0e605,2026-08-06,McCoy's Building Supply,4456,1,4456,0,136 Bowling Green/,136 Bowling Green,posted,post,,PAUL,,property row now documented,
 gm-19e8ef3d9338fabb,2026-05-31,"CoreLogic Solutions, LLC",20000,0,0,,,OVERHEAD,pending,post,LOW_CONFIDENCE,PAUL,Property Intelligence Invoice #30875629,"in mail, not in old books",104 Ashburne/Julio/200.00
 gm-19c51f2daddbeabd,2026-02-09,Amazon,9079,2,9079,0,104 Ashburne/Master Bath;104 Ashburne/Master Bath,104 Ashburne,posted,post,,PAUL,"Fwd: Ordered: ""Freestanding Tub Drain..."" and 1 more item",property row now documented,104 Ashburne/Amazon/249.97
 gm-19c7bb272d77da5a,2026-02-20,The Home Depot,13507,1,1729,11778,RECAST BIZ/Tools,104 Ashburne,dismissed,dismiss,,PAUL,,manual row now documented,104 Ashburne/Home Depot/44.99;104 Ashburne/Home Depot/72.80
@@ -756,7 +756,7 @@ gm-19c72576226cdb22,2026-02-18,Shell,5148,1,5148,0,104 Ashburne/Gas/Truck/Traile
 gm-19d0df09db44b037,2026-03-20,Atlas Pools,2165,0,0,,,104 Ashburne,dismissed,dismiss,,PAUL,Fwd: Atlas Pools Payment Confirmation - Invoice 16528,junk (dismissed),
 gm-19f8bc3b31c1a71d,2026-07-22,Uber,20000,0,0,,,OVERHEAD,pending,hold,"NOT_POST_VERDICT,LOW_CONFIDENCE,NEEDS_HUMAN_274D",PAUL,Uber: Your receipt,"in mail, not in old books",
 gm-1a07d2aab4818b57,2026-09-06,The Home Depot,11551,1,3241,8310,469 Brushwood/,469 Brushwood,posted,post,,1401,,property row now documented,
-gm-19d775f16740a511,2026-04-10,The Home Depot,16128,0,0,,,104 Ashburne,dismissed,dismiss,,PAUL,,"in mail, not in old books",104 Ashburne/Home Depot/189.57;104 Ashburne/Home Depot/151.28
+gm-19d775f16740a511,2026-04-10,The Home Depot,16128,1,16128,0,104 Ashburne/Supplies,104 Ashburne,dismissed,dismiss,,PAUL,,property row now documented,104 Ashburne/Home Depot/189.57
 gm-19fb9ca58cd7c9a2,2026-07-31,Uber Eats,4192,0,0,,,,dismissed,dismiss,"NOT_POST_VERDICT,TOTAL_MISMATCH",PAUL,[Personal] Your Friday morning order with Uber Eats,junk (dismissed),
 gm-19d3ee7e210a8af3,2026-03-30,The Home Depot,8523,1,1783,6740,104 Ashburne/Lighting & Electrical,104 Ashburne,dismissed,dismiss,,PAUL,,property row now documented,104 Ashburne/Home Depot/85.42
 gm-19bca1bc45709266,2026-01-16,City of Corsicana - Landfill,2250,1,2250,0,104 Ashburne/Trash,104 Ashburne,dismissed,dismiss,,PAUL,,property row now documented,
@@ -775,7 +775,7 @@ gm-19d2a6dc500a3a1c,2026-03-26,The Home Depot,10463,1,756,9707,104 Ashburne/Supp
 gm-19e8f79b34b79d66,2026-05-29,The Home Depot,7946,1,7946,0,1616 Granite RECONCILED/,1616 Granite,dismissed,dismiss,,PAUL,Fwd: 1616,property row now documented,
 gm-19c6ce38c37d7ca4,2026-02-17,The Home Depot,16608,0,0,,,OVERHEAD,pending,hold,"NOT_POST_VERDICT,LOW_CONFIDENCE",PAUL,Your Electronic Receipt,"in mail, not in old books",
 gm-19c778128ef1dc61,2026-02-19,The Home Depot,10815,0,0,,,104 Ashburne,dismissed,dismiss,,PAUL,,"in mail, not in old books",
-gm-19d98540dce2874d,2026-04-16,Window Man Window Cleaning,84868,1,85868,-1000,104 Ashburne/Cleaning,104 Ashburne,pending,post,OVER_CEILING,PAUL,,property row now documented,
+gm-19d98540dce2874d,2026-04-16,Window Man Window Cleaning,84868,1,84868,0,104 Ashburne/Cleaning,104 Ashburne,pending,post,OVER_CEILING,PAUL,,property row now documented,
 gm-19cd60fc58534aca,2026-03-09,Wayfair,26411,0,0,,,104 Ashburne,dismissed,dismiss,,PAUL,Fwd: Order received! Does everything look right?,"in mail, not in old books",104 Ashburne/Wayfiar/152.62
 gm-19c01b85d135afa6,2026-01-20,Amazon,27622,0,0,,,104 Ashburne,posted,post,,PAUL,"Fwd: Ordered: 2 ""Dreo Smart Wall Heater...""","in mail, not in old books",RECAST BIZ/Amazon/169.98
 gm-19e8f79855b1df77,2026-05-29,The Home Depot,30327,2,1187,29140,1616 Granite RECONCILED/;1616 Granite RECONCILED/,1616 Granite,posted,post,,PAUL,Fwd: 1616,property row now documented,

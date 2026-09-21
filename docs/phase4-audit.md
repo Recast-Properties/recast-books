@@ -296,6 +296,7 @@ the tie-out per property against the snapshot.
 | C-29 | 2026-09-18 | 104 Ashburne / Paint & Flooring, Home Depot "Stair Moldings" (04-01, row 32) | $350.28 | $379.18 | The row is the pre-tax subtotal of Home Depot receipt `gm-19d54f9e0010bc8c` (04-03, cash, bought by Armandre Vega); with $28.90 tax it is $379.18, what Paul repaid Vega by Zelle that day (`evidence/chase-zelle-sent-1-mar-to-apr.webp`). Paul: "yes correct it". Ashburne is $28.90 above the old tab. Audit §38 |
 | C-30 | 2026-09-21 | RECAST BIZ / Website, Netlify invoice #SFWGOE-00004 (06-13) | $0.00 (a row the old poller wrote without an amount; held back as ZERO_AMOUNT) | $13.40 | Netlify's "Payment received" for the same invoice number: Base Plan, Jun 13 - Jul 12, $13.40, paid by Paul. Claude's decision (the row names its own invoice); Paul can reverse it. Overhead is $13.40 above the old books |
 | C-31 | 2026-09-21 | 413 Green Acres (pipeline property), Justice of the Peace Precinct 1 eviction filing fee | not in the old books (Green Acres has no tab) | added, $144.00, 1010 acquisition costs, 09-08, paid from Citizens (check #1022, memo "GREEN ACRES") | Paul's own forward "Green acres eviction check". Paul: "yes add it to green acres". A tenth property total now ties out: 413 Green Acres $144.00 |
+| C-32 | 2026-09-21 | Four rows a few dollars off their receipt (differences list, §41-§43) | Window Man $858.68 (Ashburne 04-16) · Home Depot "Misc Supplies" $151.28 (Ashburne 04-10) · McCoy's "Trim" $45.56 (Bowling Green 08-06) · 50floor "Carpet" $1,319.00 (Granite 06-12) | $848.68 · $161.28 · $44.56 on their held tabs; Granite is sold, so its row stays and **+$20.00 posts on Cost Recapture** (trade 1616 Granite, D-031 extended) | Invoice #33688 ($784.00 + 8.25%); receipt subtotal $148.99 + $12.29 tax, debit 9166; 4 casings $41.16 + $3.40, Visa 9166; 50Floor Square receipt #PRrT $1,339.00. Paul: "match the receipts/invoices for these". Net +$19.00 |
 
 ## 14 · Where the staging run stands at end of day, 2026-09-17
 
@@ -1350,3 +1351,8 @@ Depot rows - all proven, or not, from the bank and card statements in Phase 3.
 
 **Numbers:** 1,047 entries, $240,825.35, unchanged; **919 linked - 87.8% of rows, 78.6% of dollars**; link
 audit clean in both sections. Not pushed (offline); staging holds pass 9.
+
+**C-32 (Paul: "match the receipts/invoices for these").** Window Man → $848.68, Home Depot 04-10 → $161.28,
+McCoy's → $44.56 on their held tabs; Granite's 50Floor $20.00 on Cost Recapture (the tab is closed). Pipeline
+rerun from the matcher: those three amounts and the one new line are the only changes, links unmoved. Dry run
+**1,048 entries, $240,844.35**, all build; 920 linked; link audit clean. Not pushed (offline).
