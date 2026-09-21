@@ -650,3 +650,36 @@ Recapture) - $299 each, Dennis paid (Paul). Dry run 1,031 entries, $220,628.06.
 **End of day 2026-09-18.** Paul accepts $36,880 of contractor checks and cash with no receipt. 868 of 1,031
 entries linked (84.2% of rows, 74.7% of dollars; 91% documented or accepted). Open items: `phase4-audit.md` §27.
 
+
+## 2026-09-21 — Phase 4: lists closed, Drive filing done, Newport held, cutover rehearsed end to end
+
+**Morning, offline (audit §39-§44).** 26 false Home Depot / Lowe's links from a coincidental subset-sum rule
+found and removed; near-amount tolerance capped at 10% of the row; list 4 (in mail, not in the books) 60 → 0,
+differences 114 → 0, confirm list closed with every weak candidate linked or refused by name. C-30 (Netlify
+$0.00 → $13.40), C-31 (Green Acres eviction filing fee $144.00 - a tenth property total), C-32 (four rows
+matched to their receipts). Dry run 1,048 entries, $240,844.35; 920 linked. Pushed to staging.
+
+**Pass 10 (§45).** `scripts/migration-journal-tieout.py` written (the ad-hoc tie-out of passes 1-9 as a
+script: per txn amount, date, property, payee, account, link; property totals; advances; exit code) and proven
+against pass 9. Paul's Run tied out on both paths.
+
+**Drive filing, item 7 (§45, §46, §49).** `scripts/migration-file-docs.mjs`: bytes from the docs store, the
+writer's `storeDocument`, `driveFileName`, `[year, property]`; every document's email filed as a `.txt` too;
+resumable map `drive-filing.json`, read by `migration-rows.py`. `WRITER_SECRET` is masked on Netlify, so Paul
+starts it in his Terminal. Two passes: 411 documents + the 12 `evidence/` files = 636 files; 5 non-JSON
+replies retried, 16 replies without a link recovered by exact name from Drive. **Every one of the 922 linked
+entries carries a Drive link.**
+
+**The never-read messages (§46, §48).** 15 paul@ messages read through `replayIds` (none posted); four
+refusals, two differences settled, a new `account` key in `paul-answers.json`. Paul asked whether pvb421@ had
+been swept: listed in full, never read; four February forwards to 104ashburne@gmail.com had bounced - the
+drawer-pulls and light-bulbs rows linked (Paul forwarded both to receipts@), two ceiling-fan orders parked.
+
+**881 Newport has not closed (§47).** Under contract (Bison Title #260910); Paul: "not closed. under contact."
+Its listing fee and Falcon Creek line moved from Cost Recapture to its own tab. Sold = Granite and Sparkling
+only; the old Sales tab's Newport and Ashburne figures are projections. **C-33:** Kitchen Faucet 04-10 → 08-10.
+
+**Pass 11 and the advances rehearsal (§49, §50).** 1,048 entries, $240,844.35, $0.00 on all ten properties,
+922 linked on Drive, both paths clean. `migrationRegisterAdvances` rehearsed (7.5 min, 33 advances, entries
+untouched). `docs/cutover-runbook.md` written - its §0 is all checked; the `WRITER_URL` flip moves before the
+production tie-out. Next: cutover day. `HANDOFF-2026-09-22.md`.

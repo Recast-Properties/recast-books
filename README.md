@@ -15,7 +15,9 @@ untouched until the parallel run in Phase 6. See `BUILD-PLAN.md` and `CLAUDE.md`
 state and `CHANGELOG.md` for the day-by-day. The receipts bookkeeper is live in parallel;
 since Phase 2.7 (D-023) the input side of the books is the **Recast Books** menu in the
 workbook, with the writer bound to it, and the web app keeps sign-in, Inbox, Upload and
-API costs. The accounting plan went through one adversarial review (five expert lenses,
+API costs. **Phase 4 (the forensic migration of the old books) is rehearsed end to end in the staging
+workbook as of 2026-09-21 - 1,048 entries tied out to the cent, every receipt link a Drive file; cutover day
+is next (`docs/cutover-runbook.md`, `HANDOFF-2026-09-22.md`).** The accounting plan went through one adversarial review (five expert lenses,
 35 findings, `docs/review-2026-08-26.md`).
 
 Nothing here ever writes to the old workbook; migration (Phase 4) reads it.

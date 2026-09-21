@@ -1,7 +1,8 @@
 # Evidence supplied by Paul during the Phase 4 cleanup
 
 Records from outside the mailboxes that settle a question. Each is cited from `paul-answers.json`
-and `docs/phase4-audit.md`. At cutover these are filed to Drive with the receipts (audit §17 item 7).
+and `docs/phase4-audit.md`. **Filed to Drive on 2026-09-21** (folder `Migration evidence/` under "Recast Books STAGING"; each file's link is in
+`../drive-filing.json` under `EVIDENCE:<file>`; audit §49) - this folder is no longer the only copy.
 
 | file | what it is | settles |
 |---|---|---|
