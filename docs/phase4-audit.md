@@ -1276,3 +1276,26 @@ and set read-only.
 **List 4 is empty (2026-09-21).** Brushwood stain - Paul: "i used two cans of stain at brushwood and returned
 one": three bought, two used, so both $41.55 rows stand (`confirmed_as_is`) and the 09-08 refund is the third
 can, never entered. Entries unchanged: 1,047, $240,825.35. Next: list 1 (differences), then list 2.
+
+## 41 · Differences list, first offline pass: the 22 receipts whose rows exceed the receipt (2026-09-21)
+
+- **Explained, nothing to do:** Waxahachie Glass (the second row is C-7's drop; list 1 does not know drops);
+  Amazon 08-25 - the row $113.58 is the order (subtotal $104.92 + tax), the read's $37.90 is only what reached
+  the card; eight receipts a cent or two under their rows (Paul's tax-share rounding); two meals 33-50 cents
+  over (tip); Floor & Decor 20 cents; McCoy's $44.56 vs a $45.56 row and Window Man $848.68 vs an $858.68 row
+  (a slip or a tip - under the $100 bar, left as typed).
+- **The link audit's one standing flag is gone:** the Uber Travel row of 06-03 ($113.98) now carries Uber's
+  final receipt with the tip; the old poller's id link pointed at the $94.98 pre-tip receipt.
+- **Near-amount tolerance capped at 10% of the row** (`migration-compare.py`): $2 of slack had linked a $4.28
+  row to a $2.84 receipt nine days away and an $8.63 row to a $6.68 one. Four such links dropped, read one by
+  one; the Threaded Rod row of 02-28 ($2.48) is relinked by hand to that day's only receipt, $2.84 (digits
+  transposed).
+- **Home Depot 02-19, $390.12 (d3b6197026) - the receipt the handoff flagged - untangled.** The read itemised
+  all twelve lines. Two rows on it belonged elsewhere (Light Bulbs $55.14 → the $178.48 receipt, Closet Light
+  $32.44 → the $108.15 receipt, each listing that item); four rows that are its items were not on it (Wire
+  Connectors $11.70, Saw Blade $54.09, Utility Blades $4.28 of $4.31, and the "Adjustable Square" $12.96 - the
+  Empire rafter square, which had sat on a 02-17 receipt whose $12.96 line is a tub drain wrench). Now twelve
+  items = ten rows + the two switch lines typed as one: $390.11 of $390.12.
+
+Amounts and ids unchanged (1,047 entries, $240,825.35); **878 linked**; link audit: both sections clean
+(section one now 0). Lists: differences 114, confirm 80, no document 94, list 4: 0. Not pushed (offline).

@@ -542,6 +542,54 @@
    "row": "104 Ashburne 2026-03-07 Floor & Decor 136.40",
    "docId": "gm-19cc9f61226563fe",
    "why": "Claude 2026-09-21 (audit §40): Paul forwarded Floor & Decor's e-receipt notice on 03-07 - the only Floor & Decor mail that day, and these are the day's two Floor & Decor rows. The receipt itself is a linked image the read could not open (no total), so the notice is the document"
+  },
+  {
+   "key": "PROP-308",
+   "row": "104 Ashburne 2026-02-28 Home Depot 2.48",
+   "docId": "gm-19ca6987ecb649fd",
+   "why": "Claude 2026-09-21 (audit §41): Home Depot receipt of 02-28 for $2.84, the only one that day; the Threaded Rod row of 02-28 is typed $2.48 - the digits transposed. Amount left as typed (36 cents)"
+  },
+  {
+   "key": "BIZ-127",
+   "row": "RECAST BIZ 2026-06-03 Uber 113.98",
+   "docId": "gm-19e8eaeb03cf2a86",
+   "why": "Claude 2026-09-21 (audit §41): Uber's final receipt for the ride, $113.98 with the $19.00 tip - the row to the cent. The old poller's id link pointed at the first receipt, $94.98 before the tip (the link audit's one standing flag)"
+  },
+  {
+   "key": "PROP-278",
+   "row": "104 Ashburne 2026-02-19 Home Depot 55.14",
+   "docId": "gm-19c77180389ec215",
+   "why": "Claude 2026-09-21 (audit §41): Home Depot 02-19 $178.48 lists the BR40 bulbs at $55.14 - this row; it had been placed on the $390.12 receipt, which has no bulbs"
+  },
+  {
+   "key": "PROP-303",
+   "row": "104 Ashburne 2026-02-19 Home Depot 32.44",
+   "docId": "gm-19c77b8ad0ecc11d",
+   "why": "Claude 2026-09-21 (audit §41): Home Depot 02-19 $108.15 lists the Stetson 11 in. flush mount at $32.44 - this row; it had been placed on the $390.12 receipt"
+  },
+  {
+   "key": "PROP-481",
+   "row": "104 Ashburne 2026-02-19 Home Depot 11.70",
+   "docId": "gm-19c768d3b6197026",
+   "why": "Claude 2026-09-21 (audit §41): an item of Home Depot receipt 02-19 $390.12, which the read itemised in full: butt splice connectors $11.70, Diablo saw blade $54.09, utility blades $4.31 (typed $4.28)"
+  },
+  {
+   "key": "PROP-488",
+   "row": "104 Ashburne 2026-02-19 Home Depot 4.28",
+   "docId": "gm-19c768d3b6197026",
+   "why": "Claude 2026-09-21 (audit §41): an item of Home Depot receipt 02-19 $390.12, which the read itemised in full: butt splice connectors $11.70, Diablo saw blade $54.09, utility blades $4.31 (typed $4.28)"
+  },
+  {
+   "key": "PROP-495",
+   "row": "104 Ashburne 2026-02-19 Home Depot 54.09",
+   "docId": "gm-19c768d3b6197026",
+   "why": "Claude 2026-09-21 (audit §41): an item of Home Depot receipt 02-19 $390.12, which the read itemised in full: butt splice connectors $11.70, Diablo saw blade $54.09, utility blades $4.31 (typed $4.28)"
+  },
+  {
+   "key": "BIZ-43",
+   "row": "RECAST BIZ 2026-02-18 Home Depot 12.96",
+   "docId": "gm-19c768d3b6197026",
+   "why": "Claude 2026-09-21 (audit §41): the Empire 12 in. rafter square, $12.96, is the last item of Home Depot receipt 02-19 $390.12 - a square, as the row says. It had been placed on the 02-17 receipt, whose $12.96 line is a tub drain wrench. With it the receipt's twelve items are all rows: $390.11 of $390.12"
   }
  ],
  "no_link": [
@@ -1800,10 +1848,6 @@
    "why": "Claude 2026-09-18 (audit §31): another copy of the Uber receipt behind the Travel row of 2026-05-23 $33.98, which carries gm-19e575bcb9c67408"
   },
   {
-   "docId": "gm-19e8eaeb03cf2a86",
-   "why": "Claude 2026-09-18 (audit §31): another copy of the Uber receipt behind the Travel row of 2026-06-03 $113.98, which carries gm-19e8d21354ffd672"
-  },
-  {
    "docId": "gm-19e8ec62c8a4a79e",
    "why": "Claude 2026-09-18 (audit §31): another copy of the Uber receipt behind the Travel row of 2026-06-03 $31.48, which carries gm-19e910e8e29e4963"
   },
@@ -2214,6 +2258,18 @@
   {
    "docId": "dry-gm-1a0818a010ad633c",
    "why": "Paul 2026-09-21: 'i used two cans of stain at brushwood and returned one.' Home Depot refund of 09-08, deck stain -$41.55: the return of a third can that was never entered (D-028); the two Stain rows stay. Nothing posts"
+  },
+  {
+   "docId": "gm-19e8d21354ffd672",
+   "why": "Claude 2026-09-21 (audit §41): Uber's first receipt for the 06-03 ride, $94.98 before the $19.00 tip; the Travel row now carries the final receipt gm-19e8eaeb03cf2a86"
+  },
+  {
+   "docId": "gm-19ca6cf04236bd89",
+   "why": "Claude 2026-09-21 (audit §41): second copy (e-receipt) of the Home Depot 02-28 $2.84 receipt that the Threaded Rod row carries"
+  },
+  {
+   "docId": "gm-19cddf3d9dcd3db2",
+   "why": "Claude 2026-09-21 (audit §41): Home Depot 03-11 $6.68: no row at the amount; it had been hung on the 03-12 Weed Killer row ($8.63) by a $2 tolerance. PARKED for Phase 3 like the other small unexplained receipts"
   }
  ],
  "rename_payee": [

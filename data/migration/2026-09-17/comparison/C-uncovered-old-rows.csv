@@ -12,9 +12,9 @@ BIZ-80,RECAST BIZ,Marketing,2026-06-24,The Home Depot,673,Zip ties for signs,Fal
 BIZ-87,RECAST BIZ,Meals,2026-01-14,Uber Eats,5882,Crew meal,False,gm-19bbf1890ac56e0f,Uber Eats,dismissed
 BIZ-90,RECAST BIZ,Meals,2026-02-18,Uber Eats,3758,Crew meal,False,gm-19c727e9cb2bf076,Uber Eats,dismissed
 BIZ-91,RECAST BIZ,Meals,2026-02-18,Uber Eats,13126,Crew meal,False,gm-19c727ecbd076934,Uber Eats,pending
-BIZ-167,RECAST BIZ,Office,2026-06-25,The Home Depot,247,MED BOX - MEDIUM BOX 20X16X15,False,gm-19f3f68f0a53b2e9,The Home Depot,posted
-BIZ-168,RECAST BIZ,Office,2026-06-25,The Home Depot,247,MED BOX - MEDIUM BOX 20X16X15,False,gm-19f3f68f0a53b2e9,The Home Depot,posted
-BIZ-169,RECAST BIZ,Office,2026-06-25,The Home Depot,751,2X60 CL TAPE - SCOTCH HVYDUTY 54YDS RD 1PK,False,gm-19f0e8b993f57cd0,The Home Depot,posted
+BIZ-167,RECAST BIZ,Office,2026-06-25,The Home Depot,247,MED BOX - MEDIUM BOX 20X16X15,False,gm-19f00c2049c512fe,The Home Depot,error
+BIZ-168,RECAST BIZ,Office,2026-06-25,The Home Depot,247,MED BOX - MEDIUM BOX 20X16X15,False,gm-19f00c2049c512fe,The Home Depot,error
+BIZ-169,RECAST BIZ,Office,2026-06-25,The Home Depot,751,2X60 CL TAPE - SCOTCH HVYDUTY 54YDS RD 1PK,False,gm-19f1083966df0eb6,The Home Depot,pending
 BIZ-174,RECAST BIZ,Gas/Truck/Trailer,2026-06-11,North Texas Tollway Authority,9257,toll tag,False,gm-19eb75e58b4bc3fe,North Texas Tollway Authority (NTTA),posted
 BIZ-176,RECAST BIZ,Gas/Truck/Trailer,2026-06-22,Shell,5470,Regular fuel 17.425G @ $3.139/gal,False,gm-19ed81985682b730,Shell,pending
 BIZ-177,RECAST BIZ,Gas/Truck/Trailer,2026-06-24,O'Reilly Auto Parts,4545,VAL SYN5-20-5QT 5QT MOTOROIL,False,gm-19f00ab9125115f9,Amazon,pending
@@ -53,9 +53,9 @@ PROP-103,366 Mesa,,2026-08-13,Lowe's,14809,1x3x8 For Pergola,False,gm-19ffbab89c
 PROP-104,366 Mesa,,2026-08-13,Lowe's,7547,Flashing,False,gm-19ffbab89c6e794c,"Lowe's Home Centers, LLC",pending
 PROP-107,366 Mesa,,2026-08-14,Home Depot,6961,Door Lock Sets,False,gm-1a000805d296df8b,The Home Depot,posted
 PROP-119,136 Bowling Green,,2026-08-18,City of Red Oak,44747,Water,False,gm-1a016b2fac76a50d,City of Waxahachie - Water Billing Department,pending
+PROP-120,136 Bowling Green,,2026-06-26,Home Depot,804,Toilet Paper,False,gm-19f059f5de8379eb,The Home Depot,error
 PROP-121,136 Bowling Green,,2026-06-26,Home Depot,1438,Drywall Tape,False,gm-19f059f5de8379eb,The Home Depot,error
 PROP-124,136 Bowling Green,,2026-06-26,Home Depot,1297,Taping Knife,False,gm-19f059f5de8379eb,The Home Depot,error
-PROP-125,136 Bowling Green,,2026-06-26,Home Depot,647,Sand Paper,False,gm-19f00c2049c512fe,The Home Depot,error
 PROP-148,136 Bowling Green,,2026-06-30,Lupe,16000,Carpet Laying,False,gm-19f3f6d3919a5816,"Handwritten payment log - 136 Bowling Green (payees: unnamed carpet installer; ""FALCON"")",pending
 PROP-150,136 Bowling Green,,2026-06-29,Lowe's,43121,Carpet ,False,gm-19f0fbce663c9387,"Lowe's Home Centers, LLC",posted
 PROP-151,136 Bowling Green,,2026-07-19,Effren - 1373,11000,Landscaping,False,gm-19fb337be62617b6,Falcon Creek Lawn Care,posted
@@ -103,7 +103,9 @@ PROP-295,104 Ashburne,Landscaping,2026-02-17,Julio,20000,Labor,False,gm-19d1cc95
 PROP-302,104 Ashburne,Trash,2026-02-12,Julio,10000,Labor,False,gm-19cc51b6b845dd1f,Shalom Granite,pending
 PROP-306,104 Ashburne,Pool,2026-03-17,Amazon,41134,Aiper Pool Robot,False,gm-19cfbe563f75f960,Amazon,pending
 PROP-307,104 Ashburne,Landscaping,2026-02-18,Julio,20000,Labor,False,gm-19d1cc95a5026d98,Julio,pending
+PROP-308,104 Ashburne,House Hardware,2026-02-28,Home Depot,248,Threaded Rod,False,gm-19ca6987ecb649fd,The Home Depot,dismissed
 PROP-314,104 Ashburne,Lighting & Electrical,2026-02-24,Amazon,1081,Light Bulbs,False,gm-19c76c4996bae8b0,The Home Depot,pending
+PROP-318,104 Ashburne,Landscaping,2026-03-12,Home Depot,863,Weed Killer,False,gm-19ce3297652cbfc8,The Home Depot,dismissed
 PROP-320,104 Ashburne,Utilities,2026-05-05,City of Ovilla,13153,Water,False,gm-19dedd5146ee87ad,Uber,posted
 PROP-327,104 Ashburne,Small Baths,2026-03-11,Home Depot,1576,Angle Stop,False,gm-19cdd47626a096cb,The Home Depot,dismissed
 PROP-329,104 Ashburne,Landscaping,2026-03-12,Home Depot,7574,Weed & Feed,False,gm-19cf2444d6efb00f,The Home Depot,dismissed
@@ -120,7 +122,7 @@ PROP-368,104 Ashburne,Trash,2026-02-18,Julio,20000,Labor,False,gm-19d1cc95a5026d
 PROP-373,104 Ashburne,Landscaping,2026-05-08,Julio,10000,Lawn Maintenance,False,gm-19e3baaed0e83190,Oregon Secretary of State (NICUSA),dismissed
 PROP-374,104 Ashburne,House Hardware,2026-03-30,Lowes,5949,Door Knobs,False,gm-19d442100d7bb73f,"Lowe's Home Centers, LLC",posted
 PROP-377,104 Ashburne,Gas/Truck/Trailer,2026-02-17,O'Reily,345,Lug Nut,False,gm-19c6bce6982d294b,O'Reilly Auto Parts,posted
-PROP-380,104 Ashburne,Lighting & Electrical,2026-03-05,Home Depot,585,Outlet Covers,False,gm-19cddf3d9dcd3db2,The Home Depot,posted
+PROP-380,104 Ashburne,Lighting & Electrical,2026-03-05,Home Depot,585,Outlet Covers,False,gm-19cbddb92c61a37a,The Home Depot,dismissed
 PROP-381,104 Ashburne,Master Bath,2026-02-15,Home Depot,6079,PT 2x4's,False,gm-19c617b59e734eb5,The Home Depot,dismissed
 PROP-384,104 Ashburne,Landscaping,2026-04-02,Home Depot,20506,Grass Seed,False,gm-19d6d01dadaa68e4,The Home Depot,posted
 PROP-385,104 Ashburne,House Hardware,2026-04-01,Home Depot,2250,oor weather stripping,False,gm-19d62dc0a36bb7bd,The Home Depot,dismissed
@@ -159,6 +161,7 @@ PROP-483,104 Ashburne,Paint & Flooring,2026-04-03,Lowes,2576,Quarter Round,False
 PROP-484,104 Ashburne,Lighting & Electrical,2026-03-25,Home Depot,1633,New Work Boxes,False,gm-19d25017467ed73d,The Home Depot,pending
 PROP-485,104 Ashburne,Master Bath,2026-03-21,Lowes,3101,Window Trim,False,gm-19d11a93764263f8,"Lowe's Home Centers, LLC",posted
 PROP-486,104 Ashburne,Small Baths,2026-03-25,Home Depot,4975,Hydro Seats,False,gm-19d25017467ed73d,The Home Depot,pending
+PROP-488,104 Ashburne,Supplies,2026-02-19,Home Depot,428,Utility Blades,False,gm-19c768d3b6197026,The Home Depot,dismissed
 PROP-491,104 Ashburne,Lighting & Electrical,2026-03-26,Home Depot,1708,Wall Plates,False,gm-19d2a51f5dffc8be,The Home Depot,pending
 PROP-492,104 Ashburne,Master Bath,2026-03-21,Lowes,8625,Window Trim,False,gm-19d11a93764263f8,"Lowe's Home Centers, LLC",posted
 PROP-495,104 Ashburne,Supplies,2026-02-19,Home Depot,5409,Saw Blade,False,gm-19c768d3b6197026,The Home Depot,dismissed
@@ -190,7 +193,7 @@ PROP-596,104 Ashburne,Supplies,2026-03-22,Home Depot,106,Teflon Tape,False,gm-19
 PROP-597,104 Ashburne,Supplies,2026-03-22,Home Depot,1404,Dremel Post,False,gm-19cf25c0bd386e41,"Lowe's Home Centers, LLC",posted
 PROP-598,104 Ashburne,Supplies,2026-03-22,Home Depot,3786,Shopvac Filters,False,gm-19c5d297b5829e55,The Home Depot,posted
 PROP-599,104 Ashburne,Supplies,2026-03-22,Home Depot,2378,Tile Drill Bits,False,gm-19d62dc0a36bb7bd,The Home Depot,dismissed
-PROP-600,104 Ashburne,Supplies,2026-03-22,Home Depot,527,Windex,False,gm-19d4078f56917fbb,The Home Depot,dismissed
+PROP-600,104 Ashburne,Supplies,2026-03-22,Home Depot,527,Windex,False,gm-19d16d3ec604edb7,The Home Depot,pending
 PROP-601,104 Ashburne,Supplies,2026-03-23,Home Depot,537,Abrasive Cloth,False,gm-19d4078f56917fbb,The Home Depot,dismissed
 PROP-604,104 Ashburne,Supplies,2026-03-19,Lowes,2096,Silicone Caulk,False,gm-19d6ee18dbed6f84,The Home Depot,pending
 PROP-606,104 Ashburne,Supplies,2026-03-25,Home Depot,1468,Tapcon Scres & Bit,False,gm-19cf3177d3ee370b,The Home Depot,posted

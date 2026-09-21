@@ -167,7 +167,9 @@ def main():
             amt = any(abs(r["cents"] - x) <= 1 for x in read_amts) or (not e["lines"] and r["cents"] in e["amts"])   # mail-text amounts only when the read has no lines
             if not amt and dd <= 1 and len(ls_) <= 40:
                 amt = any(abs(r["cents"] - x - y) <= 1 for i_, x in enumerate(ls_) for y in ls_[i_ + 1:])
-            near = bool(e["total"]) and abs(e["total"] - r["cents"]) <= max(200, r["cents"] * 3 // 100)
+            # "near" is 3% of the row, or up to $2 on a small one - but never more than 10% of it: $2 of slack on a
+            # $4.28 row had linked it to a $2.84 receipt nine days away (differences list, 2026-09-21).
+            near = bool(e["total"]) and abs(e["total"] - r["cents"]) <= max(r["cents"] * 3 // 100, min(200, r["cents"] // 10))
             # A row equal to the receipt's TOTAL is the best evidence there is and places first; an
             # amount that merely appears somewhere in the mail text is weaker (ten small Brushwood rows
             # had claimed the $339.99 microwave receipt ahead of the $339.99 row, 2026-09-18).
