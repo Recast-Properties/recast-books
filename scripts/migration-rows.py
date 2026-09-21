@@ -210,6 +210,12 @@ def main():
         with open(os.path.join(a.out, name), "w", newline="") as f:
             if not recs: return
             wr = csv.DictWriter(f, fieldnames=fields or list(recs[0].keys()), extrasaction="ignore"); wr.writeheader(); wr.writerows(recs)
+    # Item 7: documents filed to Drive by scripts/migration-file-docs.mjs (drive-filing.json, docId or
+    # EVIDENCE:<file> -> url) replace their Gmail link. Ids and amounts never depend on the link.
+    _filed = json.load(open(os.path.join(a.inv, "drive-filing.json"))) if os.path.exists(os.path.join(a.inv, "drive-filing.json")) else {}
+    for e in entries:
+        k = e["docId"] if e["link_kind"] == "gmail" else next((f for f in e["flags"].split(";") if f.startswith("EVIDENCE:")), "")
+        if e["link_kind"] in ("gmail", "evidence") and k in _filed: e["doc_url"], e["link_kind"] = _filed[k]["url"], "drive"
     w("entries.csv", entries); json.dump(entries, open(os.path.join(a.out, "entries.json"), "w"), indent=0)
 
     # list 1: receipt total vs the rows it explains
