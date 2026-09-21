@@ -1517,3 +1517,14 @@ advances, none orphaned; Newport's Properties note reads under contract. Path 2 
 
 Left before cutover (`docs/cutover-runbook.md` §0): the rehearsal Run of `migrationRegisterAdvances` in
 staging (one rebuild per property - pushed, never run), then cutover day.
+
+## 50 · Advances rehearsal in staging (2026-09-21, 15:40-15:47 CT) - the last untried cutover step
+
+Paul ran `migrationRegisterAdvances` (one tab rebuild per property instead of one per advance; pushed on
+09-18, never run). Log: `RESET advances: 66 Journal line(s) removed`, 33 lines `-> adv-manual-…`, none FAILED,
+eight tabs rebuilt; **7 min 34 s** (the old way: 14 min) - registering is ~11 s an advance, the rebuilds ~10 s
+each; inside Workspace's 30-minute limit. Tie-out from the snapshot fetched 15:55:26 CT: 33 advances, none
+orphaned, 29 open and 4 repaid (Granite x3, Sparkling), account 1000 = **$1,863,647.50**; the migration lane
+untouched - 1,048 entries, $240,844.35, $0.00 on all ten, ids and links identical, 922 linked, debits =
+credits ($2,302,255.27), `migration-journal-tieout.py` exit 0. Every step of `docs/cutover-runbook.md` has
+now run in staging; §0 of the runbook is all checked but the day's own items (fresh `clasp login`, tests).

@@ -6,14 +6,14 @@ Ids are in `docs/phase0-spec.md` §10 and `CLAUDE.md`.
 
 ## 0 · Before the day (all must be true)
 
-- [ ] Drive filing finished: `node scripts/migration-file-docs.mjs --dry` shows 0 to file; every key in
+- [x] Drive filing finished (2026-09-21, audit §49): `node scripts/migration-file-docs.mjs --dry` shows 0 to file; every key in
       `drive-filing.json` has a `url` (missing ones recovered by exact-name lookup in Drive, audit §46).
-- [ ] The pvb421@ message `gm-19c3e95a4b9ed901` read and filed, or knowingly left on its Gmail link.
-- [ ] Final staging pass tied out on both paths with the Drive links (`scripts/migration-journal-tieout.py`
+- [x] The two pvb421@ orders forwarded by Paul, read and filed (audit §48-§49).
+- [x] Final staging pass (11) tied out on both paths with the Drive links (`scripts/migration-journal-tieout.py`
       exit 0; `migration-audit-indep.py` residuals = register lines) and recorded in `rows/journal-tieout.json`.
-- [ ] **Rehearsed in staging, once:** `migrationRegisterAdvances` as it now is - one tab rebuild per property
-      instead of one per advance (built in, no argument; pushed, never run; the old way took 14 min). Check after: 33 advances, none orphaned,
-      account 1000 = $1,863,647.50, then `migrationRunStaging` and a clean tie-out.
+- [x] **Rehearsed in staging 2026-09-21 (audit §50):** `migrationRegisterAdvances` - 7 min 34 s (about 11 s an
+      advance, then one rebuild per property; fine under Workspace's 30-minute limit - do not interrupt it). After
+      it: 33 advances, none orphaned, account 1000 = $1,863,647.50, the 1,048 entries untouched, tie-out exit 0.
 - [ ] `npx clasp login` fresh that morning (P - it expires every few days).
 - [ ] Repo committed; `npm test` green; `node scripts/build-gs.mjs` leaves `lib.gs` unchanged.
 
@@ -46,7 +46,8 @@ Not needed any more: Newport's settlement date (under contract, not closed - aud
 7. **P** - Run `migrationRegisterProperties`. Check: the 11 migration rows are on Properties (the
    `TEST Phase 1 gate` row and its voided Advances row are Paul's to delete by hand first - `clearBooks`
    only clears the Journal).
-8. **P** - Run `migrationRegisterAdvances`. Check: 33 Advances rows, none orphaned.
+8. **P** - Run `migrationRegisterAdvances` (about 8 minutes - let it finish). Check: 33 lines `-> adv-manual-…`,
+   none FAILED.
 9. **P** - Run `migrationPostRows`; if the log ends "run again", run it again until `left=0`.
    (`migrationRunStaging` refuses a workbook not named STAGING - by design.)
 
