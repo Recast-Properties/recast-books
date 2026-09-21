@@ -75,3 +75,18 @@ for d,es,t,s in sorted(ex['rows < total, some row matches no single item'],key=l
         e=es[0]; n+=1
         if n<=40: print(f"  {e['date']} {e['payee'][:22]:22s} {s/100:>9.2f} [{e['match']}] -> {ven(env[d])[:30]:30s} {dat(env[d])} total {t/100:>9.2f} items={sorted(items(env[d]))[-4:]}")
 print('  count',n)
+
+# --- 2026-09-21: rows hung on a receipt days away that are no item on it (the coincidental subset sums) ---
+import itertools
+far=[]
+for d,rs in bydoc.items():
+    if d not in env or len(rs)<2: continue
+    its=[abs(it.get('amount_cents') or 0) for en in (env[d].get('model') or {}).get('entries') or [] for it in en.get('items') or []]
+    if not its or not dat(env[d]): continue
+    ok=set(its)|{a+b for a,b in itertools.combinations(its,2)}|{a+b+c for a,b,c in itertools.combinations(its,3)}|{tot(env[d]) or 0}
+    for e in rs:
+        a=int(e['amount_cents'])
+        if e['match']=='strong' and dd(e['date'],dat(env[d]))>3 and not any(abs(a-o)<=2 for o in ok):
+            far.append((d,dat(env[d]),e['date'],e['payee'][:14],e['description'][:24],a/100))
+print('\nSTRONG ROWS MORE THAN 3 DAYS FROM THEIR RECEIPT THAT EQUAL NO ITEM, PAIR OR TRIPLE OF ITEMS ON IT:',len(far),'(contractor invoices paid in parts are expected here)')
+for x in sorted(far): print('  ',x)

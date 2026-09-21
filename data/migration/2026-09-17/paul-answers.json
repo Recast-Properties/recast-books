@@ -512,6 +512,24 @@
    "row": "104 Ashburne 2026-04-01 Home Depot 350.28",
    "docId": "gm-19d54f9e0010bc8c",
    "why": "Claude 2026-09-18 (audit §38): the row is this receipt's pre-tax subtotal to the cent ($350.28; total $379.18 with $28.90 tax), stair nose and moldings, two days apart. It is the purchase Armandre Vega made in cash and Paul repaid by Zelle on 04-03 ($379.18, 'materials for ashburne')"
+  },
+  {
+   "key": "PROP-269",
+   "row": "104 Ashburne 2026-04-10 Home Depot 189.57",
+   "docId": "gm-19fed30f7359ded5",
+   "why": "Claude 2026-09-21 (audit §39): Home Depot receipt of 08/10 through the Ashburne mailbox: Greydon pull-down kitchen faucet $199.00 less Pro pricing $23.88 = $175.12 + tax = $189.57, the row to the cent. The row is typed 04-10 - same day of the month, the last row of the Kitchen block, and no April receipt has a faucet; the month looks like a slip (date left as typed, put to Paul)"
+  },
+  {
+   "key": "PROP-427",
+   "row": "104 Ashburne 2026-04-03 Home Depot 113.64",
+   "docId": "gm-19d54141d52bf785",
+   "why": "Claude 2026-09-21 (audit §39): Lowe's receipt of 04-03 for one item, a front-entry keyed handleset, $113.64 - the row to the cent on the same day; the row says Home Depot. It had been hung on a Home Depot receipt of 04-02 (caulk, washers, grass seed) by a coincidental subset sum"
+  },
+  {
+   "key": "PROP-384",
+   "row": "104 Ashburne 2026-04-02 Home Depot 205.06",
+   "docId": "gm-19d4ed506ec83c9a",
+   "why": "Claude 2026-09-21 (audit §39): Home Depot receipt of 04-02: 3 x 40 lb tall fescue seed, $205.04 with its tax share - the Grass Seed row of 04-02 is $205.06 (two cents, the rounding of the tax share)"
   }
  ],
  "no_link": [

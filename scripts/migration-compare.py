@@ -11,7 +11,7 @@ Deterministic. No model, no network, writes only under the given --out dir.
   python3 scripts/migration-compare.py --env <dir of envelopes> \
       --inv data/migration/2026-09-17 --out data/migration/2026-09-17/comparison
 """
-import argparse, collections, csv, datetime, glob, json, os, re
+import itertools, argparse, collections, csv, datetime, glob, json, os, re
 
 def money(c): return f"{c/100:,.2f}"
 def pd(s):
@@ -212,9 +212,22 @@ def main():
         if d in used_docs or not e["total"] or e["verdict"] == "dismiss" or survivor(d) != d: continue
         target = e["total"] - placed[d]
         if target <= 0: continue
-        pool = [(r["_k"], r["cents"]) for r in rest if row_doc.get(r["_k"], ("", "weak"))[1] != "strong" and r["cents"] > 0 and vendor_match(r["payee"], e) and not wrong_property(r, e)
-                and pd(r["date"]) and pd(e["date"]) and abs((pd(r["date"]) - pd(e["date"])).days) <= 45][:18]
+        near_ = lambda days: [(r["_k"], r["cents"]) for r in rest if row_doc.get(r["_k"], ("", "weak"))[1] != "strong" and r["cents"] > 0 and vendor_match(r["payee"], e) and not wrong_property(r, e)
+                              and pd(r["date"]) and pd(e["date"]) and abs((pd(r["date"]) - pd(e["date"])).days) <= days]
+        # A big-box vendor has dozens of small unplaced rows in 45 days, and some subset of them will always
+        # equal any total: the 2026-09-21 audit found 19 Home Depot / Lowe's rows hung on three receipts weeks
+        # away, none of them an item on the receipt (the old [:18] cut made the coincidence look unique).
+        # With more than 8 candidates the rows must be within 3 days of the receipt; past 18, no guess at all.
+        pool = near_(45); busy = len(pool) > 8
+        if busy: pool = near_(3)
+        if len(pool) > 18: continue
         sets = exact_sets(sorted(pool, key=lambda x: -x[1]), target, need=1 if placed[d] else 2)
+        # When the read itemised the whole receipt, every row of the set must be one of its items (or two or
+        # three of them typed as one row) - a sum that merely equals the total is a coincidence.
+        li = [abs(l["cents"]) for l in e["lines"] if l.get("cents")]
+        if busy and sets and len(li) >= 2 and abs(sum(li) - e["total"]) <= 2:   # only where coincidence is likely: a contractor's invoice is split by payment, not by item (Shalom)
+            ok = set(li) | {a_ + b_ for a_, b_ in itertools.combinations(li, 2)} | {a_ + b_ + c_ for a_, b_, c_ in itertools.combinations(li, 3)}
+            sets = [st for st in sets if all(any(abs(c_ - o_) <= 2 for o_ in ok) for _k, c_ in st)]
         if len(sets) == 1:
             for k, _c in sets[0]: row_doc[k] = (d, "strong"); placed[d] += _c
 

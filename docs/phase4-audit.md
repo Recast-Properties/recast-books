@@ -1197,3 +1197,32 @@ nine against that run, payees, dates and links identical, 896 linked, 33 advance
 Vega $379.18 is gone, Berrett reads 06-30, VistaPrint 06-11 is in. Against the current dry run ($240,667.95)
 the one difference is C-29 itself (Stair Moldings $350.28 vs $379.18, one txn id, Ashburne -$28.90). The
 staging project does hold the C-29 data now (checked with `clasp pull`); the next Run brings it.
+
+## 39 · Offline pass, 2026-09-21: 26 false links from a coincidental-sum rule, found and removed
+
+Working the Home Depot / Lowe's receipts left on list 4 (offline - all 968 envelopes are now cached in the
+git-ignored `.cache/envelopes/env/`), the Lowe's receipt of 04-03 for a $113.64 handleset pointed at a row
+already "strongly" linked elsewhere: to a Home Depot receipt of 04-02 whose four items are caulk, two washers
+and grass seed. Six rows hung on that receipt - an angle stop of 03-11, wire connectors of 02-19 (the one the
+handoff said belonged on d3b6197026) - and summed to its $271.24 to the cent. **Cause:** the matcher's
+"rows that together equal a receipt / the remainder of a receipt" rule (§24) drew from every unplaced
+same-vendor row within 45 days, cut the pool to its first 18, and accepted a subset when it was the only one
+found. For a contractor with three rows that is sound (Shalom Granite); for Home Depot, with dozens of small
+rows, some subset always equals any total, and the cut made the coincidence look unique. The link audit
+counted "rows sum = receipt total" as its best case, so it never looked.
+
+**Fix (`migration-compare.py`):** when more than 8 rows are candidates the set must lie within 3 days of the
+receipt, and when the read itemised the whole receipt each row must equal an item (or two or three of them);
+past 18 candidates, no guess. Contractor invoices paid in parts are untouched. `migration-audit-links.py`
+gained a section that lists strong rows more than 3 days from their receipt that equal nothing on it (now:
+Shalom's second payment only, which is right).
+
+**Effect, read link by link:** 26 links removed, all on four receipts (Home Depot 03-01 $207.19 floor
+protection + tape; Lowe's 03-16 $465.73 casing and trim boards; Home Depot 04-02 $271.24; Home Depot 04-06
+$181.52, an unread e-receipt) - none of the 26 rows is an item on the receipt it sat on; they return to the
+confirm / no-document lists. Nothing gained or moved by the rule. Three rows then linked by hand to their real
+receipt: Front Door Lock Set $113.64 (typed "Home Depot"; it is the Lowe's handleset of 04-03), Grass Seed
+$205.06 (the 04-02 receipt's $205.04 line), Kitchen Faucet $189.57 (Home Depot 08/10, to the cent with its Pro
+discount; the row is typed 04-10 - the month looks like a slip, left as typed for Paul). **Linked: 873**
+(it was 896 with the false ones). Amounts, ids and totals unchanged: 1,045 entries, $240,667.95. Lists:
+differences 119, confirm 79, no document 99, list 4: 60.
