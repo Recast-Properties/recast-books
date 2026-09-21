@@ -1638,6 +1638,10 @@
   {
    "rows": "104 Ashburne / Pool, Atlas Pools 03-06 $2,025.00, 03-13 $4,025.00, 03-29 $2,177.00 - each $25.00 above what Atlas's portal shows it received",
    "said": "Paul 2026-09-18: 'those were most likely wire transfer charges.' Rows kept as typed; the three $25.00 wire fees show on the bank statements in Phase 3"
+  },
+  {
+   "rows": "469 Brushwood, Home Depot 'Stain' $41.55 on 09-06 and again on 09-07",
+   "said": "Paul 2026-09-21: 'i used two cans of stain at brushwood and returned one' - three cans bought, two used: both rows are right. The refund of 09-08 (-$41.55) is the third can, never entered (D-028)"
   }
  ],
  "no_document_accepted": [
@@ -2206,6 +2210,10 @@
   {
    "docId": "gm-19c1fc34982c2b29",
    "why": "Claude 2026-09-21 (audit §40): Floor & Decor e-receipt notice of 02-02: the receipt is a linked image the read could not open, and no Floor & Decor row is within a week of it. PARKED for Phase 3"
+  },
+  {
+   "docId": "dry-gm-1a0818a010ad633c",
+   "why": "Paul 2026-09-21: 'i used two cans of stain at brushwood and returned one.' Home Depot refund of 09-08, deck stain -$41.55: the return of a third can that was never entered (D-028); the two Stain rows stay. Nothing posts"
   }
  ],
  "rename_payee": [

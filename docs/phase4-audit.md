@@ -1272,3 +1272,7 @@ largest single job; (5) cutover day: production writer push and deploy, Newport'
 `clearBooks` → register properties and advances → the same pass → tie-out → replay of the live receipts held
 since 09-11 → `WRITER_URL` back to production → old workbook re-exported, diffed against the 09-17 snapshot
 and set read-only.
+
+**List 4 is empty (2026-09-21).** Brushwood stain - Paul: "i used two cans of stain at brushwood and returned
+one": three bought, two used, so both $41.55 rows stand (`confirmed_as_is`) and the 09-08 refund is the third
+can, never entered. Entries unchanged: 1,047, $240,825.35. Next: list 1 (differences), then list 2.
