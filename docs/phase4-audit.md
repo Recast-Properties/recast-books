@@ -1365,3 +1365,40 @@ and comparing byte for byte** (Code, Menu, lib, MigrationData identical; 1,048 t
 still holds pass 9 ($240,639.05). `CLAUDE.md`'s status block was rewritten to the current state and
 `HANDOFF-2026-09-21.md` is the prompt for the next session: one Run + tie-out, then item 7 (Drive filing, with
 `evidence/`), then cutover day.
+
+## 45 · Staging pass 10, 2026-09-21 12:05 CT - the finished lists, tied out; item 7 built
+
+The staging project was pulled and compared byte for byte with the repo (writer, `MigrationData.gs`, 1,048
+txn ids) minutes before Paul ran `migrationRunStaging`, so no push race this time. Tie-out from the
+`books-cache` snapshots (Journal fetched 12:05:55 CT, all lines posted 12:05:17), two paths:
+
+1. `scripts/migration-journal-tieout.py` (new; the ad-hoc check of passes 1-9 made a script, proven first
+   against pass 9, which it reproduced at $240,639.05 with C-29 … C-32 as the only differences): **1,048
+   entries, $240,844.35, $0.00 on all ten properties** (Ashburne $177,489.44, overhead $26,756.49, Granite
+   $12,204.87, Mesa $9,648.00, Bowling Green $4,807.93, Sparkling $3,179.78, Newport $3,089.17, Brushwood
+   $1,916.80, Cost Recapture $1,607.87, Green Acres $144.00); txn ids identical to `rows/entries.json`; per
+   txn, amount, date, property, payee, account and `doc_url` all equal the dry run - 0 differences; every txn
+   balanced, debits = credits ($2,302,255.27); **920 linked**; 33 advances, none orphaned.
+2. `scripts/migration-audit-indep.py` re-parse of the xlsx vs the Journal on date + amount: 1,006 of the
+   1,027 numeric old cells match; the 21 left on the old side are C-3, C-5 … C-9, C-12, C-15, C-17, C-18,
+   C-20, C-27, C-29, C-30, C-32 and two cells that are not rows (Granite's TXU account number, Sparkling's
+   J34 `=SUM`); the 42 on the new side are those corrections at their new date or amount, the additions
+   (C-10, C-11, C-16, C-19, C-21 … C-26, C-28, C-31, C-32's Cost Recapture line) and the four rows of the
+   old Cost Recapture tab. Every difference is a register line. `rows/journal-tieout.json` records it.
+
+**Staging = the dry run.** Open item 1 is closed.
+
+**Item 7, Drive filing - built, not run.** Measured: 410 linked documents carry a Gmail link; **394 have
+their envelope and bytes in the `books-docs` store** (180 with attachments - 212 files, 188 MB; 214 are
+body-only mail), **16 were never read** (no bytes anywhere but Gmail), and `evidence/` holds 12 files.
+`scripts/migration-file-docs.mjs` reuses the live path - bytes from `att/<docId>/<i>`, the writer's
+`storeDocument`, `driveFileName`, folder `[year, property]` of the document's first entry - and files every
+document's email as a `.txt` as well (subject, sender, Paul's note above a forward: for body-only mail and
+cash labor that text is the document); `evidence/` goes to `Migration evidence/`. It writes
+`data/migration/2026-09-17/drive-filing.json` (docId or `EVIDENCE:<file>` → Drive URL) after every document
+and skips what is there, so it can stop and resume; it refuses any writer but staging's without
+`--production`. `migration-rows.py` takes a filed document's Drive URL from that map - checked: with no map
+the dry run is byte-identical; with one, only `doc_url` / `link_kind` change (ids and amounts never depend
+on the link). Drive file URLs survive a move, so the folders can be dragged under the production root after
+cutover without touching the Journal. After the filing: rerun from `migration-rows.py`, push, one more Run
+and tie-out (links only).

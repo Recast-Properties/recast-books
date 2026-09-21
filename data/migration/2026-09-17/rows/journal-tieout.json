@@ -1,26 +1,39 @@
 {
- "pass": 9,
- "ran": "2026-09-18 19:17-19:20",
- "journal_snapshot": "books-cache tab/Journal fetched 2026-09-18 19:22:22",
+ "pass": 10,
+ "ran": "2026-09-21 12:05 CT (posted_at 12:05:17)",
+ "journal_snapshot": "books-cache tab/Journal fetched 2026-09-21 10:05:55 local (12:05:55 CT)",
  "by_property": {
-  "OVERHEAD": 2674309,
+  "OVERHEAD": 2675649,
   "881 Newport": 308917,
   "469 Brushwood": 191680,
   "366 Mesa": 964800,
-  "136 Bowling Green": 480893,
-  "104 Ashburne": 17746054,
+  "136 Bowling Green": 480793,
+  "104 Ashburne": 17748944,
   "1616 Granite": 1220487,
   "280 Sparkling": 317978,
-  "Cost Recapture": 158787
+  "Cost Recapture": 160787,
+  "413 Green Acres": 14400
  },
- "entries": 1045,
- "cents": 24063905,
+ "entries": 1048,
+ "cents": 24084435,
  "difference_cents": 0,
+ "by_property_difference": {},
  "txn_ids_identical_to_dry_run": true,
- "debits_equal_credits_cents": 230204997,
- "linked": 896,
+ "per_txn_differences": [],
+ "per_txn_checked": [
+  "amount",
+  "date",
+  "property",
+  "payee",
+  "account",
+  "doc_url",
+  "balanced"
+ ],
+ "debits_equal_credits_cents": 230225527,
+ "linked": 920,
  "advances": 33,
  "advance_orphans": 0,
- "independent_reparse": "pass 8's residuals plus C-27 (redate), C-28, minus the retracted C-26 materials entry",
- "note": "ran at 19:17:39 on the retraction push (commit 58d5506, dry run $240,639.05) - 90 seconds before C-29 was pushed (19:19). Ties to that dry run to the cent; against the current dry run ($240,667.95) the only difference is C-29: Stair Moldings 350.28 vs 379.18, one txn id. The retracted Vega $379.18 entry is gone; Berrett is 06-30; VistaPrint 06-11 is in"
+ "independent_reparse": "1,027 numeric old cells vs 1,048 entries on date + amount: 1,006 match. Old side 21: C-3, C-5, C-6, C-7, C-8, C-9 x3, C-12, C-15, C-17, C-18, C-20, C-27, C-29, C-30, C-32 x3, plus two cells that are not rows (Granite's TXU account number, Sparkling J34 =SUM). New side 42: those corrections at their new date or amount, the additions C-10 x4, C-11 x4, C-16, C-19 x2, C-21 x2, C-22, C-23 x5, C-24, C-25 x3, C-26, C-28, C-31, C-32's Cost Recapture line, and the four rows of the old Cost Recapture tab (which the independent parser does not read)",
+ "tool": "scripts/migration-journal-tieout.py (first proven against pass 9: reproduced 24063905 and listed only C-29 ... C-32 as differences)",
+ "note": "the staging project was pulled and compared byte for byte with the repo minutes before the Run (writer + MigrationData, 1,048 txn ids)"
 }
