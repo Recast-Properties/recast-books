@@ -1528,3 +1528,33 @@ orphaned, 29 open and 4 repaid (Granite x3, Sparkling), account 1000 = **$1,863,
 untouched - 1,048 entries, $240,844.35, $0.00 on all ten, ids and links identical, 922 linked, debits =
 credits ($2,302,255.27), `migration-journal-tieout.py` exit 0. Every step of `docs/cutover-runbook.md` has
 now run in staging; §0 of the runbook is all checked but the day's own items (fresh `clasp login`, tests).
+
+## 51 · CUTOVER, 2026-09-21: the real Journal is born in one pass and ties out on both paths
+
+Run from `docs/cutover-runbook.md`, one step at a time with Paul.
+1. **Freeze and diff.** Paul stopped typing and downloaded the old workbook (`data/migration/
+   cutover-2026-09-21/`). Cell by cell against the 09-17 snapshot: 130 changed cells - interest and summary
+   formulas, Paul's two fixes already in the migration (`450,00` → 450.00; "Paul Paid" unticked on Lupe's
+   $160), and three rows written by the OLD poller: the live Uber $33.30 of 09-18 (live lane) and **two
+   duplicates Claude caused** - the pvb421 orders forwarded to receipts@ for filing were also itemised by the
+   old poller into RECAST BIZ / Materials ($249.98, $10.81; both already on the Ashburne tab). Not migrated;
+   Paul may delete them. **Delta to migrate: none.**
+2. **Backup.** "Recast Books BACKUP 2026-09-21" (Drive id `11gNaxtT…M1kM`), confirmed before anything changed.
+3. **Production writer** (Paul: "go"): pushed with `MigrationData.gs`, verified by pull (byte-identical, 1,048
+   ids), `clasp deploy -i AKfycbxNisU…` → @2. Production had been on the 09-16 code - no migration functions.
+4. **The pass, Paul's Runs in the production editor:** `clearBooks` behind `CLEAR_CONFIRM` - `CLEARED Journal:
+   96 row(s) removed from "Recast Books"`; `migrationRegisterProperties` (10 created, Granite updated);
+   `migrationRegisterAdvances` (33, none failed, 6 min); `migrationPostRows` - **`entries=1048 already=0
+   posted=1048 left=0 - tabs rebuilt`**.
+5. **Flip before the tie-out.** `WRITER_SECRET` is the same in both projects (Paul compared them); `WRITER_URL`
+   set to the production deployment (`--context production`), `npm run deploy` (Paul). The cache served the real
+   workbook from 16:42 CT.
+6. **Tie-out on production.** Path 1 (`migration-journal-tieout.py`, exit 0): **1,048 entries, $240,844.35,
+   $0.00 on all ten properties**, ids / amounts / dates / payees / accounts / links identical to the dry run,
+   debits = credits ($2,302,255.27), **922 linked, every link a Drive file**, 33 advances, none orphaned, account
+   1000 = $1,863,647.50. Every migration line equals staging pass 11 on eleven fields. Path 2 (independent
+   re-parse): every residual a register line, nothing unexplained. `rows/journal-tieout.json` holds both.
+7. **Cleaned up.** Production pushed again without `MigrationData.gs` (verified by pull), web app → @3.
+
+**Phase 4's expense side is in the real books.** Open after the pass: the held live receipts and the Inbox's
+history leftovers (runbook §5), closing the old workbook (§6), and the sale side in Phase 5 (D-033).

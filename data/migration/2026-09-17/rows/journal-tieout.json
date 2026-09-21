@@ -1,7 +1,8 @@
 {
- "pass": 11,
- "ran": "2026-09-21 15:32-15:34 CT (Paul's log: entries=1048 already=0 posted=1048 left=0 - tabs rebuilt)",
- "journal_snapshot": "books-cache tab/Journal fetched 2026-09-21 15:35:29 CT",
+ "workbook": "PRODUCTION - Recast Books (12QVyxm3KnLD7CDC8mFAPd5ulZuRXRluNDi4qK4BBxKM)",
+ "pass": "cutover",
+ "ran": "2026-09-21 CT: clearBooks 16:16 (96 rows removed), migrationRegisterProperties 16:17-16:19, migrationRegisterAdvances 16:20-16:26 (33), migrationPostRows 16:31-16:33 (entries=1048 already=0 posted=1048 left=0)",
+ "journal_snapshot": "books-cache tab/Journal fetched 2026-09-21 16:42:47 CT, after WRITER_URL was set to the production deployment and the site redeployed",
  "by_property": {
   "OVERHEAD": 2675649,
   "881 Newport": 344317,
@@ -32,10 +33,50 @@
  "debits_equal_credits_cents": 230225527,
  "linked": 922,
  "links_on_drive": 922,
- "links_on_gmail": 0,
  "advances": 33,
  "advance_orphans": 0,
- "independent_reparse": "1,005 of 1,027 numeric old cells match on date + amount. Old side 22: pass 10's 21 plus the Kitchen Faucet at its typed date (C-33). New side 43: pass 10's 42 plus C-33 at 08-10; Newport's C-19 and C-25 lines are now on its own tab at 07-13 / 07-30. Nothing unexplained",
- "tool": "scripts/migration-journal-tieout.py",
- "note": "pushed and verified by pull before the Run; MigrationData.gs holds no mail.google.com link"
+ "account_1000": 186364750,
+ "identical_to_staging_pass_11": "every migration line equal on txn_id, line, date, account, debit, credit, property, payee, doc_url, trade, paid_from",
+ "independent_reparse": "1,005 of 1,027 old cells match on date + amount; 22 old-side and 43 new-side residuals, every one a register line (C-3 ... C-33) or a non-row cell; nothing unexplained",
+ "staging_pass_11": {
+  "pass": 11,
+  "ran": "2026-09-21 15:32-15:34 CT (Paul's log: entries=1048 already=0 posted=1048 left=0 - tabs rebuilt)",
+  "journal_snapshot": "books-cache tab/Journal fetched 2026-09-21 15:35:29 CT",
+  "by_property": {
+   "OVERHEAD": 2675649,
+   "881 Newport": 344317,
+   "469 Brushwood": 191680,
+   "366 Mesa": 964800,
+   "136 Bowling Green": 480793,
+   "104 Ashburne": 17748944,
+   "1616 Granite": 1220487,
+   "280 Sparkling": 317978,
+   "Cost Recapture": 125387,
+   "413 Green Acres": 14400
+  },
+  "entries": 1048,
+  "cents": 24084435,
+  "difference_cents": 0,
+  "by_property_difference": {},
+  "txn_ids_identical_to_dry_run": true,
+  "per_txn_differences": [],
+  "per_txn_checked": [
+   "amount",
+   "date",
+   "property",
+   "payee",
+   "account",
+   "doc_url",
+   "balanced"
+  ],
+  "debits_equal_credits_cents": 230225527,
+  "linked": 922,
+  "links_on_drive": 922,
+  "links_on_gmail": 0,
+  "advances": 33,
+  "advance_orphans": 0,
+  "independent_reparse": "1,005 of 1,027 numeric old cells match on date + amount. Old side 22: pass 10's 21 plus the Kitchen Faucet at its typed date (C-33). New side 43: pass 10's 42 plus C-33 at 08-10; Newport's C-19 and C-25 lines are now on its own tab at 07-13 / 07-30. Nothing unexplained",
+  "tool": "scripts/migration-journal-tieout.py",
+  "note": "pushed and verified by pull before the Run; MigrationData.gs holds no mail.google.com link"
+ }
 }
