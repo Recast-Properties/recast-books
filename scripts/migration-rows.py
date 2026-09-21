@@ -224,6 +224,10 @@ def main():
         L1.append({"docId": d, "doc_date": rs[0]["doc_date"], "vendor": rs[0]["doc_vendor"], "receipt": money(tot), "old_rows": len(rs), "old_rows_total": money(old), "gap": money(tot - old),
                    "kind": "receipt > rows: return or omitted item?" if tot > old else "rows > receipt: another receipt, or a typed amount to check",
                    "items_that_sum_to_gap": (F.get(d) or {}).get("return_items", ""), "rows": " | ".join(f"{x['tab']}/{x['block']} {x['payee']} {money(int(x['cents']))}" for x in rs)[:300], "link": rs[0]["doc_url"] or rs[0]["gmail_url"]})
+    # paul-answers.json "differences_settled": a receipt whose difference has been read and explained (rounding,
+    # items Paul left out, a twin copy, a registered correction), each with its reason - it leaves the list.
+    _ds = {x["docId"] for x in answers.get("differences_settled", [])}
+    L1 = [x for x in L1 if x["docId"] not in _ds]
     L1.sort(key=lambda x: -abs(float(x["gap"].replace(",", ""))))
     w("list-1-differences.csv", L1)
     w("list-2-confirm-match.csv", [{"date": r["date"], "tab": r["tab"], "block": r["block"], "payee": r["payee"], "desc": r["desc"], "amount": money(int(r["cents"])), "candidate_vendor": r["doc_vendor"],

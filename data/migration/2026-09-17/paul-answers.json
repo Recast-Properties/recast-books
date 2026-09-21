@@ -590,6 +590,138 @@
    "row": "RECAST BIZ 2026-02-18 Home Depot 12.96",
    "docId": "gm-19c768d3b6197026",
    "why": "Claude 2026-09-21 (audit §41): the Empire 12 in. rafter square, $12.96, is the last item of Home Depot receipt 02-19 $390.12 - a square, as the row says. It had been placed on the 02-17 receipt, whose $12.96 line is a tub drain wrench. With it the receipt's twelve items are all rows: $390.11 of $390.12"
+  },
+  {
+   "key": "BIZ-78",
+   "row": "RECAST BIZ 2026-06-21 VistaPrint 170.99",
+   "docId": "gm-19eea46b8e933be6",
+   "why": "Claude 2026-09-21 (audit §42): VistaPrint's order confirmation of 06-21 (paul@, never read; listed amounts $157.96, $136.43, $294.39, $52.98, $21.71, $369.08): the two rows of 06-21 are its two items with 8.25% tax - 157.96 -> $170.99, 136.43 -> $147.69. The yard-signs row had been matched to the 05-13 order, which also has a $136.43 line. The order's $52.98 shipping is in neither row (under the $100 bar, left as typed)"
+  },
+  {
+   "key": "BIZ-79",
+   "row": "RECAST BIZ 2026-06-21 VistaPrint 147.69",
+   "docId": "gm-19eea46b8e933be6",
+   "why": "Claude 2026-09-21 (audit §42): VistaPrint's order confirmation of 06-21 (paul@, never read; listed amounts $157.96, $136.43, $294.39, $52.98, $21.71, $369.08): the two rows of 06-21 are its two items with 8.25% tax - 157.96 -> $170.99, 136.43 -> $147.69. The yard-signs row had been matched to the 05-13 order, which also has a $136.43 line. The order's $52.98 shipping is in neither row (under the $100 bar, left as typed)"
+  },
+  {
+   "key": "PROP-695",
+   "row": "1616 Granite RECONCILED 2026-05-30 Home Depot 1.87",
+   "docId": "gm-19e8f7d279f40059",
+   "why": "Claude 2026-09-21 (audit §42): the Orbit mushroom bubbler is the second line of the Home Depot receipt of 05-30 ($45.14; $1.85 with its tax share, typed $1.87) that the day's other row is on; the matcher had offered a Lowe's receipt"
+  },
+  {
+   "key": "BIZ-26",
+   "row": "RECAST BIZ 2026-02-10 Lowes 25.96",
+   "docId": "gm-19c484998d6bf67a",
+   "why": "Claude 2026-09-21 (audit §42): the only Lowe's receipt of that day, with room for the row. (Same rule as the 14 rows linked on 09-18: one same-vendor receipt that day.)"
+  },
+  {
+   "key": "PROP-25",
+   "row": "881 Newport 2026-07-01 Home Depot 7.56",
+   "docId": "gm-19f237650c695b39",
+   "why": "Claude 2026-09-21 (audit §42): the only Home Depot receipt of that day, with room for the row. (Same rule as the 14 rows linked on 09-18: one same-vendor receipt that day.)"
+  },
+  {
+   "key": "PROP-29",
+   "row": "881 Newport 2026-07-01 Home Depot 6.47",
+   "docId": "gm-19f237650c695b39",
+   "why": "Claude 2026-09-21 (audit §42): the only Home Depot receipt of that day, with room for the row. (Same rule as the 14 rows linked on 09-18: one same-vendor receipt that day.)"
+  },
+  {
+   "key": "PROP-31",
+   "row": "881 Newport 2026-07-01 Home Depot 10.80",
+   "docId": "gm-19f237650c695b39",
+   "why": "Claude 2026-09-21 (audit §42): the only Home Depot receipt of that day, with room for the row. (Same rule as the 14 rows linked on 09-18: one same-vendor receipt that day.)"
+  },
+  {
+   "key": "PROP-34",
+   "row": "881 Newport 2026-07-01 Home Depot 25.56",
+   "docId": "gm-19f237650c695b39",
+   "why": "Claude 2026-09-21 (audit §42): the only Home Depot receipt of that day, with room for the row. (Same rule as the 14 rows linked on 09-18: one same-vendor receipt that day.)"
+  },
+  {
+   "key": "PROP-77",
+   "row": "469 Brushwood 2026-09-06 Home Depot 41.55",
+   "docId": "gm-1a07d2aab4818b57",
+   "why": "Claude 2026-09-21 (audit §42): the only Home Depot receipt of that day, with room for the row; the receipt's Behr stain line is $83.10 = two cans at $41.55 (Paul: two cans used at Brushwood). (Same rule as the 14 rows linked on 09-18: one same-vendor receipt that day.)"
+  },
+  {
+   "key": "PROP-120",
+   "row": "136 Bowling Green 2026-06-26 Home Depot 8.04",
+   "docId": "gm-19f059f5de8379eb",
+   "why": "Claude 2026-09-21 (audit §42): the only Home Depot receipt of that day, with room for the row. (Same rule as the 14 rows linked on 09-18: one same-vendor receipt that day.)"
+  },
+  {
+   "key": "PROP-236",
+   "row": "104 Ashburne 2026-02-20 Home Depot 44.99",
+   "docId": "gm-19c7be8f6b3c531b",
+   "why": "Claude 2026-09-21 (audit §42): the only Home Depot receipt of that day, with room for the row; with it the receipt is explained to the cent ($90.09 + $44.99 of $135.07). (Same rule as the 14 rows linked on 09-18: one same-vendor receipt that day.)"
+  },
+  {
+   "key": "PROP-265",
+   "row": "104 Ashburne 2026-02-03 Lowes 91.99",
+   "docId": "gm-19c54bfd346362be",
+   "why": "Claude 2026-09-21 (audit §42): the only Lowe's receipt of that day, with room for the row; the receipt's Kerdi shower niche line is $183.98 for two - this row is one of them. (Same rule as the 14 rows linked on 09-18: one same-vendor receipt that day.)"
+  },
+  {
+   "key": "PROP-330",
+   "row": "104 Ashburne 2026-03-21 Lowes 98.42",
+   "docId": "gm-19d11a93764263f8",
+   "why": "Claude 2026-09-21 (audit §42): the only Lowe's receipt of that day, with room for the row. (Same rule as the 14 rows linked on 09-18: one same-vendor receipt that day.)"
+  },
+  {
+   "key": "PROP-456",
+   "row": "104 Ashburne 2026-03-22 Home Depot 307.17",
+   "docId": "gm-19d16d3ec604edb7",
+   "why": "Claude 2026-09-21 (audit §42): the only Home Depot receipt of that day, with room for the row. (Same rule as the 14 rows linked on 09-18: one same-vendor receipt that day.)"
+  },
+  {
+   "key": "PROP-457",
+   "row": "104 Ashburne 2026-03-13 Lowes 60.81",
+   "docId": "gm-19ce7245dbb4ed86",
+   "why": "Claude 2026-09-21 (audit §42): the only Lowe's receipt of that day, with room for the row; with it the receipt is explained to the cent ($48.32 + $60.81 of $109.14). (Same rule as the 14 rows linked on 09-18: one same-vendor receipt that day.)"
+  },
+  {
+   "key": "PROP-463",
+   "row": "104 Ashburne 2026-03-22 Home Depot 75.74",
+   "docId": "gm-19d16d3ec604edb7",
+   "why": "Claude 2026-09-21 (audit §42): the only Home Depot receipt of that day, with room for the row. (Same rule as the 14 rows linked on 09-18: one same-vendor receipt that day.)"
+  },
+  {
+   "key": "PROP-485",
+   "row": "104 Ashburne 2026-03-21 Lowes 31.01",
+   "docId": "gm-19d11a93764263f8",
+   "why": "Claude 2026-09-21 (audit §42): the only Lowe's receipt of that day, with room for the row. (Same rule as the 14 rows linked on 09-18: one same-vendor receipt that day.)"
+  },
+  {
+   "key": "PROP-492",
+   "row": "104 Ashburne 2026-03-21 Lowes 86.25",
+   "docId": "gm-19d11a93764263f8",
+   "why": "Claude 2026-09-21 (audit §42): the only Lowe's receipt of that day, with room for the row. (Same rule as the 14 rows linked on 09-18: one same-vendor receipt that day.)"
+  },
+  {
+   "key": "PROP-597",
+   "row": "104 Ashburne 2026-03-22 Home Depot 14.04",
+   "docId": "gm-19d16d3ec604edb7",
+   "why": "Claude 2026-09-21 (audit §42): the only Home Depot receipt of that day, with room for the row. (Same rule as the 14 rows linked on 09-18: one same-vendor receipt that day.)"
+  },
+  {
+   "key": "PROP-598",
+   "row": "104 Ashburne 2026-03-22 Home Depot 37.86",
+   "docId": "gm-19d16d3ec604edb7",
+   "why": "Claude 2026-09-21 (audit §42): the only Home Depot receipt of that day, with room for the row. (Same rule as the 14 rows linked on 09-18: one same-vendor receipt that day.)"
+  },
+  {
+   "key": "PROP-599",
+   "row": "104 Ashburne 2026-03-22 Home Depot 23.78",
+   "docId": "gm-19d16d3ec604edb7",
+   "why": "Claude 2026-09-21 (audit §42): the only Home Depot receipt of that day, with room for the row. (Same rule as the 14 rows linked on 09-18: one same-vendor receipt that day.)"
+  },
+  {
+   "key": "PROP-600",
+   "row": "104 Ashburne 2026-03-22 Home Depot 5.27",
+   "docId": "gm-19d16d3ec604edb7",
+   "why": "Claude 2026-09-21 (audit §42): the only Home Depot receipt of that day, with room for the row. (Same rule as the 14 rows linked on 09-18: one same-vendor receipt that day.)"
   }
  ],
  "no_link": [
@@ -2277,6 +2409,464 @@
    "pattern": "^eff?ren\\b",
    "payee": "Falcon Creek Lawn Care",
    "said": "Paul 2026-09-18: 'change \"Effren\" to Falcon Creek's official name' - the invoices (1372, 1373, 1374, 1390) are from Falcon Creek Lawn Care; Efren Ramirez is the owner"
+  }
+ ],
+ "differences_settled": [
+  {
+   "docId": "gm-19fdc01a4d613ee4",
+   "why": "Claude 2026-09-21 (audit §42): Paul's handwritten worksheet of 08-07 (several vendors): evidence for the rows it lists, not a receipt with a total to reconcile"
+  },
+  {
+   "docId": "gm-19d16d3ec604edb7",
+   "why": "Claude 2026-09-21 (audit §42): receipt $514.16, rows now $464.92 after the day's unlinked rows were placed on it; the other $49.24 is items Paul did not enter (returned, left out or personal - D-028). PARKED for Phase 3; no typed amount is contradicted"
+  },
+  {
+   "docId": "gm-19f3f5c3cbc8f50e",
+   "why": "Claude 2026-09-21 (audit §42): Falcon Creek invoice 1372 ($535): this copy carries Sparkling's $55 row; the other copy (6dab8453) carries the other four rows. $535 = the five rows, to the cent (audit §34)"
+  },
+  {
+   "docId": "gm-19cbe5fe4bbbc3d4",
+   "why": "Claude 2026-09-21 (audit §42): Vega's Zelle of 03-05, $524.81 = his $98.97 row + the Home Depot 'Baseboards & Trim' $425.84 row - Paul typed what Vega bought under the store (audit §37)"
+  },
+  {
+   "docId": "gm-19c54bfd346362be",
+   "why": "Claude 2026-09-21 (audit §42): receipt $768.99, rows now $530.18 after the day's unlinked rows were placed on it; the other $238.81 is items Paul did not enter (returned, left out or personal - D-028). PARKED for Phase 3; no typed amount is contradicted"
+  },
+  {
+   "docId": "gm-1a05ab48308800cc",
+   "why": "Claude 2026-09-21 (audit §42): Falcon Creek invoice 1390 ($425): its lines are rows on Newport, Bowling Green, Cost Recapture (Sparkling) and Ashburne, spread over the two copies of the invoice (C-10)"
+  },
+  {
+   "docId": "gm-19f3f6d3919a5816",
+   "why": "Claude 2026-09-21 (audit §42): Paul's handwritten Bowling Green log: '6-30 Carpet laid 160.00' is the row on it; '6-26 FALCON 315.00' is the Falcon Creek row of 06-27, which carries Paul's own note"
+  },
+  {
+   "docId": "gm-19e8f79855b1df77",
+   "why": "Claude 2026-09-21 (audit §42): receipt 303.27, rows 11.87: 291.40 of items Paul did not enter ($262.84 Landscape/irrigation materials: 6 @ 12.9; $28.56 Jamestown wood elongated white toilet se). Returned (the refund slips of 04-15 … 09-08 return such items), left out, or personal - mail cannot say (D-028). PARKED for Phase 3: the card statement shows the purchase and any refund. No typed amount is contradicted"
+  },
+  {
+   "docId": "gm-1a05ab0fab9330ec",
+   "why": "Claude 2026-09-21 (audit §42): Falcon Creek invoice 1390 ($425), the other copy - see 308800cc; all four lines are rows (C-10)"
+  },
+  {
+   "docId": "gm-19d11a93764263f8",
+   "why": "Claude 2026-09-21 (audit §42): receipt $297.23, rows now $244.13 after the day's unlinked rows were placed on it; the other $53.10 is items Paul did not enter (returned, left out or personal - D-028). PARKED for Phase 3; no typed amount is contradicted"
+  },
+  {
+   "docId": "gm-19ed8190a6945042",
+   "why": "Claude 2026-09-21 (audit §42): receipt 589.45, rows 347.76: 241.69 of items Paul did not enter ($19.05 Flat steel bar 48 x 3/4 x 1/8; $3.98 Titebond I original wood glue 8 oz; $5.75 Felt blanket 2\" x 4\" beige 3pk; $10.20 Fender washer SS 3/16, 6 @ 1.57). Returned (the refund slips of 04-15 … 09-08 return such items), left out, or personal - mail cannot say (D-028). PARKED for Phase 3: the card statement shows the purchase and any refund. No typed amount is contradicted"
+  },
+  {
+   "docId": "gm-19bc2775a6872115",
+   "why": "Claude 2026-09-21 (audit §42): receipt 248.67, rows 14.68: 233.99 of items Paul did not enter ($241.33 Milwaukee M12 Surge impact driver kit, D). Returned (the refund slips of 04-15 … 09-08 return such items), left out, or personal - mail cannot say (D-028). PARKED for Phase 3: the card statement shows the purchase and any refund. No typed amount is contradicted"
+  },
+  {
+   "docId": "gm-1a06da589b0fc446",
+   "why": "Claude 2026-09-21 (audit §42): receipt 270.50, rows 79.48: 191.02 of items Paul did not enter ($135.31 Kwikset Brentford/Sedona entry handleset; $86.56 2 x 1-gal Valspar porch & floor stain, l; $12.43 Project Source swivel scrub brush (item ). Returned (the refund slips of 04-15 … 09-08 return such items), left out, or personal - mail cannot say (D-028). PARKED for Phase 3: the card statement shows the purchase and any refund. No typed amount is contradicted"
+  },
+  {
+   "docId": "gm-19f0e855936a44de",
+   "why": "Claude 2026-09-21 (audit §42): receipt 330.68, rows 164.47: 166.21 of items Paul did not enter ($166.22 BEHR PP I/E Granite Grip Gray 1G, 3 @ 63). Returned (the refund slips of 04-15 … 09-08 return such items), left out, or personal - mail cannot say (D-028). PARKED for Phase 3: the card statement shows the purchase and any refund. No typed amount is contradicted"
+  },
+  {
+   "docId": "gm-19bcc629a4d83e4e",
+   "why": "Claude 2026-09-21 (audit §42): receipt 180.34, rows 18.06: 162.28 of items Paul did not enter ($8.70 3/4-in x 6ft SS pipe insulation, 3 @ 2.6; $9.35 1/2-in x 6ft SS pipe insulation, 3 @ 2.8; $108.21 30-ft automatic electric heat cable, 2 @; $10.80 15-ft 16/3 green outdoor extension cord,). Returned (the refund slips of 04-15 … 09-08 return such items), left out, or personal - mail cannot say (D-028). PARKED for Phase 3: the card statement shows the purchase and any refund. No typed amount is contradicted"
+  },
+  {
+   "docId": "gm-19d4918fa3edc702",
+   "why": "Claude 2026-09-21 (audit §42): receipt 281.09, rows 131.25: 149.84 of items Paul did not enter ($149.84 PVC quarter round 3@11.94, vinyl-clad we). Returned (the refund slips of 04-15 … 09-08 return such items), left out, or personal - mail cannot say (D-028). PARKED for Phase 3: the card statement shows the purchase and any refund. No typed amount is contradicted"
+  },
+  {
+   "docId": "gm-19d7d96bd9768097",
+   "why": "Claude 2026-09-21 (audit §42): receipt 181.51, rows 34.47: 147.04 of items Paul did not enter ($114.70 Decora Edge 15A 125V GFCI receptacle, 2 ; $21.52 15A white Decora Edge rocker switches 10; $6.72 1-1/2\" x 8\" sink tailpiece SJ w/ 3/4\" br; $6.15 1-1/2\" x 8\" strainer tailpiece w/ 1/2\" b). Returned (the refund slips of 04-15 … 09-08 return such items), left out, or personal - mail cannot say (D-028). PARKED for Phase 3: the card statement shows the purchase and any refund. No typed amount is contradicted"
+  },
+  {
+   "docId": "gm-19f18b33a88ea898",
+   "why": "Claude 2026-09-21 (audit §42): receipt 197.31, rows 56.31: 141.00 of items Paul did not enter ($58.39 3 @ 17.98 air register 12x6 wall/ceiling; $26.95 5 @ 4.98 Alex Fast Dry white caulk 10.1 ; $43.78 3 @ 13.48 GE Supreme Silicone kitchen & ; $11.88 Husky RapidLock utility knife 10.97 (inc). Returned (the refund slips of 04-15 … 09-08 return such items), left out, or personal - mail cannot say (D-028). PARKED for Phase 3: the card statement shows the purchase and any refund. No typed amount is contradicted"
+  },
+  {
+   "docId": "gm-19cd60fc58534aca",
+   "why": "Claude 2026-09-21 (audit §42): receipt 264.11, rows 152.62: 111.49 of items Paul did not enter ($111.48 Zipcode Design Hutchcraft 1-Light Single). Returned (the refund slips of 04-15 … 09-08 return such items), left out, or personal - mail cannot say (D-028). PARKED for Phase 3: the card statement shows the purchase and any refund. No typed amount is contradicted"
+  },
+  {
+   "docId": "gm-19c678226649aa40",
+   "why": "Claude 2026-09-21 (audit §42): receipt 250.77, rows 144.96: 105.81 of items Paul did not enter ($105.81 Bauer D-handle SDS-Plus rotary hammer, S; $17.31 SDS-Plus 10in bull point chisel, SKU 565; $17.31 SDS-Plus 3/4in x 10in flat chisel, SKU 5). Returned (the refund slips of 04-15 … 09-08 return such items), left out, or personal - mail cannot say (D-028). PARKED for Phase 3: the card statement shows the purchase and any refund. No typed amount is contradicted"
+  },
+  {
+   "docId": "gm-19cc5d6126f9b0e8",
+   "why": "Claude 2026-09-21 (audit §42): receipt 146.11, rows 43.28: 102.83 of items Paul did not enter ($102.83 Passky ceiling fan with lights, qty 1 ($). Returned (the refund slips of 04-15 … 09-08 return such items), left out, or personal - mail cannot say (D-028). PARKED for Phase 3: the card statement shows the purchase and any refund. No typed amount is contradicted"
+  },
+  {
+   "docId": "gm-19d2a6dc500a3a1c",
+   "why": "Claude 2026-09-21 (audit §42): receipt 104.63, rows 7.56: 97.07 of items Paul did not enter ($50.83 EVB white wood shelf 12x72 ($21.98) + HD; $30.76 2G white Decora wallplates 3@1.68, 3G wh; $15.48 1/2\" PVC riser extender ($2.34) + 1/2\" I). Returned (the refund slips of 04-15 … 09-08 return such items), left out, or personal - mail cannot say (D-028). PARKED for Phase 3: the card statement shows the purchase and any refund. No typed amount is contradicted"
+  },
+  {
+   "docId": "gm-19cb001414554a99",
+   "why": "Claude 2026-09-21 (audit §42): receipt 147.38, rows 60.48: 86.90 of items Paul did not enter ($1.99 2 @ 0.92 1/2\" copper coupling w/stop CxC; $45.47 Oatey flux / Safe-Flo solder kit 42.00 i; $67.09 Bernzomatic Duracast 4000 torch kit 61.9; $2.58 Dasani bottled water 20oz 2.58 (non-taxa). Returned (the refund slips of 04-15 … 09-08 return such items), left out, or personal - mail cannot say (D-028). PARKED for Phase 3: the card statement shows the purchase and any refund. No typed amount is contradicted"
+  },
+  {
+   "docId": "gm-19b9ef373c8332d3",
+   "why": "Claude 2026-09-21 (audit §42): receipt 122.77, rows 36.20: 86.57 of items Paul did not enter ($86.57 Defiant Compact HubSpace smart square vi). Returned (the refund slips of 04-15 … 09-08 return such items), left out, or personal - mail cannot say (D-028). PARKED for Phase 3: the card statement shows the purchase and any refund. No typed amount is contradicted"
+  },
+  {
+   "docId": "gm-19f237650c695b39",
+   "why": "Claude 2026-09-21 (audit §42): receipt $118.15, rows now $82.72 after the day's unlinked rows were placed on it; the other $35.43 is items Paul did not enter (returned, left out or personal - D-028). PARKED for Phase 3; no typed amount is contradicted"
+  },
+  {
+   "docId": "gm-1a07d2aab4818b57",
+   "why": "Claude 2026-09-21 (audit §42): receipt $115.51, rows now $73.96 after the day's unlinked rows were placed on it; the other $41.55 is items Paul did not enter (returned, left out or personal - D-028). PARKED for Phase 3; no typed amount is contradicted"
+  },
+  {
+   "docId": "gm-19d2647307183ef9",
+   "why": "Claude 2026-09-21 (audit §42): receipt 98.59, rows 17.83: 80.76 of items Paul did not enter ($80.76 2x wax ring w/ Hydroseat 45.96, Tapcon 5). Returned (the refund slips of 04-15 … 09-08 return such items), left out, or personal - mail cannot say (D-028). PARKED for Phase 3: the card statement shows the purchase and any refund. No typed amount is contradicted"
+  },
+  {
+   "docId": "gm-19ed818d6be0fb42",
+   "why": "Claude 2026-09-21 (audit §42): receipt 126.66, rows 47.64: 79.02 of items Paul did not enter ($102.84 2x4-92 5/8\" studs, 1x4-6ft common boards). Returned (the refund slips of 04-15 … 09-08 return such items), left out, or personal - mail cannot say (D-028). PARKED for Phase 3: the card statement shows the purchase and any refund. No typed amount is contradicted"
+  },
+  {
+   "docId": "gm-1a000805d296df8b",
+   "why": "Claude 2026-09-21 (audit §42): receipt 87.26, rows 11.88: 75.38 of items Paul did not enter ($45.97 Defiant Vancouver handleset MB 49.97 les; $29.41 Defiant Hartford MB combo pack 31.97 les). Returned (the refund slips of 04-15 … 09-08 return such items), left out, or personal - mail cannot say (D-028). PARKED for Phase 3: the card statement shows the purchase and any refund. No typed amount is contradicted"
+  },
+  {
+   "docId": "gm-19cc387a05beb25b",
+   "why": "Claude 2026-09-21 (audit §42): receipt 199.60, rows 126.09: 73.51 of items Paul did not enter ($73.51 Milwaukee OMT blades: 2 @ 16.97 2-1/2\" H). Returned (the refund slips of 04-15 … 09-08 return such items), left out, or personal - mail cannot say (D-028). PARKED for Phase 3: the card statement shows the purchase and any refund. No typed amount is contradicted"
+  },
+  {
+   "docId": "gm-19edc17308bcd897",
+   "why": "Claude 2026-09-21 (audit §42): receipt 96.36, rows 26.62: 69.74 of items Paul did not enter ($38.84 1/2\" IPS steel hinged flange plate, 6 @ ; $1.70 Machine screw SS comb rnd #10 x 1-1/2; $29.20 Husky 18\" tool bag). Returned (the refund slips of 04-15 … 09-08 return such items), left out, or personal - mail cannot say (D-028). PARKED for Phase 3: the card statement shows the purchase and any refund. No typed amount is contradicted"
+  },
+  {
+   "docId": "gm-19d6d01dadaa68e4",
+   "why": "Claude 2026-09-21 (audit §42): receipt 207.08, rows 138.92: 68.16 of items Paul did not enter (not itemised by the read). Returned (the refund slips of 04-15 … 09-08 return such items), left out, or personal - mail cannot say (D-028). PARKED for Phase 3: the card statement shows the purchase and any refund. No typed amount is contradicted"
+  },
+  {
+   "docId": "gm-19d3ee7e210a8af3",
+   "why": "Claude 2026-09-21 (audit §42): receipt 85.23, rows 17.83: 67.40 of items Paul did not enter ($67.40 23 @ $1.58 5/8\"x5-1/2\"x6' PT pine dog-ea). Returned (the refund slips of 04-15 … 09-08 return such items), left out, or personal - mail cannot say (D-028). PARKED for Phase 3: the card statement shows the purchase and any refund. No typed amount is contradicted"
+  },
+  {
+   "docId": "gm-19d3a4c4d7090e19",
+   "why": "Claude 2026-09-21 (audit §42): receipt 87.64, rows 21.74: 65.90 of items Paul did not enter ($71.71 18 x 5/8\"x5-1/2\"x8' PT pine dog-ear pick). Returned (the refund slips of 04-15 … 09-08 return such items), left out, or personal - mail cannot say (D-028). PARKED for Phase 3: the card statement shows the purchase and any refund. No typed amount is contradicted"
+  },
+  {
+   "docId": "gm-19c529f443b9a66e",
+   "why": "Claude 2026-09-21 (audit §42): receipt 156.67, rows 91.00: 65.67 of items Paul did not enter ($5.35 1/2 in. x 10 ft. red PEX-A straight pipe; $5.12 1/2 in. x 10 ft. blue PEX pipe 4.73 + ta; $7.99 1/2\" PEX SS clamps, 10-pack 7.38 + tax; $20.26 1/2\" SharkBite couplings, 2 @ 9.36 = 18.). Returned (the refund slips of 04-15 … 09-08 return such items), left out, or personal - mail cannot say (D-028). PARKED for Phase 3: the card statement shows the purchase and any refund. No typed amount is contradicted"
+  },
+  {
+   "docId": "gm-19c484998d6bf67a",
+   "why": "Claude 2026-09-21 (audit §42): receipt $238.06, rows now $199.14 after the day's unlinked rows were placed on it; the other $38.92 is items Paul did not enter (returned, left out or personal - D-028). PARKED for Phase 3; no typed amount is contradicted"
+  },
+  {
+   "docId": "gm-19ce7245dbb4ed86",
+   "why": "Claude 2026-09-21 (audit §42): receipt $109.14, rows now $109.13 after the day's unlinked rows were placed on it: explained to the cent"
+  },
+  {
+   "docId": "gm-19f41acfd298c9d7",
+   "why": "Claude 2026-09-21 (audit §42): receipt 87.93, rows 30.81: 57.12 of items Paul did not enter ($57.12 Behr PPI 1050 flat ultra pure white inte). Returned (the refund slips of 04-15 … 09-08 return such items), left out, or personal - mail cannot say (D-028). PARKED for Phase 3: the card statement shows the purchase and any refund. No typed amount is contradicted"
+  },
+  {
+   "docId": "gm-19f99daa6dab8453",
+   "why": "Claude 2026-09-21 (audit §42): Falcon Creek invoice 1372 ($535): this copy carries four rows ($480); Sparkling's $55 is on the other copy. $535 = the five rows (audit §34)"
+  },
+  {
+   "docId": "gm-19c6be8d0bd458c9",
+   "why": "Claude 2026-09-21 (audit §42): receipt 67.55, rows 12.96: 54.59 of items Paul did not enter ($54.59 SharkBite demount clip 2.45, 1/2\" CTS st). Returned (the refund slips of 04-15 … 09-08 return such items), left out, or personal - mail cannot say (D-028). PARKED for Phase 3: the card statement shows the purchase and any refund. No typed amount is contradicted"
+  },
+  {
+   "docId": "gm-19cd8db842855d26",
+   "why": "Claude 2026-09-21 (audit §42): receipt 87.25, rows 33.82: 53.43 of items Paul did not enter ($70.34 Husky 16LB sledge hammer FGL ($64.98 + $). Returned (the refund slips of 04-15 … 09-08 return such items), left out, or personal - mail cannot say (D-028). PARKED for Phase 3: the card statement shows the purchase and any refund. No typed amount is contradicted"
+  },
+  {
+   "docId": "gm-19fd34b701a40539",
+   "why": "Claude 2026-09-21 (audit §42): receipt 64.24, rows 16.22: 48.02 of items Paul did not enter ($27.51 1-1/4 x 4-9/16 x 85 PFJ EM4985 exterior ; $20.52 Milwaukee OMT 1pk 2-1/2 in. BIM multi-ma). Returned (the refund slips of 04-15 … 09-08 return such items), left out, or personal - mail cannot say (D-028). PARKED for Phase 3: the card statement shows the purchase and any refund. No typed amount is contradicted"
+  },
+  {
+   "docId": "gm-19c7bb272d77da5a",
+   "why": "Claude 2026-09-21 (audit §42): receipt 135.07, rows 90.09: 44.98 of items Paul did not enter ($117.79 Toilet supply connectors (2 @ 20.78) and). Returned (the refund slips of 04-15 … 09-08 return such items), left out, or personal - mail cannot say (D-028). PARKED for Phase 3: the card statement shows the purchase and any refund. No typed amount is contradicted"
+  },
+  {
+   "docId": "gm-19d01359eb674ac2",
+   "why": "Claude 2026-09-21 (audit §42): receipt 423.19, rows 378.94: 44.25 of items Paul did not enter ($98.36 Porcelain unglazed white penny mosaic, 1; $21.58 UColorPlus FA49 almond grout, 10 lb, 1 @; $280.58 Ceramic 3x12 Meringue Matte III tile, 36; $22.67 Jolly-P 3/8in PVC bright white trim, 3 @). Returned (the refund slips of 04-15 … 09-08 return such items), left out, or personal - mail cannot say (D-028). PARKED for Phase 3: the card statement shows the purchase and any refund. No typed amount is contradicted"
+  },
+  {
+   "docId": "gm-19f059f5de8379eb",
+   "why": "Claude 2026-09-21 (audit §42): receipt $144.91, rows now $110.46 after the day's unlinked rows were placed on it; the other $34.45 is items Paul did not enter (returned, left out or personal - D-028). PARKED for Phase 3; no typed amount is contradicted"
+  },
+  {
+   "docId": "gm-19e8f7e6652f7e3e",
+   "why": "Claude 2026-09-21 (audit §42): receipt 51.74, rows 14.23: 37.51 of items Paul did not enter ($34.61 Behr Premium semi-transparent stain, Dec; $2.90 Blue Diamond almonds, roasted salted 1.5). Returned (the refund slips of 04-15 … 09-08 return such items), left out, or personal - mail cannot say (D-028). PARKED for Phase 3: the card statement shows the purchase and any refund. No typed amount is contradicted"
+  },
+  {
+   "docId": "gm-19cb9b1055042f0e",
+   "why": "Claude 2026-09-21 (audit §42): receipt 39.96, rows 7.51: 32.45 of items Paul did not enter ($32.46 Husky 42 gal contractor bags 50ct (SKU 0). Returned (the refund slips of 04-15 … 09-08 return such items), left out, or personal - mail cannot say (D-028). PARKED for Phase 3: the card statement shows the purchase and any refund. No typed amount is contradicted"
+  },
+  {
+   "docId": "gm-19f13a69198b2b6c",
+   "why": "Claude 2026-09-21 (audit §42): receipt 37.40, rows 5.21: 32.19 of items Paul did not enter ($5.93 HDX microfiber painters towels 6pk 5.48 ; $11.98 8oz PVC cement/primer combo 11.98 (non-t; $14.27 PVC ratcheting cutter 1/8\"-1-1/4\": 14.98). Returned (the refund slips of 04-15 … 09-08 return such items), left out, or personal - mail cannot say (D-028). PARKED for Phase 3: the card statement shows the purchase and any refund. No typed amount is contradicted"
+  },
+  {
+   "docId": "gm-19cfbe563f75f960",
+   "why": "Claude 2026-09-21 (audit §42): receipt 596.71, rows 565.87: 30.84 of items Paul did not enter ($66.83 Ansen 2-pack hardwired under-cabinet LED; $41.77 Ansen hardwired under-cabinet LED light,; $45.93 Ansen hardwired under-cabinet LED light,; $32.34 Ansen hardwired under-cabinet LED light,). Returned (the refund slips of 04-15 … 09-08 return such items), left out, or personal - mail cannot say (D-028). PARKED for Phase 3: the card statement shows the purchase and any refund. No typed amount is contradicted"
+  },
+  {
+   "docId": "gm-19fb337be62617b6",
+   "why": "Claude 2026-09-21 (audit §42): Falcon Creek invoice 1373 ($470): the four rows are $440; Granite's $30 shortfall is the Cost Recapture line of C-25"
+  },
+  {
+   "docId": "gm-19f0fbce663c9387",
+   "why": "Claude 2026-09-21 (audit §42): receipt 187.64, rows 158.44: 29.20 of items Paul did not enter ($29.21 SKU 4664333 HGTV urethane door & trim pa). Returned (the refund slips of 04-15 … 09-08 return such items), left out, or personal - mail cannot say (D-028). PARKED for Phase 3: the card statement shows the purchase and any refund. No typed amount is contradicted"
+  },
+  {
+   "docId": "gm-19e8f7c1c4dffe11",
+   "why": "Claude 2026-09-21 (audit §42): receipt 35.98, rows 7.60: 28.38 of items Paul did not enter ($28.38 Rain Bird 1/2 in. emitter tubing, 18 in.). Returned (the refund slips of 04-15 … 09-08 return such items), left out, or personal - mail cannot say (D-028). PARKED for Phase 3: the card statement shows the purchase and any refund. No typed amount is contradicted"
+  },
+  {
+   "docId": "gm-19e8f7c50d0fbad4",
+   "why": "Claude 2026-09-21 (audit §42): receipt 29.65, rows 4.73: 24.92 of items Paul did not enter ($20.94 Universal Super Flapper and Performax to; $3.98 Titebond I Original wood glue 8 oz, incl). Returned (the refund slips of 04-15 … 09-08 return such items), left out, or personal - mail cannot say (D-028). PARKED for Phase 3: the card statement shows the purchase and any refund. No typed amount is contradicted"
+  },
+  {
+   "docId": "gm-19bc2ac9659bedac",
+   "why": "Claude 2026-09-21 (audit §42): receipt 248.67, rows 224.05: 24.62 of items Paul did not enter ($17.29 Diablo 1-1/4\" steel forstner bit (incl. ; $7.34 1-1/4 in x 48 in hardwood round dowel - ). Returned (the refund slips of 04-15 … 09-08 return such items), left out, or personal - mail cannot say (D-028). PARKED for Phase 3: the card statement shows the purchase and any refund. No typed amount is contradicted"
+  },
+  {
+   "docId": "gm-19bae80800798f37",
+   "why": "Claude 2026-09-21 (audit §42): receipt 393.55, rows 370.74: 22.81 of items Paul did not enter ($10.80 3M 8511 valve disposable respirator cart). Returned (the refund slips of 04-15 … 09-08 return such items), left out, or personal - mail cannot say (D-028). PARKED for Phase 3: the card statement shows the purchase and any refund. No typed amount is contradicted"
+  },
+  {
+   "docId": "gm-19d2556d29835a4b",
+   "why": "Claude 2026-09-21 (audit §42): receipt 486.80, rows 466.26: 20.54 of items Paul did not enter ($107.17 Project Source ProFlush round 1.28 gpf t; $20.55 Kobalt 100-ft fiberglass long tape measu). Returned (the refund slips of 04-15 … 09-08 return such items), left out, or personal - mail cannot say (D-028). PARKED for Phase 3: the card statement shows the purchase and any refund. No typed amount is contradicted"
+  },
+  {
+   "docId": "gm-19ebc1789358c9a5",
+   "why": "Claude 2026-09-21 (audit §42): 50Floor 06-12: receipt $1,339.00, row $1,319.00 - $20.00 apart, under the $100 bar; left as typed"
+  },
+  {
+   "docId": "gm-19ccf1f38113d4f9",
+   "why": "Claude 2026-09-21 (audit §42): receipt 106.75, rows 86.83: 19.92 of items Paul did not enter ($19.92 19/32\" x 5-1/2\" x 6' cedar dog-ear picke). Returned (the refund slips of 04-15 … 09-08 return such items), left out, or personal - mail cannot say (D-028). PARKED for Phase 3: the card statement shows the purchase and any refund. No typed amount is contradicted"
+  },
+  {
+   "docId": "gm-19ed8195997d06ad",
+   "why": "Claude 2026-09-21 (audit §42): receipt 77.88, rows 58.41: 19.47 of items Paul did not enter ($48.67 MKE 5\" bi-metal hole saw (SKU 0452421985). Returned (the refund slips of 04-15 … 09-08 return such items), left out, or personal - mail cannot say (D-028). PARKED for Phase 3: the card statement shows the purchase and any refund. No typed amount is contradicted"
+  },
+  {
+   "docId": "gm-19d7301fafc82a83",
+   "why": "Claude 2026-09-21 (audit §42): receipt 111.24, rows 95.12: 16.12 of items Paul did not enter ($16.12 CE standard wire connectors red 30-pk 5.). Returned (the refund slips of 04-15 … 09-08 return such items), left out, or personal - mail cannot say (D-028). PARKED for Phase 3: the card statement shows the purchase and any refund. No typed amount is contradicted"
+  },
+  {
+   "docId": "gm-19badcf888c0b1cb",
+   "why": "Claude 2026-09-21 (audit §42): receipt 170.63, rows 154.79: 15.84 of items Paul did not enter ($9.96 GRK RSS bulk screws 3/8 x 12, 2 @ 4.60; $5.89 GRK RSS screws 3/8 x 8, 2 @ 2.72). Returned (the refund slips of 04-15 … 09-08 return such items), left out, or personal - mail cannot say (D-028). PARKED for Phase 3: the card statement shows the purchase and any refund. No typed amount is contradicted"
+  },
+  {
+   "docId": "gm-19cbf798cd5a28c5",
+   "why": "Claude 2026-09-21 (audit §42): receipt 333.56, rows 318.01: 15.55 of items Paul did not enter ($4.85 1-gang white standard outlet wallplate, ; $10.70 High-efficiency toilet plunger (incl. ta). Returned (the refund slips of 04-15 … 09-08 return such items), left out, or personal - mail cannot say (D-028). PARKED for Phase 3: the card statement shows the purchase and any refund. No typed amount is contradicted"
+  },
+  {
+   "docId": "gm-19d535a923f6b186",
+   "why": "Claude 2026-09-21 (audit §42): receipt 341.72, rows 326.67: 15.05 of items Paul did not enter ($25.85 PVC quarter round 3/4 x 3/4 in, 3 @ 7.96; $11.89 Duracell 9V batteries 2 ct (SKU 6786588)). Returned (the refund slips of 04-15 … 09-08 return such items), left out, or personal - mail cannot say (D-028). PARKED for Phase 3: the card statement shows the purchase and any refund. No typed amount is contradicted"
+  },
+  {
+   "docId": "gm-19cde962bea0354f",
+   "why": "Claude 2026-09-21 (audit §42): receipt 43.77, rows 29.21: 14.56 of items Paul did not enter ($14.56 1/2\" SB x 3/8\" OD comp angle stop 13.45 ). Returned (the refund slips of 04-15 … 09-08 return such items), left out, or personal - mail cannot say (D-028). PARKED for Phase 3: the card statement shows the purchase and any refund. No typed amount is contradicted"
+  },
+  {
+   "docId": "gm-1a0a0befad5d6040",
+   "why": "Claude 2026-09-21 (audit §42): receipt 28.06, rows 15.11: 12.95 of items Paul did not enter ($12.95 APOC 109 10-oz asphalt roof cement (SKU ). Returned (the refund slips of 04-15 … 09-08 return such items), left out, or personal - mail cannot say (D-028). PARKED for Phase 3: the card statement shows the purchase and any refund. No typed amount is contradicted"
+  },
+  {
+   "docId": "gm-19e8f7ef66615f5a",
+   "why": "Claude 2026-09-21 (audit §42): the receipt's extra 12.42 is drinks or snacks ($12.42 Bottled water 3.98, Fritos 1.00, deli tu) - left out of the books on purpose (D-028, amended)"
+  },
+  {
+   "docId": "gm-19d6ee18dbed6f84",
+   "why": "Claude 2026-09-21 (audit §42): receipt 891.18, rows 879.31: 11.87 of items Paul did not enter ($159.94 2 @ 79.97 - 60' 3\" no-dig innovation edg; $470.82 6 @ 78.47 - 4x200 Vigoro pro bond weedbl; $104.70 15 @ 6.98 - Vigoro 25pk landscape staple; $48.86 7 @ 6.98 - Vigoro anchoring spikes 8pk (). Returned (the refund slips of 04-15 … 09-08 return such items), left out, or personal - mail cannot say (D-028). PARKED for Phase 3: the card statement shows the purchase and any refund. No typed amount is contradicted"
+  },
+  {
+   "docId": "gm-19f386e1e70d7f5a",
+   "why": "Claude 2026-09-21 (audit §42): receipt 21.63, rows 10.81: 10.82 of items Paul did not enter ($21.63 2 x USB Type-C cable @ $9.99 incl. sales). Returned (the refund slips of 04-15 … 09-08 return such items), left out, or personal - mail cannot say (D-028). PARKED for Phase 3: the card statement shows the purchase and any refund. No typed amount is contradicted"
+  },
+  {
+   "docId": "gm-19d4a3ee589e436a",
+   "why": "Claude 2026-09-21 (audit §42): receipt 93.58, rows 82.89: 10.69 of items Paul did not enter ($10.69 ATG MaxiFlex Ultimate gloves L, 2pk (inc). Returned (the refund slips of 04-15 … 09-08 return such items), left out, or personal - mail cannot say (D-028). PARKED for Phase 3: the card statement shows the purchase and any refund. No typed amount is contradicted"
+  },
+  {
+   "docId": "gm-1a0622070be6c806",
+   "why": "Claude 2026-09-21 (audit §42): Amazon 09-02: receipt $137.06, row $126.61 (old poller link) - $10.45, the tax; under the bar, left as typed"
+  },
+  {
+   "docId": "gm-19c5d297b5829e55",
+   "why": "Claude 2026-09-21 (audit §42): receipt 353.12, rows 343.08: 10.04 of items Paul did not enter ($10.05 2-1/2\" drive pins, 25 pcs (incl. tax)). Returned (the refund slips of 04-15 … 09-08 return such items), left out, or personal - mail cannot say (D-028). PARKED for Phase 3: the card statement shows the purchase and any refund. No typed amount is contradicted"
+  },
+  {
+   "docId": "gm-19d4ed506ec83c9a",
+   "why": "Claude 2026-09-21 (audit §42): receipt 271.24, rows 263.43: 7.81 of items Paul did not enter ($3.52 1-1/2\" flanged washer (incl. tax share); $4.31 Universal tub drain cartridge gasket (in). Returned (the refund slips of 04-15 … 09-08 return such items), left out, or personal - mail cannot say (D-028). PARKED for Phase 3: the card statement shows the purchase and any refund. No typed amount is contradicted"
+  },
+  {
+   "docId": "gm-19cf2444d6efb00f",
+   "why": "Claude 2026-09-21 (audit §42): receipt 313.59, rows 306.06: 7.53 of items Paul did not enter ($6.99 Professional builder cedar shim pack; $1.93 Homeowner DIY shim pack; $7.55 Charmaine 3-3/4\" cabinet pull, flat blac; $29.21 Husky 18\" tool bag). Returned (the refund slips of 04-15 … 09-08 return such items), left out, or personal - mail cannot say (D-028). PARKED for Phase 3: the card statement shows the purchase and any refund. No typed amount is contradicted"
+  },
+  {
+   "docId": "gm-19cb9e86dc1c5092",
+   "why": "Claude 2026-09-21 (audit §42): receipt 39.96, rows 32.44: 7.52 of items Paul did not enter ($7.51 Scotch heavy-duty tape 2\"x60yd (incl. sh). Returned (the refund slips of 04-15 … 09-08 return such items), left out, or personal - mail cannot say (D-028). PARKED for Phase 3: the card statement shows the purchase and any refund. No typed amount is contradicted"
+  },
+  {
+   "docId": "gm-19fd4002e0935c03",
+   "why": "Claude 2026-09-21 (audit §42): receipt 29.22, rows 22.99: 6.23 of items Paul did not enter ($29.22 PADLOCK COMB 2-1/4\" RESET (SKU 52548), i). Returned (the refund slips of 04-15 … 09-08 return such items), left out, or personal - mail cannot say (D-028). PARKED for Phase 3: the card statement shows the purchase and any refund. No typed amount is contradicted"
+  },
+  {
+   "docId": "gm-19f19badba627de1",
+   "why": "Claude 2026-09-21 (audit §42): the receipt's extra 5.96 is drinks or snacks ($5.96 Smartwater 1L x2 @ 2.98, no tax) - left out of the books on purpose (D-028, amended)"
+  },
+  {
+   "docId": "gm-19c66a1cdb487a56",
+   "why": "Claude 2026-09-21 (audit §42): receipt 183.38, rows 177.97: 5.41 of items Paul did not enter ($5.39 Anvil mini glass scraper w/ 10 blades (i). Returned (the refund slips of 04-15 … 09-08 return such items), left out, or personal - mail cannot say (D-028). PARKED for Phase 3: the card statement shows the purchase and any refund. No typed amount is contradicted"
+  },
+  {
+   "docId": "gm-19f42c17927282a4",
+   "why": "Claude 2026-09-21 (audit §42): the receipt's extra 5.15 is drinks or snacks ($5.16 Dasani water 20 oz, 2 @ $2.58 (non-taxab) - left out of the books on purpose (D-028, amended)"
+  },
+  {
+   "docId": "gm-19f1083966df0eb6",
+   "why": "Claude 2026-09-21 (audit §42): the receipt's extra 3.44 is drinks or snacks ($3.44 CANDY - SNICKERS 1.86oz $3.18 + $0.26 al) - left out of the books on purpose (D-028, amended)"
+  },
+  {
+   "docId": "gm-19e8f7d48435a6ab",
+   "why": "Claude 2026-09-21 (audit §42): the receipt's extra 2.98 is drinks or snacks ($2.98 Smartwater 1L (non-taxable)) - left out of the books on purpose (D-028, amended)"
+  },
+  {
+   "docId": "gm-19d2c0314cc37287",
+   "why": "Claude 2026-09-21 (audit §42): the receipt's extra 2.58 is drinks or snacks ($2.58 Dasani water 20 oz (non-taxed)) - left out of the books on purpose (D-028, amended)"
+  },
+  {
+   "docId": "gm-19c8bf46eab10e3a",
+   "why": "Claude 2026-09-21 (audit §42): the receipt's extra 1.72 is an online payment fee Paul did not type; under the bar, left as typed"
+  },
+  {
+   "docId": "gm-19d7e6d319ca7b28",
+   "why": "Claude 2026-09-21 (audit §42): the receipt's extra 0.67 is drinks or snacks ($22.39 4 Snickers 1.86oz @ $2.04 and 4 Smart Wa) - left out of the books on purpose (D-028, amended)"
+  },
+  {
+   "docId": "gm-19ca6987ecb649fd",
+   "why": "Claude 2026-09-21 (audit §42): Home Depot 02-28 $2.84: the Threaded Rod row is typed $2.48, digits transposed; left as typed (audit §41)"
+  },
+  {
+   "docId": "gm-19c1eedb38c22d7c",
+   "why": "Claude 2026-09-21 (audit §42): the receipt's extra 0.30 is an online payment fee Paul did not type; under the bar, left as typed"
+  },
+  {
+   "docId": "gm-19c976016b5f86ab",
+   "why": "Claude 2026-09-21 (audit §42): the receipt's extra 0.30 is an online payment fee Paul did not type; under the bar, left as typed"
+  },
+  {
+   "docId": "gm-1a0679d10dfb58fc",
+   "why": "Claude 2026-09-21 (audit §42): receipt 55.87, rows 55.71: 0.16 of items Paul did not enter ($46.71 Glidden MultiPro interior flat ultra-pur). Returned (the refund slips of 04-15 … 09-08 return such items), left out, or personal - mail cannot say (D-028). PARKED for Phase 3: the card statement shows the purchase and any refund. No typed amount is contradicted"
+  },
+  {
+   "docId": "gm-19d9299078f0128e",
+   "why": "Claude 2026-09-21 (audit §42): receipt 10.95 vs rows 10.97: -0.02, the rounding of Paul's per-item tax share"
+  },
+  {
+   "docId": "gm-19e8f7d279f40059",
+   "why": "Claude 2026-09-21 (audit §42): receipt 45.14 vs rows 45.16: -0.02, the rounding of Paul's per-item tax share"
+  },
+  {
+   "docId": "gm-19c768d3b6197026",
+   "why": "Claude 2026-09-21 (audit §42): Home Depot 02-19 $390.12: twelve items = the rows, $390.11 (audit §41)"
+  },
+  {
+   "docId": "gm-19ce39f32dd9c9c0",
+   "why": "Claude 2026-09-21 (audit §42): receipt 673.29 vs rows 673.30: -0.01, the rounding of Paul's per-item tax share"
+  },
+  {
+   "docId": "gm-19f43e16247dc4bd",
+   "why": "Claude 2026-09-21 (audit §42): receipt 36.65 vs rows 36.66: -0.01, the rounding of Paul's per-item tax share"
+  },
+  {
+   "docId": "gm-1a063139bc9a9a33",
+   "why": "Claude 2026-09-21 (audit §42): receipt 109.01 vs rows 109.00: +0.01, the rounding of Paul's per-item tax share"
+  },
+  {
+   "docId": "gm-19ffbab89c6e794c",
+   "why": "Claude 2026-09-21 (audit §42): receipt 542.40 vs rows 542.39: +0.01, the rounding of Paul's per-item tax share"
+  },
+  {
+   "docId": "gm-19ba9590cb81d5f0",
+   "why": "Claude 2026-09-21 (audit §42): receipt 42.60 vs rows 42.61: -0.01, the rounding of Paul's per-item tax share"
+  },
+  {
+   "docId": "gm-19bae832dd56cffa",
+   "why": "Claude 2026-09-21 (audit §42): receipt 83.41 vs rows 83.40: +0.01, the rounding of Paul's per-item tax share"
+  },
+  {
+   "docId": "gm-19d492744d5f21c2",
+   "why": "Claude 2026-09-21 (audit §42): receipt 55.01 vs rows 55.02: -0.01, the rounding of Paul's per-item tax share"
+  },
+  {
+   "docId": "gm-19d1b92fe12a4c7d",
+   "why": "Claude 2026-09-21 (audit §42): receipt 98.07 vs rows 98.06: +0.01, the rounding of Paul's per-item tax share"
+  },
+  {
+   "docId": "gm-19e69ec679ab8f42",
+   "why": "Claude 2026-09-21 (audit §42): receipt 13.99 vs rows 13.98: +0.01, the rounding of Paul's per-item tax share"
+  },
+  {
+   "docId": "gm-19edabdf68ad91f0",
+   "why": "Claude 2026-09-21 (audit §42): receipt 47.93 vs rows 47.94: -0.01, the rounding of Paul's per-item tax share"
+  },
+  {
+   "docId": "gm-19e8f7927b019869",
+   "why": "Claude 2026-09-21 (audit §42): receipt 406.83 vs rows 406.84: -0.01, the rounding of Paul's per-item tax share"
+  },
+  {
+   "docId": "gm-19eea5d1a93a9656",
+   "why": "Claude 2026-09-21 (audit §42): receipt 10.19 vs rows 10.18: +0.01, the rounding of Paul's per-item tax share"
+  },
+  {
+   "docId": "gm-19d405df0d679aff",
+   "why": "Claude 2026-09-21 (audit §42): Waxahachie Glass $518.78: the second row is the duplicate dropped as C-7"
+  },
+  {
+   "docId": "gm-1a0394bf02758212",
+   "why": "Claude 2026-09-21 (audit §42): Amazon 08-25: the row $113.58 is the order (subtotal $104.92 + tax); the read's $37.90 is only what reached the card"
+  },
+  {
+   "docId": "gm-19d98540dce2874d",
+   "why": "Claude 2026-09-21 (audit §42): Window Man 04-16: receipt $848.68, row $858.68 - $10.00 over, a slip or a tip; under the bar, left as typed"
+  },
+  {
+   "docId": "gm-19d3a708f16b12eb",
+   "why": "Claude 2026-09-21 (audit §42): Home Depot 03-29 $25.73 vs the angle stops row $27.00 - $1.27; left as typed"
+  },
+  {
+   "docId": "gm-19fd7f3f3ed0e605",
+   "why": "Claude 2026-09-21 (audit §42): McCoy's 08-06: receipt $44.56, row $45.56 - $1.00; left as typed"
+  },
+  {
+   "docId": "gm-19f00c2049c512fe",
+   "why": "Claude 2026-09-21 (audit §42): Home Depot 06-25 $176.59 vs rows $177.29 - 70 cents over seven rows; left as typed"
+  },
+  {
+   "docId": "gm-19f3d8464aa86145",
+   "why": "Claude 2026-09-21 (audit §42): Butter and Grace 07-07: row 50 cents over the receipt - the tip"
+  },
+  {
+   "docId": "gm-19bc4186ab17e432",
+   "why": "Claude 2026-09-21 (audit §42): Home Depot 01-15 $3.98 vs the Wall Plates row $4.33 - 35 cents; left as typed"
+  },
+  {
+   "docId": "gm-1a05d57329a431d5",
+   "why": "Claude 2026-09-21 (audit §42): Butter & Grace 09-01: row 33 cents over the receipt - the tip"
+  },
+  {
+   "docId": "gm-1a067bd438f39de3",
+   "why": "Claude 2026-09-21 (audit §42): Floor and Decor 09-03: row 20 cents over; left as typed"
+  },
+  {
+   "docId": "gm-19c7be8f6b3c531b",
+   "why": "Claude 2026-09-21 (audit §42): receipt $135.07, rows now $44.99 after the day's unlinked rows were placed on it; the other $90.08 is items Paul did not enter (returned, left out or personal - D-028). PARKED for Phase 3; no typed amount is contradicted"
+  },
+  {
+   "docId": "gm-19f0e8b993f57cd0",
+   "why": "Claude 2026-09-21 (audit §42): Home Depot 06-28 $6.35 vs the Sand Paper row $6.47 - 12 cents; left as typed"
   }
  ]
 }

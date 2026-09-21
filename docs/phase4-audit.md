@@ -1299,3 +1299,32 @@ can, never entered. Entries unchanged: 1,047, $240,825.35. Next: list 1 (differe
 
 Amounts and ids unchanged (1,047 entries, $240,825.35); **878 linked**; link audit: both sections clean
 (section one now 0). Lists: differences 114, confirm 80, no document 94, list 4: 0. Not pushed (offline).
+
+## 42 · Differences list closed out offline (2026-09-21): 114 → 0, and 22 more rows linked
+
+Every receipt whose total differs from its rows now has a recorded reason under `differences_settled` in
+`paul-answers.json` (new key; `migration-rows.py` takes them off list 1). **No typed amount was changed** -
+nothing on the list contradicts a row by $100 or more.
+
+| | receipts | |
+|---|---:|---|
+| explained | 22 | twin copies of one invoice (Falcon Creek 1372, 1390), registered corrections (C-7, C-25), Vega's Zelle, Paul's handwritten logs, tips, small slips left as typed (Window Man $10, 50Floor $20, McCoy's $1) |
+| rounding | 14 | within five cents - Paul's per-item tax share |
+| drinks and snacks | 7 | left out on purpose (D-028, amended) |
+| payment fees | 3 | City of Ovilla $1.72, county records 30 cents twice |
+| **parked for Phase 3** | 66 | the receipt lists items Paul did not enter - returned, left out or personal; the card statement shows the purchase and any refund |
+| nine of those, re-read | | the day's unlinked rows were placed on them first (below), which explains two to the cent |
+
+**Links gained (899 linked, 85.9% of rows):** a systematic check for rows sitting on a receipt that does not
+list them while a neighbouring receipt does found none beyond §41. The two VistaPrint rows of 06-21 ($170.99,
+$147.69) are the two items of the 06-21 order with tax (157.96 and 136.43 x 1.0825) - relinked to that order,
+a never-read paul@ message; its $52.98 shipping is in neither row (under the bar). The Granite bubbler row
+($1.87) joins the 05-30 receipt. **19 rows on nine vendor-days** linked by the 09-18 rule "the only
+same-vendor receipt of that day, with room for the row": Lowe's 03-13 (Grout - the receipt now explained to
+the cent), Home Depot 02-20 (Shark Bite connector - to the cent with its twin), Lowe's 02-03 (one of two
+shower niches), Home Depot 09-06 (the second can of stain: the receipt's line is two cans), Home Depot 03-22
+(five rows), Lowe's 03-21, 02-10, Home Depot 07-01, 06-26. None lost; link audit clean in both sections.
+
+Lists now: **differences 0, in mail not in the books 0**, confirm the match 63, no document 90 (of which
+Paul has accepted $36.9K of contractor checks and cash). Amounts and ids unchanged: 1,047 entries,
+$240,825.35. Not pushed (offline); staging holds pass 9.
