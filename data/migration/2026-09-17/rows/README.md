@@ -1,6 +1,6 @@
 # Row-driven migration - DRY RUN (D-029). Nothing is posted.
 
-Old rows: 1029  $221,724.59   entries: 1056  $242,787.46   linked to a receipt: 924 (549 Drive file, 375 Gmail link, to be filed)
+Old rows: 1029  $221,724.59   entries: 1056  $242,787.46   linked to a receipt: 924 (899 Drive file, 25 Gmail link, to be filed)
 
 | property | old rows $ | entries | entries $ | difference | linked |
 |---|---:|---:|---:|---:|---:|
