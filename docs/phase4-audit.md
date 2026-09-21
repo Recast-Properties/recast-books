@@ -1412,3 +1412,38 @@ secret typed at a hidden prompt (the script's header has the line; the value is 
 a document that fails is logged and retried on the next run. Bytes were checked end to end: `att/
 gm-19b9ef373c8332d3/0` comes back from the store as 3,033,538 bytes of JPEG, the envelope's size. About 45
 minutes, unattended. Not yet run; nothing was filed by the test (it stopped at the guard).
+
+## 46 · Item 7 under way (2026-09-21 midday): filing running, the 15 paul@ messages read
+
+**Filing.** Paul started `migration-file-docs.mjs` in his own Terminal at 12:22 CT (secret typed at the
+hidden prompt). The 12 `evidence/` files went first (`Migration evidence/`), then the documents in docId
+order. Pace measured: about 1.7 documents a minute, not the 8-9 estimated - a 3 MB photo is ~7 s out of the
+store and ~15 s into Apps Script - so the 394 take about four hours, unattended and resumable.
+**Known defect, harmless:** about one `storeDocument` reply in twelve comes back `ok` without `url` /
+`fileId` although the file IS created in Drive (checked: `2026-01-12 Shell 46.14.jpeg`, id `11m30TBJ…`,
+is in `2026/OVERHEAD`). Cause not found from here (the writer's code always returns both). The map keeps the
+file's name; `migration-rows.py` leaves such an entry on its Gmail link; after the run each missing URL is
+recovered by looking the exact name up in Drive (read-only search) and written into `drive-filing.json`.
+
+**The 16 never-read messages (the handoff said 17).** Paul: "yes" to reading them (~$3.40). 15 are paul@
+mail: list `books-replay-paul-unread-2026-09-21.json`, uploaded to Drive by Paul as `books-replay-paul.json`
+(the old one-message file renamed `-noread-DONE`; Claude may rename in Drive but not create), one Run of
+`replayIds` in the paul@ poller: sent=15, failed=0. All 15 read within ten minutes: 11 pending, 4 dismissed,
+**none posted** - staging's Journal is untouched. The 16th (`gm-19c3e95a4b9ed901`, Amazon drawer pulls
+$249.97) is a pvb421@ message forwarded to 104ashburne@gmail.com and needs that mailbox's project - open.
+Their envelopes joined `.cache/envelopes/env/` (983). Pipeline rerun from the matcher, links diffed against
+the last commit (rule 3): **no link lost, moved or gained; ids, amounts, dates, payers identical; 1,048
+entries, $240,844.35, all build; link audit clean in both sections.** What the reads did change, decided and
+recorded in `paul-answers.json`:
+- **Refused, per document (4):** the 07-01 PayPal receipt is Bowling Green's fee (C-19) - the matcher offered
+  it to Sparkling's fee row (strong) and Granite's (weak); a $500 Zelle notification offered to Carlos's
+  $1,500 check and his $220 soffit row.
+- **Differences settled (2):** VistaPrint 06-21 (receipt $369.08, rows $318.68 - shipping, known since §42);
+  Atlas 03-30 ($2,152.00 received, row $2,177.00 - the $25 wire fee of §26).
+- **Accounts (new key `account`, keyed by the old row, beats a hesitant read):** Atlas's 03-29 payment stays
+  1020 with the other four payments of invoice 16097 (the read guessed 1130 from the monthly service rows);
+  the four $500 "Siding Install" Zelles to Carlos are all 1020 (three reads said labor, one materials).
+  Two accounts follow their new read under D-029: Wayfair tub and faucet, Lowe's ceiling fans 1030 → 1040.
+- Linked: **921** - the Vega labor entry (C-26) now carries its Zelle screenshot from Drive.
+The dry run in `rows/` holds the Drive links filed so far and is rebuilt when the filing ends; nothing is
+pushed to staging until then.

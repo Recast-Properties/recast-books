@@ -78,6 +78,7 @@ def main():
     # one as no document. Keyed by the old row; who decided and why is in paul-answers.json.
     _ans = json.load(open(os.path.join(a.inv, "paul-answers.json"))) if os.path.exists(os.path.join(a.inv, "paul-answers.json")) else {}
     _yes = {x["key"]: x for x in _ans.get("link", [])}
+    _acct = {x["key"]: x for x in _ans.get("account", [])}
     # A refusal that names its document refuses that document only - the row is free to find its
     # real receipt later. (Bulk refusals keyed on the row alone had buried six good links, 2026-09-18.)
     _no = {x["key"] for x in _ans.get("no_link", []) if not x.get("docId")} | {(x["key"], x["docId"]) for x in _ans.get("no_link", []) if x.get("docId")}
@@ -133,6 +134,8 @@ def main():
         if acct.startswith("6") and prop != "OVERHEAD":      # D-026.9: fuel on the old Ashburne tab is overhead
             moved_from, prop = prop, "OVERHEAD"
         else: moved_from = ""
+        # A recorded account decision beats a hesitant read (paul-answers.json "account", keyed by the old row).
+        if r["key"] in _acct: acct, acct_src = _acct[r["key"]]["account"], "Paul/Claude: " + _acct[r["key"]]["why"][:80]
         pf, pf_src = paid_from_for(r)
         # D-032: on the bank deal everything Dennis put in is an advance on the Cash Advances tab
         # (Dr 2030 / Cr 2010). A row the receipt says Dennis paid credits 2030, or 2010 counts twice.
@@ -215,7 +218,7 @@ def main():
     _filed = json.load(open(os.path.join(a.inv, "drive-filing.json"))) if os.path.exists(os.path.join(a.inv, "drive-filing.json")) else {}
     for e in entries:
         k = e["docId"] if e["link_kind"] == "gmail" else next((f for f in e["flags"].split(";") if f.startswith("EVIDENCE:")), "")
-        if e["link_kind"] in ("gmail", "evidence") and k in _filed: e["doc_url"], e["link_kind"] = _filed[k]["url"], "drive"
+        if e["link_kind"] in ("gmail", "evidence") and (_filed.get(k) or {}).get("url"): e["doc_url"], e["link_kind"] = _filed[k]["url"], "drive"
     w("entries.csv", entries); json.dump(entries, open(os.path.join(a.out, "entries.json"), "w"), indent=0)
 
     # list 1: receipt total vs the rows it explains

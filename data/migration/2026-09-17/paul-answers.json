@@ -1777,6 +1777,30 @@
    "docId": "gm-19ed818d6be0fb42",
    "row": "104 Ashburne 2026-06-16 Home Depot 2.89",
    "why": "Claude 2026-09-21 (audit §43): for this document only: the receipt ($126.66, 2026-06-16) has no room left for the row - other rows already explain it"
+  },
+  {
+   "key": "PROP-744",
+   "docId": "gm-19f1d980deb1f5d4",
+   "row": "280 Sparkling 2026-06-25 Mission Real Estate Group 299.00",
+   "why": "Claude 2026-09-21 (audit §46, the 15 paul@ messages read for filing): for this document only: the PayPal receipt of 07-01 is Bowling Green's fee (C-19 - Paul's email to Mission that day names 136 Bowling Green). Sparkling's receipt went to Dennis and is owed by him"
+  },
+  {
+   "key": "PROP-794",
+   "docId": "gm-19f1d980deb1f5d4",
+   "row": "1616 Granite 2026-06-02 Mission Reg 299.00",
+   "why": "Claude 2026-09-21 (audit §46, the 15 paul@ messages read for filing): for this document only: the PayPal receipt of 07-01 is Bowling Green's fee (C-19). Granite's receipt went to Dennis and is owed by him"
+  },
+  {
+   "key": "PROP-90",
+   "docId": "gm-1a01c9a4ebc0197d",
+   "row": "366 Mesa 2026-08-28 Carlos - Check 1146 1,500.00",
+   "why": "Claude 2026-09-21 (audit §46, the 15 paul@ messages read for filing): for this document only: a $500.00 Zelle notification of 08-20 is not a $1,500.00 check of 08-28; it is one of the four $500 rows"
+  },
+  {
+   "key": "PROP-93",
+   "docId": "gm-1a01c9a4ebc0197d",
+   "row": "366 Mesa 2026-08-18 Carlos 220.00",
+   "why": "Claude 2026-09-21 (audit §46, the 15 paul@ messages read for filing): for this document only: a $500.00 Zelle notification of 08-20 is not the $220.00 soffit row of 08-18; it is one of the four $500 rows"
   }
  ],
  "redate": [
@@ -3294,6 +3318,28 @@
   {
    "docId": "gm-19d775f16740a511",
    "why": "Claude 2026-09-21 (audit §43): receipt 161.28, rows 151.28 once the day's weak rows were placed on it; the remaining 10.00 is items Paul did not enter (returned, left out or personal - D-028). PARKED for Phase 3; no typed amount is contradicted"
+  },
+  {
+   "docId": "gm-19eea46b8e933be6",
+   "why": "Claude 2026-09-21 (audit §46, the 15 paul@ messages read for filing): VistaPrint order of 06-21: receipt 369.08, the two rows 318.68 are its two items with tax (audit §42); the 50.40 left is shipping net of a discount, in neither row. Under the bar, left as typed; on the card statement in Phase 3"
+  },
+  {
+   "docId": "gm-19d48c027c0e05fa",
+   "why": "Claude 2026-09-21 (audit §46, the 15 paul@ messages read for filing): Atlas Pools invoice 16097: Atlas received 2,152.00 by wire on 03/30, the row is 2,177.00 - the $25.00 wire fee (audit §26; Paul: 'those were most likely wire transfer charges'). Row kept as typed (D-027)"
+  }
+ ],
+ "account": [
+  {
+   "key": "PROP-252",
+   "account": "1020",
+   "row": "104 Ashburne 2026-03-29 Atlas Pools Payment 2,177.00",
+   "why": "Claude 2026-09-21 (audit §46): the last payment on renovation invoice 16097, whose four other payments are 1020; the new read held the document and guessed 1130 from the monthly service rows"
+  },
+  {
+   "key": "PROP-86",
+   "account": "1020",
+   "row": "366 Mesa 2026-08-19 Carlos Siding Insatll 500.00",
+   "why": "Claude 2026-09-21 (audit §46): four identical $500.00 Zelle payments to Carlos A Ibarra typed 'Siding Install'; three reads say labor (1020), this one guessed materials. Paul's description is install labor - the 08-15 'Siding Supplies' row keeps 1030"
   }
  ]
 }
