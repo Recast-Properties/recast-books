@@ -38,54 +38,94 @@ date,tab,block,payee,desc,amount
 2026-03-10,104 Ashburne,Trash,Julio,Labor,200.00
 2026-04-05,104 Ashburne,Landscaping,Julio,Labor,200.00
 2026-04-06,104 Ashburne,Landscaping,Julio,Labor,200.00
+2026-05-29,104 Ashburne,Landscaping,Julio,Labor,200.00
 2026-06-12,1616 Granite RECONCILED,,Julio,Landscaping,200.00
 2026-06-22,1616 Granite RECONCILED,,Julio,Landscaping,200.00
 2026-06-04,280 Sparkling RECONCILED,,Julio,Landscaping,200.00
 2026-06-12,280 Sparkling RECONCILED,,Julio,Landscaping,200.00
+2026-05-29,1616 Granite RECONCILED,,Home Depot,Plastic Edging,194.62
 2026-04-09,104 Ashburne,Lighting & Electrical,Home Depot,Outlets & Testet,168.53
 2026-06-16,280 Sparkling RECONCILED,,TXU,Electricity,161.17
 2026-02-04,104 Ashburne,House Hardware,Lowes,Door Knobs,140.68
 2026-06-04,104 Ashburne,Utilities,Energy Texas,Electricity,139.21
 2026-05-05,104 Ashburne,Utilities,City of Ovilla,Water,131.53
+2026-02-16,RECAST BIZ,Tools,Harbor Freight,Roto Hammer Drill,124.48
 2026-05-27,1616 Granite RECONCILED,,Amazon,Exterior Light,111.42
 2026-08-03,136 Bowling Green,,The Home Depot,HWTSTAT - Honeywell T5 7-Day 2-Stage Programmable Thermostat (SKU 085267851534),107.15
+2026-05-08,1616 Granite RECONCILED,,Home Depot,Weed and Feed,107.06
 2026-05-27,1616 Granite RECONCILED,,Amazon,Curtain Rods & Door Lock,105.15
 2026-09-01,469 Brushwood,,Waxahachie Watwr,Water,100.00
 2026-02-12,104 Ashburne,Landscaping,Julio,Labor,100.00
 2026-05-08,104 Ashburne,Landscaping,Julio,Lawn Maintenance,100.00
+2026-04-05,104 Ashburne,Lighting & Electrical,Home Depot,Smokle Detectors,85.42
 2026-04-08,104 Ashburne,Paint & Flooring,Home Depot,Floor mats,81.22
 2026-03-12,104 Ashburne,Master Bath,Home Depot,Backer Board,78.21
 2026-03-12,104 Ashburne,Landscaping,Home Depot,Weed & Feed,75.74
 2026-05-27,1616 Granite RECONCILED,,Amazon,Curtain Rods,72.65
 2026-06-26,RECAST BIZ,Gas/Truck/Trailer,Shell,Fuel - 18.762 gallons,69.40
+2026-05-29,1616 Granite RECONCILED,,Home Depot,Lawn Utility Box,64.53
 2026-04-05,104 Ashburne,Lighting & Electrical,Home Depot,Light Bulbs,63.76
+2026-03-30,104 Ashburne,House Hardware,Lowes,Door Knobs,59.49
 2026-06-22,RECAST BIZ,Gas/Truck/Trailer,Shell,Regular fuel 17.425G @ $3.139/gal,54.70
+2026-04-05,RECAST BIZ,Tools,Home Depot,Drill Bit,54.09
+2026-03-12,104 Ashburne,Paint & Flooring,Home Depot,Quarter Round,52.53
+2026-04-15,104 Ashburne,Supplies,Home Depot,Misc Supplies,51.38
 2026-06-24,RECAST BIZ,Gas/Truck/Trailer,O'Reilly Auto Parts,VAL SYN5-20-5QT 5QT MOTOROIL,45.45
+2026-01-13,104 Ashburne,Utilities,Energy Texas,Electricity,43.57
 2026-06-28,1616 Granite RECONCILED,,Home Depot,Toilet Kits,40.01
+2026-09-01,Cost Recapture,Sparkling & Granite,Waxahachie Water,Card Service Fee,40.00
+2026-03-30,104 Ashburne,Landscaping,Home Depot,Fence Boards,39.34
+2026-04-01,104 Ashburne,Paint & Flooring,Home Depot,Quarter Round,38.78
 2026-06-10,1616 Granite RECONCILED,,Lowes,Floor Paint,37.97
 2026-03-06,104 Ashburne,Supplies,Home Depot,Multi Tool Blades,36.74
 2026-05-26,1616 Granite RECONCILED,,Sherwin WIlliams,Sherwin WIllains,33.81
 2026-03-19,104 Ashburne,Master Bath,Lowes,Water Supplies,33.25
+2026-03-12,104 Ashburne,Master Bath,Home Depot,FJP 1x6,32.99
 2026-03-17,104 Ashburne,Kitchen,Amazon,Under Cabinet Lights,32.46
+2026-05-29,1616 Granite RECONCILED,,Home Depot,Toilet Seat,32.45
 2026-05-27,1616 Granite RECONCILED,,Amazon,Curtain Rods,30.80
 ,RECAST BIZ,Website,Apify,Monthly Apify subscription,29.00
 2026-03-19,104 Ashburne,Lighting & Electrical,Lowes,"18"" Downrod",25.88
+2026-04-03,104 Ashburne,Paint & Flooring,Lowes,Quarter Round,25.76
 2026-04-01,104 Ashburne,Supplies,Home Depot,Angle Grinder discs,25.37
 2026-05-26,1616 Granite RECONCILED,,Sherwin WIlliams,Sherwin WIllains,24.24
 2026-03-26,104 Ashburne,Master Bath,Home Depot,Closet Shelf,23.79
+2026-05-29,1616 Granite RECONCILED,,Home Depot,Toilet Parts,23.79
+2026-02-16,RECAST BIZ,Tools,Home Depot,Scrapers,23.75
+2026-04-01,104 Ashburne,House Hardware,Home Depot,oor weather stripping,22.50
+2026-06-16,104 Ashburne,Supplies,Home Depot,Nuts and bolts,22.09
+2026-03-15,104 Ashburne,Supplies,Home Depot,Sanding Discs,21.56
 2026-03-19,104 Ashburne,Supplies,Lowes,Silicone Caulk,20.96
 2026-09-02,366 Mesa,,Home Depot,?,20.72
+2026-06-30,104 Ashburne,Small Baths,Home Depot,Caulk,19.98
 2026-08-03,366 Mesa,,Home Depot,?,19.66
+2026-03-26,104 Ashburne,Lighting & Electrical,Home Depot,Wall Plates,17.08
 2026-06-28,280 Sparkling RECONCILED,,Home Depot,PVC Cement,16.22
+2026-03-11,104 Ashburne,Small Baths,Home Depot,Angle Stop,15.76
 2026-04-01,104 Ashburne,Supplies,Home Depot,Adhesive,15.67
+2026-02-15,104 Ashburne,Master Bath,Home Depot,2x4's,15.33
 2026-03-25,104 Ashburne,Supplies,Home Depot,Tapcon Scres & Bit,14.68
 2026-02-24,104 Ashburne,Lighting & Electrical,Amazon,Light Bulbs,10.81
 2026-06-28,280 Sparkling RECONCILED,,Home Depot,Painters Towels,9.93
 2026-05-30,1616 Granite RECONCILED,,Lowes,Irrigation Sprinkler,9.61
 2026-03-26,104 Ashburne,Lighting & Electrical,Home Depot,Old Work Boxes,9.18
+2026-04-05,104 Ashburne,Supplies,Home Depot,Drill Bit,9.17
+2026-04-05,104 Ashburne,Supplies,Home Depot,Drill Bit,9.17
 2026-03-29,104 Ashburne,Supplies,Home Depot,Tapcon Screws,8.64
+2026-04-02,104 Ashburne,Small Baths,Home Depot,Gaskets,8.31
+2026-06-16,104 Ashburne,Supplies,Home Depot,Spray Paint,7.56
+2026-06-25,RECAST BIZ,Office,The Home Depot,2X60 CL TAPE - SCOTCH HVYDUTY 54YDS RD 1PK,7.51
 2026-06-24,RECAST BIZ,Marketing,The Home Depot,Zip ties for signs,6.73
+2026-03-05,104 Ashburne,Lighting & Electrical,Home Depot,Outlet Covers,5.85
 2026-03-23,104 Ashburne,Supplies,Home Depot,Abrasive Cloth,5.37
+2026-06-16,104 Ashburne,Supplies,Home Depot,2x4,4.03
+2026-05-29,1616 Granite RECONCILED,,Home Depot,Irrigation Couplings,3.71
+2026-06-16,104 Ashburne,Supplies,Home Depot,Nuts and Bolts,2.89
+2026-03-26,104 Ashburne,Master Bath,Home Depot,Hose Clamp,2.53
+2026-06-25,RECAST BIZ,Office,The Home Depot,MED BOX - MEDIUM BOX 20X16X15,2.47
+2026-06-25,RECAST BIZ,Office,The Home Depot,MED BOX - MEDIUM BOX 20X16X15,2.47
+2026-08-18,366 Mesa,,Home Depot,Pipe coupling,1.18
 2026-05-30,1616 Granite RECONCILED,,Lowes,Irrigation Riser,0.92
 2026-06-13,RECAST BIZ,Subscriptions,"Anthropic, PBC",Unused time on Claude Pro after 13 Jun 2026,-13.34
+2026-03-21,104 Ashburne,Lighting & Electrical,Lowes,RETURN celing fan,-108.23
 2026-03-19,104 Ashburne,Small Baths,Floor & Decor,RETURN,-121.02

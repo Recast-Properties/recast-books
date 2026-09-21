@@ -1328,3 +1328,25 @@ shower niches), Home Depot 09-06 (the second can of stain: the receipt's line is
 Lists now: **differences 0, in mail not in the books 0**, confirm the match 63, no document 90 (of which
 Paul has accepted $36.9K of contractor checks and cash). Amounts and ids unchanged: 1,047 entries,
 $240,825.35. Not pushed (offline); staging holds pass 9.
+
+## 43 · Confirm list closed out offline (2026-09-21): every weak candidate linked or refused by name
+
+All rows under $310, decided by judgment as agreed on 09-18, each decision recorded in `paul-answers.json`:
+- **Linked, 20 rows:** same vendor, same day (±1), and the candidate receipt still had room for the row after
+  the rows already on it (the read grouped its items, so the line cannot be shown one to one). One of them
+  shows a slip: Home Depot 04-10 receipt $161.28, "Misc Supplies" row $151.28 - exactly $10.00 apart; under the
+  $100 bar, left as typed.
+- **Refused, per document (rule 4):** the candidate is another vendor's (Julio → CoreLogic, Energy Texas →
+  Atmos, Waxahachie Water → Central States); a refund slip offered for a purchase row; more than three days
+  away at a different amount; or a receipt other rows already explain in full (18). Duplicate refusals that
+  had piled up in `no_link` were removed (191 → 140, then + 18).
+- Six receipts that gained a row and still show a remainder joined `differences_settled` (parked, D-028).
+
+**The lists are done:** differences 0 · in mail, not in the books 0 · confirm 3 (the three duplicate rows
+Paul dropped - C-9 x2, C-17 - which the list still shows because it is built before drops) · no document
+128 rows, **$51,426.24**, of which $36,880 Paul accepted on 09-18 (Juan Garcia 4 x $7,000, Salvador Campos,
+the Mesa checks); the rest is cash labor (Julio, Mariana), the second 50Floor charge ($1,319) and small Home
+Depot rows - all proven, or not, from the bank and card statements in Phase 3.
+
+**Numbers:** 1,047 entries, $240,825.35, unchanged; **919 linked - 87.8% of rows, 78.6% of dollars**; link
+audit clean in both sections. Not pushed (offline); staging holds pass 9.

@@ -722,6 +722,126 @@
    "row": "104 Ashburne 2026-03-22 Home Depot 5.27",
    "docId": "gm-19d16d3ec604edb7",
    "why": "Claude 2026-09-21 (audit §42): the only Home Depot receipt of that day, with room for the row. (Same rule as the 14 rows linked on 09-18: one same-vendor receipt that day.)"
+  },
+  {
+   "key": "PROP-633",
+   "row": "104 Ashburne 2026-04-10 Home Depot 151.28",
+   "docId": "gm-19d775f16740a511",
+   "why": "Claude 2026-09-21 (audit §43): same vendor, same day, and the receipt ($161.28) still has room for the row after the rows already on it; the read grouped its items, so the line cannot be shown one to one. Below $310 - decided by judgment, as agreed for the confirm list"
+  },
+  {
+   "key": "PROP-433",
+   "row": "104 Ashburne 2026-03-12 Home Depot 75.86",
+   "docId": "gm-19ce3297652cbfc8",
+   "why": "Claude 2026-09-21 (audit §43): same vendor, same day, and the receipt ($385.27) still has room for the row after the rows already on it; the read grouped its items, so the line cannot be shown one to one. Below $310 - decided by judgment, as agreed for the confirm list"
+  },
+  {
+   "key": "PROP-107",
+   "row": "366 Mesa 2026-08-14 Home Depot 69.61",
+   "docId": "gm-1a000805d296df8b",
+   "why": "Claude 2026-09-21 (audit §43): same vendor, same day, and the receipt ($87.26) still has room for the row after the rows already on it; the read grouped its items, so the line cannot be shown one to one. Below $310 - decided by judgment, as agreed for the confirm list"
+  },
+  {
+   "key": "PROP-381",
+   "row": "104 Ashburne 2026-02-15 Home Depot 60.79",
+   "docId": "gm-19c617b59e734eb5",
+   "why": "Claude 2026-09-21 (audit §43): same vendor, same day, and the receipt ($137.68) still has room for the row after the rows already on it; the read grouped its items, so the line cannot be shown one to one. Below $310 - decided by judgment, as agreed for the confirm list"
+  },
+  {
+   "key": "PROP-41",
+   "row": "881 Newport 2026-07-08 Home Depot 51.12",
+   "docId": "gm-19f41acfd298c9d7",
+   "why": "Claude 2026-09-21 (audit §43): same vendor, same day, and the receipt ($87.93) still has room for the row after the rows already on it; the read grouped its items, so the line cannot be shown one to one. Below $310 - decided by judgment, as agreed for the confirm list"
+  },
+  {
+   "key": "PROP-486",
+   "row": "104 Ashburne 2026-03-25 Home Depot 49.75",
+   "docId": "gm-19d25017467ed73d",
+   "why": "Claude 2026-09-21 (audit §43): same vendor, same day, and the receipt ($241.50) still has room for the row after the rows already on it; the read grouped its items, so the line cannot be shown one to one. Below $310 - decided by judgment, as agreed for the confirm list"
+  },
+  {
+   "key": "PROP-497",
+   "row": "104 Ashburne 2026-04-05 Home Depot 45.40",
+   "docId": "gm-19d5e139b4ae4612",
+   "why": "Claude 2026-09-21 (audit §43): same vendor, same day, and the receipt ($288.44) still has room for the row after the rows already on it; the read grouped its items, so the line cannot be shown one to one. Below $310 - decided by judgment, as agreed for the confirm list"
+  },
+  {
+   "key": "PROP-161",
+   "row": "104 Ashburne 2026-02-17 Home Depot 44.99",
+   "docId": "gm-19c6be8d0bd458c9",
+   "why": "Claude 2026-09-21 (audit §43): same vendor, same day, and the receipt ($67.55) still has room for the row after the rows already on it; the read grouped its items, so the line cannot be shown one to one. Below $310 - decided by judgment, as agreed for the confirm list"
+  },
+  {
+   "key": "PROP-650",
+   "row": "104 Ashburne 2026-06-16 Home Depot 44.03",
+   "docId": "gm-19ed818d6be0fb42",
+   "why": "Claude 2026-09-21 (audit §43): same vendor, same day, and the receipt ($126.66) still has room for the row after the rows already on it; the read grouped its items, so the line cannot be shown one to one. Below $310 - decided by judgment, as agreed for the confirm list"
+  },
+  {
+   "key": "PROP-652",
+   "row": "104 Ashburne 2026-06-16 Home Depot 33.20",
+   "docId": "gm-19ed818d6be0fb42",
+   "why": "Claude 2026-09-21 (audit §43): same vendor, same day, and the receipt ($126.66) still has room for the row after the rows already on it; the read grouped its items, so the line cannot be shown one to one. Below $310 - decided by judgment, as agreed for the confirm list"
+  },
+  {
+   "key": "BIZ-67",
+   "row": "RECAST BIZ 2026-06-29 The Home Depot 27.03",
+   "docId": "gm-19f13a69198b2b6c",
+   "why": "Claude 2026-09-21 (audit §43): same vendor, same day, and the receipt ($37.40) still has room for the row after the rows already on it; the read grouped its items, so the line cannot be shown one to one. Below $310 - decided by judgment, as agreed for the confirm list"
+  },
+  {
+   "key": "BIZ-56",
+   "row": "RECAST BIZ 2026-04-01 Home Depot 21.08",
+   "docId": "gm-19d4918fa3edc702",
+   "why": "Claude 2026-09-21 (audit §43): same vendor, same day, and the receipt ($281.09) still has room for the row after the rows already on it; the read grouped its items, so the line cannot be shown one to one. Below $310 - decided by judgment, as agreed for the confirm list"
+  },
+  {
+   "key": "PROP-484",
+   "row": "104 Ashburne 2026-03-25 Home Depot 16.33",
+   "docId": "gm-19d25017467ed73d",
+   "why": "Claude 2026-09-21 (audit §43): same vendor, same day, and the receipt ($241.50) still has room for the row after the rows already on it; the read grouped its items, so the line cannot be shown one to one. Below $310 - decided by judgment, as agreed for the confirm list"
+  },
+  {
+   "key": "PROP-566",
+   "row": "104 Ashburne 2026-03-12 Home Depot 16.05",
+   "docId": "gm-19ce3297652cbfc8",
+   "why": "Claude 2026-09-21 (audit §43): same vendor, same day, and the receipt ($385.27) still has room for the row after the rows already on it; the read grouped its items, so the line cannot be shown one to one. Below $310 - decided by judgment, as agreed for the confirm list"
+  },
+  {
+   "key": "PROP-625",
+   "row": "104 Ashburne 2026-04-05 Home Depot 14.40",
+   "docId": "gm-19d5e139b4ae4612",
+   "why": "Claude 2026-09-21 (audit §43): same vendor, same day, and the receipt ($288.44) still has room for the row after the rows already on it; the read grouped its items, so the line cannot be shown one to one. Below $310 - decided by judgment, as agreed for the confirm list"
+  },
+  {
+   "key": "PROP-544",
+   "row": "104 Ashburne 2026-04-03 Lowes 11.80",
+   "docId": "gm-19d535a923f6b186",
+   "why": "Claude 2026-09-21 (audit §43): same vendor, same day, and the receipt ($341.72) still has room for the row after the rows already on it; the read grouped its items, so the line cannot be shown one to one. Below $310 - decided by judgment, as agreed for the confirm list"
+  },
+  {
+   "key": "PROP-318",
+   "row": "104 Ashburne 2026-03-12 Home Depot 8.63",
+   "docId": "gm-19ce3297652cbfc8",
+   "why": "Claude 2026-09-21 (audit §43): same vendor, same day, and the receipt ($385.27) still has room for the row after the rows already on it; the read grouped its items, so the line cannot be shown one to one. Below $310 - decided by judgment, as agreed for the confirm list"
+  },
+  {
+   "key": "PROP-182",
+   "row": "104 Ashburne 2026-02-17 Home Depot 6.95",
+   "docId": "gm-19c6be8d0bd458c9",
+   "why": "Claude 2026-09-21 (audit §43): same vendor, same day, and the receipt ($67.55) still has room for the row after the rows already on it; the read grouped its items, so the line cannot be shown one to one. Below $310 - decided by judgment, as agreed for the confirm list"
+  },
+  {
+   "key": "PROP-49",
+   "row": "881 Newport 2026-09-05 Lowes 6.47",
+   "docId": "dry-gm-1a07217d8a060601",
+   "why": "Claude 2026-09-21 (audit §43): same vendor, same day, and the receipt ($64.93) still has room for the row after the rows already on it; the read grouped its items, so the line cannot be shown one to one. Below $310 - decided by judgment, as agreed for the confirm list"
+  },
+  {
+   "key": "BIZ-40",
+   "row": "RECAST BIZ 2026-02-17 Home Depot 2.65",
+   "docId": "gm-19c6be8d0bd458c9",
+   "why": "Claude 2026-09-21 (audit §43): same vendor, same day, and the receipt ($67.55) still has room for the row after the rows already on it; the read grouped its items, so the line cannot be shown one to one. Below $310 - decided by judgment, as agreed for the confirm list"
   }
  ],
  "no_link": [
@@ -1387,6 +1507,276 @@
    "docId": "gm-19fc94ab6c53f72a",
    "row": "280 Sparkling RECONCILED 2026-08-05 TXU 228.64",
    "why": "Claude 2026-09-18, for this document only: this receipt totals $164.02, less than the row"
+  },
+  {
+   "key": "PROP-178",
+   "docId": "gm-19bc4405fa0bc7e5",
+   "row": "104 Ashburne 2026-01-23 Juan Garcia 7000.00",
+   "why": "Claude 2026-09-21 (audit §43): for this document only: 8 days from the row and a different amount ($1,000.00)"
+  },
+  {
+   "key": "PROP-700",
+   "docId": "gm-19e4a94c6d49832a",
+   "row": "1616 Granite RECONCILED 2026-05-29 Julio & Friend 600.00",
+   "why": "Claude 2026-09-21 (audit §43): for this document only: 8 days from the row and a different amount ($250.00)"
+  },
+  {
+   "key": "PROP-706",
+   "docId": "gm-19f138efc8a67a8f",
+   "row": "1616 Granite RECONCILED 2026-06-01 Mariana 500.00",
+   "why": "Claude 2026-09-21 (audit §43): for this document only: 28 days from the row and a different amount ($500.00)"
+  },
+  {
+   "key": "PROP-529",
+   "docId": "gm-19e8ef3d9338fabb",
+   "row": "104 Ashburne 2026-05-29 Julio 200.00",
+   "why": "Claude 2026-09-21 (audit §43): for this document only: it is CoreLogic Solutions, LLC's, not Julio's"
+  },
+  {
+   "key": "PROP-689",
+   "docId": "gm-19e758f6dc2ba281",
+   "row": "1616 Granite RECONCILED 2026-05-29 Home Depot 194.62",
+   "why": "Claude 2026-09-21 (audit §43): for this document only: a refund slip (-50.36) cannot be the receipt of a purchase row"
+  },
+  {
+   "key": "PROP-721",
+   "docId": "gm-19e0304909d9e7ca",
+   "row": "1616 Granite RECONCILED 2026-05-08 Home Depot 107.06",
+   "why": "Claude 2026-09-21 (audit §43): for this document only: a refund slip (-106.95) cannot be the receipt of a purchase row"
+  },
+  {
+   "key": "PROP-556",
+   "docId": "gm-19d3ee7e210a8af3",
+   "row": "104 Ashburne 2026-04-05 Home Depot 85.42",
+   "why": "Claude 2026-09-21 (audit §43): for this document only: 6 days from the row and a different amount ($85.23)"
+  },
+  {
+   "key": "PROP-686",
+   "docId": "gm-19e758f6dc2ba281",
+   "row": "1616 Granite RECONCILED 2026-05-29 Home Depot 64.53",
+   "why": "Claude 2026-09-21 (audit §43): for this document only: a refund slip (-50.36) cannot be the receipt of a purchase row"
+  },
+  {
+   "key": "BIZ-58",
+   "docId": "gm-19ccf1f38113d4f9",
+   "row": "RECAST BIZ 2026-04-05 Home Depot 54.09",
+   "why": "Claude 2026-09-21 (audit §43): for this document only: 28 days from the row and a different amount ($106.75)"
+  },
+  {
+   "key": "PROP-389",
+   "docId": "gm-19d019ce67d9c5c3",
+   "row": "104 Ashburne 2026-03-12 Home Depot 52.53",
+   "why": "Claude 2026-09-21 (audit §43): for this document only: 6 days from the row and a different amount ($54.47)"
+  },
+  {
+   "key": "PROP-641",
+   "docId": "gm-19d9259fe2484c26",
+   "row": "104 Ashburne 2026-04-15 Home Depot 51.38",
+   "why": "Claude 2026-09-21 (audit §43): for this document only: a refund slip (-491.06) cannot be the receipt of a purchase row"
+  },
+  {
+   "key": "PROP-192",
+   "docId": "gm-19bbebe1e4fc35df",
+   "row": "104 Ashburne 2026-01-13 Energy Texas 43.57",
+   "why": "Claude 2026-09-21 (audit §43): for this document only: it is Atmos Energy's, not Energy Texas's"
+  },
+  {
+   "key": "PROP-792",
+   "docId": "gm-1a082f33d602358c",
+   "row": "Cost Recapture 2026-09-01 Waxahachie Water 40.00",
+   "why": "Claude 2026-09-21 (audit §43): for this document only: it is Central States Water Resources's, not Waxahachie Water's"
+  },
+  {
+   "key": "PROP-362",
+   "docId": "gm-19d724c5c326c549",
+   "row": "104 Ashburne 2026-03-30 Home Depot 39.34",
+   "why": "Claude 2026-09-21 (audit §43): for this document only: 10 days from the row and a different amount ($40.01)"
+  },
+  {
+   "key": "PROP-469",
+   "docId": "gm-19d724c5c326c549",
+   "row": "104 Ashburne 2026-04-01 Home Depot 38.78",
+   "why": "Claude 2026-09-21 (audit §43): for this document only: 8 days from the row and a different amount ($40.01)"
+  },
+  {
+   "key": "PROP-687",
+   "docId": "gm-19e758f6dc2ba281",
+   "row": "1616 Granite RECONCILED 2026-05-29 Home Depot 32.45",
+   "why": "Claude 2026-09-21 (audit §43): for this document only: a refund slip (-50.36) cannot be the receipt of a purchase row"
+  },
+  {
+   "key": "PROP-680",
+   "docId": "gm-19e758f6dc2ba281",
+   "row": "1616 Granite RECONCILED 2026-05-29 Home Depot 23.79",
+   "why": "Claude 2026-09-21 (audit §43): for this document only: a refund slip (-50.36) cannot be the receipt of a purchase row"
+  },
+  {
+   "key": "PROP-385",
+   "docId": "gm-19d62dc0a36bb7bd",
+   "row": "104 Ashburne 2026-04-01 Home Depot 22.50",
+   "why": "Claude 2026-09-21 (audit §43): for this document only: 5 days from the row and a different amount ($23.79)"
+  },
+  {
+   "key": "PROP-570",
+   "docId": "gm-19f18a7ab38c52cf",
+   "row": "104 Ashburne 2026-06-30 Home Depot 19.98",
+   "why": "Claude 2026-09-21 (audit §43): for this document only: a refund slip (-74.57) cannot be the receipt of a purchase row"
+  },
+  {
+   "key": "PROP-491",
+   "docId": "gm-19d2a51f5dffc8be",
+   "row": "104 Ashburne 2026-03-26 Home Depot 17.08",
+   "why": "Claude 2026-09-21 (audit §43): for this document only: a refund slip (-53.14) cannot be the receipt of a purchase row"
+  },
+  {
+   "key": "PROP-623",
+   "docId": "gm-19d2c0314cc37287",
+   "row": "104 Ashburne 2026-04-05 Home Depot 9.17",
+   "why": "Claude 2026-09-21 (audit §43): for this document only: 10 days from the row and a different amount ($8.40)"
+  },
+  {
+   "key": "PROP-624",
+   "docId": "gm-19d2c0314cc37287",
+   "row": "104 Ashburne 2026-04-05 Home Depot 9.17",
+   "why": "Claude 2026-09-21 (audit §43): for this document only: 10 days from the row and a different amount ($8.40)"
+  },
+  {
+   "key": "PROP-534",
+   "docId": "gm-19d2c0314cc37287",
+   "row": "104 Ashburne 2026-04-02 Home Depot 8.31",
+   "why": "Claude 2026-09-21 (audit §43): for this document only: 7 days from the row and a different amount ($8.40)"
+  },
+  {
+   "key": "PROP-688",
+   "docId": "gm-19e758f6dc2ba281",
+   "row": "1616 Granite RECONCILED 2026-05-29 Home Depot 3.71",
+   "why": "Claude 2026-09-21 (audit §43): for this document only: a refund slip (-50.36) cannot be the receipt of a purchase row"
+  },
+  {
+   "key": "PROP-551",
+   "docId": "gm-19d2a51f5dffc8be",
+   "row": "104 Ashburne 2026-03-26 Home Depot 2.53",
+   "why": "Claude 2026-09-21 (audit §43): for this document only: a refund slip (-53.14) cannot be the receipt of a purchase row"
+  },
+  {
+   "key": "PROP-94",
+   "docId": "gm-1a000805d296df8b",
+   "row": "366 Mesa 2026-08-18 Home Depot 1.18",
+   "why": "Claude 2026-09-21 (audit §43): for this document only: 4 days from the row and a different amount ($87.26)"
+  },
+  {
+   "key": "PROP-441",
+   "docId": "gm-19d11a93764263f8",
+   "row": "104 Ashburne 2026-03-21 Lowes -108.23",
+   "why": "Claude 2026-09-21 (audit §43): for this document only: a document with no total (297.23) cannot be the receipt of a return row"
+  },
+  {
+   "key": "BIZ-33",
+   "docId": "gm-19c66a1cdb487a56",
+   "row": "RECAST BIZ 2026-02-16 Home Depot 23.75",
+   "why": "Claude 2026-09-21 (audit §43): for this document only: the receipt ($183.38, 2026-02-16) has no room left for the row - other rows already explain it"
+  },
+  {
+   "key": "BIZ-37",
+   "docId": "gm-19c678226649aa40",
+   "row": "RECAST BIZ 2026-02-16 Harbor Freight 124.48",
+   "why": "Claude 2026-09-21 (audit §43): for this document only: the receipt ($250.77, 2026-02-16) has no room left for the row - other rows already explain it"
+  },
+  {
+   "key": "BIZ-167",
+   "docId": "gm-19f00c2049c512fe",
+   "row": "RECAST BIZ 2026-06-25 The Home Depot 2.47",
+   "why": "Claude 2026-09-21 (audit §43): for this document only: the receipt ($176.59, 2026-06-25) has no room left for the row - other rows already explain it"
+  },
+  {
+   "key": "BIZ-168",
+   "docId": "gm-19f00c2049c512fe",
+   "row": "RECAST BIZ 2026-06-25 The Home Depot 2.47",
+   "why": "Claude 2026-09-21 (audit §43): for this document only: the receipt ($176.59, 2026-06-25) has no room left for the row - other rows already explain it"
+  },
+  {
+   "key": "BIZ-169",
+   "docId": "gm-19f1083966df0eb6",
+   "row": "RECAST BIZ 2026-06-25 The Home Depot 7.51",
+   "why": "Claude 2026-09-21 (audit §43): for this document only: the receipt ($7.47, 2026-06-28) has no room left for the row - other rows already explain it"
+  },
+  {
+   "key": "PROP-157",
+   "docId": "gm-19bc4405fa0bc7e5",
+   "row": "104 Ashburne 2026-01-12 Juan Garcia 7000.00",
+   "why": "Claude 2026-09-21 (audit §43): for this document only: the receipt ($1,000.00, 2026-01-15) has no room left for the row - other rows already explain it"
+  },
+  {
+   "key": "PROP-327",
+   "docId": "gm-19cdd47626a096cb",
+   "row": "104 Ashburne 2026-03-11 Home Depot 15.76",
+   "why": "Claude 2026-09-21 (audit §43): for this document only: the receipt ($31.51, 2026-03-11) has no room left for the row - other rows already explain it"
+  },
+  {
+   "key": "PROP-337",
+   "docId": "gm-19c7092d542413e0",
+   "row": "104 Ashburne 2026-02-15 Home Depot 15.33",
+   "why": "Claude 2026-09-21 (audit §43): for this document only: the receipt ($69.56, 2026-02-18) has no room left for the row - other rows already explain it"
+  },
+  {
+   "key": "PROP-374",
+   "docId": "gm-19d442100d7bb73f",
+   "row": "104 Ashburne 2026-03-30 Lowes 59.49",
+   "why": "Claude 2026-09-21 (audit §43): for this document only: the receipt ($340.90, 2026-03-30) has no room left for the row - other rows already explain it"
+  },
+  {
+   "key": "PROP-380",
+   "docId": "gm-19cbddb92c61a37a",
+   "row": "104 Ashburne 2026-03-05 Home Depot 5.85",
+   "why": "Claude 2026-09-21 (audit §43): for this document only: the receipt ($365.89, 2026-03-05) has no room left for the row - other rows already explain it"
+  },
+  {
+   "key": "PROP-442",
+   "docId": "gm-19cdd47626a096cb",
+   "row": "104 Ashburne 2026-03-12 Home Depot 32.99",
+   "why": "Claude 2026-09-21 (audit §43): for this document only: the receipt ($31.51, 2026-03-11) has no room left for the row - other rows already explain it"
+  },
+  {
+   "key": "PROP-473",
+   "docId": "gm-19d7e6e5e1ce5426",
+   "row": "104 Ashburne 2026-04-10 Julio & Friend 800.00",
+   "why": "Claude 2026-09-21 (audit §43): for this document only: the receipt ($400.00, 2026-04-11) has no room left for the row - other rows already explain it"
+  },
+  {
+   "key": "PROP-483",
+   "docId": "gm-19d535a923f6b186",
+   "row": "104 Ashburne 2026-04-03 Lowes 25.76",
+   "why": "Claude 2026-09-21 (audit §43): for this document only: the receipt ($341.72, 2026-04-03) has no room left for the row - other rows already explain it"
+  },
+  {
+   "key": "PROP-583",
+   "docId": "gm-19cf2444d6efb00f",
+   "row": "104 Ashburne 2026-03-15 Home Depot 21.56",
+   "why": "Claude 2026-09-21 (audit §43): for this document only: the receipt ($313.59, 2026-03-15) has no room left for the row - other rows already explain it"
+  },
+  {
+   "key": "PROP-648",
+   "docId": "gm-19ed818d6be0fb42",
+   "row": "104 Ashburne 2026-06-16 Home Depot 4.03",
+   "why": "Claude 2026-09-21 (audit §43): for this document only: the receipt ($126.66, 2026-06-16) has no room left for the row - other rows already explain it"
+  },
+  {
+   "key": "PROP-651",
+   "docId": "gm-19ed818d6be0fb42",
+   "row": "104 Ashburne 2026-06-16 Home Depot 7.56",
+   "why": "Claude 2026-09-21 (audit §43): for this document only: the receipt ($126.66, 2026-06-16) has no room left for the row - other rows already explain it"
+  },
+  {
+   "key": "PROP-654",
+   "docId": "gm-19ed818d6be0fb42",
+   "row": "104 Ashburne 2026-06-16 Home Depot 22.09",
+   "why": "Claude 2026-09-21 (audit §43): for this document only: the receipt ($126.66, 2026-06-16) has no room left for the row - other rows already explain it"
+  },
+  {
+   "key": "PROP-656",
+   "docId": "gm-19ed818d6be0fb42",
+   "row": "104 Ashburne 2026-06-16 Home Depot 2.89",
+   "why": "Claude 2026-09-21 (audit §43): for this document only: the receipt ($126.66, 2026-06-16) has no room left for the row - other rows already explain it"
   }
  ],
  "redate": [
@@ -2867,6 +3257,30 @@
   {
    "docId": "gm-19f0e8b993f57cd0",
    "why": "Claude 2026-09-21 (audit §42): Home Depot 06-28 $6.35 vs the Sand Paper row $6.47 - 12 cents; left as typed"
+  },
+  {
+   "docId": "gm-19ce3297652cbfc8",
+   "why": "Claude 2026-09-21 (audit §43): receipt 385.27, rows 100.54 once the day's weak rows were placed on it; the remaining 284.73 is items Paul did not enter (returned, left out or personal - D-028). PARKED for Phase 3; no typed amount is contradicted"
+  },
+  {
+   "docId": "gm-19d5e139b4ae4612",
+   "why": "Claude 2026-09-21 (audit §43): receipt 288.44, rows 59.80 once the day's weak rows were placed on it; the remaining 228.64 is items Paul did not enter (returned, left out or personal - D-028). PARKED for Phase 3; no typed amount is contradicted"
+  },
+  {
+   "docId": "gm-19d25017467ed73d",
+   "why": "Claude 2026-09-21 (audit §43): receipt 241.50, rows 66.08 once the day's weak rows were placed on it; the remaining 175.42 is items Paul did not enter (returned, left out or personal - D-028). PARKED for Phase 3; no typed amount is contradicted"
+  },
+  {
+   "docId": "gm-19c617b59e734eb5",
+   "why": "Claude 2026-09-21 (audit §43): receipt 137.68, rows 60.79 once the day's weak rows were placed on it; the remaining 76.89 is items Paul did not enter (returned, left out or personal - D-028). PARKED for Phase 3; no typed amount is contradicted"
+  },
+  {
+   "docId": "dry-gm-1a07217d8a060601",
+   "why": "Claude 2026-09-21 (audit §43): receipt 64.93, rows 6.47 once the day's weak rows were placed on it; the remaining 58.46 is items Paul did not enter (returned, left out or personal - D-028). PARKED for Phase 3; no typed amount is contradicted"
+  },
+  {
+   "docId": "gm-19d775f16740a511",
+   "why": "Claude 2026-09-21 (audit §43): receipt 161.28, rows 151.28 once the day's weak rows were placed on it; the remaining 10.00 is items Paul did not enter (returned, left out or personal - D-028). PARKED for Phase 3; no typed amount is contradicted"
   }
  ]
 }
