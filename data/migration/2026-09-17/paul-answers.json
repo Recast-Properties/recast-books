@@ -1969,17 +1969,17 @@
    "said": "Paul 2026-09-18: 'most likely is 136 bowling green' - and his own email to Mission of 07-01 says 'We added and paid for a new listing ... It was for 136 Bowling Green Ave'; Mission: 'Mr. Iley confirmed that you did pay'; listing live 07-02. The Bowling Green tab has no listing fee. 'yes add it and newport too'. Dennis paid: owed back at closing, no interest (D-030)"
   },
   {
-   "date": "2026-09-18",
-   "property": "Cost Recapture",
-   "trade": "881 Newport",
+   "date": "2026-07-13",
+   "property": "881 Newport",
+   "trade": "",
    "account": "1330",
    "amount_cents": 29900,
    "payee": "Mission Real Estate Group (Iley & Iley Financial)",
-   "description": "MLS listing fee, 881 Newport Dr - invoiced to Dennis 2026-07-13, listed 07-14; left off the Newport tab, which is closed",
+   "description": "MLS listing fee, 881 Newport Dr - invoiced to Dennis 2026-07-13, listed 07-14; left off the Newport tab",
    "paid_from": "DENNIS",
    "docId": "gm-19f5dc135791e445",
    "register": "C-19",
-   "said": "Paul 2026-09-18: 'yes add it and newport too'. Mission, 07-13: 'Mr. Iley sent an invoice to Dennis Little'; agent view 07-14. No receipt seen - $299.00 is the flat fee on every other listing (Granite, Sparkling, Bowling Green, Brushwood, Ashburne). Newport is sold, so it sits on Cost Recapture (D-031 extended). Dennis to forward his PayPal receipt"
+   "said": "Paul 2026-09-18: 'yes add it and newport too'. Mission, 07-13: 'Mr. Iley sent an invoice to Dennis Little'; agent view 07-14. No receipt seen - $299.00 is the flat fee on every other listing (Granite, Sparkling, Bowling Green, Brushwood, Ashburne). Newport is sold, so it sits on Cost Recapture (D-031 extended). Dennis to forward his PayPal receipt | CORRECTED 2026-09-21 - Paul: 'not closed. under contact.' (Bison Title file #260910: contract receipted 09-03, earnest money 09-04, title commitment 09-09; the tab has rows to 09-11). Newport is HELD, so this is a row on its own tab at its own date, not a Cost Recapture line (audit §47)"
   },
   {
    "date": "2026-08-21",
@@ -2117,17 +2117,17 @@
    "said": "Paul 2026-09-18: 'dennis only paid that $315. my guess is i paid those falcon invoices from my chase account as zelle payments' - and his Chase Zelle history (evidence/chase-zelle-sent-*.webp) shows it: invoice 1373 $470.00 on 07-24 and invoice 1374 $235.00 on 08-11, each paid in full from his personal Chase. The invoice line was paid and is not in the old books (every Falcon Creek row is accounted for by invoices 1372, 1373, 1374 and 1390)"
   },
   {
-   "date": "2026-09-18",
-   "property": "Cost Recapture",
-   "trade": "881 Newport",
+   "date": "2026-07-30",
+   "property": "881 Newport",
+   "trade": "",
    "account": "1130",
    "amount_cents": 5500,
    "payee": "Falcon Creek Lawn Care",
-   "description": "INV 1374 (07-30) - lawn service, week of 7/24/26, 881 Newport; paid in the $235.00 Zelle of 08-11; left off the Newport tab, which is closed",
+   "description": "INV 1374 - lawn service, week of 7/24/26, 881 Newport; paid in the $235.00 Zelle of 08-11; left off the Newport tab",
    "paid_from": "PAUL",
    "docId": "gm-19fd24ebc9ed8431",
    "register": "C-25",
-   "said": "Paul 2026-09-18: 'dennis only paid that $315. my guess is i paid those falcon invoices from my chase account as zelle payments' - and his Chase Zelle history (evidence/chase-zelle-sent-*.webp) shows it: invoice 1373 $470.00 on 07-24 and invoice 1374 $235.00 on 08-11, each paid in full from his personal Chase. The invoice line was paid and is not in the old books (every Falcon Creek row is accounted for by invoices 1372, 1373, 1374 and 1390)"
+   "said": "Paul 2026-09-18: 'dennis only paid that $315. my guess is i paid those falcon invoices from my chase account as zelle payments' - and his Chase Zelle history (evidence/chase-zelle-sent-*.webp) shows it: invoice 1373 $470.00 on 07-24 and invoice 1374 $235.00 on 08-11, each paid in full from his personal Chase. The invoice line was paid and is not in the old books (every Falcon Creek row is accounted for by invoices 1372, 1373, 1374 and 1390) | CORRECTED 2026-09-21 - Paul: 'not closed. under contact.' (Bison Title file #260910: contract receipted 09-03, earnest money 09-04, title commitment 09-09; the tab has rows to 09-11). Newport is HELD, so this is a row on its own tab at its own date, not a Cost Recapture line (audit §47)"
   },
   {
    "date": "2026-09-18",

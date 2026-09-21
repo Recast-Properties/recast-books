@@ -696,8 +696,9 @@ knowingly incomplete: sold properties show as held inventory, 1402 carries the A
 so nothing new posts to staging between the snapshot and the cutover; the cutover checklist still
 re-exports the old workbook and diffs it against the 2026-09-17 snapshot.
 
-**Corrected 2026-09-18 (Paul): "ashburne has not closed. it is still held."** The past sales the Phase 5
-wizard re-runs are Granite (and its holdback), Sparkling and Newport; Ashburne joins them when it closes.
+**Corrected 2026-09-18 (Paul): "ashburne has not closed. it is still held."** **Corrected again 2026-09-21 (Paul, on
+Newport): "not closed. under contact."** The past sales the Phase 5 wizard re-runs are Granite (and its holdback) and
+Sparkling only; Newport and Ashburne join them when they close (the old Sales tab's figures for those two are projections).
 Until then Ashburne is an ordinary held property: corrections are made on its tab, a cost found in mail is a
 row on its tab (C-22), and D-031's Cost Recapture rule does not apply to it.
 

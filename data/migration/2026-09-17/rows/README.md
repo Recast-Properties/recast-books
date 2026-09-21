@@ -1,6 +1,6 @@
 # Row-driven migration - DRY RUN (D-029). Nothing is posted.
 
-Old rows: 1029  $221,724.59   entries: 1056  $242,787.46   linked to a receipt: 923 (497 Drive file, 426 Gmail link, to be filed)
+Old rows: 1029  $221,724.59   entries: 1056  $242,787.46   linked to a receipt: 923 (511 Drive file, 412 Gmail link, to be filed)
 
 | property | old rows $ | entries | entries $ | difference | linked |
 |---|---:|---:|---:|---:|---:|
@@ -11,8 +11,8 @@ Old rows: 1029  $221,724.59   entries: 1056  $242,787.46   linked to a receipt: 
 | 366 Mesa | 9,648.00 | 26 | 9,648.00 | 0.00 | 19 |
 | 413 Green Acres | 0.00 | 1 | 144.00 | 144.00 | 1 |
 | 469 Brushwood | 1,916.80 | 33 | 1,916.80 | 0.00 | 32 |
-| 881 Newport | 3,089.17 | 30 | 3,089.17 | 0.00 | 30 |
-| Cost Recapture | 1,310.04 | 10 | 1,607.87 | 297.83 | 9 |
+| 881 Newport | 3,089.17 | 32 | 3,443.17 | 354.00 | 32 |
+| Cost Recapture | 1,310.04 | 8 | 1,253.87 | -56.17 | 7 |
 | OVERHEAD | 21,922.31 | 337 | 27,517.64 | 5,595.33 | 323 |
 
 The only differences by property are fuel rows Paul's rule moves to overhead (D-026.9): $3,283.32 (43 rows). Everything else is the old row, to the cent.
