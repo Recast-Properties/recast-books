@@ -1494,3 +1494,26 @@ stored reads:
   the light bulbs.
 Amounts and ids unchanged: 1,048 entries, $240,844.35; link audit clean. Two documents now wait on a read
 from pvb421: `gm-19c3e95a4b9ed901` and `gm-19c8730790dd20df`.
+
+## 49 · Item 7 done; staging pass 11 ties out with every link on Drive (2026-09-21, 15:32 CT)
+
+**Filing finished.** First pass 389 documents + the 12 `evidence/` files (5 failed on a non-JSON reply from
+Apps Script, 16 replies came back without their link - all 16 recovered by exact name from Drive, the twin
+Falcon Creek 1390 file told apart by the id already in the map). Paul forwarded the two bounced pvb421 orders
+to receipts@ (read, pending, nothing posted; the drawer-pulls and light-bulbs rows name those copies). Second
+pass: 22 documents, 0 failed, 0 missing links. **`drive-filing.json`: 423 keys, 636 files, 636 distinct file
+ids. All 922 linked entries carry a Drive link; none carries a Gmail link.** Folders `2026/<property>` and
+`Migration evidence/` under "Recast Books STAGING" (they can be dragged under the production root after
+cutover; file links survive a move). The repo's `evidence/` is no longer the only copy.
+
+**Pass 11.** Pushed and verified by pull (byte-identical, 1,048 ids, no `mail.google.com` in
+`MigrationData.gs`), then Paul's Run: `entries=1048 already=0 posted=1048 left=0 - tabs rebuilt`.
+Path 1 (`migration-journal-tieout.py`, exit 0): **1,048 entries, $240,844.35, $0.00 on all ten properties**
+(Newport $3,443.17 and Cost Recapture $1,253.87 after §47); ids, amounts, dates, properties, payees, accounts
+and `doc_url` identical to the dry run; debits = credits ($2,302,255.27); **922 linked, all on Drive**; 33
+advances, none orphaned; Newport's Properties note reads under contract. Path 2 (independent re-parse):
+1,005 of 1,027 old cells match; every residual is a register line - pass 10's plus C-33 on both sides.
+`rows/journal-tieout.json` records it. **Staging = the dry run. Items 1 and 2 of the handoff are closed.**
+
+Left before cutover (`docs/cutover-runbook.md` §0): the rehearsal Run of `migrationRegisterAdvances` in
+staging (one rebuild per property - pushed, never run), then cutover day.

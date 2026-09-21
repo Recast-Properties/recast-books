@@ -1,17 +1,17 @@
 {
- "pass": 10,
- "ran": "2026-09-21 12:05 CT (posted_at 12:05:17)",
- "journal_snapshot": "books-cache tab/Journal fetched 2026-09-21 10:05:55 local (12:05:55 CT)",
+ "pass": 11,
+ "ran": "2026-09-21 15:32-15:34 CT (Paul's log: entries=1048 already=0 posted=1048 left=0 - tabs rebuilt)",
+ "journal_snapshot": "books-cache tab/Journal fetched 2026-09-21 15:35:29 CT",
  "by_property": {
   "OVERHEAD": 2675649,
-  "881 Newport": 308917,
+  "881 Newport": 344317,
   "469 Brushwood": 191680,
   "366 Mesa": 964800,
   "136 Bowling Green": 480793,
   "104 Ashburne": 17748944,
   "1616 Granite": 1220487,
   "280 Sparkling": 317978,
-  "Cost Recapture": 160787,
+  "Cost Recapture": 125387,
   "413 Green Acres": 14400
  },
  "entries": 1048,
@@ -30,10 +30,12 @@
   "balanced"
  ],
  "debits_equal_credits_cents": 230225527,
- "linked": 920,
+ "linked": 922,
+ "links_on_drive": 922,
+ "links_on_gmail": 0,
  "advances": 33,
  "advance_orphans": 0,
- "independent_reparse": "1,027 numeric old cells vs 1,048 entries on date + amount: 1,006 match. Old side 21: C-3, C-5, C-6, C-7, C-8, C-9 x3, C-12, C-15, C-17, C-18, C-20, C-27, C-29, C-30, C-32 x3, plus two cells that are not rows (Granite's TXU account number, Sparkling J34 =SUM). New side 42: those corrections at their new date or amount, the additions C-10 x4, C-11 x4, C-16, C-19 x2, C-21 x2, C-22, C-23 x5, C-24, C-25 x3, C-26, C-28, C-31, C-32's Cost Recapture line, and the four rows of the old Cost Recapture tab (which the independent parser does not read)",
- "tool": "scripts/migration-journal-tieout.py (first proven against pass 9: reproduced 24063905 and listed only C-29 ... C-32 as differences)",
- "note": "the staging project was pulled and compared byte for byte with the repo minutes before the Run (writer + MigrationData, 1,048 txn ids)"
+ "independent_reparse": "1,005 of 1,027 numeric old cells match on date + amount. Old side 22: pass 10's 21 plus the Kitchen Faucet at its typed date (C-33). New side 43: pass 10's 42 plus C-33 at 08-10; Newport's C-19 and C-25 lines are now on its own tab at 07-13 / 07-30. Nothing unexplained",
+ "tool": "scripts/migration-journal-tieout.py",
+ "note": "pushed and verified by pull before the Run; MigrationData.gs holds no mail.google.com link"
 }
