@@ -1825,6 +1825,17 @@
    "date": "2026-06-30",
    "register": "C-27",
    "said": "2026-09-18: 'yes 6/30' - every Berrett Pest Control message is one job (quote 06-29, service and payment 06-30, $270.63 on card 9166; the account was opened with that quote); nothing in January in any mailbox"
+  },
+  {
+   "match": {
+    "old_tab": "104 Ashburne",
+    "payee": "Home Depot",
+    "date": "2026-04-10",
+    "amount_cents": "18957"
+   },
+   "date": "2026-08-10",
+   "register": "C-33",
+   "said": "2026-09-21: '8/10' - the Kitchen Faucet row is typed 04-10; its only receipt is Home Depot 08/10 (gm-19fed30f7359ded5: Greydon pull-down faucet $199.00 less Pro pricing $23.88 + tax = $189.57, to the cent). Month slip"
   }
  ],
  "rules": [
