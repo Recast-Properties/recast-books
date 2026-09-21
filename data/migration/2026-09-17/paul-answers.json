@@ -530,6 +530,18 @@
    "row": "104 Ashburne 2026-04-02 Home Depot 205.06",
    "docId": "gm-19d4ed506ec83c9a",
    "why": "Claude 2026-09-21 (audit §39): Home Depot receipt of 04-02: 3 x 40 lb tall fescue seed, $205.04 with its tax share - the Grass Seed row of 04-02 is $205.06 (two cents, the rounding of the tax share)"
+  },
+  {
+   "key": "PROP-209",
+   "row": "104 Ashburne 2026-03-07 Floor & Decor 248.39",
+   "docId": "gm-19cc9f61226563fe",
+   "why": "Claude 2026-09-21 (audit §40): Paul forwarded Floor & Decor's e-receipt notice on 03-07 - the only Floor & Decor mail that day, and these are the day's two Floor & Decor rows. The receipt itself is a linked image the read could not open (no total), so the notice is the document"
+  },
+  {
+   "key": "PROP-413",
+   "row": "104 Ashburne 2026-03-07 Floor & Decor 136.40",
+   "docId": "gm-19cc9f61226563fe",
+   "why": "Claude 2026-09-21 (audit §40): Paul forwarded Floor & Decor's e-receipt notice on 03-07 - the only Floor & Decor mail that day, and these are the day's two Floor & Decor rows. The receipt itself is a linked image the read could not open (no total), so the notice is the document"
   }
  ],
  "no_link": [
@@ -1957,6 +1969,230 @@
   {
    "docId": "gm-19f86e5bf7f12281",
    "why": "Claude 2026-09-18 (audit §34): Falcon Creek invoices read line by line against the rows. second copy of Falcon Creek invoice 1373 (the read put all four lines on Sparkling); gm-19fb337be62617b6 is the copy the rows carry"
+  },
+  {
+   "docId": "up-test-inbox-dialog-0916",
+   "why": "Claude 2026-09-21 (audit §40): a TEST upload from the 09-16 Inbox gate checks - not a receipt"
+  },
+  {
+   "docId": "up-test-inbox-fast-0916",
+   "why": "Claude 2026-09-21 (audit §40): a TEST upload from the 09-16 Inbox gate checks - not a receipt"
+  },
+  {
+   "docId": "up-test-inbox-timing-0916",
+   "why": "Claude 2026-09-21 (audit §40): a TEST upload from the 09-16 Inbox gate checks - not a receipt"
+  },
+  {
+   "docId": "up-test-inbox-cache-b-0916",
+   "why": "Claude 2026-09-21 (audit §40): a TEST upload from the 09-16 Inbox gate checks - not a receipt"
+  },
+  {
+   "docId": "up-test-inbox-cache-a-0916",
+   "why": "Claude 2026-09-21 (audit §40): a TEST upload from the 09-16 Inbox gate checks - not a receipt"
+  },
+  {
+   "docId": "gm-19d2a51f5dffc8be",
+   "why": "Claude 2026-09-21 (audit §40): Home Depot / Lowe's REFUND slip. Every returned line was checked against the rows of the 60 days before it (with and without tax): the returns are of items Paul never entered ('i did not enter items that i knew were going to be returned', D-028), so purchase and refund net to zero and nothing posts. The card statements show both in Phase 3"
+  },
+  {
+   "docId": "gm-19d9259fe2484c26",
+   "why": "Claude 2026-09-21 (audit §40): Home Depot / Lowe's REFUND slip. Every returned line was checked against the rows of the 60 days before it (with and without tax): the returns are of items Paul never entered ('i did not enter items that i knew were going to be returned', D-028), so purchase and refund net to zero and nothing posts. The card statements show both in Phase 3"
+  },
+  {
+   "docId": "gm-19d9617b3e88822b",
+   "why": "Claude 2026-09-21 (audit §40): Home Depot / Lowe's REFUND slip. Every returned line was checked against the rows of the 60 days before it (with and without tax): the returns are of items Paul never entered ('i did not enter items that i knew were going to be returned', D-028), so purchase and refund net to zero and nothing posts. The card statements show both in Phase 3"
+  },
+  {
+   "docId": "gm-19d960d58c421ba0",
+   "why": "Claude 2026-09-21 (audit §40): Home Depot / Lowe's REFUND slip. Every returned line was checked against the rows of the 60 days before it (with and without tax): the returns are of items Paul never entered ('i did not enter items that i knew were going to be returned', D-028), so purchase and refund net to zero and nothing posts. The card statements show both in Phase 3"
+  },
+  {
+   "docId": "gm-19e0304909d9e7ca",
+   "why": "Claude 2026-09-21 (audit §40): Home Depot / Lowe's REFUND slip. Every returned line was checked against the rows of the 60 days before it (with and without tax): the returns are of items Paul never entered ('i did not enter items that i knew were going to be returned', D-028), so purchase and refund net to zero and nothing posts. The card statements show both in Phase 3"
+  },
+  {
+   "docId": "gm-19e758f6dc2ba281",
+   "why": "Claude 2026-09-21 (audit §40): Home Depot / Lowe's REFUND slip. Every returned line was checked against the rows of the 60 days before it (with and without tax): the returns are of items Paul never entered ('i did not enter items that i knew were going to be returned', D-028), so purchase and refund net to zero and nothing posts. The card statements show both in Phase 3"
+  },
+  {
+   "docId": "gm-19f18a7ab38c52cf",
+   "why": "Claude 2026-09-21 (audit §40): Home Depot / Lowe's REFUND slip. Every returned line was checked against the rows of the 60 days before it (with and without tax): the returns are of items Paul never entered ('i did not enter items that i knew were going to be returned', D-028), so purchase and refund net to zero and nothing posts. The card statements show both in Phase 3"
+  },
+  {
+   "docId": "gm-19f15828fb2a31e6",
+   "why": "Claude 2026-09-21 (audit §40): Home Depot 06-29 $54.03 (two spring hinges, a drill bit): returned in full the next day on refund gm-19f18a7ab38c52cf (-$47.57, -$6.46) - nets to zero"
+  },
+  {
+   "docId": "gm-19c61b20c24fc994",
+   "why": "Claude 2026-09-21 (audit §40): second message about Home Depot 02-15 $137.68; gm-19c617b59e734eb5 is the copy kept on the list"
+  },
+  {
+   "docId": "gm-19c6859ab582b6f5",
+   "why": "Claude 2026-09-21 (audit §40): second message about Home Depot 02-16 $30.79; gm-19c6823763f5cb17 is the copy kept on the list"
+  },
+  {
+   "docId": "gm-19cd5489c5fd928b",
+   "why": "Claude 2026-09-21 (audit §40): second message about Home Depot 03-09 $83.83; gm-19cd5479e52e3fe9 is the copy kept on the list"
+  },
+  {
+   "docId": "gm-19d4fef69c52ef33",
+   "why": "Claude 2026-09-21 (audit §40): second message about Home Depot order $241.50 ('ready for pickup' after 'order confirmed'); gm-19d25017467ed73d is the copy kept on the list"
+  },
+  {
+   "docId": "gm-19cd5d25a07e5bb1",
+   "why": "Claude 2026-09-21 (audit §40): second message about Ping Lighting $99.20 ('payment accepted' after 'order confirmation'); gm-19cd5e3f4729e97b is the copy kept on the list"
+  },
+  {
+   "docId": "gm-19e2ce117249cd00",
+   "why": "Claude 2026-09-21 (audit §40): Apify annual plan $313.20 of 05-15: bought by mistake, refunded and cancelled by Apify support on 05-18 ('I have gone ahead and refunded you for the recent invoice', invoice #202605152143 canceled with a credit note); the monthly $29 rows are what Paul pays (C-5)"
+  },
+  {
+   "docId": "gm-19fa9491039be96b",
+   "why": "Claude 2026-09-21 (audit §40): Texas Secretary of State packing slip $2.00 of 07-28 - the two $1.00 name-availability rows of that day"
+  },
+  {
+   "docId": "gm-19c51e70660fc809",
+   "why": "Claude 2026-09-21 (audit §40): Floor & Decor 'e-Receipt is Enclosed' notice of 02-10 (the receipt is a linked image the read could not open): the 02-10 Shower Tile $750.06 row has its receipt"
+  },
+  {
+   "docId": "gm-19d015260a55727a",
+   "why": "Claude 2026-09-21 (audit §40): Floor & Decor e-receipt notice of 03-18: the 03-18 Shower Tile $378.94 row has its receipt"
+  },
+  {
+   "docId": "dry-gm-1a08880be459a7a0",
+   "why": "Claude 2026-09-21 (audit §40): Klarna screenshot (Apple upgrade / Saks) $150.73 - personal, not a Recast cost"
+  },
+  {
+   "docId": "gm-19ba4950d7e2561c",
+   "why": "Claude 2026-09-21 (audit §40): PARKED for Phase 3 (Paul's stopping rule, 2026-09-21). A purchase receipt for goods that appear on no old tab - by total, by pre-tax subtotal, or item by item. Mail cannot say whether they were kept, returned (the refund slips of 04-15, 04-16 and 05-07 return $941 of such purchases) or personal, and Paul left items he meant to return out of his books on purpose (D-028). The card statement shows the purchase and any refund; nothing posts until then"
+  },
+  {
+   "docId": "gm-19c28c64aa9a29ea",
+   "why": "Claude 2026-09-21 (audit §40): PARKED for Phase 3 (Paul's stopping rule, 2026-09-21). A purchase receipt for goods that appear on no old tab - by total, by pre-tax subtotal, or item by item. Mail cannot say whether they were kept, returned (the refund slips of 04-15, 04-16 and 05-07 return $941 of such purchases) or personal, and Paul left items he meant to return out of his books on purpose (D-028). The card statement shows the purchase and any refund; nothing posts until then"
+  },
+  {
+   "docId": "gm-19d0716277e58567",
+   "why": "Claude 2026-09-21 (audit §40): PARKED for Phase 3 (Paul's stopping rule, 2026-09-21). A purchase receipt for goods that appear on no old tab - by total, by pre-tax subtotal, or item by item. Mail cannot say whether they were kept, returned (the refund slips of 04-15, 04-16 and 05-07 return $941 of such purchases) or personal, and Paul left items he meant to return out of his books on purpose (D-028). The card statement shows the purchase and any refund; nothing posts until then"
+  },
+  {
+   "docId": "gm-19ed69af26494e70",
+   "why": "Claude 2026-09-21 (audit §40): PARKED for Phase 3 (Paul's stopping rule, 2026-09-21). A purchase receipt for goods that appear on no old tab - by total, by pre-tax subtotal, or item by item. Mail cannot say whether they were kept, returned (the refund slips of 04-15, 04-16 and 05-07 return $941 of such purchases) or personal, and Paul left items he meant to return out of his books on purpose (D-028). The card statement shows the purchase and any refund; nothing posts until then"
+  },
+  {
+   "docId": "gm-19c617b59e734eb5",
+   "why": "Claude 2026-09-21 (audit §40): PARKED for Phase 3 (Paul's stopping rule, 2026-09-21). A purchase receipt for goods that appear on no old tab - by total, by pre-tax subtotal, or item by item. Mail cannot say whether they were kept, returned (the refund slips of 04-15, 04-16 and 05-07 return $941 of such purchases) or personal, and Paul left items he meant to return out of his books on purpose (D-028). The card statement shows the purchase and any refund; nothing posts until then"
+  },
+  {
+   "docId": "gm-19c6823763f5cb17",
+   "why": "Claude 2026-09-21 (audit §40): PARKED for Phase 3 (Paul's stopping rule, 2026-09-21). A purchase receipt for goods that appear on no old tab - by total, by pre-tax subtotal, or item by item. Mail cannot say whether they were kept, returned (the refund slips of 04-15, 04-16 and 05-07 return $941 of such purchases) or personal, and Paul left items he meant to return out of his books on purpose (D-028). The card statement shows the purchase and any refund; nothing posts until then"
+  },
+  {
+   "docId": "gm-19cd5479e52e3fe9",
+   "why": "Claude 2026-09-21 (audit §40): PARKED for Phase 3 (Paul's stopping rule, 2026-09-21). A purchase receipt for goods that appear on no old tab - by total, by pre-tax subtotal, or item by item. Mail cannot say whether they were kept, returned (the refund slips of 04-15, 04-16 and 05-07 return $941 of such purchases) or personal, and Paul left items he meant to return out of his books on purpose (D-028). The card statement shows the purchase and any refund; nothing posts until then"
+  },
+  {
+   "docId": "gm-19ce3297652cbfc8",
+   "why": "Claude 2026-09-21 (audit §40): PARKED for Phase 3 (Paul's stopping rule, 2026-09-21). A purchase receipt for goods that appear on no old tab - by total, by pre-tax subtotal, or item by item. Mail cannot say whether they were kept, returned (the refund slips of 04-15, 04-16 and 05-07 return $941 of such purchases) or personal, and Paul left items he meant to return out of his books on purpose (D-028). The card statement shows the purchase and any refund; nothing posts until then"
+  },
+  {
+   "docId": "gm-19d20cf12a8888da",
+   "why": "Claude 2026-09-21 (audit §40): PARKED for Phase 3 (Paul's stopping rule, 2026-09-21). A purchase receipt for goods that appear on no old tab - by total, by pre-tax subtotal, or item by item. Mail cannot say whether they were kept, returned (the refund slips of 04-15, 04-16 and 05-07 return $941 of such purchases) or personal, and Paul left items he meant to return out of his books on purpose (D-028). The card statement shows the purchase and any refund; nothing posts until then"
+  },
+  {
+   "docId": "gm-19d25017467ed73d",
+   "why": "Claude 2026-09-21 (audit §40): PARKED for Phase 3 (Paul's stopping rule, 2026-09-21). A purchase receipt for goods that appear on no old tab - by total, by pre-tax subtotal, or item by item. Mail cannot say whether they were kept, returned (the refund slips of 04-15, 04-16 and 05-07 return $941 of such purchases) or personal, and Paul left items he meant to return out of his books on purpose (D-028). The card statement shows the purchase and any refund; nothing posts until then"
+  },
+  {
+   "docId": "gm-19d5e139b4ae4612",
+   "why": "Claude 2026-09-21 (audit §40): PARKED for Phase 3 (Paul's stopping rule, 2026-09-21). A purchase receipt for goods that appear on no old tab - by total, by pre-tax subtotal, or item by item. Mail cannot say whether they were kept, returned (the refund slips of 04-15, 04-16 and 05-07 return $941 of such purchases) or personal, and Paul left items he meant to return out of his books on purpose (D-028). The card statement shows the purchase and any refund; nothing posts until then"
+  },
+  {
+   "docId": "gm-19d5e0ce39d91e0d",
+   "why": "Claude 2026-09-21 (audit §40): PARKED for Phase 3 (Paul's stopping rule, 2026-09-21). A purchase receipt for goods that appear on no old tab - by total, by pre-tax subtotal, or item by item. Mail cannot say whether they were kept, returned (the refund slips of 04-15, 04-16 and 05-07 return $941 of such purchases) or personal, and Paul left items he meant to return out of his books on purpose (D-028). The card statement shows the purchase and any refund; nothing posts until then"
+  },
+  {
+   "docId": "gm-19d63f17bf22f9fa",
+   "why": "Claude 2026-09-21 (audit §40): PARKED for Phase 3 (Paul's stopping rule, 2026-09-21). A purchase receipt for goods that appear on no old tab - by total, by pre-tax subtotal, or item by item. Mail cannot say whether they were kept, returned (the refund slips of 04-15, 04-16 and 05-07 return $941 of such purchases) or personal, and Paul left items he meant to return out of his books on purpose (D-028). The card statement shows the purchase and any refund; nothing posts until then"
+  },
+  {
+   "docId": "gm-19d775f16740a511",
+   "why": "Claude 2026-09-21 (audit §40): PARKED for Phase 3 (Paul's stopping rule, 2026-09-21). A purchase receipt for goods that appear on no old tab - by total, by pre-tax subtotal, or item by item. Mail cannot say whether they were kept, returned (the refund slips of 04-15, 04-16 and 05-07 return $941 of such purchases) or personal, and Paul left items he meant to return out of his books on purpose (D-028). The card statement shows the purchase and any refund; nothing posts until then"
+  },
+  {
+   "docId": "gm-19d960cfeccab6cd",
+   "why": "Claude 2026-09-21 (audit §40): PARKED for Phase 3 (Paul's stopping rule, 2026-09-21). A purchase receipt for goods that appear on no old tab - by total, by pre-tax subtotal, or item by item. Mail cannot say whether they were kept, returned (the refund slips of 04-15, 04-16 and 05-07 return $941 of such purchases) or personal, and Paul left items he meant to return out of his books on purpose (D-028). The card statement shows the purchase and any refund; nothing posts until then"
+  },
+  {
+   "docId": "gm-19f1526194ff1558",
+   "why": "Claude 2026-09-21 (audit §40): PARKED for Phase 3 (Paul's stopping rule, 2026-09-21). A purchase receipt for goods that appear on no old tab - by total, by pre-tax subtotal, or item by item. Mail cannot say whether they were kept, returned (the refund slips of 04-15, 04-16 and 05-07 return $941 of such purchases) or personal, and Paul left items he meant to return out of his books on purpose (D-028). The card statement shows the purchase and any refund; nothing posts until then"
+  },
+  {
+   "docId": "gm-19c01b85d135afa6",
+   "why": "Claude 2026-09-21 (audit §40): PARKED for Phase 3 (Paul's stopping rule, 2026-09-21). A purchase receipt for goods that appear on no old tab - by total, by pre-tax subtotal, or item by item. Mail cannot say whether they were kept, returned (the refund slips of 04-15, 04-16 and 05-07 return $941 of such purchases) or personal, and Paul left items he meant to return out of his books on purpose (D-028). The card statement shows the purchase and any refund; nothing posts until then"
+  },
+  {
+   "docId": "gm-19c3e4d6fcbb69bf",
+   "why": "Claude 2026-09-21 (audit §40): PARKED for Phase 3 (Paul's stopping rule, 2026-09-21). A purchase receipt for goods that appear on no old tab - by total, by pre-tax subtotal, or item by item. Mail cannot say whether they were kept, returned (the refund slips of 04-15, 04-16 and 05-07 return $941 of such purchases) or personal, and Paul left items he meant to return out of his books on purpose (D-028). The card statement shows the purchase and any refund; nothing posts until then"
+  },
+  {
+   "docId": "gm-19cf4858a126476a",
+   "why": "Claude 2026-09-21 (audit §40): PARKED for Phase 3 (Paul's stopping rule, 2026-09-21). A purchase receipt for goods that appear on no old tab - by total, by pre-tax subtotal, or item by item. Mail cannot say whether they were kept, returned (the refund slips of 04-15, 04-16 and 05-07 return $941 of such purchases) or personal, and Paul left items he meant to return out of his books on purpose (D-028). The card statement shows the purchase and any refund; nothing posts until then"
+  },
+  {
+   "docId": "gm-19f1e7a4d47322d9",
+   "why": "Claude 2026-09-21 (audit §40): PARKED for Phase 3 (Paul's stopping rule, 2026-09-21). A purchase receipt for goods that appear on no old tab - by total, by pre-tax subtotal, or item by item. Mail cannot say whether they were kept, returned (the refund slips of 04-15, 04-16 and 05-07 return $941 of such purchases) or personal, and Paul left items he meant to return out of his books on purpose (D-028). The card statement shows the purchase and any refund; nothing posts until then"
+  },
+  {
+   "docId": "gm-19ffb0e863df3cc0",
+   "why": "Claude 2026-09-21 (audit §40): PARKED for Phase 3 (Paul's stopping rule, 2026-09-21). A purchase receipt for goods that appear on no old tab - by total, by pre-tax subtotal, or item by item. Mail cannot say whether they were kept, returned (the refund slips of 04-15, 04-16 and 05-07 return $941 of such purchases) or personal, and Paul left items he meant to return out of his books on purpose (D-028). The card statement shows the purchase and any refund; nothing posts until then"
+  },
+  {
+   "docId": "gm-19cd5e12f4e9d9b7",
+   "why": "Claude 2026-09-21 (audit §40): PARKED for Phase 3 (Paul's stopping rule, 2026-09-21). A purchase receipt for goods that appear on no old tab - by total, by pre-tax subtotal, or item by item. Mail cannot say whether they were kept, returned (the refund slips of 04-15, 04-16 and 05-07 return $941 of such purchases) or personal, and Paul left items he meant to return out of his books on purpose (D-028). The card statement shows the purchase and any refund; nothing posts until then"
+  },
+  {
+   "docId": "gm-19cf927112794782",
+   "why": "Claude 2026-09-21 (audit §40): PARKED for Phase 3 (Paul's stopping rule, 2026-09-21). A purchase receipt for goods that appear on no old tab - by total, by pre-tax subtotal, or item by item. Mail cannot say whether they were kept, returned (the refund slips of 04-15, 04-16 and 05-07 return $941 of such purchases) or personal, and Paul left items he meant to return out of his books on purpose (D-028). The card statement shows the purchase and any refund; nothing posts until then"
+  },
+  {
+   "docId": "gm-19cd5e3f4729e97b",
+   "why": "Claude 2026-09-21 (audit §40): PARKED for Phase 3 (Paul's stopping rule, 2026-09-21). A purchase receipt for goods that appear on no old tab - by total, by pre-tax subtotal, or item by item. Mail cannot say whether they were kept, returned (the refund slips of 04-15, 04-16 and 05-07 return $941 of such purchases) or personal, and Paul left items he meant to return out of his books on purpose (D-028). The card statement shows the purchase and any refund; nothing posts until then"
+  },
+  {
+   "docId": "gm-19ced5e82e20e490",
+   "why": "Claude 2026-09-21 (audit §40): PARKED for Phase 3 (Paul's stopping rule, 2026-09-21). A purchase receipt for goods that appear on no old tab - by total, by pre-tax subtotal, or item by item. Mail cannot say whether they were kept, returned (the refund slips of 04-15, 04-16 and 05-07 return $941 of such purchases) or personal, and Paul left items he meant to return out of his books on purpose (D-028). The card statement shows the purchase and any refund; nothing posts until then"
+  },
+  {
+   "docId": "gm-19fc442272873900",
+   "why": "Claude 2026-09-21 (audit §40): PARKED for Phase 3 (Paul's stopping rule, 2026-09-21). A purchase receipt for goods that appear on no old tab - by total, by pre-tax subtotal, or item by item. Mail cannot say whether they were kept, returned (the refund slips of 04-15, 04-16 and 05-07 return $941 of such purchases) or personal, and Paul left items he meant to return out of his books on purpose (D-028). The card statement shows the purchase and any refund; nothing posts until then"
+  },
+  {
+   "docId": "gm-19d7d9e5cfb8c9f6",
+   "why": "Claude 2026-09-21 (audit §40): Food and drink (Taco Cabana $73.57, 04-11): on no old tab. Paul's books carry some crew meals and leave snacks and drinks out on purpose (D-028, amended); not entered by him, so not migrated. PARKED - if it was a crew meal he wants, it is one line to add"
+  },
+  {
+   "docId": "gm-19d926697aea1558",
+   "why": "Claude 2026-09-21 (audit §40): Food and drink (Braum's $22.93, 04-15): on no old tab. Paul's books carry some crew meals and leave snacks and drinks out on purpose (D-028, amended); not entered by him, so not migrated. PARKED - if it was a crew meal he wants, it is one line to add"
+  },
+  {
+   "docId": "gm-19d8db0dbb2e6309",
+   "why": "Claude 2026-09-21 (audit §40): Food and drink (Shell, water and Gatorade $19.99, 04-14): on no old tab. Paul's books carry some crew meals and leave snacks and drinks out on purpose (D-028, amended); not entered by him, so not migrated. PARKED - if it was a crew meal he wants, it is one line to add"
+  },
+  {
+   "docId": "gm-19fc454ddc47341f",
+   "why": "Claude 2026-09-21 (audit §40): Food and drink (7-Eleven $11.90, 08-02): on no old tab. Paul's books carry some crew meals and leave snacks and drinks out on purpose (D-028, amended); not entered by him, so not migrated. PARKED - if it was a crew meal he wants, it is one line to add"
+  },
+  {
+   "docId": "gm-19d066ca90092950",
+   "why": "Claude 2026-09-21 (audit §40): Food and drink (Shell $7.57, 03-19): on no old tab. Paul's books carry some crew meals and leave snacks and drinks out on purpose (D-028, amended); not entered by him, so not migrated. PARKED - if it was a crew meal he wants, it is one line to add"
+  },
+  {
+   "docId": "gm-19d6117a5116478b",
+   "why": "Claude 2026-09-21 (audit §40): Paul's note 'Julio $400 / Sat and for Dennis' of 04-06: a payment note with no single row it names (Julio's rows of 04-05 and 04-06 are $200 each; Dennis's 04-10 $400 advance has its own note). Kept as evidence; nothing posts from it"
+  },
+  {
+   "docId": "gm-19c1fc34982c2b29",
+   "why": "Claude 2026-09-21 (audit §40): Floor & Decor e-receipt notice of 02-02: the receipt is a linked image the read could not open, and no Floor & Decor row is within a week of it. PARKED for Phase 3"
   }
  ],
  "rename_payee": [

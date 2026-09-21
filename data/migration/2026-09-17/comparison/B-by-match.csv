@@ -332,7 +332,7 @@ gm-19c8af7557e199d5,2026-01-22,American Airlines,4028,0,0,,,,dismissed,dismiss,"
 gm-19fae6d7ce78c68a,2026-07-29,TXU Energy,6323,1,6323,0,881 Newport/,136 Bowling Green,posted,post,,PAUL,Fwd: Your payment's complete,property row now documented,
 gm-19d7239ecfe05f99,2026-04-07,Julio (unidentified labor),0,0,0,,,,pending,hold,"NOT_POST_VERDICT,LOW_CONFIDENCE,ZERO_TOTAL",PAUL,Julio 4/7,"in mail, not in old books",
 gm-19f3f6ba1c53dd95,2026-05-07,Iley &amp; Iley Financia... (name truncated on receipt),29900,0,0,,,104 Ashburne,pending,hold,"NOT_POST_VERDICT,LOW_CONFIDENCE",PAUL,,"in mail, not in old books",
-gm-19ec2e5f3c880eb3,2026-06-13,"Netlify, Inc.",1340,0,0,,,OVERHEAD,posted,post,,PAUL,"Payment received for Netlify, Inc. invoice (#SFWGOE-00004)","in mail, not in old books",
+gm-19ec2e5f3c880eb3,2026-06-13,"Netlify, Inc.",1340,1,1340,0,RECAST BIZ/Website,OVERHEAD,posted,post,,PAUL,"Payment received for Netlify, Inc. invoice (#SFWGOE-00004)",manual row now documented,
 gm-19f5c7193197e0a6,2026-07-13,Atmos Energy,3160,1,3160,0,104 Ashburne/Utilities,104 Ashburne,posted,post,,PAUL,Fwd: Your Atmos Energy payment has been received,property row now documented,
 gm-19d0dd332401e5c5,2026-03-20,Uber Eats,8404,0,0,,,,dismissed,dismiss,"NOT_POST_VERDICT,TOTAL_MISMATCH",PAUL,[Personal] Your Friday evening order with Uber Eats,junk (dismissed),
 gm-19d3fc513d1b8d07,2026-03-30,"Ellis County Tax Office (Richard Rozier, Tax Assessor-Collector)",1603125,0,0,,,104 Ashburne,pending,post,OVER_CEILING,PAUL,Property tax,"in mail, not in old books",
@@ -404,7 +404,7 @@ gm-19c9f7ea96a8f794,2026-02-27,Amazon,173199,1,173199,0,104 Ashburne/Appliances,
 gm-19d1b92fe12a4c7d,2026-03-23,The Home Depot,9807,2,9806,1,104 Ashburne/Small Baths;104 Ashburne/Small Baths,104 Ashburne,posted,post,,PAUL,,property row now documented,
 gm-19cb0399a28a4bdb,2026-03-02,The Home Depot,14738,0,0,,,,pending,hold,"NOT_POST_VERDICT,LOW_CONFIDENCE,TOTAL_MISMATCH",PAUL,Your Electronic Receipt,"in mail, not in old books",
 gm-19d0716277e58567,2026-03-19,"Lowe's Home Centers, LLC",40478,0,0,,,104 Ashburne,posted,post,,PAUL,,"in mail, not in old books",
-gm-19ebf24ef82905c2,2026-06-13,VistaPrint,0,0,0,,,,dismissed,dismiss,"NOT_POST_VERDICT,ZERO_TOTAL",PAUL,Your order is on its way,junk (dismissed),"RECAST BIZ/VistaPrint/170.99;RECAST BIZ/Netlify, Inc./0.00"
+gm-19ebf24ef82905c2,2026-06-13,VistaPrint,0,0,0,,,,dismissed,dismiss,"NOT_POST_VERDICT,ZERO_TOTAL",PAUL,Your order is on its way,junk (dismissed),RECAST BIZ/VistaPrint/170.99
 gm-19ffb0e863df3cc0,2026-08-13,Amazon,3699,0,0,,,366 Mesa,pending,hold,"NOT_POST_VERDICT,LOW_CONFIDENCE,PAYER_UNKNOWN",UNKNOWN,Fwd: Ordered: ⁦1⁩ Home Improvement item,"in mail, not in old books",
 gm-1a0817e06f3faaf4,2026-09-08,Julio Camacho,15000,1,15000,0,104 Ashburne/Landscaping,104 Ashburne,pending,hold,"NOT_POST_VERDICT,LOW_CONFIDENCE",PAUL,Julio,property row now documented,
 gm-19ebc1789358c9a5,2026-06-12,50Floor,133900,1,131900,2000,1616 Granite RECONCILED/,1616 Granite,pending,post,"LOW_CONFIDENCE,OVER_CEILING",PAUL,Receipt from 50Floor #PRrT,property row now documented,

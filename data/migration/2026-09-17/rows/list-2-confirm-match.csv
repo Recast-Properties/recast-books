@@ -1,12 +1,10 @@
 date,tab,block,payee,desc,amount,candidate_vendor,candidate_date,candidate_total,candidate_status,link,docId
 2026-03-22,104 Ashburne,Lighting & Electrical,Home Depot,"Outlets, GFI's & Switches",307.17,The Home Depot,2026-03-15,313.59,dismissed,https://drive.google.com/file/d/1-edI43EIwShtWAM_tngrOn0saxuC1osZ/view?usp=drivesdk,gm-19cf2444d6efb00f
-2026-03-07,104 Ashburne,Countertops & Backsplash,Floor & Decor,Backsplash TIle,248.39,Floor &amp; Decor,2026-03-07,0.00,pending,https://mail.google.com/mail/u/0/#all/19cc9f61226563fe,gm-19cc9f61226563fe
 2026-02-18,104 Ashburne,Trash,Julio,Labor,200.00,Julio,2026-03-23,500.00,pending,https://mail.google.com/mail/u/0/#all/19d1cc95a5026d98,gm-19d1cc95a5026d98
 2026-05-29,104 Ashburne,Landscaping,Julio,Labor,200.00,"CoreLogic Solutions, LLC",2026-05-31,200.00,pending,https://mail.google.com/mail/u/0/#all/19e8ef3d9338fabb,gm-19e8ef3d9338fabb
 2026-05-29,1616 Granite RECONCILED,,Home Depot,Plastic Edging,194.62,The Home Depot,2026-05-29,-50.36,pending,https://mail.google.com/mail/u/0/#all/19e758f6dc2ba281,gm-19e758f6dc2ba281
 2026-06-21,RECAST BIZ,Marketing,VistaPrint,Real Estate Sign Riders,170.99,VistaPrint,2026-06-13,0.00,dismissed,https://mail.google.com/mail/u/0/#all/19ebf24ef82905c2,gm-19ebf24ef82905c2
 2026-04-10,104 Ashburne,Supplies,Home Depot,Misc Supplies,151.28,The Home Depot,2026-04-10,161.28,dismissed,https://drive.google.com/file/d/1ZZWXBGKWFAz2naMpYCN9EWej-44hzf7h/view?usp=drivesdk,gm-19d775f16740a511
-2026-03-07,104 Ashburne,Master Bath,Floor & Decor,Tile for bathtub plaform,136.40,Floor &amp; Decor,2026-03-07,0.00,pending,https://mail.google.com/mail/u/0/#all/19cc9f61226563fe,gm-19cc9f61226563fe
 2026-02-16,RECAST BIZ,Tools,Harbor Freight,Roto Hammer Drill,124.48,Harbor Freight Tools,2026-02-16,250.77,pending,https://mail.google.com/mail/u/0/#all/19c678226649aa40,gm-19c678226649aa40
 2026-05-08,1616 Granite RECONCILED,,Home Depot,Weed and Feed,107.06,The Home Depot,2026-05-07,-106.95,pending,https://mail.google.com/mail/u/0/#all/19e0304909d9e7ca,gm-19e0304909d9e7ca
 2026-02-12,104 Ashburne,Trash,Julio,Labor,100.00,Shalom Granite,2026-02-19,"8,508.00",pending,https://mail.google.com/mail/u/0/#all/19cc51b6b845dd1f,gm-19cc51b6b845dd1f
@@ -76,5 +74,4 @@ date,tab,block,payee,desc,amount,candidate_vendor,candidate_date,candidate_total
 2026-02-17,RECAST BIZ,Tools,Home Depot,Shark Bite Tool,2.65,The Home Depot,2026-02-17,67.55,dismissed,https://drive.google.com/file/d/1ABT-SXtJzBn3B68By2GfyyIEM0lf-6IY/view?usp=drivesdk,gm-19c6be8d0bd458c9
 2026-03-26,104 Ashburne,Master Bath,Home Depot,Hose Clamp,2.53,The Home Depot,2026-03-26,-53.14,pending,https://mail.google.com/mail/u/0/#all/19d2a51f5dffc8be,gm-19d2a51f5dffc8be
 2026-08-18,366 Mesa,,Home Depot,Pipe coupling,1.18,The Home Depot,2026-08-14,87.26,posted,https://drive.google.com/file/d/1OC65derKXGQVjdxfhUbk9VOAiEt8kw68/view?usp=drivesdk,gm-1a000805d296df8b
-2026-06-13,RECAST BIZ,Website,"Netlify, Inc.","Netlify, Inc. invoice (#SFWGOE-00004)",0.00,VistaPrint,2026-06-13,0.00,dismissed,https://mail.google.com/mail/u/0/#all/19ebf24ef82905c2,gm-19ebf24ef82905c2
 2026-03-21,104 Ashburne,Lighting & Electrical,Lowes,RETURN celing fan,-108.23,"Lowe's Home Centers, LLC",2026-03-21,297.23,posted,https://drive.google.com/file/d/1HM8VakTScJcmLg3JbX6vNGs2Uvnn0vx9/view?usp=drivesdk,gm-19d11a93764263f8

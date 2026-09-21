@@ -1,8 +1,8 @@
 {
- "to_post": 1045,
- "cents": 24066795,
+ "to_post": 1046,
+ "cents": 24068135,
  "by_property": {
-  "OVERHEAD": 2674309,
+  "OVERHEAD": 2675649,
   "881 Newport": 308917,
   "469 Brushwood": 191680,
   "366 Mesa": 964800,
@@ -13,7 +13,6 @@
   "Cost Recapture": 158787
  },
  "held_back": {
-  "ZERO_AMOUNT": 1,
   "DROPPED_BY_PAUL": 8
  }
 }

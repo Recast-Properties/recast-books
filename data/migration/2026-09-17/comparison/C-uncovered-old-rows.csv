@@ -20,7 +20,6 @@ BIZ-176,RECAST BIZ,Gas/Truck/Trailer,2026-06-22,Shell,5470,Regular fuel 17.425G 
 BIZ-177,RECAST BIZ,Gas/Truck/Trailer,2026-06-24,O'Reilly Auto Parts,4545,VAL SYN5-20-5QT 5QT MOTOROIL,False,gm-19f00ab9125115f9,Amazon,pending
 BIZ-178,RECAST BIZ,Gas/Truck/Trailer,2026-06-26,Shell,6940,Fuel - 18.762 gallons,False,gm-19f15c359e34964b,Shell,posted
 BIZ-206,RECAST BIZ,Subscriptions,2026-06-13,"Anthropic, PBC",-1334,Unused time on Claude Pro after 13 Jun 2026,False,gm-19e8ed8492f559bc,"Anthropic, PBC",pending
-BIZ-259,RECAST BIZ,Website,2026-06-13,"Netlify, Inc.",0,"Netlify, Inc. invoice (#SFWGOE-00004)",False,gm-19ebf24ef82905c2,VistaPrint,dismissed
 BIZ-263,RECAST BIZ,Website,,Apify,2900,Monthly Apify subscription,False,,,
 BIZ-283,RECAST BIZ,Interest,,420 Alyssa,66667,,False,,,
 PROP-25,881 Newport,,2026-07-01,Home Depot,756,Drywall Panel,False,gm-19f237650c695b39,The Home Depot,posted
