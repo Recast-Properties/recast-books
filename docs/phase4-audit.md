@@ -1356,3 +1356,12 @@ audit clean in both sections. Not pushed (offline); staging holds pass 9.
 McCoy's → $44.56 on their held tabs; Granite's 50Floor $20.00 on Cost Recapture (the tab is closed). Pipeline
 rerun from the matcher: those three amounts and the one new line are the only changes, links unmoved. Dry run
 **1,048 entries, $240,844.35**, all build; 920 linked; link audit clean. Not pushed (offline).
+
+## 44 · End of 2026-09-21: pushed to staging, docs and handoff current
+
+`clasp` had expired (invalid_grant / invalid_rapt); Paul ran `npx clasp login`. The writer and the
+1,048-entry `MigrationData.gs` were pushed to the STAGING project and **verified by pulling the project back
+and comparing byte for byte** (Code, Menu, lib, MigrationData identical; 1,048 txn ids). Not yet run: staging
+still holds pass 9 ($240,639.05). `CLAUDE.md`'s status block was rewritten to the current state and
+`HANDOFF-2026-09-21.md` is the prompt for the next session: one Run + tie-out, then item 7 (Drive filing, with
+`evidence/`), then cutover day.
