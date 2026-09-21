@@ -27402,5 +27402,31 @@
 "skip": "",
 "business_purpose": "",
 "attendee": ""
+},
+{
+"txn_id": "migration-20260908-432262d53f45",
+"date": "2026-09-08",
+"property": "413 Green Acres",
+"trade": "",
+"account": "1010",
+"account_source": "Paul/Claude (added)",
+"amount_cents": 14400,
+"payee": "Justice of the Peace Precinct 1",
+"description": "Eviction (forcible-detainer) filing fee, 413 Green Acres - check #1022, memo 'GREEN ACRES'",
+"paid_from": "1401",
+"paid_from_source": "receipt",
+"source": "migration",
+"docId": "gm-1a082efc7888e5ef",
+"doc_url": "https://mail.google.com/mail/u/0/#all/1a082efc7888e5ef",
+"link_kind": "gmail",
+"match": "added",
+"old_tab": "",
+"old_block": "",
+"old_sheet_row": "",
+"flags": "ADDED_NOT_IN_OLD_BOOKS",
+"correction": "C-31 Paul 2026-09-21: 'yes add it to green acres' - his own forward 'Green acres eviction check'; a handwritten Citizens check of 09-08; on no old tab (Green Acres has none). 413 Green Acres is a pipeline property in the new books for exactly these pre-acquisition costs (Paul 2026-09-17)",
+"skip": "",
+"business_purpose": "",
+"attendee": ""
 }
 ]

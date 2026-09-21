@@ -295,6 +295,7 @@ the tie-out per property against the snapshot.
 | C-28 | 2026-09-18 | RECAST BIZ / Advertising, VistaPrint order of 06-11 | not in the old books | added, $241.71, 6000 overhead, Paul paid | Yard signs x2 + sign riders x2 (order VP_R3KPH54N). On no old tab at any amount or combination; the 05-08 / 05-13 order is the Ashburne Signage row, the 06-21 order the two overhead rows. Paul: "add vista print order". Overhead is $241.71 above the old books |
 | C-29 | 2026-09-18 | 104 Ashburne / Paint & Flooring, Home Depot "Stair Moldings" (04-01, row 32) | $350.28 | $379.18 | The row is the pre-tax subtotal of Home Depot receipt `gm-19d54f9e0010bc8c` (04-03, cash, bought by Armandre Vega); with $28.90 tax it is $379.18, what Paul repaid Vega by Zelle that day (`evidence/chase-zelle-sent-1-mar-to-apr.webp`). Paul: "yes correct it". Ashburne is $28.90 above the old tab. Audit §38 |
 | C-30 | 2026-09-21 | RECAST BIZ / Website, Netlify invoice #SFWGOE-00004 (06-13) | $0.00 (a row the old poller wrote without an amount; held back as ZERO_AMOUNT) | $13.40 | Netlify's "Payment received" for the same invoice number: Base Plan, Jun 13 - Jul 12, $13.40, paid by Paul. Claude's decision (the row names its own invoice); Paul can reverse it. Overhead is $13.40 above the old books |
+| C-31 | 2026-09-21 | 413 Green Acres (pipeline property), Justice of the Peace Precinct 1 eviction filing fee | not in the old books (Green Acres has no tab) | added, $144.00, 1010 acquisition costs, 09-08, paid from Citizens (check #1022, memo "GREEN ACRES") | Paul's own forward "Green acres eviction check". Paul: "yes add it to green acres". A tenth property total now ties out: 413 Green Acres $144.00 |
 
 ## 14 · Where the staging run stands at end of day, 2026-09-17
 
@@ -1254,3 +1255,20 @@ no document 99, **list 4: 2 - both for Paul:** the Justice of the Peace $144.00 
 Green Acres (check from Citizens, 09-08, Paul's own forward; on no tab - Green Acres has none), and the Home
 Depot refund of 09-08, deck stain -$41.55, against Brushwood's two "Stain" rows of $41.55 (09-06 and 09-07).
 **Not pushed to staging** (offline); staging holds pass 9 ($240,639.05).
+
+**C-31 (Paul: "yes add it to green acres").** Dry run **1,047 entries, $240,825.35**, ten property totals
+(413 Green Acres $144.00), all build; 877 linked (83.8% of rows, 77.8% of dollars); list 4: 1 (the Brushwood
+stain refund). Not pushed (offline).
+
+**Distance to cutover, as of 2026-09-21.** Done: every old row posts at Paul's amount or a registered
+correction (C-1 … C-31), tied out to the cent on nine staging passes; advances and purchases registered;
+list 4 closed. Left, in order: (1) the stain question; (2) list 1, 119 differences ($8.7K of gaps; 23 of
+$100+, most already explained by decisions the list does not know - twins, Falcon Creek, Vega, C-7) - one
+judgment pass, corrections only where a receipt proves a typed amount; (3) list 2, 76 weak matches ($3.6K, all
+under $310) - one judgment pass; list 3, 99 rows with no document ($50.8K, of which $36.9K Paul has accepted)
+needs nothing more before Phase 3; (4) item 7, Drive filing: 408 documents still carry a Gmail link, plus the
+15 never-read paul@ messages (~$3 of reads) and the `evidence/` folder - needs a good connection and is the
+largest single job; (5) cutover day: production writer push and deploy, Newport's settlement date,
+`clearBooks` → register properties and advances → the same pass → tie-out → replay of the live receipts held
+since 09-11 → `WRITER_URL` back to production → old workbook re-exported, diffed against the 09-17 snapshot
+and set read-only.

@@ -1,6 +1,6 @@
 {
- "to_post": 1046,
- "cents": 24068135,
+ "to_post": 1047,
+ "cents": 24082535,
  "by_property": {
   "OVERHEAD": 2675649,
   "881 Newport": 308917,
@@ -10,7 +10,8 @@
   "104 Ashburne": 17748944,
   "1616 Granite": 1220487,
   "280 Sparkling": 317978,
-  "Cost Recapture": 158787
+  "Cost Recapture": 158787,
+  "413 Green Acres": 14400
  },
  "held_back": {
   "DROPPED_BY_PAUL": 8
