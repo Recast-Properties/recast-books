@@ -119,6 +119,7 @@ gm-19c52d5f502531fb,2026-02-12,The Home Depot,15667,0,0,,,,pending,hold,"NOT_POS
 gm-19d593d6a8a5082a,2026-04-04,"Lowe's Home Centers, LLC",1730,1,1730,0,104 Ashburne/Supplies,104 Ashburne,pending,post,LOW_CONFIDENCE,PAUL,,property row now documented,
 gm-19ebe2f8faafa480,2026-06-11,Atmos Energy,3160,0,0,,,,pending,hold,"NOT_POST_VERDICT,LOW_CONFIDENCE,TOTAL_MISMATCH",PAUL,Your Atmos Energy Bill is Available online,"in mail, not in old books",
 gm-19d3c4c75f8aa4e3,2026-03-20,Atlas Pools,49000,0,0,,,,dismissed,dismiss,"NOT_POST_VERDICT,TOTAL_MISMATCH",PAUL,Fwd: Atlas Pools Payment Confirmation - Invoice 16525,junk (dismissed),
+gm-1a0c5a14c5d12e1e,2026-02-08,Amazon.com,24997,1,24997,0,104 Ashburne/House Hardware,104 Ashburne,pending,post,"LOW_CONFIDENCE,PAYER_UNKNOWN",UNKNOWN,"Fwd: Ordered: 7 ""Ravinte 25 Pack Drawer...""",property row now documented,
 gm-19d3c382001038d7,2026-03-28,Wayfair,36260,1,36260,0,104 Ashburne/Lighting & Electrical,104 Ashburne,posted,post,,PAUL,Fwd: Order received! Does everything look right?,property row now documented,
 gm-19f0452f77f79ab8,2026-06-26,"Julio (subcontractor, full name not given)",20000,1,20000,0,1616 Granite RECONCILED/,1616 Granite,pending,hold,"NOT_POST_VERDICT,LOW_CONFIDENCE",PAUL,julio 200,property row now documented,1616 Granite RECONCILED/Julio/200.00;1616 Granite RECONCILED/Julio/200.00
 gm-19d3c4215ed33ae9,2026-03-29,Wayfair,8009,1,8009,0,104 Ashburne/Lighting & Electrical,104 Ashburne,posted,post,,PAUL,Fwd: Order received! Does everything look right?,property row now documented,
@@ -389,7 +390,7 @@ gm-1a06cc096121cd45,2026-09-04,The Home Depot,1470,1,1470,0,469 Brushwood/,469 B
 gm-19d02f1149cf34d6,2026-03-18,Flexitions,65334,0,0,,,104 Ashburne,pending,post,OVER_CEILING,PAUL,Fwd: Order #8246 confirmed,"in mail, not in old books",
 gm-19ed8190a6945042,2026-06-16,The Home Depot,58945,8,34776,24169,RECAST BIZ/Tools;RECAST BIZ/Tools;RECAST BIZ/Tools;104 Ashburne/Small Baths;104 Ashburne/Supplies;104 Ashburne/Supplies;104 Ashburne/Supplies;104 Ashburne/Supplies,104 Ashburne,pending,post,OVER_CEILING,PAUL,Fwd: 104,manual row now documented,
 gm-19d557a02bada3be,2026-03-31,"CoreLogic Solutions, LLC",20000,0,0,,,OVERHEAD,pending,hold,"NOT_POST_VERDICT,LOW_CONFIDENCE",PAUL,Property Intelligence Invoice #30857690,"in mail, not in old books",
-gm-19c76c4996bae8b0,2026-02-19,The Home Depot,39012,0,0,,,,pending,hold,"NOT_POST_VERDICT,LOW_CONFIDENCE,TOTAL_MISMATCH",PAUL,Your Electronic Receipt,"in mail, not in old books",104 Ashburne/Amazon/10.81
+gm-19c76c4996bae8b0,2026-02-19,The Home Depot,39012,0,0,,,,pending,hold,"NOT_POST_VERDICT,LOW_CONFIDENCE,TOTAL_MISMATCH",PAUL,Your Electronic Receipt,"in mail, not in old books",
 gm-19d4fef69c52ef33,2026-03-30,The Home Depot,24150,0,0,,,,pending,hold,"NOT_POST_VERDICT,LOW_CONFIDENCE,TOTAL_MISMATCH",PAUL,"Your order's ready! Pick it up by Thursday, April 9","in mail, not in old books",
 up-test-inbox-cache-b-0916,2026-09-16,Home Depot,22225,0,0,,,1616 Granite,posted,post,"LOW_CONFIDENCE,TEST_SEED",PAUL,TEST fake receipt 6 (cache b),"in mail, not in old books",
 gm-19f22f9951be5a8d,2026-06-02,The Home Depot,3401,1,3401,0,280 Sparkling RECONCILED/,280 Sparkling,posted,post,,PAUL,,property row now documented,
@@ -403,7 +404,7 @@ gm-19d89042467353f7,2026-04-13,The Home Depot,12698,1,12698,0,RECAST BIZ/Tools,1
 gm-19c01b7410af7c7f,2026-01-11,Amazon,515,1,515,0,RECAST BIZ/Tools,104 Ashburne,posted,post,,PAUL,"Fwd: Ordered: ""GRK CARD40-1 Carded T-40...""",manual row now documented,
 gm-19fd7f3f3ed0e605,2026-08-06,McCoy's Building Supply,4456,1,4456,0,136 Bowling Green/,136 Bowling Green,posted,post,,PAUL,,property row now documented,
 gm-19e8ef3d9338fabb,2026-05-31,"CoreLogic Solutions, LLC",20000,0,0,,,OVERHEAD,pending,post,LOW_CONFIDENCE,PAUL,Property Intelligence Invoice #30875629,"in mail, not in old books",104 Ashburne/Julio/200.00
-gm-19c51f2daddbeabd,2026-02-09,Amazon,9079,2,9079,0,104 Ashburne/Master Bath;104 Ashburne/Master Bath,104 Ashburne,posted,post,,PAUL,"Fwd: Ordered: ""Freestanding Tub Drain..."" and 1 more item",property row now documented,104 Ashburne/Amazon/249.97
+gm-19c51f2daddbeabd,2026-02-09,Amazon,9079,2,9079,0,104 Ashburne/Master Bath;104 Ashburne/Master Bath,104 Ashburne,posted,post,,PAUL,"Fwd: Ordered: ""Freestanding Tub Drain..."" and 1 more item",property row now documented,
 gm-19c7bb272d77da5a,2026-02-20,The Home Depot,13507,1,1729,11778,RECAST BIZ/Tools,104 Ashburne,dismissed,dismiss,,PAUL,,manual row now documented,104 Ashburne/Home Depot/44.99;104 Ashburne/Home Depot/72.80
 gm-19fc8cb445b3e345,2026-08-03,Energy Texas,37116,0,0,,,104 Ashburne,dismissed,dismiss,NOT_POST_VERDICT,PAUL,Fwd: All set! We received your payment through Auto Pay.,junk (dismissed),
 gm-19d985398a604372,2026-04-16,Luxury 4 Less Appliances,17500,1,17500,0,104 Ashburne/Appliances,104 Ashburne,pending,post,LOW_CONFIDENCE,PAUL,Fwd: Payment confirmation: Invoice #3158-(Luxury 4 Less Appl,property row now documented,
@@ -703,6 +704,7 @@ gm-19d06dcf2f70ce53,2026-03-19,The Home Depot,54527,1,54527,0,104 Ashburne/Small
 gm-19c01a73986c43df,2026-01-14,eBay (seller zmfc86),37847,1,37847,0,104 Ashburne/HVAC,104 Ashburne,posted,post,,PAUL,Fwd: Order confirmed: Brand New Ion System Control SYST0101C,property row now documented,104 Ashburne/Berret Pest Control/270.63
 gm-19d7558ca4a9a38d,2026-04-10,Shell,7930,0,0,,,OVERHEAD,posted,post,,PAUL,,"in mail, not in old books",
 gm-19bae03eddedc8bc,2026-01-11,The Home Depot,17063,0,0,,,,pending,hold,"NOT_POST_VERDICT,LOW_CONFIDENCE,TOTAL_MISMATCH",PAUL,Your Electronic Receipt,"in mail, not in old books",
+gm-1a0c5a197b578924,2026-02-22,Amazon.com,1081,1,1081,0,104 Ashburne/Lighting & Electrical,104 Ashburne,pending,post,PAYER_UNKNOWN,UNKNOWN,"Fwd: Ordered: ""60W Candelabra Light Bulbs,...""",property row now documented,
 gm-19d3ef1b89eb4900,2026-03-30,Chase,2000000,0,0,,,,dismissed,dismiss,"NOT_POST_VERDICT,OVER_CEILING,TOTAL_MISMATCH",PAUL,DRAW,junk (dismissed),
 gm-19d07518d663dbfe,2026-03-19,Floor and Decor,1871,1,1871,0,104 Ashburne/Small Baths,104 Ashburne,posted,post,,PAUL,,property row now documented,104 Ashburne/Floor & Decor/-121.02
 gm-19d4086fb41b7037,2026-03-30,"Lowe's Home Centers, LLC",34090,0,0,,,104 Ashburne,dismissed,dismiss,,PAUL,,junk (dismissed),

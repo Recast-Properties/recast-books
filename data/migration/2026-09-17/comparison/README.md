@@ -1,12 +1,12 @@
 # Phase 4 comparison — 2026-09-21
 
-Documents: 983  status {'dismissed': 278, 'pending': 397, 'posted': 271, 'dry': 22, 'error': 15}  verdict {'dismiss': 292, 'hold': 182, 'post': 509}
-Hold reasons: [('NOT_POST_VERDICT', 346), ('LOW_CONFIDENCE', 300), ('TOTAL_MISMATCH', 155), ('OVER_CEILING', 103), ('PAYER_UNKNOWN', 65), ('ZERO_TOTAL', 63), ('ENTRY_INVALID:OVERHEAD_ON_PROPERTY', 39), ('NEEDS_HUMAN_274D', 29), ('ENTRY_INVALID:BAD_AMOUNT', 7), ('DUPLICATE: txn_id already posted (cache)', 6), ('TEST_SEED', 5), ('DUPLICATE_OF:receipt-20260911-217d4edfceda', 1), ('DUPLICATE_OF:receipt-20260901-68e846e657b5', 1), ('NOT_FOUND: no Journal rows for txn_id receipt-20260429-e652a5e77426', 1), ('DUPLICATE_OF:receipt-20260728-023dbd14fec0', 1), ('NOT_FOUND: no Journal rows for txn_id receipt-20260909-644b6422f4d4', 1)]
+Documents: 985  status {'dismissed': 278, 'pending': 399, 'posted': 271, 'dry': 22, 'error': 15}  verdict {'dismiss': 292, 'hold': 182, 'post': 511}
+Hold reasons: [('NOT_POST_VERDICT', 346), ('LOW_CONFIDENCE', 301), ('TOTAL_MISMATCH', 155), ('OVER_CEILING', 103), ('PAYER_UNKNOWN', 67), ('ZERO_TOTAL', 63), ('ENTRY_INVALID:OVERHEAD_ON_PROPERTY', 39), ('NEEDS_HUMAN_274D', 29), ('ENTRY_INVALID:BAD_AMOUNT', 7), ('DUPLICATE: txn_id already posted (cache)', 6), ('TEST_SEED', 5), ('DUPLICATE_OF:receipt-20260911-217d4edfceda', 1), ('DUPLICATE_OF:receipt-20260901-68e846e657b5', 1), ('NOT_FOUND: no Journal rows for txn_id receipt-20260429-e652a5e77426', 1), ('DUPLICATE_OF:receipt-20260728-023dbd14fec0', 1), ('NOT_FOUND: no Journal rows for txn_id receipt-20260909-644b6422f4d4', 1)]
 
 ## A · documents with an old-sheet id: 180  (net equal: 171; net differs: 9; property differs from old tab: 0)
-## B · documents matched by vendor/date/amount: 803  {'twin': 56, 'junk (dismissed)': 151, 'property row now documented': 349, 'in mail, not in old books': 203, 'manual row now documented': 44}
-## C · old rows nothing covers: 237  (with a weak candidate document: 223)  by (tab, had a message id): {('RECAST BIZ', False): 22, ('881 Newport', False): 8, ('469 Brushwood', False): 5, ('366 Mesa', False): 15, ('136 Bowling Green', False): 9, ('104 Ashburne', False): 144, ('1616 Granite RECONCILED', False): 28, ('280 Sparkling RECONCILED', False): 5, ('Cost Recapture', False): 1}
-## D · vendor-days where net differs: 490  (sum of diffs $61,455.49)
+## B · documents matched by vendor/date/amount: 805  {'twin': 56, 'junk (dismissed)': 151, 'property row now documented': 351, 'in mail, not in old books': 203, 'manual row now documented': 44}
+## C · old rows nothing covers: 235  (with a weak candidate document: 221)  by (tab, had a message id): {('RECAST BIZ', False): 22, ('881 Newport', False): 8, ('469 Brushwood', False): 5, ('366 Mesa', False): 15, ('136 Bowling Green', False): 9, ('104 Ashburne', False): 142, ('1616 Granite RECONCILED', False): 28, ('280 Sparkling RECONCILED', False): 5, ('Cost Recapture', False): 1}
+## D · vendor-days where net differs: 491  (sum of diffs $61,716.27)
 ## F · receipts above the old rows they explain (D-028 returns): 86  {'hold': 67, 'return inferred': 19}  inferred $432.19
 
 Largest net differences:
@@ -32,6 +32,6 @@ Largest net differences:
 - 2026-02-03 lowes          old      91.99 new   1,537.98 diff   1,445.99  rows 1 docs 2
 - 2026-02-22 architecturaldepot c old       0.00 new   1,390.66 diff   1,390.66  rows 0 docs 2
 - 2026-06-01 50floor        old   1,319.00 new       0.00 diff  -1,319.00  rows 1 docs 0
+- 2026-02-08 amazon         old       0.00 new   1,251.18 diff   1,251.18  rows 0 docs 2
 - 2026-07-02 cool hand electric a old       0.00 new   1,207.00 diff   1,207.00  rows 0 docs 1
 - 2026-09-01 waxahachie     old   1,196.40 new       0.00 diff  -1,196.40  rows 4 docs 0
-- 2026-09-08 iley amp iley financ old       0.00 new   1,196.00 diff   1,196.00  rows 0 docs 4

@@ -378,8 +378,8 @@
   {
    "key": "PROP-225",
    "row": "104 Ashburne 2026-02-09 Amazon 249.97",
-   "docId": "gm-19c3e95a4b9ed901",
-   "why": "Claude 2026-09-18, found by searching ALL listed mail for the row's amount, not only the documents that were read: Amazon order confirmation of 02-08, 'Ravinte 25 Pack Drawer...' x7, $249.97 - in Paul's personal Gmail (pvb421), the link opens there only until it is filed to Drive"
+   "docId": "gm-1a0c5a14c5d12e1e",
+   "why": "Claude 2026-09-18, found by searching ALL listed mail for the row's amount, not only the documents that were read: Amazon order confirmation of 02-08, 'Ravinte 25 Pack Drawer...' x7, $249.97 - in Paul's personal Gmail (pvb421), the link opens there only until it is filed to Drive | 2026-09-21: Paul forwarded the pvb421 original to receipts@ so the books hold a copy; the link now names that copy (was gm-19c3e95a4b9ed901, which opens only in pvb421)"
   },
   {
    "key": "BIZ-22",
@@ -846,8 +846,8 @@
   {
    "key": "PROP-314",
    "row": "104 Ashburne 2026-02-24 Amazon 10.81",
-   "docId": "gm-19c8730790dd20df",
-   "why": "Claude 2026-09-21 (audit §48, Paul asked whether pvb421 had been swept): Amazon order of 02-22 forwarded from pvb421 to 104ashburne@gmail.com - the forward BOUNCED (Delivery Status Notification two minutes later), so it exists only in pvb421's Sent mail. '60W Candelabra Light Bulbs' $10.81 is a line of that order, the row to the cent, same vendor, two days before the row. Its other lines ($173.31, $79.98, $119.98) are on no tab - parked"
+   "docId": "gm-1a0c5a197b578924",
+   "why": "Claude 2026-09-21 (audit §48, Paul asked whether pvb421 had been swept): Amazon order of 02-22 forwarded from pvb421 to 104ashburne@gmail.com - the forward BOUNCED (Delivery Status Notification two minutes later), so it exists only in pvb421's Sent mail. '60W Candelabra Light Bulbs' $10.81 is a line of that order, the row to the cent, same vendor, two days before the row. Its other lines ($173.31, $79.98, $119.98) are on no tab - parked | 2026-09-21: Paul forwarded the pvb421 original to receipts@ so the books hold a copy; the link now names that copy (was gm-19c8730790dd20df, which opens only in pvb421)"
   }
  ],
  "no_link": [
