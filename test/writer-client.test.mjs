@@ -63,7 +63,7 @@ test("ok:false response throws WriterError carrying the writer's code", async ()
 
 test("non-JSON body throws WriterError(\"BAD_RESPONSE\")", async () => {
   const fetchImpl = async () => fakeResponse(200, "<html>not json</html>");
-  const writer = createWriter({ url: "https://x/exec", secret: "s", fetchImpl });
+  const writer = createWriter({ url: "https://x/exec", secret: "s", fetchImpl, retryDelayMs: 1 });   // a read retries a lost reply
 
   await assert.rejects(
     () => writer.read("Accounts"),
@@ -195,4 +195,47 @@ test("a network error from fetchImpl surfaces as WriterError(\"NETWORK_ERROR\")"
       return true;
     }
   );
+});
+
+// ---- 2026-09-21: the doGet misfire (a POST's reply replaced by doGet's {ok, service, version}) ----
+const DOGET = JSON.stringify({ ok: true, service: "recast-books-writer", version: "0.4.0" });
+
+test("read: a doGet reply, a busy page and a dropped connection are asked again until the real answer comes", async () => {
+  const replies = [
+    () => fakeResponse(200, DOGET),
+    () => fakeResponse(429, "<html>busy</html>"),
+    () => { throw new Error("socket hang up"); },
+    () => fakeResponse(200, JSON.stringify({ ok: true, headers: ["txn_id"], rows: [["a"]] })),
+  ];
+  let calls = 0;
+  const writer = createWriter({ url: "https://x/exec", secret: "s", retryDelayMs: 1, fetchImpl: async () => replies[calls++]() });
+  const resp = await writer.read("Journal", { all: true });
+  assert.deepEqual(resp.rows, [["a"]]);
+  assert.equal(calls, 4);
+});
+
+test("read: gives up after four lost replies with the misfire named", async () => {
+  let calls = 0;
+  const writer = createWriter({ url: "https://x/exec", secret: "s", retryDelayMs: 1, fetchImpl: async () => { calls++; return fakeResponse(200, DOGET); } });
+  await assert.rejects(writer.read("Journal"), (err) => err instanceof WriterError && err.code === "REDIRECT_MISFIRE");
+  assert.equal(calls, 4);
+});
+
+test("read: a real writer error is not retried", async () => {
+  let calls = 0;
+  const writer = createWriter({ url: "https://x/exec", secret: "s", retryDelayMs: 1, fetchImpl: async () => { calls++; return fakeResponse(200, JSON.stringify({ ok: false, error: "BAD_TAB" })); } });
+  await assert.rejects(writer.read("Nope"), (err) => err.code === "BAD_TAB");
+  assert.equal(calls, 1);
+});
+
+test("a write is never repeated: storeDocument gets REDIRECT_MISFIRE once, not an 'ok' without a url", async () => {
+  let calls = 0;
+  const writer = createWriter({ url: "https://x/exec", secret: "s", retryDelayMs: 1, fetchImpl: async () => { calls++; return fakeResponse(200, DOGET); } });
+  await assert.rejects(writer.storeDocument("a.jpg", "image/jpeg", "AAAA", ["2026", "OVERHEAD"]), (err) => err.code === "REDIRECT_MISFIRE");
+  assert.equal(calls, 1);
+});
+
+test("ping may carry service - it is the one action whose reply looks like doGet's", async () => {
+  const writer = createWriter({ url: "https://x/exec", secret: "s", fetchImpl: async () => fakeResponse(200, DOGET) });
+  assert.equal((await writer.ping()).ok, true);
 });
