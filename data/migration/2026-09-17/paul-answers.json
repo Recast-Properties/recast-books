@@ -842,6 +842,12 @@
    "row": "RECAST BIZ 2026-02-17 Home Depot 2.65",
    "docId": "gm-19c6be8d0bd458c9",
    "why": "Claude 2026-09-21 (audit §43): same vendor, same day, and the receipt ($67.55) still has room for the row after the rows already on it; the read grouped its items, so the line cannot be shown one to one. Below $310 - decided by judgment, as agreed for the confirm list"
+  },
+  {
+   "key": "PROP-314",
+   "row": "104 Ashburne 2026-02-24 Amazon 10.81",
+   "docId": "gm-19c8730790dd20df",
+   "why": "Claude 2026-09-21 (audit §48, Paul asked whether pvb421 had been swept): Amazon order of 02-22 forwarded from pvb421 to 104ashburne@gmail.com - the forward BOUNCED (Delivery Status Notification two minutes later), so it exists only in pvb421's Sent mail. '60W Candelabra Light Bulbs' $10.81 is a line of that order, the row to the cent, same vendor, two days before the row. Its other lines ($173.31, $79.98, $119.98) are on no tab - parked"
   }
  ],
  "no_link": [
@@ -2840,6 +2846,14 @@
   {
    "docId": "gm-19cddf3d9dcd3db2",
    "why": "Claude 2026-09-21 (audit §41): Home Depot 03-11 $6.68: no row at the amount; it had been hung on the 03-12 Weed Killer row ($8.63) by a $2 tolerance. PARKED for Phase 3 like the other small unexplained receipts"
+  },
+  {
+   "docId": "gm-19c873057e72e700",
+   "why": "Claude 2026-09-21 (audit §48, Paul asked whether pvb421 had been swept): pvb421 only (bounced forward): Amazon 02-22, 6 black ceiling fans $283.74. On no old tab by total or by its parts ($7.19, $24.95, $53.99); pvb421 holds Amazon ceiling-fan return confirmations of 02-19 and 03-04. Not proven kept - PARKED for the card statement (stopping rule)"
+  },
+  {
+   "docId": "gm-19c911d7947dd7b7",
+   "why": "Claude 2026-09-21 (audit §48, Paul asked whether pvb421 had been swept): pvb421 only (bounced forward): Amazon 02-24, 2 Sofucor 52-inch ceiling fans $246.78. On no old tab by total or parts ($59.95, $18.88, $34.99); fan returns follow in March. PARKED for the card statement (stopping rule)"
   }
  ],
  "rename_payee": [

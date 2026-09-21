@@ -1469,3 +1469,28 @@ $3,089.17 → **$3,443.17**, Cost Recapture $1,607.87 → **$1,253.87**; no link
 clean. No settlement date is owed for cutover any more: Newport closes in the new books (Phase 5).
 For Phase 5: the Sales tab's $243,740.64 is not five past sales; the closed ones are Granite $28,489.22,
 its lien holdback $30,000.00 and Sparkling $32,246.85.
+
+## 48 · Was pvb421@ swept? Yes as a listing, never as reads - and four bounced forwards (2026-09-21)
+
+Claude told Paul "no pvb421@ mail was ever read by the bookkeeper" from one grep; Paul: "you were supposed to
+read pvb421@gmail.com as part of your email sweep. are you sure?" Checked against the listings and the 983
+stored reads:
+- **Swept: yes.** All 4,253 pvb421 messages were listed on 09-17 (sender, subject, amounts, first lines) and
+  that listing is part of every "is it anywhere in mail" search - it is how the drawer-pulls order was found
+  on 09-18. **Read through the bookkeeper: 0 of them**, by §10's design (a personal mailbox; "a few dozen by
+  id" was planned and never run). 391 of the 955 mail reads are pvb421 *as sender* - his forwards, read where
+  they arrived.
+- **§10's claim tested:** of 500 pvb421 messages sent to a business address, 485 have a same-subject, same-day
+  counterpart in the paul@ / properties@ listings. Of the 15 that do not, four are Amazon order forwards to
+  104ashburne@gmail.com that **bounced** (a "Delivery Status Notification (Failure)" follows each within
+  minutes: 02-08, 02-22 x2, 02-24) - they exist only in pvb421's Sent mail. The rest are tests, a screenshot,
+  "cooktop hole", a "Return" note.
+- The four: drawer pulls $249.97 (linked on 09-18, the 16th never-read message); **"60W Candelabra Light
+  Bulbs" $10.81 = the Ashburne row "Light Bulbs" of 02-24, a no-document row until now - linked (922
+  linked)**; six black ceiling fans $283.74 and two Sofucor fans $246.78 - on no tab by total or parts, with
+  Amazon fan-return confirmations in pvb421 (02-19, 03-04): parked for the card statement (`mail_settled`).
+- Every row still without a document (127) was searched again in the pvb421 listing by amount within two
+  cents and ten days: 26 hits, all coincidences of round amounts (Julio's $200 against a TikTok order) but
+  the light bulbs.
+Amounts and ids unchanged: 1,048 entries, $240,844.35; link audit clean. Two documents now wait on a read
+from pvb421: `gm-19c3e95a4b9ed901` and `gm-19c8730790dd20df`.
