@@ -1402,3 +1402,13 @@ the dry run is byte-identical; with one, only `doc_url` / `link_kind` change (id
 on the link). Drive file URLs survive a move, so the folders can be dragged under the production root after
 cutover without touching the Journal. After the filing: rerun from `migration-rows.py`, push, one more Run
 and tie-out (links only).
+
+**How item 7 runs (found the same hour).** `WRITER_URL` in Netlify's production context is the staging
+deployment, as documented (the default `env:get` context still returns the dormant 09-14 standalone writer -
+always pass `--context production`). `WRITER_SECRET` is a masked secret: the CLI returns asterisks, by
+design, so the job cannot be started from a Claude session. Paul starts it in his own Terminal with the
+secret typed at a hidden prompt (the script's header has the line; the value is Script property
+`WRITER_SECRET` of the staging project). The script pings the writer first, so a wrong secret files nothing;
+a document that fails is logged and retried on the next run. Bytes were checked end to end: `att/
+gm-19b9ef373c8332d3/0` comes back from the store as 3,033,538 bytes of JPEG, the envelope's size. About 45
+minutes, unattended. Not yet run; nothing was filed by the test (it stopped at the guard).

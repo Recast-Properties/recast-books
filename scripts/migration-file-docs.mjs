@@ -10,7 +10,11 @@
 //
 //   node scripts/migration-file-docs.mjs [--dry] [--limit N]
 //
-// WRITER_URL / WRITER_SECRET come from the environment, else from `netlify env:get` (never printed).
+// WRITER_URL comes from Netlify's production context (staging until cutover). WRITER_SECRET is masked
+// on Netlify - the CLI will not return it - so Paul supplies it in his own Terminal:
+//   read -s "WRITER_SECRET?Writer secret: " && export WRITER_SECRET && node scripts/migration-file-docs.mjs
+// (the value is Script property WRITER_SECRET of the staging project). A document that fails is
+// logged and left for the next run.
 // ponytail: sequential, ~3 s a file (~35 min in all); a crash mid-document re-files that one
 // document's earlier attachments on the next run (a duplicate file in Drive, never a wrong link).
 import { execFileSync } from "node:child_process";
@@ -41,12 +45,14 @@ console.log(`${byDoc.size} Gmail-linked documents: ${byDoc.size - todo.length} f
 if (unread.length) console.log("never read: " + unread.join(" "));
 if (dry) process.exit(0);
 
-const url = process.env.WRITER_URL || cli("env:get", "WRITER_URL");
+const url = process.env.WRITER_URL || cli("env:get", "WRITER_URL", "--context", "production");
 if (!url.includes(STAGING) && !args.includes("--production")) throw new Error("WRITER_URL is not the staging writer; pass --production on cutover day only");
-const writer = createWriter({ url, secret: process.env.WRITER_SECRET || cli("env:get", "WRITER_SECRET") });
+if (!process.env.WRITER_SECRET) throw new Error("WRITER_SECRET is not set - see the header of this script");
+const writer = createWriter({ url, secret: process.env.WRITER_SECRET });
+await writer.ping();   // a wrong secret stops here, before anything is filed
 const save = () => writeFileSync(MAP, JSON.stringify(filed, null, 1) + "\n");
 
-let n = 0;
+let n = 0, failed = 0;
 for (const f of evidence) {
   if (n >= limit) break;
   const ext = path.extname(f).toLowerCase();
@@ -58,6 +64,7 @@ for (const f of evidence) {
 for (const docId of todo) {
   if (n >= limit) break;
   if (unread.includes(docId)) continue;
+  try {
   const env = JSON.parse(readFileSync(path.join(ENV_DIR, docId + ".json"), "utf8"));
   const rows = byDoc.get(docId).sort((a, b) => a.txn_id.localeCompare(b.txn_id));
   const folder = [rows[0].date.slice(0, 4), rows[0].property];
@@ -80,5 +87,7 @@ for (const docId of todo) {
   files.push({ name, url: s.url, fileId: s.fileId });
   filed[docId] = { url: files[0].url, folder: folder.join("/"), files };
   save(); n++; console.log(`${n} ${docId} ${folder.join("/")} ${files.length} file(s)`);
+  } catch (err) { failed++; console.log(`  FAILED ${docId}: ${err.code || ""} ${err.message} - run again to retry`); }
 }
-console.log(`done: ${Object.keys(filed).length} keys in ${MAP}`);
+console.log(`done: ${Object.keys(filed).length} keys in ${MAP}; ${failed} failed`);
+process.exit(failed ? 1 : 0);
