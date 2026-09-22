@@ -173,7 +173,7 @@ var ACCOUNTS_SEED = [
   ['1100', 'Holding - property tax', '1000', 'asset', 'Holding', 'Inventory (held)', true, ''],
   ['1110', 'Holding - insurance', '1000', 'asset', 'Holding', 'Inventory (held)', true, ''],
   ['1120', 'Holding - utilities', '1000', 'asset', 'Holding', 'Inventory (held)', true, ''],
-  ['1130', 'Holding - HOA & grounds', '1000', 'asset', 'Holding', 'Inventory (held)', true, ''],
+  ['1130', 'Holding - HOA', '1000', 'asset', 'Holding', 'Inventory (held)', true, ''],
   ['1200', 'Financing - interest (Dennis)', '1000', 'asset', 'Financing', 'Inventory (held)', true, ''],
   ['1210', 'Financing - points & fees', '1000', 'asset', 'Financing', 'Inventory (held)', true, ''],
   ['1220', 'Profit participation - Dennis', '1000', 'asset', 'Financing', 'Inventory (held)', true, ''],

@@ -68,7 +68,7 @@ where the registry says `status = held`.
 | 1100 | Holding — property tax | Ashburne $16,031.25, prorated per tab |
 | 1110 | Holding — insurance | Foremost Insurance $2,640.10 |
 | 1120 | Holding — utilities | TXU, Atmos, Energy Texas, city water, Rocket Water |
-| 1130 | Holding — HOA & grounds | HOA dues, Falcon Creek Lawn, pool service |
+| 1130 | Holding — HOA | HOA dues, Falcon Creek Lawn, pool service |
 | 1200 | Financing — interest | Ashburne $40,030.92, per-property interest to date |
 | 1210 | Financing — points & fees | Loan origination |
 | 1300 | Selling — commission | Ashburne $46,500 (6%) |

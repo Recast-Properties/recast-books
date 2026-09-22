@@ -108,7 +108,7 @@ what was bought, not the closest-sounding label.
 - `1100` Holding - property tax - property tax while a property is held.
 - `1110` Holding - insurance - insurance on a held property.
 - `1120` Holding - utilities - electric, gas, water, trash for a held property.
-- `1130` Holding - HOA & grounds - HOA dues, lawn care, pool service for a held
+- `1130` Holding - HOA - HOA dues, lawn care, pool service for a held
   property.
 - `1200` Financing - interest (Dennis) - interest accrued on Dennis's advances.
   Posted by the accrual engine, not by you from a receipt.

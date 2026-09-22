@@ -184,7 +184,7 @@ group; `type` ∈ asset, liability, income, cogs, expense, equity.
 1000 Purchase price · 1010 Acquisition costs · 1020 Rehab — subcontract labor ·
 1030 Rehab — materials · 1040 Rehab — fixtures & appliances · 1050 Permits & inspections ·
 1060 Debris & haul-off · 1100 Holding — property tax · 1110 Holding — insurance ·
-1120 Holding — utilities · 1130 Holding — HOA & grounds · 1200 Financing — interest (Dennis) ·
+1120 Holding — utilities · 1130 Holding — HOA · 1200 Financing — interest (Dennis) ·
 1210 Financing — points & fees · 1220 Profit participation — Dennis · 1300 Selling — commission ·
 1310 Selling — closing costs · 1320 Selling — concessions & credits · 1330 Selling — staging & marketing
    → type asset, cost_class by range (Acquisition 1000–1019, Rehab 1020–1099, Holding 1100–1199,
