@@ -724,3 +724,8 @@ receipts he had held since 09-17.
 - **D-035 (§58): no attachment, the email is the receipt.** Upload stores the message as `email.txt`; every filing
   path links it. Writer `setDocUrl` action (web app @4). Wi-Fi Onboard and Berrett filed and linked by hand.
 - **Phase 5 spec** written for Paul's review: `docs/phase5-spec.md` (six questions in §6).
+- **Phase 5 built, both closed sales posted (§60).** One dialog, four steps, document first. `lib/sale.mjs`
+  and `lib/settlement.mjs` pure and tested against both real statements; the read is a background job.
+  Granite: profit 109,178.56, Paul 28,489.52, holdback 60,000 released 09-11, escrow and Dennis at zero.
+  Sparkling: read from its PDF, profit 60,930.09 at Recast's 50% share, all seven entries documented.
+  D-036…D-039 (share not payee; 8% on the closed deals; HOA release is a selling cost, account 1340).

@@ -1746,3 +1746,64 @@ fluctuates." Granite's three advances and Sparkling's purchase go to 8; the four
 deliberate high-side forecast buffer. `lib/sale.mjs`'s fixtures already use 8% for the two closed deals, and
 the true-up is then $7.83 and $1.17 instead of $877.45 and $354.07.
 
+
+## 60 · Phase 5 built and both closed sales posted (2026-09-22)
+
+The sell wizard, end to end, and the two sales that had actually closed are now in the books. Spec:
+`docs/phase5-spec.md` (rewritten to Paul's four steps); decisions D-036 … D-039.
+
+**Shape, settled with Paul against two false starts.** He rejected a typed form with the document bolted
+on ("this should all be one process ... i want it all in one menu item and dialog") and then set the order
+himself: "first step, in the dialog: upload the closing doc. step 2: it extracts info and prepopulates the
+input fields. step 3: preview. step 4 close." One menu item, `Sell property…`; the "Rebuild closing tab"
+and "Attach closing document…" items were folded into the dialog's closed view, which is also where a late
+statement and the escrow holdback are handled.
+
+**Built:** `lib/sale.mjs` (the arithmetic and the order of the seven entries, D-037's share, the
+distribution rule that reproduces Paul's own closed tabs), `lib/settlement.mjs` (the prompt, a strict tool
+and the validation), `/api/settlement` + `/api/settlement-bg` (the read as a background job - a synchronous
+function is cut off at ten seconds and a three-page disclosure takes a minute or two; Paul's first real
+document came back 504), `Sell.html` (four steps), and in the writer `sellContext` / `sellReadDocument` /
+`sellPreview` / `sellPost` / `sellUpdate` / `sellHoldback`, `propertyBalances_`, `writeClosingTab_`,
+`closingFromJournal_`. 453 tests, both real statements as fixtures.
+
+**How the property tab and the closing tab relate (Paul):** no new tab per sale - the property's own tab
+becomes the closing statement, which is what the old workbook already did ("1616 Granite RECONCILED"). While
+the layout is being proved it is written beside the live tab as `<property> - Closing`
+(`CLOSING_TAB_IN_PLACE`); flip the constant when he signs it off. Labels he types on a settlement line or a
+cost row survive a rebuild.
+
+**1616 Granite, closed 2026-07-24 (typed from the PDF, before the read existed).** Seven entries, 32 lines.
+Cash 347,343.03; project cost 320,821.44; **net profit 109,178.56**; shares 54,589.28 each; paid to Dennis
+318,853.51 and **to Paul 28,489.52 - the old tab's figure to the cent**; each partner then owed exactly
+30,000.00, which is the escrow holdback split in half. Interest: engine 6,966.43 at 8%, Dennis's agreed
+6,958.60, one adjustment of −7.83. **Holdback released 2026-09-11** (three entries, six lines): 1510 is 0.00
+and Dennis is paid in full; Paul's draws total 54,589.28, his whole half.
+
+**280 Sparkling, closed 2026-08-06 (read from the PDF by Claude).** The read found the file number, both
+sellers, the 50% share, eleven lines with their own wording and an account each, and caught both traps in
+that document - the page-1 closing-costs total that would double count, and the "$65.00 of Title Premium"
+row that carries no seller-paid amount. Seven entries, 33 lines, **all seven carrying the closing
+disclosure**. Cash 263,769.94 (derived: Recast's share of net-to-seller floored, plus the 4,716.82 paid to
+it by name - the odd cent went to the co-seller); revenue 275,000.00; **net profit 60,930.09, the old tab's
+"Net after closing" exactly**; paid to Paul 32,246.84 against its 32,246.85. Nothing retained, nothing owed.
+
+**The ledger after both:** 2,275 live rows, debits = credits at 4,457,856.90; 4000 = 705,000.00, 5000 =
+619,945.68, 1510 = 0.00, 2000 = 0.00, 9010 = 85,054.32. 17 sale entries.
+
+**Corrections and rules this produced:** D-036 (holdback arrived 09-11 split 50/50; 3% of the full price on a
+bank deal; no reserve field; Drive only), D-037 (a co-owned deal is recorded at Recast's undivided share -
+the co-owner is not a payee), D-038 (Granite and Sparkling were 8%, held properties stay 9% as a buffer),
+D-039 (an HOA release is a selling cost: new account **1340**). Also: cash received is derived, never typed;
+a statement line shown with no amount is noted rather than flagged.
+
+**Three self-inflicted breakages, and the guard.** Replacing blocks of the writer by text match deleted a
+live function twice and duplicated one once, and each time it looked like a rendering bug rather than code
+that never ran. Three tests now stand in `writer-gs-lint`: no function declared twice, every menu item names
+a function that exists, and every private helper called in the writer is declared somewhere. The second
+found a pre-existing duplicate too - `colLetter_`, declared twice in `Code.gs` with different bodies since
+before this session (verified equivalent over 1..5000, dead copy removed).
+
+**Open:** the closing tab's layout is still Paul's to sign off (then `CLOSING_TAB_IN_PLACE`); 881 Newport and
+104 Ashburne run through the same wizard when they close (Ashburne is the bank deal - 12%, 3% commission, no
+profit share); then Phase 3.
