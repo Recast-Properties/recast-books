@@ -1507,7 +1507,7 @@ function setupPropertyTab(name) {
   sh.getRange(4, 4, grid.length - 3, 3).setHorizontalAlignment('left'); // Dennis block D:F (Paul, 2026-09-15)
   // The Dennis block has no Notes column: drop column H so the gap column follows the
   // Interest column directly (Paul, 2026-09-15). Formulas shift with their cells.
-  sh.deleteColumn(8);
+  if (!heavy) sh.deleteColumn(8);   // heavy: H is the Interest column (2026-09-22)
   // Narrow spacer column on the left, like the old tab (Paul, 2026-09-15). Inserting
   // after the build shifts every formula on the tab along with its cell.
   sh.insertColumnBefore(1);
