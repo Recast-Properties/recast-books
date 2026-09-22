@@ -261,9 +261,14 @@ estimates the tax proration on its own line). Paul's call, not a blocker.
    - `lib/settlement.mjs` (pure): the prompt, the strict tool and the validation of what comes back -
      the kinds, the account proposals, the ties check. 13 tests, both real statements as fixtures, each
      driving `buildSalePlan` to the numbers already posted.
-   - `netlify/functions/books-settlement.mjs` -> `/api/settlement` (poller secret): one model read, no
-     gate, nothing posted. 15 tests with the SDK stubbed, covering auth, what a document may be, the
-     request shape, a refusal, a turn with no tool call and an API failure.
+   - `/api/settlement` (poller secret) is a **job**, not one call: POST stores the document and returns a
+     job id, `/api/settlement-bg` does the read in a background function, and the writer polls every 4 s
+     for up to four minutes. A synchronous Netlify function is cut off at ten seconds and a three-page
+     closing disclosure takes a minute or two (2026-09-22: a 504 "Inactivity Timeout" on the first real
+     document), which is the same reason `books-ingest-background.mjs` exists for receipts. A job always
+     reaches `done` or `error`, never stays `reading`, and the document's bytes are dropped when it
+     finishes and never returned to the poller. 19 tests with the SDK stubbed, running start to stored
+     answer inline.
    - `Sell.html`: four steps with Back and Next. Step 2 shows what was read, every line with the words
      that chose its account, the problems the validation found, and the live tally. `Skip and type it in`
      is still there for a sale with no document to hand.

@@ -1303,14 +1303,33 @@ function sellReadDocument(req) {
   try {
     requireOwner_(ss);
     if (!req || !req.base64) return { ok: false, error: 'NO_DOCUMENT', message: 'No document was given to read.' };
-    return siteFetchJson_('/api/settlement', 'post', {
+    var started = siteFetchJson_('/api/settlement', 'post', {
       base64: req.base64, mime: req.mime || 'application/pdf',
       name: req.name || '', property: req.property || ''
     });
+    if (!started.job_id) return { ok: false, error: 'NO_JOB', message: 'The site did not start a read.' };
+    // Reading a three-page statement takes a minute or two, so the site does it in a
+    // background function and we wait here: Apps Script has six minutes, a Netlify
+    // request has ten seconds (2026-09-22: a 504 on the first real document).
+    for (var i = 0; i < SELL_READ_POLLS; i++) {
+      Utilities.sleep(SELL_READ_WAIT_MS);
+      var job = siteFetchJson_('/api/settlement?job=' + encodeURIComponent(started.job_id));
+      if (job.status === 'done') return job;
+      if (job.status === 'error') return { ok: false, error: 'READ_FAILED', message: job.error || 'the read failed' };
+    }
+    return {
+      ok: false, error: 'READ_TIMED_OUT',
+      message: 'The read is still running after ' + Math.round(SELL_READ_POLLS * SELL_READ_WAIT_MS / 1000) +
+        ' seconds. Try again, or Skip and type it in.'
+    };
   } catch (err) {
     return { ok: false, error: (err && err.code) || 'INTERNAL', message: String((err && err.message) || err) };
   }
 }
+
+// 4 s x 60 = four minutes of waiting, inside Apps Script's six-minute limit.
+var SELL_READ_WAIT_MS = 4000;
+var SELL_READ_POLLS = 60;
 
 /**
  * The dialog's closed view: attach (or replace) the settlement statement on a sale that is
