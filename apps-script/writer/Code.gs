@@ -1326,7 +1326,7 @@ function setupPropertyTab(name) {
   // ponytail: a current-year bill paid before the sale would count in both terms;
   // Texas bills arrive in October and are due Jan 31, so a held property rarely
   // pays one - revisit if it happens.
-  set(s, 1, '="Property Tax (prorated"&IF(' + TAX + '="","",", "&TEXT(' + TAX + ',"$#,##0")&"/yr")&")"'); set(s, 2, '=' + net(eq('E', '1100')) + '+' + PRORATE + '); s++;
+  set(s, 1, '="Property Tax (prorated"&IF(' + TAX + '="","",", "&TEXT(' + TAX + ',"$#,##0")&"/yr")&")"'); set(s, 2, '=' + net(eq('E', '1100')) + '+' + PRORATE); s++;
   set(totalRow, 2, '=SUM(B' + purchaseRow + ':B' + (s - 1) + ')', true);
   s++;
   paint(s, 1, 2, C.head); set(s++, 1, 'Profit Breakdown', true);
