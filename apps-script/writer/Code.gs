@@ -1328,9 +1328,8 @@ function setupPropertyTab(name) {
     set(s, 2, '=' + net(rehabF) + '+' + net(holdingF + '*' + ne('E', '1100')), true); s++;
     set(s, 1, 'Current Total Spent (cash draws are what count against the project)'); set(s, 2, '=B' + (s - 1)); s += 2;
     set(s, 1, 'Total Project Cost (All in)', true); var hTotal = s; paint(s, 1, 1, C.head); paint(s, 2, 1, C.total); s++;
-    set(s, 1, 'Purchase'); set(s, 2, '=IF(' + net(eq('E', '1000')) + '=0,IFERROR(VLOOKUP("' + safeName + '",Properties!A:E,5,FALSE),0),' + net(eq('E', '1000')) + ')'); var hFirst = s++;
-    set(s, 1, 'Cash Draws'); set(s, 2, '=' + cashPrincipalRef); s++;
-    set(s, 1, 'Interest to Date'); set(s, 2, '=' + purchaseInterestRef + '+' + cashInterestRef); var hInterest = s++;
+    set(s, 1, 'Purchase Principal + Interest'); set(s, 2, '=' + purchasePayoffRef); var hFirst = s++;
+    set(s, 1, 'Cash Advance Principal + Interest'); set(s, 2, '=' + cashPayoffRef); s++;
     set(s, 1, 'Property Tax Paid'); set(s, 2, '=' + net(eq('E', '1100'))); s++;
     set(s, 1, '="Property Tax Paid (Prorated"&IF(' + TAX + '="","",", "&TEXT(' + TAX + ',"$#,##0")&"/yr")&")"'); set(s, 2, '=' + PRORATE); s++;
     set(hTotal, 2, '=SUM(B' + hFirst + ':B' + (s - 1) + ')', true);
@@ -1343,11 +1342,14 @@ function setupPropertyTab(name) {
     var pctH = function (key) { return 'IFERROR(VLOOKUP("' + key + '",Settings!A:B,2,FALSE),0)'; };
     set(s, 1, '="Closing Costs "&' + pctH('estimate_closing_pct') + '&"%"'); set(s, 2, '=B' + hSale + '*' + pctH('estimate_closing_pct') + '/100'); s++;
     set(s, 1, 'Concession (type it here)'); set(s, 2, keptConc !== '' ? keptConc : 0); paint(s, 1, 2, C.input); s++;
-    set(s, 1, 'Profit', true); set(s, 2, '=B' + hSale + '-SUM(B' + (hSale + 1) + ':B' + (s - 1) + ')+B' + hAgentPct, true); paint(s, 1, 2, C.yellow); var hProfit = s++;
-    set(s, 1, 'Interest'); set(s, 2, '=B' + hInterest); var hInt2 = s++;
-    set(s, 1, '="Commission "&' + COMM + '&"%"'); set(s, 2, '=B' + hSale + '*' + COMM + '/100'); s++;
-    set(s, 1, 'Dennis Profit', true); set(s, 2, '=B' + hInt2 + '+B' + (s - 1), true); paint(s, 1, 2, C.yellow); var hDennis = s++;
-    set(s, 1, 'Paul Profit', true); set(s, 2, '=B' + hProfit + '-B' + hDennis, true); paint(s, 1, 2, C.yellow); s++;
+    set(s, 1, 'Profit', true); set(s, 2, '=B' + hSale + '-SUM(B' + (hSale + 1) + ':B' + (s - 1) + ')+B' + hAgentPct, true); paint(s, 1, 2, C.yellow); s++;
+    s++;
+    set(s, 1, 'Dennis Payout', true); paint(s, 1, 1, C.sub); paint(s, 2, 1, C.tan); var hDennis = s++;
+    set(s, 1, 'Purchase Principal + Interest'); set(s, 2, '=' + purchasePayoffRef); s++;
+    set(s, 1, 'Cash Advance Principal + Interest'); set(s, 2, '=' + cashPayoffRef); s++;
+    set(s, 1, '="Agent Commission ("&' + COMM + '&"%)"'); set(s, 2, '=B' + hSale + '*' + COMM + '/100'); s++;
+    set(hDennis, 2, '=SUM(B' + (hDennis + 1) + ':B' + (s - 1) + ')', true);
+    var hPctRow = hAgentPct;
   } else {
   set(s, 1, 'Total Project Cost', true); var totalRow = s; paint(s, 1, 1, C.head); paint(s, 2, 1, C.total); s += 1;
   // The posted purchase (account 1000) once it is on the books; the registry's
@@ -1469,6 +1471,7 @@ function setupPropertyTab(name) {
   [purchase, cash].forEach(function (blk) { sh.getRange(blk.first, 4, blk.last - blk.first + 1, 2).setNumberFormat('mm/dd/yyyy'); });
   sh.getRange(4, PC, grid.length - 3, 2).setNumberFormat(money);
   if (heavy) sh.getRange(4, 6, grid.length - 3, 1).setNumberFormat('@');
+  if (heavy) sh.getRange(hPctRow, 2).setNumberFormat('0.00"%"');
   if (heavy) {
     heavyBlocks_(ss, name).forEach(function (blk, i) {
       var c0 = 10 + i * PT_HEAVY_STRIDE;
