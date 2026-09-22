@@ -19,6 +19,14 @@ D-006, D-010, D-011, D-015, D-017, D-021, D-022, D-030, D-031, D-032, D-034, `do
 | Reserve to leave in the shared account | typed, optional (BUILD-PLAN "Open 2026-09-11") | reduces the Recast account's payout, nothing else |
 | Cost Recapture balance to settle | shown, tick to include (D-031, D-015 §4) | per-partner adjustment line on this payout |
 
+**The advances are edited in the dialog, never in a Terminal** (Paul, 2026-09-22: "i don't want to have to
+run terminal every time we reconcile"). The Sell dialog lists this property's advances - date, amount, kind,
+rate, repayment date - all editable in place beside Dennis's interest figure, because the sale is exactly
+when the two of them reconcile. The writer posts the corrected rows itself: it is the project bound to the
+workbook, so it needs no secret (D-023). The masked-secret Terminal path exists only for callers outside the
+workbook. For a held property the same edit already has a home: the property tab's typed End Date cell is
+written back to `Advances` by `onPropertyTabEdit`, and the rate cell works the same way.
+
 Statement lines map to accounts like this (Claude proposes, Paul confirms; anything unmapped holds the run):
 
 | ALTA line | Account | Side |
