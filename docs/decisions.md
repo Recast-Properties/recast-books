@@ -743,7 +743,8 @@ Answers to `docs/phase5-spec.md` §6, which the sell wizard is built from.
    rehab accounts it reimburses - it is not income.
 3. **Bank deal commission** is **3% of the full sale price**, paid to Dennis at closing with the purchase cost
    and the cash advances plus their 12% interest (104 Ashburne). No profit share on a bank deal (D-030, D-032).
-4. **D-021 stands** for partner deals: interest on every advance is a property cost, split 50/50; the old
+4. **D-021 stands** for partner deals - Paul, asked again the same day: "re: granite interest - it should be
+   a shared expense." Interest on every advance is a property cost, split 50/50; the old
    Granite tab's personal $84.70 treatment is not reproduced (each payout differs by $42.35, named as a
    difference on the Closing tab).
 5. **No reserve field** on the wizard: the shared Recast account keeps what it fronted. Closes the
