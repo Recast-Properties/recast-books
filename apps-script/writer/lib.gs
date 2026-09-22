@@ -1807,7 +1807,11 @@ var M_sale = (function () {
     if (!(share > 0 && share <= 1)) throw new RangeError(`sale: recast_share_pct must be in (0, 100]`);
 
     const byAccount = new Map(); // account -> signed cents, debit positive
-    const add = (account, cents) => byAccount.set(account, (byAccount.get(account) || 0) + cents);
+    const labels = new Map();    // account -> the statement's own wording, for the Journal line
+    const add = (account, cents, label) => {
+      byAccount.set(account, (byAccount.get(account) || 0) + cents);
+      if (label) labels.set(account, labels.has(account) ? labels.get(account) + "; " + label : label);
+    };
 
     const revenue_cents = atShare(settlement.sale_price_cents, share);
     let cost_cents = 0, credit_cents = 0, holdback_cents = 0, to_recast_cents = 0, to_recast_full_cents = 0;
@@ -1817,19 +1821,19 @@ var M_sale = (function () {
       if (cents < 0) throw new RangeError(`sale: statement line "${line.label}" is negative; use the right kind instead`);
       if (line.kind === "cost") {
         const c = atShare(cents, share);
-        cost_cents += c; add(line.account, c);
+        cost_cents += c; add(line.account, c, line.label);
       } else if (line.kind === "credit") {
         const c = atShare(cents, share);
-        credit_cents += c; add(line.account, -c);
+        credit_cents += c; add(line.account, -c, line.label);
       } else if (line.kind === "holdback") {
         const c = atShare(cents, share);
-        holdback_cents += c; add(HOLDBACK, c);
+        holdback_cents += c; add(HOLDBACK, c, line.label);
       } else if (line.kind === "to_recast") {
         // D-037: Recast banks the whole line, but only the co-owner's share is new money -
         // Recast's own share of it was already deducted from its half of net-to-seller.
         const c = cents - atShare(cents, share);
         to_recast_full_cents += cents;
-        to_recast_cents += c; add(line.account, -c);
+        to_recast_cents += c; add(line.account, -c, line.label);
       } else {
         throw new RangeError(`sale: statement line "${line.label}" has unknown kind "${line.kind}"`);
       }
@@ -1860,7 +1864,7 @@ var M_sale = (function () {
     add(REVENUE, -revenue_cents);
     return {
       cash_cents, revenue_cents, cost_cents, credit_cents, holdback_cents, to_recast_cents,
-      to_recast_full_cents, rounding_cents, byAccount,
+      to_recast_full_cents, rounding_cents, byAccount, labels,
     };
   }
 
@@ -1917,7 +1921,8 @@ var M_sale = (function () {
     const st = splitStatement(settlement);
 
     // ---- 1. the sale itself -------------------------------------------------------------
-    const saleLines = [...st.byAccount].map(([account, cents]) => line(account, cents, { property: property.name }));
+    const saleLines = [...st.byAccount].map(([account, cents]) =>
+      line(account, cents, { property: property.name, description: st.labels.get(account) || "" }));
     const intents = [{
       type: "journal", date, source: "sale", posted_by: postedBy,
       memo: `${memoBase}: settlement statement`,

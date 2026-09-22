@@ -25,6 +25,7 @@ function onOpen() {
     .addItem('Post interest...', 'showInterestDialog')
     .addSeparator()
     .addItem('Sell property...', 'showSellDialog')
+    .addItem('Rebuild closing tab', 'rebuildClosingTab')
     .addSeparator()
     .addItem('Close period...', 'closePeriod')
     .addItem('Reopen period...', 'reopenPeriod')
@@ -1272,4 +1273,168 @@ function sellCostByClass_(ss, name, plan) {
     Object.keys(released).forEach(function (a) { if (g.test(a)) { cents += released[a]; accounts.push(a); } });
     return { label: g.label, cents: cents, accounts: accounts.join(' ') };
   }).filter(function (g) { return g.cents !== 0; });
+}
+
+/**
+ * Re-render a sold property's closing statement from what is posted, so the tab can be
+ * rebuilt after a label change or when a post-sale cost arrives. The Journal is the only
+ * source: the `sale` entries and the property's balances, never the dialog's form.
+ */
+function rebuildClosingTab() {
+  var props = PropertiesService.getScriptProperties();
+  var ss = openWorkbook_(props);
+  var ui = SpreadsheetApp.getUi();
+  try { requireOwner_(ss); } catch (err) { return; }
+
+  var active = String(ss.getActiveSheet().getName() || '').replace(/ - Closing$/, '');
+  var name = active;
+  if (!propertyRow_(ss, name)) {
+    var resp = ui.prompt('Rebuild closing tab', 'Property name (exactly as on the Properties tab):', ui.ButtonSet.OK_CANCEL);
+    if (resp.getSelectedButton() !== ui.Button.OK) return;
+    name = resp.getResponseText().trim();
+  }
+  if (!propertyRow_(ss, name)) { ui.alert('"' + name + '" is not on the Properties tab.'); return; }
+
+  var built = closingFromJournal_(ss, name);
+  if (!built) { ui.alert('No posted sale found for ' + name + '. Use Sell property... first.'); return; }
+  var written = writeClosingTab_(ss, name, built, closingTabName_(name));
+  warmCache_();
+  ui.alert('Rebuilt ' + written.sheet + ' (' + written.rows + ' rows) from the posted sale.');
+}
+
+/**
+ * The closing statement's numbers, read back out of the posted `sale` entries. Returns
+ * null when the property has no posted sale. Shapes match what writeClosingTab_ wants,
+ * so the tab renders identically whether it is written at the sale or rebuilt later.
+ */
+function closingFromJournal_(ss, name) {
+  var journal = ss.getSheetByName('Journal');
+  var cols = headerIndex_(journal);
+  var last = journal.getLastRow();
+  var rows = last > 1 ? journal.getRange(2, 1, last - 1, journal.getLastColumn()).getValues() : [];
+  var g = function (r, n) { return cols[n] ? r[cols[n] - 1] : ''; };
+  var voided = {};
+  rows.forEach(function (r) { var v = String(g(r, 'void_of') || ''); if (v) voided[v] = true; });
+
+  var entries = {};   // txn_id -> {memo, date, lines:[{account, cents, description}]}
+  rows.forEach(function (r) {
+    if (String(g(r, 'property')) !== name) return;
+    if (String(g(r, 'source')) !== 'sale' || voided[String(g(r, 'txn_id'))]) return;
+    var id = String(g(r, 'txn_id'));
+    if (!entries[id]) entries[id] = { memo: String(g(r, 'memo') || ''), date: formatIsoDate_(g(r, 'date')), lines: [] };
+    entries[id].lines.push({
+      account: String(g(r, 'account')),
+      cents: Math.round(Number(g(r, 'debit') || 0) * 100) - Math.round(Number(g(r, 'credit') || 0) * 100),
+      description: String(g(r, 'description') || '')
+    });
+  });
+  var ids = Object.keys(entries);
+  if (!ids.length) return null;
+
+  var find = function (re) { for (var i = 0; i < ids.length; i++) if (re.test(entries[ids[i]].memo)) return entries[ids[i]]; return null; };
+  var settlement = find(/settlement statement/);
+  var accrual = find(/interest accrued/);
+  var trueUp = find(/true-up|adjustment to the figure/);
+  var shareEntry = find(/of net profit/);
+  var commissionEntry = find(/commission on the sale price/);
+  var release = find(/released to COGS/);
+  var paidDennis = find(/paid to Dennis/);
+  var paidPaul = find(/paid to Paul/);
+  if (!settlement || !release) return null;
+
+  var at = function (entry, account) {
+    if (!entry) return 0;
+    var t = 0;
+    entry.lines.forEach(function (l) { if (l.account === account) t += l.cents; });
+    return t;
+  };
+  var sum = function (entry, pick) {
+    if (!entry) return 0;
+    var t = 0;
+    entry.lines.forEach(function (l) { if (pick(l)) t += l.cents; });
+    return t;
+  };
+
+  var share = 0;
+  var registry = propertyRow_(ss, name) || {};
+  var cash = at(settlement, '1401');
+  var revenue = -at(settlement, '4000');
+  var statementLines = settlement.lines
+    .filter(function (l) { return l.account !== '1401' && l.account !== '4000'; })
+    .map(function (l) {
+      return {
+        label: l.description || ('account ' + l.account),
+        account: l.account,
+        kind: l.account === '1510' ? 'holdback' : (l.cents < 0 ? 'credit' : 'cost'),
+        posted_cents: Math.abs(l.cents)
+      };
+    });
+
+  var engineInterest = at(accrual, '1200');
+  var trueUpCents = at(trueUp, '1200');
+  var dennisShare = at(shareEntry, '1220');
+  var commission = at(commissionEntry, '1210');
+  var released = at(release, '5000');
+  var costBeforeShare = released - dennisShare;
+  var profit = revenue - costBeforeShare;
+
+  var payDennisNote = at(paidDennis, '2010');
+  var payDennisInterest = at(paidDennis, '2000');
+  var payPaulDue = at(paidPaul, '2030');
+  var payPaulShare = at(paidPaul, '9010');
+  var paidDennisTotal = paidDennis ? -at(paidDennis, '1401') : 0;
+  var paidPaulTotal = paidPaul ? -at(paidPaul, '1401') : 0;
+
+  var balances = propertyBalances_(ss, name);
+  var costByClass = sellCostByClass_(ss, name, { intents: [{ memo: 'released to COGS', lines: release.lines.map(function (l) {
+    return l.cents < 0 ? { account: l.account, credit: -l.cents } : { account: l.account, debit: l.cents };
+  }) }] });
+
+  var summary = {
+    property: name,
+    deal: commission ? 'bank' : 'partner',
+    date: settlement.date,
+    recast_share_pct: registry.recast_share_pct || 100,
+    revenue_cents: revenue,
+    cash_in_cents: cash,
+    cost_before_share_cents: costBeforeShare,
+    profit_cents: profit,
+    dennis_share_cents: dennisShare,
+    paul_share_cents: profit - dennisShare,
+    commission_cents: commission,
+    released_cents: released,
+    interest: {
+      engine_cents: engineInterest,
+      agreed_cents: engineInterest + trueUpCents,
+      true_up_cents: trueUpCents,
+      posted_before_cents: 0,
+      by_advance: loadAdvances_(ss).filter(function (a) { return a.property === name; }).map(function (a) {
+        return { advance_id: a.advance_id, date: a.date, kind: a.kind || '', amount_cents: a.amount_cents,
+          as_of: a.repaid_date || settlement.date, interest_cents: accruedThrough(a, a.repaid_date || settlement.date) };
+      })
+    },
+    paid: {
+      dennis_cents: paidDennisTotal, paul_cents: paidPaulTotal,
+      dennis_note_cents: payDennisNote - dennisShare > 0 ? payDennisNote - dennisShare : payDennisNote,
+      dennis_interest_cents: payDennisInterest,
+      dennis_share_cents: Math.min(dennisShare, payDennisNote),
+      paul_due_cents: payPaulDue, paul_share_cents: payPaulShare
+    },
+    retained_cents: cash - paidDennisTotal - paidPaulTotal,
+    owed_after: {
+      dennis_cents: -Math.round(balances['2010'] || 0),
+      paul_cents: -Math.round(balances['2030'] || 0),
+      paul_undrawn_cents: (profit - dennisShare) - payPaulShare
+    },
+    recapture_cents: 0
+  };
+
+  var tab = ss.getSheetByName(name);
+  var forecast = tab ? {
+    sale_price: readLabelledValue_(tab, 'Sale Price'),
+    total_cost: readLabelledValue_(tab, 'Total Project Cost'),
+    profit: readLabelledValue_(tab, 'Net Profit')
+  } : { sale_price: '', total_cost: '', profit: '' };
+
+  return { summary: summary, statementLines: statementLines, costByClass: costByClass, forecast: forecast };
 }
