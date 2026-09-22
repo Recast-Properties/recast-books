@@ -1592,3 +1592,16 @@ the tax paid identical to the cent; prorated tax $11,595.21 both ways (the old t
 older); 14 of 21 blocks identical; the seven that differ are C-7, C-9, C-10, C-15, C-18, C-22, C-26, C-29,
 C-32 and the fuel block's move to overhead, summing to the $3,525.64 difference exactly (465 rows,
 $161,458.19 vs 510 rows, $164,983.83).
+
+## 54 · Every property tab reconciled to the old workbook (2026-09-22)
+
+Old tab rows (today's export, independent parser) vs the new tab's source lines, then the live tabs read
+back after `rebuildAllPropertyTabs`. Brushwood, Mesa, Sparkling, Granite, White Rock: identical to the cent
+(Sparkling's `=SUM` cell and Granite's TXU account number are not rows). Newport +$354.00 (C-19, C-25 on its
+tab since §47), Bowling Green +$1,361.28 (C-10, C-19, C-20, C-21, C-25, C-32), Green Acres $144.00 (C-31),
+Cost Recapture $1,253.87 (C-16, C-25, C-32, C-10 less the Newport lines). **One display gap found and fixed:**
+the light template's blocks and totals filtered by cost class and left the Selling class out (listing fees
+1330, HOA resale 1310 - $2,769.29 across five tabs, all in the Journal, none on a tab); Selling now shows
+under Rehab Costs as the old tabs had it. Live tabs after the rebuild: Ashburne $161,458.19, Newport
+$3,443.17, Brushwood $1,916.80, Mesa $9,648.00, Bowling Green $4,807.93, Granite $12,204.87 - each equal to
+its Journal lines.
