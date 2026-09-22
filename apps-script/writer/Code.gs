@@ -1703,6 +1703,120 @@ function refreshLineBlocks_(ss, name) {
   });
 }
 
+/**
+ * Phase 5 (docs/phase5-spec.md section 2): a property's live Journal balances by account,
+ * debit positive, skipping void entries and voided ones - what buildSalePlan needs as
+ * `balances`. Same live/voided rule as refreshLineBlocks_ above.
+ */
+function propertyBalances_(ss, name) {
+  var journal = ss.getSheetByName('Journal');
+  var cols = headerIndex_(journal);
+  var last = journal.getLastRow();
+  var rows = last > 1 ? journal.getRange(2, 1, last - 1, journal.getLastColumn()).getValues() : [];
+  var g = function (r, n) { return cols[n] ? r[cols[n] - 1] : ''; };
+  var voided = {};
+  rows.forEach(function (r) { var v = String(g(r, 'void_of') || ''); if (v) voided[v] = true; });
+  var out = {};
+  rows.forEach(function (r) {
+    if (String(g(r, 'property')) !== name) return;
+    if (String(g(r, 'source')) === 'void' || voided[String(g(r, 'txn_id'))]) return;
+    var account = String(g(r, 'account'));
+    var cents = Math.round(Number(g(r, 'debit') || 0) * 100) - Math.round(Number(g(r, 'credit') || 0) * 100);
+    out[account] = (out[account] || 0) + cents;
+  });
+  return out;
+}
+
+/**
+ * Phase 5 (docs/phase5-spec.md section 3): the closing statement, written as VALUES - a closed
+ * sale is history, so there is nothing for a formula to keep up to date. Only the
+ * post-sale section is live, because Cost Recapture lines arrive later (D-031).
+ *
+ * `target` is the sheet to write: during the gate `<property> - Closing`, and once Paul
+ * signs the layout off, the property tab itself (Paul, 2026-09-22).
+ */
+function writeClosingTab_(ss, name, plan, target) {
+  var sh = getOrCreateSheet_(ss, target);
+  sh.clear();
+  sh.getRange(1, 1, sh.getMaxRows(), sh.getMaxColumns()).clearDataValidations();
+  var s = plan.summary;
+  var d = function (cents) { return Number(cents || 0) / 100; };
+  var body = [];
+  var heads = [];   // row numbers to paint as a section head
+  var totals = [];  // row numbers to paint as a total
+  var push = function (label, value, note) { body.push(['', label, value === null ? '' : value, note || '']); return body.length; };
+  var head = function (label) { heads.push(push(label, null, '')); };
+  var total = function (label, value, note) { totals.push(push(label, value, note)); };
+
+  push(name + ' - CLOSED ' + s.date, null, s.recast_share_pct < 100 ? "Recast's share " + s.recast_share_pct + '%' : '');
+  push('', null, '');
+
+  head('SETTLEMENT');
+  push('Sale price' + (s.recast_share_pct < 100 ? " (Recast's share)" : ''), d(s.revenue_cents), '');
+  (plan.statementLines || []).forEach(function (l) {
+    var sign = l.kind === 'credit' || l.kind === 'to_recast' ? 1 : -1;
+    push('  ' + l.label, sign * d(l.posted_cents), l.account);
+  });
+  total('Cash received', d(s.cash_in_cents), '');
+  push('', null, '');
+
+  head('PROJECT COST RELEASED');
+  (plan.costByClass || []).forEach(function (c) { push('  ' + c.label, d(c.cents), c.accounts); });
+  total('Total project cost', d(s.cost_before_share_cents + s.dennis_share_cents), '');
+  total('NET PROFIT', d(s.profit_cents), '');
+  push('', null, '');
+
+  head('WATERFALL');
+  push('Dennis - principal and advances', d(s.paid.dennis_note_cents), '');
+  (s.interest.by_advance || []).forEach(function (a) {
+    push('  interest on ' + a.amount_cents / 100 + ' of ' + a.date + ' to ' + a.as_of, d(a.interest_cents), a.kind);
+  });
+  if (s.interest.true_up_cents) push('  true-up to the agreed figure', d(s.interest.true_up_cents), 'D-015');
+  total('Dennis - interest', d(s.interest.agreed_cents), '');
+  if (s.commission_cents) total('Dennis - commission', d(s.commission_cents), 'bank deal');
+  push("Dennis - share of profit", d(s.dennis_share_cents), '');
+  push('Paul - costs he fronted', d(s.paid.paul_due_cents), '');
+  push('Paul - share of profit', d(s.paul_share_cents), '');
+  push('', null, '');
+
+  head('PAYOUTS');
+  total('Paid to Dennis', d(s.paid.dennis_cents), '');
+  total('Paid to Paul', d(s.paid.paul_cents), '');
+  total('Retained in the Recast account', d(s.retained_cents), '');
+  total('Payouts = cash received', d(s.paid.dennis_cents + s.paid.paul_cents + s.retained_cents),
+    s.paid.dennis_cents + s.paid.paul_cents + s.retained_cents === s.cash_in_cents ? 'ties' : 'DOES NOT TIE');
+  if (s.owed_after.dennis_cents || s.owed_after.paul_undrawn_cents) {
+    push('', null, '');
+    head('STILL OWED AFTER CLOSING (the escrow holdback)');
+    push('Dennis', d(s.owed_after.dennis_cents), '');
+    push('Paul (undrawn)', d(s.owed_after.paul_undrawn_cents), '');
+  }
+  push('', null, '');
+
+  head('FORECAST AT SALE, FROZEN');
+  push('Sale price typed on the tab', plan.forecast && plan.forecast.sale_price !== '' ? plan.forecast.sale_price : '', '');
+  push('Total project cost forecast', plan.forecast ? plan.forecast.total_cost : '', '');
+  push('Net profit forecast', plan.forecast ? plan.forecast.profit : '', '');
+  push('Difference, forecast less actual', plan.forecast && plan.forecast.profit !== '' ? Number(plan.forecast.profit) - d(s.profit_cents) : '', '');
+  push('', null, '');
+
+  head('POST-SALE COSTS (Cost Recapture naming this property)');
+  var recapRow = body.length + 1;
+  push('Total', '=SUMIF(Journal!$K$2:$K$5000,"' + String(name).replace(/"/g, '""') + '",Journal!$F$2:$F$5000)' +
+    '-SUMIF(Journal!$K$2:$K$5000,"' + String(name).replace(/"/g, '""') + '",Journal!$G$2:$G$5000)', 'live, D-031');
+
+  sh.getRange(1, 1, body.length, 4).setValues(body);
+  sh.getRange(1, 2).setFontWeight('bold').setFontSize(13).setBackground('#a3f67f');
+  heads.forEach(function (r) { sh.getRange(r, 2, 1, 3).setFontWeight('bold').setBackground('#ffe599'); });
+  totals.forEach(function (r) { sh.getRange(r, 2, 1, 3).setFontWeight('bold').setBackground('#ceffbc'); });
+  sh.getRange(1, 3, body.length, 1).setNumberFormat('#,##0.00;(#,##0.00)');
+  sh.getRange(recapRow, 3).setNumberFormat('#,##0.00;(#,##0.00)');
+  sh.setColumnWidth(1, 20); sh.setColumnWidth(2, 340); sh.setColumnWidth(3, 120); sh.setColumnWidth(4, 180);
+  sh.setFrozenRows(1);
+  if (sh.getMaxRows() > body.length + 2) sh.deleteRows(body.length + 3, sh.getMaxRows() - body.length - 2);
+  return { sheet: target, rows: body.length };
+}
+
 // After a Journal write: refresh the tab of every property the lines name. Never
 // fails the write - a tab that cannot be refreshed is rebuilt from the menu.
 function refreshLineBlocksFor_(ss, lines) {

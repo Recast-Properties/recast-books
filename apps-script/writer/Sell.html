@@ -1,0 +1,236 @@
+<?!= include_('Style') ?>
+<h3>Sell property</h3>
+
+<div class="row">
+  <div>
+    <label>Property <span class="req">*</span></label>
+    <select id="s-property"></select>
+  </div>
+  <div>
+    <label>Settlement date <span class="req">*</span></label>
+    <input type="date" id="s-date">
+  </div>
+  <div>
+    <label>Recast's share %</label>
+    <input type="number" id="s-share" value="100" min="1" max="100" step="0.01">
+  </div>
+</div>
+
+<div class="row">
+  <div>
+    <label>Sale price <span class="req">*</span></label>
+    <input type="number" id="s-price" step="0.01">
+  </div>
+  <div>
+    <label>Net to seller (the statement's own figure) <span class="req">*</span></label>
+    <input type="number" id="s-net" step="0.01">
+  </div>
+  <div>
+    <label>Cash Recast received (blank = derive)</label>
+    <input type="number" id="s-cash" step="0.01">
+  </div>
+</div>
+
+<label>Settlement statement lines - every charge, adjustment, holdback and payment to Recast</label>
+<table class="lines-grid" id="s-lines"><tbody></tbody></table>
+<button id="s-add-line">Add line</button>
+
+<label style="margin-top:10px">Advances - correct the rate or the repayment date here, this is the reconcile</label>
+<table class="lines-grid" id="s-adv"><tbody></tbody></table>
+
+<div class="row" style="margin-top:10px">
+  <div>
+    <label>Dennis's agreed interest (blank = the engine's figure)</label>
+    <input type="number" id="s-interest" step="0.01">
+  </div>
+  <div>
+    <label>Cost Recapture settled on this payout</label>
+    <input type="number" id="s-recapture" step="0.01">
+  </div>
+</div>
+
+<div>
+  <button id="s-preview">Preview</button>
+  <button class="primary" id="s-post" disabled>Post the sale</button>
+</div>
+<div id="s-result"></div>
+<div id="s-msg" class="msg hidden"></div>
+
+<script>
+  var CTX = null;
+  var KINDS = [
+    ['cost', 'charge paid by the seller'],
+    ['credit', 'adjustment due to the seller'],
+    ['holdback', 'withheld in escrow'],
+    ['to_recast', 'paid to Recast by name'],
+  ];
+  var ACCOUNTS = [
+    ['1300', '1300 Selling - commission'],
+    ['1310', '1310 Selling - closing costs'],
+    ['1320', '1320 Selling - concessions & credits'],
+    ['1330', '1330 Selling - staging & marketing'],
+    ['1100', '1100 Holding - property tax'],
+    ['1110', '1110 Holding - insurance'],
+    ['1120', '1120 Holding - utilities'],
+    ['1130', '1130 Holding - HOA & grounds'],
+    ['1010', '1010 Acquisition costs'],
+    ['1020', '1020 Rehab - subcontract labor'],
+    ['1030', '1030 Rehab - materials'],
+    ['1040', '1040 Rehab - fixtures & appliances'],
+    ['1510', '1510 Escrow & holdbacks receivable'],
+    ['4030', '4030 Other income'],
+  ];
+
+  function options_(pairs, selected) {
+    return pairs.map(function (p) {
+      return '<option value="' + p[0] + '"' + (p[0] === selected ? ' selected' : '') + '>' + escapeHtml_(p[1]) + '</option>';
+    }).join('');
+  }
+
+  function addLine_(label, account, amount, kind) {
+    var tr = document.createElement('tr');
+    tr.innerHTML =
+      '<td><input class="l-label" placeholder="as the statement names it" value="' + escapeHtml_(label || '') + '"></td>' +
+      '<td><select class="l-account">' + options_(ACCOUNTS, account || '1310') + '</select></td>' +
+      '<td><input class="l-amount" type="number" step="0.01" value="' + (amount == null ? '' : amount) + '"></td>' +
+      '<td><select class="l-kind">' + options_(KINDS, kind || 'cost') + '</select></td>' +
+      '<td><button class="l-del">x</button></td>';
+    tr.querySelector('.l-del').addEventListener('click', function () { tr.remove(); });
+    document.querySelector('#s-lines tbody').appendChild(tr);
+  }
+
+  function readLines_() {
+    return Array.prototype.map.call(document.querySelectorAll('#s-lines tbody tr'), function (tr) {
+      return {
+        label: tr.querySelector('.l-label').value,
+        account: tr.querySelector('.l-account').value,
+        amount: tr.querySelector('.l-amount').value,
+        kind: tr.querySelector('.l-kind').value,
+      };
+    });
+  }
+
+  function renderAdvances_(advances) {
+    var body = document.querySelector('#s-adv tbody');
+    if (!advances.length) { body.innerHTML = '<tr><td colspan="5">No advances on this property.</td></tr>'; return; }
+    body.innerHTML = advances.map(function (a) {
+      return '<tr data-id="' + escapeHtml_(a.advance_id) + '">' +
+        '<td>' + escapeHtml_(a.date) + '</td>' +
+        '<td class="num">' + a.amount.toFixed(2) + '</td>' +
+        '<td>' + escapeHtml_(a.kind) + '</td>' +
+        '<td><input class="a-rate" type="number" step="0.01" value="' + a.rate_pct + '"> %</td>' +
+        '<td><input class="a-repaid" type="date" value="' + escapeHtml_(a.repaid_date) + '"></td></tr>';
+    }).join('');
+  }
+
+  function readAdvances_() {
+    return Array.prototype.map.call(document.querySelectorAll('#s-adv tbody tr[data-id]'), function (tr) {
+      return {
+        advance_id: tr.getAttribute('data-id'),
+        rate_pct: tr.querySelector('.a-rate').value,
+        repaid_date: tr.querySelector('.a-repaid').value,
+      };
+    });
+  }
+
+  function form_() {
+    return {
+      property: document.getElementById('s-property').value,
+      date: document.getElementById('s-date').value,
+      recast_share_pct: document.getElementById('s-share').value,
+      sale_price: document.getElementById('s-price').value,
+      net_to_seller: document.getElementById('s-net').value,
+      cash_to_recast: document.getElementById('s-cash').value,
+      interest_figure: document.getElementById('s-interest').value,
+      recapture: document.getElementById('s-recapture').value,
+      lines: readLines_(),
+      advances: readAdvances_(),
+    };
+  }
+
+  function row_(label, cents, note) {
+    return '<tr><td>' + escapeHtml_(label) + '</td><td class="num">' + formatCents_(cents) + '</td><td>' +
+      escapeHtml_(note || '') + '</td></tr>';
+  }
+
+  function renderSummary_(s, checks, target) {
+    var owed = s.owed_after.dennis_cents || s.owed_after.paul_undrawn_cents
+      ? row_('Still owed after closing - Dennis', s.owed_after.dennis_cents, 'the escrow holdback') +
+        row_('Still owed after closing - Paul (undrawn)', s.owed_after.paul_undrawn_cents, '')
+      : '';
+    document.getElementById('s-result').innerHTML =
+      '<table><tbody>' +
+      row_('Cash received', s.cash_in_cents, '') +
+      row_('Total project cost released', s.released_cents, '') +
+      row_('Net profit', s.profit_cents, '') +
+      row_("Dennis's share", s.dennis_share_cents, s.commission_cents ? 'plus commission ' + formatCents_(s.commission_cents) : '') +
+      row_("Paul's share", s.paul_share_cents, '') +
+      row_('Paid to Dennis', s.paid.dennis_cents, '') +
+      row_('Paid to Paul', s.paid.paul_cents, '') +
+      row_('Retained in the Recast account', s.retained_cents, '') +
+      owed +
+      row_('Interest: engine', s.interest.engine_cents, "to each advance's repayment date") +
+      row_('Interest: agreed', s.interest.agreed_cents, s.interest.true_up_cents ? 'true-up ' + formatCents_(s.interest.true_up_cents) : 'no true-up') +
+      '</tbody></table>' +
+      '<p class="balance">' + (checks.ok ? 'Checks pass. Payouts tie to the cash received.' : 'CHECKS FAIL: ' + escapeHtml_(JSON.stringify(checks))) + '</p>' +
+      '<p>Closing statement will be written to <b>' + escapeHtml_(target) + '</b>.</p>';
+  }
+
+  (function init() {
+    var sel = document.getElementById('s-property');
+    sel.innerHTML = (<?!= JSON.stringify(data.properties || []) ?>).map(function (n) {
+      return '<option value="' + escapeHtml_(n) + '">' + escapeHtml_(n) + '</option>';
+    }).join('');
+    document.getElementById('s-date').value = new Date(Date.now() - new Date().getTimezoneOffset() * 60000).toISOString().slice(0, 10);
+    addLine_('Real Estate Commission - Selling', '1300', '', 'cost');
+    addLine_('Closing costs (title, escrow, recording)', '1310', '', 'cost');
+    addLine_("County property taxes, 1/1 to closing", '1100', '', 'cost');
+    loadContext_();
+  })();
+
+  function loadContext_() {
+    var msg = document.getElementById('s-msg');
+    callServer_('sellContext', document.getElementById('s-property').value).then(function (result) {
+      if (!result.ok) { showMsg_(msg, false, '<b>' + escapeHtml_(result.error) + '</b> - ' + escapeHtml_(result.message)); return; }
+      CTX = result;
+      renderAdvances_(result.advances);
+      if (result.property.contract_price !== '') document.getElementById('s-price').value = result.property.contract_price;
+      document.getElementById('s-post').disabled = true;
+    }, function (err) { showMsg_(msg, false, escapeHtml_(err && err.message ? err.message : err)); });
+  }
+
+  document.getElementById('s-property').addEventListener('change', loadContext_);
+  document.getElementById('s-add-line').addEventListener('click', function () { addLine_('', '1310', '', 'cost'); });
+
+  document.getElementById('s-preview').addEventListener('click', function () {
+    var btn = this, msg = document.getElementById('s-msg');
+    msg.classList.add('hidden');
+    btn.disabled = true;
+    callServer_('sellPreview', form_()).then(function (result) {
+      btn.disabled = false;
+      if (!result.ok) { showMsg_(msg, false, '<b>' + escapeHtml_(result.error) + '</b> - ' + escapeHtml_(result.message)); return; }
+      renderSummary_(result.summary, result.checks, result.target);
+      document.getElementById('s-post').disabled = !result.checks.ok;
+    }, function (err) {
+      btn.disabled = false;
+      showMsg_(msg, false, escapeHtml_(err && err.message ? err.message : err));
+    });
+  });
+
+  document.getElementById('s-post').addEventListener('click', function () {
+    var btn = this, msg = document.getElementById('s-msg');
+    var name = document.getElementById('s-property').value;
+    if (!window.confirm('Close ' + name + '? This posts the sale, releases its costs, pays the partners and locks the property. The Journal is append-only: a mistake is voided and re-posted, not edited.')) return;
+    msg.classList.add('hidden');
+    btn.disabled = true;
+    callServer_('sellPost', form_()).then(function (result) {
+      btn.disabled = false;
+      if (!result.ok) { showMsg_(msg, false, '<b>' + escapeHtml_(result.error) + '</b> - ' + escapeHtml_(result.message)); return; }
+      showMsg_(msg, true, 'Closed ' + escapeHtml_(name) + ': ' + result.posted.length + ' entries posted, statement written to ' + escapeHtml_(result.tab) + '.');
+      finishDialog_(btn);
+    }, function (err) {
+      btn.disabled = false;
+      showMsg_(msg, false, escapeHtml_(err && err.message ? err.message : err));
+    });
+  });
+</script>

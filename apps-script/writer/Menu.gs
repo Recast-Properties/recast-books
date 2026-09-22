@@ -24,6 +24,8 @@ function onOpen() {
     .addItem('Add advance...', 'showAdvanceDialog')
     .addItem('Post interest...', 'showInterestDialog')
     .addSeparator()
+    .addItem('Sell property...', 'showSellDialog')
+    .addSeparator()
     .addItem('Close period...', 'closePeriod')
     .addItem('Reopen period...', 'reopenPeriod')
     .addSeparator()
@@ -1028,4 +1030,240 @@ function runSelfTestFromMenu() {
   } catch (err) {
     ui.alert('Self test FAILED: ' + ((err && err.code) || 'ERROR') + ' - ' + String((err && err.message) || err));
   }
+}
+
+// ---- Phase 5: the sell wizard (docs/phase5-spec.md) ---------------------------------
+//
+// One pass closes a property: the confirmed settlement statement in, then the sale, the
+// interest to each advance's repayment date with Dennis's agreed figure trued up once
+// (D-015 section 2), the release to COGS, the payouts, the closing tab, and the lock.
+// lib.gs's buildSalePlan (lib/sale.mjs) owns every number; this file only fetches what it
+// needs off the sheets, posts what it returns, and writes the tab.
+//
+// Paul, 2026-09-22: while the layout is being proved the closing tab is written BESIDE the
+// property tab as "<property> - Closing" and the live tab is untouched. When he signs the
+// layout off, set CLOSING_TAB_IN_PLACE to true and it is written onto the property tab
+// itself - one constant, not a setting.
+var CLOSING_TAB_IN_PLACE = false;
+
+function closingTabName_(name) {
+  return CLOSING_TAB_IN_PLACE ? name : name + ' - Closing';
+}
+
+function showSellDialog() {
+  var ss = openIfOwner_();
+  if (!ss) return;
+  showDialog_('Sell', 'Sell property', { properties: sellableProperties_(ss) });
+}
+
+/** Properties that can still be sold: anything not already `sold` (D-017). */
+function sellableProperties_(ss) {
+  var sheet = ss.getSheetByName('Properties');
+  var cols = headerIndex_(sheet);
+  var last = sheet.getLastRow();
+  if (last < 2) return [];
+  return sheet.getRange(2, 1, last - 1, sheet.getLastColumn()).getValues()
+    .map(function (r) { return { name: String(r[cols['name'] - 1] || ''), status: String(r[cols['status'] - 1] || '') }; })
+    .filter(function (p) { return p.name && p.name !== 'Cost Recapture' && p.status.toLowerCase() !== 'sold'; })
+    .map(function (p) { return p.name; });
+}
+
+/** Everything the dialog needs to show before Paul types anything. */
+function sellContext(name) {
+  var props = PropertiesService.getScriptProperties();
+  var ss = openWorkbook_(props);
+  try {
+    requireOwner_(ss);
+    var registry = propertyRow_(ss, name) || {};
+    var advances = loadAdvances_(ss).filter(function (a) { return a.property === name; });
+    var rate = getAccrualOpts_(ss).rateAnnual;
+    return {
+      ok: true,
+      property: {
+        name: name,
+        status: String(registry.status || ''),
+        contract_price: registry.contract_price === '' || registry.contract_price == null ? '' : Number(registry.contract_price),
+        dennis_share_pct: registry.dennis_share_pct === '' || registry.dennis_share_pct == null ? 50 : Number(registry.dennis_share_pct),
+        dennis_commission_pct: registry.dennis_commission_pct === '' || registry.dennis_commission_pct == null ? 0 : Number(registry.dennis_commission_pct)
+      },
+      advances: advances.map(function (a) {
+        return {
+          advance_id: a.advance_id, date: a.date, amount: a.amount_cents / 100, kind: a.kind || '',
+          rate_pct: a.rate_annual == null ? rate * 100 : a.rate_annual * 100,
+          repaid_date: a.repaid_date || '', status: a.status
+        };
+      }),
+      balances: propertyBalances_(ss, name),
+      settings_rate_pct: rate * 100
+    };
+  } catch (err) {
+    return { ok: false, error: (err && err.code) || 'INTERNAL', message: String((err && err.message) || err) };
+  }
+}
+
+/** The form's statement lines -> buildSalePlan's `settlement`. */
+function sellSettlement_(form) {
+  return {
+    date: form.date,
+    sale_price_cents: toCents(form.sale_price),
+    net_to_seller_cents: toCents(form.net_to_seller),
+    cash_to_recast_cents: form.cash_to_recast === '' || form.cash_to_recast == null ? undefined : toCents(form.cash_to_recast),
+    recast_share_pct: form.recast_share_pct === '' || form.recast_share_pct == null ? 100 : Number(form.recast_share_pct),
+    lines: (form.lines || [])
+      .filter(function (l) { return l.account && l.amount !== '' && l.amount != null; })
+      .map(function (l) { return { label: l.label || '', account: String(l.account), cents: toCents(l.amount), kind: l.kind || 'cost' }; })
+  };
+}
+
+/** The advances as the dialog has them, so a rate corrected during the reconcile is used
+ *  by the preview before it is written back (Paul: no Terminal for a reconcile). */
+function sellAdvances_(form, ss, name) {
+  var edited = {};
+  (form.advances || []).forEach(function (a) { edited[String(a.advance_id)] = a; });
+  return loadAdvances_(ss).filter(function (a) { return a.property === name; }).map(function (a) {
+    var e = edited[a.advance_id] || {};
+    var ratePct = e.rate_pct === '' || e.rate_pct == null ? null : Number(e.rate_pct);
+    return {
+      advance_id: a.advance_id, date: a.date, amount_cents: a.amount_cents, kind: a.kind || '',
+      rate_annual: ratePct == null ? a.rate_annual : ratePct / 100,
+      repaid_date: e.repaid_date || a.repaid_date || form.date
+    };
+  });
+}
+
+function sellPlan_(ss, form) {
+  var name = form.property;
+  var registry = propertyRow_(ss, name) || {};
+  var bank = Number(registry.dennis_share_pct) === 0 || String(form.deal || '') === 'bank';
+  return buildSalePlan({
+    property: {
+      name: name,
+      deal: bank ? 'bank' : 'partner',
+      dennis_share_pct: registry.dennis_share_pct === '' || registry.dennis_share_pct == null ? 50 : Number(registry.dennis_share_pct),
+      dennis_commission_pct: registry.dennis_commission_pct === '' || registry.dennis_commission_pct == null ? 0 : Number(registry.dennis_commission_pct)
+    },
+    settlement: sellSettlement_(form),
+    advances: sellAdvances_(form, ss, name),
+    balances: propertyBalances_(ss, name),
+    interestFigureCents: form.interest_figure === '' || form.interest_figure == null ? null : toCents(form.interest_figure),
+    recaptureCents: form.recapture === '' || form.recapture == null ? 0 : toCents(form.recapture),
+    postedBy: Session.getActiveUser().getEmail()
+  });
+}
+
+/** Read-only: the numbers and the checks, nothing written. */
+function sellPreview(form) {
+  var ss = openWorkbook_(PropertiesService.getScriptProperties());
+  try {
+    requireOwner_(ss);
+    var plan = sellPlan_(ss, form);
+    return {
+      ok: true, summary: plan.summary, checks: plan.checks,
+      intents: plan.intents.map(function (i) { return { memo: i.memo, lines: i.lines.length }; }),
+      target: closingTabName_(form.property)
+    };
+  } catch (err) {
+    return { ok: false, error: (err && err.code) || 'INTERNAL', message: String((err && err.message) || err) };
+  }
+}
+
+/** The whole close, in one batch under the writer's lock, then the tab and the lock. */
+function sellPost(form) {
+  var props = PropertiesService.getScriptProperties();
+  var ss = openWorkbook_(props);
+  try {
+    requireOwner_(ss);
+    var name = form.property;
+    var plan = sellPlan_(ss, form);
+    if (!plan.checks.ok) {
+      return { ok: false, error: 'SALE_DOES_NOT_TIE', message: 'the plan failed its own checks: ' + JSON.stringify(plan.checks) };
+    }
+    // The forecast the tab was showing, frozen before anything changes (spec section 3 item 4).
+    var tab = ss.getSheetByName(name);
+    var forecast = tab ? {
+      sale_price: readLabelledValue_(tab, 'Sale Price'),
+      total_cost: readLabelledValue_(tab, 'Total Project Cost'),
+      profit: readLabelledValue_(tab, 'Net Profit')
+    } : { sale_price: '', total_cost: '', profit: '' };
+
+    var ctx = buildCtx_(ss);
+    var entries = plan.intents.map(function (intent) { return buildEntry(intent, ctx); });
+    var result = postBatchEntries_(entries, props, true);
+
+    // Advances: the reconcile's rate, the repayment date, and repaid status (D-011 freezes
+    // accrual at repaid_date, so this is what stops interest).
+    var advSheet = ss.getSheetByName('Advances');
+    var advCols = headerIndex_(advSheet);
+    var advLast = advSheet.getLastRow();
+    if (advLast > 1) {
+      var edited = {};
+      (form.advances || []).forEach(function (a) { edited[String(a.advance_id)] = a; });
+      var advRows = advSheet.getRange(2, 1, advLast - 1, advSheet.getLastColumn()).getValues();
+      advRows.forEach(function (r, i) {
+        if (String(r[advCols['property'] - 1] || '') !== name) return;
+        var e = edited[String(r[advCols['advance_id'] - 1] || '')] || {};
+        var row = i + 2;
+        advSheet.getRange(row, advCols['repaid_date']).setValue(e.repaid_date || form.date);
+        advSheet.getRange(row, advCols['status']).setValue('repaid');
+        if (advCols['rate_pct'] && e.rate_pct !== '' && e.rate_pct != null) {
+          advSheet.getRange(row, advCols['rate_pct']).setValue(Number(e.rate_pct));
+        }
+      });
+    }
+
+    // Properties: sold and locked (D-015 section 2, D-017) - the posting allowlist drops it.
+    var pSheet = ss.getSheetByName('Properties');
+    var pCols = headerIndex_(pSheet);
+    var pLast = pSheet.getLastRow();
+    for (var r = 2; r <= pLast; r++) {
+      if (String(pSheet.getRange(r, pCols['name']).getValue() || '') !== name) continue;
+      pSheet.getRange(r, pCols['status']).setValue('sold');
+      if (pCols['settlement_date']) pSheet.getRange(r, pCols['settlement_date']).setValue(form.date);
+      break;
+    }
+
+    var written = writeClosingTab_(ss, name, {
+      summary: plan.summary,
+      statementLines: sellStatementForTab_(form, plan),
+      costByClass: sellCostByClass_(ss, name, plan),
+      forecast: forecast
+    }, closingTabName_(name));
+
+    warmCache_();
+    return { ok: true, posted: result.posted, rows: result.rows, tab: written.sheet, summary: plan.summary };
+  } catch (err) {
+    return { ok: false, error: (err && err.code) || 'INTERNAL', message: String((err && err.message) || err) };
+  }
+}
+
+/** Statement lines with the amount actually posted at Recast's share, for the tab. */
+function sellStatementForTab_(form, plan) {
+  var share = (plan.summary.recast_share_pct || 100) / 100;
+  return sellSettlement_(form).lines.map(function (l) {
+    var posted = l.kind === 'to_recast' ? l.cents - Math.round(l.cents * share) : Math.round(l.cents * share);
+    return { label: l.label, account: l.account, kind: l.kind, posted_cents: posted };
+  });
+}
+
+/** The released cost grouped the way the old closed tabs grouped it. */
+function sellCostByClass_(ss, name, plan) {
+  var groups = [
+    { label: 'Purchase price', test: function (a) { return a === '1000'; } },
+    { label: 'Acquisition', test: function (a) { return a === '1010'; } },
+    { label: 'Rehab', test: function (a) { return a >= '1020' && a <= '1060'; } },
+    { label: 'Holding (tax, insurance, utilities, HOA)', test: function (a) { return a >= '1100' && a <= '1130'; } },
+    { label: 'Financing - interest and fees', test: function (a) { return a === '1200' || a === '1210'; } },
+    { label: "Dennis's profit participation", test: function (a) { return a === '1220'; } },
+    { label: 'Selling (commission, closing, concessions, listing)', test: function (a) { return a >= '1300' && a <= '1330'; } }
+  ];
+  var released = {};
+  plan.intents.forEach(function (i) {
+    if (!/released to COGS/.test(i.memo)) return;
+    i.lines.forEach(function (l) { if (l.credit) released[l.account] = (released[l.account] || 0) + l.credit; });
+  });
+  return groups.map(function (g) {
+    var cents = 0, accounts = [];
+    Object.keys(released).forEach(function (a) { if (g.test(a)) { cents += released[a]; accounts.push(a); } });
+    return { label: g.label, cents: cents, accounts: accounts.join(' ') };
+  }).filter(function (g) { return g.cents !== 0; });
 }
