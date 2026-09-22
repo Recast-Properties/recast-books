@@ -1846,9 +1846,12 @@ var M_sale = (function () {
     const rounding_cents = cash_cents - derived;
     const allowed = Math.max(5, (settlement.lines || []).length);
     if (Math.abs(rounding_cents) > allowed) {
+      const off = (c) => (c / 100).toFixed(2);
       throw new RangeError(
-        `sale: the statement does not tie — Recast's share of the lines gives ${derived} cents of cash but ` +
-        `net-to-seller gives ${cash_cents}; difference ${rounding_cents} cents is more than rounding (${allowed})`,
+        `sale: the statement does not tie. The ${(settlement.lines || []).length} line(s) given take ` +
+        `${off(cost_cents + holdback_cents)} off the sale price and add ${off(credit_cents + to_recast_cents)} back, ` +
+        `which leaves ${off(derived)}, but net-to-seller says Recast received ${off(cash_cents)} - a gap of ` +
+        `${off(rounding_cents)}. Every charge, adjustment and holdback on the statement needs its own line.`,
       );
     }
     if (rounding_cents) add(ROUNDING_ACCOUNT, -rounding_cents);

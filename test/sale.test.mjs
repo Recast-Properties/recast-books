@@ -118,6 +118,7 @@ test("splitStatement: D-037 halves a co-owned statement, and a line paid to Reca
 test("splitStatement refuses a statement whose lines do not explain net-to-seller", () => {
   const bad = { ...GRANITE.settlement, net_to_seller_cents: 30_000_000 };
   assert.throws(() => splitStatement(bad), /does not tie/);
+  assert.throws(() => splitStatement(bad), /needs its own line/);
 });
 
 test("splitStatement refuses an unknown line kind and a negative amount", () => {

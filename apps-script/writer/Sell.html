@@ -32,11 +32,17 @@
 </div>
 
 <label>Settlement statement lines - every charge, adjustment, holdback and payment to Recast</label>
-<table class="lines-grid" id="s-lines"><tbody></tbody></table>
+<table class="lines-grid" id="s-lines">
+  <thead><tr><th>As the statement names it</th><th>Account</th><th class="num">Amount</th><th>Kind</th><th></th></tr></thead>
+  <tbody></tbody>
+</table>
 <button id="s-add-line">Add line</button>
 
 <label style="margin-top:10px">Advances - correct the rate or the repayment date here, this is the reconcile</label>
-<table class="lines-grid" id="s-adv"><tbody></tbody></table>
+<table class="lines-grid" id="s-adv">
+  <thead><tr><th>Advanced</th><th class="num">Amount</th><th>Kind</th><th>Rate</th><th>Repaid</th></tr></thead>
+  <tbody></tbody>
+</table>
 
 <div class="row" style="margin-top:10px">
   <div>
@@ -49,6 +55,7 @@
   </div>
 </div>
 
+<div id="s-tally" class="balance"></div>
 <div>
   <button id="s-preview">Preview</button>
   <button class="primary" id="s-post" disabled>Post the sale</button>
@@ -200,7 +207,27 @@
   }
 
   document.getElementById('s-property').addEventListener('change', loadContext_);
-  document.getElementById('s-add-line').addEventListener('click', function () { addLine_('', '1310', '', 'cost'); });
+  document.getElementById('s-add-line').addEventListener('click', function () { addLine_('', '1310', '', 'cost'); tally_(); });
+
+  // The statement's own arithmetic, live: sale price less what the lines take off should
+  // equal net-to-seller. A blank amount shows up here before Preview is ever clicked.
+  function tally_() {
+    var price = Number(document.getElementById('s-price').value || 0);
+    var net = Number(document.getElementById('s-net').value || 0);
+    var off = 0, credits = 0;
+    readLines_().forEach(function (l) {
+      var v = Number(l.amount || 0);
+      if (l.kind === 'credit' || l.kind === 'to_recast') credits += v; else off += v;
+    });
+    var derived = price + credits - off;
+    var el = document.getElementById('s-tally');
+    var ok = net && Math.abs(derived - net) < 0.02;
+    el.textContent = 'Lines take off ' + off.toFixed(2) + ', add back ' + credits.toFixed(2) +
+      ' -> ' + derived.toFixed(2) + (net ? (ok ? ' = net to seller' : ' but net to seller is ' + net.toFixed(2)) : '');
+    el.style.color = net ? (ok ? '#137333' : '#a50e0e') : '#555';
+  }
+  document.addEventListener('input', tally_);
+  tally_();
 
   document.getElementById('s-preview').addEventListener('click', function () {
     var btn = this, msg = document.getElementById('s-msg');

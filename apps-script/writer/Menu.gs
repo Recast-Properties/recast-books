@@ -1110,7 +1110,7 @@ function sellSettlement_(form) {
     cash_to_recast_cents: form.cash_to_recast === '' || form.cash_to_recast == null ? undefined : toCents(form.cash_to_recast),
     recast_share_pct: form.recast_share_pct === '' || form.recast_share_pct == null ? 100 : Number(form.recast_share_pct),
     lines: (form.lines || [])
-      .filter(function (l) { return l.account && l.amount !== '' && l.amount != null; })
+      .filter(function (l) { return l.account && String(l.amount).trim() !== '' && Number(l.amount) !== 0; })
       .map(function (l) { return { label: l.label || '', account: String(l.account), cents: toCents(l.amount), kind: l.kind || 'cost' }; })
   };
 }
@@ -1156,9 +1156,15 @@ function sellPreview(form) {
   var ss = openWorkbook_(PropertiesService.getScriptProperties());
   try {
     requireOwner_(ss);
+    var typed = sellSettlement_(form).lines;
+    if (!typed.length) {
+      return { ok: false, error: 'NO_STATEMENT_LINES',
+        message: 'No statement line has an amount. Type each charge, adjustment and holdback in the Amount column ' +
+          '(third column) - the lines must explain the difference between the sale price and net-to-seller.' };
+    }
     var plan = sellPlan_(ss, form);
     return {
-      ok: true, summary: plan.summary, checks: plan.checks,
+      ok: true, summary: plan.summary, checks: plan.checks, statement_lines: typed.length,
       intents: plan.intents.map(function (i) { return { memo: i.memo, lines: i.lines.length }; }),
       target: closingTabName_(form.property)
     };
