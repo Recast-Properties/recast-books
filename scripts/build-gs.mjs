@@ -5,7 +5,7 @@
 // Run: node scripts/build-gs.mjs   (test/gs-lib.test.mjs asserts the file is in sync)
 import { readFileSync, writeFileSync } from "node:fs";
 
-export const MODULES = ["coa", "money", "accrual", "posting", "gate", "reports", "property-key"];
+export const MODULES = ["coa", "money", "accrual", "posting", "gate", "reports", "property-key", "sale"];
 
 const PRELUDE = `// GENERATED from lib/*.mjs by scripts/build-gs.mjs - do not edit by hand.
 // Apps Script stand-ins for the two node:crypto calls lib/posting.mjs makes.

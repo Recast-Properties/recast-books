@@ -192,10 +192,29 @@ estimates the tax proration on its own line). Paul's call, not a blocker.
 
 ## 7 · Build order (after Paul's answers)
 
-1. `lib/sale.mjs` (pure): `buildSaleBatch({property, statementLines, advances, journal, interestFigure,
-   reserve, recapture})` → the entries of §2 in order, plus the tie check; unit tests with Granite and
-   Sparkling fixtures from §5 (expected payouts to the cent after the listed differences). Reuses
-   `lib/accrual.mjs` `payoffAt` / `accruedThrough` and `lib/posting.mjs` `buildEntry`. Generated into `lib.gs`.
+1. ✅ **`lib/sale.mjs` built 2026-09-22** (13 tests in `test/sale.test.mjs`, 413 in the suite; generated into
+   `lib.gs`). `splitStatement(settlement)` applies D-037's share and returns the sale entry's lines;
+   `buildSalePlan({property, settlement, advances, balances, interestFigureCents, recaptureCents})` returns
+   the ordered journal **intents** of §2 (the caller maps them through `lib/posting.mjs` `buildEntry`, so ids
+   and validation stay in one place), a summary, and the checks (`balanced`, `cash_ties`, `released_ties`).
+   `buildHoldbackRelease(...)` is the second run. **Both closed sales are fixtures and both reproduce Paul's
+   own tabs:**
+
+   | | 1616 Granite | 280 Sparkling |
+   |---|---|---|
+   | Recast's share | 100% | 50% (D-037) |
+   | Cash in | 347,343.03 | 263,769.94 |
+   | Project cost before the share | 320,821.44 | 214,069.91 |
+   | **Net profit** | 109,178.56 | **60,930.09** = the old tab exactly |
+   | Share each | 54,589.28 | 30,465.05 / 30,465.04 |
+   | Paid to Dennis at closing | 318,853.51 | 231,523.09 |
+   | **Paid to Paul at closing** | **28,489.52** = the old tab exactly | 32,246.84 (old tab 32,246.85) |
+   | Owed after closing | 30,000.00 each - the holdback halves | nil |
+   | Interest: engine 8% / agreed / true-up | 6,966.43 / 6,958.60 / −7.83 | 2,810.74 / 2,809.57 / −1.17 |
+
+   Granite's profit is $84.70 above the old tab's 109,263.26 for one reason: D-021 makes the cash-advance
+   interest a project cost instead of Paul's personal charge, so it leaves profit and each share moves by
+   $42.35. Everything else agrees to the cent or to one cent of share rounding.
 2. Writer: `Sell.html` dialog (property, statement upload, Claude's read of the lines for confirmation, interest
    figure, reserve, recapture tick, preview = Payout report, Post) → `postBatchEntries_` in one lock; `Release
    holdback…` dialog; the Closing tab template; `Properties` lock. Menu: **Recast Books → Sell property…**,
