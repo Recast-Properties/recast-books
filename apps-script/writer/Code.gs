@@ -1159,7 +1159,6 @@ function setupPropertyTab(name) {
   // below starts at column A again and re-inserts exactly one.
   if (sh.getLastColumn() > 1 && sh.getRange(1, 1).isBlank() && !sh.getRange(1, 2).isBlank()) sh.deleteColumn(1);
   sh.showColumns(1, sh.getMaxColumns());
-  if (sh.getMaxColumns() < 130) sh.insertColumnsAfter(sh.getMaxColumns(), 130 - sh.getMaxColumns());
   sh.clear();
   // clear() leaves data validation behind, so an old block's checkboxes would survive
   // a rebuild.
@@ -1200,6 +1199,15 @@ function setupPropertyTab(name) {
   var costLineF = ne('I', '');
 
   var WIDTH = 24; // A..X (heavy: set from the trade blocks below)
+  // Helper columns (rate, dates, per-advance math) sit past the grid. On the heavy template
+  // the trade blocks run to column DX and had buried the helpers at AI:AW (Ashburne after
+  // cutover, 2026-09-22: interest formulas multiplying Pool receipts, #VALUE! everywhere).
+  var HB = heavy ? 9 + heavyBlocks_(ss, name).length * PT_HEAVY_STRIDE + 2 : 35;
+  var HL = function (k) { return colLetter_(HB + k); };   // k=0 rate .. 14 commission
+  var RATE = '$' + HL(0) + '$1', STUB = '$' + HL(1) + '$1', SETTLE = '$' + HL(2) + '$1', CONTRACT = '$' + HL(3) + '$1';
+  var TAX = '$' + HL(11) + '$1', PRORATE = '$' + HL(12) + '$1', SHARE = '$' + HL(13) + '$1', COMM = '$' + HL(14) + '$1';
+  var hAN = HL(5), hAO = HL(6), hAP = HL(7), hAQ = HL(8), hAR = HL(9), hAS = HL(10);
+  if (sh.getMaxColumns() < HB + 15) sh.insertColumnsAfter(sh.getMaxColumns(), HB + 15 - sh.getMaxColumns());
   var grid = [];
   var bold = [];
   // Colours copied from the old workbook's tab (Paul, 2026-09-15): section heads green
@@ -1254,12 +1262,12 @@ function setupPropertyTab(name) {
       var asOf = 'IF(E' + r + '="",$B$1,MIN($B$1,E' + r + '))';
       helpers.push([
         '=IF(D' + r + '="","",IFERROR(DATEDIF(D' + r + ',' + asOf + ',"m"),0))',
-        '=IF(D' + r + '="","",F' + r + '*(1+AS' + r + '/12)^AN' + r + ')',
-        '=IF(D' + r + '="","",EDATE(D' + r + ',AN' + r + '))',
-        '=IF(D' + r + '="","",MAX(0,' + asOf + '-AP' + r + '))',
+        '=IF(D' + r + '="","",F' + r + '*(1+' + hAS + r + '/12)^' + hAN + r + ')',
+        '=IF(D' + r + '="","",EDATE(D' + r + ',' + hAN + r + '))',
+        '=IF(D' + r + '="","",MAX(0,' + asOf + '-' + hAP + r + '))',
         '=IF(D' + r + '="","",IFERROR(' + pick('K', idx) + ',""))',
-        '=IF(D' + r + '="","",IF(AR' + r + '="",$AI$1,AR' + r + '/100))']);
-      set(r, 7, '=IF(D' + r + '="","",AO' + r + '*(1+AS' + r + '/12*AQ' + r + '/$AJ$1)-F' + r + ')');
+        '=IF(D' + r + '="","",IF(' + hAR + r + '="",' + RATE + ',' + hAR + r + '/100))']);
+      set(r, 7, '=IF(D' + r + '="","",' + hAO + r + '*(1+' + hAS + r + '/12*' + hAQ + r + '/' + STUB + ')-F' + r + ')');
     }
     set(top, 7, '=SUM(F' + first + ':F' + last + ')+SUM(G' + first + ':G' + last + ')', true);
     advHelperBlocks.push([first, helpers]);
@@ -1318,7 +1326,7 @@ function setupPropertyTab(name) {
   // ponytail: a current-year bill paid before the sale would count in both terms;
   // Texas bills arrive in October and are due Jan 31, so a held property rarely
   // pays one - revisit if it happens.
-  set(s, 1, '="Property Tax (prorated"&IF($AT$1="","",", "&TEXT($AT$1,"$#,##0")&"/yr")&")"'); set(s, 2, '=' + net(eq('E', '1100')) + '+$AU$1'); s++;
+  set(s, 1, '="Property Tax (prorated"&IF(' + TAX + '="","",", "&TEXT(' + TAX + ',"$#,##0")&"/yr")&")"'); set(s, 2, '=' + net(eq('E', '1100')) + '+' + PRORATE + '); s++;
   set(totalRow, 2, '=SUM(B' + purchaseRow + ':B' + (s - 1) + ')', true);
   s++;
   paint(s, 1, 2, C.head); set(s++, 1, 'Profit Breakdown', true);
@@ -1332,8 +1340,8 @@ function setupPropertyTab(name) {
   set(s, 1, 'Net Profit', true); set(s, 2, '=SUM(B' + saleRow + ':B' + closingRow + ')', true); paint(s, 1, 2, C.total); var profitRow = s++;
   // D-022: the split is a term on the property (Properties.dennis_share_pct, default 50;
   // 0 when Dennis is the bank only, as on 104 Ashburne).
-  set(s, 1, '="Dennis Share ("&$AV$1&"%)"', true); set(s, 2, '=B' + profitRow + '*$AV$1/100', true); paint(s, 1, 2, C.yellow); var dennisShareRow = s++;
-  set(s, 1, '="Paul Share ("&(100-$AV$1)&"%)"', true); set(s, 2, '=B' + profitRow + '-B' + dennisShareRow, true); paint(s, 1, 2, C.yellow); var paulShareRow = s++;
+  set(s, 1, '="Dennis Share ("&' + SHARE + '&"%)"', true); set(s, 2, '=B' + profitRow + '*' + SHARE + '/100', true); paint(s, 1, 2, C.yellow); var dennisShareRow = s++;
+  set(s, 1, '="Paul Share ("&(100-' + SHARE + ')&"%)"', true); set(s, 2, '=B' + profitRow + '-B' + dennisShareRow, true); paint(s, 1, 2, C.yellow); var paulShareRow = s++;
   s++;
   paint(s, 1, 2, C.head); set(s++, 1, 'Payouts', true);
   set(s, 1, 'Dennis', true); paint(s, 1, 1, C.sub); paint(s, 2, 1, C.tan); var dennisRow = s++;
@@ -1343,7 +1351,7 @@ function setupPropertyTab(name) {
   set(s, 1, 'Dennis Paid (direct)'); set(s, 2, '=G' + dennisDirectRow); s++;
   // Bank-only deal (Ashburne, 2026-09-17): Dennis's return is interest (already inside
   // project cost) plus a commission on the sale price; it comes out of Paul's side.
-  set(s, 1, '="Dennis commission ("&$AW$1&"% of sale)"'); set(s, 2, '=B' + saleRow + '*$AW$1/100'); var dennisCommRow = s++;
+  set(s, 1, '="Dennis commission ("&' + COMM + '&"% of sale)"'); set(s, 2, '=B' + saleRow + '*' + COMM + '/100'); var dennisCommRow = s++;
   set(dennisRow, 2, '=SUM(B' + (dennisRow + 1) + ':B' + (dennisRow + 5) + ')', true);
   s++;
   set(s, 1, 'Paul', true); paint(s, 1, 1, C.sub); paint(s, 2, 1, C.tan); var paulRow = s++;
@@ -1400,24 +1408,24 @@ function setupPropertyTab(name) {
 
   // Helpers past the grid: AI1 rate, AJ1 stub basis, AK1 settlement_date, AL1
   // contract_price (D-017), AN:AQ per-advance math, AR/AS tax.
-  sh.getRange(1, 35).setFormula('=IFERROR(VLOOKUP("interest_rate_annual",Settings!A:B,2,FALSE),0)');
-  sh.getRange(1, 36).setFormula('=IFERROR(VLOOKUP("stub_days_basis",Settings!A:B,2,FALSE),30)');
-  sh.getRange(1, 37).setFormula('=IFERROR(VLOOKUP("' + safeName + '",Properties!A:F,6,FALSE),"")'); // settlement_date
-  sh.getRange(1, 38).setFormula('=IFERROR(VLOOKUP("' + safeName + '",Properties!A:K,11,FALSE),"")'); // contract_price
-  advHelperBlocks.forEach(function (blk) { sh.getRange(blk[0], 40, blk[1].length, 6).setFormulas(blk[1]); });
-  sh.getRange(1, 46).setFormula('=IFERROR(VLOOKUP("' + safeName + '",Properties!A:L,12,FALSE),"")'); // AT1: tax_annual
-  sh.getRange(1, 47).setFormula('=IF(OR($AK$1<>"",$AT$1=""),0,$AT$1*($B$1-DATE(YEAR($B$1),1,1))/365)'); // AU1: proration estimate while unsold
-  sh.getRange(1, 48).setFormula('=IFERROR(IF(VLOOKUP("' + safeName + '",Properties!A:M,13,FALSE)="",50,VLOOKUP("' + safeName + '",Properties!A:M,13,FALSE)),50)'); // AV1: Dennis profit share % (D-022)
-  sh.getRange(1, 49).setFormula('=IFERROR(IF(VLOOKUP("' + safeName + '",Properties!A:N,14,FALSE)="",0,VLOOKUP("' + safeName + '",Properties!A:N,14,FALSE)),0)'); // AW1: Dennis commission % of sale (bank-only deals, Ashburne)
-  sh.getRange(1, 35, 1, 5).setFontColor('#999999');
-  sh.getRange(1, 46, 1, 3).setFontColor('#999999');
-  advHelperBlocks.forEach(function (blk) { sh.getRange(blk[0], 40, blk[1].length, 6).setFontColor('#999999'); });
+  sh.getRange(1, HB).setFormula('=IFERROR(VLOOKUP("interest_rate_annual",Settings!A:B,2,FALSE),0)');
+  sh.getRange(1, HB + 1).setFormula('=IFERROR(VLOOKUP("stub_days_basis",Settings!A:B,2,FALSE),30)');
+  sh.getRange(1, HB + 2).setFormula('=IFERROR(VLOOKUP("' + safeName + '",Properties!A:F,6,FALSE),"")'); // settlement_date
+  sh.getRange(1, HB + 3).setFormula('=IFERROR(VLOOKUP("' + safeName + '",Properties!A:K,11,FALSE),"")'); // contract_price
+  advHelperBlocks.forEach(function (blk) { sh.getRange(blk[0], HB + 5, blk[1].length, 6).setFormulas(blk[1]); });
+  sh.getRange(1, HB + 11).setFormula('=IFERROR(VLOOKUP("' + safeName + '",Properties!A:L,12,FALSE),"")'); // AT1: tax_annual
+  sh.getRange(1, HB + 12).setFormula('=IF(OR(' + SETTLE + '<>"",' + TAX + '=""),0,' + TAX + '*($B$1-DATE(YEAR($B$1),1,1))/365)'); // AU1: proration estimate while unsold
+  sh.getRange(1, HB + 13).setFormula('=IFERROR(IF(VLOOKUP("' + safeName + '",Properties!A:M,13,FALSE)="",50,VLOOKUP("' + safeName + '",Properties!A:M,13,FALSE)),50)'); // AV1: Dennis profit share % (D-022)
+  sh.getRange(1, HB + 14).setFormula('=IFERROR(IF(VLOOKUP("' + safeName + '",Properties!A:N,14,FALSE)="",0,VLOOKUP("' + safeName + '",Properties!A:N,14,FALSE)),0)'); // AW1: Dennis commission % of sale (bank-only deals, Ashburne)
+  sh.getRange(1, HB, 1, 5).setFontColor('#999999');
+  sh.getRange(1, HB + 11, 1, 4).setFontColor('#999999');
+  advHelperBlocks.forEach(function (blk) { sh.getRange(blk[0], HB + 5, blk[1].length, 6).setFontColor('#999999'); });
 
   // Formats: dates, dollars, checkboxes (a formula returning TRUE/FALSE renders as a
   // checked/unchecked box, like the old tab).
   var money = '$#,##0.00;-$#,##0.00;-';
   sh.getRange(1, 2).setNumberFormat('mm/dd/yyyy');
-  sh.getRange(1, 37).setNumberFormat('mm/dd/yyyy');
+  sh.getRange(1, HB + 2).setNumberFormat('mm/dd/yyyy');
   sh.getRange(4, 2, grid.length - 3, 1).setNumberFormat(money);
   [purchase, cash].forEach(function (blk) { sh.getRange(blk.first, 4, blk.last - blk.first + 1, 2).setNumberFormat('mm/dd/yyyy'); });
   sh.getRange(4, 6, grid.length - 3, 2).setNumberFormat(money);
