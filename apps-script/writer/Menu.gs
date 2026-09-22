@@ -1279,10 +1279,10 @@ function rebuildClosingTab() {
   ui.alert('Rebuilt ' + written.sheet + ' (' + written.rows + ' rows) from the posted sale.');
 }
 
-/** The released cost, one row per account in account order (Paul, 2026-09-22: "separate
- *  these costs out into individual rows" - the grouped Holding and Selling lines hid what
- *  they were made of). The account's own name carries its class, e.g. "Holding - utilities";
- *  1220 is named in Paul's words. */
+/** The released cost: one row per account (Paul, 2026-09-22: "separate these costs out
+ *  into individual rows" - grouped Holding and Selling lines hid what they were made of),
+ *  except the rehab accounts, which collapse into a single Rehab row as the old closed tabs
+ *  had them. The account's own name carries its class, e.g. "Holding - utilities". */
 function sellCostByClass_(ss, name, plan) {
   var chart = accountMap();
   var released = {};
@@ -1290,14 +1290,28 @@ function sellCostByClass_(ss, name, plan) {
     if (!/released to COGS/.test(i.memo)) return;
     i.lines.forEach(function (l) { if (l.credit) released[l.account] = (released[l.account] || 0) + l.credit; });
   });
-  return Object.keys(released).sort().map(function (a) {
+  var isRehab = function (a) { return a >= '1020' && a <= '1060'; };
+  var rows = [], rehabCents = 0, rehabAccounts = [];
+  Object.keys(released).sort().forEach(function (a) {
+    if (isRehab(a)) {
+      if (!rehabCents && !rehabAccounts.length) rows.push({ rehab: true });
+      rehabCents += released[a];
+      rehabAccounts.push(a);
+      return;
+    }
     var label = a === '1220'
       ? "Dennis's half of the profit (a cost of the deal, so your half is the bottom line)"
       : (chart.get(a) ? chart.get(a).name : 'account ' + a);
-    return { label: label, cents: released[a], accounts: a };
-  }).filter(function (g) { return g.cents !== 0; });
+    rows.push({ label: label, cents: released[a], accounts: a });
+  });
+  return rows
+    .map(function (r) { return r.rehab ? { label: 'Rehab', cents: rehabCents, accounts: rehabAccounts.join(' ') } : r; })
+    .filter(function (r) { return r.cents !== 0; });
 }
 
+/** The closing statement's numbers, read back out of the posted `sale` entries. Returns
+ *  null when the property has no posted sale. The shapes match what writeClosingTab_ wants,
+ *  so the tab renders identically whether it is written at the sale or rebuilt later. */
 function closingFromJournal_(ss, name) {
   var journal = ss.getSheetByName('Journal');
   var cols = headerIndex_(journal);

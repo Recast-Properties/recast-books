@@ -1616,7 +1616,6 @@ var PT_HEAVY_ORDER = ['Paint & Flooring', 'Trash', 'Lighting & Electrical', 'Mas
   'Landscaping', 'Chimney/FIreplace/Glass', 'Kitchen', 'Appliances', 'HVAC', 'House Hardware',
   'Countertops & Backsplash', 'Equipment Rentals', 'Pest Control', 'Insurance - Farmers Insurance',
   'Cleaning', 'Supplies', 'Marketing'];   // Gas/Truck/Trailer removed (Paul 2026-09-22; its rows are overhead, D-026.9)
-function colLetter_(n) { var s = ''; while (n > 0) { var m = (n - 1) % 26; s = String.fromCharCode(65 + m) + s; n = (n - m - 1) / 26; } return s; }
 function heavyBlocks_(ss, name) {
   var journal = ss.getSheetByName('Journal'); var cols = headerIndex_(journal); var last = journal.getLastRow();
   var seen = {};

@@ -96,6 +96,15 @@ for (const [tab, headers] of Object.entries(SPEC_HEADERS)) {
   });
 }
 
+test("no function is declared twice in Code.gs or Menu.gs: in Apps Script the last one silently wins", () => {
+  for (const file of ["Code.gs", "Menu.gs"]) {
+    const src = readFileSync(new URL(`../apps-script/writer/${file}`, import.meta.url), "utf8");
+    const names = [...src.matchAll(/^function\s+([A-Za-z0-9_]+)\s*\(/gm)].map((m) => m[1]);
+    const dupes = [...new Set(names.filter((n, i) => names.indexOf(n) !== i))];
+    assert.deepEqual(dupes, [], `${file} declares these twice: ${dupes.join(", ")}`);
+  }
+});
+
 test("every function the Recast Books menu names is declared in Menu.gs", () => {
   const menuSrc = readFileSync(new URL("../apps-script/writer/Menu.gs", import.meta.url), "utf8");
   const onOpen = menuSrc.slice(menuSrc.indexOf("function onOpen()"), menuSrc.indexOf("// ---- access control"));
