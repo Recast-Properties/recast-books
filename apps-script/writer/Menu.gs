@@ -1455,7 +1455,9 @@ function closingTabLabels_(ss, target) {
   rows.forEach(function (r) {
     var label = String(r[0] || '').replace(/^\s+/, '');
     var note = String(r[2] || '').trim();
-    if (label && /^[0-9]{4}$/.test(note)) out[note] = label;
+    // A label this code wrote as its own fallback is not Paul's wording: ignoring it is
+    // what lets a better name replace it (2026-09-22: "account 1300" preserved itself).
+    if (label && /^[0-9]{4}$/.test(note) && !/^account [0-9]{4}$/.test(label)) out[note] = label;
   });
   return out;
 }
