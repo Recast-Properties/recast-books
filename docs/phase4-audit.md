@@ -1558,3 +1558,19 @@ Run from `docs/cutover-runbook.md`, one step at a time with Paul.
 
 **Phase 4's expense side is in the real books.** Open after the pass: the held live receipts and the Inbox's
 history leftovers (runbook §5), closing the old workbook (§6), and the sale side in Phase 5 (D-033).
+
+## 52 · Day after cutover (2026-09-22): the old poller switched off; the doGet misfire found and fixed
+
+- **Two digests arrived** ("Bookkeeper | … filed" = old Recast-site system; "Books | … posted | N to review" =
+  the new one) with different verdicts: the new gate's rails (ceiling, PAYER_UNKNOWN, meals) and its reading
+  of Paul's note, plus 16 of 20 live receipts in error on the new side. Paul: paying twice is not acceptable.
+  **With Paul's permission the old Receipts Bookkeeper project's two triggers (`pollReceipts` every 15 min,
+  `dailySummary` 3 AM) were deleted through his signed-in browser** (project `1c7Y3GZ…Hei8`, Triggers page,
+  2026-09-22 ~09:00 PT). No code in `../Recast-site/` was touched. The old system no longer reads mail or
+  sends a digest; only "Books |" arrives now.
+- **The misfire, root cause of the 16 errors and of the filing's missing links (§46):** under concurrent
+  calls the follow-up of the writer's POST 302 lands on `doGet`, whose body is `{ok:true, service, version}`
+  - "ok" with none of the action's fields. `lib/writer-client.mjs` now names that reply `REDIRECT_MISFIRE`
+  (any non-ping reply carrying `service`), retries reads up to four times on any lost reply, never repeats
+  a write. 397 tests; deployed by Paul 2026-09-22 ~08:50 PT. The 16 errored receipts are stored and wait
+  for the warm job's automatic retry (no stored read, < 2 retries) or a Reprocess in the Inbox.
