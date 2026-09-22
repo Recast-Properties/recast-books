@@ -1691,3 +1691,22 @@ the staging Drive folders into "Recast Books") not done - optional, Paul's call.
   receipts as .txt on the live path too (one change in ingest), or leave the email as the document.
   The writer has no `setDocUrl` web action (`setDocUrl_` is reached only from the Inbox sidebar's
   approve), so a one-off link on an existing line would also need a small writer action.
+
+## 58 · D-035: no attachment, the email is the receipt (2026-09-22)
+
+Paul, on §57's finding: "file them. if there is no attachment then the email IS the reciept. make a rule."
+**Rule (D-035):** `books-upload.mjs` stores a body-only message as its one attachment `email.txt` (subject,
+sender, received, mailbox, Gmail link, body - the migration's .txt shape) at upload time, so every filing
+path (auto-post, Inbox approve, repost) puts a copy in Drive and the Journal line gets its link with no
+other change; the bookkeeper skips `text/plain` attachments (the body is already its prompt). The writer
+gained a `setDocUrl` web action (the Inbox sidebar's `setDocUrl_` path) for documents filed after their
+entry posted. 400 tests. Writer pushed to production, pulled back identical on 11 files, web app @4; site
+deployed by Paul.
+
+**Backfill (`scripts/file-email-receipts.mjs`, writer secret, Paul's Terminal):** Wi-Fi Onboard $8.00 →
+`2026/OVERHEAD/2026-09-18 Wi-Fi Onboard (IntelsatAlaska Airlines) 8.00.txt`, doc_url on both lines of
+`receipt-20260918-d5a55533911f`. Berrett Pest Control $270.63: the file landed (`2026-09-18 Berrett Pest
+Control 270.63.txt`, 17:52:32Z) but the writer's reply came back as a 404 non-JSON page (a lost reply of the
+§52 family; writes are never retried), so the link was written on a second run with the known Drive url -
+both lines of `receipt-20260918-95eee0b0c78e`. That run split the argument at every "=", so the stored url
+ends at `view?usp` (opens the same file; script fixed, Journal left as is).

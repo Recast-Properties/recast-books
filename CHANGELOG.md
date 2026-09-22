@@ -721,3 +721,6 @@ receipts he had held since 09-17.
 - **Old books closed (§57).** RECAST BIZ H5:L6 duplicates deleted by Paul; "Recast 2026 CLOSED 2026-09-21", staging
   "Recast Books ARCHIVED". Anthropic $13.06 card marked posted (its link was already there); Wi-Fi Onboard $8.00 has no
   attachment to file - body-only email receipts never get a Drive file on the live path (open question).
+- **D-035 (§58): no attachment, the email is the receipt.** Upload stores the message as `email.txt`; every filing
+  path links it. Writer `setDocUrl` action (web app @4). Wi-Fi Onboard and Berrett filed and linked by hand.
+- **Phase 5 spec** written for Paul's review: `docs/phase5-spec.md` (six questions in §6).

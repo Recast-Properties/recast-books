@@ -28,7 +28,9 @@ const writerUrl = execFileSync("npx", ["netlify-cli", "env:get", "WRITER_URL", "
 const writer = createWriter({ url: writerUrl, secret: process.env.WRITER_SECRET });
 
 for (const arg of ids) {
-  const [docId, knownUrl = ""] = arg.split("=", 2);
+  const eq = arg.indexOf("=");
+  const docId = eq < 0 ? arg : arg.slice(0, eq);
+  const knownUrl = eq < 0 ? "" : arg.slice(eq + 1);
   const env = await store.get(`doc/${docId}`, { type: "json" });
   if (!env) { console.log(`${docId}: no envelope`); continue; }
   const txnIds = env.result?.txn_ids || [];
