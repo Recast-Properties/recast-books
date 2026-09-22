@@ -1595,7 +1595,7 @@ var PT_HEAVY_STRIDE = 5;   // Payee, Date, Description, Amount, spacer
 var PT_HEAVY_ORDER = ['Paint & Flooring', 'Trash', 'Lighting & Electrical', 'Master Bath', 'Small Baths', 'Pool',
   'Landscaping', 'Chimney/FIreplace/Glass', 'Kitchen', 'Appliances', 'HVAC', 'House Hardware',
   'Countertops & Backsplash', 'Equipment Rentals', 'Pest Control', 'Insurance - Farmers Insurance',
-  'Cleaning', 'Supplies', 'Gas/Truck/Trailer', 'Marketing'];
+  'Cleaning', 'Supplies', 'Marketing'];   // Gas/Truck/Trailer removed (Paul 2026-09-22; its rows are overhead, D-026.9)
 function colLetter_(n) { var s = ''; while (n > 0) { var m = (n - 1) % 26; s = String.fromCharCode(65 + m) + s; n = (n - m - 1) / 26; } return s; }
 function heavyBlocks_(ss, name) {
   var journal = ss.getSheetByName('Journal'); var cols = headerIndex_(journal); var last = journal.getLastRow();
@@ -1604,9 +1604,12 @@ function heavyBlocks_(ss, name) {
     var v = journal.getRange(2, 1, last - 1, journal.getLastColumn()).getValues();
     v.forEach(function (r) { if (String(r[cols['property'] - 1]) === name) { var t = String(r[cols['trade'] - 1] || '').trim(); if (t) seen[t] = true; } });
   }
-  var out = PT_HEAVY_ORDER.filter(function (t) { return true; });
-  Object.keys(seen).sort().forEach(function (t) { if (out.indexOf(t) < 0) out.push(t); });
-  out.push('(no trade)'); if (out.indexOf('Utilities') < 0) out.push('Utilities');
+  // Paul, 2026-09-22: no Gas/Truck/Trailer, Property Tax or "(no trade)" block - the tax is a
+  // summary line and untraded lines are not costs on this tab.
+  var skip = { 'Gas/Truck/Trailer': true, 'Property Tax': true };
+  var out = PT_HEAVY_ORDER.filter(function (t) { return !skip[t]; });
+  Object.keys(seen).sort().forEach(function (t) { if (out.indexOf(t) < 0 && !skip[t]) out.push(t); });
+  if (out.indexOf('Utilities') < 0) out.push('Utilities');
   return out;
 }
 // Values for a heavy tab: rehab lines by trade (Holding lines under Utilities).
@@ -1626,8 +1629,7 @@ function refreshHeavyBlocks_(ss, name) {
   // tax (1100) live in the summary, not in a block; financing (1200) never on the tab.
   var onTab = function (r) { var a = String(g(r, 'account')), cc = String(g(r, 'cost_class')); return a !== '1000' && a !== '1100' && (cc === 'Rehab' || cc === 'Holding' || cc === 'Acquisition' || cc === 'Selling'); };
   heavyBlocks_(ss, name).forEach(function (blk, i) {
-    var pick = blk === '(no trade)' ? function (r) { return onTab(r) && !String(g(r, 'trade') || '').trim(); }
-             : function (r) { return onTab(r) && String(g(r, 'trade') || '').trim() === blk; };
+    var pick = function (r) { return onTab(r) && String(g(r, 'trade') || '').trim() === blk; };
     var out = lines.filter(pick).map(function (r) { return [g(r, 'payee'), g(r, 'date'), g(r, 'description'), Number(g(r, 'debit') || 0) - Number(g(r, 'credit') || 0)]; });
     out.sort(function (x, y) { return formatIsoDate_(x[1]) < formatIsoDate_(y[1]) ? -1 : formatIsoDate_(x[1]) > formatIsoDate_(y[1]) ? 1 : 0; });
     out = out.slice(0, PT_LINES_N); while (out.length < PT_LINES_N) out.push(['', '', '', '']);
