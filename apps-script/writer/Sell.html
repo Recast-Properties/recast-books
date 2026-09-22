@@ -1,81 +1,99 @@
 <?!= include_('Style') ?>
-<h3>Sell property</h3>
+<style>
+  .step { display: none; }
+  .step.on { display: block; }
+  .crumbs { font-size: 11px; color: #555; margin-bottom: 10px; }
+  .crumbs b { color: #1a73e8; }
+  .why { font-size: 11px; color: #555; }
+  .problems { background: #fef7e0; border-radius: 3px; padding: 8px; margin: 8px 0; font-size: 12px; }
+  .problems li { margin: 2px 0; }
+  .read { font-size: 11px; color: #555; margin-bottom: 6px; }
+  .nav { margin-top: 12px; }
+</style>
 
-<div class="row">
-  <div>
-    <label>Property <span class="req">*</span></label>
-    <select id="s-property"></select>
-  </div>
-  <div>
-    <label>Settlement date <span class="req">*</span></label>
-    <input type="date" id="s-date">
-  </div>
-  <div>
-    <label>Recast's share %</label>
-    <input type="number" id="s-share" value="100" min="1" max="100" step="0.01">
+<div class="crumbs" id="s-crumbs"></div>
+
+<!-- STEP 1: the document ------------------------------------------------------------- -->
+<div class="step on" id="step-1">
+  <h3>Sell property: the closing document</h3>
+  <label>Property <span class="req">*</span></label>
+  <select id="s-property"></select>
+  <div id="s-sold-note" class="read hidden"></div>
+  <label>Closing document from the title company (PDF or a photo)</label>
+  <input type="file" id="s-doc" accept="application/pdf,image/*">
+  <label>...or a Drive link, if it is already filed</label>
+  <input type="text" id="s-doc-url" placeholder="https://drive.google.com/file/d/...">
+  <div class="nav">
+    <button class="primary" id="s-read">Read it</button>
+    <button id="s-skip">Skip and type it in</button>
   </div>
 </div>
 
-<div class="row">
-  <div>
-    <label>Sale price <span class="req">*</span></label>
-    <input type="number" id="s-price" step="0.01">
+<!-- STEP 2: confirm what the document said ------------------------------------------- -->
+<div class="step" id="step-2">
+  <h3>Confirm what the statement says</h3>
+  <div class="read" id="s-read-note"></div>
+  <div class="problems hidden" id="s-problems"></div>
+
+  <div class="row">
+    <div><label>Settlement date <span class="req">*</span></label><input type="date" id="s-date"></div>
+    <div><label>Recast's share %</label><input type="number" id="s-share" value="100" min="0.01" max="100" step="0.01"></div>
   </div>
-  <div>
-    <label>Net to seller (the statement's own figure) <span class="req">*</span></label>
-    <input type="number" id="s-net" step="0.01">
+  <div class="row">
+    <div><label>Sale price <span class="req">*</span></label><input type="number" id="s-price" step="0.01"></div>
+    <div><label>Net to seller (all sellers) <span class="req">*</span></label><input type="number" id="s-net" step="0.01"></div>
+    <div><label>Cash Recast received (blank = derive)</label><input type="number" id="s-cash" step="0.01"></div>
   </div>
-  <div>
-    <label>Cash Recast received (blank = derive)</label>
-    <input type="number" id="s-cash" step="0.01">
+
+  <label>Statement lines</label>
+  <table class="lines-grid" id="s-lines">
+    <thead><tr><th>As the statement names it</th><th>Account</th><th class="num">Amount</th><th>Kind</th><th></th></tr></thead>
+    <tbody></tbody>
+  </table>
+  <button id="s-add-line">Add line</button>
+  <div id="s-tally" class="balance"></div>
+
+  <label style="margin-top:10px">Advances &ndash; the reconcile: correct a rate or a repayment date here</label>
+  <table class="lines-grid" id="s-adv">
+    <thead><tr><th>Advanced</th><th class="num">Amount</th><th>Kind</th><th>Rate</th><th>Repaid</th></tr></thead>
+    <tbody></tbody>
+  </table>
+
+  <div class="row" style="margin-top:10px">
+    <div><label>Dennis's agreed interest (blank = the engine's figure)</label><input type="number" id="s-interest" step="0.01"></div>
+    <div><label>Cost Recapture settled on this payout</label><input type="number" id="s-recapture" step="0.01"></div>
+  </div>
+
+  <div class="nav">
+    <button id="s-back-1">Back</button>
+    <button class="primary" id="s-preview">Preview</button>
   </div>
 </div>
 
-<label>Settlement statement lines - every charge, adjustment, holdback and payment to Recast</label>
-<table class="lines-grid" id="s-lines">
-  <thead><tr><th>As the statement names it</th><th>Account</th><th class="num">Amount</th><th>Kind</th><th></th></tr></thead>
-  <tbody></tbody>
-</table>
-<button id="s-add-line">Add line</button>
-
-<label style="margin-top:10px">Advances - correct the rate or the repayment date here, this is the reconcile</label>
-<table class="lines-grid" id="s-adv">
-  <thead><tr><th>Advanced</th><th class="num">Amount</th><th>Kind</th><th>Rate</th><th>Repaid</th></tr></thead>
-  <tbody></tbody>
-</table>
-
-<div class="row" style="margin-top:10px">
-  <div>
-    <label>Closing document from the title company (PDF)</label>
-    <input type="file" id="s-doc" accept="application/pdf,image/*">
-  </div>
-  <div>
-    <label>...or a Drive link, if it is already filed</label>
-    <input type="text" id="s-doc-url" placeholder="https://drive.google.com/file/d/...">
+<!-- STEP 3: preview ------------------------------------------------------------------- -->
+<div class="step" id="step-3">
+  <h3>Preview</h3>
+  <div id="s-result"></div>
+  <div class="nav">
+    <button id="s-back-2">Back</button>
+    <button class="primary" id="s-post" disabled>Close it</button>
   </div>
 </div>
 
-<div class="row">
-  <div>
-    <label>Dennis's agreed interest (blank = the engine's figure)</label>
-    <input type="number" id="s-interest" step="0.01">
-  </div>
-  <div>
-    <label>Cost Recapture settled on this payout</label>
-    <input type="number" id="s-recapture" step="0.01">
-  </div>
+<!-- STEP 4: closed -------------------------------------------------------------------- -->
+<div class="step" id="step-4">
+  <h3 id="s-done-head">Closed</h3>
+  <div id="s-done"></div>
+  <div class="nav"><button class="primary" id="s-finish">Close this window</button></div>
 </div>
 
-<div id="s-tally" class="balance"></div>
-<div>
-  <button id="s-preview">Preview</button>
-  <button class="primary" id="s-post" disabled>Post the sale</button>
-</div>
-<div id="s-result"></div>
 <div id="s-msg" class="msg hidden"></div>
 
 <script>
   var CTX = null;
+  var READ = null;
+  var DOC = { name: '', mime: '', base64: '' };
+
   var KINDS = [
     ['cost', 'charge paid by the seller'],
     ['credit', 'adjustment due to the seller'],
@@ -99,21 +117,32 @@
     ['4030', '4030 Other income'],
   ];
 
+  function show_(n) {
+    [1, 2, 3, 4].forEach(function (i) {
+      document.getElementById('step-' + i).classList.toggle('on', i === n);
+    });
+    var names = ['Document', 'Confirm', 'Preview', 'Closed'];
+    document.getElementById('s-crumbs').innerHTML = names.map(function (label, i) {
+      return (i + 1 === n ? '<b>' + (i + 1) + '. ' + label + '</b>' : (i + 1) + '. ' + label);
+    }).join(' &rarr; ');
+  }
+
   function options_(pairs, selected) {
     return pairs.map(function (p) {
       return '<option value="' + p[0] + '"' + (p[0] === selected ? ' selected' : '') + '>' + escapeHtml_(p[1]) + '</option>';
     }).join('');
   }
 
-  function addLine_(label, account, amount, kind) {
+  function addLine_(label, account, amount, kind, why) {
     var tr = document.createElement('tr');
     tr.innerHTML =
-      '<td><input class="l-label" placeholder="as the statement names it" value="' + escapeHtml_(label || '') + '"></td>' +
+      '<td><input class="l-label" placeholder="as the statement names it" value="' + escapeHtml_(label || '') + '">' +
+        (why ? '<div class="why">' + escapeHtml_(why) + '</div>' : '') + '</td>' +
       '<td><select class="l-account">' + options_(ACCOUNTS, account || '1310') + '</select></td>' +
       '<td><input class="l-amount" type="number" step="0.01" value="' + (amount == null ? '' : amount) + '"></td>' +
       '<td><select class="l-kind">' + options_(KINDS, kind || 'cost') + '</select></td>' +
       '<td><button class="l-del">x</button></td>';
-    tr.querySelector('.l-del').addEventListener('click', function () { tr.remove(); });
+    tr.querySelector('.l-del').addEventListener('click', function () { tr.remove(); tally_(); });
     document.querySelector('#s-lines tbody').appendChild(tr);
   }
 
@@ -168,18 +197,22 @@
     };
   }
 
-  // The closing document, read in the dialog so the writer can file it to Drive and put
-  // its link on every entry of the sale (the sale is evidenced like any receipt).
-  var DOC = { name: '', mime: '', base64: '' };
-  document.getElementById('s-doc').addEventListener('change', function () {
-    var f = this.files && this.files[0];
-    if (!f) { DOC = { name: '', mime: '', base64: '' }; return; }
-    var reader = new FileReader();
-    reader.onload = function () {
-      DOC = { name: f.name, mime: f.type || 'application/pdf', base64: String(reader.result).split(',')[1] || '' };
-    };
-    reader.readAsDataURL(f);
-  });
+  // The statement's own arithmetic, live: a blank or wrong amount shows here before Preview.
+  function tally_() {
+    var price = Number(document.getElementById('s-price').value || 0);
+    var net = Number(document.getElementById('s-net').value || 0);
+    var off = 0, credits = 0;
+    readLines_().forEach(function (l) {
+      var v = Number(l.amount || 0);
+      if (l.kind === 'credit') credits += v; else off += v;
+    });
+    var derived = price + credits - off;
+    var el = document.getElementById('s-tally');
+    var ok = net && Math.abs(derived - net) < 0.02;
+    el.textContent = 'Lines take off ' + off.toFixed(2) + ', add back ' + credits.toFixed(2) +
+      ' -> ' + derived.toFixed(2) + (net ? (ok ? ' = net to seller' : ' but net to seller is ' + net.toFixed(2)) : '');
+    el.style.color = net ? (ok ? '#137333' : '#a50e0e') : '#555';
+  }
 
   function row_(label, cents, note) {
     return '<tr><td>' + escapeHtml_(label) + '</td><td class="num">' + formatCents_(cents) + '</td><td>' +
@@ -196,17 +229,70 @@
       row_('Cash received', s.cash_in_cents, '') +
       row_('Total project cost released', s.released_cents, '') +
       row_('Net profit', s.profit_cents, '') +
-      row_("Dennis's share", s.dennis_share_cents, s.commission_cents ? 'plus commission ' + formatCents_(s.commission_cents) : '') +
-      row_("Paul's share", s.paul_share_cents, '') +
+      row_("Dennis's half of the profit", s.dennis_share_cents, s.commission_cents ? 'plus commission ' + formatCents_(s.commission_cents) : '') +
+      row_("Paul's half of the profit", s.paul_share_cents, '') +
       row_('Paid to Dennis', s.paid.dennis_cents, '') +
       row_('Paid to Paul', s.paid.paul_cents, '') +
       row_('Retained in the Recast account', s.retained_cents, '') +
       owed +
       row_('Interest: engine', s.interest.engine_cents, "to each advance's repayment date") +
-      row_('Interest: agreed', s.interest.agreed_cents, s.interest.true_up_cents ? 'true-up ' + formatCents_(s.interest.true_up_cents) : 'no true-up') +
+      row_('Interest: agreed with Dennis', s.interest.agreed_cents, s.interest.true_up_cents ? 'adjustment ' + formatCents_(s.interest.true_up_cents) : 'no adjustment') +
       '</tbody></table>' +
       '<p class="balance">' + (checks.ok ? 'Checks pass. Payouts tie to the cash received.' : 'CHECKS FAIL: ' + escapeHtml_(JSON.stringify(checks))) + '</p>' +
-      '<p>Closing statement will be written to <b>' + escapeHtml_(target) + '</b>.</p>';
+      '<p>The closing statement will be written to <b>' + escapeHtml_(target) + '</b>.</p>';
+  }
+
+  function fillFromRead_(result) {
+    READ = result;
+    var st = result.settlement || {};
+    if (st.date) document.getElementById('s-date').value = st.date;
+    if (st.recast_share_pct) document.getElementById('s-share').value = st.recast_share_pct;
+    if (st.sale_price_cents) document.getElementById('s-price').value = (st.sale_price_cents / 100).toFixed(2);
+    if (st.net_to_seller_cents) document.getElementById('s-net').value = (st.net_to_seller_cents / 100).toFixed(2);
+    document.getElementById('s-cash').value = st.cash_to_recast_cents ? (st.cash_to_recast_cents / 100).toFixed(2) : '';
+
+    document.querySelector('#s-lines tbody').innerHTML = '';
+    (st.lines || []).forEach(function (l) {
+      addLine_(l.label, l.account, (l.cents / 100).toFixed(2), l.kind, l.why);
+    });
+
+    var r = result.read || {};
+    document.getElementById('s-read-note').innerHTML =
+      'Read from the document: ' + escapeHtml_([r.settlement_agent, r.file_no ? 'file ' + r.file_no : '', r.property_address].filter(Boolean).join(' - ')) +
+      (r.sellers && r.sellers.length ? '. Sellers: ' + escapeHtml_(r.sellers.join('; ')) : '') +
+      (r.notes ? '<br>Note: ' + escapeHtml_(r.notes) : '') +
+      (result.usage ? '<br>' + escapeHtml_(result.usage.model) + (result.usage.fallback ? ' (fallback)' : '') : '');
+
+    var problems = document.getElementById('s-problems');
+    if (result.problems && result.problems.length) {
+      problems.innerHTML = '<b>Check these before you go on:</b><ul>' +
+        result.problems.map(function (p) { return '<li>' + escapeHtml_(p) + '</li>'; }).join('') + '</ul>';
+      problems.classList.remove('hidden');
+    } else {
+      problems.classList.add('hidden');
+    }
+    tally_();
+  }
+
+  function loadContext_() {
+    var msg = document.getElementById('s-msg');
+    callServer_('sellContext', document.getElementById('s-property').value).then(function (result) {
+      if (!result.ok) { showMsg_(msg, false, '<b>' + escapeHtml_(result.error) + '</b> - ' + escapeHtml_(result.message)); return; }
+      CTX = result;
+      renderAdvances_(result.advances);
+      var note = document.getElementById('s-sold-note');
+      if (result.sold) {
+        note.innerHTML = 'This property is already closed (' + escapeHtml_(result.settlement_date || '') + '). ' +
+          'A document given here is attached to the posted sale and the statement tab is rebuilt. Nothing is posted twice.';
+        note.classList.remove('hidden');
+        document.getElementById('s-read').textContent = 'Attach and rebuild';
+        document.getElementById('s-skip').classList.add('hidden');
+      } else {
+        note.classList.add('hidden');
+        document.getElementById('s-read').textContent = 'Read it';
+        document.getElementById('s-skip').classList.remove('hidden');
+      }
+    }, function (err) { showMsg_(msg, false, escapeHtml_(err && err.message ? err.message : err)); });
   }
 
   (function init() {
@@ -215,46 +301,84 @@
       return '<option value="' + escapeHtml_(n) + '">' + escapeHtml_(n) + '</option>';
     }).join('');
     document.getElementById('s-date').value = new Date(Date.now() - new Date().getTimezoneOffset() * 60000).toISOString().slice(0, 10);
-    addLine_('Real Estate Commission - Selling', '1300', '', 'cost');
-    addLine_('Closing costs (title, escrow, recording)', '1310', '', 'cost');
-    addLine_("County property taxes, 1/1 to closing", '1100', '', 'cost');
+    show_(1);
     loadContext_();
   })();
 
-  function loadContext_() {
-    var msg = document.getElementById('s-msg');
-    callServer_('sellContext', document.getElementById('s-property').value).then(function (result) {
-      if (!result.ok) { showMsg_(msg, false, '<b>' + escapeHtml_(result.error) + '</b> - ' + escapeHtml_(result.message)); return; }
-      CTX = result;
-      renderAdvances_(result.advances);
-      if (result.property.contract_price !== '') document.getElementById('s-price').value = result.property.contract_price;
-      document.getElementById('s-post').disabled = true;
-    }, function (err) { showMsg_(msg, false, escapeHtml_(err && err.message ? err.message : err)); });
-  }
-
   document.getElementById('s-property').addEventListener('change', loadContext_);
-  document.getElementById('s-add-line').addEventListener('click', function () { addLine_('', '1310', '', 'cost'); tally_(); });
+  document.getElementById('s-add-line').addEventListener('click', function () { addLine_('', '1310', '', 'cost', ''); tally_(); });
+  document.getElementById('step-2').addEventListener('input', tally_);
+  document.getElementById('s-back-1').addEventListener('click', function () { show_(1); });
+  document.getElementById('s-back-2').addEventListener('click', function () { show_(2); });
+  document.getElementById('s-finish').addEventListener('click', function () { google.script.host.close(); });
 
-  // The statement's own arithmetic, live: sale price less what the lines take off should
-  // equal net-to-seller. A blank amount shows up here before Preview is ever clicked.
-  function tally_() {
-    var price = Number(document.getElementById('s-price').value || 0);
-    var net = Number(document.getElementById('s-net').value || 0);
-    var off = 0, credits = 0;
-    readLines_().forEach(function (l) {
-      var v = Number(l.amount || 0);
-      if (l.kind === 'credit' || l.kind === 'to_recast') credits += v; else off += v;
+  document.getElementById('s-doc').addEventListener('change', function () {
+    var f = this.files && this.files[0];
+    if (!f) { DOC = { name: '', mime: '', base64: '' }; return; }
+    var reader = new FileReader();
+    reader.onload = function () {
+      DOC = { name: f.name, mime: f.type || 'application/pdf', base64: String(reader.result).split(',')[1] || '' };
+    };
+    reader.readAsDataURL(f);
+  });
+
+  // Step 1 -> 2: read the document. For a property already closed the same button attaches
+  // the document to the posted sale and rebuilds its statement tab.
+  document.getElementById('s-read').addEventListener('click', function () {
+    var btn = this, msg = document.getElementById('s-msg');
+    msg.classList.add('hidden');
+
+    if (CTX && CTX.sold) {
+      btn.disabled = true;
+      callServer_('sellUpdate', form_()).then(function (result) {
+        btn.disabled = false;
+        if (!result.ok) { showMsg_(msg, false, '<b>' + escapeHtml_(result.error) + '</b> - ' + escapeHtml_(result.message)); return; }
+        document.getElementById('s-done-head').textContent = 'Updated';
+        document.getElementById('s-done').innerHTML =
+          (result.linked ? 'Linked the settlement statement on ' + result.linked + ' Journal lines. ' : '') +
+          'Rebuilt <b>' + escapeHtml_(result.tab) + '</b> from the posted sale.';
+        show_(4);
+      }, function (err) { btn.disabled = false; showMsg_(msg, false, escapeHtml_(err && err.message ? err.message : err)); });
+      return;
+    }
+
+    if (!DOC.base64) {
+      showMsg_(msg, false, document.getElementById('s-doc-url').value
+        ? 'A Drive link is filed with the sale, but reading needs the file itself - choose it above, or Skip and type it in.'
+        : 'Choose the closing document, or Skip and type it in.');
+      return;
+    }
+
+    btn.disabled = true;
+    btn.textContent = 'Reading...';
+    callServer_('sellReadDocument', {
+      property: document.getElementById('s-property').value,
+      name: DOC.name, mime: DOC.mime, base64: DOC.base64,
+    }).then(function (result) {
+      btn.disabled = false;
+      btn.textContent = 'Read it';
+      if (result.error) { showMsg_(msg, false, '<b>' + escapeHtml_(result.error) + '</b> - ' + escapeHtml_(result.message)); return; }
+      fillFromRead_(result);
+      show_(2);
+    }, function (err) {
+      btn.disabled = false;
+      btn.textContent = 'Read it';
+      showMsg_(msg, false, escapeHtml_(err && err.message ? err.message : err));
     });
-    var derived = price + credits - off;
-    var el = document.getElementById('s-tally');
-    var ok = net && Math.abs(derived - net) < 0.02;
-    el.textContent = 'Lines take off ' + off.toFixed(2) + ', add back ' + credits.toFixed(2) +
-      ' -> ' + derived.toFixed(2) + (net ? (ok ? ' = net to seller' : ' but net to seller is ' + net.toFixed(2)) : '');
-    el.style.color = net ? (ok ? '#137333' : '#a50e0e') : '#555';
-  }
-  document.addEventListener('input', tally_);
-  tally_();
+  });
 
+  document.getElementById('s-skip').addEventListener('click', function () {
+    document.querySelector('#s-lines tbody').innerHTML = '';
+    addLine_('Real Estate Commission - Selling', '1300', '', 'cost', '');
+    addLine_('Closing costs (title, escrow, survey)', '1310', '', 'cost', '');
+    addLine_('County property taxes, 1/1 to closing', '1100', '', 'cost', '');
+    document.getElementById('s-read-note').textContent = 'Typed in by hand - no document was read.';
+    document.getElementById('s-problems').classList.add('hidden');
+    tally_();
+    show_(2);
+  });
+
+  // Step 2 -> 3: preview, read-only.
   document.getElementById('s-preview').addEventListener('click', function () {
     var btn = this, msg = document.getElementById('s-msg');
     msg.classList.add('hidden');
@@ -264,25 +388,32 @@
       if (!result.ok) { showMsg_(msg, false, '<b>' + escapeHtml_(result.error) + '</b> - ' + escapeHtml_(result.message)); return; }
       renderSummary_(result.summary, result.checks, result.target);
       document.getElementById('s-post').disabled = !result.checks.ok;
+      show_(3);
     }, function (err) {
       btn.disabled = false;
       showMsg_(msg, false, escapeHtml_(err && err.message ? err.message : err));
     });
   });
 
+  // Step 3 -> 4: post it.
   document.getElementById('s-post').addEventListener('click', function () {
     var btn = this, msg = document.getElementById('s-msg');
     var name = document.getElementById('s-property').value;
     if (!window.confirm('Close ' + name + '? This posts the sale, releases its costs, pays the partners and locks the property. The Journal is append-only: a mistake is voided and re-posted, not edited.')) return;
     msg.classList.add('hidden');
     btn.disabled = true;
+    btn.textContent = 'Closing...';
     callServer_('sellPost', form_()).then(function (result) {
-      btn.disabled = false;
-      if (!result.ok) { showMsg_(msg, false, '<b>' + escapeHtml_(result.error) + '</b> - ' + escapeHtml_(result.message)); return; }
-      showMsg_(msg, true, 'Closed ' + escapeHtml_(name) + ': ' + result.posted.length + ' entries posted, statement written to ' + escapeHtml_(result.tab) + '.');
-      finishDialog_(btn);
+      btn.textContent = 'Close it';
+      if (!result.ok) { btn.disabled = false; showMsg_(msg, false, '<b>' + escapeHtml_(result.error) + '</b> - ' + escapeHtml_(result.message)); return; }
+      document.getElementById('s-done-head').textContent = 'Closed ' + name;
+      document.getElementById('s-done').innerHTML =
+        result.posted.length + ' entries posted, the statement written to <b>' + escapeHtml_(result.tab) + '</b>' +
+        (result.doc_url ? ', and the closing document filed and linked on every line' : ', with no closing document attached') + '.';
+      show_(4);
     }, function (err) {
       btn.disabled = false;
+      btn.textContent = 'Close it';
       showMsg_(msg, false, escapeHtml_(err && err.message ? err.message : err));
     });
   });

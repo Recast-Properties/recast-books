@@ -25,8 +25,6 @@ function onOpen() {
     .addItem('Post interest...', 'showInterestDialog')
     .addSeparator()
     .addItem('Sell property...', 'showSellDialog')
-    .addItem('Rebuild closing tab', 'rebuildClosingTab')
-    .addItem('Attach closing document...', 'attachClosingDocument')
     .addSeparator()
     .addItem('Close period...', 'closePeriod')
     .addItem('Reopen period...', 'reopenPeriod')
@@ -1066,7 +1064,9 @@ function sellableProperties_(ss) {
   if (last < 2) return [];
   return sheet.getRange(2, 1, last - 1, sheet.getLastColumn()).getValues()
     .map(function (r) { return { name: String(r[cols['name'] - 1] || ''), status: String(r[cols['status'] - 1] || '') }; })
-    .filter(function (p) { return p.name && p.name !== 'Cost Recapture' && p.status.toLowerCase() !== 'sold'; })
+    // Sold properties stay on the list: the dialog opens in its closed view for them, which
+    // is where a late settlement statement is attached (Paul, 2026-09-22: one dialog).
+    .filter(function (p) { return p.name && p.name !== 'Cost Recapture'; })
     .map(function (p) { return p.name; });
 }
 
@@ -1079,8 +1079,11 @@ function sellContext(name) {
     var registry = propertyRow_(ss, name) || {};
     var advances = loadAdvances_(ss).filter(function (a) { return a.property === name; });
     var rate = getAccrualOpts_(ss).rateAnnual;
+    var sold = String(registry.status || '').toLowerCase() === 'sold';
     return {
       ok: true,
+      sold: sold,
+      settlement_date: registry.settlement_date ? formatIsoDate_(registry.settlement_date) : '',
       property: {
         name: name,
         status: String(registry.status || ''),
@@ -1245,7 +1248,7 @@ function sellPost(form) {
     }, closingTabName_(name));
 
     warmCache_();
-    return { ok: true, posted: result.posted, rows: result.rows, tab: written.sheet, summary: plan.summary };
+    return { ok: true, posted: result.posted, rows: result.rows, tab: written.sheet, doc_url: docUrl, summary: plan.summary };
   } catch (err) {
     return { ok: false, error: (err && err.code) || 'INTERNAL', message: String((err && err.message) || err) };
   }
@@ -1258,33 +1261,6 @@ function sellStatementForTab_(form, plan) {
     var posted = l.kind === 'to_recast' ? l.cents - Math.round(l.cents * share) : Math.round(l.cents * share);
     return { label: l.label, account: l.account, kind: l.kind, posted_cents: posted };
   });
-}
-
-/**
- * Re-render a sold property's closing statement from what is posted, so the tab can be
- * rebuilt after a label change or when a post-sale cost arrives. The Journal is the only
- * source: the `sale` entries and the property's balances, never the dialog's form.
- */
-function rebuildClosingTab() {
-  var props = PropertiesService.getScriptProperties();
-  var ss = openWorkbook_(props);
-  var ui = SpreadsheetApp.getUi();
-  try { requireOwner_(ss); } catch (err) { return; }
-
-  var active = String(ss.getActiveSheet().getName() || '').replace(/ - Closing$/, '');
-  var name = active;
-  if (!propertyRow_(ss, name)) {
-    var resp = ui.prompt('Rebuild closing tab', 'Property name (exactly as on the Properties tab):', ui.ButtonSet.OK_CANCEL);
-    if (resp.getSelectedButton() !== ui.Button.OK) return;
-    name = resp.getResponseText().trim();
-  }
-  if (!propertyRow_(ss, name)) { ui.alert('"' + name + '" is not on the Properties tab.'); return; }
-
-  var built = closingFromJournal_(ss, name);
-  if (!built) { ui.alert('No posted sale found for ' + name + '. Use Sell property... first.'); return; }
-  var written = writeClosingTab_(ss, name, built, closingTabName_(name));
-  warmCache_();
-  ui.alert('Rebuilt ' + written.sheet + ' (' + written.rows + ' rows) from the posted sale.');
 }
 
 /** The released cost: one row per account (Paul, 2026-09-22: "separate these costs out
@@ -1302,7 +1278,7 @@ function sellCostByClass_(ss, name, plan) {
   var rows = [], rehabCents = 0, rehabAccounts = [];
   Object.keys(released).sort().forEach(function (a) {
     if (isRehab(a)) {
-      if (!rehabCents && !rehabAccounts.length) rows.push({ rehab: true });
+      if (!rehabAccounts.length) rows.push({ rehab: true });
       rehabCents += released[a];
       rehabAccounts.push(a);
       return;
@@ -1315,6 +1291,67 @@ function sellCostByClass_(ss, name, plan) {
   return rows
     .map(function (r) { return r.rehab ? { label: 'Rehab', cents: rehabCents, accounts: rehabAccounts.join(' ') } : r; })
     .filter(function (r) { return r.cents !== 0; });
+}
+
+/**
+ * Step 2 of the dialog: the document is read on the site (one model call, `/api/settlement`)
+ * and the result fills the form. Nothing is posted, filed or locked by this - Paul confirms
+ * every line, and `sellPost` does the work.
+ */
+function sellReadDocument(req) {
+  var ss = openWorkbook_(PropertiesService.getScriptProperties());
+  try {
+    requireOwner_(ss);
+    if (!req || !req.base64) return { ok: false, error: 'NO_DOCUMENT', message: 'No document was given to read.' };
+    return siteFetchJson_('/api/settlement', 'post', {
+      base64: req.base64, mime: req.mime || 'application/pdf',
+      name: req.name || '', property: req.property || ''
+    });
+  } catch (err) {
+    return { ok: false, error: (err && err.code) || 'INTERNAL', message: String((err && err.message) || err) };
+  }
+}
+
+/**
+ * The dialog's closed view: attach (or replace) the settlement statement on a sale that is
+ * already posted, and rebuild its statement tab. The document often arrives after the close,
+ * and 1616 Granite was posted before the dialog asked for one.
+ */
+function sellUpdate(form) {
+  var props = PropertiesService.getScriptProperties();
+  var ss = openWorkbook_(props);
+  try {
+    requireOwner_(ss);
+    var name = form.property;
+    if (!propertyRow_(ss, name)) return { ok: false, error: 'NOT_FOUND', message: '"' + name + '" is not on the Properties tab.' };
+
+    var linked = 0;
+    var docUrl = sellFileClosingDoc_(form, null, props);
+    if (docUrl) {
+      var journal = ss.getSheetByName('Journal');
+      var cols = headerIndex_(journal);
+      var last = journal.getLastRow();
+      var rows = last > 1 ? journal.getRange(2, 1, last - 1, journal.getLastColumn()).getValues() : [];
+      var ids = {};
+      rows.forEach(function (r) {
+        if (String(r[cols['property'] - 1]) !== name) return;
+        if (String(r[cols['source'] - 1]) !== 'sale') return;
+        ids[String(r[cols['txn_id'] - 1])] = true;
+      });
+      var txnIds = Object.keys(ids);
+      if (!txnIds.length) return { ok: false, error: 'NO_SALE', message: 'No posted sale entries found for ' + name + '.' };
+      linked = setDocUrl_(txnIds, docUrl, props);
+    }
+
+    var built = closingFromJournal_(ss, name);
+    if (!built) return { ok: false, error: 'NO_SALE', message: 'No posted sale found for ' + name + '.' };
+    if (docUrl) built.doc_url = docUrl;
+    var written = writeClosingTab_(ss, name, built, closingTabName_(name));
+    warmCache_();
+    return { ok: true, linked: linked, tab: written.sheet, doc_url: docUrl };
+  } catch (err) {
+    return { ok: false, error: (err && err.code) || 'INTERNAL', message: String((err && err.message) || err) };
+  }
 }
 
 /** The closing statement's numbers, read back out of the posted `sale` entries. Returns
@@ -1369,6 +1406,12 @@ function closingFromJournal_(ss, name) {
   };
 
   var registry = propertyRow_(ss, name) || {};
+  var postedDocUrl = '';
+  rows.forEach(function (r) {
+    if (postedDocUrl || String(r[cols['property'] - 1]) !== name) return;
+    if (String(r[cols['source'] - 1]) !== 'sale') return;
+    postedDocUrl = String(cols['doc_url'] ? r[cols['doc_url'] - 1] || '' : '');
+  });
   // Wording for each settlement line, best first: what the Journal line itself carries,
   // then whatever is already typed on the tab (so a label Paul improves survives a
   // rebuild, like the property tab's typed Sale Price), then the account's own name.
@@ -1454,7 +1497,7 @@ function closingFromJournal_(ss, name) {
     profit: readLabelledValue_(tab, 'Net Profit')
   } : { sale_price: '', total_cost: '', profit: '' };
 
-  return { summary: summary, statementLines: statementLines, costByClass: costByClass, forecast: forecast };
+  return { summary: summary, statementLines: statementLines, costByClass: costByClass, forecast: forecast, doc_url: postedDocUrl };
 }
 
 /** Statement-line wording already on a closing tab, by account: the label in column B of
@@ -1489,44 +1532,3 @@ function sellFileClosingDoc_(form, summary, props) {
   return String(form.doc_url || '').trim();
 }
 
-/**
- * Attach (or correct) the closing document on a sale that is already posted: every
- * `sale` entry for the property gets its doc_url. The settlement statement often arrives
- * or is filed after the close, and 1616 Granite was posted before the dialog took one.
- */
-function attachClosingDocument() {
-  var props = PropertiesService.getScriptProperties();
-  var ss = openWorkbook_(props);
-  var ui = SpreadsheetApp.getUi();
-  try { requireOwner_(ss); } catch (err) { return; }
-
-  var name = String(ss.getActiveSheet().getName() || '').replace(/ - Closing$/, '');
-  if (!propertyRow_(ss, name)) {
-    var whose = ui.prompt('Attach closing document', 'Property name (exactly as on the Properties tab):', ui.ButtonSet.OK_CANCEL);
-    if (whose.getSelectedButton() !== ui.Button.OK) return;
-    name = whose.getResponseText().trim();
-  }
-  if (!propertyRow_(ss, name)) { ui.alert('"' + name + '" is not on the Properties tab.'); return; }
-
-  var resp = ui.prompt('Attach closing document', 'Drive link to ' + name + "'s settlement statement:", ui.ButtonSet.OK_CANCEL);
-  if (resp.getSelectedButton() !== ui.Button.OK) return;
-  var url = resp.getResponseText().trim();
-  if (!url) return;
-
-  var journal = ss.getSheetByName('Journal');
-  var cols = headerIndex_(journal);
-  var last = journal.getLastRow();
-  var rows = last > 1 ? journal.getRange(2, 1, last - 1, journal.getLastColumn()).getValues() : [];
-  var ids = {};
-  rows.forEach(function (r) {
-    if (String(r[cols['property'] - 1]) !== name) return;
-    if (String(r[cols['source'] - 1]) !== 'sale') return;
-    ids[String(r[cols['txn_id'] - 1])] = true;
-  });
-  var txnIds = Object.keys(ids);
-  if (!txnIds.length) { ui.alert('No posted sale entries found for ' + name + '.'); return; }
-
-  var n = setDocUrl_(txnIds, url, props);
-  warmCache_();
-  ui.alert('Linked the settlement statement on ' + n + ' Journal line(s) across ' + txnIds.length + ' sale entries for ' + name + '.');
-}

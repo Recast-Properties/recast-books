@@ -256,15 +256,22 @@ estimates the tax proration on its own line). Paul's call, not a blocker.
    flips `Properties` to `sold` with its settlement date, and writes the closing statement as values to
    `closingTabName_()` - `<property> - Closing` until `CLOSING_TAB_IN_PLACE` is set true. The closing
    document's link lands on every entry of the run and on the tab.
-   **Being reshaped to §1's four steps (2026-09-22):** the document moves to the front and prepopulates the
-   form, and the two extra menu items fold back into the one dialog. What that needs:
-   - `netlify/functions/books-settlement.mjs` -> `/api/settlement`: poller secret, takes the document,
-     returns §1.1's shape. One model call, no gate, nothing posted.
-   - `lib/settlement.mjs` (pure): the prompt and the validation of what comes back - the kinds, the
-     account proposals, the ties check - unit-tested against both real statements as fixtures.
-   - `Sell.html`: four steps with Back/Next instead of one long form; a sold property opens the closed view.
-   - `Menu.gs`: `sellReadDocument(form)` calls the endpoint; `sellUpdate(form)` is the closed view's
-     attach-and-rebuild; `rebuildClosingTab` and `attachClosingDocument` come off the menu.
+   ✅ **Reshaped to §1's four steps, 2026-09-22.** One menu item, `Sell property…`; the "Rebuild closing
+   tab" and "Attach closing document…" items are gone, folded into the dialog's closed view. What runs:
+   - `lib/settlement.mjs` (pure): the prompt, the strict tool and the validation of what comes back -
+     the kinds, the account proposals, the ties check. 13 tests, both real statements as fixtures, each
+     driving `buildSalePlan` to the numbers already posted.
+   - `netlify/functions/books-settlement.mjs` -> `/api/settlement` (poller secret): one model read, no
+     gate, nothing posted. 15 tests with the SDK stubbed, covering auth, what a document may be, the
+     request shape, a refusal, a turn with no tool call and an API failure.
+   - `Sell.html`: four steps with Back and Next. Step 2 shows what was read, every line with the words
+     that chose its account, the problems the validation found, and the live tally. `Skip and type it in`
+     is still there for a sale with no document to hand.
+   - `Menu.gs`: `sellReadDocument` calls the endpoint; `sellUpdate` is the closed view (attach the
+     document, relink the sale's entries, rebuild the tab); `sellContext` reports whether the property is
+     already sold, and sold properties stay in the dropdown so the closed view is reachable.
+   - Guard tests added after three self-inflicted breakages: no function declared twice, every menu item
+     names a function that exists, and **every private helper called in the writer is declared somewhere**.
 3. Payout report PDF (Drive) - from the Closing tab (`Spreadsheet → PDF` export of that sheet).
 4. Gate: re-run Granite (with the holdback release) and Sparkling in production - the Journal is append-only,
    a wrong run is voided and re-posted; tie-out per §5. Then Newport and Ashburne when they close.

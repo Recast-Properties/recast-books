@@ -96,6 +96,26 @@ for (const [tab, headers] of Object.entries(SPEC_HEADERS)) {
   });
 }
 
+test("every private helper called in Code.gs or Menu.gs is declared somewhere in the project", () => {
+  // Three times in one session an edit deleted a helper that was still being called, and
+  // nothing caught it until Paul clicked the menu and nothing happened. The repo's
+  // convention is that a private helper's name ends in an underscore, so every such call
+  // must resolve to a declaration in Code.gs, Menu.gs or the generated lib.gs.
+  const files = ["Code.gs", "Menu.gs", "lib.gs"].map((f) => readFileSync(new URL(`../apps-script/writer/${f}`, import.meta.url), "utf8"));
+  const all = files.join("\n");
+  const declared = new Set([
+    ...[...all.matchAll(/^\s*function\s+([A-Za-z0-9_]+)\s*\(/gm)].map((m) => m[1]),
+    ...[...all.matchAll(/^\s*var\s+([A-Za-z0-9_]+)\s*=\s*function/gm)].map((m) => m[1]),
+  ]);
+  const missing = new Set();
+  for (const src of files.slice(0, 2)) {
+    for (const m of src.matchAll(/(?<![.\w])([a-z][A-Za-z0-9]*_)\s*\(/g)) {
+      if (!declared.has(m[1])) missing.add(m[1]);
+    }
+  }
+  assert.deepEqual([...missing], [], `called but never declared: ${[...missing].join(", ")}`);
+});
+
 test("no function is declared twice in Code.gs or Menu.gs: in Apps Script the last one silently wins", () => {
   for (const file of ["Code.gs", "Menu.gs"]) {
     const src = readFileSync(new URL(`../apps-script/writer/${file}`, import.meta.url), "utf8");
