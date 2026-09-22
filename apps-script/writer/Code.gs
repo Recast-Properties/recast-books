@@ -1243,7 +1243,7 @@ function setupPropertyTab(name) {
   var advanceSchedule = function (top, title, kindFactor, n) {
     set(top, 4, title, true); paint(top, 4, IC - 4, C.head); paint(top, IC, 1, C.total);
     set(top + 1, 4, 'Start Date', true); set(top + 1, 5, 'End Date', true);
-    if (heavy) set(top + 1, 6, 'Description', true);
+    if (heavy) { set(top + 1, 6, 'Description', true); set(top, PC, 'P+I', true); }   // Paul's label beside the header total (2026-09-22)
     set(top + 1, PC, 'Principal', true); set(top + 1, IC, 'Interest to Date', true);
     paint(top + 1, 4, IC - 3, C.sub);
     var crit = advCritBase + '*' + kindFactor;
@@ -1330,8 +1330,9 @@ function setupPropertyTab(name) {
     set(s, 1, 'Total Project Cost (All in)', true); var hTotal = s; paint(s, 1, 1, C.head); paint(s, 2, 1, C.total); s++;
     set(s, 1, 'Purchase Principal + Interest'); set(s, 2, '=' + purchasePayoffRef); var hFirst = s++;
     set(s, 1, 'Cash Advance Principal + Interest'); set(s, 2, '=' + cashPayoffRef); s++;
-    set(s, 1, 'Property Tax Paid'); set(s, 2, '=' + net(eq('E', '1100'))); s++;
-    set(s, 1, '="Property Tax Paid (Prorated"&IF(' + TAX + '="","",", "&TEXT(' + TAX + ',"$#,##0")&"/yr")&")"'); set(s, 2, '=' + PRORATE); s++;
+    set(s, 1, 'Property Tax Paid'); set(s, 2, '=' + net(eq('E', '1100'))); var hTaxPaid = s++;
+    // Paul, 2026-09-22: prorate the amount actually paid (the old tab's method), not the levy.
+    set(s, 1, 'Property Tax Paid (Prorated)'); set(s, 2, '=IF(' + SETTLE + '<>"",0,B' + hTaxPaid + '*($B$1-DATE(YEAR($B$1),1,1))/365)'); s++;
     set(hTotal, 2, '=SUM(B' + hFirst + ':B' + (s - 1) + ')', true);
     s++;
     paint(s, 1, 2, C.head); set(s++, 1, 'Profit Breakdown', true);
