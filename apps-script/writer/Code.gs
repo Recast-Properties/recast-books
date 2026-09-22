@@ -1748,6 +1748,7 @@ function writeClosingTab_(ss, name, plan, target) {
   var total = function (label, value, note) { totals.push(push(label, value, note)); };
 
   push(name + ' - CLOSED ' + s.date, null, s.recast_share_pct < 100 ? "Recast's share " + s.recast_share_pct + '%' : '');
+  if (plan.doc_url) push('Settlement statement', '=HYPERLINK("' + String(plan.doc_url).replace(/"/g, '') + '","the title company document")', '');
   push('', null, '');
 
   head('SETTLEMENT');

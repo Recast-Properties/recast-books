@@ -46,6 +46,17 @@
 
 <div class="row" style="margin-top:10px">
   <div>
+    <label>Closing document from the title company (PDF)</label>
+    <input type="file" id="s-doc" accept="application/pdf,image/*">
+  </div>
+  <div>
+    <label>...or a Drive link, if it is already filed</label>
+    <input type="text" id="s-doc-url" placeholder="https://drive.google.com/file/d/...">
+  </div>
+</div>
+
+<div class="row">
+  <div>
     <label>Dennis's agreed interest (blank = the engine's figure)</label>
     <input type="number" id="s-interest" step="0.01">
   </div>
@@ -152,8 +163,23 @@
       recapture: document.getElementById('s-recapture').value,
       lines: readLines_(),
       advances: readAdvances_(),
+      doc_url: document.getElementById('s-doc-url').value,
+      doc_name: DOC.name, doc_mime: DOC.mime, doc_base64: DOC.base64,
     };
   }
+
+  // The closing document, read in the dialog so the writer can file it to Drive and put
+  // its link on every entry of the sale (the sale is evidenced like any receipt).
+  var DOC = { name: '', mime: '', base64: '' };
+  document.getElementById('s-doc').addEventListener('change', function () {
+    var f = this.files && this.files[0];
+    if (!f) { DOC = { name: '', mime: '', base64: '' }; return; }
+    var reader = new FileReader();
+    reader.onload = function () {
+      DOC = { name: f.name, mime: f.type || 'application/pdf', base64: String(reader.result).split(',')[1] || '' };
+    };
+    reader.readAsDataURL(f);
+  });
 
   function row_(label, cents, note) {
     return '<tr><td>' + escapeHtml_(label) + '</td><td class="num">' + formatCents_(cents) + '</td><td>' +

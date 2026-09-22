@@ -26,6 +26,7 @@ function onOpen() {
     .addSeparator()
     .addItem('Sell property...', 'showSellDialog')
     .addItem('Rebuild closing tab', 'rebuildClosingTab')
+    .addItem('Attach closing document...', 'attachClosingDocument')
     .addSeparator()
     .addItem('Close period...', 'closePeriod')
     .addItem('Reopen period...', 'reopenPeriod')
@@ -1132,7 +1133,7 @@ function sellAdvances_(form, ss, name) {
   });
 }
 
-function sellPlan_(ss, form) {
+function sellPlan_(ss, form, docUrl) {
   var name = form.property;
   var registry = propertyRow_(ss, name) || {};
   var bank = Number(registry.dennis_share_pct) === 0 || String(form.deal || '') === 'bank';
@@ -1148,6 +1149,7 @@ function sellPlan_(ss, form) {
     balances: propertyBalances_(ss, name),
     interestFigureCents: form.interest_figure === '' || form.interest_figure == null ? null : toCents(form.interest_figure),
     recaptureCents: form.recapture === '' || form.recapture == null ? 0 : toCents(form.recapture),
+    docUrl: docUrl || '',
     postedBy: Session.getActiveUser().getEmail()
   });
 }
@@ -1193,6 +1195,11 @@ function sellPost(form) {
       profit: readLabelledValue_(tab, 'Net Profit')
     } : { sale_price: '', total_cost: '', profit: '' };
 
+    // The closing document is the evidence for the whole run, so it is filed (or its
+    // Drive link taken) BEFORE the entries are built and lands on every one of them.
+    var docUrl = sellFileClosingDoc_(form, plan.summary, props);
+    if (docUrl) plan = sellPlan_(ss, form, docUrl);
+
     var ctx = buildCtx_(ss);
     var entries = plan.intents.map(function (intent) { return buildEntry(intent, ctx); });
     var result = postBatchEntries_(entries, props, true);
@@ -1230,6 +1237,7 @@ function sellPost(form) {
     }
 
     var written = writeClosingTab_(ss, name, {
+      doc_url: docUrl,
       summary: plan.summary,
       statementLines: sellStatementForTab_(form, plan),
       costByClass: sellCostByClass_(ss, name, plan),
@@ -1465,4 +1473,60 @@ function closingTabLabels_(ss, target) {
     if (label && /^[0-9]{4}$/.test(note) && !/^account [0-9]{4}$/.test(label)) out[note] = label;
   });
   return out;
+}
+
+/** The closing document for a sale: either the PDF the dialog uploaded (filed to the
+ *  property's Drive folder, same path as a receipt) or a Drive link already pasted in.
+ *  Returns the url, or '' when neither was given. */
+function sellFileClosingDoc_(form, summary, props) {
+  if (form.doc_base64) {
+    var folder = [String(form.date || '').slice(0, 4), form.property];
+    var name = String(form.date || '') + ' ' + form.property + ' settlement statement';
+    var ext = String(form.doc_name || '').match(/\.[A-Za-z0-9]+$/);
+    var stored = storeDocument_(name + (ext ? ext[0] : '.pdf'), form.doc_mime || 'application/pdf', form.doc_base64, folder, props);
+    return stored.url;
+  }
+  return String(form.doc_url || '').trim();
+}
+
+/**
+ * Attach (or correct) the closing document on a sale that is already posted: every
+ * `sale` entry for the property gets its doc_url. The settlement statement often arrives
+ * or is filed after the close, and 1616 Granite was posted before the dialog took one.
+ */
+function attachClosingDocument() {
+  var props = PropertiesService.getScriptProperties();
+  var ss = openWorkbook_(props);
+  var ui = SpreadsheetApp.getUi();
+  try { requireOwner_(ss); } catch (err) { return; }
+
+  var name = String(ss.getActiveSheet().getName() || '').replace(/ - Closing$/, '');
+  if (!propertyRow_(ss, name)) {
+    var whose = ui.prompt('Attach closing document', 'Property name (exactly as on the Properties tab):', ui.ButtonSet.OK_CANCEL);
+    if (whose.getSelectedButton() !== ui.Button.OK) return;
+    name = whose.getResponseText().trim();
+  }
+  if (!propertyRow_(ss, name)) { ui.alert('"' + name + '" is not on the Properties tab.'); return; }
+
+  var resp = ui.prompt('Attach closing document', 'Drive link to ' + name + "'s settlement statement:", ui.ButtonSet.OK_CANCEL);
+  if (resp.getSelectedButton() !== ui.Button.OK) return;
+  var url = resp.getResponseText().trim();
+  if (!url) return;
+
+  var journal = ss.getSheetByName('Journal');
+  var cols = headerIndex_(journal);
+  var last = journal.getLastRow();
+  var rows = last > 1 ? journal.getRange(2, 1, last - 1, journal.getLastColumn()).getValues() : [];
+  var ids = {};
+  rows.forEach(function (r) {
+    if (String(r[cols['property'] - 1]) !== name) return;
+    if (String(r[cols['source'] - 1]) !== 'sale') return;
+    ids[String(r[cols['txn_id'] - 1])] = true;
+  });
+  var txnIds = Object.keys(ids);
+  if (!txnIds.length) { ui.alert('No posted sale entries found for ' + name + '.'); return; }
+
+  var n = setDocUrl_(txnIds, url, props);
+  warmCache_();
+  ui.alert('Linked the settlement statement on ' + n + ' Journal line(s) across ' + txnIds.length + ' sale entries for ' + name + '.');
 }

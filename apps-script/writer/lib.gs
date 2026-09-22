@@ -1909,6 +1909,7 @@ var M_sale = (function () {
     balances = {},
     interestFigureCents = null,
     recaptureCents = 0,
+    docUrl = "",
     postedBy = "",
   }) {
     const date = settlement.date;
@@ -1924,7 +1925,7 @@ var M_sale = (function () {
     const saleLines = [...st.byAccount].map(([account, cents]) =>
       line(account, cents, { property: property.name, description: st.labels.get(account) || "" }));
     const intents = [{
-      type: "journal", date, source: "sale", posted_by: postedBy,
+      type: "journal", date, source: "sale", posted_by: postedBy, doc_url: docUrl,
       memo: `${memoBase}: settlement statement`,
       lines: saleLines,
     }];
@@ -1938,7 +1939,7 @@ var M_sale = (function () {
     const accrueNow = engineInterest - postedInterest;
     if (accrueNow !== 0) {
       intents.push({
-        type: "journal", date, source: "sale", posted_by: postedBy,
+        type: "journal", date, source: "sale", posted_by: postedBy, doc_url: docUrl,
         memo: `${memoBase}: interest accrued to repayment (${detail.length} advance${detail.length === 1 ? "" : "s"})`,
         lines: [line(INTEREST_COST, accrueNow, { property: property.name }), line(INTEREST_ACCRUED, -accrueNow, { property: property.name })],
       });
@@ -1946,7 +1947,7 @@ var M_sale = (function () {
     const trueUp = agreedInterest - engineInterest;
     if (trueUp !== 0) {
       intents.push({
-        type: "journal", date, source: "sale", posted_by: postedBy,
+        type: "journal", date, source: "sale", posted_by: postedBy, doc_url: docUrl,
         memo: `${memoBase}: interest true-up to Dennis's agreed figure (D-015)`,
         lines: [line(INTEREST_COST, trueUp, { property: property.name }), line(INTEREST_ACCRUED, -trueUp, { property: property.name })],
       });
@@ -1958,7 +1959,7 @@ var M_sale = (function () {
       : 0;
     if (commission) {
       intents.push({
-        type: "journal", date, source: "sale", posted_by: postedBy,
+        type: "journal", date, source: "sale", posted_by: postedBy, doc_url: docUrl,
         memo: `${memoBase}: Dennis's ${property.dennis_commission_pct}% commission on the sale price (bank deal)`,
         lines: [line(DENNIS_FEES, commission, { property: property.name }), line(DENNIS_NOTE, -commission, { property: property.name })],
       });
@@ -1982,7 +1983,7 @@ var M_sale = (function () {
 
     if (dennis_share_cents) {
       intents.push({
-        type: "journal", date, source: "sale", posted_by: postedBy,
+        type: "journal", date, source: "sale", posted_by: postedBy, doc_url: docUrl,
         memo: `${memoBase}: Dennis's ${dennisPct}% of net profit`,
         lines: [line(DENNIS_SHARE, dennis_share_cents, { property: property.name }), line(DENNIS_NOTE, -dennis_share_cents, { property: property.name })],
       });
@@ -1992,7 +1993,7 @@ var M_sale = (function () {
     // ---- 5. release every project cost to COGS ------------------------------------------
     const released_cents = [...cost.values()].reduce((t, c) => t + c, 0);
     intents.push({
-      type: "journal", date, source: "sale", posted_by: postedBy,
+      type: "journal", date, source: "sale", posted_by: postedBy, doc_url: docUrl,
       memo: `${memoBase}: project cost released to COGS`,
       lines: [
         line(COGS, released_cents, { property: property.name }),
@@ -2022,7 +2023,7 @@ var M_sale = (function () {
     const payDennis = payDennisNote + payDennisShare + payDennisInterest;
     if (payDennis) {
       intents.push({
-        type: "journal", date, source: "sale", posted_by: postedBy,
+        type: "journal", date, source: "sale", posted_by: postedBy, doc_url: docUrl,
         memo: `${memoBase}: paid to Dennis — principal, interest and his share`,
         lines: [...dennisLines, line(CASH, -payDennis, { property: property.name, payee: "Dennis Little" })],
       });
@@ -2034,7 +2035,7 @@ var M_sale = (function () {
     const payPaul = payPaulDue + payPaulShare;
     if (payPaul) {
       intents.push({
-        type: "journal", date, source: "sale", posted_by: postedBy,
+        type: "journal", date, source: "sale", posted_by: postedBy, doc_url: docUrl,
         memo: `${memoBase}: paid to Paul — costs he fronted and his share`,
         lines: [...paulLines, line(CASH, -payPaul, { property: property.name, payee: "Paul Bjork" })],
       });
@@ -2078,23 +2079,23 @@ var M_sale = (function () {
    * The escrow holdback, when the money actually arrives (D-036 §1: Granite's $60,000 came
    * in on 2026-09-11, split 50/50). Dr cash / Cr 1510, then the partners' unpaid shares.
    */
-  function buildHoldbackRelease({ property, date, amount_cents, dennis_cents, paul_cents, postedBy = "" }) {
+  function buildHoldbackRelease({ property, date, amount_cents, dennis_cents, paul_cents, docUrl = "", postedBy = "" }) {
     const name = property.name;
     const intents = [{
-      type: "journal", date, source: "sale", posted_by: postedBy,
+      type: "journal", date, source: "sale", posted_by: postedBy, doc_url: docUrl,
       memo: `${name} escrow holdback released ${date}`,
       lines: [line(CASH, amount_cents, { property: name }), line(HOLDBACK, -amount_cents, { property: name })],
     }];
     if (dennis_cents) {
       intents.push({
-        type: "journal", date, source: "sale", posted_by: postedBy,
+        type: "journal", date, source: "sale", posted_by: postedBy, doc_url: docUrl,
         memo: `${name} holdback: Dennis's share`,
         lines: [line(DENNIS_NOTE, dennis_cents, { property: name, payee: "Dennis Little" }), line(CASH, -dennis_cents, { property: name, payee: "Dennis Little" })],
       });
     }
     if (paul_cents) {
       intents.push({
-        type: "journal", date, source: "sale", posted_by: postedBy,
+        type: "journal", date, source: "sale", posted_by: postedBy, doc_url: docUrl,
         memo: `${name} holdback: Paul's share`,
         lines: [line(OWNER_DRAWS, paul_cents, { property: name, payee: "Paul Bjork" }), line(CASH, -paul_cents, { property: name, payee: "Paul Bjork" })],
       });

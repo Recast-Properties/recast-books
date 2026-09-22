@@ -220,6 +220,15 @@ test("280 Sparkling reproduces the closed tab at Recast's half: profit 60,930 an
 
 // ---- the rules that must not drift -------------------------------------------------------
 
+test("the settlement statement's Drive link lands on every entry of the run, so the sale is documented like any receipt", () => {
+  const url = "https://drive.google.com/file/d/10Iz6FAyc4OMKF0vuK_yjnKnfrU8zwEmP/view";
+  const { intents } = buildSalePlan({ ...GRANITE, docUrl: url });
+  assert.equal(intents.length, 7);
+  for (const i of intents) assert.equal(i.doc_url, url, `no doc_url on: ${i.memo}`);
+  const without = buildSalePlan(GRANITE);
+  for (const i of without.intents) assert.equal(i.doc_url, "");
+});
+
 test("a bank deal takes a commission on the full price and no profit share (D-030, D-036 §3)", () => {
   const { summary } = buildSalePlan({
     ...GRANITE,
