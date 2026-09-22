@@ -1606,7 +1606,7 @@ function heavyBlocks_(ss, name) {
   }
   var out = PT_HEAVY_ORDER.filter(function (t) { return true; });
   Object.keys(seen).sort().forEach(function (t) { if (out.indexOf(t) < 0) out.push(t); });
-  out.push('(no trade)'); out.push('Utilities');
+  out.push('(no trade)'); if (out.indexOf('Utilities') < 0) out.push('Utilities');
   return out;
 }
 // Values for a heavy tab: rehab lines by trade (Holding lines under Utilities).
@@ -1620,11 +1620,14 @@ function refreshHeavyBlocks_(ss, name) {
   var lines = rows.filter(function (r) {
     return String(g(r, 'property')) === name && String(g(r, 'source')) !== 'void' && !voided[String(g(r, 'txn_id'))] && formatIsoDate_(g(r, 'date')) <= today;
   });
-  var isRehab = function (r) { var cc = String(g(r, 'cost_class')); return cc === 'Rehab' || (cc === 'Acquisition' && String(g(r, 'account')) !== '1000'); };
+  // A block holds the lines carrying its trade name, whatever their class (the old tab's
+  // Insurance and Utilities blocks are Holding lines - 2026-09-22: they had all been pushed
+  // into Utilities and the property tax with them). The purchase (1000) and the property
+  // tax (1100) live in the summary, not in a block; financing (1200) never on the tab.
+  var onTab = function (r) { var a = String(g(r, 'account')), cc = String(g(r, 'cost_class')); return a !== '1000' && a !== '1100' && (cc === 'Rehab' || cc === 'Holding' || cc === 'Acquisition' || cc === 'Selling'); };
   heavyBlocks_(ss, name).forEach(function (blk, i) {
-    var pick = blk === 'Utilities' ? function (r) { return String(g(r, 'cost_class')) === 'Holding'; }
-             : blk === '(no trade)' ? function (r) { return isRehab(r) && !String(g(r, 'trade') || '').trim(); }
-             : function (r) { return isRehab(r) && String(g(r, 'trade') || '').trim() === blk; };
+    var pick = blk === '(no trade)' ? function (r) { return onTab(r) && !String(g(r, 'trade') || '').trim(); }
+             : function (r) { return onTab(r) && String(g(r, 'trade') || '').trim() === blk; };
     var out = lines.filter(pick).map(function (r) { return [g(r, 'payee'), g(r, 'date'), g(r, 'description'), Number(g(r, 'debit') || 0) - Number(g(r, 'credit') || 0)]; });
     out.sort(function (x, y) { return formatIsoDate_(x[1]) < formatIsoDate_(y[1]) ? -1 : formatIsoDate_(x[1]) > formatIsoDate_(y[1]) ? 1 : 0; });
     out = out.slice(0, PT_LINES_N); while (out.length < PT_LINES_N) out.push(['', '', '', '']);
