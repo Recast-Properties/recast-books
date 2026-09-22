@@ -772,3 +772,21 @@ not stored, until a second co-owned deal justifies a column.
 double every Sparkling cost already migrated and break the old-books tie-out (D-027). This decision is what
 the migrated numbers already assume.
 
+## D-038 · The advance rate is per advance: the two closed deals were 8%, held stays 9% - 2026-09-22 · Paul
+
+Audit §59 found the engine and both closed tabs disagreeing on interest. The engine is right - it reproduces
+881 Newport's live formula to the cent at 9% on two dates - so the rate was the variable: Granite's and
+Sparkling's agreed interest matches **8%** (within $7.83 and $1.17), not the 9% their advance rows carry.
+
+Paul: "yes, they were at 8%. i leave it at 9% in case the rate fluctuates."
+
+**Decided:**
+1. **`rate_pct` is a fact of each advance** (D-022 already), not a global. Granite's three advances and
+   Sparkling's purchase are corrected to **8** - the rate Dennis was actually paid on deals that are closed.
+2. **The four held properties stay at 9%** (136 Bowling Green, 206 White Rock, 366 Mesa, 469 Brushwood) - a
+   deliberate forecast buffer, high rather than low, in case Dennis's rate moves before they sell. 881
+   Newport is 9% by evidence; 104 Ashburne is 12% (D-030, D-032). A tab that forecasts interest high is the
+   safe direction; the figure that settles the payout is Dennis's agreed one, trued up once (D-015 §2).
+3. Nothing posted depends on either number today - no 1200 interest line exists for any property (D-033) -
+   so this is a four-cell edit on the Advances tab, not a void-and-repost.
+

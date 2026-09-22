@@ -1740,3 +1740,9 @@ during the year, which rate applies to the four held properties whose advances a
 Green, 206 White Rock, 366 Mesa, 469 Brushwood)? Ashburne's 12% is confirmed (D-030/D-032). The remaining
 few dollars are what D-015's true-up posts either way: Paul types the agreed figure, the engine's figure sits
 beside it, the difference posts once.
+
+**Answered (D-038, 2026-09-22):** Paul - "yes, they were at 8%. i leave it at 9% in case the rate
+fluctuates." Granite's three advances and Sparkling's purchase go to 8; the four held properties keep 9 as a
+deliberate high-side forecast buffer. `lib/sale.mjs`'s fixtures already use 8% for the two closed deals, and
+the true-up is then $7.83 and $1.17 instead of $877.45 and $354.07.
+
