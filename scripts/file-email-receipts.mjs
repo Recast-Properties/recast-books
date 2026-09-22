@@ -4,6 +4,7 @@
 // gm-1a0c5fe6adfe0cdd). New uploads get email.txt at upload time; this only serves the old ones.
 //
 //   read -s "WRITER_SECRET?Writer secret: " && export WRITER_SECRET && node scripts/file-email-receipts.mjs <docId> [<docId>…]
+// A docId given as <docId>=<drive url> is already filed (the reply was lost): only the link is written.
 // (WRITER_SECRET is masked on Netlify; WRITER_URL is read from Netlify's production context.)
 // Per docId: stores email.txt in books-docs if the envelope has no attachment, files it through
 // the writer's storeDocument under <year>/<property>, writes doc_url on the posted lines
@@ -26,7 +27,8 @@ const store = getStore({ name: "books-docs", siteID, token, consistency: "strong
 const writerUrl = execFileSync("npx", ["netlify-cli", "env:get", "WRITER_URL", "--context", "production"], { encoding: "utf8" }).trim();
 const writer = createWriter({ url: writerUrl, secret: process.env.WRITER_SECRET });
 
-for (const docId of ids) {
+for (const arg of ids) {
+  const [docId, knownUrl = ""] = arg.split("=", 2);
   const env = await store.get(`doc/${docId}`, { type: "json" });
   if (!env) { console.log(`${docId}: no envelope`); continue; }
   const txnIds = env.result?.txn_ids || [];
@@ -42,8 +44,8 @@ for (const docId of ids) {
   }
   const first = env.model?.entries?.[0] || {};
   const folder = [String(first.date || env.receivedAt || "").slice(0, 4), first.property || "OVERHEAD"];
-  let docUrl = "";
-  for (let i = 0; i < atts.length; i++) {
+  let docUrl = knownUrl;
+  for (let i = 0; i < atts.length && !knownUrl; i++) {
     const base64 = await store.get(atts[i].key || `att/${docId}/${i}`, { type: "text" });
     if (!base64) continue;
     const name = driveFileName(env.model, atts[i].name || `attachment-${i}`, i);
