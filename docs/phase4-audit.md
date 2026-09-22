@@ -1634,3 +1634,34 @@ receipts, Bison gift cards, Alaska Airlines.
 
 After the run the store reads `pending 18` = 12 parked + 6 live; one dismissed envelope read back carries the
 note (`review.by = "workbook"`, the poller-secret path). Nothing on the Journal or any tab changed.
+
+## 56 · The properties@ poller switched on (2026-09-22) - and the first reads refused
+
+**Set up (Paul, one step at a time):** signed in as properties@, a new project "Recast Books Poller —
+properties" shared with paul@ as editor; pushed from `apps-script/poller/` with `clasp push -f -P
+.clasp-properties.json` (git-ignored copy of `.clasp.json` with script id `1k2htSsuL2JV…RoTZ`), pulled back into a
+scratch folder and `cmp`-identical; script properties set by hand before `setup` (`MAILBOX=properties`,
+`POLLER_SECRET` = the writer's, `BOOKS_UPLOAD_URL`, `START_DATE=2026-09-17`); `setup` run 09:24 PT: "POLLER_SECRET
+already set", one `pollBooks` trigger, no digest. The 09-17 listing project "Recast Books Poller (properties)"
+(`1jbU7…`) has no triggers (Paul checked) and is left as is. Ids in `phase0-spec.md` §10.
+
+**First run, 09:52 PT:** `books-cache` key `mailbox/labels` (absent until then - the instance had never run)
+now holds 10 labels: 469 Brushwood, 280 Sparkling, 1616 Granite, 104 Ashburne, 206 Whiterock, 881Newport,
+136 Bowling Green, 366 Mesa, 200 Janice, 413 Green Acres - every one normalises to a registered Properties
+name (all ten rows are `held`; Granite and Sparkling are sold but stay `held` until Phase 5's sell wizard).
+Five messages since 09-17 uploaded, all Paul's forwards of 09-21: Energy Texas $559.34 and Farmers
+Insurance and Berrett Pest Control (104 Ashburne), Central States Water and a payment reminder (366 Mesa).
+
+**All five reads came back as holds with no read:** `stop_reason: "refusal"`, `stop_details.category:
+"reasoning_extraction"`, at the turn where the model would call `decide` (after its ledger and document
+lookups). No fresh read had run since the morning deploy (§52's 12 "reads" at 14:16Z were re-posts from
+stored reads, $0); the change that went out with it described the new `checked` field as **"Your working:
+what you zoomed, reconciled, looked up…"** - a request for the model's reasoning, which is what that
+classifier answers. Fix (commit 32398fa, 398 tests): `checked` is "the verification record for the
+reviewer" (tool description and prompt), and every bookkeeper call now goes through `beta.messages` with
+`betas: ["server-side-fallback-2026-07-01"], fallbacks: "default"` - a refusal re-runs the same request on
+a fallback model inside the call; a fallback-served turn is written to the transcript. Deployed by Paul
+10:0x PT. **Verified:** the Energy Texas bill re-read (reprocess, poller secret) on the normal model, no
+fallback: verdict post, $559.34, 104 Ashburne, account 1120 - held by the gate for Paul (OVER_CEILING,
+PAYER_UNKNOWN: the bill is set for auto pay on 10-05). No Journal twin (last Energy Texas row 09-03,
+$484.43). The other four were re-read the same way.

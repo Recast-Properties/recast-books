@@ -714,3 +714,7 @@ receipts he had held since 09-17.
 - **Inbox leftovers (§55).** 387 pending envelopes from the migration reads dismissed on Paul's yes, each
   with a note naming why it is settled (`scripts/inbox-leftovers.mjs`); 18 left: 12 parked Home Depot / Lowe's
   receipts for Phase 3 and Paul's 6 live cards.
+- **properties@ poller ON (§56).** Second poller instance created under properties@ and pushed with `clasp push -P`;
+  first run posted 10 labels and uploaded the 5 property forwards of 09-21. All 5 reads were API refusals
+  (`reasoning_extraction`): the new `checked` field asked for "your working". Reworded; every bookkeeper call now
+  carries the server-side refusal fallback (`fallbacks: "default"`). Re-read clean on the normal model.
