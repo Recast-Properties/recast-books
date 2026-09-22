@@ -15,7 +15,7 @@ D-006, D-010, D-011, D-015, D-017, D-021, D-022, D-030, D-031, D-032, D-034, `do
 | Property | dropdown of `held` properties (also "under contract" rows: D-017) | must have at least one Advances row or a 1000 purchase line |
 | Settlement statement (ALTA / closing disclosure) | PDF or photo upload in the dialog | Claude reads it (one model call, ~$0.30) into typed lines; **Paul confirms every line** before anything posts. No statement → PRELIMINARY payout only, nothing posts |
 | Settlement date | the statement | every entry of the run is dated this day |
-| Dennis's interest figure | typed by Paul (D-015 §2) | the engine's accrual through the settlement date is shown beside it; the difference posts as one true-up |
+| Dennis's interest figure | typed by Paul (D-015 §2) | the engine's accrual **through each advance's repayment date, not the settlement date** (they differ: Granite closed 07-24, Dennis was repaid 07-27 - audit §59) is shown beside it; the difference posts as one true-up |
 | Reserve to leave in the shared account | typed, optional (BUILD-PLAN "Open 2026-09-11") | reduces the Recast account's payout, nothing else |
 | Cost Recapture balance to settle | shown, tick to include (D-031, D-015 §4) | per-partner adjustment line on this payout |
 
@@ -67,16 +67,27 @@ Sales tab - confirm the other $30,000 went to Dennis and nothing was deducted (�
 **Post-sale costs** need nothing from the wizard: the bookkeeper posts them to Cost Recapture naming the
 property in `trade` (D-031); the next sale's step 6 settles the balance between the partners (D-015 §4).
 
-## 3 · The Closing tab (`<property> — Closing`, built beside the property tab)
+## 3 · How a sale is represented: the property tab becomes the closing statement
 
-The Payout report as formulas over the posted `sale-*` and release entries, in this order: sale price; each
-statement line; net to seller; project cost by class (acquisition, rehab, holding, financing, selling) released;
-net profit; the waterfall (principal per advance, interest per advance with the true-up on its own line, direct
-payments, share, reimbursements, owner's draw, reserve); payouts; **payouts = net to seller** check cell.
-Beside each line: the property tab's estimate **frozen as values the day of the sale** and the difference.
-Below: the post-sale section (Cost Recapture lines naming this property, and the partner adjustment they
-feed). Same colours and helper-column conventions as the property tab (`phase2.6-spec.md` §5); a view, nothing
-typed. Rebuilt by `Rebuild property tab` like any other.
+**Decided with Paul 2026-09-22.** No new tab per sale. When a property sells, its own tab is rebuilt as the
+closing statement - which is what the old workbook already did ("1616 Granite RECONCILED", "280 Sparkling
+RECONCILED" are the property tabs reworked, and their layout is a closing statement: purchase principal and
+interest, cash advances, Paul paid, Dennis paid, Profit Breakdowns, the two payouts). The forecast version
+stops meaning anything the moment the costs release to COGS, so keeping both would leave a dead tab per sale
+and grow the workbook by one tab every flip.
+
+Sections, in the shape Paul already uses:
+1. The settlement statement as posted, line by line at Recast's share, ending in cash received.
+2. Project cost released, by class: acquisition, rehab, holding, financing (interest), selling.
+3. The waterfall and the three payouts, with the **payouts = cash received** check cell.
+4. Beside the payouts, the forecast frozen the day of the sale, and the difference.
+5. Post-sale section: Cost Recapture lines naming this property, and the partner adjustment they feed
+   (D-015 §4, D-031).
+
+**Staged, Paul 2026-09-22: "while we test i want to generate a new tab and get it working before we change
+the existing property tabs."** The builder takes its target sheet name, so during the gate it writes
+`<property> — Closing` and the live property tab is untouched. When Paul signs the layout off, the target
+becomes the property tab itself and the test tabs are deleted. One constant in the writer, not a setting.
 
 ## 4 · The Payout report
 

@@ -1710,3 +1710,33 @@ Control 270.63.txt`, 17:52:32Z) but the writer's reply came back as a 404 non-JS
 §52 family; writes are never retried), so the link was written on a second run with the known Drive url -
 both lines of `receipt-20260918-95eee0b0c78e`. That run split the argument at every "=", so the stored url
 ends at `view?usp` (opens the same file; script fixed, Journal left as is).
+
+## 59 · Granite's and Sparkling's advances were 8%, not the registered 9% (2026-09-22)
+
+Building the Phase 5 fixtures, the accrual engine disagreed with both closed tabs' interest. The engine is
+not wrong - it reproduces **881 Newport to the cent at 9%** on two independent dates (as of 2026-09-11
+$3,799.52 and the cash advance's $31.13, the figures `docs/property-tab-anatomy.md` verified against the
+live tab; as of the 09-21 export $4,324.81, the exported value exactly). The rate is the variable:
+
+| Advance | Paid / typed on the old tab | Engine at 8% | Engine at 9% |
+|---|---|---|---|
+| Granite purchase $279,001, 04-07 → **07-27** | 6,873.90 | **6,882.27** (gap $8.37) | 7,751.35 (gap $877.45) |
+| Sparkling purchase $196,850.50, 06-02 → 08-06 | 2,809.57 | **2,810.74** (gap $1.17) | 3,163.64 (gap $354.07) |
+| Newport purchase $207,000, 06-29 → 09-21 | 4,324.81 (live formula) | 3,841.35 | **4,324.81** (exact) |
+
+On the closed tabs the interest cells are **typed values, not formulas** - Dennis's agreed figures at closing.
+Both match 8% within a few dollars and neither is close to 9%. `Advances.rate_pct` says **9** on all four
+Granite / Sparkling rows (registered in the migration, audit §319: "purchases at 9%"), which looks wrong for
+these two deals. Nothing posted depends on it - no 1200 interest line exists for any property (D-033 moved
+interest to Phase 5) - so a correction is a data edit on four rows, not a void-and-repost.
+
+**Also learned:** Granite closed **07-24** (Bison CD) but interest ran to **07-27**, the day Dennis was
+actually repaid, which is what `Advances.repaid_date` already holds. At 07-24 the 8% figure misses by $181.37;
+at 07-27 by $8.37. So the sale's settlement date and an advance's repayment date are two different dates and
+the wizard must keep them apart - the engine already freezes accrual at `repaid_date`.
+
+**Open for Paul (§60):** were Granite and Sparkling at 8%? Newport is provably 9%. If the rate changed
+during the year, which rate applies to the four held properties whose advances also say 9% (136 Bowling
+Green, 206 White Rock, 366 Mesa, 469 Brushwood)? Ashburne's 12% is confirmed (D-030/D-032). The remaining
+few dollars are what D-015's true-up posts either way: Paul types the agreed figure, the engine's figure sits
+beside it, the difference posts once.
