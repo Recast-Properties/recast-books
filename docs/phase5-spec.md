@@ -8,38 +8,65 @@ the **Payout report**, and locks the property. First runs: **1616 Granite (and i
 not re-litigated. Sources: BUILD-PLAN §5 (Payout report, Closing tab), `docs/property-tab-anatomy.md`,
 D-006, D-010, D-011, D-015, D-017, D-021, D-022, D-030, D-031, D-032, D-034, `docs/phase4-audit.md` §47.
 
-## 1 · What the wizard takes in
+## 1 · One menu item, one dialog, four steps
 
-| Input | From | Rule |
-|---|---|---|
-| Property | dropdown of `held` properties (also "under contract" rows: D-017) | must have at least one Advances row or a 1000 purchase line |
-| Settlement statement (ALTA / closing disclosure) | PDF or photo upload in the dialog | Claude reads it (one model call, ~$0.30) into typed lines; **Paul confirms every line** before anything posts. No statement → PRELIMINARY payout only, nothing posts |
-| Settlement date | the statement | every entry of the run is dated this day |
-| Dennis's interest figure | typed by Paul (D-015 §2) | the engine's accrual **through each advance's repayment date, not the settlement date** (they differ: Granite closed 07-24, Dennis was repaid 07-27 - audit §59) is shown beside it; the difference posts as one true-up |
-| Reserve to leave in the shared account | typed, optional (BUILD-PLAN "Open 2026-09-11") | reduces the Recast account's payout, nothing else |
-| Cost Recapture balance to settle | shown, tick to include (D-031, D-015 §4) | per-partner adjustment line on this payout |
+**Paul, 2026-09-22: "this should all be one process ... i want it all in one menu item and dialog"** and
+"first step, in the dialog: upload the closing doc. step 2: it extracts info and prepopulates the input
+fields. step 3: preview. step 4 close." The document comes first and drives everything; nothing is typed
+that the statement already says. `Recast Books → Sell property…` is the only menu item - the separate
+"Rebuild closing tab" and "Attach closing document…" items are folded into this dialog and removed.
 
-**The advances are edited in the dialog, never in a Terminal** (Paul, 2026-09-22: "i don't want to have to
-run terminal every time we reconcile"). The Sell dialog lists this property's advances - date, amount, kind,
-rate, repayment date - all editable in place beside Dennis's interest figure, because the sale is exactly
-when the two of them reconcile. The writer posts the corrected rows itself: it is the project bound to the
-workbook, so it needs no secret (D-023). The masked-secret Terminal path exists only for callers outside the
-workbook. For a held property the same edit already has a home: the property tab's typed End Date cell is
-written back to `Advances` by `onPropertyTabEdit`, and the rate cell works the same way.
+```
+Sell property...                                        [ Recast Books menu, one item ]
 
-Statement lines map to accounts like this (Claude proposes, Paul confirms; anything unmapped holds the run):
+  STEP 1  Document          property [1616 Granite v]
+                            closing document from the title company  [ Choose file ]
+                            ...or a Drive link, if it is already filed [______________]
+                                                                            [ Read it > ]
 
-| ALTA line | Account | Side |
-|---|---|---|
-| Contract sales price | 4000 Property sale proceeds | credit |
-| Commissions (listing, buyer's agent) | 1300 Selling — commission | debit (property cost) |
-| Title, escrow, recording, attorney, owner's policy, HOA transfer | 1310 Selling — closing costs | debit |
-| Seller concessions, repairs credited, home warranty | 1320 Selling — concessions & credits | debit |
-| Seller's property-tax proration (Jan 1 → closing) | 1100 Holding — property tax (D-034 §2) | debit |
-| Payoff of anything on title (lien, prior loan) | the account it belongs to — a question for Paul when it appears | debit |
-| Escrow holdback withheld at closing | 1510 Escrow & holdbacks receivable | debit |
-| Reimbursements received at closing (Sparkling's "Rehab Reimbursement" $4,716.82) | credit to the cost it reimburses, or 4030 Other income — Paul decides per line | credit |
-| **Net to seller** | 1401 Cash — Citizens shared | debit; **must equal the statement's figure to the cent** |
+  STEP 2  Confirm           everything below was read from the document; correct anything
+                            settlement date | sale price | net to seller | cash to Recast
+                            Recast's share %   (proposed from the sellers named on it)
+                            statement lines: wording | account | amount | kind | why
+                            advances: date | amount | rate | repaid     (edit the reconcile here)
+                            Dennis's agreed interest [____]  (the one figure no document knows)
+                            tally: lines explain net-to-seller           [ < Back ] [ Preview > ]
+
+  STEP 3  Preview           the waterfall, the payouts, the checks. Read-only, nothing posted.
+                                                                        [ < Back ] [ Close it > ]
+
+  STEP 4  Close             posts the run, files the document, writes the statement tab, locks it
+                            -> "Closed 1616 Granite: 7 entries, statement written, document filed"
+```
+
+**A property that is already sold** opens the same dialog in its closed view: the posted summary, the
+document (attach or replace), and Rebuild. That is where a late-arriving settlement statement goes, and it
+is why there is no second menu item.
+
+### 1.1 · Step 2's extraction
+
+The read runs where every other model read runs - the site, not Apps Script. The writer POSTs the document
+to **`/api/settlement`** (poller secret, the same `siteFetchJson_` path the Inbox sidebar already uses) and
+gets back the fields below. One model call, about $0.30, only when Paul clicks "Read it".
+
+```
+{ ok, settlement: { date, sale_price_cents, net_to_seller_cents, cash_to_recast_cents,
+                    recast_share_pct, sellers: [ "...", "..." ],
+                    lines: [ { label, cents, kind, account, why } ] },
+  read: { file_no, settlement_agent, property_address, ties, notes } }
+```
+
+Rules the read follows, all of them things the two real statements taught us (§6a):
+- **`label` is the statement's own wording**, never a paraphrase - it is what the closing tab shows.
+- **`kind` comes from where the line sits:** a seller-paid charge is `cost`; an "adjustment for items paid
+  by seller in advance" is `credit`; an escrow holdback is `holdback`; a line disbursed **to Recast by
+  name** is `to_recast` (Sparkling's "Expense Reimbursement to RECAST PROPERTIES LLC").
+- **`account`** is proposed from the chart of accounts, with `why` saying which words decided it.
+- **`recast_share_pct`** is proposed from the sellers named on the statement: one seller is 100, two equal
+  sellers is 50 (D-037). Paul confirms it; the read never assumes.
+- **`ties`** says whether sale price + credits - charges - holdback equals net-to-seller, and by how much
+  if not. A statement that does not tie stops at step 2 with the gap named.
+- Nothing is posted, filed or locked by the read. It only fills the form.
 
 ## 2 · What posts (one batch, all dated the settlement date, `source = sale`, txn ids `sale-<date>-…`)
 
@@ -223,18 +250,21 @@ estimates the tax proration on its own line). Paul's call, not a blocker.
    Granite's profit is $84.70 above the old tab's 109,263.26 for one reason: D-021 makes the cash-advance
    interest a project cost instead of Paul's personal charge, so it leaves profit and each share moves by
    $42.35. Everything else agrees to the cent or to one cent of share rounding.
-2. ✅ **Writer built 2026-09-22, pushed and verified by pull (12 files identical).** Menu: **Recast Books →
-   Sell property…** (`showSellDialog`). `Sell.html` takes the property, settlement date, Recast's share, sale
-   price, net-to-seller, the statement lines (label, account, amount, kind: charge / adjustment / holdback /
-   paid to Recast), the advances **editable in place** (rate, repayment date), Dennis's agreed interest and
-   any Cost Recapture, then **Preview** (read-only: the waterfall and the checks) and **Post the sale**.
-   Server side in `Menu.gs`: `sellContext` / `sellPreview` / `sellPost`, with `propertyBalances_` and
-   `writeClosingTab_` in `Code.gs`. `sellPost` posts every intent as one batch under the writer's lock,
-   writes each advance's repayment date, status and corrected rate, flips `Properties` to `sold` with its
-   settlement date, and writes the closing statement as values to `closingTabName_()` — `<property> -
-   Closing` until `CLOSING_TAB_IN_PLACE` is set true. **Still to build:** the statement upload and Claude's
-   read of the ALTA (the gate types the lines from the PDF, which is enough), and `Release holdback…` as its
-   own dialog (`buildHoldbackRelease` is built and tested).
+2. ✅ **Writer built 2026-09-22** (`Sell.html`, `sellContext` / `sellPreview` / `sellPost`,
+   `propertyBalances_` and `writeClosingTab_`; pushed and verified by pull). `sellPost` posts every intent
+   as one batch under the writer's lock, writes each advance's repayment date, status and corrected rate,
+   flips `Properties` to `sold` with its settlement date, and writes the closing statement as values to
+   `closingTabName_()` - `<property> - Closing` until `CLOSING_TAB_IN_PLACE` is set true. The closing
+   document's link lands on every entry of the run and on the tab.
+   **Being reshaped to §1's four steps (2026-09-22):** the document moves to the front and prepopulates the
+   form, and the two extra menu items fold back into the one dialog. What that needs:
+   - `netlify/functions/books-settlement.mjs` -> `/api/settlement`: poller secret, takes the document,
+     returns §1.1's shape. One model call, no gate, nothing posted.
+   - `lib/settlement.mjs` (pure): the prompt and the validation of what comes back - the kinds, the
+     account proposals, the ties check - unit-tested against both real statements as fixtures.
+   - `Sell.html`: four steps with Back/Next instead of one long form; a sold property opens the closed view.
+   - `Menu.gs`: `sellReadDocument(form)` calls the endpoint; `sellUpdate(form)` is the closed view's
+     attach-and-rebuild; `rebuildClosingTab` and `attachClosingDocument` come off the menu.
 3. Payout report PDF (Drive) - from the Closing tab (`Spreadsheet → PDF` export of that sheet).
 4. Gate: re-run Granite (with the holdback release) and Sparkling in production - the Journal is append-only,
    a wrong run is voided and re-posted; tie-out per §5. Then Newport and Ashburne when they close.
