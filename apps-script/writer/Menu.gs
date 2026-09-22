@@ -509,6 +509,7 @@ function loadAdvances_(ss) {
       property: String(r[cols['property'] - 1] || ''),
       status: String(r[cols['status'] - 1] || 'open'),
       accrued_to: cols['accrued_to'] ? String(r[cols['accrued_to'] - 1] || '') : '',
+      kind: cols['kind'] ? String(r[cols['kind'] - 1] || '') : '',
       repaid_date: cols['repaid_date'] && r[cols['repaid_date'] - 1] !== '' ? formatIsoDate_(r[cols['repaid_date'] - 1]) : '',
       rate_annual: ratePct !== '' && ratePct != null && Number.isFinite(Number(ratePct)) ? Number(ratePct) / 100 : undefined
     };
