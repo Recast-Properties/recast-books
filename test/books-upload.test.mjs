@@ -152,6 +152,36 @@ test("poller-secret auth: an email upload with a docId stores att/<docId>/<i> an
   assert.equal(attBytes, SMALL_ATTACHMENT.base64);
 });
 
+test("D-035: an email upload with no attachment stores the message itself as att/<docId>/0 email.txt", async () => {
+  const res = await handler(
+    req({
+      body: {
+        docId: "gm-noatt1",
+        source: "email",
+        channel: "receipts",
+        gmailUrl: "https://mail.google.com/y",
+        subject: "Your Wi-Fi Onboard Receipt",
+        from: "receipts@intelsat.example",
+        receivedAt: "2026-09-18T12:00:00.000Z",
+        bodyText: "Full Flight Pass $8.00",
+        attachments: [],
+      },
+      pollerSecret: "poller-secret",
+    }),
+  );
+  assert.equal(res.status, 200);
+  const store = getDocsStore();
+  const envelope = await store.get("doc/gm-noatt1", { type: "json" });
+  assert.equal(envelope.attachments.length, 1);
+  assert.deepEqual(
+    { key: envelope.attachments[0].key, name: envelope.attachments[0].name, mime: envelope.attachments[0].mime },
+    { key: "att/gm-noatt1/0", name: "email.txt", mime: "text/plain" },
+  );
+  const text = Buffer.from(await store.get("att/gm-noatt1/0"), "base64").toString("utf8");
+  assert.match(text, /^Subject: Your Wi-Fi Onboard Receipt\nFrom: receipts@intelsat.example\n/);
+  assert.match(text, /Full Flight Pass \$8\.00$/);
+});
+
 test("dryRun prefixes the docId with dry- even when the caller already passed one", async () => {
   const res = await handler(
     req({

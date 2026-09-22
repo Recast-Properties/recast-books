@@ -720,3 +720,16 @@ bill at closing and credits the seller for the rest of the year. Different tax y
 4. A foreclosure purchase late in the year inherits the whole year's bill (Ashburne: bought 12-02, paid all of
    2025). That is a cost of the deal, on the property, not overhead.
 
+## D-035 · No attachment: the email is the receipt - 2026-09-22 · Paul
+
+Wi-Fi Onboard $8.00 (09-18) and Berrett Pest Control $270.63 (09-22) were read and posted from the email body,
+but the live path filed attachments only, so neither Journal line had a Drive link (audit §57). Paul: "file
+them. if there is no attachment then the email IS the reciept. make a rule."
+
+**Decided:** an upload with no attachment stores the message itself (subject, sender, received, mailbox, Gmail
+link, body) as its one attachment, `email.txt`, at upload time (`books-upload.mjs`). Every filing path then
+files it to Drive unchanged (auto-post, Inbox approve, repost) and the Journal line gets its link; the
+bookkeeper is not shown it again (the body is already in its prompt). Same shape as the migration's email
+.txt, so old and new rows link the same way. The writer gained a `setDocUrl` action so a document filed after
+its entry posted can be linked (`scripts/file-email-receipts.mjs` for the two above).
+

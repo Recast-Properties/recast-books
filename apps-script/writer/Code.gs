@@ -94,6 +94,7 @@ function doPost(e) {
       case 'upsert': return action_upsert_(body, props);
       case 'postBatch': return action_postBatch_(body, props);
       case 'storeDocument': return action_storeDocument_(body, props);
+      case 'setDocUrl': return action_setDocUrl_(body, props);
       case 'propertyTab': return action_propertyTab_(body, props);
       default: return jsonOutput_({ ok: false, error: 'BAD_ACTION' });
     }
@@ -909,6 +910,23 @@ function postBatchEntries_(entries, props, skipRefresh) {
 // tolerates (both folders exist under the same name; harmless duplication, never
 // data loss). Scope stays drive.file per the spec - only files/folders this script
 // creates are touched.
+// setDocUrl: fills doc_url on the Journal lines of the given txn_ids (the same
+// setDocUrl_ the Inbox sidebar uses after it files a document) - for a document filed
+// after its entry posted, e.g. D-035 email receipts posted before the rule existed.
+function action_setDocUrl_(body, props) {
+  var txnIds = body.txn_ids;
+  var url = body.url;
+  if (!Array.isArray(txnIds) || txnIds.length === 0) fail_('BAD_REQUEST', 'txn_ids must be a non-empty array');
+  if (!url) fail_('BAD_REQUEST', 'url is required');
+  var lock = LockService.getScriptLock();
+  lock.waitLock(30000);
+  try {
+    return jsonOutput_({ ok: true, updated: setDocUrl_(txnIds, url, props) });
+  } finally {
+    lock.releaseLock();
+  }
+}
+
 function action_storeDocument_(body, props) {
   var name = body.name;
   var mime = body.mime;

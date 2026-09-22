@@ -160,6 +160,19 @@ export default async (req) => {
     });
   }
 
+  // D-035 (Paul, 2026-09-22): "if there is no attachment then the email IS the receipt" -
+  // store the message itself as the one attachment, so every filing path (auto-post,
+  // Inbox approve, repost) puts a copy in Drive and the Journal line gets its link.
+  // Same shape as the migration's email .txt (scripts/migration-file-docs.mjs).
+  if (attachments.length === 0) {
+    const text = [`Subject: ${String(body.subject || "")}`, `From: ${String(body.from || "")}`, `Received: ${String(body.receivedAt || now)}`,
+      `Mailbox: ${channel}`, `Gmail: ${String(body.gmailUrl || "")}`, "", String(body.bodyText || "")].join("\n");
+    const base64 = Buffer.from(text, "utf8").toString("base64");
+    const key = `att/${docId}/0`;
+    await store.set(key, base64, { metadata: { contentType: "text/plain", filename: "email.txt" } });
+    storedAttachments.push({ key, name: "email.txt", mime: "text/plain", bytes: Buffer.byteLength(text, "utf8"), email_as_receipt: true });
+  }
+
   const envelope = {
     docId,
     source,

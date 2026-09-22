@@ -96,8 +96,8 @@ for (const [tab, headers] of Object.entries(SPEC_HEADERS)) {
   });
 }
 
-test("every writer action (ping, post, void, read, setPeriod, upsert, postBatch, storeDocument, propertyTab) is dispatched", () => {
-  for (const action of ["ping", "post", "void", "read", "setPeriod", "upsert", "postBatch", "storeDocument", "propertyTab"]) {
+test("every writer action (ping, post, void, read, setPeriod, upsert, postBatch, storeDocument, setDocUrl, propertyTab) is dispatched", () => {
+  for (const action of ["ping", "post", "void", "read", "setPeriod", "upsert", "postBatch", "storeDocument", "setDocUrl", "propertyTab"]) {
     assert.ok(
       source.includes(`case '${action}':`),
       `doPost does not appear to dispatch action "${action}"`

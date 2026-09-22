@@ -441,6 +441,17 @@ test("every call carries the server-side fallback, and a fallback-served turn is
   assert.match(checked, /verification record/);
 });
 
+test("D-035: a text/plain email.txt attachment is filed, not shown - no 'unsupported' note, nothing zoomable", async () => {
+  const client = scriptedClient([{ stop_reason: "end_turn", content: [{ type: "text", text: "?" }], usage: usage() }]);
+  await runBookkeeper({
+    envelope: baseEnvelope(),
+    attachments: [{ name: "email.txt", mime: "text/plain", bytes: Buffer.from("Subject: x\n\nbody") }],
+    deps: baseDeps({ anthropic: client }),
+  });
+  const content = client.calls[0].messages[0].content;
+  assert.ok(!content.some((b) => b.type === "text" && /unsupported|email\.txt/.test(b.text)));
+});
+
 test("stop_reason max_tokens ends in a hold", async () => {
   const client = scriptedClient([{ stop_reason: "max_tokens", content: [{ type: "text", text: "partial..." }], usage: usage() }]);
   const result = await runBookkeeper({ envelope: baseEnvelope(), attachments: [], deps: baseDeps({ anthropic: client }) });
