@@ -223,11 +223,18 @@ estimates the tax proration on its own line). Paul's call, not a blocker.
    Granite's profit is $84.70 above the old tab's 109,263.26 for one reason: D-021 makes the cash-advance
    interest a project cost instead of Paul's personal charge, so it leaves profit and each share moves by
    $42.35. Everything else agrees to the cent or to one cent of share rounding.
-2. Writer: `Sell.html` dialog (property, statement upload, Claude's read of the lines for confirmation, interest
-   figure, reserve, recapture tick, preview = Payout report, Post) → `postBatchEntries_` in one lock; `Release
-   holdback…` dialog; the Closing tab template; `Properties` lock. Menu: **Recast Books → Sell property…**,
-   **Release holdback…**. The statement read is one `/api/…` call to the bookkeeper's model with the ALTA
-   (same tools, a "settlement statement" document type), no gate - Paul confirms every line.
+2. ✅ **Writer built 2026-09-22, pushed and verified by pull (12 files identical).** Menu: **Recast Books →
+   Sell property…** (`showSellDialog`). `Sell.html` takes the property, settlement date, Recast's share, sale
+   price, net-to-seller, the statement lines (label, account, amount, kind: charge / adjustment / holdback /
+   paid to Recast), the advances **editable in place** (rate, repayment date), Dennis's agreed interest and
+   any Cost Recapture, then **Preview** (read-only: the waterfall and the checks) and **Post the sale**.
+   Server side in `Menu.gs`: `sellContext` / `sellPreview` / `sellPost`, with `propertyBalances_` and
+   `writeClosingTab_` in `Code.gs`. `sellPost` posts every intent as one batch under the writer's lock,
+   writes each advance's repayment date, status and corrected rate, flips `Properties` to `sold` with its
+   settlement date, and writes the closing statement as values to `closingTabName_()` — `<property> -
+   Closing` until `CLOSING_TAB_IN_PLACE` is set true. **Still to build:** the statement upload and Claude's
+   read of the ALTA (the gate types the lines from the PDF, which is enough), and `Release holdback…` as its
+   own dialog (`buildHoldbackRelease` is built and tested).
 3. Payout report PDF (Drive) - from the Closing tab (`Spreadsheet → PDF` export of that sheet).
 4. Gate: re-run Granite (with the holdback release) and Sparkling in production - the Journal is append-only,
    a wrong run is voided and re-posted; tie-out per §5. Then Newport and Ashburne when they close.
