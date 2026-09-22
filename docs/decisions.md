@@ -860,5 +860,10 @@ a property, a combination `buildEntry` refuses outright (OVERHEAD_ON_PROPERTY). 
 account picker is grouped - **Property costs - needs a property**, **Business overhead - OVERHEAD only**,
 **Cash, prepaid and other** - so the distinction is visible where the choice is made, and the card raises
 "Business account on a property - set 6510 to OVERHEAD" live as he edits, since the ingest gate only ever
-saw what the model first proposed. A tool bought for one house still goes to 6510 as overhead (D-010); if
-Paul wants property-level tools that is a chart change and his call, not a silent one.
+saw what the model first proposed. A tool bought for one house still goes to 6510 as overhead (D-010).
+
+**Asked and answered the same day - "tools are overhead" (Paul, 2026-09-23).** No new account, no change
+to D-010: a tool is overhead however specific the job it was bought for, because it is not consumed into
+the property the way materials are. The bookkeeper prompt now says it in those words, with the consequence
+spelled out - a hardware receipt mixing tools and materials is two entries, the tools on 6510 OVERHEAD and
+the materials on 1030 with the property - which is exactly the split the card can now do by hand.

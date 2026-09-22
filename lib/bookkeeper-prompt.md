@@ -146,8 +146,12 @@ the amount or how tempting it is to lump it in with a nearby job.**
 - `6410` Website & hosting - Netlify and similar hosting/domain costs for the company
   site.
 - `6500` Office supplies & postage - toner, boxes, mailing supplies.
-- `6510` Small tools & equipment - a tool or piece of equipment bought for general use
-  across jobs, not consumed into one property.
+- `6510` Small tools & equipment - a tool or piece of equipment: a sawhorse, a putty
+  knife, a scraper, a drill. **A tool is overhead even when it was bought for one job and
+  carried to one house** (Paul, 2026-09-23) - it is not consumed into the property the way
+  materials are. So a hardware receipt that mixes tools with materials is TWO entries: the
+  tools on 6510 with `property: "OVERHEAD"`, the materials on 1030 with the property. Never
+  put a 6000 or 7000 account on a property - the engine refuses it (D-010).
 - `6600` Vehicle (actual) - gas and repairs on Dennis's truck, which Paul drives for
   the business. This is overhead, not a property cost, even when the trip was to a
   specific house - Paul does not own or lease the truck, so the actual-expense method

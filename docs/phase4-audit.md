@@ -1889,5 +1889,7 @@ splits into one entry per property; the account picker grouped into Property cos
 Cash, prepaid and other; and a live check that raises "Business account on a property - set 6510 to
 OVERHEAD" as he edits - the ingest gate only ever saw the model's first proposal, not his corrections.
 
-Open for Paul: whether a tool bought for one house should be chargeable to that house. Today it is overhead
-(D-010, 6510) and that is deliberate; changing it is a chart decision, not a UI one.
+**Answered the same day: "tools are overhead" (Paul).** D-010 stands and the chart is unchanged. The prompt
+now states it and its consequence - a hardware receipt mixing tools and materials is two entries, tools on
+6510 OVERHEAD and materials on 1030 with the property - so the bookkeeper should stop proposing the card
+that started this. Not deployed (`npm run deploy` is Paul's step); it rides with the next one.

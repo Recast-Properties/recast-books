@@ -797,3 +797,13 @@ that is for the business vs a property."
   mirror for a property account left on OVERHEAD. It follows his edits, which the ingest gate cannot.
 
 455 tests. Pushed to the writer and verified by pull; no deploy.
+
+## 2026-09-23 - "Tools are overhead" (Paul), and the prompt says so
+
+Asked because a Home Depot card put four tools on 6510 under 104 Ashburne. Paul's answer: tools are
+overhead. D-010 stands, no chart change, no new account. The bookkeeper prompt now states it in his terms -
+a tool is overhead even when bought for one job and carried to one house, because it is not consumed into
+the property the way materials are - and spells out the consequence it kept getting wrong: a hardware
+receipt mixing tools and materials is **two entries**, the tools on 6510 with OVERHEAD and the materials on
+1030 with the property. `lib/bookkeeper-prompt.mjs` regenerated. **Not deployed** (`npm run deploy` is
+Paul's step); the deterministic rail and the Inbox card already catch the case in the meantime.
