@@ -133,6 +133,7 @@
       '<div class="sub">' + escapeHtml_(m.date || '-') + ' &middot; ' + (m.receipt_total_cents != null ? money_(m.receipt_total_cents) : '-') + ' &middot; ' + escapeHtml_(props.join(', ') || '-') + ' &middot; ' + escapeHtml_(env.channel || '') + '</div>' +
       atts +
       (m.why ? '<div class="why">' + escapeHtml_(m.why) + '</div>' : '') +
+      (m.checked ? '<details class="why"><summary>What was checked</summary>' + escapeHtml_(m.checked) + '</details>' : '') +
       (chips ? '<div class="chips">' + chips + '</div>' : '') +
       entriesHtml +
       '<div class="tot">' + totalsLine_(env) + '</div>' +

@@ -922,6 +922,7 @@ function renderInboxCard(env) {
       </div>
       <div class="thumb-row">${thumbsHtml}</div>
       ${m.why ? `<div class="why-note"><span class="lbl">Claude's note</span>${escapeHtml(m.why)}</div>` : ""}
+      ${m.checked ? `<details class="why-note"><summary class="lbl">What was checked</summary>${escapeHtml(m.checked)}</details>` : ""}
       ${chipsHtml}
       ${statusHtml}
       ${entries.length ? renderEntriesEditor(env, entries, editable) : ""}
