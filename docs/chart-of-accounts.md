@@ -59,7 +59,7 @@ where the registry says `status = held`.
 | Code | Account | What lands here now |
 |---|---|---|
 | 1000 | Purchase price | Auction.com $325,000 · $294,651 · $207,000 · $393,701 |
-| 1010 | Acquisition costs | Buyer premium, title, recording, HOA release |
+| 1010 | Acquisition costs | Buyer premium, title, recording (costs of BUYING) |
 | 1020 | Rehab — subcontract labor | Juan Garcia, Chinos LLC, Salvador Campos, Julio |
 | 1030 | Rehab — materials | Home Depot, Lowe's, Floor & Decor, Amazon |
 | 1040 | Rehab — fixtures & appliances | Luxury 4 Less, Shalom Granite, 50floor, MyKnobs |
@@ -75,6 +75,7 @@ where the registry says `status = held`.
 | 1310 | Selling — closing costs | Ashburne $15,500 (2%) |
 | 1320 | Selling — concessions & credits | Ashburne $19,000 |
 | 1330 | Selling — staging & marketing | Aces Photography $628, Virtual Staging AI |
+| 1340 | Selling — HOA release | HOA resale certificate, transfer fee, release (D-039) |
 
 > **Open:** the CPA lens argues 1300–1330 are selling costs, not inventoriable costs,
 > and that under §471(c) the book treatment becomes the tax method. Finding was

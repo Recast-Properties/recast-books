@@ -790,3 +790,25 @@ Paul: "yes, they were at 8%. i leave it at 9% in case the rate fluctuates."
 3. Nothing posted depends on either number today - no 1200 interest line exists for any property (D-033) -
    so this is a four-cell edit on the Advances tab, not a void-and-repost.
 
+## D-039 · An HOA release is a selling cost, not an acquisition cost - 2026-09-22 · Paul
+
+280 Sparkling's closing tab showed the $485.00 HOA release, paid to Community Archives on 2026-07-24,
+under **Acquisition costs** (1010, where the migration put it, and where the chart of accounts had listed
+"HOA release" since Phase 0). Paul: "the HOA release is the opposite of acquisition costs. its required for
+the SALE. this needs to be labeled what it is: HOA Release."
+
+**Decided:** a new account **1340 Selling - HOA release**, cost class Selling. Everything an association
+charges to complete a sale goes there - the resale certificate, the transfer fee, the release itself, and a
+reimbursement of one. 1010 Acquisition costs is only what was paid to **buy** a property (buyer premium,
+title work, recording). 1130 Holding - HOA stays what it is: dues, lawn care and pool service for a period
+while the house was held. Both prompts now say so, the settlement read is told explicitly that such a line
+is "1340, not 1130 and not 1010", and the Sell dialog offers it.
+
+**The two closed sales keep the classification they closed with.** 280 Sparkling's $485.00 sits on 1010 and
+1616 Granite's $140.00 HOA transfer fee on 1130. A sold property is locked (D-015, D-017) - the posting
+allowlist refuses a line naming it - and both accounts release to 5000 COGS, so the misclassification moves
+no dollar, no profit and no payout. Nothing is re-posted for it (the spirit of D-031: a closed property's
+books stand as closed). What did change: a **cost row renamed on a closing tab now survives a rebuild**, the
+same courtesy the settlement lines already had, so Sparkling's row can read "HOA Release" without touching
+the ledger.
+

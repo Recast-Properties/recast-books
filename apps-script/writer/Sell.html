@@ -106,6 +106,7 @@
     ['1310', '1310 Selling - closing costs'],
     ['1320', '1320 Selling - concessions & credits'],
     ['1330', '1330 Selling - staging & marketing'],
+    ['1340', '1340 Selling - HOA release'],
     ['1100', '1100 Holding - property tax'],
     ['1110', '1110 Holding - insurance'],
     ['1120', '1120 Holding - utilities'],
@@ -271,6 +272,7 @@
     document.getElementById('s-read-note').innerHTML =
       'Read from the document: ' + escapeHtml_([r.settlement_agent, r.file_no ? 'file ' + r.file_no : '', r.property_address].filter(Boolean).join(' - ')) +
       (r.sellers && r.sellers.length ? '. Sellers: ' + escapeHtml_(r.sellers.join('; ')) : '') +
+      (r.zero_lines && r.zero_lines.length ? '<br>Shown with no amount, so not posted: ' + escapeHtml_(r.zero_lines.join('; ')) : '') +
       (r.notes ? '<br>Note: ' + escapeHtml_(r.notes) : '') +
       (result.usage ? '<br>' + escapeHtml_(result.usage.model) + (result.usage.fallback ? ' (fallback)' : '') : '');
 

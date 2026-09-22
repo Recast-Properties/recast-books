@@ -1472,6 +1472,11 @@ function closingFromJournal_(ss, name) {
   var costByClass = sellCostByClass_(ss, name, { intents: [{ memo: 'released to COGS', lines: release.lines.map(function (l) {
     return l.cents < 0 ? { account: l.account, credit: -l.cents } : { account: l.account, debit: l.cents };
   }) }] });
+  // A cost row Paul has renamed on the tab keeps his wording through a rebuild, the same
+  // courtesy the settlement lines get: a property closed before a classification was
+  // corrected (280 Sparkling's HOA release, D-039) can read right without touching the
+  // locked ledger.
+  costByClass.forEach(function (g) { if (typedLabels[g.accounts]) g.label = typedLabels[g.accounts]; });
 
   var summary = {
     property: name,
@@ -1535,7 +1540,10 @@ function closingTabLabels_(ss, target) {
     var note = String(r[2] || '').trim();
     // A label this code wrote as its own fallback is not Paul's wording: ignoring it is
     // what lets a better name replace it (2026-09-22: "account 1300" preserved itself).
-    if (label && /^[0-9]{4}$/.test(note) && !/^account [0-9]{4}$/.test(label)) out[note] = label;
+    // Keyed by the note column: one account for a settlement line, a list of them for a
+    // released-cost row ("1020 1030 1040"). A label this code wrote as its own fallback is
+    // not Paul's wording - ignoring it lets a better name replace it (2026-09-22).
+    if (label && /^[0-9]{4}( [0-9]{4})*$/.test(note) && !/^account [0-9]{4}$/.test(label)) out[note] = label;
   });
   return out;
 }

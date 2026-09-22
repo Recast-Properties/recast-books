@@ -151,6 +151,22 @@ test("280 Sparkling's read drives the sale plan to the old tab's net profit at R
   assert.equal(summary.paid.paul_cents, 3_224_684);
 });
 
+test("an HOA charge that completes the sale is a selling cost on 1340, not acquisition or holding (D-039)", () => {
+  const prose = SETTLEMENT_PROMPT.replace(/\s+/g, " ");
+  assert.ok(prose.includes("resale certificate"), "the prompt does not mention a resale certificate");
+  assert.ok(/1340, not 1130 and not 1010/.test(prose), "the prompt does not rule out 1130 and 1010 for it");
+  assert.ok(prose.includes("- `1340`"), "1340 is not in the chart the prompt shows");
+
+  // and a statement line may actually use it
+  const { settlement, problems } = validateSettlement({
+    ...GRANITE_READ,
+    lines: [...GRANITE_READ.lines, { label: "HOA Resale Certificate", cents: 20_000, kind: "cost", account: "1340", why: "required to close" }],
+    net_to_seller_cents: 34_734_303 - 20_000,
+  });
+  assert.ok(!problems.some((p) => /1340/.test(p)), problems.join(" | "));
+  assert.equal(settlement.lines.some((l) => l.account === "1340"), true);
+});
+
 // ---- what the confirm step is for --------------------------------------------------------
 
 test("a statement that does not tie is reported as a gap, not forced", () => {
@@ -180,13 +196,13 @@ test("a holdback proposed on the wrong account is flagged", () => {
   assert.ok(problems.some((p) => /belongs on 1510/.test(p)), problems.join(" | "));
 });
 
-test("an unreadable amount, a bad kind and a missing date are each reported, never guessed", () => {
+test("a bad kind, a negative amount and a missing date are each reported, never guessed", () => {
   const { ok, problems, settlement } = validateSettlement({
     ...GRANITE_READ,
     date: "July 24 2026",
     lines: [
-      { label: "Commission", cents: 0, kind: "cost", account: "1300", why: "" },
       { label: "Something", cents: 100, kind: "fee", account: "1310", why: "" },
+      { label: "Backwards", cents: -500, kind: "cost", account: "1310", why: "" },
     ],
   });
   assert.equal(ok, false);
@@ -194,6 +210,19 @@ test("an unreadable amount, a bad kind and a missing date are each reported, nev
   assert.equal(settlement.lines.length, 0);
   assert.equal(problems.filter((p) => /dropped/.test(p)).length, 2);
   assert.ok(problems.some((p) => /not a YYYY-MM-DD date/.test(p)));
+});
+
+test("a line the statement shows with no amount is noted, not flagged: that is normal on a CD", () => {
+  const withZero = {
+    ...GRANITE_READ,
+    lines: [...GRANITE_READ.lines, { label: "HOA Community Enhancement Fee", cents: 0, kind: "cost", account: "1340", why: "no seller-paid amount shown" }],
+  };
+  const { ok, problems, read, settlement } = validateSettlement(withZero);
+  assert.equal(ok, true, `a zero line should not fail the read: ${problems.join(" | ")}`);
+  assert.deepEqual(problems, []);
+  assert.deepEqual(read.zero_lines, ["HOA Community Enhancement Fee"]);
+  assert.equal(settlement.lines.length, 12, "the zero line is not posted");
+  assert.equal(read.tie.ties, true);
 });
 
 test("garbage in is problems out, never a throw", () => {

@@ -64,6 +64,7 @@ var M_coa = (function () {
     acct("1310", "Selling — closing costs", "1000", "asset", SELLING),
     acct("1320", "Selling — concessions & credits", "1000", "asset", SELLING),
     acct("1330", "Selling — staging & marketing", "1000", "asset", SELLING),
+    acct("1340", "Selling — HOA release", "1000", "asset", SELLING),
 
     // 1400 series — cash & other balance-sheet assets
     acct("1401", "Cash — Citizens shared", "1400", "asset", NONE),

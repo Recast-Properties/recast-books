@@ -181,6 +181,7 @@ var ACCOUNTS_SEED = [
   ['1310', 'Selling - closing costs', '1000', 'asset', 'Selling', 'Inventory (held)', true, ''],
   ['1320', 'Selling - concessions & credits', '1000', 'asset', 'Selling', 'Inventory (held)', true, ''],
   ['1330', 'Selling - staging & marketing', '1000', 'asset', 'Selling', 'Inventory (held)', true, ''],
+  ['1340', 'Selling - HOA release', '1000', 'asset', 'Selling', 'Inventory (held)', true, ''],
   ['1401', 'Cash - Citizens shared', '1400', 'asset', '', '', true, ''],
   ['1402', 'Cash - Chase operating', '1400', 'asset', '', '', true, ''],
   ['1500', 'Earnest money & deposits', '1400', 'asset', '', '', true, ''],

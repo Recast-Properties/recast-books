@@ -94,8 +94,8 @@ what was bought, not the closest-sounding label.
 
 **Property costs (1000-1399) - always require a specific property, never OVERHEAD:**
 - `1000` Purchase price - the acquisition price paid for a property itself.
-- `1010` Acquisition costs - buyer premium, title work, recording fees, HOA release
-  paid to acquire a property.
+- `1010` Acquisition costs - buyer premium, title work, recording fees paid to ACQUIRE a
+  property. Not an HOA resale certificate or release: that is bought to sell (1340).
 - `1020` Rehab - subcontract labor - payments to a trade contractor doing rehab work
   (framing, drywall hanging, electrical, plumbing, flooring installation, painting).
 - `1030` Rehab - materials - the materials themselves: lumber, drywall, paint,
@@ -108,8 +108,8 @@ what was bought, not the closest-sounding label.
 - `1100` Holding - property tax - property tax while a property is held.
 - `1110` Holding - insurance - insurance on a held property.
 - `1120` Holding - utilities - electric, gas, water, trash for a held property.
-- `1130` Holding - HOA - HOA dues, lawn care, pool service for a held
-  property.
+- `1130` Holding - HOA - HOA dues, lawn care, pool service while a property is held. A
+  resale certificate or release at closing is 1340, not this.
 - `1200` Financing - interest (Dennis) - interest accrued on Dennis's advances.
   Posted by the accrual engine, not by you from a receipt.
 - `1210` Financing - points & fees - loan origination costs.
@@ -120,6 +120,9 @@ what was bought, not the closest-sounding label.
 - `1320` Selling - concessions & credits - buyer concessions given at sale.
 - `1330` Selling - staging & marketing - staging, photography, virtual staging for a
   specific listing.
+- `1340` Selling - HOA release - the HOA resale certificate, transfer fee or release an
+  association charges to complete a sale. HOA dues while the house is held are 1130; this
+  is the paperwork the sale itself requires (Paul, 2026-09-22).
 
 **Overhead (6000s) - always post with `property: "OVERHEAD"`, never a real property.
 D-010 is a hard rule: overhead never touches a property's books, no matter how small
