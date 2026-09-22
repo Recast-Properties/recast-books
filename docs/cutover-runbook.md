@@ -82,11 +82,11 @@ them. Nothing from that window is replayed. What is replayed is only what Paul h
 
 ## 6 · Close the old books
 
-16. **P** - old workbook: Share → everyone Viewer; rename "… CLOSED 2026-MM-DD". The old receipts poller
+16. ✅ 2026-09-22 (audit §57; only paul@ had access; renamed by Claude through Drive). **P** - old workbook: Share → everyone Viewer; rename "… CLOSED 2026-MM-DD". The old receipts poller
     (`../Recast-site/`) is switched off by the session that owns it, not from here.
 17. **P**, optional - drag `2026/` and `Migration evidence/` from the "Recast Books STAGING" Drive folder
     into "Recast Books". File links survive a move; the Journal is untouched.
-18. **C** - CLAUDE.md status, CHANGELOG, audit §, handoff; staging workbook renamed ARCHIVED (P).
+18. ✅ 2026-09-22 (audit §55-§57; staging renamed ARCHIVED). **C** - CLAUDE.md status, CHANGELOG, audit §, handoff; staging workbook renamed ARCHIVED (P).
 
 ## If something fails
 

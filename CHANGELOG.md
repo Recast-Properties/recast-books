@@ -718,3 +718,6 @@ receipts he had held since 09-17.
   first run posted 10 labels and uploaded the 5 property forwards of 09-21. All 5 reads were API refusals
   (`reasoning_extraction`): the new `checked` field asked for "your working". Reworded; every bookkeeper call now
   carries the server-side refusal fallback (`fallbacks: "default"`). Re-read clean on the normal model.
+- **Old books closed (§57).** RECAST BIZ H5:L6 duplicates deleted by Paul; "Recast 2026 CLOSED 2026-09-21", staging
+  "Recast Books ARCHIVED". Anthropic $13.06 card marked posted (its link was already there); Wi-Fi Onboard $8.00 has no
+  attachment to file - body-only email receipts never get a Drive file on the live path (open question).

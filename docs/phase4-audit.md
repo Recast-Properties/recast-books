@@ -1665,3 +1665,29 @@ a fallback model inside the call; a fallback-served turn is written to the trans
 fallback: verdict post, $559.34, 104 Ashburne, account 1120 - held by the gate for Paul (OVER_CEILING,
 PAYER_UNKNOWN: the bill is set for auto pay on 10-05). No Journal twin (last Energy Texas row 09-03,
 $484.43). The other four were re-read the same way.
+
+## 57 · The old books closed; the two "lost links" (2026-09-22) - runbook steps 16-18, handoff item 4
+
+**Old workbook (runbook §6).** Paul deleted the two duplicate Materials cells blocks the old poller wrote
+on 09-21 (RECAST BIZ H5:L6 - Amazon.com 02-08 $249.98 Ravinte drawer pulls, 02-22 $10.81 candelabra
+bulbs; both already on the 104 Ashburne tab and migrated from there, §51 step 1 - $260.79 of false
+overhead). Share dialog: only paul@ has access (Owner), general access Restricted - nothing to change.
+Renamed through the Drive API (metadata only, the content was never touched from here): **"Recast 2026
+CLOSED 2026-09-21"** (`1isEbfNK…`); the staging copy is **"Recast Books ARCHIVED (staging, 2026-09-17 to
+2026-09-21)"** (`1ElTwWQ4…`; its bound writer and web-app deployment stay dormant). Step 17 (dragging
+the staging Drive folders into "Recast Books") not done - optional, Paul's call.
+
+**Handoff item 4 - the two Journal lines "without their Drive link":**
+- **Anthropic $13.06** (`receipt-20260917-9b8fac90fc67`): the line already carries its link - the 14:25Z
+  re-post filed "2026-09-17 Anthropic, PBC 13.06.pdf" (`10o_AcOrE…`, in the 2026/OVERHEAD folder) and
+  wrote `doc_url`; only the Inbox card was left in `error` ("Writer returned a non-JSON response" - the
+  misfire). Card marked posted with `scripts/mark-posted.mjs` (txn_id + that url). Nothing else needed.
+- **Wi-Fi Onboard $8.00** (`receipt-20260918-d5a55533911f`, docId `gm-1a0c5fc63ec8b929`): **not a lost
+  link - the email has no attachment.** The live path files attachments only (`storeAttachmentsToDrive`),
+  so a body-only email receipt never gets a Drive file and `doc_url` stays empty by design; the misfire
+  is not involved. The three "Wi-Fi Onboard (Intelsat) 8.00.txt" files in Drive (04-29, 08-15, 09-09)
+  are the migration's, which filed every email as a .txt (`migration-file-docs.mjs`). Berrett Pest
+  Control $270.63 of today (§56) is the same class. Open question for Paul: file body-only email
+  receipts as .txt on the live path too (one change in ingest), or leave the email as the document.
+  The writer has no `setDocUrl` web action (`setDocUrl_` is reached only from the Inbox sidebar's
+  approve), so a one-off link on an existing line would also need a small writer action.
