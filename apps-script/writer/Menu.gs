@@ -1259,7 +1259,7 @@ function sellCostByClass_(ss, name, plan) {
     { label: 'Rehab', test: function (a) { return a >= '1020' && a <= '1060'; } },
     { label: 'Holding (tax, insurance, utilities, HOA)', test: function (a) { return a >= '1100' && a <= '1130'; } },
     { label: 'Financing - interest and fees', test: function (a) { return a === '1200' || a === '1210'; } },
-    { label: "Dennis's profit participation", test: function (a) { return a === '1220'; } },
+    { label: "Dennis's half of the profit (a cost of the deal, so your half is the bottom line)", test: function (a) { return a === '1220'; } },
     { label: 'Selling (commission, closing, concessions, listing)', test: function (a) { return a >= '1300' && a <= '1330'; } }
   ];
   var released = {};

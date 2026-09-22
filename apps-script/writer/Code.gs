@@ -1771,12 +1771,12 @@ function writeClosingTab_(ss, name, plan, target) {
   (s.interest.by_advance || []).forEach(function (a) {
     push('  interest on ' + a.amount_cents / 100 + ' of ' + a.date + ' to ' + a.as_of, d(a.interest_cents), a.kind);
   });
-  if (s.interest.true_up_cents) push('  true-up to the agreed figure', d(s.interest.true_up_cents), 'D-015');
+  if (s.interest.true_up_cents) push('  adjustment to the figure you and Dennis agreed', d(s.interest.true_up_cents), 'engine said ' + d(s.interest.engine_cents));
   total('Dennis - interest', d(s.interest.agreed_cents), '');
   if (s.commission_cents) total('Dennis - commission', d(s.commission_cents), 'bank deal');
-  push("Dennis - share of profit", d(s.dennis_share_cents), '');
+  push('Dennis - his half of the profit', d(s.dennis_share_cents), '');
   push('Paul - costs he fronted', d(s.paid.paul_due_cents), '');
-  push('Paul - share of profit', d(s.paul_share_cents), '');
+  push('Paul - his half of the profit', d(s.paul_share_cents), '');
   push('', null, '');
 
   head('PAYOUTS');
