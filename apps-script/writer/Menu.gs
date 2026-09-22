@@ -1252,61 +1252,25 @@ function sellStatementForTab_(form, plan) {
   });
 }
 
-/** The released cost grouped the way the old closed tabs grouped it. */
+/** The released cost, one row per account in account order (Paul, 2026-09-22: "separate
+ *  these costs out into individual rows" - the grouped Holding and Selling lines hid what
+ *  they were made of). The account's own name carries its class, e.g. "Holding - utilities";
+ *  1220 is named in Paul's words. */
 function sellCostByClass_(ss, name, plan) {
-  var groups = [
-    { label: 'Purchase price', test: function (a) { return a === '1000'; } },
-    { label: 'Acquisition', test: function (a) { return a === '1010'; } },
-    { label: 'Rehab', test: function (a) { return a >= '1020' && a <= '1060'; } },
-    { label: 'Holding (tax, insurance, utilities, HOA)', test: function (a) { return a >= '1100' && a <= '1130'; } },
-    { label: 'Financing - interest and fees', test: function (a) { return a === '1200' || a === '1210'; } },
-    { label: "Dennis's half of the profit (a cost of the deal, so your half is the bottom line)", test: function (a) { return a === '1220'; } },
-    { label: 'Selling (commission, closing, concessions, listing)', test: function (a) { return a >= '1300' && a <= '1330'; } }
-  ];
+  var chart = accountMap();
   var released = {};
   plan.intents.forEach(function (i) {
     if (!/released to COGS/.test(i.memo)) return;
     i.lines.forEach(function (l) { if (l.credit) released[l.account] = (released[l.account] || 0) + l.credit; });
   });
-  return groups.map(function (g) {
-    var cents = 0, accounts = [];
-    Object.keys(released).forEach(function (a) { if (g.test(a)) { cents += released[a]; accounts.push(a); } });
-    return { label: g.label, cents: cents, accounts: accounts.join(' ') };
+  return Object.keys(released).sort().map(function (a) {
+    var label = a === '1220'
+      ? "Dennis's half of the profit (a cost of the deal, so your half is the bottom line)"
+      : (chart.get(a) ? chart.get(a).name : 'account ' + a);
+    return { label: label, cents: released[a], accounts: a };
   }).filter(function (g) { return g.cents !== 0; });
 }
 
-/**
- * Re-render a sold property's closing statement from what is posted, so the tab can be
- * rebuilt after a label change or when a post-sale cost arrives. The Journal is the only
- * source: the `sale` entries and the property's balances, never the dialog's form.
- */
-function rebuildClosingTab() {
-  var props = PropertiesService.getScriptProperties();
-  var ss = openWorkbook_(props);
-  var ui = SpreadsheetApp.getUi();
-  try { requireOwner_(ss); } catch (err) { return; }
-
-  var active = String(ss.getActiveSheet().getName() || '').replace(/ - Closing$/, '');
-  var name = active;
-  if (!propertyRow_(ss, name)) {
-    var resp = ui.prompt('Rebuild closing tab', 'Property name (exactly as on the Properties tab):', ui.ButtonSet.OK_CANCEL);
-    if (resp.getSelectedButton() !== ui.Button.OK) return;
-    name = resp.getResponseText().trim();
-  }
-  if (!propertyRow_(ss, name)) { ui.alert('"' + name + '" is not on the Properties tab.'); return; }
-
-  var built = closingFromJournal_(ss, name);
-  if (!built) { ui.alert('No posted sale found for ' + name + '. Use Sell property... first.'); return; }
-  var written = writeClosingTab_(ss, name, built, closingTabName_(name));
-  warmCache_();
-  ui.alert('Rebuilt ' + written.sheet + ' (' + written.rows + ' rows) from the posted sale.');
-}
-
-/**
- * The closing statement's numbers, read back out of the posted `sale` entries. Returns
- * null when the property has no posted sale. Shapes match what writeClosingTab_ wants,
- * so the tab renders identically whether it is written at the sale or rebuilt later.
- */
 function closingFromJournal_(ss, name) {
   var journal = ss.getSheetByName('Journal');
   var cols = headerIndex_(journal);
