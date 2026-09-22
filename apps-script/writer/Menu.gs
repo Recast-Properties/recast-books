@@ -1355,15 +1355,20 @@ function closingFromJournal_(ss, name) {
     return t;
   };
 
-  var share = 0;
   var registry = propertyRow_(ss, name) || {};
+  // Wording for each settlement line, best first: what the Journal line itself carries,
+  // then whatever is already typed on the tab (so a label Paul improves survives a
+  // rebuild, like the property tab's typed Sale Price), then the account's own name.
+  var chart = accountMap();
+  var typedLabels = closingTabLabels_(ss, closingTabName_(name));
   var cash = at(settlement, '1401');
   var revenue = -at(settlement, '4000');
   var statementLines = settlement.lines
     .filter(function (l) { return l.account !== '1401' && l.account !== '4000'; })
     .map(function (l) {
+      var fromChart = chart.get(l.account) ? chart.get(l.account).name : 'account ' + l.account;
       return {
-        label: l.description || ('account ' + l.account),
+        label: l.description || typedLabels[l.account] || fromChart,
         account: l.account,
         kind: l.account === '1510' ? 'holdback' : (l.cents < 0 ? 'credit' : 'cost'),
         posted_cents: Math.abs(l.cents)
@@ -1437,4 +1442,20 @@ function closingFromJournal_(ss, name) {
   } : { sale_price: '', total_cost: '', profit: '' };
 
   return { summary: summary, statementLines: statementLines, costByClass: costByClass, forecast: forecast };
+}
+
+/** Statement-line wording already on a closing tab, by account: the label in column B of
+ *  every row whose column D names a 4-digit account. Lets Paul improve a label in place
+ *  and keep it through a rebuild (the same courtesy the property tab gives Sale Price). */
+function closingTabLabels_(ss, target) {
+  var sh = ss.getSheetByName(target);
+  var out = {};
+  if (!sh || sh.getLastRow() < 2) return out;
+  var rows = sh.getRange(1, 2, sh.getLastRow(), 3).getValues();
+  rows.forEach(function (r) {
+    var label = String(r[0] || '').replace(/^\s+/, '');
+    var note = String(r[2] || '').trim();
+    if (label && /^[0-9]{4}$/.test(note)) out[note] = label;
+  });
+  return out;
 }
