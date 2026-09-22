@@ -1194,7 +1194,9 @@ function setupPropertyTab(name) {
   var deb = function (factor) { return 'SUMPRODUCT(' + factor + '*' + live + '*' + J('F') + ')'; };
   var cred = function (factor) { return 'SUMPRODUCT(' + factor + '*' + live + '*' + J('G') + ')'; };
   var isBank = '(LEFT(' + J('E') + '&"",2)="14")';
-  var rehabF = '(' + eq('I', 'Rehab') + '+' + eq('I', 'Acquisition') + '*' + ne('E', '1000') + ')';
+  // Rehab Costs = Rehab, Acquisition other than the purchase, and Selling (listing fees, HOA
+  // resale - rows the old tabs carried in Rehab Costs; left off the light tabs until 2026-09-22).
+  var rehabF = '(' + eq('I', 'Rehab') + '+' + eq('I', 'Acquisition') + '*' + ne('E', '1000') + '+' + eq('I', 'Selling') + ')';
   var holdingF = eq('I', 'Holding');
   var costLineF = ne('I', '');
 
@@ -1667,7 +1669,7 @@ function refreshLineBlocks_(ss, name) {
       !voided[String(g(r, 'txn_id'))] && formatIsoDate_(g(r, 'date')) <= today;
   });
   var blocks = [
-    function (r) { var cc = String(g(r, 'cost_class')); return cc === 'Rehab' || (cc === 'Acquisition' && String(g(r, 'account')) !== '1000'); },
+    function (r) { var cc = String(g(r, 'cost_class')); return cc === 'Rehab' || cc === 'Selling' || (cc === 'Acquisition' && String(g(r, 'account')) !== '1000'); },
     function (r) { return String(g(r, 'cost_class')) === 'Holding'; }
   ];
   blocks.forEach(function (crit, b) {
