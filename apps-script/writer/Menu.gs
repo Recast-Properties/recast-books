@@ -192,8 +192,25 @@ function pickerData_(ss) {
     }
   });
 
+  // The trades the property tabs group by, so the Inbox can offer them instead of free
+  // text: a trade that does not match a block name gets no block until the tab is rebuilt
+  // (Paul, 2026-09-23). Same set heavyBlocks_ builds from - the known order, then whatever
+  // else the Journal has seen.
+  var journal = ss.getSheetByName('Journal');
+  var jCols = headerIndex_(journal);
+  var jLast = journal.getLastRow();
+  var trades = PT_HEAVY_ORDER.slice();
+  if (jLast > 1 && jCols['trade']) {
+    var seen = {};
+    journal.getRange(2, jCols['trade'], jLast - 1, 1).getValues().forEach(function (r) {
+      var t = String(r[0] || '').trim();
+      if (t) seen[t] = true;
+    });
+    Object.keys(seen).sort().forEach(function (t) { if (trades.indexOf(t) < 0) trades.push(t); });
+  }
+
   return {
-    accounts: accounts, properties: properties, bankAccounts: bankAccounts,
+    accounts: accounts, properties: properties, bankAccounts: bankAccounts, trades: trades,
     interestRatePct: Math.round(rateAnnual * 10000) / 100
   };
 }

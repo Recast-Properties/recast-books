@@ -758,3 +758,22 @@ them. Ashburne had exactly one such line; the other 263 untraded lines are all o
 bucket by cost class.
 
 454 tests (one new lint: the block column must come from the header).
+
+## 2026-09-23 - The Inbox card is a bulleted list that names the fix (D-040)
+
+Paul: "the inbox descriptions of the expenses are too long and hard to understand. i need bulleted, short
+concise and clear reasons listed. if there was a short clear bullet that said 'no trade - enter a trade'
+that would have solved it."
+
+- **Bullets, action first.** The gate's reason codes are translated into short English that names the fix
+  ("No payer on the document - pick who paid", "Over the auto-file ceiling - needs your OK"); the model's
+  `why` follows as one bullet per sentence, so the older paragraph-length reads become a list. `checked`
+  stays collapsed. The raw-code chips are gone, and a lint fails if a new gate reason has no translation.
+- **"No trade - enter a trade"**, raised on any property cost line outside the tab summary accounts, plus a
+  **trade picker** on the item so the flag can be acted on where it is raised - the trades the property tabs
+  group by, not free text (a typed trade that matches no block name gets no block until a rebuild).
+- Measured on the document that caused it: Energy Texas $559.34 was held on OVER_CEILING and PAYER_UNKNOWN
+  and approved with no trade. Under the new card it reads: over the ceiling / no payer / no trade, then one
+  sentence of Claude's own.
+
+455 tests. Pushed to the writer and verified by pull; no deploy (`doPost` unchanged).

@@ -812,3 +812,26 @@ books stand as closed). What did change: a **cost row renamed on a closing tab n
 same courtesy the settlement lines already had, so Sparkling's row can read "HOA Release" without touching
 the ledger.
 
+
+## D-040 · The Inbox card lists short bullets that name the fix, not a paragraph - 2026-09-23 · Paul
+
+Paul, reviewing the Inbox after the 104 Ashburne tab went wrong: "the inbox descriptions of the expenses
+are too long and hard to understand. i need bulleted, short concise and clear reasons listed. if there was
+a short clear bullet that said 'no trade - enter a trade' that would have solved it."
+
+**Decided:** the card's explanation is a bulleted list, code's flags first, each one naming what to do -
+"No payer on the document - pick who paid", "Over the auto-file ceiling - needs your OK", "No trade - enter
+a trade". The gate's reason codes are never shown raw (a lint fails if a new one has no translation), and
+the model's `why` follows as one bullet per sentence, so an older paragraph reads as a list instead of a
+wall. `checked` stays collapsed under "What was checked".
+
+**A flag has to be actionable where it is raised.** The item editor gained a **trade** picker, offering the
+trades the property tabs group by (the heavy block order plus every trade the Journal has seen) rather than
+free text: a typed trade that does not match a block name gets no block until the tab is rebuilt. The
+missing-trade flag is raised for any property cost line except the ones that live in the tab summary
+(1000 purchase, 1100 property tax, 1200/1210/1220 financing and profit share); OVERHEAD never asks for one.
+
+**Why it matters, measured.** Energy Texas $559.34 (INV05275451, 104 Ashburne) was held on OVER_CEILING and
+PAYER_UNKNOWN, approved from the Inbox with `trade` empty, and then appeared in no block on the property
+tab - counted in Total Project Cost, itemized nowhere. Both halves are now fixed: the card asks for the
+trade, and an untraded Holding line falls under Utilities on the tab (audit 61).

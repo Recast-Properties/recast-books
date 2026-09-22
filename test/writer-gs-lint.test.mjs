@@ -194,6 +194,24 @@ test("refreshHeavyBlocks_ finds a block by its header, and an untraded Holding l
   assert.ok(body.includes("'Utilities'"), "an untraded Holding line has no block to fall into");
 });
 
+test("the Inbox card translates every gate reason code into a plain-English bullet", () => {
+  // Paul, 2026-09-23: the card lists short bullets that name the fix, not reason codes and
+  // not a paragraph. A new gate reason with no translation would show as a raw code.
+  const inbox = readFileSync(path.join(__dirname, "..", "apps-script", "writer", "Inbox.html"), "utf8");
+  const gate = readFileSync(path.join(__dirname, "..", "lib", "gate.mjs"), "utf8");
+  const plain = [...gate.matchAll(/push\("([A-Z_0-9]+)"\)/g)].map((m) => m[1]);
+  const prefixed = [...gate.matchAll(/`([A-Z_0-9]+):\$\{/g)].map((m) => m[1]);   // ENTRY_INVALID:, DUPLICATE_OF:, POSSIBLE_TWIN:
+  assert.ok(plain.length >= 10 && prefixed.length >= 2, "gate reason codes not found - did the push() shape change?");
+  for (const code of plain) {
+    assert.match(inbox, new RegExp("\\b" + code + ":"), `no bullet text for gate reason ${code}`);
+  }
+  for (const code of prefixed) {
+    assert.ok(inbox.includes("'" + code + "'"), `no bullet text for gate reason ${code}:<value>`);
+  }
+  assert.ok(!inbox.includes('class="chip"'), "reason codes are being shown raw again");
+  assert.ok(inbox.includes("No trade - enter a trade"), "the missing-trade bullet is gone");
+});
+
 test("WRITER_VERSION is 0.4.0", () => {
   assert.match(source, /var WRITER_VERSION = '0\.4\.0';/);
 });
