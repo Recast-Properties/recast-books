@@ -729,3 +729,32 @@ receipts he had held since 09-17.
   Granite: profit 109,178.56, Paul 28,489.52, holdback 60,000 released 09-11, escrow and Dennis at zero.
   Sparkling: read from its PDF, profit 60,930.09 at Recast's 50% share, all seven entries documented.
   D-036…D-039 (share not payee; 8% on the closed deals; HOA release is a selling cost, account 1340).
+
+## 2026-09-22 (evening) - The heavy tab was writing into its own spacer columns
+
+Paul: "the columns that are supposed to be spacers have text in them ... also expenses that I
+cleared in the inbox did not show up in the 104 Ashburne sheet." One cause, one consequence, plus
+a second smaller fault.
+
+**Root cause (audit §61).** `setupPropertyTab` writes the grid and THEN inserts the left spacer
+column, so every block ends up one column right of where it was built. The light template deleted
+column H first, which cancelled the insert exactly; `8b5138b` (09-22 morning) made that delete
+`if (!heavy)` so the heavy tab could keep its Interest column - and nothing cancelled the insert
+any more. `refreshHeavyBlocks_` still wrote each block at the column it was *built* at
+(`10 + i * PT_HEAVY_STRIDE`), so after the 09-22 rebuild every Journal write dumped payee / date /
+description / amount one column left, into the spacer (J, O, T, Y, AD ... DA - all twenty), while
+the blocks under their headers kept whatever the rebuild had put there. That is both symptoms: text
+in the spacers, and no new lines in the blocks. The summary was never wrong - Rehab Total and Total
+Project Cost are SUMPRODUCTs over the Journal, not over the blocks.
+
+**Fix:** a block's column is read from its own header in row 4, never recomputed - which also
+immunises the refresh against a new trade reordering the blocks. Pushed and verified by pull; no
+`clasp deploy` (doPost unchanged).
+
+**Second fault, same tab.** Energy Texas $559.34 (posted 09-22 16:47) carries no `trade`: the model
+leaves it null for a utility bill, which is fair, but the heavy tab buckets by trade alone, so the
+line was itemized nowhere. An untraded Holding line now falls under Utilities, as the old tab carried
+them. Ashburne had exactly one such line; the other 263 untraded lines are all on light tabs, which
+bucket by cost class.
+
+454 tests (one new lint: the block column must come from the header).

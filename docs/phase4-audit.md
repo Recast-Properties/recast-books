@@ -1807,3 +1807,51 @@ before this session (verified equivalent over 1..5000, dead copy removed).
 **Open:** the closing tab's layout is still Paul's to sign off (then `CLOSING_TAB_IN_PLACE`); 881 Newport and
 104 Ashburne run through the same wizard when they close (Ashburne is the bank deal - 12%, 3% commission, no
 profit share); then Phase 3.
+
+## 61 · The heavy tab wrote into its own spacer columns (2026-09-22 evening)
+
+**Reported (Paul):** "look at the 104 ashburne tab. the columns that are supposed to be spacers have
+text in them. columns j, o, t, y, ad, ai, an, as, ax, bc, bh, br, bw, cb, cg, cl, cq, cv, da,
+something got screwed up. also expenses that i cleared in the inbox did not show up in the 104
+ashburne sheet."
+
+**The twenty columns name the bug.** A heavy block is five columns - Payee, Date, Description,
+Amount, spacer - from column J, so `10 + i * 5` is J, O, T, Y, AD, AI, AN, AS, AX, BC, BH, BM, BR,
+BW, CB, CG, CL, CQ, CV, DA: exactly Paul's list (he skipped BM), and exactly the *first* column of
+each block as it is BUILT. It is not the spacer at build time; it becomes the spacer afterwards,
+because `setupPropertyTab` finishes with `sh.insertColumnBefore(1)` - the narrow left margin Paul
+asked for on 09-15 - which shifts the whole grid one column right. The light template cancelled that
+shift by deleting column H first (`sh.deleteColumn(8)`); commit `8b5138b` on the morning of 09-22
+made that delete `if (!heavy)` so the heavy tab could keep column H as its Interest column, and from
+that moment the heavy tab's net shift was +1 with nothing to cancel it.
+
+`refreshHeavyBlocks_` - which runs after every Journal write that touches the property - still wrote
+each block at its **built** column. So after the 09-22 rebuild:
+- every new line landed one column left of its header, i.e. in the spacer (Paul's first symptom);
+- the four columns under each header kept whatever the rebuild had put there, so nothing posted since
+  appeared in a block (his second symptom);
+- the block head `=SUM(...)` reads the block's own Amount column, so block totals froze too.
+
+The summary was never affected: Rehab Total and Total Project Cost are SUMPRODUCTs over the Journal.
+Every dollar was on the books the whole time - Berrett Pest Control $270.63 (09-22 12:35) and Energy
+Texas $559.34 (09-22 16:47) are both in the Journal, tied out.
+
+**Fix.** A block's column is read from its own header in row 4 (`head.indexOf(blk, 9) + 1`), never
+recomputed. That is correct before the insert (during the build) and after it, and it also removes a
+latent fault: a brand-new trade sorts into `heavyBlocks_` alphabetically ahead of Utilities, which
+used to shift every later block's index and would have mis-written them all.
+
+**A second fault the same tab exposed.** Energy Texas $559.34 posted with `trade` null - the model
+is right that a utility bill is not a trade, but the heavy tab buckets by trade alone, so the line
+belonged to no block and would have stayed invisible even after the column fix. An untraded Holding
+line now falls under Utilities, which is where the old tab carried them. Ashburne has exactly one
+such line; the other 263 untraded on-tab lines in the Journal are all on light-template properties,
+which bucket by cost class and were never affected.
+
+**Checks.** 454 tests, one new: `refreshHeavyBlocks_` must find its column through the header and
+must not recompute it (mutation-tested - restoring the old expression fails it). Pushed to the
+production writer and verified by `clasp pull` + `cmp`; no `clasp deploy` needed, `doPost` unchanged.
+
+**Paul's one step:** open the 104 Ashburne tab, Recast Books -> Rebuild property tab. The rebuild is
+what clears the text already sitting in the spacer columns; typed cells (Sale Price, Agent
+Commission %, Concession) survive it.

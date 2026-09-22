@@ -1648,12 +1648,25 @@ function refreshHeavyBlocks_(ss, name) {
   // into Utilities and the property tax with them). The purchase (1000) and the property
   // tax (1100) live in the summary, not in a block; financing (1200) never on the tab.
   var onTab = function (r) { var a = String(g(r, 'account')), cc = String(g(r, 'cost_class')); return a !== '1000' && a !== '1100' && (cc === 'Rehab' || cc === 'Holding' || cc === 'Acquisition' || cc === 'Selling'); };
-  heavyBlocks_(ss, name).forEach(function (blk, i) {
-    var pick = function (r) { return onTab(r) && String(g(r, 'trade') || '').trim() === blk; };
-    var out = lines.filter(pick).map(function (r) { return [g(r, 'payee'), g(r, 'date'), g(r, 'description'), Number(g(r, 'debit') || 0) - Number(g(r, 'credit') || 0)]; });
+  // A Holding line the model left untraded (a utility bill is not a trade) belongs under
+  // Utilities, which is where the old tab carried them (2026-09-23).
+  var tradeOf = function (r) { return String(g(r, 'trade') || '').trim() || (String(g(r, 'cost_class')) === 'Holding' ? 'Utilities' : ''); };
+  // ponytail: an untraded Rehab line is still counted in the summary but is itemized in no
+  // block; give it a block when one appears (none exists on the only heavy tab today).
+  // A block's column is READ FROM ITS OWN HEADER, never recomputed: setupPropertyTab writes
+  // the grid and THEN inserts the left spacer column, so a block ends up one column right
+  // of where it was built. On the light template a deleted column cancelled that insert;
+  // since 2026-09-22 the heavy template keeps column H (Interest), nothing cancels it, and
+  // every refresh after the build was writing a column left - into the spacer - which left
+  // the blocks themselves frozen at whatever the last rebuild put there (Paul, 2026-09-23).
+  var head = sh.getRange(4, 1, 1, sh.getLastColumn()).getValues()[0];
+  heavyBlocks_(ss, name).forEach(function (blk) {
+    var c0 = head.indexOf(blk, 9) + 1;   // block headers start past the summary and the schedules
+    if (c0 < 10) { console.warn('refreshHeavyBlocks_ "' + name + '": no header for block "' + blk + '" - rebuild the tab'); return; }
+    var out = lines.filter(function (r) { return onTab(r) && tradeOf(r) === blk; }).map(function (r) { return [g(r, 'payee'), g(r, 'date'), g(r, 'description'), Number(g(r, 'debit') || 0) - Number(g(r, 'credit') || 0)]; });
     out.sort(function (x, y) { return formatIsoDate_(x[1]) < formatIsoDate_(y[1]) ? -1 : formatIsoDate_(x[1]) > formatIsoDate_(y[1]) ? 1 : 0; });
     out = out.slice(0, PT_LINES_N); while (out.length < PT_LINES_N) out.push(['', '', '', '']);
-    sh.getRange(6, 10 + i * PT_HEAVY_STRIDE, PT_LINES_N, 4).setValues(out);
+    sh.getRange(6, c0, PT_LINES_N, 4).setValues(out);
   });
 }
 var PT_BLOCK_COLS = [10, 18];        // Light template

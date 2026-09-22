@@ -180,6 +180,20 @@ test("setupPropertyTab: old-tab layout (summary / Dennis / Rehab Costs / Utiliti
   assert.ok(body.includes("DATE(YEAR($B$1),1,1)"), "no Jan-1-to-date proration of tax_annual");
 });
 
+test("refreshHeavyBlocks_ finds a block by its header, and an untraded Holding line lands under Utilities", () => {
+  const anchor = source.indexOf("function refreshHeavyBlocks_(");
+  assert.ok(anchor !== -1, "refreshHeavyBlocks_ not found");
+  const nextFn = source.indexOf("\nfunction ", anchor + 1);
+  const body = source.slice(anchor, nextFn === -1 ? source.length : nextFn);
+
+  // setupPropertyTab writes the grid and THEN inserts the left spacer column, so a block
+  // sits one column right of where it was built. Recomputing the built column here wrote
+  // every refresh into the spacer and froze the blocks (2026-09-23).
+  assert.ok(body.includes("head.indexOf(blk"), "the block column must be read from the row-4 header");
+  assert.ok(!/getRange\(6,\s*\d+\s*\+/.test(body), "a block column is being recomputed instead of read from its header");
+  assert.ok(body.includes("'Utilities'"), "an untraded Holding line has no block to fall into");
+});
+
 test("WRITER_VERSION is 0.4.0", () => {
   assert.match(source, /var WRITER_VERSION = '0\.4\.0';/);
 });
