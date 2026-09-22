@@ -1605,3 +1605,32 @@ the light template's blocks and totals filtered by cost class and left the Selli
 under Rehab Costs as the old tabs had it. Live tabs after the rebuild: Ashburne $161,458.19, Newport
 $3,443.17, Brushwood $1,916.80, Mesa $9,648.00, Bowling Green $4,807.93, Granite $12,204.87 - each equal to
 its Journal lines.
+
+## 55 · Inbox history leftovers dismissed (2026-09-22) - runbook step 15
+
+The docs store held 1,025 envelopes, 405 `pending`. Read directly through `@netlify/blobs` with the CLI's
+login (`scripts/inbox-leftovers.mjs`, read-only without `--dismiss`); each pending envelope was explained
+against the migration data or left alone. **387 dismissed on Paul's yes** ("if you have accounted for them
+and recommend i dismiss them then yes"), each with a note naming this section and its reason:
+
+| Group | Count | Evidence |
+|---|---|---|
+| Row in the Journal | 265 | its docId is on a migration entry (`rows/entries.json`) whose txn_id is on the live Journal snapshot - 263 checked one by one (one, gm-19d405df…, is the Waxahachie Glass twin Paul dropped in C-7; the other $518.78 row is there), plus the two below |
+| Recorded decision | 75 | its docId is in `paul-answers.json` (mail_settled or no_link; 7 are the "PARKED for Phase 3" answers of §40 - the decision stays recorded there, the envelope and its read stay in the store) |
+| Second copy of a linked document | 36 | `comparison/B-by-match.csv` "twin of <id>" where <id> carries the Journal link (33) or a recorded decision (3) |
+| By hand | 4 | Lowe's 02-19 $1,478.59 (its four rows link to gm-19c9b3740b0…) and Flexitions #8246 $653.34 (the row links to gm-19d02f0310a…) - same order, the link went to the other copy; Garcia Home Repair $1,000 and $1,200 - Paul 2026-09-18 (§16): errors, never post |
+| Bookkeeper read "dismiss", held only for confidence | 7 | Uber personal ride 03-18 $14.13, Waxahachie Glass statement, three trustee sale receipts (White Rock $369,000 ×2, Sparkling $393,701 - purchases are registered, not receipts), two empty "Reimbursed" notes |
+
+**Two received after the 09-17 cutoff were included on purpose:** the pvb421 Amazon orders forwarded on
+09-21 for filing ($249.98 drawer slides, $10.81 bulbs) - their rows are on the Ashburne tab through the
+migration (§51 step 1); approving them in the Inbox would have posted them twice.
+
+**Left pending, on purpose - 18:** (a) **12 parked** Home Depot / Lowe's receipts of 01-11 … 03-02 (about
+$2,490; the tender line on the ones read is a Discover card ending 3746, which is on no account) whose totals
+are on no old tab - searched `entries.json` within two cents and by vendor-day - and which carry no recorded
+decision (they never reached list 4: the read's verdict was hold, not post). Paul's stopping rule (§40)
+parks them for the Phase 3 statements. (b) **6 live cards** for Paul: two Uber rides of 09-19, two Anthropic
+receipts, Bison gift cards, Alaska Airlines.
+
+After the run the store reads `pending 18` = 12 parked + 6 live; one dismissed envelope read back carries the
+note (`review.by = "workbook"`, the poller-secret path). Nothing on the Journal or any tab changed.

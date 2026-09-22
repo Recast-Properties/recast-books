@@ -77,7 +77,7 @@ them. Nothing from that window is replayed. What is replayed is only what Paul h
     $49.54 of 09-18, the HILCO bill) - they flow through the live bookkeeper into production.
 14. **C** - check each against the Journal for a twin (amount within two cents, ±3 days) before Paul
     approves it in Recast Books → Inbox.
-15. The `pending` history envelopes in the Inbox (several hundred, from the 09-17 reads) are migration leftovers: **C** lists them, Paul agrees,
+15. ✅ 2026-09-22 (audit §55: 387 dismissed, 18 left on purpose). The `pending` history envelopes in the Inbox (several hundred, from the 09-17 reads) are migration leftovers: **C** lists them, Paul agrees,
     they are dismissed in bulk (their rows are in the Journal through the migration).
 
 ## 6 · Close the old books
