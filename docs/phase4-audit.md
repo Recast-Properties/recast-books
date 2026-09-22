@@ -1574,3 +1574,21 @@ history leftovers (runbook §5), closing the old workbook (§6), and the sale si
   (any non-ping reply carrying `service`), retries reads up to four times on any lost reply, never repeats
   a write. 397 tests; deployed by Paul 2026-09-22 ~08:50 PT. The 16 errored receipts are stored and wait
   for the warm job's automatic retry (no stored read, < 2 retries) or a Reprocess in the Inbox.
+
+## 53 · The 104 Ashburne tab rebuilt to the old layout and reconciled (2026-09-22)
+
+Paul: "the new tab is a disaster … how did this pass your tie out?" - the tie-out checked the Journal, never
+the rendered tab. Found and fixed in the writer, five pushes, each verified by pull: (1) the heavy template's
+trade blocks ran across the helper columns AI:AW, so every interest formula multiplied Pool receipts
+(#VALUE!, $45,914 interest on a $200 draw); helpers now sit past the grid. (2) The light template's spare-
+column delete removed the heavy tab's Interest column. (3) The summary and Dennis blocks now follow the old
+tab, as Paul drew them: Rehab Total; Total Project Cost (All in) = purchase P+I, cash advance P+I, property
+tax paid, prorated (from the amount paid, the old method); Profit Breakdown with typed Agent % and
+Concession; Dennis Payout = P+I, cash P+I, 3% commission; cash draws carry their Advances memo; "P+I" on the
+schedule heads. (4) A block holds the lines with its trade name - insurance and utilities had all been
+pushed under Utilities, the property tax with them. (5) No Gas/Truck/Trailer, Property Tax or (no trade)
+blocks. **Reconciled against today's export of the old tab:** purchase, 20 draws, both interest figures and
+the tax paid identical to the cent; prorated tax $11,595.21 both ways (the old typed $11,639.13 is a day
+older); 14 of 21 blocks identical; the seven that differ are C-7, C-9, C-10, C-15, C-18, C-22, C-26, C-29,
+C-32 and the fuel block's move to overhead, summing to the $3,525.64 difference exactly (465 rows,
+$161,458.19 vs 510 rows, $164,983.83).
