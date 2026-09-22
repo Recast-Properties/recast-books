@@ -711,3 +711,6 @@ receipts he had held since 09-17.
   Payout; draws carry their memo; P+I labels; insurance under its own block; no Gas/Truck/Trailer, Property
   Tax or (no trade) blocks). Light tabs: Selling-class lines (listing fees) now show and count. Every tab
   reconciled to today's export of the old workbook - each difference a register line.
+- **Inbox leftovers (§55).** 387 pending envelopes from the migration reads dismissed on Paul's yes, each
+  with a note naming why it is settled (`scripts/inbox-leftovers.mjs`); 18 left: 12 parked Home Depot / Lowe's
+  receipts for Phase 3 and Paul's 6 live cards.
