@@ -40,8 +40,13 @@ Sell property...                                        [ Recast Books menu, one
 ```
 
 **A property that is already sold** opens the same dialog in its closed view: the posted summary, the
-document (attach or replace), and Rebuild. That is where a late-arriving settlement statement goes, and it
-is why there is no second menu item.
+document (attach or replace), Rebuild, and - when the closing left money in escrow - **the holdback
+release**: the amount that arrived, the date, and each partner's unpaid share proposed from the ledger
+(1510 still receivable, 2010 still owed to Dennis, the rest Paul's undrawn half). That is where a
+late-arriving settlement statement and a late-arriving cheque both go, and it is why there is no second
+menu item. Posting it is the one place allowed to name a sold property: a sold property is out of the
+posting allowlist so no new *cost* can name it, but the holdback is the closing's own money arriving late
+against the receivable the sale created.
 
 ### 1.1 · Step 2's extraction
 

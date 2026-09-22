@@ -27,6 +27,22 @@
     <button class="primary" id="s-read">Read it</button>
     <button id="s-skip">Skip and type it in</button>
   </div>
+
+  <div id="s-holdback" class="hidden">
+    <hr>
+    <h3>Escrow holdback</h3>
+    <div class="read" id="s-holdback-note"></div>
+    <div class="row">
+      <div><label>Amount that arrived</label><input type="number" id="h-amount" step="0.01"></div>
+      <div><label>Date it arrived</label><input type="date" id="h-date"></div>
+    </div>
+    <div class="row">
+      <div><label>To Dennis</label><input type="number" id="h-dennis" step="0.01"></div>
+      <div><label>To Paul</label><input type="number" id="h-paul" step="0.01"></div>
+    </div>
+    <div id="h-tally" class="balance"></div>
+    <div class="nav"><button class="primary" id="h-post">Post the holdback</button></div>
+  </div>
 </div>
 
 <!-- STEP 2: confirm what the document said ------------------------------------------- -->
@@ -287,6 +303,36 @@
     tally_();
   }
 
+  // The closing left money in escrow: offer to release it, proposing each partner's unpaid
+  // share. Nothing shows when the receivable is already zero.
+  function showHoldback_(h) {
+    var box = document.getElementById('s-holdback');
+    if (!h || !h.outstanding_cents) { box.classList.add('hidden'); return; }
+    var out = h.outstanding_cents / 100;
+    var dennis = Math.min(h.dennis_owed_cents, h.outstanding_cents) / 100;
+    document.getElementById('s-holdback-note').textContent =
+      'Still receivable from escrow: ' + out.toFixed(2) + '. Owed out of it: Dennis ' +
+      (h.dennis_owed_cents / 100).toFixed(2) + ', Paul ' + (out - dennis).toFixed(2) + ' (his undrawn half).';
+    document.getElementById('h-amount').value = out.toFixed(2);
+    document.getElementById('h-dennis').value = dennis.toFixed(2);
+    document.getElementById('h-paul').value = (out - dennis).toFixed(2);
+    document.getElementById('h-date').value = new Date(Date.now() - new Date().getTimezoneOffset() * 60000).toISOString().slice(0, 10);
+    box.classList.remove('hidden');
+    holdbackTally_();
+  }
+
+  function holdbackTally_() {
+    var a = Number(document.getElementById('h-amount').value || 0);
+    var d = Number(document.getElementById('h-dennis').value || 0);
+    var p = Number(document.getElementById('h-paul').value || 0);
+    var el = document.getElementById('h-tally');
+    var left = a - d - p;
+    el.textContent = 'Paying out ' + (d + p).toFixed(2) + ' of ' + a.toFixed(2) +
+      (Math.abs(left) < 0.005 ? ', nothing retained' : ', leaving ' + left.toFixed(2) + ' in the Recast account');
+    el.style.color = left < -0.005 ? '#a50e0e' : '#137333';
+    document.getElementById('h-post').disabled = !a || left < -0.005;
+  }
+
   function loadContext_() {
     var msg = document.getElementById('s-msg');
     callServer_('sellContext', document.getElementById('s-property').value).then(function (result) {
@@ -300,10 +346,12 @@
         note.classList.remove('hidden');
         document.getElementById('s-read').textContent = 'Attach and rebuild';
         document.getElementById('s-skip').classList.add('hidden');
+        showHoldback_(result.holdback);
       } else {
         note.classList.add('hidden');
         document.getElementById('s-read').textContent = 'Read it';
         document.getElementById('s-skip').classList.remove('hidden');
+        document.getElementById('s-holdback').classList.add('hidden');
       }
     }, function (err) { showMsg_(msg, false, escapeHtml_(err && err.message ? err.message : err)); });
   }
@@ -324,6 +372,35 @@
   document.getElementById('s-back-1').addEventListener('click', function () { show_(1); });
   document.getElementById('s-back-2').addEventListener('click', function () { show_(2); });
   document.getElementById('s-finish').addEventListener('click', function () { google.script.host.close(); });
+
+  document.getElementById('s-holdback').addEventListener('input', holdbackTally_);
+
+  document.getElementById('h-post').addEventListener('click', function () {
+    var btn = this, msg = document.getElementById('s-msg');
+    var name = document.getElementById('s-property').value;
+    var amount = document.getElementById('h-amount').value;
+    if (!window.confirm('Post ' + amount + ' of escrow released on ' + name + '?')) return;
+    msg.classList.add('hidden');
+    btn.disabled = true;
+    callServer_('sellHoldback', {
+      property: name,
+      date: document.getElementById('h-date').value,
+      amount: amount,
+      dennis: document.getElementById('h-dennis').value,
+      paul: document.getElementById('h-paul').value,
+      doc_url: document.getElementById('s-doc-url').value,
+    }).then(function (result) {
+      btn.disabled = false;
+      if (!result.ok) { showMsg_(msg, false, '<b>' + escapeHtml_(result.error) + '</b> - ' + escapeHtml_(result.message)); return; }
+      document.getElementById('s-done-head').textContent = 'Holdback released';
+      document.getElementById('s-done').innerHTML = result.posted.length + ' entries posted' +
+        (result.tab ? ', and <b>' + escapeHtml_(result.tab) + '</b> rebuilt' : '') + '.';
+      show_(4);
+    }, function (err) {
+      btn.disabled = false;
+      showMsg_(msg, false, escapeHtml_(err && err.message ? err.message : err));
+    });
+  });
 
   document.getElementById('s-doc').addEventListener('change', function () {
     var f = this.files && this.files[0];

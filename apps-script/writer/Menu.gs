@@ -1081,9 +1081,17 @@ function sellContext(name) {
     var advances = loadAdvances_(ss).filter(function (a) { return a.property === name; });
     var rate = getAccrualOpts_(ss).rateAnnual;
     var sold = String(registry.status || '').toLowerCase() === 'sold';
+    var bal = propertyBalances_(ss, name);
     return {
       ok: true,
       sold: sold,
+      // What the closing left outstanding: escrow still receivable, and what each partner
+      // is owed out of it (D-036 1: Granite's $60,000 arrived on 2026-09-11, split 50/50).
+      holdback: {
+        outstanding_cents: Math.round(bal['1510'] || 0),
+        dennis_owed_cents: -Math.round(bal['2010'] || 0),
+        paul_owed_cents: -Math.round(bal['2030'] || 0)
+      },
       settlement_date: registry.settlement_date ? formatIsoDate_(registry.settlement_date) : '',
       property: {
         name: name,
@@ -1562,3 +1570,57 @@ function sellFileClosingDoc_(form, summary, props) {
   return String(form.doc_url || '').trim();
 }
 
+/**
+ * The escrow holdback, when the money actually arrives: Dr cash / Cr 1510, then each
+ * partner's unpaid share. Part of the closing, not a new cost, so it lives in the same
+ * dialog (D-036 1; `buildHoldbackRelease` in lib/sale.mjs does the arithmetic).
+ */
+function sellHoldback(form) {
+  var props = PropertiesService.getScriptProperties();
+  var ss = openWorkbook_(props);
+  try {
+    requireOwner_(ss);
+    var name = form.property;
+    var registry = propertyRow_(ss, name);
+    if (!registry) return { ok: false, error: 'NOT_FOUND', message: '"' + name + '" is not on the Properties tab.' };
+
+    var amount = toCents(form.amount);
+    var bal = propertyBalances_(ss, name);
+    var outstanding = Math.round(bal['1510'] || 0);
+    if (!amount) return { ok: false, error: 'NO_AMOUNT', message: 'Enter the amount that arrived.' };
+    if (amount > outstanding) {
+      return { ok: false, error: 'OVER_HOLDBACK',
+        message: 'Only ' + (outstanding / 100).toFixed(2) + ' is still receivable on ' + name + '.' };
+    }
+
+    var plan = buildHoldbackRelease({
+      property: { name: name },
+      date: form.date,
+      amount_cents: amount,
+      dennis_cents: form.dennis === '' || form.dennis == null ? 0 : toCents(form.dennis),
+      paul_cents: form.paul === '' || form.paul == null ? 0 : toCents(form.paul),
+      docUrl: String(form.doc_url || '').trim(),
+      postedBy: Session.getActiveUser().getEmail()
+    });
+    if (!plan.checks.ok) {
+      return { ok: false, error: 'HOLDBACK_DOES_NOT_TIE', message: JSON.stringify(plan.checks) };
+    }
+
+    // A sold property is out of the posting allowlist (D-015, D-017) and that is the point -
+    // no new cost may name it. The holdback is not a new cost: it is the closing's own money
+    // arriving late, against the 1510 receivable the sale created. The sell wizard owns the
+    // closing, so it is the one place allowed to name a sold property.
+    var ctx = buildCtx_(ss);
+    ctx.properties.add(name);
+
+    var entries = plan.intents.map(function (intent) { return buildEntry(intent, ctx); });
+    var result = postBatchEntries_(entries, props, true);
+
+    var built = closingFromJournal_(ss, name);
+    var tab = built ? writeClosingTab_(ss, name, built, closingTabName_(name)).sheet : '';
+    warmCache_();
+    return { ok: true, posted: result.posted, tab: tab };
+  } catch (err) {
+    return { ok: false, error: (err && err.code) || 'INTERNAL', message: String((err && err.message) || err) };
+  }
+}
