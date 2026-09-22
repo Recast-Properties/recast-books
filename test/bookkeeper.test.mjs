@@ -79,9 +79,7 @@ const DECIDE_INPUT = {
  */
 function makeFakeClient(handler) {
   const calls = [];
-  return {
-    calls,
-    messages: {
+  const messages = {
       create: async (req) => {
         const i = calls.length;
         // runBookkeeper mutates one `messages` array across turns (normal multi-turn
@@ -92,8 +90,8 @@ function makeFakeClient(handler) {
         if (!res) throw new Error(`fake client: handler returned nothing for call ${i}`);
         return res;
       },
-    },
   };
+  return { calls, messages, beta: { messages } };
 }
 
 function scriptedClient(responses) {
@@ -429,6 +427,18 @@ test("stop_reason refusal always ends in a hold, with why explaining what happen
   assert.equal(result.model.verdict, "hold");
   assert.match(result.model.why, /cyber/);
   assert.equal(client.calls.length, 1, "must not keep looping after a refusal");
+});
+
+test("every call carries the server-side fallback, and a fallback-served turn is noted in the transcript (audit §56)", async () => {
+  const client = scriptedClient([
+    { stop_reason: "max_tokens", content: [{ type: "text", text: "x" }], model: "claude-opus-4-8", usage: { ...usage(), iterations: [{ type: "fallback_message" }] } },
+  ]);
+  const result = await runBookkeeper({ envelope: baseEnvelope(), attachments: [], deps: baseDeps({ anthropic: client }) });
+  assert.deepEqual(client.calls[0].betas, ["server-side-fallback-2026-07-01"]);
+  assert.equal(client.calls[0].fallbacks, "default");
+  assert.match(result.transcript_summary, /served by fallback model claude-opus-4-8/);
+  const checked = client.calls[0].tools.find((t) => t.name === "decide").input_schema.properties.checked.description;
+  assert.match(checked, /verification record/);
 });
 
 test("stop_reason max_tokens ends in a hold", async () => {

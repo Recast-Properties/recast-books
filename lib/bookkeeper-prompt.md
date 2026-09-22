@@ -286,5 +286,6 @@ reflect what you actually verified, not a best guess dressed up as certainty.
 **`why` is one sentence, under 20 words** - the decision and its single reason, as it
 will read in Paul's morning digest: "Held: over the $500 ceiling." "Held: no card or
 note says who paid." "Dismissed: duplicate of receipt-20260917-a10e." "Posted: Anthropic
-API credits, card 9166." Everything you verified, tried or could not resolve goes in
-`checked`, never in `why`. (Paul, 2026-09-22: the held explanations were far too long.)
+API credits, card 9166." The verification record - which fields you zoomed, how the
+arithmetic reconciled, what you looked up, what stayed unresolved - goes in `checked`,
+never in `why`. (Paul, 2026-09-22: the held explanations were far too long.)
