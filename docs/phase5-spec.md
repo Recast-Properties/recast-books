@@ -136,16 +136,48 @@ proration post as their own lines instead of being buried in "cash from closing"
    back for the next purchase.
 6. **Dennis's copy:** save the FINAL Payout report PDF to Drive only; the wizard never emails it.
 
-### 6a · The one open question: what came off Sparkling's settlement statement
+### 6a · Answered from the statements themselves (2026-09-22) - both were already in Drive
 
-Sale price $550,000.00, cash from closing $259,053.12 → **$290,946.88 came off the ALTA.** At the estimate
-percentages (3% agent, 2% closing) that is $27,500.00, leaving **$263,446.88** unaccounted for. Dennis's
-purchase principal and interest ($199,660.07) cannot be it: the old tab subtracts that from gross proceeds
-*after* "cash from closing", so counting it here would take it twice. With other partners on the deal, the
-likely answer is that their money (principal, and their share) was paid straight off the closing. Until the
-statement is read the wizard cannot post Sparkling, and a third payee may need a place in the waterfall
-(today it has three: Dennis, Paul, the shared account). **Needed: the Sparkling settlement statement (ALTA),
-and who the other partners were and what they were owed.** Granite is unaffected and can be re-run first.
+Paul: "they were financial partners and their payout is shown in the title settlement statement." Both
+seller closing disclosures are in his property folders and were read from there, not asked for:
+
+- **1616 Granite** - `1616 Granite/Seller Settlement Statement/seller cd.pdf` (`10Iz6FAyc4OMKF0vuK_yjnKnfrU8zwEmP`),
+  Bison Title file 260648, closed 2026-07-24. **Seller: RECAST PROPERTIES LLC alone.** Sale price $430,000.00;
+  due from seller $82,656.97 = closing costs $15,361.60 + **escrow holdback $60,000.00** + owner's policy
+  adjustment $1,672.00 + county taxes 1/1 → 7/24 $5,623.37; **cash to seller $347,343.03** - the old tab's
+  figure to the cent. Commission $12,900.00 to KW Ellis County (split with Mission Real Estate Group).
+- **280 Sparkling** - `280 Sparkling Springs/Closing Doc/260725 Seller CD..PDF` (`1GflISmyHKDJETEd4zKIETqa78mMw_CYR`),
+  Bison file 260725, closed 2026-08-06. **Two sellers: SAM H PROPERTIES LLC** (Kamal Hantouli, Kennedale TX)
+  **and RECAST PROPERTIES LLC** (Dennis Little signing). Due to sellers $550,686.37 (price $550,000.00 + HOA
+  dues 8/7→12/31 $201.37 + HOA resale certificate $485.00); due from sellers $32,580.12 (closing costs
+  $22,297.20 + owner's policy $2,903.00 + county taxes 1/1 → 8/6 $7,379.92); **cash to sellers $518,106.25**.
+  **Half of that is $259,053.12 - the old tab's "Cash from closing" exactly.** Commission $16,500.00 to Texas
+  Connect Realty.
+
+**So the "other partners" are one co-seller, and the answer is a share, not a payee.** Sparkling was owned
+50/50 with Sam H Properties: each side put in half the purchase ($196,850.50 of the $393,701.00 auction
+price - which is exactly what `Properties.purchase_price` already holds) and took half the proceeds. The
+co-owner's half never passes through Recast's books, so **the waterfall keeps its three payees** (Dennis,
+Paul, the shared account) and needs no change.
+
+**The $4,716.82 is statement line H.01, "Expense Reimbursement to RECAST PROPERTIES LLC"** - a seller-paid
+closing cost disbursed to Recast, i.e. Sam H reimbursing the rehab Recast had fronted. Recast's cash from the
+closing is therefore half of $518,106.25 plus that $4,716.82 = **$263,769.94**, the old tab's "Total Gross
+Proceeds" to the cent. (Half of the reimbursement came out of Recast's own side of the closing costs, so the
+net new money from the co-owner was $2,358.41; the arithmetic above already accounts for it.)
+
+**D-037 (proposed, for Paul's confirmation): a co-owned deal is recorded at Recast's undivided share.**
+Every statement line is posted at Recast's percentage, except a line payable to Recast by name, which posts
+in full. The purchase side already follows this (Sparkling at half). The sell dialog takes "Recast's share of
+this sale" as a typed percentage, default 100%; Granite runs at 100%, Sparkling at 50%. No new Properties
+column and no change to the property tab's forecast - `ponytail`: one typed field on the dialog, add a stored
+column if a second co-owned deal appears.
+
+**Also learned, for the estimates:** the selling commission was **3.00% in both sales** and covered both
+brokers - not 3% a side. Closing costs other than the commission and the tax proration ran **0.96% (Granite)
+and 0.72% (Sparkling)** of the price, so Settings' 2% closing estimate is about double what these two cost.
+Recommend changing `closing_pct` to 1%; the preliminary payout is the only thing it touches (D-034 already
+estimates the tax proration on its own line). Paul's call, not a blocker.
 
 ## 7 · Build order (after Paul's answers)
 

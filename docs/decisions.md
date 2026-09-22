@@ -753,3 +753,21 @@ Answers to `docs/phase5-spec.md` §6, which the sell wizard is built from.
 **Open, blocking Sparkling only:** what the other $263,446.88 of Sparkling's ALTA was (other partners were on
 that deal) and whether a fourth payee belongs in the waterfall - spec §6a. Granite can be re-run without it.
 
+## D-037 · A co-owned deal is recorded at Recast's undivided share - 2026-09-22 · proposed, awaiting Paul
+
+280 Sparkling was sold by **two** sellers: SAM H PROPERTIES LLC and RECAST PROPERTIES LLC (seller CD, Bison
+file 260725). Cash to the sellers was $518,106.25 and Recast received exactly half, $259,053.12 - the old
+tab's "Cash from closing" to the cent - plus statement line H.01 "Expense Reimbursement to RECAST PROPERTIES
+LLC" $4,716.82, giving the old tab's $263,769.94 gross. The purchase side already works this way: Recast's
+$196,850.50 is half of the $393,701.00 auction price.
+
+**Proposed:** Recast's books record Recast's undivided share of a co-owned property, never the whole deal.
+At a sale, every settlement-statement line posts at that share; a line payable to Recast by name posts in
+full. The co-owner is not a payee in the waterfall and never appears in the books - the three payees (Dennis,
+Paul, the shared Recast account) split Recast's share. The share is typed on the sell dialog (default 100%),
+not stored, until a second co-owned deal justifies a column.
+
+**Why it matters:** the alternative - booking the whole property and showing the co-owner as a payee - would
+double every Sparkling cost already migrated and break the old-books tie-out (D-027). This decision is what
+the migrated numbers already assume.
+
