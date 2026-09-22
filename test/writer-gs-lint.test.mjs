@@ -96,6 +96,16 @@ for (const [tab, headers] of Object.entries(SPEC_HEADERS)) {
   });
 }
 
+test("every function the Recast Books menu names is declared in Menu.gs", () => {
+  const menuSrc = readFileSync(new URL("../apps-script/writer/Menu.gs", import.meta.url), "utf8");
+  const onOpen = menuSrc.slice(menuSrc.indexOf("function onOpen()"), menuSrc.indexOf("// ---- access control"));
+  const named = [...onOpen.matchAll(/addItem\(\s*'[^']*'\s*,\s*'([A-Za-z0-9_]+)'\s*\)/g)].map((m) => m[1]);
+  assert.ok(named.length >= 10, `expected the menu to name many handlers, found ${named.length}`);
+  const declared = new Set([...menuSrc.matchAll(/^function\s+([A-Za-z0-9_]+)\s*\(/gm)].map((m) => m[1]));
+  const missing = named.filter((fn) => !declared.has(fn));
+  assert.deepEqual(missing, [], `the menu names handlers Menu.gs does not declare: ${missing.join(", ")}`);
+});
+
 test("every writer action (ping, post, void, read, setPeriod, upsert, postBatch, storeDocument, setDocUrl, propertyTab) is dispatched", () => {
   for (const action of ["ping", "post", "void", "read", "setPeriod", "upsert", "postBatch", "storeDocument", "setDocUrl", "propertyTab"]) {
     assert.ok(

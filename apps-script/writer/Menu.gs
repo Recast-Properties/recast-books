@@ -1252,6 +1252,33 @@ function sellStatementForTab_(form, plan) {
   });
 }
 
+/**
+ * Re-render a sold property's closing statement from what is posted, so the tab can be
+ * rebuilt after a label change or when a post-sale cost arrives. The Journal is the only
+ * source: the `sale` entries and the property's balances, never the dialog's form.
+ */
+function rebuildClosingTab() {
+  var props = PropertiesService.getScriptProperties();
+  var ss = openWorkbook_(props);
+  var ui = SpreadsheetApp.getUi();
+  try { requireOwner_(ss); } catch (err) { return; }
+
+  var active = String(ss.getActiveSheet().getName() || '').replace(/ - Closing$/, '');
+  var name = active;
+  if (!propertyRow_(ss, name)) {
+    var resp = ui.prompt('Rebuild closing tab', 'Property name (exactly as on the Properties tab):', ui.ButtonSet.OK_CANCEL);
+    if (resp.getSelectedButton() !== ui.Button.OK) return;
+    name = resp.getResponseText().trim();
+  }
+  if (!propertyRow_(ss, name)) { ui.alert('"' + name + '" is not on the Properties tab.'); return; }
+
+  var built = closingFromJournal_(ss, name);
+  if (!built) { ui.alert('No posted sale found for ' + name + '. Use Sell property... first.'); return; }
+  var written = writeClosingTab_(ss, name, built, closingTabName_(name));
+  warmCache_();
+  ui.alert('Rebuilt ' + written.sheet + ' (' + written.rows + ' rows) from the posted sale.');
+}
+
 /** The released cost, one row per account in account order (Paul, 2026-09-22: "separate
  *  these costs out into individual rows" - the grouped Holding and Selling lines hid what
  *  they were made of). The account's own name carries its class, e.g. "Holding - utilities";
