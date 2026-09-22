@@ -1113,6 +1113,8 @@ function sellSettlement_(form) {
     date: form.date,
     sale_price_cents: toCents(form.sale_price),
     net_to_seller_cents: toCents(form.net_to_seller),
+    // Derived by lib/sale.mjs unless the statement itself stated it (2026-09-22: the
+    // dialog does not ask - "it should know cash received").
     cash_to_recast_cents: form.cash_to_recast === '' || form.cash_to_recast == null ? undefined : toCents(form.cash_to_recast),
     recast_share_pct: form.recast_share_pct === '' || form.recast_share_pct == null ? 100 : Number(form.recast_share_pct),
     lines: (form.lines || [])

@@ -42,7 +42,7 @@
   <div class="row">
     <div><label>Sale price <span class="req">*</span></label><input type="number" id="s-price" step="0.01"></div>
     <div><label>Net to seller (all sellers) <span class="req">*</span></label><input type="number" id="s-net" step="0.01"></div>
-    <div><label>Cash Recast received (blank = derive)</label><input type="number" id="s-cash" step="0.01"></div>
+    <div><label>Cash Recast received</label><div id="s-cash-shown" class="balance" style="margin:0">&mdash;</div></div>
   </div>
 
   <label>Statement lines</label>
@@ -93,6 +93,7 @@
   var CTX = null;
   var READ = null;
   var DOC = { name: '', mime: '', base64: '' };
+  var CASH_STATED = '';   // only when the statement itself says what Recast received
 
   var KINDS = [
     ['cost', 'charge paid by the seller'],
@@ -187,7 +188,7 @@
       recast_share_pct: document.getElementById('s-share').value,
       sale_price: document.getElementById('s-price').value,
       net_to_seller: document.getElementById('s-net').value,
-      cash_to_recast: document.getElementById('s-cash').value,
+      cash_to_recast: CASH_STATED,
       interest_figure: document.getElementById('s-interest').value,
       recapture: document.getElementById('s-recapture').value,
       lines: readLines_(),
@@ -207,6 +208,13 @@
       if (l.kind === 'credit') credits += v; else off += v;
     });
     var derived = price + credits - off;
+    var share = Number(document.getElementById('s-share').value || 100) / 100;
+    var toRecast = 0;
+    readLines_().forEach(function (l) { if (l.kind === 'to_recast') toRecast += Number(l.amount || 0); });
+    var cash = CASH_STATED !== '' ? Number(CASH_STATED) : (Math.floor(net * share * 100) / 100) + toRecast;
+    document.getElementById('s-cash-shown').textContent = net ? cash.toFixed(2) +
+      (CASH_STATED !== '' ? ' (stated on the statement)' : (share < 1 ? " (Recast's share, plus what it was paid by name)" : '')) : '-';
+
     var el = document.getElementById('s-tally');
     var ok = net && Math.abs(derived - net) < 0.02;
     el.textContent = 'Lines take off ' + off.toFixed(2) + ', add back ' + credits.toFixed(2) +
@@ -249,7 +257,10 @@
     if (st.recast_share_pct) document.getElementById('s-share').value = st.recast_share_pct;
     if (st.sale_price_cents) document.getElementById('s-price').value = (st.sale_price_cents / 100).toFixed(2);
     if (st.net_to_seller_cents) document.getElementById('s-net').value = (st.net_to_seller_cents / 100).toFixed(2);
-    document.getElementById('s-cash').value = st.cash_to_recast_cents ? (st.cash_to_recast_cents / 100).toFixed(2) : '';
+    // Cash received is derived from the statement, never typed: Recast's share of
+    // net-to-seller (floored, so an odd cent goes to the co-seller) plus every line paid
+    // to Recast in full. A statement that states Recast's own figure wins.
+    CASH_STATED = st.cash_to_recast_cents ? (st.cash_to_recast_cents / 100).toFixed(2) : '';
 
     document.querySelector('#s-lines tbody').innerHTML = '';
     (st.lines || []).forEach(function (l) {

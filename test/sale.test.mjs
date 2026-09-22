@@ -50,7 +50,6 @@ const SPARKLING = {
     date: "2026-08-06",
     sale_price_cents: 55_000_000,
     net_to_seller_cents: 51_810_625,
-    cash_to_recast_cents: 26_376_994, // half of net-to-seller plus the whole reimbursement
     recast_share_pct: 50,
     lines: [
       { label: "Real Estate Commission - Selling, Texas Connect Realty", account: "1300", cents: 1_650_000, kind: "cost" },
@@ -113,6 +112,24 @@ test("splitStatement: D-037 halves a co-owned statement, and a line paid to Reca
   assert.equal(st.to_recast_cents, 235_841, "but only Sam H's half is new money");
   assert.equal(st.cash_cents, 26_376_994, "the wire: 259,053.12 + 4,716.82 = the old tab's gross proceeds");
   assert.equal(Math.abs(st.rounding_cents) <= 1, true, `share rounding should be a cent, got ${st.rounding_cents}`);
+});
+
+test("cash received is derived, never asked for: the share is floored, so the odd cent goes to the co-seller", () => {
+  const st = splitStatement(SPARKLING.settlement);
+  // half of 518,106.25 is 259,053.125; the title company wired Recast 259,053.12
+  assert.equal(st.cash_cents, 26_376_994, "259,053.12 + the whole 4,716.82 reimbursement");
+  assert.equal(Math.abs(st.rounding_cents) <= 1, true, `share rounding should be a cent, got ${st.rounding_cents}`);
+
+  // a single-seller statement derives to net-to-seller exactly
+  assert.equal(splitStatement(GRANITE.settlement).cash_cents, 34_734_303);
+});
+
+test("a statement that states Recast's own figure wins over the derivation", () => {
+  // Within the rounding tolerance: a figure further out than that is refused as a statement
+  // that does not tie, which is the point of the check.
+  const st = splitStatement({ ...SPARKLING.settlement, cash_to_recast_cents: 26_376_993 });
+  assert.equal(st.cash_cents, 26_376_993);
+  assert.throws(() => splitStatement({ ...SPARKLING.settlement, cash_to_recast_cents: 26_000_000 }), /does not tie/);
 });
 
 test("splitStatement refuses a statement whose lines do not explain net-to-seller", () => {

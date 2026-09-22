@@ -136,7 +136,7 @@ test("280 Sparkling's read drives the sale plan to the old tab's net profit at R
   const { settlement } = validateSettlement(SPARKLING_READ);
   const { summary, checks } = buildSalePlan({
     property: { name: "280 Sparkling", deal: "partner", dennis_share_pct: 50 },
-    settlement: { ...settlement, cash_to_recast_cents: 26_376_994 },
+    settlement,   // the wire is derived from the statement, not typed (D-037's floored share)
     advances: [{ advance_id: "s1", date: "2026-06-02", amount_cents: 19_685_050, rate_annual: 0.08, repaid_date: "2026-08-06", kind: "purchase" }],
     balances: {
       1000: 19_685_050, 1010: 48_500, 1020: 60_000, 1030: 79_847,

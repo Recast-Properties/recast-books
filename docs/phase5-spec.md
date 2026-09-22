@@ -25,7 +25,7 @@ Sell property...                                        [ Recast Books menu, one
                                                                             [ Read it > ]
 
   STEP 2  Confirm           everything below was read from the document; correct anything
-                            settlement date | sale price | net to seller | cash to Recast
+                            settlement date | sale price | net to seller | cash to Recast (derived)
                             Recast's share %   (proposed from the sellers named on it)
                             statement lines: wording | account | amount | kind | why
                             advances: date | amount | rate | repaid     (edit the reconcile here)
@@ -66,6 +66,12 @@ Rules the read follows, all of them things the two real statements taught us (§
   sellers is 50 (D-037). Paul confirms it; the read never assumes.
 - **`ties`** says whether sale price + credits - charges - holdback equals net-to-seller, and by how much
   if not. A statement that does not tie stops at step 2 with the gap named.
+- **Cash received is never typed** (Paul, 2026-09-22: "it should know cash received"). It is Recast's share
+  of net-to-seller, **floored**, plus every line paid to Recast in full: half of an odd cent cannot go to
+  both sellers, and the title company gave it to the other one (Sparkling: half of 518,106.25 is
+  259,053.125 and Recast was wired 259,053.12). A statement that states Recast's own figure wins over the
+  derivation, and the dialog shows whichever it used. A figure further out than the rounding tolerance is
+  refused as a statement that does not tie.
 - Nothing is posted, filed or locked by the read. It only fills the form.
 
 ## 2 · What posts (one batch, all dated the settlement date, `source = sale`, txn ids `sale-<date>-…`)
