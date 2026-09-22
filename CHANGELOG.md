@@ -779,3 +779,21 @@ that would have solved it."
   sentence of Claude's own.
 
 455 tests. Pushed to the writer and verified by pull; no deploy (`doPost` unchanged).
+
+## 2026-09-23 (later) - Each item gets its own property; the account picker says business or property (D-041)
+
+Paul, on a Home Depot card with four tool items under 104 Ashburne: "i should be able to assign each
+itemized item in a receipt to a different property or overhead. also, there is no general tools category
+that is for the business vs a property."
+
+- **Property per item.** Every item has its own Property select (OVERHEAD included); the entry's select
+  became the "sets every item" control for the common one-house receipt. Approve splits the entry into one
+  per property before posting - the ledger rule that an entry is one property does not move.
+- **The account picker is grouped**: Property costs - needs a property / Business overhead - OVERHEAD only /
+  Cash, prepaid and other. 6510 Small tools & equipment already WAS the business tools account; what the
+  card never showed is that it cannot sit on a property (D-010), which is why that card could not have
+  posted as it stood.
+- **A live D-010 check on the card**: "Business account on a property - set 6510 to OVERHEAD", and the
+  mirror for a property account left on OVERHEAD. It follows his edits, which the ingest gate cannot.
+
+455 tests. Pushed to the writer and verified by pull; no deploy.

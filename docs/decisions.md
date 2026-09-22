@@ -841,3 +841,24 @@ missing-trade flag is raised for any property cost line except the ones that liv
 PAYER_UNKNOWN, approved from the Inbox with `trade` empty, and then appeared in no block on the property
 tab - counted in Total Project Cost, itemized nowhere. Both halves are now fixed: the card asks for the
 trade, and an untraded Holding line falls under Utilities on the tab (audit 61).
+
+## D-041 · Property is per item on the Inbox card; the post still splits one entry per property - 2026-09-23 · Paul
+
+Paul, on a Home Depot card whose four line items were all 6510 Small tools & equipment under property
+104 Ashburne: "i should be able to assign each itemized item in a receipt to a different property or
+overhead. also, there is no general tools category that is for the business vs a property."
+
+**Decided:** the card carries **Property on every item**, with the entry's own Property select kept as the
+"set all of them" control for the ordinary receipt that belongs to one house. The ledger is unchanged - a
+posted entry is still exactly one property (`lib/posting.mjs`) - so Approve splits the edited entry into one
+entry per property it carries, which is the same shape the bookkeeper is already told to propose when a
+receipt spans two houses. Payee, date, paid_from and the document travel onto each.
+
+**On the tools category:** 6510 Small tools & equipment **is** the business one, and it was already picked
+on all four items - what the card never said is that 6510 can only be OVERHEAD (D-010) while the entry named
+a property, a combination `buildEntry` refuses outright (OVERHEAD_ON_PROPERTY). No new account: instead the
+account picker is grouped - **Property costs - needs a property**, **Business overhead - OVERHEAD only**,
+**Cash, prepaid and other** - so the distinction is visible where the choice is made, and the card raises
+"Business account on a property - set 6510 to OVERHEAD" live as he edits, since the ingest gate only ever
+saw what the model first proposed. A tool bought for one house still goes to 6510 as overhead (D-010); if
+Paul wants property-level tools that is a chart change and his call, not a silent one.

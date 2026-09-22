@@ -68,8 +68,25 @@
   function opt_(value, label, selected) {
     return '<option value="' + escapeHtml_(value) + '"' + (selected ? ' selected' : '') + '>' + escapeHtml_(label) + '</option>';
   }
+  // Grouped so "business vs a property" is visible in the list itself (Paul, 2026-09-23:
+  // "there is no general tools category that is for the business vs a property" - 6510 is
+  // that category, it just did not say so). Series rules are lib/posting.mjs's, D-010.
+  var ACCT_GROUPS = ['Property costs - needs a property', 'Business overhead - OVERHEAD only', 'Cash, prepaid and other'];
+  function acctGroup_(code) {
+    var c = String(code);
+    if (c.charAt(0) === '1' && c < '1400') return ACCT_GROUPS[0];
+    if (c.charAt(0) === '6' || c.charAt(0) === '7') return ACCT_GROUPS[1];
+    return ACCT_GROUPS[2];
+  }
   function accountOpts_(sel) {
-    return opt_('', 'Choose...', !sel) + DATA.pickers.accounts.map(function (a) { return opt_(a.code, a.code + ' ' + a.name, a.code === sel); }).join('');
+    var html = opt_('', 'Choose...', !sel);
+    ACCT_GROUPS.forEach(function (g) {
+      var inGroup = DATA.pickers.accounts.filter(function (a) { return acctGroup_(a.code) === g; });
+      if (!inGroup.length) return;
+      html += '<optgroup label="' + escapeHtml_(g) + '">' +
+        inGroup.map(function (a) { return opt_(a.code, a.code + ' ' + a.name, a.code === sel); }).join('') + '</optgroup>';
+    });
+    return html;
   }
   function propertyOpts_(sel) {
     return DATA.pickers.properties.map(function (p) { return opt_(p, p, p === sel); }).join('') + opt_('OVERHEAD', 'OVERHEAD', sel === 'OVERHEAD');
@@ -128,11 +145,51 @@
     });
   }
 
+  // D-010, checked against what is on the card right now rather than what the model first
+  // proposed - the ingest gate never saw Paul's edits.
+  function mismatchFlags_(entries) {
+    var out = [];
+    (entries || []).forEach(function (e) {
+      (e.items || []).forEach(function (it) {
+        var g = acctGroup_(it.account || ''), prop = itemProperty_(e, it);
+        if (!it.account) return;
+        if (g === ACCT_GROUPS[1] && prop && prop !== 'OVERHEAD') out.push('Business account on a property - set ' + (it.account) + ' to OVERHEAD');
+        if (g === ACCT_GROUPS[0] && prop === 'OVERHEAD') out.push('Property account on OVERHEAD - give ' + (it.account) + ' a property');
+        if (g === ACCT_GROUPS[0] && !prop) out.push('No property on ' + it.account + ' - pick one');
+      });
+    });
+    return out.filter(function (t, i) { return out.indexOf(t) === i; });
+  }
+
   function flagsList_(gate, entries) {
-    var flags = ((gate && gate.reasons) || []).map(flagText_).filter(Boolean);
+    var flags = ((gate && gate.reasons) || []).map(flagText_).filter(Boolean).concat(mismatchFlags_(entries));
     if (needsTrade_(entries)) flags.push('No trade - enter a trade');
     if (!flags.length) flags.push('Check it, then approve or dismiss');
     return flags.map(function (t) { return '<li class="act">' + escapeHtml_(t) + '</li>'; }).join('');
+  }
+
+  // Property is per ITEM in the editor (Paul, 2026-09-23: "i should be able to assign each
+  // itemized item in a receipt to a different property or overhead"). A posted entry is
+  // still one property, so approve splits an entry into one per property it carries - the
+  // same shape the bookkeeper is asked to propose when a receipt spans two houses.
+  function itemProperty_(entry, item) {
+    return (item && item.property !== undefined && item.property !== null) ? item.property : (entry ? entry.property : '');
+  }
+  function splitByProperty_(entries) {
+    var out = [];
+    (entries || []).forEach(function (e) {
+      var order = [], byProp = {};
+      (e.items || []).forEach(function (it) {
+        var p = itemProperty_(e, it);
+        if (!byProp[p]) { byProp[p] = JSON.parse(JSON.stringify(e)); byProp[p].property = p; byProp[p].items = []; order.push(p); }
+        var copy = JSON.parse(JSON.stringify(it));
+        delete copy.property;
+        byProp[p].items.push(copy);
+      });
+      if (!order.length) out.push(e);
+      order.forEach(function (p) { out.push(byProp[p]); });
+    });
+    return out;
   }
 
   function totalsLine_(env) {
@@ -148,7 +205,11 @@
     var m = env.model || {};
     var gate = env.gate || {};
     var d = escapeHtml_(env.docId);
-    var entries = EDIT[env.docId] || (EDIT[env.docId] = JSON.parse(JSON.stringify(m.entries || [])));
+    var entries = EDIT[env.docId];
+    if (!entries) {
+      entries = EDIT[env.docId] = JSON.parse(JSON.stringify(m.entries || []));
+      entries.forEach(function (e) { (e.items || []).forEach(function (it) { if (it.property === undefined) it.property = e.property || ''; }); });
+    }
     var props = []; entries.forEach(function (e) { if (e.property && props.indexOf(e.property) < 0) props.push(e.property); });
 
     var atts = (env.attachments || []).map(function (a, i) {
@@ -166,11 +227,12 @@
           '<div class="row3"><div><input data-e="' + ei + '" data-i="' + ii + '" data-f="amount" value="' + escapeHtml_((Number(it.amount_cents || 0) / 100).toFixed(2)) + '" placeholder="Amount"></div>' +
           '<div><input data-e="' + ei + '" data-i="' + ii + '" data-f="description" value="' + escapeHtml_(it.description || '') + '" placeholder="Description"></div>' +
           '<div class="tr"><select data-e="' + ei + '" data-i="' + ii + '" data-f="trade">' + tradeOpts_(it.trade || '') + '</select></div></div>' +
+          '<select data-e="' + ei + '" data-i="' + ii + '" data-f="property">' + propertyOpts_(itemProperty_(e, it)) + '</select>' +
           '<input data-e="' + ei + '" data-i="' + ii + '" data-f="business_purpose" value="' + escapeHtml_(it.business_purpose || '') + '" placeholder="Business purpose (274(d) accounts)">' +
           '</div>';
       }).join('');
       return '<div class="entry">' +
-        '<div class="row"><div><label>Property</label><select data-e="' + ei + '" data-f="property">' + propertyOpts_(e.property) + '</select></div>' +
+        '<div class="row"><div><label>Property (sets every item)</label><select data-e="' + ei + '" data-f="property">' + propertyOpts_(e.property) + '</select></div>' +
         '<div><label>Paid from</label><select data-e="' + ei + '" data-f="paid_from">' + paidFromOpts_(e.paid_from) + '</select></div></div>' +
         items + '<button class="add" data-add="' + ei + '">+ item</button></div>';
     }).join('');
@@ -254,7 +316,11 @@
     card.querySelectorAll('[data-f]').forEach(function (el) {
       var h = function () {
         var e = entries[Number(el.dataset.e)];
-        if (el.dataset.i === undefined) e[el.dataset.f] = el.value;
+        if (el.dataset.i === undefined) {
+          e[el.dataset.f] = el.value;
+          // The entry's Property is the "all of them" control; per-item overrides follow it.
+          if (el.dataset.f === 'property') { (e.items || []).forEach(function (it) { it.property = el.value; }); rerender_(env.docId); return; }
+        }
         else if (el.dataset.f === 'amount') e.items[Number(el.dataset.i)].amount_cents = cents_(el.value);
         else e.items[Number(el.dataset.i)][el.dataset.f] = el.value;
         card.querySelector('.tot').innerHTML = totalsLine_(env);
@@ -275,7 +341,8 @@
     });
     card.querySelectorAll('[data-add]').forEach(function (b) {
       b.onclick = function () {
-        entries[Number(b.dataset.add)].items.push({ account: '', amount_cents: 0, description: '', trade: '', business_purpose: '' });
+        var e = entries[Number(b.dataset.add)];
+        e.items.push({ account: '', amount_cents: 0, description: '', trade: '', business_purpose: '', property: e.property || '' });
         rerender_(env.docId);
       };
     });
@@ -291,22 +358,23 @@
 
     var approveBtn = card.querySelector('[data-approve]');
     approveBtn.onclick = function () {
+      var toPost = splitByProperty_(entries);
       if (approveBtn.dataset.armed !== '1') {
         approveBtn.dataset.armed = '1';
-        approveBtn.textContent = 'Post ' + entries.length + (entries.length === 1 ? ' entry - sure?' : ' entries - sure?');
+        approveBtn.textContent = 'Post ' + toPost.length + (toPost.length === 1 ? ' entry - sure?' : ' entries - sure?');
         setTimeout(function () { approveBtn.dataset.armed = ''; approveBtn.textContent = 'Approve'; }, 4000);
         return;
       }
       busy(true);
       msg.classList.add('hidden');
-      callServer_('inboxApprove', { docId: env.docId, entries: entries, model: env.model || {} }).then(function (r) {
+      callServer_('inboxApprove', { docId: env.docId, entries: toPost, model: env.model || {} }).then(function (r) {
         if (!r.ok) return fail(r);
         done('Posted ' + r.txn_ids.map(function (t) { return '<code>' + escapeHtml_(t) + '</code>'; }).join(', ') +
           ' <span data-finish="1">&middot; filing...</span>' +
           (r.timings ? '<div class="docid">' + escapeHtml_(r.timings) + '</div>' : ''));
         // Step two runs while the user moves on: Drive filing, doc_url, line blocks, cache.
         var slot = msg.querySelector('[data-finish]');
-        callServer_('inboxFinish', { docId: env.docId, txn_ids: r.txn_ids, entries: entries, model: env.model || {}, attachments: env.attachments || [] }).then(function (f) {
+        callServer_('inboxFinish', { docId: env.docId, txn_ids: r.txn_ids, entries: toPost, model: env.model || {}, attachments: env.attachments || [] }).then(function (f) {
           if (f.ok) {
             slot.innerHTML = (f.doc_url ? '&middot; <a href="' + escapeHtml_(f.doc_url) + '" target="_blank" rel="noopener">Drive file</a>' : '&middot; filed') +
               (f.timings ? ' <span class="docid">(' + escapeHtml_(f.timings) + ')</span>' : '');

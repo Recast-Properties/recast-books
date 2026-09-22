@@ -1871,3 +1871,23 @@ still gets "Check it, then approve or dismiss", so the list never comes up empty
 does not.
 
 That card now reads, in full: **Check the amounts, then approve or dismiss.**
+
+## 63 · Per-item property, and what "no general tools category" turned out to be (2026-09-23)
+
+The card: Home Depot, 104 Ashburne, paid by Paul, four items - a Stanley sawhorse $59.52, an Anvil glass
+scraper $5.39, a putty knife $11.89, a 6-in-1 painter's tool $6.47 - every one on **6510 Small tools &
+equipment**, an overhead account, under a property. `buildEntry` refuses that combination outright
+(OVERHEAD_ON_PROPERTY, D-010), so the card could not have posted as it stood.
+
+Two things were wrong with the card, and neither was the chart of accounts. **6510 is** the general business
+tools category; the picker just never said which accounts are the business's and which are a property's.
+And property was a per-entry field, so there was no way to send the sawhorse to OVERHEAD and keep the
+scraper on Ashburne without dismissing the card and typing it twice.
+
+Fixed together (D-041): property on every item with the entry's select as the "set all" control; Approve
+splits into one entry per property; the account picker grouped into Property costs / Business overhead /
+Cash, prepaid and other; and a live check that raises "Business account on a property - set 6510 to
+OVERHEAD" as he edits - the ingest gate only ever saw the model's first proposal, not his corrections.
+
+Open for Paul: whether a tool bought for one house should be chargeable to that house. Today it is overhead
+(D-010, 6510) and that is deliberate; changing it is a chart decision, not a UI one.
