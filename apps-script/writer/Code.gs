@@ -1236,11 +1236,16 @@ function setupPropertyTab(name) {
   // interest by the D-006 method at Settings!interest_rate_annual (D-016), with the
   // per-row math in helper columns AN:AQ; the head carries principal + interest.
   var advCritBase = '(' + A('D') + '&""="' + safeName + '")*(' + A('B') + '<>"")';
+  // Heavy (Ashburne, the old tab's "Cash Draws"): a Description column from Advances.notes
+  // sits between End Date and Principal, so principal is G and interest H (Paul, 2026-09-22:
+  // "missing the descriptions of the cash advances").
+  var PC = heavy ? 7 : 6, IC = PC + 1, PL = colLetter_(PC), IL = colLetter_(IC);
   var advanceSchedule = function (top, title, kindFactor, n) {
-    set(top, 4, title, true); paint(top, 4, 3, C.head); paint(top, 7, 1, C.total);
-    set(top + 1, 4, 'Start Date', true); set(top + 1, 5, 'End Date', true); set(top + 1, 6, 'Principal', true);
-    set(top + 1, 7, 'Interest to Date', true);
-    paint(top + 1, 4, 4, C.sub);
+    set(top, 4, title, true); paint(top, 4, IC - 4, C.head); paint(top, IC, 1, C.total);
+    set(top + 1, 4, 'Start Date', true); set(top + 1, 5, 'End Date', true);
+    if (heavy) set(top + 1, 6, 'Description', true);
+    set(top + 1, PC, 'Principal', true); set(top + 1, IC, 'Interest to Date', true);
+    paint(top + 1, 4, IC - 3, C.sub);
     var crit = advCritBase + '*' + kindFactor;
     var pick = function (col, idx) { return 'INDEX(FILTER(' + A(col) + ',' + crit + '),' + idx + ')'; };
     var endDates = advanceRepaidDates_(ss, name, kindFactor.indexOf('="purchase"') !== -1);
@@ -1252,7 +1257,8 @@ function setupPropertyTab(name) {
       // End Date is typed on the sheet (Paul, 2026-09-15): the value comes from
       // Advances.repaid_date and an edit trigger writes it back (onPropertyTabEdit).
       set(r, 5, endDates[i] || '');
-      set(r, 6, '=IF(D' + r + '="","",' + pick('C', idx) + ')');
+      if (heavy) set(r, 6, '=IF(D' + r + '="","",IFERROR(REGEXREPLACE(' + pick('I', idx) + '&""," \\(migration\\)$",""),""))');
+      set(r, PC, '=IF(D' + r + '="","",' + pick('C', idx) + ')');
       // AN n = full monthly anniversaries to the as-of date (DATEDIF "m"); AO balance
       // compounded monthly; AP last anniversary; AQ stub days - simple over
       // Settings!stub_days_basis (D-006).
@@ -1262,14 +1268,14 @@ function setupPropertyTab(name) {
       var asOf = 'IF(E' + r + '="",$B$1,MIN($B$1,E' + r + '))';
       helpers.push([
         '=IF(D' + r + '="","",IFERROR(DATEDIF(D' + r + ',' + asOf + ',"m"),0))',
-        '=IF(D' + r + '="","",F' + r + '*(1+' + hAS + r + '/12)^' + hAN + r + ')',
+        '=IF(D' + r + '="","",' + PL + r + '*(1+' + hAS + r + '/12)^' + hAN + r + ')',
         '=IF(D' + r + '="","",EDATE(D' + r + ',' + hAN + r + '))',
         '=IF(D' + r + '="","",MAX(0,' + asOf + '-' + hAP + r + '))',
         '=IF(D' + r + '="","",IFERROR(' + pick('K', idx) + ',""))',
         '=IF(D' + r + '="","",IF(' + hAR + r + '="",' + RATE + ',' + hAR + r + '/100))']);
-      set(r, 7, '=IF(D' + r + '="","",' + hAO + r + '*(1+' + hAS + r + '/12*' + hAQ + r + '/' + STUB + ')-F' + r + ')');
+      set(r, IC, '=IF(D' + r + '="","",' + hAO + r + '*(1+' + hAS + r + '/12*' + hAQ + r + '/' + STUB + ')-' + PL + r + ')');
     }
-    set(top, 7, '=SUM(F' + first + ':F' + last + ')+SUM(G' + first + ':G' + last + ')', true);
+    set(top, IC, '=SUM(' + PL + first + ':' + PL + last + ')+SUM(' + IL + first + ':' + IL + last + ')', true);
     advHelperBlocks.push([first, helpers]);
     return { head: top, first: first, last: last, next: last + 2 };
   };
@@ -1289,13 +1295,13 @@ function setupPropertyTab(name) {
     return top + detail.length + 2;
   };
   var dueToPaulRow = purchase.next;
-  var dennisDirectRow = subBlock(dueToPaulRow, 'Paul Paid', [
+  var dennisDirectRow = heavy ? dueToPaulRow : subBlock(dueToPaulRow, 'Paul Paid', [
     ['Paul Paid', '=' + cred(eq('E', '2030'))],
     ['Received (advances, refunds)', '=-' + deb(eq('E', '2030'))]]);
-  var recastNetRow = subBlock(dennisDirectRow, 'Dennis Paid (direct, not an advance)', [
+  var recastNetRow = heavy ? dueToPaulRow : subBlock(dennisDirectRow, 'Dennis Paid (direct, not an advance)', [
     ['Dennis Paid', '=' + deb(costLineF + '*' + eq('N', 'DENNIS'))],
     ['Received (advances, refunds)', '=-' + cred(costLineF + '*' + eq('N', 'DENNIS'))]]);
-  var cashTop = subBlock(recastNetRow, 'Recast Account Paid', [
+  var cashTop = heavy ? dueToPaulRow : subBlock(recastNetRow, 'Recast Account Paid', [
     ['Recast Account Paid', '=' + cred(isBank)],
     ['Received (advances, refunds)', '=-' + deb(isBank)]]);
   var cash = advanceSchedule(cashTop, 'Cash Advances + Interest', isCash, countAdvances_(ss, name, false) + 1);
@@ -1304,13 +1310,45 @@ function setupPropertyTab(name) {
   // reimbursed Paul for Granite costs, so the money paid for the property). "Interest
   // to Date" in the summary is both schedules' interest; each partner bears half
   // through the split.
-  var purchaseInterestRef = 'SUM(G' + purchase.first + ':G' + purchase.last + ')';
-  var purchasePayoffRef = 'G' + purchase.head;
-  var cashPayoffRef = 'G' + cash.head;
-  var cashInterestRef = 'SUM(G' + cash.first + ':G' + cash.last + ')';
+  var purchaseInterestRef = 'SUM(' + IL + purchase.first + ':' + IL + purchase.last + ')';
+  var purchasePayoffRef = IL + purchase.head;
+  var cashPayoffRef = IL + cash.head;
+  var cashInterestRef = 'SUM(' + IL + cash.first + ':' + IL + cash.last + ')';
+  var cashPrincipalRef = 'SUM(' + PL + cash.first + ':' + PL + cash.last + ')';
 
   // ---- SUMMARY (A:B) --------------------------------------------------------------
   var s = 4;
+  if (heavy) {
+    // The old workbook's 104 Ashburne summary, section for section (Paul, 2026-09-22: "make
+    // these sections in the new sheet match the old sheet"). Bank deal: the project cost is
+    // purchase + cash draws + interest + property tax; Paul's own spending is inside the
+    // draws that reimbursed him. Agent % and Concession are typed cells, kept across rebuilds.
+    var keptAgent = readLabelledValue_(sh, 'Agent Commission %'), keptConc = readLabelledValue_(sh, 'Concession');
+    set(s, 1, 'Rehab Total', true); paint(s, 1, 1, C.head); paint(s, 2, 1, C.total);
+    set(s, 2, '=' + net(rehabF) + '+' + net(holdingF + '*' + ne('E', '1100')), true); s++;
+    set(s, 1, 'Current Total Spent (cash draws are what count against the project)'); set(s, 2, '=B' + (s - 1)); s += 2;
+    set(s, 1, 'Total Project Cost (All in)', true); var hTotal = s; paint(s, 1, 1, C.head); paint(s, 2, 1, C.total); s++;
+    set(s, 1, 'Purchase'); set(s, 2, '=IF(' + net(eq('E', '1000')) + '=0,IFERROR(VLOOKUP("' + safeName + '",Properties!A:E,5,FALSE),0),' + net(eq('E', '1000')) + ')'); var hFirst = s++;
+    set(s, 1, 'Cash Draws'); set(s, 2, '=' + cashPrincipalRef); s++;
+    set(s, 1, 'Interest to Date'); set(s, 2, '=' + purchaseInterestRef + '+' + cashInterestRef); var hInterest = s++;
+    set(s, 1, 'Property Tax Paid'); set(s, 2, '=' + net(eq('E', '1100'))); s++;
+    set(s, 1, '="Property Tax Paid (Prorated"&IF(' + TAX + '="","",", "&TEXT(' + TAX + ',"$#,##0")&"/yr")&")"'); set(s, 2, '=' + PRORATE); s++;
+    set(hTotal, 2, '=SUM(B' + hFirst + ':B' + (s - 1) + ')', true);
+    s++;
+    paint(s, 1, 2, C.head); set(s++, 1, 'Profit Breakdown', true);
+    set(s, 1, 'Sale Price (estimate - type it here)', true); set(s, 2, keptSalePrice !== '' ? keptSalePrice : (registry.contract_price || ''), true); paint(s, 1, 2, C.input); var hSale = s++;
+    set(s, 1, 'Total Project Cost'); set(s, 2, '=B' + hTotal); s++;
+    set(s, 1, 'Agent Commission % (type it here)'); set(s, 2, keptAgent !== '' ? keptAgent : 5.75); paint(s, 1, 2, C.input); var hAgentPct = s++;
+    set(s, 1, '="Agent Commission "&B' + hAgentPct + '&"%"'); set(s, 2, '=B' + hSale + '*B' + hAgentPct + '/100'); s++;
+    var pctH = function (key) { return 'IFERROR(VLOOKUP("' + key + '",Settings!A:B,2,FALSE),0)'; };
+    set(s, 1, '="Closing Costs "&' + pctH('estimate_closing_pct') + '&"%"'); set(s, 2, '=B' + hSale + '*' + pctH('estimate_closing_pct') + '/100'); s++;
+    set(s, 1, 'Concession (type it here)'); set(s, 2, keptConc !== '' ? keptConc : 0); paint(s, 1, 2, C.input); s++;
+    set(s, 1, 'Profit', true); set(s, 2, '=B' + hSale + '-SUM(B' + (hSale + 1) + ':B' + (s - 1) + ')+B' + hAgentPct, true); paint(s, 1, 2, C.yellow); var hProfit = s++;
+    set(s, 1, 'Interest'); set(s, 2, '=B' + hInterest); var hInt2 = s++;
+    set(s, 1, '="Commission "&' + COMM + '&"%"'); set(s, 2, '=B' + hSale + '*' + COMM + '/100'); s++;
+    set(s, 1, 'Dennis Profit', true); set(s, 2, '=B' + hInt2 + '+B' + (s - 1), true); paint(s, 1, 2, C.yellow); var hDennis = s++;
+    set(s, 1, 'Paul Profit', true); set(s, 2, '=B' + hProfit + '-B' + hDennis, true); paint(s, 1, 2, C.yellow); s++;
+  } else {
   set(s, 1, 'Total Project Cost', true); var totalRow = s; paint(s, 1, 1, C.head); paint(s, 2, 1, C.total); s += 1;
   // The posted purchase (account 1000) once it is on the books; the registry's
   // purchase_price until then.
@@ -1361,6 +1399,7 @@ function setupPropertyTab(name) {
   set(paulRow, 2, '=SUM(B' + (paulRow + 1) + ':B' + (paulRow + 3) + ')', true);
   s++;
   set(s, 1, 'Back to Recast account', true); set(s, 2, '=G' + recastNetRow, true); paint(s, 1, 1, C.sub); paint(s, 2, 1, C.tan); s++;
+  }
 
 
   // ---- Line blocks: REHAB COSTS (J:P), UTILITIES (R:X) ----------------------------
@@ -1428,7 +1467,8 @@ function setupPropertyTab(name) {
   sh.getRange(1, HB + 2).setNumberFormat('mm/dd/yyyy');
   sh.getRange(4, 2, grid.length - 3, 1).setNumberFormat(money);
   [purchase, cash].forEach(function (blk) { sh.getRange(blk.first, 4, blk.last - blk.first + 1, 2).setNumberFormat('mm/dd/yyyy'); });
-  sh.getRange(4, 6, grid.length - 3, 2).setNumberFormat(money);
+  sh.getRange(4, PC, grid.length - 3, 2).setNumberFormat(money);
+  if (heavy) sh.getRange(4, 6, grid.length - 3, 1).setNumberFormat('@');
   if (heavy) {
     heavyBlocks_(ss, name).forEach(function (blk, i) {
       var c0 = 10 + i * PT_HEAVY_STRIDE;
@@ -1448,7 +1488,8 @@ function setupPropertyTab(name) {
   refreshLineBlocks_(ss, name);
 
   sh.setColumnWidth(1, 250); sh.setColumnWidth(2, 110); sh.setColumnWidth(3, 20);
-  sh.setColumnWidth(4, 190); [5, 6, 7].forEach(function (c) { sh.setColumnWidth(c, 100); });
+  sh.setColumnWidth(4, 190); [5, 6, 7, 8].forEach(function (c) { sh.setColumnWidth(c, 100); });
+  if (heavy) sh.setColumnWidth(6, 260);
   sh.setColumnWidth(9, 20); if (!heavy) sh.setColumnWidth(BC[1] - 1, 20);
   (heavy ? [] : BC).forEach(function (c) {
     sh.setColumnWidth(c, 150); sh.setColumnWidth(c + 1, 90); sh.setColumnWidth(c + 2, 180);
