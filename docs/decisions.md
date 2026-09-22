@@ -819,11 +819,17 @@ Paul, reviewing the Inbox after the 104 Ashburne tab went wrong: "the inbox desc
 are too long and hard to understand. i need bulleted, short concise and clear reasons listed. if there was
 a short clear bullet that said 'no trade - enter a trade' that would have solved it."
 
-**Decided:** the card's explanation is a bulleted list, code's flags first, each one naming what to do -
-"No payer on the document - pick who paid", "Over the auto-file ceiling - needs your OK", "No trade - enter
-a trade". The gate's reason codes are never shown raw (a lint fails if a new one has no translation), and
-the model's `why` follows as one bullet per sentence, so an older paragraph reads as a list instead of a
-wall. `checked` stays collapsed under "What was checked".
+**Decided, in two passes the same day.** First the explanation became a bulleted list with the model's `why`
+split into one bullet per sentence - which on an older read turned a six-sentence paragraph into six
+bullets. Paul, shown that card: "this is not actionable for me. this needs to be explicit for the action i
+need to take. this is still too much."
+
+**So: every bullet is something Paul must DO, and nothing else is a bullet.** "Check the amounts, then
+approve or dismiss", "No payer - pick who paid", "No trade - enter a trade", "Already posted as <txn> -
+dismiss it". The gate's reason codes are never shown raw (a lint fails if a new one has no translation),
+and a card with no flag still says what to do ("Check it, then approve or dismiss"), so the list is never
+empty. Claude's reasoning - `why` and `checked` both - is one click away under **Claude's read**; it is
+evidence for a question, not an instruction, and it does not belong in the way.
 
 **A flag has to be actionable where it is raised.** The item editor gained a **trade** picker, offering the
 trades the property tabs group by (the heavy block order plus every trade the Journal has seen) rather than

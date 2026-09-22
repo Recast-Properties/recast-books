@@ -1855,3 +1855,19 @@ production writer and verified by `clasp pull` + `cmp`; no `clasp deploy` needed
 **Paul's one step:** open the 104 Ashburne tab, Recast Books -> Rebuild property tab. The rebuild is
 what clears the text already sitting in the spacer columns; typed cells (Sale Price, Agent
 Commission %, Concession) survive it.
+
+## 62 · The Inbox card says what to do, and only that (2026-09-23)
+
+Paul, on a card whose bullets were Claude's reasoning: "this is not actionable for me. this needs to be
+explicit for the action i need to take. this is still too much." The card he was looking at (Anthropic
+$10.49, read 09-17, medium) carried one real flag and six sentences of working - the duplicate check, the
+unit-price comparison, the reason for "medium".
+
+**The rule now:** a bullet is something Paul does. Gate reasons become imperatives ("Check the amounts,
+then approve or dismiss", "No payer - pick who paid", "Over the auto-file limit - approve it yourself",
+"Already posted as <txn> - dismiss it"); the missing-trade flag joins them; a card with no flag at all
+still gets "Check it, then approve or dismiss", so the list never comes up empty. Claude's `why` and
+`checked` are collapsed together under **Claude's read** - evidence when he wants it, not a wall when he
+does not.
+
+That card now reads, in full: **Check the amounts, then approve or dismiss.**

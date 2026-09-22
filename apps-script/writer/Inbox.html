@@ -87,32 +87,32 @@
     return html + opt_('PAUL', 'PAUL (personal)', sel === 'PAUL') + opt_('DENNIS', 'DENNIS (direct)', sel === 'DENNIS');
   }
 
-  // Short bullets, what-to-do first (Paul, 2026-09-23: "i need bulleted, short concise and
-  // clear reasons listed"). Code's flags each name their fix; the model's own sentences
-  // follow, one bullet each, instead of a paragraph.
+  // Every bullet is something Paul has to DO, in his words (2026-09-23: "this needs to be
+  // explicit for the action i need to take. this is still too much"). Claude's reasoning is
+  // not a bullet - it is one click away under "Claude's read".
   var GATE_TEXT = {
-    NOT_POST_VERDICT: '',                                             // the card being here says it
-    LOW_CONFIDENCE: 'Not a sure read - check the amounts',
+    NOT_POST_VERDICT: '',                                             // covered by the catch-all below
+    LOW_CONFIDENCE: 'Check the amounts, then approve or dismiss',
     MISSING_VENDOR: 'No vendor - type one',
     MISSING_DATE: 'No date - type one',
-    BAD_DATE: 'Date unusable - fix it',
-    ZERO_TOTAL: 'No total read off the document',
-    OVER_CEILING: 'Over the auto-file ceiling - needs your OK',
-    TOTAL_MISMATCH: 'Items do not add up to the receipt total',
-    NEEDS_HUMAN_274D: 'Travel, meal or gift - needs a business purpose and your OK',
-    NO_ENTRIES: 'Nothing to post',
-    BAD_PROPERTY: 'Property not recognised - pick one',
-    PAYER_UNKNOWN: 'No payer on the document - pick who paid',
-    BAD_PAID_FROM: 'Payer not valid - pick who paid'
+    BAD_DATE: 'Bad date - fix it',
+    ZERO_TOTAL: 'No total - type the amount',
+    OVER_CEILING: 'Over the auto-file limit - approve it yourself',
+    TOTAL_MISMATCH: 'Items do not add up - fix the amounts',
+    NEEDS_HUMAN_274D: 'Travel, meal or gift - type the business purpose',
+    NO_ENTRIES: 'Nothing to post - dismiss it',
+    BAD_PROPERTY: 'No property - pick one',
+    PAYER_UNKNOWN: 'No payer - pick who paid',
+    BAD_PAID_FROM: 'Bad payer - pick who paid'
   };
   var TRADELESS_ACCOUNTS = ['1000', '1100', '1200', '1210', '1220'];  // summary lines, never in a tab block
 
   function flagText_(r) {
     var t = String(r), i = t.indexOf(':');
     var head = i < 0 ? t : t.slice(0, i), rest = i < 0 ? '' : t.slice(i + 1);
-    if (head === 'DUPLICATE_OF') return 'Already on the books as ' + rest;
-    if (head === 'POSSIBLE_TWIN') return 'Looks like ' + rest + ' - check before posting';
-    if (head === 'ENTRY_INVALID') return 'Will not build: ' + rest;
+    if (head === 'DUPLICATE_OF') return 'Already posted as ' + rest + ' - dismiss it';
+    if (head === 'POSSIBLE_TWIN') return 'Maybe already posted as ' + rest + ' - check it';
+    if (head === 'ENTRY_INVALID') return 'Will not build (' + rest + ') - fix or dismiss';
     return GATE_TEXT.hasOwnProperty(head) ? GATE_TEXT[head] : t;
   }
 
@@ -128,14 +128,11 @@
     });
   }
 
-  function flagsList_(gate, entries, m) {
+  function flagsList_(gate, entries) {
     var flags = ((gate && gate.reasons) || []).map(flagText_).filter(Boolean);
     if (needsTrade_(entries)) flags.push('No trade - enter a trade');
-    var says = String((m && m.why) || '').split(/\.\s+/)
-      .map(function (t) { return t.trim(); }).filter(Boolean)
-      .map(function (t) { return t.charAt(t.length - 1) === '.' ? t : t + '.'; });
-    return flags.map(function (t) { return '<li class="act">' + escapeHtml_(t) + '</li>'; }).join('') +
-      says.map(function (t) { return '<li>' + escapeHtml_(t) + '</li>'; }).join('');
+    if (!flags.length) flags.push('Check it, then approve or dismiss');
+    return flags.map(function (t) { return '<li class="act">' + escapeHtml_(t) + '</li>'; }).join('');
   }
 
   function totalsLine_(env) {
@@ -178,6 +175,7 @@
         items + '<button class="add" data-add="' + ei + '">+ item</button></div>';
     }).join('');
 
+    var read = [m.why, m.checked].filter(Boolean).map(function (t) { return escapeHtml_(t); }).join('<br><br>');
     var isOpen = !!OPEN[env.docId];
     var title = m.vendor || ('(no vendor) ' + (env.subject || '')).trim();
     var search = [m.vendor, env.subject, m.date, (Number(m.receipt_total_cents || 0) / 100).toFixed(2), props.join(' '), env.channel, env.from, env.docId].join(' ').toLowerCase();
@@ -190,8 +188,8 @@
     return '<div class="card open" data-doc="' + d + '" data-search="' + escapeHtml_(search) + '">' + head + '<div class="body">' +
       '<div class="sub">' + escapeHtml_(m.date || '-') + ' &middot; ' + (m.receipt_total_cents != null ? money_(m.receipt_total_cents) : '-') + ' &middot; ' + escapeHtml_(props.join(', ') || '-') + ' &middot; ' + escapeHtml_(env.channel || '') + '</div>' +
       atts +
-      '<ul class="flags" data-flags="1">' + flagsList_(gate, entries, m) + '</ul>' +
-      (m.checked ? '<details class="why"><summary>What was checked</summary>' + escapeHtml_(m.checked) + '</details>' : '') +
+      '<ul class="flags" data-flags="1">' + flagsList_(gate, entries) + '</ul>' +
+      (read ? '<details class="why"><summary>Claude\'s read</summary>' + read + '</details>' : '') +
       entriesHtml +
       '<div class="tot">' + totalsLine_(env) + '</div>' +
       '<div class="verbs"><button class="primary" data-approve="1">Approve</button><button data-dismiss="1">Dismiss</button><button data-reprocess="1">Reprocess</button></div>' +
@@ -261,7 +259,7 @@
         else e.items[Number(el.dataset.i)][el.dataset.f] = el.value;
         card.querySelector('.tot').innerHTML = totalsLine_(env);
         var fl = card.querySelector('[data-flags]');
-        if (fl) fl.innerHTML = flagsList_(env.gate || {}, entries, env.model || {});
+        if (fl) fl.innerHTML = flagsList_(env.gate || {}, entries);
       };
       el.addEventListener('change', h);
       if (el.tagName === 'INPUT') el.addEventListener('input', h);

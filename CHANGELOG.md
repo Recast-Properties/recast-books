@@ -765,10 +765,12 @@ Paul: "the inbox descriptions of the expenses are too long and hard to understan
 concise and clear reasons listed. if there was a short clear bullet that said 'no trade - enter a trade'
 that would have solved it."
 
-- **Bullets, action first.** The gate's reason codes are translated into short English that names the fix
-  ("No payer on the document - pick who paid", "Over the auto-file ceiling - needs your OK"); the model's
-  `why` follows as one bullet per sentence, so the older paragraph-length reads become a list. `checked`
-  stays collapsed. The raw-code chips are gone, and a lint fails if a new gate reason has no translation.
+- **Every bullet is an action, and nothing else is a bullet.** The first pass bulleted the model's `why`
+  too, which turned an older six-sentence read into six bullets; shown that card Paul said "this is not
+  actionable for me ... this is still too much". Now the list is only what he has to do - "Check the
+  amounts, then approve or dismiss", "No payer - pick who paid", "Already posted as <txn> - dismiss it" -
+  and it is never empty. Claude's reasoning (`why` and `checked`) sits collapsed under **Claude's read**.
+  The raw-code chips are gone, and a lint fails if a new gate reason has no translation.
 - **"No trade - enter a trade"**, raised on any property cost line outside the tab summary accounts, plus a
   **trade picker** on the item so the flag can be acted on where it is raised - the trades the property tabs
   group by, not free text (a typed trade that matches no block name gets no block until a rebuild).
