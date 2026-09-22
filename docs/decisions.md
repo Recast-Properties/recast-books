@@ -733,3 +733,23 @@ bookkeeper is not shown it again (the body is already in its prompt). Same shape
 .txt, so old and new rows link the same way. The writer gained a `setDocUrl` action so a document filed after
 its entry posted can be linked (`scripts/file-email-receipts.mjs` for the two above).
 
+## D-036 · Phase 5 answers: holdback, bank-deal commission, no reserve field, Drive only - 2026-09-22 · Paul
+
+Answers to `docs/phase5-spec.md` §6, which the sell wizard is built from.
+
+1. **Granite's escrow holdback:** all $60,000 released, split 50/50, nothing deducted, **received 2026-09-11**.
+   It posts as its own run dated 09-11 (Dr 1401 / Cr 1510, then $30,000 to 2010 Dennis and $30,000 to 9010 Paul).
+2. **A closing reimbursement of rehab** (Sparkling's $4,716.82, from other partners on that deal) credits the
+   rehab accounts it reimburses - it is not income.
+3. **Bank deal commission** is **3% of the full sale price**, paid to Dennis at closing with the purchase cost
+   and the cash advances plus their 12% interest (104 Ashburne). No profit share on a bank deal (D-030, D-032).
+4. **D-021 stands** for partner deals: interest on every advance is a property cost, split 50/50; the old
+   Granite tab's personal $84.70 treatment is not reproduced (each payout differs by $42.35, named as a
+   difference on the Closing tab).
+5. **No reserve field** on the wizard: the shared Recast account keeps what it fronted. Closes the
+   BUILD-PLAN §5 "Open (2026-09-11)" item.
+6. **The final Payout report is saved to Drive only** - the wizard never emails Dennis.
+
+**Open, blocking Sparkling only:** what the other $263,446.88 of Sparkling's ALTA was (other partners were on
+that deal) and whether a fourth payee belongs in the waterfall - spec §6a. Granite can be re-run without it.
+

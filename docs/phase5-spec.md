@@ -112,21 +112,40 @@ listing fees on 1330, C-19, C-25, C-32 …) - the Closing tab's difference colum
 "Rehab Reimbursement" $4,716.82 is whatever Paul says it is in §6; (d) commissions, closing costs and the tax
 proration post as their own lines instead of being buried in "cash from closing" - net to seller is the same.
 
-## 6 · Questions for Paul (answer in any order; each one is a line on the spec)
+## 6 · Paul's answers (2026-09-22) — D-036
 
-1. **Granite holdback:** $60,000 withheld at closing; the Sales tab shows $30,000 to you. Was the whole
-   $60,000 released, split 50/50, nothing deducted? When did it arrive?
-2. **Sparkling's statement:** $550,000 sale, $259,053.12 cash to you - roughly $291,000 came off on the ALTA.
-   What was it (a payoff on title? the lien?), and what is the "Rehab Reimbursement" $4,716.82 (the
-   "Sparkling for Title" tab's total) - money the title company paid you back, or a credit on the statement?
-3. **Ashburne commission (bank deal):** 3% of the sale price, or of something else? Paid to Dennis at closing
-   with the principal and 12% interest?
-4. **Cash-advance interest on partner deals:** the old Granite tab charged you the $84.70 personally
-   (half each way). D-011/D-021 say interest on every advance is a property cost. The re-run will follow
-   D-021 unless you say otherwise - confirm.
-5. **Reserve:** do you want the "leave $X in the Recast account" field, or does the shared account simply keep
-   what it fronted?
-6. **Dennis's copy:** should the wizard email the FINAL Payout report PDF to Dennis, or only save it to Drive?
+1. **Granite holdback:** the whole $60,000 was released, split 50/50, nothing deducted; **it arrived 2026-09-11.**
+   So the holdback release is a second run dated 09-11: Dr 1401 $60,000 / Cr 1510 $60,000, then $30,000 to
+   Dennis (2010) and $30,000 to Paul (9010). The old Sales tab's $30,000 is Paul's half.
+2. **Sparkling's $4,716.82 "Rehab Reimbursement":** "we had other partners on that deal. that is the agreed
+   upon rehab costs that we were reimbursed" - money Recast got back at closing for rehab it had paid, so it
+   credits the rehab accounts it reimburses, not income. **Still open: the rest of the ALTA** (§6a below).
+3. **Ashburne commission (bank deal):** **3% of the full sale price**, paid to Dennis at closing together with
+   the purchase cost and the cash advances plus 12% interest. (Paul quoted the $775,000 of BUILD-PLAN §5's
+   illustration; the rule is a percentage of the full price, whatever the price turns out to be.) No profit
+   share on a bank deal (D-030/D-032).
+4. **Cash-advance interest on partner deals:** D-021 is `docs/decisions.md` (2026-09-15, "Cash-advance
+   interest is a property cost after all"): it withdrew D-020 and restored D-011 in full - interest on every
+   advance, purchase or cash, is a property cost in 1200, borne half each through the 50/50 split, and there
+   is no "from Paul / to Dennis" interest line. The Granite re-run therefore moves each payout by $42.35
+   against the old tab. Paul asked where it was written, not to change it; **the re-run follows D-021** and
+   the Closing tab names the $42.35 as a difference.
+5. **Reserve field: dropped.** ("what wizard?" - the sell wizard is this Phase 5 dialog, Recast Books → Sell
+   property…, the thing being specced here; it did not exist to be known about.) Default: the shared Recast
+   account simply keeps what it fronted. No field, no setting. Add one only if Paul later wants to hold money
+   back for the next purchase.
+6. **Dennis's copy:** save the FINAL Payout report PDF to Drive only; the wizard never emails it.
+
+### 6a · The one open question: what came off Sparkling's settlement statement
+
+Sale price $550,000.00, cash from closing $259,053.12 → **$290,946.88 came off the ALTA.** At the estimate
+percentages (3% agent, 2% closing) that is $27,500.00, leaving **$263,446.88** unaccounted for. Dennis's
+purchase principal and interest ($199,660.07) cannot be it: the old tab subtracts that from gross proceeds
+*after* "cash from closing", so counting it here would take it twice. With other partners on the deal, the
+likely answer is that their money (principal, and their share) was paid straight off the closing. Until the
+statement is read the wizard cannot post Sparkling, and a third payee may need a place in the waterfall
+(today it has three: Dennis, Paul, the shared account). **Needed: the Sparkling settlement statement (ALTA),
+and who the other partners were and what they were owed.** Granite is unaffected and can be re-run first.
 
 ## 7 · Build order (after Paul's answers)
 
