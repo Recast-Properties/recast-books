@@ -1,4 +1,4 @@
-# Cutover day runbook (D-013, D-025) - written 2026-09-21
+# Cutover day runbook (D-013, D-025) - written 2026-09-21; **steps 1-12 done 2026-09-21 (audit §51)**, step 16's old-poller part done 2026-09-22 (§52)
 
 One step at a time with Paul. **P** = Paul acts (one step, then wait). **C** = Claude, no permission needed.
 **P!** = production: Paul says go first. Every step has its check; nothing moves on a failed check.
@@ -21,34 +21,34 @@ Not needed any more: Newport's settlement date (under contract, not closed - aud
 
 ## 1 · Freeze and back up
 
-1. **P** - stop typing in the old workbook; do not forward receipts until step 6 says so.
-2. **P** - old workbook: File → Download → .xlsx. **C** diffs it against
+1. ~~**P**~~ ✓ - stop typing in the old workbook; do not forward receipts until step 6 says so.
+2. ~~**P**~~ ✓ - old workbook: File → Download → .xlsx. **C** diffs it against
    `data/migration/2026-09-17/old-workbook-snapshot.xlsx` with `migration-audit-indep.py` on both. Every row
    typed since 09-17 is a **delta**: appended to the inventory (never inserted), pipeline rerun, links diffed
    against the last commit, staging Run + tie-out again. No delta → carry on.
-3. **P** - production workbook "Recast Books": File → Make a copy → "Recast Books BACKUP <date>".
+3. ~~**P**~~ ✓ - production workbook "Recast Books": File → Make a copy → "Recast Books BACKUP <date>".
    Check: **C** finds the copy in Drive (read-only search).
 
 ## 2 · Production writer (P!)
 
-4. **C**, on Paul's go: copy `apps-script/writer/*.gs, *.html, appsscript.json` + `rows/MigrationData.gs` to a
+4. ~~**C**~~ ✓, on Paul's go: copy `apps-script/writer/*.gs, *.html, appsscript.json` + `rows/MigrationData.gs` to a
    scratch folder whose `.clasp.json` has the PRODUCTION scriptId (`1_V01CW…kl_y`); `clasp push -f`;
    `clasp pull` into a second scratch folder and `cmp` every file. Carries the 09-18 formula fix, `postBatch
    skipRefresh`, `migrationPostRows`, Cost Recapture, the Inbox list - none of it is in production yet.
-5. **C** - `clasp deploy -i AKfycbxNisU_atef_fjnELMBK0R9N1xcnP5e-0MT4LP0FdhpfdPRE1UwlIcb2u4-JS38gx1O3w`
+5. ~~**C**~~ ✓ - `clasp deploy -i AKfycbxNisU_atef_fjnELMBK0R9N1xcnP5e-0MT4LP0FdhpfdPRE1UwlIcb2u4-JS38gx1O3w`
    (doPost changed). Check: deployment list shows a new version on the same id.
 
 ## 3 · The pass, in the production editor (P!, one Run each)
 
-6. **P** - Script property `CLEAR_CONFIRM` = the production workbook id (`12QVyxm3…BxKM`), then Run
+6. ~~**P**~~ ✓ - Script property `CLEAR_CONFIRM` = the production workbook id (`12QVyxm3…BxKM`), then Run
    `clearBooks`. Check in the log: `CLEARED Journal: N row(s) … "Recast Books"`. (It removes the PHASE 0/1
    gate entries and the 09-11…09-17 live posts - all of those are in the migration or settled, see §5.)
-7. **P** - Run `migrationRegisterProperties`. Check: the 11 migration rows are on Properties (the
+7. ~~**P**~~ ✓ - Run `migrationRegisterProperties`. Check: the 11 migration rows are on Properties (the
    `TEST Phase 1 gate` row and its voided Advances row are Paul's to delete by hand first - `clearBooks`
    only clears the Journal).
-8. **P** - Run `migrationRegisterAdvances` (about 8 minutes - let it finish). Check: 33 lines `-> adv-manual-…`,
+8. ~~**P**~~ ✓ - Run `migrationRegisterAdvances` (about 8 minutes - let it finish). Check: 33 lines `-> adv-manual-…`,
    none FAILED.
-9. **P** - Run `migrationPostRows`; if the log ends "run again", run it again until `left=0`.
+9. ~~**P**~~ ✓ - Run `migrationPostRows`; if the log ends "run again", run it again until `left=0`.
    (`migrationRunStaging` refuses a workbook not named STAGING - by design.)
 
 ## 4 · Point the site at production, then tie out (P!)
@@ -56,15 +56,15 @@ Not needed any more: Newport's settlement date (under contract, not closed - aud
 The tie-out reads `books-cache`, which is filled through `WRITER_URL` - so the flip comes BEFORE the tie-out,
 not at the end as the 09-21 handoff listed it.
 
-10. **P** - `npx netlify-cli env:set WRITER_URL <production /exec URL> --context production`, then
+10. ~~**P**~~ ✓ - `npx netlify-cli env:set WRITER_URL <production /exec URL> --context production`, then
     `npm run deploy`. `WRITER_SECRET` / `DOCS_ROOT_FOLDER_ID`: confirm the production project's Script
     properties hold the same secret Netlify has (else the site gets UNAUTHORIZED).
     Check: `env:get WRITER_URL --context production` contains `AKfycbxNisU`.
-11. **C** - wait for a fresh snapshot (`fetchedAt` after step 9), then
+11. ~~**C**~~ ✓ - wait for a fresh snapshot (`fetchedAt` after step 9), then
     `python3 scripts/migration-journal-tieout.py <tabs> data/migration/2026-09-17/rows` → exit 0: 1,048
     entries (plus any delta), $0.00 on every property, ids / amounts / dates / payees / accounts / links
     identical, debits = credits, 33 advances, no orphans. Then the independent path. Record both.
-12. **C** - push the production project again WITHOUT `MigrationData.gs` and verify by pull (it is never
+12. ~~**C**~~ ✓ - push the production project again WITHOUT `MigrationData.gs` and verify by pull (it is never
     kept in a project after its pass).
 
 ## 5 · Live receipts

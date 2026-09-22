@@ -683,3 +683,31 @@ only; the old Sales tab's Newport and Ashburne figures are projections. **C-33:*
 922 linked on Drive, both paths clean. `migrationRegisterAdvances` rehearsed (7.5 min, 33 advances, entries
 untouched). `docs/cutover-runbook.md` written - its §0 is all checked; the `WRITER_URL` flip moves before the
 production tie-out. Next: cutover day. `HANDOFF-2026-09-22.md`.
+
+## 2026-09-21 (evening) — CUTOVER: the real books are live
+
+Runbook steps 1-12 with Paul, one at a time (audit §51): old workbook frozen and re-exported (no typed row
+missing; two duplicate rows the old poller wrote from the day's forwards, left for Paul to delete), backup
+copy made, production writer pushed and deployed (@2, then @3 without the migration data), `clearBooks`
+(96 rows), properties, 33 advances, `migrationPostRows` → `posted=1048 left=0`, `WRITER_URL` flipped to
+production and the site redeployed, tie-out on both paths: **1,048 entries, $240,844.35, $0.00 on all ten
+properties, 922 linked on Drive, 33 advances**, every line equal to staging pass 11. Paul then forwarded the
+receipts he had held since 09-17.
+
+## 2026-09-22 — First day on the real books
+
+- **The doGet misfire (§52).** 16 of Paul's 20 receipts errored: under concurrent calls the writer's POST
+  redirect lands on `doGet`, whose `{ok, service, version}` reply carries none of the action's fields.
+  `lib/writer-client.mjs` names it `REDIRECT_MISFIRE`, retries reads (never writes). Same fault as the
+  filing's lost links. All 20 settled: 17 posted, 2 for Paul, 1 duplicate. `scripts/recover-errored.mjs`
+  re-posts errored documents from their stored read (poller secret, Paul's Terminal).
+- **Old receipts poller off** - both triggers deleted in the Receipts Bookkeeper project with Paul's
+  permission; one digest now, one read per receipt.
+- **Digest:** `why` is one sentence; the model's working moved to `checked` (collapsed in both Inboxes).
+- **Property tabs (§53-§54).** Ashburne's heavy tab had its helper cells buried under the trade blocks
+  (interest `#VALUE!`, totals wrong) - a display fault the Journal tie-out never covered. Fixed, then the
+  heavy layout redone as Paul drew it (Rehab Total; Total Project Cost = purchase P+I + cash advance P+I +
+  tax paid + prorated from the amount paid; Profit Breakdown with typed agent % and concession; Dennis
+  Payout; draws carry their memo; P+I labels; insurance under its own block; no Gas/Truck/Trailer, Property
+  Tax or (no trade) blocks). Light tabs: Selling-class lines (listing fees) now show and count. Every tab
+  reconciled to today's export of the old workbook - each difference a register line.
