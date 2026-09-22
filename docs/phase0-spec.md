@@ -300,3 +300,9 @@ yet select a property because the registry is empty until Phase 1.
 - Apps Script project **Recast Books Poller**: script id `1jKtDx0eK458SP8jMKChqOBJhEegh1I6uAQeTusdFMPZhdsyddXUc0sqE`
   (https://script.google.com/d/1jKtDx0eK458SP8jMKChqOBJhEegh1I6uAQeTusdFMPZhdsyddXUc0sqE/edit).
   Runs as Paul; Gmail label `books-done`; triggers pollBooks (15 min) and dailyDigest (3 AM CT).
+- Apps Script project **Recast Books Poller — properties** (2026-09-22, phase2.6-spec §1): script id
+  `1k2htSsuL2JV2336uTbsT44RmTpDGhqypJunHayL6Cp-9TKaiho2JRoTZ`, owned by properties@ (paul@ is an editor;
+  `clasp push -f -P .clasp-properties.json` from `apps-script/poller/`, the file is git-ignored). Same code;
+  script properties `MAILBOX=properties`, `START_DATE=2026-09-17`, the same `POLLER_SECRET`; trigger pollBooks
+  (15 min) only, no digest. The 09-17 listing project "Recast Books Poller (properties)" (`1jbU7…`) has no
+  triggers and is left as is.
