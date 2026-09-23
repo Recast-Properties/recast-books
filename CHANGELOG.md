@@ -839,3 +839,47 @@ next rebuild would have wiped it; this puts it in the builder.
 455 tests. Pushed to the writer; no deploy (`doPost` unchanged - D-023 moved `propertyTab` into the menu).
 **`rebuildAllPropertyTabs` from the editor is the one step that applies it to the ten tabs**, and it rebuilds
 104 Ashburne on the way, clearing the spacer-column text left by audit §61.
+
+## 2026-09-23 (evening) - Receipt columns, readable sale lines, and the property tab frozen at closing (D-043)
+
+**Receipts get their own column.** Every line block, light and heavy, now runs Payee · Date · Description ·
+Amount · **Receipt** · the paid-by boxes. `receiptCell_(doc_url)` writes a HYPERLINK, blank when the row has
+no document, so the column also shows which lines have one. First shipped as a link on the payee; Paul: *"i
+prefer a separate column for the receipts"*. The light block moved to `PT_BOX_OFFSET = 5` / `PT_TXN_OFFSET = 8`
+/ `PT_BLOCK_COLS = [10, 19]`, and a heavy block is `PT_HEAVY_COLS = 5` plus one spacer, with the stride derived
+as `PT_HEAVY_COLS + 1`. Paul: *"be careful to not disrupt the spacing columns. you have not accounted for
+those in the past"* - and he was right: the spacer's own width was still being set from a literal `c0 + 4`,
+which would have made every Receipt column 20px wide. Both offsets are constants now, with tests on them.
+
+**Sale lines say what they are.** `lineDescription_` falls back to the entry's `memo` when a line has no
+description of its own, trimming the `<property> sale <date>: ` prefix. Granite's settlement rows had read as
+unexplained charges; they now read "settlement statement" and "project cost released to COGS". Nothing was
+missing from the books - the memo was on every row - so no backfill was needed.
+
+**The property tab is frozen at closing (D-043), reversing phase5-spec §3.** Paul, on what the sale had done
+to the Granite and Sparkling tabs: *"i want the property tab frozen and i want a new closing tab ... i want to
+keep it as a record."* `sellPost` now calls `freezePropertyTab_` immediately before it posts - formulas
+replaced by the values they were showing, `as of` replaced with `SOLD <date> - frozen at closing`. Three
+guards keep it that way: `setupPropertyTab` refuses to rebuild a sold property, `refreshLineBlocks_` skips
+one, `onPropertyTabEdit` toasts instead of voiding and re-posting. **`CLOSING_TAB_IN_PLACE` stays `false`
+permanently** and the sign-off it was waiting on is moot.
+
+**A six-hour hole, found and closed.** `sellPost` writes `status = sold` straight to the sheet, which neither
+goes through the upsert (which clears the cached posting ctx) nor fires the onEdit trigger, and `buildCtx_`
+caches the postable property set for six hours. A receipt arriving in that window still posted onto a sold
+property - and with the freeze guards it would have been invisible on both tabs. `sellPost` clears the `ctx`
+cache the instant it writes the status.
+
+**New editor helpers.** `reportStrandedCosts()` - any sold property whose accounts do not net to zero, with
+the rows posted after its sale. `rebuildFrozenRecord(name)` / `rebuildAllFrozenRecords()` (no args, since the
+Run button passes none) - reconstruct the pre-sale record for the two properties that sold before freezing
+existed, via `setupPropertyTab(name, asOf)`, which drops `source = "sale"` rows **by source, not by date**:
+Granite has a real cost dated the day it closed.
+
+**Found with them (audit §65):** the 178.48 Paul spotted on Granite's Rehab Costs was a **duplicate on the
+wrong property** - the 2026-02-19 Home Depot floor protection 123.34 and bulbs 55.14 already migrated onto
+104 Ashburne, replayed through the live poller 1h49m after Granite's sale posted. Granite's costs run
+2026-05-08 to 2026-08-05 and only Ashburne and OVERHEAD were active in February. Voided, not recaptured.
+280 Sparkling was clean.
+
+463 tests. Pushed to the writer; no deploy (`doPost` unchanged).

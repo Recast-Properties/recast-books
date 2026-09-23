@@ -80,12 +80,12 @@ then side by side —
 ```
 B:C  SUMMARY                       E:H  DENNIS                            J:P  REHAB COSTS          R:X  UTILITIES
      Total Project Cost                 Purchase Principal + Interest          payee · date · desc ·     (Holding-class lines,
-     Purchase Principal + Interest        Start · End (typed) · Principal ·    amount · Paul Paid ·      same shape)
-       (1000 else registry price,         Interest to Date (one row)           Dennis Paid · Recast
-       plus its interest)               Paul Paid / Received (advances) /      Account (checkboxes
-     Cash Advance Interest                Received (refunds) — 2030            from paid_from), 300
-     Rehab Costs                       Dennis Paid direct / Received          rows, one spilling
-     Utilities (Holding ex-1100)         (refunds)                           SORT(FILTER) per block
+     Purchase Principal + Interest        Start · End (typed) · Principal ·    amount · RECEIPT ·        same shape)
+       (1000 else registry price,         Interest to Date (one row)           Paul Paid · Dennis
+       plus its interest)               Paul Paid / Received (advances) /      Paid · Recast Account
+     Cash Advance Interest                Received (refunds) — 2030            (checkboxes from
+     Rehab Costs                       Dennis Paid direct / Received          paid_from), 300 rows,
+     Utilities (Holding ex-1100)         (refunds)                           values not a spill
      Property Tax (prorated, $x/yr)    Recast Account Paid / Received
                                          (advances) / Received (refunds)
      PROFIT BREAKDOWN                  Cash Advances + Interest
@@ -123,6 +123,32 @@ Received row** and its unfiltered formula: a direct-paid Dennis cost *is* an adv
 and 2010, never cost lines, so an advances row there could only ever read zero (Paul:
 "you are right ... for Dennis remove the row").
 
+**Receipt column, and descriptions that say something (2026-09-23).** Every line block - light and heavy -
+carries a **Receipt** column immediately after Amount: `receiptCell_(doc_url)` writes
+`=HYPERLINK(<doc_url>,"Receipt")`, blank when the Journal row has no document, so the column doubles as which
+lines have one (128 migrated rows have none and never will). Paul asked for a column rather than the link
+riding on the payee. The light block therefore runs `c0 .. c0+7` visible with the txn_id at `c0+8`
+(`PT_BOX_OFFSET = 5`, `PT_TXN_OFFSET = 8`, `PT_BLOCK_COLS = [10, 19]` - Rehab J:R, Utilities S:AA), and a
+heavy block is `PT_HEAVY_COLS = 5` of data plus **one spacer**, with `PT_HEAVY_STRIDE = PT_HEAVY_COLS + 1`.
+Both offsets are constants and a test pins them, because the spacer is the column that gets missed when a
+block grows (Paul: *"be careful to not disrupt the spacing columns. you have not accounted for those in the
+past"* - audit 61 was exactly that, and the spacer's own width was still being set from a literal `c0 + 4`).
+Alongside it, `lineDescription_(description, memo)` falls back to the **entry's memo** when a line carries no
+description of its own, trimming the `<property> sale <date>: ` prefix - a sale's release lines never have a
+line description, and 1616 Granite's settlement lines are blank because it was typed from the PDF before the
+document reader existed, so both read as unexplained charges.
+
+**Frozen at closing (D-043).** A sold property's tab is no longer live: `sellPost` freezes it before the sale
+posts (`docs/phase5-spec.md` §3), and `setupPropertyTab`, `refreshLineBlocks_` and `onPropertyTabEdit` all
+leave a sold property alone. **`setupPropertyTab(name, asOf)`** is the one exception: an as-of date rebuilds
+the tab as it stood the moment before the sale posted - it pins the as-of cell with `=DATE(...)` instead of
+`TODAY()`, drops every `source = "sale"` row from both the summary formulas and the line blocks, and bypasses
+the sold guard. Filtering on the source and not the date is deliberate: Granite has a real cost dated
+2026-07-24, the same day it closed. Editor helpers: `rebuildFrozenRecord(name)` (rebuild as of
+`settlement_date`, then freeze) and `rebuildAllFrozenRecords()` (no args - the Run button passes none) for
+the two properties that sold before freezing existed, plus `reportStrandedCosts()`, which lists any sold
+property whose accounts do not net to zero and names the rows posted after its sale.
+
 **End Date is typed on the tab.** Each schedule row's End Date cell holds
 `Advances.repaid_date` as a value; an installable onEdit trigger in the writer project
 (`onPropertyTabEdit`, installed by `setup()` / `installTriggers()`) writes a typed or
@@ -158,8 +184,8 @@ payouts-equal-net-proceeds check live on the **closing tab** the Phase 5 sell wi
 builds beside this one (BUILD-PLAN §5). Helpers live in AI:AS, greyed; the voided flag on
 the hidden `Journal helpers` sheet. All SUMPRODUCT / FILTER over
 bounded Journal rows, voided pairs excluded via the same helper-column trick as Totals.
-The tab is a view; nothing on it is typed except Sale Price, Concession, the End Dates and
-the paid-by boxes. **The Rehab Costs and Utilities rows are values written by the writer**
+The tab is a view until the property sells, and nothing on it is typed except Sale Price, Concession, the
+End Dates and the paid-by boxes. **The Rehab Costs and Utilities rows are values written by the writer**
 (`refreshLineBlocks_`, after every post/void and on rebuild), not a formula spill, because
 a checkbox showing a formula's result cannot be clicked: ticking Paul Paid / Dennis Paid /
 Recast Account on a line voids that entry and re-posts it with the new `paid_from` through

@@ -1953,3 +1953,66 @@ way, which is what clears the spacer-column text left by §61.
 `docs/property-tab-anatomy.md` is deliberately NOT updated: it is the 2026-09-11 reading of the **old**
 workbook's 881 Newport tab, the reference this system was built to reproduce, not a description of the tabs
 the writer generates.
+
+## 65 · What the sale did to the Granite and Sparkling tabs, and the 178.48 it hid (2026-09-23)
+
+Paul, opening 1616 Granite after the day's tab work: *"what are these charges on granite? do they reconcile
+with the old sheet? there are no explanations."* Eight rows dated 07/24/2026, no payee, no description:
++12,900.00, +4,133.60, -5,825.46, -3,248.68, -639.83, -4,598.60, -299.00, -12,900.00.
+
+**What they are.** 2026-07-24 is Granite's closing date, so they are its settlement entries. The positives are
+the statement's own Selling-class costs; the negatives are the wizard's "project cost released to COGS" entry,
+which credits every cost account to zero at the sale. Each negative was matched against the account balance
+rebuilt from the migrated rows, and every one ties to the cent: 1020 5,825.46 · 1030 3,248.68 · 1040 639.83 ·
+1330 299.00 · 1300 12,900.00 · 1310 4,598.60 (= the 465.00 HOA right-to-sell already on the books plus the
+4,133.60 from the statement). The eight rows sum to **-10,477.97**, exactly the Rehab + Selling cost above them
+in the same block, so the block nets to zero.
+
+**Why there were no explanations, and the fix.** `lib/sale.mjs` builds the release lines with no line
+description, and Granite's settlement lines are blank because it was typed from the PDF before the document
+reader existed. Nothing was missing from the books: every one of those rows carries the entry's `memo`
+("1616 Granite sale 2026-07-24: project cost released to COGS"). `lineDescription_` now falls back to it,
+trimming the `<property> sale <date>: ` prefix - which fixes Granite, Sparkling and every future sale without
+writing a single byte to posted history. A backfill was authorised and turned out to be unnecessary.
+
+**No, nothing is being reconciled.** Asked directly whether the numbers were bridging a discrepancy. The
+release entry cannot: it debits COGS for the *sum* of the cost accounts and credits each account for *its own
+balance*, so it balances by construction, with no difference line. It also cannot hide an error - a cost in
+the wrong account is carried straight through. The only plug in the whole wizard is `splitStatement`'s
+`rounding_cents`, capped at `max(5, one per statement line)`; past that it throws rather than absorbing.
+Granite's one genuine reconciliation is the interest: engine 6,966.43 at 8% against Dennis's agreed 6,958.60,
+a -7.83 true-up posted as its own entry.
+
+**Granite's cost, from the migrated rows (all confirmed later by `reportStrandedCosts`):** purchase price plus
+the rest of the seller's settlement costs 284,624.37 (derived) · rehab 9,713.97 (1020 5,825.46, 1030 3,248.68,
+1040 639.83) · holding 1,726.90 · selling 17,797.60 · Dennis's interest 6,958.60 = **project cost 320,821.44**,
+plus Dennis's 54,589.28 share = **375,410.72 released to COGS** against revenue of **430,000.00**, leaving
+Paul 54,589.28. Paul's reaction to the rehab figure - *"the house didnt need much rehab"* - is right; it is
+mostly carpet, landscaping, a plumbing call and Home Depot smalls.
+
+**"the sum for rehab costs in granite is $178.48. that is WAY off."** It was a residual, not a total: the
+block nets cost against release, so a sold property reads ~0 and 178.48 was whatever the release had not
+covered. `reportStrandedCosts()` (new editor helper) found it - one entry,
+`receipt-20260219-ffef9418064c-629c`, posted **2026-09-22 17:31:34**, one hour and forty-nine minutes after
+the sale posted at 15:42:43. Its balances also confirmed every derived figure above: 4000 -430,000.00,
+5000 375,410.72, 9010 54,589.28; **280 Sparkling was clean.**
+
+**It was a duplicate on the wrong property, not a late charge.** Both its lines already exist in the books,
+migrated onto **104 Ashburne**: 2026-02-19 Home Depot "Floor Protection" 123.34 (1030) and "Light Bulbs" 55.14
+(1040), 178.48 together. And it cannot be Granite's at all - Granite's costs run 2026-05-08 to 2026-08-05, and
+in February 2026 the only active cost centres were 104 Ashburne and OVERHEAD. So it was **voided**
+(`void-receipt-20260219-ffef9418064c-629c`), not moved to Cost Recapture: there is nothing to recapture.
+Paul's own migration stopping rule - no new cost unless proven absent from the old books - should have parked
+it; it was not absent.
+
+**The mechanism, and the hole it exposed (now closed, D-043).** `sellPost` writes `status = sold` straight to
+the sheet, which neither goes through the upsert (which clears the cached posting ctx) nor fires the onEdit
+trigger, and `buildCtx_` caches the postable property set for **six hours**. A February receipt replayed
+through the live poller inside that window still saw Granite as open. `sellPost` now clears the `ctx` cache
+the instant it writes the status. Worth noting this would have gotten worse, not better: with the frozen-tab
+guards in place a post in that window is invisible on both tabs - the frozen tab never refreshes and the
+closing tab sums by `trade`, not `property`.
+
+**Still open from this:** the same replay could have put duplicates on a **held** property, where nothing
+flags them because held properties are meant to carry balances. A sweep for live-poller entries matching a
+migrated row on date, payee and amount is worth doing.

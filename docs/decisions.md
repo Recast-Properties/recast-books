@@ -905,3 +905,45 @@ the one Heavy tab, is untouched.
 **Not re-opened:** D-010 (overhead never touches a property), D-011/D-021 (all Dennis interest is a property
 cost), D-022 (`dennis_share_pct` drives the split). The heavy template's Profit Breakdown, its Agent
 Commission % cell and its own Dennis Payout commission line are unchanged.
+
+## D-043 · The property tab is frozen at closing as the record; the closing tab stays separate - 2026-09-23 · Paul
+
+**This reverses the second half of `docs/phase5-spec.md` §3** (decided 2026-09-22: "no new tab per sale ...
+its own tab is rebuilt as the closing statement"). `CLOSING_TAB_IN_PLACE` stays `false` permanently and the
+layout sign-off it was waiting on is moot.
+
+Paul, after looking at what the sale had done to the 1616 Granite and 280 Sparkling tabs - *"they got totally
+fucked when the closing tab was created. why? is it necessary?"* - and then: *"i want the property tab frozen
+and i want a new closing tab. so like we are doing it now, but i want to keep the property tab frozen as it
+is when the closing tab is created. i want to keep it as a record."*
+
+**What actually broke them, for the record:** not the closing tab. The property tab is a live formula view
+over the Journal, and the sale's release entry credits every cost account to zero, so every total nets to ~0
+and each cost appears twice - once as the charge, once as its reversal. The tab was doing exactly what it was
+built to do, on data that no longer suited it.
+
+**Why the 09-22 decision was wrong:** it assumed the forecast tab "stops meaning anything the moment the costs
+release to COGS". It stops meaning anything *as a live view*, but its content is the only record of what the
+house cost to own and fix - every line with its payee, description, who paid, and now its receipt link.
+Rebuilding it as a by-class summary statement throws that away. They are two different documents: the property
+tab is the cost history, the closing tab is the sale and everything after it.
+
+**Decided:** `sellPost` calls `freezePropertyTab_` immediately **before** it posts - the formulas are replaced
+by the values they are showing at that instant, and the `as of` cell becomes `SOLD <date> - frozen at closing,
+see the closing tab`. Checkbox validations stay, so the frozen tab still looks like itself. Three guards keep
+it: `setupPropertyTab` refuses to rebuild a sold property, `refreshLineBlocks_` skips one, and
+`onPropertyTabEdit` toasts instead of firing a void-and-repost. The one exception is
+`setupPropertyTab(name, asOf)`, which reconstructs the pre-sale record for a property that sold before
+freezing existed (1616 Granite, 280 Sparkling) by dropping every `source = "sale"` row - by source, not by
+date, because Granite has a real cost dated the day it closed.
+
+**A charge arriving after the freeze** is refused on the sold property outright (`isOpenProperty` is
+`status !== "sold"`, so it leaves the postable set and `buildEntry` rejects any entry naming it) and belongs
+on Cost Recapture with the property's name in `trade` (D-031), where the closing tab's live POST-SALE COSTS
+SUMIF picks it up. Nothing falls between the two tabs.
+
+**One hole found closing this, and closed:** `sellPost` writes `status = sold` straight to the sheet, which
+neither goes through the upsert (which clears the cached posting ctx) nor fires the onEdit trigger (script
+writes never do), and `buildCtx_` caches the postable property set for **six hours**. So for up to six hours
+after a sale closed, the sold property still looked open to the gate. `sellPost` now clears the `ctx` cache
+the instant it writes the status. That window is how the 178.48 reached 1616 Granite (audit §65).

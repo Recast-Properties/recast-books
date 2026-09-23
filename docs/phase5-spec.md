@@ -130,10 +130,32 @@ Sections, in the shape Paul already uses:
 5. Post-sale section: Cost Recapture lines naming this property, and the partner adjustment they feed
    (D-015 §4, D-031).
 
-**Staged, Paul 2026-09-22: "while we test i want to generate a new tab and get it working before we change
-the existing property tabs."** The builder takes its target sheet name, so during the gate it writes
-`<property> — Closing` and the live property tab is untouched. When Paul signs the layout off, the target
-becomes the property tab itself and the test tabs are deleted. One constant in the writer, not a setting.
+**REVERSED 2026-09-23 (D-043). The property tab is NOT rebuilt as the closing statement; it is frozen as
+the record of the day the house closed, and the closing tab stays a separate tab permanently.** Paul, after
+looking at what the sale did to the 1616 Granite and 280 Sparkling tabs: *"i want the property tab frozen and
+i want a new closing tab. so like we are doing it now, but i want to keep the property tab frozen as it is
+when the closing tab is created. i want to keep it as a record."*
+
+What was wrong with the paragraph above: it assumed the forecast tab "stops meaning anything the moment the
+costs release to COGS". It does stop meaning anything *as a live view* - but its content is the only record
+of what the house cost to own and fix, line by line with the receipts attached, and rebuilding it as a
+summary statement throws that away. The two are different documents: the property tab is the cost history,
+the closing tab is the sale and everything after it.
+
+So `sellPost` calls `freezePropertyTab_` immediately **before** it posts (`Code.gs`) - the formulas are
+replaced by the values they are showing at that instant, and the `as of` cell becomes `SOLD <date> - frozen
+at closing, see the closing tab`. It has to happen there: the next statement's release entry nets every
+formula on that tab to zero. `postBatchEntries_` is called with `skipRefresh` and `Properties.status` becomes
+`sold` a few lines later, so nothing rewrites the tab in between; if the post throws, the property is still
+held and **Rebuild property tab** restores it. The checkbox validations are deliberately left in place so the
+frozen tab still looks like itself.
+
+Three guards keep it frozen, in `Code.gs`: `setupPropertyTab` refuses to rebuild a sold property (so
+`rebuildAllPropertyTabs` cannot overwrite a record), `refreshLineBlocks_` skips one (so a stray post cannot
+rewrite the blocks), and `onPropertyTabEdit` toasts and returns instead of firing a void-and-repost.
+
+**`CLOSING_TAB_IN_PLACE` stays `false` permanently** and the sign-off it was waiting on is moot.
+`closingTabName_()` therefore always returns `<property> - Closing`.
 
 ## 4 · The Payout report
 
