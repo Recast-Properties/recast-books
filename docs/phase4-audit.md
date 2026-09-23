@@ -2016,3 +2016,46 @@ closing tab sums by `trade`, not `property`.
 **Still open from this:** the same replay could have put duplicates on a **held** property, where nothing
 flags them because held properties are meant to carry balances. A sweep for live-poller entries matching a
 migrated row on date, payee and amount is worth doing.
+
+## 66 · The duplicate-replay sweep: four receipts, 488.67 (2026-09-23)
+
+§65 found one replayed receipt on 1616 Granite. Paul: *"yes do the sweep"* - the same replay could have put
+duplicates on a **held** property, where nothing flags them because a held property is meant to carry balances.
+
+**The matcher (`reportDuplicateReplays`, no args).** Live entries against migrated rows on **date + payee +
+amount and nothing else** - deliberately not property and not account, because the Granite one landed on a
+different property AND a different account than the rows it duplicated, so either in the key would have hidden
+it. "The Home Depot" normalises to "Home Depot". Debit lines only (the credit side is the payer account).
+`source = migration` rows are the truth and `sale` rows are not receipts, so neither is a candidate.
+
+**Found: 7 lines, 286.44, every one on 104 Ashburne**, all posted in a fifteen-minute burst on 2026-09-22
+between 17:31:55 and 17:46:49 - minutes either side of the Granite one at 17:31:34. Three receipts, all Home
+Depot, dated 2026-01-14, 2026-02-16 and 2026-02-17. These are the parked Home Depot / Lowe's items from that
+evening's Inbox clear-out (§55) being approved instead of parked.
+
+**Two of the three carried the model's own doubt into the ledger**, which is the finding worth keeping: the
+posted descriptions read *"rehab material, no eligible property on this date"* and *"PENDING ROUTING: ... reroute
+to 1030 if a Feb-2026 job is identified"*. An entry whose own description says PENDING should not be postable;
+that is a gate rail worth adding in Phase 3.
+
+**`voidDuplicateReplays` voids only an entry whose EVERY debit line matched**, and lists a partial for review -
+a receipt carrying one real item beside a replay would lose a real cost otherwise. It voided two
+(`receipt-20260114-...f148` 20.25, `receipt-20260217-...adcf` 166.08) and left one alone: **3 of 6 lines matched**.
+The guard earned its place on its first run.
+
+**The partial was a duplicate too, and the matcher could not see it.** The three unmatched lines - Anvil glass
+scraper 5.39, flex putty knife 11.89, 6-in-1 painter's tool 6.47 - **sum to 23.75, which is a migrated row:
+2026-02-16, Home Depot, "Scrapers", 23.75, on OVERHEAD 6510.** The old books recorded the trip as one row; the
+replay itemised it into three, so no line amount could ever match. The same day also carries "Saw Horses" 59.51
+on 6510 - the fourth item from the card in §63. Voided whole (123.86).
+
+**Total voided: 488.67** - 178.48 on 1616 Granite (§65) and 310.19 on 104 Ashburne across three receipts.
+
+**Two things this settled.** (1) "Tools are overhead" was never a new policy: Paul's own old workbook already
+had the scrapers and the saw horses on 6510 OVERHEAD. The replay is what got it wrong, posting tools onto a
+property as rehab materials - and the hex keys in `receipt-20260114` were migrated to OVERHEAD 6510 and replayed
+onto Ashburne 1030, the same breach. (2) **A known blind spot in the sweep:** the old books sometimes combined
+several receipt items into one row (D-029 posts the old row), so a line-level matcher cannot see a replay that
+itemises, and a receipt where NO line matched exactly would never have been flagged at all. The remaining
+parked Home Depot / Lowe's items must be checked against the old rows **by hand** in Phase 3, not trusted to
+this sweep.

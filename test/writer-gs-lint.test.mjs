@@ -257,6 +257,29 @@ test("a property that sold before freezing existed can be reconstructed and froz
     "it must walk the sold properties and reconstruct each one");
 });
 
+// The duplicate that reached 1616 Granite landed on a different property AND a different
+// account than the migrated rows it duplicated (audit 65), so neither may enter the key.
+test("the duplicate-replay sweep keys on date, payee and amount only", () => {
+  const body = bodyOf("reportDuplicateReplays");
+  const key = body.slice(body.indexOf("var key ="), body.indexOf("var live ="));
+  assert.ok(/date/.test(key) && /payee/.test(key) && /debit\(r\)/.test(key), "the key must be date + payee + amount");
+  assert.ok(!/property/.test(key) && !/account/.test(key),
+    "property or account in the key would have hidden the one duplicate we already found");
+  assert.ok(/replace\(\/\^the\\s\+\//.test(body), '"The Home Depot" and "Home Depot" must normalise to one vendor');
+  assert.ok(body.includes("debit(r) > 0"), "credit lines are the payer account and match nothing useful");
+  assert.ok(/src === 'migration' \|\| src === 'sale'/.test(body),
+    "migrated rows are the truth and sale rows are not receipts - neither is a candidate");
+});
+
+test("voiding replays only touches an entry whose every debit line matched", () => {
+  const body = bodyOf("voidDuplicateReplays");
+  assert.ok(/if \(t\.matched < t\.total\)/.test(body) && body.includes("LEFT ALONE"),
+    "a partly-matched entry must be listed and left alone - voiding it would drop a real cost");
+  assert.ok(body.indexOf("LEFT ALONE") < body.indexOf("voidEntry_("),
+    "the partial check must come before the void, not after it");
+  assert.ok(body.includes("voidEntry_(id,"), "it must go through the normal void path, not write rows itself");
+});
+
 test("both line-block refreshers fill a Receipt column", () => {
   for (const fn of ["refreshLineBlocks_", "refreshHeavyBlocks_"]) {
     assert.ok(bodyOf(fn).includes("receiptCell_(g(r, 'doc_url'))"), `${fn} does not fill the Receipt column`);

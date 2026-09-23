@@ -2188,6 +2188,135 @@ function rebuildFrozenRecord(name) {
   return msg;
 }
 
+/** Editor helper, NO ARGS: live entries that look like a replay of a row already migrated
+ *  from the old books - the sweep Paul asked for after receipt-20260219-ffef9418064c-629c
+ *  turned out to be a duplicate (audit 65). It matched on DATE + PAYEE + AMOUNT and nothing
+ *  else, deliberately: that one landed on a different PROPERTY and a different ACCOUNT than
+ *  the two migrated rows it duplicated, so including either in the key would have hidden it.
+ *  On a sold property a duplicate shows up as a stranded balance; on a HELD one nothing flags
+ *  it, which is why this exists. Debit lines only - the credit side is the payer account and
+ *  matches nothing useful. Candidates only: two real purchases of the same thing from the
+ *  same vendor on the same day are possible, so nothing is voided automatically. */
+function reportDuplicateReplays() {
+  var props = PropertiesService.getScriptProperties();
+  var ss = openWorkbook_(props);
+  var journal = ss.getSheetByName('Journal');
+  var cols = headerIndex_(journal);
+  var rows = journal.getRange(2, 1, journal.getLastRow() - 1, journal.getLastColumn()).getValues();
+  var g = function (r, n) { return cols[n] ? r[cols[n] - 1] : ''; };
+  var debit = function (r) { return Math.round(Number(g(r, 'debit') || 0) * 100); };
+  var voided = {};
+  rows.forEach(function (r) { var v = String(g(r, 'void_of') || ''); if (v) voided[v] = true; });
+  // "The Home Depot" and "Home Depot" are the same vendor.
+  var norm = function (p) { return String(p || '').toLowerCase().replace(/^the\s+/, '').replace(/[^a-z0-9]+/g, ''); };
+  var key = function (r) { return formatIsoDate_(g(r, 'date')) + '|' + norm(g(r, 'payee')) + '|' + debit(r); };
+  var live = rows.filter(function (r) {
+    return String(g(r, 'source')) !== 'void' && !voided[String(g(r, 'txn_id'))] && debit(r) > 0;
+  });
+  var migrated = {};
+  live.forEach(function (r) {
+    if (String(g(r, 'source')) !== 'migration') return;
+    var k = key(r);
+    (migrated[k] = migrated[k] || []).push(r);
+  });
+
+  // Grouped by entry, and EVERY debit line of a flagged entry is shown - matched or not.
+  // voidDuplicateReplays only voids an entry whose every line matched, so the unmatched ones
+  // are exactly what has to be read by hand.
+  var byTxn = {};
+  live.forEach(function (r) {
+    var src = String(g(r, 'source'));
+    if (src === 'migration' || src === 'sale') return;
+    var id = String(g(r, 'txn_id'));
+    (byTxn[id] = byTxn[id] || []).push(r);
+  });
+  var out = [], entries = 0, matchedLines = 0, total = 0, byProperty = {};
+  Object.keys(byTxn).sort().forEach(function (id) {
+    var lines = byTxn[id];
+    var hits = lines.filter(function (r) { return migrated[key(r)]; });
+    if (!hits.length) return;
+    entries++;
+    var whole = hits.length === lines.length;
+    var r0 = lines[0];
+    out.push((whole ? 'WHOLE ENTRY  ' : 'PARTIAL (' + hits.length + ' of ' + lines.length + ')  ') + id + '  ' +
+      formatIsoDate_(g(r0, 'date')) + '  ' + g(r0, 'payee') + '  [' + g(r0, 'source') + ' -> ' +
+      g(r0, 'property') + ', posted ' + g(r0, 'posted_at') + ']');
+    lines.forEach(function (r) {
+      var hit = migrated[key(r)];
+      out.push((hit ? '   MATCH  ' : '   new?   ') + (debit(r) / 100).toFixed(2) + '  acct ' + g(r, 'account') +
+        '  "' + g(r, 'description') + '"');
+      if (!hit) return;
+      matchedLines++; total += debit(r);
+      byProperty[String(g(r, 'property'))] = (byProperty[String(g(r, 'property'))] || 0) + debit(r);
+      hit.forEach(function (m) {
+        out.push('          vs migrated  ' + g(m, 'txn_id') + '  ' + g(m, 'property') + ' acct ' + g(m, 'account') +
+          '  "' + g(m, 'description') + '"');
+      });
+    });
+  });
+  var head = entries + ' entr(ies) flagged, ' + matchedLines + ' matched line(s), ' + (total / 100).toFixed(2) + ' total';
+  Object.keys(byProperty).sort().forEach(function (k) { head += '\n   ' + k + ': ' + (byProperty[k] / 100).toFixed(2); });
+  out.unshift(head);
+  console.log(out.join('\n'));
+  return out;
+}
+
+/** Editor helper, NO ARGS: void the replays reportDuplicateReplays flags - but ONLY where
+ *  EVERY debit line of the entry matched a migrated row. An entry where some lines matched
+ *  and some did not is LISTED AND LEFT ALONE: that would be a receipt carrying one real item
+ *  alongside a replay, and voiding the whole thing would drop a real cost. Run
+ *  reportDuplicateReplays() first and read it - that is the dry run (constraint 5). Voids are
+ *  append-only: the original rows stay, mirrored by a void entry. */
+function voidDuplicateReplays() {
+  var props = PropertiesService.getScriptProperties();
+  var ss = openWorkbook_(props);
+  var journal = ss.getSheetByName('Journal');
+  var cols = headerIndex_(journal);
+  var rows = journal.getRange(2, 1, journal.getLastRow() - 1, journal.getLastColumn()).getValues();
+  var g = function (r, n) { return cols[n] ? r[cols[n] - 1] : ''; };
+  var debit = function (r) { return Math.round(Number(g(r, 'debit') || 0) * 100); };
+  var voided = {};
+  rows.forEach(function (r) { var v = String(g(r, 'void_of') || ''); if (v) voided[v] = true; });
+  var norm = function (p) { return String(p || '').toLowerCase().replace(/^the\s+/, '').replace(/[^a-z0-9]+/g, ''); };
+  var key = function (r) { return formatIsoDate_(g(r, 'date')) + '|' + norm(g(r, 'payee')) + '|' + debit(r); };
+  var live = rows.filter(function (r) {
+    return String(g(r, 'source')) !== 'void' && !voided[String(g(r, 'txn_id'))] && debit(r) > 0;
+  });
+  var migrated = {};
+  live.forEach(function (r) { if (String(g(r, 'source')) === 'migration') migrated[key(r)] = true; });
+
+  var tally = {};   // txn_id -> {matched, total, cents, date}
+  live.forEach(function (r) {
+    var src = String(g(r, 'source'));
+    if (src === 'migration' || src === 'sale') return;
+    var id = String(g(r, 'txn_id'));
+    var t = tally[id] || (tally[id] = { matched: 0, total: 0, cents: 0, date: formatIsoDate_(g(r, 'date')) });
+    t.total++;
+    if (migrated[key(r)]) { t.matched++; t.cents += debit(r); }
+  });
+
+  var out = [], user = Session.getActiveUser().getEmail();
+  var today = Utilities.formatDate(new Date(), 'America/Chicago', 'yyyy-MM-dd');
+  Object.keys(tally).sort().forEach(function (id) {
+    var t = tally[id];
+    if (!t.matched) return;
+    if (t.matched < t.total) {
+      out.push('LEFT ALONE  ' + id + '  ' + t.matched + ' of ' + t.total + ' debit lines matched - review by hand');
+      return;
+    }
+    try {
+      var res = voidEntry_(id, 'duplicate of rows already migrated from the old books (same date, payee and amount)',
+        today, user, props, false);
+      out.push('voided  ' + id + '  ' + t.total + ' line(s)  ' + (t.cents / 100).toFixed(2) + '  -> ' + res.txn_id);
+    } catch (err) {
+      out.push('FAILED  ' + id + '  ' + String((err && err.message) || err));
+    }
+  });
+  if (!out.length) out.push('nothing to void - no entry had every debit line matched');
+  console.log(out.join('\n'));
+  return out;
+}
+
 /** Editor helper, NO ARGS (the Run button passes none): reconstruct and freeze the record
  *  for every sold property - 1616 Granite and 280 Sparkling, which sold before freezing
  *  existed. Idempotent: it rebuilds from the Journal each time, so re-running is harmless. */

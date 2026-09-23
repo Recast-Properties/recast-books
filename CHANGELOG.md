@@ -883,3 +883,32 @@ wrong property** - the 2026-02-19 Home Depot floor protection 123.34 and bulbs 5
 280 Sparkling was clean.
 
 463 tests. Pushed to the writer; no deploy (`doPost` unchanged).
+
+## 2026-09-23 (late) - The duplicate-replay sweep: four receipts voided, 488.67 (audit §66)
+
+After the Granite duplicate (§65), Paul: *"yes do the sweep"*. A duplicate on a **sold** property shows up as a
+stranded balance; on a **held** one nothing flags it, because held properties are meant to carry balances.
+
+- **`reportDuplicateReplays()`** (no args) matches live entries against migrated rows on **date + payee + amount
+  and nothing else** - not property, not account, because the Granite one crossed both. Vendor names normalise
+  ("The Home Depot" = "Home Depot"), debit lines only. It groups by entry and prints **every** line of anything
+  flagged, `MATCH` or `new?`, labelled WHOLE ENTRY or PARTIAL.
+- **`voidDuplicateReplays()`** (no args) voids only an entry whose **every** debit line matched, and lists a
+  partial for review rather than voiding it. That guard paid for itself on its first run.
+- **Found:** 7 lines / 286.44, all on 104 Ashburne, all posted 2026-09-22 between 17:31:55 and 17:46:49 -
+  minutes either side of the Granite one. Three Home Depot receipts from January and February, the parked items
+  from that evening's Inbox clear-out (§55) approved instead of parked. Two of them carried the model's own
+  doubt into the ledger: *"no eligible property on this date"*, *"PENDING ROUTING: ... reroute to 1030 if a
+  Feb-2026 job is identified"*. An entry whose description says PENDING should not be postable - a gate rail for
+  Phase 3.
+- **The partial was a duplicate the matcher could not see.** Its three unmatched lines - glass scraper 5.39,
+  putty knife 11.89, painter's tool 6.47 - **sum to 23.75, a migrated row: "Scrapers", OVERHEAD 6510**. The old
+  books recorded the trip as one row; the replay itemised it, so no line amount could match. Voided whole.
+- **Total voided 488.67**: 178.48 on 1616 Granite, 310.19 on 104 Ashburne across three receipts.
+
+**Settled by this:** "tools are overhead" was never new - Paul's old workbook already had the scrapers and saw
+horses on 6510. **Known blind spot:** the old books sometimes combined items into one row (D-029), so a
+line-level matcher cannot see an itemising replay, and a receipt with no exact line match would never be
+flagged. The parked Home Depot / Lowe's items must be checked by hand in Phase 3.
+
+465 tests. Pushed to the writer; no deploy.
