@@ -160,7 +160,8 @@ test("setupPropertyTab: old-tab layout (summary / Dennis / Rehab Costs / Utiliti
   const body = source.slice(anchor, nextFn === -1 ? source.length : nextFn);
 
   for (const label of ["Total Project Cost", "Purchase Principal + Interest", "Cash Advance Interest", "Rehab Costs", "Utilities",
-    "Profit Breakdown", "Net Profit", "Dennis Share", "Paul Share", "Payouts", "Back to Recast account", "Sale Price (estimate - type it here)"]) {
+    "Profit Breakdown", "Net Profit", "Dennis Share", "Paul Share", "Payouts", "Back to Recast account", "Sale Price (estimate - type it here)",
+    "Concession (type it here)", "Paul Paid (direct)"]) {
     assert.ok(body.includes("'" + label + "'"), `summary label "${label}" missing`);
   }
   for (const cls of ["Rehab", "Acquisition", "Holding"]) {
@@ -176,6 +177,18 @@ test("setupPropertyTab: old-tab layout (summary / Dennis / Rehab Costs / Utiliti
   assert.ok(body.includes("Properties!A:F"), "does not read settlement_date (tax proration stops at the sale)");
   assert.ok(body.includes("Properties!A:K,11"), "does not read contract_price (D-017)");
   assert.ok(body.includes("readLabelledValue_(sh, 'Sale Price')"), "a rebuild does not keep the typed Sale Price");
+  // Paul, 2026-09-23: the light tabs get the Ashburne tab's concession cell, and lose the
+  // Dennis commission rows - he charges none on a partnership deal.
+  assert.ok(body.includes("readLabelledValue_(sh, 'Concession')"), "a rebuild does not keep the typed Concession");
+  assert.ok(body.includes("-ABS(B' + concRow + ')"), "Net Profit does not subtract the concession");
+  assert.ok(!body.includes("'Less Dennis commission'"), "Paul's payout still deducts a Dennis commission");
+  assert.ok(!body.includes("'Due to Paul"), "the Paul payout line was not renamed to 'Paul Paid (direct)'");
+  // Paul, 2026-09-23: advances and refunds are their own rows in all three who-paid blocks.
+  assert.ok(!body.includes("'Received (advances, refunds)'"), "the who-paid blocks still merge advances and refunds");
+  assert.strictEqual(body.split("'Received (advances)'").length - 1, 2, "Received (advances) belongs on the Paul and Recast blocks only");
+  assert.strictEqual(body.split("'Received (refunds)'").length - 1, 3, "Received (refunds) is not on all three who-paid blocks");
+  assert.ok(body.includes("eq('L', 'Dennis Little')") && body.includes("ne('L', 'Dennis Little')"),
+    "the advances/refunds split is not an exhaustive partition on payee");
   assert.ok(body.includes("Properties!A:L,12"), "does not read tax_annual (property tax proration)");
   assert.ok(body.includes("DATE(YEAR($B$1),1,1)"), "no Jan-1-to-date proration of tax_annual");
 });

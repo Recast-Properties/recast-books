@@ -1171,6 +1171,7 @@ function setupPropertyTab(name) {
   // for me to enter the value"): keep what is there across a rebuild, else start from the
   // registry's contract_price.
   var keptSalePrice = readLabelledValue_(sh, 'Sale Price');
+  var keptConc = readLabelledValue_(sh, 'Concession');
   var registry = propertyRow_(ss, name);
   var heavy = String((registry || {}).template || '').toLowerCase() === 'heavy';
   var BC = PT_BLOCK_COLS;   // Rehab Costs / Utilities block columns (light template)
@@ -1315,16 +1316,27 @@ function setupPropertyTab(name) {
     set(top, 7, '=SUM(G' + (top + 1) + ':G' + (top + detail.length) + ')', true);
     return top + detail.length + 2;
   };
+  // Received is split in two (Paul, 2026-09-23). Both lines of an advance carry payee
+  // "Dennis Little" (buildAdvance, lib/posting.mjs); a refund is a negative cost row, so it
+  // carries the vendor. The pair partitions what the single "Received" line summed - every
+  // row lands in exactly one of them, so a mislabelled payee moves a line, never the total.
+  var isAdvance = eq('L', 'Dennis Little'), notAdvance = ne('L', 'Dennis Little');
   var dueToPaulRow = purchase.next;
   var dennisDirectRow = heavy ? dueToPaulRow : subBlock(dueToPaulRow, 'Paul Paid', [
     ['Paul Paid', '=' + cred(eq('E', '2030'))],
-    ['Received (advances, refunds)', '=-' + deb(eq('E', '2030'))]]);
+    ['Received (advances)', '=-' + deb(eq('E', '2030') + '*' + isAdvance)],
+    ['Received (refunds)', '=-' + deb(eq('E', '2030') + '*' + notAdvance)]]);
+  // No advances row here (Paul, 2026-09-23): Dennis's direct costs ARE advances (posting.mjs,
+  // "a direct-paid cost is an advance"), and an advance's own lines - 1401/2030 and 2010 - are
+  // never cost lines, so the row could only ever read zero. The one Received row is unfiltered,
+  // so nothing can fall out of the block total.
   var recastNetRow = heavy ? dueToPaulRow : subBlock(dennisDirectRow, 'Dennis Paid (direct, not an advance)', [
     ['Dennis Paid', '=' + deb(costLineF + '*' + eq('N', 'DENNIS'))],
-    ['Received (advances, refunds)', '=-' + cred(costLineF + '*' + eq('N', 'DENNIS'))]]);
+    ['Received (refunds)', '=-' + cred(costLineF + '*' + eq('N', 'DENNIS'))]]);
   var cashTop = heavy ? dueToPaulRow : subBlock(recastNetRow, 'Recast Account Paid', [
     ['Recast Account Paid', '=' + cred(isBank)],
-    ['Received (advances, refunds)', '=-' + deb(isBank)]]);
+    ['Received (advances)', '=-' + deb(isBank + '*' + isAdvance)],
+    ['Received (refunds)', '=-' + deb(isBank + '*' + notAdvance)]]);
   var cash = advanceSchedule(cashTop, 'Cash Advances + Interest', isCash, countAdvances_(ss, name, false) + 1);
 
   // D-011 / D-021: interest on every advance is a property cost (the cash advances
@@ -1344,7 +1356,7 @@ function setupPropertyTab(name) {
     // these sections in the new sheet match the old sheet"). Bank deal: the project cost is
     // purchase + cash draws + interest + property tax; Paul's own spending is inside the
     // draws that reimbursed him. Agent % and Concession are typed cells, kept across rebuilds.
-    var keptAgent = readLabelledValue_(sh, 'Agent Commission %'), keptConc = readLabelledValue_(sh, 'Concession');
+    var keptAgent = readLabelledValue_(sh, 'Agent Commission %');
     set(s, 1, 'Rehab Total', true); paint(s, 1, 1, C.head); paint(s, 2, 1, C.total);
     set(s, 2, '=' + net(rehabF) + '+' + net(holdingF + '*' + ne('E', '1100')), true); s++;
     set(s, 1, 'Current Total Spent (cash draws are what count against the project)'); set(s, 2, '=B' + (s - 1)); s += 2;
@@ -1399,7 +1411,10 @@ function setupPropertyTab(name) {
   var pct = function (key) { return 'IFERROR(VLOOKUP("' + key + '",Settings!A:B,2,FALSE),0)'; };
   set(s, 1, '="Agent "&' + pct('estimate_agent_pct') + '&"%"'); set(s, 2, '=-B' + saleRow + '*' + pct('estimate_agent_pct') + '/100'); var agentRow = s++;
   set(s, 1, '="Closing "&' + pct('estimate_closing_pct') + '&"%"'); set(s, 2, '=-B' + saleRow + '*' + pct('estimate_closing_pct') + '/100'); var closingRow = s++;
-  set(s, 1, 'Net Profit', true); set(s, 2, '=SUM(B' + saleRow + ':B' + closingRow + ')', true); paint(s, 1, 2, C.total); var profitRow = s++;
+  // Seller concession, typed like Sale Price (Paul, 2026-09-23: the same cell the Ashburne
+  // tab has). ABS so a minus sign typed by hand cannot turn a credit into profit.
+  set(s, 1, 'Concession (type it here)'); set(s, 2, keptConc !== '' ? keptConc : 0); paint(s, 1, 2, C.input); var concRow = s++;
+  set(s, 1, 'Net Profit', true); set(s, 2, '=SUM(B' + saleRow + ':B' + closingRow + ')-ABS(B' + concRow + ')', true); paint(s, 1, 2, C.total); var profitRow = s++;
   // D-022: the split is a term on the property (Properties.dennis_share_pct, default 50;
   // 0 when Dennis is the bank only, as on 104 Ashburne).
   set(s, 1, '="Dennis Share ("&' + SHARE + '&"%)"', true); set(s, 2, '=B' + profitRow + '*' + SHARE + '/100', true); paint(s, 1, 2, C.yellow); var dennisShareRow = s++;
@@ -1411,16 +1426,14 @@ function setupPropertyTab(name) {
   set(s, 1, 'Cash Advances + Interest'); set(s, 2, '=' + cashPayoffRef); s++;
   set(s, 1, 'Dennis Share'); set(s, 2, '=B' + dennisShareRow); s++;
   set(s, 1, 'Dennis Paid (direct)'); set(s, 2, '=G' + dennisDirectRow); s++;
-  // Bank-only deal (Ashburne, 2026-09-17): Dennis's return is interest (already inside
-  // project cost) plus a commission on the sale price; it comes out of Paul's side.
-  set(s, 1, '="Dennis commission ("&' + COMM + '&"% of sale)"'); set(s, 2, '=B' + saleRow + '*' + COMM + '/100'); var dennisCommRow = s++;
-  set(dennisRow, 2, '=SUM(B' + (dennisRow + 1) + ':B' + (dennisRow + 5) + ')', true);
+  // No commission row: Dennis charges none on a partnership deal (Paul, 2026-09-23). The
+  // bank deal's commission is the heavy tab's line and lib/sale.mjs's entry at closing.
+  set(dennisRow, 2, '=SUM(B' + (dennisRow + 1) + ':B' + (dennisRow + 4) + ')', true);
   s++;
   set(s, 1, 'Paul', true); paint(s, 1, 1, C.sub); paint(s, 2, 1, C.tan); var paulRow = s++;
   set(s, 1, 'Paul Share'); set(s, 2, '=B' + paulShareRow); s++;
-  set(s, 1, 'Due to Paul (paid less reimbursed)'); set(s, 2, '=G' + dueToPaulRow); s++;
-  set(s, 1, 'Less Dennis commission'); set(s, 2, '=-B' + dennisCommRow); s++;
-  set(paulRow, 2, '=SUM(B' + (paulRow + 1) + ':B' + (paulRow + 3) + ')', true);
+  set(s, 1, 'Paul Paid (direct)'); set(s, 2, '=G' + dueToPaulRow); s++;
+  set(paulRow, 2, '=SUM(B' + (paulRow + 1) + ':B' + (paulRow + 2) + ')', true);
   s++;
   set(s, 1, 'Back to Recast account', true); set(s, 2, '=G' + recastNetRow, true); paint(s, 1, 1, C.sub); paint(s, 2, 1, C.tan); s++;
   }
