@@ -1141,9 +1141,10 @@ function setupTotals() {
 //         the Cash Advances schedule (every other advance). Each schedule row: Start,
 //         End (repaid_date), Principal, Interest to Date at Settings!interest_rate_annual
 //         (D-016, 8%) by the D-006 method, Notes.
-//   J:P   REHAB COSTS - payee, date, description, amount, Paul Paid / Dennis Paid /
+//   J:R   REHAB COSTS - payee, date, description, amount, Receipt (a HYPERLINK to the
+//         line's doc_url, blank when it has none), then Paul Paid / Dennis Paid /
 //         Recast Account checkboxes (from paid_from).
-//   R:X   UTILITIES - same shape, Holding-class lines. Post-sale costs (D-015) are on
+//   S:AA  UTILITIES - same shape, Holding-class lines. Post-sale costs (D-015) are on
 //         the Phase 5 closing tab, not here (Paul, 2026-09-15).
 //   AI:AS helpers (rate, stub basis, settlement_date, contract_price, per-advance
 //         math, tax_annual, tax proration estimate), greyed; the voided flag is on the
@@ -1161,7 +1162,14 @@ function action_propertyTab_(body, props) {
   return jsonOutput_(setupPropertyTab(String(name)));
 }
 
-function setupPropertyTab(name) {
+// `asOf` (an ISO date) rebuilds the tab AS IT STOOD THE MOMENT BEFORE THE SALE POSTED, for a
+// property that sold before freezing existed (1616 Granite, 280 Sparkling). It pins the as-of
+// cell to that date instead of TODAY() and drops every source="sale" row - the release entry
+// that zeroes the cost accounts, and the settlement's own costs, which belong to the closing
+// tab. Filtering on the source rather than the date matters: Granite has a real 07-24 cost
+// (Falcon Creek INV 1374) dated the same day it closed. Passing asOf also bypasses the sold
+// guard, because reconstructing the record is the one time rebuilding a sold tab is right.
+function setupPropertyTab(name, asOf) {
   name = String(name);
   var safeName = name.replace(/"/g, '""'); // escaped for embedding in formula string literals
   var props = PropertiesService.getScriptProperties();
@@ -1173,6 +1181,13 @@ function setupPropertyTab(name) {
   var keptSalePrice = readLabelledValue_(sh, 'Sale Price');
   var keptConc = readLabelledValue_(sh, 'Concession');
   var registry = propertyRow_(ss, name);
+  // A sold property's tab is the frozen record of the day it closed (Paul, 2026-09-23).
+  // Rebuilding it would recompute every formula against a Journal whose release entry has
+  // zeroed the property - which is exactly the damage this guard exists to prevent.
+  if (!asOf && String((registry || {}).status || '').toLowerCase() === 'sold') {
+    console.log('Property tab NOT rebuilt for "' + name + '": sold, frozen at closing');
+    return { ok: true, frozen: true, rows: 0 };
+  }
   var heavy = String((registry || {}).template || '').toLowerCase() === 'heavy';
   var BC = PT_BLOCK_COLS;   // Rehab Costs / Utilities block columns (light template)
   // A previous build's spacer column A (empty, name in B1) is removed so the build
@@ -1209,7 +1224,8 @@ function setupPropertyTab(name) {
   // ONCE, in the helper column, and every formula reads the flag. 2026-09-17's #N/A fix put
   // the MATCH inside every SUMPRODUCT instead - hundreds of 5000-row lookups per Journal
   // append; the staging workbook stalled for minutes and the writer's reads timed out.
-  var live = ne('P', 'void') + '*(' + VOIDED + '<>TRUE)*' + eq('H', safeName) + '*(' + J('C') + '<=$B$1)';
+  var live = ne('P', 'void') + '*(' + VOIDED + '<>TRUE)*' + eq('H', safeName) + '*(' + J('C') + '<=$B$1)' +
+    (asOf ? '*' + ne('P', 'sale') : '');
   var net = function (factor) { return 'SUMPRODUCT(' + factor + '*' + live + '*(' + J('F') + '-' + J('G') + '))'; };
   var deb = function (factor) { return 'SUMPRODUCT(' + factor + '*' + live + '*' + J('F') + ')'; };
   var cred = function (factor) { return 'SUMPRODUCT(' + factor + '*' + live + '*' + J('G') + ')'; };
@@ -1220,7 +1236,7 @@ function setupPropertyTab(name) {
   var holdingF = eq('I', 'Holding');
   var costLineF = ne('I', '');
 
-  var WIDTH = 24; // A..X (heavy: set from the trade blocks below)
+  var WIDTH = 26; // A..Z (heavy: set from the trade blocks below)
   // Helper columns (rate, dates, per-advance math) sit past the grid. On the heavy template
   // the trade blocks run to column DX and had buried the helpers at AI:AW (Ashburne after
   // cutover, 2026-09-22: interest formulas multiplying Pool receipts, #VALUE! everywhere).
@@ -1246,7 +1262,7 @@ function setupPropertyTab(name) {
 
   // Row 1-2: name / as-of ($B$1, read by every block) / address.
   set(1, 1, name, true);
-  set(1, 2, '=TODAY()');
+  set(1, 2, asOf ? '=DATE(' + asOf.slice(0, 4) + ',' + Number(asOf.slice(5, 7)) + ',' + Number(asOf.slice(8, 10)) + ')' : '=TODAY()');
   set(1, 4, 'as of');
   set(2, 1, '=IFERROR(VLOOKUP("' + safeName + '",Properties!A:B,2,FALSE),"")');
 
@@ -1444,10 +1460,11 @@ function setupPropertyTab(name) {
     set(top, c0, title, true);
     var amtCol = colLetter_(c0 + 3);
     set(top, c0 + 3, '=SUM(' + amtCol + (top + 2) + ':' + amtCol + (top + 1 + LINES_N) + ')', true);
-    set(top + 1, c0 + 4, 'Paul Paid', true); set(top + 1, c0 + 5, 'Dennis Paid', true); set(top + 1, c0 + 6, 'Recast Account', true);
+    set(top + 1, c0 + 4, 'Receipt', true);   // Paul, 2026-09-23: "i prefer a separate column"
+    set(top + 1, c0 + PT_BOX_OFFSET, 'Paul Paid', true); set(top + 1, c0 + PT_BOX_OFFSET + 1, 'Dennis Paid', true); set(top + 1, c0 + PT_BOX_OFFSET + 2, 'Recast Account', true);
     set(top + 1, c0, 'Payee', true); set(top + 1, c0 + 1, 'Date', true); set(top + 1, c0 + 2, 'Description', true); set(top + 1, c0 + 3, 'Amount', true);
-    paint(top, c0, 3, C.head); paint(top, c0 + 3, 1, C.total); paint(top, c0 + 4, 3, C.head);
-    paint(top + 1, c0, 7, C.sub); paint(top + 2, c0 + 4, 3, C.tan, LINES_N);
+    paint(top, c0, 3, C.head); paint(top, c0 + 3, 1, C.total); paint(top, c0 + 4, 4, C.head);
+    paint(top + 1, c0, 8, C.sub); paint(top + 2, c0 + PT_BOX_OFFSET, 3, C.tan, LINES_N);
     // The line rows (payee, date, description, amount, the three paid-by checkboxes,
     // txn_id) are VALUES written by refreshLineBlocks_ - after this build and after every
     // post/void that touches the property - not a formula spill: a checkbox that shows a
@@ -1467,7 +1484,8 @@ function setupPropertyTab(name) {
       var amt = colLetter_(c0 + 3);
       set(4, c0, blk, true); set(4, c0 + 3, '=SUM(' + amt + '6:' + amt + (5 + LINES_N) + ')', true);
       set(5, c0, 'Payee', true); set(5, c0 + 1, 'Date', true); set(5, c0 + 2, 'Description', true); set(5, c0 + 3, 'Amount', true);
-      paint(4, c0, 3, C.head); paint(4, c0 + 3, 1, C.total); paint(5, c0, 4, C.sub);
+      set(5, c0 + 4, 'Receipt', true);   // Paul, 2026-09-23: the column on Ashburne too
+      paint(4, c0, 3, C.head); paint(4, c0 + 3, 1, C.total); paint(4, c0 + 4, 1, C.head); paint(5, c0, PT_HEAVY_COLS, C.sub);
     });
     WIDTH = 9 + hb.length * PT_HEAVY_STRIDE;
     grid.forEach(function (row) { while (row.length < WIDTH) row.push(''); });
@@ -1512,18 +1530,20 @@ function setupPropertyTab(name) {
       var c0 = 10 + i * PT_HEAVY_STRIDE;
       sh.getRange(4, c0 + 1, grid.length - 3, 1).setNumberFormat('mm/dd/yyyy');
       sh.getRange(4, c0 + 3, grid.length - 3, 1).setNumberFormat(money);
-      sh.setColumnWidth(c0, 150); sh.setColumnWidth(c0 + 1, 90); sh.setColumnWidth(c0 + 2, 180); sh.setColumnWidth(c0 + 3, 100); sh.setColumnWidth(c0 + 4, 20);
+      sh.setColumnWidth(c0, 150); sh.setColumnWidth(c0 + 1, 90); sh.setColumnWidth(c0 + 2, 180); sh.setColumnWidth(c0 + 3, 100);
+      sh.setColumnWidth(c0 + 4, 70);                      // Receipt
+      sh.setColumnWidth(c0 + PT_HEAVY_COLS, 20);          // the spacer that closes the block
     });
   }
   (heavy ? [] : BC).forEach(function (c) {
     sh.getRange(4, c + 1, grid.length - 3, 1).setNumberFormat('mm/dd/yyyy');
     sh.getRange(4, c + 3, grid.length - 3, 1).setNumberFormat(money);
-    sh.getRange(6, c + 4, LINES_N, 3).insertCheckboxes();
-    sh.getRange(6, c + 4, LINES_N, 3).clearContent(); // keep the validation, let the block's formula spill into them
+    sh.getRange(6, c + PT_BOX_OFFSET, LINES_N, 3).insertCheckboxes();
+    sh.getRange(6, c + PT_BOX_OFFSET, LINES_N, 3).clearContent(); // keep the validation, let the block's formula spill into them
     sh.getRange(6, c + PT_TXN_OFFSET, LINES_N, 1).setFontColor('#ffffff'); // txn_id column: present for the trigger, invisible
   });
   if (!heavy) sh.hideColumns(BC[1] + PT_TXN_OFFSET); // Utilities' txn_id column sits past the grid
-  refreshLineBlocks_(ss, name);
+  refreshLineBlocks_(ss, name, asOf);
 
   sh.setColumnWidth(1, 250); sh.setColumnWidth(2, 110); sh.setColumnWidth(3, 20);
   sh.setColumnWidth(4, 190); [5, 6, 7, 8].forEach(function (c) { sh.setColumnWidth(c, 100); });
@@ -1531,7 +1551,8 @@ function setupPropertyTab(name) {
   sh.setColumnWidth(9, 20); if (!heavy) sh.setColumnWidth(BC[1] - 1, 20);
   (heavy ? [] : BC).forEach(function (c) {
     sh.setColumnWidth(c, 150); sh.setColumnWidth(c + 1, 90); sh.setColumnWidth(c + 2, 180);
-    sh.setColumnWidth(c + 3, 100); [4, 5, 6].forEach(function (k) { sh.setColumnWidth(c + k, 100); });
+    sh.setColumnWidth(c + 3, 100); sh.setColumnWidth(c + 4, 70);
+    [0, 1, 2].forEach(function (k) { sh.setColumnWidth(c + PT_BOX_OFFSET + k, 100); });
   });
   sh.setFrozenRows(1);
   bold.forEach(function (rc) { sh.getRange(rc[0], rc[1]).setFontWeight('bold'); });
@@ -1557,6 +1578,37 @@ function setupPropertyTab(name) {
 }
 
 /** The value right of the first cell (columns A:B) whose label starts with `label`, or ''. */
+// Paul, 2026-09-23: "i want the property tab frozen ... as it is when the closing tab is
+// created. i want to keep it as a record."
+//
+// Every number on a property tab is a formula over the Journal, so the instant the sale
+// posts, the release entry nets every total to zero and each cost appears twice - once as
+// the charge, once as its reversal. That is what happened to 1616 Granite and 280 Sparkling.
+// Freezing replaces the formulas with the values they are showing RIGHT NOW, which is why
+// sellPost calls this before it posts anything. The checkbox validations are deliberately
+// left alone so the tab still LOOKS like itself; onPropertyTabEdit refuses to act on a sold
+// property instead. Nothing recomputes afterwards: setupPropertyTab and refreshLineBlocks_
+// both leave a sold property alone.
+function freezePropertyTab_(ss, name, date) {
+  var sh = ss.getSheetByName(name);
+  if (!sh) return null;
+  var rows = sh.getLastRow(), cols = sh.getLastColumn();
+  if (rows < 1 || cols < 1) return null;
+  var rng = sh.getRange(1, 1, rows, cols);
+  rng.setValues(rng.getValues());
+  // The "as of" label becomes the record's own headstone. Found by its text, not a column
+  // number, so it survives any future change to the layout.
+  var head = sh.getRange(1, 1, 1, cols).getValues()[0];
+  for (var i = 0; i < head.length; i++) {
+    if (String(head[i]).trim() === 'as of') {
+      sh.getRange(1, i + 1).setValue('SOLD ' + date + ' - frozen at closing, see the closing tab');
+      break;
+    }
+  }
+  console.log('Property tab frozen for "' + name + '": ' + rows + ' rows x ' + cols + ' cols');
+  return { rows: rows, cols: cols };
+}
+
 function readLabelledValue_(sh, label) {
   if (sh.getLastRow() < 1 || sh.getLastColumn() < 2) return '';
   var rows = sh.getRange(1, 1, sh.getLastRow(), 3).getValues();
@@ -1620,10 +1672,17 @@ function advanceRepaidDates_(ss, name, purchaseKind) {
 // changes, the matching Advances row (same property, start date, principal) gets its
 // repaid_date set or cleared. The app's accrual engine and the tab's interest formulas
 // both stop at that date (D-011).
-// Line blocks (Rehab Costs at J, Utilities at R): payee/date/description/amount, then
-// the Paul Paid / Dennis Paid / Recast Account checkbox columns at c0+4..c0+6 and the
-// txn_id column at c0+7 (Q / Y). The checkbox columns are spills keyed by that txn_id.
-var PT_HEAVY_STRIDE = 5;   // Payee, Date, Description, Amount, spacer
+// Line blocks (Rehab Costs at J, Utilities at S): payee/date/description/amount/receipt,
+// then the Paul Paid / Dennis Paid / Recast Account checkbox columns at c0+PT_BOX_OFFSET
+// and the txn_id column at c0+PT_TXN_OFFSET (R / AA). The checkbox columns are spills keyed
+// by that txn_id. Both offsets are constants because every consumer - the build, the
+// formats, the edit trigger - has to agree on them (audit 61 was an offset drifting).
+// A heavy block is PT_HEAVY_COLS of data followed by ONE narrow spacer column, so the
+// spacer is always c0 + PT_HEAVY_COLS and the next block is c0 + PT_HEAVY_STRIDE. Derive
+// both from the constant, never from a literal: the spacer is the column that gets missed
+// when the block grows (Paul, 2026-09-23: "be careful to not disrupt the spacing columns").
+var PT_HEAVY_COLS = 5;                     // Payee, Date, Description, Amount, Receipt
+var PT_HEAVY_STRIDE = PT_HEAVY_COLS + 1;   // ...and the spacer that closes the block
 // The old 104 Ashburne tab's block order (2026-09-17 snapshot); trades seen on the
 // Journal but not listed here follow, then '(no trade)' and Utilities.
 var PT_HEAVY_ORDER = ['Paint & Flooring', 'Trash', 'Lighting & Electrical', 'Master Bath', 'Small Baths', 'Pool',
@@ -1645,16 +1704,40 @@ function heavyBlocks_(ss, name) {
   if (out.indexOf('Utilities') < 0) out.push('Utilities');
   return out;
 }
+// Every line block's Receipt column, light and heavy alike (Paul, 2026-09-23: "i prefer a
+// separate column for the receipts"). Same HYPERLINK idiom the closing tab writes its
+// settlement link with; blank
+// when the Journal row carries no doc_url, so the column doubles as which lines have a
+// document - 128 migrated rows have none and never will.
+// A line with no description of its own falls back to its ENTRY's memo (Paul, 2026-09-23:
+// the 1616 Granite settlement rows read as unexplained charges). Nothing is missing from the
+// books - a sale's "project cost released to COGS" lines carry no line description because
+// the explanation is the entry's, and Granite's settlement lines are blank because it was
+// typed from the PDF before the document reader existed. The memo's leading
+// "<property> sale <date>: " is dropped: the tab already knows both.
+function lineDescription_(description, memo) {
+  var d = String(description == null ? '' : description);
+  if (d) return d;
+  return String(memo || '').replace(/^.*? sale \d{4}-\d{2}-\d{2}(?: \([^)]*\))?: /, '');
+}
+
+function receiptCell_(docUrl) {
+  var u = String(docUrl || '').replace(/"/g, '');
+  return u ? '=HYPERLINK("' + u + '","Receipt")' : '';
+}
+
+
 // Values for a heavy tab: rehab lines by trade (Holding lines under Utilities).
-function refreshHeavyBlocks_(ss, name) {
+function refreshHeavyBlocks_(ss, name, asOf) {
   var sh = ss.getSheetByName(name); if (!sh) return;
   var journal = ss.getSheetByName('Journal'); var cols = headerIndex_(journal); var last = journal.getLastRow();
   var rows = last > 1 ? journal.getRange(2, 1, last - 1, journal.getLastColumn()).getValues() : [];
   var g = function (r, n) { return cols[n] ? r[cols[n] - 1] : ''; };
   var voided = {}; rows.forEach(function (r) { var v = String(g(r, 'void_of') || ''); if (v) voided[v] = true; });
-  var today = Utilities.formatDate(new Date(), 'America/Chicago', 'yyyy-MM-dd');
+  var today = asOf || Utilities.formatDate(new Date(), 'America/Chicago', 'yyyy-MM-dd');
   var lines = rows.filter(function (r) {
-    return String(g(r, 'property')) === name && String(g(r, 'source')) !== 'void' && !voided[String(g(r, 'txn_id'))] && formatIsoDate_(g(r, 'date')) <= today;
+    return String(g(r, 'property')) === name && String(g(r, 'source')) !== 'void' && !voided[String(g(r, 'txn_id'))] &&
+      (!asOf || String(g(r, 'source')) !== 'sale') && formatIsoDate_(g(r, 'date')) <= today;
   });
   // A block holds the lines carrying its trade name, whatever their class (the old tab's
   // Insurance and Utilities blocks are Holding lines - 2026-09-22: they had all been pushed
@@ -1676,18 +1759,20 @@ function refreshHeavyBlocks_(ss, name) {
   heavyBlocks_(ss, name).forEach(function (blk) {
     var c0 = head.indexOf(blk, 9) + 1;   // block headers start past the summary and the schedules
     if (c0 < 10) { console.warn('refreshHeavyBlocks_ "' + name + '": no header for block "' + blk + '" - rebuild the tab'); return; }
-    var out = lines.filter(function (r) { return onTab(r) && tradeOf(r) === blk; }).map(function (r) { return [g(r, 'payee'), g(r, 'date'), g(r, 'description'), Number(g(r, 'debit') || 0) - Number(g(r, 'credit') || 0)]; });
+    var out = lines.filter(function (r) { return onTab(r) && tradeOf(r) === blk; }).map(function (r) { return [g(r, 'payee'), g(r, 'date'), lineDescription_(g(r, 'description'), g(r, 'memo')), Number(g(r, 'debit') || 0) - Number(g(r, 'credit') || 0), receiptCell_(g(r, 'doc_url'))]; });
     out.sort(function (x, y) { return formatIsoDate_(x[1]) < formatIsoDate_(y[1]) ? -1 : formatIsoDate_(x[1]) > formatIsoDate_(y[1]) ? 1 : 0; });
-    out = out.slice(0, PT_LINES_N); while (out.length < PT_LINES_N) out.push(['', '', '', '']);
-    sh.getRange(6, c0, PT_LINES_N, 4).setValues(out);
+    out = out.slice(0, PT_LINES_N); while (out.length < PT_LINES_N) out.push(new Array(PT_HEAVY_COLS).fill(''));
+    // Never past PT_HEAVY_COLS: the next column is the block's spacer.
+    sh.getRange(6, c0, PT_LINES_N, PT_HEAVY_COLS).setValues(out);
   });
 }
-var PT_BLOCK_COLS = [10, 18];        // Light template
+var PT_BLOCK_COLS = [10, 19];        // Light template
 function ptBlockCols_(ss, name) {
   var reg = propertyRow_(ss, name) || {};
   return String(reg.template || '').toLowerCase() === 'heavy' ? [] : PT_BLOCK_COLS;
 }
-var PT_TXN_OFFSET = 7;
+var PT_BOX_OFFSET = 5;   // first checkbox column: Paul Paid at c0+5, then Dennis, Recast
+var PT_TXN_OFFSET = 8;
 var PT_LINES_N = 300;
 var PT_PAID_BY = [['PAUL', '2030'], ['DENNIS', '2010'], ['1401', '']]; // checkbox k -> paid_from, credit account ('' = the bank code itself)
 
@@ -1696,10 +1781,12 @@ var PT_PAID_BY = [['PAUL', '2030'], ['DENNIS', '2010'], ['1401', '']]; // checkb
 // class plus Acquisition other than 1000 in the first block, Holding class in the
 // second, oldest first. Values, not formulas, so the checkboxes can be clicked. Called
 // by setupPropertyTab and, through refreshLineBlocksFor_, after every Journal write.
-function refreshLineBlocks_(ss, name) {
+function refreshLineBlocks_(ss, name, asOf) {
   var sh = ss.getSheetByName(name);
   if (!sh) return;
-  if (String((propertyRow_(ss, name) || {}).template || '').toLowerCase() === 'heavy') { refreshHeavyBlocks_(ss, name); return; }
+  var reg = propertyRow_(ss, name) || {};
+  if (!asOf && String(reg.status || '').toLowerCase() === 'sold') return;   // frozen at closing
+  if (String(reg.template || '').toLowerCase() === 'heavy') { refreshHeavyBlocks_(ss, name, asOf); return; }
   var journal = ss.getSheetByName('Journal');
   var cols = headerIndex_(journal);
   var last = journal.getLastRow();
@@ -1707,10 +1794,11 @@ function refreshLineBlocks_(ss, name) {
   var g = function (r, n) { return cols[n] ? r[cols[n] - 1] : ''; };
   var voided = {};
   rows.forEach(function (r) { var v = String(g(r, 'void_of') || ''); if (v) voided[v] = true; });
-  var today = Utilities.formatDate(new Date(), 'America/Chicago', 'yyyy-MM-dd');
+  var today = asOf || Utilities.formatDate(new Date(), 'America/Chicago', 'yyyy-MM-dd');
   var lines = rows.filter(function (r) {
     return String(g(r, 'property')) === name && String(g(r, 'source')) !== 'void' &&
-      !voided[String(g(r, 'txn_id'))] && formatIsoDate_(g(r, 'date')) <= today;
+      !voided[String(g(r, 'txn_id'))] && (!asOf || String(g(r, 'source')) !== 'sale') &&
+      formatIsoDate_(g(r, 'date')) <= today;
   });
   var blocks = [
     function (r) { var cc = String(g(r, 'cost_class')); return cc === 'Rehab' || cc === 'Selling' || (cc === 'Acquisition' && String(g(r, 'account')) !== '1000'); },
@@ -1719,13 +1807,13 @@ function refreshLineBlocks_(ss, name) {
   blocks.forEach(function (crit, b) {
     var out = lines.filter(crit).map(function (r) {
       var pf = String(g(r, 'paid_from') || '');
-      return [g(r, 'payee'), g(r, 'date'), g(r, 'description'), Number(g(r, 'debit') || 0) - Number(g(r, 'credit') || 0),
+      return [g(r, 'payee'), g(r, 'date'), lineDescription_(g(r, 'description'), g(r, 'memo')), Number(g(r, 'debit') || 0) - Number(g(r, 'credit') || 0), receiptCell_(g(r, 'doc_url')),
         pf === 'PAUL', pf === 'DENNIS', pf.slice(0, 2) === '14', g(r, 'txn_id')];
     });
     out.sort(function (x, y) { return formatIsoDate_(x[1]) < formatIsoDate_(y[1]) ? -1 : formatIsoDate_(x[1]) > formatIsoDate_(y[1]) ? 1 : 0; });
     out = out.slice(0, PT_LINES_N);
-    while (out.length < PT_LINES_N) out.push(['', '', '', '', false, false, false, '']);
-    sh.getRange(6, ptBlockCols_(ss, name)[b], PT_LINES_N, 8).setValues(out);
+    while (out.length < PT_LINES_N) out.push(['', '', '', '', '', false, false, false, '']);
+    sh.getRange(6, ptBlockCols_(ss, name)[b], PT_LINES_N, 9).setValues(out);
   });
 }
 
@@ -1864,7 +1952,7 @@ function repaidFromEdit_(e, sh, ss, row, col) {
   var bc = ptBlockCols_(ss, sh.getName());
   if (!bc.length) return;
   var c0 = col < bc[1] ? bc[0] : bc[1];
-  var k = col - (c0 + 4);
+  var k = col - (c0 + PT_BOX_OFFSET);
   var toast = function (msg) { ss.toast(msg, 'Recast Books', 8); };
   var txnId = String(sh.getRange(row, c0 + PT_TXN_OFFSET).getValue() || '');
   try {
@@ -1962,7 +2050,7 @@ function onPropertyTabEdit(e) {
 
     var col = range.getColumn();
     var isPaidBox = range.getNumRows() === 1 && range.getNumColumns() === 1 && range.getRow() >= 6 &&
-      ptBlockCols_(editedSheet.getParent(), edited).some(function (c0) { return col >= c0 + 4 && col <= c0 + 6; });
+      ptBlockCols_(editedSheet.getParent(), edited).some(function (c0) { return col >= c0 + PT_BOX_OFFSET && col <= c0 + PT_BOX_OFFSET + 2; });
     if (col !== PROPERTY_TAB_END_COL && !isPaidBox) return;
     if (range.getNumColumns() !== 1) return;
     var sh = editedSheet;
@@ -1973,6 +2061,10 @@ function onPropertyTabEdit(e) {
     var pcols = headerIndex_(propSheet);
     var names = propSheet.getRange(2, pcols['name'], propSheet.getLastRow() - 1, 1).getValues().map(function (r) { return String(r[0]); });
     if (names.indexOf(name) === -1) return;
+    if (String((propertyRow_(ss, name) || {}).status || '').toLowerCase() === 'sold') {
+      ss.toast(name + ' is sold - its tab is frozen as the record at closing.', 'Recast Books', 8);
+      return;
+    }
     if (isPaidBox) { repaidFromEdit_(e, sh, ss, range.getRow(), col); return; }
     var adv = ss.getSheetByName('Advances');
     var acols = headerIndex_(adv);
@@ -2071,6 +2163,94 @@ function colLetter_(c) {
   var s = '';
   while (c > 0) { var m = (c - 1) % 26; s = String.fromCharCode(65 + m) + s; c = Math.floor((c - 1) / 26); }
   return s;
+}
+
+/** Editor helper: rebuild a property that sold BEFORE freezing existed (1616 Granite,
+ *  280 Sparkling) as it stood the moment before its sale posted, then freeze it - the record
+ *  every future sale now keeps automatically (Paul, 2026-09-23). Run it with the name:
+ *  rebuildFrozenRecord('1616 Granite'). Safe to re-run: it rebuilds from the Journal each
+ *  time, and the sale's own rows are excluded by source, not by date. */
+function rebuildFrozenRecord(name) {
+  name = String(name);
+  var props = PropertiesService.getScriptProperties();
+  var ss = openWorkbook_(props);
+  var reg = propertyRow_(ss, name) || {};
+  if (String(reg.status || '').toLowerCase() !== 'sold') {
+    throw new Error(name + ' is not sold - its tab is live, there is nothing to reconstruct.');
+  }
+  var date = formatIsoDate_(reg.settlement_date);
+  if (!date) throw new Error(name + ' has no settlement_date on the Properties tab.');
+  var built = setupPropertyTab(name, date);
+  var frozen = freezePropertyTab_(ss, name, date);
+  var msg = name + ': rebuilt as of ' + date + ' (' + built.rows + ' rows) and frozen' +
+    (frozen ? ' (' + frozen.rows + ' x ' + frozen.cols + ')' : '');
+  console.log(msg);
+  return msg;
+}
+
+/** Editor helper, NO ARGS (the Run button passes none): reconstruct and freeze the record
+ *  for every sold property - 1616 Granite and 280 Sparkling, which sold before freezing
+ *  existed. Idempotent: it rebuilds from the Journal each time, so re-running is harmless. */
+function rebuildAllFrozenRecords() {
+  var props = PropertiesService.getScriptProperties();
+  var ss = openWorkbook_(props);
+  var pSheet = ss.getSheetByName('Properties');
+  var pCols = headerIndex_(pSheet);
+  var out = [];
+  pSheet.getRange(2, 1, pSheet.getLastRow() - 1, pSheet.getLastColumn()).getValues().forEach(function (r) {
+    if (String(r[pCols['status'] - 1] || '').toLowerCase() !== 'sold') return;
+    var name = String(r[pCols['name'] - 1]);
+    try { out.push(rebuildFrozenRecord(name)); }
+    catch (err) { out.push(name + ': FAILED ' + String((err && err.message) || err)); }
+  });
+  if (!out.length) out.push('no sold properties');
+  console.log(out.join('\n'));
+  return out;
+}
+
+/** Editor helper: what is stranded on a sold property - a cost that posted AFTER the sale
+ *  was posted, so the release entry never covered it and every tab now hides it. These are
+ *  the six-hour ctx-cache window (Menu.gs sellPost now closes it). Reports only; moving one
+ *  is a void and a re-post onto Cost Recapture with the property's name in `trade` (D-031).
+ *  Run with no args. */
+function reportStrandedCosts() {
+  var props = PropertiesService.getScriptProperties();
+  var ss = openWorkbook_(props);
+  var pSheet = ss.getSheetByName('Properties');
+  var pCols = headerIndex_(pSheet);
+  var sold = pSheet.getRange(2, 1, pSheet.getLastRow() - 1, pSheet.getLastColumn()).getValues()
+    .filter(function (r) { return String(r[pCols['status'] - 1] || '').toLowerCase() === 'sold'; })
+    .map(function (r) { return String(r[pCols['name'] - 1]); });
+  var journal = ss.getSheetByName('Journal');
+  var jc = headerIndex_(journal);
+  var jr = journal.getRange(2, 1, journal.getLastRow() - 1, journal.getLastColumn()).getValues();
+  var g = function (r, n) { return jc[n] ? r[jc[n] - 1] : ''; };
+  var cents = function (r) { return Math.round(Number(g(r, 'debit') || 0) * 100) - Math.round(Number(g(r, 'credit') || 0) * 100); };
+  var voided = {};
+  jr.forEach(function (r) { var v = String(g(r, 'void_of') || ''); if (v) voided[v] = true; });
+  var out = [];
+  sold.forEach(function (name) {
+    var live = jr.filter(function (r) {
+      return String(g(r, 'property')) === name && String(g(r, 'source')) !== 'void' && !voided[String(g(r, 'txn_id'))];
+    });
+    var bal = {};
+    live.forEach(function (r) { var a = String(g(r, 'account')); bal[a] = (bal[a] || 0) + cents(r); });
+    var off = Object.keys(bal).filter(function (a) { return bal[a] !== 0; }).sort();
+    if (!off.length) { out.push(name + ': CLEAN - every account is zero, the sale released all of it'); return; }
+    out.push(name + ': ' + off.map(function (a) { return a + ' ' + (bal[a] / 100).toFixed(2); }).join('  '));
+    // the sale's own rows all share the run's posted_at; anything posted later was never released
+    var salePosted = live.filter(function (r) { return String(g(r, 'source')) === 'sale'; })
+      .map(function (r) { return String(g(r, 'posted_at') || ''); }).sort().pop() || '';
+    live.filter(function (r) { return String(g(r, 'source')) !== 'sale' && String(g(r, 'posted_at') || '') > salePosted; })
+      .forEach(function (r) {
+        out.push('   ' + g(r, 'txn_id') + '  ' + formatIsoDate_(g(r, 'date')) + '  acct ' + g(r, 'account') +
+          '  ' + (cents(r) / 100).toFixed(2) + '  ' + g(r, 'payee') + '  ' + g(r, 'description') +
+          '  [posted ' + g(r, 'posted_at') + ', sale posted ' + salePosted + ']');
+      });
+  });
+  if (!out.length) out.push('no sold properties');
+  console.log(out.join('\n'));
+  return out;
 }
 
 /** Editor helper: rebuild the tab of every property in the Properties tab (no args). */

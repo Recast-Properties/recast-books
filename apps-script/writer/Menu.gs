@@ -1233,6 +1233,12 @@ function sellPost(form) {
 
     var ctx = buildCtx_(ss);
     var entries = plan.intents.map(function (intent) { return buildEntry(intent, ctx); });
+    // The held view, frozen as the record BEFORE the sale lands (Paul, 2026-09-23). It has to
+    // happen here: the next line's release entry nets every formula on that tab to zero.
+    // postBatchEntries_ is called with skipRefresh, and Properties.status becomes 'sold' a few
+    // lines below, so nothing rewrites the tab in between. If the post throws, the tab is
+    // frozen but the property is still held, so Rebuild property tab restores it.
+    freezePropertyTab_(ss, name, form.date);
     var result = postBatchEntries_(entries, props, true);
 
     // Advances: the reconcile's rate, the repayment date, and repaid status (D-011 freezes
@@ -1266,6 +1272,14 @@ function sellPost(form) {
       if (pCols['settlement_date']) pSheet.getRange(r, pCols['settlement_date']).setValue(form.date);
       break;
     }
+    // buildCtx_ caches the postable property set for six hours, and it is cleared by an
+    // upsert or a HAND edit on Properties - neither of which this is, because the status
+    // above is written straight to the sheet by this script. Without this line the sold
+    // property still looks open to the gate for up to six hours, and a receipt arriving in
+    // that window posts onto a property whose tab is now frozen and never refreshed again -
+    // invisible on both tabs. That window is the likeliest source of the 178.48 sitting on
+    // 1616 Granite after its 2026-09-22 close (Paul, 2026-09-23).
+    CacheService.getScriptCache().remove('ctx');
 
     var written = writeClosingTab_(ss, name, {
       doc_url: docUrl,

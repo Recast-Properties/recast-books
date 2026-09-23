@@ -145,7 +145,7 @@ test("every writer action (ping, post, void, read, setPeriod, upsert, postBatch,
 });
 
 test("phase2.6-spec.md section 5: setupPropertyTab(name) exists, callable from the editor and from action_propertyTab_", () => {
-  assert.ok(source.includes("function setupPropertyTab(name)"), "setupPropertyTab(name) not found");
+  assert.ok(source.includes("function setupPropertyTab(name, asOf)"), "setupPropertyTab(name) not found");
   assert.ok(source.includes("function action_propertyTab_("), "action_propertyTab_ not found");
   const anchor = source.indexOf("function action_propertyTab_(");
   const nextFn = source.indexOf("\nfunction ", anchor + 1);
@@ -153,8 +153,147 @@ test("phase2.6-spec.md section 5: setupPropertyTab(name) exists, callable from t
   assert.ok(body.includes("setupPropertyTab("), "action_propertyTab_ does not call setupPropertyTab");
 });
 
+// receiptCell_ touches no Apps Script API, so unlike the rest of Code.gs it can actually run
+// here: pull it out of the source and check the escaping, which is the part that fails
+// silently in a sheet (Paul, 2026-09-23: receipt links on the property tab lines).
+const lift = (name, args) => {
+  const m = source.match(new RegExp("function " + name + "\\(" + args + "\\) \\{[\\s\\S]*?\\n\\}"));
+  assert.ok(m, name + " not found in Code.gs");
+  return eval("(" + m[0].replace("function " + name, "function") + ")");
+};
+const num = (name) => Number(source.match(new RegExp("var " + name + " = (\\d+);"))[1]);
+const bodyOf = (fn) => {
+  const anchor = source.indexOf("function " + fn + "(");
+  const next = source.indexOf("\nfunction ", anchor + 1);
+  return source.slice(anchor, next === -1 ? source.length : next);
+};
+
+test("receiptCell_: a HYPERLINK when the line has a doc_url, blank when it does not", () => {
+  const receiptCell_ = lift("receiptCell_", "docUrl");
+  assert.strictEqual(receiptCell_(""), "", "a line with no document leaves the cell empty");
+  assert.strictEqual(receiptCell_(null), "", "a missing doc_url must not produce a broken formula");
+  assert.strictEqual(receiptCell_("https://drive.google.com/file/d/abc/view"),
+    '=HYPERLINK("https://drive.google.com/file/d/abc/view","Receipt")');
+  assert.strictEqual(receiptCell_('https://x/1"); BAD("'), '=HYPERLINK("https://x/1); BAD(","Receipt")',
+    "quotes in the url must be stripped, never left to close the formula early");
+});
+
+// Paul, 2026-09-23, on Granite's settlement rows: "there are no explanations". The rows are
+// real and reconcile; they just carry the explanation at entry level, in the memo.
+test("lineDescription_: a blank line description falls back to the entry memo, sale prefix trimmed", () => {
+  const lineDescription_ = lift("lineDescription_", "description, memo");
+  assert.strictEqual(lineDescription_("Landscaping - INV 1372", "anything"), "Landscaping - INV 1372",
+    "a line with its own description must keep it");
+  assert.strictEqual(lineDescription_("", "1616 Granite sale 2026-07-24: project cost released to COGS"),
+    "project cost released to COGS");
+  assert.strictEqual(lineDescription_("", "1616 Granite sale 2026-07-24: settlement statement"),
+    "settlement statement");
+  assert.strictEqual(lineDescription_("", "280 Sparkling sale 2026-08-06 (Recast 50%): project cost released to COGS"),
+    "project cost released to COGS", "the co-owned share note is part of the prefix");
+  assert.strictEqual(lineDescription_("", "Dennis advance - 1616 Granite"), "Dennis advance - 1616 Granite",
+    "a memo that is not a sale memo is shown whole");
+  assert.strictEqual(lineDescription_("", ""), "", "nothing to fall back to stays blank");
+});
+
+// Paul, 2026-09-23: "i want the property tab frozen ... as it is when the closing tab is
+// created. i want to keep it as a record." 1616 Granite and 280 Sparkling were lost to this:
+// the sale's release entry nets every formula on the tab to zero. Four things have to hold.
+test("a sold property's tab is frozen at closing and nothing writes over it again", () => {
+  assert.ok(source.includes("function freezePropertyTab_(ss, name, date)"), "freezePropertyTab_ is gone");
+  const freeze = bodyOf("freezePropertyTab_");
+  assert.ok(/rng\.setValues\(rng\.getValues\(\)\)/.test(freeze),
+    "freezing must replace the formulas with the values they are showing");
+  assert.ok(!freeze.includes("clearDataValidations"),
+    "the checkboxes stay rendered so the frozen tab still looks like itself");
+
+  // the freeze happens BEFORE the sale posts - after it, every number is already zero
+  const sell = menuSource.slice(menuSource.indexOf("function sellPost("));
+  const f = sell.indexOf("freezePropertyTab_("), post = sell.indexOf("postBatchEntries_(");
+  assert.ok(f !== -1 && post !== -1 && f < post, "sellPost must freeze the tab before it posts the sale");
+  assert.ok(/postBatchEntries_\(entries, props, true\)/.test(sell.slice(0, post + 60)),
+    "the sale must post with skipRefresh, or the post rewrites the tab it just froze");
+
+  // and nothing rebuilds or refreshes it afterwards
+  for (const fn of ["setupPropertyTab", "refreshLineBlocks_"]) {
+    assert.ok(/status \|\| ''\)\.toLowerCase\(\) === 'sold'/.test(bodyOf(fn)),
+      `${fn} does not leave a sold property's frozen tab alone`);
+  }
+  assert.ok(/status \|\| ''\)\.toLowerCase\(\) === 'sold'/.test(bodyOf("onPropertyTabEdit")),
+    "a hand edit on a frozen tab still fires the void-and-repost trigger");
+});
+
+test("selling a property drops it from the postable set at once, not in six hours", () => {
+  const sell = menuSource.slice(menuSource.indexOf("function sellPost("), menuSource.indexOf("function sellStatementForTab_"));
+  assert.ok(sell.includes("setValue('sold')"), "sellPost no longer marks the property sold");
+  assert.ok(/remove\('ctx'\)/.test(sell),
+    "sellPost must clear the cached posting ctx - a script write to Properties fires no onEdit, " +
+    "so the sold property stays postable for six hours and a receipt can land on a frozen tab");
+  const soldAt = sell.indexOf("setValue('sold')"), cleared = sell.indexOf("remove('ctx')");
+  assert.ok(cleared > soldAt, "the cache must be cleared after the status is written, not before");
+});
+
+// 1616 Granite and 280 Sparkling sold before freezing existed, so their record has to be
+// rebuilt from the Journal as it stood the moment before each sale posted.
+test("a property that sold before freezing existed can be reconstructed and frozen", () => {
+  const body = bodyOf("setupPropertyTab");
+  assert.ok(body.includes("if (!asOf && String((registry || {}).status || '').toLowerCase() === 'sold')"),
+    "an as-of must bypass the sold guard - reconstructing the record is the one time rebuilding a sold tab is right");
+  assert.ok(body.includes("(asOf ? '*' + ne('P', 'sale') : '')"),
+    "the reconstruction must drop the sale's own rows, or the release entry zeroes it all over again");
+  assert.ok(/asOf \? '=DATE\(/.test(body), "the as-of cell must be pinned to a date, not left on TODAY()");
+  for (const fn of ["refreshLineBlocks_", "refreshHeavyBlocks_"]) {
+    assert.ok(/\(!asOf \|\| String\(g\(r, 'source'\)\) !== 'sale'\)/.test(bodyOf(fn)),
+      `${fn} leaves the sale rows in the reconstructed line blocks`);
+  }
+  const rebuild = bodyOf("rebuildFrozenRecord");
+  assert.ok(rebuild.includes("setupPropertyTab(name, date)"), "it must rebuild as of the settlement date");
+  assert.ok(rebuild.indexOf("setupPropertyTab(name, date)") < rebuild.indexOf("freezePropertyTab_(ss, name, date)"),
+    "it must freeze AFTER rebuilding, not before");
+  assert.ok(rebuild.includes("!== 'sold'"), "it must refuse a property that is still held");
+  // the Apps Script Run button passes no arguments, so there has to be a no-arg way in
+  const all = bodyOf("rebuildAllFrozenRecords");
+  assert.ok(/function rebuildAllFrozenRecords\(\)/.test(source), "rebuildAllFrozenRecords must take no arguments");
+  assert.ok(all.includes("rebuildFrozenRecord(name)") && all.includes("'sold'"),
+    "it must walk the sold properties and reconstruct each one");
+});
+
+test("both line-block refreshers fill a Receipt column", () => {
+  for (const fn of ["refreshLineBlocks_", "refreshHeavyBlocks_"]) {
+    assert.ok(bodyOf(fn).includes("receiptCell_(g(r, 'doc_url'))"), `${fn} does not fill the Receipt column`);
+    assert.ok(bodyOf(fn).includes("lineDescription_(g(r, 'description'), g(r, 'memo'))"),
+      `${fn} shows a raw description, so a sale's release lines read as unexplained charges`);
+  }
+});
+
+// Paul, 2026-09-23: "be careful to not disrupt the spacing columns. you have not accounted
+// for those in the past" - audit 61 was exactly that. The spacer is the LAST column of a
+// heavy block, so everything about it has to come off PT_HEAVY_COLS, never a literal.
+test("the heavy blocks keep their spacer: data columns, then one spacer, then the next block", () => {
+  assert.strictEqual(num("PT_HEAVY_COLS"), 5, "Payee, Date, Description, Amount, Receipt");
+  assert.ok(source.includes("var PT_HEAVY_STRIDE = PT_HEAVY_COLS + 1;"),
+    "the stride must be derived from the data columns, or the spacer gets squeezed out when a column is added");
+  assert.ok(bodyOf("refreshHeavyBlocks_").includes("PT_LINES_N, PT_HEAVY_COLS).setValues(out)"),
+    "refreshHeavyBlocks_ writes a hardcoded width, so it will spill into the spacer");
+  assert.ok(source.includes("sh.setColumnWidth(c0 + PT_HEAVY_COLS, 20)"),
+    "the spacer's own width is not derived from PT_HEAVY_COLS");
+  assert.ok(!/setColumnWidth\(c0 \+ 4, 20\)/.test(source),
+    "c0 + 4 is the Receipt column now - narrowing it to 20px would hide the links");
+});
+
+test("the light block offsets agree everywhere: Receipt at c0+4, boxes at PT_BOX_OFFSET, txn_id past them", () => {
+  const box = num("PT_BOX_OFFSET"), txn = num("PT_TXN_OFFSET");
+  assert.strictEqual(box, 5, "Receipt sits at c0+4, so the first checkbox is c0+5");
+  assert.strictEqual(txn, box + 3, "txn_id must follow the three checkbox columns");
+  const cols = source.match(/var PT_BLOCK_COLS = \[(\d+), (\d+)\];/);
+  assert.strictEqual(Number(cols[2]) - Number(cols[1]), txn + 1,
+    "the two blocks must be exactly one block apart (the first block's txn_id is the spacer)");
+  // 9 columns written per row, and the sheet wide enough for the second block's last visible one.
+  assert.ok(source.includes("PT_LINES_N, 9).setValues(out)"), "refreshLineBlocks_ does not write all 9 columns");
+  assert.ok(Number(cols[2]) + box + 2 <= num("WIDTH"), "the grid is too narrow for the Utilities checkboxes");
+});
+
 test("setupPropertyTab: old-tab layout (summary / Dennis / Rehab Costs / Utilities), D-006 interest, FILTER lines, typed Sale Price", () => {
-  const anchor = source.indexOf("function setupPropertyTab(name)");
+  const anchor = source.indexOf("function setupPropertyTab(name, asOf)");
   assert.ok(anchor !== -1, "setupPropertyTab not found");
   const nextFn = source.indexOf("\nfunction ", anchor + 1);
   const body = source.slice(anchor, nextFn === -1 ? source.length : nextFn);
