@@ -867,3 +867,41 @@ to D-010: a tool is overhead however specific the job it was bought for, because
 the property the way materials are. The bookkeeper prompt now says it in those words, with the consequence
 spelled out - a hardware receipt mixing tools and materials is two entries, the tools on 6510 OVERHEAD and
 the materials on 1030 with the property - which is exactly the split the card can now do by hand.
+
+## D-042 · Dennis charges no commission on a partnership deal; the light property tab gains a Concession cell and splits Received - 2026-09-23 · Paul
+
+Paul, reviewing the 469 Brushwood tab: "remove Dennis commission rows. he will never charge commission for
+these"; "change 'Due to Paul (paid less reimbursed)' to 'Paul Paid (direct)'"; "add a row to Profit Breakdown
+that is an input field for any seller concession ... as you did in 104 Ashburne"; then "split 'Received
+(advances, refunds)' into two separate rows". All four apply to the **light** template only - 104 Ashburne,
+the one Heavy tab, is untouched.
+
+**Decided, and why each is safe:**
+
+1. **No commission on a partnership deal.** The Payouts block's `Dennis commission (x% of sale)` and Paul's
+   matching `Less Dennis commission` are gone. This is a fact about the deals, not a layout preference:
+   Dennis's return on a partnership property is his principal, his interest and his 50% share (D-011, D-022),
+   and a commission was only ever a **bank deal**'s term. Nothing about the bank path moved -
+   `Properties.dennis_commission_pct`, the heavy tab's own commission line and `lib/sale.mjs`'s 1210 entry at
+   closing (D-036) all stand, which is what 104 Ashburne will settle on.
+2. **`Due to Paul (paid less reimbursed)` → `Paul Paid (direct)`**, the mirror of `Dennis Paid (direct)`
+   directly above it. Label only; the figure is the same Paul Paid block net.
+3. **`Concession (type it here)`** in the Profit Breakdown, below Closing % - the same typed, blue input cell
+   the heavy tab already had, kept across rebuilds by `readLabelledValue_`. Net Profit subtracts it as
+   `-ABS(...)`: a seller concession is always a reduction, so a minus sign typed by hand must not be able to
+   turn a credit into profit. The tab's blue cells are now the two things Paul types, both positive.
+4. **`Received (advances, refunds)` → `Received (advances)` + `Received (refunds)`.** Split on payee: both
+   lines of an advance carry `Dennis Little` (`buildAdvance`), while a refund is a negative cost row carrying
+   its vendor. Deliberately an **exhaustive partition** of what the one line summed - `payee = "Dennis Little"`
+   and `payee <> "Dennis Little"` - so a payee that does not match the rule can only move a line between the
+   two rows and can never change the block total or break the tie-out. Verified against the migrated books:
+   all 7 negative-amount rows are vendors (Home Depot, Lowe's, Floor & Decor, TXU, Anthropic) and all 33
+   advances are `Dennis Little`.
+5. **The Dennis Paid (direct) block keeps ONE Received row**, unfiltered, after Paul agreed the point: a
+   direct-paid Dennis cost *is* an advance (`posting.mjs`, "a direct-paid cost is an advance"), and an
+   advance's own lines are 1401/2030 and 2010 - never cost lines - so an advances row on that block could
+   only ever read zero.
+
+**Not re-opened:** D-010 (overhead never touches a property), D-011/D-021 (all Dennis interest is a property
+cost), D-022 (`dennis_share_pct` drives the split). The heavy template's Profit Breakdown, its Agent
+Commission % cell and its own Dennis Payout commission line are unchanged.

@@ -82,33 +82,57 @@ B:C  SUMMARY                       E:H  DENNIS                            J:P  R
      Total Project Cost                 Purchase Principal + Interest          payee · date · desc ·     (Holding-class lines,
      Purchase Principal + Interest        Start · End (typed) · Principal ·    amount · Paul Paid ·      same shape)
        (1000 else registry price,         Interest to Date (one row)           Dennis Paid · Recast
-       plus its interest)               Paul Paid / Received (advances,        Account (checkboxes
-     Cash Advance Interest                refunds) — 2030                      from paid_from), 300
+       plus its interest)               Paul Paid / Received (advances) /      Account (checkboxes
+     Cash Advance Interest                Received (refunds) — 2030            from paid_from), 300
      Rehab Costs                       Dennis Paid direct / Received          rows, one spilling
-     Utilities (Holding ex-1100)       Recast Account Paid / Received        SORT(FILTER) per block
-     Property Tax (prorated, $x/yr)    Cash Advances + Interest
-                                         Start · End (typed) · Principal ·
-     PROFIT BREAKDOWN                    Interest to Date (n + 1 rows)
-       Sale Price (typed, kept)
-       Total Project Costs
+     Utilities (Holding ex-1100)         (refunds)                           SORT(FILTER) per block
+     Property Tax (prorated, $x/yr)    Recast Account Paid / Received
+                                         (advances) / Received (refunds)
+     PROFIT BREAKDOWN                  Cash Advances + Interest
+       Sale Price (typed, kept)          Start · End (typed) · Principal ·
+       Total Project Costs               Interest to Date (n + 1 rows)
        Agent x% · Closing x%
+       Concession (typed, kept)
        Net Profit
        Dennis Share (p%) · Paul Share
      PAYOUTS
        Dennis = purchase principal & interest + cash advances + interest + Dennis share + direct
-       Paul   = Paul share + due to Paul
+       Paul   = Paul share + Paul Paid (direct)
        Back to Recast account
 ```
+
+**Changes of 2026-09-23 (Paul, light template only — the heavy 104 Ashburne tab is
+untouched by all three).** (a) **No Dennis commission rows.** The Payouts block dropped
+`Dennis commission (x% of sale)` and Paul's matching `Less Dennis commission`: Dennis
+charges no commission on a partnership deal (D-042). The commission belongs to the bank
+deal alone, where it is still the heavy tab's own line and, at closing, `lib/sale.mjs`'s
+1210 entry from `Properties.dennis_commission_pct` — nothing about that path changed.
+(b) **`Due to Paul (paid less reimbursed)` is now `Paul Paid (direct)`**, the mirror of
+`Dennis Paid (direct)` beside it; the figure behind it is unchanged (the Paul Paid block's
+net). (c) **`Concession (type it here)`** joins the Profit Breakdown below Closing %, the
+same typed cell the heavy tab has, kept across rebuilds by `readLabelledValue_`. Net Profit
+subtracts it as `-ABS(...)`, so a minus sign typed by hand cannot turn a credit into profit.
+(d) **Received is two rows, not one.** Each who-paid block's
+`Received (advances, refunds)` became `Received (advances)` and `Received (refunds)`, split
+on payee: both lines of an advance carry `Dennis Little` (`buildAdvance`, `lib/posting.mjs`),
+a refund is a negative cost row carrying its vendor. The pair is an exhaustive partition of
+what the single line summed, so a payee that does not match can only move a line between the
+two rows — never change the block's total. **The Dennis Paid (direct) block keeps one
+Received row** and its unfiltered formula: a direct-paid Dennis cost *is* an advance
+(`posting.mjs`, "a direct-paid cost is an advance"), and an advance's own lines are 1401/2030
+and 2010, never cost lines, so an advances row there could only ever read zero (Paul:
+"you are right ... for Dennis remove the row").
 
 **End Date is typed on the tab.** Each schedule row's End Date cell holds
 `Advances.repaid_date` as a value; an installable onEdit trigger in the writer project
 (`onPropertyTabEdit`, installed by `setup()` / `installTriggers()`) writes a typed or
 cleared date back to the matching Advances row (same property, start date, principal)
 and flips its status. Interest on that row stops at the End Date on the tab and in the
-app's accrual engine alike (D-011). It is the one other typed cell besides Sale Price.
+app's accrual engine alike (D-011). It is typed like Sale Price and Concession.
 
 Colours (Paul's): heads `#a3f67f`, totals `#ceffbc`, sub-heads `#ffe599`, checkbox
-columns `#fff2cc`, payout totals `#fff2cc`, share rows yellow, the typed Sale Price `#cfe2f3`. Helpers sit in
+columns `#fff2cc`, payout totals `#fff2cc`, share rows yellow, the typed Sale Price and
+Concession `#cfe2f3`. Helpers sit in
 AI:AV greyed (rate, stub basis, settlement_date, contract_price, per-advance math incl.
 the advance's own `rate_pct`, tax_annual, proration estimate, `dennis_share_pct`); the
 Journal-wide voided flag is on the hidden `Journal helpers` sheet so no array formula
@@ -126,15 +150,16 @@ actual tax line and the estimate drops to zero. Interest to Date is computed in-
 method at `Settings!interest_rate_annual` (8%, D-016) on every Advances row for the
 property, so Financing-class (1200) accruals are left out of Total Project Cost and
 nothing double-counts. **The tab is the forecast while held** (Paul, 2026-09-15): Sale
-Price is the one typed cell (kept across rebuilds; seeded from `contract_price`), the
-agent/closing percentages are estimates, and there is no settlement tie-out here. The
+Price and Concession are the typed cells (both kept across rebuilds; Sale Price seeded from
+`contract_price`), the agent/closing percentages are estimates, and there is no settlement
+tie-out here. The
 actuals from the settlement statement, Dennis's interest true-up and the
 payouts-equal-net-proceeds check live on the **closing tab** the Phase 5 sell wizard
 builds beside this one (BUILD-PLAN §5). Helpers live in AI:AS, greyed; the voided flag on
 the hidden `Journal helpers` sheet. All SUMPRODUCT / FILTER over
 bounded Journal rows, voided pairs excluded via the same helper-column trick as Totals.
-The tab is a view; nothing on it is typed except Sale Price, the End Dates and the paid-by
-boxes. **The Rehab Costs and Utilities rows are values written by the writer**
+The tab is a view; nothing on it is typed except Sale Price, Concession, the End Dates and
+the paid-by boxes. **The Rehab Costs and Utilities rows are values written by the writer**
 (`refreshLineBlocks_`, after every post/void and on rebuild), not a formula spill, because
 a checkbox showing a formula's result cannot be clicked: ticking Paul Paid / Dennis Paid /
 Recast Account on a line voids that entry and re-posts it with the new `paid_from` through

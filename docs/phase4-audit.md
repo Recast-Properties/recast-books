@@ -1893,3 +1893,63 @@ OVERHEAD" as he edits - the ingest gate only ever saw the model's first proposal
 now states it and its consequence - a hardware receipt mixing tools and materials is two entries, tools on
 6510 OVERHEAD and materials on 1030 with the property - so the bookkeeper should stop proposing the card
 that started this. Not deployed (`npm run deploy` is Paul's step); it rides with the next one.
+
+## 64 · The light property tabs: no commission, a Concession cell, Received split in two (2026-09-23)
+
+Paul, going through 469 Brushwood tab by tab. Four changes, all on the **light** template; 104 Ashburne, the
+one Heavy tab, is untouched by every one of them (D-042).
+
+**What the screenshot showed first.** His 469 Brushwood capture already read `Paul Paid (direct)` at row 30
+with rows 26 and 31 blank, while the repo at HEAD still wrote `Due to Paul (paid less reimbursed)` and both
+commission rows - so the sheet was hand-edited to show the target, and a rebuild would have wiped it. That
+settled the shape of the work: put it in the builder, not the sheet.
+
+**1. The commission rows are gone.** `Dennis commission (x% of sale)` off the Dennis payout and
+`Less Dennis commission` off Paul's - "he will never charge commission for these". Not a layout preference:
+on a partnership property Dennis's return is principal + interest + his 50% share, and a commission was only
+ever a bank-deal term. The bank path is untouched - `Properties.dennis_commission_pct`, the heavy tab's own
+line, `lib/sale.mjs`'s 1210 entry at closing (D-036) - which is what 104 Ashburne will settle on. The two
+block SUMs narrowed with the rows (Dennis `+5` → `+4`, Paul `+3` → `+2`).
+
+**2. `Due to Paul (paid less reimbursed)` → `Paul Paid (direct)`**, the mirror of `Dennis Paid (direct)`
+above it. Label only; the value is the same Paul Paid block net (`=G<dueToPaulRow>`).
+
+**3. `Concession (type it here)`** below Closing % in the Profit Breakdown - the cell the heavy tab already
+had, blue, kept across rebuilds by the same `readLabelledValue_` prefix match that keeps Sale Price (the read
+was hoisted so both templates share it). Net Profit subtracts it as `-ABS(...)`: a seller concession is
+always a reduction, and a minus sign typed by hand must not be able to turn a credit into profit. Brushwood's
+Profit Breakdown gains a row, so everything below shifts down one - Net Profit 16 → 17, Payouts 20 → 21.
+
+**4. Received split in two.** The question was how to tell an advance from a refund on a **single Journal
+row** - a `txn_id` join to find the counter-account is exactly the O(rows²) lookup that stalled the staging
+workbook in §38. The answer is row-local: `buildAdvance` (`lib/posting.mjs`) writes payee **`Dennis Little`
+on both lines** of every advance, and a refund is a negative cost row carrying its vendor. So:
+
+- `Received (advances)` = the block's debits where `payee = "Dennis Little"`
+- `Received (refunds)`  = the block's debits where `payee <> "Dennis Little"`
+
+An **exhaustive partition** by construction, which is the point: a payee the rule does not expect can only
+move a line from one row to the other, never out of the block, so the head's SUM and the tie-out are
+untouchable by a bad guess. Checked against the migrated books before writing it: all 33 advances are
+`Dennis Little`, and all 7 negative-amount rows are vendors - Home Depot (REFUND: Front Door Latch, -$54.09,
+paid_from 1401), Floor & Decor, Lowe's, Home Depot ×2, TXU, Anthropic. That Home Depot refund is the
+`-$54.09` visible in Brushwood's Recast Account Paid block, which is how the debit-column behaviour was
+confirmed from live data rather than assumed: a negative cost row lands as a **debit** to the paying account.
+
+**5. Then one row came back off.** Shipped with all three blocks split, and flagged that the Dennis Paid
+(direct) block's advances row was structurally always zero - a direct-paid Dennis cost *is* an advance
+(`posting.mjs`), and an advance's own lines are 1401/2030 and 2010, never cost lines. Paul: "you are right.
+for Dennis remove the row for 'Received (advances)'". Removed, and its Received formula put back to
+unfiltered, so that block cannot lose a row to a payee mismatch either.
+
+Final shape: Paul Paid and Recast Account Paid carry three rows each, Dennis Paid (direct) two. Each split
+block grows a row, so on Brushwood the Cash Advances schedule moves from row 20 to 23.
+
+455 tests. `clasp push -f` to the writer; no `clasp deploy` - D-023 moved the `propertyTab` action off
+`doPost` into the menu, so nothing reaches `setupPropertyTab` through the web app. **`rebuildAllPropertyTabs`
+from the editor is the one step that puts all of it on the ten tabs**, and it rebuilds 104 Ashburne on the
+way, which is what clears the spacer-column text left by §61.
+
+`docs/property-tab-anatomy.md` is deliberately NOT updated: it is the 2026-09-11 reading of the **old**
+workbook's 881 Newport tab, the reference this system was built to reproduce, not a description of the tabs
+the writer generates.

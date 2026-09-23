@@ -807,3 +807,35 @@ the property the way materials are - and spells out the consequence it kept gett
 receipt mixing tools and materials is **two entries**, the tools on 6510 with OVERHEAD and the materials on
 1030 with the property. `lib/bookkeeper-prompt.mjs` regenerated. **Not deployed** (`npm run deploy` is
 Paul's step); the deterministic rail and the Inbox card already catch the case in the meantime.
+
+## 2026-09-23 (later still) - The light property tabs: no commission, a Concession cell, Received split (D-042)
+
+Paul, going through 469 Brushwood. Four changes, **light template only** - 104 Ashburne, the one Heavy tab,
+is untouched by all of them. His screenshot already showed the target hand-typed on the sheet, where the
+next rebuild would have wiped it; this puts it in the builder.
+
+- **The Dennis commission rows are gone** - `Dennis commission (x% of sale)` off his payout and
+  `Less Dennis commission` off Paul's. "he will never charge commission for these": on a partnership deal
+  Dennis's return is principal + interest + his 50% share, and the commission was only ever a **bank deal**
+  term. That path is untouched - `Properties.dennis_commission_pct`, the heavy tab's own line and
+  `lib/sale.mjs`'s 1210 entry at closing (D-036) all stand, which is what Ashburne settles on.
+- **`Due to Paul (paid less reimbursed)` → `Paul Paid (direct)`**, the mirror of `Dennis Paid (direct)` above
+  it. Label only; same value.
+- **`Concession (type it here)`** in the Profit Breakdown below Closing %, the cell the heavy tab already had:
+  blue, typed, kept across rebuilds by the same `readLabelledValue_` that keeps Sale Price. Net Profit
+  subtracts it as `-ABS(...)` - a concession is always a reduction, so a hand-typed minus sign cannot turn a
+  credit into profit.
+- **`Received (advances, refunds)` → `Received (advances)` + `Received (refunds)`**, split on payee: both
+  lines of an advance carry `Dennis Little` (`buildAdvance`), a refund is a negative cost row carrying its
+  vendor. Deliberately an exhaustive partition, so a payee the rule does not expect can only move a line
+  between the two rows - never out of the block total. Checked first against the migrated books: 33/33
+  advances are `Dennis Little`, and all 7 negative rows are vendors. Brushwood's `-$54.09` is the Home Depot
+  REFUND on 1401, which is how the debit-column behaviour was confirmed from live data instead of assumed.
+- **Then one row came back off.** Shipped with all three blocks split and flagged that Dennis Paid (direct)'s
+  advances row is structurally always zero - a direct-paid Dennis cost *is* an advance, and an advance's own
+  lines (1401/2030, 2010) are never cost lines. Paul: "you are right ... for Dennis remove the row". Removed,
+  formula back to unfiltered.
+
+455 tests. Pushed to the writer; no deploy (`doPost` unchanged - D-023 moved `propertyTab` into the menu).
+**`rebuildAllPropertyTabs` from the editor is the one step that applies it to the ten tabs**, and it rebuilds
+104 Ashburne on the way, clearing the spacer-column text left by audit §61.
