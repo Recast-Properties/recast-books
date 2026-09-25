@@ -1005,3 +1005,22 @@ secret, the settlement-bg pattern) and answers **202**. The job files the attach
 envelope, and on a lost reply confirms the txn_ids on the Journal like ingest does; a refusal (DUPLICATE,
 PERIOD_CLOSED, …) puts the card back in Pending with the reason. The web Inbox polls the card until it leaves
 `posting`. Menu.gs's in-process `inboxApprove` never used HTTP and is untouched. 475 tests.
+
+## 2026-09-25 (evening) - The plan, part 3: the nightly check, done by the brain
+
+`books-reconcile-background.mjs` (`/api/reconcile-bg`, poller secret). **Code gathers the facts** from the
+Journal snapshot and the docs store: (a) posted envelopes whose txn_ids are not on the Journal; (b) receipt
+entries no posted envelope names; (c) live entries sharing date + normalised payee + debit total (the
+`reportDuplicateReplays` key, live-vs-live and live-vs-migration); (d) receipt entries with no document;
+(e) `processing`/`posting` older than an hour and every `error`; (f) the Pending count and oldest; (g) debits =
+credits. **The model judges** in one call with no tools and writes at most eight bullets, each an action in
+Paul's words, or "Books check: clean." Stored at `books-cache` `reconcile/<date>` and `reconcile/latest`;
+`/api/summary` returns it as `check`; the paul@ poller gained `nightlyCheck` (trigger at 2 AM CT, `setup()`
+installs it) and `dailyDigest` prints the check as its first section. It never writes to the workbook.
+`gatherFacts` is pure and tested on the 09-25 cases (the Sherwin-Williams twin, a posted envelope with no
+Journal row, a stuck `posting`, a migration-era error). 479 tests.
+
+**Deploy order for the three parts** (Paul, one step per message): `npm run deploy` ships parts 1-3 in one
+build, but each turns on separately - part 1 only when `SHEETS_SA_KEY` + `SPREADSHEET_ID` exist (after the
+tie-out), part 2 at the deploy, part 3 when the poller is pushed (`clasp push -f` from `apps-script/poller/`)
+and `setup()` re-run from the editor to install the 2 AM trigger. Read the Journal after each.

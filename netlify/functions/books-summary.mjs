@@ -1,6 +1,7 @@
 // netlify/functions/books-summary.mjs — path /api/summary — phase2-spec.md section 5
 //   GET /api/summary?date=YYYY-MM-DD
-//     -> {date, posted:[...], pending:[...why], dismissed:[...], errors:[...], totals}
+//     -> {date, posted:[...], pending:[...why], dismissed:[...], errors:[...], totals, check}
+//   `check` is the latest nightly books check (books-reconcile-background.mjs): {date, ranAt, text, error}.
 //   Auth: session OR the poller shared secret (the Apps Script daily digest has no
 //   Google session - phase2-spec.md section 6's dailyDigest calls this with
 //   x-poller-secret, same as books-upload.mjs).
@@ -12,7 +13,7 @@
 // Dry-run envelopes are excluded - they are a test read, not real bookkeeping
 // activity for the day (see this task's report for this interpretation).
 
-import { requireConfig, json, getDocsStore, getSessionPayload, authErrorResponse, pollerSecretOk } from "./_shared.mjs";
+import { requireConfig, json, getDocsStore, getCacheStore, getSessionPayload, authErrorResponse, pollerSecretOk } from "./_shared.mjs";
 
 const ISO_DATE = /^\d{4}-\d{2}-\d{2}$/;
 
@@ -134,7 +135,14 @@ export default async (req) => {
     error_count: errors.length,
   };
 
-  return json(200, { date, posted, pending, dismissed, errors, totals });
+  // The nightly check (books-reconcile-background.mjs) - the digest prints it first.
+  let check = null;
+  try {
+    const latest = await getCacheStore().get("reconcile/latest", { type: "json" });
+    if (latest) check = { date: latest.date, ranAt: latest.ranAt, text: latest.text, error: latest.error };
+  } catch { /* no check tonight is not a failure of the summary */ }
+
+  return json(200, { date, posted, pending, dismissed, errors, totals, check });
 };
 
 export const config = { path: "/api/summary" };

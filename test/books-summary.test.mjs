@@ -142,3 +142,18 @@ test("POST is not allowed", async () => {
   const res = await handler(new Request("https://books.test/api/summary", { method: "POST" }));
   assert.equal(res.status, 405);
 });
+
+test("summary returns the latest nightly check as `check`", async () => {
+  const { resetCacheStoreForTests } = await import("../netlify/functions/_shared.mjs");
+  const { makeFakeCacheStore } = await import("./helpers/fake-cache-store.mjs");
+  const cache = makeFakeCacheStore();
+  resetCacheStoreForTests(cache);
+  try {
+    await cache.setJSON("reconcile/latest", { date: "2026-09-26", ranAt: "2026-09-26T07:30:00.000Z", text: "Books check: clean.", error: "", facts: { big: true } });
+    const res = await handler(req({ date: "2026-09-25", pollerSecret: "poller-secret" }));
+    const body = await res.json();
+    assert.deepEqual(body.check, { date: "2026-09-26", ranAt: "2026-09-26T07:30:00.000Z", text: "Books check: clean.", error: "" });
+  } finally {
+    resetCacheStoreForTests(null);
+  }
+});

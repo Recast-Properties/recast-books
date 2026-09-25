@@ -49,6 +49,8 @@ function setup() {
   // (MAILBOX=properties) polls only.
   if (mailboxMode_(props) !== 'properties') {
     ScriptApp.newTrigger('dailyDigest').timeBased().atHour(3).everyDays(1).inTimezone('America/Chicago').create();
+    // The nightly books check runs the hour before, so the digest at 3 prints its result.
+    ScriptApp.newTrigger('nightlyCheck').timeBased().atHour(2).everyDays(1).inTimezone('America/Chicago').create();
   }
 
   Logger.log('Recast Books Poller set up. BOOKS_UPLOAD_URL=' + props.getProperty('BOOKS_UPLOAD_URL') +
@@ -378,6 +380,21 @@ function dryRunBatch() {
   console.log('Dry run (' + dryQuery + '): ' + sent + ' message(s) sent, ' + failed + ' failure(s). Nothing labeled.');
 }
 
+// ---- nightlyCheck: POST /api/reconcile-bg - the model checks the books ----------
+// books-reconcile-background.mjs gathers the facts (envelopes vs Journal, duplicates,
+// stuck items, balance) and the model writes Paul's actions; dailyDigest prints them.
+function nightlyCheck() {
+  var props = PropertiesService.getScriptProperties();
+  var secret = requireProp_(props, 'POLLER_SECRET');
+  var uploadUrl = props.getProperty('BOOKS_UPLOAD_URL') || CONFIG.DEFAULT_UPLOAD_URL;
+  var url = uploadUrl.replace(/\/api\/upload$/, '/api/reconcile-bg');
+  var res = UrlFetchApp.fetch(url, {
+    method: 'post', contentType: 'application/json', payload: '{}',
+    headers: { 'x-poller-secret': secret }, muteHttpExceptions: true
+  });
+  console.log('nightlyCheck: ' + res.getResponseCode() + ' ' + res.getContentText().slice(0, 300));
+}
+
 // ---- dailyDigest: GET /api/summary for yesterday, email Paul -----------------
 
 function dailyDigest() {
@@ -410,6 +427,12 @@ function dailyDigest() {
   var subject = 'Books | ' + weekday + ' | $' + centsToDollars_(postedTotal) + ' posted | ' + pendingCount + ' to review';
 
   var lines = [];
+  // The nightly check first: every line is something Paul does (or "Books check: clean.").
+  if (data.check && (data.check.text || data.check.error)) {
+    lines.push('Books check (' + String(data.check.ranAt || '').slice(0, 10) + '):');
+    String(data.check.text || data.check.error).split('\n').forEach(function (l) { if (l.trim()) lines.push('  ' + l.trim()); });
+    lines.push('');
+  }
   lines.push('Posted (' + (data.posted || []).length + '):');
   (data.posted || []).forEach(function (p) {
     lines.push('  ' + (p.vendor || '(unknown vendor)') + ' - $' + centsToDollars_(p.total_cents) +
