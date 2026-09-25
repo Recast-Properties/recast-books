@@ -26,8 +26,10 @@ front door.
 1. **Never touch the old workbook** (`1isEbfNKPO32Wpf08EtLkNHX85c0rTIl8tpH9bUdgQbs`),
    anything under `../Recast-site/`, or the two live receipts Apps Script projects.
    Migration reads the old workbook; nothing here ever writes to it.
-2. **Every write goes through the Apps Script writer** behind its ScriptLock. Functions
-   read through it too. No Sheets API writes from anywhere else.
+2. **Every write goes through the Apps Script writer** behind its ScriptLock. No Sheets API
+   writes from anywhere else. **Reads** come off it (D-047, 2026-09-25): with `SHEETS_SA_KEY`
+   set, functions read the tabs through the Sheets API as a Viewer service account
+   (`lib/sheets-reader.mjs`); without it, through the writer's `read` action as before.
 3. **Claude decides, code executes.** Model judgment for reading, classifying, matching;
    deterministic code for arithmetic, balanced entries, `txn_id` identity, the gates
    (autofile ceiling, period lock, 1099 block). The UI must show which was which.

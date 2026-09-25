@@ -971,3 +971,26 @@ timeout, held on PAYER_UNKNOWN: "Atmos ledger history has a single migration row
 precedent" - the four PAUL payments before it sat just outside 60 days. The fresh read is whole-tab anyway,
 so the window is free. `HANDOFF-2026-09-25.md` written. 467 tests.
 
+
+## 2026-09-25 (evening) - The plan, part 1: reads come off the writer (D-047)
+
+Paul: *"i'm paying for a brain and getting blocked by stupid stuff. we need the brain's work to be used."*
+Every read on 09-25 was right; every failure was the writer serialising reads and writes through one Apps
+Script web app. Reads leave it.
+
+- **`lib/sheets-reader.mjs`**: a Viewer service account reads a tab through the Sheets values API
+  (`UNFORMATTED_VALUE` + `SERIAL_NUMBER`), RS256 JWT signed with `node:crypto`, token cached 50 min, no new
+  dependency. Returns `readTabData_`'s exact shape: a serial in a date column becomes `yyyy-mm-dd`, in
+  `posted_at`/`closed_at`/`added_at` an ISO timestamp, in `period` `yyyy-MM`; rows padded to the header width.
+  The API has no cell type, so "Date cell" is decided by column (the writer's lists + `TAB_HEADERS`' date
+  columns) - `scripts/reads-tieout.mjs` is what proves that guess against the writer, cell by cell.
+- **`_shared.mjs`**: `fetchTabFromWriter` -> `fetchTab`, the reader when `SHEETS_SA_KEY` is set, the writer
+  otherwise. `readTab`, `refreshTab`, the `books-cache` snapshots and `applyReadOpts` are untouched; nothing
+  changes in production until the two env vars exist.
+- **Writes are untouched.** The service account has read-only scope and Viewer, the writer keeps the lock,
+  and its `read` action stays for the workbook menu.
+
+Not yet done, waiting on the flip: `JOURNAL_READ_TIMEOUT_MS` back to 60 s, `MAX_RETRIES_PER_RUN` to 5.
+Paul's steps (one per message): service account + JSON key in the site's Cloud project, Sheets API enabled,
+share the workbook with its email as Viewer, run the tie-out, then `netlify env:set --context production`
+for `SHEETS_SA_KEY` (base64 of the key file) and `SPREADSHEET_ID`, then deploy. 470 tests.

@@ -214,6 +214,8 @@ group; `type` ∈ asset, liability, income, cogs, expense, equity.
 | `WRITER_SECRET` | Paul, copied from `setup()` log | shared secret to the writer |
 | `GOOGLE_CLIENT_ID` | Paul, from Google Cloud console | GIS sign-in |
 | `SESSION_SECRET` | Paul, `openssl rand -hex 32` | HS256 session signing |
+| `SHEETS_SA_KEY` | Paul, service-account JSON key, base64 (D-047) | tab reads through the Sheets API; unset = read through the writer |
+| `SPREADSHEET_ID` | Paul, the workbook id (§10) | the workbook the reader reads |
 
 Functions fail closed with `503 {error:"NOT_CONFIGURED", missing:[...]}` when any is
 unset — never with a stack trace.

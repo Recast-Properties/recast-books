@@ -14,6 +14,7 @@ import { timingSafeEqual } from "node:crypto";
 import { getStore } from "@netlify/blobs";
 import { verifySession, requireRole, AuthError } from "../../lib/auth.mjs";
 import { createWriter, WriterError } from "../../lib/writer-client.mjs";
+import { createSheetsReader } from "../../lib/sheets-reader.mjs";
 import { isOpenProperty } from "../../lib/property-key.mjs";
 
 const REQUIRED_ENV = ["WRITER_URL", "WRITER_SECRET", "GOOGLE_CLIENT_ID", "SESSION_SECRET"];
@@ -46,9 +47,22 @@ export function getWriter() {
   return writerSingleton;
 }
 
-// Exposed so a test harness or a future function can reset the singleton between runs.
+// D-047: reads come off the writer. With SHEETS_SA_KEY set, every tab read goes to the
+// Sheets API as the service account (Viewer on the workbook); without it, the writer's
+// `read` action as before, so production keeps working until the env is in.
+let readerSingleton = null;
+export function getSheetsReader() {
+  if (!process.env.SHEETS_SA_KEY) return null;
+  if (!readerSingleton) {
+    readerSingleton = createSheetsReader({ key: process.env.SHEETS_SA_KEY, spreadsheetId: process.env.SPREADSHEET_ID });
+  }
+  return readerSingleton;
+}
+
+// Exposed so a test harness or a future function can reset the singletons between runs.
 export function resetWriterForTests() {
   writerSingleton = null;
+  readerSingleton = null;
 }
 
 /**
@@ -138,9 +152,12 @@ function withTimeout(promise, ms, message) {
   });
 }
 
-/** Whole-tab writer read. Journal needs {all:true} to bypass the writer's own
- * 200-row default; every other tab already returns everything with no options. */
-function fetchTabFromWriter(writer, tab, timeoutMs = WRITER_READ_TIMEOUT_MS) {
+/** Whole-tab read: the Sheets API as the service account when SHEETS_SA_KEY is set
+ * (D-047), else the writer's `read` action. Journal needs {all:true} there to bypass the
+ * writer's own 200-row default; every other tab already returns everything. */
+function fetchTab(writer, tab, timeoutMs = WRITER_READ_TIMEOUT_MS) {
+  const reader = getSheetsReader();
+  if (reader) return withTimeout(reader.read(tab), timeoutMs, `readTab: Sheets read of ${tab} timed out`);
   const opts = tab === "Journal" ? { all: true } : undefined;
   return withTimeout(writer.read(tab, opts), timeoutMs, `readTab: writer read of ${tab} timed out`);
 }
@@ -162,10 +179,10 @@ function applyReadOpts(tab, headers, rows, { since, limit, all } = {}) {
   return out;
 }
 
-/** Re-reads a tab from the writer and stores it as the new snapshot. Exported so a
+/** Re-reads a tab (fetchTab) and stores it as the new snapshot. Exported so a
  * write handler can refresh exactly the tab it just wrote. */
 export async function refreshTab(writer, tab, { timeoutMs } = {}) {
-  const resp = await fetchTabFromWriter(writer, tab, timeoutMs);
+  const resp = await fetchTab(writer, tab, timeoutMs);
   // 2026-09-14: the writer answers POST with a redirect, and a slow Journal read once
   // landed the follow-up on doGet - an "ok" body with no headers/rows, which was then
   // stored as the Journal snapshot and took every report down. Never store that.

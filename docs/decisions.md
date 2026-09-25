@@ -988,3 +988,21 @@ one that matches a posted bill or payment stays a duplicate. The amount mismatch
 same day: the model's `checked` record - which had this reasoning in full - was being dropped by
 `normalizeDecide` since the field was added on 09-22, so neither the Inbox nor the digest ever showed it.
 
+
+## D-047 · Reads come off the Apps Script writer; writes stay under its lock - 2026-09-25 · Paul ("go")
+
+Constraint 2 said every function read went through the writer's `read` action too. The writer is one Apps
+Script web app that serialises every call, and reads were ~95% of its traffic (five per ingest, nine tabs per
+warm run, the whole Journal each time) against a handful of writes a day. Every 2026-09-25 failure was
+plumbing around that: Atmos timed out four times on the Journal read, and postBatch replies were lost behind
+reads (the doGet misfire) while the write itself had landed. *"I'm paying for a brain and getting blocked by
+stupid stuff."*
+
+**Decided:** a service account with **Viewer** on the workbook reads every tab through the Sheets values API
+(`lib/sheets-reader.mjs`, RS256 JWT with `node:crypto`, no dependency); `_shared.mjs`'s `fetchTab` uses it
+whenever `SHEETS_SA_KEY` is set and the writer's `read` otherwise, so nothing changes until the env is in.
+Same output shape as `readTabData_` (Date cells recognised by column: the writer's timestamp/period columns
+plus the date columns of `TAB_HEADERS`). **Writes are untouched:** the writer keeps the lock, the property-tab
+refresh, `txn_id` identity and every gate; the service account has no write scope and no Editor role. The
+writer's `read` action stays for the workbook menu and the clasp helpers. Flip only after
+`scripts/reads-tieout.mjs` shows zero cell differences on all nine tabs.
