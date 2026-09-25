@@ -43,7 +43,7 @@ export function gatherFacts(journal, envelopes, now = Date.now()) {
   const byTxn = new Map();
   for (const r of live) {
     const id = String(g(r, "txn_id"));
-    const e = byTxn.get(id) || { txn_id: id, date: String(g(r, "date")), payee: String(g(r, "payee")), property: "", source: String(g(r, "source")), debit: 0, doc_url: "", posted_at: String(g(r, "posted_at")) };
+    const e = byTxn.get(id) || { txn_id: id, date: String(g(r, "date")), payee: String(g(r, "payee")), property: "", source: String(g(r, "source")), debit: 0, doc_url: "", posted_at: String(g(r, "posted_at")), memo: String(g(r, "memo") || "").slice(0, 160) };
     e.debit += cents(g(r, "debit"));
     if (!e.property && g(r, "property")) e.property = String(g(r, "property"));
     if (!e.doc_url && g(r, "doc_url")) e.doc_url = String(g(r, "doc_url"));
@@ -74,7 +74,7 @@ export function gatherFacts(journal, envelopes, now = Date.now()) {
   }
   // Two migrated rows alike are the old books as Paul kept them (D-027), not a finding.
   const possible_duplicates = [...groups.values()].filter((gr) => gr.length > 1 && gr.some((e) => e.source !== "migration"))
-    .map((gr) => ({ date: gr[0].date, payee: gr[0].payee, total: money(gr[0].debit), entries: gr.map((e) => `${e.txn_id} (${e.source}, ${e.property || "no property"})`) }));
+    .map((gr) => ({ date: gr[0].date, payee: gr[0].payee, total: money(gr[0].debit), entries: gr.map((e) => `${e.txn_id} (${e.source}, ${e.property || "no property"}${e.memo ? `; memo: ${e.memo}` : ""})`) }));
 
   // (d) receipt entries with no document
   const receipts_without_document = entries.filter((e) => e.source === "receipt" && !e.doc_url)
@@ -108,7 +108,8 @@ export const CHECK_PROMPT = `You are the nightly books check for Recast Properti
 
 You receive the facts the code gathered tonight as JSON. Judge them and write what Paul (the owner) should do. Rules:
 - Output at most eight bullets, each one action in plain words, starting with a verb: "Void receipt-2026... - twin of migration-2026... (Sherwin-Williams 03-22 55.72)", "Approve the Atmos 67.39 card - it has waited 3 days", "Mark envelope gm-... posted - its entries are on the Journal". Name txn_ids and docIds exactly as given.
-- A duplicate is two live entries with the same date, payee and amount; a migration entry beside a receipt entry is the classic replay - the receipt one is the twin to void. Two different receipt numbers on the same day can be real (Anthropic top-ups) - say "check" rather than "void" when the payee bills that way.
+- A duplicate is two live entries with the same date, payee and amount; a migration entry beside a receipt entry is the classic replay - the receipt one is the twin to void. Read the memos first: different receipt or invoice numbers mean different charges (Anthropic top-ups repeat the same day) and need no action at all; the same number twice is the duplicate. Say "check" only when the memos do not settle it.
+- Pending cards are holds - Paul's decision is what they wait for, and some are parked on purpose for the Phase 3 bank statement. The queue count is context, not an action: never tell Paul to approve, dismiss or "clear" a card the check has not read. Mention the queue only if it is growing or a card is over 30 days old.
 - Errors dated before 2026-09-17 are migration-era and belong to Phase 3; mention them once as a group, not one by one. Do not ask for replays of them.
 - Paul fixes a plain click himself: void (workbook menu), approve / dismiss / reprocess (Inbox). Anything else - an envelope whose status disagrees with the Journal, a stuck card, a Drive link to attach, a balance problem, an error to diagnose - is Claude's job. Under such a bullet add one indented line starting "Paste to Claude:" with a self-contained instruction naming the ids, e.g. "Paste to Claude: mark envelope gm-19f... posted, its entries receipt-2026... are on the Journal."
 - Do not repeat a fact without an action. Do not explain the rules. No headers, no preamble.

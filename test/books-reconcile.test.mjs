@@ -9,7 +9,7 @@ process.env.WRITER_SECRET ||= "s";
 process.env.POLLER_SECRET ||= "poller-secret";
 process.env.ANTHROPIC_API_KEY ||= "test-key";
 const { resetCacheStoreForTests } = await import("../netlify/functions/_shared.mjs");
-const { gatherFacts, runCheck, default: handler, setAnthropicForTests } = await import("../netlify/functions/books-reconcile-background.mjs");
+const { gatherFacts, runCheck, default: handler, setAnthropicForTests, CHECK_PROMPT } = await import("../netlify/functions/books-reconcile-background.mjs");
 
 const H = ["txn_id", "line", "date", "account", "debit", "credit", "property", "payee", "doc_url", "source", "posted_at", "void_of"];
 const row = (id, line, date, acct, dr, cr, prop, payee, doc, src, void_of = "") => [id, line, date, acct, dr, cr, prop, payee, doc, src, "2026-09-25T10:00:00", void_of];
@@ -57,6 +57,7 @@ test("gatherFacts: envelope/Journal disagreement both ways, duplicates across so
   assert.deepEqual(f.journal_not_in_envelopes.map((e) => e.txn_id), ["receipt-20260924-ccc"]);
   assert.equal(f.possible_duplicates.length, 1, "the migration-vs-migration pair is not a finding");
   assert.deepEqual(f.possible_duplicates[0].entries, ["migration-20260322-aaa (migration, 104 Ashburne)", "receipt-20260322-bbb (receipt, 104 Ashburne)"]);
+  assert.match(CHECK_PROMPT, /Pending cards are holds/);
   assert.deepEqual(f.receipts_without_document.map((e) => e.txn_id), ["receipt-20260924-ccc"]);
   assert.deepEqual(f.stuck.map((e) => e.docId), ["gm-3"]);
   assert.deepEqual(f.errors.map((e) => [e.docId, e.received]), [["gm-5", "2026-05-01"]]);
