@@ -1024,3 +1024,13 @@ Journal row, a stuck `posting`, a migration-era error). 479 tests.
 build, but each turns on separately - part 1 only when `SHEETS_SA_KEY` + `SPREADSHEET_ID` exist (after the
 tie-out), part 2 at the deploy, part 3 when the poller is pushed (`clasp push -f` from `apps-script/poller/`)
 and `setup()` re-run from the editor to install the 2 AM trigger. Read the Journal after each.
+
+**First hand run of the check (same evening, deployed 15:10 CT):** the facts were right but two lists were
+noise - 272 "posted, not on the Journal" were staging-era envelopes (posted 09-17/18, txn_ids that never
+existed in production), and 25 of 27 duplicate groups were migration-vs-migration (the old books as Paul
+kept them, D-027). Now: (a) only envelopes finished on/after the 2026-09-21 cutover; (c) only groups with a
+live entry; every list capped at 40 in the prompt. The model call itself failed with "Connection error" -
+`maxRetries: 4`. Real findings the run surfaced: four 09-17/18 receipts with no `doc_url` (Energy Texas
+559.34, Central States Water 49.54, Uber 33.30, Alaska Airlines 166.00) and three Anthropic 10.49 entries on
+09-17. Part 1 verified: the warm run refreshes all nine tabs in two seconds (the writer took 102 s for the
+Journal alone in the tie-out). Poller pushed to both instances; `setup()` run; `nightlyCheck` trigger in.

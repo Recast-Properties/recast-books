@@ -15,6 +15,10 @@ import { MODEL_ID } from "../../lib/bookkeeper.mjs";
 
 const MAX_TOKENS = 4000;
 const STALE_MS = 60 * 60 * 1000;
+// The production Journal was born on the cutover day; envelopes posted before it record
+// staging txn_ids that never existed here (272 of them on the first run, 2026-09-25).
+const CUTOVER = "2026-09-21";
+const MAX_ITEMS = 40; // per list in the prompt; the rest is a count
 
 let clientForTests = null;
 export function setAnthropicForTests(client) { clientForTests = client; }
@@ -50,8 +54,9 @@ export function gatherFacts(journal, envelopes, now = Date.now()) {
   const posted = envelopes.filter((e) => e.status === "posted" && !e.dryRun);
   const postedIds = new Set(posted.flatMap((e) => e.result?.txn_ids || []));
 
-  // (a) posted envelopes whose txn_ids are not on the Journal
+  // (a) posted envelopes (since the cutover) whose txn_ids are not on the Journal
   const envelope_not_on_journal = posted
+    .filter((e) => String(e.review?.at || e.finishedAt || "") >= CUTOVER)
     .filter((e) => (e.result?.txn_ids || []).some((t) => !journalIds.has(t)))
     .map((e) => ({ docId: e.docId, vendor: e.model?.vendor || "", total: money(e.model?.receipt_total_cents || 0), missing: (e.result.txn_ids || []).filter((t) => !journalIds.has(t)) }));
 
@@ -67,7 +72,8 @@ export function gatherFacts(journal, envelopes, now = Date.now()) {
     const k = `${e.date}|${norm(e.payee)}|${e.debit}`;
     (groups.get(k) || groups.set(k, []).get(k)).push(e);
   }
-  const possible_duplicates = [...groups.values()].filter((gr) => gr.length > 1)
+  // Two migrated rows alike are the old books as Paul kept them (D-027), not a finding.
+  const possible_duplicates = [...groups.values()].filter((gr) => gr.length > 1 && gr.some((e) => e.source !== "migration"))
     .map((gr) => ({ date: gr[0].date, payee: gr[0].payee, total: money(gr[0].debit), entries: gr.map((e) => `${e.txn_id} (${e.source}, ${e.property || "no property"})`) }));
 
   // (d) receipt entries with no document
@@ -88,11 +94,13 @@ export function gatherFacts(journal, envelopes, now = Date.now()) {
   const debits = rows.reduce((s, r) => s + cents(g(r, "debit")), 0);
   const credits = rows.reduce((s, r) => s + cents(g(r, "credit")), 0);
 
+  const cap = (list) => (list.length > MAX_ITEMS ? [...list.slice(0, MAX_ITEMS), `... and ${list.length - MAX_ITEMS} more`] : list);
   return {
     journal_rows: rows.length, live_entries: entries.length,
     balance: { debits: money(debits), credits: money(credits), balanced: debits === credits },
-    envelope_not_on_journal, journal_not_in_envelopes, possible_duplicates, receipts_without_document,
-    stuck, errors, pending: { count: pending.length, oldest },
+    envelope_not_on_journal: cap(envelope_not_on_journal), journal_not_in_envelopes: cap(journal_not_in_envelopes),
+    possible_duplicates: cap(possible_duplicates), receipts_without_document: cap(receipts_without_document),
+    stuck: cap(stuck), errors: cap(errors), pending: { count: pending.length, oldest },
   };
 }
 
@@ -144,7 +152,7 @@ export default async (req) => {
   if (configErr) return configErr;
   if (req.method !== "POST") return json(405, { error: "METHOD_NOT_ALLOWED" });
   if (!pollerSecretOk(req)) return json(401, { error: "UNAUTHORIZED" });
-  const check = await runCheck({ writer: getWriter(), docsStore: getDocsStore(), cacheStore: getCacheStore(), anthropic: clientForTests || new Anthropic() });
+  const check = await runCheck({ writer: getWriter(), docsStore: getDocsStore(), cacheStore: getCacheStore(), anthropic: clientForTests || new Anthropic({ maxRetries: 4 }) }); // the first hand run died on "Connection error" after the default 2
   if (check.error) console.error("reconcile-bg: " + check.error);
   return json(200, { ok: !check.error, date: check.date, text: check.text, error: check.error });
 };

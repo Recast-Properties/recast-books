@@ -21,6 +21,11 @@ const JOURNAL = {
     row("migration-20260322-aaa", 2, "2026-03-22", "1401", "", 55.72, "104 Ashburne", "Sherwin-Williams", "https://d/1", "migration"),
     row("receipt-20260322-bbb", 1, "2026-03-22", "1030", 55.72, "", "104 Ashburne", "The Sherwin Williams", "https://d/2", "receipt"),
     row("receipt-20260322-bbb", 2, "2026-03-22", "1401", "", 55.72, "104 Ashburne", "The Sherwin Williams", "https://d/2", "receipt"),
+    // two migrated rows alike: the old books had both (D-027), not a finding
+    row("migration-20260111-m1", 1, "2026-01-11", "1030", 14.04, "", "OVERHEAD", "Home Depot", "https://d/9", "migration"),
+    row("migration-20260111-m1", 2, "2026-01-11", "1401", "", 14.04, "OVERHEAD", "Home Depot", "https://d/9", "migration"),
+    row("migration-20260111-m2", 1, "2026-01-11", "1030", 14.04, "", "OVERHEAD", "Home Depot", "https://d/9", "migration"),
+    row("migration-20260111-m2", 2, "2026-01-11", "1401", "", 14.04, "OVERHEAD", "Home Depot", "https://d/9", "migration"),
     // a receipt entry with no envelope and no document
     row("receipt-20260924-ccc", 1, "2026-09-24", "6510", 12.5, "", "OVERHEAD", "Anthropic", "", "receipt"),
     row("receipt-20260924-ccc", 2, "2026-09-24", "1402", "", 12.5, "OVERHEAD", "Anthropic", "", "receipt"),
@@ -34,7 +39,8 @@ const JOURNAL = {
 const NOW = Date.parse("2026-09-26T07:30:00Z");
 const ENVELOPES = [
   { docId: "gm-1", status: "posted", result: { txn_ids: ["receipt-20260322-bbb"] }, model: { vendor: "Sherwin-Williams", receipt_total_cents: 5572 } },
-  { docId: "gm-2", status: "posted", result: { txn_ids: ["receipt-20260925-zzz"] }, model: { vendor: "HILCO", receipt_total_cents: 5603 } }, // not on the Journal
+  { docId: "gm-2", status: "posted", finishedAt: "2026-09-25T20:00:00Z", result: { txn_ids: ["receipt-20260925-zzz"] }, model: { vendor: "HILCO", receipt_total_cents: 5603 } }, // not on the Journal
+  { docId: "gm-2s", status: "posted", finishedAt: "2026-09-18T09:00:00Z", result: { txn_ids: ["receipt-20260110-staging"] }, model: { vendor: "Shell" } }, // staging-era: ignored
   { docId: "gm-3", status: "posting", posting_at: "2026-09-26T04:00:00Z", model: { vendor: "Atmos" } }, // stuck 3.5 h
   { docId: "gm-4", status: "processing", startedAt: "2026-09-26T07:20:00Z" }, // 10 min: fine
   { docId: "gm-5", status: "error", receivedAt: "2026-05-01T00:00:00Z", subject: "HD 87.64", error: "writer read timed out" },
@@ -44,12 +50,12 @@ const ENVELOPES = [
 
 test("gatherFacts: envelope/Journal disagreement both ways, duplicates across sources, missing documents, stuck, errors, queue, balance", () => {
   const f = gatherFacts(JOURNAL, ENVELOPES, NOW);
-  assert.equal(f.journal_rows, 10);
-  assert.equal(f.live_entries, 3, "the voided receipt and its void are not live");
-  assert.deepEqual(f.balance, { debits: "141.94", credits: "141.94", balanced: true });
+  assert.equal(f.journal_rows, 14);
+  assert.equal(f.live_entries, 5, "the voided receipt and its void are not live");
+  assert.deepEqual(f.balance, { debits: "170.02", credits: "170.02", balanced: true });
   assert.deepEqual(f.envelope_not_on_journal, [{ docId: "gm-2", vendor: "HILCO", total: "56.03", missing: ["receipt-20260925-zzz"] }]);
   assert.deepEqual(f.journal_not_in_envelopes.map((e) => e.txn_id), ["receipt-20260924-ccc"]);
-  assert.equal(f.possible_duplicates.length, 1);
+  assert.equal(f.possible_duplicates.length, 1, "the migration-vs-migration pair is not a finding");
   assert.deepEqual(f.possible_duplicates[0].entries, ["migration-20260322-aaa (migration, 104 Ashburne)", "receipt-20260322-bbb (receipt, 104 Ashburne)"]);
   assert.deepEqual(f.receipts_without_document.map((e) => e.txn_id), ["receipt-20260924-ccc"]);
   assert.deepEqual(f.stuck.map((e) => e.docId), ["gm-3"]);
