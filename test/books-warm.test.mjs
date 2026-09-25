@@ -47,7 +47,7 @@ test("warm-bg refreshes every tab into the cache; a failing tab is reported, not
   resetDocsStoreForTests(null);
 });
 
-test("retryErroredDocs re-invokes ingest only for error docs the model never touched, at most MAX_AUTO_RETRIES times", async () => {
+test("retryErroredDocs re-reads error docs with no read and re-posts those with one, at most MAX_AUTO_RETRIES times", async () => {
   const docs = memDocsStore([
     { docId: "gm-a", status: "error", error: "Writer returned a non-JSON response", model: null },
     { docId: "gm-b", status: "error", error: "boom after the model ran", model: { verdict: "post" } },
@@ -60,15 +60,16 @@ test("retryErroredDocs re-invokes ingest only for error docs the model never tou
     return new Response("", { status: 202 });
   };
   const retried = await retryErroredDocs("https://books.test", docs);
-  assert.deepEqual(retried, ["gm-a"]);
-  assert.deepEqual(invoked.map((i) => i.body.docId), ["gm-a"]);
+  assert.deepEqual(retried, ["gm-a", "gm-b"]);
+  assert.deepEqual(invoked.map((i) => i.body), [{ docId: "gm-a", reprocess: true }, { docId: "gm-b", fromStored: true }]);
   assert.equal(invoked[0].url, "https://books.test/api/ingest-bg");
   assert.equal(invoked[0].secret, "poller-secret");
   const a = docs.items.get("doc/gm-a");
   assert.equal(a.status, "processing");
   assert.equal(a.retries, 1);
   assert.equal(a.error, "");
-  assert.equal(docs.items.get("doc/gm-b").status, "error", "a doc whose model ran is left for a human");
+  assert.equal(docs.items.get("doc/gm-b").status, "processing", "a doc whose read is stored is re-posted from it");
+  assert.equal(docs.items.get("doc/gm-b").model.verdict, "post", "the stored read is kept for the replay");
   assert.equal(docs.items.get("doc/gm-c").status, "error", "a doc at the retry cap is left alone");
   assert.equal(docs.items.get("doc/gm-d").status, "pending");
 });

@@ -135,7 +135,7 @@ test("runBookkeeper calls the model with the spec's exact request shape", async 
   assert.equal(req.model, MODEL_ID);
   assert.equal(req.model, "claude-opus-5");
   assert.equal(req.max_tokens, MAX_TOKENS_PER_TURN);
-  assert.equal(req.max_tokens, 8000);
+  assert.equal(req.max_tokens, 32000);
   assert.deepEqual(req.thinking, { type: "adaptive" });
   assert.deepEqual(req.output_config, { effort: "high" });
   assert.ok(!("budget_tokens" in req), "must not use the deprecated budget_tokens param");

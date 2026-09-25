@@ -418,8 +418,11 @@ function dailyDigest() {
   lines.push('');
   lines.push('Pending review (' + (data.pending || []).length + '):');
   (data.pending || []).forEach(function (p) {
+    // The model's `why` says "Posted: ..." when it voted post and the GATE held it, so the
+    // digest names what is actually blocking (2026-09-25: three "Posted:" lines under Pending).
+    var held = (p.gate_reasons || []).length ? 'held: ' + p.gate_reasons.join(', ') + ' - ' : '';
     lines.push('  ' + (p.vendor || '(unknown vendor)') + ' - $' + centsToDollars_(p.receipt_total_cents) +
-      ' - ' + (p.why || '(no reason given)'));
+      ' - ' + held + (p.why || '(no reason given)'));
   });
   if ((data.errors || []).length) {
     lines.push('');

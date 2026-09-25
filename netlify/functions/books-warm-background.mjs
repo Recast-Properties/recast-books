@@ -11,9 +11,12 @@ const WARM_TIMEOUT_MS = 120 * 1000;
 // Errored documents that never got as far as the model (a cold-writer 502 on the
 // pre-read, a Blobs hiccup) are retried here, on the poller's 15-min cadence: the
 // poller labelled the thread books-done at upload time, so nothing else ever re-sends
-// them (audit 2026-09-16: an Uber Eats doc sat in `error` for three days). Only when
-// nothing happened yet - no `model` means no Drive file, no void, no post - and at
-// most MAX_AUTO_RETRIES times; anything else waits for the Inbox's Reprocess verb.
+// them (audit 2026-09-16: an Uber Eats doc sat in `error` for three days). A doc with
+// no `model` is read again; one whose read is stored (a writer hiccup after the model
+// ran - "no rows", a doGet misfire, a timeout: three Anthropic receipts 2026-09-21/25)
+// is re-posted from that read (fromStored, $0). Both go back through the gate, and a
+// replay of an entry that did land is refused by the writer as a DUPLICATE. At most
+// MAX_AUTO_RETRIES times each.
 export const MAX_AUTO_RETRIES = 2;
 
 export async function retryErroredDocs(origin, docsStore) {
@@ -22,7 +25,8 @@ export async function retryErroredDocs(origin, docsStore) {
   const retried = [];
   for (const b of blobs || []) {
     const env = await docsStore.get(b.key, { type: "json" });
-    if (!env || env.status !== "error" || env.model || (env.retries || 0) >= MAX_AUTO_RETRIES) continue;
+    if (!env || env.status !== "error" || (env.retries || 0) >= MAX_AUTO_RETRIES) continue;
+    const fromStored = !!(env.model && env.model.verdict);
     const now = new Date().toISOString();
     const reset = { ...env, status: "processing", startedAt: now, finishedAt: "", error: "", gate: null, result: null, retries: (env.retries || 0) + 1 };
     await docsStore.setJSON(b.key, reset);
@@ -30,7 +34,7 @@ export async function retryErroredDocs(origin, docsStore) {
       const res = await fetch(`${origin}/api/ingest-bg`, {
         method: "POST",
         headers: { "content-type": "application/json", "x-poller-secret": process.env.POLLER_SECRET },
-        body: JSON.stringify({ docId: env.docId, reprocess: true }),
+        body: JSON.stringify(fromStored ? { docId: env.docId, fromStored: true } : { docId: env.docId, reprocess: true }),
       });
       if (res.status !== 202 && res.status !== 200) throw new Error(`ingest-bg invocation returned HTTP ${res.status}`);
       retried.push(env.docId);
