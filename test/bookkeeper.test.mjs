@@ -52,6 +52,7 @@ const DECIDE_INPUT = {
   verdict: "post",
   confidence: "high",
   why: "Zoomed the total, reconciled to the cent, checked read_ledger for a twin.",
+  checked: "Zoomed the total (crisp: 212.40); 1 item = subtotal; read_ledger 90d: no Home Depot 212.40; search_docs: none.",
   document_type: "receipt",
   vendor: "Home Depot",
   date: "2026-09-05",
@@ -344,6 +345,7 @@ test("a full zoom -> read_ledger -> decide loop executes every tool and returns 
 
   assert.equal(result.model.verdict, "post");
   assert.equal(result.model.vendor, "Home Depot");
+  assert.equal(result.model.checked, DECIDE_INPUT.checked, "the verification record is kept, not dropped");
   assert.equal(result.model.receipt_total_cents, 21240);
   assert.equal(result.model.entries.length, 1);
   assert.equal(result.model.entries[0].items[0].account, "1030");

@@ -960,3 +960,9 @@ Two same-day Anthropic 10.07 top-ups on 09-17 are different receipt numbers, bot
 Three of today's four hand repairs were exactly this. `confirmPosted` is injected like `recheckDuplicate`.
 `scripts/mark-envelope.mjs` stays for the rest. 467 tests.
 
+**`checked` was being dropped (same day).** Paul, on the Energy Texas $128.70 hold: *"i'm paying quite a bit
+for the claude api to reason this stuff out. you can reason it out. why cant the api?"* It did: the decide
+call carried a full `checked` record every time (the transcript shows it), and `normalizeDecide` never copied
+it into the stored model - since the field was introduced on 2026-09-22. The Inbox's "Claude's read" and the
+digest showed only the one-line `why`. Kept now (capped at 4,000 chars). 467 tests.
+
