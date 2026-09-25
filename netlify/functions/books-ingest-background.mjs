@@ -36,6 +36,7 @@ import {
 import { runBookkeeper } from "../../lib/bookkeeper.mjs";
 import { evaluateGate, buildEntriesFromModel, findDuplicate } from "../../lib/gate.mjs";
 import { toCents } from "../../lib/money.mjs";
+import { LOST_REPLY } from "../../lib/writer-client.mjs";
 import Anthropic from "@anthropic-ai/sdk";
 
 const LEDGER_WINDOW_DAYS = 60;
@@ -426,6 +427,14 @@ export default async (req) => {
       // rebuild, which runs inside the writer's lock; the tabs are rebuilt once at the end.
       writer: fromStored ? { ...writer, postBatch: (entries) => writer.postBatch(entries, { skipRefresh: true }) } : writer,
       docsStore,
+      // A lost reply on postBatch (doGet misfire, non-JSON, dropped connection) usually
+      // means the write landed - HILCO, 10.44, 31.09 on 2026-09-25 were all on the Journal
+      // with envelopes saying error. Ask the Journal for the txn_ids before giving up.
+      confirmPosted: async (txnIds, since) => {
+        const fresh = await readTab(writer, "Journal", { fresh: true, since, limit: 20000, timeoutMs: 120000 });
+        const seen = new Set(flattenJournalLines(fresh.headers, fresh.rows).map((l) => l.txn_id));
+        return txnIds.every((t) => seen.has(t));
+      },
       // Fresh ledger read (no cache) so a copy processed in parallel is caught.
       recheckDuplicate: async (m) => {
         const fresh = await readTab(writer, "Journal", { fresh: true, since: isoDaysAgo(LEDGER_WINDOW_DAYS), limit: 20000, timeoutMs: 120000 });
@@ -472,6 +481,7 @@ export async function processDecision({
   gateResult,
   ctx,
   recheckDuplicate,
+  confirmPosted,
   writer,
   docsStore,
 }) {
@@ -564,6 +574,20 @@ export async function processDecision({
         finishedAt: new Date().toISOString(),
       });
     } catch (err) {
+      // The reply to postBatch was lost, not refused: the entries are usually on the
+      // Journal already. Confirm there and record the post; if they are not, fall through
+      // to the error so the warm job replays it.
+      if (err instanceof WriterError && LOST_REPLY.has(err.code) && entries?.length && typeof confirmPosted === "function") {
+        const since = entries.map((e) => e.date).sort()[0];
+        if (await confirmPosted(entries.map((e) => e.txn_id), since)) {
+          await invalidateJournalCache(writer);
+          return save({
+            status: "posted",
+            result: { txn_ids: entries.map((e) => e.txn_id), rows: null, doc_url },
+            finishedAt: new Date().toISOString(),
+          });
+        }
+      }
       // The writer refused an invoice-keyed txn_id inside its lock: the same vendor
       // invoice is already posted (a twin processed in parallel beat this one). D-012
       // rule 3 - a duplicate by invoice number is dismissed by code.

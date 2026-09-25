@@ -955,3 +955,8 @@ Deployed at 14:38 CT and re-ran the queue. Three faults in that hour, all measur
 
 Two same-day Anthropic 10.07 top-ups on 09-17 are different receipt numbers, both real. 466 tests.
 
+**Lost-reply fix (same day):** a postBatch whose reply is lost (`REDIRECT_MISFIRE`, `BAD_RESPONSE`,
+`NETWORK_ERROR`) now asks the Journal for its txn_ids before erroring; found -> posted, with the Drive link.
+Three of today's four hand repairs were exactly this. `confirmPosted` is injected like `recheckDuplicate`.
+`scripts/mark-envelope.mjs` stays for the rest. 467 tests.
+

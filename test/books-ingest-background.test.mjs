@@ -395,6 +395,36 @@ test("postBatch DUPLICATE/PERIOD_CLOSED downgrades to pending with the reason re
   assert.ok(result.gate.reasons.some((r) => r.includes("DUPLICATE")));
 });
 
+test("a lost postBatch reply is confirmed against the Journal and recorded as posted", { skip }, async () => {
+  const { WriterError } = await import("../lib/writer-client.mjs");
+  const envelope = await seedEnvelope({ docId: "gm-lost" });
+  const store = getDocsStore();
+  await store.set("att/gm-lost/0", Buffer.from("hi").toString("base64"), { metadata: {} });
+  const writer = {
+    storeDocument: async () => ({ fileId: "f1", url: "https://drive/x", folderUrl: "https://drive/folder" }),
+    postBatch: async () => { throw new WriterError("REDIRECT_MISFIRE", "the reply came from doGet"); },
+  };
+  const asked = [];
+  const result = await processDecision({
+    envelope, docId: "gm-lost", model: postModel(), transcript_summary: [], usage: {}, gateResult: PASS_GATE, ctx: baseCtx(),
+    writer, docsStore: store,
+    confirmPosted: async (ids, since) => { asked.push({ ids, since }); return true; },
+  });
+  assert.equal(result.status, "posted");
+  assert.equal(asked.length, 1);
+  assert.deepEqual(result.result.txn_ids, asked[0].ids);
+  assert.equal(result.result.doc_url, "https://drive/x");
+
+  // Not on the Journal: the original error surfaces, so the warm job replays it.
+  const envelope2 = await seedEnvelope({ docId: "gm-lost2" });
+  await store.set("att/gm-lost2/0", Buffer.from("hi").toString("base64"), { metadata: {} });
+  await assert.rejects(
+    processDecision({ envelope: envelope2, docId: "gm-lost2", model: postModel(), transcript_summary: [], usage: {}, gateResult: PASS_GATE, ctx: baseCtx(),
+      writer, docsStore: store, confirmPosted: async () => false }),
+    (e) => e.code === "REDIRECT_MISFIRE",
+  );
+});
+
 test("writer DUPLICATE on an invoice-numbered receipt dismisses as a duplicate (twin beat it)", { skip }, async () => {
   const { WriterError } = await import("../lib/writer-client.mjs");
   const envelope = await seedEnvelope({ docId: "gm-dup-inv" });
