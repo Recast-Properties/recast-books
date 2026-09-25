@@ -40,6 +40,11 @@ import { LOST_REPLY } from "../../lib/writer-client.mjs";
 import Anthropic from "@anthropic-ai/sdk";
 
 const LEDGER_WINDOW_DAYS = 60;
+// The "fresh" Journal read is a whole-tab read through Apps Script (2,400 rows on
+// 2026-09-25), and the writer serialises it behind the warm job's refresh of every tab
+// and any other ingest. At 120 s the Atmos re-read timed out four times in a row; a
+// background function has 15 min, so the read gets five.
+const JOURNAL_READ_TIMEOUT_MS = 300000;
 const DOC_SEARCH_CAP = 40;
 const DOC_ID_RE = /^[A-Za-z0-9_-]{1,200}$/;
 // A postBatch/void failure with one of these codes is a client-fixable conflict
@@ -308,7 +313,7 @@ export default async (req) => {
     // (phase2.5-spec.md section 2).
     const [ctx, journalResp, vendorRows, settings] = await Promise.all([
       getPostingCtx(writer),
-      readTab(writer, "Journal", { fresh: true, since: isoDaysAgo(LEDGER_WINDOW_DAYS), limit: 20000, timeoutMs: 120000 }),
+      readTab(writer, "Journal", { fresh: true, since: isoDaysAgo(LEDGER_WINDOW_DAYS), limit: 20000, timeoutMs: JOURNAL_READ_TIMEOUT_MS }),
       loadVendorRows(writer),
       loadSettingsMap(writer),
     ]);
@@ -431,13 +436,13 @@ export default async (req) => {
       // means the write landed - HILCO, 10.44, 31.09 on 2026-09-25 were all on the Journal
       // with envelopes saying error. Ask the Journal for the txn_ids before giving up.
       confirmPosted: async (txnIds, since) => {
-        const fresh = await readTab(writer, "Journal", { fresh: true, since, limit: 20000, timeoutMs: 120000 });
+        const fresh = await readTab(writer, "Journal", { fresh: true, since, limit: 20000, timeoutMs: JOURNAL_READ_TIMEOUT_MS });
         const seen = new Set(flattenJournalLines(fresh.headers, fresh.rows).map((l) => l.txn_id));
         return txnIds.every((t) => seen.has(t));
       },
       // Fresh ledger read (no cache) so a copy processed in parallel is caught.
       recheckDuplicate: async (m) => {
-        const fresh = await readTab(writer, "Journal", { fresh: true, since: isoDaysAgo(LEDGER_WINDOW_DAYS), limit: 20000, timeoutMs: 120000 });
+        const fresh = await readTab(writer, "Journal", { fresh: true, since: isoDaysAgo(LEDGER_WINDOW_DAYS), limit: 20000, timeoutMs: JOURNAL_READ_TIMEOUT_MS });
         return findDuplicate(m, buildPostedEntries(flattenJournalLines(fresh.headers, fresh.rows)));
       },
     });
