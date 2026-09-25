@@ -14,6 +14,7 @@ const KEY = {
   token_uri: "https://oauth2.googleapis.com/token",
 };
 const KEY_B64 = Buffer.from(JSON.stringify(KEY)).toString("base64");
+const KEY_COMPACT = JSON.stringify({ client_email: KEY.client_email, private_key: KEY.private_key });
 
 function fakeSheets(valuesByTab) {
   const calls = { token: 0, reads: [] };
@@ -56,7 +57,7 @@ test("read returns {ok, headers, rows} padded to the header width, one token for
     Periods: [["period", "status", "closed_at"], [46266, "open"]],
   });
   let now = 1_000_000;
-  const reader = createSheetsReader({ key: KEY_B64, spreadsheetId: "sheet1", fetchImpl, now: () => now });
+  const reader = createSheetsReader({ key: KEY_COMPACT, spreadsheetId: "sheet1", fetchImpl, now: () => now }); // the two-field form, token_uri defaulted
   const j = await reader.read("Journal");
   assert.deepEqual(j, { ok: true, headers: ["txn_id", "date", "debit", "credit", "posted_at", "memo"], rows: [["t1", "2026-09-25", 12.5, "", "2026-09-25T18:00:00", ""], ["", "", "", "", "", ""]] });
   const p = await reader.read("Periods");
