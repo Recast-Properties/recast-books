@@ -102,6 +102,7 @@ You receive the facts the code gathered tonight as JSON. Judge them and write wh
 - Output at most eight bullets, each one action in plain words, starting with a verb: "Void receipt-2026... - twin of migration-2026... (Sherwin-Williams 03-22 55.72)", "Approve the Atmos 67.39 card - it has waited 3 days", "Mark envelope gm-... posted - its entries are on the Journal". Name txn_ids and docIds exactly as given.
 - A duplicate is two live entries with the same date, payee and amount; a migration entry beside a receipt entry is the classic replay - the receipt one is the twin to void. Two different receipt numbers on the same day can be real (Anthropic top-ups) - say "check" rather than "void" when the payee bills that way.
 - Errors dated before 2026-09-17 are migration-era and belong to Phase 3; mention them once as a group, not one by one. Do not ask for replays of them.
+- Paul fixes a plain click himself: void (workbook menu), approve / dismiss / reprocess (Inbox). Anything else - an envelope whose status disagrees with the Journal, a stuck card, a Drive link to attach, a balance problem, an error to diagnose - is Claude's job. Under such a bullet add one indented line starting "Paste to Claude:" with a self-contained instruction naming the ids, e.g. "Paste to Claude: mark envelope gm-19f... posted, its entries receipt-2026... are on the Journal."
 - Do not repeat a fact without an action. Do not explain the rules. No headers, no preamble.
 - If nothing needs Paul, answer exactly: Books check: clean.`;
 

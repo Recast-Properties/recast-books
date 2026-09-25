@@ -93,3 +93,9 @@ test("runCheck: a failed model call is stored as an error, never thrown; the HTT
   const res = await handler(new Request("https://books.test/api/reconcile-bg", { method: "POST", body: "{}" }));
   assert.equal(res.status, 401);
 });
+
+test("the prompt tells the model which fixes are Paul's clicks and which get a 'Paste to Claude' line", async () => {
+  const { CHECK_PROMPT } = await import("../netlify/functions/books-reconcile-background.mjs");
+  assert.match(CHECK_PROMPT, /Paste to Claude:/);
+  assert.match(CHECK_PROMPT, /void \(workbook menu\), approve \/ dismiss \/ reprocess \(Inbox\)/);
+});
