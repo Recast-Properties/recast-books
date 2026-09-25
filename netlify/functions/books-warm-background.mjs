@@ -18,6 +18,12 @@ const WARM_TIMEOUT_MS = 120 * 1000;
 // replay of an entry that did land is refused by the writer as a DUPLICATE. At most
 // MAX_AUTO_RETRIES times each.
 export const MAX_AUTO_RETRIES = 2;
+// Only mail the live pollers brought in. Migration-era envelopes (read on staging
+// 2026-09-17/18, errored there) sat in `error` too, and the first run of the stored-read
+// replay on 2026-09-25 posted two of them onto the real books - one a twin of a migrated
+// row that the 60-day duplicate window could not see (Sherwin-Williams 03-22, voided).
+export const RETRY_SINCE = "2026-09-17";
+export const MAX_RETRIES_PER_RUN = 2; // the writer serialises reads; a burst of replays times them all out
 
 export async function retryErroredDocs(origin, docsStore) {
   // ponytail: full scan of doc/* every run; index error docs if the store grows past a few hundred
@@ -25,7 +31,9 @@ export async function retryErroredDocs(origin, docsStore) {
   const retried = [];
   for (const b of blobs || []) {
     const env = await docsStore.get(b.key, { type: "json" });
+    if (retried.length >= MAX_RETRIES_PER_RUN) break;
     if (!env || env.status !== "error" || (env.retries || 0) >= MAX_AUTO_RETRIES) continue;
+    if (String(env.receivedAt || env.startedAt || "").slice(0, 10) < RETRY_SINCE) continue;
     const fromStored = !!(env.model && env.model.verdict);
     const now = new Date().toISOString();
     const reset = { ...env, status: "processing", startedAt: now, finishedAt: "", error: "", gate: null, result: null, retries: (env.retries || 0) + 1 };

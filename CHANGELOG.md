@@ -936,3 +936,22 @@ thursday ... these should have been softballs."* Read every pending and errored 
 Commits `904c75f` + this one. Needs `npm run deploy` (prompt, gate, cap, warm retry), `clasp push` for the
 poller (digest) and the writer (`lib.gs`).
 
+## 2026-09-25 (later) - The first replay run: what it broke, what it posted twice, and the fixes
+
+Deployed at 14:38 CT and re-ran the queue. Three faults in that hour, all measured:
+
+- **32,000 `max_tokens` made the SDK refuse the call** ("Streaming is required for operations that may take
+  longer than 10 minutes" - the non-streaming limit is about 21k). Five reads errored on it. Cap is **16,000**.
+- **The warm job replayed every errored envelope at once, migration-era ones included.** Seven of the nine
+  entries it posted were right (four 09-17 Anthropic top-ups, HILCO 56.03, FedEx 2.36, Anthropic 10.44). Two
+  were **twins of migrated rows outside the 60-day duplicate window**: Sherwin-Williams 03-22 55.72
+  (`receipt-20260322-1b60424fd494` = `migration-20260322-bbe93baf0aba`) and Keith Ace 06-28 10.81
+  (`receipt-20260628-e15fc6c07678` = `migration-20260628-7782f5813d2d`). Both voided by Paul. The replay now
+  takes only mail received on/after 2026-09-17 (`RETRY_SINCE`) and at most two per run.
+- **The writer timed out under the burst** (six re-reads plus the replays, each five writer calls): four
+  "read of Journal timed out", two doGet misfires *after* the write landed - HILCO and the 10.44 receipt are
+  on the Journal but their envelopes read dismissed/error. `scripts/mark-envelope.mjs` sets an envelope's
+  status by hand for exactly this case; re-runs are now spaced 75 s apart.
+
+Two same-day Anthropic 10.07 top-ups on 09-17 are different receipt numbers, both real. 466 tests.
+

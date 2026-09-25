@@ -49,8 +49,10 @@ test("warm-bg refreshes every tab into the cache; a failing tab is reported, not
 
 test("retryErroredDocs re-reads error docs with no read and re-posts those with one, at most MAX_AUTO_RETRIES times", async () => {
   const docs = memDocsStore([
-    { docId: "gm-a", status: "error", error: "Writer returned a non-JSON response", model: null },
-    { docId: "gm-b", status: "error", error: "boom after the model ran", model: { verdict: "post" } },
+    { docId: "gm-0", status: "error", error: "read on staging", receivedAt: "2026-03-22T10:00:00.000Z", model: { verdict: "post" } },
+    { docId: "gm-a", status: "error", error: "Writer returned a non-JSON response", receivedAt: "2026-09-21T10:00:00.000Z", model: null },
+    { docId: "gm-b", status: "error", error: "boom after the model ran", receivedAt: "2026-09-25T10:00:00.000Z", model: { verdict: "post" } },
+    { docId: "gm-e", status: "error", error: "third in line", receivedAt: "2026-09-25T11:00:00.000Z", model: null },
     { docId: "gm-c", status: "error", error: "still broken", model: null, retries: MAX_AUTO_RETRIES },
     { docId: "gm-d", status: "pending", model: null },
   ]);
@@ -71,11 +73,13 @@ test("retryErroredDocs re-reads error docs with no read and re-posts those with 
   assert.equal(docs.items.get("doc/gm-b").status, "processing", "a doc whose read is stored is re-posted from it");
   assert.equal(docs.items.get("doc/gm-b").model.verdict, "post", "the stored read is kept for the replay");
   assert.equal(docs.items.get("doc/gm-c").status, "error", "a doc at the retry cap is left alone");
+  assert.equal(docs.items.get("doc/gm-0").status, "error", "a migration-era doc is never replayed");
+  assert.equal(docs.items.get("doc/gm-e").status, "error", "at most MAX_RETRIES_PER_RUN per run");
   assert.equal(docs.items.get("doc/gm-d").status, "pending");
 });
 
 test("retryErroredDocs records a failed re-invocation as error again, keeping the retry count", async () => {
-  const docs = memDocsStore([{ docId: "gm-a", status: "error", error: "x", model: null }]);
+  const docs = memDocsStore([{ docId: "gm-a", status: "error", error: "x", receivedAt: "2026-09-25T10:00:00.000Z", model: null }]);
   globalThis.fetch = async () => new Response("", { status: 500 });
   const retried = await retryErroredDocs("https://books.test", docs);
   assert.deepEqual(retried, []);
