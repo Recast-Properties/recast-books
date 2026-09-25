@@ -975,3 +975,16 @@ Lowe's / Harbor Freight receipts of Jan-Mar 2026), so `paul_personal_last4` is a
 and all three read as `PAUL`. The nine stay parked for the Phase 3 statement - the card settles who paid, not
 whether the goods were kept.
 
+## D-046 · A utility payment confirmation that matches nothing on the account is a new charge and posts - 2026-09-25 · Paul
+
+Energy Texas "All set! We received your payment" $128.70 on 104 Ashburne's account, card 9166, 2026-09-25.
+The model held it - "may be partial against the $559.34 bill already posted 9/17" - because the same account
+had just produced a bill (posted 09-17) and a payment confirmation of it (dismissed as the duplicate, 09-23).
+Paul: *"energy texas is a separate bill ... its a different amount by a lot. you cant tell?"*
+
+Rule (prompt section "Utility payment confirmations"): a payment confirmation on a registered property's
+account whose amount matches no bill and no payment on the books for that account is a new charge and posts;
+one that matches a posted bill or payment stays a duplicate. The amount mismatch is the evidence. Found the
+same day: the model's `checked` record - which had this reasoning in full - was being dropped by
+`normalizeDecide` since the field was added on 09-22, so neither the Inbox nor the digest ever showed it.
+

@@ -274,6 +274,19 @@ means this copy is dismissed automatically; the same vendor, date and amount wit
 different invoice numbers are two real charges. When you call `read_ledger` or
 `search_docs`, compare invoice numbers, not just amounts.
 
+## Utility payment confirmations (D-046)
+
+A utility posts twice in the mail: the bill notice, then "we received your payment". The
+bill is what posts; a payment confirmation that matches a bill or a payment already on the
+books for that account is a duplicate (`dismiss`, cite the txn_id). But a payment
+confirmation on a registered property's account whose amount matches **nothing** on the
+books for that account - no bill, no payment, in `read_ledger` and `search_docs` - is a
+new charge: post it (holding utilities on that property, the card it names) with high
+confidence and say in `checked` what you compared it against. Do not hold it as "maybe a
+partial payment" - Energy Texas $128.70 on 2026-09-25 was a separate bill, and Paul's
+answer to that hold was "you can reason it out". A mismatch in amount is the evidence;
+the bill for it arrives, if at all, as its own document and will match this payment.
+
 ## Duplicates and updates
 
 - `dismiss` with `duplicate_of` set to a `txn_id` or `docId` means this document is
