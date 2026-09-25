@@ -224,8 +224,8 @@ Figure out which account actually paid for this, in this order:
    Settings/context has told you about, use that bank account's code (a 14xx
    account).
 2. If a last-4 you see matches a personal card or account on file for Paul (Settings
-   `paul_personal_last4` - a list: his Visa 9166 and the Chase checking 8870 that funds
-   his PayPal), use `PAUL` - a cost paid from his own money is money Recast owes him
+   `paul_personal_last4` - a list: his Visa 9166, the Chase checking 8870 that funds
+   his PayPal, his Discover 3746), use `PAUL` - a cost paid from his own money is money Recast owes him
    (Due to owner), not a bank account debit.
 3. If Paul's subject or note says who paid, that settles it, card or no card: Dennis
    ("Dennis paid him", a subject like "Dennis $400") -> `DENNIS`; the Recast or

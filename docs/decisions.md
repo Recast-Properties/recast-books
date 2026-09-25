@@ -970,5 +970,8 @@ were all PAUL. A visible card or a note still wins; a split history is no preced
 `UNKNOWN` as before. Prompt rule 5 in `lib/bookkeeper-prompt.md`; no gate change.
 
 Also recorded: **Chase checking ending 8870 is Paul's personal account** (it funds his PayPal - Adobe 09-23
-showed it), so `paul_personal_last4` is a list, `9166, 8870`, and both read as `PAUL`.
+showed it) and **Discover ending 3746 is his personal credit card** (the tender on the nine parked Home Depot /
+Lowe's / Harbor Freight receipts of Jan-Mar 2026), so `paul_personal_last4` is a list, `9166, 8870, 3746`,
+and all three read as `PAUL`. The nine stay parked for the Phase 3 statement - the card settles who paid, not
+whether the goods were kept.
 
