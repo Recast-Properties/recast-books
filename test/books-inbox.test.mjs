@@ -75,8 +75,8 @@ beforeEach(() => {
       writerCalls.push(body);
       return { status: 200, text: async () => JSON.stringify(writerRouter(body)) };
     }
-    if (u === "https://books.test/api/ingest-bg") {
-      ingestCalls.push({ body: JSON.parse(opts.body), headers: opts.headers });
+    if (u === "https://books.test/api/ingest-bg" || u === "https://books.test/api/approve-bg") {
+      ingestCalls.push({ url: u, body: JSON.parse(opts.body), headers: opts.headers });
       return new Response(JSON.stringify({ docId: JSON.parse(opts.body).docId }), { status: 202 });
     }
     return docsStore.fetchImpl(url, opts);
@@ -259,29 +259,35 @@ test("approve is owner-only", { skip }, async () => {
   assert.equal(res.status, 403);
 });
 
-test("approve: files to Drive (never filed while pending), builds entries, posts, records review", { skip }, async () => {
+test("approve: builds entries, marks the envelope posting with them, fires approve-bg, answers 202", { skip }, async () => {
   await seedEnvelope("gm-approve2");
   const store = getDocsStore();
-  await store.set("att/gm-approve2/0", Buffer.from("hi").toString("base64"), { metadata: { contentType: "image/jpeg" } });
-  // envelope.attachments is empty in the fixture above, so storeAttachmentsToDrive
-  // (which reads envelope.attachments) has nothing to file - approve should still
-  // succeed (doc_url stays ""), matching a receipt with no stored attachment key.
 
-  const res = await handler(req("POST", { token: session("owner"), body: { action: "approve", docId: "gm-approve2" } }));
-  assert.equal(res.status, 200);
+  const res = await handler(req("POST", { token: session("owner"), body: { action: "approve", docId: "gm-approve2", note: "ok" } }));
+  assert.equal(res.status, 202);
   const body = await res.json();
-  assert.equal(body.status, "posted");
+  assert.equal(body.status, "posting");
   assert.equal(body.txn_ids.length, 1);
 
   const envelope = await store.get("doc/gm-approve2", { type: "json" });
-  assert.equal(envelope.status, "posted");
-  assert.equal(envelope.review.action, "approve");
-  assert.equal(envelope.review.by, "owner@recast-properties.com");
+  assert.equal(envelope.status, "posting");
+  assert.equal(envelope.posting_entries.length, 1);
+  assert.equal(envelope.posting_entries[0].posted_by, "owner@recast-properties.com");
+  assert.equal(envelope.posting_entries[0].lines.some((l) => l.account === "1030"), true);
 
-  const postCall = writerCalls.find((c) => c.action === "postBatch");
-  assert.ok(postCall, "postBatch was not called");
-  assert.equal(postCall.entries[0].posted_by, "owner@recast-properties.com");
-  assert.equal(postCall.entries[0].lines.some((l) => l.account === "1030"), true);
+  assert.equal(writerCalls.some((c) => c.action === "postBatch"), false, "the sync verb never posts");
+  const bg = ingestCalls.find((c) => c.url.endsWith("/api/approve-bg"));
+  assert.ok(bg, "approve-bg was not fired");
+  assert.equal(bg.headers["x-poller-secret"], "poller-secret");
+  assert.deepEqual(bg.body.folder, ["2026", "881 Newport"]);
+  assert.equal(bg.body.by, "owner@recast-properties.com");
+  assert.equal(bg.body.note, "ok");
+});
+
+test("approve: a second click while posting -> 409", { skip }, async () => {
+  await seedEnvelope("gm-approve2b", { status: "posting", posting_at: new Date().toISOString(), posting_entries: [] });
+  const res = await handler(req("POST", { token: session("owner"), body: { action: "approve", docId: "gm-approve2b" } }));
+  assert.equal(res.status, 409);
 });
 
 test("approve honors human-edited entries over the model's original proposal", { skip }, async () => {
@@ -300,29 +306,23 @@ test("approve honors human-edited entries over the model's original proposal", {
   const res = await handler(
     req("POST", { token: session("owner"), body: { action: "approve", docId: "gm-approve3", entries: editedEntries } }),
   );
-  assert.equal(res.status, 200);
+  assert.equal(res.status, 202);
 
-  const postCall = writerCalls.find((c) => c.action === "postBatch");
-  const debitLine = postCall.entries[0].lines.find((l) => l.account === "1030");
+  const envelope = await getDocsStore().get("doc/gm-approve3", { type: "json" });
+  const debitLine = envelope.posting_entries[0].lines.find((l) => l.account === "1030");
   assert.equal(debitLine.debit, 5000);
 });
 
-test("approve maps a DUPLICATE from postBatch to 409", { skip }, async () => {
+test("approve: approve-bg unreachable -> 502 and the envelope is back to pending", { skip }, async () => {
   await seedEnvelope("gm-approve4");
+  const inner = globalThis.fetch;
   globalThis.fetch = async (url, opts) => {
-    const u = String(typeof url === "string" ? url : url.url);
-    if (u === "https://writer.test/exec") {
-      const body = JSON.parse(opts.body);
-      if (body.action === "postBatch") {
-        return { status: 200, text: async () => JSON.stringify({ ok: false, error: "DUPLICATE", message: "already posted" }) };
-      }
-      return { status: 200, text: async () => JSON.stringify(writerRouter(body)) };
-    }
-    return docsStore.fetchImpl(url, opts);
+    if (String(url).endsWith("/api/approve-bg")) return new Response("nope", { status: 500 });
+    return inner(url, opts);
   };
-
   const res = await handler(req("POST", { token: session("owner"), body: { action: "approve", docId: "gm-approve4" } }));
-  assert.equal(res.status, 409);
+  assert.equal(res.status, 502);
+  assert.equal((await getDocsStore().get("doc/gm-approve4", { type: "json" })).status, "pending");
 });
 
 test("approve with no entries anywhere -> 400", { skip }, async () => {

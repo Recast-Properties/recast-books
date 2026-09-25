@@ -994,3 +994,14 @@ Not yet done, waiting on the flip: `JOURNAL_READ_TIMEOUT_MS` back to 60 s, `MAX_
 Paul's steps (one per message): service account + JSON key in the site's Cloud project, Sheets API enabled,
 share the workbook with its email as Viewer, run the tie-out, then `netlify env:set --context production`
 for `SHEETS_SA_KEY` (base64 of the key file) and `SPREADSHEET_ID`, then deploy. 470 tests.
+
+## 2026-09-25 (evening) - The plan, part 2: approve posts in the background
+
+`approve` did Drive filing + postBatch + the envelope in one synchronous function; Netlify's proxy cuts that
+off at ~26 s and did so twice on 09-25 (Energy Texas, Atmos), both times AFTER the write landed, leaving the
+envelope at `posting`. Now `/api/inbox approve` validates, builds the entries, stores them on the envelope as
+`posting_entries` with status `posting`, fires **`/api/approve-bg`** (`books-approve-background.mjs`, poller
+secret, the settlement-bg pattern) and answers **202**. The job files the attachments, posts, writes the
+envelope, and on a lost reply confirms the txn_ids on the Journal like ingest does; a refusal (DUPLICATE,
+PERIOD_CLOSED, …) puts the card back in Pending with the reason. The web Inbox polls the card until it leaves
+`posting`. Menu.gs's in-process `inboxApprove` never used HTTP and is untouched. 475 tests.

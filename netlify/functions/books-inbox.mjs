@@ -1,7 +1,7 @@
 // netlify/functions/books-inbox.mjs — path /api/inbox — phase2-spec.md section 5
 //   GET  /api/inbox?status=pending|posted|dismissed|dry|error|all&limit=
 //     -> {envelopes:[...]} newest first, no attachment bytes (any signed-in role)
-//   POST /api/inbox {action:"approve", docId, entries?, note?}    (owner)
+//   POST /api/inbox {action:"approve", docId, entries?, note?}    (owner) -> 202, posts in /api/approve-bg
 //   POST /api/inbox {action:"dismiss", docId, note}               (owner)
 //   POST /api/inbox {action:"reprocess", docId}                   (owner)
 //   POST /api/inbox {action:"repost", docId}                      (owner/poller; D-025, re-post from the stored read)
@@ -19,30 +19,17 @@ import {
   getWriter,
   getDocsStore,
   getPostingCtx,
-  invalidateJournalCache,
   getSessionPayload,
   requireRole,
   authErrorResponse,
   todayChicago,
-  storeAttachmentsToDrive,
   pollerSecretOk,
-  WriterError,
 } from "./_shared.mjs";
 import { buildEntriesFromModel } from "../../lib/gate.mjs";
 
 const STATUSES = new Set(["pending", "posted", "dismissed", "dry", "error", "processing"]);
 const DELETABLE_STATUSES = new Set(["dry", "error"]);
 const DOC_ID_RE = /^[A-Za-z0-9_-]{1,200}$/;
-const CONFLICT_CODES = new Set(["DUPLICATE", "PERIOD_CLOSED", "ALREADY_VOIDED"]);
-const NOT_FOUND_CODES = new Set(["NOT_FOUND"]);
-
-function writerErrorResponse(err) {
-  if (err instanceof WriterError) {
-    const status = CONFLICT_CODES.has(err.code) ? 409 : NOT_FOUND_CODES.has(err.code) ? 404 : 502;
-    return json(status, { error: err.code, message: err.message });
-  }
-  return json(502, { error: "WRITER_ERROR", message: String((err && err.message) || err) });
-}
 
 /** A thrown build error (PostingError-shaped: has .code) -> 422; anything else rethrows. */
 function buildErrorResponse(err) {
@@ -207,19 +194,9 @@ export default async (req) => {
         return json(502, { error: "WRITER_ERROR", message: String((err && err.message) || err) });
       }
 
-      // A pending item was never filed to Drive on the way in (only an auto-post or a
-      // dry run files - books-ingest-background.mjs); file it now, on approve, so an
-      // entry a human posts by hand still carries a doc_url. See this task's report.
-      let doc_url = envelope.result?.doc_url || "";
-      if (!doc_url) {
-        try {
-          const filed = await storeAttachmentsToDrive(writer, docsStore, envelope, approveFolderFor(entriesInput), modelSource);
-          doc_url = filed[0]?.url || "";
-        } catch (err) {
-          return json(502, { error: "WRITER_ERROR", message: String((err && err.message) || err) });
-        }
-      }
-
+      // Drive filing happens in the background job; the entries are built with the
+      // doc_url the envelope already has (an auto-filed dry run) or none, and the job fills it.
+      const doc_url = envelope.result?.doc_url || "";
       const modelForBuild = { ...modelSource, entries: entriesInput };
       let entries;
       try {
@@ -235,32 +212,32 @@ export default async (req) => {
       }
 
       // 2026-09-16: an approve ran past the function's timeout (504) after the writer
-      // had posted but before this envelope was marked, leaving a posted entry behind a
-      // still-pending card - and a second Approve would have posted it again (manual
-      // txn_ids carry a random suffix). So: mark "posting" first, refuse a re-entry,
-      // write the envelope the moment the writer answers, and refresh the cache last.
+      // had posted but before this envelope was marked - and a second Approve would have
+      // posted it again (manual txn_ids carry a random suffix). 2026-09-25: it happened
+      // twice more at the proxy's ~26 s. So the work is a background job now
+      // (books-approve-background.mjs): mark "posting" with the built entries, refuse a
+      // re-entry, fire the job, answer 202. The page polls the envelope.
       if (envelope.status === "posting" && Date.now() - Date.parse(envelope.posting_at || 0) < 5 * 60 * 1000) {
         return json(409, { error: "POSTING", message: "this document is already being posted; reload in a minute" });
       }
-      await docsStore.setJSON(`doc/${docId}`, { ...envelope, status: "posting", posting_at: new Date().toISOString() });
+      await docsStore.setJSON(`doc/${docId}`, { ...envelope, status: "posting", posting_at: new Date().toISOString(), posting_entries: entries });
 
-      let postResult;
+      const origin = new URL(req.url).origin;
+      let res;
       try {
-        postResult = await writer.postBatch(entries);
+        res = await fetch(`${origin}/api/approve-bg`, {
+          method: "POST",
+          headers: { "content-type": "application/json", "x-poller-secret": process.env.POLLER_SECRET },
+          body: JSON.stringify({ docId, folder: approveFolderFor(entriesInput), folderModel: modelSource, by, note: body.note || "" }),
+        });
       } catch (err) {
-        await docsStore.setJSON(`doc/${docId}`, envelope); // back to pending, nothing was written
-        return writerErrorResponse(err);
+        res = { status: 0, statusText: String((err && err.message) || err) };
       }
-
-      const updated = {
-        ...envelope,
-        status: "posted",
-        result: { txn_ids: entries.map((e) => e.txn_id), rows: postResult.rows, doc_url },
-        review: { action: "approve", by, at: new Date().toISOString(), note: body.note || "" },
-      };
-      await docsStore.setJSON(`doc/${docId}`, updated);
-      await invalidateJournalCache(writer);
-      return json(200, { docId, status: "posted", txn_ids: updated.result.txn_ids, rows: postResult.rows });
+      if (res.status !== 202 && res.status !== 200) {
+        await docsStore.setJSON(`doc/${docId}`, envelope); // back to pending, nothing was written
+        return json(502, { error: "APPROVE_INVOKE_FAILED", message: `approve-bg returned HTTP ${res.status} ${res.statusText || ""}`.trim(), docId });
+      }
+      return json(202, { docId, status: "posting", txn_ids: entries.map((e) => e.txn_id) });
     }
 
     if (body.action === "mark-posted") {

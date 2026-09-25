@@ -746,7 +746,7 @@ async function pollFocusDoc() {
       const resp = await api("inbox?status=all&limit=100");
       const list = resp.envelopes || resp.rows || resp.items || [];
       const env = list.find((e) => e.docId === docId);
-      if (!env || env.status === "processing") return; // keep polling
+      if (!env || env.status === "processing" || env.status === "posting") return; // keep polling
       resolved = true;
       if (inboxProcessingTimer) {
         clearInterval(inboxProcessingTimer);
@@ -1057,8 +1057,12 @@ async function approveDoc(docId) {
   try {
     await api("inbox", { method: "POST", body: { action: "approve", docId, entries } });
     delete inboxState.editing[docId];
-    inboxState.banner = { kind: "success", html: `Approved <code>${escapeHtml(docId)}</code>.` };
+    // The post itself runs in the background (books-approve-background.mjs); the card
+    // is "posting" until the envelope says posted (or is back in Pending with the reason).
+    inboxState.banner = { kind: "success", html: `Approved <code>${escapeHtml(docId)}</code> - posting…` };
     renderInboxBanner();
+    inboxState.focusDocId = docId;
+    pollFocusDoc();
     await loadInboxTab();
   } catch (err) {
     inboxState.banner = { kind: "error", html: errorBannerHtml(err) };
