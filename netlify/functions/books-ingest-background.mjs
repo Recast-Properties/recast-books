@@ -39,7 +39,12 @@ import { toCents } from "../../lib/money.mjs";
 import { LOST_REPLY } from "../../lib/writer-client.mjs";
 import Anthropic from "@anthropic-ai/sdk";
 
-const LEDGER_WINDOW_DAYS = 60;
+// 60 until 2026-09-25. The fresh read is whole-tab anyway (all:true, filtered here), so the
+// window costs nothing on the writer; at 60 days a monthly bill showed ONE prior payment, so
+// D-045's "three or more, all one payer" could never fire (Atmos 09-23 held on PAYER_UNKNOWN
+// with four PAUL payments just outside the window), and the twin rail could not see a March
+// row replayed in September (Sherwin-Williams, voided). A year sees both.
+const LEDGER_WINDOW_DAYS = 365;
 // The "fresh" Journal read is a whole-tab read through Apps Script (2,400 rows on
 // 2026-09-25), and the writer serialises it behind the warm job's refresh of every tab
 // and any other ingest. At 120 s the Atmos re-read timed out four times in a row; a

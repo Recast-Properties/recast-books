@@ -966,3 +966,8 @@ call carried a full `checked` record every time (the transcript shows it), and `
 it into the stored model - since the field was introduced on 2026-09-22. The Inbox's "Claude's read" and the
 digest showed only the one-line `why`. Kept now (capped at 4,000 chars). 467 tests.
 
+**Ledger window 60 -> 365 days (same day, not yet deployed).** Atmos 09-23, re-read after the 5-minute
+timeout, held on PAYER_UNKNOWN: "Atmos ledger history has a single migration row, so no D-045 payer
+precedent" - the four PAUL payments before it sat just outside 60 days. The fresh read is whole-tab anyway,
+so the window is free. `HANDOFF-2026-09-25.md` written. 467 tests.
+
