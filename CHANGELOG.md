@@ -912,3 +912,27 @@ line-level matcher cannot see an itemising replay, and a receipt with no exact l
 flagged. The parked Home Depot / Lowe's items must be checked by hand in Phase 3.
 
 465 tests. Pushed to the writer; no deploy.
+
+## 2026-09-25 - The Thursday softballs: why four clean reads sat in Pending, and what changed (D-044, D-045)
+
+Paul, on the 09-25 digest: *"there are receipts in there that the poller should have been able to figure out on
+thursday ... these should have been softballs."* Read every pending and errored envelope. None was a misread:
+
+- **HILCO $56.03** and **FedEx $2.36** - correct in every field, held on `confidence: "medium"` alone.
+  **D-044:** medium now posts when every other rail holds; low still holds.
+- **Atmos $67.39** - "Visa Debit", no digits; every prior Atmos payment was PAUL. **D-045:** unanimous vendor
+  precedent settles the payer when the document shows no card and Paul wrote no note (prompt rule 5).
+- **Adobe $34.49** - PayPal funded from "Chase checking 8870", on no account we knew. It is Paul's personal
+  account; `paul_personal_last4` becomes `9166, 8870` (Paul's Settings edit).
+- **The HILCO screenshot** and one Anthropic receipt - `max_tokens` at 8,000 mid-thought (adaptive thinking
+  counts against it). `MAX_TOKENS_PER_TURN` is 32,000. `checked` is now a required `decide` field, so a
+  medium/low read carries its reason.
+- **Three Anthropic receipts in `error`** (writer "no rows", a doGet misfire, a timeout) with good reads
+  stored, never retried because the warm job skipped anything with a `model`. It now replays those from the
+  stored read (`fromStored`, $0); a landed entry replayed is refused by the writer as a DUPLICATE.
+- The digest's pending lines read "Posted: ..." (the model's `why`); they now lead with what the gate held
+  the item on.
+
+Commits `904c75f` + this one. Needs `npm run deploy` (prompt, gate, cap, warm retry), `clasp push` for the
+poller (digest) and the writer (`lib.gs`).
+

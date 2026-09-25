@@ -137,7 +137,7 @@ draft `business_purpose` from the email but expect `hold` unless the purpose is 
 `evaluateGate(model, ctx, settings)` → `{ passed, reasons[] }`. Posts only when **all** hold
 (`docs/policies.md` conditions 1–7 plus the property/paid_from checks):
 
-1. `verdict === "post"` and `confidence === "high"`
+1. `verdict === "post"` and `confidence` is `"high"` or `"medium"` (D-044, 2026-09-25: medium posts when every other rail holds; `"low"` or missing holds)
 2. `vendor` and `date` present, date valid and not in the future
 3. every entry's items sum to the receipt total across entries (±0.5 % when `subtotal_cents`
    and `tax_cents` are given, exact otherwise)

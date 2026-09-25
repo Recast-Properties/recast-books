@@ -1196,7 +1196,10 @@ var M_gate = (function () {
 
     // 1. verdict + confidence
     if (model?.verdict !== "post") push("NOT_POST_VERDICT");
-    if (model?.confidence !== "high") push("LOW_CONFIDENCE");
+    // D-044 (2026-09-25): "medium" posts when every deterministic rail below holds - the
+    // rails are the control, self-reported confidence is not (docs/policies.md). "low" or
+    // no confidence at all still holds.
+    if (model?.confidence !== "high" && model?.confidence !== "medium") push("LOW_CONFIDENCE");
 
     // 2. vendor + date
     const vendor = typeof model?.vendor === "string" ? model.vendor.trim() : "";

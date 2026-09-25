@@ -223,9 +223,10 @@ Figure out which account actually paid for this, in this order:
 1. If the receipt shows a card's last four digits and that matches a bank account
    Settings/context has told you about, use that bank account's code (a 14xx
    account).
-2. If a last-4 you see matches the personal card on file for Paul (Settings
-   `paul_personal_last4`), use `PAUL` - a cost paid on his personal card is money
-   Recast owes him (Due to owner), not a bank account debit.
+2. If a last-4 you see matches a personal card or account on file for Paul (Settings
+   `paul_personal_last4` - a list: his Visa 9166 and the Chase checking 8870 that funds
+   his PayPal), use `PAUL` - a cost paid from his own money is money Recast owes him
+   (Due to owner), not a bank account debit.
 3. If Paul's subject or note says who paid, that settles it, card or no card: Dennis
    ("Dennis paid him", a subject like "Dennis $400") -> `DENNIS`; the Recast or
    Citizens account, or a Zelle or check from it -> that 14xx code; Paul himself (his
@@ -235,7 +236,13 @@ Figure out which account actually paid for this, in this order:
    Citizens account), use `DENNIS`. A direct Dennis payment is an advance and always
    needs a property - never use `DENNIS` on an OVERHEAD entry (D-010: overhead is
    Paul's alone).
-5. Otherwise set `paid_from` to `UNKNOWN` - at the top level and on every entry. Never
+5. If the document shows no last four and Paul wrote nothing, but `read_ledger` shows
+   every prior payment to this same vendor came from ONE payer (three or more entries,
+   all `PAUL`, or all one 14xx account), use that payer and say so: "no card shown; the
+   last 4 Atmos payments were all PAUL" (D-045, 2026-09-25). A recurring bill is paid the
+   way it was paid last month. Precedent never overrides a card or a note you can see,
+   and a split history (some PAUL, some 1401) is no precedent - fall through.
+6. Otherwise set `paid_from` to `UNKNOWN` - at the top level and on every entry. Never
    guess an account: the gate holds the document and Paul assigns the bank account on
    the Inbox card (D-014). Your verdict and confidence describe the rest of the read;
    `UNKNOWN` alone is not a reason to say hold or lower confidence.

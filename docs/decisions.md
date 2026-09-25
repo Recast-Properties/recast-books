@@ -947,3 +947,28 @@ neither goes through the upsert (which clears the cached posting ctx) nor fires 
 writes never do), and `buildCtx_` caches the postable property set for **six hours**. So for up to six hours
 after a sale closed, the sold property still looked open to the gate. `sellPost` now clears the `ctx` cache
 the instant it writes the status. That window is how the 178.48 reached 1616 Granite (audit §65).
+
+## D-044 · "Medium" confidence posts when every other rail holds - 2026-09-25 · Paul
+
+The gate held anything the model did not call "high". On 2026-09-23 it held HILCO $56.03 (card 5450 matched
+Citizens, 366 Mesa from its own mailbox, transaction id recorded) and FedEx $2.36 (card 9166, Paul's) on
+"medium" alone - reads with nothing wrong in them. Paul: *"these should have been softballs."*
+
+`docs/policies.md` already said it: self-reported confidence is a weak control; the arithmetic, the ceiling,
+the invoice-number duplicate check, the property registry and the payer rail are the controls. So condition 1
+of `phase2-spec.md` §4 is now `high` **or** `medium`; `low` (or no confidence at all) still holds. Everything
+else in the gate is unchanged, and the $500 autofile ceiling bounds what a medium read can put on the books
+unreviewed.
+
+## D-045 · A vendor's own payment history settles the payer when the document shows no card - 2026-09-25 · Paul
+
+Amends D-014, which was about a blind Settings default (1402) that posted a personal-card FedEx receipt to
+Chase. This is narrower: when the document shows no last four and Paul wrote no note, but `read_ledger` shows
+three or more prior payments to the same vendor **all** from one payer, the model uses that payer and says so
+in `paid_from_reason`. Atmos 09-23 ("Visa Debit", no digits) is the case: the four Atmos payments on the books
+were all PAUL. A visible card or a note still wins; a split history is no precedent and falls through to
+`UNKNOWN` as before. Prompt rule 5 in `lib/bookkeeper-prompt.md`; no gate change.
+
+Also recorded: **Chase checking ending 8870 is Paul's personal account** (it funds his PayPal - Adobe 09-23
+showed it), so `paul_personal_last4` is a list, `9166, 8870`, and both read as `PAUL`.
+

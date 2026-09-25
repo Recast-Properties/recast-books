@@ -76,8 +76,14 @@ test("NOT_POST_VERDICT: a dismiss verdict never passes", () => {
   assert.ok(result.reasons.includes("NOT_POST_VERDICT"));
 });
 
-test("LOW_CONFIDENCE: medium confidence never autofiles, even with verdict post", () => {
+test("D-044: medium confidence autofiles when every other rail holds", () => {
   const result = evaluateGate(baseModel({ confidence: "medium" }), baseCtx(), baseSettings());
+  assert.equal(result.passed, true);
+  assert.ok(!result.reasons.includes("LOW_CONFIDENCE"));
+});
+
+test("LOW_CONFIDENCE: a missing confidence never autofiles", () => {
+  const result = evaluateGate(baseModel({ confidence: undefined }), baseCtx(), baseSettings());
   assert.equal(result.passed, false);
   assert.ok(result.reasons.includes("LOW_CONFIDENCE"));
   assert.ok(!result.reasons.includes("NOT_POST_VERDICT"));
