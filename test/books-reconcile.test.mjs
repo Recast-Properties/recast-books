@@ -101,6 +101,41 @@ test("runCheck: a failed model call is stored as an error, never thrown; the HTT
   assert.equal(res.status, 401);
 });
 
+test("receipts_on_no_book: a receipt every copy of which points at something not on the books is flagged; carried, settled, voided or not-a-cost ones are not", () => {
+  // Paul, 2026-09-26: "how do we know if there are other like it?" - 161 documents had been dismissed as
+  // duplicates of staging-only entries; each must still land somewhere on the books.
+  const env = (docId, status, model, extra = {}) => ({ docId, status, model: { receipt_total_cents: 0, ...model }, result: { txn_ids: [] }, ...extra });
+  const record = { links: { "gm-carried": ["migration-20260111-m1"], "gm-hf-a": ["migration-gone"] }, settled: ["gm-ride"] };
+  const docs = [
+    env("gm-lost", "dismissed", { vendor: "Harbor Freight", date: "2026-03-19", receipt_total_cents: 40267, duplicate_of: "receipt-20260319-staging" }),
+    env("gm-carried", "dismissed", { vendor: "Home Depot", date: "2026-01-11", receipt_total_cents: 1404, duplicate_of: "receipt-20260111-staging" }),
+    env("gm-copy", "dismissed", { vendor: "The Home Depot", date: "2026-01-11", receipt_total_cents: 1404 }, { review: { by: "paul@recast-properties.com", note: "Duplicate" } }),
+    env("gm-top-a", "posted", { vendor: "Anthropic", date: "2026-09-24", receipt_total_cents: 1250, invoice_number: "2540-4444-8353" }, { result: { txn_ids: ["receipt-20260924-ccc"] } }),
+    env("gm-top-b", "dismissed", { vendor: "Anthropic", date: "2026-09-24", receipt_total_cents: 1250, invoice_number: "2540-4444-8354", duplicate_of: "receipt-20260924-staging" }),
+    env("gm-eats", "dismissed", { vendor: "Uber Eats", date: "2026-05-04", receipt_total_cents: 5965, why: "Uber Eats food-delivery order - not a business expense" }),
+    env("gm-ride", "dismissed", { vendor: "Uber", date: "2026-03-17", receipt_total_cents: 1399, why: "a ride [rule: dismissed by migration rule]" }),
+    env("gm-ruled", "dismissed", { vendor: "Uber", date: "2026-03-18", receipt_total_cents: 1413, why: "a ride [rule: dismissed by migration rule]" }),
+    env("gm-voided", "posted", { vendor: "Lowe's", date: "2026-09-01", receipt_total_cents: 900 }, { result: { txn_ids: ["receipt-20260901-ddd"] } }),
+    env("gm-second", "dismissed", { vendor: "Sherwin-Williams", date: "2026-03-21", receipt_total_cents: 5500 }, { review: { by: "workbook", note: "Migration leftover (audit §55): already settled by the 2026-09-21 migration - a second copy of gm-1, which carries the Journal link" } }),
+  ];
+  const f = gatherFacts(JOURNAL, [...ENVELOPES, ...docs], NOW, record);
+  assert.deepEqual(f.receipts_on_no_book.map((r) => `${r.vendor} ${r.total}`), ["Harbor Freight 402.67", "Anthropic 12.50", "Uber 14.13"],
+    "lost; a second top-up with its own receipt number; a ruled dismissal with no recorded decision");
+  assert.match(f.receipts_on_no_book[0].copies[0], /named receipt-20260319-staging as the original - not on the books/);
+  assert.match(CHECK_PROMPT, /receipts_on_no_book/);
+
+  // its own migrated row puts it back on the books
+  assert.equal(gatherFacts(JOURNAL, [...ENVELOPES, ...docs], NOW, { ...record, links: { ...record.links, "gm-lost": ["migration-20260322-aaa"] } })
+    .receipts_on_no_book.some((r) => r.vendor === "Harbor Freight"), false);
+});
+
+test("lib/migration-record.mjs is generated from the migration data (run scripts/build-migration-record.mjs)", async () => {
+  const { MIGRATION_RECORD } = await import("../lib/migration-record.mjs");
+  const { buildRecord } = await import("../scripts/build-migration-record.mjs");
+  assert.deepEqual(MIGRATION_RECORD, buildRecord());
+  assert.ok(Object.keys(MIGRATION_RECORD.links).length > 600 && MIGRATION_RECORD.settled.includes("gm-19cfc795423b2590"));
+});
+
 test("the prompt tells the model which fixes are Paul's clicks and which get a 'Paste to Claude' line", async () => {
   const { CHECK_PROMPT } = await import("../netlify/functions/books-reconcile-background.mjs");
   assert.match(CHECK_PROMPT, /Paste to Claude:/);

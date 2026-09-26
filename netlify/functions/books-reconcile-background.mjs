@@ -12,6 +12,7 @@
 import Anthropic from "@anthropic-ai/sdk";
 import { requireConfig, json, pollerSecretOk, getWriter, getDocsStore, getCacheStore, readTab } from "./_shared.mjs";
 import { MODEL_ID } from "../../lib/bookkeeper.mjs";
+import { MIGRATION_RECORD } from "../../lib/migration-record.mjs";
 
 const MAX_TOKENS = 4000;
 const STALE_MS = 60 * 60 * 1000;
@@ -31,7 +32,7 @@ const money = (c) => (c / 100).toFixed(2);
  * The facts. Pure: (headers, rows) of the Journal and the list of envelopes in.
  * Mirrors reportDuplicateReplays in apps-script/writer/Code.gs for (c).
  */
-export function gatherFacts(journal, envelopes, now = Date.now()) {
+export function gatherFacts(journal, envelopes, now = Date.now(), record = MIGRATION_RECORD) {
   const idx = Object.fromEntries(journal.headers.map((h, i) => [h, i]));
   const g = (r, n) => (idx[n] === undefined ? "" : r[idx[n]]);
   const rows = journal.rows;
@@ -94,6 +95,68 @@ export function gatherFacts(journal, envelopes, now = Date.now()) {
   const debits = rows.reduce((s, r) => s + cents(g(r, "debit")), 0);
   const credits = rows.reduce((s, r) => s + cents(g(r, "credit")), 0);
 
+  // (h) receipts on no book. Every document ends one of four ways: on the Journal, in the
+  // queue, kept off the books with a recorded reason, or not a cost. On 2026-09-26, 161
+  // documents turned up dismissed as duplicates of staging-only entries - all resolved, but by
+  // hand (Paul: "how do we know if there are other like it?"). A receipt is its copies: one
+  // accounted copy accounts for all of them. Old-book payees are misspelled ("Harbor Frieght"),
+  // so the last resort matches on amount and date, with a shared word or the same day.
+  const liveIds = new Set(entries.map((e) => e.txn_id));
+  const fileId = (u) => (String(u || "").match(/\/d\/([\w-]{20,})/) || [])[1];
+  const liveFiles = new Set(entries.map((e) => fileId(e.doc_url)).filter(Boolean));
+  const inA = new Set(envelope_not_on_journal.map((e) => e.docId));
+  const words = (s) => String(s || "").toLowerCase().match(/[a-z]{4,}/g) || [];
+  const days = (a, b) => Math.abs(Date.parse(a) - Date.parse(b)) / 864e5;
+  const byDoc = new Map(envelopes.map((e) => [e.docId, e]));
+  const settled = new Set(record.settled);
+  // The amount match may only use an entry no document already explains - two 13.57 Anthropic
+  // top-ups on one day are two receipts, and one row cannot stand in for both.
+  const claimed = new Set([...envelopes.flatMap((e) => e.result?.txn_ids || []), ...Object.values(record.links).flat(),
+    ...envelopes.map((e) => (String(e.review?.note || "").match(/its row is in the Journal: (\S+)/) || [])[1]).filter(Boolean)]);
+  const unclaimed = entries.filter((x) => !claimed.has(x.txn_id));
+  const accounted = (e, seen = new Set()) => {
+    const m = e.model || {}, note = String(e.review?.note || ""), txns = e.result?.txn_ids || [];
+    if ((e.status !== "posted" && e.status !== "dismissed") || inA.has(e.docId)) return true; // the queue, (a), (e)
+    if (txns.length && txns.every((t) => liveIds.has(t) || voided.has(t))) return true; // a void is a decision, not a loss
+    if ((record.links[e.docId] || []).some((t) => liveIds.has(t))) return true; // a migrated row carries it
+    if (liveFiles.has(fileId(e.result?.doc_url))) return true;
+    const named = note.match(/its row is in the Journal: (\S+)/);
+    if (named && liveIds.has(named[1])) return true;
+    if (settled.has(e.docId) || /recorded decision - /.test(note)) return true;
+    // what it says it is a copy of: the model's duplicate_of, or the migration's "a second copy of <doc>"
+    for (const p of [m.duplicate_of, (note.match(/second copy of (\S+?)[,\s]/) || [])[1]].filter(Boolean).map(String)) {
+      if (liveIds.has(p) || settled.has(p) || (record.links[p] || []).some((t) => liveIds.has(t))) return true;
+      const original = byDoc.get(p);
+      if (original && !seen.has(e.docId) && accounted(original, seen.add(e.docId))) return true;
+    }
+    // A dismissal that claims nothing is not a cost (a promotion, a food order). One that claims a
+    // duplicate - the model's pointer, Paul's "Duplicate", a migration note or rule - had to find it above.
+    if (e.status === "dismissed" && !m.duplicate_of && !/duplicate|its row is in the Journal|second cop/i.test(note) && !/\[rule: /.test(m.why || "")) return true;
+    if (/the bookkeeper's read was "dismiss"/.test(note)) return true; // the model's own not-a-cost call, confirmed by the migration
+    if (!(m.receipt_total_cents > 0)) return true; // no charge on it
+    const vendor = new Set(words(m.vendor));
+    return unclaimed.some((x) => days(x.date, m.date) <= 10 &&
+      (Math.abs(x.debit - m.receipt_total_cents) <= 2 || (m.subtotal_cents > 0 && Math.abs(x.debit - m.subtotal_cents) <= 2)) &&
+      (x.date === m.date || words(x.payee).some((w) => vendor.has(w))));
+  };
+  // Copies share vendor, date and total. Two receipt numbers in the same format that differ are two
+  // receipts (Anthropic's same-day top-ups); an order number beside a store receipt number is one.
+  const inv = (e) => String(e.model?.invoice_number || "").trim();
+  const shape = (s) => s.replace(/\d/g, "9").replace(/[a-z]/gi, "A");
+  const twoReceipts = (a, b) => inv(a) && inv(b) && inv(a) !== inv(b) && shape(inv(a)) === shape(inv(b));
+  const byKey = new Map();
+  for (const e of envelopes) {
+    if (e.dryRun || String(e.docId).startsWith("up-test")) continue;
+    const m = e.model || {}, k = `${words(m.vendor)[0] || norm(m.vendor)}|${m.date || ""}|${m.receipt_total_cents || 0}`;
+    const receipts = byKey.get(k) || byKey.set(k, []).get(k);
+    const same = receipts.find((copies) => !copies.some((c) => twoReceipts(c, e)));
+    if (same) same.push(e); else receipts.push([e]);
+  }
+  const receipts_on_no_book = [...byKey.values()].flat(1).filter((copies) => !copies.some((e) => accounted(e))).map((copies) => ({
+    date: copies[0].model?.date || "", vendor: copies[0].model?.vendor || "", total: money(copies[0].model?.receipt_total_cents || 0),
+    copies: copies.map((e) => `${e.docId} (${e.status}${e.model?.duplicate_of ? `, named ${e.model.duplicate_of} as the original - not on the books` : ""})`),
+  }));
+
   const cap = (list) => (list.length > MAX_ITEMS ? [...list.slice(0, MAX_ITEMS), `... and ${list.length - MAX_ITEMS} more`] : list);
   return {
     journal_rows: rows.length, live_entries: entries.length,
@@ -101,6 +164,7 @@ export function gatherFacts(journal, envelopes, now = Date.now()) {
     envelope_not_on_journal: cap(envelope_not_on_journal), journal_not_in_envelopes: cap(journal_not_in_envelopes),
     possible_duplicates: cap(possible_duplicates), receipts_without_document: cap(receipts_without_document),
     stuck: cap(stuck), errors: cap(errors), pending: { count: pending.length, oldest },
+    receipts_on_no_book: cap(receipts_on_no_book),
   };
 }
 
@@ -111,6 +175,7 @@ You receive the facts the code gathered tonight as JSON. Judge them and write wh
 - A duplicate is two live entries with the same date, payee and amount; a migration entry beside a receipt entry is the classic replay - the receipt one is the twin to void. Read the memos first: different receipt or invoice numbers mean different charges (Anthropic top-ups repeat the same day) and need no action at all; the same number twice is the duplicate. Say "check" only when the memos do not settle it.
 - Pending cards are holds - Paul's decision is what they wait for, and some are parked on purpose for the Phase 3 bank statement. The queue count is context, not an action: never tell Paul to approve, dismiss or "clear" a card the check has not read. Mention the queue only if it is growing or a card is over 30 days old.
 - Errors dated before 2026-09-17 are migration-era and belong to Phase 3; mention them once as a group, not one by one. Do not ask for replays of them.
+- receipts_on_no_book: every copy of each receipt listed was posted or dismissed against something that is not on the books, so the receipt may be on no book at all. One bullet per receipt ("Find Lowe's 03-16 465.73 - on no book"), and it is Claude's job: add the Paste to Claude line naming the docIds.
 - Paul fixes a plain click himself: void (workbook menu), approve / dismiss / reprocess (Inbox). Anything else - an envelope whose status disagrees with the Journal, a stuck card, a Drive link to attach, a balance problem, an error to diagnose - is Claude's job. Under such a bullet add one indented line starting "Paste to Claude:" with a self-contained instruction naming the ids, e.g. "Paste to Claude: mark envelope gm-19f... posted, its entries receipt-2026... are on the Journal."
 - Do not repeat a fact without an action. Do not explain the rules. No headers, no preamble.
 - If nothing needs Paul, answer exactly: Books check: clean.`;
