@@ -1128,4 +1128,4 @@ Freight's migrated row removed it flags exactly Harbor Freight, all three copies
 linked receipts one at a time flags 16; each of the other 9 is still carried by another copy or settled by a
 recorded decision (checked one by one). Three false alarms found and fixed on the way: `differences_settled` counted
 as settled; the amount match borrowing a row another receipt already explains; reviewed dismissals trusted without
-the duplicate they claim. 483 tests. **Needs `npm run deploy`** (Paul); the 2 AM check runs it from then on.
+the duplicate they claim. 483 tests. **Deployed 2026-09-26** (Paul, deploy `6ab8584a`); the 2 AM check runs it from then on.
