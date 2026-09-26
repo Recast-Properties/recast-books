@@ -1047,13 +1047,31 @@ wording is the Inbox card's `GATE_TEXT` / `flagText_`, copied into the poller; a
 identical, pins the replay rule's wording and runs `digestReason_` on the Harbor Freight case. Pushed to both
 instances, verified by `clasp pull`. 481 tests.
 
-**"It knows the answer" - it did not.** Three copies of Harbor Freight receipt #287298 (03-19, pressure washer
-and gas can, Visa 9166): `gm-19d0639545d977c3` and `gm-19e8f7a71589f76e` are dismissed as duplicates of
-`receipt-20260319-f3c59e4ca29f`, a staging-era entry (the 09-17/18 re-posts) that never existed in production;
-`gm-19d072688657e4c8` is the pending one - its stored read said the same, and the replay rule
-(`books-ingest-background.mjs`, "is not on the books") turned it into a hold. The receipt is on no book and is
-one of the nine hardware receipts parked for Phase 3. **Lesson:** an old envelope's "already posted as
-receipt-..." can name a staging txn - check the production Journal before believing it.
+**"It knows the answer" - it did (corrected the same day).** Three copies of Harbor Freight receipt #287298
+(03-19, pressure washer and gas can, Visa 9166): `gm-19d0639545d977c3` and `gm-19e8f7a71589f76e` are dismissed as
+duplicates of `receipt-20260319-f3c59e4ca29f`, a staging-era entry (the 09-17/18 re-posts) that never existed in
+production; `gm-19d072688657e4c8` is the pending one - its stored read said the same, and the replay rule
+(`books-ingest-background.mjs`, "is not on the books") turned it into a hold. **The receipt IS on the books:**
+`migration-20260319-6f2cfec4b22d`, "Harbor Frieght" (the old RECAST BIZ tab's spelling), Pressure Washer, 6510
+OVERHEAD, 402.67 - the migration linked it to `gm-19d0639545d977c3`. Claude first told Paul it was on no book,
+from the handoff's parked list and without searching the Journal by amount; retracted. The model was right that
+it was a duplicate and named the wrong original: the row is dated March (outside the 60-day `read_ledger` window
+of that read) and misspelled. The hold was the safe outcome - approving it would have double-posted it, as four
+parked Home Depot receipts were on 09-22. **Lessons:** an old envelope's "already posted as receipt-..." can
+name a staging txn; and old-book payees are misspelled - search the Journal by amount and date, never by name.
+
+**Every document audited (Paul: "how do we know if there are other like it?").** All 1,021 envelopes (870
+receipts once copies are grouped) against the production Journal, `rows/entries.json`'s document links, the
+review notes and `paul-answers.json`. 161 documents were dismissed as duplicates of staging-only entries - the
+same pattern - and every one resolves. By receipt: **667 on the books; 107 not a cost** (Uber Eats, promotions,
+$0 notices, second copies); **64 off the books on purpose**, reason recorded; **5 in `error`** (863.89, known);
+**27 parked for Phase 3 but not in the Inbox** (5,166.56 - 8 CoreLogic invoices waiting on the statement by Paul's
+call, 17 purchases on no old tab, 2 small; recorded only in `mail_settled` and their review notes); **nothing
+lost.** VistaPrint 405.84 looked lost and is the 05-08 Ashburne "Signage" row re-placed on a store credit
+(`docs/phase4-audit.md` §36). **The nine in the Inbox, precisely:** five are fully on the books - Harbor Freight 402.67 and
+Home Depot 02-10 200.87, 02-18 69.56, 03-01 207.19, 03-02 219.69 - so those copies are pure duplicates to dismiss;
+four are partly on the books, **407.22 of items on no book**: Lowe's 02-03 238.81, Home Depot 03-02 (147.38) 86.90,
+02-12 65.67, 01-11 15.84. Those four remainders are the real Phase 3 question (personal, returned, or missed).
 
 **Frozen records.** Paul re-ran `rebuildAllFrozenRecords` (2026-09-25 17:04 PDT): 1616 Granite as of
 2026-07-24 and 280 Sparkling as of 2026-08-06, 305 x 49 each, headstones in place, no error values on either.
