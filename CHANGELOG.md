@@ -1034,3 +1034,53 @@ live entry; every list capped at 40 in the prompt. The model call itself failed 
 559.34, Central States Water 49.54, Uber 33.30, Alaska Airlines 166.00) and three Anthropic 10.49 entries on
 09-17. Part 1 verified: the warm run refreshes all nine tabs in two seconds (the writer took 102 s for the
 Journal alone in the tie-out). Poller pushed to both instances; `setup()` run; `nightlyCheck` trigger in.
+
+## 2026-09-26 - The digest's Pending line is a snapshot; the frozen records re-run and tied out
+
+**The digest.** The 09-26 3 AM email carried a 1,500-character Pending line for Harbor Freight $402.67:
+`dailyDigest` printed the model's `why` whole, and a read made before 2026-09-22 (when `why` became one
+sentence) carries its entire working there. Paul: *"i need a snapshot of the issue not a novel."* The poller
+now prints one line per pending item - vendor, amount, document date and `digestReason_(p)`: the replay rule's
+note in plain words when it fired; the gate's reasons when the model voted post and the gate held it (the 09-25
+rule); else the model's `why` if it is 120 characters or fewer; else the card's bullets. Never the working. The
+wording is the Inbox card's `GATE_TEXT` / `flagText_`, copied into the poller; a lint keeps the two maps
+identical, pins the replay rule's wording and runs `digestReason_` on the Harbor Freight case. Pushed to both
+instances, verified by `clasp pull`. 481 tests.
+
+**"It knows the answer" - it did not.** Three copies of Harbor Freight receipt #287298 (03-19, pressure washer
+and gas can, Visa 9166): `gm-19d0639545d977c3` and `gm-19e8f7a71589f76e` are dismissed as duplicates of
+`receipt-20260319-f3c59e4ca29f`, a staging-era entry (the 09-17/18 re-posts) that never existed in production;
+`gm-19d072688657e4c8` is the pending one - its stored read said the same, and the replay rule
+(`books-ingest-background.mjs`, "is not on the books") turned it into a hold. The receipt is on no book and is
+one of the nine hardware receipts parked for Phase 3. **Lesson:** an old envelope's "already posted as
+receipt-..." can name a staging txn - check the production Journal before believing it.
+
+**Frozen records.** Paul re-ran `rebuildAllFrozenRecords` (2026-09-25 17:04 PDT): 1616 Granite as of
+2026-07-24 and 280 Sparkling as of 2026-08-06, 305 x 49 each, headstones in place, no error values on either.
+Granite ties to the Journal: rehab block 8,951.51 (53 lines), utilities 515.12 (5), total project cost
+295,239.73 = 288,467.63 of cost lines + 6,772.10 of in-sheet interest.
+
+**Found, and left where they are:** the reconstruction pins the as-of cell to the settlement date, so three
+Granite costs dated after its 07-24 closing are not on the frozen tab - TXU 261.76 (07-25), City of Waxahachie
+950.02 (07-29), Verity Plumbing 1,526.46 (08-05), 2,738.24 in all. Paul: *"anything after the closing date
+should go in the recapture costs tab"* (D-031). But all three were on the old Granite tab as closed and are
+inside Granite's 09-22 closing: the sale released 1020 5,825.46 and 1120 1,476.90 (both including them) and paid
+Paul 3,900.24 on 2030 (1,162.00 + 2,738.24). Moving them to Cost Recapture now would reimburse and split them a
+second time at the next sale. Everything new already follows the rule (a sold property refuses posts).
+
+**Parked by Paul:** 280 Sparkling's frozen tab has a blank Sale Price (never typed; `contract_price` is blank),
+so its Profit Breakdown reads a net loss of 202,841.02 and a negative payout to Paul. The fix: `275000` (Recast's
+half of the 550,000 sale, the revenue the books recorded) in C11 - the edit trigger ignores that column - then
+`rebuildAllFrozenRecords` again, which keeps a typed Sale Price. It will read about 58,409 profit (the tab's 3%
+and 2% estimates); the closing tab keeps the actual 60,930.09.
+
+**Phase 3, put to Paul:** spec only (`docs/phase3-spec.md`, 2026-09-15), nothing built; it needs the menu shape
+(D-023) first. Proposed order: import (Recast Books -> Import statement..., QFX/OFX, CSV or PDF -> a Feed tab),
+matching by Claude, reconciliation by code (in the 2 AM check), then the Citizens Daily Summary emails. What it
+will surface first: the books hold Chase Operating (1402) at 153,450 - 159,500 of Dennis's advances in
+(Ashburne 158,000, Bowling Green 1,500), 6,050 out (two Atlas Pools payments) - while the migration recorded
+189,149.44 of property costs as paid by Paul. Waiting on Paul's go.
+
+**Docs:** the `CLAUDE.md` Open list's `rebuildAllFrozenRecords` step is done, the "tools are overhead" prompt
+(committed 09-22) went live with the 09-25 deploys, and the test data note is gone - `clearBooks` removed the
+PHASE 0/1 gate entries at cutover and the `TEST Phase 1 gate` rows are deleted (checked on the snapshots).

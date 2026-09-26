@@ -441,11 +441,9 @@ function dailyDigest() {
   lines.push('');
   lines.push('Pending review (' + (data.pending || []).length + '):');
   (data.pending || []).forEach(function (p) {
-    // The model's `why` says "Posted: ..." when it voted post and the GATE held it, so the
-    // digest names what is actually blocking (2026-09-25: three "Posted:" lines under Pending).
-    var held = (p.gate_reasons || []).length ? 'held: ' + p.gate_reasons.join(', ') + ' - ' : '';
-    lines.push('  ' + (p.vendor || '(unknown vendor)') + ' - $' + centsToDollars_(p.receipt_total_cents) +
-      ' - ' + held + (p.why || '(no reason given)'));
+    var when = /^\d{4}-\d{2}-\d{2}$/.test(p.date || '') ? ' (' + p.date.slice(5).replace('-', '/') + ')' : '';
+    lines.push('  ' + (p.vendor || '(unknown vendor)') + ' - $' + centsToDollars_(p.receipt_total_cents) + when +
+      ' - ' + digestReason_(p));
   });
   if ((data.errors || []).length) {
     lines.push('');
@@ -587,6 +585,48 @@ function centsToDollars_(cents) {
 function accountSummaryText_(summary) {
   if (!summary || !summary.length) return '(no line items)';
   return summary.map(function (s) { return s.account + ': $' + centsToDollars_(s.amount_cents); }).join(', ');
+}
+
+// Paul's words for a gate code: the Inbox card's GATE_TEXT and flagText_ (writer Inbox.html),
+// copied so the digest says what the card says. A lint keeps the two maps identical.
+var GATE_TEXT = {
+  NOT_POST_VERDICT: '',                                             // the model held it - its own why says why
+  LOW_CONFIDENCE: 'Check the amounts, then approve or dismiss',
+  MISSING_VENDOR: 'No vendor - type one',
+  MISSING_DATE: 'No date - type one',
+  BAD_DATE: 'Bad date - fix it',
+  ZERO_TOTAL: 'No total - type the amount',
+  OVER_CEILING: 'Over the auto-file limit - approve it yourself',
+  TOTAL_MISMATCH: 'Items do not add up - fix the amounts',
+  NEEDS_HUMAN_274D: 'Travel, meal or gift - type the business purpose',
+  NO_ENTRIES: 'Nothing to post - dismiss it',
+  BAD_PROPERTY: 'No property - pick one',
+  PAYER_UNKNOWN: 'No payer - pick who paid',
+  BAD_PAID_FROM: 'Bad payer - pick who paid'
+};
+
+function gateText_(r) {
+  var t = String(r), i = t.indexOf(':');
+  var head = i < 0 ? t : t.slice(0, i), rest = i < 0 ? '' : t.slice(i + 1);
+  if (head === 'DUPLICATE_OF') return 'Already posted as ' + rest + ' - dismiss it';
+  if (head === 'POSSIBLE_TWIN') return 'Maybe already posted as ' + rest + ' - check it';
+  if (head === 'ENTRY_INVALID') return 'Will not build (' + rest + ') - fix or dismiss';
+  return GATE_TEXT.hasOwnProperty(head) ? GATE_TEXT[head] : t;
+}
+
+// One short reason per pending item - a snapshot, never the model's working (Paul, 2026-09-26:
+// "i need a snapshot of the issue not a novel"). A read made before 2026-09-22 carries its whole
+// working in `why`, so a long why is never mailed; the card's bullets stand in for it.
+function digestReason_(p) {
+  var codes = p.gate_reasons || [];
+  var gate = codes.map(gateText_).filter(Boolean).slice(0, 2).join('; ');
+  var why = String(p.why || '').trim();
+  // books-ingest-background's replay rule: the "duplicate" an old read named is on no book.
+  if (/\[rule: \S+ is not on the books/.test(why)) return 'Matched an entry that is not on the books - post or dismiss it';
+  // The model voted post and the gate held it: the gate's reason is the news (2026-09-25).
+  if (codes.indexOf('NOT_POST_VERDICT') < 0 && gate) return gate;
+  if (why && why.length <= 120) return why;
+  return gate || 'Open it in the Inbox';
 }
 
 function todayIso_() {

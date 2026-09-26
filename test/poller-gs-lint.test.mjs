@@ -105,6 +105,35 @@ test("dailyDigest exists and reads /api/summary via the poller secret header", (
   assert.ok(body.includes("MailApp.sendEmail"), "dailyDigest does not send an email");
 });
 
+test("the digest's pending line is a snapshot in the Inbox card's words, never the model's working", () => {
+  // Paul, 2026-09-26, on a 1,500-character Harbor Freight line: "i need a snapshot of the issue not a novel".
+  const fn = (s, name) => {
+    const a = s.indexOf("function " + name + "(");
+    const b = s.indexOf("\nfunction ", a + 1);
+    return s.slice(a, b === -1 ? s.length : b);
+  };
+  const mapOf = (s) => s.slice(s.indexOf("var GATE_TEXT = {"), s.indexOf("};", s.indexOf("var GATE_TEXT = {")) + 2);
+  const inbox = readFileSync(path.join(__dirname, "..", "apps-script", "writer", "Inbox.html"), "utf8");
+  const bare = (m) => m.replace(/\/\/.*$/gm, "").replace(/\s+/g, "");
+  assert.equal(bare(mapOf(source)), bare(mapOf(inbox)), "the digest's GATE_TEXT drifted from the Inbox card's");
+
+  const reason = new Function([mapOf(source), fn(source, "gateText_"), fn(source, "digestReason_"), "return digestReason_;"].join("\n"))();
+  const novel = "Harbor Freight e-receipt, tender 9166, search_docs found gm-19d0639545d977c3. ".repeat(20) +
+    "[rule: receipt-20260319-f3c59e4ca29f is not on the books, the dismiss was against an earlier run's ledger - replayed as hold]";
+  assert.equal(reason({ why: novel, gate_reasons: ["NOT_POST_VERDICT", "TOTAL_MISMATCH"] }),
+    "Matched an entry that is not on the books - post or dismiss it");
+  assert.equal(reason({ why: "Posted: HILCO, card 5450.", gate_reasons: ["PAYER_UNKNOWN", "OVER_CEILING"] }),
+    "No payer - pick who paid; Over the auto-file limit - approve it yourself");
+  assert.equal(reason({ why: "Held: no card or note says who paid.", gate_reasons: ["NOT_POST_VERDICT", "TOTAL_MISMATCH"] }),
+    "Held: no card or note says who paid.");
+  assert.equal(reason({ why: "x".repeat(400), gate_reasons: ["NOT_POST_VERDICT"] }), "Open it in the Inbox");
+
+  const ingest = readFileSync(path.join(__dirname, "..", "netlify", "functions", "books-ingest-background.mjs"), "utf8");
+  assert.ok(ingest.includes("is not on the books, the dismiss was against"), "the replay rule's wording changed - update digestReason_");
+  assert.ok(fn(source, "dailyDigest").includes("digestReason_(p)"), "dailyDigest no longer goes through digestReason_");
+  assert.ok(!/p\.why/.test(fn(source, "dailyDigest")), "dailyDigest prints the model's why raw again");
+});
+
 test("phase2.6-spec.md: MAILBOX script property switches pollBooks/dryRunBatch into label-driven properties mode", () => {
   assert.ok(source.includes("function mailboxMode_("), "mailboxMode_ not found");
   assert.match(source, /getProperty\('MAILBOX'\)\s*\|\|\s*'paul'/, "mailboxMode_ does not default to 'paul'");
