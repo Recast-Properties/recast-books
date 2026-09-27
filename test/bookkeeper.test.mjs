@@ -341,7 +341,7 @@ test("a full zoom -> read_ledger -> decide loop executes every tool and returns 
 
   assert.equal(client.calls.length, 3, "loop should stop right after decide, no 4th call");
   assert.equal(ledgerCalls.length, 1);
-  assert.deepEqual(ledgerCalls[0], { payee: "Home Depot", days: 60, property: undefined });
+  assert.deepEqual(ledgerCalls[0], { payee: "Home Depot", days: 60, property: undefined, date: undefined });
 
   assert.equal(result.model.verdict, "post");
   assert.equal(result.model.vendor, "Home Depot");

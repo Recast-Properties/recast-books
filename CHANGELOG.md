@@ -1170,3 +1170,17 @@ nor the digest says "Posted:" on a pending item). The warm job's retries of erro
 list do not send it and post as before; `scripts/recover-errored.mjs`'s re-reads now wait in the Inbox. Test: all
 three outcomes a reprocess must not reach (post, confident dismiss, DUPLICATE_OF) end `pending` with nothing filed,
 posted or voided - fails without the branch. 484 tests.
+
+**3b. A read can say a receipt is partly on the books (deploy + writer + both pollers).** `decide` has
+`already_posted_txn_ids` - the Journal entries that already carry some of the receipt's lines (the migrated old-book
+rows) - and the entries then hold only the lines on no book. The gate takes those entries' amounts **from the Journal**
+(`postedEntries`, never the model: a name on no live entry adds nothing and the total fails), adds them to the
+entries for the TOTAL_MISMATCH check, returns `already_posted_cents`, leaves them out of the twin rail, and always holds
+the read (`PARTLY_ON_BOOKS`: "Part is on the books already - check the rest, then approve") - otherwise a later copy
+of a receipt could name the posted rows and post the lines Paul removed on the card. Both cards show "Entries $X +
+already on the books $Y / receipt $Z". `read_ledger` takes a `date`: the rows within 10 days, nearest first, any payee -
+the 80-newest cap had hidden March from the dry run, and old-book payees are misspelled. Prompt: `## A receipt
+partly on the books` - find the receipt's rows by date, claim a row only when amount AND product fit (the migration
+itself linked HD 03-02's second copy to a 03-23 "Shop Towels" 14.05 and an 04-09 "wire connectors" 16.19 by amount
+alone: other purchases), hold with the rest, dismiss when rows carry every line. Test: the partial total ties from the
+Journal, a ghost name fails, a named row carrying the receipt number is no duplicate (both mutations caught). 485 tests.

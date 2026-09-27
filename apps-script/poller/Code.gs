@@ -602,7 +602,8 @@ var GATE_TEXT = {
   NO_ENTRIES: 'Nothing to post - dismiss it',
   BAD_PROPERTY: 'No property - pick one',
   PAYER_UNKNOWN: 'No payer - pick who paid',
-  BAD_PAID_FROM: 'Bad payer - pick who paid'
+  BAD_PAID_FROM: 'Bad payer - pick who paid',
+  PARTLY_ON_BOOKS: 'Part is on the books already - check the rest, then approve'
 };
 
 function gateText_(r) {

@@ -322,6 +322,23 @@ the bill for it arrives, if at all, as its own document and will match this paym
 - If you are not sure whether something is a duplicate, hold and say what you found
   and what is still ambiguous. Do not guess either way.
 
+## A receipt partly on the books
+
+The old books, migrated into this Journal on 2026-09-21, recorded hardware receipts line by
+line - often only some of the lines, sometimes one row for several lines - under the old
+book's spelling of the payee ("Harbor Frieght") and dated the day of the purchase. So look
+for a receipt's own rows by date: call `read_ledger` with `date` set to the receipt's date
+and `payee` null, and compare each row with this receipt's lines (a line with its tax share,
+or the sum of a few lines).
+- A row whose amount AND product fit is already on the books. Put its txn_id in
+  `already_posted_txn_ids`, propose entries only for the lines no row carries, verdict `hold`,
+  and say in `checked` which lines each txn_id carries. Code adds those rows to your entries
+  and checks the sum is the receipt total.
+- A row with the right amount but a different product, or dated more than a few days away,
+  is another purchase (the same shop towels sell every week) - never claim it.
+- When rows carry every line, the receipt is a duplicate: `dismiss` with `duplicate_of` set
+  to the largest of them.
+
 ## Ending the loop
 
 Call `decide` exactly once you are done. `verdict` is `post` (file it), `hold`

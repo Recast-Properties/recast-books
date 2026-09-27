@@ -122,7 +122,8 @@
     NO_ENTRIES: 'Nothing to post - dismiss it',
     BAD_PROPERTY: 'No property - pick one',
     PAYER_UNKNOWN: 'No payer - pick who paid',
-    BAD_PAID_FROM: 'Bad payer - pick who paid'
+    BAD_PAID_FROM: 'Bad payer - pick who paid',
+    PARTLY_ON_BOOKS: 'Part is on the books already - check the rest, then approve'
   };
   var TRADELESS_ACCOUNTS = ['1000', '1100', '1200', '1210', '1220'];  // summary lines, never in a tab block
 
@@ -199,8 +200,10 @@
     var sum = 0;
     entries.forEach(function (e) { (e.items || []).forEach(function (it) { sum += Number(it.amount_cents) || 0; }); });
     var rt = Number((env.model && env.model.receipt_total_cents) || 0);
-    var ok = sum === rt;
-    return '<div class="totals ' + (ok ? 'ok' : 'off') + '">Entries ' + money_(sum) + ' / receipt ' + money_(rt) + (ok ? ' - matches' : ' - does not match') + '</div>';
+    var already = Number((env.gate && env.gate.already_posted_cents) || 0);   // the lines the read found on the books
+    var ok = sum + already === rt;
+    return '<div class="totals ' + (ok ? 'ok' : 'off') + '">Entries ' + money_(sum) + (already ? ' + already on the books ' + money_(already) : '') +
+      ' / receipt ' + money_(rt) + (ok ? ' - matches' : ' - does not match') + '</div>';
   }
 
   function renderCard_(env) {

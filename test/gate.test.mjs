@@ -54,7 +54,7 @@ function baseModel(overrides = {}) {
 
 test("a fully-valid post verdict passes with no reasons", () => {
   const result = evaluateGate(baseModel(), baseCtx(), baseSettings(), { postedEntries: [] });
-  assert.deepEqual(result, { passed: true, reasons: [] });
+  assert.deepEqual(result, { passed: true, reasons: [], already_posted_cents: 0 });
 });
 
 test("evaluateGate defaults postedEntries to empty when opts is omitted", () => {
@@ -384,6 +384,29 @@ test("POSSIBLE_TWIN does not fire when the model named it in supersedes", () => 
   const postedEntries = [{ txn_id: "receipt-20260905-abc123abc123", date: "2026-09-05", payee: "Home Depot", total_cents: 21240 }];
   const result = evaluateGate(baseModel({ supersedes: "receipt-20260905-abc123abc123" }), baseCtx(), baseSettings(), { postedEntries });
   assert.ok(!result.reasons.some((r) => r.startsWith("POSSIBLE_TWIN")));
+});
+
+test("a receipt partly on the books: the Journal's amounts for the named rows complete the total, it always holds, a named row is no twin", () => {
+  // Home Depot 03-02 147.38: Copper Pipe 16.19 and Paper Towels 14.05 migrated; the other four lines, 117.14, proposed.
+  // The named Copper Pipe row carries the receipt number, which alone would make it a DUPLICATE_OF.
+  const postedEntries = [
+    { txn_id: "migration-20260302-e5299709adcd", date: "2026-03-02", payee: "Home Depot", total_cents: 1619, text: "Copper Pipe 6505-00052-16817" },
+    { txn_id: "migration-20260302-f45282f6bad9", date: "2026-03-02", payee: "Home Depot", total_cents: 1405, text: "Paper Towels" },
+  ];
+  const rest = baseEntry({ items: [{ account: "1030", amount_cents: 11714, description: "4 lines", trade: "Plumbing", business_purpose: "" }] });
+  const named = ["migration-20260302-e5299709adcd", "migration-20260302-f45282f6bad9"];
+  const partial = baseModel({ receipt_total_cents: 14738, invoice_number: "6505-00052-16817", entries: [rest], already_posted_txn_ids: named });
+
+  const result = evaluateGate(partial, baseCtx(), baseSettings(), { postedEntries });
+  assert.equal(result.already_posted_cents, 3024);
+  assert.deepEqual(result.reasons, ["PARTLY_ON_BOOKS"], "adds up, holds, and a named row is not a duplicate");
+  assert.ok(evaluateGate({ ...partial, already_posted_txn_ids: [] }, baseCtx(), baseSettings(), { postedEntries }).reasons
+    .includes("DUPLICATE_OF:migration-20260302-e5299709adcd"), "unnamed, the same row is a duplicate");
+
+  // The amounts come from the Journal, never the model: a name on no live entry adds nothing.
+  const ghost = evaluateGate({ ...partial, already_posted_txn_ids: ["receipt-20260301-000000000000"] }, baseCtx(), baseSettings(), { postedEntries });
+  assert.equal(ghost.already_posted_cents, 0);
+  assert.ok(ghost.reasons.includes("TOTAL_MISMATCH"));
 });
 
 test("POSSIBLE_TWIN does not fire for a different date or amount", () => {

@@ -844,9 +844,10 @@ function renderEntriesEditor(env, entries, editable) {
 
   const grandTotal = entries.reduce((s, e) => s + (e.items || []).reduce((s2, it) => s2 + (Number(it.amount_cents) || 0), 0), 0);
   const receiptTotal = Number((env.model && env.model.receipt_total_cents) || 0);
-  const ok = grandTotal === receiptTotal;
+  const already = Number((env.gate && env.gate.already_posted_cents) || 0); // lines the read found on the books
+  const ok = grandTotal + already === receiptTotal;
   const totalRow = `<div class="balance-row ${ok ? "ok" : "off"}">
-      <span>Entries total ${fmtCents(grandTotal)}</span>
+      <span>Entries total ${fmtCents(grandTotal)}${already ? ` + already on the books ${fmtCents(already)}` : ""}</span>
       <span>Receipt total ${fmtCents(receiptTotal)}${ok ? " — matches" : " — does not match"}</span>
     </div>`;
 

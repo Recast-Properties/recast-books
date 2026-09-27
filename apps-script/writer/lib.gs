@@ -1069,7 +1069,8 @@ var M_gate = (function () {
     const inv = String(model?.invoice_number || "").trim();
     const total = (model?.entries || []).reduce((t, e) => t + entryTotalCents(e), 0) || Number(model?.receipt_total_cents) || 0;
     const date = String(model?.date || model?.entries?.[0]?.date || "");
-    const named = new Set([model?.duplicate_of, model?.supersedes].filter(Boolean));
+    // A row the read says already carries part of this receipt is not a twin of the rest.
+    const named = new Set([model?.duplicate_of, model?.supersedes, ...(model?.already_posted_txn_ids || [])].filter(Boolean));
     for (const posted of postedEntries) {
       if (named.has(posted.txn_id)) continue;
       const postedPayee = String(posted.payee || "").trim().toLowerCase();
@@ -1186,7 +1187,8 @@ var M_gate = (function () {
    * @param {{postedEntries?: Array<{txn_id:string, date:string, payee:string, total_cents:number}>}} [opts]
    *   `postedEntries` is the posted-Journal view the twin rail (condition 9) checks
    *   against - already-posted entries only, shaped as the fields the twin check needs.
-   * @returns {{passed:boolean, reasons:string[]}}
+   * @returns {{passed:boolean, reasons:string[], already_posted_cents:number}} the last is what the
+   *   Journal holds for the read's already_posted_txn_ids (the card shows it beside the entries)
    */
   function evaluateGate(model, ctx, settings, { postedEntries = [] } = {}) {
     const reasons = [];
@@ -1221,9 +1223,18 @@ var M_gate = (function () {
 
     const entries = entriesOf(model);
 
+    // A receipt partly on the books (2026-09-26: parked hardware receipts whose lines the migration
+    // posted as old-book rows): the read names the entries that carry some lines and proposes the
+    // rest. Their amounts come from the Journal, never from the model - a name that is not a live
+    // posted entry adds nothing, so the total fails. Always a human's call: a later copy of a receipt
+    // could otherwise name the posted rows and post the lines Paul removed on the card.
+    const alreadyPosted = new Set(Array.isArray(model?.already_posted_txn_ids) ? model.already_posted_txn_ids : []);
+    const alreadyPostedCents = postedEntries.filter((p) => alreadyPosted.has(p.txn_id)).reduce((t, p) => t + (Number(p.total_cents) || 0), 0);
+    if (alreadyPosted.size) push("PARTLY_ON_BOOKS");
+
     // 3. items sum to the receipt total across every entry (±0.5% when subtotal_cents
     // and tax_cents are both given - rounding on a reconciled receipt; exact otherwise).
-    const itemsTotal = entries.reduce((t, entry) => t + entryTotalCents(entry), 0);
+    const itemsTotal = entries.reduce((t, entry) => t + entryTotalCents(entry), 0) + alreadyPostedCents;
     const tolerant = model?.subtotal_cents != null && model?.tax_cents != null;
     const tolerance = tolerant && Number.isFinite(receiptTotal) ? Math.round(Math.abs(receiptTotal) * 0.005) : 0;
     if (Number.isFinite(receiptTotal) && Math.abs(itemsTotal - receiptTotal) > tolerance) {
@@ -1281,7 +1292,7 @@ var M_gate = (function () {
     const dup = findDuplicate(model, postedEntries);
     if (dup) push(dup.kind === "duplicate" ? `DUPLICATE_OF:${dup.txn_id}` : `POSSIBLE_TWIN:${dup.txn_id}`);
 
-    return { passed: reasons.length === 0, reasons };
+    return { passed: reasons.length === 0, reasons, already_posted_cents: alreadyPostedCents };
   }
 
   /**
