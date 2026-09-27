@@ -330,12 +330,15 @@ book's spelling of the payee ("Harbor Frieght") and dated the day of the purchas
 for a receipt's own rows by date: call `read_ledger` with `date` set to the receipt's date
 and `payee` null, and compare each row with this receipt's lines (a line with its tax share,
 or the sum of a few lines).
-- A row whose amount AND product fit is already on the books. Put its txn_id in
-  `already_posted_txn_ids`, propose entries only for the lines no row carries, verdict `hold`,
-  and say in `checked` which lines each txn_id carries. Code adds those rows to your entries
-  and checks the sum is the receipt total.
-- A row with the right amount but a different product, or dated more than a few days away,
-  is another purchase (the same shop towels sell every week) - never claim it.
+- A row whose product AND amount fit is already on the books - even when the old book dated
+  it days later, its tax share is a cent off yours, or it is one unit of a line with a
+  quantity. Put its txn_id in `already_posted_txn_ids`, propose entries only for what no row
+  carries (for a quantity line, the units no row carries), verdict `hold`, and say in
+  `checked` which lines each txn_id carries. Code adds those rows to your entries and checks
+  the sum is the receipt total.
+- A row with the right amount but a different product is another purchase - never claim it.
+  The same product a week or more away is claimed only when no nearer row carries that line
+  (the same shop towels sell every week).
 - When rows carry every line, the receipt is a duplicate: `dismiss` with `duplicate_of` set
   to the largest of them.
 

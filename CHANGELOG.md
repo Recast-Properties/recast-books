@@ -1184,3 +1184,27 @@ partly on the books` - find the receipt's rows by date, claim a row only when am
 itself linked HD 03-02's second copy to a 03-23 "Shop Towels" 14.05 and an 04-09 "wire connectors" 16.19 by amount
 alone: other purchases), hold with the rest, dismiss when rows carry every line. Test: the partial total ties from the
 Journal, a ghost name fails, a named row carrying the receipt number is no duplicate (both mutations caught). 485 tests.
+**Deployed** (Paul, `6ab86157` for 3a, `6ab86290` for 3b; writer and both pollers pushed and verified by pull), then
+**the four parked cards reprocessed** (hold-only - nothing posted). Checked against the migrated rows by hand:
+- **HD 02-12 156.67 - right.** Claimed Shovel, PEX (two lines), Sharkbite (two lines), Screws: 91.00 from the Journal;
+  proposed the PEX clamp tool 48.68 (6510 OVERHEAD), clamps 7.99 and hangers 9.00 (1030, 104 Ashburne) = 65.67.
+- **HD 03-02 147.38 - right.** Claimed Copper Pipe 16.19 and Paper Towels 14.05 = **30.24, not the handoff's 60.48**:
+  the migration also linked this receipt's second copy to a 03-23 "Shop Towels" 14.05 and an 04-09 "wire connectors"
+  16.19 by amount alone - other purchases, and the read rightly left them. Proposed couplings 1.99 and flux/solder kit
+  45.47 (1030 Ashburne), torch kit 67.10 (6510 OVERHEAD), water 2.58 (6710) = **117.14 on no book, not 86.90**.
+- **HD 01-11 170.63 - one line wrong.** Claimed the ten rows dated 01-11 (128.85) but proposed the light bulbs 25.93
+  as unposted: the "Light Bulbs" 25.94 row is dated **01-16** (the old book booked it late; the migration linked it
+  to this receipt; no 01-16 Home Depot receipt was ever read). My rule said a row "more than a few days away" is
+  another purchase. Reworded: product AND amount decide, even when the old book dated the row days later, the tax
+  share is a cent off, or the row is one unit of a quantity line; a same-product row a week or more away is claimed
+  only when no nearer row carries the line.
+- **Lowe's 768.99 - cannot be itemized from this document.** The screenshot shows 2 of 12 units; the read proposed the
+  two niches 183.98 plus "remaining 10 items" 585.01 and claimed nothing. The order's own document is
+  `gm-19c54bfd346362be`, **lowes.pdf** (dismissed 09-22 as a migration leftover), itemized on 09-17 into 7 lines: four
+  are on the books (privacy knobs 219.14, deadbolt combo 70.10, smoke detectors 148.95, ONE of the two niches 91.99);
+  the second niche 91.99, hinges 5.07 and 5.39 and passage knobs 136.35 - **238.81** - are on no book.
+
+**The web Inbox kept the old read's entries after a Reprocess** (found reading the cards): `ensureEditingEntries`
+cloned a card's entries once and never again, so after a re-read the card showed - and Approve would have posted - the
+previous read's entries (on these four, the whole receipt). The clone now belongs to one read (`editingAt` keyed on
+`finishedAt`). The workbook Inbox rebuilds its copies on every load and was never affected.

@@ -587,6 +587,7 @@ const inboxState = {
   banner: null,
   refData: { accounts: [], properties: [], bankAccounts: [] },
   editing: {}, // docId -> deep-cloned, editable proposedEntry[] (pending tab only)
+  editingAt: {}, // docId -> finishedAt of the read that clone was made from
   focusDocId: undefined, // docId to highlight/poll, set when arriving from Upload
 };
 
@@ -855,8 +856,12 @@ function renderEntriesEditor(env, entries, editable) {
 }
 
 function ensureEditingEntries(env) {
-  if (!inboxState.editing[env.docId]) {
+  // A clone belongs to one read. After a Reprocess (here or in the workbook) the old clone would
+  // show - and Approve would post - the previous read's entries (2026-09-26).
+  const at = env.finishedAt || "";
+  if (!inboxState.editing[env.docId] || inboxState.editingAt[env.docId] !== at) {
     inboxState.editing[env.docId] = JSON.parse(JSON.stringify((env.model && env.model.entries) || []));
+    inboxState.editingAt[env.docId] = at;
   }
   return inboxState.editing[env.docId];
 }
