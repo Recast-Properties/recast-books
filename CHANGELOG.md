@@ -1129,3 +1129,13 @@ linked receipts one at a time flags 16; each of the other 9 is still carried by 
 recorded decision (checked one by one). Three false alarms found and fixed on the way: `differences_settled` counted
 as settled; the amount match borrowing a row another receipt already explains; reviewed dismissals trusted without
 the duplicate they claim. 483 tests. **Deployed 2026-09-26** (Paul, deploy `6ab8584a`); the 2 AM check runs it from then on.
+
+## 2026-09-26 (night) - The Inbox's four parked cards: one-click PDF, itemized reads, a safe reprocess
+
+**1. A PDF opens in one click (writer, pushed).** Paul: *"why are these receipts three clicks deep ... they are
+buried."* A PDF on a workbook Inbox card was a link to the WEB Inbox (open the site, find the card, click again); a
+plain `/api/file` link cannot work because the site's session is a Bearer token. `inboxFile(key)` in `Menu.gs`
+returns the bytes (same `siteFetchRaw_` as `inboxThumb`, no `thumb=1`); the card opens a tab inside the click (one
+opened after the server round trip is a blocked pop-up) and points it at a Blob URL of them. The dialog's frame is
+`allow-popups allow-popups-to-escape-sandbox allow-same-origin`, so Chrome's PDF viewer runs in the new tab. Verified
+by Paul on The Home Depot 03-02 card: the receipt opened in a new tab.

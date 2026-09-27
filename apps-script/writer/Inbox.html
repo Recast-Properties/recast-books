@@ -216,7 +216,7 @@
       if (String(a.mime || '').indexOf('image/') === 0) {
         return '<img class="thumb" data-key="' + escapeHtml_(a.key || ('att/' + env.docId + '/' + i)) + '" alt="" title="Click to enlarge">';
       }
-      return '<a class="pdf" href="' + escapeHtml_(DATA.site) + '/#inbox/' + d + '" target="_blank" rel="noopener">PDF: ' + escapeHtml_(a.name || 'open in web Inbox') + '</a>';
+      return '<a class="pdf" href="#" data-file="' + escapeHtml_(a.key || ('att/' + env.docId + '/' + i)) + '" data-mime="' + escapeHtml_(a.mime || 'application/pdf') + '">PDF: ' + escapeHtml_(a.name || 'open') + '</a>';
     }).join('');
 
     var entriesHtml = entries.map(function (e, ei) {
@@ -311,6 +311,21 @@
         if (r.ok) img.src = r.dataUri; else img.alt = 'No preview';
       });
       img.onclick = function () { img.classList.toggle('big'); };
+    });
+    // One click (Paul, 2026-09-26: "they are buried"). The tab is opened inside the click -
+    // one opened after the server round trip is a blocked pop-up - then pointed at the bytes.
+    card.querySelectorAll('a[data-file]').forEach(function (a) {
+      a.onclick = function (ev) {
+        ev.preventDefault();
+        var w = window.open('', '_blank');
+        if (!w) return showMsg_(msg, false, 'The browser blocked the new tab - allow pop-ups for this sheet.');
+        callServer_('inboxFile', a.dataset.file).then(function (r) {
+          if (!r.ok) { w.close(); return showMsg_(msg, false, '<b>' + escapeHtml_(r.error) + '</b> - ' + escapeHtml_(r.message)); }
+          var bin = atob(r.b64), bytes = new Uint8Array(bin.length);
+          for (var i = 0; i < bin.length; i++) bytes[i] = bin.charCodeAt(i);
+          w.location.href = URL.createObjectURL(new Blob([bytes], { type: a.dataset.mime }));
+        }, function (err) { w.close(); showMsg_(msg, false, escapeHtml_(err && err.message ? err.message : err)); });
+      };
     });
 
     card.querySelectorAll('[data-f]').forEach(function (el) {

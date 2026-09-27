@@ -910,6 +910,16 @@ function inboxThumb(key) {
   }
 }
 
+/** An attachment's own bytes as base64 - the Inbox opens a PDF from them in one click
+ *  (the site's session is a Bearer token, so a plain /api/file link cannot work). */
+function inboxFile(key) {
+  try {
+    return { ok: true, b64: Utilities.base64Encode(siteFetchRaw_('/api/file?key=' + encodeURIComponent(key)).getContent()) };
+  } catch (err) {
+    return { ok: false, error: (err && err.code) || 'INTERNAL', message: String((err && err.message) || err) };
+  }
+}
+
 /** "<date> <vendor> <total>.<ext>" - netlify/functions/_shared.mjs driveFileName, copied. */
 function driveFileName_(model, original, index) {
   var vendor = String((model && model.vendor) || '').trim().replace(/[\\/:*?"<>|]+/g, '').slice(0, 60);
