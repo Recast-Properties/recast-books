@@ -1006,3 +1006,45 @@ plus the date columns of `TAB_HEADERS`). **Writes are untouched:** the writer ke
 refresh, `txn_id` identity and every gate; the service account has no write scope and no Editor role. The
 writer's `read` action stays for the workbook menu and the clasp helpers. Flip only after
 `scripts/reads-tieout.mjs` shows zero cell differences on all nine tabs.
+
+
+## D-048 · A Reprocess never posts or dismisses - 2026-09-26 · Paul (the parked-cards complaint), Claude
+
+Reprocess was a fresh read through the normal path: a "post" the gate passed was posted, a confident or duplicate
+dismiss was dismissed. The four parked hardware receipts were mostly on the books already as migrated old-book rows,
+and all three Home Depot totals were under the $500 ceiling - a re-read could post a whole receipt on top of its rows,
+which is how four were posted twice on 09-22 (audit §66). Paul: *"cant you just copy the receipts over and run them
+again?"*
+
+**Decided:** the Inbox's Reprocess (both Inboxes, `books-inbox.mjs`) sends `holdOnly`; the read, the gate's reasons and a
+note when the model voted post or dismiss come back to the card in `pending`. The warm job's retries of errored reads
+and the poller's re-upload list are not a Reprocess and post as before.
+
+
+## D-049 · One item per printed line; a hold still proposes its entries - 2026-09-26 · Paul ("the system is not itemizing them")
+
+D-003 says the bookkeeper itemizes and D-041 gives each item its own property, but the prompt required neither: the
+three parked Home Depot reads listed every line in `why` and proposed no entries (so the workbook card had nothing to
+approve), and the Lowe's read was one line for twelve items.
+
+**Decided:** a receipt or invoice that lists lines gets one item per printed line - the line's extended price plus its
+share of the 8.25% tax (taxable lines only; the rounding cents on the largest taxable line, so the items equal the
+total), discounts folded in, shipping or a fee its own item; one item only for a one-line document (fuel, a bill, a
+ride, a folio, a meal). A hold proposes its entries exactly as it would post them, leaving only what it could not
+settle for Paul (`paid_from` UNKNOWN, or `property` empty - never OVERHEAD as a filler).
+
+
+## D-050 · A read may say a receipt is partly on the books; the Journal supplies the amounts and it always holds - 2026-09-26 · Claude, from the parked cards
+
+The migration posted many hardware receipts line by line as old-book rows - often some lines, sometimes one row for
+several, under the old spelling of the payee, and now and then dated days after the purchase (Home Depot 01-11's bulbs
+on 01-16). A read that cannot say so either proposes the whole receipt (a double post on approve) or dismisses it (the
+unrecorded lines are lost).
+
+**Decided:** `decide` names the entries that already carry lines (`already_posted_txn_ids`) and proposes only the rest.
+Their amounts come from the Journal, never the model - a name on no live entry adds nothing and the total fails; they
+are left out of the twin rail; and the read always holds (`PARTLY_ON_BOOKS`), because a later copy of a receipt could
+otherwise name the posted rows and post lines Paul removed on the card. A row counts only when product AND amount fit;
+the same product a week or more away counts only when no nearer row carries the line. `read_ledger` takes `date` (cost
+lines within 10 days, nearest first) so the rows can be found at all. Proved on the five parked documents: each ties to
+the migrated rows line by line - 437.46 on no book, not the 407.22 the migration's amount-only links implied.

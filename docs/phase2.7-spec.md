@@ -89,7 +89,8 @@ up to 15 minutes. The D-012 duplicate check already reads fresh.
 ## 6 · Inbox review in the workbook — built 2026-09-16
 
 **Recast Books → Inbox…** opens a 600 px modeless dialog (`Inbox.html`; Sheets fixes a sidebar at 300 px) listing every pending document:
-vendor, date, total, confidence, thumbnail (click to enlarge; PDFs link to the web Inbox),
+vendor, date, total, confidence, thumbnail (click to enlarge; a PDF opens in a new tab in one
+click - `inboxFile` returns its bytes, 2026-09-26; it linked to the web Inbox before),
 Claude's note, the gate's reasons, and the same editable entries as the web card (property,
 paid from, items with account/amount/description/purpose, running total against the
 receipt). Approve, Dismiss (with a reason), Reprocess.
@@ -115,7 +116,8 @@ the slow part, in two steps so the user waits only for the ledger write (8.4 s �
   `doc_url`), rebuild the property tab's line blocks, poke the cache. A failure here is
   reported in red on the card but the entry is already posted.
 
-Dismiss and Reprocess are the existing `/api/inbox` verbs, proxied.
+Dismiss and Reprocess are the existing `/api/inbox` verbs, proxied. A Reprocess never posts or
+dismisses (D-048): the fresh read comes back to the card for Paul.
 
 Auth: the sidebar calls the site with the same `POLLER_SECRET` script property `warmCache_`
 uses (`x-poller-secret`, now accepted by `/api/inbox` and `/api/file`); the Users-tab owner

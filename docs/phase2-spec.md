@@ -91,7 +91,7 @@ injected so tests run with fakes and no network.
 | tool | input | returns |
 |---|---|---|
 | `zoom` | `{attachment: int, x0,y0,x1,y1: fractions 0–1}` | an `image` block: jimp crop of that attachment, upscaled so the short side ≥ 800 px, long side ≤ 1568 px, JPEG q85 |
-| `read_ledger` | `{payee?: string, days?: int (default 60), property?: string}` | compact rows `date · payee · amount · account · property · txn_id · description` from the Journal (via the injected `ledger.recent()`), max 80 rows |
+| `read_ledger` | `{payee?: string, days?: int (default 60), property?: string, date?: "YYYY-MM-DD"}` | compact rows `date · payee · amount · account · property · txn_id · description` from the Journal (via the injected `ledger.recent()`), max 80 rows. With `date` (2026-09-26): the cost lines within 10 days of it, nearest first, any payee, max 150 - how a read finds a receipt's own rows (D-050) |
 | `find_vendor` | `{query}` | Vendors rows whose canonical or aliases match (case-insensitive, substring) + the 5 most recent Journal payees that match, with their accounts |
 | `list_properties` | `{}` | registry rows with status `held` or `under contract` (name, address, purchase_date), plus the literal `OVERHEAD` |
 | `search_docs` | `{vendor?: string, amount_cents?: int, days?: int (default 90)}` | prior envelopes' `{docId, status, vendor, date, receipt_total_cents, txn_ids, verdict}` — for twin reasoning |
@@ -102,17 +102,22 @@ injected so tests run with fakes and no network.
 `decide` input (strict):
 ```
 { verdict: "post"|"hold"|"dismiss", confidence: "high"|"medium"|"low", why: string,
-  document_type, vendor: string, date: "YYYY-MM-DD"|"", receipt_total_cents: int,
-  subtotal_cents: int|null, tax_cents: int|null,
-  paid_from: "14xx"|"PAUL"|"DENNIS"|"", paid_from_reason: string,
-  duplicate_of: string, supersedes: string,
-  entries: [ proposedEntry ] }
+  checked: string, document_type, vendor: string, date: "YYYY-MM-DD"|null,
+  receipt_total_cents: int, subtotal_cents: int|null, tax_cents: int|null,
+  paid_from: "14xx"|"PAUL"|"DENNIS"|"UNKNOWN"|null, paid_from_reason: string,
+  duplicate_of: string|null, supersedes: string|null, invoice_number: string|null,
+  already_posted_txn_ids: [txn_id], entries: [ proposedEntry ] }
 ```
+(`lib/bookkeeper.mjs` `DECIDE_SCHEMA` is the source of truth.)
 - `dismiss` + `duplicate_of` = "this document is already on the books" (a forwarded twin,
   an invoice/receipt pair). Cite the txn_id or docId.
 - `supersedes` = "this document is the final version of a posted entry" (tipped ride
   after the base fare). Code voids the old entry and posts the new one.
-- `hold` = anything the model is not sure of. `why` must say what a human should check.
+- `hold` = anything the model is not sure of. `why` must say what a human should check. A
+  hold still proposes its entries, one item per printed line (D-049) - the Inbox card is
+  built from them.
+- `already_posted_txn_ids` = Journal entries that already carry some of this receipt's lines
+  (migrated old-book rows); `entries` then hold only the rest (D-050).
 
 **System prompt content** (write it as a file `lib/bookkeeper-prompt.md`, loaded at
 module scope; ASCII-safe): who Recast is; the chart of accounts with one line per account
@@ -121,8 +126,8 @@ office; holding costs; 6600 fuel/repairs on Dennis's truck; travel PDX↔DFW is 
 [Personal] in a subject is NOT a signal); D-010 overhead never names a property; property
 routing (a Home Depot run for a house is a property cost — use `list_properties`, choose
 the property the receipt or email names, hold if two properties are plausible); tax
-treatment (TX sales tax 8.25% is part of the item cost; shipping/fees are part of the
-cost); paid_from rules (card last-4 on the receipt matched to Bank accounts `last4` →
+treatment (TX sales tax 8.25% is part of the item cost - since D-049 each printed line is its
+own item carrying its share, and shipping or a fee is its own item); paid_from rules (card last-4 on the receipt matched to Bank accounts `last4` →
 that account; a last-4 in Settings `paul_personal_last4` → PAUL; Dennis paying directly →
 DENNIS; otherwise `UNKNOWN` — never a default — and `paid_from_reason` says what was
 missing; D-014); the **method** from the
@@ -139,8 +144,10 @@ draft `business_purpose` from the email but expect `hold` unless the purpose is 
 
 1. `verdict === "post"` and `confidence` is `"high"` or `"medium"` (D-044, 2026-09-25: medium posts when every other rail holds; `"low"` or missing holds)
 2. `vendor` and `date` present, date valid and not in the future
-3. every entry's items sum to the receipt total across entries (±0.5 % when `subtotal_cents`
-   and `tax_cents` are given, exact otherwise)
+3. every entry's items - plus the Journal totals of `already_posted_txn_ids` - sum to the
+   receipt total across entries (±0.5 % when `subtotal_cents` and `tax_cents` are given,
+   exact otherwise). Checked only when something was proposed: nothing proposed is
+   `NO_ENTRIES` whatever the verdict (2026-09-26 - it read "Items do not add up" before)
 4. `receipt_total_cents > 0` and `≤ settings.autofile_ceiling_cents`
 5. no item account in `{6700, 6710, 6720}`
 6. every entry's `property` is `OVERHEAD` or in the registry with status held/under contract
@@ -155,8 +162,10 @@ draft `business_purpose` from the email but expect `hold` unless the purpose is 
    re-check stays, but it is no longer the only thing between a twin and a double post
    (2026-09-13: both Anthropic copies posted three seconds apart).
 9. **twin rail:** no *posted* Journal entry with the same payee, date and total that the
-   model did not name in `duplicate_of`/`supersedes` — if one exists → hold with reason
+   model did not name in `duplicate_of`/`supersedes`/`already_posted_txn_ids` — if one exists → hold with reason
    `POSSIBLE_TWIN <txn_id>` (never silently double-post; never silently drop either)
+10. **partly on the books (D-050):** any `already_posted_txn_ids` → `PARTLY_ON_BOOKS`, always a
+   hold; the gate returns `already_posted_cents` (taken from the Journal) for the card
 
 Failing → status `pending`, reasons kept. `dismiss` with `duplicate_of` → `dismissed`.
 `supersedes` naming a posted txn_id → passes the gate like a post; the poster voids the
@@ -187,7 +196,8 @@ old entry first (reason `superseded by <docId>`), then posts.
   `approve {entries?}` — human bypass: posts the (possibly edited) entries with
   `allow_duplicate_hash: true`, `posted_by` = session email, `source: "receipt"`, gate NOT
   applied (the human is the gate), but `buildEntry` rules still apply (D-010 etc.);
-  `dismiss {note}`; `reprocess` (re-invokes ingest, `reprocess:true`); `delete` — only for
+  `dismiss {note}`; `reprocess` (re-invokes ingest with `holdOnly: true` - the fresh read always
+  waits in `pending`, never posts or dismisses, D-048); `delete` — only for
   `dry` or `error` envelopes (removes the envelope and its bytes).
 - `books-file.mjs` (`/api/file?key=att/...`): session-gated; streams the bytes with the
   stored mime; `?thumb=1` returns a jimp-resized 480 px JPEG (PDFs return 404 for thumb).
