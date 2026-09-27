@@ -1234,10 +1234,13 @@ var M_gate = (function () {
 
     // 3. items sum to the receipt total across every entry (±0.5% when subtotal_cents
     // and tax_cents are both given - rounding on a reconciled receipt; exact otherwise).
+    // Only when something was proposed: nothing proposed is NO_ENTRIES below, whatever the verdict -
+    // a hold with no items read "Items do not add up - fix the amounts" with nothing to fix (2026-09-26).
+    const proposed = entries.some((e) => itemsOf(e).length > 0);
     const itemsTotal = entries.reduce((t, entry) => t + entryTotalCents(entry), 0) + alreadyPostedCents;
     const tolerant = model?.subtotal_cents != null && model?.tax_cents != null;
     const tolerance = tolerant && Number.isFinite(receiptTotal) ? Math.round(Math.abs(receiptTotal) * 0.005) : 0;
-    if (Number.isFinite(receiptTotal) && Math.abs(itemsTotal - receiptTotal) > tolerance) {
+    if ((proposed || alreadyPosted.size) && Number.isFinite(receiptTotal) && Math.abs(itemsTotal - receiptTotal) > tolerance) {
       push("TOTAL_MISMATCH");
     }
 
@@ -1250,10 +1253,7 @@ var M_gate = (function () {
       }
     }
 
-    // A post verdict with nothing to post is its own, clearer failure than TOTAL_MISMATCH.
-    if (model?.verdict === "post" && (!Array.isArray(entries) || entries.length === 0 || entries.every((e) => !itemsOf(e).length))) {
-      push("NO_ENTRIES");
-    }
+    if (!proposed) push("NO_ENTRIES");
 
     // 6/7. property + paid_from, per entry - pre-checked here (for the clean reason
     // code) before condition 8 attempts to actually build the entry.

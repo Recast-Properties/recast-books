@@ -159,6 +159,18 @@ test("a mismatch beyond 0.5% still fails even with subtotal_cents and tax_cents 
   assert.ok(result.reasons.includes("TOTAL_MISMATCH"));
 });
 
+test("nothing proposed is NO_ENTRIES whatever the verdict - never 'Items do not add up'", () => {
+  // 2026-09-26: every hold with no items carried TOTAL_MISMATCH, so its card said "fix the amounts" with none to fix.
+  for (const verdict of ["hold", "post", "dismiss"]) {
+    const result = evaluateGate(baseModel({ verdict, entries: [] }), baseCtx(), baseSettings(), { postedEntries: [] });
+    assert.ok(result.reasons.includes("NO_ENTRIES"), verdict);
+    assert.ok(!result.reasons.includes("TOTAL_MISMATCH"), verdict);
+    assert.equal(result.passed, false, verdict);
+  }
+  const itemless = evaluateGate(baseModel({ verdict: "hold", entries: [baseEntry({ items: [] })] }), baseCtx(), baseSettings(), { postedEntries: [] });
+  assert.ok(itemless.reasons.includes("NO_ENTRIES") && !itemless.reasons.includes("TOTAL_MISMATCH"), "an entry with no items proposes nothing");
+});
+
 test("items summed across multiple entries must equal the receipt total", () => {
   const model = baseModel({
     receipt_total_cents: 30000,

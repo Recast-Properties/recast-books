@@ -1225,3 +1225,12 @@ checked line by line against the migrated rows** - HD 01-11 15.84, HD 02-12 65.6
 238.81 on no book: **437.46, not 407.22** (HD 03-02's look-alike rows were the 30.24); the Lowe's screenshot is a copy of
 the PDF's order. Nothing was posted by any re-read. Approving or dismissing each remainder (personal, returned or
 missed - the Phase 3 question) is Paul's call on the card.
+
+**4. "Items do not add up" on a hold with nothing proposed (deploy + writer + both pollers).** The gate compared the
+items with the receipt total on every read, so a hold with no items carried TOTAL_MISMATCH and its card said "Items do
+not add up - fix the amounts" with nothing to fix (the workbook card has no editor without an entry). The total is
+now checked only when something was proposed (items, or rows the read found on the books); nothing proposed is
+`NO_ENTRIES` whatever the verdict (it was post-only), and its words are "Nothing proposed - reprocess it, or dismiss
+it" - a reprocess is safe to suggest now that it never posts. Fixed in the gate, so the card, the digest and the web
+chips all read it. Test: hold, post and dismiss with nothing proposed are NO_ENTRIES and never TOTAL_MISMATCH; fails on
+the old gate. 487 tests.

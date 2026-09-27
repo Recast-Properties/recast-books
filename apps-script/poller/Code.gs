@@ -599,7 +599,7 @@ var GATE_TEXT = {
   OVER_CEILING: 'Over the auto-file limit - approve it yourself',
   TOTAL_MISMATCH: 'Items do not add up - fix the amounts',
   NEEDS_HUMAN_274D: 'Travel, meal or gift - type the business purpose',
-  NO_ENTRIES: 'Nothing to post - dismiss it',
+  NO_ENTRIES: 'Nothing proposed - reprocess it, or dismiss it',
   BAD_PROPERTY: 'No property - pick one',
   PAYER_UNKNOWN: 'No payer - pick who paid',
   BAD_PAID_FROM: 'Bad payer - pick who paid',
