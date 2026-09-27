@@ -1262,3 +1262,13 @@ which house"), the Approve button asks "Click again to record it", the result sa
 to Drive". Test: the card's own functions run on HD 01-11 - the partial bullet, the three totals lines, a mismatch
 bullet by name, and no "Entries $", "does not match" or "entry" anywhere. 488 tests. Left: the web Inbox still shows
 the reason codes as raw chips (history cards; pending review is in the workbook).
+
+**The Returned button (writer + both pollers).** Paul, on Home Depot 01-11: *"this was a return. how does this work?
+do i dismiss? there is not return button"*, then *"there will be undocumented returns/credits from home depot when we
+reconcile the bank statements"* (now `docs/phase3-spec.md` 3a: a credit whose items were never recorded books nothing,
+one whose items were recorded is a refund on the same house, anything else is a plain question to Paul). The workbook
+card has **Returned** beside Approve: first click "Click again - it all went back", second click files the card like a
+Dismiss with the note "Returned (<amount>): <items>" and says "Marked returned - nothing was added to the books." The
+note is the marker a store credit is matched to in Phase 3, pinned by the lint. The partly-recorded card and the digest
+now say "Took them back to the store? Click Returned." Checked first: no refund of the 01-11 screws is on the books or
+in any document read, so returning them changes nothing already recorded. The web Inbox has no Returned button.

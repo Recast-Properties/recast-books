@@ -392,7 +392,10 @@ test("the Inbox card says in plain words and dollars what is already in the book
   const gate = { reasons: ["NOT_POST_VERDICT", "PARTLY_ON_BOOKS"], already_posted_cents: 15479 };
   const both = [{ property: "104 Ashburne", items: [{ account: "1030", amount_cents: 995, trade: "Supplies" }, { account: "1030", amount_cents: 589, trade: "Supplies" }] }];
   const env = { docId: "d", model: { receipt_total_cents: 17063 }, gate };
-  assert.match(card.flagsList_(gate, both), /\$154\.79 of this receipt is already in the books\. The items below \(\$15\.84\) never got recorded\. Kept them\? Approve\. Returned them\? Dismiss\./);
+  assert.match(card.flagsList_(gate, both), /\$154\.79 of this receipt is already in the books\. The items below \(\$15\.84\) never got recorded\. Kept them\? Approve\. Took them back to the store\? Click Returned\./);
+  // The Returned button's note is the contract a store credit is matched on in Phase 3 (docs/phase3-spec.md 3a).
+  assert.ok(inbox.includes("'Returned (' + money_(amount) + '): '"), "the Returned note must start 'Returned (<amount>)'");
+  assert.ok(inbox.includes("callServer_('inboxDismiss', { docId: env.docId, note: reason })"), "Returned files the card like Dismiss");
   card.EDIT.d = both;
   assert.match(card.totalsLine_(env), /class="totals ok">Receipt \$170\.63: \$154\.79 already in the books \+ \$15\.84 to record now</);
   card.EDIT.d = [{ ...both[0], items: [both[0].items[1]] }];   // Paul removed the 9.95 pack

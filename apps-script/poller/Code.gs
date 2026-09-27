@@ -603,7 +603,7 @@ var GATE_TEXT = {
   BAD_PROPERTY: 'Which house is this for? Pick one',
   PAYER_UNKNOWN: 'Who paid? Pick the card or account',
   BAD_PAID_FROM: 'Who paid? Pick the card or account again',
-  PARTLY_ON_BOOKS: 'Some items never got recorded - Approve if you kept them, Dismiss if you returned them'
+  PARTLY_ON_BOOKS: 'Some items never got recorded - Approve if you kept them, click Returned if they went back'
 };
 
 function gateText_(r) {

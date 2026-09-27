@@ -124,7 +124,7 @@
     BAD_PROPERTY: 'Which house is this for? Pick one',
     PAYER_UNKNOWN: 'Who paid? Pick the card or account',
     BAD_PAID_FROM: 'Who paid? Pick the card or account again',
-    PARTLY_ON_BOOKS: 'Some items never got recorded - Approve if you kept them, Dismiss if you returned them'
+    PARTLY_ON_BOOKS: 'Some items never got recorded - Approve if you kept them, click Returned if they went back'
   };
   var TRADELESS_ACCOUNTS = ['1000', '1100', '1200', '1210', '1220'];  // summary lines, never in a tab block
 
@@ -180,7 +180,7 @@
   // (2026-09-26: "it sounds like you're telling me this is a duplicate ... i THINK you are asking if i returned them?").
   function partlyText_(gate, entries) {
     return money_(gate.already_posted_cents) + ' of this receipt is already in the books. The items below (' + money_(itemsSum_(entries)) +
-      ') never got recorded. Kept them? Approve. Returned them? Dismiss. Returned only some? Remove those (x), then Approve.';
+      ') never got recorded. Kept them? Approve. Took them back to the store? Click Returned. Returned only some? Remove those (x), then Approve.';
   }
 
   function flagsList_(gate, entries) {
@@ -281,7 +281,9 @@
       (read ? '<details class="why"><summary>Claude\'s read</summary>' + read + '</details>' : '') +
       entriesHtml +
       '<div class="tot">' + totalsLine_(env) + '</div>' +
-      '<div class="verbs"><button class="primary" data-approve="1">Approve</button><button data-dismiss="1">Dismiss</button><button data-reprocess="1">Reprocess</button></div>' +
+      '<div class="verbs"><button class="primary" data-approve="1">Approve</button>' +
+      '<button data-returned="1" title="Everything on this card went back to the store - nothing is added to the books">Returned</button>' +
+      '<button data-dismiss="1">Dismiss</button><button data-reprocess="1">Reprocess</button></div>' +
       '<div class="note hidden"><input data-note="1" placeholder="Reason"><button data-dismiss-go="1">Dismiss it</button><button data-dismiss-cancel="1">Cancel</button></div>' +
       '<div class="msg hidden" data-msg="1"></div>' +
       '<div class="docid">' + d + '</div>' +
@@ -424,6 +426,28 @@
             slot.innerHTML = '<span style="color:#a50e0e">&middot; recorded, but the receipt did not save to Drive: ' + escapeHtml_(f.message) + '</span>';
           }
         }, function (err) { slot.innerHTML = '<span style="color:#a50e0e">&middot; recorded, but the receipt did not save to Drive: ' + escapeHtml_(err && err.message ? err.message : err) + '</span>'; });
+      }, function (err) { fail({ error: 'SCRIPT', message: err && err.message ? err.message : err }); });
+    };
+
+    // Paul, 2026-09-26: "this was a return ... there is not return button". Everything on the card went back: nothing
+    // is recorded, and the note is what a store credit on a bank statement is matched to later (docs/phase3-spec.md
+    // 3a) - so it always starts "Returned (" with the amount that went back.
+    var returnedBtn = card.querySelector('[data-returned]');
+    returnedBtn.onclick = function () {
+      if (returnedBtn.dataset.armed !== '1') {
+        returnedBtn.dataset.armed = '1';
+        returnedBtn.textContent = 'Click again - it all went back';
+        setTimeout(function () { returnedBtn.dataset.armed = ''; returnedBtn.textContent = 'Returned'; }, 4000);
+        return;
+      }
+      var what = [];
+      entries.forEach(function (e) { (e.items || []).forEach(function (it) { if (it.description) what.push(it.description); }); });
+      var amount = itemsSum_(entries) || Number((env.model && env.model.receipt_total_cents) || 0);
+      var reason = ('Returned (' + money_(amount) + '): ' + what.join('; ')).slice(0, 300);
+      busy(true);
+      callServer_('inboxDismiss', { docId: env.docId, note: reason }).then(function (r) {
+        if (!r.ok) return fail(r);
+        done('Marked returned - nothing was added to the books.');
       }, function (err) { fail({ error: 'SCRIPT', message: err && err.message ? err.message : err }); });
     };
 
