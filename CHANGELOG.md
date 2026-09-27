@@ -1234,3 +1234,5 @@ now checked only when something was proposed (items, or rows the read found on t
 it" - a reprocess is safe to suggest now that it never posts. Fixed in the gate, so the card, the digest and the web
 chips all read it. Test: hold, post and dismiss with nothing proposed are NO_ENTRIES and never TOTAL_MISMATCH; fails on
 the old gate. 487 tests.
+**Deployed** (Paul, `6ab86769`); the writer and both pollers pushed and verified by pull. **5. The Books check:** the
+09-26 2 AM run said "Books check: clean." - it predates `receipts_on_no_book`, whose first run is the 2 AM check on 09-27.
