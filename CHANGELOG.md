@@ -1294,3 +1294,14 @@ stripped), the water's flag, and no whole-card button left. 488 tests.
 totals line - one file and two functions. Verified live: the site's `app.js` serves the new wording. The workbook card
 changes (per-line Approve / Returned / Dismiss, Save) needed no deploy and were already live. Handoff:
 `HANDOFF-2026-09-26.md`, section START HERE.
+
+## 2026-09-26 (late) - The spacer text on 104 Ashburne came back: the web app was four days behind (audit §67)
+
+Paul: *"the spacer columns have text in them starting in column J. this has been an issue before."* The production
+web app still ran version 4 (09-22 morning, before the §61 fix): a push reaches the menus and triggers, but the web
+app runs the deployed version of the whole project, so every receipt posted through it (pollers, web Inbox,
+`approve-bg`) rewrote Ashburne's blocks in the old four-column layout, into what are now the spacers. §61 skipped the
+deploy because `doPost` had not changed - it calls the refresh. The books were never wrong. **Fix:** `clasp deploy -i`
+to the same id (Paul's step), then Rebuild property tab on 104 Ashburne. `CLAUDE.md`: every push touching `Code.gs` or
+`lib.gs` is followed by a deploy. Deployed @5 by Paul the same night, verified identical to the repo; Ashburne rebuilt and read back clean, every other
+tab checked and in the current layout.

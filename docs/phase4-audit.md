@@ -2059,3 +2059,37 @@ several receipt items into one row (D-029 posts the old row), so a line-level ma
 itemises, and a receipt where NO line matched exactly would never have been flagged at all. The remaining
 parked Home Depot / Lowe's items must be checked against the old rows **by hand** in Phase 3, not trusted to
 this sweep.
+
+## 67 · The spacer text came back: the web app never got the §61 fix (2026-09-26)
+
+**Reported (Paul, a screenshot of 104 Ashburne):** "the spacer columns have text in them starting in column J. this
+has been an issue before." Column J held Paint & Flooring payees; column P held Trash dates.
+
+**Cause.** The production web app (`AKfycbxNisU…`, what `WRITER_URL` calls) was still on **version 4** - D-035's
+`setDocUrl`, deployed the morning of 09-22, before §61. A versioned deployment runs that version of the *whole
+project*: `post` / `postBatch` / `void` -> `refreshLineBlocksFor_` -> version 4's `refreshHeavyBlocks_`, which writes
+four columns at `10 + i * 5` (J, O, T, ...). §61 and D-043 were pushed with "no `clasp deploy` needed, doPost
+unchanged" - true of `doPost`, false of what it calls. So the menus, the sheet's Inbox and the edit trigger ran the
+fixed code, while every receipt posted through the web app (both pollers, the web Inbox, `approve-bg`) rewrote the
+tab in the old layout. The current layout is stride 6 from K (Payee, Date, Description, Amount, Receipt, spacer);
+the next in-sheet refresh rewrites K-O, Q-U, ... and leaves exactly the cells that fall on the new spacers: J = old
+block 1's payee, P = old block 2's date, V = block 3's description, AB = block 4's amount - the screenshot's pattern.
+`setupPropertyTab` clears the sheet, so all of it was written after the last rebuild.
+
+**Also on version 4 until the deploy:** the light tabs' refresh writes the pre-D-043 eight columns at J and R (the
+Receipt column gets TRUE/FALSE, the txn_id lands in the Recast Account column, Utilities one column left) until the
+next in-sheet refresh overwrites every one of those cells; and `refreshLineBlocks_` has no sold guard (D-043), so a
+web-app write naming a sold property would recompute its frozen record. The books were never wrong: posting
+(`lib/posting.mjs`) is identical in both versions, and the tabs' totals are SUMPRODUCTs over the Journal.
+
+**Checked:** `clasp deployments` (@4), `clasp pull --versionNumber 4` (the old refresh, verbatim), the pushed HEAD is
+the repo byte for byte, 488 tests.
+
+**Fix.** Deploy HEAD to the same deployment id (version 5, `WRITER_URL` unchanged) - Paul's step, auto mode blocks
+production deploys - then Rebuild property tab on 104 Ashburne to clear the text already in the spacers. **The rule
+changed** (`CLAUDE.md`): every push that touches `Code.gs` or `lib.gs` is followed by `clasp deploy -i`.
+
+**Deployed @5 by Paul the same night**, verified: `clasp pull --versionNumber 5` is the repo byte for byte. Paul then
+rebuilt 104 Ashburne. Read back by gviz: all 24 blocks six columns apart from K under their own headers, every
+spacer (J and the one after each block) empty; the ten light tabs (eight held, Granite and Sparkling frozen) all in
+the current layout - Receipt column holds links, never TRUE/FALSE, Utilities' Payee holds names, txn ids in R and AA.
