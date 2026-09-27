@@ -121,9 +121,9 @@ test("the digest's pending line is a snapshot in the Inbox card's words, never t
   const novel = "Harbor Freight e-receipt, tender 9166, search_docs found gm-19d0639545d977c3. ".repeat(20) +
     "[rule: receipt-20260319-f3c59e4ca29f is not on the books, the dismiss was against an earlier run's ledger - replayed as hold]";
   assert.equal(reason({ why: novel, gate_reasons: ["NOT_POST_VERDICT", "TOTAL_MISMATCH"] }),
-    "Claude matched this to a record that is not in the books - Approve or Dismiss");
+    "Claude matched this to a record that is not in the books - Save it, or Dismiss all");
   assert.equal(reason({ why: "Posted: HILCO, card 5450.", gate_reasons: ["PAYER_UNKNOWN", "OVER_CEILING"] }),
-    "Who paid? Pick the card or account; Too big for Claude to record on its own - check it, then Approve");
+    "Who paid? Pick the card or account; Too big for Claude to record on its own - check it, then Save");
   assert.equal(reason({ why: "Held: no card or note says who paid.", gate_reasons: ["NOT_POST_VERDICT", "TOTAL_MISMATCH"] }),
     "Held: no card or note says who paid.");
   assert.equal(reason({ why: "x".repeat(400), gate_reasons: ["NOT_POST_VERDICT"] }), "Open it in the Inbox");

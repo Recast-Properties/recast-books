@@ -1272,3 +1272,19 @@ Dismiss with the note "Returned (<amount>): <items>" and says "Marked returned -
 note is the marker a store credit is matched to in Phase 3, pinned by the lint. The partly-recorded card and the digest
 now say "Took them back to the store? Click Returned." Checked first: no refund of the 01-11 screws is on the books or
 in any document read, so returning them changes nothing already recorded. The web Inbox has no Returned button.
+
+**Approve / Returned / Dismiss on each line (writer + both pollers).** Paul, on the new card buttons: *"these buttons
+need to be for each itemized item not the whole receipt. some itemized items will be returned, some dismissed, some
+approved. its not a blanket response for all items. that defeats the purpose of itemizing."* Each line on a workbook
+card now has **Approve** (the default), **Returned** and **Dismiss** (with an optional "why?"); a returned or dismissed
+line greys out. The card's **Save** does what each line says - posts the approved lines (split per house as before)
+and files the rest in the note, "Returned ($9.95): ... | Dismissed ($5.89): ... - personal", on the posted card
+(`mark-posted` already keeps a note) or, when nothing was kept, on a dismissed one. **Dismiss all** (with a reason) is
+for a document that is not a cost. The whole-card Returned button and the per-line x are gone. The totals line
+accounts for every dollar: "Receipt $170.63: $154.79 already in the books + $0.00 to record now + $9.95 returned +
+$5.89 dismissed". A kept meal or gift line asks for its who-and-why; a returned or dismissed one does not (the read's
+static meal flag is now worked out from the card, so dismissing HD 03-02's water clears it); only kept lines need a
+trade or a house. Card words say Save and Dismiss all (the digest's copy too). No server change: `inboxApprove` already
+passes a note to `mark-posted`. Test: the card's own functions on HD 01-11 - the partial bullet, all-kept, one
+returned and one dismissed (note and totals), one kept and one returned (only the kept line posts, its choice fields
+stripped), the water's flag, and no whole-card button left. 488 tests.

@@ -70,10 +70,11 @@ statements."* A store credit (money back) on a statement usually has no return r
 books depends on whether the returned items were ever on the books - so a credit is never
 booked from its amount alone:
 
-1. **The returned items were never recorded** - Paul marked their card returned (the card's
-   **Returned** button, 2026-09-26: the review note starts "Returned (<amount>):" and lists the
-   items; the read's `entries` are the items he gave back, e.g. Home Depot 01-11: two GRK screw
-   packs, 15.84; a card dismissed by hand with "returned" before the button counts too). The credit books **nothing**: it
+1. **The returned items were never recorded** - Paul marked their lines Returned on the card
+   (2026-09-26: each line has Approve / Returned / Dismiss; the card's review note carries
+   "Returned (<amount>): <items>", on a posted card when other lines were kept, or on a dismissed
+   one when nothing was, e.g. Home Depot 01-11: two GRK screw packs, 15.84; a card dismissed by
+   hand with "returned" before the buttons counts too). The credit books **nothing**: it
    matches that dismissed card and both are settled together. Booking it as money back would
    take the return off the books twice.
 2. **The returned items were recorded** (a posted receipt or a migrated old-book row) - the
@@ -85,11 +86,9 @@ booked from its amount alone:
 3. **Nothing matches** - a card for Paul in plain words: "Home Depot gave you $X back on
    <date>. What was returned, and for which house?" Never guessed.
 
-The matcher reads the returned cards (`search_docs` with status dismissed and a note starting
-"Returned (") before it proposes a refund, and a match to one needs the amount to equal the
-returned items' total (or a subset of them, when only some went back). Only some went back on an
-approved card: Paul removed those lines before approving, so they are the read's `entries` that
-were not posted - the matcher compares the two.
+The matcher reads the returned lines (`search_docs`: any card whose review note has "Returned (",
+posted or dismissed) before it proposes a refund, and a match needs the amount to equal the
+returned total (or a subset of it, when the credit covers only some).
 
 ## 4 · Reconciliation (deterministic)
 

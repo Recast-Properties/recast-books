@@ -29,7 +29,11 @@
   .flags li.act { color: #b06000; font-weight: bold; }
   .entry { border-top: 1px dashed #ddd; padding-top: 6px; margin-top: 6px; }
   .item { background: #fafafa; padding: 4px 6px; margin-bottom: 4px; border-radius: 3px; position: relative; }
-  .item .rm { position: absolute; right: 2px; top: 2px; border: none; background: none; color: #999; font-size: 14px; padding: 0 4px; margin: 0; }
+  .item .dec { margin-bottom: 4px; }
+  .item .dec button { font-size: 11px; padding: 2px 8px; margin: 0 4px 0 0; }
+  .item .dec button.on { background: #1a73e8; color: #fff; border-color: #1a73e8; }
+  .item .dec input { width: 50%; margin: 0 0 0 4px; }
+  .item.off > :not(.dec) { opacity: .4; }
   .item input, .item select, .entry select { margin-bottom: 4px; }
   .item .row3 { display: flex; gap: 6px; }
   .item .row3 > div:first-child { flex: 0 0 90px; }
@@ -112,28 +116,28 @@
   // actions the card allows (2026-09-26: "i'm not an accountant. talk to me like im 5 years old").
   var GATE_TEXT = {
     NOT_POST_VERDICT: '',                                             // covered by the catch-all below
-    LOW_CONFIDENCE: 'Claude is not sure of the amounts - check them against the receipt, then Approve or Dismiss',
-    MISSING_VENDOR: 'Claude could not read the store name - click Reprocess, or Dismiss',
-    MISSING_DATE: 'Claude could not read the date - click Reprocess, or Dismiss',
-    BAD_DATE: 'The date looks wrong - click Reprocess, or Dismiss',
-    ZERO_TOTAL: 'Claude could not read the total - type the amounts, or Dismiss',
-    OVER_CEILING: 'Too big for Claude to record on its own - check it, then Approve',
+    LOW_CONFIDENCE: 'Claude is not sure of the amounts - check them against the receipt, then Save',
+    MISSING_VENDOR: 'Claude could not read the store name - click Reprocess, or Dismiss all',
+    MISSING_DATE: 'Claude could not read the date - click Reprocess, or Dismiss all',
+    BAD_DATE: 'The date looks wrong - click Reprocess, or Dismiss all',
+    ZERO_TOTAL: 'Claude could not read the total - type the amounts, or Dismiss all',
+    OVER_CEILING: 'Too big for Claude to record on its own - check it, then Save',
     TOTAL_MISMATCH: 'The items do not add up to the receipt total - fix the amounts',
     NEEDS_HUMAN_274D: 'Meal or gift - type who it was with and the business reason',
-    NO_ENTRIES: 'Claude found nothing to record - click Reprocess to read it again, or Dismiss',
+    NO_ENTRIES: 'Claude found nothing to record - click Reprocess to read it again, or Dismiss all',
     BAD_PROPERTY: 'Which house is this for? Pick one',
     PAYER_UNKNOWN: 'Who paid? Pick the card or account',
     BAD_PAID_FROM: 'Who paid? Pick the card or account again',
-    PARTLY_ON_BOOKS: 'Some items never got recorded - Approve if you kept them, click Returned if they went back'
+    PARTLY_ON_BOOKS: 'Some items never got recorded - pick Approve, Returned or Dismiss on each, then Save'
   };
   var TRADELESS_ACCOUNTS = ['1000', '1100', '1200', '1210', '1220'];  // summary lines, never in a tab block
 
   function flagText_(r) {
     var t = String(r), i = t.indexOf(':');
     var head = i < 0 ? t : t.slice(0, i), rest = i < 0 ? '' : t.slice(i + 1);
-    if (head === 'DUPLICATE_OF') return 'Already in the books - Dismiss it (' + rest + ')';
-    if (head === 'POSSIBLE_TWIN') return 'Might already be in the books - check, then Approve or Dismiss (' + rest + ')';
-    if (head === 'ENTRY_INVALID') return 'Something on this card will not save (' + rest + ') - fix it, or Dismiss';
+    if (head === 'DUPLICATE_OF') return 'Already in the books - Dismiss all (' + rest + ')';
+    if (head === 'POSSIBLE_TWIN') return 'Might already be in the books - check, then Save or Dismiss all (' + rest + ')';
+    if (head === 'ENTRY_INVALID') return 'Something on this card will not save (' + rest + ') - fix it, or Dismiss all';
     return GATE_TEXT.hasOwnProperty(head) ? GATE_TEXT[head] : t;
   }
 
@@ -176,18 +180,59 @@
     return sum;
   }
 
+  // Each line's own choice (Paul, 2026-09-26: "some itemized items will be returned, some dismissed, some approved.
+  // its not a blanket response for all items. that defeats the purpose of itemizing"). Approve is the default.
+  var DECISIONS = { approve: 'Approve', returned: 'Returned', dismiss: 'Dismiss' };
+  function decisionOf_(it) { return DECISIONS.hasOwnProperty(it && it.decision) ? it.decision : 'approve'; }
+  function approvedOnly_(entries) {
+    return (entries || []).map(function (e) {
+      var c = {}; for (var k in e) c[k] = e[k];
+      c.items = (e.items || []).filter(function (it) { return decisionOf_(it) === 'approve'; });
+      return c;
+    });
+  }
+  // What Save records (`keep`), and the note that keeps the rest: "Returned ($9.95): ... | Dismissed ($2.58): ... -
+  // personal". A store credit on a bank statement is matched to the "Returned (" part (docs/phase3-spec.md 3a).
+  function sortByDecision_(entries) {
+    var keep = [], lines = { returned: [], dismiss: [] }, sum = { approve: 0, returned: 0, dismiss: 0 };
+    (entries || []).forEach(function (e) {
+      var kept = [];
+      (e.items || []).forEach(function (it) {
+        var d = decisionOf_(it), cents = Number(it.amount_cents) || 0;
+        if (!cents && !it.description) return;   // a blank line added by hand
+        sum[d] += cents;
+        if (d !== 'approve') { lines[d].push((it.description || 'no description') + (d === 'dismiss' && it.reason ? ' - ' + it.reason : '')); return; }
+        var c = JSON.parse(JSON.stringify(it)); delete c.decision; delete c.reason; kept.push(c);
+      });
+      if (kept.length) { var k = JSON.parse(JSON.stringify(e)); k.items = kept; keep.push(k); }
+    });
+    var note = [];
+    if (lines.returned.length) note.push('Returned (' + money_(sum.returned) + '): ' + lines.returned.join('; '));
+    if (lines.dismiss.length) note.push('Dismissed (' + money_(sum.dismiss) + '): ' + lines.dismiss.join('; '));
+    return { keep: keep, note: note.join(' | ').slice(0, 500), sum: sum };
+  }
+  // A meal or gift line Paul keeps needs the who-and-why; one he returns or dismisses does not.
+  function needsPurpose_(entries) {
+    return (entries || []).some(function (e) {
+      return (e.items || []).some(function (it) { return (it.account === '6710' || it.account === '6720') && !String(it.business_purpose || '').trim(); });
+    });
+  }
+
   // Part of a receipt is recorded and part is not: say which, in dollars, and ask the real question
   // (2026-09-26: "it sounds like you're telling me this is a duplicate ... i THINK you are asking if i returned them?").
   function partlyText_(gate, entries) {
     return money_(gate.already_posted_cents) + ' of this receipt is already in the books. The items below (' + money_(itemsSum_(entries)) +
-      ') never got recorded. Kept them? Approve. Took them back to the store? Click Returned. Returned only some? Remove those (x), then Approve.';
+      ') never got recorded - on each one click Approve (you kept it), Returned (it went back to the store) or Dismiss (personal, or not a business cost), then click Save.';
   }
 
   function flagsList_(gate, entries) {
-    var flags = ((gate && gate.reasons) || []).map(function (r) { return r === 'PARTLY_ON_BOOKS' ? partlyText_(gate, entries) : flagText_(r); })
-      .filter(Boolean).concat(mismatchFlags_(entries));
-    if (needsTrade_(entries)) flags.push('Pick a trade (the kind of work) for each house item');
-    if (!flags.length) flags.push('Check it, then Approve or Dismiss');
+    var kept = approvedOnly_(entries);
+    var flags = ((gate && gate.reasons) || []).filter(function (r) { return r !== 'NEEDS_HUMAN_274D'; })
+      .map(function (r) { return r === 'PARTLY_ON_BOOKS' ? partlyText_(gate, entries) : flagText_(r); })
+      .filter(Boolean).concat(mismatchFlags_(kept));
+    if (needsPurpose_(kept)) flags.push(GATE_TEXT.NEEDS_HUMAN_274D);
+    if (needsTrade_(kept)) flags.push('Pick a trade (the kind of work) for each house item');
+    if (!flags.length) flags.push('Check each item, then Save');
     return flags.map(function (t) { return '<li class="act">' + escapeHtml_(t) + '</li>'; }).join('');
   }
 
@@ -215,15 +260,19 @@
     return out;
   }
 
-  // What Approve records, against the receipt, in plain words.
+  // Where every dollar of the receipt goes when Paul clicks Save, in plain words.
   function totalsLine_(env) {
-    var sum = itemsSum_(EDIT[env.docId]);
+    var sum = sortByDecision_(EDIT[env.docId]).sum;
     var rt = Number((env.model && env.model.receipt_total_cents) || 0);
     var already = Number((env.gate && env.gate.already_posted_cents) || 0);   // the lines the read found on the books
-    var gap = rt - already - sum;   // > 0 will not be recorded; < 0 is more than the receipt
-    var text = already ? 'Receipt ' + money_(rt) + ': ' + money_(already) + ' already in the books + ' + money_(sum) + ' to record now'
-      : 'Recording ' + money_(sum) + (gap ? ' of the ' + money_(rt) + ' receipt' : ' - the whole receipt');
-    if (gap > 0) text += ' - ' + money_(gap) + ' will not be recorded';
+    var parts = [];
+    if (already) parts.push(money_(already) + ' already in the books');
+    parts.push(money_(sum.approve) + ' to record now');
+    if (sum.returned) parts.push(money_(sum.returned) + ' returned');
+    if (sum.dismiss) parts.push(money_(sum.dismiss) + ' dismissed');
+    var gap = rt - already - sum.approve - sum.returned - sum.dismiss;   // > 0 missing from the items; < 0 more than the receipt
+    var text = 'Receipt ' + money_(rt) + ': ' + parts.join(' + ');
+    if (gap > 0) text += ' - ' + money_(gap) + ' missing from the items';
     if (gap < 0) text += ' - ' + money_(-gap) + ' more than the receipt';
     return '<div class="totals ' + (gap ? 'off' : 'ok') + '">' + text + '</div>';
   }
@@ -248,8 +297,13 @@
 
     var entriesHtml = entries.map(function (e, ei) {
       var items = (e.items || []).map(function (it, ii) {
-        return '<div class="item">' +
-          '<button class="rm" data-rm="' + ei + ':' + ii + '" title="Remove item">&times;</button>' +
+        var dec = decisionOf_(it);
+        return '<div class="item' + (dec === 'approve' ? '' : ' off') + '">' +
+          '<div class="dec">' + Object.keys(DECISIONS).map(function (k) {
+            return '<button class="' + (k === dec ? 'on' : '') + '" data-dec="' + k + '" data-e="' + ei + '" data-i="' + ii + '">' + DECISIONS[k] + '</button>';
+          }).join('') +
+          (dec === 'dismiss' ? '<input data-e="' + ei + '" data-i="' + ii + '" data-f="reason" value="' + escapeHtml_(it.reason || '') + '" placeholder="Why? (personal, duplicate...)">' : '') +
+          '</div>' +
           '<select data-e="' + ei + '" data-i="' + ii + '" data-f="account">' + accountOpts_(it.account) + '</select>' +
           '<div class="row3"><div><input data-e="' + ei + '" data-i="' + ii + '" data-f="amount" value="' + escapeHtml_((Number(it.amount_cents || 0) / 100).toFixed(2)) + '" placeholder="Amount"></div>' +
           '<div><input data-e="' + ei + '" data-i="' + ii + '" data-f="description" value="' + escapeHtml_(it.description || '') + '" placeholder="Description"></div>' +
@@ -281,10 +335,9 @@
       (read ? '<details class="why"><summary>Claude\'s read</summary>' + read + '</details>' : '') +
       entriesHtml +
       '<div class="tot">' + totalsLine_(env) + '</div>' +
-      '<div class="verbs"><button class="primary" data-approve="1">Approve</button>' +
-      '<button data-returned="1" title="Everything on this card went back to the store - nothing is added to the books">Returned</button>' +
-      '<button data-dismiss="1">Dismiss</button><button data-reprocess="1">Reprocess</button></div>' +
-      '<div class="note hidden"><input data-note="1" placeholder="Reason"><button data-dismiss-go="1">Dismiss it</button><button data-dismiss-cancel="1">Cancel</button></div>' +
+      '<div class="verbs"><button class="primary" data-save="1">Save</button>' +
+      '<button data-dismiss="1" title="The whole document is not a cost - nothing is added to the books">Dismiss all</button><button data-reprocess="1">Reprocess</button></div>' +
+      '<div class="note hidden"><input data-note="1" placeholder="Why? (not a receipt, duplicate...)"><button data-dismiss-go="1">Dismiss all</button><button data-dismiss-cancel="1">Cancel</button></div>' +
       '<div class="msg hidden" data-msg="1"></div>' +
       '<div class="docid">' + d + '</div>' +
       '</div></div>';
@@ -374,12 +427,9 @@
       el.addEventListener('change', h);
       if (el.tagName === 'INPUT') el.addEventListener('input', h);
     });
-    card.querySelectorAll('[data-rm]').forEach(function (b) {
+    card.querySelectorAll('[data-dec]').forEach(function (b) {
       b.onclick = function () {
-        var p = b.dataset.rm.split(':');
-        var e = entries[Number(p[0])];
-        if (e.items.length <= 1) return;
-        e.items.splice(Number(p[1]), 1);
+        entries[Number(b.dataset.e)].items[Number(b.dataset.i)].decision = b.dataset.dec;
         rerender_(env.docId);
       };
     });
@@ -400,20 +450,32 @@
     };
     var fail = function (r) { busy(false); showMsg_(msg, false, '<b>' + escapeHtml_(r.error || 'ERROR') + '</b> - ' + escapeHtml_(r.message || r)); };
 
-    var approveBtn = card.querySelector('[data-approve]');
-    approveBtn.onclick = function () {
-      var toPost = splitByProperty_(entries);
-      if (approveBtn.dataset.armed !== '1') {
-        approveBtn.dataset.armed = '1';
-        approveBtn.textContent = 'Click again to record it';
-        setTimeout(function () { approveBtn.dataset.armed = ''; approveBtn.textContent = 'Approve'; }, 4000);
+    // Save does what each line says: records the approved lines, and files the returned and dismissed ones in the
+    // note - on the posted card, or on a dismissed one when nothing was kept.
+    var saveBtn = card.querySelector('[data-save]');
+    saveBtn.onclick = function () {
+      var sorted = sortByDecision_(entries), toPost = splitByProperty_(sorted.keep), sum = sorted.sum;
+      if (!sum.approve && !sum.returned && !sum.dismiss) return showMsg_(msg, false, 'Nothing on this card to save - click Reprocess, or Dismiss all.');
+      var rest = [sum.returned ? money_(sum.returned) + ' returned' : '', sum.dismiss ? money_(sum.dismiss) + ' dismissed' : ''].filter(Boolean).join(', ');
+      if (saveBtn.dataset.armed !== '1') {
+        saveBtn.dataset.armed = '1';
+        saveBtn.textContent = 'Click again: ' + (sum.approve ? 'record ' + money_(sum.approve) : 'record nothing') + (rest ? ', ' + rest : '');
+        setTimeout(function () { saveBtn.dataset.armed = ''; saveBtn.textContent = 'Save'; }, 5000);
         return;
       }
       busy(true);
       msg.classList.add('hidden');
-      callServer_('inboxApprove', { docId: env.docId, entries: toPost, model: env.model || {} }).then(function (r) {
+      var broke = function (err) { fail({ error: 'SCRIPT', message: err && err.message ? err.message : err }); };
+      if (!toPost.length) {
+        callServer_('inboxDismiss', { docId: env.docId, note: sorted.note }).then(function (r) {
+          if (!r.ok) return fail(r);
+          done('Saved - nothing was added to the books (' + escapeHtml_(rest) + ').');
+        }, broke);
+        return;
+      }
+      callServer_('inboxApprove', { docId: env.docId, entries: toPost, model: env.model || {}, note: sorted.note }).then(function (r) {
         if (!r.ok) return fail(r);
-        done('Recorded <span class="docid">' + r.txn_ids.map(escapeHtml_).join(', ') + '</span>' +
+        done('Recorded ' + money_(sum.approve) + (rest ? ' - ' + escapeHtml_(rest) : '') + ' <span class="docid">' + r.txn_ids.map(escapeHtml_).join(', ') + '</span>' +
           ' <span data-finish="1">&middot; saving the receipt to Drive...</span>' +
           (r.timings ? '<div class="docid">' + escapeHtml_(r.timings) + '</div>' : ''));
         // Step two runs while the user moves on: Drive filing, doc_url, line blocks, cache.
@@ -426,29 +488,7 @@
             slot.innerHTML = '<span style="color:#a50e0e">&middot; recorded, but the receipt did not save to Drive: ' + escapeHtml_(f.message) + '</span>';
           }
         }, function (err) { slot.innerHTML = '<span style="color:#a50e0e">&middot; recorded, but the receipt did not save to Drive: ' + escapeHtml_(err && err.message ? err.message : err) + '</span>'; });
-      }, function (err) { fail({ error: 'SCRIPT', message: err && err.message ? err.message : err }); });
-    };
-
-    // Paul, 2026-09-26: "this was a return ... there is not return button". Everything on the card went back: nothing
-    // is recorded, and the note is what a store credit on a bank statement is matched to later (docs/phase3-spec.md
-    // 3a) - so it always starts "Returned (" with the amount that went back.
-    var returnedBtn = card.querySelector('[data-returned]');
-    returnedBtn.onclick = function () {
-      if (returnedBtn.dataset.armed !== '1') {
-        returnedBtn.dataset.armed = '1';
-        returnedBtn.textContent = 'Click again - it all went back';
-        setTimeout(function () { returnedBtn.dataset.armed = ''; returnedBtn.textContent = 'Returned'; }, 4000);
-        return;
-      }
-      var what = [];
-      entries.forEach(function (e) { (e.items || []).forEach(function (it) { if (it.description) what.push(it.description); }); });
-      var amount = itemsSum_(entries) || Number((env.model && env.model.receipt_total_cents) || 0);
-      var reason = ('Returned (' + money_(amount) + '): ' + what.join('; ')).slice(0, 300);
-      busy(true);
-      callServer_('inboxDismiss', { docId: env.docId, note: reason }).then(function (r) {
-        if (!r.ok) return fail(r);
-        done('Marked returned - nothing was added to the books.');
-      }, function (err) { fail({ error: 'SCRIPT', message: err && err.message ? err.message : err }); });
+      }, broke);
     };
 
     var note = card.querySelector('.note');
@@ -460,7 +500,7 @@
       busy(true);
       callServer_('inboxDismiss', { docId: env.docId, note: reason }).then(function (r) {
         if (!r.ok) return fail(r);
-        done('Dismissed - ' + escapeHtml_(reason));
+        done('Dismissed all - ' + escapeHtml_(reason));
       }, function (err) { fail({ error: 'SCRIPT', message: err && err.message ? err.message : err }); });
     };
 

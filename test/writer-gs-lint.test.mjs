@@ -369,9 +369,9 @@ test("refreshHeavyBlocks_ finds a block by its header, and an untraded Holding l
   assert.ok(body.includes("'Utilities'"), "an untraded Holding line has no block to fall into");
 });
 
-test("the Inbox card says in plain words and dollars what is already in the books and what Paul decides", () => {
-  // 2026-09-26: "Part is on the books already" and "Entries $5.89 + already on the books $154.79 / receipt $170.63 -
-  // does not match" read as "this is a duplicate". The card's own functions, run on Home Depot 01-11.
+test("the Inbox card: each line is Approve, Returned or Dismiss, and the card says in plain dollars where the receipt goes", () => {
+  // 2026-09-26: "Part is on the books already" read as "this is a duplicate", and one Returned button for the whole
+  // card "defeats the purpose of itemizing". The card's own functions, run on Home Depot 01-11.
   const inbox = readFileSync(path.join(__dirname, "..", "apps-script", "writer", "Inbox.html"), "utf8");
   const style = readFileSync(path.join(__dirname, "..", "apps-script", "writer", "Style.html"), "utf8");
   const grab = (s, head) => {
@@ -381,31 +381,52 @@ test("the Inbox card says in plain words and dollars what is already in the book
     do { if (s[i] === "{") depth++; else if (s[i] === "}") depth--; i++; } while (depth);
     return s.slice(a, i);
   };
-  const names = ["money_", "acctGroup_", "acctName_", "flagText_", "needsTrade_", "itemProperty_", "mismatchFlags_", "itemsSum_", "partlyText_", "flagsList_", "totalsLine_"];
+  const names = ["money_", "acctGroup_", "acctName_", "flagText_", "needsTrade_", "itemProperty_", "mismatchFlags_", "itemsSum_",
+    "decisionOf_", "approvedOnly_", "sortByDecision_", "needsPurpose_", "partlyText_", "flagsList_", "totalsLine_"];
   const card = new Function([
     "var EDIT = {}, DATA = { pickers: { accounts: [{ code: '1030', name: 'Rehab - materials' }] } };",
     grab(style, "function escapeHtml_("), inbox.match(/var ACCT_GROUPS = .*;/)[0], inbox.match(/var TRADELESS_ACCOUNTS = [^;]*;/)[0],
-    grab(inbox, "var GATE_TEXT = ") + ";", ...names.map((n) => grab(inbox, `function ${n}(`)),
-    "return { flagsList_, totalsLine_, EDIT };",
+    grab(inbox, "var GATE_TEXT = ") + ";", grab(inbox, "var DECISIONS = ") + ";", ...names.map((n) => grab(inbox, `function ${n}(`)),
+    "return { flagsList_, totalsLine_, sortByDecision_, EDIT };",
   ].join("\n"))();
 
   const gate = { reasons: ["NOT_POST_VERDICT", "PARTLY_ON_BOOKS"], already_posted_cents: 15479 };
-  const both = [{ property: "104 Ashburne", items: [{ account: "1030", amount_cents: 995, trade: "Supplies" }, { account: "1030", amount_cents: 589, trade: "Supplies" }] }];
+  const pack = (cents, description, decision, reason) => ({ account: "1030", amount_cents: cents, description, trade: "Supplies", decision, reason });
+  const both = [{ property: "104 Ashburne", items: [pack(995, "GRK 3/8 x 12"), pack(589, "GRK 3/8 x 8")] }];
   const env = { docId: "d", model: { receipt_total_cents: 17063 }, gate };
-  assert.match(card.flagsList_(gate, both), /\$154\.79 of this receipt is already in the books\. The items below \(\$15\.84\) never got recorded\. Kept them\? Approve\. Took them back to the store\? Click Returned\./);
-  // The Returned button's note is the contract a store credit is matched on in Phase 3 (docs/phase3-spec.md 3a).
-  assert.ok(inbox.includes("'Returned (' + money_(amount) + '): '"), "the Returned note must start 'Returned (<amount>)'");
-  assert.ok(inbox.includes("callServer_('inboxDismiss', { docId: env.docId, note: reason })"), "Returned files the card like Dismiss");
+  assert.match(card.flagsList_(gate, both), /\$154\.79 of this receipt is already in the books\. The items below \(\$15\.84\) never got recorded - on each one click Approve \(you kept it\), Returned \(it went back to the store\) or Dismiss/);
   card.EDIT.d = both;
   assert.match(card.totalsLine_(env), /class="totals ok">Receipt \$170\.63: \$154\.79 already in the books \+ \$15\.84 to record now</);
-  card.EDIT.d = [{ ...both[0], items: [both[0].items[1]] }];   // Paul removed the 9.95 pack
-  assert.match(card.totalsLine_(env), /class="totals off">Receipt \$170\.63: \$154\.79 already in the books \+ \$5\.89 to record now - \$9\.95 will not be recorded</);
+
+  // One pack went back, one was personal: nothing to record, both in the note, every dollar accounted for.
+  const mixed = [{ property: "104 Ashburne", items: [pack(995, "GRK 3/8 x 12", "returned"), pack(589, "GRK 3/8 x 8", "dismiss", "personal")] }];
+  card.EDIT.d = mixed;
+  assert.match(card.totalsLine_(env), /class="totals ok">Receipt \$170\.63: \$154\.79 already in the books \+ \$0\.00 to record now \+ \$9\.95 returned \+ \$5\.89 dismissed</);
+  const sorted = card.sortByDecision_(mixed);
+  assert.deepEqual(sorted.keep, []);
+  assert.equal(sorted.note, "Returned ($9.95): GRK 3/8 x 12 | Dismissed ($5.89): GRK 3/8 x 8 - personal");
+
+  // Approve one, return one: only the kept line is posted, stripped of the choice fields.
+  const one = card.sortByDecision_([{ property: "104 Ashburne", items: [pack(995, "GRK 3/8 x 12", "returned"), pack(589, "GRK 3/8 x 8")] }]);
+  assert.equal(one.keep.length, 1);
+  assert.deepEqual(one.keep[0].items.map((it) => [it.amount_cents, it.decision, it.reason]), [[589, undefined, undefined]]);
+  assert.equal(one.note, "Returned ($9.95): GRK 3/8 x 12");
+  assert.ok(inbox.includes("callServer_('inboxApprove', { docId: env.docId, entries: toPost, model: env.model || {}, note: sorted.note })"),
+    "Save posts the kept lines with the note");
+
+  // A meal line needs its who-and-why only while it is kept (HD 03-02's water).
+  const water = (decision) => [{ property: "OVERHEAD", items: [{ account: "6710", amount_cents: 258, description: "Dasani", decision }] }];
+  const meal = /Meal or gift - type who it was with/;
+  assert.match(card.flagsList_({ reasons: ["NEEDS_HUMAN_274D"] }, water()), meal);
+  assert.doesNotMatch(card.flagsList_({ reasons: ["NEEDS_HUMAN_274D"] }, water("dismiss")), meal);
+
   card.EDIT.n = [{ property: "104 Ashburne", items: [{ account: "1030", amount_cents: 4500, trade: "Paint" }] }];
-  assert.match(card.totalsLine_({ docId: "n", model: { receipt_total_cents: 4500 }, gate: { reasons: [] } }), /Recording \$45\.00 - the whole receipt/);
+  assert.match(card.totalsLine_({ docId: "n", model: { receipt_total_cents: 4500 }, gate: { reasons: [] } }), /Receipt \$45\.00: \$45\.00 to record now</);
   assert.match(card.flagsList_({ reasons: [] }, [{ property: "OVERHEAD", items: [{ account: "1030", amount_cents: 100 }] }]), /Rehab - materials is a house cost - pick which house/);
   for (const jargon of [/Entries \$/, /does not match/, /on the books already/, /entry/i]) {
     assert.ok(!jargon.test(card.flagsList_(gate, both) + card.totalsLine_(env)), `jargon on the card: ${jargon}`);
   }
+  for (const gone of ["data-approve", "data-returned", "data-rm"]) assert.ok(!inbox.includes(gone), `the whole-card ${gone} button is back`);
 });
 
 test("the Inbox card translates every gate reason code into a plain-English bullet", () => {

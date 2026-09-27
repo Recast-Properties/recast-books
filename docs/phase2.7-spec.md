@@ -93,10 +93,13 @@ vendor, date, total, confidence, thumbnail (click to enlarge; a PDF opens in a n
 click - `inboxFile` returns its bytes, 2026-09-26; it linked to the web Inbox before),
 Claude's note, the gate's reasons, and the same editable entries as the web card (property,
 paid from, items with account/amount/description/purpose, running total against the
-receipt). Approve, **Returned** (2026-09-26: everything on the card went back to the store - filed
-like a Dismiss with the note "Returned (<amount>): <items>", nothing recorded; the note is what a
-store credit on a bank statement is matched to, `docs/phase3-spec.md` 3a), Dismiss (with a reason),
-Reprocess.
+receipt). **Each line has its own Approve / Returned / Dismiss** (2026-09-26, Paul: "some itemized
+items will be returned, some dismissed, some approved. its not a blanket response"; Approve is the
+default, Dismiss takes an optional why), and the card's **Save** does what each line says: posts the
+approved lines and files the rest in the note - "Returned ($9.95): ... | Dismissed ($2.58): ... -
+personal" - on the posted card, or on a dismissed one when nothing was kept. The note is what a
+store credit on a bank statement is matched to (`docs/phase3-spec.md` 3a). **Dismiss all** (with a
+reason) is for a document that is not a cost; Reprocess.
 
 The queue **stays in Netlify Blobs** — one source of truth that the poller, the ingest job,
 the web Inbox, the digest and the model's `search_docs` all read. The `Inbox` tab this

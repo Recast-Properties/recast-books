@@ -591,27 +591,27 @@ function accountSummaryText_(summary) {
 // copied so the digest says what the card says. A lint keeps the two maps identical.
 var GATE_TEXT = {
   NOT_POST_VERDICT: '',                                             // covered by the catch-all below
-  LOW_CONFIDENCE: 'Claude is not sure of the amounts - check them against the receipt, then Approve or Dismiss',
-  MISSING_VENDOR: 'Claude could not read the store name - click Reprocess, or Dismiss',
-  MISSING_DATE: 'Claude could not read the date - click Reprocess, or Dismiss',
-  BAD_DATE: 'The date looks wrong - click Reprocess, or Dismiss',
-  ZERO_TOTAL: 'Claude could not read the total - type the amounts, or Dismiss',
-  OVER_CEILING: 'Too big for Claude to record on its own - check it, then Approve',
+  LOW_CONFIDENCE: 'Claude is not sure of the amounts - check them against the receipt, then Save',
+  MISSING_VENDOR: 'Claude could not read the store name - click Reprocess, or Dismiss all',
+  MISSING_DATE: 'Claude could not read the date - click Reprocess, or Dismiss all',
+  BAD_DATE: 'The date looks wrong - click Reprocess, or Dismiss all',
+  ZERO_TOTAL: 'Claude could not read the total - type the amounts, or Dismiss all',
+  OVER_CEILING: 'Too big for Claude to record on its own - check it, then Save',
   TOTAL_MISMATCH: 'The items do not add up to the receipt total - fix the amounts',
   NEEDS_HUMAN_274D: 'Meal or gift - type who it was with and the business reason',
-  NO_ENTRIES: 'Claude found nothing to record - click Reprocess to read it again, or Dismiss',
+  NO_ENTRIES: 'Claude found nothing to record - click Reprocess to read it again, or Dismiss all',
   BAD_PROPERTY: 'Which house is this for? Pick one',
   PAYER_UNKNOWN: 'Who paid? Pick the card or account',
   BAD_PAID_FROM: 'Who paid? Pick the card or account again',
-  PARTLY_ON_BOOKS: 'Some items never got recorded - Approve if you kept them, click Returned if they went back'
+  PARTLY_ON_BOOKS: 'Some items never got recorded - pick Approve, Returned or Dismiss on each, then Save'
 };
 
 function gateText_(r) {
   var t = String(r), i = t.indexOf(':');
   var head = i < 0 ? t : t.slice(0, i), rest = i < 0 ? '' : t.slice(i + 1);
-  if (head === 'DUPLICATE_OF') return 'Already in the books - Dismiss it (' + rest + ')';
-  if (head === 'POSSIBLE_TWIN') return 'Might already be in the books - check, then Approve or Dismiss (' + rest + ')';
-  if (head === 'ENTRY_INVALID') return 'Something on this card will not save (' + rest + ') - fix it, or Dismiss';
+  if (head === 'DUPLICATE_OF') return 'Already in the books - Dismiss all (' + rest + ')';
+  if (head === 'POSSIBLE_TWIN') return 'Might already be in the books - check, then Save or Dismiss all (' + rest + ')';
+  if (head === 'ENTRY_INVALID') return 'Something on this card will not save (' + rest + ') - fix it, or Dismiss all';
   return GATE_TEXT.hasOwnProperty(head) ? GATE_TEXT[head] : t;
 }
 
@@ -623,7 +623,7 @@ function digestReason_(p) {
   var gate = codes.map(gateText_).filter(Boolean).slice(0, 2).join('; ');
   var why = String(p.why || '').trim();
   // books-ingest-background's replay rule: the "duplicate" an old read named is on no book.
-  if (/\[rule: \S+ is not on the books/.test(why)) return 'Claude matched this to a record that is not in the books - Approve or Dismiss';
+  if (/\[rule: \S+ is not on the books/.test(why)) return 'Claude matched this to a record that is not in the books - Save it, or Dismiss all';
   // The model voted post and the gate held it: the gate's reason is the news (2026-09-25).
   if (codes.indexOf('NOT_POST_VERDICT') < 0 && gate) return gate;
   if (why && why.length <= 120) return why;
