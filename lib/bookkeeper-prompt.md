@@ -209,13 +209,34 @@ property's name. Treat that as a strong signal, not a rail: start from that prop
 and only route elsewhere if the document itself plainly names a different property or
 is genuinely company overhead - and say why in `checked` when you do.
 
+## Itemizing: one item per printed line
+
+A receipt or invoice that lists products or services gets **one item per line printed on
+it** - never one item standing for several lines ("12 items, materials" is wrong). Paul
+sets the property, account and trade per item on the Inbox card, the property tab lists
+every item, and a tool on the same receipt as materials goes to a different account, so a
+lumped line cannot be reviewed or split. For each printed line:
+- `description` is the line as printed, made readable: the product and, when shown, the
+  quantity and unit price - "1/2 in. x 10 ft. copper tube type L (2 @ 21.00)". Keep a SKU
+  only when the name alone is cryptic.
+- `amount_cents` is the line's extended price plus its share of the sales tax (below). A
+  discount or savings line printed under a product folds into that product's item.
+  Shipping, delivery or a fee is its own item, on the account of the goods it came with.
+
+One item for the whole document is right only when the document has one line: fuel, a
+utility bill, a single service charge, a ride, a hotel folio, a meal (food and drink are
+never itemized).
+
 ## Tax treatment
 
 Texas sales tax is 8.25%. An item's `amount_cents` is what was actually paid for it,
-including its share of sales tax, shipping, and any fees - the entry total must equal
-the receipt total. Do not strip tax out of the item amount and post it separately;
-there is no separate tax line in this schema. Subtotal and tax fields in `decide` are
-for your reconciliation math (subtotal + tax ~= total), not for a separate posting.
+including its share of the sales tax - the entry total must equal the receipt total. The
+share is 8.25% of the line, rounded to the cent, on taxable lines only (a line the receipt
+marks N or exempt carries none); put the cents left over (the printed tax minus the sum of
+the shares) on the largest taxable line, so the items add up to the receipt total exactly.
+Do not strip tax out of the item amount and post it separately; there is no separate tax
+line in this schema. Subtotal and tax fields in `decide` are for your reconciliation math
+(subtotal + tax ~= total), not for a separate posting.
 
 ## paid_from rules
 
@@ -309,6 +330,14 @@ Call `decide` exactly once you are done. `verdict` is `post` (file it), `hold`
 notice with no charge, etc). `confidence` is your honest self-assessment given
 everything above - "high" only when you checked. Every field in `decide` should
 reflect what you actually verified, not a best guess dressed up as certainty.
+
+**A hold still proposes the entries.** The Inbox card is built from `entries`: it is what
+Paul corrects and approves, and a card with none has nothing to approve. So on `hold` fill
+`entries` exactly as you would post them, itemized as above, and leave only what you could
+not settle for him: `paid_from` `UNKNOWN`, or `property` empty when which house it is is
+the question (never park property costs on OVERHEAD to fill the field). Never list the
+lines in `why` or `checked` instead of proposing them. Only a `dismiss`, or a document with
+no amounts on it, has no entries.
 
 **`why` is one sentence, under 20 words** - the decision and its single reason, as it
 will read in Paul's morning digest: "Held: over the $500 ceiling." "Held: no card or

@@ -1139,3 +1139,15 @@ returns the bytes (same `siteFetchRaw_` as `inboxThumb`, no `thumb=1`); the card
 opened after the server round trip is a blocked pop-up) and points it at a Blob URL of them. The dialog's frame is
 `allow-popups allow-popups-to-escape-sandbox allow-same-origin`, so Chrome's PDF viewer runs in the new tab. Verified
 by Paul on The Home Depot 03-02 card: the receipt opened in a new tab.
+
+**2. The bookkeeper itemizes, and a hold carries its entries (prompt, deploy).** Paul: *"the system is not
+itemizing them."* The three Home Depot cards are 09-17 reads that held on "which house" (the registry held only
+Granite then) and proposed **no entries** - the lines were in `why` - so the workbook card had no editor, no
+"+ item" and nothing to approve; Lowe's 768.99 was **one line for 12 items**. The prompt never asked for either.
+New `## Itemizing: one item per printed line` (description as printed, extended price plus the line's share of the
+8.25% tax, discounts folded in, shipping or a fee its own item; one item only for a one-line document - fuel, a bill,
+a ride, a folio, a meal); `## Tax treatment` now says how the share is computed and where the rounding cents go
+(the largest taxable line, so the items equal the total exactly); and **a hold still proposes the entries** - only
+what could not be settled is left for Paul (`paid_from` UNKNOWN, or `property` empty when the house is the question,
+never OVERHEAD as a filler). The `decide` schema's `entries` description says the same. The workbook card now shows
+"- pick a property -" when the property is empty (writer, pushed) - the web Inbox already had "- select -".
