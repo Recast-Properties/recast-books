@@ -89,7 +89,9 @@
     return html;
   }
   function propertyOpts_(sel) {
-    return DATA.pickers.properties.map(function (p) { return opt_(p, p, p === sel); }).join('') + opt_('OVERHEAD', 'OVERHEAD', sel === 'OVERHEAD');
+    // A hold may leave the property for Paul to pick; the first house must not look chosen.
+    return (sel ? '' : opt_('', '- pick a property -', true)) +
+      DATA.pickers.properties.map(function (p) { return opt_(p, p, p === sel); }).join('') + opt_('OVERHEAD', 'OVERHEAD', sel === 'OVERHEAD');
   }
   function tradeOpts_(sel) {
     var known = DATA.pickers.trades || [];
