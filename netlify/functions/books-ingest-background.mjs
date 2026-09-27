@@ -90,22 +90,23 @@ function flattenJournalLines(headers, rows) {
   });
 }
 
-function makeLedgerDep(lines) {
+export function makeLedgerDep(lines) {
   return {
     recent({ payee = "", days = LEDGER_WINDOW_DAYS, property = "", date = "" } = {}) {
       // The pre-fetch below is already scoped to LEDGER_WINDOW_DAYS; a caller asking
       // for a longer window still gets at most that much (see this task's report).
       const cutoff = isoDaysAgo(Math.min(days, LEDGER_WINDOW_DAYS));
-      // `date`: the rows around one receipt, nearest first. Newest-first with a payee could not
-      // reach March once September's rows filled the 80 (the 2026-09-26 dry run saw "no
-      // March-2026 Home Depot rows" beside the migrated ones), and old-book payees are misspelled.
+      // `date`: a receipt's own rows, nearest first - its cost lines only (the payment side
+      // doubles the count) and up to 150. Newest-first could not reach March once September
+      // filled the 80, and even by date 80 lines reached only 3 days round 01-11, so Home
+      // Depot 01-11's light bulbs, booked on 01-16, never showed (2026-09-26).
       const away = (l) => Math.abs(Date.parse(l.date) - Date.parse(date)) / 864e5;
       return lines
-        .filter((l) => (date ? away(l) <= 10 : l.date >= cutoff))
+        .filter((l) => (date ? away(l) <= 10 && l.amount_cents > 0 : l.date >= cutoff))
         .filter((l) => !payee || l.payee.toLowerCase().includes(payee.toLowerCase()))
         .filter((l) => !property || l.property === property)
         .sort(date ? (a, b) => away(a) - away(b) : (a, b) => (a.date < b.date ? 1 : a.date > b.date ? -1 : 0))
-        .slice(0, 80);
+        .slice(0, date ? 150 : 80);
     },
   };
 }

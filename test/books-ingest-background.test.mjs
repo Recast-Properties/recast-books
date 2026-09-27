@@ -29,9 +29,9 @@ process.env.ANTHROPIC_API_KEY = "sk-ant-test-unused"; // never actually sent - s
 process.env.POLLER_SECRET = "poller-secret";
 installFakeBlobsContext();
 
-let handler, processDecision, propertyMailboxHint, resetWriterForTests, getDocsStore, importError;
+let handler, processDecision, propertyMailboxHint, makeLedgerDep, resetWriterForTests, getDocsStore, importError;
 try {
-  ({ default: handler, processDecision, propertyMailboxHint } = await import("../netlify/functions/books-ingest-background.mjs"));
+  ({ default: handler, processDecision, propertyMailboxHint, makeLedgerDep } = await import("../netlify/functions/books-ingest-background.mjs"));
   ({ resetWriterForTests, getDocsStore } = await import("../netlify/functions/_shared.mjs"));
 } catch (err) {
   importError = err;
@@ -496,6 +496,25 @@ test("a non-conflict postBatch failure propagates (caller records status error)"
 });
 
 // ---- propertyMailboxHint (phase2.6-spec.md §4) -----------------------------------
+
+test("read_ledger by date: a receipt's cost lines within 10 days, nearest first - a row booked 5 days late still shows", { skip }, () => {
+  // Home Depot 01-11 (2026-09-26): 40 entries within 3 days filled the old 80-line cap with their
+  // payment-side lines, so the light bulbs booked on 01-16 never reached the model.
+  const lines = [];
+  for (let i = 0; i < 40; i++) {
+    const date = `2026-01-${String(8 + (i % 7)).padStart(2, "0")}`;
+    lines.push({ txn_id: `m-${i}`, date, payee: "Home Depot", amount_cents: 100 + i, account: "1030", property: "104 Ashburne" });
+    lines.push({ txn_id: `m-${i}`, date, payee: "Home Depot", amount_cents: -(100 + i), account: "2030", property: "104 Ashburne" });
+  }
+  lines.push({ txn_id: "bulbs", date: "2026-01-16", payee: "Home Depot", amount_cents: 2594, account: "1030", property: "104 Ashburne" });
+  lines.push({ txn_id: "far", date: "2026-01-25", payee: "Home Depot", amount_cents: 999, account: "1030", property: "104 Ashburne" });
+
+  const rows = makeLedgerDep(lines).recent({ date: "2026-01-11" });
+  assert.ok(rows.some((r) => r.txn_id === "bulbs"), "the late-booked row must show");
+  assert.ok(rows.every((r) => r.amount_cents > 0), "cost lines only");
+  assert.ok(!rows.some((r) => r.txn_id === "far"), "more than 10 days away");
+  assert.equal(rows.at(-1).txn_id, "bulbs", "nearest first");
+});
 
 test("propertyMailboxHint: envelope.channel in the property registry -> that name", { skip }, () => {
   const ctx = { properties: new Set(["1616 Granite", "881 Newport"]) };

@@ -1208,3 +1208,14 @@ Journal, a ghost name fails, a named row carrying the receipt number is no dupli
 cloned a card's entries once and never again, so after a re-read the card showed - and Approve would have posted - the
 previous read's entries (on these four, the whole receipt). The clone now belongs to one read (`editingAt` keyed on
 `finishedAt`). The workbook Inbox rebuilds its copies on every load and was never affected.
+**Deployed** (Paul, `6ab86526`). The web fix verified live: the Inbox loaded before a re-read, the list reloaded
+without a page refresh, the card showed the NEW read's item wording. **The Lowe's PDF re-read** (Paul: yes) **is right:**
+claimed one niche 91.99, privacy knobs 219.14, smoke detectors 148.95 and the deadbolt combo 70.10 (530.18, from the
+Journal - the "one unit of a quantity line" case), proposed the second niche 92.00, hinges 5.07 and 5.39 and passage
+knobs 136.35 (238.81), payer unknown; it left the undocumented 02-04 "Door Knobs" 140.68 alone. The screenshot card
+`gm-19c28915ee4c0912` is a copy of that order - Paul dismisses it. **HD 01-11 re-read: the same miss** - and not
+the rule's fault: `read_ledger` by date returned 80 lines nearest first, and 80 Journal lines lie within 3 days of
+01-11 (every migrated entry is a cost line and a payment line), so the 01-16 bulbs row never reached the model. By
+date the tool now returns cost lines only, up to 150 (168 lines within 10 days of 01-11 halve to 84). Test: 40 entries
+within 3 days plus a row booked 5 days late - the late row shows, cost lines only, nearest first; fails on the old
+tool. 486 tests.
