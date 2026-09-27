@@ -1219,3 +1219,9 @@ the rule's fault: `read_ledger` by date returned 80 lines nearest first, and 80 
 date the tool now returns cost lines only, up to 150 (168 lines within 10 days of 01-11 halve to 84). Test: 40 entries
 within 3 days plus a row booked 5 days late - the late row shows, cost lines only, nearest first; fails on the old
 tool. 486 tests.
+**Deployed** (Paul, `6ab86666`), HD 01-11 re-read: **right** - claimed all eleven rows including the 01-16 Light Bulbs
+(154.79 from the Journal), proposed the two GRK screw lines 9.95 + 5.89 = 15.84. **Item 3 verified: the five cards,
+checked line by line against the migrated rows** - HD 01-11 15.84, HD 02-12 65.67, HD 03-02 117.14, the Lowe's PDF
+238.81 on no book: **437.46, not 407.22** (HD 03-02's look-alike rows were the 30.24); the Lowe's screenshot is a copy of
+the PDF's order. Nothing was posted by any re-read. Approving or dismissing each remainder (personal, returned or
+missed - the Phase 3 question) is Paul's call on the card.
