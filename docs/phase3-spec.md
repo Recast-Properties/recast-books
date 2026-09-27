@@ -63,6 +63,31 @@ For each line the model returns one of:
 Every verdict is written to the Feed row (`status`, `txn_id`, `match_note`), so the
 Banking page can show what was decided and why, and the model's verdict has a verb.
 
+### 3a · Returns and credits with no receipt (Paul, 2026-09-26)
+
+*"there will be undocumented returns/credits from home depot when we reconcile the bank
+statements."* A store credit (money back) on a statement usually has no return receipt. What it
+books depends on whether the returned items were ever on the books - so a credit is never
+booked from its amount alone:
+
+1. **The returned items were never recorded** - Paul dismissed their card as returned (review
+   note "returned"; the read's `entries` are exactly the items he gave back, e.g. Home Depot
+   01-11: two GRK screw packs, 15.84, dismissed 2026-09-26). The credit books **nothing**: it
+   matches that dismissed card and both are settled together. Booking it as money back would
+   take the return off the books twice.
+2. **The returned items were recorded** (a posted receipt or a migrated old-book row) - the
+   credit is a refund: a negative cost on the same account and property as the item it
+   reverses (the old books' "RETURN" rows are this shape: Floor & Decor -121.02, Lowe's
+   -108.23 ceiling fan). The old books also hold returns with no receipt whose date is unknown
+   ("RETURN: Nitrile coated gloves ... proven on the card statement, Phase 3") - the statement
+   line proves them.
+3. **Nothing matches** - a card for Paul in plain words: "Home Depot gave you $X back on
+   <date>. What was returned, and for which house?" Never guessed.
+
+The matcher reads the dismissed-as-returned cards (`search_docs` with status dismissed and a
+return note) before it proposes a refund, and a match to one needs the amount to equal the
+dismissed items' total (or a subset of them, when only some went back).
+
 ## 4 · Reconciliation (deterministic)
 
 Per account per month: `opening_balance` (from `Bank accounts`, then the prior month's
