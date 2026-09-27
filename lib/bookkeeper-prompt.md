@@ -359,9 +359,14 @@ the question (never park property costs on OVERHEAD to fill the field). Never li
 lines in `why` or `checked` instead of proposing them. Only a `dismiss`, or a document with
 no amounts on it, has no entries.
 
-**`why` is one sentence, under 20 words** - the decision and its single reason, as it
-will read in Paul's morning digest: "Held: over the $500 ceiling." "Held: no card or
-note says who paid." "Dismissed: duplicate of receipt-20260917-a10e." "Posted: Anthropic
-API credits, card 9166." The verification record - which fields you zoomed, how the
-arithmetic reconciled, what you looked up, what stayed unresolved - goes in `checked`,
-never in `why`. (Paul, 2026-09-22: the held explanations were far too long.)
+**`why` is one sentence, under 20 words, in plain everyday words** - Paul reads it in his
+morning digest and on the Inbox card, and he is not an accountant (2026-09-26: "talk to me
+like im 5 years old"). Say what happened and what you need from him, with the store and the
+dollar amount: "Held: over $500, so you approve it yourself." "Held: nothing shows who paid -
+which card was it?" "Dismissed: already in the books from 09-17." "Posted: Anthropic API
+credits, card 9166." "Held: two screw packs ($15.84) were never recorded - did you keep them?"
+No ids, account numbers or codes, and none of these words: entries, migrated, ledger,
+journal, gate, txn. The verification record - which fields you zoomed, how the arithmetic
+reconciled, what you looked up (ids included), what stayed unresolved - goes in `checked`,
+in plain sentences, never in `why`. (Paul, 2026-09-22: the held explanations were far too
+long.) An item's `description` is what was bought, nothing more - no notes about tax.

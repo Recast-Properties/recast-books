@@ -1236,3 +1236,29 @@ chips all read it. Test: hold, post and dismiss with nothing proposed are NO_ENT
 the old gate. 487 tests.
 **Deployed** (Paul, `6ab86769`); the writer and both pollers pushed and verified by pull. **5. The Books check:** the
 09-26 2 AM run said "Books check: clean." - it predates `receipts_on_no_book`, whose first run is the 2 AM check on 09-27.
+
+## 2026-09-26 (night, later) - Plain words everywhere Paul reads the books
+
+Paul, on the Home Depot 01-11 card: *"it sounds like you're telling me this is a duplicate when you say 'Part is on
+the books already - check the rest, then approve' and 'Entries $5.89 + already on the books' ... i THINK you are
+asking if i returned them?"* - then *"i need you to add rules to talk to me in plain, easy to understand layman's
+terms language. i'm not an accountant. talk to me like im 5 years old ... in the books stuff."*
+
+**The rule** is load-bearing constraint 7 in `CLAUDE.md` (and a memory): everything Paul reads in the books - chat,
+steps, Inbox cards, the digest, the bookkeeper's `why`, the nightly check - is in everyday words with the store, date
+and dollar amount; no jargon or ids in his sentence; say what something is NOT when he could take it wrong. The same
+rule is in the bookkeeper's prompt (`why` examples rewritten: "Held: two screw packs ($15.84) were never recorded -
+did you keep them?"; no tax notes in item descriptions) and the nightly check's prompt (bullets lead with store, date,
+amount and the click; ids at the end or on the Paste to Claude line).
+
+**The card, rewritten** (`Inbox.html`; the digest's copy in the poller, kept identical by the lint): a partly-recorded
+receipt says "$154.79 of this receipt is already in the books. The items below ($15.84) never got recorded. Kept them?
+Approve. Returned them? Dismiss. Returned only some? Remove those (x), then Approve." The totals line says what Approve
+records: "Receipt $170.63: $154.79 already in the books + $15.84 to record now" / "... + $5.89 to record now - $9.95
+will not be recorded" / "Recording $45.00 - the whole receipt" (the web Inbox's line too). Every reason is a plain
+action the card allows - the store-name and date reasons used to say "type one" on a card with no box for either; they
+now say Reprocess or Dismiss. The account mismatch bullets name the account ("Rehab - materials is a house cost - pick
+which house"), the Approve button asks "Click again to record it", the result says "Recorded" and "saving the receipt
+to Drive". Test: the card's own functions run on HD 01-11 - the partial bullet, the three totals lines, a mismatch
+bullet by name, and no "Entries $", "does not match" or "entry" anywhere. 488 tests. Left: the web Inbox still shows
+the reason codes as raw chips (history cards; pending review is in the workbook).

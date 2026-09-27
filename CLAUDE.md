@@ -42,6 +42,15 @@ front door.
    through the corrections register.
 6. **Paul acts one step at a time.** When he must do something (console, editor,
    Terminal), give exactly one step and wait.
+7. **Plain words, always (Paul, 2026-09-26: "i'm not an accountant. talk to me like im 5 years
+   old").** Everything Paul reads in the books - chat replies, the steps you give him, Inbox
+   cards, the digest, the bookkeeper's `why`, the nightly check - is in everyday words: what
+   happened, what it means for him, what to click, with the store, the date and the dollar
+   amount. No accounting or system jargon (entries, posted rows, migrated, ledger, journal,
+   gate, envelope, txn ids, account codes, reason codes like PARTLY_ON_BOOKS); if a word would
+   need explaining, use a simpler one. Ids go on a separate line for Claude ("Paste to Claude:
+   ..."), never in the sentence Paul has to understand. Say plainly what something is NOT when
+   he could take it the wrong way ("not a duplicate - these two items were never recorded").
 
 ## Status
 

@@ -846,10 +846,13 @@ function renderEntriesEditor(env, entries, editable) {
   const grandTotal = entries.reduce((s, e) => s + (e.items || []).reduce((s2, it) => s2 + (Number(it.amount_cents) || 0), 0), 0);
   const receiptTotal = Number((env.model && env.model.receipt_total_cents) || 0);
   const already = Number((env.gate && env.gate.already_posted_cents) || 0); // lines the read found on the books
-  const ok = grandTotal + already === receiptTotal;
-  const totalRow = `<div class="balance-row ${ok ? "ok" : "off"}">
-      <span>Entries total ${fmtCents(grandTotal)}${already ? ` + already on the books ${fmtCents(already)}` : ""}</span>
-      <span>Receipt total ${fmtCents(receiptTotal)}${ok ? " — matches" : " — does not match"}</span>
+  // Plain words, the workbook card's (2026-09-26: "i'm not an accountant").
+  const gap = receiptTotal - already - grandTotal; // > 0 will not be recorded; < 0 is more than the receipt
+  const said = already
+    ? `Receipt ${fmtCents(receiptTotal)}: ${fmtCents(already)} already in the books + ${fmtCents(grandTotal)} to record now`
+    : `Recording ${fmtCents(grandTotal)}${gap ? ` of the ${fmtCents(receiptTotal)} receipt` : " - the whole receipt"}`;
+  const totalRow = `<div class="balance-row ${gap ? "off" : "ok"}">
+      <span>${said}${gap > 0 ? ` - ${fmtCents(gap)} will not be recorded` : gap < 0 ? ` - ${fmtCents(-gap)} more than the receipt` : ""}</span>
     </div>`;
 
   return blocks + totalRow;

@@ -369,6 +369,42 @@ test("refreshHeavyBlocks_ finds a block by its header, and an untraded Holding l
   assert.ok(body.includes("'Utilities'"), "an untraded Holding line has no block to fall into");
 });
 
+test("the Inbox card says in plain words and dollars what is already in the books and what Paul decides", () => {
+  // 2026-09-26: "Part is on the books already" and "Entries $5.89 + already on the books $154.79 / receipt $170.63 -
+  // does not match" read as "this is a duplicate". The card's own functions, run on Home Depot 01-11.
+  const inbox = readFileSync(path.join(__dirname, "..", "apps-script", "writer", "Inbox.html"), "utf8");
+  const style = readFileSync(path.join(__dirname, "..", "apps-script", "writer", "Style.html"), "utf8");
+  const grab = (s, head) => {
+    const a = s.indexOf(head);
+    assert.ok(a !== -1, `${head} not found`);
+    let i = s.indexOf("{", a), depth = 0;
+    do { if (s[i] === "{") depth++; else if (s[i] === "}") depth--; i++; } while (depth);
+    return s.slice(a, i);
+  };
+  const names = ["money_", "acctGroup_", "acctName_", "flagText_", "needsTrade_", "itemProperty_", "mismatchFlags_", "itemsSum_", "partlyText_", "flagsList_", "totalsLine_"];
+  const card = new Function([
+    "var EDIT = {}, DATA = { pickers: { accounts: [{ code: '1030', name: 'Rehab - materials' }] } };",
+    grab(style, "function escapeHtml_("), inbox.match(/var ACCT_GROUPS = .*;/)[0], inbox.match(/var TRADELESS_ACCOUNTS = [^;]*;/)[0],
+    grab(inbox, "var GATE_TEXT = ") + ";", ...names.map((n) => grab(inbox, `function ${n}(`)),
+    "return { flagsList_, totalsLine_, EDIT };",
+  ].join("\n"))();
+
+  const gate = { reasons: ["NOT_POST_VERDICT", "PARTLY_ON_BOOKS"], already_posted_cents: 15479 };
+  const both = [{ property: "104 Ashburne", items: [{ account: "1030", amount_cents: 995, trade: "Supplies" }, { account: "1030", amount_cents: 589, trade: "Supplies" }] }];
+  const env = { docId: "d", model: { receipt_total_cents: 17063 }, gate };
+  assert.match(card.flagsList_(gate, both), /\$154\.79 of this receipt is already in the books\. The items below \(\$15\.84\) never got recorded\. Kept them\? Approve\. Returned them\? Dismiss\./);
+  card.EDIT.d = both;
+  assert.match(card.totalsLine_(env), /class="totals ok">Receipt \$170\.63: \$154\.79 already in the books \+ \$15\.84 to record now</);
+  card.EDIT.d = [{ ...both[0], items: [both[0].items[1]] }];   // Paul removed the 9.95 pack
+  assert.match(card.totalsLine_(env), /class="totals off">Receipt \$170\.63: \$154\.79 already in the books \+ \$5\.89 to record now - \$9\.95 will not be recorded</);
+  card.EDIT.n = [{ property: "104 Ashburne", items: [{ account: "1030", amount_cents: 4500, trade: "Paint" }] }];
+  assert.match(card.totalsLine_({ docId: "n", model: { receipt_total_cents: 4500 }, gate: { reasons: [] } }), /Recording \$45\.00 - the whole receipt/);
+  assert.match(card.flagsList_({ reasons: [] }, [{ property: "OVERHEAD", items: [{ account: "1030", amount_cents: 100 }] }]), /Rehab - materials is a house cost - pick which house/);
+  for (const jargon of [/Entries \$/, /does not match/, /on the books already/, /entry/i]) {
+    assert.ok(!jargon.test(card.flagsList_(gate, both) + card.totalsLine_(env)), `jargon on the card: ${jargon}`);
+  }
+});
+
 test("the Inbox card translates every gate reason code into a plain-English bullet", () => {
   // Paul, 2026-09-23: the card lists short bullets that name the fix, not reason codes and
   // not a paragraph. A new gate reason with no translation would show as a raw code.
@@ -384,7 +420,7 @@ test("the Inbox card translates every gate reason code into a plain-English bull
     assert.ok(inbox.includes("'" + code + "'"), `no bullet text for gate reason ${code}:<value>`);
   }
   assert.ok(!inbox.includes('class="chip"'), "reason codes are being shown raw again");
-  assert.ok(inbox.includes("No trade - enter a trade"), "the missing-trade bullet is gone");
+  assert.ok(inbox.includes("Pick a trade (the kind of work) for each house item"), "the missing-trade bullet is gone");
 });
 
 test("WRITER_VERSION is 0.4.0", () => {

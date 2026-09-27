@@ -108,31 +108,32 @@
 
   // Every bullet is something Paul has to DO, in his words (2026-09-23: "this needs to be
   // explicit for the action i need to take. this is still too much"). Claude's reasoning is
-  // not a bullet - it is one click away under "Claude's read".
+  // not a bullet - it is one click away under "Claude's read". Plain everyday words, and only
+  // actions the card allows (2026-09-26: "i'm not an accountant. talk to me like im 5 years old").
   var GATE_TEXT = {
     NOT_POST_VERDICT: '',                                             // covered by the catch-all below
-    LOW_CONFIDENCE: 'Check the amounts, then approve or dismiss',
-    MISSING_VENDOR: 'No vendor - type one',
-    MISSING_DATE: 'No date - type one',
-    BAD_DATE: 'Bad date - fix it',
-    ZERO_TOTAL: 'No total - type the amount',
-    OVER_CEILING: 'Over the auto-file limit - approve it yourself',
-    TOTAL_MISMATCH: 'Items do not add up - fix the amounts',
-    NEEDS_HUMAN_274D: 'Travel, meal or gift - type the business purpose',
-    NO_ENTRIES: 'Nothing proposed - reprocess it, or dismiss it',
-    BAD_PROPERTY: 'No property - pick one',
-    PAYER_UNKNOWN: 'No payer - pick who paid',
-    BAD_PAID_FROM: 'Bad payer - pick who paid',
-    PARTLY_ON_BOOKS: 'Part is on the books already - check the rest, then approve'
+    LOW_CONFIDENCE: 'Claude is not sure of the amounts - check them against the receipt, then Approve or Dismiss',
+    MISSING_VENDOR: 'Claude could not read the store name - click Reprocess, or Dismiss',
+    MISSING_DATE: 'Claude could not read the date - click Reprocess, or Dismiss',
+    BAD_DATE: 'The date looks wrong - click Reprocess, or Dismiss',
+    ZERO_TOTAL: 'Claude could not read the total - type the amounts, or Dismiss',
+    OVER_CEILING: 'Too big for Claude to record on its own - check it, then Approve',
+    TOTAL_MISMATCH: 'The items do not add up to the receipt total - fix the amounts',
+    NEEDS_HUMAN_274D: 'Meal or gift - type who it was with and the business reason',
+    NO_ENTRIES: 'Claude found nothing to record - click Reprocess to read it again, or Dismiss',
+    BAD_PROPERTY: 'Which house is this for? Pick one',
+    PAYER_UNKNOWN: 'Who paid? Pick the card or account',
+    BAD_PAID_FROM: 'Who paid? Pick the card or account again',
+    PARTLY_ON_BOOKS: 'Some items never got recorded - Approve if you kept them, Dismiss if you returned them'
   };
   var TRADELESS_ACCOUNTS = ['1000', '1100', '1200', '1210', '1220'];  // summary lines, never in a tab block
 
   function flagText_(r) {
     var t = String(r), i = t.indexOf(':');
     var head = i < 0 ? t : t.slice(0, i), rest = i < 0 ? '' : t.slice(i + 1);
-    if (head === 'DUPLICATE_OF') return 'Already posted as ' + rest + ' - dismiss it';
-    if (head === 'POSSIBLE_TWIN') return 'Maybe already posted as ' + rest + ' - check it';
-    if (head === 'ENTRY_INVALID') return 'Will not build (' + rest + ') - fix or dismiss';
+    if (head === 'DUPLICATE_OF') return 'Already in the books - Dismiss it (' + rest + ')';
+    if (head === 'POSSIBLE_TWIN') return 'Might already be in the books - check, then Approve or Dismiss (' + rest + ')';
+    if (head === 'ENTRY_INVALID') return 'Something on this card will not save (' + rest + ') - fix it, or Dismiss';
     return GATE_TEXT.hasOwnProperty(head) ? GATE_TEXT[head] : t;
   }
 
@@ -148,6 +149,11 @@
     });
   }
 
+  function acctName_(code) {
+    var a = (DATA.pickers.accounts || []).filter(function (x) { return String(x.code) === String(code); })[0];
+    return a ? a.name : String(code);
+  }
+
   // D-010, checked against what is on the card right now rather than what the model first
   // proposed - the ingest gate never saw Paul's edits.
   function mismatchFlags_(entries) {
@@ -156,18 +162,32 @@
       (e.items || []).forEach(function (it) {
         var g = acctGroup_(it.account || ''), prop = itemProperty_(e, it);
         if (!it.account) return;
-        if (g === ACCT_GROUPS[1] && prop && prop !== 'OVERHEAD') out.push('Business account on a property - set ' + (it.account) + ' to OVERHEAD');
-        if (g === ACCT_GROUPS[0] && prop === 'OVERHEAD') out.push('Property account on OVERHEAD - give ' + (it.account) + ' a property');
-        if (g === ACCT_GROUPS[0] && !prop) out.push('No property on ' + it.account + ' - pick one');
+        if (g === ACCT_GROUPS[1] && prop && prop !== 'OVERHEAD') out.push(acctName_(it.account) + ' is a business cost, not a house cost - set its property to OVERHEAD');
+        if (g === ACCT_GROUPS[0] && prop === 'OVERHEAD') out.push(acctName_(it.account) + ' is a house cost - pick which house');
+        if (g === ACCT_GROUPS[0] && !prop) out.push(acctName_(it.account) + ' needs a house - pick which one');
       });
     });
     return out.filter(function (t, i) { return out.indexOf(t) === i; });
   }
 
+  function itemsSum_(entries) {
+    var sum = 0;
+    (entries || []).forEach(function (e) { (e.items || []).forEach(function (it) { sum += Number(it.amount_cents) || 0; }); });
+    return sum;
+  }
+
+  // Part of a receipt is recorded and part is not: say which, in dollars, and ask the real question
+  // (2026-09-26: "it sounds like you're telling me this is a duplicate ... i THINK you are asking if i returned them?").
+  function partlyText_(gate, entries) {
+    return money_(gate.already_posted_cents) + ' of this receipt is already in the books. The items below (' + money_(itemsSum_(entries)) +
+      ') never got recorded. Kept them? Approve. Returned them? Dismiss. Returned only some? Remove those (x), then Approve.';
+  }
+
   function flagsList_(gate, entries) {
-    var flags = ((gate && gate.reasons) || []).map(flagText_).filter(Boolean).concat(mismatchFlags_(entries));
-    if (needsTrade_(entries)) flags.push('No trade - enter a trade');
-    if (!flags.length) flags.push('Check it, then approve or dismiss');
+    var flags = ((gate && gate.reasons) || []).map(function (r) { return r === 'PARTLY_ON_BOOKS' ? partlyText_(gate, entries) : flagText_(r); })
+      .filter(Boolean).concat(mismatchFlags_(entries));
+    if (needsTrade_(entries)) flags.push('Pick a trade (the kind of work) for each house item');
+    if (!flags.length) flags.push('Check it, then Approve or Dismiss');
     return flags.map(function (t) { return '<li class="act">' + escapeHtml_(t) + '</li>'; }).join('');
   }
 
@@ -195,15 +215,17 @@
     return out;
   }
 
+  // What Approve records, against the receipt, in plain words.
   function totalsLine_(env) {
-    var entries = EDIT[env.docId] || [];
-    var sum = 0;
-    entries.forEach(function (e) { (e.items || []).forEach(function (it) { sum += Number(it.amount_cents) || 0; }); });
+    var sum = itemsSum_(EDIT[env.docId]);
     var rt = Number((env.model && env.model.receipt_total_cents) || 0);
     var already = Number((env.gate && env.gate.already_posted_cents) || 0);   // the lines the read found on the books
-    var ok = sum + already === rt;
-    return '<div class="totals ' + (ok ? 'ok' : 'off') + '">Entries ' + money_(sum) + (already ? ' + already on the books ' + money_(already) : '') +
-      ' / receipt ' + money_(rt) + (ok ? ' - matches' : ' - does not match') + '</div>';
+    var gap = rt - already - sum;   // > 0 will not be recorded; < 0 is more than the receipt
+    var text = already ? 'Receipt ' + money_(rt) + ': ' + money_(already) + ' already in the books + ' + money_(sum) + ' to record now'
+      : 'Recording ' + money_(sum) + (gap ? ' of the ' + money_(rt) + ' receipt' : ' - the whole receipt');
+    if (gap > 0) text += ' - ' + money_(gap) + ' will not be recorded';
+    if (gap < 0) text += ' - ' + money_(-gap) + ' more than the receipt';
+    return '<div class="totals ' + (gap ? 'off' : 'ok') + '">' + text + '</div>';
   }
 
   function renderCard_(env) {
@@ -233,7 +255,7 @@
           '<div><input data-e="' + ei + '" data-i="' + ii + '" data-f="description" value="' + escapeHtml_(it.description || '') + '" placeholder="Description"></div>' +
           '<div class="tr"><select data-e="' + ei + '" data-i="' + ii + '" data-f="trade">' + tradeOpts_(it.trade || '') + '</select></div></div>' +
           '<select data-e="' + ei + '" data-i="' + ii + '" data-f="property">' + propertyOpts_(itemProperty_(e, it)) + '</select>' +
-          '<input data-e="' + ei + '" data-i="' + ii + '" data-f="business_purpose" value="' + escapeHtml_(it.business_purpose || '') + '" placeholder="Business purpose (274(d) accounts)">' +
+          '<input data-e="' + ei + '" data-i="' + ii + '" data-f="business_purpose" value="' + escapeHtml_(it.business_purpose || '') + '" placeholder="Business reason (meals, gifts, travel)">' +
           '</div>';
       }).join('');
       return '<div class="entry">' +
@@ -381,7 +403,7 @@
       var toPost = splitByProperty_(entries);
       if (approveBtn.dataset.armed !== '1') {
         approveBtn.dataset.armed = '1';
-        approveBtn.textContent = 'Post ' + toPost.length + (toPost.length === 1 ? ' entry - sure?' : ' entries - sure?');
+        approveBtn.textContent = 'Click again to record it';
         setTimeout(function () { approveBtn.dataset.armed = ''; approveBtn.textContent = 'Approve'; }, 4000);
         return;
       }
@@ -389,8 +411,8 @@
       msg.classList.add('hidden');
       callServer_('inboxApprove', { docId: env.docId, entries: toPost, model: env.model || {} }).then(function (r) {
         if (!r.ok) return fail(r);
-        done('Posted ' + r.txn_ids.map(function (t) { return '<code>' + escapeHtml_(t) + '</code>'; }).join(', ') +
-          ' <span data-finish="1">&middot; filing...</span>' +
+        done('Recorded <span class="docid">' + r.txn_ids.map(escapeHtml_).join(', ') + '</span>' +
+          ' <span data-finish="1">&middot; saving the receipt to Drive...</span>' +
           (r.timings ? '<div class="docid">' + escapeHtml_(r.timings) + '</div>' : ''));
         // Step two runs while the user moves on: Drive filing, doc_url, line blocks, cache.
         var slot = msg.querySelector('[data-finish]');
@@ -399,9 +421,9 @@
             slot.innerHTML = (f.doc_url ? '&middot; <a href="' + escapeHtml_(f.doc_url) + '" target="_blank" rel="noopener">Drive file</a>' : '&middot; filed') +
               (f.timings ? ' <span class="docid">(' + escapeHtml_(f.timings) + ')</span>' : '');
           } else {
-            slot.innerHTML = '<span style="color:#a50e0e">&middot; posted, but filing failed: ' + escapeHtml_(f.message) + '</span>';
+            slot.innerHTML = '<span style="color:#a50e0e">&middot; recorded, but the receipt did not save to Drive: ' + escapeHtml_(f.message) + '</span>';
           }
-        }, function (err) { slot.innerHTML = '<span style="color:#a50e0e">&middot; posted, but filing failed: ' + escapeHtml_(err && err.message ? err.message : err) + '</span>'; });
+        }, function (err) { slot.innerHTML = '<span style="color:#a50e0e">&middot; recorded, but the receipt did not save to Drive: ' + escapeHtml_(err && err.message ? err.message : err) + '</span>'; });
       }, function (err) { fail({ error: 'SCRIPT', message: err && err.message ? err.message : err }); });
     };
 
@@ -422,7 +444,7 @@
       busy(true);
       callServer_('inboxReprocess', { docId: env.docId }).then(function (r) {
         if (!r.ok) return fail(r);
-        done('Reprocessing - the bookkeeper is re-reading it; Refresh in a minute.');
+        done('Claude is reading it again - click Refresh in a minute or two.');
       }, function (err) { fail({ error: 'SCRIPT', message: err && err.message ? err.message : err }); });
     };
   }
