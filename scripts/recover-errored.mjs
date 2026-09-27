@@ -1,7 +1,8 @@
 #!/usr/bin/env node
 // Re-runs documents stuck in `error` after the 2026-09-21 doGet misfire (audit §52).
 // A document with a stored read is re-posted from it (repost-all, no model call, $0);
-// one with no read is read again (reprocess, ~$0.21). Both go through the gate.
+// one with no read is read again (reprocess, ~$0.21). Both go through the gate; since
+// 2026-09-26 a reprocess never posts or dismisses, so the re-read ones wait in the Inbox.
 //
 //   read -s "POLLER_SECRET?Poller secret: " && export POLLER_SECRET && node scripts/recover-errored.mjs
 // (the value is Script property POLLER_SECRET of the Recast Books writer project). Ids come from argv

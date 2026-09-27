@@ -1159,3 +1159,14 @@ filed to `_dry-runs`). The read held ("receipt names no property and a dated Mar
 no tax) on 6710. Tax per line, the rounding cent on the largest line: **147.38 exactly, no TOTAL_MISMATCH**. What it
 missed: 60.48 of this receipt is on the books as migrated rows, and `read_ledger` (payee "Home Depot", 240 days)
 showed "no March-2026 Home Depot rows" - the tool returns the 80 newest matching lines, so March falls off. Item 3.
+
+**3a. A Reprocess never posts or dismisses (deploy).** Reprocess was a fresh read through the normal path: a
+"post" the gate passed was posted, a confident or duplicate dismiss was dismissed. On a parked receipt that is mostly
+on the books as migrated rows, that can post it whole on top of them - how four were posted twice on 09-22 (audit
+66). The Inbox verb (`books-inbox.mjs`, both Inboxes' Reprocess button) now sends `holdOnly: true`; `processDecision`
+returns such a read to `pending` straight after the dry-run branch, with the read, the gate's reasons, and a note
+in `why` when the model had voted post or dismiss ("[reprocess: read as post, held for Paul ...]", so neither the card
+nor the digest says "Posted:" on a pending item). The warm job's retries of errored reads and the poller's re-upload
+list do not send it and post as before; `scripts/recover-errored.mjs`'s re-reads now wait in the Inbox. Test: all
+three outcomes a reprocess must not reach (post, confident dismiss, DUPLICATE_OF) end `pending` with nothing filed,
+posted or voided - fails without the branch. 484 tests.

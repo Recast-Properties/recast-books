@@ -184,6 +184,25 @@ test("dry run: filed under _dry-runs, status dry, nothing posted", { skip }, asy
   assert.equal(result.result.txn_ids.length, 0);
 });
 
+test("a Reprocess (holdOnly) never posts or dismisses: post+passed, a confident dismiss and a DUPLICATE_OF all wait in pending", { skip }, async () => {
+  // 2026-09-26: the four parked hardware receipts are mostly on the books as migrated rows.
+  const cases = [
+    ["gm-hold-only-post", postModel(), PASS_GATE],
+    ["gm-hold-only-dismiss", postModel({ verdict: "dismiss", duplicate_of: "migration-20260302-e5299709adcd" }), { passed: false, reasons: ["NOT_POST_VERDICT"] }],
+    ["gm-hold-only-dup", postModel(), { passed: false, reasons: ["DUPLICATE_OF:migration-20260302-e5299709adcd"] }],
+  ];
+  for (const [docId, model, gateResult] of cases) {
+    const envelope = await seedEnvelope({ docId });
+    const touched = [];
+    const writer = { storeDocument: async () => { touched.push("storeDocument"); }, postBatch: async () => { touched.push("postBatch"); return { rows: [] }; }, void: async () => { touched.push("void"); } };
+    const result = await processDecision({ envelope, docId, model, transcript_summary: [], usage: {}, gateResult, ctx: baseCtx(), holdOnly: true, writer, docsStore: getDocsStore() });
+    assert.equal(result.status, "pending", docId);
+    assert.deepEqual(touched, [], `${docId}: nothing filed, posted or voided`);
+    assert.match(result.model.why, new RegExp(`\\[reprocess: read as ${model.verdict}, held for Paul`), docId);
+    assert.deepEqual(result.gate, gateResult, `${docId}: the gate's reasons stay on the card`);
+  }
+});
+
 test("dismiss with duplicate_of -> dismissed, no Drive filing, no writer calls", { skip }, async () => {
   const envelope = await seedEnvelope({ docId: "gm-dismiss" });
   const store = getDocsStore();

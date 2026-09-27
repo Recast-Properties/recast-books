@@ -433,6 +433,7 @@ export default async (req) => {
       usage,
       gateResult,
       ctx,
+      holdOnly: body.holdOnly === true,
       // A re-post from stored reads (D-025) is a bulk run: skip the per-post property tab
       // rebuild, which runs inside the writer's lock; the tabs are rebuilt once at the end.
       writer: fromStored ? { ...writer, postBatch: (entries) => writer.postBatch(entries, { skipRefresh: true }) } : writer,
@@ -490,6 +491,7 @@ export async function processDecision({
   usage,
   gateResult,
   ctx,
+  holdOnly = false,
   recheckDuplicate,
   confirmPosted,
   writer,
@@ -515,6 +517,21 @@ export async function processDecision({
     return save({
       status: "dry",
       result: { txn_ids: [], rows: null, doc_url: filed[0]?.url || "" },
+      finishedAt: new Date().toISOString(),
+    });
+  }
+
+  // ---- Reprocess from the Inbox (books-inbox.mjs, 2026-09-26): a fresh read for Paul, never a
+  // post or a dismiss. A parked receipt is often mostly on the books already as migrated rows;
+  // re-read through the normal path it could post whole on top of them - how four were posted
+  // twice on 09-22 (audit §66). The read and the gate's reasons stay on the card. ----
+  if (holdOnly) {
+    return save({
+      status: "pending",
+      ...(model.verdict === "hold" ? {} : {
+        model: { ...envelope.model, why: `${model.why} [reprocess: read as ${model.verdict}, held for Paul - a reprocess never posts or dismisses]` },
+      }),
+      result: { txn_ids: [], rows: null, doc_url: "" },
       finishedAt: new Date().toISOString(),
     });
   }

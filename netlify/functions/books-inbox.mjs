@@ -313,7 +313,7 @@ export default async (req) => {
         const res = await fetch(`${origin}/api/ingest-bg`, {
           method: "POST",
           headers: { "content-type": "application/json", "x-poller-secret": process.env.POLLER_SECRET },
-          body: JSON.stringify({ docId, reprocess: true }),
+          body: JSON.stringify({ docId, reprocess: true, holdOnly: true }),
         });
         if (res.status !== 202 && res.status !== 200) {
           throw new Error(`ingest-bg invocation returned HTTP ${res.status}`);

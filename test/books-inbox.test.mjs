@@ -380,6 +380,7 @@ test("reprocess resets the envelope to processing and re-invokes ingest-bg with 
 
   assert.equal(ingestCalls.length, 1);
   assert.equal(ingestCalls[0].body.docId, "gm-reprocess2");
+  assert.equal(ingestCalls[0].body.holdOnly, true, "a Reprocess from the Inbox must never post or dismiss");
   assert.equal(ingestCalls[0].headers["x-poller-secret"], "poller-secret");
 
   const envelope = await getDocsStore().get("doc/gm-reprocess2", { type: "json" });
