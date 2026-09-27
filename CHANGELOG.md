@@ -1151,3 +1151,11 @@ a ride, a folio, a meal); `## Tax treatment` now says how the share is computed 
 what could not be settled is left for Paul (`paid_from` UNKNOWN, or `property` empty when the house is the question,
 never OVERHEAD as a filler). The `decide` schema's `entries` description says the same. The workbook card now shows
 "- pick a property -" when the property is empty (writer, pushed) - the web Inbox already had "- select -".
+**Deployed** (Paul, `6ab85f03`) and **verified** by one dry run (Paul agreed): the stored Home Depot 03-02 PDF
+re-uploaded as `dry-up-24a18349-eece-42d9-b7dd-d3476f86dc45` (nothing posts; the nightly check skips dry runs;
+filed to `_dry-runs`). The read held ("receipt names no property and a dated March job cannot be identified") and
+**proposed six items, one per printed line**: copper tube 16.19, couplings 1.99, flux/solder kit 45.47, shop towels
+14.05 on 1030 with the property left empty; the torch kit 67.10 on 6510 OVERHEAD (a tool); the water 2.58 (marked N,
+no tax) on 6710. Tax per line, the rounding cent on the largest line: **147.38 exactly, no TOTAL_MISMATCH**. What it
+missed: 60.48 of this receipt is on the books as migrated rows, and `read_ledger` (payee "Home Depot", 240 days)
+showed "no March-2026 Home Depot rows" - the tool returns the 80 newest matching lines, so March falls off. Item 3.
