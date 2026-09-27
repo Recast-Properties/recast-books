@@ -1288,3 +1288,9 @@ trade or a house. Card words say Save and Dismiss all (the digest's copy too). N
 passes a note to `mark-posted`. Test: the card's own functions on HD 01-11 - the partial bullet, all-kept, one
 returned and one dismissed (note and totals), one kept and one returned (only the kept line posts, its choice fields
 stripped), the water's flag, and no whole-card button left. 488 tests.
+
+**Deployed 2026-09-26 night (`6ab89032`, run from the session on Paul's "deploy"):** the plain-words bookkeeper prompt
+(the receipt note), the plain-words nightly check prompt (first run at the 2 AM check on 09-27) and the web Inbox's
+totals line - one file and two functions. Verified live: the site's `app.js` serves the new wording. The workbook card
+changes (per-line Approve / Returned / Dismiss, Save) needed no deploy and were already live. Handoff:
+`HANDOFF-2026-09-26.md`, section START HERE.
