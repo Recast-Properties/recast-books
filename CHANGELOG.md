@@ -1433,3 +1433,11 @@ one-off Paul pastes into a script project under pvb421 and runs once - forwards 
 labels each thread so a second Run skips it, 1.5 s apart. The properties@ poller reads them into the Sheets Inbox; Paul
 decides each card. The "on no book" claim for these 42 is by item name and the last session's amount search, not by a
 document read - the cards' `read_ledger` check settles it per item.
+
+**12:12-12:13 PDT: Paul ran the script - all 42 sent** (log: 42 x "sent", none skipped, none missing). Paul's rule for the
+batch: *"i want the api to do its job and sort these. it should be able to handle that or we havent built it well
+enough"* - no hold-only switch; the bookkeeper posts, dismisses or holds each on its own read, and this session checks
+its calls against the Journal. Today's docIds: `gm-` + a hex whose first 11 digits are the ms timestamp - 12:12 PDT is
+about `1a0e96e6000`, so list Blobs with prefix `doc/gm-1a0e96e6000`[:7]. Paul, 12:15: *"is this the last group of expenses lurking in the
+ether. getting sick of batches popping up out of nowhere"* - answered with the finite list (HANDOFF START HERE): the
+42, ~12 parked, ~16 May-Sep Amazon orders, Harbor Freight 5, Cash App 45; then Phase 3.
