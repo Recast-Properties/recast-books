@@ -772,7 +772,7 @@ add up to Rehab Total again. Paul asked about the spacer columns: the layout der
 (`10 + i * PT_HEAVY_STRIDE`, spacer at `c0 + PT_HEAVY_COLS`) and the refresh reads each block's column from its header.
 Rebuilt by Paul and read back: 21 sections at 11 + 6i (the left spacer insert shifts the grid one column, as always), Property
 Tax 16,031.25 with its receipt, block totals sum to Rehab Total 186,260.29 exactly. 502 tests, pushed, live = repo.
-**Writer deploy @10 owed** (Code.gs: the two tab changes and the header guard) - Paul's "deploy".
+**Writer web app @10** (Code.gs: the two tab changes and the header guard), deployed 16:25 PDT on Paul's "deploy" = the repo by `clasp pull`.
 
 ## 2026-09-21 — Phase 4: lists closed, Drive filing done, Newport held, cutover rehearsed end to end
 
