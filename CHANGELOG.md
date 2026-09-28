@@ -1392,7 +1392,9 @@ were approved (a "Returned" there would count the return twice); the only other 
 extension cord 134.23, HD 04-16 caulk gun 6.47): Amazon heaters 276.22; HD 02-15 Halo housing 74.65; HD 02-16 OSB 30.79;
 HD 03-09 77.95 (the two GRK screws not kept); AllModern 214.34; Ping 99.20 (typed by Paul); McCoy's 61.53; Wayfair 93.08;
 Lowe's fans 324.69; HD 03-21 paint 389.93; HD 04-06 lights 181.52; HD 04-16 88.83. Nothing kept from Lowe's 01-09 (360.49),
-HD 03-11 (6.68), HD 03-12 (the trim and quarter round), HD 03-25, HD 04-05. Verified on the Journal: Ashburne's fixing and
+HD 03-11 (6.68), HD 03-12 (the trim and quarter round), HD 03-25, HD 04-05. **Paul's notes on the cards (read back from the
+envelopes, for Phase 3's store-credit matching): Returned 455.65** - Lowe's 01-09 thermostat + deadbolt 356.13, Halo trim 18.91,
+GRK screws 5.88, Husky wrench 6.68, tile trim + quarter round 68.05; HD 03-25 "already in the books", HD 04-05 "Duplicate". Verified on the Journal: Ashburne's fixing and
 holding 180,175.30 -> **182,081.56**; **Recast owes Paul on Ashburne 4,033.86 -> 5,940.12**; all 2030 33,096.03 -> 35,142.99;
 Ashburne profit by the books **144,802.94 -> 142,896.68** (cash check 148,836.80 - 5,940.12); the tab's blocks refreshed by
 each Save. **Found, left:** the five email-only receipts (Amazon, Lowe's 02-04, AllModern, Wayfair, HD 04-06) posted with NO
