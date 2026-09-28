@@ -814,6 +814,27 @@ match never posts to the Journal. Golden set for the first run: the Citizens fir
 (32 exact, the itemised groups, six questions). 523 tests. Pushed; **writer deploy AND site deploy owed** - the job
 reaches `feedUpdate` through the writer web app.
 
+## 2026-09-28 (late night) - the first matcher run, graded: 49 / 22 / 2, every match right; three fixes
+
+Run by Paul on Citizens (writer @12, site `6abafb46`): 73 lines, **49 matched, 22 cards, 2 later** (the Ashburne wire
+and the 550,000). Read back on the Feed tab and checked against the Journal: **all 49 matches right** - the two Bison
+wires to one sale entry, Red Oak 527.24 + its 2.00 fee as two lines to one entry, the 1,196.40 water to four entries
+(Brushwood 100 + Cost Recapture 612.91 + 443.49 + a typed 40.00 "card service fee"), returns netted against their
+purchases (Lowe's 270.50 - 191.02, HD 41.55 bought and taken back), the Granite holdback 60,000 in and the two 30,000
+payouts, Dennis's 10,000 advance, the 09-02 gimbal at 137.06. The 22 cards all real: 08-13 Lowe's 542.40 vs six
+entries 542.39 and 09-02 HD 109.01 vs nine entries 109.00 (the old books' pennies), F&D 42.21 vs 42.41 and HD 55.87
+vs 55.71 (typos or a missing item), eight Citizens-card store charges with no receipt (Lowe's 130.87, AutoZone,
+Mower Depot, Amazon 36.99, HD 14.72, HD 90.67 / 90.23 / 30.57), Deluxe 28.15, the TYL 47.26 (the real card fee for
+the water bills - the typed 40 in the books is really water), and the six questions from the first pass. **One
+card would double a cost: Zelle "EFFREN LANDSCAPER" 275 of 09-01 = the three Falcon Creek INV 1390 entries on 1401
+(110 + 110 + 55)** - the model had the amount but not the name (the Vendors tab has no aliases). Fixes:
+`MATCH_TOLERANCE_CENTS = 5` (Paul: "allow a few cents"; the note says by how much, the books are not changed); the
+Vendors tab's aliases reach the model (VENDOR NAMES); the prompt on Zelle/check names and on refunds; `resetFeedCards()`
+(Menu.gs, editor) dismisses the open bank-line cards and puts their rows back to `unmatched` for another run. **In the
+books on Citizens but on no bank line** (for the reconcile step): Home Depot 08-14 x3 (11.88, 69.61, 44.08 = 125.57),
+Neighborhood Management HOA release 375.00 (09-09), and the Granite sale lines of 07-24 (the known book fix - the
+account opened 08-06). 524 tests.
+
 ## 2026-09-21 — Phase 4: lists closed, Drive filing done, Newport held, cutover rehearsed end to end
 
 **Morning, offline (audit §39-§44).** 26 false Home Depot / Lowe's links from a coincidental subset-sum rule

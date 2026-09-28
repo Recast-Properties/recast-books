@@ -2133,3 +2133,46 @@ function feedMatchSummary_(s) {
   out.push('Each line\'s note is in the match_note column of the Feed tab.');
   return out.join('\n');
 }
+
+/** Phase 3 tuning loop (editor-only, run once, then Match statement lines... again): every
+ *  pending Inbox card born from bank lines is dismissed on the site with a note saying why,
+ *  and its Feed rows go back to `unmatched` with the note cleared, so the next run sends
+ *  them again after a matcher fix. Rows already tied to the books are never touched; a card
+ *  Paul has already decided is not pending, so it is left alone too. */
+function resetFeedCards() {
+  var props = PropertiesService.getScriptProperties();
+  var ss = openWorkbook_(props);
+  requireOwner_(ss);
+  var user = Session.getActiveUser().getEmail();
+  var pending = siteFetchJson_('/api/inbox?status=pending&limit=500').envelopes || [];
+  var cards = pending.filter(function (e) { return e.feed && e.feed.feed_ids && e.feed.feed_ids.length; });
+  var ids = {};
+  cards.forEach(function (e) {
+    siteFetchJson_('/api/inbox', 'post', { action: 'dismiss', docId: e.docId, by: user, note: 'Put back for another matching run (resetFeedCards)' });
+    e.feed.feed_ids.forEach(function (id) { ids[id] = true; });
+  });
+  var lock = LockService.getScriptLock();
+  lock.waitLock(30000);
+  var n = 0;
+  try {
+    var sh = ss.getSheetByName('Feed');
+    var cols = headerIndex_(sh);
+    var last = sh.getLastRow();
+    if (last > 1) {
+      var feedIds = sh.getRange(2, cols['feed_id'], last - 1, 1).getValues();
+      var verdicts = sh.getRange(2, cols['status'], last - 1, 3).getValues();
+      feedIds.forEach(function (r, i) {
+        if (!ids[String(r[0])]) return;
+        verdicts[i] = ['unmatched', '', ''];
+        n++;
+      });
+      sh.getRange(2, cols['status'], last - 1, 3).setValues(verdicts);
+    }
+  } finally {
+    lock.releaseLock();
+  }
+  warmCache_();
+  var out = 'cards dismissed ' + cards.length + ', lines back to unmatched ' + n;
+  Logger.log(out);
+  return out;
+}

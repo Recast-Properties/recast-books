@@ -105,7 +105,7 @@ test("applyVerdicts: a match must add up to the cent (several lines to one entry
     verdicts: [
       { kind: "match", feed_ids: ["F1"], txn_ids: ["receipt-1"], entry: null, note: "Lowe's siding for 366 Mesa" },
       { kind: "match", feed_ids: ["F3", "F4"], txn_ids: ["sale-4"], entry: null, note: "the Sparkling sale, two wires" },
-      { kind: "match", feed_ids: ["F2"], txn_ids: ["manual-2"], entry: null, note: "the water bill" },            // 1,096.40 vs the bank's 1,196.40
+      { kind: "match", feed_ids: ["F2"], txn_ids: ["manual-2"], entry: null, note: "the water bill" },            // 1,096.40 vs the bank's 1,196.40 - far off
     ],
     lines: LINES.slice(0, 4), candidates: cands, account: ACCOUNT, accountName: "Citizens", ctx: ctx(), settings: SETTINGS, now: "2026-09-28T20:00:00Z",
   });
@@ -122,6 +122,24 @@ test("applyVerdicts: a match must add up to the cent (several lines to one entry
   assert.deepEqual(envelopes[0].model.entries, []);
   assert.equal(envelopes[0].model.paid_from, ACCOUNT);
   assert.deepEqual(summary, { total: 4, matched: 3, cards: 1, later: 0, none: 0 });
+});
+
+test("applyVerdicts: a few cents off is still a match, and the note says so; more is a question", () => {
+  const cands = buildCandidates(JOURNAL, ACCOUNT);
+  const pennyOff = [line("F1", "2026-08-13", -54239, "Lowe s Waxahachie")];
+  const { updates } = applyVerdicts({
+    verdicts: [{ kind: "match", feed_ids: ["F1"], txn_ids: ["receipt-1"], entry: null, note: "Lowe's siding for 366 Mesa" }],
+    lines: pennyOff, candidates: cands, account: ACCOUNT, accountName: "Citizens", ctx: ctx(),
+  });
+  assert.equal(updates[0].status, "matched");
+  assert.equal(updates[0].match_note, "Lowe's siding for 366 Mesa (the books are 0.01 over the bank - rounding in the old books)");
+  const dimeOff = [line("F1", "2026-08-13", -54220, "Lowe s Waxahachie")];
+  const far = applyVerdicts({
+    verdicts: [{ kind: "match", feed_ids: ["F1"], txn_ids: ["receipt-1"], entry: null, note: "Lowe's" }],
+    lines: dimeOff, candidates: cands, account: ACCOUNT, accountName: "Citizens", ctx: ctx(),
+  });
+  assert.equal(far.updates[0].status, "proposed");
+  assert.match(far.updates[0].match_note, /the amounts differ/);
 });
 
 test("applyVerdicts: one line to two entries adds up; a candidate used twice makes the second a question", () => {
@@ -250,6 +268,8 @@ test("VERDICTS_TOOL is strict and every line kind is a list with lines[]; lineTe
   assert.equal(lineText(LINES[1]), "2026-09-01 | -1196.40 | 408 S ROGERS STREET WAXAHACHIE TX");
   assert.match(buildUser({ lines: LINES.slice(0, 1), batch: 1, batches: 1, today: "2026-09-28" }), /L1..L1/);
   assert.match(buildSystem({ account: ACCOUNT, accountName: "Citizens", candidates: [], properties: [] }), /nothing in the books touches this account yet/);
+  const sys = buildSystem({ account: ACCOUNT, accountName: "Citizens", candidates: [], properties: [], vendors: [{ canonical: "Falcon Creek Lawn Care", aliases: ["Effren", "Effren Landscaper"] }, { canonical: "Home Depot", aliases: [] }] });
+  assert.match(sys, /VENDOR NAMES[^\n]*\n(Falcon Creek Lawn Care \| Effren, Effren Landscaper)\n\nCANDIDATES/);
 });
 
 // ---- the job, end to end with fakes ---------------------------------------------------------
@@ -274,6 +294,7 @@ function fakeWriter() {
     Periods: { headers: ["period", "status"], rows: [] },
     Settings: { headers: ["key", "value"], rows: [["autofile_ceiling_cents", 50000]] },
     "Bank accounts": { headers: ["code", "name", "institution", "last4", "active"], rows: [[ACCOUNT, "Recast Citizens - Shared", "Citizens", "2505, 5450, 9301", true]] },
+    Vendors: { headers: ["canonical", "aliases"], rows: [["Falcon Creek Lawn Care", "Effren, Effren Landscaper"]] },
   };
   return {
     calls,
@@ -297,6 +318,7 @@ test("runFeedMatch: reads the tabs, sends only the account's open lines, leaves 
   const sent = [...anthropic.calls[0].messages[0].content.matchAll(/^L\d+ \| /gm)].length;
   assert.equal(sent, 8, "F9 (matched) and F10 (another account) stay home");
   assert.doesNotMatch(anthropic.calls[0].system[0].text, /Deluxe/, "manual-6 is tied to F9 already, so it is no candidate");
+  assert.match(anthropic.calls[0].system[0].text, /Falcon Creek Lawn Care \| Effren, Effren Landscaper/, "the Vendors tab's other names reach the model");
   assert.equal(out.candidates, 4);
   const upd = writer.calls.find((c) => c[0] === "feedUpdate")[1];
   const byId = Object.fromEntries(upd.map((u) => [u.feed_id, u]));

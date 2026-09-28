@@ -42,14 +42,17 @@ export function feedRows(resp) {
 
 /** The run, exported so the test drives it with fakes. Returns what the job record stores. */
 export async function runFeedMatch({ account, writer, docsStore, anthropic, now = new Date().toISOString() }) {
-  const [feedResp, journalResp, ctx, settingsResp, bankResp, propsResp] = await Promise.all([
+  const [feedResp, journalResp, ctx, settingsResp, bankResp, propsResp, vendorsResp] = await Promise.all([
     readTab(writer, "Feed", { fresh: true }),
     readTab(writer, "Journal", { fresh: true, all: true, timeoutMs: JOURNAL_READ_TIMEOUT_MS }),
     getPostingCtx(writer),
     readTab(writer, "Settings"),
     readTab(writer, "Bank accounts"),
     readTab(writer, "Properties"),
+    readTab(writer, "Vendors"),
   ]);
+  const vendors = rowsToObjectsPublic(vendorsResp.headers, vendorsResp.rows)
+    .map((v) => ({ canonical: String(v.canonical || ""), aliases: String(v.aliases || "").split(",").map((a) => a.trim()).filter(Boolean) }));
   const feed = feedRows(feedResp);
   const lines = feed.filter((r) => r.account === account && r.status === "unmatched");
   const used = new Set(feed.flatMap((r) => r.txn_id.split(/[\s,]+/)).filter(Boolean));
@@ -65,7 +68,7 @@ export async function runFeedMatch({ account, writer, docsStore, anthropic, now 
 
   if (!lines.length) return { summary: { total: 0, matched: 0, cards: 0, later: 0, none: 0 }, candidates: candidates.length, usage: null, transcript: "no open lines" };
 
-  const { verdicts, usage, transcript } = await runMatcher({ anthropic, account, accountName, lines, candidates, properties, today: ctx.today });
+  const { verdicts, usage, transcript } = await runMatcher({ anthropic, account, accountName, lines, candidates, properties, vendors, today: ctx.today });
   const applied = applyVerdicts({ verdicts, lines, candidates, account, accountName, ctx, settings, postedEntries: buildPostedEntries(journalLines), now });
 
   for (const env of applied.envelopes) await docsStore.setJSON(`doc/${env.docId}`, env);
