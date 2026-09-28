@@ -710,6 +710,24 @@ line. Run by Paul ~14:08: hinge refund -> Kitchen, pendant -> Lighting & Electri
 **Writer web app @9** on Paul's "deploy" (both parked lists on one loop, fixGraniteToiletKits, the header guard) = the
 repo by `clasp pull`. 500 tests. Item (b) closed; next (c)+(d) as one list for Paul's word.
 
+## 2026-09-28 (14:45 PDT) - item (c)+(d) culled with Paul: Cash App and Harbor Freight close to nothing; 17 Amazon orders to forward
+
+Paul: *"this list never fucking ends"* / *"give me a list and i'll cull it down"*. The pvb421 listing's `head` field carries
+each Cash App notice's text ("You paid <name> $<amount> for <memo>"): **41 "Payment sent" notices - 39 to family (Aden,
+Suzie, Alec, Sarah), one already in the books (05-18 $380 "Vicktor Campos for roof" = Granite's Salvador Campos "Roof"
+380 of 05-18), one personal (02-19 $35 Elijah Crane "for the casa" - Paul: not business).** Nothing to forward.
+**Harbor Freight:** the handoff's "5 never forwarded" was stale - 01-31 x2 (16.99) are the migrated 01-21 trailer lights,
+04-03 82.25 is the circ saw (row 182), 08-10 16.23 the Hercules blade (row 208); 08-27 Gresham 149.98 was returned (Paul).
+Nothing to forward. **Amazon May-Sep (34 "Ordered" mails):** refunded in full (06-16 shower faucet order, 08-06 cameras,
+08-13 Mesa item), personal (hair product, USB cable, graduation, book, apparel, Breville, personal care, office,
+cookbooks) and the Gerber tank (done) left out; the 20 house-looking ones culled by Paul: **drop** 05-08 leaf blower
+(Portland), 05-08 Latrcm blower, 06-01 Osmocote; **forward** 05-01 KAIWEETS (tools, overhead), 05-04 Chibery (Ashburne),
+05-24 Osmocote (Ashburne), 05-27 keypad + 6 (Granite by date), 05-28 WAC light (Granite by date, Paul left it blank),
+05-28 Heath Zenith (Granite), 05-31 AMZSEVEN rods (Granite), 06-25 keypad (Bowling Green by date), and 07-14 .. 09-12
+(nine "N items" mails: LanBlu fountain + 5, 08-07 camera/lighting, 08-11, 08-13 x4, 08-14, 09-01, 09-02, 09-04, 09-12)
+as "not decided - hold for Paul, the card lists the items". **Blocked:** auto mode refused to write the forwarding script
+(`scripts/forward-remaining-pvb421.gs`, "Sensitive-Source Provenance") - Paul's step: permission mode off Auto, then go.
+
 ## 2026-09-21 — Phase 4: lists closed, Drive filing done, Newport held, cutover rehearsed end to end
 
 **Morning, offline (audit §39-§44).** 26 false Home Depot / Lowe's links from a coincidental subset-sum rule
