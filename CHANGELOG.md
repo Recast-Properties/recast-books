@@ -789,8 +789,10 @@ amount, name, memo, status, txn_id, match_note, source_file, imported_at`); `ens
 first use and refuses a tab that already has rows; the tab is readable (writer `read`, `lib/sheets-reader.mjs`, meta).
 Measured on Paul's real export (`~/Desktop/10632505.QFX`, never committed): 73 lines 2026-08-06 .. 09-25, sum
 170,800.07 = the ledger balance to the cent; `test/statement.test.mjs` runs it whenever the file is on the Desktop.
-511 tests. Pushed; **web app deploy owed** (Code.gs and lib.gs changed). Not yet: matching (spec section 3),
-reconciliation (section 4), the Daily Summary feed (6a).
+511 tests. **Run by Paul 16:20 PDT** after `clasp deploy` @11 and the last4 cells (1401 `2505, 5450, 9301`, 1402 `6317`):
+"73 new lines (2026-08-06 to 2026-09-25) ... 170800.07 ... it ties". Read back on the live tab (gviz): 73 rows on 1401,
+all `unmatched`, sum 170,800.07, dates real (year() resolves), every feed_id 24 digits of text, source_file
+`****2505.QFX`. Not yet: matching (spec section 3), reconciliation (section 4), the Daily Summary feed (6a).
 
 ## 2026-09-21 — Phase 4: lists closed, Drive filing done, Newport held, cutover rehearsed end to end
 
