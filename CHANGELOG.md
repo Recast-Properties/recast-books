@@ -1305,3 +1305,21 @@ deploy because `doPost` had not changed - it calls the refresh. The books were n
 to the same id (Paul's step), then Rebuild property tab on 104 Ashburne. `CLAUDE.md`: every push touching `Code.gs` or
 `lib.gs` is followed by a deploy. Deployed @5 by Paul the same night, verified identical to the repo; Ashburne rebuilt and read back clean, every other
 tab checked and in the current layout.
+
+## 2026-09-28 - Every advance says who got the money; Dennis's Ashburne draws come off the Chase account (D-051, D-052)
+
+Paul, starting Phase 3: *"how will it work with all the charges on my personal account? ... is it better to write a
+check to reimburse my personal account ... and reconcile against recast business bank accounts?"* Yes (D-051): the
+reconciliation covers Recast's two accounts; personal-card charges keep arriving as receipts, paid by Paul; his
+statements never come in. Before any repayment check, the Chase mix-up: the books held Chase at 153,450 - 159,500 of
+Dennis's draws in, 6,050 of Atlas Pools out - and Paul confirmed the draws went into his personal accounts. Recast had
+no Chase account then; the old books' "Chase" was his.
+
+**Built (D-052):** `Advances.paid_to` (Paul / Vendor / Citizens / Chase / Seller): the Add advance dialog asks "Paid
+to" in words instead of an account number, a Vendor advance is refused on a partner deal, and 104 Ashburne's advance
+list reads "To Paul: Draw - rehab" / "To Vendor: Cash advance - Julio, labor". `fixAdvancesPaidTo()` fills the column by
+rule and moves every advance whose money sits elsewhere (void, then re-post - a run that stops half way is finished by
+the next), plus the two Atlas Pools payments to Paul Paid; `reportAdvancesPaidTo()` is its dry run. Dry run on today's
+snapshot: six advances and two payments move, **Chase 153,450.00 -> 0.00, Recast owes Paul 185,116.88 -> 31,666.88**;
+paid_to comes out Seller 8, Paul 9, Vendor 15, Citizens 1 (Mesa's 10,000). All periods open. 489 tests.
+**Not pushed yet** - `clasp push` failed `invalid_rapt` (login expired). Paul: `npx clasp login`; then push, Paul deploys the writer, then runs `fixAdvancesPaidTo` in the editor.

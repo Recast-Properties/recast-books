@@ -144,7 +144,7 @@ var TAB_HEADERS = {
   'Vendors': ['canonical', 'aliases', 'entity_type', 'form_1099', 'tin_status',
     'w9_url', 'default_account', 'notes'],
   'Advances': ['advance_id', 'date', 'amount', 'property', 'source_txn_id',
-    'status', 'accrued_to', 'repaid_date', 'notes', 'kind', 'rate_pct'],
+    'status', 'accrued_to', 'repaid_date', 'notes', 'kind', 'rate_pct', 'paid_to'],
   'Periods': ['period', 'status', 'closed_at', 'snapshot_url', 'notes'],
   'Settings': ['key', 'value', 'notes'],
   'Users': ['email', 'role', 'name', 'added_at'],
@@ -1278,6 +1278,9 @@ function setupPropertyTab(name, asOf) {
   // sits between End Date and Principal, so principal is G and interest H (Paul, 2026-09-22:
   // "missing the descriptions of the cash advances").
   var PC = heavy ? 7 : 6, IC = PC + 1, PL = colLetter_(PC), IL = colLetter_(IC);
+  // D-052: the Description leads with who the money went to - "To Paul: Draw - rehab".
+  var paidToCol = headerIndex_(ss.getSheetByName('Advances'))['paid_to'];
+  var PAIDTO = paidToCol ? colLetter_(paidToCol) : '';
   var advanceSchedule = function (top, title, kindFactor, n) {
     set(top, 4, title, true); paint(top, 4, IC - 4, C.head); paint(top, IC, 1, C.total);
     set(top + 1, 4, 'Start Date', true); set(top + 1, 5, 'End Date', true);
@@ -1295,7 +1298,9 @@ function setupPropertyTab(name, asOf) {
       // End Date is typed on the sheet (Paul, 2026-09-15): the value comes from
       // Advances.repaid_date and an edit trigger writes it back (onPropertyTabEdit).
       set(r, 5, endDates[i] || '');
-      if (heavy) set(r, 6, '=IF(D' + r + '="","",IFERROR(REGEXREPLACE(' + pick('I', idx) + '&""," \\(migration\\)$",""),""))');
+      if (heavy) set(r, 6, '=IF(D' + r + '="","",IFERROR(' +
+        (PAIDTO ? 'IF(' + pick(PAIDTO, idx) + '&""="","","To "&' + pick(PAIDTO, idx) + '&": ")&' : '') +
+        'REGEXREPLACE(' + pick('I', idx) + '&""," \\(migration\\)$",""),""))');
       set(r, PC, '=IF(D' + r + '="","",' + pick('C', idx) + ')');
       // AN n = full monthly anniversaries to the as-of date (DATEDIF "m"); AO balance
       // compounded monthly; AP last anniversary; AQ stub days - simple over
@@ -2378,6 +2383,144 @@ function reportStrandedCosts() {
       });
   });
   if (!out.length) out.push('no sold properties');
+  console.log(out.join('\n'));
+  return out;
+}
+
+// ---- Who Dennis's money was paid to (D-052, 2026-09-28) -----------------------------------
+// Paul: "we need some kind of checkbox or something for 104 ashburne to identify if the money
+// was paid to me or a vendor", and "anything labeled Draw was cash into one of my personal
+// accounts". Advances.paid_to says it, and the advance's money sits on the account it names.
+// Paul and Vendor are both 2030 (D-032: a bill Dennis paid a worker is also a row on the tab
+// credited to 2030, so the two cancel and only the advance is owed to Dennis); the word is what
+// differs. Vendor is refused on a partner deal, where a bill Dennis pays is no advance (D-030).
+// ponytail: Recast's two bank accounts by name; add a third here if one is ever opened.
+var ADVANCE_PAID_TO = { 'Paul': '2030', 'Vendor': '2030', 'Citizens': '1401', 'Chase': '1402', 'Seller': '1000' };
+// Bowling Green's 1,500 of 2026-06-01 was the rest of the $7,000 check that reimbursed Paul
+// (Granite's advance of that day says so); the migration had put it on Chase.
+var ADVANCE_PAID_TO_KNOWN = { 'adv-manual-20260601-b92364532cf6': 'Paul' };
+// Paid from the personal Chase the draws went into (the receipts show Chase, and Recast had no
+// Chase account before September 2026): Paul paid them. The migration put them on 1402.
+var CHASE_WAS_PAUL_TXNS = ['migration-20260306-5481469e82a5', 'migration-20260313-591053b989d1'];
+
+/** paid_to for an advance that has none, from its kind, its notes, then its account. */
+function advancePaidToGuess_(kind, notes, account) {
+  if (kind === 'purchase') return 'Seller';
+  if (/^Draw\b/i.test(notes) || /reimbursed Paul/i.test(notes)) return 'Paul';
+  if (/^Cash advance - /i.test(notes)) return 'Vendor';   // "Cash advance - Julio, labor": Dennis paid the worker
+  return { '2030': 'Paul', '1401': 'Citizens', '1402': 'Chase' }[account] || '';
+}
+
+/** A partner deal (Dennis shares the profit) - blank means the 50% default (D-022). */
+function isPartnerDeal_(ss, property) {
+  var share = String((propertyRow_(ss, property) || {}).dennis_share_pct);
+  return share === '' || Number(share) > 0;
+}
+
+/** Void an advance's entry and post it again with its money on `target`. Void first, like a
+ *  who-paid box: if the run stops between the two, the next run finds the voided entry and
+ *  posts the new one. Then the Advances row points at the new entry. */
+function repointAdvance_(ss, props, adv, ac, rowNum, a, target, why, user) {
+  var today = Utilities.formatDate(new Date(), 'America/Chicago', 'yyyy-MM-dd');
+  if (!a.voided) voidEntry_(a.txn, why, today, user, props, true);
+  var entry = buildEntry({
+    type: 'advance', date: a.date, amount_cents: a.cents, property: a.property, into: target,
+    description: a.description || 'Dennis advance', memo: (a.memo ? a.memo + ' ' : '') + '(' + why + ')',
+    source: 'manual', posted_by: user, allow_duplicate_hash: true
+  }, buildCtx_(ss));
+  postEntry_(entry, props);
+  adv.getRange(rowNum, ac['source_txn_id']).setValue(entry.txn_id);
+  return entry.txn_id;
+}
+
+/** Editor helper (Paul, once): every advance gets its paid_to, and its money moves to where
+ *  paid_to says. The first run (2026-09-28) moves the five Ashburne draws and Bowling Green's
+ *  1,500 off Chase onto Paul, and the two Atlas Pools payments with them. Safe to run again:
+ *  it changes only what disagrees. reportAdvancesPaidTo() is the same run changing nothing. */
+function fixAdvancesPaidTo() { return advancesPaidTo_(false); }
+function reportAdvancesPaidTo() { return advancesPaidTo_(true); }
+
+function advancesPaidTo_(dryRun) {
+  var started = Date.now();
+  var props = PropertiesService.getScriptProperties();
+  var ss = openWorkbook_(props);
+  var adv = ss.getSheetByName('Advances');
+  if (!dryRun) {
+    var need = TAB_HEADERS['Advances'].length - adv.getMaxColumns();
+    if (need > 0) adv.insertColumnsAfter(adv.getMaxColumns(), need);
+    ensureHeaders_(adv, TAB_HEADERS['Advances']);
+    var pcol = headerIndex_(adv)['paid_to'];
+    adv.getRange(2, pcol, adv.getMaxRows() - 1, 1).setDataValidation(SpreadsheetApp.newDataValidation()
+      .requireValueInList(Object.keys(ADVANCE_PAID_TO), true).setAllowInvalid(false).build());
+  }
+  var ac = headerIndex_(adv);
+  var journal = ss.getSheetByName('Journal');
+  var jc = headerIndex_(journal);
+  var jr = journal.getRange(2, 1, journal.getLastRow() - 1, journal.getLastColumn()).getValues();
+  var g = function (r, n) { return jc[n] ? r[jc[n] - 1] : ''; };
+  var cents = function (v) { return Math.round(Number(v || 0) * 100); };
+  var byTxn = {}, voided = {}, bal = { '1402': 0, '2030': 0 };
+  jr.forEach(function (r) {
+    var t = String(g(r, 'txn_id')), v = String(g(r, 'void_of') || '');
+    if (v) voided[v] = true;
+    if (cents(g(r, 'debit')) > 0) byTxn[t] = { account: String(g(r, 'account')), description: String(g(r, 'description') || ''), memo: String(g(r, 'memo') || '') };
+  });
+  jr.forEach(function (r) {
+    var acct = String(g(r, 'account'));
+    if (acct in bal && String(g(r, 'source')) !== 'void' && !voided[String(g(r, 'txn_id'))]) bal[acct] += cents(g(r, 'debit')) - cents(g(r, 'credit'));
+  });
+  var before = { '1402': bal['1402'], '2030': bal['2030'] };
+  var user = Session.getActiveUser().getEmail() || 'editor';
+  var out = [], touched = {};
+  var rows = adv.getLastRow() > 1 ? adv.getRange(2, 1, adv.getLastRow() - 1, adv.getLastColumn()).getValues() : [];
+  rows.forEach(function (r, i) {
+    var f = function (n) { return ac[n] ? r[ac[n] - 1] : ''; };
+    var id = String(f('advance_id')), notes = String(f('notes'));
+    var a = { txn: String(f('source_txn_id')), date: formatIsoDate_(f('date')), cents: toCents(f('amount')), property: String(f('property')) };
+    var j = byTxn[a.txn] || {};
+    a.description = j.description; a.memo = j.memo; a.voided = !!voided[a.txn];
+    var paidTo = String(f('paid_to') || '') || ADVANCE_PAID_TO_KNOWN[id] || advancePaidToGuess_(String(f('kind')), notes, j.account || '');
+    var label = a.date + '  ' + a.property + '  ' + fromCents(a.cents) + '  "' + notes.replace(/ \(migration\)$/, '') + '"';
+    if (!ADVANCE_PAID_TO[paidTo]) { out.push('NO PAID TO  ' + label + '  - pick one on the Advances tab'); return; }
+    if (paidTo === 'Vendor' && isPartnerDeal_(ss, a.property)) { out.push('REFUSED  ' + label + '  - Vendor on a partner deal (D-030)'); return; }
+    if (!dryRun && !f('paid_to')) adv.getRange(i + 2, ac['paid_to']).setValue(paidTo);
+    var target = ADVANCE_PAID_TO[paidTo];
+    if (!a.voided && j.account === target) { out.push('ok  ' + paidTo + '  ' + label); return; }
+    var why = 'paid to ' + paidTo + ': ' + (a.voided ? 'voided' : j.account) + ' -> ' + target;
+    if (!a.voided && j.account in bal) bal[j.account] -= a.cents;
+    if (target in bal) bal[target] += a.cents;
+    if (dryRun) { out.push('WOULD MOVE  ' + label + '  ' + why); return; }
+    try {
+      out.push('MOVED  ' + label + '  ' + why + '  now ' + repointAdvance_(ss, props, adv, ac, i + 2, a, target, why, user));
+      touched[a.property] = true;
+    } catch (err) {
+      out.push('FAILED  ' + label + '  ' + ((err && err.code) || '') + ' ' + String((err && err.message) || err));
+    }
+  });
+  CHASE_WAS_PAUL_TXNS.forEach(function (t) {
+    var line = jr.filter(function (r) { return String(g(r, 'txn_id')) === t && cents(g(r, 'credit')) > 0; })[0];
+    if (!line || voided[t] || String(g(line, 'account')) !== '1402') { out.push('ok  ' + t + '  (not on Chase)'); return; }
+    var label = formatIsoDate_(g(line, 'date')) + '  ' + g(line, 'property') + '  ' + g(line, 'payee') + '  ' + fromCents(cents(g(line, 'credit')));
+    bal['1402'] += cents(g(line, 'credit')); bal['2030'] -= cents(g(line, 'credit'));
+    if (dryRun) { out.push('WOULD MOVE  ' + label + '  paid from Chase -> Paul'); return; }
+    var said = '';
+    repaidFromTxn_({ user: Session.getActiveUser() }, ss, t, 0, function (m) { said = m; });   // k 0 = Paul Paid
+    out.push((/^Re-posted/.test(said) ? 'MOVED  ' : 'FAILED  ') + label + '  paid from Chase -> Paul  ' + said);
+    touched[String(g(line, 'property'))] = true;
+  });
+  if (!dryRun) {
+    // The Description formula is new, so the heavy tab needs one rebuild; a light tab's
+    // formulas read the Journal live. Leave room under Apps Script's six minutes.
+    Object.keys(touched).forEach(function (p) {
+      if (String((propertyRow_(ss, p) || {}).template || '').toLowerCase() !== 'heavy') return;
+      if (Date.now() - started > 240000) { out.push(p + ' tab NOT rebuilt (out of time) - Recast Books -> Rebuild property tab'); return; }
+      try { setupPropertyTab(p); out.push(p + ' tab rebuilt'); } catch (err) { out.push(p + ' tab rebuild FAILED ' + String((err && err.message) || err)); }
+    });
+    warmCache_();
+  }
+  var money = function (c) { return (c / 100).toFixed(2); };
+  out.push('Chase (1402): ' + money(before['1402']) + ' -> ' + money(bal['1402']));
+  out.push('Recast owes Paul (2030, credit): ' + money(-before['2030']) + ' -> ' + money(-bal['2030']));
   console.log(out.join('\n'));
   return out;
 }

@@ -1048,3 +1048,41 @@ otherwise name the posted rows and post lines Paul removed on the card. A row co
 the same product a week or more away counts only when no nearer row carries the line. `read_ledger` takes `date` (cost
 lines within 10 days, nearest first) so the rows can be found at all. Proved on the five parked documents: each ties to
 the migrated rows line by line - 437.46 on no book, not the 407.22 the migration's amount-only links implied.
+
+## D-051 · Bank reconciliation covers Recast's own accounts; Paul's personal statements stay out - 2026-09-28 · Paul
+
+Paul: *"how will it work with all the charges on my personal account? i fear it will be very messy. is it better to
+write a check to reimburse my personal account as business expenses and reconcile against recast business bank
+accounts?"* - the retirement of his personal account that D-007 already recorded.
+
+**Decided:** Phase 3 reconciles Recast's accounts only - Citizens (1401) and Chase (1402). A business charge on a
+personal card still comes in as a receipt, paid by Paul (2030), as today; Paul's personal statements are never imported.
+Supersedes `docs/phase3-spec.md` §1's third account and §9's "then the personal card". What Recast owes Paul is paid
+back with one payment from a Recast account - one statement line against 2030 - and not before reconciliation has made
+2030 right (the migration's Chase mix-up, D-052). House costs Paul paid still come back to him at each sale.
+**Consequences:** a refund to a personal card is seen only when its return receipt is forwarded; the 27 receipts parked
+for "the card statement" (5,166.56, `paul-answers.json` `mail_settled`) need Paul's word per item instead.
+
+## D-052 · Every advance says who the money was paid to; the old books' "Chase" was Paul's personal Chase - 2026-09-28 · Paul
+
+Paul: *"yes it went into my personal account(s) i may have put them into two separate personal accounts. some of those
+"cash advances" for 104 ashburne were paid directly to the vendor and not put into my account. we need some kind of
+checkbox or something for 104 ashburne to identify if the money was paid to me or a vendor"*, then *"anything labeled
+"Draw" was cash into one of my personal accounts"*.
+
+**Decided:** `Advances.paid_to` - Paul / Vendor / Citizens / Chase / Seller - a dropdown on the Advances tab, asked by
+Add advance, and shown on the heavy tab's advance Description ("To Paul: Draw - rehab"). The advance's money sits on
+the account it names: Paul and Vendor 2030 (D-032 unchanged: the worker's bill is a row credited to 2030, so the two
+cancel), Citizens 1401, Chase 1402, Seller 1000. Vendor is refused on a partner deal (D-030). Which of Paul's own
+accounts the money went into does not matter to the books.
+The migration had put the five Ashburne draws (158,000) and Bowling Green's 1,500 (the rest of the $7,000 check that
+reimbursed Paul on 06-01 - Granite's advance of that day says so) on Chase, and the two Atlas Pools payments (2,025 on
+03-06, 4,025 on 03-13; the receipts show Chase) as paid from it. Recast had no Chase account before September 2026: that
+Chase was Paul's. `fixAdvancesPaidTo()` (editor, once; `reportAdvancesPaidTo()` is its dry run) fills paid_to by rule
+- a purchase is Seller, "Draw" or "reimbursed Paul" is Paul, "Cash advance - <name>" is Vendor, else the account -
+and moves the eight: **Chase 153,450.00 -> 0.00; Recast owes Paul 185,116.88 -> 31,666.88** (dry run on the 09-28
+snapshot). Interest does not change: it follows the Advances row, not the account.
+**Left:** the eight Ashburne vendor advances with no bill on the tab ($1,619, D-032's consequence) still come off what
+Recast owes Paul; each is Paul's call - a job missing from the tab gets its row, the same job typed on another date gets
+nothing. ponytail: changing a paid_to between Paul/Vendor and a bank does not move the money by itself - run
+`fixAdvancesPaidTo()` again (an edit trigger when that is ever a real case).

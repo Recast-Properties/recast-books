@@ -470,7 +470,17 @@ function addAdvance(form, skipRebuild) {
       }
     }
 
-    var into = kind === 'purchase' ? '1000' : (form.into || '1401');
+    // D-052: the dialog says who the money was paid to and the account follows from it.
+    // migrationRegisterAdvances still passes `into`.
+    var paidTo = kind === 'purchase' ? 'Seller'
+      : String(form.paid_to || ({ '2030': 'Paul', '1401': 'Citizens', '1402': 'Chase' })[form.into || '1401'] || '');
+    if (!ADVANCE_PAID_TO[paidTo] || (kind === 'cash' && paidTo === 'Seller')) {
+      return { ok: false, error: 'BAD_REQUEST', message: 'Choose who the money was paid to.' };
+    }
+    if (paidTo === 'Vendor' && isPartnerDeal_(ss, property)) {
+      return { ok: false, error: 'BAD_REQUEST', message: 'On a partner deal, a bill Dennis paid straight to a worker is not an advance. Add it as a cost Dennis paid.' };
+    }
+    var into = ADVANCE_PAID_TO[paidTo];
     var description = kind === 'purchase' ? 'Purchase price (Dennis purchase principal)' : 'Dennis advance';
     var memo = form.memo || '';
 
@@ -486,7 +496,7 @@ function addAdvance(form, skipRebuild) {
     var advanceRow = {
       advance_id: 'adv-' + entry.txn_id, date: date, amount: fromCents(amount_cents), property: property,
       source_txn_id: entry.txn_id, status: 'open', accrued_to: '', repaid_date: '', notes: memo,
-      kind: kind, rate_pct: rate_pct
+      kind: kind, rate_pct: rate_pct, paid_to: paidTo
     };
     upsertRow_(advSheet, advCols, 'advance_id', advanceRow);
 

@@ -12,7 +12,12 @@
   </select></div>
 </div>
 <div class="row">
-  <div id="a-into-wrap" class="hidden"><label>Into</label><select id="a-into"></select></div>
+  <div id="a-into-wrap" class="hidden"><label>Paid to</label><select id="a-paid-to">
+    <option value="Paul">Paul (into my own account)</option>
+    <option value="Vendor">A vendor (Dennis paid them directly)</option>
+    <option value="Citizens">Recast's Citizens account</option>
+    <option value="Chase">Recast's Chase account</option>
+  </select></div>
   <div><label>Interest rate (% per year)</label><input type="text" id="a-rate"></div>
 </div>
 <label>Memo</label><input type="text" id="a-memo" placeholder="Optional">
@@ -28,9 +33,6 @@
 
   document.getElementById('a-date').value = new Date(Date.now() - new Date().getTimezoneOffset() * 60000).toISOString().slice(0, 10);
   fillSelect_(document.getElementById('a-property'), DATA.properties.map(function (p) { return { value: p, label: p }; }));
-  fillSelect_(document.getElementById('a-into'),
-    DATA.bankAccounts.map(function (b) { return { value: b.code, label: b.code + ' ' + b.name }; })
-      .concat([{ value: '2030', label: '2030 - Paul Personal (Due to owner)' }]));
   document.getElementById('a-rate').value = DATA.interestRatePct;
 
   function updateKind_() {
@@ -52,7 +54,7 @@
       amount: document.getElementById('a-amount').value,
       property: property,
       kind: kind,
-      into: document.getElementById('a-into').value,
+      paid_to: document.getElementById('a-paid-to').value,
       rate_pct: document.getElementById('a-rate').value,
       memo: document.getElementById('a-memo').value
     };

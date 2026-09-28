@@ -568,3 +568,27 @@ test("Journal columns are accessed via headerIndex_, not hardcoded indices", () 
   assert.ok(source.includes("function headerIndex_("), "headerIndex_ helper is missing");
   assert.ok(source.includes("headerIndex_(sheet)") || source.includes("headerIndex_(periodsSheet)"));
 });
+
+// D-052, Paul 2026-09-28: "anything labeled Draw was cash into one of my personal accounts";
+// an advance named for a worker is money Dennis paid that worker directly.
+test("an advance's paid_to: Draw is Paul, a named worker is Vendor, and the fix voids before it re-posts", () => {
+  const advancePaidToGuess_ = lift("advancePaidToGuess_", "kind, notes, account");
+  assert.strictEqual(advancePaidToGuess_("cash", "Draw - rehab (migration)", "1402"), "Paul", "a draw went to Paul, whatever account the migration used");
+  assert.strictEqual(advancePaidToGuess_("cash", "Draw - buyer repairs (migration)", "1402"), "Paul");
+  assert.strictEqual(advancePaidToGuess_("cash", "Cash advance - Julio, labor (migration)", "2030"), "Vendor");
+  assert.strictEqual(advancePaidToGuess_("cash", "Cash advance, reimbursed Paul (migration)", "2030"), "Paul");
+  assert.strictEqual(advancePaidToGuess_("purchase", "Purchase principal (migration)", "1000"), "Seller");
+  assert.strictEqual(advancePaidToGuess_("cash", "Cash advance (migration)", "1401"), "Citizens", "no words to go on: the account says it");
+  const map = source.match(/var ADVANCE_PAID_TO = (\{[^}]*\});/);
+  assert.ok(map, "ADVANCE_PAID_TO is gone");
+  const paidTo = eval("(" + map[1] + ")");
+  assert.deepStrictEqual([paidTo.Paul, paidTo.Vendor, paidTo.Seller], ["2030", "2030", "1000"],
+    "Paul and Vendor both sit on 2030 (D-032); a purchase on 1000");
+  const repoint = bodyOf("repointAdvance_");
+  assert.ok(repoint.indexOf("voidEntry_(") < repoint.indexOf("postEntry_("),
+    "void first: a run that stops half way leaves a voided entry the next run re-posts, never a double");
+  assert.ok(/allow_duplicate_hash: true/.test(repoint), "the txn_id hash ignores the account, so the re-post needs its own id");
+  const dialog = readFileSync(path.join(__dirname, "..", "apps-script", "writer", "Advance.html"), "utf8");
+  assert.ok(dialog.includes("id=\"a-paid-to\"") && dialog.includes("paid_to: document.getElementById('a-paid-to').value"),
+    "the Add advance dialog asks who the money was paid to");
+});
