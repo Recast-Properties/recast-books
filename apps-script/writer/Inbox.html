@@ -290,7 +290,9 @@
       // to the mailbox it came in on; a blank line saves nothing (sortByDecision_).
       if (!entries.length) {
         var home = m.property || (DATA.pickers.properties.indexOf(env.channel) >= 0 ? env.channel : '');
-        entries.push({ property: home, paid_from: m.paid_from || '', items: [{ account: '', amount_cents: 0, description: '', trade: '', business_purpose: '', property: home }] });
+        // date, payee and memo are what a read's entry carries and what posting needs (purchaseIntentFromEntry).
+        entries.push({ date: m.date || String(env.receivedAt || '').slice(0, 10), payee: m.vendor || '', memo: 'typed by Paul in the Inbox - Claude found nothing to record',
+          property: home, paid_from: m.paid_from || '', items: [{ account: '', amount_cents: 0, description: '', trade: '', business_purpose: '', property: home }] });
       }
     }
     var props = []; entries.forEach(function (e) { if (e.property && props.indexOf(e.property) < 0) props.push(e.property); });
