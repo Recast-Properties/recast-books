@@ -655,3 +655,25 @@ test("retagAshburneTrades: every target section exists on the heavy tab; the mas
   }
   assert.ok(Object.values(map).includes("Small Baths") && /ASHBURNE_MASTER_BATH = \[\/.+\/i/.test(menu), "the bath split is missing");
 });
+
+// 2026-09-28 13:06: the first replay run posted three pre-cutover documents on top of their migrated rows.
+test("replayErroredReceipts: never replays a document received before the cutover", () => {
+  const menu = readFileSync(path.join(__dirname, "..", "apps-script", "writer", "Menu.gs"), "utf8");
+  const body = menu.slice(menu.indexOf("function replayErroredReceipts"), menu.indexOf("function replayErroredReceipts") + 1400);
+  assert.ok(/var REPLAY_CUTOVER = '2026-09-21'/.test(menu), "the cutover date is the line");
+  assert.ok(/receivedAt[\s\S]*< REPLAY_CUTOVER[\s\S]*return;/.test(body), "a pre-cutover envelope must be skipped before the fetch");
+  assert.ok(body.indexOf("REPLAY_CUTOVER") < body.indexOf("siteFetchRaw_('/api/ingest-bg'"), "the skip comes before the replay");
+});
+
+test("undoReplayedMigrationDocs: three distinct receipt entries, each voided then its card dismissed", () => {
+  const menu = readFileSync(path.join(__dirname, "..", "apps-script", "writer", "Menu.gs"), "utf8");
+  const m = menu.match(/var REPLAYED_BY_MISTAKE = (\[[\s\S]*?\]);\nfunction undoReplayedMigrationDocs/);
+  assert.ok(m, "REPLAYED_BY_MISTAKE not found");
+  const rows = eval(m[1]);
+  assert.equal(rows.length, 3);
+  assert.equal(new Set(rows.map((r) => r[0])).size, 3);
+  assert.ok(rows.every((r) => /^receipt-2026(0329|0411|0625)-/.test(r[0]) && /^gm-/.test(r[1])));
+  const body = menu.slice(menu.indexOf("function undoReplayedMigrationDocs"), menu.indexOf("function undoReplayedMigrationDocs") + 1200);
+  assert.ok(body.indexOf("voidEntry_(") < body.indexOf("action: 'dismiss'"), "void first, then the card");
+  assert.ok(!/postEntry_|postBatchEntries_/.test(body), "an undo never posts");
+});

@@ -1106,19 +1106,52 @@ function retagAshburneTrades() {
 // burst of 28 posts - "Lock timeout", "non-JSON response") stays "error" once the warm job's two retries
 // are spent, and the sheet's Inbox never shows it. Replay it from its stored read - no new model read -
 // through the site's ingest, which confirms on the Journal before it posts again. Editor; safe to repeat.
+// NEVER a document from before the cutover (2026-09-21): those were migrated row by row, and a stored read
+// from the staging era posts on top of the migrated rows (the first run, 2026-09-28 13:06, replayed three
+// such documents - voided the same hour). The ingest answers 202 with no body, so the raw fetch is used.
+var REPLAY_CUTOVER = '2026-09-21';
 function replayErroredReceipts() {
   var out = [];
   var envs = siteFetchJson_('/api/inbox?status=error&limit=50').envelopes || [];
   envs.forEach(function (env) {
     var m = env.model || {};
     if (!m.verdict) { out.push('skip, no stored read  ' + env.docId); return; }
+    if (String(env.receivedAt || '').slice(0, 10) < REPLAY_CUTOVER) { out.push('skip, from before the cutover - migrated, never replay  ' + env.docId + '  ' + (m.vendor || '') + ' ' + (m.date || '')); return; }
     try {
-      siteFetchJson_('/api/ingest-bg', 'post', { docId: env.docId, fromStored: true });
-      out.push('replaying  ' + env.docId + '  ' + (m.vendor || '') + '  ' + (m.date || '') + '  ' + fromCents(Number(m.receipt_total_cents) || 0));
+      var code = siteFetchRaw_('/api/ingest-bg', 'post', { docId: env.docId, fromStored: true }).getResponseCode();
+      out.push((code === 202 || code === 200 ? 'replaying  ' : 'HTTP ' + code + '  ') + env.docId + '  ' + (m.vendor || '') + '  ' + (m.date || '') + '  ' + fromCents(Number(m.receipt_total_cents) || 0));
     } catch (err) { out.push('FAILED  ' + env.docId + '  ' + String((err && err.message) || err)); }
     Utilities.sleep(3000);
   });
   console.log(out.join('\n') || 'no receipts stuck at the posting step');
+  return out;
+}
+
+// 2026-09-28 13:06: the first replayErroredReceipts run also replayed three documents from before the cutover -
+// each already in the books as migrated rows (Seconds & Surplus 04-11 432.98 whole; HD 06-25 Bowling Green, six of
+// eight lines; HD 03-29 Ashburne, two of three lines). Void the three entries (append-only: the rows stay, mirrored)
+// and mark their envelopes dismissed so nothing replays them again. The two lines that matched no migrated row - the
+// 11.01 Defiant knob of 06-25 and the 71.71 fence pickets of 03-29 - are Paul's questions, not posts. Editor, once.
+var REPLAYED_BY_MISTAKE = [
+  ['receipt-20260411-ae5bc54d8fcf', 'gm-19d7ec4e31eef94b', 'Seconds & Surplus 04-11 432.98 - the migrated "Butcher Vlock" row'],
+  ['receipt-20260625-9508822eadf0', 'gm-19f00c2049c512fe', 'Home Depot 06-25 Bowling Green 176.59 - six migrated rows (batteries lumped as 33.28); the 11.01 knob is a question for Paul'],
+  ['receipt-20260329-62c4ae1ea634', 'gm-19d3a4c4d7090e19', 'Home Depot 03-29 Ashburne 87.64 - toggle bolts and P-trap migrated; the 71.71 pickets are a question for Paul']
+];
+function undoReplayedMigrationDocs() {
+  var props = PropertiesService.getScriptProperties();
+  var user = Session.getActiveUser().getEmail() || 'editor';
+  var today = Utilities.formatDate(new Date(), 'America/Chicago', 'yyyy-MM-dd');
+  var out = [];
+  REPLAYED_BY_MISTAKE.forEach(function (x) {
+    var why = 'replayed by mistake 2026-09-28 13:06 (replayErroredReceipts, pre-cutover document): ' + x[2];
+    try { voidEntry_(x[0], why, today, user, props, true); out.push('voided  ' + x[0]); }
+    catch (err) { out.push('void FAILED  ' + x[0] + '  ' + String((err && err.message) || err)); }
+    try { siteFetchJson_('/api/inbox', 'post', { action: 'dismiss', docId: x[1], by: user, note: why }); out.push('card dismissed  ' + x[1]); }
+    catch (err) { out.push('dismiss FAILED  ' + x[1] + '  ' + String((err && err.message) || err)); }
+  });
+  try { setupPropertyTab('104 Ashburne'); out.push('104 Ashburne rebuilt'); } catch (err) { out.push('rebuild FAILED ' + String((err && err.message) || err)); }
+  warmCache_();
+  console.log(out.join('\n'));
   return out;
 }
 
