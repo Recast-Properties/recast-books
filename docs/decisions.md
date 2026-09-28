@@ -1081,7 +1081,7 @@ reimbursed Paul on 06-01 - Granite's advance of that day says so) on Chase, and 
 Chase was Paul's. `fixAdvancesPaidTo()` (editor, once; `reportAdvancesPaidTo()` is its dry run) fills paid_to by rule
 - a purchase is Seller, "Draw" or "reimbursed Paul" is Paul, "Cash advance - <name>" is Vendor, else the account -
 and moves the eight: **Chase 153,450.00 -> 0.00; Recast owes Paul 185,116.88 -> 31,666.88** (dry run on the 09-28
-snapshot). Interest does not change: it follows the Advances row, not the account.
+snapshot; run by Paul the same morning and verified on the Journal). Interest does not change: it follows the Advances row, not the account.
 **Left:** the eight Ashburne vendor advances with no bill on the tab ($1,619, D-032's consequence) still come off what
 Recast owes Paul; each is Paul's call - a job missing from the tab gets its row, the same job typed on another date gets
 nothing. ponytail: changing a paid_to between Paul/Vendor and a bank does not move the money by itself - run
