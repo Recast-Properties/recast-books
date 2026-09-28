@@ -1418,3 +1418,4 @@ description says the same; only `read_ledger` proves a thing is recorded. Test i
 attachment (`storeEmailText_`; the dialog now sends `bodyText`), as the site's ingest does since D-035; **`fileEmailReceipts()`**
 (Menu.gs, editor, once) links the five email-only records of this morning (Amazon 01-20, Lowe's 02-04, AllModern, Wayfair,
 HD 04-06) - a linked card is skipped, so it is safe to run again. Pushed (Menu.gs, Inbox.html - no clasp deploy needed). 493 tests.
+**Run by Paul 11:49 PDT: all five linked; read back on the Journal - every one of the morning's 30 cost lines has its Drive link.**
