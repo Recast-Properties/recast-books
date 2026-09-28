@@ -228,10 +228,19 @@
       ') never got recorded - on each one click Approve (you kept it), Returned (it went back to the store) or Dismiss (personal, or not a business cost), then click Save.';
   }
 
-  function flagsList_(gate, entries) {
+  // Claude's sentence without its verdict prefix and the reprocess tag - what Paul reads on the card.
+  function plainWhy_(why) {
+    return String(why || '').replace(/^(Dismissed|Held|Posted|Hold|Post|Dismiss):\s*/i, '').replace(/\s*\[reprocess:.*$/, '').trim();
+  }
+  // Paul, 2026-09-28 ("i cant do anything with this"): when the read found nothing to record, the card says WHY
+  // in Claude's own sentence and which button that means - the reason was hidden under "Claude's read".
+  function noEntriesText_(why) {
+    return 'Claude found nothing to record. It says: "' + plainWhy_(why) + '" If that is right, click Dismiss all (the reason is filled in). If not, type the item in the fields below, or click Reprocess';
+  }
+  function flagsList_(gate, entries, why) {
     var kept = approvedOnly_(entries);
     var flags = ((gate && gate.reasons) || []).filter(function (r) { return r !== 'NEEDS_HUMAN_274D'; })
-      .map(function (r) { return r === 'PARTLY_ON_BOOKS' ? partlyText_(gate, entries) : flagText_(r); })
+      .map(function (r) { return r === 'PARTLY_ON_BOOKS' ? partlyText_(gate, entries) : (r === 'NO_ENTRIES' && why) ? noEntriesText_(why) : flagText_(r); })
       .filter(Boolean).concat(mismatchFlags_(kept));
     if (needsPurpose_(kept)) flags.push(GATE_TEXT.NEEDS_HUMAN_274D);
     if (needsTrade_(kept)) flags.push('Pick a trade (the kind of work) for each house item');
@@ -274,6 +283,8 @@
     if (sum.returned) parts.push(money_(sum.returned) + ' returned');
     if (sum.dismiss) parts.push(money_(sum.dismiss) + ' dismissed');
     var gap = rt - already - sum.approve - sum.returned - sum.dismiss;   // > 0 missing from the items; < 0 more than the receipt
+    var readNothing = !((env.model && env.model.entries) || []).length && !sum.approve && !sum.returned && !sum.dismiss;
+    if (readNothing) return '<div class="totals ok">Receipt ' + money_(rt) + ': nothing to record, by Claude\'s read - see the line above</div>';
     var text = 'Receipt ' + money_(rt) + ': ' + parts.join(' + ');
     if (gap > 0) text += ' - ' + money_(gap) + ' missing from the items';
     if (gap < 0) text += ' - ' + money_(-gap) + ' more than the receipt';
@@ -343,13 +354,13 @@
     return '<div class="card open" data-doc="' + d + '" data-search="' + escapeHtml_(search) + '">' + head + '<div class="body">' +
       '<div class="sub">' + escapeHtml_(m.date || '-') + ' &middot; ' + (m.receipt_total_cents != null ? money_(m.receipt_total_cents) : '-') + ' &middot; ' + escapeHtml_(props.join(', ') || '-') + ' &middot; ' + escapeHtml_(env.channel || '') + '</div>' +
       atts +
-      '<ul class="flags" data-flags="1">' + flagsList_(gate, entries) + '</ul>' +
+      '<ul class="flags" data-flags="1">' + flagsList_(gate, entries, m.why) + '</ul>' +
       (read ? '<details class="why"><summary>Claude\'s read</summary>' + read + '</details>' : '') +
       entriesHtml +
       '<div class="tot">' + totalsLine_(env) + '</div>' +
       '<div class="verbs"><button class="primary" data-save="1">Save</button>' +
       '<button data-dismiss="1" title="The whole document is not a cost - nothing is added to the books">Dismiss all</button><button data-reprocess="1">Reprocess</button></div>' +
-      '<div class="note hidden"><input data-note="1" placeholder="Why? (not a receipt, duplicate...)"><button data-dismiss-go="1">Dismiss all</button><button data-dismiss-cancel="1">Cancel</button></div>' +
+      '<div class="note hidden"><input data-note="1" value="' + escapeHtml_((m.entries || []).length ? '' : plainWhy_(m.why)) + '" placeholder="Why? (not a receipt, duplicate...)"><button data-dismiss-go="1">Dismiss all</button><button data-dismiss-cancel="1">Cancel</button></div>' +
       '<div class="msg hidden" data-msg="1"></div>' +
       '<div class="docid">' + d + '</div>' +
       '</div></div>';
@@ -434,7 +445,7 @@
         else e.items[Number(el.dataset.i)][el.dataset.f] = el.value;
         card.querySelector('.tot').innerHTML = totalsLine_(env);
         var fl = card.querySelector('[data-flags]');
-        if (fl) fl.innerHTML = flagsList_(env.gate || {}, entries);
+        if (fl) fl.innerHTML = flagsList_(env.gate || {}, entries, (env.model || {}).why);
       };
       el.addEventListener('change', h);
       if (el.tagName === 'INPUT') el.addEventListener('input', h);
