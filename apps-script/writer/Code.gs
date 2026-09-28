@@ -2561,6 +2561,50 @@ function addAshburneMissingBills() {
   return result;
 }
 
+// Paul, 2026-09-28 ("the books should be only in sheets now"): the 18 Ashburne receipts parked for
+// "the card statement" (D-051, paul-answers.json mail_settled) go back to his Sheets Inbox for his word
+// per line (Approve / Returned / Dismiss). Each is re-read and HELD - a reprocess never posts or
+// dismisses (D-049) - whatever Blobs says today: six say "posted" from the 09-17 STAGING replay (none
+// of those ids is on the production Journal, all six checked by id), the other twelve are dismissed.
+// The route is the Inbox's own Reprocess button (inboxReprocess, Menu.gs). Editor, once; about one
+// model read per receipt. Store, date, total as parked:
+var PARKED_ASHBURNE_RECEIPTS = [
+  'gm-19ba4950d7e2561c', // Lowe's 01-09 360.49 (part overhead)
+  'gm-19c01b85d135afa6', // Amazon 01-20 276.22
+  'gm-19c28c64aa9a29ea', // Lowe's 02-04 134.23
+  'gm-19c617b59e734eb5', // Home Depot 02-15 137.68 (60.79 on the books)
+  'gm-19c6823763f5cb17', // Home Depot 02-16 30.79
+  'gm-19cd5479e52e3fe9', // Home Depot 03-09 83.83
+  'gm-19cd5e12f4e9d9b7', // AllModern 03-09 214.34
+  'gm-19cd5e3f4729e97b', // Ping Lighting 03-10 99.20
+  'gm-19cddf3d9dcd3db2', // Home Depot 03-11 6.68
+  'gm-19ce3297652cbfc8', // Home Depot 03-12 385.27 (100.54 on)
+  'gm-19ced5e82e20e490', // McCoy's 03-14 61.53
+  'gm-19cf927112794782', // Wayfair 03-16 93.08
+  'gm-19d0716277e58567', // Lowe's 03-19 404.78
+  'gm-19d20cf12a8888da', // Home Depot 03-21 389.93
+  'gm-19d25017467ed73d', // Home Depot 03-25 241.50 (66.08 on)
+  'gm-19d5e139b4ae4612', // Home Depot 04-05 288.44 (59.80 on)
+  'gm-19d63f17bf22f9fa', // Home Depot 04-06 181.52 (no property read)
+  'gm-19d960cfeccab6cd'  // Home Depot 04-16 88.83 (part overhead)
+];
+
+function reprocessParkedAshburneReceipts() {
+  var by = Session.getActiveUser().getEmail() || 'editor';
+  var out = [];
+  PARKED_ASHBURNE_RECEIPTS.forEach(function (docId) {
+    try {
+      siteFetchJson_('/api/inbox', 'post', { action: 'reprocess', docId: docId, by: by });
+      out.push('re-reading  ' + docId);
+    } catch (err) {
+      out.push('FAILED  ' + docId + '  ' + ((err && err.code) || '') + ' ' + String((err && err.message) || err));
+    }
+    Utilities.sleep(2000);   // ponytail: a gentle burst - the reads themselves run in the background on the site
+  });
+  console.log(out.join('\n'));
+  return out;
+}
+
 /** Editor helper: rebuild the tab of every property in the Properties tab (no args). */
 function rebuildAllPropertyTabs() {
   var props = PropertiesService.getScriptProperties();

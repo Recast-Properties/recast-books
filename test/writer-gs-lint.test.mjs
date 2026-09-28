@@ -611,3 +611,16 @@ test("addAshburneMissingBills: seven Ashburne bills, paid through 2030, 1,419.00
   }
   assert.equal(total, 141900);
 });
+
+// Paul, 2026-09-28: the 18 parked Ashburne receipts go back to the Sheets Inbox through the Inbox's
+// own Reprocess route - a re-read that can only hold (D-049), never a post.
+test("reprocessParkedAshburneReceipts: 18 distinct ids, the Inbox's reprocess route, never a write", () => {
+  const m = source.match(/var PARKED_ASHBURNE_RECEIPTS = (\[[\s\S]*?\]);/);
+  assert.ok(m, "PARKED_ASHBURNE_RECEIPTS not found");
+  const ids = [...m[1].matchAll(/'(gm-[0-9a-f]{16})'/g)].map((x) => x[1]);
+  assert.equal(ids.length, 18);
+  assert.equal(new Set(ids).size, 18, "an id is listed twice - it would be read twice");
+  const body = bodyOf("reprocessParkedAshburneReceipts");
+  assert.ok(/siteFetchJson_\('\/api\/inbox', 'post', \{ action: 'reprocess'/.test(body), "not the Inbox's Reprocess route");
+  assert.ok(!/postEntry_|postBatchEntries_|voidEntry_|setValue\(/.test(body), "an editor re-read must never write");
+});
