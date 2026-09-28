@@ -1,6 +1,11 @@
 # Phase 3 — Banking from statement uploads
 
 Written 2026-09-15 for Paul's review before any code. Supersedes the Plaid plan (D-019).
+
+**Amended 2026-09-28 (D-051):** Recast's own accounts only - Citizens (1401) and Chase (1402). Paul's personal
+card/checking is never imported; its business charges arrive as receipts, paid by Paul (2030), as they do now. The
+third account in §1 and "then the personal card" in §9 are withdrawn. Still to revise before code: the input side is
+the Recast Books menu in the workbook (D-023), not a Banking web page.
 Extends the Phase 0/1/2 specs, which stay binding: every write through the writer, Claude
 decides and code executes, dry run before anything touching history.
 
