@@ -728,6 +728,32 @@ cookbooks) and the Gerber tank (done) left out; the 20 house-looking ones culled
 as "not decided - hold for Paul, the card lists the items". **Blocked:** auto mode refused to write the forwarding script
 (`scripts/forward-remaining-pvb421.gs`, "Sensitive-Source Provenance") - Paul's step: permission mode off Auto, then go.
 
+## 2026-09-28 (15:30 PDT) - the last of the mailbox receipts: the 14 Amazon orders settled; the finite list is DONE
+
+The forwarding script was written after Paul had the session switched to Manual mode (`set_session_permission_mode` -
+the write then asked him). Run by Paul 14:34, all 14 sent. The bookkeeper on its own: **KAIWEETS breaker finder 42.49 ->
+6510 overhead; Chibery hinges 108.24 -> Ashburne (read as "Cabinets & Countertops" - a section the tab never had, moved to
+Kitchen by `retagAshburneTrades`, map extended); Osmocote 14.54 -> Ashburne Landscaping; three dismissed as already in the
+books, all three checked right on the Journal** (06-25 keypad = Bowling Green "Door Lock" 31.03; 08-11 hardware = Mesa
+"Door Lock" 36.59; 09-02 camera = the overhead "Camera Gimbal" 126.61, typed without its 10.45 tax - left); seven held
+for the house. **Amazon's newer order emails name no items** ("4 Hardware items", a total) - the cards were vague and the
+"receipt" is that email as text; Paul looked each order up in his Amazon account by the order number (links given in
+chat). Decided: 07-14 pool floats (Amazon.fr, 224.53) personal; 08-07 cameras 91.35 -> Bowling Green (pool lights 10.61
+personal); 08-13 two keypad deadbolts 160.60 -> **6510 overhead, stock for the next house, paid on the Citizens card 5450**
+(Paul: "inventory for the business" - no supplies-on-hand account, 6510 is the shelf); 08-14 gable vents 39.30 -> Mesa;
+09-01 two keypad deadbolts 80.78 -> 6510 overhead, card 5450 (same stock); 09-04 weather stripping 13.80 -> Brushwood
+(card 5450); 09-12 wall lights (Portland) personal. **Two stumbles, both fixed:** Paul saved the cameras through the
+look-alike 08-13 card (`undoMisfiledCamerasCard`: the 91.35 voided, the card put back by `mark-pending`), then dismissed
+the 08-07 card as "Duplicate" (`reprocessCamerasCard`: re-read, then entered right - rows 2647-2648, receipt attached).
+**The Heath Zenith doorbell (Granite mailbox) was never read: the properties reader registers only held / under-contract
+houses (`books-property-mailboxes.mjs`), so a sold house's label is skipped** - Paul: "just delete" it (never a cost;
+the forward sits unread). Gap left for Paul's word: late bills mailed to a sold house's mailbox are silently skipped.
+Ashburne tab read back clean: 19 sections + Utilities, Kitchen 2,433.67, Landscaping 11,712.82, Rehab Total 186,260.29 = the
+books. **End of day: Ashburne costs 511,260.29, Recast owes Paul 10,118.85, profit by the books 138,717.95** (= 148,836.80 -
+10,118.85); Bowling Green 2030 1,152.43; all 2030 39,808.94; Journal 2,648 rows, balanced. 501 tests; writer @9 + two
+Menu.gs pushes (no deploy needed). **Every receipt that lives in any mailbox is now dealt with - the finite list of 09-17
+is closed.** What no mailbox can surface: cash, check and in-store purchases on Paul's personal cards with no email.
+
 ## 2026-09-21 — Phase 4: lists closed, Drive filing done, Newport held, cutover rehearsed end to end
 
 **Morning, offline (audit §39-§44).** 26 false Home Depot / Lowe's links from a coincidental subset-sum rule

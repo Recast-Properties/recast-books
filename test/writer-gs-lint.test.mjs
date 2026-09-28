@@ -699,6 +699,17 @@ test("addAshburnePickets: 71.71 on Ashburne's Landscaping, paid by Paul, with th
   const p = eval("(" + m[1] + ")");
   const ctx = makeCtx({ properties: new Set(["104 Ashburne"]), periods: new Map(), today: "2026-09-28" });
 
+// 2026-09-28 15:03: the 08-07 order's cameras saved through the 08-13 card - void that entry, put the card back.
+test("undoMisfiledCamerasCard: voids the misfiled entry and puts the 08-13 card back in the Inbox", () => {
+  const menu = readFileSync(path.join(__dirname, "..", "apps-script", "writer", "Menu.gs"), "utf8");
+  const m = menu.match(/var MISFILED_CAMERAS = \{ txn: '([^']+)', docId: '([^']+)' \};/);
+  assert.ok(m, "MISFILED_CAMERAS not found");
+  assert.match(m[1], /^receipt-20260813-[0-9a-f]{12}-[0-9a-f]{4}$/); assert.equal(m[2], "gm-1a0e9f120ca8f283");
+  const body = menu.slice(menu.indexOf("function undoMisfiledCamerasCard("), menu.indexOf("\nfunction ", menu.indexOf("function undoMisfiledCamerasCard(") + 1));
+  assert.ok(/voidEntry_\(MISFILED_CAMERAS\.txn/.test(body) && /action: 'mark-pending'/.test(body), "void, then mark-pending");
+  assert.ok(!/postEntry_|postBatchEntries_|setValue\(/.test(body), "nothing is posted - Paul re-enters it on the right card");
+});
+
 // Paul, 2026-09-28: the Home Depot 06-29 toilet kits are the migrated 06-28 "Toilet Kits" 40.01 - void the whole first
 // posting, record the air filter alone on Cost Recapture under Granite's section, with the receipt link.
 test("fixGraniteToiletKits: voids the 55.74 posting, re-posts the 20.54 filter alone on Cost Recapture, re-points the receipt", () => {

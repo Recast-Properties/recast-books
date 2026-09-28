@@ -1066,7 +1066,7 @@ var ASHBURNE_TRADE_MAP = {
   'Electrical': 'Lighting & Electrical', 'Electrical & Lighting': 'Lighting & Electrical',
   'Fireplace': 'Chimney/FIreplace/Glass', 'Windows & Glass': 'Chimney/FIreplace/Glass',
   'Staging': 'Marketing',
-  'Cabinets': 'Kitchen', 'Cabinets & Millwork': 'Kitchen',
+  'Cabinets': 'Kitchen', 'Cabinets & Millwork': 'Kitchen', 'Cabinets & Countertops': 'Kitchen',
   'Doors & Hardware': 'House Hardware', 'Doors & Trim': 'House Hardware',
   'Carpentry': 'Supplies', 'Framing': 'Supplies',
   'Plumbing': 'Small Baths', 'Plumbing & Fixtures': 'Small Baths', 'Fixtures': 'Small Baths',
@@ -1209,6 +1209,32 @@ function fixGraniteToiletKits() {
     siteFetchJson_('/api/inbox', 'post', { action: 'mark-posted', docId: p.docId, txn_ids: [entry.txn_id], doc_url: p.doc_url, by: user });
     out.push('the receipt now points at the new entry');
   } catch (err) { out.push('mark-posted FAILED  ' + String((err && err.message) || err)); }
+  warmCache_();
+  console.log(out.join('\n'));
+  return out;
+}
+
+// 2026-09-28 15:03 PDT: Paul typed the 08-07 Amazon order's items (cameras 91.35 for Bowling Green, pool lights
+// 10.61 personal) onto the look-alike 08-13 card (4 hardware items, 160.60) and saved it there. Void that entry and
+// put the 08-13 card back in the Inbox with its original read (mark-pending takes an in-process approve back); the
+// 08-07 card is still pending and gets the cameras properly. Editor, once; a rerun fails harmlessly on both steps.
+var MISFILED_CAMERAS = { txn: 'receipt-20260813-05b9e33b10ee-6e73', docId: 'gm-1a0e9f120ca8f283' };
+// ... and then the 08-07 card itself was dismissed as "Duplicate" (15:16), so the cameras are on no book. Re-read it
+// into the Inbox (hold-only, the Inbox's own route) for Paul to enter: cameras 91.35 on Bowling Green, pool lights personal.
+function reprocessCamerasCard() { return reprocessParked_(['gm-1a0e9f10e30e481d']); }
+function undoMisfiledCamerasCard() {
+  var props = PropertiesService.getScriptProperties();
+  var user = Session.getActiveUser().getEmail() || 'editor';
+  var today = Utilities.formatDate(new Date(), 'America/Chicago', 'yyyy-MM-dd');
+  var out = [];
+  try {
+    voidEntry_(MISFILED_CAMERAS.txn, 'the 08-07 order\'s cameras were saved through the 08-13 card by mistake (Paul, 2026-09-28); re-entered on the 08-07 card', today, user, props, true);
+    out.push('voided  ' + MISFILED_CAMERAS.txn);
+  } catch (err) { out.push('void FAILED  ' + String((err && err.message) || err)); }
+  try {
+    siteFetchJson_('/api/inbox', 'post', { action: 'mark-pending', docId: MISFILED_CAMERAS.docId, by: user });
+    out.push('the 08-13 card is back in the Inbox');
+  } catch (err) { out.push('mark-pending FAILED  ' + String((err && err.message) || err)); }
   warmCache_();
   console.log(out.join('\n'));
   return out;
