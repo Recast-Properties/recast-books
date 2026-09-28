@@ -1481,3 +1481,6 @@ void (1,011.32). 498 tests.
 **13:25 - Paul's answers:** the 11.01 Defiant knob (HD 06-25, Bowling Green) *"was a return"* - nothing to record, the
 migration was right to leave it; the 71.71 fence pickets (HD 03-29) *"is a new expense for ashburne"* -
 `addAshburnePickets()` (Menu.gs, editor, once) posts it on Landscaping with the receipt's Drive link.
+**13:20 - pickets posted** (rows 2594-2595, `manual-20260329-a3af0b1e4474`). **Ashburne by the books, end of day:** fixing and
+holding 185,857.62, costs **510,857.62**, **Recast owes Paul 9,716.18**, Paul's profit **139,120.62**. Session closed 13:25 PDT;
+git pushed. Left in the Inbox for Paul: the Uber 07-09 31.27 card (already in the books - Dismiss all).
