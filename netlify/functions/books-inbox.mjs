@@ -24,6 +24,7 @@ import {
   authErrorResponse,
   todayChicago,
   pollerSecretOk,
+  tieFeedRows,
 } from "./_shared.mjs";
 import { buildEntriesFromModel } from "../../lib/gate.mjs";
 
@@ -262,7 +263,8 @@ export default async (req) => {
         review: { action: "approve", by, at: new Date().toISOString(), note: body.note || "", in_process: true },
       };
       await docsStore.setJSON(`doc/${docId}`, updated);
-      return json(200, { docId, status: "posted", txn_ids });
+      const tie = await tieFeedRows(writer, updated, { status: "matched", txn_ids, note: `Recorded from the Inbox${body.note ? ` - ${body.note}` : ""}` });
+      return json(200, { docId, status: "posted", txn_ids, ...(tie ? { feed: tie } : {}) });
     }
 
     if (body.action === "mark-pending") {
@@ -288,7 +290,8 @@ export default async (req) => {
         review: { action: "dismiss", by, at: new Date().toISOString(), note: body.note },
       };
       await docsStore.setJSON(`doc/${docId}`, updated);
-      return json(200, { docId, status: "dismissed" });
+      const tie = await tieFeedRows(writer, updated, { status: "excluded", note: `Dismissed by ${by}: ${body.note}` });
+      return json(200, { docId, status: "dismissed", ...(tie ? { feed: tie } : {}) });
     }
 
     if (body.action === "reprocess") {

@@ -136,8 +136,8 @@ test("every function the Recast Books menu names is declared in Menu.gs", () => 
   assert.deepEqual(missing, [], `the menu names handlers Menu.gs does not declare: ${missing.join(", ")}`);
 });
 
-test("every writer action (ping, post, void, read, setPeriod, upsert, postBatch, storeDocument, setDocUrl, propertyTab) is dispatched", () => {
-  for (const action of ["ping", "post", "void", "read", "setPeriod", "upsert", "postBatch", "storeDocument", "setDocUrl", "propertyTab"]) {
+test("every writer action (ping, post, void, read, setPeriod, upsert, postBatch, storeDocument, setDocUrl, propertyTab, feedUpdate) is dispatched", () => {
+  for (const action of ["ping", "post", "void", "read", "setPeriod", "upsert", "postBatch", "storeDocument", "setDocUrl", "propertyTab", "feedUpdate"]) {
     assert.ok(
       source.includes(`case '${action}':`),
       `doPost does not appear to dispatch action "${action}"`
@@ -783,4 +783,21 @@ test("importStatement: parses with lib.gs's parseOfx, one lock, dedupes on the b
   assert.match(fn, /status: 'unmatched'/);
   assert.match(fn, /a\.last4\.indexOf\(parsed\.account_last4\)/);
   assert.ok(existsSync(new URL("../apps-script/writer/Import.html", import.meta.url)), "Import.html exists");
+});
+
+test("feedUpdate: one lock, the three verdict columns read once and written once, a missing feed_id reported; the menu has Match statement lines", () => {
+  const at = source.indexOf("function action_feedUpdate_(");
+  assert.ok(at > 0, "action_feedUpdate_ declared");
+  const fn = source.slice(at, source.indexOf("\n}\n", at) + 3);
+  assert.equal((fn.match(/LockService\.getScriptLock\(\)/g) || []).length, 1);
+  assert.equal((fn.match(/\.getValues\(\)/g) || []).length, 2, "the feed_id column and the three-column block");
+  assert.equal((fn.match(/\.setValues\(/g) || []).length, 1);
+  assert.match(fn, /cols\['txn_id'\] !== cols\['status'\] \+ 1/);
+  assert.match(fn, /missing\.push/);
+  const menu = readFileSync(new URL("../apps-script/writer/Menu.gs", import.meta.url), "utf8");
+  assert.match(menu, /addItem\('Match statement lines\.\.\.', 'matchStatementLines'\)/);
+  const m = menu.slice(menu.indexOf("function matchStatementLines("));
+  assert.match(m, /siteFetchJson_\('\/api\/feed-match', 'post'/);
+  assert.match(m, /!== 'unmatched'\) return;/, "only open lines are counted");
+  assert.doesNotMatch(m.slice(0, m.indexOf("function feedMatchSummary_")), /postEntry_|postBatchEntries_/, "a match never posts from the workbook");
 });

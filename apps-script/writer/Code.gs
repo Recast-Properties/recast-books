@@ -96,6 +96,7 @@ function doPost(e) {
       case 'storeDocument': return action_storeDocument_(body, props);
       case 'setDocUrl': return action_setDocUrl_(body, props);
       case 'propertyTab': return action_propertyTab_(body, props);
+      case 'feedUpdate': return action_feedUpdate_(body, props);
       default: return jsonOutput_({ ok: false, error: 'BAD_ACTION' });
     }
   } catch (err) {
@@ -897,6 +898,43 @@ function postBatchEntries_(entries, props, skipRefresh) {
     if (!skipRefresh) refreshLineBlocksFor_(ss, entries.reduce(function (acc, en) { return acc.concat(en.lines); }, []));
 
     return { ok: true, posted: postedIds, rows: [startRow, startRow + allRows.length - 1] };
+  } finally {
+    lock.releaseLock();
+  }
+}
+
+// feedUpdate: Phase 3 (docs/phase3-spec.md section 3) - the matcher's verdicts onto Feed
+// rows by feed_id: status, txn_id, match_note. One read and one write of those three
+// columns (side by side on the tab) under the lock. A feed_id not on the tab is reported
+// in `missing`, never invented. Rows: [{feed_id, status, txn_id, match_note}].
+function action_feedUpdate_(body, props) {
+  var rows = body.rows;
+  if (!Array.isArray(rows) || !rows.length) fail_('BAD_REQUEST', 'rows must be a non-empty array');
+  var lock = LockService.getScriptLock();
+  lock.waitLock(30000);
+  try {
+    var ss = openWorkbook_(props);
+    var sh = ss.getSheetByName('Feed');
+    var cols = headerIndex_(sh);
+    if (!cols['feed_id'] || !cols['status'] || cols['txn_id'] !== cols['status'] + 1 || cols['match_note'] !== cols['status'] + 2) {
+      fail_('FEED_HEADERS', 'the Feed tab needs feed_id, and status, txn_id, match_note side by side');
+    }
+    var last = sh.getLastRow();
+    if (last < 2) fail_('NOT_FOUND', 'the Feed tab has no rows');
+    var rowOf = {};
+    sh.getRange(2, cols['feed_id'], last - 1, 1).getValues().forEach(function (r, i) { rowOf[String(r[0])] = i; });
+    var block = sh.getRange(2, cols['status'], last - 1, 3).getValues();
+    var updated = 0, missing = [];
+    rows.forEach(function (u) {
+      var i = rowOf[String(u.feed_id)];
+      if (i === undefined) { missing.push(String(u.feed_id)); return; }
+      if (u.status != null) block[i][0] = String(u.status);
+      if (u.txn_id != null) block[i][1] = String(u.txn_id);
+      if (u.match_note != null) block[i][2] = String(u.match_note);
+      updated++;
+    });
+    sh.getRange(2, cols['status'], last - 1, 3).setValues(block);
+    return jsonOutput_({ ok: true, updated: updated, missing: missing });
   } finally {
     lock.releaseLock();
   }

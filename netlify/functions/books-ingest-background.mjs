@@ -69,7 +69,7 @@ function isoDaysAgo(days) {
 // ---- deps builders (phase2-spec.md section 3's client tools read through these) --
 
 /** Flat, line-level rows (not grouped by entry) - what read_ledger's compact format needs. */
-function flattenJournalLines(headers, rows) {
+export function flattenJournalLines(headers, rows) {
   const idx = Object.fromEntries(headers.map((h, i) => [h, i]));
   const get = (row, name) => (idx[name] !== undefined ? row[idx[name]] : "");
   return rows.map((row) => {
@@ -117,7 +117,7 @@ export function makeLedgerDep(lines) {
  * txn_id, for the gate's twin rail (phase2-spec.md section 4, condition 9). Void
  * mirror rows are excluded so a void never reads as a false twin of its original.
  */
-function buildPostedEntries(lines) {
+export function buildPostedEntries(lines) {
   // An entry that has been voided is no longer "posted": drop both the void entry and
   // the original it reverses, or a corrected re-post would be refused as a duplicate.
   const voided = new Set(lines.filter((l) => l.void_of).map((l) => l.void_of));

@@ -385,3 +385,23 @@ export function driveFileName(model, original, index = 0) {
   const suffix = index > 0 ? ` (${index + 1})` : "";
   return `${model.date} ${vendor} ${(cents / 100).toFixed(2)}${suffix}${ext}`;
 }
+
+/**
+ * Phase 3: an Inbox card born from bank lines (`envelope.feed`, lib/feed-match.mjs) ties
+ * those Feed rows when it is decided - approve -> matched with the posted txn_ids, dismiss ->
+ * excluded with Paul's note. Best effort: the card's own decision is already recorded when
+ * this runs, so a failed tie is returned, never thrown.
+ * ponytail: a tie that fails leaves the row `proposed`; the reconcile step (spec section 4)
+ * is where such rows get re-checked against their cards.
+ */
+export async function tieFeedRows(writer, envelope, { status, txn_ids = [], note = "" }) {
+  const ids = envelope?.feed?.feed_ids || [];
+  if (!ids.length) return null;
+  try {
+    const res = await writer.feedUpdate(ids.map((feed_id) => ({ feed_id, status, txn_id: txn_ids.join(", "), match_note: note })));
+    await refreshTabAfterWrite(writer, "Feed");
+    return { ok: true, updated: res.updated };
+  } catch (err) {
+    return { ok: false, error: String((err && err.message) || err) };
+  }
+}

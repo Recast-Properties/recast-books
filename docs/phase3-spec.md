@@ -16,9 +16,26 @@ The dialog reports the lines added and whether opening balance + every Feed line
 ledger balance (§4's first check). Feed columns: `feed_id, account, date, amount, name, memo, status, txn_id,
 match_note, source_file, imported_at` (`balance` waits for the Daily Summary feed, §6a). Citizens' export runs from
 the account's opening (2026-08-06), so one file is the whole history and it ties to the cent (73 lines,
-170,800.07 on 2026-09-28). Not built yet, in order: matching (§3 - the site's job, started from the workbook the
-way the sell wizard's read is, verdicts written back to the Feed row, proposals as Inbox cards), reconciliation
-(§4 - a menu item, not a page), the Daily Summary feed (§6a). Dropped: the `feedBatch` writer action (§2 - the
+170,800.07 on 2026-09-28).
+
+**Matching (§3), built the same night.** **Recast Books -> Match statement lines...** (`matchStatementLines`, Menu.gs)
+starts `/api/feed-match` and waits for `/api/feed-match-bg` (`lib/feed-match.mjs`). Code gathers: the account's
+`unmatched` Feed lines, every Journal entry touching the account and not yet on a Feed row (`buildCandidates` -
+amounts signed as the bank shows them, voided and tied entries out), the houses with address, status and sections.
+The model (one call per 30 lines, candidates cached) gives every line one verdict through `record_verdicts`:
+**match** (candidate aliases), **propose** (a purchase entry in the receipt shape), **question** (plain words),
+**later** (a sale sold or under contract but not closed in the books). Code checks (`applyVerdicts`): a match's
+candidates must add up to the lines to the cent and be unused, or it becomes a question; a proposal's items must
+add up to the line and `paid_from` is forced to the account, then it is a **pending Inbox card** gated like a
+receipt hold - **every proposal is held for Paul: a bank line proves the payment, not the item or the house, so
+nothing autofiles from the Feed** (amends §3's autofile sentence); a question is a card with the typed line; later
+and a missing verdict leave the row `unmatched` with a note. Verdicts land through the writer's `feedUpdate`
+(status, txn_id - several ids comma-separated when one line is several entries - and match_note). A card born from
+bank lines carries `feed.feed_ids` and ties its rows when Paul decides it (`tieFeedRows`: approve -> `matched`
+with the posted ids, dismiss -> `excluded` with his note). §3's **transfer** verdict is not built: only Citizens is
+imported, so a move between Recast's accounts is a question for now; §3's **exclude** is what a dismissed card
+produces. §3a: a store refund with no return in the books is a question card (3a.3); the card cannot yet book money
+back (a negative cost) - open. Not built yet: reconciliation (§4 - a menu item), the Daily Summary feed (§6a). Dropped: the `feedBatch` writer action (§2 - the
 dialog writes in-process, like Add advance), the Banking / Dashboard pages (§5 - the Feed tab and the Inbox are
 the pages), the statements@ address and poller (§6, §10 step 2 - Paul downloads the file himself), CSV and PDF
 (§2 - both banks export QFX).

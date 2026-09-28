@@ -26,6 +26,7 @@ function onOpen() {
     .addSeparator()
     .addItem('Sell property...', 'showSellDialog')
     .addItem('Import statement...', 'showImportDialog')
+    .addItem('Match statement lines...', 'matchStatementLines')
     .addSeparator()
     .addItem('Close period...', 'closePeriod')
     .addItem('Reopen period...', 'reopenPeriod')
@@ -2069,4 +2070,66 @@ function importStatement(req) {
   } catch (err) {
     return { ok: false, error: (err && err.code) || 'INTERNAL', message: String((err && err.message) || err) };
   }
+}
+
+// ---- Match statement lines (Phase 3, docs/phase3-spec.md section 3) -----------------
+// The site does the matching (/api/feed-match, a background job: Claude judges, code checks
+// every match to the cent, the verdicts land on the Feed rows, proposals and questions become
+// Inbox cards). This waits for it the way the sell wizard waits for its read, then says in
+// plain words what happened. Nothing is posted to the Journal by a match.
+var FEED_MATCH_POLLS = 60;
+var FEED_MATCH_WAIT_MS = 5000;
+
+function matchStatementLines() {
+  var ss = openIfOwner_();
+  if (!ss) return;
+  var ui = SpreadsheetApp.getUi();
+  var sh = ss.getSheetByName('Feed');
+  var cols = headerIndex_(sh);
+  var last = sh.getLastRow();
+  var counts = {};
+  if (last > 1 && cols['status'] && cols['account']) {
+    sh.getRange(2, 1, last - 1, sh.getLastColumn()).getValues().forEach(function (r) {
+      if (String(r[cols['status'] - 1]) !== 'unmatched') return;
+      var a = String(r[cols['account'] - 1]);
+      counts[a] = (counts[a] || 0) + 1;
+    });
+  }
+  var accounts = Object.keys(counts);
+  if (!accounts.length) {
+    ui.alert('Nothing to match', 'Every line on the Feed tab is already tied to the books or waiting in the Inbox. Import a statement first.', ui.ButtonSet.OK);
+    return;
+  }
+  var account = accounts[0];
+  if (accounts.length > 1) {
+    var ask = ui.prompt('Match statement lines', 'Which account? ' + accounts.map(function (a) { return a + ' (' + counts[a] + ' open lines)'; }).join(', '), ui.ButtonSet.OK_CANCEL);
+    if (ask.getSelectedButton() !== ui.Button.OK) return;
+    account = ask.getResponseText().trim();
+    if (!counts[account]) { ui.alert('No open lines on ' + account + '.'); return; }
+  }
+  try {
+    var started = siteFetchJson_('/api/feed-match', 'post', { account: account, by: Session.getActiveUser().getEmail() });
+    if (!started.job_id) { ui.alert('Matching failed', 'The site did not start the matching.', ui.ButtonSet.OK); return; }
+    for (var i = 0; i < FEED_MATCH_POLLS; i++) {
+      ss.toast('Tying ' + counts[account] + ' bank lines to the books... ' + Math.round(i * FEED_MATCH_WAIT_MS / 1000) + ' s', 'Matching', 10);
+      Utilities.sleep(FEED_MATCH_WAIT_MS);
+      var job = siteFetchJson_('/api/feed-match?job=' + encodeURIComponent(started.job_id));
+      if (job.status === 'done') { ui.alert('Matched', feedMatchSummary_(job.summary), ui.ButtonSet.OK); return; }
+      if (job.status === 'error') { ui.alert('Matching failed', String(job.error || ''), ui.ButtonSet.OK); return; }
+    }
+    ui.alert('Still running', 'The matching is still running after five minutes. Look at the Feed tab in a few minutes - the notes land there when it finishes.', ui.ButtonSet.OK);
+  } catch (err) {
+    ui.alert('Matching failed', String((err && err.message) || err), ui.ButtonSet.OK);
+  }
+}
+
+/** The run's counts in plain words. */
+function feedMatchSummary_(s) {
+  s = s || {};
+  var out = [(s.total || 0) + ' bank lines looked at.', (s.matched || 0) + ' tied to the books.',
+    (s.cards || 0) + ' need your word - they are in the Inbox (Recast Books -> Inbox...).'];
+  if (s.later) out.push(s.later + ' wait for a sale to close.');
+  if (s.none) out.push(s.none + ' got no answer - run this again.');
+  out.push('Each line\'s note is in the match_note column of the Feed tab.');
+  return out.join('\n');
 }

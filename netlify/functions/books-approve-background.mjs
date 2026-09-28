@@ -12,7 +12,7 @@
 // goes through HTTP and is untouched.
 import {
   requireConfig, json, pollerSecretOk, getWriter, getDocsStore, readTab,
-  invalidateJournalCache, storeAttachmentsToDrive, WriterError,
+  invalidateJournalCache, storeAttachmentsToDrive, WriterError, tieFeedRows,
 } from "./_shared.mjs";
 import { LOST_REPLY } from "../../lib/writer-client.mjs";
 
@@ -72,7 +72,8 @@ export async function runApprove({ docId, writer, docsStore, folder, folderModel
     review: { action: "approve", by, at: new Date().toISOString(), note: note || "" },
   });
   await invalidateJournalCache(writer);
-  return { ok: true, txn_ids: entries.map((e) => e.txn_id) };
+  const tie = await tieFeedRows(writer, envelope, { status: "matched", txn_ids: entries.map((e) => e.txn_id), note: `Recorded from the Inbox${note ? ` - ${note}` : ""}` });
+  return { ok: true, txn_ids: entries.map((e) => e.txn_id), ...(tie ? { feed: tie } : {}) };
 }
 
 export default async (req) => {

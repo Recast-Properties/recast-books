@@ -794,6 +794,26 @@ Measured on Paul's real export (`~/Desktop/10632505.QFX`, never committed): 73 l
 all `unmatched`, sum 170,800.07, dates real (year() resolves), every feed_id 24 digits of text, source_file
 `****2505.QFX`. Not yet: matching (spec section 3), reconciliation (section 4), the Daily Summary feed (6a).
 
+## 2026-09-28 (night) - Phase 3 step 2: the matcher (Recast Books -> Match statement lines...)
+
+Claude judges, code checks, Paul decides (`docs/phase3-spec.md` section 3 amendment). `lib/feed-match.mjs`: the
+model sees the account's open Feed lines in batches of 30 and every Journal entry that touches the account and is
+not yet tied to a line (`buildCandidates` - amounts signed as the bank shows them, voided and already-tied entries
+left out), plus the houses with address, status and sections, and gives every line ONE verdict through
+`record_verdicts` - match (candidate aliases), propose (a purchase entry), question (plain words), later (a sale not
+closed in the books). `applyVerdicts` re-checks every claim: a match's candidates must add up to the lines to the
+cent and be unused, else it is a question; a proposal's items must add up to the line, `paid_from` is forced to
+the account, and it becomes a pending Inbox card gated like a receipt hold (nothing autofiles from a bank line); a
+question is a card with the typed line; later and silence stay `unmatched` with a note. Verdicts land on the Feed
+rows through the writer's new **`feedUpdate`** action (status, txn_id, match_note - one read, one write under the
+lock). A card born from bank lines carries `feed.feed_ids` and ties its rows when Paul decides it (`tieFeedRows`
+in `_shared.mjs`: mark-posted and approve-bg -> `matched` with the txn_ids, dismiss -> `excluded` with his note).
+Site: `/api/feed-match` (the job) and `/api/feed-match-bg` (the run, exported `runFeedMatch`); the workbook's
+**Match statement lines...** starts it, waits (5 s polls, five minutes) and says the counts in plain words. A
+match never posts to the Journal. Golden set for the first run: the Citizens first pass in `HANDOFF-2026-09-28.md`
+(32 exact, the itemised groups, six questions). 523 tests. Pushed; **writer deploy AND site deploy owed** - the job
+reaches `feedUpdate` through the writer web app.
+
 ## 2026-09-21 — Phase 4: lists closed, Drive filing done, Newport held, cutover rehearsed end to end
 
 **Morning, offline (audit §39-§44).** 26 false Home Depot / Lowe's links from a coincidental subset-sum rule
