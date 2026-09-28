@@ -124,7 +124,7 @@
     OVER_CEILING: 'Too big for Claude to record on its own - check it, then Save',
     TOTAL_MISMATCH: 'The items do not add up to the receipt total - fix the amounts',
     NEEDS_HUMAN_274D: 'Meal or gift - type who it was with and the business reason',
-    NO_ENTRIES: 'Claude found nothing to record - click Reprocess to read it again, or Dismiss all',
+    NO_ENTRIES: 'Claude found nothing to record - type the item in the fields below, click Reprocess to read it again, or Dismiss all',
     BAD_PROPERTY: 'Which house is this for? Pick one',
     PAYER_UNKNOWN: 'Who paid? Pick the card or account',
     BAD_PAID_FROM: 'Who paid? Pick the card or account again',
@@ -285,6 +285,13 @@
     if (!entries) {
       entries = EDIT[env.docId] = JSON.parse(JSON.stringify(m.entries || []));
       entries.forEach(function (e) { (e.items || []).forEach(function (it) { if (it.property === undefined) it.property = e.property || ''; }); });
+      // Paul, 2026-09-28: a card the read left empty still shows one full line to type into ("i need a way to
+      // enter the information if none is present") - the same fields as any other line. The house defaults
+      // to the mailbox it came in on; a blank line saves nothing (sortByDecision_).
+      if (!entries.length) {
+        var home = m.property || (DATA.pickers.properties.indexOf(env.channel) >= 0 ? env.channel : '');
+        entries.push({ property: home, paid_from: m.paid_from || '', items: [{ account: '', amount_cents: 0, description: '', trade: '', business_purpose: '', property: home }] });
+      }
     }
     var props = []; entries.forEach(function (e) { if (e.property && props.indexOf(e.property) < 0) props.push(e.property); });
 
@@ -455,7 +462,7 @@
     var saveBtn = card.querySelector('[data-save]');
     saveBtn.onclick = function () {
       var sorted = sortByDecision_(entries), toPost = splitByProperty_(sorted.keep), sum = sorted.sum;
-      if (!sum.approve && !sum.returned && !sum.dismiss) return showMsg_(msg, false, 'Nothing on this card to save - click Reprocess, or Dismiss all.');
+      if (!sum.approve && !sum.returned && !sum.dismiss) return showMsg_(msg, false, 'Nothing on this card to save - type an amount and a description on the line, click Reprocess, or Dismiss all.');
       var rest = [sum.returned ? money_(sum.returned) + ' returned' : '', sum.dismiss ? money_(sum.dismiss) + ' dismissed' : ''].filter(Boolean).join(', ');
       if (saveBtn.dataset.armed !== '1') {
         saveBtn.dataset.armed = '1';

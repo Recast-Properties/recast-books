@@ -599,7 +599,7 @@ var GATE_TEXT = {
   OVER_CEILING: 'Too big for Claude to record on its own - check it, then Save',
   TOTAL_MISMATCH: 'The items do not add up to the receipt total - fix the amounts',
   NEEDS_HUMAN_274D: 'Meal or gift - type who it was with and the business reason',
-  NO_ENTRIES: 'Claude found nothing to record - click Reprocess to read it again, or Dismiss all',
+  NO_ENTRIES: 'Claude found nothing to record - type the item in the fields below, click Reprocess to read it again, or Dismiss all',
   BAD_PROPERTY: 'Which house is this for? Pick one',
   PAYER_UNKNOWN: 'Who paid? Pick the card or account',
   BAD_PAID_FROM: 'Who paid? Pick the card or account again',
