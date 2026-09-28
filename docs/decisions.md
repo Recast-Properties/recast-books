@@ -1062,6 +1062,12 @@ back with one payment from a Recast account - one statement line against 2030 - 
 2030 right (the migration's Chase mix-up, D-052). House costs Paul paid still come back to him at each sale.
 **Consequences:** a refund to a personal card is seen only when its return receipt is forwarded; the 27 receipts parked
 for "the card statement" (5,166.56, `paul-answers.json` `mail_settled`) need Paul's word per item instead.
+**Chase (1402) is Recast's account ending 6317** (Paul, same day): *"i used it to open a new recast business account at
+chase bank. the new account will be just for me and for my business expenses and cash holdings that do not involve
+dennis. that account number ends in 6317."* "It" is Ashburne's $2,000 earnest money, released to Recast before closing
+as a check from Bison Title - so at the Ashburne close that $2,000 lands on 1402, not 1401 (the sell wizard puts all the
+sale cash on 1401: post a 2,000 transfer 1401 -> 1402 with the close). Citizens (1401) is account ending 2505, cards
+5450 (Paul) and **9301 (Dennis)**. Bank accounts' `last4` gets these when the importer is built.
 
 ## D-052 · Every advance says who the money was paid to; the old books' "Chase" was Paul's personal Chase - 2026-09-28 · Paul
 
