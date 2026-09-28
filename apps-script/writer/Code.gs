@@ -1705,7 +1705,12 @@ function heavyBlocks_(ss, name) {
   var seen = {};
   if (last > 1 && cols['property'] && cols['trade']) {
     var v = journal.getRange(2, 1, last - 1, journal.getLastColumn()).getValues();
-    v.forEach(function (r) { if (String(r[cols['property'] - 1]) === name) { var t = String(r[cols['trade'] - 1] || '').trim(); if (t) seen[t] = true; } });
+    // A voided line's trade makes no block (2026-09-28: three empty headers on Ashburne came from the replays voided that day).
+    var voided = {}; v.forEach(function (r) { var vo = cols['void_of'] ? String(r[cols['void_of'] - 1] || '') : ''; if (vo) voided[vo] = true; });
+    v.forEach(function (r) {
+      if (String(r[cols['property'] - 1]) !== name || String(r[cols['source'] - 1]) === 'void' || voided[String(r[cols['txn_id'] - 1])]) return;
+      var t = String(r[cols['trade'] - 1] || '').trim(); if (t) seen[t] = true;
+    });
   }
   // Paul, 2026-09-22: no Gas/Truck/Trailer, Property Tax or "(no trade)" block - the tax is a
   // summary line and untraded lines are not costs on this tab.

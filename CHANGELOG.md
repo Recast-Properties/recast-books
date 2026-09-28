@@ -693,6 +693,23 @@ helper, one run. **Ashburne after the eleven:** fixing and holding 186,137.51, c
 9,996.07**, profit by the books **138,840.73** (= 148,836.80 - 9,996.07). Bowling Green 2030 1,061.08. All 2030 39,538.05.
 Item (b) of the finite list is DONE; next (c)+(d) as one list, after the kit fix and the Ashburne section names (Paul's word).
 
+## 2026-09-28 (14:10 PDT) - the Granite toilet kits fixed; the Ashburne sections clean; writer @9
+
+Paul: *"there were two toilet kits purchased. if they are on the same receipt then they are duplicates"* - they are:
+21.98 + 14.98 = 36.96 x 1.0825 = 40.01, the migrated 06-28 "Toilet Kits" row to the cent, and no other Home Depot row sits
+on Granite in those weeks. `fixGraniteToiletKits()` (Menu.gs, editor, once; a lint builds the entry through the posting
+engine) run by Paul ~14:04: `receipt-20260629-54b0cdd99d86-0246` (55.74) voided (rows 2621-2624), the air filter alone
+re-posted as `manual-20260629-aa6acecb8fa3` (20.54, Cost Recapture, trade 1616 Granite, the receipt's link; rows
+2625-2626), books balanced. The helper's `mark-posted` to re-point the envelope answered 409 NOT_PENDING (a posted
+envelope takes only its own ids again) - left: the nightly check counts a voided entry as a decision and the new entry
+carries the same Drive file, so nothing is reported missing. **Sections:** `retagAshburneTrades` now takes every live
+Ashburne line, debit or credit, any source (the first run took receipt debits only, so it skipped the manual hinge
+refund; the pendant replayed two minutes after it), never a voided one; `heavyBlocks_` builds no header from a voided
+line. Run by Paul ~14:08: hinge refund -> Kitchen, pendant -> Lighting & Electrical; the tab reads back as the 19 sections
++ Utilities and nothing else, Kitchen 2,325.43, Lighting & Electrical 9,021.64, Rehab Total 186,137.51 = the books.
+**Writer web app @9** on Paul's "deploy" (both parked lists on one loop, fixGraniteToiletKits, the header guard) = the
+repo by `clasp pull`. 500 tests. Item (b) closed; next (c)+(d) as one list for Paul's word.
+
 ## 2026-09-21 — Phase 4: lists closed, Drive filing done, Newport held, cutover rehearsed end to end
 
 **Morning, offline (audit §39-§44).** 26 false Home Depot / Lowe's links from a coincidental subset-sum rule

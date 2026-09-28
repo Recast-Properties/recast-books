@@ -1085,14 +1085,17 @@ function retagAshburneTrades() {
     var cols = headerIndex_(sheet);
     var last = sheet.getLastRow();
     var rows = sheet.getRange(2, 1, last - 1, sheet.getLastColumn()).getValues();
+    // Every live line, debit or credit, whatever its source (2026-09-28: the first run took receipt debits only and
+    // missed the manual hinge refund and the pendant replayed two minutes later); a voided line stays as it was.
+    var voided = {}; rows.forEach(function (r) { var vo = String(r[cols['void_of'] - 1] || ''); if (vo) voided[vo] = true; });
     for (var i = 0; i < rows.length; i++) {
       var r = rows[i], g = function (k) { return String(r[cols[k] - 1] || ''); };
-      if (g('property') !== '104 Ashburne' || g('source') !== 'receipt' || !(Number(r[cols['debit'] - 1]) > 0)) continue;
+      if (g('property') !== '104 Ashburne' || g('source') === 'void' || voided[g('txn_id')]) continue;
       var from = g('trade').trim(), to = ASHBURNE_TRADE_MAP[from];
       if (!to) continue;
       if (to === 'Small Baths' && ASHBURNE_MASTER_BATH.some(function (re) { return re.test(g('description')); })) to = 'Master Bath';
       sheet.getRange(i + 2, cols['trade']).setValue(to);
-      out.push(from + ' -> ' + to + '  ' + g('date').slice(0, 10) + '  ' + fromCents(Math.round(Number(r[cols['debit'] - 1]) * 100)) + '  ' + g('description').slice(0, 60));
+      out.push(from + ' -> ' + to + '  ' + g('date').slice(0, 10) + '  ' + fromCents(Math.round((Number(r[cols['debit'] - 1]) || -Number(r[cols['credit'] - 1])) * 100)) + '  ' + g('description').slice(0, 60));
       n++;
     }
   } finally { lock.releaseLock(); }
@@ -1173,6 +1176,42 @@ function addAshburnePickets() {
   warmCache_();
   console.log('Posted the 71.71 fence pickets to 104 Ashburne, Journal rows ' + result.rows.join('-') + ' (' + entry.txn_id + ')');
   return result;
+}
+
+// Paul, 2026-09-28 ("if they are on the same receipt then they are duplicates"): the Home Depot 06-29 receipt's two toilet
+// kits were already in the books as the migrated 06-28 "Toilet Kits" 40.01 on 1616 Granite (no receipt behind it; 21.98 +
+// 14.98 = 36.96 x 1.0825 = 40.01 to the cent - this receipt is its document). The card was approved whole, so the kits
+// are in twice. Void that entry and record the air filter alone, on Cost Recapture under Granite's section as the card
+// had it, with the receipt's link; point the receipt's record at the new entry. Editor, once; a rerun voids nothing
+// (already voided) and the re-post is refused as DUPLICATE.
+var GRANITE_TOILET_KITS_DUPLICATE = 'receipt-20260629-54b0cdd99d86-0246';
+var GRANITE_FILTER = { docId: 'gm-19f1526194ff1558', date: '2026-06-29', payee: 'The Home Depot', amount: 20.54, account: '1030',
+  trade: '1616 Granite', property: 'Cost Recapture',
+  description: '20x25x1 HDX FPR 9 air filter (incl. tax share)',
+  doc_url: 'https://drive.google.com/file/d/16WAwFSFb-106FQgrWz4qcKhNizEk6X0R/view?usp=drivesdk',
+  memo: 'Home Depot 06-29 receipt 6505 00053 37076, job name 1616 - the air filter only; the two toilet kits on the same receipt are the migrated 06-28 "Toilet Kits" 40.01 on 1616 Granite (Paul 2026-09-28: same receipt = duplicates; the first posting, receipt-20260629-54b0cdd99d86-0246, is voided)' };
+function fixGraniteToiletKits() {
+  var props = PropertiesService.getScriptProperties();
+  var user = Session.getActiveUser().getEmail() || 'editor';
+  var today = Utilities.formatDate(new Date(), 'America/Chicago', 'yyyy-MM-dd');
+  var p = GRANITE_FILTER, out = [];
+  try {
+    voidEntry_(GRANITE_TOILET_KITS_DUPLICATE, 'the two toilet kits are the migrated 06-28 "Toilet Kits" 40.01 on 1616 Granite; the air filter is re-posted alone (Paul 2026-09-28)', today, user, props, true);
+    out.push('voided  ' + GRANITE_TOILET_KITS_DUPLICATE);
+  } catch (err) { out.push('void FAILED  ' + String((err && err.message) || err)); }
+  var ctx = buildCtx_(openWorkbook_(props));
+  var entry = buildEntry({ type: 'expense', date: p.date, payee: p.payee, description: p.description, amount_cents: toCents(p.amount),
+    account: p.account, trade: p.trade, property: p.property, paid_from: 'PAUL', source: 'manual', doc_url: p.doc_url,
+    posted_by: user, memo: p.memo }, ctx);
+  var result = postBatchEntries_([entry], props);
+  out.push('posted the 20.54 air filter to Cost Recapture, Journal rows ' + result.rows.join('-') + ' (' + entry.txn_id + ')');
+  try {
+    siteFetchJson_('/api/inbox', 'post', { action: 'mark-posted', docId: p.docId, txn_ids: [entry.txn_id], doc_url: p.doc_url, by: user });
+    out.push('the receipt now points at the new entry');
+  } catch (err) { out.push('mark-posted FAILED  ' + String((err && err.message) || err)); }
+  warmCache_();
+  console.log(out.join('\n'));
+  return out;
 }
 
 /** Approve, step two (the dialog calls it right after inboxApprove returns): fetch the

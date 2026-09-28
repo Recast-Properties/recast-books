@@ -664,6 +664,10 @@ test("retagAshburneTrades: every target section exists on the heavy tab; the mas
     assert.ok(!order.includes(from), `${from} is already a section - nothing to move`);
   }
   assert.ok(Object.values(map).includes("Small Baths") && /ASHBURNE_MASTER_BATH = \[\/.+\/i/.test(menu), "the bath split is missing");
+  // 2026-09-28: the first run took receipt debits only and missed a manual credit line; a voided line's trade makes no header.
+  const body = menu.slice(menu.indexOf("function retagAshburneTrades("), menu.indexOf("\nfunction ", menu.indexOf("function retagAshburneTrades(") + 1));
+  assert.ok(/voided\[g\('txn_id'\)\]/.test(body) && !/'receipt'/.test(body), "moves every live line, debit or credit, any source - never a voided one");
+  assert.ok(/voided\[String\(r\[cols\['txn_id'\] - 1\]\)\]/.test(bodyOf("heavyBlocks_")), "heavyBlocks_: a voided line's trade makes no section header");
 });
 
 // 2026-09-28 13:06: the first replay run posted three pre-cutover documents on top of their migrated rows.
@@ -694,6 +698,26 @@ test("addAshburnePickets: 71.71 on Ashburne's Landscaping, paid by Paul, with th
   assert.ok(m, "ASHBURNE_PICKETS not found");
   const p = eval("(" + m[1] + ")");
   const ctx = makeCtx({ properties: new Set(["104 Ashburne"]), periods: new Map(), today: "2026-09-28" });
+
+// Paul, 2026-09-28: the Home Depot 06-29 toilet kits are the migrated 06-28 "Toilet Kits" 40.01 - void the whole first
+// posting, record the air filter alone on Cost Recapture under Granite's section, with the receipt link.
+test("fixGraniteToiletKits: voids the 55.74 posting, re-posts the 20.54 filter alone on Cost Recapture, re-points the receipt", () => {
+  const menu = readFileSync(path.join(__dirname, "..", "apps-script", "writer", "Menu.gs"), "utf8");
+  const dup = menu.match(/var GRANITE_TOILET_KITS_DUPLICATE = '([^']+)';/);
+  assert.ok(dup && /^receipt-20260629-[0-9a-f]{12}-[0-9a-f]{4}$/.test(dup[1]), "the voided entry must be the 06-29 receipt's posting");
+  const m = menu.match(/var GRANITE_FILTER = (\{[\s\S]*?\});\nfunction fixGraniteToiletKits/);
+  assert.ok(m, "GRANITE_FILTER not found");
+  const p = eval("(" + m[1] + ")");
+  const ctx = makeCtx({ properties: new Set(["Cost Recapture"]), periods: new Map(), today: "2026-09-28" });
+  const e = buildEntry({ type: "expense", date: p.date, payee: p.payee, description: p.description, amount_cents: Math.round(p.amount * 100),
+    account: p.account, trade: p.trade, property: p.property, paid_from: "PAUL", source: "manual", doc_url: p.doc_url }, ctx);
+  assert.equal(e.lines[0].debit, 2054); assert.equal(e.lines[0].account, "1030"); assert.equal(e.lines[0].trade, "1616 Granite");
+  assert.equal(e.lines[0].property, "Cost Recapture"); assert.equal(e.lines[1].account, "2030"); assert.equal(e.lines[1].credit, 2054);
+  assert.match(p.doc_url, /^https:\/\/drive\.google\.com\//); assert.equal(p.docId, "gm-19f1526194ff1558");
+  const body = menu.slice(menu.indexOf("function fixGraniteToiletKits("), menu.indexOf("\nfunction ", menu.indexOf("function fixGraniteToiletKits(") + 1));
+  assert.ok(/voidEntry_\(GRANITE_TOILET_KITS_DUPLICATE/.test(body), "must void the duplicate posting");
+  assert.ok(/action: 'mark-posted'/.test(body) && /txn_ids: \[entry\.txn_id\]/.test(body), "must point the receipt at the new entry");
+});
   const e = buildEntry({ type: "expense", date: p.date, payee: p.payee, description: p.description, amount_cents: Math.round(p.amount * 100),
     account: p.account, trade: p.trade, property: "104 Ashburne", paid_from: "PAUL", source: "manual", doc_url: p.doc_url }, ctx);
   assert.equal(e.lines[0].debit, 7171); assert.equal(e.lines[0].account, "1030"); assert.equal(e.lines[0].trade, "Landscaping");
