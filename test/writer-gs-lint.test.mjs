@@ -677,3 +677,15 @@ test("undoReplayedMigrationDocs: three distinct receipt entries, each voided the
   assert.ok(body.indexOf("voidEntry_(") < body.indexOf("action: 'dismiss'"), "void first, then the card");
   assert.ok(!/postEntry_|postBatchEntries_/.test(body), "an undo never posts");
 });
+
+test("addAshburnePickets: 71.71 on Ashburne's Landscaping, paid by Paul, with the receipt link", () => {
+  const menu = readFileSync(path.join(__dirname, "..", "apps-script", "writer", "Menu.gs"), "utf8");
+  const m = menu.match(/var ASHBURNE_PICKETS = (\{[\s\S]*?\});\nfunction addAshburnePickets/);
+  assert.ok(m, "ASHBURNE_PICKETS not found");
+  const p = eval("(" + m[1] + ")");
+  const ctx = makeCtx({ properties: new Set(["104 Ashburne"]), periods: new Map(), today: "2026-09-28" });
+  const e = buildEntry({ type: "expense", date: p.date, payee: p.payee, description: p.description, amount_cents: Math.round(p.amount * 100),
+    account: p.account, trade: p.trade, property: "104 Ashburne", paid_from: "PAUL", source: "manual", doc_url: p.doc_url }, ctx);
+  assert.equal(e.lines[0].debit, 7171); assert.equal(e.lines[0].account, "1030"); assert.equal(e.lines[0].trade, "Landscaping");
+  assert.equal(e.lines[1].account, "2030"); assert.match(p.doc_url, /^https:\/\/drive\.google\.com\//);
+});

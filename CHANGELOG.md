@@ -1477,3 +1477,7 @@ nothing posted; one landed as a card (Uber 07-09 31.27, migrated) for Paul to di
 the 78.65 refund), costs **510,785.91**, **Recast owes Paul on Ashburne 9,644.47**, profit **139,192.33** (= 148,836.80 -
 9,644.47 = 717,558.65 - 510,785.91 - 44,900.41 - 22,680.00). All 2030: 38,861.32. Bowling Green's 2030 unchanged by the
 void (1,011.32). 498 tests.
+
+**13:25 - Paul's answers:** the 11.01 Defiant knob (HD 06-25, Bowling Green) *"was a return"* - nothing to record, the
+migration was right to leave it; the 71.71 fence pickets (HD 03-29) *"is a new expense for ashburne"* -
+`addAshburnePickets()` (Menu.gs, editor, once) posts it on Landscaping with the receipt's Drive link.

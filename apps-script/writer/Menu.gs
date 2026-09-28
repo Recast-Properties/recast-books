@@ -1155,6 +1155,26 @@ function undoReplayedMigrationDocs() {
   return out;
 }
 
+// Paul, 2026-09-28 ("fence pickets is a new expense for ashburne"): the one line of the HD 03-29 run that matched no
+// migrated row, posted on its own with the receipt's Drive link; the toggle bolts and P-trap on that run are the
+// migrated rows of 03-29. Same section as the old books' "Fence Boards" (Landscaping). Editor, once; DUPLICATE on a rerun.
+var ASHBURNE_PICKETS = { date: '2026-03-29', payee: 'The Home Depot', amount: 71.71, account: '1030', trade: 'Landscaping',
+  description: '18 x 5/8"x5-1/2"x8\' PT pine dog-ear pickets @ $3.68 (incl. tax share)',
+  doc_url: 'https://drive.google.com/file/d/1d1IOm9B-Vcj7uitHuVADusVdDDMlOMYN/view?usp=drivesdk',
+  memo: 'Home Depot 03-29 fence pickets - the only line of that receipt not in the old books; Paul 2026-09-28: "a new expense for ashburne" (the receipt was replayed whole by mistake and voided, receipt-20260329-62c4ae1ea634)' };
+function addAshburnePickets() {
+  var props = PropertiesService.getScriptProperties();
+  var ctx = buildCtx_(openWorkbook_(props));
+  var p = ASHBURNE_PICKETS;
+  var entry = buildEntry({ type: 'expense', date: p.date, payee: p.payee, description: p.description, amount_cents: toCents(p.amount),
+    account: p.account, trade: p.trade, property: '104 Ashburne', paid_from: 'PAUL', source: 'manual', doc_url: p.doc_url,
+    posted_by: Session.getActiveUser().getEmail() || 'editor', memo: p.memo }, ctx);
+  var result = postBatchEntries_([entry], props);
+  warmCache_();
+  console.log('Posted the 71.71 fence pickets to 104 Ashburne, Journal rows ' + result.rows.join('-') + ' (' + entry.txn_id + ')');
+  return result;
+}
+
 /** Approve, step two (the dialog calls it right after inboxApprove returns): fetch the
  *  attachment bytes, file to Drive under <year>/<property or OVERHEAD>, write doc_url on
  *  the posted Journal lines and the envelope, rebuild the property tab's line blocks,
