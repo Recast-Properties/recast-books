@@ -50,8 +50,7 @@
   a { color: #1a73e8; }
   .loading { color: #444; line-height: 1.8; }
   .loading .bar { height: 6px; background: #e6e6e6; border-radius: 3px; overflow: hidden; margin: 2px 0 8px; }
-  .loading .bar div { width: 30%; height: 100%; background: #1a73e8; animation: slide 1.2s linear infinite; }
-  @keyframes slide { from { margin-left: -30%; } to { margin-left: 100%; } }
+  .loading .bar div { width: 0; height: 100%; background: #1a73e8; transition: width .3s; }
 </style>
 
 <div class="top">
@@ -533,12 +532,18 @@
     var top = document.getElementById('msg');
     top.classList.add('hidden');
     var list = document.getElementById('list');
-    var t0 = Date.now(), waiting = { receipts: 'asking the site for the receipts waiting for you', pickers: 'reading the houses, accounts and stores from the workbook' }, done = {};
+    var waiting = { receipts: 'asking the site for the receipts waiting for you', pickers: 'reading the houses, accounts and stores from the workbook' }, done = {};
+    // Built once; only the text and the bar's width change after this (a rebuilt bar flashes).
+    list.innerHTML = '<div class="loading"><div class="bar"><div></div></div>' +
+      Object.keys(waiting).map(function (k) { return '<div data-step="' + k + '"></div>'; }).join('') + '<div data-step="cards"></div></div>';
+    var fill = list.querySelector('.bar div'), row = function (k) { return list.querySelector('[data-step="' + k + '"]'); };
+    var t0 = Date.now(), since = t0, landed = 0;
+    // One bar for the whole load: a third per part (receipts, pickers, cards), creeping a little
+    // while a part is still on its way so it never looks stuck.
     var paint = function () {
-      var secs = Math.floor((Date.now() - t0) / 1000) + ' s';
-      list.innerHTML = '<div class="loading"><div class="bar"><div></div></div>' + Object.keys(waiting).map(function (k) {
-        return '<div>' + (done[k] ? '&#10003; ' + escapeHtml_(done[k]) : '&#8230; ' + escapeHtml_(waiting[k]) + ' (' + secs + ')') + '</div>';
-      }).join('') + '</div>';
+      var secs = Math.floor((Date.now() - t0) / 1000);
+      Object.keys(waiting).forEach(function (k) { row(k).textContent = done[k] ? '\u2713 ' + done[k] : '\u2026 ' + waiting[k] + ' (' + secs + ' s)'; });
+      fill.style.width = Math.min(99, landed * 33 + Math.min(20, (Date.now() - since) / 1000 * 4)) + '%';
     };
     var tick = setInterval(paint, 250); paint();
     var fail = function (r) {
@@ -546,6 +551,7 @@
       showMsg_(top, false, '<b>' + escapeHtml_((r && r.error) || 'ERROR') + '</b> - ' + escapeHtml_((r && r.message) || r));
       list.innerHTML = '';
     };
+    var landedOne = function () { landed++; since = Date.now(); paint(); };
     var envelopes = null, pickers = null;
     var finish = function () {
       if (!envelopes || !pickers) return;
@@ -553,16 +559,17 @@
       DATA = { ok: true, envelopes: envelopes.envelopes || [], total: envelopes.total, pickers: pickers.pickers, user: pickers.user, site: pickers.site };
       EDIT = {};
       document.getElementById('weblink').href = DATA.site + '/#inbox';
-      list.innerHTML = '<div class="loading">Building ' + DATA.envelopes.length + ' card' + (DATA.envelopes.length === 1 ? '' : 's') + '...</div>';
-      setTimeout(render_, 0);
+      row('cards').textContent = '\u2026 building ' + DATA.envelopes.length + ' card' + (DATA.envelopes.length === 1 ? '' : 's');
+      fill.style.width = '100%';
+      setTimeout(render_, 300);
     };
     callServer_('inboxEnvelopes').then(function (r) {
       if (!r.ok) return fail(r);
-      envelopes = r; done.receipts = (r.envelopes || []).length + ' receipt' + ((r.envelopes || []).length === 1 ? '' : 's') + ' waiting for you'; paint(); finish();
+      envelopes = r; done.receipts = (r.envelopes || []).length + ' receipt' + ((r.envelopes || []).length === 1 ? '' : 's') + ' waiting for you'; landedOne(); finish();
     }, fail);
     callServer_('inboxPickers').then(function (r) {
       if (!r.ok) return fail(r);
-      pickers = r; done.pickers = 'houses, accounts and stores ready'; paint(); finish();
+      pickers = r; done.pickers = 'houses, accounts and stores ready'; landedOne(); finish();
     }, fail);
   }
 
