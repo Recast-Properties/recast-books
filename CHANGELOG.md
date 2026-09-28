@@ -1334,4 +1334,4 @@ wizard ends every advance on the settlement date and takes the agreed figure as 
 on $756,000"* (775,000 less the 19,000 seller credit) and the buyer's agent 2.75% of 775,000: D-053 - `lib/sale.mjs`
 takes 1320 concessions off the commission base; the heavy tab splits the old lumped 5.75% into a typed buyer's-agent %
 (default 2.75) and a Dennis Commission row on the price less the concession, which the Dennis Payout now reads. Books'
-payoff for Dennis 568,721.85, 18,721.85 after the 550,000 he took. 490 tests.
+payoff for Dennis 568,721.85, 18,721.85 after the 550,000 he took. 490 tests. Pushed (= repo by `clasp pull`) and deployed **@7** on Paul's "deploy".
