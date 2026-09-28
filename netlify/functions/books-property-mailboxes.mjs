@@ -29,7 +29,9 @@ async function registeredProperties(writer) {
   const resp = await readTab(writer, "Properties");
   const rows = rowsToObjectsPublic(resp.headers, resp.rows);
   return rows
-    .filter((r) => r.status === "held" || r.status === "under contract")
+    // A sold house keeps its mailbox (Paul, 2026-09-28: "it should keep reading in case something comes in after
+    // it's closed") - a late bill lands on Cost Recapture under that house's section, never on the frozen tab.
+    .filter((r) => r.status === "held" || r.status === "under contract" || r.status === "sold")
     .map((r) => ({ name: r.name, key: normalizePropertyKey(r.name) }));
 }
 

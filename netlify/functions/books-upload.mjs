@@ -26,7 +26,6 @@ import {
   readTab,
   rowsToObjectsPublic,
 } from "./_shared.mjs";
-import { isOpenProperty } from "../../lib/property-key.mjs";
 
 const MAX_ATTACHMENT_BYTES = 6 * 1024 * 1024;
 const VALID_SOURCES = new Set(["email", "upload"]);
@@ -42,7 +41,7 @@ async function isRegisteredPropertyChannel(channel) {
     const resp = await readTab(getWriter(), "Properties");
     const rows = rowsToObjectsPublic(resp.headers, resp.rows);
     return rows.some(
-      (r) => isOpenProperty(r) && String(r.name || "").trim() === channel.trim(),
+      (r) => String(r.name || "").trim() === channel.trim(),   // sold houses too (2026-09-28): their mail is still read
     );
   } catch {
     return false;
@@ -98,7 +97,7 @@ export default async (req) => {
   if (!VALID_CHANNELS.has(channel) && !(await isRegisteredPropertyChannel(channel))) {
     return json(400, {
       error: "BAD_REQUEST",
-      message: 'channel must be "receipts", "travel", "upload", or the name of a held property',
+      message: 'channel must be "receipts", "travel", "upload", or the name of a property',
     });
   }
 

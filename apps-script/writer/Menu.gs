@@ -1214,6 +1214,32 @@ function fixGraniteToiletKits() {
   return out;
 }
 
+// Paul, 2026-09-28 ("fix"): the migrated 09-02 camera gimbal (RECAST BIZ / Marketing, 126.61) was typed without its tax -
+// the Amazon order (#111-1699514-3146617) totals 137.06 = 126.61 x 1.0825. Void the old row and re-post the full amount
+// on the same account and payer with the same receipt link (the payer, Citizens, is the Citizens first pass's open
+// question - not changed here). Editor, once; DUPLICATE on a rerun.
+var CAMERA_GIMBAL = { old: 'migration-20260902-c83153c60423', date: '2026-09-02', payee: 'Amazon.com', amount: 137.06, account: '6510',
+  property: 'OVERHEAD', paid_from: '1401',
+  description: 'Camera gimbal - Amazon order #111-1699514-3146617 (126.61 + 10.45 tax)',
+  doc_url: 'https://drive.google.com/file/d/1bklxp-ML5fbE0pyBjF1q9hSIYDL2MNku/view?usp=drivesdk',
+  memo: 'old books: RECAST BIZ / Marketing, typed at 126.61 without the 10.45 tax; corrected to the order total 137.06 on Paul\'s word 2026-09-28 (migration-20260902-c83153c60423 voided)' };
+function fixCameraGimbalTax() {
+  var props = PropertiesService.getScriptProperties();
+  var user = Session.getActiveUser().getEmail() || 'editor';
+  var today = Utilities.formatDate(new Date(), 'America/Chicago', 'yyyy-MM-dd');
+  var p = CAMERA_GIMBAL, out = [];
+  try { voidEntry_(p.old, 'typed without its 10.45 tax - re-posted at the order total 137.06 (Paul, 2026-09-28)', today, user, props, true); out.push('voided  ' + p.old); }
+  catch (err) { out.push('void FAILED  ' + String((err && err.message) || err)); }
+  var ctx = buildCtx_(openWorkbook_(props));
+  var entry = buildEntry({ type: 'expense', date: p.date, payee: p.payee, description: p.description, amount_cents: toCents(p.amount),
+    account: p.account, property: p.property, paid_from: p.paid_from, source: 'manual', doc_url: p.doc_url, posted_by: user, memo: p.memo }, ctx);
+  var result = postBatchEntries_([entry], props);
+  out.push('posted the camera gimbal at 137.06, Journal rows ' + result.rows.join('-') + ' (' + entry.txn_id + ')');
+  warmCache_();
+  console.log(out.join('\n'));
+  return out;
+}
+
 // 2026-09-28 15:03 PDT: Paul typed the 08-07 Amazon order's items (cameras 91.35 for Bowling Green, pool lights
 // 10.61 personal) onto the look-alike 08-13 card (4 hardware items, 160.60) and saved it there. Void that entry and
 // put the 08-13 card back in the Inbox with its original read (mark-pending takes an in-process approve back); the

@@ -72,13 +72,14 @@ test("normalizePropertyKey lower-cases and strips everything but [a-z0-9]", () =
   assert.equal(normalizePropertyKey(null), "");
 });
 
-test("GET with poller secret returns registered {name,key} for held/under-contract properties only", async () => {
+test("GET with poller secret returns registered {name,key} for held, under-contract and sold properties (a sold house keeps its mailbox, 2026-09-28)", async () => {
   const res = await handler(req("GET", { pollerSecret: "poller-secret" }));
   assert.equal(res.status, 200);
   const body = await res.json();
   assert.deepEqual(body.registered, [
     { name: "1616 Granite", key: "1616granite" },
     { name: "881 Newport", key: "881newport" },
+    { name: "Old Sold House", key: "oldsoldhouse" },
   ]);
 });
 
@@ -114,6 +115,7 @@ test("GET with a session (any role) returns labels + registered + fetchedAt", as
   assert.deepEqual(body.registered, [
     { name: "1616 Granite", key: "1616granite" },
     { name: "881 Newport", key: "881newport" },
+    { name: "Old Sold House", key: "oldsoldhouse" },
   ]);
   assert.ok(typeof body.fetchedAt === "number");
 });

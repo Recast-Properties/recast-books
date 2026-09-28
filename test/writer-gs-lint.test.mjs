@@ -699,6 +699,23 @@ test("addAshburnePickets: 71.71 on Ashburne's Landscaping, paid by Paul, with th
   const p = eval("(" + m[1] + ")");
   const ctx = makeCtx({ properties: new Set(["104 Ashburne"]), periods: new Map(), today: "2026-09-28" });
 
+// Paul, 2026-09-28: the 09-02 camera gimbal typed without its tax - void, re-post at the order total, same payer and receipt.
+test("fixCameraGimbalTax: voids the migrated 126.61 row, re-posts 137.06 on 6510 overhead with the same receipt", () => {
+  const menu = readFileSync(path.join(__dirname, "..", "apps-script", "writer", "Menu.gs"), "utf8");
+  const m = menu.match(/var CAMERA_GIMBAL = (\{[\s\S]*?\});\nfunction fixCameraGimbalTax/);
+  assert.ok(m, "CAMERA_GIMBAL not found");
+  const p = eval("(" + m[1] + ")");
+  assert.equal(p.old, "migration-20260902-c83153c60423"); assert.equal(Math.round(p.amount * 100), 13706);
+  assert.equal(Math.round(12661 * 1.0825), 13706, "137.06 is 126.61 plus 8.25% tax");
+  const ctx = makeCtx({ properties: new Set(), periods: new Map(), today: "2026-09-28" });
+  const e = buildEntry({ type: "expense", date: p.date, payee: p.payee, description: p.description, amount_cents: Math.round(p.amount * 100),
+    account: p.account, property: p.property, paid_from: p.paid_from, source: "manual", doc_url: p.doc_url }, ctx);
+  assert.equal(e.lines[0].debit, 13706); assert.equal(e.lines[0].account, "6510"); assert.equal(e.lines[0].property, "OVERHEAD");
+  assert.equal(e.lines[1].account, "1401"); assert.equal(e.lines[1].credit, 13706); assert.match(p.doc_url, /^https:\/\/drive\.google\.com\//);
+  const body = menu.slice(menu.indexOf("function fixCameraGimbalTax("), menu.indexOf("\nfunction ", menu.indexOf("function fixCameraGimbalTax(") + 1));
+  assert.ok(/voidEntry_\(p\.old/.test(body), "must void the migrated row");
+});
+
 // 2026-09-28 15:03: the 08-07 order's cameras saved through the 08-13 card - void that entry, put the card back.
 test("undoMisfiledCamerasCard: voids the misfiled entry and puts the 08-13 card back in the Inbox", () => {
   const menu = readFileSync(path.join(__dirname, "..", "apps-script", "writer", "Menu.gs"), "utf8");

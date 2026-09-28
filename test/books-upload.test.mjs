@@ -211,12 +211,12 @@ test("channel accepts a registered (held/under contract) property name — phase
   assert.equal(envelope.channel, "1616 Granite");
 });
 
-test("channel refuses a property name that isn't registered (wrong status or unknown)", async () => {
+test("channel accepts a sold house's name (its mail is still read, 2026-09-28) and refuses an unknown one", async () => {
   propertiesRows.push(["Old Sold House", "1 Sold St", "sold", "2025-01-01", "150000", "2025-06-01", "", false, "", ""]);
   const res1 = await handler(
     req({ body: { docId: "gm-sold1", source: "email", channel: "Old Sold House", attachments: [] }, pollerSecret: "poller-secret" }),
   );
-  assert.equal(res1.status, 400);
+  assert.notEqual(res1.status, 400);
 
   const res2 = await handler(
     req({ body: { docId: "gm-nope1", source: "email", channel: "Not A Property", attachments: [] }, pollerSecret: "poller-secret" }),
