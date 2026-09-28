@@ -1419,3 +1419,17 @@ attachment (`storeEmailText_`; the dialog now sends `bodyText`), as the site's i
 (Menu.gs, editor, once) links the five email-only records of this morning (Amazon 01-20, Lowe's 02-04, AllModern, Wayfair,
 HD 04-06) - a linked card is skipped, so it is safe to run again. Pushed (Menu.gs, Inbox.html - no clasp deploy needed). 493 tests.
 **Run by Paul 11:49 PDT: all five linked; read back on the Journal - every one of the morning's 30 cost lines has its Drive link.**
+
+## 2026-09-28 (afternoon) - the Amazon orders only in pvb421: list agreed with Paul ("these are all ashburne"), a one-off forwarding script for his personal Gmail
+
+The handoff's "~40" is 112 Amazon "Ordered" mails in pvb421 for 2026; 78 in the Ashburne months, 16 plainly personal, 62
+house-looking. Cross-checked against the paul@ and properties@ listings: **11 of the 62 were forwarded in Jan-Feb and
+handled in the migration** (e.g. "SWRT 6 Pack Black" = black electrical tape 6.36, on Ashburne 01-20 - Paul asked), four
+forwards bounced (audit §48), five orders Amazon refunded in full, the Dreo heaters posted this morning. **42 remain, never
+forwarded, and Paul says all are 104 Ashburne.** I cannot read pvb421 (the listing has no totals; the Chrome profile the
+extension uses is signed into paul@ only), so the route is the proper one: `scripts/forward-amazon-orders-pvb421.gs`, a
+one-off Paul pastes into a script project under pvb421 and runs once - forwards the 42 by message id to
+104ashburne@recast-properties.com with a note on top (house, paid by Paul, the order date, Amazon's refunds where known),
+labels each thread so a second Run skips it, 1.5 s apart. The properties@ poller reads them into the Sheets Inbox; Paul
+decides each card. The "on no book" claim for these 42 is by item name and the last session's amount search, not by a
+document read - the cards' `read_ledger` check settles it per item.
