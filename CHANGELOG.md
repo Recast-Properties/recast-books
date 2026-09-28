@@ -1374,3 +1374,34 @@ drifting"*. The route is an editor helper calling `siteFetchJson_` reprocess (wh
 does) and his review in Recast Books -> Inbox... (CLAUDE.md rule 8). Also found and left for its own step: ~40 Amazon
 house-item orders only in pvb421, on no book (handoff item 3). **Writer web app deployed @8** (D-054 + `addAshburneMissingBills`) on Paul's "deploy", 2026-09-28 ~10:15 PDT. Audited first, on the live workbook: the seven bills at Journal rows 2418-2431; Chase 0.00; Recast owes Paul 33,096.03 (= 31,666.88 + 1,419.00 + Anthropic 10.15 of 09-28); Dennis 1,584,286.37; all 33 advances with `paid_to` (Seller 8, Paul 9, Vendor 15, Citizens 1); Ashburne's tab as written; the six parked receipts that say "posted" carry staging ids - none of the six is on the production Journal (checked by id); the other twelve are dismissed. The live script = the repo (clasp pull, all ten files). Nothing to correct. Then `reprocessParkedAshburneReceipts()` (Code.gs, beside `addAshburneMissingBills`): the 18 ids through `siteFetchJson_` reprocess, the Inbox's own route - hold-only, never a post; a lint pins 18 distinct ids and no write. 492 tests, pushed (live = repo). Deploy of this push owed only for tidiness (the web app never calls an editor helper).
 491 tests.
+
+## 2026-09-28 (late morning) - the 18 parked Ashburne receipts decided in the Sheets Inbox; an empty card gets a typed line; loading shows progress
+
+`reprocessParkedAshburneReceipts()` run by Paul 10:18 PDT: all 18 re-read and held (about 3 minutes). Read back before he
+started: 15 cards right as shown; **HD 03-25 241.50** is the old books' 03-30 "Crawl Space Door" 261.42 (= 241.50 x 1.0825 -
+the old books grossed up tax the Portland-shipped order never charged, 19.92 high, left); **HD 04-05 288.44** is seven
+migrated rows of 04-05 totalling 281.41 (smoke alarms entered pre-tax, 7.03 light, left) - both dismissed; **Ping Lighting
+03-10 99.20 was WRONGLY called "already in the books"**: the read trusted `search_docs`, which showed the earlier copy
+`gm-19cd5d25a07e5bb1` as `posted` with `receipt-20260310-f075b4cf8017` - the 09-17 STAGING replay, not on the production
+Journal (no Ping row, no 99.20). The last session's "66.08 on" (HD 03-25) and "59.80 on" (HD 04-05) were wrong; its "Ping on
+no book" was right. **Lowe's 03-19: the old books already carry the RETURN of one fan (03-21, 108.23)**, so all three fans
+were approved (a "Returned" there would count the return twice); the only other recorded Ashburne return is Floor & Decor
+121.02 (03-19) - the HD/Lowe's refund slips of 03-26 .. 05-07 are NOT in the books, so "Returned" on their items is right.
+
+**Paul decided all 18 (Inbox empty ~11:00 PDT). Posted 2,046.96 - 1,906.26 on 104 Ashburne, 140.70 overhead** (Lowe's 02-04
+extension cord 134.23, HD 04-16 caulk gun 6.47): Amazon heaters 276.22; HD 02-15 Halo housing 74.65; HD 02-16 OSB 30.79;
+HD 03-09 77.95 (the two GRK screws not kept); AllModern 214.34; Ping 99.20 (typed by Paul); McCoy's 61.53; Wayfair 93.08;
+Lowe's fans 324.69; HD 03-21 paint 389.93; HD 04-06 lights 181.52; HD 04-16 88.83. Nothing kept from Lowe's 01-09 (360.49),
+HD 03-11 (6.68), HD 03-12 (the trim and quarter round), HD 03-25, HD 04-05. Verified on the Journal: Ashburne's fixing and
+holding 180,175.30 -> **182,081.56**; **Recast owes Paul on Ashburne 4,033.86 -> 5,940.12**; all 2030 33,096.03 -> 35,142.99;
+Ashburne profit by the books **144,802.94 -> 142,896.68** (cash check 148,836.80 - 5,940.12); the tab's blocks refreshed by
+each Save. **Found, left:** the five email-only receipts (Amazon, Lowe's 02-04, AllModern, Wayfair, HD 04-06) posted with NO
+Drive link - `inboxFinish` files attachments only; D-035's `email.txt` path lives in the site's ingest, not the sheet's Save.
+
+**Inbox card, two changes on Paul's word** (Inbox.html, pushed, no deploy): (1) *"i need a way to enter the information if
+none is present"* - a card the read left empty seeds one full line (Property, Paid from, account, amount, description,
+trade, house, business reason, Approve/Returned/Dismiss), house = the mailbox it came in on; the first cut lacked `date`,
+`payee`, `memo` and failed `periodOf: not a date string` - fixed. `NO_ENTRIES` wording updated in both GATE_TEXT maps.
+(2) *"when the inbox is loading i want more information"* - `inboxList` split into `inboxEnvelopes` (site) + `inboxPickers`
+(workbook) run side by side, each reported with a running clock, then "building N cards"; one bar for the whole load, built
+once (a bar rebuilt every tick flashed - Paul: "going nuts"). Thumbnails say "picture loading...". 492 tests.
