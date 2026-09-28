@@ -216,6 +216,11 @@ it** - never one item standing for several lines ("12 items, materials" is wrong
 sets the property, account and trade per item on the Inbox card, the property tab lists
 every item, and a tool on the same receipt as materials goes to a different account, so a
 lumped line cannot be reviewed or split. For each printed line:
+- `trade` is the section of the house's tab the line belongs in. `list_properties` shows each
+  house's existing sections; pick the one that fits - "Lighting & Electrical" for a light or a
+  wire, "Chimney/FIreplace/Glass" for lava rock, "Master Bath" or "Small Baths" for a faucet,
+  "Marketing" for staging - and invent a new name only when none of them fits. A name that is
+  not a section gets no block on the tab until someone rebuilds it. Overhead lines have no trade.
 - `description` is the line as printed, made readable: the product and, when shown, the
   quantity and unit price - "1/2 in. x 10 ft. copper tube type L (2 @ 21.00)". Keep a SKU
   only when the name alone is cryptic.

@@ -643,3 +643,15 @@ test("addAshburneHingeRefund: 78.65 off Ashburne's cabinet cost and off what Rec
   assert.ok(e.lines.every((l) => l.property === "104 Ashburne"));
   assert.ok(!/postEntry_|setValue\(/.test(menu.slice(menu.indexOf("function addAshburneHingeRefund"), menu.indexOf("function addAshburneHingeRefund") + 900)) || true);
 });
+
+// Paul, 2026-09-28: every retag target is a section the Ashburne tab already has (PT_HEAVY_ORDER).
+test("retagAshburneTrades: every target section exists on the heavy tab; the master-bath list is regexes", () => {
+  const menu = readFileSync(path.join(__dirname, "..", "apps-script", "writer", "Menu.gs"), "utf8");
+  const order = eval(source.match(/var PT_HEAVY_ORDER = (\[[^\]]*\]);/)[1]);
+  const map = eval("(" + menu.match(/var ASHBURNE_TRADE_MAP = (\{[\s\S]*?\});/)[1] + ")");
+  for (const [from, to] of Object.entries(map)) {
+    assert.ok(order.includes(to), `${from} -> ${to}: not a section of the Ashburne tab`);
+    assert.ok(!order.includes(from), `${from} is already a section - nothing to move`);
+  }
+  assert.ok(Object.values(map).includes("Small Baths") && /ASHBURNE_MASTER_BATH = \[\/.+\/i/.test(menu), "the bath split is missing");
+});

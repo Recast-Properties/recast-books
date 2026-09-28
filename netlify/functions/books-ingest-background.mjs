@@ -81,6 +81,7 @@ function flattenJournalLines(headers, rows) {
       account: String(get(row, "account") || ""),
       amount_cents: debit - credit, // signed: positive on the debit line, negative on the credit line
       property: String(get(row, "property") || ""),
+      trade: String(get(row, "trade") || ""),
       payee: String(get(row, "payee") || ""),
       description: String(get(row, "description") || ""),
       memo: String(get(row, "memo") || ""),
@@ -193,14 +194,34 @@ function makeVendorsDep(vendorRows, journalLines) {
 
 /** list_properties tool contract (`deps.properties.list()`): registry rows with
  * status held only (D-017: anything not sold) - OVERHEAD is appended by bookkeeper.mjs itself. */
-function makePropertiesDep(writer) {
+/** Each property's sections in use - the trades on its cost lines, most used first - so the
+ *  bookkeeper reuses them instead of inventing near-duplicates (2026-09-28: 42 Amazon reads gave
+ *  104 Ashburne "Electrical & Lighting" beside its "Lighting & Electrical", "Fireplace" beside
+ *  "Chimney/FIreplace/Glass", "Staging" beside "Marketing" - twelve new blocks on the tab). */
+export function tradesByProperty(lines, cap = 30) {
+  const counts = new Map();
+  for (const l of lines || []) {
+    const trade = String(l.trade || "").trim();
+    if (!trade || !l.property || !(l.amount_cents > 0)) continue;
+    const byTrade = counts.get(l.property) || new Map();
+    byTrade.set(trade, (byTrade.get(trade) || 0) + 1);
+    counts.set(l.property, byTrade);
+  }
+  const out = {};
+  for (const [property, byTrade] of counts) {
+    out[property] = [...byTrade.entries()].sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0])).slice(0, cap).map(([t]) => t);
+  }
+  return out;
+}
+
+function makePropertiesDep(writer, trades = {}) {
   return {
     async list() {
       const resp = await readTab(writer, "Properties");
       const rows = rowsToObjectsPublic(resp.headers, resp.rows);
       return rows
         .filter((r) => r.status === "held" || r.status === "under contract")
-        .map((r) => ({ name: r.name, address: r.address, purchase_date: r.purchase_date }));
+        .map((r) => ({ name: r.name, address: r.address, purchase_date: r.purchase_date, trades: trades[r.name] || [] }));
     },
   };
 }
@@ -339,7 +360,7 @@ export default async (req) => {
     const ledger = makeLedgerDep(journalLines);
     const postedEntries = buildPostedEntries(journalLines);
     const vendors = makeVendorsDep(vendorRows, journalLines);
-    const properties = makePropertiesDep(writer);
+    const properties = makePropertiesDep(writer, tradesByProperty(journalLines));
     const onBooks = new Set(journalLines.map((l) => l.txn_id));
     const docs = { search: (opts) => searchDocs(docsStore, opts, docId, onBooks) };
     const anthropic = new Anthropic();

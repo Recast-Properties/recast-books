@@ -29,9 +29,9 @@ process.env.ANTHROPIC_API_KEY = "sk-ant-test-unused"; // never actually sent - s
 process.env.POLLER_SECRET = "poller-secret";
 installFakeBlobsContext();
 
-let handler, processDecision, propertyMailboxHint, makeLedgerDep, searchDocs, resetWriterForTests, getDocsStore, importError;
+let handler, processDecision, propertyMailboxHint, makeLedgerDep, searchDocs, tradesByProperty, resetWriterForTests, getDocsStore, importError;
 try {
-  ({ default: handler, processDecision, propertyMailboxHint, makeLedgerDep, searchDocs } = await import("../netlify/functions/books-ingest-background.mjs"));
+  ({ default: handler, processDecision, propertyMailboxHint, makeLedgerDep, searchDocs, tradesByProperty } = await import("../netlify/functions/books-ingest-background.mjs"));
   ({ resetWriterForTests, getDocsStore } = await import("../netlify/functions/_shared.mjs"));
 } catch (err) {
   importError = err;
@@ -580,4 +580,16 @@ test("search_docs: a 'posted' copy whose rows are not on the Journal is reported
   assert.equal(by["gm-held"].status, "pending", "only 'posted' copies are checked");
   const unchecked = await searchDocs(store, { vendor: "Ping", amount_cents: 9920, days: 400 }, "gm-self");
   assert.equal(unchecked.find((d) => d.docId === "gm-practice").status, "posted", "with no Journal to check against, the stored status stands");
+});
+
+// 2026-09-28: the reader reuses a house's existing sections (its trades in use), most used first.
+test("tradesByProperty: a house's sections from its cost lines, most used first, credit lines and blanks ignored", { skip }, () => {
+  const L = (property, trade, amount_cents) => ({ property, trade, amount_cents });
+  const out = tradesByProperty([
+    L("104 Ashburne", "Lighting & Electrical", 100), L("104 Ashburne", "Lighting & Electrical", 100), L("104 Ashburne", "Pool", 100),
+    L("104 Ashburne", "", 100), L("104 Ashburne", "Marketing", -100), L("1616 Granite", "Paint & Flooring", 100), L("OVERHEAD", "", 100),
+  ]);
+  assert.deepEqual(out["104 Ashburne"], ["Lighting & Electrical", "Pool"]);
+  assert.deepEqual(out["1616 Granite"], ["Paint & Flooring"]);
+  assert.equal(out["OVERHEAD"], undefined);
 });

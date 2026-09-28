@@ -1056,6 +1056,52 @@ function addAshburneHingeRefund() {
   return result;
 }
 
+// Paul, 2026-09-28 ("yes do both"): the live reads gave 104 Ashburne sections its tab never had - twelve new
+// blocks beside the old ones. Move every live-receipt line on Ashburne into the tab's own sections (the
+// heavy tab's PT_HEAVY_ORDER): by trade for the clear ones, by description for the bath items (Paul's word:
+// the master bath list below, everything else bath-related is Small Baths). Trade is grouping only - no
+// amount, account or balance changes; the lint proves every target is an existing section. Editor, once;
+// a second run finds nothing to move. Rebuilds the tab after.
+var ASHBURNE_TRADE_MAP = {
+  'Electrical': 'Lighting & Electrical', 'Electrical & Lighting': 'Lighting & Electrical',
+  'Fireplace': 'Chimney/FIreplace/Glass', 'Windows & Glass': 'Chimney/FIreplace/Glass',
+  'Staging': 'Marketing',
+  'Cabinets': 'Kitchen', 'Cabinets & Millwork': 'Kitchen',
+  'Doors & Hardware': 'House Hardware', 'Doors & Trim': 'House Hardware',
+  'Carpentry': 'Supplies', 'Framing': 'Supplies',
+  'Plumbing': 'Small Baths', 'Plumbing & Fixtures': 'Small Baths', 'Fixtures': 'Small Baths',
+  'Glass & Shower': 'Small Baths', 'Tile & Shower': 'Small Baths'
+};
+// Bath lines that are the master bath (matched on the description); the rest go to Small Baths.
+var ASHBURNE_MASTER_BATH = [/72x36/i, /32-33\.4 in/i, /Rainfall Spa/i, /tub drain and overflow/i, /Kerdi-Board/i];
+function retagAshburneTrades() {
+  var props = PropertiesService.getScriptProperties();
+  var lock = LockService.getScriptLock();
+  lock.waitLock(30000);
+  var out = [], n = 0;
+  try {
+    var ss = openWorkbook_(props);
+    var sheet = ss.getSheetByName('Journal');
+    var cols = headerIndex_(sheet);
+    var last = sheet.getLastRow();
+    var rows = sheet.getRange(2, 1, last - 1, sheet.getLastColumn()).getValues();
+    for (var i = 0; i < rows.length; i++) {
+      var r = rows[i], g = function (k) { return String(r[cols[k] - 1] || ''); };
+      if (g('property') !== '104 Ashburne' || g('source') !== 'receipt' || !(Number(r[cols['debit'] - 1]) > 0)) continue;
+      var from = g('trade').trim(), to = ASHBURNE_TRADE_MAP[from];
+      if (!to) continue;
+      if (to === 'Small Baths' && ASHBURNE_MASTER_BATH.some(function (re) { return re.test(g('description')); })) to = 'Master Bath';
+      sheet.getRange(i + 2, cols['trade']).setValue(to);
+      out.push(from + ' -> ' + to + '  ' + g('date').slice(0, 10) + '  ' + fromCents(Math.round(Number(r[cols['debit'] - 1]) * 100)) + '  ' + g('description').slice(0, 60));
+      n++;
+    }
+  } finally { lock.releaseLock(); }
+  if (n) { setupPropertyTab('104 Ashburne'); warmCache_(); }
+  out.push(n + ' lines moved' + (n ? '; 104 Ashburne rebuilt' : ''));
+  console.log(out.join('\n'));
+  return out;
+}
+
 /** Approve, step two (the dialog calls it right after inboxApprove returns): fetch the
  *  attachment bytes, file to Drive under <year>/<property or OVERHEAD>, write doc_url on
  *  the posted Journal lines and the envelope, rebuild the property tab's line blocks,
