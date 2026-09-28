@@ -2589,10 +2589,31 @@ var PARKED_ASHBURNE_RECEIPTS = [
   'gm-19d960cfeccab6cd'  // Home Depot 04-16 88.83 (part overhead)
 ];
 
-function reprocessParkedAshburneReceipts() {
+// 2026-09-28 (b): the rest of the migration's PARKED receipts (paul-answers.json mail_settled): the 35 less the 18
+// above, less the five Amazon orders refunded in full (02-08 fans 1,001.21, 02-22 fans 283.74, 02-24 fans 246.78,
+// 03-15 brackets 25.32, 08-13 Mesa item 36.99 - the refund notices are in pvb421's listing) and Home Depot 04-10
+// 161.28 (on the books, C-32). None of the eleven is on the Journal by total or subtotal (checked 2026-09-28).
+// Same route as the 18: a re-read that can only hold - Paul decides each card in the Sheets Inbox.
+var PARKED_MIGRATION_RECEIPTS = [
+  'gm-19c1fc34982c2b29', // Floor & Decor 02-02 e-receipt, image unreadable (104ashburne@)
+  'gm-19d066ca90092950', // photo 03-19, Shell 7.57 (104ashburne@)
+  'gm-19d5e0ce39d91e0d', // Home Depot 04-05 online order 271.52 less 40.80 = 230.72 (paul@)
+  'gm-19d7d9e5cfb8c9f6', // photo 04-11, Taco Cabana 73.57 (104ashburne@)
+  'gm-19d8db0dbb2e6309', // photo 04-14, Shell water and Gatorade 19.99 (104ashburne@)
+  'gm-19d926697aea1558', // photo 04-15, Braum's 22.93 (104ashburne@)
+  'gm-19ed69af26494e70', // Lowe's 06-17 49.17 (paul@)
+  'gm-19f1526194ff1558', // photo 06-29, Home Depot 62.63 (1616granite@ - Granite is closed in the books)
+  'gm-19f1e7a4d47322d9', // Amazon 07-01 Gerber toilet tank 106.75 (receipts@)
+  'gm-19fc442272873900', // photo 08-02 (136bowlinggreen@)
+  'gm-19fc454ddc47341f'  // photo 08-02, 7-Eleven 11.90 (136bowlinggreen@)
+];
+
+function reprocessParkedAshburneReceipts() { return reprocessParked_(PARKED_ASHBURNE_RECEIPTS); }
+function reprocessParkedMigrationReceipts() { return reprocessParked_(PARKED_MIGRATION_RECEIPTS); }
+function reprocessParked_(docIds) {
   var by = Session.getActiveUser().getEmail() || 'editor';
   var out = [];
-  PARKED_ASHBURNE_RECEIPTS.forEach(function (docId) {
+  docIds.forEach(function (docId) {
     try {
       siteFetchJson_('/api/inbox', 'post', { action: 'reprocess', docId: docId, by: by });
       out.push('re-reading  ' + docId);

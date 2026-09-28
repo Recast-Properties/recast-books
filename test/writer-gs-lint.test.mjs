@@ -612,17 +612,27 @@ test("addAshburneMissingBills: seven Ashburne bills, paid through 2030, 1,419.00
   assert.equal(total, 141900);
 });
 
-// Paul, 2026-09-28: the 18 parked Ashburne receipts go back to the Sheets Inbox through the Inbox's
-// own Reprocess route - a re-read that can only hold (D-049), never a post.
-test("reprocessParkedAshburneReceipts: 18 distinct ids, the Inbox's reprocess route, never a write", () => {
-  const m = source.match(/var PARKED_ASHBURNE_RECEIPTS = (\[[\s\S]*?\]);/);
-  assert.ok(m, "PARKED_ASHBURNE_RECEIPTS not found");
-  const ids = [...m[1].matchAll(/'(gm-[0-9a-f]{16})'/g)].map((x) => x[1]);
-  assert.equal(ids.length, 18);
-  assert.equal(new Set(ids).size, 18, "an id is listed twice - it would be read twice");
-  const body = bodyOf("reprocessParkedAshburneReceipts");
+// Paul, 2026-09-28: the parked migration receipts go back to the Sheets Inbox through the Inbox's own
+// Reprocess route - a re-read that can only hold (D-049), never a post. Two lists, one loop: the 18 Ashburne
+// receipts (decided that morning) and the 11 others (item (b) of the finite list). An id in both would be read
+// twice and put a decided card back in front of Paul.
+test("reprocessParked_: two disjoint lists of distinct ids, the Inbox's reprocess route, never a write", () => {
+  const list = (name, n) => {
+    const m = source.match(new RegExp("var " + name + " = (\\[[\\s\\S]*?\\]);"));
+    assert.ok(m, name + " not found");
+    const ids = [...m[1].matchAll(/'(gm-[0-9a-f]{16})'/g)].map((x) => x[1]);
+    assert.equal(ids.length, n, name);
+    assert.equal(new Set(ids).size, n, name + ": an id is listed twice - it would be read twice");
+    return ids;
+  };
+  const ashburne = list("PARKED_ASHBURNE_RECEIPTS", 18), rest = list("PARKED_MIGRATION_RECEIPTS", 11);
+  assert.deepEqual(rest.filter((id) => ashburne.includes(id)), [], "an id in both lists - Paul decided the 18 already");
+  const body = bodyOf("reprocessParked_");
   assert.ok(/siteFetchJson_\('\/api\/inbox', 'post', \{ action: 'reprocess'/.test(body), "not the Inbox's Reprocess route");
   assert.ok(!/postEntry_|postBatchEntries_|voidEntry_|setValue\(/.test(body), "an editor re-read must never write");
+  for (const fn of ["reprocessParkedAshburneReceipts", "reprocessParkedMigrationReceipts"]) {
+    assert.ok(/return reprocessParked_\(PARKED_/.test(bodyOf(fn)), fn + " must run the shared loop on its own list");
+  }
 });
 
 // Paul, 2026-09-28: the 78.65 Amazon refund on the Ravinte hinges he approved whole - the cost entry with its sides swapped.

@@ -651,6 +651,48 @@ Recapture) - $299 each, Dennis paid (Paul). Dry run 1,031 entries, $220,628.06.
 entries linked (84.2% of rows, 74.7% of dollars; 91% documented or accepted). Open items: `phase4-audit.md` §27.
 
 
+## 2026-09-28 (late afternoon) - verify-first done; the eleven remaining parked receipts back to the Sheets Inbox
+
+Verified on the live workbook (gviz queries from Chrome; the Blobs Journal snapshot of 13:25 PDT is identical - 2,594 lines,
+both sides 4,801,073.37): rows 2560-2561 (hinge refund 78.65) and 2594-2595 (pickets 71.71); the three replays voided and
+mirrored (432.98, 176.59, 87.64); Ashburne 2030 = 9,716.18; Bowling Green 2030 = 1,011.32; no row at 70.32 or 96.36; writer
+deployment @8 present; site deploy `6abac7f7` live (20:03 UTC); `clasp pull` = repo. **Not clean:** the Ashburne tab shows six
+section headers beyond `PT_HEAVY_ORDER` - the hinge refund (-78.65, `Cabinets & Millwork`: a manual credit line
+`retagAshburneTrades` skips, it takes `source = receipt` debits only) and the ELYONA pendant (66.56, `Electrical & Lighting`:
+replayed at 13:06, two minutes after the retag run) sit under names the tab never had; `Cabinets & Countertops`, `Electrical`
+and `Plumbing` are empty headers `heavyBlocks_` builds from voided lines; Utilities is by design. Totals unaffected
+(Rehab Total 185,857.62 = the books). Left for Paul's word. @8 predates the two editor-only helpers added since (the 18-list
+and today's) - the web app never runs them.
+
+**Item (b) settled:** the 17 PARKED ids outside the 18 = five Amazon orders refunded in full (02-08 fans 1,001.21 - refunds
+03-04/05; 02-22 fans 283.74 - six 47.29 on 03-25; 02-24 fans 246.78 - 03-17; 03-15 brackets 25.32 - 03-17; 08-13 Mesa item
+36.99 - 08-20; all in pvb421's listing) + Home Depot 04-10 161.28 (C-32, on the books) + **eleven on no book** (total and
+subtotal, 2 cents, 10 days): Floor & Decor 02-02 (image unreadable), Shell 03-19 7.57, Home Depot 04-05 230.72, Taco Cabana
+04-11 73.57, Shell 04-14 19.99, Braum's 04-15 22.93, Lowe's 06-17 49.17, Home Depot 06-29 62.63 (1616 Granite - closed),
+Gerber 07-01 106.75, Walmart 08-02 37.86 and 7-Eleven 08-02 11.90 (136 Bowling Green). Three stored reads call themselves
+duplicates of staging ids (Shell 03-19, Lowe's 06-17, 7-Eleven 08-02) - none on the production Journal; check each card's
+"already in the books" claim after the re-read. `reprocessParkedMigrationReceipts()` (Code.gs; `reprocessParked_` is the one
+loop both lists run) pushed, live = repo by `clasp pull`; lint: two disjoint lists of distinct ids, the hold-only route, no
+write. 499 tests. Editor-only, so no deploy for it.
+
+## 2026-09-28 (14:00 PDT) - the eleven decided by Paul in the Sheets Inbox; the Granite toilet kits are in twice
+
+`reprocessParkedMigrationReceipts()` run by Paul 13:40 PDT; all eleven read and held by 13:43 (the two photos took three
+minutes). Paul decided them 13:47-13:55: **nine recorded, two dismissed** (Floor & Decor - no amounts; Braum's - personal).
+Journal 2,595 -> 2,620 rows, balanced (4,801,678.39 a side), every new line with its Drive link. Recorded: Shell 03-19 motor
+oil 7.57 (6600, overhead); Home Depot 04-05 recessed trims 230.72 (Ashburne, Lighting & Electrical); Taco Cabana 04-11 73.57
+and Shell 04-14 drinks 19.99 (6710, overhead - Paul's call); Lowe's 06-17 49.17 (Ashburne, four lines); Gerber toilet tank
+106.75 (**881 Newport**, Small Baths - Paul's call); Walmart 08-02 37.86 (Bowling Green, "Thermostat" - Paul typed it);
+7-Eleven 08-02 batteries 11.90 (Bowling Green); Home Depot 06-29 (Cost Recapture, trade 1616 Granite) **55.74 = the air
+filter 20.54 AND both toilet kits 20.93 + 14.27**, candy and water dismissed. **Wrong: the two kits were already in the
+books** as the migrated 06-28 "Toilet Kits" 40.01 on 1616 Granite (`migration-20260628-bb8c39c01cca`, NO_DOC, the shelf
+prices plus tax - this receipt is its document); the card said so and I told Paul before he decided. The kits are now
+counted twice (35.20 on Cost Recapture + 40.01 inside Granite's closing). Proposed fix, Paul's word: void
+`receipt-20260629-54b0cdd99d86-0246` and re-post the filter alone (20.54, Cost Recapture, the receipt's link) - an editor
+helper, one run. **Ashburne after the eleven:** fixing and holding 186,137.51, costs 511,137.51, **Recast owes Paul
+9,996.07**, profit by the books **138,840.73** (= 148,836.80 - 9,996.07). Bowling Green 2030 1,061.08. All 2030 39,538.05.
+Item (b) of the finite list is DONE; next (c)+(d) as one list, after the kit fix and the Ashburne section names (Paul's word).
+
 ## 2026-09-21 — Phase 4: lists closed, Drive filing done, Newport held, cutover rehearsed end to end
 
 **Morning, offline (audit §39-§44).** 26 false Home Depot / Lowe's links from a coincidental subset-sum rule
