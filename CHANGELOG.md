@@ -1414,7 +1414,7 @@ Paul: *"make the two fixes first"*. (1) `searchDocs` (books-ingest-background) t
 "posted" envelope none of whose rows is on the Journal as **"not on the books (posted only on a practice run...)"** with
 no ids - the 09-17 staging replay left migration-era copies saying "posted", and the Ping re-read believed one. The tool's
 description says the same; only `read_ledger` proves a thing is recorded. Test in `books-ingest-background.test.mjs`.
-**Site deploy owed (Paul's "deploy").** (2) `inboxFinish` files the email text as `email.txt` when a card has no
+**Deployed `6abab654` on Paul's "deploy" (2026-09-28 midday).** (2) `inboxFinish` files the email text as `email.txt` when a card has no
 attachment (`storeEmailText_`; the dialog now sends `bodyText`), as the site's ingest does since D-035; **`fileEmailReceipts()`**
 (Menu.gs, editor, once) links the five email-only records of this morning (Amazon 01-20, Lowe's 02-04, AllModern, Wayfair,
 HD 04-06) - a linked card is skipped, so it is safe to run again. Pushed (Menu.gs, Inbox.html - no clasp deploy needed). 493 tests.
