@@ -774,6 +774,24 @@ Rebuilt by Paul and read back: 21 sections at 11 + 6i (the left spacer insert sh
 Tax 16,031.25 with its receipt, block totals sum to Rehab Total 186,260.29 exactly. 502 tests, pushed, live = repo.
 **Writer web app @10** (Code.gs: the two tab changes and the header guard), deployed 16:25 PDT on Paul's "deploy" = the repo by `clasp pull`.
 
+## 2026-09-28 (evening) - Phase 3 started: the workbook imports a bank statement (Recast Books -> Import statement...)
+
+The first Phase 3 push, the import only (`docs/phase3-spec.md`, amended for the menu shape - D-023). `lib/statement.mjs`
+`parseOfx` (pure, no model; in `lib.gs` too) reads an OFX/QFX export - Citizens' SGML (one tag per line, no closing tag
+on a leaf, `%23` for `#`, `&amp;`) and the XML form - into lines oldest first with integer cents, the account's last
+four digits (never the number), the bank's ledger balance. **Recast Books -> Import statement...** (`Import.html`,
+`importStatement` in Menu.gs): the file is read in the dialog, the account found by its last four against
+`Bank accounts.last4` (a comma-separated list), the rows appended to the **Feed** tab under the writer's lock, deduped
+on the bank's FITID (`feed_id`, forced to text - 24 digits, Sheets would round it), status `unmatched`; the file
+name's account number is masked in `source_file`. The dialog reports the lines added and whether opening balance +
+every Feed line = the bank's balance. The Feed tab's Phase 0 guess at columns is replaced (`feed_id, account, date,
+amount, name, memo, status, txn_id, match_note, source_file, imported_at`); `ensureFeedHeaders_` rewrites row 1 on
+first use and refuses a tab that already has rows; the tab is readable (writer `read`, `lib/sheets-reader.mjs`, meta).
+Measured on Paul's real export (`~/Desktop/10632505.QFX`, never committed): 73 lines 2026-08-06 .. 09-25, sum
+170,800.07 = the ledger balance to the cent; `test/statement.test.mjs` runs it whenever the file is on the Desktop.
+511 tests. Pushed; **web app deploy owed** (Code.gs and lib.gs changed). Not yet: matching (spec section 3),
+reconciliation (section 4), the Daily Summary feed (6a).
+
 ## 2026-09-21 — Phase 4: lists closed, Drive filing done, Newport held, cutover rehearsed end to end
 
 **Morning, offline (audit §39-§44).** 26 false Home Depot / Lowe's links from a coincidental subset-sum rule

@@ -151,11 +151,13 @@ var TAB_HEADERS = {
   // Phase 1/3, headers only - column names inferred from BUILD-PLAN.md
   // section 4's prose ("Date, from, to, miles, purpose, property").
   'Trips': ['date', 'from', 'to', 'miles', 'purpose', 'property'],
-  // Phase 1/3, headers only - column names inferred from BUILD-PLAN.md
-  // section 4's prose ("id, account, date, amount, name, merchant,
-  // match status, txn_id").
-  'Feed': ['id', 'account', 'date', 'amount', 'name', 'merchant',
-    'match_status', 'txn_id']
+  // Phase 3 (docs/phase3-spec.md section 2): one row per bank statement line, written by
+  // Menu.gs importStatement. feed_id is the bank's FITID (24 digits at Citizens - kept as
+  // text, or Sheets rounds it); status is unmatched | matched | proposed | excluded; txn_id
+  // is the Journal entry the line was tied to. The tab was created headers-only in Phase 0
+  // with a different guess at its columns; ensureFeedHeaders_ rewrites them on first use.
+  'Feed': ['feed_id', 'account', 'date', 'amount', 'name', 'memo', 'status', 'txn_id',
+    'match_note', 'source_file', 'imported_at']
 };
 
 // Chart of accounts seed, spec section 6 (2026-09-11 changes), columns in
@@ -301,7 +303,7 @@ function ensureHeaders_(sheet, headers) {
 // or dates by Sheets ("2026-09" -> a date, "1000" -> a number). Plain-text format
 // applied to the whole column below the header.
 var TEXT_COLUMNS = ['period', 'txn_id', 'code', 'account', 'paid_from', 'void_of',
-  'default_account', 'key', 'value', 'last4'];
+  'default_account', 'key', 'value', 'last4', 'feed_id'];
 
 function forceTextColumns_(sheet, headers) {
   var maxRows = sheet.getMaxRows();
@@ -657,7 +659,7 @@ function action_read_(body, props) {
 // same since/limit/all filtering and Date->ISO-string formatting the HTTP callers get.
 function readTabData_(ss, tab, body) {
   var allowed = ['Accounts', 'Properties', 'Bank accounts', 'Vendors', 'Periods',
-    'Settings', 'Users', 'Journal', 'Advances'];
+    'Settings', 'Users', 'Journal', 'Advances', 'Feed'];
   if (allowed.indexOf(tab) === -1) fail_('BAD_TAB', 'tab not readable: ' + tab);
 
   var sheet = ss.getSheetByName(tab);
@@ -688,7 +690,7 @@ function readTabData_(ss, tab, body) {
   var timestampCols = {};
   var periodCols = {};
   headers.forEach(function (h, i) {
-    if (h === 'posted_at' || h === 'closed_at' || h === 'added_at') timestampCols[i] = true;
+    if (h === 'posted_at' || h === 'closed_at' || h === 'added_at' || h === 'imported_at') timestampCols[i] = true;
     if (h === 'period') periodCols[i] = true;
   });
   var out = dataRows.map(function (row) {

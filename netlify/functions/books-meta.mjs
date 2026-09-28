@@ -24,6 +24,7 @@ const READABLE_TABS = new Set([
   "Bank accounts",
   "Vendors",
   "Advances",
+  "Feed",
 ]);
 
 function writerErrorResponse(err) {

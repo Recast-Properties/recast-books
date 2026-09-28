@@ -11,6 +11,8 @@ import { buildGs } from "../scripts/build-gs.mjs";
 import { buildEntry, makeCtx } from "../lib/posting.mjs";
 import { accruedThrough } from "../lib/accrual.mjs";
 import { ACCOUNTS } from "../lib/coa.mjs";
+import { parseOfx } from "../lib/statement.mjs";
+import { OFX_FIXTURE } from "./helpers/ofx-fixture.mjs";
 
 const LIB = new URL("../apps-script/writer/lib.gs", import.meta.url);
 const CODE = new URL("../apps-script/writer/Code.gs", import.meta.url);
@@ -60,4 +62,10 @@ test("lib.gs accrues interest like lib/accrual.mjs and random suffixes are 4 hex
   const adv = { date: "2026-03-05", amount_cents: 20700000 };
   assert.equal(gs.accruedThrough(adv, "2026-09-15"), accruedThrough(adv, "2026-09-15"));
   assert.match(gs.makeTxnId("manual", "2026-09-10", { payee: "x" }, { allow_duplicate_hash: true }), /-[0-9a-f]{4}$/);
+});
+
+test("lib.gs parses a bank export like lib/statement.mjs (Phase 3: the workbook imports statements itself)", () => {
+  const gs = load();
+  assert.deepEqual(JSON.parse(JSON.stringify(gs.parseOfx(OFX_FIXTURE))), JSON.parse(JSON.stringify(parseOfx(OFX_FIXTURE))));
+  assert.equal(gs.parseOfx(OFX_FIXTURE).lines.length, 6);
 });

@@ -25,6 +25,7 @@ function onOpen() {
     .addItem('Post interest...', 'showInterestDialog')
     .addSeparator()
     .addItem('Sell property...', 'showSellDialog')
+    .addItem('Import statement...', 'showImportDialog')
     .addSeparator()
     .addItem('Close period...', 'closePeriod')
     .addItem('Reopen period...', 'reopenPeriod')
@@ -1949,6 +1950,122 @@ function sellHoldback(form) {
     var tab = built ? writeClosingTab_(ss, name, built, closingTabName_(name)).sheet : '';
     warmCache_();
     return { ok: true, posted: result.posted, tab: tab };
+  } catch (err) {
+    return { ok: false, error: (err && err.code) || 'INTERNAL', message: String((err && err.message) || err) };
+  }
+}
+
+// ---- Import statement (Phase 3, docs/phase3-spec.md section 2) ----------------------
+// The bank's QFX/OFX export, chosen in the dialog and read there as text, parsed by
+// lib.gs's parseOfx (no model), and appended to the Feed tab under the writer's lock:
+// the account by the file's account-number last four against Bank accounts.last4 (a
+// comma-separated list - Citizens "2505, 5450, 9301", Chase "6317"), one row per line,
+// deduped on the bank's FITID, so the same file imported twice adds nothing. The dialog
+// then says whether opening balance + every Feed line = the bank's balance (spec section 4's
+// first check). Matching the lines to the books is the site's job, the next step.
+
+function showImportDialog() {
+  var ss = openIfOwner_();
+  if (!ss) return;
+  showDialog_('Import', 'Import statement', { bankAccounts: bankAccountsLast4_(ss) });
+}
+
+/** Active Bank accounts rows as {code, name, last4: [...], opening_cents}. */
+function bankAccountsLast4_(ss) {
+  var sh = ss.getSheetByName('Bank accounts');
+  var cols = headerIndex_(sh);
+  var last = sh.getLastRow();
+  var rows = last > 1 ? sh.getRange(2, 1, last - 1, sh.getLastColumn()).getValues() : [];
+  return rows
+    .filter(function (r) { return String(r[cols['active'] - 1]).trim().toLowerCase() !== 'false'; })
+    .map(function (r) {
+      return {
+        code: String(r[cols['code'] - 1]), name: String(r[cols['name'] - 1]),
+        last4: String(r[cols['last4'] - 1] || '').split(/[\s,;]+/).filter(Boolean),
+        opening_cents: toCents(Number(r[cols['opening_balance'] - 1]) || 0)
+      };
+    });
+}
+
+/** The Feed tab's header row, written the first time a statement lands (Phase 0 created the
+ *  tab headers-only with a different guess at its columns). Refuses to touch a tab with rows. */
+function ensureFeedHeaders_(sh) {
+  var want = TAB_HEADERS['Feed'];
+  var cols = headerIndex_(sh);
+  var missing = want.filter(function (h) { return !cols[h]; });
+  if (!missing.length) return;
+  if (sh.getLastRow() > 1) {
+    fail_('FEED_HEADERS', 'The Feed tab already has rows but is missing the columns ' + missing.join(', ') + ' - add them to row 1 by hand.');
+  }
+  ensureHeaders_(sh, want);
+  forceTextColumns_(sh, want);
+}
+
+function feedRow_(cols, values) {
+  var row = new Array(maxColIndex_(cols)).fill('');
+  Object.keys(values).forEach(function (k) { if (cols[k]) row[cols[k] - 1] = values[k]; });
+  return row;
+}
+
+/** google.script.run from Import.html: {name, text} - the file's name and its text. */
+function importStatement(req) {
+  var props = PropertiesService.getScriptProperties();
+  var ss = openWorkbook_(props);
+  try {
+    requireOwner_(ss);
+    var text = String((req && req.text) || '');
+    if (!text) return { ok: false, error: 'NO_FILE', message: 'Choose the file the bank gave you.' };
+    var parsed = parseOfx(text);
+    var accounts = bankAccountsLast4_(ss).filter(function (a) { return a.last4.indexOf(parsed.account_last4) !== -1; });
+    if (accounts.length !== 1) {
+      return { ok: false, error: 'NO_ACCOUNT', message: accounts.length
+        ? 'More than one row on the Bank accounts tab ends in ' + parsed.account_last4 + ' - fix the last4 column so only one does, then import again.'
+        : 'No row on the Bank accounts tab ends in ' + parsed.account_last4 + '. Type it in that row\'s last4 column (comma-separated when the account has cards, e.g. "2505, 5450, 9301") and import again.' };
+    }
+    var account = accounts[0];
+    // The bank names the file after the account number; only its last four are kept.
+    var sourceFile = String((req && req.name) || '').replace(/\d{5,}/g, function (d) { return '****' + d.slice(-4); });
+
+    var lock = LockService.getScriptLock();
+    lock.waitLock(30000);
+    try {
+      var sh = ss.getSheetByName('Feed');
+      ensureFeedHeaders_(sh);
+      var cols = headerIndex_(sh);
+      var last = sh.getLastRow();
+      var seen = {};
+      var feedCents = account.opening_cents;
+      if (last > 1) {
+        sh.getRange(2, 1, last - 1, sh.getLastColumn()).getValues().forEach(function (r) {
+          if (String(r[cols['account'] - 1]) !== account.code) return;
+          seen[String(r[cols['feed_id'] - 1])] = true;
+          feedCents += toCents(Number(r[cols['amount'] - 1]) || 0);
+        });
+      }
+      var now = new Date();
+      var rows = [];
+      parsed.lines.forEach(function (l) {
+        if (seen[l.fitid]) return;
+        seen[l.fitid] = true;
+        feedCents += l.amount_cents;
+        rows.push(feedRow_(cols, {
+          feed_id: l.fitid, account: account.code, date: parseIsoDate_(l.date), amount: l.amount_cents / 100,
+          name: l.name, memo: l.memo, status: 'unmatched', txn_id: '', match_note: '',
+          source_file: sourceFile, imported_at: now
+        }));
+      });
+      if (rows.length) sh.getRange(last + 1, 1, rows.length, rows[0].length).setValues(rows);
+      warmCache_();
+      var bal = parsed.ledger_balance_cents;
+      return {
+        ok: true, account: account.name, added: rows.length, skipped: parsed.lines.length - rows.length,
+        first: parsed.lines[0].date, last: parsed.lines[parsed.lines.length - 1].date,
+        bank_balance: bal == null ? '' : fromCents(bal), feed_balance: fromCents(feedCents),
+        off_by: bal == null ? '' : fromCents(feedCents - bal), ties: bal != null && feedCents === bal
+      };
+    } finally {
+      lock.releaseLock();
+    }
   } catch (err) {
     return { ok: false, error: (err && err.code) || 'INTERNAL', message: String((err && err.message) || err) };
   }

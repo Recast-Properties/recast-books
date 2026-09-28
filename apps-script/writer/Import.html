@@ -1,0 +1,75 @@
+<?!= include_('Style') ?>
+<style>
+  .hint { font-size: 12px; color: #555; margin: 0 0 10px; line-height: 1.4; }
+  .hint b { color: #222; }
+  .warn { color: #a50e0e; }
+</style>
+<h3>Import a bank statement</h3>
+<p class="hint">Download the account's activity from the bank's website as a <b>Quicken / QFX</b> file and choose it
+here. Each line lands on the <b>Feed</b> tab. A line already there is skipped, so importing the same file twice adds
+nothing.</p>
+<div class="hint" id="i-accounts"></div>
+<label>The file from the bank (.qfx or .ofx)</label>
+<input type="file" id="i-file" accept=".qfx,.ofx,.QFX,.OFX,application/x-ofx,application/vnd.intu.qfx">
+<button class="primary" id="i-go" disabled>Import</button>
+<div id="i-msg" class="msg hidden"></div>
+
+<script>
+  var DATA = <?!= JSON.stringify(data) ?>;
+  var FILE = null;
+
+  (function () {
+    var parts = DATA.bankAccounts.map(function (a) {
+      return '<b>' + escapeHtml_(a.name) + '</b> ' + (a.last4.length
+        ? 'ending ' + escapeHtml_(a.last4.join(', '))
+        : '<span class="warn">has no last four digits yet</span>');
+    });
+    var missing = DATA.bankAccounts.some(function (a) { return !a.last4.length; });
+    document.getElementById('i-accounts').innerHTML =
+      'The file goes to the account whose last four digits it names: ' + parts.join(' &middot; ') + '.' +
+      (missing ? '<br>First type each account\'s last four digits in the <b>last4</b> column of the Bank accounts tab ' +
+        '(comma-separated when the account has cards: 2505, 5450, 9301).' : '');
+  })();
+
+  document.getElementById('i-file').addEventListener('change', function () {
+    var f = this.files && this.files[0];
+    FILE = null;
+    document.getElementById('i-go').disabled = true;
+    if (!f) return;
+    var reader = new FileReader();
+    reader.onload = function () {
+      FILE = { name: f.name, text: String(reader.result || '') };
+      document.getElementById('i-go').disabled = false;
+    };
+    reader.readAsText(f);
+  });
+
+  document.getElementById('i-go').addEventListener('click', function () {
+    var btn = this, msg = document.getElementById('i-msg');
+    msg.classList.add('hidden');
+    if (!FILE) { showMsg_(msg, false, 'Choose the file first.'); return; }
+    btn.disabled = true;
+    btn.textContent = 'Importing...';
+    callServer_('importStatement', FILE).then(function (r) {
+      btn.disabled = false;
+      btn.textContent = 'Import';
+      if (!r.ok) { showMsg_(msg, false, escapeHtml_(r.message)); return; }
+      var html = '<b>' + escapeHtml_(r.account) + '</b>: ' + r.added + ' new line' + (r.added === 1 ? '' : 's') +
+        (r.added ? ' (' + escapeHtml_(r.first) + ' to ' + escapeHtml_(r.last) + ')' : '') + ' added to the Feed tab' +
+        (r.skipped ? '; ' + r.skipped + ' already there, skipped' : '') + '.';
+      if (r.bank_balance !== '') {
+        html += '<br>The bank says the balance is <b>' + escapeHtml_(r.bank_balance) + '</b> and the Feed adds up to <b>' +
+          escapeHtml_(r.feed_balance) + '</b>' + (r.ties
+            ? ' - it ties.'
+            : ' - off by ' + escapeHtml_(r.off_by) + '. Some lines are missing (an earlier month?), or the opening ' +
+              'balance on the Bank accounts tab is not what the account held on its opening date.');
+      }
+      showMsg_(msg, true, html);
+      finishDialog_(btn);
+    }, function (err) {
+      btn.disabled = false;
+      btn.textContent = 'Import';
+      showMsg_(msg, false, escapeHtml_(err && err.message ? err.message : err));
+    });
+  });
+</script>

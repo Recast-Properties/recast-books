@@ -4,8 +4,24 @@ Written 2026-09-15 for Paul's review before any code. Supersedes the Plaid plan 
 
 **Amended 2026-09-28 (D-051):** Recast's own accounts only - Citizens (1401) and Chase (1402). Paul's personal
 card/checking is never imported; its business charges arrive as receipts, paid by Paul (2030), as they do now. The
-third account in §1 and "then the personal card" in §9 are withdrawn. Still to revise before code: the input side is
-the Recast Books menu in the workbook (D-023), not a Banking web page.
+third account in §1 and "then the personal card" in §9 are withdrawn.
+
+**Amended 2026-09-28 evening - the menu shape (D-023), and what is built.** The input side is the workbook, not a
+Banking web page. §1's drop zone is **Recast Books -> Import statement...** (`Import.html`, `importStatement` in
+`Menu.gs`): Paul chooses the bank's QFX/OFX file, the dialog reads it as text, `lib/statement.mjs`'s `parseOfx`
+(in `lib.gs`, no model) turns it into lines, and the rows land on the **Feed** tab under the writer's lock - the
+account by the file's account-number last four against `Bank accounts.last4` (a comma-separated list: Citizens
+"2505, 5450, 9301", Chase "6317"), one row per line, deduped on the bank's FITID (`feed_id`), status `unmatched`.
+The dialog reports the lines added and whether opening balance + every Feed line for the account = the file's
+ledger balance (§4's first check). Feed columns: `feed_id, account, date, amount, name, memo, status, txn_id,
+match_note, source_file, imported_at` (`balance` waits for the Daily Summary feed, §6a). Citizens' export runs from
+the account's opening (2026-08-06), so one file is the whole history and it ties to the cent (73 lines,
+170,800.07 on 2026-09-28). Not built yet, in order: matching (§3 - the site's job, started from the workbook the
+way the sell wizard's read is, verdicts written back to the Feed row, proposals as Inbox cards), reconciliation
+(§4 - a menu item, not a page), the Daily Summary feed (§6a). Dropped: the `feedBatch` writer action (§2 - the
+dialog writes in-process, like Add advance), the Banking / Dashboard pages (§5 - the Feed tab and the Inbox are
+the pages), the statements@ address and poller (§6, §10 step 2 - Paul downloads the file himself), CSV and PDF
+(§2 - both banks export QFX).
 Extends the Phase 0/1/2 specs, which stay binding: every write through the writer, Claude
 decides and code executes, dry run before anything touching history.
 

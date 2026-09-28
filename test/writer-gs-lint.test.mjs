@@ -10,7 +10,7 @@
 
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { readFileSync } from "node:fs";
+import { readFileSync, existsSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import path from "node:path";
 import { buildEntry, makeCtx } from "../lib/posting.mjs";
@@ -757,4 +757,30 @@ test("fixGraniteToiletKits: voids the 55.74 posting, re-posts the 20.54 filter a
     account: p.account, trade: p.trade, property: "104 Ashburne", paid_from: "PAUL", source: "manual", doc_url: p.doc_url }, ctx);
   assert.equal(e.lines[0].debit, 7171); assert.equal(e.lines[0].account, "1030"); assert.equal(e.lines[0].trade, "Landscaping");
   assert.equal(e.lines[1].account, "2030"); assert.match(p.doc_url, /^https:\/\/drive\.google\.com\//);
+});
+
+test("Feed tab (Phase 3): the spec's columns, feed_id kept as text, the tab readable and imported_at a timestamp", () => {
+  const start = source.indexOf("'Feed': [");
+  const feed = source.slice(start, source.indexOf("]", start) + 1);
+  for (const h of ["feed_id", "account", "date", "amount", "name", "memo", "status", "txn_id", "match_note", "source_file", "imported_at"]) {
+    assert.ok(feed.includes(`'${h}'`), `Feed header ${h}`);
+  }
+  assert.match(source, /var TEXT_COLUMNS = \[[^\]]*'feed_id'/);
+  assert.match(source, /'Settings', 'Users', 'Journal', 'Advances', 'Feed'\];\n  if \(allowed\.indexOf\(tab\) === -1\) fail_\('BAD_TAB'/);
+  assert.match(source, /h === 'imported_at'\) timestampCols\[i\] = true/);
+});
+
+test("importStatement: parses with lib.gs's parseOfx, one lock, dedupes on the bank's id, keeps only the last four of the account, lands lines unmatched", () => {
+  const menu = readFileSync(new URL("../apps-script/writer/Menu.gs", import.meta.url), "utf8");
+  assert.match(menu, /addItem\('Import statement\.\.\.', 'showImportDialog'\)/);
+  const at = menu.indexOf("function importStatement(");
+  assert.ok(at > 0, "importStatement declared");
+  const fn = menu.slice(at, menu.indexOf("\n}\n", at) + 3);
+  assert.match(fn, /parseOfx\(text\)/);
+  assert.equal((fn.match(/LockService\.getScriptLock\(\)/g) || []).length, 1);
+  assert.match(fn, /if \(seen\[l\.fitid\]\) return;/);
+  assert.match(fn, /replace\(\/\\d\{5,\}\/g/, "the file name's account number is masked");
+  assert.match(fn, /status: 'unmatched'/);
+  assert.match(fn, /a\.last4\.indexOf\(parsed\.account_last4\)/);
+  assert.ok(existsSync(new URL("../apps-script/writer/Import.html", import.meta.url)), "Import.html exists");
 });
