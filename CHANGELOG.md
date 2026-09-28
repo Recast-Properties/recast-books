@@ -1323,3 +1323,15 @@ the next), plus the two Atlas Pools payments to Paul Paid; `reportAdvancesPaidTo
 snapshot: six advances and two payments move, **Chase 153,450.00 -> 0.00, Recast owes Paul 185,116.88 -> 31,666.88**;
 paid_to comes out Seller 8, Paul 9, Vendor 15, Citizens 1 (Mesa's 10,000). All periods open. 489 tests.
 **Run 2026-09-28 07:27-07:38 by Paul, verified on the Journal the same hour:** pushed after Paul's `clasp login` (the live script = the repo, by `clasp pull`); `fixAdvancesPaidTo` moved all eight exactly as the dry run said. Chase 153,450.00 -> 0.00; Recast owes Paul 185,116.88 -> 31,666.88; Dennis (2010) unchanged at 1,584,286.37; no property's cost changed by a cent; all 33 advances have paid_to and one live entry on the right account; the two Atlas Pools payments are Paul Paid with their receipts; Journal 2,382 -> 2,414 rows (eight voids, eight re-posts). The run took 10.5 minutes (every re-post refreshes Ashburne's heavy blocks), so its own tab rebuild was skipped by the time guard - Paul rebuilds 104 Ashburne from the menu. Paul rebuilt 104 Ashburne from the menu, then said "deploy": writer web app **@6** (= the pushed code, which `clasp pull` showed identical to the repo), answering `{ok:true}`. D-052 is done.
+
+## 2026-09-28 (later) - Ashburne's payoff checked; Dennis's commission on the price less the concession (D-053)
+
+Paul: *"the interest should be computed at 12% amortized monthly ... i think the interest may be being calculated with
+simple interest."* It is not: `lib/accrual.mjs` and the tab's formulas compound on each advance's monthly anniversary
+(a simple stub only for the days after the last one). Ashburne to its 9/23 closing (Bison Title 260840, sale 775,000,
+net 715,558.65 = the Citizens wire): interest 44,900.41 compounded vs 43,151.40 simple. No end dates to type: the sell
+wizard ends every advance on the settlement date and takes the agreed figure as a true-up. Then *"dennis is taking 3%
+on $756,000"* (775,000 less the 19,000 seller credit) and the buyer's agent 2.75% of 775,000: D-053 - `lib/sale.mjs`
+takes 1320 concessions off the commission base; the heavy tab splits the old lumped 5.75% into a typed buyer's-agent %
+(default 2.75) and a Dennis Commission row on the price less the concession, which the Dennis Payout now reads. Books'
+payoff for Dennis 568,721.85, 18,721.85 after the 550,000 he took. 490 tests.

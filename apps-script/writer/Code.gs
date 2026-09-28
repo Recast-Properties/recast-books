@@ -1377,7 +1377,11 @@ function setupPropertyTab(name, asOf) {
     // these sections in the new sheet match the old sheet"). Bank deal: the project cost is
     // purchase + cash draws + interest + property tax; Paul's own spending is inside the
     // draws that reimbursed him. Agent % and Concession are typed cells, kept across rebuilds.
-    var keptAgent = readLabelledValue_(sh, 'Agent Commission %');
+    // D-053 (Paul, 2026-09-28): "the buyer agent is taking 2.75% on the full 775,000 and dennis is taking 3% on
+    // $756,000". The old tab's 5.75% lumped the two; the typed % is now the buyer's agent's alone (a new label,
+    // so the old lumped figure is not carried over) and Dennis's commission is its own row, on the price less
+    // the concession, the same figure the Dennis Payout uses and lib/sale.mjs posts.
+    var keptAgent = readLabelledValue_(sh, "Buyer's Agent Commission %");
     set(s, 1, 'Rehab Total', true); paint(s, 1, 1, C.head); paint(s, 2, 1, C.total);
     set(s, 2, '=' + net(rehabF) + '+' + net(holdingF + '*' + ne('E', '1100')), true); s++;
     set(s, 1, 'Current Total Spent (cash draws are what count against the project)'); set(s, 2, '=B' + (s - 1)); s += 2;
@@ -1392,17 +1396,18 @@ function setupPropertyTab(name, asOf) {
     paint(s, 1, 2, C.head); set(s++, 1, 'Profit Breakdown', true);
     set(s, 1, 'Sale Price (estimate - type it here)', true); set(s, 2, keptSalePrice !== '' ? keptSalePrice : (registry.contract_price || ''), true); paint(s, 1, 2, C.input); var hSale = s++;
     set(s, 1, 'Total Project Cost'); set(s, 2, '=B' + hTotal); s++;
-    set(s, 1, 'Agent Commission % (type it here)'); set(s, 2, keptAgent !== '' ? keptAgent : 5.75); paint(s, 1, 2, C.input); var hAgentPct = s++;
-    set(s, 1, '="Agent Commission "&B' + hAgentPct + '&"%"'); set(s, 2, '=B' + hSale + '*B' + hAgentPct + '/100'); s++;
+    set(s, 1, "Buyer's Agent Commission % (type it here)"); set(s, 2, keptAgent !== '' ? keptAgent : 2.75); paint(s, 1, 2, C.input); var hAgentPct = s++;
+    set(s, 1, '="Buyer\'s Agent Commission "&B' + hAgentPct + '&"%"'); set(s, 2, '=B' + hSale + '*B' + hAgentPct + '/100'); s++;
     var pctH = function (key) { return 'IFERROR(VLOOKUP("' + key + '",Settings!A:B,2,FALSE),0)'; };
     set(s, 1, '="Closing Costs "&' + pctH('estimate_closing_pct') + '&"%"'); set(s, 2, '=B' + hSale + '*' + pctH('estimate_closing_pct') + '/100'); s++;
-    set(s, 1, 'Concession (type it here)'); set(s, 2, keptConc !== '' ? keptConc : 0); paint(s, 1, 2, C.input); s++;
+    set(s, 1, 'Concession (type it here)'); set(s, 2, keptConc !== '' ? keptConc : 0); paint(s, 1, 2, C.input); var hConc = s++;
+    set(s, 1, '="Dennis Commission "&' + COMM + '&"% (sale less concession)"'); set(s, 2, '=(B' + hSale + '-ABS(N(B' + hConc + ')))*' + COMM + '/100'); var hDennisComm = s++;
     set(s, 1, 'Profit', true); set(s, 2, '=B' + hSale + '-SUM(B' + (hSale + 1) + ':B' + (s - 1) + ')+B' + hAgentPct, true); paint(s, 1, 2, C.yellow); s++;
     s++;
     set(s, 1, 'Dennis Payout', true); paint(s, 1, 1, C.sub); paint(s, 2, 1, C.tan); var hDennis = s++;
     set(s, 1, 'Purchase Principal + Interest'); set(s, 2, '=' + purchasePayoffRef); s++;
     set(s, 1, 'Cash Advance Principal + Interest'); set(s, 2, '=' + cashPayoffRef); s++;
-    set(s, 1, '="Agent Commission ("&' + COMM + '&"%)"'); set(s, 2, '=B' + hSale + '*' + COMM + '/100'); s++;
+    set(s, 1, '="Dennis Commission "&' + COMM + '&"% (sale less concession)"'); set(s, 2, '=B' + hDennisComm); s++;
     set(hDennis, 2, '=SUM(B' + (hDennis + 1) + ':B' + (s - 1) + ')', true);
     var hPctRow = hAgentPct;
   } else {
@@ -1893,7 +1898,7 @@ function writeClosingTab_(ss, name, plan, target) {
   });
   if (s.interest.true_up_cents) push('  adjustment to the figure you and Dennis agreed', d(s.interest.true_up_cents), 'engine said ' + d(s.interest.engine_cents));
   total('Dennis - interest', d(s.interest.agreed_cents), '');
-  if (s.commission_cents) total('Dennis - commission', d(s.commission_cents), 'bank deal');
+  if (s.commission_cents) total('Dennis - commission', d(s.commission_cents), 'bank deal, on ' + d(s.commission_basis_cents || 0));
   push('Dennis - his half of the profit', d(s.dennis_share_cents), '');
   push('Paul - costs he fronted', d(s.paid.paul_due_cents), '');
   push('Paul - his half of the profit', d(s.paul_share_cents), '');

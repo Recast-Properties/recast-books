@@ -1086,3 +1086,16 @@ snapshot; run by Paul the same morning and verified on the Journal). Interest do
 Recast owes Paul; each is Paul's call - a job missing from the tab gets its row, the same job typed on another date gets
 nothing. ponytail: changing a paid_to between Paul/Vendor and a bank does not move the money by itself - run
 `fixAdvancesPaidTo()` again (an edit trigger when that is ever a real case).
+
+## D-053 · Dennis's bank-deal commission is on the sale price less the seller's concessions - 2026-09-28 · Paul
+
+Paul, on 104 Ashburne (sold 9/23 for 775,000 with a 19,000 seller credit): *"he will be taking 3% on the purchase
+price minus the $19,000 seller concession. so his 3% is derived from $756,000"*, then *"the buyer agent is taking 2.75%
+on the full 775,000 and dennis is taking 3% on $756,000"*.
+
+**Decided:** amends D-036 §3 ("3% of the full sale price"). The bank deal's commission is `dennis_commission_pct` of the
+sale price less every seller concession or credit on the statement (the lines on 1320) - Ashburne: 3% of 756,000 =
+**22,680.00**, not 23,250.00. `lib/sale.mjs` takes it off the base and says so in the entry's memo; the heavy tab's
+Profit Breakdown now has the buyer's agent (typed %, default 2.75, a new label so the old lumped 5.75 is not carried
+over) and Dennis's commission as separate rows, and the Dennis Payout reads the same row. Dennis's Ashburne payoff by
+the books: 501,141.44 + interest 44,900.41 + 22,680.00 = **568,721.85**, less the 550,000 he took = **18,721.85**.

@@ -257,6 +257,27 @@ test("a bank deal takes a commission on the full price and no profit share (D-03
   assert.equal(dollars(summary.profit_cents), "96278.56", "profit is 12,900 lower: the commission is a cost");
 });
 
+// D-053, Paul 2026-09-28 on 104 Ashburne: "the buyer agent is taking 2.75% on the full 775,000 and dennis is
+// taking 3% on $756,000" - the seller credit (1320) comes off the bank deal's commission base.
+test("a bank deal's commission is on the sale price less the seller's concessions (D-053)", () => {
+  const credit = { label: "Seller Credit", account: "1320", cents: 1_900_000, kind: "cost" };
+  const { summary, intents } = buildSalePlan({
+    ...GRANITE,
+    property: { name: "1616 Granite", deal: "bank", dennis_commission_pct: 3 },
+    settlement: { ...GRANITE.settlement, net_to_seller_cents: GRANITE.settlement.net_to_seller_cents - credit.cents,
+      lines: [...GRANITE.settlement.lines, credit] },
+  });
+  assert.equal(dollars(summary.commission_basis_cents), "411000.00", "430,000 less the 19,000 credit");
+  assert.equal(dollars(summary.commission_cents), "12330.00", "3% of 411,000, not of 430,000");
+  assert.ok(intents.some((i) => /less concessions \(411000\.00\)/.test(i.memo)), "the entry says what the 3% was taken on");
+  const ashburne = buildSalePlan({
+    property: { name: "104 Ashburne", deal: "bank", dennis_commission_pct: 3 },
+    settlement: { date: "2026-09-23", sale_price_cents: 77_500_000, net_to_seller_cents: 75_600_000, recast_share_pct: 100,
+      lines: [{ label: "Seller Credit", account: "1320", cents: 1_900_000, kind: "cost" }] },
+  });
+  assert.equal(dollars(ashburne.summary.commission_cents), "22680.00", "Paul's number: 3% of 756,000");
+});
+
 test("overhead never enters a sale: a 6000-series balance is ignored by the release (D-010)", () => {
   const withOverhead = { ...GRANITE, balances: { ...GRANITE.balances, 6510: 50_000 } };
   const plain = buildSalePlan(GRANITE);
