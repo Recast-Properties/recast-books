@@ -1461,3 +1461,19 @@ warnings "no header for block") - `tradesByProperty(journalLines)` now feeds eac
 (master-bath list), then rebuilds the tab - a lint proves every target is a `PT_HEAVY_ORDER` section. **Inbox card:**
 an empty read shows Claude's sentence and the click it means, the Dismiss-all reason pre-filled (Paul: "i cant do anything
 with this"). 496 tests.
+
+**13:14 PDT - the batch closed out.** All 42 settled: **31 recorded by Claude, 4 recorded after Paul approved a held card,
+4 dismissed by Claude as already in the books (candelabra bulbs, rat traps/fans, the 03-17 AIPER order, the 02-08 drawer
+pulls = migrated "Drawer pulls 249.97" of 02-09 - all four checked on the Journal), 3 dismissed by Paul (returned curtains
+and rods)**; the ELYONA pendant replayed from its stored read. **Replay run 13:06 - my mistake:** `replayErroredReceipts`
+took every "error" envelope, so three pre-cutover documents posted on top of their migrated rows (Seconds & Surplus 04-11
+432.98; HD 06-25 Bowling Green 176.59; HD 03-29 Ashburne 87.64) - voided 13:14 by `undoReplayedMigrationDocs()` (cards
+dismissed, Ashburne rebuilt), the helper now skips anything received before 2026-09-21 and reads the ingest's empty 202.
+Two pre-cutover envelopes stay "error" (Keith Ace 06-30 70.32 BG = three migrated Ace rows; HD 06-18 96.36 Ashburne) -
+nothing posted; one landed as a card (Uber 07-09 31.27, migrated) for Paul to dismiss. **Questions left for Paul:** the
+11.01 Defiant knob on the HD 06-25 run and the 71.71 fence pickets on the HD 03-29 run match no migrated row.
+`retagAshburneTrades` run 13:04: 72 lines into the tab's own sections; `addAshburneHingeRefund` 12:55: rows 2560-2561.
+**Ashburne by the books after the 42 (read back 13:15):** fixing and holding 185,785.91 (182,081.56 + 3,704.35 net of
+the 78.65 refund), costs **510,785.91**, **Recast owes Paul on Ashburne 9,644.47**, profit **139,192.33** (= 148,836.80 -
+9,644.47 = 717,558.65 - 510,785.91 - 44,900.41 - 22,680.00). All 2030: 38,861.32. Bowling Green's 2030 unchanged by the
+void (1,011.32). 498 tests.
