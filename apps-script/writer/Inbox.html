@@ -492,7 +492,7 @@
           (r.timings ? '<div class="docid">' + escapeHtml_(r.timings) + '</div>' : ''));
         // Step two runs while the user moves on: Drive filing, doc_url, line blocks, cache.
         var slot = msg.querySelector('[data-finish]');
-        callServer_('inboxFinish', { docId: env.docId, txn_ids: r.txn_ids, entries: toPost, model: env.model || {}, attachments: env.attachments || [] }).then(function (f) {
+        callServer_('inboxFinish', { docId: env.docId, txn_ids: r.txn_ids, entries: toPost, model: env.model || {}, attachments: env.attachments || [], bodyText: env.bodyText || '' }).then(function (f) {
           if (f.ok) {
             slot.innerHTML = (f.doc_url ? '&middot; <a href="' + escapeHtml_(f.doc_url) + '" target="_blank" rel="noopener">Drive file</a>' : '&middot; filed') +
               (f.timings ? ' <span class="docid">(' + escapeHtml_(f.timings) + ')</span>' : '');

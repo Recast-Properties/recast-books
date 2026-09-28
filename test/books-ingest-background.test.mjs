@@ -29,9 +29,9 @@ process.env.ANTHROPIC_API_KEY = "sk-ant-test-unused"; // never actually sent - s
 process.env.POLLER_SECRET = "poller-secret";
 installFakeBlobsContext();
 
-let handler, processDecision, propertyMailboxHint, makeLedgerDep, resetWriterForTests, getDocsStore, importError;
+let handler, processDecision, propertyMailboxHint, makeLedgerDep, searchDocs, resetWriterForTests, getDocsStore, importError;
 try {
-  ({ default: handler, processDecision, propertyMailboxHint, makeLedgerDep } = await import("../netlify/functions/books-ingest-background.mjs"));
+  ({ default: handler, processDecision, propertyMailboxHint, makeLedgerDep, searchDocs } = await import("../netlify/functions/books-ingest-background.mjs"));
   ({ resetWriterForTests, getDocsStore } = await import("../netlify/functions/_shared.mjs"));
 } catch (err) {
   importError = err;
@@ -560,4 +560,24 @@ test("no envelope for docId -> 404", { skip }, async () => {
 test("GET is not allowed", { skip }, async () => {
   const res = await handler(new Request("https://books.test/api/ingest-bg", { method: "GET" }));
   assert.equal(res.status, 405);
+});
+
+// 2026-09-28: the 09-17 staging replay left migration-era envelopes saying "posted" with ids that never reached the
+// production Journal; the Ping Lighting re-read believed one and called a sconce "already in the books". search_docs
+// now checks a "posted" copy's rows against the Journal and says "not on the books" when none is there.
+test("search_docs: a 'posted' copy whose rows are not on the Journal is reported as not on the books, with no ids", { skip }, async () => {
+  const store = getDocsStore();
+  const base = { model: { vendor: "Ping Lighting", date: "2026-03-10", receipt_total_cents: 9920, verdict: "post" }, finishedAt: new Date().toISOString() };
+  await store.setJSON("doc/gm-practice", { ...base, docId: "gm-practice", status: "posted", result: { txn_ids: ["receipt-20260310-practice"] } });
+  await store.setJSON("doc/gm-real", { ...base, docId: "gm-real", status: "posted", result: { txn_ids: ["receipt-20260310-real"] } });
+  await store.setJSON("doc/gm-held", { ...base, docId: "gm-held", status: "pending", result: null });
+  const onBooks = new Set(["receipt-20260310-real"]);
+  const by = Object.fromEntries((await searchDocs(store, { vendor: "Ping", amount_cents: 9920, days: 400 }, "gm-self", onBooks)).map((d) => [d.docId, d]));
+  assert.equal(by["gm-real"].status, "posted");
+  assert.deepEqual(by["gm-real"].txn_ids, ["receipt-20260310-real"]);
+  assert.match(by["gm-practice"].status, /not on the books/);
+  assert.deepEqual(by["gm-practice"].txn_ids, [], "a practice-run id must not be offered as proof");
+  assert.equal(by["gm-held"].status, "pending", "only 'posted' copies are checked");
+  const unchecked = await searchDocs(store, { vendor: "Ping", amount_cents: 9920, days: 400 }, "gm-self");
+  assert.equal(unchecked.find((d) => d.docId === "gm-practice").status, "posted", "with no Journal to check against, the stored status stands");
 });

@@ -1407,3 +1407,14 @@ trade, house, business reason, Approve/Returned/Dismiss), house = the mailbox it
 (2) *"when the inbox is loading i want more information"* - `inboxList` split into `inboxEnvelopes` (site) + `inboxPickers`
 (workbook) run side by side, each reported with a running clock, then "building N cards"; one bar for the whole load, built
 once (a bar rebuilt every tick flashed - Paul: "going nuts"). Thumbnails say "picture loading...". 492 tests.
+
+## 2026-09-28 (midday) - two fixes before the next batch: a practice-run "posted" copy is not proof; email-only receipts saved from the sheet get their Drive link
+
+Paul: *"make the two fixes first"*. (1) `searchDocs` (books-ingest-background) takes the Journal's txn_ids and reports a
+"posted" envelope none of whose rows is on the Journal as **"not on the books (posted only on a practice run...)"** with
+no ids - the 09-17 staging replay left migration-era copies saying "posted", and the Ping re-read believed one. The tool's
+description says the same; only `read_ledger` proves a thing is recorded. Test in `books-ingest-background.test.mjs`.
+**Site deploy owed (Paul's "deploy").** (2) `inboxFinish` files the email text as `email.txt` when a card has no
+attachment (`storeEmailText_`; the dialog now sends `bodyText`), as the site's ingest does since D-035; **`fileEmailReceipts()`**
+(Menu.gs, editor, once) links the five email-only records of this morning (Amazon 01-20, Lowe's 02-04, AllModern, Wayfair,
+HD 04-06) - a linked card is skipped, so it is safe to run again. Pushed (Menu.gs, Inbox.html - no clasp deploy needed). 493 tests.

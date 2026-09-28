@@ -218,8 +218,13 @@ async function loadSettingsMap(writer) {
   return map;
 }
 
-/** search_docs tool: prior envelopes matching vendor/amount within `days`, self excluded. */
-async function searchDocs(docsStore, { vendor = "", amount_cents, days = 90 } = {}, excludeDocId) {
+/** search_docs tool: prior envelopes matching vendor/amount within `days`, self excluded.
+ *  `onBooks` (a Set of the Journal's txn_ids) is the proof a "posted" copy is really on the
+ *  books: the 09-17 staging replay left hundreds of migration-era envelopes saying "posted"
+ *  with ids that never reached the production Journal, and the Ping Lighting re-read of
+ *  2026-09-28 called a sconce "already in the books" on the strength of one - Paul had to
+ *  type it. Such a copy is reported as not on the books, with no ids to lean on. */
+export async function searchDocs(docsStore, { vendor = "", amount_cents, days = 90 } = {}, excludeDocId, onBooks = null) {
   const { blobs } = await docsStore.list({ prefix: "doc/" });
   const cutoffMs = Date.now() - days * 86400000;
   const out = [];
@@ -233,13 +238,15 @@ async function searchDocs(docsStore, { vendor = "", amount_cents, days = 90 } = 
     if (when && when < cutoffMs) continue;
     if (vendor && !String(env.model.vendor || "").toLowerCase().includes(vendor.toLowerCase())) continue;
     if (Number.isFinite(amount_cents) && env.model.receipt_total_cents !== amount_cents) continue;
+    const txn_ids = (env.result && env.result.txn_ids) || [];
+    const practiceRun = env.status === "posted" && onBooks && !txn_ids.some((t) => onBooks.has(t));
     out.push({
       docId: env.docId,
-      status: env.status,
+      status: practiceRun ? "not on the books (posted only on a practice run - none of its rows is on the Journal)" : env.status,
       vendor: env.model.vendor || "",
       date: env.model.date || "",
       receipt_total_cents: env.model.receipt_total_cents ?? 0,
-      txn_ids: (env.result && env.result.txn_ids) || [],
+      txn_ids: practiceRun ? [] : txn_ids,
       verdict: env.model.verdict || "",
     });
   }
@@ -333,7 +340,8 @@ export default async (req) => {
     const postedEntries = buildPostedEntries(journalLines);
     const vendors = makeVendorsDep(vendorRows, journalLines);
     const properties = makePropertiesDep(writer);
-    const docs = { search: (opts) => searchDocs(docsStore, opts, docId) };
+    const onBooks = new Set(journalLines.map((l) => l.txn_id));
+    const docs = { search: (opts) => searchDocs(docsStore, opts, docId, onBooks) };
     const anthropic = new Anthropic();
 
     // lib/bookkeeper.mjs's exact deps contract: {anthropic, ledger, vendors,

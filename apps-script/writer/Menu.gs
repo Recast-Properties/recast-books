@@ -1004,6 +1004,36 @@ function inboxApprove(req) {
   }
 }
 
+/** The email body as the receipt (D-035): stored to Drive as email.txt; returns the file url. */
+function storeEmailText_(model, text, folder, props) {
+  return storeDocument_(driveFileName_(model, 'email.txt', 0), 'text/plain', Utilities.base64Encode(text, Utilities.Charset.UTF_8), folder, props).url;
+}
+
+// Paul, 2026-09-28: the five email-only receipts approved from the sheet's Inbox that morning posted
+// with no Drive link (the sheet's Save filed attachments only). Editor, once: each gets its email.txt
+// and the link on its Journal lines and its card. Safe to run again - a linked card is skipped.
+var EMAIL_ONLY_POSTED = ['gm-19c01b85d135afa6', 'gm-19c28c64aa9a29ea', 'gm-19cd5e12f4e9d9b7', 'gm-19cf927112794782', 'gm-19d63f17bf22f9fa'];
+function fileEmailReceipts() {
+  var props = PropertiesService.getScriptProperties();
+  var out = [];
+  EMAIL_ONLY_POSTED.forEach(function (docId) {
+    try {
+      var env = (siteFetchJson_('/api/inbox?docId=' + encodeURIComponent(docId)).envelopes || [])[0];
+      if (!env) { out.push('NOT FOUND  ' + docId); return; }
+      var txnIds = (env.result && env.result.txn_ids) || [];
+      if (!txnIds.length || (env.result && env.result.doc_url) || !env.bodyText) { out.push('skip  ' + docId + '  (no rows, already linked, or no email text)'); return; }
+      var model = env.model || {}, first = (model.entries || [])[0] || {};
+      var folder = [String(first.date || model.date || '').slice(0, 4) || Utilities.formatDate(new Date(), 'America/Chicago', 'yyyy'), first.property || 'OVERHEAD'];
+      var url = storeEmailText_(model, String(env.bodyText), folder, props);
+      setDocUrl_(txnIds, url, props);
+      siteFetchJson_('/api/inbox', 'post', { action: 'mark-posted', docId: docId, txn_ids: txnIds, doc_url: url, by: Session.getActiveUser().getEmail() });
+      out.push('linked  ' + docId + '  ' + (model.vendor || '') + '  ' + url);
+    } catch (err) { out.push('FAILED  ' + docId + '  ' + String((err && err.message) || err)); }
+  });
+  console.log(out.join('\n'));
+  return out;
+}
+
 /** Approve, step two (the dialog calls it right after inboxApprove returns): fetch the
  *  attachment bytes, file to Drive under <year>/<property or OVERHEAD>, write doc_url on
  *  the posted Journal lines and the envelope, rebuild the property tab's line blocks,
@@ -1032,6 +1062,9 @@ function inboxFinish(req) {
       if (!docUrl) docUrl = stored.url;
       lap('drive file');
     }
+    // D-035 from the sheet (2026-09-28): a receipt that is only an email - no attachment - files its text as
+    // email.txt, as the site's ingest does for new mail. Five email-only cards approved that morning had no link.
+    if (!docUrl && req.bodyText) { docUrl = storeEmailText_(model, String(req.bodyText), folder, props); lap('email.txt'); }
     if (docUrl) {
       setDocUrl_(txnIds, docUrl, props);
       siteFetchJson_('/api/inbox', 'post', { action: 'mark-posted', docId: docId, txn_ids: txnIds, doc_url: docUrl, by: Session.getActiveUser().getEmail() });
