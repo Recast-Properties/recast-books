@@ -1102,6 +1102,26 @@ function retagAshburneTrades() {
   return out;
 }
 
+// 2026-09-28: a receipt read correctly but refused at the posting step (the writer timed out under the
+// burst of 28 posts - "Lock timeout", "non-JSON response") stays "error" once the warm job's two retries
+// are spent, and the sheet's Inbox never shows it. Replay it from its stored read - no new model read -
+// through the site's ingest, which confirms on the Journal before it posts again. Editor; safe to repeat.
+function replayErroredReceipts() {
+  var out = [];
+  var envs = siteFetchJson_('/api/inbox?status=error&limit=50').envelopes || [];
+  envs.forEach(function (env) {
+    var m = env.model || {};
+    if (!m.verdict) { out.push('skip, no stored read  ' + env.docId); return; }
+    try {
+      siteFetchJson_('/api/ingest-bg', 'post', { docId: env.docId, fromStored: true });
+      out.push('replaying  ' + env.docId + '  ' + (m.vendor || '') + '  ' + (m.date || '') + '  ' + fromCents(Number(m.receipt_total_cents) || 0));
+    } catch (err) { out.push('FAILED  ' + env.docId + '  ' + String((err && err.message) || err)); }
+    Utilities.sleep(3000);
+  });
+  console.log(out.join('\n') || 'no receipts stuck at the posting step');
+  return out;
+}
+
 /** Approve, step two (the dialog calls it right after inboxApprove returns): fetch the
  *  attachment bytes, file to Drive under <year>/<property or OVERHEAD>, write doc_url on
  *  the posted Journal lines and the envelope, rebuild the property tab's line blocks,

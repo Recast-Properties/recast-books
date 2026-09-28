@@ -1441,3 +1441,23 @@ its calls against the Journal. Today's docIds: `gm-` + a hex whose first 11 digi
 about `1a0e96e6000`, so list Blobs with prefix `doc/gm-1a0e96e6000`[:7]. Paul, 12:15: *"is this the last group of expenses lurking in the
 ether. getting sick of batches popping up out of nowhere"* - answered with the finite list (HANDOFF START HERE): the
 42, ~12 parked, ~16 May-Sep Amazon orders, Harbor Freight 5, Cash App 45; then Phase 3.
+
+## 2026-09-28 (early afternoon) - the 42 sorted by the bookkeeper; the reader reuses a house's sections; the hinge refund; a replay for posts the writer refused
+
+**The 42 Amazon forwards, read by the bookkeeper on its own (Paul's rule):** by 13:05, 33 posted, 7 dismissed (3 by
+Claude as already in the books - candelabra bulbs = "Light Bulbs 10.81" of 02-24, rat traps 43.28 of 03-06 with the fan
+refunded, the 03-17 AIPER order = three migrated rows; all three checked on the Journal - and 4 by Paul on held cards:
+the returned curtains and rods), 1 stuck in error, 1 approved over the ceiling by Paul (ACE DECOR 768.49). **Eight
+posts errored under the burst** ("Lock timeout", "Writer returned a non-JSON response" - 28 posts in a few minutes
+against the serialised writer); the warm job's stored-read retries healed seven; the ELYONA pendant 66.56 (04-04)
+spent both retries - `replayErroredReceipts()` (Menu.gs, editor) replays any "error" envelope with a stored read
+through `/api/ingest-bg fromStored`, which confirms on the Journal before posting. **Paul's own call, corrected:** the
+Ravinte hinges card (03-18, 198.42) approved whole though Amazon refunded one 60-pack, 78.65, on 04-16 -
+`addAshburneHingeRefund()` posted the refund (rows 2560-2561, the cost entry with its sides swapped; Paul: "yes. that
+was my mistake"). **Sections:** the reads gave Ashburne twelve trade names its tab never had (`refreshHeavyBlocks_`
+warnings "no header for block") - `tradesByProperty(journalLines)` now feeds each house's sections into
+`list_properties`, the prompt and the decide schema say to reuse them (**site deploy `6abac7f7`**); `retagAshburneTrades()`
+(Menu.gs, editor, once) moves the live-receipt lines into the tab's own sections by trade, bath items by description
+(master-bath list), then rebuilds the tab - a lint proves every target is a `PT_HEAVY_ORDER` section. **Inbox card:**
+an empty read shows Claude's sentence and the click it means, the Dismiss-all reason pre-filled (Paul: "i cant do anything
+with this"). 496 tests.
