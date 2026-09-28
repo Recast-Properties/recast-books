@@ -896,14 +896,27 @@ function showInboxSidebar() {
   SpreadsheetApp.getUi().showModelessDialog(html, 'Inbox');
 }
 
-/** Pending envelopes (newest first, no bytes) plus the pickers the editor needs. */
-function inboxList() {
+// The Inbox loads in two calls the dialog runs side by side, so it can say what it is waiting on
+// (Paul, 2026-09-28: "when the inbox is loading i want more information"): the receipts from the
+// site, and the pickers from the workbook.
+/** Pending envelopes (newest first, no bytes). */
+function inboxEnvelopes() {
   var ss = openWorkbook_(PropertiesService.getScriptProperties());
   try {
     requireOwner_(ss);
     var resp = siteFetchJson_('/api/inbox?status=pending&limit=500');   // the list is collapsed rows now; 100 hid most of a 387-document queue (2026-09-18)
-    var pickers = pickerData_(ss);
-    return { ok: true, envelopes: resp.envelopes || [], total: resp.total, pickers: pickers,
+    return { ok: true, envelopes: resp.envelopes || [], total: resp.total };
+  } catch (err) {
+    return { ok: false, error: (err && err.code) || 'INTERNAL', message: String((err && err.message) || err) };
+  }
+}
+
+/** The pickers the editor needs (houses, accounts, stores, cards), the user and the site url. */
+function inboxPickers() {
+  var ss = openWorkbook_(PropertiesService.getScriptProperties());
+  try {
+    requireOwner_(ss);
+    return { ok: true, pickers: pickerData_(ss),
       user: Session.getActiveUser().getEmail(), site: PropertiesService.getScriptProperties().getProperty('SITE_URL') || 'https://books.recast-properties.com' };
   } catch (err) {
     return { ok: false, error: (err && err.code) || 'INTERNAL', message: String((err && err.message) || err) };

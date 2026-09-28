@@ -181,7 +181,7 @@ test("GET rejects an unknown status", { skip }, async () => {
   assert.equal(res.status, 400);
 });
 
-// ---- the workbook sidebar (Menu.gs inboxList/inboxApprove): poller secret, docId, mark-posted
+// ---- the workbook sidebar (Menu.gs inboxEnvelopes/inboxPickers/inboxApprove): poller secret, docId, mark-posted
 
 function pollerReq(method, { body, search = "" } = {}) {
   return new Request(`https://books.test/api/inbox${search}`, {
