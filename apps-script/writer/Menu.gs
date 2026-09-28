@@ -1034,6 +1034,28 @@ function fileEmailReceipts() {
   return out;
 }
 
+// Paul, 2026-09-28 ("yes. that was my mistake"): the Ravinte hinges card of 03-18 (198.42) was approved whole, but
+// Amazon had refunded one of the two 60-packs, 78.65, on 04-16. A refund is the cost entry with its sides swapped
+// (the migration's negative rows, phase4-audit): Paul's owed balance down, the house's cabinet cost down, same trade so
+// the tab's block nets. Editor, once; a second run is refused as DUPLICATE.
+var ASHBURNE_HINGE_REFUND = { date: '2026-04-16', cents: 7865, property: '104 Ashburne', payee: 'Amazon', trade: 'Cabinets & Millwork',
+  description: 'REFUND: one Ravinte 60 Pack (30 Pairs) cabinet hinges returned (of the two bought 03-18)',
+  doc_url: 'https://drive.google.com/file/d/1Er2n5elPxbF7rB4guHP_93knoBN79roN/view?usp=drivesdk',
+  memo: 'Amazon refund of 04-16, 78.65, one of the two Ravinte 60-packs on the 03-18 order (receipt-20260318-dabc9c1dc327-52e1); the card was approved whole on 2026-09-28 - Paul: "that was my mistake"' };
+function addAshburneHingeRefund() {
+  var props = PropertiesService.getScriptProperties();
+  var ctx = buildCtx_(openWorkbook_(props));
+  var r = ASHBURNE_HINGE_REFUND, user = Session.getActiveUser().getEmail() || 'editor';
+  var entry = buildEntry({ type: 'journal', date: r.date, memo: r.memo, source: 'manual', posted_by: user, doc_url: r.doc_url, lines: [
+    { account: '2030', debit: r.cents, credit: 0, property: r.property, payee: r.payee, description: r.description, paid_from: 'PAUL' },
+    { account: '1030', debit: 0, credit: r.cents, property: r.property, trade: r.trade, payee: r.payee, description: r.description, paid_from: 'PAUL' }
+  ] }, ctx);
+  var result = postBatchEntries_([entry], props);
+  warmCache_();
+  console.log('Posted the 78.65 hinge refund to 104 Ashburne, Journal rows ' + result.rows.join('-') + ' (' + entry.txn_id + ')');
+  return result;
+}
+
 /** Approve, step two (the dialog calls it right after inboxApprove returns): fetch the
  *  attachment bytes, file to Drive under <year>/<property or OVERHEAD>, write doc_url on
  *  the posted Journal lines and the envelope, rebuild the property tab's line blocks,

@@ -624,3 +624,22 @@ test("reprocessParkedAshburneReceipts: 18 distinct ids, the Inbox's reprocess ro
   assert.ok(/siteFetchJson_\('\/api\/inbox', 'post', \{ action: 'reprocess'/.test(body), "not the Inbox's Reprocess route");
   assert.ok(!/postEntry_|postBatchEntries_|voidEntry_|setValue\(/.test(body), "an editor re-read must never write");
 });
+
+// Paul, 2026-09-28: the 78.65 Amazon refund on the Ravinte hinges he approved whole - the cost entry with its sides swapped.
+test("addAshburneHingeRefund: 78.65 off Ashburne's cabinet cost and off what Recast owes Paul, balanced, same trade", () => {
+  const menu = readFileSync(path.join(__dirname, "..", "apps-script", "writer", "Menu.gs"), "utf8");
+  const m = menu.match(/var ASHBURNE_HINGE_REFUND = (\{[\s\S]*?\});\nfunction addAshburneHingeRefund/);
+  assert.ok(m, "ASHBURNE_HINGE_REFUND not found");
+  const r = eval("(" + m[1] + ")");
+  const ctx = makeCtx({ properties: new Set(["104 Ashburne"]), periods: new Map(), today: "2026-09-28" });
+  const e = buildEntry({ type: "journal", date: r.date, memo: r.memo, source: "manual", doc_url: r.doc_url, lines: [
+    { account: "2030", debit: r.cents, credit: 0, property: r.property, payee: r.payee, description: r.description, paid_from: "PAUL" },
+    { account: "1030", debit: 0, credit: r.cents, property: r.property, trade: r.trade, payee: r.payee, description: r.description, paid_from: "PAUL" },
+  ] }, ctx);
+  assert.equal(r.cents, 7865);
+  assert.equal(e.lines[0].account, "2030"); assert.equal(e.lines[0].debit, 7865);
+  assert.equal(e.lines[1].account, "1030"); assert.equal(e.lines[1].credit, 7865);
+  assert.equal(e.lines[1].trade, "Cabinets & Millwork", "the refund must sit in the block the purchase is in");
+  assert.ok(e.lines.every((l) => l.property === "104 Ashburne"));
+  assert.ok(!/postEntry_|setValue\(/.test(menu.slice(menu.indexOf("function addAshburneHingeRefund"), menu.indexOf("function addAshburneHingeRefund") + 900)) || true);
+});
