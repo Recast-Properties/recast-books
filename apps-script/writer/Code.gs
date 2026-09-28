@@ -1392,6 +1392,10 @@ function setupPropertyTab(name, asOf) {
     set(s, 1, 'Cash Advance Principal + Interest'); set(s, 2, '=' + cashPayoffRef); s++;
     // Paul, 2026-09-22: prorate the amount actually paid (the old tab's method), not the levy.
     set(s, 1, 'Property Tax Paid (Prorated)'); set(s, 2, '=IF(' + SETTLE + '<>"",0,' + net(eq('E', '1100')) + '*($B$1-DATE(YEAR($B$1),1,1))/365)'); s++;
+    // Paul, 2026-09-28 ("add Paid by Paul, not yet paid back"): what he spent on the house beyond the draws that
+    // reimbursed him - the house's balance owed to him (2030, credits less debits) - so the All-in counts every
+    // dollar the project cost, not only Dennis's money. Falls to zero when he is paid back.
+    set(s, 1, 'Paid by Paul (not yet paid back)'); set(s, 2, '=-' + net(eq('E', '2030'))); s++;
     set(hTotal, 2, '=SUM(B' + hFirst + ':B' + (s - 1) + ')', true);
     s++;
     paint(s, 1, 2, C.head); set(s++, 1, 'Profit Breakdown', true);
@@ -1699,7 +1703,7 @@ var PT_HEAVY_STRIDE = PT_HEAVY_COLS + 1;   // ...and the spacer that closes the 
 var PT_HEAVY_ORDER = ['Paint & Flooring', 'Trash', 'Lighting & Electrical', 'Master Bath', 'Small Baths', 'Pool',
   'Landscaping', 'Chimney/FIreplace/Glass', 'Kitchen', 'Appliances', 'HVAC', 'House Hardware',
   'Countertops & Backsplash', 'Equipment Rentals', 'Pest Control', 'Insurance - Farmers Insurance',
-  'Cleaning', 'Supplies', 'Marketing'];   // Gas/Truck/Trailer removed (Paul 2026-09-22; its rows are overhead, D-026.9)
+  'Cleaning', 'Supplies', 'Marketing', 'Property Tax'];   // Gas/Truck/Trailer removed (Paul 2026-09-22; its rows are overhead, D-026.9)
 function heavyBlocks_(ss, name) {
   var journal = ss.getSheetByName('Journal'); var cols = headerIndex_(journal); var last = journal.getLastRow();
   var seen = {};
@@ -1712,9 +1716,10 @@ function heavyBlocks_(ss, name) {
       var t = String(r[cols['trade'] - 1] || '').trim(); if (t) seen[t] = true;
     });
   }
-  // Paul, 2026-09-22: no Gas/Truck/Trailer, Property Tax or "(no trade)" block - the tax is a
-  // summary line and untraded lines are not costs on this tab.
-  var skip = { 'Gas/Truck/Trailer': true, 'Property Tax': true };
+  // Paul, 2026-09-22: no Gas/Truck/Trailer or "(no trade)" block - untraded lines are not costs on this
+  // tab. Paul, 2026-09-28 ("i want to see the 2025 property tax paid as a line item"): the tax paid gets its
+  // own block like every other cost, so the blocks add up to Rehab Total again (the 2026 prorate stays a summary line).
+  var skip = { 'Gas/Truck/Trailer': true };
   var out = PT_HEAVY_ORDER.filter(function (t) { return !skip[t]; });
   Object.keys(seen).sort().forEach(function (t) { if (out.indexOf(t) < 0 && !skip[t]) out.push(t); });
   if (out.indexOf('Utilities') < 0) out.push('Utilities');
@@ -1757,9 +1762,9 @@ function refreshHeavyBlocks_(ss, name, asOf) {
   });
   // A block holds the lines carrying its trade name, whatever their class (the old tab's
   // Insurance and Utilities blocks are Holding lines - 2026-09-22: they had all been pushed
-  // into Utilities and the property tax with them). The purchase (1000) and the property
-  // tax (1100) live in the summary, not in a block; financing (1200) never on the tab.
-  var onTab = function (r) { var a = String(g(r, 'account')), cc = String(g(r, 'cost_class')); return a !== '1000' && a !== '1100' && (cc === 'Rehab' || cc === 'Holding' || cc === 'Acquisition' || cc === 'Selling'); };
+  // into Utilities and the property tax with them). The purchase (1000) lives in the summary,
+  // not in a block; the property tax paid (1100) has its own block since 2026-09-28; financing (1200) never on the tab.
+  var onTab = function (r) { var a = String(g(r, 'account')), cc = String(g(r, 'cost_class')); return a !== '1000' && (cc === 'Rehab' || cc === 'Holding' || cc === 'Acquisition' || cc === 'Selling'); };
   // A Holding line the model left untraded (a utility bill is not a trade) belongs under
   // Utilities, which is where the old tab carried them (2026-09-23).
   var tradeOf = function (r) { return String(g(r, 'trade') || '').trim() || (String(g(r, 'cost_class')) === 'Holding' ? 'Utilities' : ''); };

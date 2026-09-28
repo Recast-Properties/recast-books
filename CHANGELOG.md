@@ -754,6 +754,26 @@ books. **End of day: Ashburne costs 511,260.29, Recast owes Paul 10,118.85, prof
 Menu.gs pushes (no deploy needed). **Every receipt that lives in any mailbox is now dealt with - the finite list of 09-17
 is closed.** What no mailbox can surface: cash, check and in-store purchases on Paul's personal cards with no email.
 
+## 2026-09-28 (16:15 PDT) - Paul's three answers: sold houses keep their mailbox (site `6abaed41`); the gimbal at 137.06; "Paid by Paul" and "Property Tax" on the Ashburne tab
+
+**Sold houses' mail is read again** (Paul: "it should keep reading in case something comes in after it's closed. it would
+be put on the recapture tab"): `books-property-mailboxes.mjs` registers held / under contract / sold; `books-upload.mjs`
+accepts a sold house's name as the channel; the reader already routes a sold house's cost to Cost Recapture under that
+house's section (`list_properties` stays held-only). Tests updated; **deployed `6abaed41`** on Paul's "deploy" (22:42 UTC).
+**Camera gimbal:** `fixCameraGimbalTax()` run by Paul - the migrated 126.61 voided (rows 2649-2650), re-posted at the order
+total 137.06 on 6510 overhead, same payer (Citizens - the Citizens first pass's open question, unchanged) and receipt (rows
+2651-2652); books balanced. **Heavy tab:** (1) `Paid by Paul (not yet paid back)` = the house's 2030 balance (credits less
+debits), inside Total Project Cost (All in), under Property Tax Paid (Prorated) - Ashburne C11 = 10,118.85, All-in
+568,923.22, Profit 127,584.28 (the books say 138,717.95; the rest is the tab's estimates - 2% closing on top of the buyer's
+agent, interest to today, tax prorated to today - which the sell wizard settles); the typed Sale Price moved to C14. (2)
+Paul: "i want to see the 2025 property tax paid as a line item" - `Property Tax` is a section now (PT_HEAVY_ORDER after
+Marketing; `heavyBlocks_` no longer skips it; `refreshHeavyBlocks_` no longer keeps 1100 out of a block), so the sections
+add up to Rehab Total again. Paul asked about the spacer columns: the layout derives every column from the section list
+(`10 + i * PT_HEAVY_STRIDE`, spacer at `c0 + PT_HEAVY_COLS`) and the refresh reads each block's column from its header.
+Rebuilt by Paul and read back: 21 sections at 11 + 6i (the left spacer insert shifts the grid one column, as always), Property
+Tax 16,031.25 with its receipt, block totals sum to Rehab Total 186,260.29 exactly. 502 tests, pushed, live = repo.
+**Writer deploy @10 owed** (Code.gs: the two tab changes and the header guard) - Paul's "deploy".
+
 ## 2026-09-21 — Phase 4: lists closed, Drive filing done, Newport held, cutover rehearsed end to end
 
 **Morning, offline (audit §39-§44).** 26 false Home Depot / Lowe's links from a coincidental subset-sum rule

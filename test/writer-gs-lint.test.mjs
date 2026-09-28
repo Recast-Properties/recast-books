@@ -347,6 +347,10 @@ test("setupPropertyTab: old-tab layout (summary / Dennis / Rehab Costs / Utiliti
   assert.ok(!body.includes("'Less Dennis commission'"), "Paul's payout still deducts a Dennis commission");
   // D-054: on the heavy tab the tax paid is in Rehab Total; its own line in Total Project Cost counted it twice.
   assert.ok(!body.includes("'Property Tax Paid'"), "the heavy Total Project Cost counts the tax on top of the draws that paid it");
+  // Paul, 2026-09-28: the heavy All-in also counts what he spent beyond the draws (the house's 2030 balance), inside the SUM.
+  const paidByPaul = body.indexOf("'Paid by Paul (not yet paid back)'"), allInSum = body.indexOf("set(hTotal, 2, '=SUM(B' + hFirst");
+  assert.ok(paidByPaul > 0 && allInSum > paidByPaul, "the heavy Total Project Cost misses 'Paid by Paul (not yet paid back)'");
+  assert.ok(/'Paid by Paul \(not yet paid back\)'\); set\(s, 2, '=-' \+ net\(eq\('E', '2030'\)\)\)/.test(body), "Paid by Paul must be the house's 2030 balance, credits less debits");
   assert.ok(!body.includes("'Due to Paul"), "the Paul payout line was not renamed to 'Paul Paid (direct)'");
   // Paul, 2026-09-23: advances and refunds are their own rows in all three who-paid blocks.
   assert.ok(!body.includes("'Received (advances, refunds)'"), "the who-paid blocks still merge advances and refunds");
@@ -668,6 +672,9 @@ test("retagAshburneTrades: every target section exists on the heavy tab; the mas
   const body = menu.slice(menu.indexOf("function retagAshburneTrades("), menu.indexOf("\nfunction ", menu.indexOf("function retagAshburneTrades(") + 1));
   assert.ok(/voided\[g\('txn_id'\)\]/.test(body) && !/'receipt'/.test(body), "moves every live line, debit or credit, any source - never a voided one");
   assert.ok(/voided\[String\(r\[cols\['txn_id'\] - 1\]\)\]/.test(bodyOf("heavyBlocks_")), "heavyBlocks_: a voided line's trade makes no section header");
+  // Paul, 2026-09-28: the 2025 property tax paid is a line item - its own block, so the blocks add up to Rehab Total.
+  assert.ok(!/'Property Tax': true/.test(bodyOf("heavyBlocks_")) && order.includes("Property Tax"), "the property tax paid has no block");
+  assert.ok(!/a !== '1100'/.test(bodyOf("refreshHeavyBlocks_")), "refreshHeavyBlocks_ still keeps the tax line out of its block");
 });
 
 // 2026-09-28 13:06: the first replay run posted three pre-cutover documents on top of their migrated rows.
