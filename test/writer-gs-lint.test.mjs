@@ -13,6 +13,7 @@ import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import path from "node:path";
+import { buildEntry, makeCtx } from "../lib/posting.mjs";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const CODE_PATH = path.join(__dirname, "..", "apps-script", "writer", "Code.gs");
@@ -344,6 +345,8 @@ test("setupPropertyTab: old-tab layout (summary / Dennis / Rehab Costs / Utiliti
   assert.ok(body.includes("readLabelledValue_(sh, 'Concession')"), "a rebuild does not keep the typed Concession");
   assert.ok(body.includes("-ABS(B' + concRow + ')"), "Net Profit does not subtract the concession");
   assert.ok(!body.includes("'Less Dennis commission'"), "Paul's payout still deducts a Dennis commission");
+  // D-054: on the heavy tab the tax paid is in Rehab Total; its own line in Total Project Cost counted it twice.
+  assert.ok(!body.includes("'Property Tax Paid'"), "the heavy Total Project Cost counts the tax on top of the draws that paid it");
   assert.ok(!body.includes("'Due to Paul"), "the Paul payout line was not renamed to 'Paul Paid (direct)'");
   // Paul, 2026-09-23: advances and refunds are their own rows in all three who-paid blocks.
   assert.ok(!body.includes("'Received (advances, refunds)'"), "the who-paid blocks still merge advances and refunds");
@@ -591,4 +594,20 @@ test("an advance's paid_to: Draw is Paul, a named worker is Vendor, and the fix 
   const dialog = readFileSync(path.join(__dirname, "..", "apps-script", "writer", "Advance.html"), "utf8");
   assert.ok(dialog.includes("id=\"a-paid-to\"") && dialog.includes("paid_to: document.getElementById('a-paid-to').value"),
     "the Add advance dialog asks who the money was paid to");
+});
+
+// Paul, 2026-09-28: the seven Ashburne jobs Dennis paid for directly that were missing from the tab (D-032).
+test("addAshburneMissingBills: seven Ashburne bills, paid through 2030, 1,419.00", () => {
+  const m = source.match(/var ASHBURNE_MISSING_BILLS = (\[[\s\S]*?\]);/);
+  assert.ok(m, "ASHBURNE_MISSING_BILLS not found");
+  const ctx = makeCtx({ properties: new Set(["104 Ashburne"]), periods: new Map(), today: "2026-09-28" });
+  let total = 0;
+  for (const [date, payee, description, amount, account, trade] of JSON.parse(m[1])) {
+    const e = buildEntry({ type: "expense", date, payee, description, amount_cents: Math.round(amount * 100), account, trade,
+      property: "104 Ashburne", paid_from: "PAUL", source: "manual" }, ctx);
+    assert.equal(e.lines[1].account, "2030", `${date} ${payee} is not paid through the advance`);
+    assert.ok(trade, `${date} ${payee} has no trade - an untraded line has no block on the heavy tab`);
+    total += e.lines[0].debit;
+  }
+  assert.equal(total, 141900);
 });

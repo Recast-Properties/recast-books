@@ -1105,3 +1105,22 @@ sale price less every seller concession or credit on the statement (the lines on
 Profit Breakdown now has the buyer's agent (typed %, default 2.75, a new label so the old lumped 5.75 is not carried
 over) and Dennis's commission as separate rows, and the Dennis Payout reads the same row. Dennis's Ashburne payoff by
 the books: 501,141.44 + interest 44,900.41 + 22,680.00 = **568,721.85**, less the 550,000 he took = **18,721.85**.
+
+## D-054 · On the bank-deal tab the property tax paid is in Rehab Total, not a second line in Total Project Cost - 2026-09-28 · Paul
+
+Paul, shown that 104 Ashburne's tab read a profit of 121,671.88 against the books' 146,221.94: *"so would moving the
+property tax paid amount out of total project cost and into rehab total fix it?"*, then *"fix the tax cost"*.
+
+**Why:** the heavy tab's Total Project Cost (All in) was Purchase P+I + Cash Advance P+I + Property Tax Paid + the
+prorated estimate. Ashburne's cash advances (176,141.44, Advances C15:C34) paid for everything it cost except the
+purchase and what Recast still owes Paul (2,614.86): 162,725.05 of other costs (the tab's Rehab Total) + the 16,031.25
+tax (Journal row 2148, paid by Paul with check #5899 on 3/30, the day of a 20,000 draw) = 178,756.30. So 13,416.39 of
+the tax sat inside Cash Advance P+I and again on its own line. The old tab had the same line (C-24's cell E10).
+
+**Decided:** Rehab Total = rehab + all holding, the tax included; Total Project Cost loses its Property Tax Paid line;
+the prorated estimate reads the tax paid directly (the same figure). Light tabs are unchanged - they count costs, not
+draws, so the tax was only ever counted once there. **Left, Paul's call:** the heavy tab still leaves out what Recast
+owes Paul on the property (2,614.86 on 09-28), so its profit reads that much above the books until a "Paid by Paul,
+not yet paid back" line goes into Total Project Cost. That figure can still rise, never fall: the eight worker payments
+with no bill (1,619, D-032) and the Ashburne receipts parked for the card statement (D-051). Each one added raises what
+Recast owes Paul and lowers the profit by the same amount, so Paul's cash from the sale does not change.

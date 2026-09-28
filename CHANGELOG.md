@@ -1335,3 +1335,42 @@ on $756,000"* (775,000 less the 19,000 seller credit) and the buyer's agent 2.75
 takes 1320 concessions off the commission base; the heavy tab splits the old lumped 5.75% into a typed buyer's-agent %
 (default 2.75) and a Dennis Commission row on the price less the concession, which the Dennis Payout now reads. Books'
 payoff for Dennis 568,721.85, 18,721.85 after the 550,000 he took. 490 tests. Pushed (= repo by `clasp pull`) and deployed **@7** on Paul's "deploy".
+
+## 2026-09-28 (evening) - Ashburne's tab counted the property tax twice (D-054); what can still move the 2,614.86
+
+Reading the live tab for the handoff's first question (answered: Sale Price 775,000, Concession 19,000, Buyer's Agent
+2.75% are typed) showed Profit 121,671.88 against the books' 146,221.94. 11,133.67 of the gap is the tab's estimates
+(Closing 2%, this year's tax guess, interest to today, not 9/23); 13,416.39 was the heavy template: Total Project Cost
+(All in) added Property Tax Paid (16,031.25) on top of Cash Advance P+I, whose principal had already paid all but
+2,614.86 of it. D-054: the tax moves into Rehab Total and the prorate reads the tax paid itself. A lint in
+`writer-gs-lint` fails on the old code. Pushed; the live script = the repo by `clasp pull` before and after. **Needs:**
+Paul rebuilds 104 Ashburne, then `clasp deploy -i` on his word. Expected after the rebuild (09-28 figures): Rehab Total
+178,756.30, Total Project Cost 558,804.36, Profit about 137,703 (still 2,614.86 above the books - D-054's open line).
+
+**Cell numbers:** a gviz html table's first row is its header and gviz drops blank rows, so a row number counted off a
+multi-row read is wrong. Name a cell only after reading that one row's range. This session first gave Paul C8/C9 for
+Cash Advance P+I / Property Tax Paid (they are C9/C10), and Sparkling's Sale Price is C12, not C11 as the 09-26 notes said.
+
+**Ashburne receipts still open (the 2,614.86 can only rise):** (1) the eight worker payments with no bill (D-032):
+Julio 12-10 200, 12-11 200, 05-04 250, 07-13 150 (the tab has a Julio 150 on 07-07), 07-27 300; dump 04-16 21; Iley
+listing fees 04-22 199, 05-07 299 = 1,619. (2) The receipts parked for the card statement (`mail_settled`), checked
+against the live Journal (total or subtotal within 2 cents, 10 days either side) and the migration links: 15 Ashburne
+receipts on no book (3,270.46), four Home Depot receipts partly on the books (02-15, 03-12, 03-25, 04-05; about 766 not
+on), HD 04-06 181.52 with no property read, two Amazon fan orders (530.52) with return confirmations, Floor & Decor
+02-02 unreadable. HD 04-10 161.28 is fully on the books (C-32) - its PARKED note is stale.
+
+**(1) done 09:49 PDT - the eight worker payments, decided by Paul in chat:** seven were jobs missing from the tab
+(Julio 12-10 trash removal 200, 05-04 labor 250, 07-13 landscaping 150, 07-27 landscaping 300; the dump 04-16 21; Iley
+listing fees 04-22 199 and 05-07 299); the 12-11 pool clean-out is the tab's 01-05 "Clean out". `addAshburneMissingBills()`
+(editor, run by Paul; a lint builds the table through the posting engine) posted them as bills paid through the advance
+(cost Dr / 2030 Cr, trades Trash / Landscaping / Marketing): Journal rows 2418-2431. Verified the same minute: Ashburne
+owes Paul 2,614.86 -> **4,033.86** (his own spending beyond the 158,000 of draws); costs other than the purchase and the
+tax 162,725.05 -> 164,144.05; the books balance (4,461,194.25 a side); the tab's Rehab Total 180,175.30 with all seven
+lines in their blocks; the tab's profit unchanged at 137,703.13 (it counts draws). Books' profit 146,221.94 -> 144,802.94.
+
+**Stopped here (Paul).** Item (2), the 18 parked Ashburne receipts, was NOT started: I asked Paul to sign in to the web
+app so I could re-read them into his Inbox, and he stopped it - *"the books should be only in sheets now"*, *"you are
+drifting"*. The route is an editor helper calling `siteFetchJson_` reprocess (what the Sheets Inbox's Reprocess button
+does) and his review in Recast Books -> Inbox... (CLAUDE.md rule 8). Also found and left for its own step: ~40 Amazon
+house-item orders only in pvb421, on no book (handoff item 3). **Writer web app still @7 - `clasp deploy -i` owed.**
+491 tests.

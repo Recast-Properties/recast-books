@@ -1375,22 +1375,23 @@ function setupPropertyTab(name, asOf) {
   if (heavy) {
     // The old workbook's 104 Ashburne summary, section for section (Paul, 2026-09-22: "make
     // these sections in the new sheet match the old sheet"). Bank deal: the project cost is
-    // purchase + cash draws + interest + property tax; Paul's own spending is inside the
-    // draws that reimbursed him. Agent % and Concession are typed cells, kept across rebuilds.
+    // purchase + cash draws + interest; Paul's own spending, the property tax included, is inside
+    // the draws that reimbursed him. Agent % and Concession are typed cells, kept across rebuilds.
+    // D-054 (Paul, 2026-09-28): the tax paid is in Rehab Total, not its own line in Total Project
+    // Cost - the draws had already paid 13,416.39 of Ashburne's 16,031.25, so that line counted it twice.
     // D-053 (Paul, 2026-09-28): "the buyer agent is taking 2.75% on the full 775,000 and dennis is taking 3% on
     // $756,000". The old tab's 5.75% lumped the two; the typed % is now the buyer's agent's alone (a new label,
     // so the old lumped figure is not carried over) and Dennis's commission is its own row, on the price less
     // the concession, the same figure the Dennis Payout uses and lib/sale.mjs posts.
     var keptAgent = readLabelledValue_(sh, "Buyer's Agent Commission %");
     set(s, 1, 'Rehab Total', true); paint(s, 1, 1, C.head); paint(s, 2, 1, C.total);
-    set(s, 2, '=' + net(rehabF) + '+' + net(holdingF + '*' + ne('E', '1100')), true); s++;
+    set(s, 2, '=' + net(rehabF) + '+' + net(holdingF), true); s++;
     set(s, 1, 'Current Total Spent (cash draws are what count against the project)'); set(s, 2, '=B' + (s - 1)); s += 2;
     set(s, 1, 'Total Project Cost (All in)', true); var hTotal = s; paint(s, 1, 1, C.head); paint(s, 2, 1, C.total); s++;
     set(s, 1, 'Purchase Principal + Interest'); set(s, 2, '=' + purchasePayoffRef); var hFirst = s++;
     set(s, 1, 'Cash Advance Principal + Interest'); set(s, 2, '=' + cashPayoffRef); s++;
-    set(s, 1, 'Property Tax Paid'); set(s, 2, '=' + net(eq('E', '1100'))); var hTaxPaid = s++;
     // Paul, 2026-09-22: prorate the amount actually paid (the old tab's method), not the levy.
-    set(s, 1, 'Property Tax Paid (Prorated)'); set(s, 2, '=IF(' + SETTLE + '<>"",0,B' + hTaxPaid + '*($B$1-DATE(YEAR($B$1),1,1))/365)'); s++;
+    set(s, 1, 'Property Tax Paid (Prorated)'); set(s, 2, '=IF(' + SETTLE + '<>"",0,' + net(eq('E', '1100')) + '*($B$1-DATE(YEAR($B$1),1,1))/365)'); s++;
     set(hTotal, 2, '=SUM(B' + hFirst + ':B' + (s - 1) + ')', true);
     s++;
     paint(s, 1, 2, C.head); set(s++, 1, 'Profit Breakdown', true);
@@ -2528,6 +2529,36 @@ function advancesPaidTo_(dryRun) {
   out.push('Recast owes Paul (2030, credit): ' + money(-before['2030']) + ' -> ' + money(-bal['2030']));
   console.log(out.join('\n'));
   return out;
+}
+
+// Paul, 2026-09-28: seven of Dennis's direct payments to 104 Ashburne's workers were jobs missing from the tab
+// (D-032's consequence; the 12-11 pool clean-out is the tab's 01-05 "Clean out" row). Each gets its bill, paid
+// through the advance (PAUL -> 2030, like the migrated Julio rows), so the job is a cost of the house and the
+// advance stops coming off what Recast owes Paul. Editor, once: a second run is refused as DUPLICATE.
+// [date, payee, description, amount, account, trade] - the date is the advance's.
+var ASHBURNE_MISSING_BILLS = [
+  ["2025-12-10", "Julio", "Trash removal", 200.00, "1060", "Trash"],
+  ["2026-04-16", "City of Corsicana", "Dump", 21.00, "1060", "Trash"],
+  ["2026-04-22", "Joe Iley", "Listing fee", 199.00, "1330", "Marketing"],
+  ["2026-05-04", "Julio", "Labor", 250.00, "1020", "Landscaping"],
+  ["2026-05-07", "Joe Iley", "Listing fee", 299.00, "1330", "Marketing"],
+  ["2026-07-13", "Julio", "Landscaping", 150.00, "1130", "Landscaping"],
+  ["2026-07-27", "Julio", "Landscaping", 300.00, "1130", "Landscaping"]
+];
+
+function addAshburneMissingBills() {
+  var props = PropertiesService.getScriptProperties();
+  var ctx = buildCtx_(openWorkbook_(props));
+  var user = Session.getActiveUser().getEmail() || 'editor';
+  var entries = ASHBURNE_MISSING_BILLS.map(function (b) {
+    return buildEntry({ type: 'expense', date: b[0], payee: b[1], description: b[2], amount_cents: toCents(b[3]),
+      account: b[4], trade: b[5], property: '104 Ashburne', paid_from: 'PAUL', source: 'manual', posted_by: user,
+      memo: b[1] + ' - ' + b[2] + ': paid by Dennis directly (his advance of ' + b[0] + '), missing from the tab (Paul, 2026-09-28)' }, ctx);
+  });
+  var result = postBatchEntries_(entries, props);
+  warmCache_();
+  console.log('Posted ' + result.posted.length + ' bills to 104 Ashburne, Journal rows ' + result.rows.join('-'));
+  return result;
 }
 
 /** Editor helper: rebuild the tab of every property in the Properties tab (no args). */
