@@ -1911,19 +1911,32 @@ function matchStatementLines() {
       Utilities.sleep(FEED_MATCH_WAIT_MS);
       var job = siteFetchJson_('/api/feed-match?job=' + encodeURIComponent(started.job_id));
       if (job.status === 'done') { ui.alert('Matched - ' + (names[account] || account), feedMatchSummary_(job.summary) + after, ui.ButtonSet.OK); return; }
-      if (job.status === 'error') { ui.alert('Matching failed', String(job.error || ''), ui.ButtonSet.OK); return; }
+      if (job.status === 'error') { ui.alert('Matching did not finish', matchFailure_(job.error), ui.ButtonSet.OK); return; }
     }
     ui.alert('Still running', 'The matching is still running after five minutes. Look at the Feed tab in a few minutes - the notes land there when it finishes.', ui.ButtonSet.OK);
   } catch (err) {
-    ui.alert('Matching failed', String((err && err.message) || err), ui.ButtonSet.OK);
+    ui.alert('Matching did not finish', matchFailure_((err && err.message) || err), ui.ButtonSet.OK);
   }
+}
+
+/** A run that failed, in plain words (rule 7) - what happened, that the books are as they were,
+ *  what to do - with the machine's own text on a last line for Claude. 2026-09-29: Paul was shown
+ *  'The Anthropic API call failed (batch 1): 529 {"type":"error",...}'. A match never records
+ *  anything, and it writes its notes and cards only after the model has answered. */
+function matchFailure_(err) {
+  var t = String(err || '').trim();
+  var busy = /overloaded|\b529\b|\b429\b|rate.?limit|timed? ?out|connection error/i.test(t);
+  return (busy
+    ? 'The bookkeeper was too busy to answer just now. Nothing was changed. Wait a minute or two, then run Match statement lines again.'
+    : 'The matching stopped before it finished. Nothing was recorded in your books. Tell Claude.') +
+    (t ? '\n\nPaste to Claude: ' + t.slice(0, 300) : '');
 }
 
 /** The run's counts in plain words. */
 function feedMatchSummary_(s) {
   s = s || {};
   var out = [(s.total || 0) + ' bank lines looked at.', (s.matched || 0) + ' tied to the books.',
-    (s.cards || 0) + ' need your word - they are in the Inbox (Recast Books -> Inbox...).'];
+    s.cards ? s.cards + ' need your word - they are in the Inbox (Recast Books -> Inbox..., the Bank statement tab).' : 'None need your word.'];
   if (s.later) out.push(s.later + ' wait for a sale to close.');
   if (s.none) out.push(s.none + ' got no answer - run this again.');
   out.push('Each line\'s note is in the match_note column of the Feed tab.');

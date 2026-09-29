@@ -1931,3 +1931,24 @@ for a question (the prompt asks per line; code splits a question whose lines are
 purchase" (`feedFlags_` sees the blank typed line as an entry), and the total line says "Receipt" on a bank card.
 **A slip of mine:** the first live read of the Feed tab used gviz's CSV form, which Chrome treats as a download;
 the HTML form is the one to use (`tqx=out:html`).
+
+## 2026-09-29 (10:30) - Paul's cards of the day decided; one charge, one card (D-060); a failed match in plain words
+
+**Paul's three new cards, all read back live (gviz):**
+- Home Depot x3 - recorded as three placeholders on 366 Mesa (the 10:15 entry).
+- Target 2.65 (Dennis's card) - *"i do not know the house"*: the card stays, as D-057 says. Nothing recorded.
+- CondoCerts 375.00 - *"same fee. dismissed"*: the line went back `unmatched` with "Paul: same fee as the 09-09 HOA
+  release for 881 Newport"; the next run tied it to `migration-20260909-3663d0ddee0f` ("3 looked at, 1 tied, 0 need
+  your word, 2 wait"). **The book entry with no bank line is gone from the reconcile step's list.**
+- **Citizens now: 79 lines - 59 tied, 18 cards, 2 waiting on the Ashburne close.**
+
+**A 529 from Anthropic ("Overloaded") ended the first of those two runs** after the SDK's default two retries, and
+Paul was shown the raw error. Nothing had been written (the Feed tab read back as before: 58 / 18 / 3).
+`matchFailure_` (Menu.gs, pushed 10:22) says it in plain words with the machine's text on a "Paste to Claude" line;
+the matcher's client gets `maxRetries: 4` like the nightly check's (site - with the next deploy).
+
+**D-060, one charge, one card** (site, with the next deploy): the prompt's "One charge, one card" paragraph;
+`applyVerdicts` splits a question about several money-out lines into a card per line. **Card wording** (Inbox.html):
+a bank card's total line says "The bank shows $337.07", not "Receipt"; a question card no longer says "Claude thinks
+this bank line is a purchase" (the blank typed line is not a proposal); the match summary says "None need your word."
+543 tests.

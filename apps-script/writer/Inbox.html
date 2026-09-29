@@ -335,8 +335,10 @@
         'When a receipt comes in it takes its charge\'s place - it is not counted twice. If it never comes, the charge stays as it is']
         .concat(mismatchFlags_(kept)).map(function (t) { return '<li class="act">' + escapeHtml_(t) + '</li>'; }).join('');
     }
+    // A question card carries one blank typed line (renderCard_), so "is anything proposed" is asked of the items.
+    var proposed = (entries || []).some(function (e) { return (e.items || []).some(function (it) { return Number(it.amount_cents) || String(it.description || '').trim(); }); });
     var out = [plainWhy_(why)];
-    out.push((entries || []).length
+    out.push(proposed
       ? 'Claude thinks this bank line is a purchase - check the house and the items, then Save. If it is not a purchase, click Dismiss all and say what it was'
       : 'A purchase? Fill in the line below and Save. Money from Dennis or from you, a deposit, a transfer, a check that is not a bill? Click Dismiss all and say in your own words what it was - Claude books it the right way');
     return out.concat(mismatchFlags_(kept)).map(function (t) { return '<li class="act">' + escapeHtml_(t) + '</li>'; }).join('');
@@ -390,10 +392,11 @@
     if (sum.dismiss) parts.push(money_(sum.dismiss) + ' dismissed');
     var gap = rt - already - sum.approve - sum.returned - sum.dismiss;   // > 0 missing from the items; < 0 more than the receipt
     var readNothing = !((env.model && env.model.entries) || []).length && !sum.approve && !sum.returned && !sum.dismiss;
-    if (readNothing) return '<div class="totals ok">Receipt ' + money_(rt) + ': nothing to record, by Claude\'s read - see the line above</div>';
-    var text = 'Receipt ' + money_(rt) + ': ' + parts.join(' + ');
+    var bank = env.source === 'feed';   // a card born from the bank statement is not a receipt
+    if (readNothing) return '<div class="totals ok">' + (bank ? 'The bank shows ' + money_(rt) + ': nothing is filled in yet' : 'Receipt ' + money_(rt) + ': nothing to record, by Claude\'s read - see the line above') + '</div>';
+    var text = (bank ? 'The bank shows ' : 'Receipt ') + money_(rt) + ': ' + parts.join(' + ');
     if (gap > 0) text += ' - ' + money_(gap) + ' missing from the items';
-    if (gap < 0) text += ' - ' + money_(-gap) + ' more than the receipt';
+    if (gap < 0) text += ' - ' + money_(-gap) + ' more than the ' + (bank ? 'bank shows' : 'receipt');
     return '<div class="totals ' + (gap ? 'off' : 'ok') + '">' + text + '</div>';
   }
 

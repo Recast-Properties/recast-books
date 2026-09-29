@@ -115,7 +115,7 @@ export default async (req) => {
     try { await store.setJSON(key, { ...job, finishedAt: new Date().toISOString(), ...patch }); } catch { /* best effort */ }
   };
   try {
-    const result = await runFeedMatch({ account: job.account, writer: getWriter(), docsStore: store, anthropic: clientForTests || new Anthropic(), now: new Date().toISOString() });
+    const result = await runFeedMatch({ account: job.account, writer: getWriter(), docsStore: store, anthropic: clientForTests || new Anthropic({ maxRetries: 4 }), now: new Date().toISOString() });   // 2026-09-29: a 529 "overloaded" ended a run after the default 2
     await finish({ status: "done", ...result });
     return json(200, { ok: true });
   } catch (err) {

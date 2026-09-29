@@ -99,7 +99,7 @@ test("expandVerdicts: L/C aliases become feed_ids and txn_ids; an alias that nam
 
 // ---- code's half ---------------------------------------------------------------------------------
 
-test("applyVerdicts: a match must add up to the cent (several lines to one entry, one line to several entries); a wrong sum is a question, never a match", () => {
+test("applyVerdicts: a match must add up to the cent (several lines to one entry, one line to several entries); a wrong sum is a question, never a match", async () => {
   const cands = buildCandidates(JOURNAL, ACCOUNT);
   const { updates, envelopes, summary } = applyVerdicts({
     verdicts: [
@@ -132,6 +132,23 @@ test("applyVerdicts: a match must add up to the cent (several lines to one entry
   assert.deepEqual(carded.envelopes[0].feed.card, dennis);
   assert.match(carded.envelopes[0].model.checked, /The bank's daily email says Dennis's card \(9301\) paid\.$/);
   assert.equal(carded.envelopes[1].feed.card, null, "two lines, one of them with no card: the card does not speak for both");
+
+  // D-060: three charges asked about together are three cards, each naming its own amount; a purchase and its refund stay one
+  const hd = (id, c) => line(id, "2026-09-28", c, "Home Depot Waxahachie");
+  const split = applyVerdicts({
+    verdicts: [{ kind: "question", feed_ids: ["H1", "H2", "H3"], txn_ids: [], entry: null, note: "Which house is each one for?" },
+      { kind: "question", feed_ids: ["P1", "R1"], txn_ids: [], entry: null, note: "What was bought and taken back?" }],
+    lines: [hd("H1", -16291), hd("H2", -3307), hd("H3", -14109), hd("P1", -5409), line("R1", "2026-09-28", 5409, "Refund 1315 HWY 77 NORTH WAXA")],
+    candidates: [], account: ACCOUNT, accountName: "Citizens", ctx: ctx(), settings: SETTINGS, now: "2026-09-28T20:00:00Z",
+  });
+  assert.deepEqual(split.envelopes.map((e) => [e.docId, e.feed.feed_ids, e.model.receipt_total_cents]), [
+    ["feed-1401-H1", ["H1"], 16291], ["feed-1401-H2", ["H2"], 3307], ["feed-1401-H3", ["H3"], 14109], ["feed-1401-P1", ["P1", "R1"], 0]]);
+  assert.equal(split.envelopes[1].model.why, "Home Depot Waxahachie, $33.07 on 09-28 - Which house is each one for?");
+  assert.equal(split.envelopes[3].model.why, "What was bought and taken back?");
+  assert.equal(split.summary.cards, 5);
+  assert.deepEqual(split.updates.map((u) => [u.feed_id, u.status]), [["H1", "proposed"], ["H2", "proposed"], ["H3", "proposed"], ["P1", "proposed"], ["R1", "proposed"]]);
+  const { MATCH_PROMPT } = await import("../lib/feed-match.mjs");
+  assert.match(MATCH_PROMPT, /One charge, one card: .* every separate charge gets its OWN proposal or question/);
 });
 
 test("applyVerdicts: a few cents off is still a match, and the note says so; more is a question", () => {

@@ -703,6 +703,13 @@ test("feedUpdate: one lock, the three verdict columns read once and written once
   const m = menu.slice(menu.indexOf("function matchStatementLines("));
   assert.match(m, /siteFetchJson_\('\/api\/feed-match', 'post'/);
   assert.match(m, /!== 'unmatched'\) return;/, "only open lines are counted");
+  // Paul was shown the machine's own error (2026-09-29, a 529): a failed run is said in plain words, the raw text last
+  const failure = new Function(menu.slice(menu.indexOf("function matchFailure_("), menu.indexOf("\n}\n", menu.indexOf("function matchFailure_(")) + 3) + " return matchFailure_;")();
+  assert.equal(failure('The Anthropic API call failed (batch 1): 529 {"type":"error","error":{"type":"overloaded_error","message":"Overloaded"}}'),
+    'The bookkeeper was too busy to answer just now. Nothing was changed. Wait a minute or two, then run Match statement lines again.\n\nPaste to Claude: The Anthropic API call failed (batch 1): 529 {"type":"error","error":{"type":"overloaded_error","message":"Overloaded"}}');
+  assert.match(failure("FEED_HEADERS: the Feed tab needs feed_id"), /^The matching stopped before it finished\. Nothing was recorded in your books\. Tell Claude\.\n\nPaste to Claude: FEED_HEADERS/);
+  assert.equal(failure(""), "The matching stopped before it finished. Nothing was recorded in your books. Tell Claude.");
+  assert.doesNotMatch(m.slice(0, m.indexOf("function matchFailure_")), /ui\.alert\('Matching [a-z ]+', String\(/, "the raw error is shown to Paul again");
   // Paul, 2026-09-29: two banks now - he is asked by the bank's name, a click, never an account code to type.
   const mm = m.slice(0, m.indexOf("function feedMatchSummary_"));
   assert.doesNotMatch(mm, /ui\.prompt\(/, "Match statement lines asks Paul to type something");
@@ -850,7 +857,8 @@ test("D-057 the Inbox card: Waiting on receipt makes the one placeholder line; t
   const { ACCOUNTS } = await import("../lib/coa.mjs");
   const bankLine = (feed_id, amount_cents, name) => ({ feed_id, date: "2026-09-28", amount_cents, name, memo: name });
   const made = applyVerdicts({
-    verdicts: [{ kind: "question", feed_ids: ["F1", "F2", "F3"], txn_ids: [], entry: null, note: "Which house is each one for?" }, { kind: "question", feed_ids: ["F4"], txn_ids: [], entry: null, note: "What was it?" },
+    // a card of several lines still happens - a match the books could not back up is asked about as one (D-060 splits only what the read ASKED together)
+    verdicts: [{ kind: "match", feed_ids: ["F1", "F2", "F3"], txn_ids: [], entry: null, note: "three runs" }, { kind: "question", feed_ids: ["F4"], txn_ids: [], entry: null, note: "What was it?" },
       { kind: "question", feed_ids: ["F5", "F6"], txn_ids: [], entry: null, note: "A purchase and its refund?" }, { kind: "question", feed_ids: ["F7"], txn_ids: [], entry: null, note: "Big one" }],
     lines: [bankLine("F1", -16291, "Home Depot Waxahachie"), bankLine("F2", -3307, "Home Depot Waxahachie"), bankLine("F3", -14109, "Home Depot Waxahachie"), bankLine("F4", -265, "Target Waxahachie"),
       bankLine("F5", -5409, "Home Depot Waxahachie"), bankLine("F6", 5409, "Refund 1315 HWY 77 NORTH WAXA"), bankLine("F7", -119640, "408 S ROGERS STREET WAXAHACHI")],
@@ -934,4 +942,32 @@ test("D-057 the Inbox card: Waiting on receipt makes the one placeholder line; t
   box.SWAP["gm-2"] = false;
   assert.match(box.waitHtml_({ docId: "gm-2", source: "email", model: { supersedes: "receipt-untipped" }, gate: { replaces: old } }), /data-swap="1"> /, "unticked, the box is still there");
   assert.ok(inbox.includes("bodyText: waiting ? '' : env.bodyText || ''"), "a placeholder would get a Receipt link to the bank line's text");
+});
+
+test("a bank statement card speaks of the bank, not a receipt; a question is not called a purchase; a match that needs nothing says so", () => {
+  const inbox = readFileSync(path.join(__dirname, "..", "apps-script", "writer", "Inbox.html"), "utf8");
+  const style = readFileSync(path.join(__dirname, "..", "apps-script", "writer", "Style.html"), "utf8");
+  const grabIn = (src, head) => { const a = src.indexOf(head); let i = src.indexOf("{", a), d = 0; do { if (src[i] === "{") d++; else if (src[i] === "}") d--; i++; } while (d); return src.slice(a, i); };
+  const card = new Function(["var EDIT = {}, DATA = { pickers: { accounts: [] } };", "var NEED_RECEIPT = 'NEED RECEIPT FROM';", grabIn(style, "function escapeHtml_("),
+    inbox.match(/var ACCT_GROUPS = .*;/)[0], grabIn(inbox, "var DECISIONS = ") + ";",
+    ...["money_", "acctGroup_", "acctName_", "itemProperty_", "mismatchFlags_", "decisionOf_", "approvedOnly_", "sortByDecision_", "plainWhy_", "isWaiting_", "feedFlags_", "totalsLine_"].map((n) => grabIn(inbox, `function ${n}(`)),
+    "return { feedFlags_, totalsLine_, EDIT };"].join("\n"))();
+  const text = (html) => html.replace(/<[^>]+>/g, " ").replace(/\s+/g, " ").trim();
+  // the blank line every empty card carries is not a proposal (2026-09-29: a question card read "Claude thinks this bank line is a purchase")
+  const blank = [{ property: "", items: [{ account: "", amount_cents: 0, description: "", trade: "" }] }];
+  assert.match(text(card.feedFlags_(blank, "What was it?")), /^What was it\? A purchase\? Fill in the line below and Save\./);
+  const proposed = [{ property: "366 Mesa", items: [{ account: "1030", amount_cents: 9067, description: "Home Depot supplies", trade: "Supplies" }] }];
+  assert.match(text(card.feedFlags_(proposed, "Home Depot supplies.")), /Claude thinks this bank line is a purchase/);
+
+  const env = { docId: "feed-1", source: "feed", model: { receipt_total_cents: 9067, entries: [] }, gate: {} };
+  card.EDIT["feed-1"] = blank;
+  assert.equal(text(card.totalsLine_(env)), "The bank shows $90.67: nothing is filled in yet");
+  card.EDIT["feed-1"] = proposed;
+  assert.equal(text(card.totalsLine_(env)), "The bank shows $90.67: $90.67 to record now");
+  card.EDIT["gm-1"] = proposed;
+  assert.equal(text(card.totalsLine_({ docId: "gm-1", source: "email", model: { receipt_total_cents: 9067, entries: proposed }, gate: {} })), "Receipt $90.67: $90.67 to record now");
+
+  const summary = new Function(menuSource.slice(menuSource.indexOf("function feedMatchSummary_("), menuSource.indexOf("\n}\n", menuSource.indexOf("function feedMatchSummary_(")) + 3) + " return feedMatchSummary_;")();
+  assert.equal(summary({ total: 3, matched: 1, cards: 0, later: 2, none: 0 }).split("\n")[2], "None need your word.");
+  assert.equal(summary({ total: 8, matched: 1, cards: 5, later: 2, none: 0 }).split("\n")[2], "5 need your word - they are in the Inbox (Recast Books -> Inbox..., the Bank statement tab).");
 });

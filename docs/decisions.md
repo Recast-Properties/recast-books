@@ -1228,3 +1228,16 @@ LITTLE", "5450 - PAUL V BJORK"). Told both, and offered the build: *"build it no
 4. This is the first piece of `docs/phase3-spec.md` 6a (the Daily Summary feed). The emails do NOT become Feed rows -
    the bank's file stays the record (told to Paul the same day: the email is a preview). Chase's daily email names no
    payee and no card; it is not read.
+
+## D-060 · One charge, one card - 2026-09-29 · Paul
+
+The matcher asked about Dennis's three Home Depot charges of 09-28 on ONE card (337.07). Paul, looking at it: *"are
+those three separate charges? if so shouldn't they be separate expenses not grouped?"* They were recorded as three
+entries (D-057's one placeholder per bank line), but the card had made him decide all three at once.
+
+**Decided:** every separate charge gets its own card - its own amount on the top line, its own house, its own
+decision. The prompt asks for it ("One charge, one card"), and code does not rely on that: a question the read asks
+about several lines that are ALL money out is split into one card per line (`applyVerdicts`), each naming its store,
+amount and day before the read's question. Lines of both signs stay on one card - a purchase and its refund are one
+event. A proposal is not split by code (its one entry adds up to its lines - a check and its fee), and neither is a
+match the books could not back up; `placeholderEntries_` covers those: one entry per bank line whatever the card holds.
