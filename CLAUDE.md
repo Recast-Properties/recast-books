@@ -139,7 +139,14 @@ are the target, D-028 returns hold for Paul). **Resume from `HANDOFF-2026-09-28.
   Pushed, confirmed by Paul in the live workbook. 520 tests. **Writer web app @13** (deployed 2026-09-29 on Paul's
   "deploy", = the repo) - no deploy owed. **08:05:** `Match statement lines...` asks which bank by NAME, a Yes/No click,
   one bank per run (Menu.gs, pushed, no deploy). Asked by Paul, not built: a "need receipt from Dennis" placeholder
-  (CHANGELOG 09-29 08:05 - `supersedes` is the swap; put to Paul first).
+  (CHANGELOG 09-29 08:05 - `supersedes` is the swap; put to Paul first). **Built the same morning (D-057, CHANGELOG
+  "morning"):** a Bank statement card's **Waiting on receipt** button records the charge as one line `NEED RECEIPT FROM
+  <NAME>` on the house Paul picks; the receipt, if it comes, REPLACES it (on its own when the read names it and total
+  and payer agree, else a ticked box on Paul's card); the placeholder is voided on its own date and its bank lines move
+  (`feedRetie`); the 3 AM email lists what is still waiting. No holding account - a charge with no house stays a card.
+  532 tests. **LIVE 08:35 PDT on Paul's "deploy": writer web app @14, site `6abbda5b`, both pollers pushed - all = the
+  repo, no deploy owed.** Not yet used on a real charge. Known and left: a held card's `supersedes` that is NOT a
+  placeholder is still not honoured by either Inbox's approve (CHANGELOG 09-29 "morning").
 - **2026-09-25 (D-044, D-045):** the gate lets a **medium** read post when every other rail holds (low still holds); a vendor's unanimous payment history settles `paid_from` when the document shows no card and Paul wrote no note; Chase checking 8870 is Paul's personal (`paul_personal_last4` = `9166, 8870`); `MAX_TOKENS_PER_TURN` 32k; the warm job replays errored docs from their stored read; the digest names the gate reason. CHANGELOG 2026-09-25.
 - **All five lists are done** (audit §40-§43): list 4 in mail not in the books 0 (`mail_settled`), differences 0 (`differences_settled`), confirm 0 real (the 3 shown are rows Paul dropped), questions answered; every decision, link, refusal (per document), drop, addition and retraction is in `data/migration/2026-09-17/paul-answers.json`. **Paul's stopping rule:** no new cost unless proven paid AND absent from the old books by total, pre-tax subtotal and items; otherwise park for Phase 3.
 - **2026-09-28: 104 Ashburne SOLD** the week of 09-21 (Citizens: $715,558.65 from Bison Title 09-23, $550,000 to Raymond James 09-25) - **not closed in the books yet; Paul starts the sell wizard when he is ready.** Earlier: **Facts corrected on 2026-09-18:** 104 Ashburne had NOT closed then. **881 Newport has NOT closed either - under contract (Paul 2026-09-21, audit §47); sold = Granite and Sparkling only**; its two Cost Recapture lines moved to its own tab. "Effren" rows are **Falcon Creek Lawn Care** (`rename_payee`). Paul's notes are the documents for cash labor.

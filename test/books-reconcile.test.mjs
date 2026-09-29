@@ -141,3 +141,37 @@ test("the prompt tells the model which fixes are Paul's clicks and which get a '
   assert.match(CHECK_PROMPT, /Paste to Claude:/);
   assert.match(CHECK_PROMPT, /void \(workbook menu\), approve \/ dismiss \/ reprocess \(Inbox\)/);
 });
+
+test("D-057: charges waiting on a receipt are listed by code under the check, oldest first, and are not 'receipts without a document'", async () => {
+  const { waitingOnReceipts } = await import("../netlify/functions/books-reconcile-background.mjs");
+  const HD = [...H, "description"];
+  const line = (id, n, date, acct, dr, cr, prop, payee, src, description, void_of = "") => [id, n, date, acct, dr, cr, prop, payee, "", src, "2026-09-29T10:00:00", void_of, description];
+  const journal = { headers: HD, rows: [
+    line("receipt-w2", 1, "2026-09-28", "1030", 33.07, "", "469 Brushwood", "THE HOME DEPOT #6505 W", "receipt", "NEED RECEIPT FROM DENNIS"),
+    line("receipt-w2", 2, "2026-09-28", "1401", "", 33.07, "469 Brushwood", "THE HOME DEPOT #6505 W", "receipt", ""),
+    line("receipt-w1", 1, "2026-09-21", "1030", 162.91, "", "366 Mesa", "THE HOME DEPOT #6505 W", "receipt", "NEED RECEIPT FROM DENNIS"),
+    line("receipt-w1", 2, "2026-09-21", "1401", "", 162.91, "366 Mesa", "THE HOME DEPOT #6505 W", "receipt", ""),
+    // its receipt came in: the placeholder was voided, so it is not waiting any more
+    line("receipt-w0", 1, "2026-09-14", "1030", 50, "", "366 Mesa", "LOWES #02601", "receipt", "NEED RECEIPT FROM PAUL"),
+    line("receipt-w0", 2, "2026-09-14", "1401", "", 50, "366 Mesa", "LOWES #02601", "receipt", ""),
+    line("void-receipt-w0", 1, "2026-09-14", "1030", "", 50, "366 Mesa", "LOWES #02601", "void", "NEED RECEIPT FROM PAUL", "receipt-w0"),
+    line("void-receipt-w0", 2, "2026-09-14", "1401", 50, "", "366 Mesa", "LOWES #02601", "void", "", "receipt-w0"),
+    line("receipt-plain", 1, "2026-09-20", "1030", 12, "", "366 Mesa", "Ace", "receipt", "screws"),
+    line("receipt-plain", 2, "2026-09-20", "1401", "", 12, "366 Mesa", "Ace", "receipt", ""),
+  ] };
+  assert.equal(waitingOnReceipts(journal), [
+    "Waiting on receipts (2, $195.98) - recorded from the bank statement, no receipt yet:",
+    "- Dennis: THE HOME DEPOT #6505 W, 09-21, $162.91, 366 Mesa",
+    "- Dennis: THE HOME DEPOT #6505 W, 09-28, $33.07, 469 Brushwood",
+  ].join("\n"));
+  assert.equal(waitingOnReceipts(JOURNAL), "");
+  const f = gatherFacts(journal, [], NOW);
+  assert.deepEqual(f.receipts_without_document.map((e) => e.txn_id), ["receipt-plain"]);
+
+  // the 3 AM email prints the list under the model's bullets, even when the check is clean
+  const { cache, docsStore } = fakes();
+  const writer = { read: async () => ({ ok: true, headers: journal.headers, rows: journal.rows }) };
+  const anthropic = { beta: { messages: { create: async () => ({ stop_reason: "end_turn", model: "m", usage: {}, content: [{ type: "text", text: "Books check: clean." }] }) } } };
+  const check = await runCheck({ writer, docsStore, cacheStore: cache, anthropic, now: NOW });
+  assert.match(check.text, /^Books check: clean\.\nWaiting on receipts \(2, \$195\.98\)/);
+});

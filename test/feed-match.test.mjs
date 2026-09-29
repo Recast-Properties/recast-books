@@ -117,7 +117,7 @@ test("applyVerdicts: a match must add up to the cent (several lines to one entry
   assert.match(byId.F2.match_note, /^In the Inbox: Claude tried to tie the bank's -1196\.40 of 2026-09-01 .* the amounts differ/);
   assert.equal(envelopes.length, 1);
   assert.equal(envelopes[0].docId, "feed-1401-F2");
-  assert.deepEqual(envelopes[0].feed, { account: ACCOUNT, feed_ids: ["F2"] });
+  assert.deepEqual(envelopes[0].feed, { account: ACCOUNT, feed_ids: ["F2"], amount_cents: -119640 });   // signed: money out
   assert.equal(envelopes[0].status, "pending");
   assert.deepEqual(envelopes[0].model.entries, []);
   assert.equal(envelopes[0].model.paid_from, ACCOUNT);

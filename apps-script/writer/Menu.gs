@@ -984,15 +984,24 @@ function inboxApprove(req) {
     var built = buildEntriesFromModel(model, ctx, { posted_by: postedBy, doc_url: '', allow_duplicate_hash: true });
     var txnIds = built.map(function (e) { return e.txn_id; });
     lap('build');
+    // D-057: this receipt replaces a charge Paul was waiting on. Refused in plain words, before
+    // anything is marked or posted, when it is not that charge.
+    var swap = req.supersedes ? placeholderSwap_(ss, String(req.supersedes), entries) : null;
+    if (swap && swap.refuse) return { ok: false, error: 'NOT_THAT_CHARGE', message: swap.refuse };
 
     siteFetchJson_('/api/inbox', 'post', { action: 'mark-posted', docId: docId, txn_ids: txnIds, rows: null,
       doc_url: '', by: postedBy, note: req.note || '' });
     marked = true;
     lap('mark');
 
+    // The placeholder goes first, on its own date (the ingest's order); a Save that died after this
+    // is simply clicked again - placeholderSwap_ sees the placeholder already gone and only posts.
+    if (swap && !swap.voided) { voidEntry_(swap.txn_id, 'replaced by its receipt ' + docId, swap.date, postedBy, props, true); lap('void'); }
     var result = postBatchEntries_(built, props, true);
     lap('post');
-    var feed = tieFeedRows_(ss, req.feed, 'matched', txnIds, 'Recorded from the Inbox' + (req.note ? ' - ' + req.note : ''));
+    var feed = swap
+      ? feedRetieRows_(ss, swap.txn_id, txnIds, 'The receipt came in and replaced the placeholder')
+      : tieFeedRows_(ss, req.feed, 'matched', txnIds, 'Recorded from the Inbox' + (req.note ? ' - ' + req.note : ''));
     lap('feed');
     return { ok: true, txn_ids: txnIds, rows: result.rows, entries: built, feed: feed, timings: timings.join(', ') };
   } catch (err) {
@@ -1004,6 +1013,31 @@ function inboxApprove(req) {
     }
     return { ok: false, error: (err && err.code) || 'INTERNAL', message: message };
   }
+}
+
+/** D-057: the placeholder a receipt is about to replace, read off the Journal - {txn_id, date,
+ *  voided} - or {refuse: plain words} when the receipt is not that charge: a different amount,
+ *  or paid from somewhere other than the account the bank line was on. */
+function placeholderSwap_(ss, txnId, entries) {
+  var journal = ss.getSheetByName('Journal');
+  var cols = headerIndex_(journal);
+  var rows = findAllRowsByValue_(journal, cols['txn_id'], txnId).map(function (r) { return journal.getRange(r, 1, 1, journal.getLastColumn()).getValues()[0]; });
+  var g = function (r, n) { return cols[n] ? r[cols[n] - 1] : ''; };
+  if (!rows.length || !rows.some(function (r) { return String(g(r, 'description')).indexOf(NEED_RECEIPT) === 0; })) {
+    return { refuse: 'The charge this receipt was meant to replace is not a "waiting on receipt" line in the books. Untick "This is the receipt I was waiting for" and Save it as its own purchase.' };
+  }
+  var cents = rows.reduce(function (t, r) { return t + toCents(Number(g(r, 'debit')) || 0); }, 0);
+  var paidFrom = String(g(rows[0], 'paid_from'));
+  var bank = bankAccountsLast4_(ss).filter(function (a) { return a.code === paidFrom; })[0];
+  var mine = entries.reduce(function (t, e) { return t + (e.items || []).reduce(function (s, it) { return s + (Number(it.amount_cents) || 0); }, 0); }, 0);
+  var dollars = function (c) { return '$' + (c / 100).toFixed(2); };
+  if (mine !== cents) {
+    return { refuse: 'This receipt adds up to ' + dollars(mine) + ' but the charge you were waiting on is ' + dollars(cents) + ' - they are not the same purchase. Fix the amounts, or untick "This is the receipt I was waiting for" and Save it as its own purchase.' };
+  }
+  if (entries.some(function (e) { return String(e.paid_from) !== paidFrom; })) {
+    return { refuse: 'The charge you were waiting on was paid from ' + (bank ? bank.name : paidFrom) + ' - set Paid from to that on every line, or untick "This is the receipt I was waiting for".' };
+  }
+  return { txn_id: txnId, date: formatIsoDate_(g(rows[0], 'date')), voided: findAllRowsByValue_(journal, cols['void_of'], txnId).length > 0 };
 }
 
 /** The email body as the receipt (D-035): stored to Drive as email.txt; returns the file url. */

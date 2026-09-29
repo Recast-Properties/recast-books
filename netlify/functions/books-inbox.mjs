@@ -181,6 +181,12 @@ export default async (req) => {
       const envelope = await loadEnvelope(docsStore, docId);
       if (!envelope) return json(404, { error: "NOT_FOUND", message: `no envelope for docId ${docId}` });
 
+      // D-057: only the workbook's Inbox can put a receipt in its placeholder's place. Approving
+      // it here would record the purchase a second time, beside the charge already on the books.
+      if (envelope.gate?.placeholder) {
+        return json(409, { error: "PLACEHOLDER_WAITING", message: "This may be a receipt Paul was waiting on. Open it in the workbook: Recast Books -> Inbox." });
+      }
+
       const modelSource = envelope.model || {};
       const entriesInput = Array.isArray(body.entries) ? body.entries : modelSource.entries;
       if (!Array.isArray(entriesInput) || entriesInput.length === 0) {

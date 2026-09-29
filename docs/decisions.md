@@ -1160,3 +1160,32 @@ NOT YET RUN, RETIRED). The live files never call into the one-off file. `test/wr
 both by the same walk. A DONE script stays as the record of what was done to the books by hand; deleting one is a
 CHANGELOG entry. A one-off needs a `clasp push`, not a web-app deploy. Earlier entries that place such a script in
 "Menu.gs" or "Code.gs" (D-052, D-055, the CHANGELOG) now mean this file; the function names did not change.
+
+## D-057 · A charge can be on the books before its receipt: the placeholder, and the receipt takes its place - 2026-09-29 · Paul
+
+Paul, on Dennis's four card charges of 09-28 (Home Depot 162.91, 33.07, 141.09 and 2.65 on card 9301): *"the reality
+is i may not get a receipt from him. is there a way to add a NEED RECEIPT FROM DENNIS thing or something for a
+placeholder?"* Asked whether he usually knows the house Dennis was buying for, he chose the first of two designs:
+he picks the house; a charge whose house he does not know yet stays a card under the Bank statement tab. **No
+holding account that belongs to no house** (the alternative, a "Waiting on Dennis" account, was not taken).
+
+**Decided:**
+1. **The placeholder** is an ordinary purchase entry recorded from a Bank statement card by one button, **Waiting on
+   receipt** (who: Dennis or Paul): the bank's date, amount and store name, the whole amount on ONE line, 1030 Rehab -
+   materials, the house Paul picks, paid from the account the line is on, trade `Waiting on receipt`, description
+   **`NEED RECEIPT FROM <NAME>`** (`NEED_RECEIPT` in `lib/gate.mjs`; the books find a placeholder by those words). It
+   ties its bank line like any entry, so the account still reconciles. Its Receipt cell stays blank. Money out only -
+   a deposit or a refund is never a placeholder.
+2. **It says only what the bank says** - this much, this store, this day, this house. It is not a guess at what was
+   bought.
+3. **The receipt, if it comes, REPLACES it** - never posts beside it and is never a duplicate of it. On its own
+   (`supersedes`, the ingest) only when the read names the placeholder, the totals agree to the cent and every entry is
+   paid from the placeholder's account; anything else that touches a placeholder (the same amount within 7 days, a read
+   that calls the receipt "already recorded") **holds for Paul** (`PLACEHOLDER_WAITING`), whose card carries a ticked
+   box "This is the receipt I was waiting for". The placeholder is voided on ITS OWN date, so the bank account's
+   balance is right on every day; the bank lines tied to it move to the entries that replaced it (`feedRetie`).
+4. **If the receipt never comes the charge stays as recorded** - the bank line is the proof it was paid.
+5. **The list of what is still waiting** is printed by code under the nightly check in the 3 AM email, oldest first,
+   with the total - what Paul sends Dennis. A placeholder is not a "receipt without a document" finding.
+6. A sale's closing takes a placeholder with the house like any other cost; a placeholder on a house that has since
+   sold is for Paul to settle by hand (Cost Recapture, D-031) - not built, not yet needed.

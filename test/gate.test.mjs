@@ -54,7 +54,7 @@ function baseModel(overrides = {}) {
 
 test("a fully-valid post verdict passes with no reasons", () => {
   const result = evaluateGate(baseModel(), baseCtx(), baseSettings(), { postedEntries: [] });
-  assert.deepEqual(result, { passed: true, reasons: [], already_posted_cents: 0 });
+  assert.deepEqual(result, { passed: true, reasons: [], already_posted_cents: 0, placeholder: null });
 });
 
 test("evaluateGate defaults postedEntries to empty when opts is omitted", () => {
@@ -509,4 +509,50 @@ test("findDuplicate: same vendor/date/total with no invoice numbers anywhere -> 
     entries: [{ payee: "Netlify", date: "2026-09-11", items: [{ amount_cents: 2000 }] }] };
   const posted = [{ txn_id: "receipt-3", payee: "Netlify", date: "2026-09-11", total_cents: 2000, text: "Hosting" }];
   assert.deepEqual(findDuplicate(model, posted), { kind: "possible_twin", txn_id: "receipt-3" });
+});
+
+// ---- D-057: a charge waiting on its receipt (the placeholder rail) ----------------------------
+import { findPlaceholder, NEED_RECEIPT } from "../lib/gate.mjs";
+
+// Dennis's Home Depot charge of 09-28, recorded from the bank statement: the bank's name for the
+// store, the whole amount on one line, paid from Citizens.
+const WAITING = { txn_id: "receipt-20260928-wait", date: "2026-09-08", payee: "THE HOME DEPOT #6505 W", property: "881 Newport", paid_from: "1401", total_cents: 21240, text: " recorded from the bank statement NEED RECEIPT FROM DENNIS" };
+
+test("D-057: the receipt for a waiting charge posts on its own only when the read names it, the totals agree and it is paid from the same account", () => {
+  const swap = baseModel({ supersedes: WAITING.txn_id });
+  const ok = evaluateGate(swap, baseCtx(), baseSettings(), { postedEntries: [WAITING] });
+  assert.deepEqual(ok.reasons, []);
+  assert.equal(ok.passed, true);
+  assert.deepEqual(ok.placeholder, { txn_id: WAITING.txn_id, date: "2026-09-08", payee: "THE HOME DEPOT #6505 W", property: "881 Newport", paid_from: "1401", total_cents: 21240 });
+
+  // the read did not name it: same amount, three days before the bank's date, another spelling of the store
+  const unnamed = evaluateGate(baseModel(), baseCtx(), baseSettings(), { postedEntries: [WAITING] });
+  assert.deepEqual(unnamed.reasons, [`PLACEHOLDER_WAITING:${WAITING.txn_id}`]);
+  assert.equal(unnamed.placeholder.txn_id, WAITING.txn_id);
+
+  // named, but the receipt is for another amount - not that charge
+  const off = evaluateGate(swap, baseCtx(), baseSettings(), { postedEntries: [{ ...WAITING, total_cents: 21000 }] });
+  assert.deepEqual(off.reasons, [`PLACEHOLDER_WAITING:${WAITING.txn_id}`]);
+
+  // named, but paid by Paul's own card - the bank line was on Citizens, so it is not that charge
+  const paul = evaluateGate(baseModel({ supersedes: WAITING.txn_id, paid_from: "PAUL", entries: [baseEntry({ paid_from: "PAUL" })] }), baseCtx(), baseSettings(), { postedEntries: [WAITING] });
+  assert.deepEqual(paul.reasons, [`PLACEHOLDER_WAITING:${WAITING.txn_id}`]);
+});
+
+test("D-057: a placeholder is never a duplicate; a read that calls the receipt 'already recorded' still finds it; eight days away or a bank card is left alone", () => {
+  // same payee, date and total as the placeholder, with an invoice number: DUPLICATE_OF would have dismissed the receipt
+  const same = { ...WAITING, payee: "Home Depot", date: "2026-09-05" };
+  const r = evaluateGate(baseModel({ invoice_number: "H6505-12345" }), baseCtx(), baseSettings(), { postedEntries: [same] });
+  assert.deepEqual(r.reasons, [`PLACEHOLDER_WAITING:${WAITING.txn_id}`]);
+
+  assert.equal(findPlaceholder({ duplicate_of: WAITING.txn_id, receipt_total_cents: 0, date: "" }, [WAITING]).txn_id, WAITING.txn_id);
+  assert.equal(findPlaceholder({ receipt_total_cents: 21240, date: "2026-09-01" }, [WAITING]).txn_id, WAITING.txn_id, "seven days");
+  assert.equal(findPlaceholder({ receipt_total_cents: 21240, date: "2026-08-31" }, [WAITING]), null, "eight days");
+  assert.equal(findPlaceholder({ receipt_total_cents: 21240, date: "2026-09-05" }, [{ ...WAITING, text: "drywall" }]), null, "an ordinary row is not a placeholder");
+
+  // a card born from a bank line is not a receipt: the rail is off
+  const bank = evaluateGate(baseModel(), baseCtx(), baseSettings(), { postedEntries: [WAITING], placeholders: false });
+  assert.deepEqual(bank.reasons, []);
+  assert.equal(bank.placeholder, null);
+  assert.equal(NEED_RECEIPT, "NEED RECEIPT FROM");
 });

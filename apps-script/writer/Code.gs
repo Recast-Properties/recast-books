@@ -97,6 +97,7 @@ function doPost(e) {
       case 'setDocUrl': return action_setDocUrl_(body, props);
       case 'propertyTab': return action_propertyTab_(body, props);
       case 'feedUpdate': return action_feedUpdate_(body, props);
+      case 'feedRetie': return action_feedRetie_(body, props);
       default: return jsonOutput_({ ok: false, error: 'BAD_ACTION' });
     }
   } catch (err) {
@@ -911,6 +912,31 @@ function action_feedUpdate_(body, props) {
   var rows = body.rows;
   if (!Array.isArray(rows) || !rows.length) fail_('BAD_REQUEST', 'rows must be a non-empty array');
   return jsonOutput_(feedUpdateRows_(openWorkbook_(props), rows));
+}
+
+// feedRetie (D-057): a placeholder's receipt came in and replaced it, so the bank lines tied to
+// the placeholder now belong to the entries that took its place. Every Feed row whose txn_id
+// names `from` gets `to` there instead; the write itself is feedUpdateRows_'s, under its lock.
+function action_feedRetie_(body, props) {
+  if (!body.from_txn_id || !Array.isArray(body.to_txn_ids) || !body.to_txn_ids.length) fail_('BAD_REQUEST', 'from_txn_id and to_txn_ids are required');
+  return jsonOutput_(feedRetieRows_(openWorkbook_(props), body.from_txn_id, body.to_txn_ids, body.match_note || ''));
+}
+
+function feedRetieRows_(ss, from, to, note) {
+  var sh = ss.getSheetByName('Feed');
+  var cols = headerIndex_(sh);
+  var last = sh.getLastRow();
+  if (last < 2 || !cols['feed_id'] || !cols['txn_id']) return { ok: true, updated: 0, missing: [] };
+  var ids = sh.getRange(2, cols['feed_id'], last - 1, 1).getValues();
+  var rows = [];
+  sh.getRange(2, cols['txn_id'], last - 1, 1).getValues().forEach(function (r, i) {
+    var have = String(r[0]).split(/,\s*/).filter(Boolean);
+    if (have.indexOf(String(from)) < 0) return;
+    var next = [];
+    have.forEach(function (t) { next = next.concat(t === String(from) ? to : [t]); });
+    rows.push({ feed_id: String(ids[i][0]), status: 'matched', txn_id: next.join(', '), match_note: note });
+  });
+  return rows.length ? feedUpdateRows_(ss, rows) : { ok: true, updated: 0, missing: [] };
 }
 
 // Shared with Menu.gs: the sheet's Inbox ties a bank-line card's rows in-process, never through

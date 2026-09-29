@@ -50,6 +50,10 @@
   .verbs button { font-size: 12px; padding: 5px 10px; margin: 0 6px 4px 0; }
   .note { margin-top: 6px; }
   .docid { font-size: 10px; color: #999; word-break: break-all; }
+  .wait { display: block; font-size: 11px; margin: 6px 0; padding: 5px 8px; background: #fef7e0; border-radius: 3px; }
+  .wait select { width: auto; display: inline-block; margin: 0 4px; }
+  .wait button { font-size: 11px; padding: 3px 8px; margin: 0; }
+  .wait input { width: auto; margin: 0 4px 0 0; }
   a { color: #1a73e8; }
   .loading { color: #444; line-height: 1.8; }
   .loading .bar { height: 6px; background: #e6e6e6; border-radius: 3px; overflow: hidden; margin: 2px 0 8px; }
@@ -71,6 +75,37 @@
   var DATA = { envelopes: [], pickers: { accounts: [], properties: [], bankAccounts: [] }, site: '' };
   var EDIT = {}; // docId -> editable entries (deep copy of model.entries)
   var OPEN = {}; // docId -> true while its card is toggled open (the list starts collapsed)
+  var SWAP = {}; // docId -> false once Paul unticks "This is the receipt I was waiting for" (D-057)
+  // D-057: a charge recorded from the bank statement while its receipt is with someone else. The
+  // words are lib/gate.mjs's NEED_RECEIPT - the books find a placeholder by them (a lint compares).
+  var NEED_RECEIPT = 'NEED RECEIPT FROM';
+  var WAITING_ON = ['Dennis', 'Paul'];
+  function isWaiting_(entries) {
+    return (entries || []).some(function (e) { return (e.items || []).some(function (it) { return String(it.description || '').indexOf(NEED_RECEIPT) === 0; }); });
+  }
+  // The one line a placeholder is: the bank's amount, date and store, on the house Paul picks.
+  function placeholderEntry_(env, who, house) {
+    var m = env.model || {};
+    return { date: m.date, payee: m.vendor, memo: 'recorded from the bank statement - the receipt has not come in', property: house, paid_from: m.paid_from,
+      items: [{ account: '1030', amount_cents: Number(m.receipt_total_cents) || 0, description: NEED_RECEIPT + ' ' + String(who).toUpperCase(),
+        trade: 'Waiting on receipt', business_purpose: '', property: house }] };
+  }
+  // Money out only: a deposit or a refund is never a purchase waiting on its receipt.
+  function moneyOut_(env) {
+    var f = env.feed || {};
+    return f.amount_cents != null ? Number(f.amount_cents) < 0 : /-[\d,]+\.\d\d$/.test(String(env.subject || ''));
+  }
+  // The receipt Paul is waiting on, when this card is it (the gate found the placeholder).
+  function swapOf_(env) {
+    return env.source !== 'feed' && env.gate && env.gate.placeholder && SWAP[env.docId] !== false ? env.gate.placeholder : null;
+  }
+  // The bank line is the proof of who paid: while the box is ticked the card is paid from that
+  // account; unticked, each line goes back to what the receipt itself said.
+  function applySwap_(env) {
+    var swap = swapOf_(env), read = (env.model && env.model.entries) || [];
+    if (!(env.gate && env.gate.placeholder) || env.source === 'feed') return;
+    (EDIT[env.docId] || []).forEach(function (e, i) { e.paid_from = swap ? swap.paid_from : ((read[i] || {}).paid_from || 'UNKNOWN'); });
+  }
   // Two tabs, one Inbox (Paul, 2026-09-29: the bank statement's questions apart from the receipts).
   var TAB = 'receipts';
   function tabOf_(env) { return env.source === 'feed' ? 'bank' : 'receipts'; }
@@ -162,6 +197,7 @@
     if (head === 'DUPLICATE_OF') return 'Already in the books - Dismiss all (' + rest + ')';
     if (head === 'POSSIBLE_TWIN') return 'Might already be in the books - check, then Save or Dismiss all (' + rest + ')';
     if (head === 'ENTRY_INVALID') return 'Something on this card will not save (' + rest + ') - fix it, or Dismiss all';
+    if (head === 'PLACEHOLDER_WAITING') return 'This looks like a receipt you were waiting on - check the yellow box below, then Save';
     return GATE_TEXT.hasOwnProperty(head) ? GATE_TEXT[head] : t;
   }
 
@@ -262,6 +298,11 @@
   // button answers it (Paul, 2026-09-28: "the system is not set up for this type of thing").
   function feedFlags_(entries, why) {
     var kept = approvedOnly_(entries);
+    if (isWaiting_(kept)) {
+      return ['No receipt yet: Save records this charge now, just as the bank shows it',
+        'When the receipt comes in it takes this line\'s place - it is not counted twice. If it never comes, the charge stays as it is']
+        .concat(mismatchFlags_(kept)).map(function (t) { return '<li class="act">' + escapeHtml_(t) + '</li>'; }).join('');
+    }
     var out = [plainWhy_(why)];
     out.push((entries || []).length
       ? 'Claude thinks this bank line is a purchase - check the house and the items, then Save. If it is not a purchase, click Dismiss all and say what it was'
@@ -271,7 +312,8 @@
   function flagsList_(gate, entries, why, env) {
     if (env && env.source === 'feed') return feedFlags_(entries, why);
     var kept = approvedOnly_(entries);
-    var flags = ((gate && gate.reasons) || []).filter(function (r) { return r !== 'NEEDS_HUMAN_274D'; })
+    var swapping = !!(env && swapOf_(env));   // the bank line already says who paid
+    var flags = ((gate && gate.reasons) || []).filter(function (r) { return r !== 'NEEDS_HUMAN_274D' && !(swapping && (r === 'PAYER_UNKNOWN' || r === 'BAD_PAID_FROM')); })
       .map(function (r) { return r === 'PARTLY_ON_BOOKS' ? partlyText_(gate, entries) : (r === 'NO_ENTRIES' && why) ? noEntriesText_(why) : flagText_(r); })
       .filter(Boolean).concat(mismatchFlags_(kept));
     if (needsPurpose_(kept)) flags.push(GATE_TEXT.NEEDS_HUMAN_274D);
@@ -323,6 +365,21 @@
     return '<div class="totals ' + (gap ? 'off' : 'ok') + '">' + text + '</div>';
   }
 
+  // D-057, the yellow box. On a bank statement card: no receipt yet? one click makes it a placeholder.
+  // On a receipt card the gate tied to a placeholder: is this the receipt Paul was waiting for?
+  function waitHtml_(env) {
+    var p = env.gate && env.gate.placeholder;
+    if (env.source === 'feed') {
+      if (!moneyOut_(env) || isWaiting_(EDIT[env.docId])) return '';
+      return '<div class="wait">No receipt yet? Waiting on <select data-wait-who="1">' + WAITING_ON.map(function (w) { return opt_(w, w, false); }).join('') +
+        '</select> <button data-wait="1">Waiting on receipt</button></div>';
+    }
+    if (!p) return '';
+    return '<label class="wait"><input type="checkbox" data-swap="1"' + (SWAP[env.docId] !== false ? ' checked' : '') + '> This is the receipt I was waiting for: ' +
+      escapeHtml_(p.payee || 'a charge') + ', ' + escapeHtml_(String(p.date || '').slice(5)) + ', ' + money_(p.total_cents) + (p.property ? ', on ' + escapeHtml_(p.property) : '') +
+      '. Save puts this receipt in its place - it is not counted twice. Untick if this is a different purchase.</label>';
+  }
+
   function renderCard_(env) {
     var m = env.model || {};
     var gate = env.gate || {};
@@ -340,6 +397,7 @@
         entries.push({ date: m.date || String(env.receivedAt || '').slice(0, 10), payee: m.vendor || '', memo: 'typed by Paul in the Inbox - Claude found nothing to record',
           property: home, paid_from: m.paid_from || '', items: [{ account: '', amount_cents: 0, description: '', trade: '', business_purpose: '', property: home }] });
       }
+      applySwap_(env);
     }
     var props = []; entries.forEach(function (e) { if (e.property && props.indexOf(e.property) < 0) props.push(e.property); });
 
@@ -390,6 +448,7 @@
       (read ? '<details class="why"><summary>Claude\'s read</summary>' + read + '</details>' : '') +
       entriesHtml +
       '<div class="tot">' + totalsLine_(env) + '</div>' +
+      waitHtml_(env) +
       '<div class="verbs"><button class="primary" data-save="1">Save</button>' +
       '<button data-dismiss="1" title="The whole document is not a cost - nothing is added to the books">Dismiss all</button><button data-reprocess="1">Reprocess</button></div>' +
       '<div class="note hidden"><input data-note="1" value="' + escapeHtml_((m.entries || []).length || env.source === 'feed' ? '' : plainWhy_(m.why)) + '" placeholder="' + (env.source === 'feed' ? 'What was it? In your own words' : 'Why? (not a receipt, duplicate...)') + '"><button data-dismiss-go="1">Dismiss all</button><button data-dismiss-cancel="1">Cancel</button></div>' +
@@ -492,6 +551,15 @@
       };
     });
 
+    var waitBtn = card.querySelector('[data-wait]');
+    if (waitBtn) waitBtn.onclick = function () {
+      var first = entries[0] || {};
+      EDIT[env.docId] = [placeholderEntry_(env, card.querySelector('[data-wait-who]').value, first.property && first.property !== 'OVERHEAD' ? first.property : '')];
+      rerender_(env.docId);
+    };
+    var swapBox = card.querySelector('[data-swap]');
+    if (swapBox) swapBox.onchange = function () { SWAP[env.docId] = swapBox.checked; applySwap_(env); rerender_(env.docId); };
+
     var busy = function (on) { card.querySelectorAll('.verbs button').forEach(function (b) { b.disabled = on; }); };
     var done = function (html) {
       showMsg_(msg, true, html);
@@ -506,11 +574,16 @@
     var saveBtn = card.querySelector('[data-save]');
     saveBtn.onclick = function () {
       var sorted = sortByDecision_(entries), toPost = splitByProperty_(sorted.keep), sum = sorted.sum;
+      // The bank line is the proof of who paid: the receipt Paul was waiting for is paid from that account.
+      var swap = toPost.length ? swapOf_(env) : null;
+      if (swap) toPost.forEach(function (e) { e.paid_from = swap.paid_from; });
+      var waiting = isWaiting_(toPost);
       if (!sum.approve && !sum.returned && !sum.dismiss) return showMsg_(msg, false, 'Nothing on this card to save - type an amount and a description on the line, click Reprocess, or Dismiss all.');
       var rest = [sum.returned ? money_(sum.returned) + ' returned' : '', sum.dismiss ? money_(sum.dismiss) + ' dismissed' : ''].filter(Boolean).join(', ');
       if (saveBtn.dataset.armed !== '1') {
         saveBtn.dataset.armed = '1';
-        saveBtn.textContent = 'Click again: ' + (sum.approve ? 'record ' + money_(sum.approve) : 'record nothing') + (rest ? ', ' + rest : '');
+        saveBtn.textContent = 'Click again: ' + (sum.approve ? 'record ' + money_(sum.approve) : 'record nothing') + (rest ? ', ' + rest : '') +
+          (swap ? ' in place of the charge you were waiting on' : waiting ? ', waiting on the receipt' : '');
         setTimeout(function () { saveBtn.dataset.armed = ''; saveBtn.textContent = 'Save'; }, 5000);
         return;
       }
@@ -524,14 +597,15 @@
         }, broke);
         return;
       }
-      callServer_('inboxApprove', { docId: env.docId, entries: toPost, model: env.model || {}, note: sorted.note, feed: env.feed || null }).then(function (r) {
+      callServer_('inboxApprove', { docId: env.docId, entries: toPost, model: env.model || {}, note: sorted.note, feed: env.feed || null, supersedes: swap ? swap.txn_id : null }).then(function (r) {
         if (!r.ok) return fail(r);
         done('Recorded ' + money_(sum.approve) + (rest ? ' - ' + escapeHtml_(rest) : '') + ' <span class="docid">' + r.txn_ids.map(escapeHtml_).join(', ') + '</span>' +
           ' <span data-finish="1">&middot; saving the receipt to Drive...</span>' +
           (r.timings ? '<div class="docid">' + escapeHtml_(r.timings) + '</div>' : ''));
         // Step two runs while the user moves on: Drive filing, doc_url, line blocks, cache.
         var slot = msg.querySelector('[data-finish]');
-        callServer_('inboxFinish', { docId: env.docId, txn_ids: r.txn_ids, entries: toPost, model: env.model || {}, attachments: env.attachments || [], bodyText: env.bodyText || '' }).then(function (f) {
+        callServer_('inboxFinish', { docId: env.docId, txn_ids: r.txn_ids, entries: toPost, model: env.model || {}, attachments: env.attachments || [],
+          bodyText: waiting ? '' : env.bodyText || '' }).then(function (f) {   // a placeholder has no receipt: its Receipt cell stays blank
           if (f.ok) {
             slot.innerHTML = (f.doc_url ? '&middot; <a href="' + escapeHtml_(f.doc_url) + '" target="_blank" rel="noopener">Drive file</a>' : '&middot; filed') +
               (f.timings ? ' <span class="docid">(' + escapeHtml_(f.timings) + ')</span>' : '');

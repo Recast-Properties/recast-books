@@ -1776,3 +1776,50 @@ charges (Home Depot 162.91, 33.07, 141.09; 2.65 at 1316 N Highway 77) - receipts
 Found: `supersedes` already voids an entry and posts its replacement (ingest), and `findDuplicate` would dismiss the
 late receipt as a duplicate of a placeholder only when the payee strings are equal - so a placeholder needs a prompt
 rule (a placeholder is superseded by its receipt) and the Feed row re-tied to the new entry. Put to Paul first.
+
+## 2026-09-29 (morning) - the placeholder: a charge recorded before its receipt (D-057)
+
+Paul: *"the reality is i may not get a receipt from him. is there a way to add a NEED RECEIPT FROM DENNIS thing"* -
+and, offered two designs, *"go with the first"* (he picks the house; no holding account).
+
+**The card (Inbox.html).** A Bank statement card for money out has a yellow row: *No receipt yet? Waiting on [Dennis |
+Paul] - Waiting on receipt*. One click turns the card into the one placeholder line (`placeholderEntry_`: the bank's
+amount, 1030, `NEED RECEIPT FROM DENNIS`, trade `Waiting on receipt`, the house already on the card or his to pick);
+the bullets then say what Save does and that the receipt will take its place; Save records it and ties the bank line.
+No `email.txt` is filed for it, so the tab's Receipt cell stays blank. A receipt card the gate tied to a placeholder
+shows a ticked box naming the waiting charge; while it is ticked the card is paid from the placeholder's account (the
+bank line is the proof) and "Who paid?" is not asked; unticked, the lines go back to what the receipt said.
+
+**The rails (lib/gate.mjs, the ingest).** `findPlaceholder` - named in `supersedes` or `duplicate_of`, else the same
+total within 7 days, payee not compared (the bank's name for a store is not the receipt's). `findDuplicate` skips
+placeholders. Condition 10: a swap passes only when named + equal totals + paid from the same account, else
+`PLACEHOLDER_WAITING:<txn_id>` and `gate.placeholder` on the card. The ingest never dismisses a document that touches
+a placeholder; on a swap it voids the placeholder on the placeholder's date, posts, then moves the bank lines
+(`writer.feedRetie` - a failure there is logged and never undoes the post). `buildPostedEntries` carries `paid_from`;
+`read_ledger` rows end with "paid from ..." when the row says. The bank-line matcher's cards skip the rail
+(`placeholders: false`) and carry `feed.amount_cents`.
+
+**The writer.** New action `feedRetie` (`feedRetieRows_`, Code.gs; the write is `feedUpdateRows_`'s). `inboxApprove`
+takes `supersedes`: `placeholderSwap_` refuses in plain words BEFORE anything is marked (not a waiting line, another
+amount, another payer), then void (own date) -> post -> re-tie; a Save that died after the void is clicked again and
+only posts. The web Inbox's approve refuses a card with `gate.placeholder` (409) - it cannot swap.
+
+**The bookkeeper (prompt).** New section "A charge waiting on its receipt": look for the placeholder with
+`read_ledger` by date, `supersedes` it, itemize in full, paid from the placeholder's account, the placeholder's house
+unless the receipt or Paul's note says otherwise; never `dismiss`, `duplicate_of` or `already_posted_txn_ids`.
+
+**The list (books-reconcile-background.mjs).** `waitingOnReceipts(journal)` - live placeholders, oldest first, with
+the count and total - is appended by code to the nightly check's text (the 3 AM email prints it under the bullets);
+placeholders are left out of `receipts_without_document`. The poller's `gateText_` has the new reason in the card's
+words.
+
+**Found and left, outside this change:** the sheet's and the web Inbox's approve never honoured ANY `supersedes` - a
+held card whose read names an entry to replace posts beside it. Only placeholders are handled now; the general case
+is a rideshare tip or an amended invoice held for another reason. **The card was checked in a local copy** with
+made-up cards (button, bullets, box ticked and unticked, the Save payloads); **not yet tried in the workbook.** 532 tests.
+
+**LIVE 08:35 PDT (Paul: "deploy", run from the session):** writer pushed 08:32 and pulled back (14 files = the repo),
+web app **@14** (`clasp deployments` reads @14, `/exec` answers ok 0.4.0); site **`6abbda5b`** (12 functions uploaded,
+`/api/meta` answers 401 as it should without a session); both pollers pushed and pulled back = the repo (receipts
+`1jKtDx0e...`, properties `1k2htSsu...`). Nothing owed. The first real placeholder and the first swap are the test;
+tonight's 2 AM check is the first to run `waitingOnReceipts` (an empty list prints nothing).

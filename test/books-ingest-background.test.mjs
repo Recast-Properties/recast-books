@@ -593,3 +593,73 @@ test("tradesByProperty: a house's sections from its cost lines, most used first,
   assert.deepEqual(out["1616 Granite"], ["Paint & Flooring"]);
   assert.equal(out["OVERHEAD"], undefined);
 });
+
+// ---- D-057: a charge waiting on its receipt ----------------------------------------------------
+const WAITING = { txn_id: "receipt-20260912-wait", date: "2026-09-12", payee: "THE HOME DEPOT #6505 W", property: "881 Newport", paid_from: "1401", total_cents: 4500 };
+
+test("D-057: the receipt takes its placeholder's place - voided on the placeholder's own date, posted, the bank lines moved", { skip }, async () => {
+  const envelope = await seedEnvelope({ docId: "gm-swap" });
+  const store = getDocsStore();
+  await store.set("att/gm-swap/0", Buffer.from("hi").toString("base64"), { metadata: {} });
+  const calls = [];
+  const writer = {
+    storeDocument: async () => ({ fileId: "f1", url: "https://drive/x", folderUrl: "https://drive/folder" }),
+    void: async (txn_id, reason, date) => { calls.push(["void", txn_id, reason, date]); return { ok: true }; },
+    postBatch: async (entries) => { calls.push(["postBatch", entries.length]); return { rows: [1, 2] }; },
+    feedRetie: async (from, to, note) => { calls.push(["feedRetie", from, to.length, note]); return { ok: true, updated: 1 }; },
+    read: async () => ({ ok: true, headers: ["txn_id"], rows: [] }),
+  };
+  const result = await processDecision({ envelope, docId: "gm-swap", model: postModel({ supersedes: WAITING.txn_id }), transcript_summary: [], usage: {},
+    gateResult: { passed: true, reasons: [], placeholder: WAITING }, ctx: baseCtx(), writer, docsStore: store });
+  assert.equal(result.status, "posted");
+  assert.deepEqual(calls, [
+    ["void", WAITING.txn_id, "replaced by its receipt gm-swap", "2026-09-12"],
+    ["postBatch", 1],
+    ["feedRetie", WAITING.txn_id, 1, "The receipt came in (gm-swap) and replaced the placeholder"],
+  ]);
+});
+
+test("D-057: the bank lines failing to move never undoes the post", { skip }, async () => {
+  const envelope = await seedEnvelope({ docId: "gm-swap-2" });
+  const store = getDocsStore();
+  await store.set("att/gm-swap-2/0", Buffer.from("hi").toString("base64"), { metadata: {} });
+  const writer = {
+    storeDocument: async () => ({ fileId: "f1", url: "https://drive/x", folderUrl: "https://drive/folder" }),
+    void: async () => ({ ok: true }), postBatch: async () => ({ rows: [1, 2] }),
+    feedRetie: async () => { throw new Error("the writer timed out"); },
+    read: async () => ({ ok: true, headers: ["txn_id"], rows: [] }),
+  };
+  const result = await processDecision({ envelope, docId: "gm-swap-2", model: postModel({ supersedes: WAITING.txn_id }), transcript_summary: [], usage: {},
+    gateResult: { passed: true, reasons: [], placeholder: WAITING }, ctx: baseCtx(), writer, docsStore: store });
+  assert.equal(result.status, "posted");
+  assert.equal(result.result.txn_ids.length, 1);
+});
+
+test("D-057: a receipt that touches a placeholder is never dismissed by code, however sure the read is - it waits for Paul", { skip }, async () => {
+  const gateResult = { passed: false, reasons: ["NOT_POST_VERDICT", `PLACEHOLDER_WAITING:${WAITING.txn_id}`], placeholder: WAITING };
+  for (const [docId, model] of [
+    ["gm-wait-dup", postModel({ verdict: "dismiss", duplicate_of: WAITING.txn_id })],
+    ["gm-wait-sure", postModel({ verdict: "dismiss", confidence: "high" })],
+    ["gm-wait-post", postModel()],
+  ]) {
+    const envelope = await seedEnvelope({ docId });
+    const touched = [];
+    const writer = { storeDocument: async () => { touched.push("storeDocument"); }, postBatch: async () => { touched.push("postBatch"); return { rows: [] }; }, void: async () => { touched.push("void"); } };
+    const result = await processDecision({ envelope, docId, model, transcript_summary: [], usage: {}, gateResult, ctx: baseCtx(), writer, docsStore: getDocsStore() });
+    assert.equal(result.status, "pending", docId);
+    assert.deepEqual(touched, [], `${docId}: nothing filed, posted or voided`);
+    assert.equal(result.gate.placeholder.txn_id, WAITING.txn_id, `${docId}: the card knows which charge it may replace`);
+  }
+});
+
+test("D-057: the gate sees who paid for a posted entry, and the bookkeeper's ledger rows say it", { skip }, async () => {
+  const { flattenJournalLines, buildPostedEntries } = await import("../netlify/functions/books-ingest-background.mjs");
+  const lines = flattenJournalLines(["txn_id", "date", "account", "debit", "credit", "property", "payee", "description", "paid_from"], [
+    ["receipt-wait", "2026-09-12", "1030", 45, "", "881 Newport", "THE HOME DEPOT #6505 W", "NEED RECEIPT FROM DENNIS", "1401"],
+    ["receipt-wait", "2026-09-12", "1401", "", 45, "881 Newport", "THE HOME DEPOT #6505 W", "NEED RECEIPT FROM DENNIS", "1401"],
+  ]);
+  const [posted] = buildPostedEntries(lines);
+  assert.equal(posted.paid_from, "1401");
+  assert.equal(posted.total_cents, 4500);
+  assert.match(posted.text, /NEED RECEIPT FROM DENNIS/);
+});

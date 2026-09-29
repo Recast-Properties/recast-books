@@ -290,6 +290,15 @@ test("approve: a second click while posting -> 409", { skip }, async () => {
   assert.equal(res.status, 409);
 });
 
+test("D-057 approve: a receipt that may replace a placeholder is refused here - only the workbook's Inbox can swap it", { skip }, async () => {
+  await seedEnvelope("gm-approve-wait", { gate: { passed: false, reasons: ["PLACEHOLDER_WAITING:receipt-wait"], placeholder: { txn_id: "receipt-wait" } } });
+  const res = await handler(req("POST", { token: session("owner"), body: { action: "approve", docId: "gm-approve-wait" } }));
+  assert.equal(res.status, 409);
+  assert.equal((await res.json()).error, "PLACEHOLDER_WAITING");
+  assert.equal((await getDocsStore().get("doc/gm-approve-wait", { type: "json" })).status, "pending");
+  assert.equal(ingestCalls.some((c) => c.url.endsWith("/api/approve-bg")), false);
+});
+
 test("approve honors human-edited entries over the model's original proposal", { skip }, async () => {
   await seedEnvelope("gm-approve3");
   const editedEntries = [

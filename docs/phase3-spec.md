@@ -150,7 +150,8 @@ This is what the Phase 5 overhead close checks (D-015).
   (which is the Inbox card).
 - **Inbox**: feed proposals appear as cards alongside receipts, tagged `feed`. **Amended 2026-09-29:** in the sheet's
   Inbox they are on their own tab - **Receipts | Bank statement**, one Inbox, a count on each (Paul's call; `tabOf_`
-  in `Inbox.html`).
+  in `Inbox.html`). **D-057 (2026-09-29):** a Bank statement card for money out has **Waiting on receipt** - the charge
+  is recorded as a placeholder (`NEED RECEIPT FROM <NAME>`) and its receipt, if it comes, takes its place.
 - **Dashboard**: "unmatched feed lines" and "months not reconciled" counts.
 - **Upload**: accepts statement files with an account picker (or auto by last-4).
 

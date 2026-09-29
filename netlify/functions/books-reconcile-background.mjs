@@ -11,6 +11,7 @@
 // prints it first. It never writes to the workbook - voids and approves stay Paul's clicks.
 import Anthropic from "@anthropic-ai/sdk";
 import { requireConfig, json, pollerSecretOk, getWriter, getDocsStore, getCacheStore, readTab } from "./_shared.mjs";
+import { NEED_RECEIPT } from "../../lib/gate.mjs";
 import { MODEL_ID } from "../../lib/bookkeeper.mjs";
 import { MIGRATION_RECORD } from "../../lib/migration-record.mjs";
 
@@ -44,8 +45,11 @@ export function gatherFacts(journal, envelopes, now = Date.now(), record = MIGRA
   const byTxn = new Map();
   for (const r of live) {
     const id = String(g(r, "txn_id"));
-    const e = byTxn.get(id) || { txn_id: id, date: String(g(r, "date")), payee: String(g(r, "payee")), property: "", source: String(g(r, "source")), debit: 0, doc_url: "", posted_at: String(g(r, "posted_at")), memo: String(g(r, "memo") || "").slice(0, 160) };
+    const e = byTxn.get(id) || { txn_id: id, date: String(g(r, "date")), payee: String(g(r, "payee")), property: "", source: String(g(r, "source")), debit: 0, doc_url: "", posted_at: String(g(r, "posted_at")), memo: String(g(r, "memo") || "").slice(0, 160), waiting_on: "" };
     e.debit += cents(g(r, "debit"));
+    // D-057: a placeholder - "NEED RECEIPT FROM DENNIS" - is waiting on that person's receipt
+    const d = String(g(r, "description") || "");
+    if (d.startsWith(NEED_RECEIPT)) e.waiting_on = d.slice(NEED_RECEIPT.length).trim() || "someone";
     if (!e.property && g(r, "property")) e.property = String(g(r, "property"));
     if (!e.doc_url && g(r, "doc_url")) e.doc_url = String(g(r, "doc_url"));
     byTxn.set(id, e);
@@ -77,8 +81,8 @@ export function gatherFacts(journal, envelopes, now = Date.now(), record = MIGRA
   const possible_duplicates = [...groups.values()].filter((gr) => gr.length > 1 && gr.some((e) => e.source !== "migration"))
     .map((gr) => ({ date: gr[0].date, payee: gr[0].payee, total: money(gr[0].debit), entries: gr.map((e) => `${e.txn_id} (${e.source}, ${e.property || "no property"}${e.memo ? `; memo: ${e.memo}` : ""})`) }));
 
-  // (d) receipt entries with no document
-  const receipts_without_document = entries.filter((e) => e.source === "receipt" && !e.doc_url)
+  // (d) receipt entries with no document - a placeholder has none by design, and has its own list
+  const receipts_without_document = entries.filter((e) => e.source === "receipt" && !e.doc_url && !e.waiting_on)
     .map((e) => ({ txn_id: e.txn_id, date: e.date, payee: e.payee, total: money(e.debit) }));
 
   // (e) stuck and errored envelopes
@@ -168,6 +172,26 @@ export function gatherFacts(journal, envelopes, now = Date.now(), record = MIGRA
   };
 }
 
+/**
+ * D-057: the charges recorded from the bank statement whose receipt has not come in, oldest first,
+ * as the lines the 3 AM email prints under the check. Code writes these, not the model - the list
+ * is what Paul sends Dennis. "" when nothing is waiting.
+ */
+export function waitingOnReceipts(journal) {
+  const idx = Object.fromEntries(journal.headers.map((h, i) => [h, i]));
+  const g = (r, n) => (idx[n] === undefined ? "" : r[idx[n]]);
+  const voided = new Set(journal.rows.map((r) => String(g(r, "void_of") || "")).filter(Boolean));
+  const name = (s) => s.charAt(0) + s.slice(1).toLowerCase();
+  const list = journal.rows
+    .filter((r) => String(g(r, "source")) !== "void" && !voided.has(String(g(r, "txn_id"))) && String(g(r, "description") || "").startsWith(NEED_RECEIPT) && cents(g(r, "debit")) > 0)
+    .map((r) => ({ who: name(String(g(r, "description")).slice(NEED_RECEIPT.length).trim() || "someone"), date: String(g(r, "date")).slice(0, 10), payee: String(g(r, "payee")), cents: cents(g(r, "debit")), property: String(g(r, "property")) }))
+    .sort((a, b) => (a.date < b.date ? -1 : a.date > b.date ? 1 : 0));
+  if (!list.length) return "";
+  const total = list.reduce((t, w) => t + w.cents, 0);
+  return [`Waiting on receipts (${list.length}, $${money(total)}) - recorded from the bank statement, no receipt yet:`,
+    ...list.map((w) => `- ${w.who}: ${w.payee}, ${w.date.slice(5)}, $${money(w.cents)}, ${w.property || "no house"}`)].join("\n");
+}
+
 export const CHECK_PROMPT = `You are the nightly books check for Recast Properties LLC, a small real-estate flipping business. The books are a Google Sheets Journal (double-entry, append-only, voids are reversing entries) fed by a receipts bookkeeper whose review queue is a set of "envelopes" (one per document: status pending / posting / posted / dismissed / error).
 
 You receive the facts the code gathered tonight as JSON. Judge them and write what Paul (the owner) should do. Rules:
@@ -205,6 +229,9 @@ export async function runCheck({ writer, docsStore, cacheStore, anthropic, now =
   } catch (err) {
     error = `the model call failed: ${String((err && err.message) || err)}`;
   }
+
+  const waiting = waitingOnReceipts(journal);
+  if (waiting) text = [text, waiting].filter(Boolean).join("\n");
 
   const date = new Intl.DateTimeFormat("en-CA", { timeZone: "America/Chicago", year: "numeric", month: "2-digit", day: "2-digit" }).format(new Date(now));
   const check = { date, ranAt: new Date(now).toISOString(), text, error, usage, facts };

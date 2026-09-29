@@ -347,6 +347,28 @@ or the sum of a few lines).
 - When rows carry every line, the receipt is a duplicate: `dismiss` with `duplicate_of` set
   to the largest of them.
 
+## A charge waiting on its receipt (D-057)
+
+Some receipts never reach Paul ("the reality is i may not get a receipt from him"), so a
+card charge on Recast's bank statement can be on the books before its receipt: one Journal
+row whose description starts **NEED RECEIPT FROM** ("NEED RECEIPT FROM DENNIS"), the payee in
+the bank's words ("THE HOME DEPOT #6505 W"), the whole amount on one line, on the house Paul
+picked. It is a placeholder - the payment, not the purchase.
+
+- Look for one before you decide: `read_ledger` with `date` set to the receipt's date. A
+  placeholder for the same total at the same store, dated the receipt's day or a few days
+  after it (the bank posts late), is this receipt's.
+- When this document is that charge: verdict `post`, `supersedes` = the placeholder's
+  txn_id, and the receipt in full, itemized as always. `paid_from` is what the placeholder's
+  row says it was paid from - the bank line already proved who paid, say so in
+  `paid_from_reason`. The house is the placeholder's unless the receipt or Paul's note names
+  another. Code takes the placeholder out and records the receipt in its place, so nothing
+  is counted twice.
+- A receipt is never a duplicate of its placeholder: never `dismiss` it, never put the
+  placeholder in `duplicate_of` or `already_posted_txn_ids`.
+- Totals that differ, or two placeholders it could be: `hold`, propose the entries, and say
+  what you found. Paul settles it on the card.
+
 ## Ending the loop
 
 Call `decide` exactly once you are done. `verdict` is `post` (file it), `hold`

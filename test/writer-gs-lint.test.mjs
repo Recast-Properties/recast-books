@@ -464,7 +464,7 @@ test("the Inbox card: each line is Approve, Returned or Dismiss, and the card sa
   assert.equal(one.keep.length, 1);
   assert.deepEqual(one.keep[0].items.map((it) => [it.amount_cents, it.decision, it.reason]), [[589, undefined, undefined]]);
   assert.equal(one.note, "Returned ($9.95): GRK 3/8 x 12");
-  assert.ok(inbox.includes("callServer_('inboxApprove', { docId: env.docId, entries: toPost, model: env.model || {}, note: sorted.note, feed: env.feed || null })"),
+  assert.ok(inbox.includes("callServer_('inboxApprove', { docId: env.docId, entries: toPost, model: env.model || {}, note: sorted.note, feed: env.feed || null, supersedes: swap ? swap.txn_id : null })"),
     "Save posts the kept lines with the note");
 
   // A meal line needs its who-and-why only while it is kept (HD 03-02's water).
@@ -749,4 +749,112 @@ test("the Inbox has two tabs: a bank-line card is on Bank statement, everything 
   for (const t of ["receipts", "bank"]) assert.ok(html.includes(`data-tab="${t}"`), `no ${t} tab button`);
   assert.equal((html.match(/data-tab="' \+ tabOf_\(env\) \+ '"/g) || []).length, 2, "the open and the closed card both carry their tab");
   assert.match(html, /c\.dataset\.tab === TAB &&/, "the list shows only the open tab's cards");
+});
+
+// ---- D-057: a charge waiting on its receipt ----------------------------------------------------
+const gsFn = (src, name) => {
+  const a = src.indexOf(`function ${name}(`);
+  assert.ok(a !== -1, `${name} not found`);
+  return src.slice(a, src.indexOf("\n}\n", a) + 3);
+};
+// A sheet as the two functions below read it: a header row and rows, 1-based like Apps Script.
+const fakeSheet = (headers, rows) => ({
+  getLastRow: () => rows.length + 1,
+  getLastColumn: () => headers.length,
+  getRange: (r, c, n = 1, w = 1) => ({ getValues: () => rows.slice(r - 2, r - 2 + n).map((row) => row.slice(c - 1, c - 1 + w)) }),
+});
+const headerIndexOf = (headers) => Object.fromEntries(headers.map((h, i) => [h, i + 1]));
+
+test("D-057 feedRetie: the bank lines tied to a placeholder move to the entries that replaced it, and only those lines", () => {
+  assert.match(source, /case 'feedRetie': return action_feedRetie_\(body, props\);/);
+  const headers = ["feed_id", "account", "status", "txn_id", "match_note"];
+  const rows = [["F1", "1401", "matched", "receipt-wait", "Recorded from the Inbox"], ["F2", "1401", "matched", "receipt-other", "x"],
+    ["F3", "1401", "matched", "receipt-a, receipt-wait", "two entries on one line"], ["F4", "1401", "unmatched", "", ""]];
+  const written = [];
+  const retie = new Function("headerIndex_", "feedUpdateRows_", gsFn(source, "feedRetieRows_") + " return feedRetieRows_;")(
+    () => headerIndexOf(headers), (ss, r) => { written.push(...r); return { ok: true, updated: r.length, missing: [] }; });
+  const ss = { getSheetByName: () => fakeSheet(headers, rows) };
+  assert.deepEqual(retie(ss, "receipt-wait", ["receipt-new1", "receipt-new2"], "The receipt came in"), { ok: true, updated: 2, missing: [] });
+  assert.deepEqual(written, [
+    { feed_id: "F1", status: "matched", txn_id: "receipt-new1, receipt-new2", match_note: "The receipt came in" },
+    { feed_id: "F3", status: "matched", txn_id: "receipt-a, receipt-new1, receipt-new2", match_note: "The receipt came in" },
+  ]);
+  written.length = 0;
+  assert.deepEqual(retie(ss, "receipt-nowhere", ["x"], ""), { ok: true, updated: 0, missing: [] });
+  assert.deepEqual(written, [], "nothing tied to it, nothing written");
+});
+
+test("D-057 placeholderSwap_: the receipt must be that charge - a waiting line, the same amount, paid from the same account - or Save is refused in plain words", () => {
+  const headers = ["txn_id", "date", "account", "debit", "credit", "paid_from", "description", "void_of"];
+  const journal = (extra = []) => [
+    ["receipt-wait", "2026-09-28", "1030", 162.91, "", "1401", "NEED RECEIPT FROM DENNIS", ""],
+    ["receipt-wait", "2026-09-28", "1401", "", 162.91, "1401", "", ""],
+    ["receipt-plain", "2026-09-20", "1030", 12, "", "1401", "screws", ""],
+    ["receipt-plain", "2026-09-20", "1401", "", 12, "1401", "", ""], ...extra];
+  const swapWith = (rows) => new Function("headerIndex_", "findAllRowsByValue_", "formatIsoDate_", "toCents", "bankAccountsLast4_", "NEED_RECEIPT",
+    gsFn(menuSource, "placeholderSwap_") + " return placeholderSwap_;")(
+    () => headerIndexOf(headers),
+    (sh, col, v) => rows.map((r, i) => (String(r[col - 1]) === String(v) ? i + 2 : 0)).filter(Boolean),
+    (d) => String(d), (n) => Math.round(n * 100), () => [{ code: "1401", name: "Cash - Citizens shared" }], "NEED RECEIPT FROM");
+  const ss = (rows) => ({ getSheetByName: () => fakeSheet(headers, rows) });
+  const receipt = (cents, paid_from = "1401") => [{ paid_from, items: [{ amount_cents: cents - 1000 }, { amount_cents: 1000 }] }];
+
+  const live = journal();
+  assert.deepEqual(swapWith(live)(ss(live), "receipt-wait", receipt(16291)), { txn_id: "receipt-wait", date: "2026-09-28", voided: false });
+  assert.match(swapWith(live)(ss(live), "receipt-wait", receipt(17000)).refuse, /adds up to \$170\.00 but the charge you were waiting on is \$162\.91/);
+  assert.match(swapWith(live)(ss(live), "receipt-wait", receipt(16291, "PAUL")).refuse, /was paid from Cash - Citizens shared/);
+  assert.match(swapWith(live)(ss(live), "receipt-plain", receipt(1200)).refuse, /is not a "waiting on receipt" line/);
+  assert.match(swapWith(live)(ss(live), "receipt-gone", receipt(1200)).refuse, /is not a "waiting on receipt" line/);
+  // a Save that died after the placeholder was taken out: clicked again, it only posts
+  const voided = journal([["void-receipt-wait", "2026-09-28", "1030", "", 162.91, "1401", "NEED RECEIPT FROM DENNIS", "receipt-wait"]]);
+  assert.equal(swapWith(voided)(ss(voided), "receipt-wait", receipt(16291)).voided, true);
+  for (const r of ["refuse: 'This receipt adds up", "refuse: 'The charge you were waiting on was paid", "refuse: 'The charge this receipt was meant"]) {
+    assert.ok(menuSource.includes(r), "a refusal lost its plain words");
+  }
+  assert.doesNotMatch(gsFn(menuSource, "placeholderSwap_"), /' \+ paidFrom \+ '/, "an account code in Paul's sentence");
+});
+
+test("D-057 inboxApprove: refused before anything is marked, the placeholder voided on its own date before the post, its bank lines moved after", () => {
+  const fn = gsFn(menuSource, "inboxApprove");
+  const at = (s) => { const i = fn.indexOf(s); assert.ok(i !== -1, `${s} not in inboxApprove`); return i; };
+  const order = ["placeholderSwap_(ss, String(req.supersedes), entries)", "if (swap && swap.refuse) return", "action: 'mark-posted'",
+    "voidEntry_(swap.txn_id, 'replaced by its receipt ' + docId, swap.date, postedBy, props, true)", "postBatchEntries_(built, props, true)", "feedRetieRows_(ss, swap.txn_id, txnIds,"].map(at);
+  assert.deepEqual(order, [...order].sort((a, b) => a - b));
+  assert.match(fn, /if \(swap && !swap\.voided\) \{ voidEntry_/, "a placeholder already taken out is not voided twice");
+});
+
+test("D-057 the Inbox card: Waiting on receipt makes the one placeholder line; the swap box sends the placeholder with Save", async () => {
+  const { NEED_RECEIPT } = await import("../lib/gate.mjs");
+  const inbox = readFileSync(path.join(__dirname, "..", "apps-script", "writer", "Inbox.html"), "utf8");
+  const poller = readFileSync(path.join(__dirname, "..", "apps-script", "poller", "Code.gs"), "utf8");
+  assert.ok(inbox.includes(`var NEED_RECEIPT = '${NEED_RECEIPT}';`), "the card's words for a placeholder drifted from lib/gate.mjs");
+  const bullet = "if (head === 'PLACEHOLDER_WAITING') return 'This looks like a receipt you were waiting on - check the yellow box below, then Save';";
+  assert.ok(inbox.includes(bullet) && poller.includes(bullet), "the card and the 3 AM email say it the same way");
+
+  const grab = (head) => { const a = inbox.indexOf(head); let i = inbox.indexOf("{", a), d = 0; do { if (inbox[i] === "{") d++; else if (inbox[i] === "}") d--; i++; } while (d); return inbox.slice(a, i); };
+  const card = new Function(["var SWAP = {}, EDIT = {};", `var NEED_RECEIPT = '${NEED_RECEIPT}';`, ...["isWaiting_", "placeholderEntry_", "moneyOut_", "swapOf_"].map((n) => grab(`function ${n}(`)),
+    "return { isWaiting_, placeholderEntry_, moneyOut_, swapOf_, SWAP };"].join("\n"))();
+  const env = { docId: "feed-1401-F9", source: "feed", subject: "Cash - Citizens shared 2026-09-28 THE HOME DEPOT #6505 W -162.91",
+    model: { vendor: "THE HOME DEPOT #6505 W", date: "2026-09-28", receipt_total_cents: 16291, paid_from: "1401" } };
+  const entry = card.placeholderEntry_(env, "Dennis", "469 Brushwood");
+  assert.deepEqual(entry, { date: "2026-09-28", payee: "THE HOME DEPOT #6505 W", memo: "recorded from the bank statement - the receipt has not come in", property: "469 Brushwood", paid_from: "1401",
+    items: [{ account: "1030", amount_cents: 16291, description: "NEED RECEIPT FROM DENNIS", trade: "Waiting on receipt", business_purpose: "", property: "469 Brushwood" }] });
+  // it posts through the same engine as any purchase, the whole amount on the house
+  const built = buildEntry({ type: "purchase", ...entry, source: "receipt", posted_by: "paul" }, makeCtx({ properties: new Set(["469 Brushwood"]), periods: new Map([["2026-09", "open"]]), today: "2026-09-29" }));
+  assert.deepEqual(built.lines.map((l) => [l.account, l.debit, l.credit]), [["1030", 16291, 0], ["1401", 0, 16291]]);
+  assert.equal(built.lines[0].description, "NEED RECEIPT FROM DENNIS");
+
+  assert.equal(card.isWaiting_([entry]), true);
+  assert.equal(card.isWaiting_([{ items: [{ description: "screws" }] }]), false);
+  assert.equal(card.moneyOut_(env), true, "an older card: the sign is read off its subject");
+  assert.equal(card.moneyOut_({ subject: "Cash - Citizens shared 2026-09-08 Refund LOWES 191.02" }), false);
+  assert.equal(card.moneyOut_({ feed: { amount_cents: 500000 }, subject: "x -1.00" }), false, "a deposit is never a purchase");
+  assert.equal(card.moneyOut_({ feed: { amount_cents: -324 } }), true);
+
+  const p = { txn_id: "receipt-wait", paid_from: "1401" };
+  assert.equal(card.swapOf_({ docId: "gm-1", source: "email", gate: { placeholder: p } }), p);
+  assert.equal(card.swapOf_({ docId: "gm-1", source: "feed", gate: { placeholder: p } }), null, "a bank statement card replaces nothing");
+  card.SWAP["gm-1"] = false;
+  assert.equal(card.swapOf_({ docId: "gm-1", source: "email", gate: { placeholder: p } }), null, "Paul unticked it: a different purchase");
+  assert.ok(inbox.includes("bodyText: waiting ? '' : env.bodyText || ''"), "a placeholder would get a Receipt link to the bank line's text");
 });

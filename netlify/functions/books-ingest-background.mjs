@@ -87,6 +87,7 @@ export function flattenJournalLines(headers, rows) {
       memo: String(get(row, "memo") || ""),
       source: String(get(row, "source") || ""),
       void_of: String(get(row, "void_of") || ""),
+      paid_from: String(get(row, "paid_from") || ""),
     };
   });
 }
@@ -125,10 +126,11 @@ export function buildPostedEntries(lines) {
   for (const l of lines) {
     if (l.source === "void" || l.void_of || voided.has(l.txn_id)) continue;
     if (!byTxn.has(l.txn_id)) {
-      byTxn.set(l.txn_id, { txn_id: l.txn_id, date: l.date, payee: "", property: l.property, total_cents: 0, text: "" });
+      byTxn.set(l.txn_id, { txn_id: l.txn_id, date: l.date, payee: "", property: l.property, paid_from: "", total_cents: 0, text: "" });
     }
     const e = byTxn.get(l.txn_id);
     if (!e.payee && l.payee) e.payee = l.payee;
+    if (!e.paid_from && l.paid_from) e.paid_from = l.paid_from;   // the placeholder rail compares it (D-057)
     if (l.amount_cents > 0) e.total_cents += l.amount_cents;
     // memo + descriptions carry invoice/receipt numbers - what findDuplicate matches on
     e.text += " " + (l.memo || "") + " " + (l.description || "");
@@ -573,7 +575,9 @@ export async function processDecision({
   // ---- dismiss: the model is confident this is a duplicate or not a receipt at all
   // (promotion, points statement, $0 notice). A confident verdict is final; only a
   // hesitant dismiss waits for a human. Paul, 2026-09-11: the system should know. ----
-  if (model.verdict === "dismiss" && (model.duplicate_of || model.confidence === "high")) {
+  // D-057: a document that touches a placeholder is never dismissed by code - "already recorded"
+  // is exactly what a placeholder looks like, and its receipt is what Paul is waiting for.
+  if (model.verdict === "dismiss" && !gateResult.placeholder && (model.duplicate_of || model.confidence === "high")) {
     return save({
       status: "dismissed",
       result: { txn_ids: [], rows: null, doc_url: "" },
@@ -616,8 +620,11 @@ export async function processDecision({
       const filed = await storeAttachmentsToDrive(writer, docsStore, envelope, folder, model);
       doc_url = filed[0]?.url || "";
 
+      // D-057: a placeholder is voided on ITS OWN date, so the bank account's balance is right on
+      // every day in between; any other supersede is dated today, as before.
+      const waiting = gateResult.placeholder?.txn_id === model.supersedes ? gateResult.placeholder : null;
       if (model.supersedes) {
-        await writer.void(model.supersedes, `superseded by ${docId}`, todayChicago(), "claude");
+        await writer.void(model.supersedes, waiting ? `replaced by its receipt ${docId}` : `superseded by ${docId}`, waiting ? waiting.date : todayChicago(), "claude");
       }
 
       entries = buildEntriesFromModelSafe(model, ctx, {
@@ -627,6 +634,12 @@ export async function processDecision({
       });
 
       const postResult = await writer.postBatch(entries);
+      // The bank lines tied to the placeholder now belong to the entries that replaced it. The
+      // post stands whatever happens here; a miss is logged for the nightly check.
+      if (waiting) {
+        try { await writer.feedRetie(waiting.txn_id, entries.map((e) => e.txn_id), `The receipt came in (${docId}) and replaced the placeholder`); }
+        catch (err) { console.error(`books-ingest-bg: ${docId} replaced ${waiting.txn_id} but its bank lines were not moved: ${String((err && err.message) || err)}`); }
+      }
       await invalidateJournalCache(writer); // covers the void above too - one Journal refresh
 
       return save({

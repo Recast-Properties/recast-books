@@ -612,6 +612,7 @@ function gateText_(r) {
   if (head === 'DUPLICATE_OF') return 'Already in the books - Dismiss all (' + rest + ')';
   if (head === 'POSSIBLE_TWIN') return 'Might already be in the books - check, then Save or Dismiss all (' + rest + ')';
   if (head === 'ENTRY_INVALID') return 'Something on this card will not save (' + rest + ') - fix it, or Dismiss all';
+  if (head === 'PLACEHOLDER_WAITING') return 'This looks like a receipt you were waiting on - check the yellow box below, then Save';
   return GATE_TEXT.hasOwnProperty(head) ? GATE_TEXT[head] : t;
 }
 
