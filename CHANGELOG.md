@@ -1740,3 +1740,15 @@ migration was right to leave it; the 71.71 fence pickets (HD 03-29) *"is a new e
 **13:20 - pickets posted** (rows 2594-2595, `manual-20260329-a3af0b1e4474`). **Ashburne by the books, end of day:** fixing and
 holding 185,857.62, costs **510,857.62**, **Recast owes Paul 9,716.18**, Paul's profit **139,120.62**. Session closed 13:25 PDT;
 git pushed. Left in the Inbox for Paul: the Uber 07-09 31.27 card (already in the books - Dismiss all).
+
+## 2026-09-29 - the Inbox has two tabs: Receipts and Bank statement
+
+Paul: *"the unclear charges from the bank statement import are in the same inbox as unresolved expenses. i want to
+separate them."* He offered a tab or two inboxes; tabs, because the cards and buttons are the same and two inboxes would
+be two menu items and two copies of one screen. `Inbox.html` only: `tabOf_(env)` (`source === 'feed'` -> `bank`, else
+`receipts`), each card carries `data-tab`, `filter_` shows the open tab's cards, `counts_` puts a count on each tab
+("2 of 3" while a filter is typed) and the total beside "Inbox". It opens on Receipts, or on Bank statement when
+Receipts is empty; Refresh keeps the tab. "Nothing waiting here." is per tab and never shows over a failed load.
+Checked in a local copy with made-up cards (2 + 3), then pushed 07:38 PDT and pulled back: all 14 files = the repo.
+No deploy (the sheet's Inbox runs the pushed code); the @13 deploy is still owed from 09-28. 520 tests.
+**Paul opened it in the live workbook: "that worked".**

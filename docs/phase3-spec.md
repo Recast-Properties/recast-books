@@ -148,7 +148,9 @@ This is what the Phase 5 overhead close checks (D-015).
   why-note, outstanding items, and the three reconciliation numbers. Owner verbs on a
   line: match to (pick a journal entry), mark transfer, exclude, or approve the proposal
   (which is the Inbox card).
-- **Inbox**: feed proposals appear as cards alongside receipts, tagged `feed`.
+- **Inbox**: feed proposals appear as cards alongside receipts, tagged `feed`. **Amended 2026-09-29:** in the sheet's
+  Inbox they are on their own tab - **Receipts | Bank statement**, one Inbox, a count on each (Paul's call; `tabOf_`
+  in `Inbox.html`).
 - **Dashboard**: "unmatched feed lines" and "months not reconciled" counts.
 - **Upload**: accepts statement files with an account picker (or auto by last-4).
 

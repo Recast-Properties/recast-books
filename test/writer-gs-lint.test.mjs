@@ -723,3 +723,15 @@ test("the Inbox card born from bank lines gets its own flags (feedFlags_) on bot
   assert.match(html, /if \(env && env\.source === 'feed'\) return feedFlags_\(entries, why\);/);
   assert.equal((html.match(/flagsList_\([^)]*, env\)/g) || []).length, 2, "both call sites pass the envelope");
 });
+
+test("the Inbox has two tabs: a bank-line card is on Bank statement, everything else on Receipts", () => {
+  // Paul, 2026-09-29: the bank statement's questions apart from the unresolved receipts.
+  const html = readFileSync(new URL("../apps-script/writer/Inbox.html", import.meta.url), "utf8");
+  const tabOf = new Function(html.match(/function tabOf_\(env\) \{[^}]*\}/)[0] + " return tabOf_;")();
+  assert.equal(tabOf({ source: "feed" }), "bank");
+  assert.equal(tabOf({ source: "gmail" }), "receipts");
+  assert.equal(tabOf({}), "receipts");
+  for (const t of ["receipts", "bank"]) assert.ok(html.includes(`data-tab="${t}"`), `no ${t} tab button`);
+  assert.equal((html.match(/data-tab="' \+ tabOf_\(env\) \+ '"/g) || []).length, 2, "the open and the closed card both carry their tab");
+  assert.match(html, /c\.dataset\.tab === TAB &&/, "the list shows only the open tab's cards");
+});
