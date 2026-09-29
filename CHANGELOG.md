@@ -859,6 +859,17 @@ store charges with no receipt (proposed for a house or overhead). Site `6abb00aa
 every line ends up tied), and the next run shows the model the note.** Next: Paul decides the cards in the Sheets Inbox; then the reconcile step (spec section 4) - it also owns the three
 book-side findings (HD 08-14 x3 125.57 and HOA 375.00 on Citizens with no bank line; the Granite 07-24 sale lines).
 
+## 2026-09-28 (17:40 PDT) - D-055: the partners' working money; the bank-line card says what to click
+
+Paul's first card was Dennis's 5,000 of 08-06: *"the system is not set up for this type of thing ... cash deposit from
+dennis to fund the account ... does not draw interest"*; he and Dennis each put working money in (his is the 4,858.42
+deposit of 08-13). **D-055:** a plain loan from the partner - Dr 1401 / Cr 2010 or 2030, no house, no Advances row, no
+interest; refilled by sales on its own; owed until taken out. `addWorkingCapital()` (Menu.gs, editor, once) posts both,
+ties both bank lines (`feedUpdateRows_`) and clears both cards. The 10,000 of 08-12 stays a Mesa advance (Paul: "a
+typical cash advance for 366 mesa"). **Inbox.html:** a card born from a bank line (`source = feed`) shows Claude's
+question and which button answers it (`feedFlags_`), and its Dismiss-all note starts empty ("What was it? In your own
+words") instead of Claude's question. 525 tests, pushed (saved code - no deploy needed).
+
 ## 2026-09-21 — Phase 4: lists closed, Drive filing done, Newport held, cutover rehearsed end to end
 
 **Morning, offline (audit §39-§44).** 26 false Home Depot / Lowe's links from a coincidental subset-sum rule

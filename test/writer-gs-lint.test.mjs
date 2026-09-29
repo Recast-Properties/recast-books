@@ -806,9 +806,30 @@ test("feedUpdate: one lock, the three verdict columns read once and written once
   assert.match(menu.slice(menu.indexOf("function inboxDismiss(")), /tieFeedRows_\(ss, req\.feed, 'unmatched', \[\], 'Paul: ' \+ req\.note\)/, "a dismissed bank line goes back to the next run with Paul's words");
   const html = readFileSync(new URL("../apps-script/writer/Inbox.html", import.meta.url), "utf8");
   assert.equal((html.match(/feed: env\.feed \|\| null/g) || []).length, 3, "approve and both dismiss paths send the card's feed rows");
-  const reset = menu.slice(menu.indexOf("function resetFeedCards("));
+  const resetAt = menu.indexOf("function resetFeedCards(");
+  const reset = menu.slice(resetAt, menu.indexOf("\n}\n", resetAt) + 3);
   assert.match(reset, /status === 'proposed'/);
   assert.doesNotMatch(reset, /postEntry_|postBatchEntries_|voidEntry_/);
   const inbox = readFileSync(new URL("../netlify/functions/books-inbox.mjs", import.meta.url), "utf8");
   assert.doesNotMatch(inbox, /await tieFeedRows\(|feedUpdate\(/, "no synchronous site handler waits on the writer");
+});
+
+test("addWorkingCapital (D-055): two journal entries, money in on 1401 owed to 2010 / 2030 with no house, no Advances row, both bank lines tied, both cards cleared", () => {
+  const menu = readFileSync(new URL("../apps-script/writer/Menu.gs", import.meta.url), "utf8");
+  const at = menu.indexOf("var WORKING_CAPITAL_2026_08");
+  assert.ok(at > 0);
+  const block = menu.slice(at, menu.indexOf("\n}\n", menu.indexOf("function addWorkingCapital(")) + 3);
+  assert.match(block, /date: '2026-08-06', cents: 500000, owed: '2010', payee: 'Dennis Little', feed_id: '202608060000000542493317'/);
+  assert.match(block, /date: '2026-08-13', cents: 485842, owed: '2030', payee: 'Paul Bjork', feed_id: '202608130000000543721512'/);
+  assert.match(block, /type: 'journal'/);
+  assert.match(block, /account: '1401', debit: r\.cents, credit: 0, property: ''/);
+  assert.match(block, /account: r\.owed, debit: 0, credit: r\.cents, property: ''/);
+  assert.doesNotMatch(block, /Advances|upsertRow_|voidEntry_|type: 'advance'/);
+  assert.match(block, /feedUpdateRows_\(ss, WORKING_CAPITAL_2026_08\.map/);
+  assert.match(block, /status: 'matched', txn_id: entries\[i\]\.txn_id/);
+  assert.match(block, /action: 'dismiss', docId: 'feed-1401-' \+ r\.feed_id/);
+  const html = readFileSync(new URL("../apps-script/writer/Inbox.html", import.meta.url), "utf8");
+  assert.match(html, /function feedFlags_\(entries, why\)/);
+  assert.match(html, /if \(env && env\.source === 'feed'\) return feedFlags_\(entries, why\);/);
+  assert.equal((html.match(/flagsList_\([^)]*, env\)/g) || []).length, 2, "both call sites pass the envelope");
 });

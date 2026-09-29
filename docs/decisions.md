@@ -1124,3 +1124,20 @@ owes Paul on the property (2,614.86 on 09-28), so its profit reads that much abo
 not yet paid back" line goes into Total Project Cost. That figure can still rise, never fall: the eight worker payments
 with no bill (1,619, D-032) and the Ashburne receipts parked for the card statement (D-051). Each one added raises what
 Recast owes Paul and lowers the profit by the same amount, so Paul's cash from the sale does not change.
+
+## D-055 · The partners' working money in the shared account is owed back, earns no interest and belongs to no house - 2026-09-28 · Paul
+
+Paul, on the matcher's card for Dennis's 5,000 transfer of 2026-08-06: *"the system is not set up for this type of
+thing. this was a cash deposit from dennis to fund the account"*, *"but this advance does not draw interest"*, then
+*"dennis and i both put $5,000 into the account for operating capital. this was cash injected into the business that we
+use for rehabs, operating costs whatever. when we sell a property that used money from this account, the money is put
+back."* His own deposit is the 4,858.42 of 08-13 ("there was a reason why it was less than $5,000 and i cannot
+remember why"). The 10,000 of 08-12 ("Loan 10K for oper exp mesa") is *"a typical cash advance for 366 mesa"* - it
+stays the interest-bearing Mesa advance it is.
+
+**Decided:** money a partner puts into a Recast account as working capital is a plain loan from that partner: Dr the
+bank account, Cr 2010 (Dennis) or 2030 (Paul), no property, no Advances row, no interest (D-011 and D-022 govern
+advances, which this is not). The account refills on its own when a sale lands; the amount stays owed until the
+partner takes it out, and that withdrawal is a bank line that ties to a repayment entry. Posted by
+`addWorkingCapital()` (Menu.gs, editor, once): Dennis 5,000.00 on 08-06, Paul 4,858.42 on 08-13, both bank lines
+tied, both cards cleared. **Consequence:** Recast owes Paul rises by 4,858.42 (it is his money in the account).

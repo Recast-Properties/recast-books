@@ -237,7 +237,18 @@
   function noEntriesText_(why) {
     return 'Claude found nothing to record. It says: "' + plainWhy_(why) + '" If that is right, click Dismiss all (the reason is filled in). If not, type the item in the fields below, or click Reprocess';
   }
-  function flagsList_(gate, entries, why) {
+  // A card born from a bank line (Phase 3) is not a receipt: the bullets say what Claude asks and which
+  // button answers it (Paul, 2026-09-28: "the system is not set up for this type of thing").
+  function feedFlags_(entries, why) {
+    var kept = approvedOnly_(entries);
+    var out = [plainWhy_(why)];
+    out.push((entries || []).length
+      ? 'Claude thinks this bank line is a purchase - check the house and the items, then Save. If it is not a purchase, click Dismiss all and say what it was'
+      : 'A purchase? Fill in the line below and Save. Money from Dennis or from you, a deposit, a transfer, a check that is not a bill? Click Dismiss all and say in your own words what it was - Claude books it the right way');
+    return out.concat(mismatchFlags_(kept)).map(function (t) { return '<li class="act">' + escapeHtml_(t) + '</li>'; }).join('');
+  }
+  function flagsList_(gate, entries, why, env) {
+    if (env && env.source === 'feed') return feedFlags_(entries, why);
     var kept = approvedOnly_(entries);
     var flags = ((gate && gate.reasons) || []).filter(function (r) { return r !== 'NEEDS_HUMAN_274D'; })
       .map(function (r) { return r === 'PARTLY_ON_BOOKS' ? partlyText_(gate, entries) : (r === 'NO_ENTRIES' && why) ? noEntriesText_(why) : flagText_(r); })
@@ -354,13 +365,13 @@
     return '<div class="card open" data-doc="' + d + '" data-search="' + escapeHtml_(search) + '">' + head + '<div class="body">' +
       '<div class="sub">' + escapeHtml_(m.date || '-') + ' &middot; ' + (m.receipt_total_cents != null ? money_(m.receipt_total_cents) : '-') + ' &middot; ' + escapeHtml_(props.join(', ') || '-') + ' &middot; ' + escapeHtml_(env.channel || '') + '</div>' +
       atts +
-      '<ul class="flags" data-flags="1">' + flagsList_(gate, entries, m.why) + '</ul>' +
+      '<ul class="flags" data-flags="1">' + flagsList_(gate, entries, m.why, env) + '</ul>' +
       (read ? '<details class="why"><summary>Claude\'s read</summary>' + read + '</details>' : '') +
       entriesHtml +
       '<div class="tot">' + totalsLine_(env) + '</div>' +
       '<div class="verbs"><button class="primary" data-save="1">Save</button>' +
       '<button data-dismiss="1" title="The whole document is not a cost - nothing is added to the books">Dismiss all</button><button data-reprocess="1">Reprocess</button></div>' +
-      '<div class="note hidden"><input data-note="1" value="' + escapeHtml_((m.entries || []).length ? '' : plainWhy_(m.why)) + '" placeholder="Why? (not a receipt, duplicate...)"><button data-dismiss-go="1">Dismiss all</button><button data-dismiss-cancel="1">Cancel</button></div>' +
+      '<div class="note hidden"><input data-note="1" value="' + escapeHtml_((m.entries || []).length || env.source === 'feed' ? '' : plainWhy_(m.why)) + '" placeholder="' + (env.source === 'feed' ? 'What was it? In your own words' : 'Why? (not a receipt, duplicate...)') + '"><button data-dismiss-go="1">Dismiss all</button><button data-dismiss-cancel="1">Cancel</button></div>' +
       '<div class="msg hidden" data-msg="1"></div>' +
       '<div class="docid">' + d + '</div>' +
       '</div></div>';
@@ -445,7 +456,7 @@
         else e.items[Number(el.dataset.i)][el.dataset.f] = el.value;
         card.querySelector('.tot').innerHTML = totalsLine_(env);
         var fl = card.querySelector('[data-flags]');
-        if (fl) fl.innerHTML = flagsList_(env.gate || {}, entries, (env.model || {}).why);
+        if (fl) fl.innerHTML = flagsList_(env.gate || {}, entries, (env.model || {}).why, env);
       };
       el.addEventListener('change', h);
       if (el.tagName === 'INPUT') el.addEventListener('input', h);

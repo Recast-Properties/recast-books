@@ -2189,3 +2189,40 @@ function resetFeedCards() {
   Logger.log(out);
   return out;
 }
+
+// D-055 (Paul, 2026-09-28): the partners' working money in the Citizens account - Dennis's 5,000 of
+// 08-06 and Paul's 4,858.42 of 08-13 - belongs to no house and earns no interest; it is owed back
+// when either takes it out. Dr 1401 / Cr 2010 (Dennis) or 2030 (Paul), no Advances row, so nothing
+// accrues. Posts both, ties both bank lines on the Feed tab and clears their Inbox cards.
+// Editor-only, run once (a second run is refused DUPLICATE by the writer).
+var WORKING_CAPITAL_2026_08 = [
+  { date: '2026-08-06', cents: 500000, owed: '2010', payee: 'Dennis Little', feed_id: '202608060000000542493317',
+    memo: 'Working money Dennis put into the Citizens account - no house, no interest; owed back when he takes it out (D-055)' },
+  { date: '2026-08-13', cents: 485842, owed: '2030', payee: 'Paul Bjork', feed_id: '202608130000000543721512',
+    memo: 'Working money Paul put into the Citizens account - no house, no interest; owed back when he takes it out (D-055)' }
+];
+function addWorkingCapital() {
+  var props = PropertiesService.getScriptProperties();
+  var ss = openWorkbook_(props);
+  requireOwner_(ss);
+  var ctx = buildCtx_(ss);
+  var user = Session.getActiveUser().getEmail() || 'editor';
+  var entries = WORKING_CAPITAL_2026_08.map(function (r) {
+    return buildEntry({ type: 'journal', date: r.date, memo: r.memo, source: 'manual', posted_by: user, lines: [
+      { account: '1401', debit: r.cents, credit: 0, property: '', payee: r.payee, description: 'Working money put into the account', paid_from: '1401' },
+      { account: r.owed, debit: 0, credit: r.cents, property: '', payee: r.payee, description: 'Working money put into the account', paid_from: '1401' }
+    ] }, ctx);
+  });
+  var result = postBatchEntries_(entries, props, true);
+  var tie = feedUpdateRows_(ss, WORKING_CAPITAL_2026_08.map(function (r, i) {
+    return { feed_id: r.feed_id, status: 'matched', txn_id: entries[i].txn_id, match_note: r.payee.split(' ')[0] + '\'s working money put into the account, no interest (D-055)' };
+  }));
+  WORKING_CAPITAL_2026_08.forEach(function (r) {
+    try { siteFetchJson_('/api/inbox', 'post', { action: 'dismiss', docId: 'feed-1401-' + r.feed_id, by: user, note: 'Recorded as working money put into the account (D-055)' }); }
+    catch (e) { /* already decided, or not pending - the entry and the tie are what matter */ }
+  });
+  warmCache_();
+  var out = 'posted ' + entries.map(function (e) { return e.txn_id; }).join(', ') + ' (Journal rows ' + result.rows.join('-') + '); bank lines tied ' + tie.updated;
+  Logger.log(out);
+  return out;
+}
