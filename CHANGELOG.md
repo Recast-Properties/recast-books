@@ -1752,3 +1752,6 @@ Receipts is empty; Refresh keeps the tab. "Nothing waiting here." is per tab and
 Checked in a local copy with made-up cards (2 + 3), then pushed 07:38 PDT and pulled back: all 14 files = the repo.
 No deploy (the sheet's Inbox runs the pushed code); the @13 deploy is still owed from 09-28. 520 tests.
 **Paul opened it in the live workbook: "that worked".**
+
+**07:55 PDT - writer web app @13** (Paul: "deploy", run from the session): the deploy owed since 09-28 (`feedUpdate`'s refactor,
+D-056's tidy). `clasp deployments` reads @13, the web app answers (`ok`, 0.4.0), and the live code = the repo. Nothing owed.
