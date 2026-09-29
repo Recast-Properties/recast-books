@@ -1952,3 +1952,9 @@ the matcher's client gets `maxRetries: 4` like the nightly check's (site - with 
 a bank card's total line says "The bank shows $337.07", not "Receipt"; a question card no longer says "Claude thinks
 this bank line is a purchase" (the blank typed line is not a proposal); the match summary says "None need your word."
 543 tests.
+
+**LIVE 10:35 PDT (Paul: "deploy then update git, repo, .md and handoff"):** site **`6abbf585`** (one function changed -
+the matcher; `/api/bank-mail` and `/api/meta` answer 401 as they should); the workbook's wording pushed 10:28 and
+pulled back = the repo. The writer web app stays **@15**: since that deploy only `Inbox.html`, `Menu.gs` and the
+poller changed. Nothing owed. **`HANDOFF-2026-09-29.md` rewritten** as the end-of-session state, with the 18 open
+cards read live (and the card that paid each), what is proven and what is not, and a prompt for the next session.

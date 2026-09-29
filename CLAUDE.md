@@ -158,8 +158,17 @@ are the target, D-028 returns hold for Paul). **Resume from `HANDOFF-2026-09-29.
   closed - a summary must add up to its own total, one card per day-and-amount or none); `runFeedMatch` puts the card
   on the model's line and on the Inbox card (`feed.card`), which starts Waiting on with its holder. **Live: site
   `6abbe34c`, writer pushed (web app still @15), both pollers pushed.** Checked against the 35 real emails: all read,
-  all add up, 46 of the new file's 79 lines carded. Paul's new Citizens file (6 new lines of 09-28) is on his Desktop,
-  **not imported yet**. 542 tests.
+  all add up, 46 of the new file's 79 lines carded. 542 tests.
+- **2026-09-29, the rest of the morning (D-060; `HANDOFF-2026-09-29.md`):** Paul imported the new Citizens file (6
+  lines of 09-28, ties to 169,805.35) and matched. **Citizens: 79 lines - 59 tied, 18 cards, 2 waiting on the
+  Ashburne close.** The first real placeholders are in the books: Dennis's three Home Depot charges of 09-28
+  (162.91, 33.07, 141.09) on 366 Mesa, each its own entry - the button makes ONE ENTRY PER BANK LINE
+  (`placeholderEntries_`; the first version would have lumped them into 337.07, which no receipt could match - found
+  before Paul saved). Target 2.65: he does not know the house, the card waits. CondoCerts 375.00 = Newport's 09-09
+  HOA release, tied by his words. **D-060: one charge, one card** (prompt + `applyVerdicts` splits a question about
+  several money-out lines). A failed match is said in plain words. **Live: site `6abbf585`, writer web app @15,
+  nothing owed. 543 tests.** NOT proven yet: a receipt swapping a placeholder, the 3 AM waiting list, D-058 and D-060
+  on real cards. **Resume from `HANDOFF-2026-09-29.md` START HERE** - it holds the prompt for the next session.
 - **2026-09-25 (D-044, D-045):** the gate lets a **medium** read post when every other rail holds (low still holds); a vendor's unanimous payment history settles `paid_from` when the document shows no card and Paul wrote no note; Chase checking 8870 is Paul's personal (`paul_personal_last4` = `9166, 8870`); `MAX_TOKENS_PER_TURN` 32k; the warm job replays errored docs from their stored read; the digest names the gate reason. CHANGELOG 2026-09-25.
 - **All five lists are done** (audit §40-§43): list 4 in mail not in the books 0 (`mail_settled`), differences 0 (`differences_settled`), confirm 0 real (the 3 shown are rows Paul dropped), questions answered; every decision, link, refusal (per document), drop, addition and retraction is in `data/migration/2026-09-17/paul-answers.json`. **Paul's stopping rule:** no new cost unless proven paid AND absent from the old books by total, pre-tax subtotal and items; otherwise park for Phase 3.
 - **2026-09-28: 104 Ashburne SOLD** the week of 09-21 (Citizens: $715,558.65 from Bison Title 09-23, $550,000 to Raymond James 09-25) - **not closed in the books yet; Paul starts the sell wizard when he is ready.** Earlier: **Facts corrected on 2026-09-18:** 104 Ashburne had NOT closed then. **881 Newport has NOT closed either - under contract (Paul 2026-09-21, audit §47); sold = Granite and Sparkling only**; its two Cost Recapture lines moved to its own tab. "Effren" rows are **Falcon Creek Lawn Care** (`rename_payee`). Paul's notes are the documents for cash labor.
