@@ -1845,13 +1845,22 @@ function matchStatementLines() {
     ui.alert('Nothing to match', 'Every line on the Feed tab is already tied to the books or waiting in the Inbox. Import a statement first.', ui.ButtonSet.OK);
     return;
   }
-  var account = accounts[0];
-  if (accounts.length > 1) {
-    var ask = ui.prompt('Match statement lines', 'Which account? ' + accounts.map(function (a) { return a + ' (' + counts[a] + ' open lines)'; }).join(', '), ui.ButtonSet.OK_CANCEL);
-    if (ask.getSelectedButton() !== ui.Button.OK) return;
-    account = ask.getResponseText().trim();
-    if (!counts[account]) { ui.alert('No open lines on ' + account + '.'); return; }
+  // One bank per run (a run can take five of the script's six minutes). With more than one bank
+  // waiting Paul is asked by the bank's name, a click each - never an account code to type.
+  var names = {};
+  bankAccountsLast4_(ss).forEach(function (a) { names[a.code] = a.name; });
+  var label = function (a) { return (names[a] || a) + ' (' + counts[a] + ' bank line' + (counts[a] === 1 ? '' : 's') + ' waiting)'; };
+  var account = accounts.length === 1 ? accounts[0] : null;
+  for (var k = 0; k < accounts.length && !account; k++) {
+    var next = accounts[k + 1];
+    var pick = ui.alert('Match statement lines', 'Match ' + label(accounts[k]) + ' now?\n\nYes - match this bank.\nNo - ' +
+      (next ? 'go on to ' + label(next) + '.' : 'stop, nothing is matched.'), ui.ButtonSet.YES_NO);
+    if (pick === ui.Button.YES) account = accounts[k];
+    else if (pick !== ui.Button.NO) return;   // the box was closed
   }
+  if (!account) return;
+  var rest = accounts.filter(function (a) { return a !== account; }).map(label);
+  var after = rest.length ? '\n\nStill waiting: ' + rest.join(', ') + ' - run Match statement lines again for ' + (rest.length === 1 ? 'it' : 'them') + '.' : '';
   try {
     var started = siteFetchJson_('/api/feed-match', 'post', { account: account, by: Session.getActiveUser().getEmail() });
     if (!started.job_id) { ui.alert('Matching failed', 'The site did not start the matching.', ui.ButtonSet.OK); return; }
@@ -1859,7 +1868,7 @@ function matchStatementLines() {
       ss.toast('Tying ' + counts[account] + ' bank lines to the books... ' + Math.round(i * FEED_MATCH_WAIT_MS / 1000) + ' s', 'Matching', 10);
       Utilities.sleep(FEED_MATCH_WAIT_MS);
       var job = siteFetchJson_('/api/feed-match?job=' + encodeURIComponent(started.job_id));
-      if (job.status === 'done') { ui.alert('Matched', feedMatchSummary_(job.summary), ui.ButtonSet.OK); return; }
+      if (job.status === 'done') { ui.alert('Matched - ' + (names[account] || account), feedMatchSummary_(job.summary) + after, ui.ButtonSet.OK); return; }
       if (job.status === 'error') { ui.alert('Matching failed', String(job.error || ''), ui.ButtonSet.OK); return; }
     }
     ui.alert('Still running', 'The matching is still running after five minutes. Look at the Feed tab in a few minutes - the notes land there when it finishes.', ui.ButtonSet.OK);

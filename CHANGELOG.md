@@ -1755,3 +1755,24 @@ No deploy (the sheet's Inbox runs the pushed code); the @13 deploy is still owed
 
 **07:55 PDT - writer web app @13** (Paul: "deploy", run from the session): the deploy owed since 09-28 (`feedUpdate`'s refactor,
 D-056's tidy). `clasp deployments` reads @13, the web app answers (`ok`, 0.4.0), and the live code = the repo. Nothing owed.
+
+## 2026-09-29 (08:05) - Match statement lines asks by the bank's name; Paul's three questions on reconciling
+
+With two banks waiting, `matchStatementLines` asked "Which account?" and wanted an account code typed (1401 / 1402) -
+against rule 7. It now asks by the bank's name from the Bank accounts tab, a Yes / No click per bank ("Match Citizens
+(12 bank lines waiting) now?"), one bank per run (a run can take five of the script's six minutes), and the closing
+box names any bank still waiting. One bank waiting: no question, as before. `Menu.gs` only - pushed 08:04 PDT, pulled
+back = the repo, no deploy. The lint runs the picking loop (one bank, Yes, No-Yes, No-No, box closed). 520 tests.
+
+**Paul's questions, answered:** reconcile monthly, each account, the first week after the month ends; the import
+knows the bank from the file's account number (2505 Citizens, 6317 Chase) and needs the bank's QFX download, not the
+PDF statement - Chase's file is untried; the daily emails are not enough on their own (Chase's names no payee,
+Citizens' is a preview), the statement is the record. **Read off his two emails of 09-28:** Citizens 170,800.07 less
+the day's 994.72 = the emailed 169,805.35; CondoCerts 375.00 (card 5450) looks like Newport's HOA release, in the
+books since 09-09; Chase 6317 took in 2,000.00 (the earnest money, by the look of it); Dennis's card 9301 has four
+charges (Home Depot 162.91, 33.07, 141.09; 2.65 at 1316 N Highway 77) - receipts not checked.
+
+**Asked by Paul, not built:** a placeholder for a charge whose receipt may never come ("NEED RECEIPT FROM DENNIS").
+Found: `supersedes` already voids an entry and posts its replacement (ingest), and `findDuplicate` would dismiss the
+late receipt as a duplicate of a placeholder only when the payee strings are equal - so a placeholder needs a prompt
+rule (a placeholder is superseded by its receipt) and the Feed row re-tied to the new entry. Put to Paul first.

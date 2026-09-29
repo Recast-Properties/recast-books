@@ -703,6 +703,21 @@ test("feedUpdate: one lock, the three verdict columns read once and written once
   const m = menu.slice(menu.indexOf("function matchStatementLines("));
   assert.match(m, /siteFetchJson_\('\/api\/feed-match', 'post'/);
   assert.match(m, /!== 'unmatched'\) return;/, "only open lines are counted");
+  // Paul, 2026-09-29: two banks now - he is asked by the bank's name, a click, never an account code to type.
+  const mm = m.slice(0, m.indexOf("function feedMatchSummary_"));
+  assert.doesNotMatch(mm, /ui\.prompt\(/, "Match statement lines asks Paul to type something");
+  assert.match(mm, /names\[a\.code\] = a\.name/, "the banks are named from the Bank accounts tab");
+  // The picking loop, run: one bank -> no question; two -> Yes picks the first, No then Yes the second, closing the box stops.
+  const loop = mm.slice(mm.indexOf("var label ="), mm.indexOf("var rest ="));
+  const pickBank = (accounts, answers) => new Function("accounts", "counts", "names", "ui",
+    loop.replace("if (!account) return;", "").replace(/else if \(pick !== ui\.Button\.NO\) return;/, "else if (pick !== ui.Button.NO) return 'closed';") + " return account;")(
+    accounts, { 1401: 12, 1402: 1 }, { 1401: "Citizens", 1402: "Chase" },
+    { Button: { YES: "Y", NO: "N" }, ButtonSet: {}, asked: [], alert(t, msg) { this.asked.push(msg); return answers.shift(); } });
+  assert.equal(pickBank(["1401"], []), "1401");
+  assert.equal(pickBank(["1401", "1402"], ["Y"]), "1401");
+  assert.equal(pickBank(["1401", "1402"], ["N", "Y"]), "1402");
+  assert.equal(pickBank(["1401", "1402"], ["N", "N"]), null);
+  assert.equal(pickBank(["1401", "1402"], ["X"]), "closed");
   assert.doesNotMatch(m.slice(0, m.indexOf("function feedMatchSummary_")), /postEntry_|postBatchEntries_/, "a match never posts from the workbook");
   // The sheet's Inbox ties a bank-line card's rows itself, in-process, on approve and on dismiss.
   assert.match(menu.slice(menu.indexOf("function inboxApprove(")), /tieFeedRows_\(ss, req\.feed, 'matched', txnIds/);
