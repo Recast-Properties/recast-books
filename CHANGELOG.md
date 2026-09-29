@@ -873,6 +873,18 @@ words") instead of Claude's question. 525 tests, pushed (saved code - no deploy 
 Journal rows 2659-2662, no property, read back; both Feed lines `matched` to them. **Citizens: 54 of 73 tied, 17 cards, 2
 waiting.**
 
+## 2026-09-28 (17:45 PDT) - a Save hit a Sheets service error; nothing posted; where Phase 3 stands tonight
+
+Paul's Save on the Mower Depot 3.24 card (6510 overhead, 08-14) answered "INTERNAL - Service Spreadsheets failed while
+accessing document with id 12QV..." - Google's own transient refusal, not a rule. Checked on the live Journal: no Mower
+Depot line, no 3.24 on 08-14, 2,661 rows balanced (4,812,704.54 a side); the Feed row is still `proposed`. Safe to Save
+again (inboxApprove marks the card posted only after the post, and puts it back on a failure). **State:** Citizens
+2026-08-06..09-25 imported and matched - 54 of 73 tied, 17 cards, 2 waiting on the Ashburne close; D-055 posted; writer
+pushed = repo (web app @12, **@13 owed** before the next matcher run - Code.gs's feedUpdate refactor); site `6abb023f`;
+525 tests. **Next:** Paul's 17 cards (a purchase: Save; anything else: Dismiss all with his words - Claude books it
+and the next run ties it); then the reconcile step (spec section 4) with its three book-side findings; then the Daily
+Summary feed (6a).
+
 ## 2026-09-21 — Phase 4: lists closed, Drive filing done, Newport held, cutover rehearsed end to end
 
 **Morning, offline (audit §39-§44).** 26 false Home Depot / Lowe's links from a coincidental subset-sum rule
