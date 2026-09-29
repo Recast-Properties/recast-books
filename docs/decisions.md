@@ -1141,3 +1141,22 @@ advances, which this is not). The account refills on its own when a sale lands; 
 partner takes it out, and that withdrawal is a bank line that ties to a repayment entry. Posted by
 `addWorkingCapital()` (Menu.gs, editor, once): Dennis 5,000.00 on 08-06, Paul 4,858.42 on 08-13, both bank lines
 tied, both cards cleared. **Consequence:** Recast owes Paul rises by 4,858.42 (it is his money in the account).
+
+## D-056 · Hand-run scripts live in oneOffScripts.gs; Code.gs and Menu.gs hold only what the workbook reaches - 2026-09-28 · Paul
+
+Paul: *"things are getting messy. i want to stop and clean up the apps scripts in the books file. we have a slew of
+scripts in both code.gs and menu.gs... do an audit and remove all non essential or one-off scripts. then create a
+separate file called oneOffScripts.gs... get organized."* The audit walked what the Recast Books menu, its dialogs,
+the onEdit trigger and `doPost` reach: 33 functions in the two files were reached by nothing - fifteen dated
+repairs from 2026-09-28 alone, the Phase 4 migration and the cutover's `clearBooks`, and the diagnostic and tuning
+tools - sitting between the menu handlers and the posting engine; plus one dead helper (`centsRow_`, deleted).
+
+**Decided:** `Code.gs` and `Menu.gs` hold only what the workbook itself reaches - the menu, its dialogs, the
+trigger, the `/exec` endpoint - plus the standing setup tools (`setup`, `installTriggers`, `setupTotals`,
+`rebuildAllPropertyTabs`, `selfTest`). Everything run by hand from the editor lives in
+`apps-script/writer/oneOffScripts.gs`, in three sections (tools meant to be run again; dated one-offs in the order
+written; the migration and the cutover), each block under a `// STATUS:` line (RE-RUNNABLE, DONE <date> <result>,
+NOT YET RUN, RETIRED). The live files never call into the one-off file. `test/writer-gs-lint.test.mjs` enforces
+both by the same walk. A DONE script stays as the record of what was done to the books by hand; deleting one is a
+CHANGELOG entry. A one-off needs a `clasp push`, not a web-app deploy. Earlier entries that place such a script in
+"Menu.gs" or "Code.gs" (D-052, D-055, the CHANGELOG) now mean this file; the function names did not change.

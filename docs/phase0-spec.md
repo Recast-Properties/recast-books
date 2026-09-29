@@ -27,7 +27,8 @@ netlify/functions/       books-*.mjs — every function verifies the session (se
 lib/                     pure modules, unit-tested, no Netlify/Google imports
   posting.mjs auth.mjs writer-client.mjs coa.mjs money.mjs
 test/                    node:test — `npm test`
-apps-script/writer/      the Google gateway: Code.gs, appsscript.json
+apps-script/writer/      the Google gateway: Code.gs (endpoint + engine), Menu.gs (the workbook menu),
+                         lib.gs (generated), oneOffScripts.gs (hand-run scripts, D-056), *.html, appsscript.json
 docs/ data/ *.md         design docs
 ```
 

@@ -885,6 +885,28 @@ pushed = repo (web app @12, **@13 owed** before the next matcher run - Code.gs's
 and the next run ties it); then the reconcile step (spec section 4) with its three book-side findings; then the Daily
 Summary feed (6a).
 
+## 2026-09-28 (night) - the writer project tidied: hand-run scripts move to oneOffScripts.gs (D-056)
+
+Paul: *"things are getting messy... we have a slew of scripts in both code.gs and menu.gs... do an audit and remove all
+non essential or one-off scripts. then create a separate file called oneOffScripts.gs... get organized."* The audit
+walked what the Recast Books menu, its dialogs (`callServer_`), the onEdit trigger and `doPost` reach, comments
+stripped so a mention is not a reach. **33 functions in Code.gs and Menu.gs were reached by nothing:** the frozen-record
+and duplicate-replay tools, `reportStrandedCosts`, the D-052 paid_to fix (`fixAdvancesPaidTo` and its helpers),
+`resetFeedCards`, the fifteen dated 09-28 repairs (Ashburne bills, the parked lists and `reprocessParked_`, email-only
+receipts, the hinge refund, the retag, the replay and its undo, pickets, toilet kits, the gimbal, the cameras pair,
+working capital), `clearBooks` and the six Phase 4 migration functions. All moved verbatim into
+`apps-script/writer/oneOffScripts.gs` (1,117 lines) in three sections - tools meant to be run again, dated one-offs in
+the order written, the migration and cutover - each block under a `// STATUS:` line naming its run (date, Journal rows)
+or RE-RUNNABLE / RETIRED. `ADVANCE_PAID_TO` and `isPartnerDeal_` stay in Code.gs (the Add advance dialog uses them).
+**Deleted:** `centsRow_` (Menu.gs, called by nothing) and the eight lint tests that pinned the finished one-offs' dollar
+amounts and ids (the entries above are the record). Code.gs 3,012 -> 2,293 lines, Menu.gs 2,228 -> 1,894, nothing added.
+**Enforced:** `test/writer-gs-lint.test.mjs` now walks the same reach and fails on a function in Code.gs/Menu.gs that
+nothing reaches, or a call from them into the one-off file; duplicate names are checked across all three files; the
+one-off file is held to the ASCII and brace rules. 519 tests. The rule is written into `CLAUDE.md` (constraint 9), the
+writer `README.md` (Files), `phase0-spec.md` (layout) and D-056. **Pushed** (14 files, 17:58) - no behaviour change; a
+one-off runs from the editor, so it needs a push, not a deploy; the @13 deploy still owed from the feedUpdate refactor
+covers the web app.
+
 ## 2026-09-21 — Phase 4: lists closed, Drive filing done, Newport held, cutover rehearsed end to end
 
 **Morning, offline (audit §39-§44).** 26 false Home Depot / Lowe's links from a coincidental subset-sum rule

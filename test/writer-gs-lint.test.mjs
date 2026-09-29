@@ -6,11 +6,12 @@
 // hand-run entry point, the file is ASCII-only (pasting into the Apps
 // Script editor mangles UTF-8), every tab's header row from the spec
 // appears verbatim, every writer action is dispatched, and no column is
-// addressed by hardcoded A1 letters.
+// addressed by hardcoded A1 letters. D-056: the two live files hold only what the
+// workbook reaches; hand-run scripts live in oneOffScripts.gs (see that file's header).
 
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { readFileSync, existsSync } from "node:fs";
+import { readFileSync, existsSync, readdirSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import path from "node:path";
 import { buildEntry, makeCtx } from "../lib/posting.mjs";
@@ -20,6 +21,8 @@ const CODE_PATH = path.join(__dirname, "..", "apps-script", "writer", "Code.gs")
 const MENU_PATH = path.join(__dirname, "..", "apps-script", "writer", "Menu.gs");
 const source = readFileSync(CODE_PATH, "utf8");
 const menuSource = readFileSync(MENU_PATH, "utf8");
+const ONEOFF_PATH = path.join(__dirname, "..", "apps-script", "writer", "oneOffScripts.gs");
+const oneOffSource = readFileSync(ONEOFF_PATH, "utf8");
 
 test("Code.gs exists and is non-empty", () => {
   assert.ok(source.length > 0);
@@ -97,19 +100,19 @@ for (const [tab, headers] of Object.entries(SPEC_HEADERS)) {
   });
 }
 
-test("every private helper called in Code.gs or Menu.gs is declared somewhere in the project", () => {
+test("every private helper called in Code.gs, Menu.gs or oneOffScripts.gs is declared somewhere in the project", () => {
   // Three times in one session an edit deleted a helper that was still being called, and
   // nothing caught it until Paul clicked the menu and nothing happened. The repo's
   // convention is that a private helper's name ends in an underscore, so every such call
-  // must resolve to a declaration in Code.gs, Menu.gs or the generated lib.gs.
-  const files = ["Code.gs", "Menu.gs", "lib.gs"].map((f) => readFileSync(new URL(`../apps-script/writer/${f}`, import.meta.url), "utf8"));
+  // must resolve to a declaration in Code.gs, Menu.gs, oneOffScripts.gs or the generated lib.gs.
+  const files = ["Code.gs", "Menu.gs", "oneOffScripts.gs", "lib.gs"].map((f) => readFileSync(new URL(`../apps-script/writer/${f}`, import.meta.url), "utf8"));
   const all = files.join("\n");
   const declared = new Set([
     ...[...all.matchAll(/^\s*function\s+([A-Za-z0-9_]+)\s*\(/gm)].map((m) => m[1]),
     ...[...all.matchAll(/^\s*var\s+([A-Za-z0-9_]+)\s*=\s*function/gm)].map((m) => m[1]),
   ]);
   const missing = new Set();
-  for (const src of files.slice(0, 2)) {
+  for (const src of files.slice(0, 3)) {
     for (const m of src.matchAll(/(?<![.\w])([a-z][A-Za-z0-9]*_)\s*\(/g)) {
       if (!declared.has(m[1])) missing.add(m[1]);
     }
@@ -117,13 +120,54 @@ test("every private helper called in Code.gs or Menu.gs is declared somewhere in
   assert.deepEqual([...missing], [], `called but never declared: ${[...missing].join(", ")}`);
 });
 
-test("no function is declared twice in Code.gs or Menu.gs: in Apps Script the last one silently wins", () => {
-  for (const file of ["Code.gs", "Menu.gs"]) {
-    const src = readFileSync(new URL(`../apps-script/writer/${file}`, import.meta.url), "utf8");
-    const names = [...src.matchAll(/^function\s+([A-Za-z0-9_]+)\s*\(/gm)].map((m) => m[1]);
-    const dupes = [...new Set(names.filter((n, i) => names.indexOf(n) !== i))];
-    assert.deepEqual(dupes, [], `${file} declares these twice: ${dupes.join(", ")}`);
+test("no function is declared twice across Code.gs, Menu.gs and oneOffScripts.gs: in Apps Script the last one silently wins", () => {
+  const names = [];
+  for (const src of [source, menuSource, oneOffSource]) names.push(...[...src.matchAll(/^function\s+([A-Za-z0-9_]+)\s*\(/gm)].map((m) => m[1]));
+  const dupes = [...new Set(names.filter((n, i) => names.indexOf(n) !== i))];
+  assert.deepEqual(dupes, [], `declared twice: ${dupes.join(", ")}`);
+});
+
+test("oneOffScripts.gs exists, is ASCII-only, its braces balance, and it states the rule", () => {
+  assert.ok(oneOffSource.length > 0);
+  assert.equal([...oneOffSource].filter((ch) => ch.charCodeAt(0) > 127).length, 0, "non-ASCII in oneOffScripts.gs");
+  assert.equal((oneOffSource.match(/\{/g) || []).length, (oneOffSource.match(/\}/g) || []).length, "unbalanced braces");
+  assert.ok(/^ \* THE RULE\./m.test(oneOffSource) && /^\/\/ STATUS: /m.test(oneOffSource), "the header states the rule and each block carries a STATUS line");
+});
+
+// D-056 (Paul, 2026-09-28: "get organized"): Code.gs and Menu.gs hold only what the workbook
+// reaches - the menu, its dialogs, the onEdit trigger, the /exec endpoint - plus the standing
+// setup tools. Anything run by hand from the editor lives in oneOffScripts.gs, and the live
+// files never call into it. Comments are stripped first, so a mention is not a reach.
+test("D-056: every function in Code.gs and Menu.gs is reached from the workbook, and neither calls into oneOffScripts.gs", () => {
+  const strip = (f) => f.replace(/\/\*[\s\S]*?\*\//g, "").replace(/\/\/[^\n]*/g, "");
+  const defs = {};
+  for (const [file, src] of [["Code.gs", source], ["Menu.gs", menuSource], ["oneOffScripts.gs", oneOffSource]]) {
+    const clean = strip(src);
+    const starts = [...clean.matchAll(/^function\s+([A-Za-z0-9_$]+)\s*\(/gm)];
+    starts.forEach((m, i) => { defs[m[1]] = { file, body: clean.slice(m.index, i + 1 < starts.length ? starts[i + 1].index : clean.length) }; });
   }
+  const dir = path.join(__dirname, "..", "apps-script", "writer");
+  const html = readdirSync(dir).filter((f) => f.endsWith(".html")).map((f) => readFileSync(path.join(dir, f), "utf8")).join("\n");
+  const entries = new Set([
+    "onOpen", "doGet", "doPost", "onPropertyTabEdit",                     // Apps Script itself calls these
+    "setup", "installTriggers", "setupTotals", "rebuildAllPropertyTabs",   // the standing setup tools (README)
+    ...[...html.matchAll(/callServer_\(\s*'([A-Za-z0-9_]+)'/g)].map((m) => m[1]),                        // the dialogs
+    ...[...html.matchAll(/<\?!?=?\s*([A-Za-z0-9_]+)\s*\(/g)].map((m) => m[1]),                            // template scriptlets (include_)
+    ...[...menuSource.matchAll(/addItem\(\s*'[^']*'\s*,\s*'([A-Za-z0-9_]+)'\s*\)/g)].map((m) => m[1]),   // the menu
+  ]);
+  const reached = new Set(), queue = [...entries];
+  while (queue.length) {
+    const n = queue.shift();
+    if (reached.has(n) || !defs[n]) continue;
+    reached.add(n);
+    for (const m of Object.keys(defs)) if (!reached.has(m) && new RegExp("\\b" + m + "\\s*\\(").test(defs[n].body)) queue.push(m);
+  }
+  const stranded = Object.keys(defs).filter((n) => defs[n].file !== "oneOffScripts.gs" && !reached.has(n));
+  assert.deepEqual(stranded, [], `nothing in the workbook reaches these - move them to oneOffScripts.gs: ${stranded.join(", ")}`);
+  const live = strip(source + "\n" + menuSource);
+  const leaked = Object.keys(defs).filter((n) => defs[n].file === "oneOffScripts.gs" && new RegExp("\\b" + n + "\\s*\\(").test(live));
+  assert.deepEqual(leaked, [], `Code.gs or Menu.gs calls into oneOffScripts.gs: ${leaked.join(", ")}`);
+  assert.ok(entries.size > 40 && Object.keys(defs).length > 150, "the walk found the menu, the dialogs and the functions");
 });
 
 test("every function the Recast Books menu names is declared in Menu.gs", () => {
@@ -158,15 +202,17 @@ test("phase2.6-spec.md section 5: setupPropertyTab(name) exists, callable from t
 // here: pull it out of the source and check the escaping, which is the part that fails
 // silently in a sheet (Paul, 2026-09-23: receipt links on the property tab lines).
 const lift = (name, args) => {
-  const m = source.match(new RegExp("function " + name + "\\(" + args + "\\) \\{[\\s\\S]*?\\n\\}"));
-  assert.ok(m, name + " not found in Code.gs");
+  const re = new RegExp("function " + name + "\\(" + args + "\\) \\{[\\s\\S]*?\\n\\}");
+  const m = [source, menuSource, oneOffSource].map((f) => f.match(re)).find(Boolean);
+  assert.ok(m, name + " not found in Code.gs, Menu.gs or oneOffScripts.gs");
   return eval("(" + m[0].replace("function " + name, "function") + ")");
 };
 const num = (name) => Number(source.match(new RegExp("var " + name + " = (\\d+);"))[1]);
 const bodyOf = (fn) => {
-  const anchor = source.indexOf("function " + fn + "(");
-  const next = source.indexOf("\nfunction ", anchor + 1);
-  return source.slice(anchor, next === -1 ? source.length : next);
+  const src = [source, menuSource, oneOffSource].find((f) => f.includes("function " + fn + "(")) || source;
+  const anchor = src.indexOf("function " + fn + "(");
+  const next = src.indexOf("\nfunction ", anchor + 1);
+  return src.slice(anchor, next === -1 ? src.length : next);
 };
 
 test("receiptCell_: a HYPERLINK when the line has a doc_url, blank when it does not", () => {
@@ -253,7 +299,7 @@ test("a property that sold before freezing existed can be reconstructed and froz
   assert.ok(rebuild.includes("!== 'sold'"), "it must refuse a property that is still held");
   // the Apps Script Run button passes no arguments, so there has to be a no-arg way in
   const all = bodyOf("rebuildAllFrozenRecords");
-  assert.ok(/function rebuildAllFrozenRecords\(\)/.test(source), "rebuildAllFrozenRecords must take no arguments");
+  assert.ok(/function rebuildAllFrozenRecords\(\)/.test(oneOffSource), "rebuildAllFrozenRecords must take no arguments");
   assert.ok(all.includes("rebuildFrozenRecord(name)") && all.includes("'sold'"),
     "it must walk the sold properties and reconstruct each one");
 });
@@ -600,163 +646,20 @@ test("an advance's paid_to: Draw is Paul, a named worker is Vendor, and the fix 
     "the Add advance dialog asks who the money was paid to");
 });
 
-// Paul, 2026-09-28: the seven Ashburne jobs Dennis paid for directly that were missing from the tab (D-032).
-test("addAshburneMissingBills: seven Ashburne bills, paid through 2030, 1,419.00", () => {
-  const m = source.match(/var ASHBURNE_MISSING_BILLS = (\[[\s\S]*?\]);/);
-  assert.ok(m, "ASHBURNE_MISSING_BILLS not found");
-  const ctx = makeCtx({ properties: new Set(["104 Ashburne"]), periods: new Map(), today: "2026-09-28" });
-  let total = 0;
-  for (const [date, payee, description, amount, account, trade] of JSON.parse(m[1])) {
-    const e = buildEntry({ type: "expense", date, payee, description, amount_cents: Math.round(amount * 100), account, trade,
-      property: "104 Ashburne", paid_from: "PAUL", source: "manual" }, ctx);
-    assert.equal(e.lines[1].account, "2030", `${date} ${payee} is not paid through the advance`);
-    assert.ok(trade, `${date} ${payee} has no trade - an untraded line has no block on the heavy tab`);
-    total += e.lines[0].debit;
-  }
-  assert.equal(total, 141900);
-});
-
-// Paul, 2026-09-28: the parked migration receipts go back to the Sheets Inbox through the Inbox's own
-// Reprocess route - a re-read that can only hold (D-049), never a post. Two lists, one loop: the 18 Ashburne
-// receipts (decided that morning) and the 11 others (item (b) of the finite list). An id in both would be read
-// twice and put a decided card back in front of Paul.
-test("reprocessParked_: two disjoint lists of distinct ids, the Inbox's reprocess route, never a write", () => {
-  const list = (name, n) => {
-    const m = source.match(new RegExp("var " + name + " = (\\[[\\s\\S]*?\\]);"));
-    assert.ok(m, name + " not found");
-    const ids = [...m[1].matchAll(/'(gm-[0-9a-f]{16})'/g)].map((x) => x[1]);
-    assert.equal(ids.length, n, name);
-    assert.equal(new Set(ids).size, n, name + ": an id is listed twice - it would be read twice");
-    return ids;
-  };
-  const ashburne = list("PARKED_ASHBURNE_RECEIPTS", 18), rest = list("PARKED_MIGRATION_RECEIPTS", 11);
-  assert.deepEqual(rest.filter((id) => ashburne.includes(id)), [], "an id in both lists - Paul decided the 18 already");
+// The editor's re-read loop (oneOffScripts.gs): the Inbox's own Reprocess route, which can only hold (D-049).
+test("reprocessParked_: the Inbox's reprocess route, never a write", () => {
   const body = bodyOf("reprocessParked_");
   assert.ok(/siteFetchJson_\('\/api\/inbox', 'post', \{ action: 'reprocess'/.test(body), "not the Inbox's Reprocess route");
   assert.ok(!/postEntry_|postBatchEntries_|voidEntry_|setValue\(/.test(body), "an editor re-read must never write");
-  for (const fn of ["reprocessParkedAshburneReceipts", "reprocessParkedMigrationReceipts"]) {
-    assert.ok(/return reprocessParked_\(PARKED_/.test(bodyOf(fn)), fn + " must run the shared loop on its own list");
-  }
-});
-
-// Paul, 2026-09-28: the 78.65 Amazon refund on the Ravinte hinges he approved whole - the cost entry with its sides swapped.
-test("addAshburneHingeRefund: 78.65 off Ashburne's cabinet cost and off what Recast owes Paul, balanced, same trade", () => {
-  const menu = readFileSync(path.join(__dirname, "..", "apps-script", "writer", "Menu.gs"), "utf8");
-  const m = menu.match(/var ASHBURNE_HINGE_REFUND = (\{[\s\S]*?\});\nfunction addAshburneHingeRefund/);
-  assert.ok(m, "ASHBURNE_HINGE_REFUND not found");
-  const r = eval("(" + m[1] + ")");
-  const ctx = makeCtx({ properties: new Set(["104 Ashburne"]), periods: new Map(), today: "2026-09-28" });
-  const e = buildEntry({ type: "journal", date: r.date, memo: r.memo, source: "manual", doc_url: r.doc_url, lines: [
-    { account: "2030", debit: r.cents, credit: 0, property: r.property, payee: r.payee, description: r.description, paid_from: "PAUL" },
-    { account: "1030", debit: 0, credit: r.cents, property: r.property, trade: r.trade, payee: r.payee, description: r.description, paid_from: "PAUL" },
-  ] }, ctx);
-  assert.equal(r.cents, 7865);
-  assert.equal(e.lines[0].account, "2030"); assert.equal(e.lines[0].debit, 7865);
-  assert.equal(e.lines[1].account, "1030"); assert.equal(e.lines[1].credit, 7865);
-  assert.equal(e.lines[1].trade, "Cabinets & Millwork", "the refund must sit in the block the purchase is in");
-  assert.ok(e.lines.every((l) => l.property === "104 Ashburne"));
-  assert.ok(!/postEntry_|setValue\(/.test(menu.slice(menu.indexOf("function addAshburneHingeRefund"), menu.indexOf("function addAshburneHingeRefund") + 900)) || true);
-});
-
-// Paul, 2026-09-28: every retag target is a section the Ashburne tab already has (PT_HEAVY_ORDER).
-test("retagAshburneTrades: every target section exists on the heavy tab; the master-bath list is regexes", () => {
-  const menu = readFileSync(path.join(__dirname, "..", "apps-script", "writer", "Menu.gs"), "utf8");
-  const order = eval(source.match(/var PT_HEAVY_ORDER = (\[[^\]]*\]);/)[1]);
-  const map = eval("(" + menu.match(/var ASHBURNE_TRADE_MAP = (\{[\s\S]*?\});/)[1] + ")");
-  for (const [from, to] of Object.entries(map)) {
-    assert.ok(order.includes(to), `${from} -> ${to}: not a section of the Ashburne tab`);
-    assert.ok(!order.includes(from), `${from} is already a section - nothing to move`);
-  }
-  assert.ok(Object.values(map).includes("Small Baths") && /ASHBURNE_MASTER_BATH = \[\/.+\/i/.test(menu), "the bath split is missing");
-  // 2026-09-28: the first run took receipt debits only and missed a manual credit line; a voided line's trade makes no header.
-  const body = menu.slice(menu.indexOf("function retagAshburneTrades("), menu.indexOf("\nfunction ", menu.indexOf("function retagAshburneTrades(") + 1));
-  assert.ok(/voided\[g\('txn_id'\)\]/.test(body) && !/'receipt'/.test(body), "moves every live line, debit or credit, any source - never a voided one");
-  assert.ok(/voided\[String\(r\[cols\['txn_id'\] - 1\]\)\]/.test(bodyOf("heavyBlocks_")), "heavyBlocks_: a voided line's trade makes no section header");
-  // Paul, 2026-09-28: the 2025 property tax paid is a line item - its own block, so the blocks add up to Rehab Total.
-  assert.ok(!/'Property Tax': true/.test(bodyOf("heavyBlocks_")) && order.includes("Property Tax"), "the property tax paid has no block");
-  assert.ok(!/a !== '1100'/.test(bodyOf("refreshHeavyBlocks_")), "refreshHeavyBlocks_ still keeps the tax line out of its block");
 });
 
 // 2026-09-28 13:06: the first replay run posted three pre-cutover documents on top of their migrated rows.
 test("replayErroredReceipts: never replays a document received before the cutover", () => {
-  const menu = readFileSync(path.join(__dirname, "..", "apps-script", "writer", "Menu.gs"), "utf8");
+  const menu = oneOffSource;
   const body = menu.slice(menu.indexOf("function replayErroredReceipts"), menu.indexOf("function replayErroredReceipts") + 1400);
   assert.ok(/var REPLAY_CUTOVER = '2026-09-21'/.test(menu), "the cutover date is the line");
   assert.ok(/receivedAt[\s\S]*< REPLAY_CUTOVER[\s\S]*return;/.test(body), "a pre-cutover envelope must be skipped before the fetch");
   assert.ok(body.indexOf("REPLAY_CUTOVER") < body.indexOf("siteFetchRaw_('/api/ingest-bg'"), "the skip comes before the replay");
-});
-
-test("undoReplayedMigrationDocs: three distinct receipt entries, each voided then its card dismissed", () => {
-  const menu = readFileSync(path.join(__dirname, "..", "apps-script", "writer", "Menu.gs"), "utf8");
-  const m = menu.match(/var REPLAYED_BY_MISTAKE = (\[[\s\S]*?\]);\nfunction undoReplayedMigrationDocs/);
-  assert.ok(m, "REPLAYED_BY_MISTAKE not found");
-  const rows = eval(m[1]);
-  assert.equal(rows.length, 3);
-  assert.equal(new Set(rows.map((r) => r[0])).size, 3);
-  assert.ok(rows.every((r) => /^receipt-2026(0329|0411|0625)-/.test(r[0]) && /^gm-/.test(r[1])));
-  const body = menu.slice(menu.indexOf("function undoReplayedMigrationDocs"), menu.indexOf("function undoReplayedMigrationDocs") + 1200);
-  assert.ok(body.indexOf("voidEntry_(") < body.indexOf("action: 'dismiss'"), "void first, then the card");
-  assert.ok(!/postEntry_|postBatchEntries_/.test(body), "an undo never posts");
-});
-
-test("addAshburnePickets: 71.71 on Ashburne's Landscaping, paid by Paul, with the receipt link", () => {
-  const menu = readFileSync(path.join(__dirname, "..", "apps-script", "writer", "Menu.gs"), "utf8");
-  const m = menu.match(/var ASHBURNE_PICKETS = (\{[\s\S]*?\});\nfunction addAshburnePickets/);
-  assert.ok(m, "ASHBURNE_PICKETS not found");
-  const p = eval("(" + m[1] + ")");
-  const ctx = makeCtx({ properties: new Set(["104 Ashburne"]), periods: new Map(), today: "2026-09-28" });
-
-// Paul, 2026-09-28: the 09-02 camera gimbal typed without its tax - void, re-post at the order total, same payer and receipt.
-test("fixCameraGimbalTax: voids the migrated 126.61 row, re-posts 137.06 on 6510 overhead with the same receipt", () => {
-  const menu = readFileSync(path.join(__dirname, "..", "apps-script", "writer", "Menu.gs"), "utf8");
-  const m = menu.match(/var CAMERA_GIMBAL = (\{[\s\S]*?\});\nfunction fixCameraGimbalTax/);
-  assert.ok(m, "CAMERA_GIMBAL not found");
-  const p = eval("(" + m[1] + ")");
-  assert.equal(p.old, "migration-20260902-c83153c60423"); assert.equal(Math.round(p.amount * 100), 13706);
-  assert.equal(Math.round(12661 * 1.0825), 13706, "137.06 is 126.61 plus 8.25% tax");
-  const ctx = makeCtx({ properties: new Set(), periods: new Map(), today: "2026-09-28" });
-  const e = buildEntry({ type: "expense", date: p.date, payee: p.payee, description: p.description, amount_cents: Math.round(p.amount * 100),
-    account: p.account, property: p.property, paid_from: p.paid_from, source: "manual", doc_url: p.doc_url }, ctx);
-  assert.equal(e.lines[0].debit, 13706); assert.equal(e.lines[0].account, "6510"); assert.equal(e.lines[0].property, "OVERHEAD");
-  assert.equal(e.lines[1].account, "1401"); assert.equal(e.lines[1].credit, 13706); assert.match(p.doc_url, /^https:\/\/drive\.google\.com\//);
-  const body = menu.slice(menu.indexOf("function fixCameraGimbalTax("), menu.indexOf("\nfunction ", menu.indexOf("function fixCameraGimbalTax(") + 1));
-  assert.ok(/voidEntry_\(p\.old/.test(body), "must void the migrated row");
-});
-
-// 2026-09-28 15:03: the 08-07 order's cameras saved through the 08-13 card - void that entry, put the card back.
-test("undoMisfiledCamerasCard: voids the misfiled entry and puts the 08-13 card back in the Inbox", () => {
-  const menu = readFileSync(path.join(__dirname, "..", "apps-script", "writer", "Menu.gs"), "utf8");
-  const m = menu.match(/var MISFILED_CAMERAS = \{ txn: '([^']+)', docId: '([^']+)' \};/);
-  assert.ok(m, "MISFILED_CAMERAS not found");
-  assert.match(m[1], /^receipt-20260813-[0-9a-f]{12}-[0-9a-f]{4}$/); assert.equal(m[2], "gm-1a0e9f120ca8f283");
-  const body = menu.slice(menu.indexOf("function undoMisfiledCamerasCard("), menu.indexOf("\nfunction ", menu.indexOf("function undoMisfiledCamerasCard(") + 1));
-  assert.ok(/voidEntry_\(MISFILED_CAMERAS\.txn/.test(body) && /action: 'mark-pending'/.test(body), "void, then mark-pending");
-  assert.ok(!/postEntry_|postBatchEntries_|setValue\(/.test(body), "nothing is posted - Paul re-enters it on the right card");
-});
-
-// Paul, 2026-09-28: the Home Depot 06-29 toilet kits are the migrated 06-28 "Toilet Kits" 40.01 - void the whole first
-// posting, record the air filter alone on Cost Recapture under Granite's section, with the receipt link.
-test("fixGraniteToiletKits: voids the 55.74 posting, re-posts the 20.54 filter alone on Cost Recapture, re-points the receipt", () => {
-  const menu = readFileSync(path.join(__dirname, "..", "apps-script", "writer", "Menu.gs"), "utf8");
-  const dup = menu.match(/var GRANITE_TOILET_KITS_DUPLICATE = '([^']+)';/);
-  assert.ok(dup && /^receipt-20260629-[0-9a-f]{12}-[0-9a-f]{4}$/.test(dup[1]), "the voided entry must be the 06-29 receipt's posting");
-  const m = menu.match(/var GRANITE_FILTER = (\{[\s\S]*?\});\nfunction fixGraniteToiletKits/);
-  assert.ok(m, "GRANITE_FILTER not found");
-  const p = eval("(" + m[1] + ")");
-  const ctx = makeCtx({ properties: new Set(["Cost Recapture"]), periods: new Map(), today: "2026-09-28" });
-  const e = buildEntry({ type: "expense", date: p.date, payee: p.payee, description: p.description, amount_cents: Math.round(p.amount * 100),
-    account: p.account, trade: p.trade, property: p.property, paid_from: "PAUL", source: "manual", doc_url: p.doc_url }, ctx);
-  assert.equal(e.lines[0].debit, 2054); assert.equal(e.lines[0].account, "1030"); assert.equal(e.lines[0].trade, "1616 Granite");
-  assert.equal(e.lines[0].property, "Cost Recapture"); assert.equal(e.lines[1].account, "2030"); assert.equal(e.lines[1].credit, 2054);
-  assert.match(p.doc_url, /^https:\/\/drive\.google\.com\//); assert.equal(p.docId, "gm-19f1526194ff1558");
-  const body = menu.slice(menu.indexOf("function fixGraniteToiletKits("), menu.indexOf("\nfunction ", menu.indexOf("function fixGraniteToiletKits(") + 1));
-  assert.ok(/voidEntry_\(GRANITE_TOILET_KITS_DUPLICATE/.test(body), "must void the duplicate posting");
-  assert.ok(/action: 'mark-posted'/.test(body) && /txn_ids: \[entry\.txn_id\]/.test(body), "must point the receipt at the new entry");
-});
-  const e = buildEntry({ type: "expense", date: p.date, payee: p.payee, description: p.description, amount_cents: Math.round(p.amount * 100),
-    account: p.account, trade: p.trade, property: "104 Ashburne", paid_from: "PAUL", source: "manual", doc_url: p.doc_url }, ctx);
-  assert.equal(e.lines[0].debit, 7171); assert.equal(e.lines[0].account, "1030"); assert.equal(e.lines[0].trade, "Landscaping");
-  assert.equal(e.lines[1].account, "2030"); assert.match(p.doc_url, /^https:\/\/drive\.google\.com\//);
 });
 
 test("Feed tab (Phase 3): the spec's columns, feed_id kept as text, the tab readable and imported_at a timestamp", () => {
@@ -806,28 +709,15 @@ test("feedUpdate: one lock, the three verdict columns read once and written once
   assert.match(menu.slice(menu.indexOf("function inboxDismiss(")), /tieFeedRows_\(ss, req\.feed, 'unmatched', \[\], 'Paul: ' \+ req\.note\)/, "a dismissed bank line goes back to the next run with Paul's words");
   const html = readFileSync(new URL("../apps-script/writer/Inbox.html", import.meta.url), "utf8");
   assert.equal((html.match(/feed: env\.feed \|\| null/g) || []).length, 3, "approve and both dismiss paths send the card's feed rows");
-  const resetAt = menu.indexOf("function resetFeedCards(");
-  const reset = menu.slice(resetAt, menu.indexOf("\n}\n", resetAt) + 3);
+  const resetAt = oneOffSource.indexOf("function resetFeedCards(");
+  const reset = oneOffSource.slice(resetAt, oneOffSource.indexOf("\n}\n", resetAt) + 3);
   assert.match(reset, /status === 'proposed'/);
   assert.doesNotMatch(reset, /postEntry_|postBatchEntries_|voidEntry_/);
   const inbox = readFileSync(new URL("../netlify/functions/books-inbox.mjs", import.meta.url), "utf8");
   assert.doesNotMatch(inbox, /await tieFeedRows\(|feedUpdate\(/, "no synchronous site handler waits on the writer");
 });
 
-test("addWorkingCapital (D-055): two journal entries, money in on 1401 owed to 2010 / 2030 with no house, no Advances row, both bank lines tied, both cards cleared", () => {
-  const menu = readFileSync(new URL("../apps-script/writer/Menu.gs", import.meta.url), "utf8");
-  const at = menu.indexOf("var WORKING_CAPITAL_2026_08");
-  assert.ok(at > 0);
-  const block = menu.slice(at, menu.indexOf("\n}\n", menu.indexOf("function addWorkingCapital(")) + 3);
-  assert.match(block, /date: '2026-08-06', cents: 500000, owed: '2010', payee: 'Dennis Little', feed_id: '202608060000000542493317'/);
-  assert.match(block, /date: '2026-08-13', cents: 485842, owed: '2030', payee: 'Paul Bjork', feed_id: '202608130000000543721512'/);
-  assert.match(block, /type: 'journal'/);
-  assert.match(block, /account: '1401', debit: r\.cents, credit: 0, property: ''/);
-  assert.match(block, /account: r\.owed, debit: 0, credit: r\.cents, property: ''/);
-  assert.doesNotMatch(block, /Advances|upsertRow_|voidEntry_|type: 'advance'/);
-  assert.match(block, /feedUpdateRows_\(ss, WORKING_CAPITAL_2026_08\.map/);
-  assert.match(block, /status: 'matched', txn_id: entries\[i\]\.txn_id/);
-  assert.match(block, /action: 'dismiss', docId: 'feed-1401-' \+ r\.feed_id/);
+test("the Inbox card born from bank lines gets its own flags (feedFlags_) on both call sites", () => {
   const html = readFileSync(new URL("../apps-script/writer/Inbox.html", import.meta.url), "utf8");
   assert.match(html, /function feedFlags_\(entries, why\)/);
   assert.match(html, /if \(env && env\.source === 'feed'\) return feedFlags_\(entries, why\);/);

@@ -23,6 +23,7 @@ front door.
   at once; the web app - what both pollers, the web Inbox and `approve-bg` post through - runs the deployed version of
   the WHOLE project, `refreshLineBlocks_` included, not just `doPost`. "doPost unchanged, no deploy" kept the §61
   spacer fix off that path for four days (audit §67). The deploy is a production deploy: Paul's step, like `npm run deploy`.
+  A change only to `oneOffScripts.gs` needs the push alone - the editor runs the pushed code (D-056).
 
 ## Load-bearing constraints
 
@@ -59,6 +60,13 @@ front door.
    once. Never send him to books.recast-properties.com; re-reading documents from a session is an
    editor helper calling `siteFetchJson_` reprocess, as the Inbox's Reprocess button does. Stay on
    the task in hand; flag anything new in one line and ask before chasing it.
+9. **Hand-run scripts live in `apps-script/writer/oneOffScripts.gs` (D-056, 2026-09-28).** `Code.gs` and
+   `Menu.gs` hold only what the workbook reaches (the menu, its dialogs, the trigger, `/exec`) plus the
+   standing setup tools (`setup`, `installTriggers`, `setupTotals`, `rebuildAllPropertyTabs`, `selfTest`).
+   Every dated repair, diagnostic report or tuning helper goes in `oneOffScripts.gs` with a `// STATUS:`
+   line, appended to its section - the file's header says how. `test/writer-gs-lint.test.mjs` fails on a
+   function in the live files that nothing reaches, or a call from them into the one-off file. A one-off
+   needs a `clasp push`, not a deploy.
 
 ## Status
 
