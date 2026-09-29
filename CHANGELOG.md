@@ -1911,3 +1911,23 @@ each would have posted beside the lump (counted twice). Now `placeholderEntries_
 means no button; nothing is ever lumped). Each entry has its own house picker. Run on the three real cards: 3 + 1 + 1
 placeholders, the amounts the bank's. The lint builds its cards with `applyVerdicts`, so the card's text is the real
 thing. 542 tests. Workbook read back = the repo.
+
+## 2026-09-29 (10:15) - the first real placeholders: Dennis's three Home Depot charges, recorded and tied
+
+Paul opened the Home Depot card of 09-28 (337.07): the top line read "Dennis's card (9301)", the yellow row stood
+on Dennis. **Waiting on receipt** made three lines (162.91, 33.07, 141.09); he picked **366 Mesa** for each and
+saved: "Recorded $337.07". Read back:
+- **Journal (2,667 rows, balanced 4,813,041.61):** three entries, each Dr 1030 / Cr 1401 on 366 Mesa, payee "Home
+  Depot Waxahachie", description `NEED RECEIPT FROM DENNIS`, trade `Waiting on receipt`, paid from 1401, no document -
+  `receipt-20260928-dfa34034c7f8-ba1d` (162.91), `receipt-20260928-211353bb0281-6dcb` (33.07),
+  `receipt-20260928-f5bf62efe496-cf9c` (141.09).
+- **Feed (read live, gviz):** the three bank lines are `matched`, each naming the three entries, "Recorded from the
+  Inbox". Target 2.65 and CondoCerts 375.00 are still cards.
+D-057 and D-059 have now run on real charges, end to end, except the swap (no receipt has come in yet) and the
+3 AM list (first at tonight's check). Timings on the card: post 10.7 s, feed 3.8 s, line blocks 3.3 s.
+**Paul asked** whether three separate charges should not be separate cards - yes; to build: one card per bank line
+for a question (the prompt asks per line; code splits a question whose lines are all money out). Not built yet.
+**Known wording slips seen on the card, not fixed:** a question card says "Claude thinks this bank line is a
+purchase" (`feedFlags_` sees the blank typed line as an entry), and the total line says "Receipt" on a bank card.
+**A slip of mine:** the first live read of the Feed tab used gviz's CSV form, which Chrome treats as a download;
+the HTML form is the one to use (`tqx=out:html`).
