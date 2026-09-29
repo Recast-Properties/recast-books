@@ -1213,9 +1213,10 @@ var M_gate = (function () {
    *   `postedEntries` is the posted-Journal view the twin rail (condition 9) checks
    *   against - already-posted entries only, shaped as the fields the twin check needs.
    *   `placeholders: false` skips condition 10 - a card born from a bank line is not a receipt.
-   * @returns {{passed:boolean, reasons:string[], already_posted_cents:number, placeholder:object|null}}
+   * @returns {{passed:boolean, reasons:string[], already_posted_cents:number, placeholder:object|null, replaces:object|null}}
    *   already_posted_cents is what the Journal holds for the read's already_posted_txn_ids (the card
-   *   shows it beside the entries); placeholder is the waiting charge this document touches, if any
+   *   shows it beside the entries); placeholder is the waiting charge this document touches, if any;
+   *   replaces is the other live entry the read's `supersedes` names, if any
    */
   function evaluateGate(model, ctx, settings, { postedEntries = [], placeholders = true } = {}) {
     const reasons = [];
@@ -1328,11 +1329,12 @@ var M_gate = (function () {
         entries.length > 0 && entries.every((e) => String(e?.paid_from) === String(waiting.paid_from));
       if (!same) push(`PLACEHOLDER_WAITING:${waiting.txn_id}`);
     }
-    const placeholder = waiting
-      ? { txn_id: waiting.txn_id, date: waiting.date, payee: waiting.payee, property: waiting.property, paid_from: waiting.paid_from, total_cents: waiting.total_cents }
-      : null;
+    // D-058: what the read's `supersedes` names, when it is a live entry and not a placeholder (a ride
+    // with the tip added, an amended invoice) - the card shows it, so a held one can be swapped on Save.
+    const earlier = !waiting && model?.supersedes ? postedEntries.find((p) => p.txn_id === model.supersedes) : null;
+    const pick = (p) => (p ? { txn_id: p.txn_id, date: p.date, payee: p.payee, property: p.property, paid_from: p.paid_from, total_cents: p.total_cents } : null);
 
-    return { passed: reasons.length === 0, reasons, already_posted_cents: alreadyPostedCents, placeholder };
+    return { passed: reasons.length === 0, reasons, already_posted_cents: alreadyPostedCents, placeholder: pick(waiting), replaces: pick(earlier) };
   }
 
   /**

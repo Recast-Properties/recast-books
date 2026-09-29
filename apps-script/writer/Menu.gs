@@ -984,9 +984,9 @@ function inboxApprove(req) {
     var built = buildEntriesFromModel(model, ctx, { posted_by: postedBy, doc_url: '', allow_duplicate_hash: true });
     var txnIds = built.map(function (e) { return e.txn_id; });
     lap('build');
-    // D-057: this receipt replaces a charge Paul was waiting on. Refused in plain words, before
-    // anything is marked or posted, when it is not that charge.
-    var swap = req.supersedes ? placeholderSwap_(ss, String(req.supersedes), entries) : null;
+    // D-057, D-058: this card takes the place of an entry already in the books - a charge Paul was
+    // waiting on, or an earlier copy. Refused in plain words, before anything is marked or posted.
+    var swap = req.supersedes ? replacedEntry_(ss, String(req.supersedes), entries) : null;
     if (swap && swap.refuse) return { ok: false, error: 'NOT_THAT_CHARGE', message: swap.refuse };
 
     siteFetchJson_('/api/inbox', 'post', { action: 'mark-posted', docId: docId, txn_ids: txnIds, rows: null,
@@ -994,13 +994,16 @@ function inboxApprove(req) {
     marked = true;
     lap('mark');
 
-    // The placeholder goes first, on its own date (the ingest's order); a Save that died after this
-    // is simply clicked again - placeholderSwap_ sees the placeholder already gone and only posts.
-    if (swap && !swap.voided) { voidEntry_(swap.txn_id, 'replaced by its receipt ' + docId, swap.date, postedBy, props, true); lap('void'); }
+    // The old entry goes first (the ingest's order) - a placeholder on its own date, an earlier copy
+    // today; a Save that died after this is simply clicked again - replacedEntry_ sees it already
+    // gone and only posts.
+    if (swap && !swap.voided) { voidEntry_(swap.txn_id, (swap.placeholder ? 'replaced by its receipt ' : 'superseded by ') + docId, swap.date, postedBy, props, true); lap('void'); }
     var result = postBatchEntries_(built, props, true);
     lap('post');
+    // Its bank lines move to the new entries when the amount is the same, else go back to the next matching run.
     var feed = swap
-      ? feedRetieRows_(ss, swap.txn_id, txnIds, 'The receipt came in and replaced the placeholder')
+      ? feedRetieRows_(ss, swap.txn_id, swap.same ? txnIds : [], swap.placeholder ? 'The receipt came in and replaced the placeholder'
+        : swap.same ? 'A corrected copy replaced the entry' : 'The entry this was tied to was replaced for another amount')
       : tieFeedRows_(ss, req.feed, 'matched', txnIds, 'Recorded from the Inbox' + (req.note ? ' - ' + req.note : ''));
     lap('feed');
     return { ok: true, txn_ids: txnIds, rows: result.rows, entries: built, feed: feed, timings: timings.join(', ') };
@@ -1015,21 +1018,26 @@ function inboxApprove(req) {
   }
 }
 
-/** D-057: the placeholder a receipt is about to replace, read off the Journal - {txn_id, date,
- *  voided} - or {refuse: plain words} when the receipt is not that charge: a different amount,
- *  or paid from somewhere other than the account the bank line was on. */
-function placeholderSwap_(ss, txnId, entries) {
+/** The entry a card is about to take the place of, read off the Journal - {txn_id, date (the
+ *  void's), voided, placeholder, same (amount)} - or {refuse: plain words}.
+ *  D-057, a placeholder: the receipt must be that charge - the same amount, paid from the account
+ *  the bank line was on - and the void is dated the placeholder's own date.
+ *  D-058, an earlier copy (a ride before its tip, an invoice before it was amended): the amount may
+ *  differ, that is the point; the void is dated today, as the ingest's is. */
+function replacedEntry_(ss, txnId, entries) {
   var journal = ss.getSheetByName('Journal');
   var cols = headerIndex_(journal);
   var rows = findAllRowsByValue_(journal, cols['txn_id'], txnId).map(function (r) { return journal.getRange(r, 1, 1, journal.getLastColumn()).getValues()[0]; });
   var g = function (r, n) { return cols[n] ? r[cols[n] - 1] : ''; };
-  if (!rows.length || !rows.some(function (r) { return String(g(r, 'description')).indexOf(NEED_RECEIPT) === 0; })) {
-    return { refuse: 'The charge this receipt was meant to replace is not a "waiting on receipt" line in the books. Untick "This is the receipt I was waiting for" and Save it as its own purchase.' };
-  }
+  if (!rows.length) return { refuse: 'What this card was meant to replace is not in the books. Untick the yellow box and Save it as its own purchase.' };
   var cents = rows.reduce(function (t, r) { return t + toCents(Number(g(r, 'debit')) || 0); }, 0);
+  var mine = entries.reduce(function (t, e) { return t + (e.items || []).reduce(function (s, it) { return s + (Number(it.amount_cents) || 0); }, 0); }, 0);
+  var voided = findAllRowsByValue_(journal, cols['void_of'], txnId).length > 0;
+  if (!rows.some(function (r) { return String(g(r, 'description')).indexOf(NEED_RECEIPT) === 0; })) {
+    return { txn_id: txnId, date: Utilities.formatDate(new Date(), 'America/Chicago', 'yyyy-MM-dd'), voided: voided, placeholder: false, same: mine === cents };
+  }
   var paidFrom = String(g(rows[0], 'paid_from'));
   var bank = bankAccountsLast4_(ss).filter(function (a) { return a.code === paidFrom; })[0];
-  var mine = entries.reduce(function (t, e) { return t + (e.items || []).reduce(function (s, it) { return s + (Number(it.amount_cents) || 0); }, 0); }, 0);
   var dollars = function (c) { return '$' + (c / 100).toFixed(2); };
   if (mine !== cents) {
     return { refuse: 'This receipt adds up to ' + dollars(mine) + ' but the charge you were waiting on is ' + dollars(cents) + ' - they are not the same purchase. Fix the amounts, or untick "This is the receipt I was waiting for" and Save it as its own purchase.' };
@@ -1037,7 +1045,7 @@ function placeholderSwap_(ss, txnId, entries) {
   if (entries.some(function (e) { return String(e.paid_from) !== paidFrom; })) {
     return { refuse: 'The charge you were waiting on was paid from ' + (bank ? bank.name : paidFrom) + ' - set Paid from to that on every line, or untick "This is the receipt I was waiting for".' };
   }
-  return { txn_id: txnId, date: formatIsoDate_(g(rows[0], 'date')), voided: findAllRowsByValue_(journal, cols['void_of'], txnId).length > 0 };
+  return { txn_id: txnId, date: formatIsoDate_(g(rows[0], 'date')), voided: voided, placeholder: true, same: true };
 }
 
 /** The email body as the receipt (D-035): stored to Drive as email.txt; returns the file url. */

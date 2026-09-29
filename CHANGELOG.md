@@ -1823,3 +1823,24 @@ web app **@14** (`clasp deployments` reads @14, `/exec` answers ok 0.4.0); site 
 `/api/meta` answers 401 as it should without a session); both pollers pushed and pulled back = the repo (receipts
 `1jKtDx0e...`, properties `1k2htSsu...`). Nothing owed. The first real placeholder and the first swap are the test;
 tonight's 2 AM check is the first to run `waitingOnReceipts` (an empty list prints nothing).
+
+## 2026-09-29 (08:41) - a held card that replaces an entry takes it out on Save (D-058)
+
+Paul: *"fix it"* - the gap found under D-057. `inboxApprove` takes out whatever the card says it replaces:
+`replacedEntry_` (was `placeholderSwap_`) reads the entry off the Journal - a placeholder keeps D-057's rules (same
+amount, same account, void on its own date); an earlier copy is voided today with `superseded by <doc>`, amount and
+payer free to differ; an entry that is not in the books is refused ("Untick the yellow box and Save it as its own
+purchase"). `feedRetieRows_` with an empty list puts the bank lines back to `unmatched` (the replacement is for
+another amount); with the same amount they move. The ingest does the same after its own supersede. The gate returns
+`replaces` for a live non-placeholder `supersedes`. The card's yellow box covers both kinds (`swapCandidate_`,
+`swapOf_`): "This replaces one already in the books: Uber, 09-12, $25.00 ..." - a card read before today carries only
+the entry's id, shown small under the sentence. Only a placeholder's bank line settles who paid; an earlier copy never
+hides "Who paid?". The web Inbox's approve answers 409 `REPLACES_AN_ENTRY`. 534 tests.
+
+**LIVE 08:50 PDT (Paul: "deploy, update git, repo and .md, handoff"):** writer pushed 08:41 and pulled back (14 files =
+the repo), web app **@15** (`clasp deployments` reads @15, `/exec` answers ok 0.4.0); site **`6abbdd95`** (3 functions
+changed; `/api/meta` answers 401 as it should). The pollers did not change. Nothing owed. Not yet run on a real card.
+**`HANDOFF-2026-09-29.md` written** - it supersedes the 09-28 one for state. The live Feed tab and the Inbox's cards
+were NOT read this session (the saved copy of the Feed tab is still 09-28 17:08 PDT: 52 matched, 19 proposed, 2
+unmatched - before D-055), and the handoff says so. Also noted there: the 2,000.00 into Chase on 09-28 did not leave
+Citizens that day - ask Paul what it was before the planned 1401 -> 1402 transfer.

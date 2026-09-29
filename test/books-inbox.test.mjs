@@ -297,6 +297,13 @@ test("D-057 approve: a receipt that may replace a placeholder is refused here - 
   assert.equal((await res.json()).error, "PLACEHOLDER_WAITING");
   assert.equal((await getDocsStore().get("doc/gm-approve-wait", { type: "json" })).status, "pending");
   assert.equal(ingestCalls.some((c) => c.url.endsWith("/api/approve-bg")), false);
+
+  // D-058: the same for a card whose read names an earlier copy to replace
+  const seeded = await seedEnvelope("gm-approve-tip");
+  await getDocsStore().setJSON("doc/gm-approve-tip", { ...seeded, model: { ...seeded.model, supersedes: "receipt-untipped" } });
+  const res2 = await handler(req("POST", { token: session("owner"), body: { action: "approve", docId: "gm-approve-tip" } }));
+  assert.equal(res2.status, 409);
+  assert.equal((await res2.json()).error, "REPLACES_AN_ENTRY");
 });
 
 test("approve honors human-edited entries over the model's original proposal", { skip }, async () => {

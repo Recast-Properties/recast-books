@@ -634,11 +634,17 @@ export async function processDecision({
       });
 
       const postResult = await writer.postBatch(entries);
-      // The bank lines tied to the placeholder now belong to the entries that replaced it. The
-      // post stands whatever happens here; a miss is logged for the nightly check.
-      if (waiting) {
-        try { await writer.feedRetie(waiting.txn_id, entries.map((e) => e.txn_id), `The receipt came in (${docId}) and replaced the placeholder`); }
-        catch (err) { console.error(`books-ingest-bg: ${docId} replaced ${waiting.txn_id} but its bank lines were not moved: ${String((err && err.message) || err)}`); }
+      // The bank lines tied to the entry taken out belong to the entries that replaced it - when
+      // they are for the same amount. When they are not (a tip added), the lines go back to the next
+      // matching run. The post stands whatever happens here; a miss is logged.
+      const replaced = waiting || (gateResult.replaces?.txn_id === model.supersedes ? gateResult.replaces : null);
+      if (replaced) {
+        const total = entries.reduce((t, e) => t + (e.lines || []).reduce((s, l) => s + (Number(l.debit) || 0), 0), 0);
+        const same = total === replaced.total_cents;
+        try {
+          await writer.feedRetie(replaced.txn_id, same ? entries.map((e) => e.txn_id) : [],
+            waiting ? `The receipt came in (${docId}) and replaced the placeholder` : same ? `A corrected copy (${docId}) replaced the entry` : `The entry this was tied to was replaced by ${docId} for another amount`);
+        } catch (err) { console.error(`books-ingest-bg: ${docId} replaced ${replaced.txn_id} but its bank lines were not moved: ${String((err && err.message) || err)}`); }
       }
       await invalidateJournalCache(writer); // covers the void above too - one Journal refresh
 

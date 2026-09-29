@@ -663,3 +663,23 @@ test("D-057: the gate sees who paid for a posted entry, and the bookkeeper's led
   assert.equal(posted.total_cents, 4500);
   assert.match(posted.text, /NEED RECEIPT FROM DENNIS/);
 });
+
+test("D-058: an earlier copy replaced - its bank lines move when the amount is the same, and go back to the next matching run when it is not", { skip }, async () => {
+  for (const [docId, oldCents, expectTo] of [["gm-amended", 4500, 1], ["gm-tipped", 4000, 0]]) {
+    const envelope = await seedEnvelope({ docId });
+    const store = getDocsStore();
+    await store.set(`att/${docId}/0`, Buffer.from("hi").toString("base64"), { metadata: {} });
+    const calls = [];
+    const writer = {
+      storeDocument: async () => ({ fileId: "f1", url: "https://drive/x", folderUrl: "https://drive/folder" }),
+      void: async (txn_id, reason, date) => { calls.push(["void", txn_id, reason, /^\d{4}-\d{2}-\d{2}$/.test(date)]); return { ok: true }; },
+      postBatch: async () => { calls.push(["postBatch"]); return { rows: [1, 2] }; },
+      feedRetie: async (from, to) => { calls.push(["feedRetie", from, to.length]); return { ok: true, updated: 1 }; },
+      read: async () => ({ ok: true, headers: ["txn_id"], rows: [] }),
+    };
+    const result = await processDecision({ envelope, docId, model: postModel({ supersedes: "receipt-20260909-old" }), transcript_summary: [], usage: {},
+      gateResult: { passed: true, reasons: [], placeholder: null, replaces: { txn_id: "receipt-20260909-old", date: "2026-09-09", total_cents: oldCents } }, ctx: baseCtx(), writer, docsStore: store });
+    assert.equal(result.status, "posted", docId);
+    assert.deepEqual(calls, [["void", "receipt-20260909-old", `superseded by ${docId}`, true], ["postBatch"], ["feedRetie", "receipt-20260909-old", expectTo]], docId);
+  }
+});

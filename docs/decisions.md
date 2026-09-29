@@ -1189,3 +1189,19 @@ holding account that belongs to no house** (the alternative, a "Waiting on Denni
    with the total - what Paul sends Dennis. A placeholder is not a "receipt without a document" finding.
 6. A sale's closing takes a placeholder with the house like any other cost; a placeholder on a house that has since
    sold is for Paul to settle by hand (Cost Recapture, D-031) - not built, not yet needed.
+
+## D-058 · A held card that replaces an entry takes it out when Paul saves it - 2026-09-29 · Paul
+
+Found while building D-057: the read can say a document is the corrected copy of an entry already in the books
+(`supersedes` - a ride with the tip added later, an amended invoice). The ingest honoured that only when it posted on
+its own; a card HELD for any other reason (over the ceiling, a meal, low confidence) and then saved by Paul posted
+beside the old entry, in both Inboxes - the purchase counted twice. Put to Paul in plain words; *"fix it"*.
+
+**Decided:** the card says what it replaces and Paul decides with a tick. A receipt card whose read names an entry
+shows the yellow box, ticked: "This replaces one already in the books: <store>, <date>, <amount>". Save takes the old
+entry out (a void dated today, reason `superseded by <doc>` - the ingest's own rule) and records the card; unticked,
+the card is its own purchase. The amount may differ - that is what a tip is - so nothing is compared (a placeholder,
+D-057, still must match to the cent). What the card names must be in the books, or Save is refused in plain words.
+The bank lines tied to the old entry move to the new one when the amount is the same and go back to `unmatched`
+when it is not, on Save and in the ingest alike. The web Inbox refuses to approve such a card (409) - it has no tick.
+The gate reports the entry (`gate.replaces`) so the card can name it; naming one never holds a document by itself.

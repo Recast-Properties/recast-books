@@ -54,7 +54,7 @@ function baseModel(overrides = {}) {
 
 test("a fully-valid post verdict passes with no reasons", () => {
   const result = evaluateGate(baseModel(), baseCtx(), baseSettings(), { postedEntries: [] });
-  assert.deepEqual(result, { passed: true, reasons: [], already_posted_cents: 0, placeholder: null });
+  assert.deepEqual(result, { passed: true, reasons: [], already_posted_cents: 0, placeholder: null, replaces: null });
 });
 
 test("evaluateGate defaults postedEntries to empty when opts is omitted", () => {
@@ -555,4 +555,16 @@ test("D-057: a placeholder is never a duplicate; a read that calls the receipt '
   assert.deepEqual(bank.reasons, []);
   assert.equal(bank.placeholder, null);
   assert.equal(NEED_RECEIPT, "NEED RECEIPT FROM");
+});
+
+test("D-058: the gate tells the card what a read's `supersedes` would take out - a live entry, never a placeholder, never one that is gone", () => {
+  const old = { txn_id: "receipt-20260904-untipped", date: "2026-09-04", payee: "Home Depot", property: "881 Newport", paid_from: "1401", total_cents: 20000, text: " order 1" };
+  const r = evaluateGate(baseModel({ supersedes: old.txn_id }), baseCtx(), baseSettings(), { postedEntries: [old] });
+  assert.deepEqual(r.reasons, [], "naming what it replaces never holds a document by itself");
+  assert.deepEqual(r.replaces, { txn_id: old.txn_id, date: "2026-09-04", payee: "Home Depot", property: "881 Newport", paid_from: "1401", total_cents: 20000 });
+  assert.equal(r.placeholder, null);
+  assert.equal(evaluateGate(baseModel({ supersedes: "receipt-gone" }), baseCtx(), baseSettings(), { postedEntries: [old] }).replaces, null);
+  const swap = evaluateGate(baseModel({ supersedes: WAITING.txn_id }), baseCtx(), baseSettings(), { postedEntries: [WAITING, old] });
+  assert.equal(swap.replaces, null, "a placeholder is reported as the placeholder");
+  assert.equal(swap.placeholder.txn_id, WAITING.txn_id);
 });

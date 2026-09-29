@@ -181,10 +181,13 @@ export default async (req) => {
       const envelope = await loadEnvelope(docsStore, docId);
       if (!envelope) return json(404, { error: "NOT_FOUND", message: `no envelope for docId ${docId}` });
 
-      // D-057: only the workbook's Inbox can put a receipt in its placeholder's place. Approving
-      // it here would record the purchase a second time, beside the charge already on the books.
+      // D-057, D-058: only the workbook's Inbox can put a card in the place of an entry already on
+      // the books. Approving it here would record the purchase a second time, beside the first.
       if (envelope.gate?.placeholder) {
         return json(409, { error: "PLACEHOLDER_WAITING", message: "This may be a receipt Paul was waiting on. Open it in the workbook: Recast Books -> Inbox." });
+      }
+      if (envelope.model?.supersedes) {
+        return json(409, { error: "REPLACES_AN_ENTRY", message: "This replaces one already in the books. Open it in the workbook: Recast Books -> Inbox." });
       }
 
       const modelSource = envelope.model || {};

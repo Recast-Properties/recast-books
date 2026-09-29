@@ -914,11 +914,12 @@ function action_feedUpdate_(body, props) {
   return jsonOutput_(feedUpdateRows_(openWorkbook_(props), rows));
 }
 
-// feedRetie (D-057): a placeholder's receipt came in and replaced it, so the bank lines tied to
-// the placeholder now belong to the entries that took its place. Every Feed row whose txn_id
-// names `from` gets `to` there instead; the write itself is feedUpdateRows_'s, under its lock.
+// feedRetie (D-057, D-058): an entry was taken out and others put in its place, so the bank lines
+// tied to it now belong to those. Every Feed row whose txn_id names `from` gets `to` there
+// instead; an empty `to` (the replacement is for another amount) puts the row back to unmatched
+// for the next matching run. The write itself is feedUpdateRows_'s, under its lock.
 function action_feedRetie_(body, props) {
-  if (!body.from_txn_id || !Array.isArray(body.to_txn_ids) || !body.to_txn_ids.length) fail_('BAD_REQUEST', 'from_txn_id and to_txn_ids are required');
+  if (!body.from_txn_id || !Array.isArray(body.to_txn_ids)) fail_('BAD_REQUEST', 'from_txn_id and to_txn_ids are required');
   return jsonOutput_(feedRetieRows_(openWorkbook_(props), body.from_txn_id, body.to_txn_ids, body.match_note || ''));
 }
 
@@ -934,7 +935,8 @@ function feedRetieRows_(ss, from, to, note) {
     if (have.indexOf(String(from)) < 0) return;
     var next = [];
     have.forEach(function (t) { next = next.concat(t === String(from) ? to : [t]); });
-    rows.push({ feed_id: String(ids[i][0]), status: 'matched', txn_id: next.join(', '), match_note: note });
+    rows.push(to.length ? { feed_id: String(ids[i][0]), status: 'matched', txn_id: next.join(', '), match_note: note }
+      : { feed_id: String(ids[i][0]), status: 'unmatched', txn_id: '', match_note: note });
   });
   return rows.length ? feedUpdateRows_(ss, rows) : { ok: true, updated: 0, missing: [] };
 }

@@ -95,10 +95,19 @@
     var f = env.feed || {};
     return f.amount_cents != null ? Number(f.amount_cents) < 0 : /-[\d,]+\.\d\d$/.test(String(env.subject || ''));
   }
-  // The receipt Paul is waiting on, when this card is it (the gate found the placeholder).
-  function swapOf_(env) {
-    return env.source !== 'feed' && env.gate && env.gate.placeholder && SWAP[env.docId] !== false ? env.gate.placeholder : null;
+  // What this card would take the place of in the books, ticked or not: the charge Paul was waiting
+  // on (D-057, the gate found the placeholder), or an earlier copy the read names in `supersedes`
+  // (D-058: a ride before its tip, an invoice before it was amended) - `earlier` marks that kind.
+  function swapCandidate_(env) {
+    var g = env.gate || {}, m = env.model || {};
+    if (env.source === 'feed') return null;
+    if (g.placeholder) return g.placeholder;
+    if (!m.supersedes) return null;
+    var r = g.replaces && g.replaces.txn_id === m.supersedes ? g.replaces : {};
+    return { txn_id: String(m.supersedes), earlier: true, payee: r.payee, date: r.date, total_cents: r.total_cents, property: r.property };
   }
+  // ...and what Save will take out: nothing once Paul unticks the box.
+  function swapOf_(env) { return SWAP[env.docId] === false ? null : swapCandidate_(env); }
   // The bank line is the proof of who paid: while the box is ticked the card is paid from that
   // account; unticked, each line goes back to what the receipt itself said.
   function applySwap_(env) {
@@ -312,7 +321,7 @@
   function flagsList_(gate, entries, why, env) {
     if (env && env.source === 'feed') return feedFlags_(entries, why);
     var kept = approvedOnly_(entries);
-    var swapping = !!(env && swapOf_(env));   // the bank line already says who paid
+    var swapping = !!(env && swapOf_(env) && !swapOf_(env).earlier);   // a placeholder: the bank line already says who paid
     var flags = ((gate && gate.reasons) || []).filter(function (r) { return r !== 'NEEDS_HUMAN_274D' && !(swapping && (r === 'PAYER_UNKNOWN' || r === 'BAD_PAID_FROM')); })
       .map(function (r) { return r === 'PARTLY_ON_BOOKS' ? partlyText_(gate, entries) : (r === 'NO_ENTRIES' && why) ? noEntriesText_(why) : flagText_(r); })
       .filter(Boolean).concat(mismatchFlags_(kept));
@@ -368,16 +377,20 @@
   // D-057, the yellow box. On a bank statement card: no receipt yet? one click makes it a placeholder.
   // On a receipt card the gate tied to a placeholder: is this the receipt Paul was waiting for?
   function waitHtml_(env) {
-    var p = env.gate && env.gate.placeholder;
     if (env.source === 'feed') {
       if (!moneyOut_(env) || isWaiting_(EDIT[env.docId])) return '';
       return '<div class="wait">No receipt yet? Waiting on <select data-wait-who="1">' + WAITING_ON.map(function (w) { return opt_(w, w, false); }).join('') +
         '</select> <button data-wait="1">Waiting on receipt</button></div>';
     }
+    var p = swapCandidate_(env);
     if (!p) return '';
-    return '<label class="wait"><input type="checkbox" data-swap="1"' + (SWAP[env.docId] !== false ? ' checked' : '') + '> This is the receipt I was waiting for: ' +
-      escapeHtml_(p.payee || 'a charge') + ', ' + escapeHtml_(String(p.date || '').slice(5)) + ', ' + money_(p.total_cents) + (p.property ? ', on ' + escapeHtml_(p.property) : '') +
-      '. Save puts this receipt in its place - it is not counted twice. Untick if this is a different purchase.</label>';
+    var box = '<label class="wait"><input type="checkbox" data-swap="1"' + (SWAP[env.docId] !== false ? ' checked' : '') + '> ';
+    var what = escapeHtml_(p.payee || 'a charge') + ', ' + escapeHtml_(String(p.date || '').slice(5)) + ', ' + money_(p.total_cents) + (p.property ? ', on ' + escapeHtml_(p.property) : '');
+    if (!p.earlier) return box + 'This is the receipt I was waiting for: ' + what + '. Save puts this receipt in its place - it is not counted twice. Untick if this is a different purchase.</label>';
+    // A card read before 2026-09-29 names only the entry's id - the books had not told the card what it was.
+    return box + 'This replaces one already in the books' + (p.total_cents != null ? ': ' + what : '') +
+      '. Save takes the old one out - it is not counted twice. Untick if this is a separate purchase.' +
+      (p.total_cents != null ? '' : '<div class="docid">' + escapeHtml_(p.txn_id) + '</div>') + '</label>';
   }
 
   function renderCard_(env) {
@@ -576,14 +589,14 @@
       var sorted = sortByDecision_(entries), toPost = splitByProperty_(sorted.keep), sum = sorted.sum;
       // The bank line is the proof of who paid: the receipt Paul was waiting for is paid from that account.
       var swap = toPost.length ? swapOf_(env) : null;
-      if (swap) toPost.forEach(function (e) { e.paid_from = swap.paid_from; });
+      if (swap && !swap.earlier) toPost.forEach(function (e) { e.paid_from = swap.paid_from; });
       var waiting = isWaiting_(toPost);
       if (!sum.approve && !sum.returned && !sum.dismiss) return showMsg_(msg, false, 'Nothing on this card to save - type an amount and a description on the line, click Reprocess, or Dismiss all.');
       var rest = [sum.returned ? money_(sum.returned) + ' returned' : '', sum.dismiss ? money_(sum.dismiss) + ' dismissed' : ''].filter(Boolean).join(', ');
       if (saveBtn.dataset.armed !== '1') {
         saveBtn.dataset.armed = '1';
         saveBtn.textContent = 'Click again: ' + (sum.approve ? 'record ' + money_(sum.approve) : 'record nothing') + (rest ? ', ' + rest : '') +
-          (swap ? ' in place of the charge you were waiting on' : waiting ? ', waiting on the receipt' : '');
+          (swap ? (swap.earlier ? ' in place of the one already in the books' : ' in place of the charge you were waiting on') : waiting ? ', waiting on the receipt' : '');
         setTimeout(function () { saveBtn.dataset.armed = ''; saveBtn.textContent = 'Save'; }, 5000);
         return;
       }
