@@ -846,6 +846,18 @@ read, one write); the site's `mark-posted` and `dismiss` no longer touch the wri
 function, the web path) keeps its tie. `resetFeedCards` dismisses the open bank-line cards on the site (a blob write
 again) and puts every `proposed` row - and any row an interrupted run marked - back to `unmatched` in-process. 524 tests.
 
+## 2026-09-28 (17:10 PDT) - second matcher run: 52 of 73 tied, 19 cards, 2 waiting; the Citizens statement is matched
+
+`resetFeedCards` (18 cards dismissed, 22 lines back) then Match statement lines... on the 24 open lines: **3 more tied** -
+exactly the three the grading predicted: the Effren Zelle 275 to the three Falcon Creek INV 1390 entries (the Vendors
+alias), Lowe's 542.40 to its six 08-13 entries and Home Depot 109.01 to its nine 09-02 entries (a penny each, the
+note says so). **Citizens, 2026-08-06..09-25: 52 matched, 19 cards for Paul's word, 2 waiting on the Ashburne close.**
+The 19: Dennis's 5,000 in, the 1,500 check, the two checks to Paul (32,105.26 vs the books' 32,246.84; 607.05), the
+4,858.42 deposit, the TYL 47.26 fee, F&D 42.21 vs 42.41, HD 55.87 vs 55.71, Juan Garcia 2,500, and ten Citizens-card
+store charges with no receipt (proposed for a house or overhead). Site `6abb00aa`, writer pushed (deploy @13 owed).
+Next: Paul decides the cards in the Sheets Inbox; then the reconcile step (spec section 4) - it also owns the three
+book-side findings (HD 08-14 x3 125.57 and HOA 375.00 on Citizens with no bank line; the Granite 07-24 sale lines).
+
 ## 2026-09-21 — Phase 4: lists closed, Drive filing done, Newport held, cutover rehearsed end to end
 
 **Morning, offline (audit §39-§44).** 26 false Home Depot / Lowe's links from a coincidental subset-sum rule

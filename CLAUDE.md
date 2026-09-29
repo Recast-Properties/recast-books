@@ -116,8 +116,12 @@ are the target, D-028 returns hold for Paul). **Resume from `HANDOFF-2026-09-28.
   Match statement lines...` runs `/api/feed-match` (`lib/feed-match.mjs`: Claude gives every line match / propose /
   question / later, code checks every match to the cent, verdicts land through the writer's `feedUpdate`, proposals and
   questions are Inbox cards that tie their Feed rows on approve/dismiss - `tieFeedRows`). Nothing autofiles from a bank
-  line. Pushed; **writer deploy (@12) and site deploy owed**; Paul's steps in `HANDOFF-2026-09-28.md` START HERE. Next:
-  run it on Citizens and grade it against the first pass; then reconciliation (§4), the Daily Summary feed (§6a). 523 tests.
+  line. **Run on Citizens the same evening and graded: 52 of 73 tied (every match checked right against the Journal), 19
+  cards for Paul, 2 waiting on the Ashburne close** (CHANGELOG "late night", "late night, 2", "17:10"): a few cents
+  tolerance, Vendors aliases in the prompt (Effren = Falcon Creek), `resetFeedCards()` for the tuning loop, and the
+  Feed-row tie moved INTO the workbook (`tieFeedRows_` on the sheet's approve/dismiss) - a synchronous site function must
+  never wait on the writer. Site `6abb00aa`, writer @12 (+@13 owed). Next: Paul's 19 cards; then reconciliation (§4),
+  the Daily Summary feed (§6a). 524 tests.
 - **2026-09-25 (D-044, D-045):** the gate lets a **medium** read post when every other rail holds (low still holds); a vendor's unanimous payment history settles `paid_from` when the document shows no card and Paul wrote no note; Chase checking 8870 is Paul's personal (`paul_personal_last4` = `9166, 8870`); `MAX_TOKENS_PER_TURN` 32k; the warm job replays errored docs from their stored read; the digest names the gate reason. CHANGELOG 2026-09-25.
 - **All five lists are done** (audit §40-§43): list 4 in mail not in the books 0 (`mail_settled`), differences 0 (`differences_settled`), confirm 0 real (the 3 shown are rows Paul dropped), questions answered; every decision, link, refusal (per document), drop, addition and retraction is in `data/migration/2026-09-17/paul-answers.json`. **Paul's stopping rule:** no new cost unless proven paid AND absent from the old books by total, pre-tax subtotal and items; otherwise park for Phase 3.
 - **2026-09-28: 104 Ashburne SOLD** the week of 09-21 (Citizens: $715,558.65 from Bison Title 09-23, $550,000 to Raymond James 09-25) - **not closed in the books yet; Paul starts the sell wizard when he is ready.** Earlier: **Facts corrected on 2026-09-18:** 104 Ashburne had NOT closed then. **881 Newport has NOT closed either - under contract (Paul 2026-09-21, audit §47); sold = Granite and Sparkling only**; its two Cost Recapture lines moved to its own tab. "Effren" rows are **Falcon Creek Lawn Care** (`rename_payee`). Paul's notes are the documents for cash labor.
