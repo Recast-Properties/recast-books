@@ -1842,5 +1842,14 @@ the repo), web app **@15** (`clasp deployments` reads @15, `/exec` answers ok 0.
 changed; `/api/meta` answers 401 as it should). The pollers did not change. Nothing owed. Not yet run on a real card.
 **`HANDOFF-2026-09-29.md` written** - it supersedes the 09-28 one for state. The live Feed tab and the Inbox's cards
 were NOT read this session (the saved copy of the Feed tab is still 09-28 17:08 PDT: 52 matched, 19 proposed, 2
-unmatched - before D-055), and the handoff says so. Also noted there: the 2,000.00 into Chase on 09-28 did not leave
-Citizens that day - ask Paul what it was before the planned 1401 -> 1402 transfer.
+unmatched - before D-055), and the handoff says so. ~~Also noted there: the 2,000.00 into Chase on 09-28 did not leave
+Citizens that day - ask Paul what it was before the planned 1401 -> 1402 transfer.~~
+
+**RETRACTED 09:00 PDT - my error.** I asked Paul where Chase's 2,000.00 came from. He had already said, and D-051
+records it in his words: Ashburne's earnest money, released by Bison Title as a check, which opened the Chase account
+(*"i told you already, the $2,000 came from the 104 ashburne closing statement earnest money"*). I had read the
+handoff's one line and not the decision. Nothing in the books changed and nothing was posted on the question. The
+handoff now marks it SETTLED and says how the reconcile step ties it: Citizens' wire 715,558.65 to the sale cash
+717,558.65 and the close's 2,000 entry 1401 -> 1402 together (the entry is the books catching up, not a bank
+transfer); Chase's deposit to the entry's other side. The 08:05 entry's "(the earnest money, by the look of it)" was
+a guess where the notes had the fact.
