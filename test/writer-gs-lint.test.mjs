@@ -665,7 +665,7 @@ test("replayErroredReceipts: never replays a document received before the cutove
 test("Feed tab (Phase 3): the spec's columns, feed_id kept as text, the tab readable and imported_at a timestamp", () => {
   const start = source.indexOf("'Feed': [");
   const feed = source.slice(start, source.indexOf("]", start) + 1);
-  for (const h of ["feed_id", "account", "date", "amount", "name", "memo", "status", "txn_id", "match_note", "source_file", "imported_at"]) {
+  for (const h of ["feed_id", "account", "date", "amount", "name", "memo", "status", "txn_id", "match_note", "source_file", "imported_at", "card"]) {
     assert.ok(feed.includes(`'${h}'`), `Feed header ${h}`);
   }
   assert.match(source, /var TEXT_COLUMNS = \[[^\]]*'feed_id'/);
@@ -694,8 +694,14 @@ test("feedUpdate: one lock, the three verdict columns read once and written once
   assert.ok(at > 0, "feedUpdateRows_ declared");
   const fn = source.slice(at, source.indexOf("\n}\n", at) + 3);
   assert.equal((fn.match(/LockService\.getScriptLock\(\)/g) || []).length, 1);
-  assert.equal((fn.match(/\.getValues\(\)/g) || []).length, 2, "the feed_id column and the three-column block");
-  assert.equal((fn.match(/\.setValues\(/g) || []).length, 1);
+  assert.equal((fn.match(/\.getValues\(\)/g) || []).length, 3, "the feed_id column, the three-column block, and the card column when a card came");
+  assert.equal((fn.match(/\.setValues\(/g) || []).length, 2);
+  assert.match(fn, /if \(carded\.length\) \{[\s\S]*cols\['card'\]/, "the card column is touched only when a row brings a card");
+  assert.ok(fn.indexOf("lock.releaseLock()") < fn.indexOf("refreshBankSheets_(ss)"), "the bank's tab is rebuilt after the lock is given back");
+  const refresh = gsFn(source, "refreshBankSheets_");
+  assert.match(refresh, /^function refreshBankSheets_\(ss\) \{\n  try \{/, "a tab that cannot be rebuilt never fails the bank line's write");
+  assert.match(refresh, /bankSheetRows\(feed, journal, account\)/);
+  assert.match(menuSource, /addItem\('Bank sheet', 'showBankSheet'\)/);
   assert.match(fn, /cols\['txn_id'\] !== cols\['status'\] \+ 1/);
   assert.match(fn, /missing\.push/);
   const menu = readFileSync(new URL("../apps-script/writer/Menu.gs", import.meta.url), "utf8");

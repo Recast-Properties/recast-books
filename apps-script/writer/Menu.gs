@@ -27,6 +27,7 @@ function onOpen() {
     .addItem('Sell property...', 'showSellDialog')
     .addItem('Import statement...', 'showImportDialog')
     .addItem('Match statement lines...', 'matchStatementLines')
+    .addItem('Bank sheet', 'showBankSheet')
     .addSeparator()
     .addItem('Close period...', 'closePeriod')
     .addItem('Reopen period...', 'reopenPeriod')
@@ -700,8 +701,8 @@ function journalLines_(ss) {
  *  the header row; the caller has already put the tie-out line at the bottom.
  *  Sheet layout: row 1 = title, row 2 = blank, row 3 = rows[0] (the header),
  *  row 4+ = the rest of `rows`. */
-function writeReportRows_(ss, name, title, rows) {
-  var sheetName = 'Report - ' + name;
+function writeReportRows_(ss, name, title, rows, tabName) {
+  var sheetName = tabName || ('Report - ' + name);
   var sh = ss.getSheetByName(sheetName);
   if (sh) sh.clear(); else sh = ss.insertSheet(sheetName);
   var HEADER_ROW = 3;
@@ -1783,7 +1784,10 @@ function ensureFeedHeaders_(sh) {
   var missing = want.filter(function (h) { return !cols[h]; });
   if (!missing.length) return;
   if (sh.getLastRow() > 1) {
-    fail_('FEED_HEADERS', 'The Feed tab already has rows but is missing the columns ' + missing.join(', ') + ' - add them to row 1 by hand.');
+    // a column added after the tab had rows (card, 2026-09-29) goes on the right end: nothing moves
+    if (!cols['feed_id'] || !cols['status']) fail_('FEED_HEADERS', 'The Feed tab already has rows but is missing the columns ' + missing.join(', ') + ' - add them to row 1 by hand.');
+    missing.forEach(function (h) { sh.getRange(1, sh.getLastColumn() + 1).setValue(h); });
+    return;
   }
   ensureHeaders_(sh, want);
   forceTextColumns_(sh, want);
@@ -1793,6 +1797,16 @@ function feedRow_(cols, values) {
   var row = new Array(maxColIndex_(cols)).fill('');
   Object.keys(values).forEach(function (k) { if (cols[k]) row[cols[k] - 1] = values[k]; });
   return row;
+}
+
+/** Recast Books -> Bank sheet: the bank account's own tab, rebuilt and brought to the front. */
+function showBankSheet() {
+  var ss = openWorkbook_(PropertiesService.getScriptProperties());
+  try { requireOwner_(ss, true); } catch (err) { return; }
+  refreshBankSheets_(ss);
+  var sh = ss.getSheetByName(BANK_SHEETS['1401']);
+  if (sh) ss.setActiveSheet(sh);
+  else SpreadsheetApp.getUi().alert('No bank lines yet - use Import statement... first.');
 }
 
 /** google.script.run from Import.html: {name, text} - the file's name and its text. */
@@ -1843,6 +1857,7 @@ function importStatement(req) {
         }));
       });
       if (rows.length) sh.getRange(last + 1, 1, rows.length, rows[0].length).setValues(rows);
+      refreshBankSheets_(ss);
       warmCache_();
       var bal = parsed.ledger_balance_cents;
       return {

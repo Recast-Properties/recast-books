@@ -158,8 +158,10 @@ var TAB_HEADERS = {
   // text, or Sheets rounds it); status is unmatched | matched | proposed | excluded; txn_id
   // is the Journal entry the line was tied to. The tab was created headers-only in Phase 0
   // with a different guess at its columns; ensureFeedHeaders_ rewrites them on first use.
+  // card (2026-09-29): who paid - "Dennis (9301)", from the bank's daily email (D-059), written by
+  // the matcher where the cell is empty; a name typed by hand (a check's signer) is left alone.
   'Feed': ['feed_id', 'account', 'date', 'amount', 'name', 'memo', 'status', 'txn_id',
-    'match_note', 'source_file', 'imported_at']
+    'match_note', 'source_file', 'imported_at', 'card']
 };
 
 // Chart of accounts seed, spec section 6 (2026-09-11 changes), columns in
@@ -947,8 +949,11 @@ function feedRetieRows_(ss, from, to, note) {
 function feedUpdateRows_(ss, rows) {
   var lock = LockService.getScriptLock();
   lock.waitLock(30000);
+  var out;
   try {
     var sh = ss.getSheetByName('Feed');
+    var carded = rows.filter(function (u) { return u.card != null; });
+    if (carded.length) ensureFeedHeaders_(sh);   // the card column, the first time one is written
     var cols = headerIndex_(sh);
     if (!cols['feed_id'] || !cols['status'] || cols['txn_id'] !== cols['status'] + 1 || cols['match_note'] !== cols['status'] + 2) {
       fail_('FEED_HEADERS', 'the Feed tab needs feed_id, and status, txn_id, match_note side by side');
@@ -968,9 +973,52 @@ function feedUpdateRows_(ss, rows) {
       updated++;
     });
     sh.getRange(2, cols['status'], last - 1, 3).setValues(block);
-    return { ok: true, updated: updated, missing: missing };
+    if (carded.length) {
+      var cards = sh.getRange(2, cols['card'], last - 1, 1).getValues();
+      carded.forEach(function (u) { var i = rowOf[String(u.feed_id)]; if (i !== undefined) cards[i][0] = String(u.card); });
+      sh.getRange(2, cols['card'], last - 1, 1).setValues(cards);
+    }
+    out = { ok: true, updated: updated, missing: missing };
   } finally {
     lock.releaseLock();
+  }
+  refreshBankSheets_(ss);
+  return out;
+}
+
+// The bank account's own tab (Paul, 2026-09-29: "a running sheet that shows each charge, who paid
+// and its status ... so i can easily show dennis that its been reconciled and what i need from
+// him", newest on top). Rebuilt from the Feed tab and the Journal after every change to a bank
+// line (feedUpdateRows_, importStatement) and from the menu; lib/bank-sheet.mjs says what each
+// line is. Values, not formulas - nothing typed on the tab survives a refresh. Never throws: the
+// bank line's own write has already happened.
+// ponytail: one tab per account named here; add '1402': 'Chase Bank' with Chase's first file.
+var BANK_SHEETS = { '1401': 'Citizens Bank' };
+var BANK_STATUS_COLORS = { 'Reconciled': '#d9ead3', 'Waiting for receipt': '#fff2cc', 'Waiting for an answer': '#fff2cc', 'Needs a look': '#f4cccc' };
+function refreshBankSheets_(ss) {
+  try {
+    var data = readTabData_(ss, 'Feed', {});
+    var feed = data.rows.map(function (r) { var o = {}; data.headers.forEach(function (h, i) { o[h] = r[i]; }); return o; });
+    var journal = null;
+    Object.keys(BANK_SHEETS).forEach(function (account) {
+      if (!feed.some(function (r) { return String(r.account) === account; })) return;
+      if (!journal) { var j = readTabData_(ss, 'Journal', { all: true }); journal = loadJournal(j.headers, j.rows); }
+      var rows = bankSheetRows(feed, journal, account);
+      var name = BANK_SHEETS[account];
+      var title = name + ' - every line of the account, newest on top';
+      var stamp = bankSheetSummary(rows) + '. Updated ' + Utilities.formatDate(new Date(), 'America/Chicago', 'MMM d, h:mm a') + ' (Texas time)';
+      var sh = ss.getSheetByName(name);
+      if (sh && sh.getFilter()) sh.getFilter().remove();
+      sh = writeReportRows_(ss, name, title, [BANK_SHEET_HEADER].concat(rows), name);
+      sh.getRange(2, 1).setValue(stamp);
+      sh.getRange(4, 1, rows.length, 1).setNumberFormat('yyyy-mm-dd');
+      sh.getRange(4, 2, rows.length, 1).setNumberFormat('#,##0.00;[red]-#,##0.00');
+      sh.getRange(4, 5, rows.length, 1).setBackgrounds(rows.map(function (r) { return [BANK_STATUS_COLORS[r[4]] || '#ffffff']; }));
+      [90, 100, 280, 80, 170, 90, 170, 420].forEach(function (w, i) { sh.setColumnWidth(i + 1, w); });   // the title would stretch column A
+      sh.getRange(3, 1, rows.length + 1, BANK_SHEET_HEADER.length).createFilter();
+    });
+  } catch (err) {
+    console.error('refreshBankSheets_: ' + String((err && err.message) || err));
   }
 }
 

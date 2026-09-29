@@ -39,6 +39,7 @@ export function feedRows(resp) {
     status: String(r.status || ""),
     txn_id: String(r.txn_id || ""),
     match_note: String(r.match_note || ""),
+    card_cell: String(r.card || ""),   // what the Feed tab already says; `card` is the email's, set below
   }));
 }
 
@@ -56,7 +57,8 @@ export async function runFeedMatch({ account, writer, docsStore, anthropic, cach
   const vendors = rowsToObjectsPublic(vendorsResp.headers, vendorsResp.rows)
     .map((v) => ({ canonical: String(v.canonical || ""), aliases: String(v.aliases || "").split(",").map((a) => a.trim()).filter(Boolean) }));
   const feed = feedRows(feedResp);
-  const lines = feed.filter((r) => r.account === account && r.status === "unmatched");
+  const mine = feed.filter((r) => r.account === account);
+  const lines = mine.filter((r) => r.status === "unmatched");
   const used = new Set(feed.flatMap((r) => r.txn_id.split(/[\s,]+/)).filter(Boolean));
   const journalLines = flattenJournalLines(journalResp.headers, journalResp.rows);
   const candidates = buildCandidates(journalLines, account, used);
@@ -68,23 +70,38 @@ export async function runFeedMatch({ account, writer, docsStore, anthropic, cach
     .filter((p) => p.name)
     .map((p) => ({ name: p.name, address: p.address || "", status: p.status || "", purchase_date: p.purchase_date || "", trades: trades[p.name] || [] }));
 
-  if (!lines.length) return { summary: { total: 0, matched: 0, cards: 0, later: 0, none: 0 }, candidates: candidates.length, usage: null, transcript: "no open lines" };
-
   // D-059: which card paid, from the bank's daily emails. Knowing it is a help, never a need -
-  // a store that cannot be read leaves the lines as the bank's file has them.
+  // a store that cannot be read leaves the lines as the bank's file has them. Every line of the
+  // account is looked up, not only the open ones: the Feed tab's card column is the bank sheet's
+  // "Who paid" (2026-09-29). A cell that already says who is never written over.
   let carded = 0;
+  const cardUpdates = [];
   try {
     const last4s = String(bank?.last4 || "").split(/[\s,;]+/).filter(Boolean);
-    const cards = cardsForLines(lines, await loadSummaries(cacheStore), last4s);
+    const cards = cardsForLines(mine, await loadSummaries(cacheStore), last4s);
     for (const l of lines) if (cards.has(l.feed_id)) { l.card = cards.get(l.feed_id); carded++; }
+    for (const r of mine) {
+      const c = cards.get(r.feed_id);
+      if (c && !r.card_cell) cardUpdates.push({ feed_id: r.feed_id, card: `${c.holder} (${c.last4})` });
+    }
   } catch (err) {
     console.error(`feed-match-bg: the bank's daily emails could not be read: ${String((err && err.message) || err)}`);
+  }
+
+  if (!lines.length) {
+    if (cardUpdates.length) { await writer.feedUpdate(cardUpdates); await refreshTabAfterWrite(writer, "Feed"); }
+    return { summary: { total: 0, matched: 0, cards: 0, later: 0, none: 0 }, candidates: candidates.length, usage: null, transcript: "no open lines" };
   }
 
   const { verdicts, usage, transcript } = await runMatcher({ anthropic, account, accountName, lines, candidates, properties, vendors, today: ctx.today });
   const applied = applyVerdicts({ verdicts, lines, candidates, account, accountName, ctx, settings, postedEntries: buildPostedEntries(journalLines), now });
 
   for (const env of applied.envelopes) await docsStore.setJSON(`doc/${env.docId}`, env);
+  const verdictOf = new Map(applied.updates.map((u) => [u.feed_id, u]));
+  for (const c of cardUpdates) {
+    if (verdictOf.has(c.feed_id)) verdictOf.get(c.feed_id).card = c.card;
+    else applied.updates.push(c);
+  }
   let written = null;
   if (applied.updates.length) {
     written = await writer.feedUpdate(applied.updates);

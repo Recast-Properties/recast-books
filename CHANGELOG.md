@@ -2004,3 +2004,33 @@ swapped yet. 543 tests; pushed, no deploy (a one-off).
 
 **Rule learned:** a check the bank calls "Inclearing" has no name anywhere in the file or the daily email - ask for
 the bank's picture of the check before booking it on anyone's memory. Build the helper after the picture, not before.
+
+## 2026-09-29 (15:20) - the bank account's own tab, "Citizens Bank" (D-061) - pushed; both deploys OWED
+
+Paul asked for a running sheet of the Citizens account - each line, who paid, where it stands, newest on top - to
+show Dennis what is reconciled and what is needed from him. **Built:** `lib/bank-sheet.mjs` (`bankSheetRows`,
+`bankSheetSummary`; in `lib.gs`), `refreshBankSheets_` (Code.gs; called after the lock in `feedUpdateRows_`, in
+`importStatement`, and by the new menu item **Recast Books -> Bank sheet**, `showBankSheet`); the Feed tab gets a
+last column `card` (`ensureFeedHeaders_` now adds a missing column on the right end of a tab that has rows);
+`feedUpdateRows_` writes it when a row brings one; the matcher (`books-feed-match-background.mjs`) looks up the card
+for EVERY line of the account and sends it where the cell is empty - also on a run with no open lines.
+`writeReportRows_` takes a tab name. 547 tests (4 new in `test/bank-sheet.test.mjs`).
+
+**Run off to the side on the books' own data** (the real `refreshBankSheets_` text against fakes; the Journal copy,
+the Feed copy of this morning, the 35 stored bank emails): 79 lines written, no error; 46 lines get a card (Paul 38,
+Dennis 8), 33 none (checks, Zelles, wires, transfers, and 09-08, the day with no email).
+
+**State:** the workbook's project pushed 15:18 and pulled back = the repo - the menu item works now, "Who paid" is
+blank until the matcher has run on the new code. **OWED, on Paul's word "deploy": the writer web app (Code.gs and
+lib.gs changed) and the site (the matcher).** Until then a matcher run neither writes the card nor rebuilds the tab.
+Also read live at 15:10: Paul decided three more cards himself (Deluxe 28.15, check 1021 Juan Garcia 2,500, check
+1023 Kopec 100) - **Citizens: 67 tied, 10 cards, 2 waiting.**
+
+## 2026-09-29 (15:35) - the bank sheet is LIVE: writer web app @16, site `6abc3ad9`; who paid filled in
+
+Paul opened the tab from the menu (79 lines, newest on top, read back against the Feed tab: 64 reconciled, 3
+placeholders, 10 cards, 2 waiting), asked why the Target 2.65 waited on him (no card on the tab yet), said "deploy".
+**Deployed 15:25 PDT:** writer web app **@16**, site **`6abc3ad9`** - both = the repo, nothing owed. His Match run
+(2 looked at, 2 wait) wrote the card on **46 of 79 lines (Paul 38, Dennis 8)** and rebuilt the tab, read back live:
+**waiting on Dennis 8** (the three placeholders on 366 Mesa, Home Depot 09-21 / 09-24 / 09-25, Target 2.65, Lowe's
+130.87 of 08-10), **waiting on Paul 5**, 64 reconciled, 2 waiting for the Ashburne closing.

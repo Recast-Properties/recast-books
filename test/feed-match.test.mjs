@@ -361,7 +361,7 @@ test("runFeedMatch: reads the tabs, sends only the account's open lines, leaves 
   assert.equal(card.status, "pending");
   assert.match(card.model.why, /-30000\.00 of 2026-09-15/);
   assert.equal(card.from, "Recast Citizens - Shared");
-  assert.deepEqual(feedRows({ headers: FEED_HEADERS, rows: [feedRow(LINES[0])] })[0], { feed_id: "F1", account: ACCOUNT, date: "2026-08-13", amount_cents: -54240, name: "Lowe s Waxahachie", memo: "Lowe s Waxahachie", status: "unmatched", txn_id: "", match_note: "" });
+  assert.deepEqual(feedRows({ headers: FEED_HEADERS, rows: [feedRow(LINES[0])] })[0], { feed_id: "F1", account: ACCOUNT, date: "2026-08-13", amount_cents: -54240, name: "Lowe s Waxahachie", memo: "Lowe s Waxahachie", status: "unmatched", txn_id: "", match_note: "", card_cell: "" });
 });
 
 test("D-059 runFeedMatch: the card the bank's daily email names reaches the model's line and the Inbox card; no emails, or a store that fails, changes nothing", async () => {
@@ -371,8 +371,14 @@ test("D-059 runFeedMatch: the card the bank's daily email names reaches the mode
   await cacheStore.setJSON("bankmail/m1", { id: "m1", bodyText: ` Daily Summary Account: 2505 Date: 09/14/26 MPOWERED SMALL BUS Debits: (-) LOWES #00907* \u24D8 9301 - DENNIS C LITTLE <https://x> $239.00 Total Debits $239.00 09/15 Avail Balance 7:00 AM $1.00` });
   const anthropic = fakeAnthropic(answerByAmount);
   const docsStore = fakeDocsStore();
-  const out = await runFeedMatch({ account: ACCOUNT, writer: fakeWriter(), docsStore, anthropic, cacheStore, now: "2026-09-28T20:00:00Z" });
+  const writer = fakeWriter();
+  const out = await runFeedMatch({ account: ACCOUNT, writer, docsStore, anthropic, cacheStore, now: "2026-09-28T20:00:00Z" });
   assert.equal(out.carded, 1);
+  // the bank sheet's "Who paid": the card rides to the Feed tab on the line's own verdict, and only where the email named one
+  const written = writer.calls.find((c) => c[0] === "feedUpdate")[1];
+  assert.equal(written.find((u) => u.feed_id === "F5").card, "Dennis (9301)");
+  assert.ok(written.find((u) => u.feed_id === "F5").status, "one update per line: the verdict and the card together");
+  assert.equal(written.filter((u) => u.card != null).length, 1);
   assert.match(anthropic.calls[0].messages[0].content, /\| -239\.00 \| LOWES #00907\* 866-483-7521 NC \| card 9301 \(Dennis\)/);
   assert.equal([...anthropic.calls[0].messages[0].content.matchAll(/\| card /g)].length, 1, "only the line the email named");
   const card = await docsStore.get("doc/feed-1401-F5", { type: "json" });

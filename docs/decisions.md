@@ -1250,3 +1250,24 @@ about several lines that are ALL money out is split into one card per line (`app
 amount and day before the read's question. Lines of both signs stay on one card - a purchase and its refund are one
 event. A proposal is not split by code (its one entry adds up to its lines - a check and its fee), and neither is a
 match the books could not back up; `placeholderEntries_` covers those: one entry per bank line whatever the card holds.
+
+## D-061 · The bank account has its own tab: every line, newest on top, who paid and where it stands - 2026-09-29 · Paul
+
+Paul: *"i want a tab dedicated to the citizens bank account. i want a running sheet that shows each charge, who paid
+(me or dennis) and its status (reconciled or waiting for receipt, waiting on dennis etc) so i can easily show dennis
+that a) its been reconciled and B) what i need from him"*, then *"i want it to populate at the top, not the bottom"*.
+
+**Decided:** a tab **Citizens Bank** in the workbook, built by code from the Feed tab and the Journal
+(`lib/bank-sheet.mjs`, `refreshBankSheets_` in Code.gs) - values, not formulas, rebuilt after every change to a bank
+line (`feedUpdateRows_`, `importStatement`) and from **Recast Books -> Bank sheet**. Newest line on top. Columns: Date,
+Amount, What the bank says, Who paid, Status, Waiting on, House, Note - with a filter on the header, so "Waiting on =
+Dennis" is the list to show him. Statuses, in Paul's words: Reconciled; Waiting for receipt (a placeholder of D-057, or
+a card charge still in the Inbox - on the card's holder); Waiting for an answer (anything else in the Inbox - on
+Paul); Waiting for the closing; Being recorded; New - not looked at yet; Needs a look (tied to an entry since taken
+out). No ids and no system words on the tab (a test keeps them off).
+**Who paid** is the card the bank's daily email names (D-059), kept on the Feed tab in a new last column `card`
+("Dennis (9301)"), written by the matcher for every line of the account where the cell is empty - a name typed there
+by hand (a check's signer) is never written over. The bank names nobody on a check, a Zelle or a wire: those stay blank.
+A card of several bank lines ties each line to all of its entries; the entry for the line's own amount speaks for it.
+ponytail: one tab per account named in `BANK_SHEETS`; Chase gets its line with its first file. Nothing typed on the
+tab survives a refresh.
