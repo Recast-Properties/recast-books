@@ -11,9 +11,10 @@
 // decides it - books-inbox.mjs mark-posted / dismiss). Nothing here posts to the Journal.
 import Anthropic from "@anthropic-ai/sdk";
 import {
-  requireConfig, json, pollerSecretOk, getDocsStore, getWriter, readTab, getPostingCtx,
+  requireConfig, json, pollerSecretOk, getDocsStore, getCacheStore, getWriter, readTab, getPostingCtx,
   rowsToObjectsPublic, refreshTabAfterWrite, todayChicago,
 } from "./_shared.mjs";
+import { cardsForLines, loadSummaries } from "../../lib/bank-mail.mjs";
 import { flattenJournalLines, buildPostedEntries, tradesByProperty } from "./books-ingest-background.mjs";
 import { buildCandidates, runMatcher, applyVerdicts } from "../../lib/feed-match.mjs";
 import { toCents } from "../../lib/money.mjs";
@@ -42,7 +43,7 @@ export function feedRows(resp) {
 }
 
 /** The run, exported so the test drives it with fakes. Returns what the job record stores. */
-export async function runFeedMatch({ account, writer, docsStore, anthropic, now = new Date().toISOString() }) {
+export async function runFeedMatch({ account, writer, docsStore, anthropic, cacheStore = getCacheStore(), now = new Date().toISOString() }) {
   const [feedResp, journalResp, ctx, settingsResp, bankResp, propsResp, vendorsResp] = await Promise.all([
     readTab(writer, "Feed", { fresh: true }),
     readTab(writer, "Journal", { fresh: true, all: true, timeoutMs: JOURNAL_READ_TIMEOUT_MS }),
@@ -69,6 +70,17 @@ export async function runFeedMatch({ account, writer, docsStore, anthropic, now 
 
   if (!lines.length) return { summary: { total: 0, matched: 0, cards: 0, later: 0, none: 0 }, candidates: candidates.length, usage: null, transcript: "no open lines" };
 
+  // D-059: which card paid, from the bank's daily emails. Knowing it is a help, never a need -
+  // a store that cannot be read leaves the lines as the bank's file has them.
+  let carded = 0;
+  try {
+    const last4s = String(bank?.last4 || "").split(/[\s,;]+/).filter(Boolean);
+    const cards = cardsForLines(lines, await loadSummaries(cacheStore), last4s);
+    for (const l of lines) if (cards.has(l.feed_id)) { l.card = cards.get(l.feed_id); carded++; }
+  } catch (err) {
+    console.error(`feed-match-bg: the bank's daily emails could not be read: ${String((err && err.message) || err)}`);
+  }
+
   const { verdicts, usage, transcript } = await runMatcher({ anthropic, account, accountName, lines, candidates, properties, vendors, today: ctx.today });
   const applied = applyVerdicts({ verdicts, lines, candidates, account, accountName, ctx, settings, postedEntries: buildPostedEntries(journalLines), now });
 
@@ -78,7 +90,7 @@ export async function runFeedMatch({ account, writer, docsStore, anthropic, now 
     written = await writer.feedUpdate(applied.updates);
     await refreshTabAfterWrite(writer, "Feed");
   }
-  return { summary: applied.summary, candidates: candidates.length, cards: applied.envelopes.map((e) => e.docId), written, usage, transcript };
+  return { summary: applied.summary, candidates: candidates.length, cards: applied.envelopes.map((e) => e.docId), carded, written, usage, transcript };
 }
 
 export default async (req) => {

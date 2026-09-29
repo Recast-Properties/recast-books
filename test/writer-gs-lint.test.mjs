@@ -887,6 +887,10 @@ test("D-057 the Inbox card: Waiting on receipt makes the one placeholder line; t
     ...["money_", "opt_", "isWaiting_", "moneyOut_", "swapCandidate_", "waitHtml_"].map((n) => grabIn(inbox, `function ${n}(`)), "return { waitHtml_, SWAP };"].join("\n"))();
   const text = (html) => html.replace(/<[^>]+>/g, " ").replace(/\s+/g, " ").trim();
   assert.equal(text(box.waitHtml_(env)), "No receipt yet? Waiting on Dennis Paul Waiting on receipt");
+  // D-059: the bank's daily email named the card - the box starts on its holder
+  assert.match(box.waitHtml_({ ...env, feed: { amount_cents: -37500, card: { last4: "5450", holder: "Paul" } } }), /<option value="Paul" selected>Paul<\/option>/);
+  assert.doesNotMatch(box.waitHtml_(env), / selected>/, "no card known: nothing is picked for him, the list starts on Dennis");
+  assert.ok(inbox.includes("escapeHtml_(env.feed.card.holder) + '\\'s card (' + escapeHtml_(env.feed.card.last4) + ')"), "the card's top line says whose card paid");
   assert.equal(box.waitHtml_({ source: "feed", feed: { amount_cents: 500000 } }), "", "money in: no button");
   assert.equal(text(box.waitHtml_({ docId: "gm-1", source: "email", gate: { placeholder: { txn_id: "receipt-wait", payee: "THE HOME DEPOT #6505 W", date: "2026-09-28", total_cents: 16291, property: "469 Brushwood", paid_from: "1401" } } })),
     "This is the receipt I was waiting for: THE HOME DEPOT #6505 W, 09-28, $162.91, on 469 Brushwood. Save puts this receipt in its place - it is not counted twice. Untick if this is a different purchase.");

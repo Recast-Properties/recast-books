@@ -26,5 +26,9 @@ export function makeFakeCacheStore() {
     async delete(key) {
       items.delete(key);
     },
+    // D-059: the bank's daily emails are listed by prefix (bankmail/)
+    async list({ prefix = "" } = {}) {
+      return { blobs: [...items.keys()].filter((k) => k.startsWith(prefix)).map((key) => ({ key })) };
+    },
   };
 }

@@ -1853,3 +1853,38 @@ handoff now marks it SETTLED and says how the reconcile step ties it: Citizens' 
 717,558.65 and the close's 2,000 entry 1401 -> 1402 together (the entry is the books catching up, not a bank
 transfer); Chase's deposit to the entry's other side. The 08:05 entry's "(the earnest money, by the look of it)" was
 a guess where the notes had the fact.
+
+## 2026-09-29 (late morning) - the card that paid, read from the bank's daily email (D-059)
+
+Paul has the new Citizens file on his Desktop (79 lines, 6 new, all 09-28; it parses with `parseOfx` to 169,805.35 =
+the bank's balance; read only, NOT imported yet). The file names no card: *"there is no way to know what card was
+used?"* - the daily email does; *"build it now"*.
+
+Built: `netlify/functions/books-bank-mail.mjs` (`/api/bank-mail`, poller secret, the bank's address only, kept under
+`bankmail/<id>`); the poller's `pollBankMail_` (paul@ mode, after the receipts, oldest first, `BANK_MAIL_LAST`, no
+label, a failure stops at that message); `lib/bank-mail.mjs` (`parseDailySummary`, `cardsForLines`, `loadSummaries`);
+`runFeedMatch` puts the card on each open line before the model sees it (a store that cannot be read is logged and
+the run goes on); `lineText` and the prompt's LINES bullet carry it; the envelope's `feed.card` is the one card that
+paid every line of the card; `Inbox.html` shows it on the card's top line and starts Waiting on with its holder.
+
+**The reader was written from one picture and 180 characters** - Paul's email of 09-28 and the listing's head of the
+09-01 email ("<description> (i) 5450 - PAUL V BJORK <link>", the amount after). `test/helpers/bank-mail-fixture.mjs`
+says so. It must be checked against the stored emails as soon as they arrive; until then it is unproven. 542 tests.
+Also read off the new file: the 2.65 of 09-28 is Target (the email's "1316 N HIGHWAY 77 WAXA"), the 280.00 Zelle went
+to Ludivinia Gutierrez.
+
+**LIVE 09:20 PDT (Paul: "deploy"):** site `6abbe34c` (`/api/bank-mail` answers 401 without the secret - it was 404
+for the first seconds after the deploy); writer pushed 09:19 (Inbox.html only, no deploy - the web app stays @15);
+both pollers pushed; all three read back = the repo.
+
+**CHECKED AGAINST THE REAL EMAILS 09:35 PDT.** The poller's 09:28 run stored **35** Daily Summary emails
+(`bankmail/`, 2026-08-06 .. 09-28). All 35 read as summaries, all 35 add up to the total each email prints. The
+layout is the one assumed - nothing in the reader changed. Against Paul's new bank file (79 lines): **46 lines get
+a card** - every card purchase on a day that has an email; the 33 without are wires, checks, Zelles and deposits
+(no card by nature) and the **nine lines of 09-08, for which no email is stored** (the emails for 09-07 and 09-09
+are there; whether the 09-08 one was never sent or is gone from the mailbox is not known). The six new lines of
+09-28: Home Depot 162.91, 141.09, 33.07 and Target 2.65 on **Dennis 9301**, CondoCerts 375.00 on **Paul 5450**, the
+Zelle 280.00 none. **Dennis's card before 09-28:** Lowe's 130.87 (08-10), Home Depot 90.67 (09-21), 90.23 (09-24),
+30.57 (09-25) - all four were open Bank statement cards on 09-28 17:08; every other carded line is Paul's 5450.
+**Not done:** a card already in the Inbox does not get its holder (its envelope was made before today) - only cards
+made by a matching run from now on. Still unproven: a real matching run with cards, and the Inbox showing one.

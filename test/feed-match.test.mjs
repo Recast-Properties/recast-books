@@ -117,11 +117,21 @@ test("applyVerdicts: a match must add up to the cent (several lines to one entry
   assert.match(byId.F2.match_note, /^In the Inbox: Claude tried to tie the bank's -1196\.40 of 2026-09-01 .* the amounts differ/);
   assert.equal(envelopes.length, 1);
   assert.equal(envelopes[0].docId, "feed-1401-F2");
-  assert.deepEqual(envelopes[0].feed, { account: ACCOUNT, feed_ids: ["F2"], amount_cents: -119640 });   // signed: money out
+  assert.deepEqual(envelopes[0].feed, { account: ACCOUNT, feed_ids: ["F2"], amount_cents: -119640, card: null });   // signed: money out; no card known
   assert.equal(envelopes[0].status, "pending");
   assert.deepEqual(envelopes[0].model.entries, []);
   assert.equal(envelopes[0].model.paid_from, ACCOUNT);
   assert.deepEqual(summary, { total: 4, matched: 3, cards: 1, later: 0, none: 0 });
+
+  // D-059: the card the bank's daily email named rides on the Inbox card, when every line has the same one
+  const dennis = { last4: "9301", name: "DENNIS C LITTLE", holder: "Dennis" };
+  const carded = applyVerdicts({
+    verdicts: [{ kind: "question", feed_ids: ["F2"], txn_ids: [], entry: null, note: "What was it?" }, { kind: "question", feed_ids: ["F3", "F4"], txn_ids: [], entry: null, note: "And these?" }],
+    lines: LINES.slice(0, 4).map((l) => (l.feed_id === "F4" ? l : { ...l, card: dennis })), candidates: [], account: ACCOUNT, accountName: "Citizens", ctx: ctx(), settings: SETTINGS, now: "2026-09-28T20:00:00Z",
+  });
+  assert.deepEqual(carded.envelopes[0].feed.card, dennis);
+  assert.match(carded.envelopes[0].model.checked, /The bank's daily email says Dennis's card \(9301\) paid\.$/);
+  assert.equal(carded.envelopes[1].feed.card, null, "two lines, one of them with no card: the card does not speak for both");
 });
 
 test("applyVerdicts: a few cents off is still a match, and the note says so; more is a question", () => {
@@ -335,6 +345,29 @@ test("runFeedMatch: reads the tabs, sends only the account's open lines, leaves 
   assert.match(card.model.why, /-30000\.00 of 2026-09-15/);
   assert.equal(card.from, "Recast Citizens - Shared");
   assert.deepEqual(feedRows({ headers: FEED_HEADERS, rows: [feedRow(LINES[0])] })[0], { feed_id: "F1", account: ACCOUNT, date: "2026-08-13", amount_cents: -54240, name: "Lowe s Waxahachie", memo: "Lowe s Waxahachie", status: "unmatched", txn_id: "", match_note: "" });
+});
+
+test("D-059 runFeedMatch: the card the bank's daily email names reaches the model's line and the Inbox card; no emails, or a store that fails, changes nothing", async () => {
+  const { makeFakeCacheStore } = await import("./helpers/fake-cache-store.mjs");
+  const cacheStore = makeFakeCacheStore();
+  // F5 is the bank's -239.00 of 2026-09-14 (Lowe's) - say the email put it on Dennis's card
+  await cacheStore.setJSON("bankmail/m1", { id: "m1", bodyText: ` Daily Summary Account: 2505 Date: 09/14/26 MPOWERED SMALL BUS Debits: (-) LOWES #00907* \u24D8 9301 - DENNIS C LITTLE <https://x> $239.00 Total Debits $239.00 09/15 Avail Balance 7:00 AM $1.00` });
+  const anthropic = fakeAnthropic(answerByAmount);
+  const docsStore = fakeDocsStore();
+  const out = await runFeedMatch({ account: ACCOUNT, writer: fakeWriter(), docsStore, anthropic, cacheStore, now: "2026-09-28T20:00:00Z" });
+  assert.equal(out.carded, 1);
+  assert.match(anthropic.calls[0].messages[0].content, /\| -239\.00 \| LOWES #00907\* 866-483-7521 NC \| card 9301 \(Dennis\)/);
+  assert.equal([...anthropic.calls[0].messages[0].content.matchAll(/\| card /g)].length, 1, "only the line the email named");
+  const card = await docsStore.get("doc/feed-1401-F5", { type: "json" });
+  assert.deepEqual(card.feed.card, { last4: "9301", name: "DENNIS C LITTLE", holder: "Dennis" });
+
+  const broken = { list: async () => { throw new Error("the store is down"); } };
+  const quiet = console.error; console.error = () => {};
+  try {
+    const out2 = await runFeedMatch({ account: ACCOUNT, writer: fakeWriter(), docsStore: fakeDocsStore(), anthropic: fakeAnthropic(answerByAmount), cacheStore: broken, now: "2026-09-28T20:00:00Z" });
+    assert.equal(out2.carded, 0);
+    assert.equal(out2.summary.total, 8, "the run goes on without the cards");
+  } finally { console.error = quiet; }
 });
 
 test("runFeedMatch: no open lines on the account -> nothing sent, nothing written", async () => {

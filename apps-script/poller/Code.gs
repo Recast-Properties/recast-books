@@ -77,6 +77,9 @@ var CONFIG = {
   DONE_LABEL: 'books-done',
   DEFAULT_DRY_QUERY: 'newer_than:30d',
   DIGEST_TO: 'paul@recast-properties.com',
+  BANK_MAIL_QUERY: 'from:alerts@cnboftexas.com subject:"Daily Summary"',
+  BANK_MAIL_START: '2026-08-01',   // Citizens 2505 opened 2026-08-06
+  BANK_MAIL_MAX: 60,               // per run; the first run carries about two months
   MAX_THREADS: 20,
   MAX_ATTACH_BYTES: 3 * 1024 * 1024, // raw bytes; base64 grows ~33%, and the whole POST must stay under 6 MB
   MAX_ATTACH_COUNT: 6 // at most N attachments per email (ported from receipts-poller.gs)
@@ -333,9 +336,47 @@ function pollBooks() {
     });
 
     console.log('Books poll: ' + sent + ' message(s) uploaded, ' + failed + ' failure(s).');
+    pollBankMail_(props, secret, uploadUrl);
     warmCache_(uploadUrl, secret);
   } finally {
     lock.releaseLock();
+  }
+}
+
+// ---- pollBankMail_: the bank's Daily Summary emails -> /api/bank-mail (D-059) ---
+// The bank's file says what was charged, never which card; its daily email does ("9301 -
+// DENNIS C LITTLE" under each line). This sends each summary to the site as it came - the
+// text only, nothing parsed here - and the matcher reads the card from it. No label is put
+// on the mail: the newest one sent is remembered in BANK_MAIL_LAST. A failure stops the run
+// at that message, so it is tried again next time and none is skipped.
+function pollBankMail_(props, secret, uploadUrl) {
+  try {
+    var url = uploadUrl.replace(/\/api\/upload$/, '/api/bank-mail');
+    var last = Number(props.getProperty('BANK_MAIL_LAST')) || new Date(CONFIG.BANK_MAIL_START + 'T00:00:00Z').getTime();
+    var after = Utilities.formatDate(new Date(last - 86400000), 'UTC', 'yyyy/MM/dd');
+    var messages = [];
+    GmailApp.search(CONFIG.BANK_MAIL_QUERY + ' after:' + after, 0, 100).forEach(function (thread) {
+      thread.getMessages().forEach(function (m) { if (m.getDate().getTime() > last) messages.push(m); });
+    });
+    messages.sort(function (a, b) { return a.getDate().getTime() - b.getDate().getTime(); });
+    var sent = 0;
+    for (var i = 0; i < messages.length && sent < CONFIG.BANK_MAIL_MAX; i++) {
+      var m = messages[i];
+      var res = UrlFetchApp.fetch(url, {
+        method: 'post', contentType: 'application/json', headers: { 'x-poller-secret': secret }, muteHttpExceptions: true,
+        payload: JSON.stringify({ id: m.getId(), from: m.getFrom(), subject: m.getSubject(), receivedAt: m.getDate().toISOString(),
+          bodyText: (m.getPlainBody() || '').slice(0, 60000) })
+      });
+      if (res.getResponseCode() !== 200) {
+        console.error('pollBankMail_: ' + m.getId() + ' not stored (' + res.getResponseCode() + '): ' + res.getContentText().slice(0, 200));
+        break;
+      }
+      props.setProperty('BANK_MAIL_LAST', String(m.getDate().getTime()));
+      sent++;
+    }
+    if (messages.length) console.log('Bank mail: ' + sent + ' of ' + messages.length + ' summary email(s) sent.');
+  } catch (err) {
+    console.error('pollBankMail_: ' + String(err));   // never stops the receipts poll
   }
 }
 

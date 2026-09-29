@@ -1205,3 +1205,26 @@ D-057, still must match to the cent). What the card names must be in the books, 
 The bank lines tied to the old entry move to the new one when the amount is the same and go back to `unmatched`
 when it is not, on Save and in the ingest alike. The web Inbox refuses to approve such a card (409) - it has no tick.
 The gate reports the entry (`gate.replaces`) so the card can name it; naming one never holds a document by itself.
+
+## D-059 · Which card paid a bank line is read from the bank's daily email - 2026-09-29 · Paul
+
+Paul, importing the Citizens file with Dennis's four charges of 09-28: *"there is no way to know what card was
+used?"* The bank's file (QFX) carries the date, the amount and the store for each line and nothing else. Citizens'
+"Daily Summary" email, which paul@ gets every business day, names the card under every line ("9301 - DENNIS C
+LITTLE", "5450 - PAUL V BJORK"). Told both, and offered the build: *"build it now"*.
+
+**Decided:**
+1. The paul@ poller sends each Daily Summary email to the site as it came (`/api/bank-mail`, the text only); the
+   site keeps it (`books-cache`, `bankmail/<gmail id>`). No label is put on the bank's mail; the newest one sent is
+   remembered (`BANK_MAIL_LAST`). Parsing happens when the email is READ, so the reader can be corrected without
+   asking the mailbox again.
+2. **Code reads the card, not the model** (`lib/bank-mail.mjs`) - it is matching, not judgment. A bank line gets a
+   card when every POSTED email line for that day and amount names the same card. It fails closed: a summary whose
+   lines do not add up to the total the email prints is not used; the same amount on the same day on two cards
+   leaves both lines without one; a pending line never counts; another account's emails never count.
+3. The card is a help, never a need: the matcher runs the same without it. It shows on the model's line ("card 9301
+   (Dennis)"), on the Inbox card's top line ("Dennis's card (9301)") and it starts the **Waiting on** box (D-057) on
+   its holder. `paid_from` does not change - both cards are on the Citizens account.
+4. This is the first piece of `docs/phase3-spec.md` 6a (the Daily Summary feed). The emails do NOT become Feed rows -
+   the bank's file stays the record (told to Paul the same day: the email is a preview). Chase's daily email names no
+   payee and no card; it is not read.

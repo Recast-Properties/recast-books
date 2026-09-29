@@ -379,7 +379,8 @@
   function waitHtml_(env) {
     if (env.source === 'feed') {
       if (!moneyOut_(env) || isWaiting_(EDIT[env.docId])) return '';
-      return '<div class="wait">No receipt yet? Waiting on <select data-wait-who="1">' + WAITING_ON.map(function (w) { return opt_(w, w, false); }).join('') +
+      var who = (env.feed && env.feed.card && env.feed.card.holder) || '';   // D-059: whose card paid, from the bank's daily email
+      return '<div class="wait">No receipt yet? Waiting on <select data-wait-who="1">' + WAITING_ON.map(function (w) { return opt_(w, w, w === who); }).join('') +
         '</select> <button data-wait="1">Waiting on receipt</button></div>';
     }
     var p = swapCandidate_(env);
@@ -455,7 +456,8 @@
       '<span class="pill ' + escapeHtml_(m.confidence || '') + '">' + escapeHtml_(m.confidence || '-') + '</span></div>';
     if (!isOpen) return '<div class="card closed" data-doc="' + d + '" data-tab="' + tabOf_(env) + '" data-search="' + escapeHtml_(search) + '">' + head + '<div class="msg hidden" data-msg="1"></div></div>';
     return '<div class="card open" data-doc="' + d + '" data-tab="' + tabOf_(env) + '" data-search="' + escapeHtml_(search) + '">' + head + '<div class="body">' +
-      '<div class="sub">' + escapeHtml_(m.date || '-') + ' &middot; ' + (m.receipt_total_cents != null ? money_(m.receipt_total_cents) : '-') + ' &middot; ' + escapeHtml_(props.join(', ') || '-') + ' &middot; ' + escapeHtml_(env.channel || '') + '</div>' +
+      '<div class="sub">' + escapeHtml_(m.date || '-') + ' &middot; ' + (m.receipt_total_cents != null ? money_(m.receipt_total_cents) : '-') + ' &middot; ' + escapeHtml_(props.join(', ') || '-') + ' &middot; ' + escapeHtml_(env.channel || '') +
+        (env.feed && env.feed.card ? ' &middot; <b>' + escapeHtml_(env.feed.card.holder) + '\'s card (' + escapeHtml_(env.feed.card.last4) + ')</b>' : '') + '</div>' +
       atts +
       '<ul class="flags" data-flags="1">' + flagsList_(gate, entries, m.why, env) + '</ul>' +
       (read ? '<details class="why"><summary>Claude\'s read</summary>' + read + '</details>' : '') +
