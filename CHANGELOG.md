@@ -868,7 +868,10 @@ interest; refilled by sales on its own; owed until taken out. `addWorkingCapital
 ties both bank lines (`feedUpdateRows_`) and clears both cards. The 10,000 of 08-12 stays a Mesa advance (Paul: "a
 typical cash advance for 366 mesa"). **Inbox.html:** a card born from a bank line (`source = feed`) shows Claude's
 question and which button answers it (`feedFlags_`), and its Dismiss-all note starts empty ("What was it? In your own
-words") instead of Claude's question. 525 tests, pushed (saved code - no deploy needed).
+words") instead of Claude's question. 525 tests, pushed (saved code - no deploy needed). **Run by Paul 17:29 PDT:**
+`manual-20260806-f3706ac74cae` (Dr 1401 5,000 / Cr 2010) and `manual-20260813-473f76068d7c` (Dr 1401 4,858.42 / Cr 2030),
+Journal rows 2659-2662, no property, read back; both Feed lines `matched` to them. **Citizens: 54 of 73 tied, 17 cards, 2
+waiting.**
 
 ## 2026-09-21 — Phase 4: lists closed, Drive filing done, Newport held, cutover rehearsed end to end
 
