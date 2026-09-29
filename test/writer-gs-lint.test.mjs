@@ -418,7 +418,7 @@ test("the Inbox card: each line is Approve, Returned or Dismiss, and the card sa
   assert.equal(one.keep.length, 1);
   assert.deepEqual(one.keep[0].items.map((it) => [it.amount_cents, it.decision, it.reason]), [[589, undefined, undefined]]);
   assert.equal(one.note, "Returned ($9.95): GRK 3/8 x 12");
-  assert.ok(inbox.includes("callServer_('inboxApprove', { docId: env.docId, entries: toPost, model: env.model || {}, note: sorted.note })"),
+  assert.ok(inbox.includes("callServer_('inboxApprove', { docId: env.docId, entries: toPost, model: env.model || {}, note: sorted.note, feed: env.feed || null })"),
     "Save posts the kept lines with the note");
 
   // A meal line needs its who-and-why only while it is kept (HD 03-02's water).
@@ -786,8 +786,9 @@ test("importStatement: parses with lib.gs's parseOfx, one lock, dedupes on the b
 });
 
 test("feedUpdate: one lock, the three verdict columns read once and written once, a missing feed_id reported; the menu has Match statement lines", () => {
-  const at = source.indexOf("function action_feedUpdate_(");
-  assert.ok(at > 0, "action_feedUpdate_ declared");
+  assert.match(source, /function action_feedUpdate_\([\s\S]*?return jsonOutput_\(feedUpdateRows_\(openWorkbook_\(props\), rows\)\);/);
+  const at = source.indexOf("function feedUpdateRows_(");
+  assert.ok(at > 0, "feedUpdateRows_ declared");
   const fn = source.slice(at, source.indexOf("\n}\n", at) + 3);
   assert.equal((fn.match(/LockService\.getScriptLock\(\)/g) || []).length, 1);
   assert.equal((fn.match(/\.getValues\(\)/g) || []).length, 2, "the feed_id column and the three-column block");
@@ -800,4 +801,14 @@ test("feedUpdate: one lock, the three verdict columns read once and written once
   assert.match(m, /siteFetchJson_\('\/api\/feed-match', 'post'/);
   assert.match(m, /!== 'unmatched'\) return;/, "only open lines are counted");
   assert.doesNotMatch(m.slice(0, m.indexOf("function feedMatchSummary_")), /postEntry_|postBatchEntries_/, "a match never posts from the workbook");
+  // The sheet's Inbox ties a bank-line card's rows itself, in-process, on approve and on dismiss.
+  assert.match(menu.slice(menu.indexOf("function inboxApprove(")), /tieFeedRows_\(ss, req\.feed, 'matched', txnIds/);
+  assert.match(menu.slice(menu.indexOf("function inboxDismiss(")), /tieFeedRows_\(ss, req\.feed, 'excluded'/);
+  const html = readFileSync(new URL("../apps-script/writer/Inbox.html", import.meta.url), "utf8");
+  assert.equal((html.match(/feed: env\.feed \|\| null/g) || []).length, 3, "approve and both dismiss paths send the card's feed rows");
+  const reset = menu.slice(menu.indexOf("function resetFeedCards("));
+  assert.match(reset, /status === 'proposed'/);
+  assert.doesNotMatch(reset, /postEntry_|postBatchEntries_|voidEntry_/);
+  const inbox = readFileSync(new URL("../netlify/functions/books-inbox.mjs", import.meta.url), "utf8");
+  assert.doesNotMatch(inbox, /await tieFeedRows\(|feedUpdate\(/, "no synchronous site handler waits on the writer");
 });

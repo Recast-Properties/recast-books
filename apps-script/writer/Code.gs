@@ -910,10 +910,16 @@ function postBatchEntries_(entries, props, skipRefresh) {
 function action_feedUpdate_(body, props) {
   var rows = body.rows;
   if (!Array.isArray(rows) || !rows.length) fail_('BAD_REQUEST', 'rows must be a non-empty array');
+  return jsonOutput_(feedUpdateRows_(openWorkbook_(props), rows));
+}
+
+// Shared with Menu.gs: the sheet's Inbox ties a bank-line card's rows in-process, never through
+// the site - a synchronous site call cannot wait for the writer (2026-09-28: resetFeedCards hit
+// the proxy's timeout on the first dismiss when the site's dismiss called feedUpdate).
+function feedUpdateRows_(ss, rows) {
   var lock = LockService.getScriptLock();
   lock.waitLock(30000);
   try {
-    var ss = openWorkbook_(props);
     var sh = ss.getSheetByName('Feed');
     var cols = headerIndex_(sh);
     if (!cols['feed_id'] || !cols['status'] || cols['txn_id'] !== cols['status'] + 1 || cols['match_note'] !== cols['status'] + 2) {
@@ -934,7 +940,7 @@ function action_feedUpdate_(body, props) {
       updated++;
     });
     sh.getRange(2, cols['status'], last - 1, 3).setValues(block);
-    return jsonOutput_({ ok: true, updated: updated, missing: missing });
+    return { ok: true, updated: updated, missing: missing };
   } finally {
     lock.releaseLock();
   }

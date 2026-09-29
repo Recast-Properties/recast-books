@@ -490,13 +490,13 @@
       msg.classList.add('hidden');
       var broke = function (err) { fail({ error: 'SCRIPT', message: err && err.message ? err.message : err }); };
       if (!toPost.length) {
-        callServer_('inboxDismiss', { docId: env.docId, note: sorted.note }).then(function (r) {
+        callServer_('inboxDismiss', { docId: env.docId, note: sorted.note, feed: env.feed || null }).then(function (r) {
           if (!r.ok) return fail(r);
           done('Saved - nothing was added to the books (' + escapeHtml_(rest) + ').');
         }, broke);
         return;
       }
-      callServer_('inboxApprove', { docId: env.docId, entries: toPost, model: env.model || {}, note: sorted.note }).then(function (r) {
+      callServer_('inboxApprove', { docId: env.docId, entries: toPost, model: env.model || {}, note: sorted.note, feed: env.feed || null }).then(function (r) {
         if (!r.ok) return fail(r);
         done('Recorded ' + money_(sum.approve) + (rest ? ' - ' + escapeHtml_(rest) : '') + ' <span class="docid">' + r.txn_ids.map(escapeHtml_).join(', ') + '</span>' +
           ' <span data-finish="1">&middot; saving the receipt to Drive...</span>' +
@@ -521,7 +521,7 @@
       var reason = note.querySelector('input').value.trim();
       if (!reason) return;
       busy(true);
-      callServer_('inboxDismiss', { docId: env.docId, note: reason }).then(function (r) {
+      callServer_('inboxDismiss', { docId: env.docId, note: reason, feed: env.feed || null }).then(function (r) {
         if (!r.ok) return fail(r);
         done('Dismissed all - ' + escapeHtml_(reason));
       }, function (err) { fail({ error: 'SCRIPT', message: err && err.message ? err.message : err }); });

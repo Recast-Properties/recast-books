@@ -835,6 +835,17 @@ books on Citizens but on no bank line** (for the reconcile step): Home Depot 08-
 Neighborhood Management HOA release 375.00 (09-09), and the Granite sale lines of 07-24 (the known book fix - the
 account opened 08-06). 524 tests.
 
+## 2026-09-28 (late night, 2) - the Feed-row tie moves into the workbook: a synchronous site call cannot wait on the writer
+
+`resetFeedCards()` died on its first site call - "Inactivity Timeout" from the proxy at 54 s: the site's `dismiss` had
+gained `tieFeedRows` (a writer `feedUpdate` round trip plus a Feed refresh) inside a synchronous function, the same
+wall that moved approve into a background job on 09-25. The sheet's own Inbox would have hit it too on every bank-line
+card. So the tie is in-process now: `Inbox.html` sends the card's `feed` with the decision, Menu.gs `inboxApprove` and
+`inboxDismiss` call `tieFeedRows_` -> `feedUpdateRows_` (Code.gs, shared with `action_feedUpdate_`, one lock, one
+read, one write); the site's `mark-posted` and `dismiss` no longer touch the writer (lint); `approve-bg` (a background
+function, the web path) keeps its tie. `resetFeedCards` dismisses the open bank-line cards on the site (a blob write
+again) and puts every `proposed` row - and any row an interrupted run marked - back to `unmatched` in-process. 524 tests.
+
 ## 2026-09-21 — Phase 4: lists closed, Drive filing done, Newport held, cutover rehearsed end to end
 
 **Morning, offline (audit §39-§44).** 26 false Home Depot / Lowe's links from a coincidental subset-sum rule

@@ -994,7 +994,9 @@ function inboxApprove(req) {
 
     var result = postBatchEntries_(built, props, true);
     lap('post');
-    return { ok: true, txn_ids: txnIds, rows: result.rows, entries: built, timings: timings.join(', ') };
+    var feed = tieFeedRows_(ss, req.feed, 'matched', txnIds, 'Recorded from the Inbox' + (req.note ? ' - ' + req.note : ''));
+    lap('feed');
+    return { ok: true, txn_ids: txnIds, rows: result.rows, entries: built, feed: feed, timings: timings.join(', ') };
   } catch (err) {
     var message = String((err && err.message) || err);
     if (marked) {
@@ -1321,7 +1323,7 @@ function inboxDismiss(req) {
     requireOwner_(ss);
     if (!req.note) return { ok: false, error: 'BAD_REQUEST', message: 'a reason is required' };
     siteFetchJson_('/api/inbox', 'post', { action: 'dismiss', docId: req.docId, note: req.note, by: Session.getActiveUser().getEmail() });
-    return { ok: true };
+    return { ok: true, feed: tieFeedRows_(ss, req.feed, 'excluded', [], 'Dismissed: ' + req.note) };
   } catch (err) {
     return { ok: false, error: (err && err.code) || 'INTERNAL', message: String((err && err.message) || err) };
   }
@@ -2134,6 +2136,20 @@ function feedMatchSummary_(s) {
   return out.join('\n');
 }
 
+/** Phase 3: a card born from bank lines (envelope.feed, lib/feed-match.mjs) ties its Feed rows
+ *  when Paul decides it - approve -> matched with the posted ids, dismiss -> excluded with his
+ *  note - here, in-process, never through the site. Null for a receipt card; a failure is
+ *  returned, never thrown (the decision itself is already recorded). */
+function tieFeedRows_(ss, feed, status, txnIds, note) {
+  var ids = (feed && feed.feed_ids) || [];
+  if (!ids.length) return null;
+  try {
+    return feedUpdateRows_(ss, ids.map(function (id) { return { feed_id: id, status: status, txn_id: (txnIds || []).join(', '), match_note: note }; }));
+  } catch (err) {
+    return { ok: false, error: (err && err.code) || 'INTERNAL', message: String((err && err.message) || err) };
+  }
+}
+
 /** Phase 3 tuning loop (editor-only, run once, then Match statement lines... again): every
  *  pending Inbox card born from bank lines is dismissed on the site with a note saying why,
  *  and its Feed rows go back to `unmatched` with the note cleared, so the next run sends
@@ -2146,31 +2162,26 @@ function resetFeedCards() {
   var user = Session.getActiveUser().getEmail();
   var pending = siteFetchJson_('/api/inbox?status=pending&limit=500').envelopes || [];
   var cards = pending.filter(function (e) { return e.feed && e.feed.feed_ids && e.feed.feed_ids.length; });
-  var ids = {};
   cards.forEach(function (e) {
     siteFetchJson_('/api/inbox', 'post', { action: 'dismiss', docId: e.docId, by: user, note: 'Put back for another matching run (resetFeedCards)' });
-    e.feed.feed_ids.forEach(function (id) { ids[id] = true; });
   });
-  var lock = LockService.getScriptLock();
-  lock.waitLock(30000);
-  var n = 0;
-  try {
-    var sh = ss.getSheetByName('Feed');
-    var cols = headerIndex_(sh);
-    var last = sh.getLastRow();
-    if (last > 1) {
-      var feedIds = sh.getRange(2, cols['feed_id'], last - 1, 1).getValues();
-      var verdicts = sh.getRange(2, cols['status'], last - 1, 3).getValues();
-      feedIds.forEach(function (r, i) {
-        if (!ids[String(r[0])]) return;
-        verdicts[i] = ['unmatched', '', ''];
-        n++;
-      });
-      sh.getRange(2, cols['status'], last - 1, 3).setValues(verdicts);
-    }
-  } finally {
-    lock.releaseLock();
+  // Every row still waiting on a card goes back (a proposed row always belongs to a card, and the
+  // cards were just dismissed), plus any row an earlier, interrupted run already marked.
+  var sh = ss.getSheetByName('Feed');
+  var cols = headerIndex_(sh);
+  var last = sh.getLastRow();
+  var rows = [];
+  if (last > 1) {
+    var feedIds = sh.getRange(2, cols['feed_id'], last - 1, 1).getValues();
+    var verdicts = sh.getRange(2, cols['status'], last - 1, 3).getValues();
+    feedIds.forEach(function (r, i) {
+      var status = String(verdicts[i][0]), noteText = String(verdicts[i][2]);
+      if (status === 'proposed' || (status === 'excluded' && noteText.indexOf('(resetFeedCards)') >= 0)) {
+        rows.push({ feed_id: String(r[0]), status: 'unmatched', txn_id: '', match_note: '' });
+      }
+    });
   }
+  var n = rows.length ? feedUpdateRows_(ss, rows).updated : 0;
   warmCache_();
   var out = 'cards dismissed ' + cards.length + ', lines back to unmatched ' + n;
   Logger.log(out);

@@ -31,8 +31,9 @@ receipt hold - **every proposal is held for Paul: a bank line proves the payment
 nothing autofiles from the Feed** (amends §3's autofile sentence); a question is a card with the typed line; later
 and a missing verdict leave the row `unmatched` with a note. Verdicts land through the writer's `feedUpdate`
 (status, txn_id - several ids comma-separated when one line is several entries - and match_note). A card born from
-bank lines carries `feed.feed_ids` and ties its rows when Paul decides it (`tieFeedRows`: approve -> `matched`
-with the posted ids, dismiss -> `excluded` with his note). §3's **transfer** verdict is not built: only Citizens is
+bank lines carries `feed.feed_ids` and ties its rows when Paul decides it - **in the workbook, in-process** (Menu.gs
+`tieFeedRows_` on approve -> `matched` with the posted ids, on dismiss -> `excluded` with his note); the site's
+synchronous Inbox verbs never wait on the writer (the 2026-09-28 timeout), only the web app's background approve does. §3's **transfer** verdict is not built: only Citizens is
 imported, so a move between Recast's accounts is a question for now; §3's **exclude** is what a dismissed card
 produces. §3a: a store refund with no return in the books is a question card (3a.3); the card cannot yet book money
 back (a negative cost) - open. Not built yet: reconciliation (§4 - a menu item), the Daily Summary feed (§6a). Dropped: the `feedBatch` writer action (§2 - the

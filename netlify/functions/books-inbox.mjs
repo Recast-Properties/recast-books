@@ -24,7 +24,6 @@ import {
   authErrorResponse,
   todayChicago,
   pollerSecretOk,
-  tieFeedRows,
 } from "./_shared.mjs";
 import { buildEntriesFromModel } from "../../lib/gate.mjs";
 
@@ -262,9 +261,10 @@ export default async (req) => {
         result: { txn_ids, rows: body.rows ?? null, doc_url: body.doc_url || envelope.result?.doc_url || "" },
         review: { action: "approve", by, at: new Date().toISOString(), note: body.note || "", in_process: true },
       };
+      // A card born from bank lines ties its Feed rows in the workbook itself (Menu.gs tieFeedRows_):
+      // a synchronous function cannot wait on the writer (2026-09-28).
       await docsStore.setJSON(`doc/${docId}`, updated);
-      const tie = await tieFeedRows(writer, updated, { status: "matched", txn_ids, note: `Recorded from the Inbox${body.note ? ` - ${body.note}` : ""}` });
-      return json(200, { docId, status: "posted", txn_ids, ...(tie ? { feed: tie } : {}) });
+      return json(200, { docId, status: "posted", txn_ids });
     }
 
     if (body.action === "mark-pending") {
@@ -290,8 +290,7 @@ export default async (req) => {
         review: { action: "dismiss", by, at: new Date().toISOString(), note: body.note },
       };
       await docsStore.setJSON(`doc/${docId}`, updated);
-      const tie = await tieFeedRows(writer, updated, { status: "excluded", note: `Dismissed by ${by}: ${body.note}` });
-      return json(200, { docId, status: "dismissed", ...(tie ? { feed: tie } : {}) });
+      return json(200, { docId, status: "dismissed" });
     }
 
     if (body.action === "reprocess") {
