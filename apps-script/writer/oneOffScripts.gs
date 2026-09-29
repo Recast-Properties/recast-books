@@ -857,6 +857,63 @@ function addPaulWorkingMoneyLeftIn() {
   return out;
 }
 
+// STATUS: DONE 2026-09-29 14:51 PDT by Paul: the old row voided, manual-20260810-83484ac5a466 + manual-20260812-d52b66b70320 + manual-20260812-c821582576ac posted (Journal rows 2688-2693), both bank lines tied, both cards dismissed - all read back. A rerun is refused DUPLICATE.
+// Paul 2026-09-29, from the bank's pictures of two checks on the Citizens account.
+// (1) 1,500.00 to James Broussard, written Aug 10 by Dennis, cleared 08-11, memo "Mesa - Materials".
+//     Paul: "yes, the same payment. change the name in the file to match the check" - it is the old
+//     books' 366 Mesa row 10, "James Haroce, Siding, 1,500, 08-26, Dennis paid" (no document, accepted
+//     09-18 to be proven from the bank). Void that row and re-post it on the same account at the
+//     check's name and date, paid from Citizens - Recast owes Dennis 1,500 less, Mesa's costs do not change.
+// (2) 607.05 to Paul, written 8/7, cleared 08-12, memo "Bowling Green + Newport": paid him back for
+//     costs he paid himself on those two houses. The check names no split and the old books never
+//     recorded it, so: 881 Newport first, in full (206.14 - all the books show he is owed there, and
+//     it closes first), the rest (400.91) against 136 Bowling Green. One entry per house (D-041),
+//     Dr 2030 / Cr 1401 on the house - the shape of a sale's payout to Paul. Not an advance: no interest.
+// Ties both bank lines and clears both cards. Editor-only, run once (a second run is refused DUPLICATE).
+var JAMES_BROUSSARD_2026_08 = { old: 'migration-20260826-eb6baa542688', date: '2026-08-10', cents: 150000, payee: 'James Broussard',
+  account: '1020', property: '366 Mesa', feed_id: '202608110000000543322947',
+  description: 'Siding (check memo: Mesa - Materials)',
+  memo: 'old books: 366 Mesa row 10, typed "James Haroce", 08-26, Dennis paid; the bank\'s picture of the check says James Broussard, Aug 10, on the Citizens account, signed by Dennis - corrected on Paul\'s word 2026-09-29 (migration-20260826-eb6baa542688 voided)' };
+var PAUL_PAID_BACK_2026_08 = { date: '2026-08-12', cents: 60705, payee: 'Paul Bjork', feed_id: '202608120000000543553682',
+  parts: [{ property: '881 Newport', cents: 20614 }, { property: '136 Bowling Green', cents: 40091 }] };
+function addAugustChecks() {
+  var props = PropertiesService.getScriptProperties();
+  var ss = openWorkbook_(props);
+  requireOwner_(ss);
+  var user = Session.getActiveUser().getEmail() || 'editor';
+  var today = Utilities.formatDate(new Date(), 'America/Chicago', 'yyyy-MM-dd');
+  var j = JAMES_BROUSSARD_2026_08, r = PAUL_PAID_BACK_2026_08, out = [];
+  if (r.parts.reduce(function (t, p) { return t + p.cents; }, 0) !== r.cents) throw new Error('the parts do not add up to the check');
+  var ctx = buildCtx_(ss);
+  var james = buildEntry({ type: 'expense', date: j.date, payee: j.payee, description: j.description, amount_cents: j.cents,
+    account: j.account, property: j.property, paid_from: '1401', source: 'manual', posted_by: user, memo: j.memo }, ctx);
+  var paul = r.parts.map(function (p) {
+    var what = 'Check to Paul (memo "Bowling Green + Newport") - paid back for costs he paid himself';
+    return buildEntry({ type: 'journal', date: r.date, source: 'manual', posted_by: user,
+      memo: 'Check of 607.05 from the Citizens account to Paul, written 8/7 - this house\'s part; not an advance, no interest (Paul, 2026-09-29)', lines: [
+        { account: '2030', debit: p.cents, credit: 0, property: p.property, payee: r.payee, description: what, paid_from: '1401' },
+        { account: '1401', debit: 0, credit: p.cents, property: p.property, payee: r.payee, description: what, paid_from: '1401' }
+      ] }, ctx);
+  });
+  // every entry is built (and so checked) before the old row is taken out
+  try { voidEntry_(j.old, 'the check is to James Broussard, Aug 10, paid from Citizens - re-posted (Paul, 2026-09-29)', today, user, props, true); out.push('voided  ' + j.old); }
+  catch (err) { out.push('void FAILED  ' + String((err && err.message) || err)); }
+  var result = postBatchEntries_([james].concat(paul), props);   // refreshes the three tabs: Mesa's line changed
+  out.push('posted  ' + [james].concat(paul).map(function (e) { return e.txn_id; }).join(', ') + ' (Journal rows ' + result.rows.join('-') + ')');
+  var tie = feedUpdateRows_(ss, [
+    { feed_id: j.feed_id, status: 'matched', txn_id: james.txn_id, match_note: 'Paul: the check to James Broussard for siding on 366 Mesa (the bank\'s picture of the check)' },
+    { feed_id: r.feed_id, status: 'matched', txn_id: paul.map(function (e) { return e.txn_id; }).join(', '),
+      match_note: 'Paul: his check paying him back for costs he paid himself - 881 Newport 206.14, 136 Bowling Green 400.91' }]);
+  out.push('bank lines tied ' + tie.updated);
+  [[j.feed_id, 'Recorded as the check to James Broussard for siding on 366 Mesa'], [r.feed_id, 'Recorded as a check paying Paul back for Bowling Green and Newport costs']].forEach(function (c) {
+    try { siteFetchJson_('/api/inbox', 'post', { action: 'dismiss', docId: 'feed-1401-' + c[0], by: user, note: c[1] }); }
+    catch (e) { /* already decided, or not pending - the entries and the ties are what matter */ }
+  });
+  warmCache_();
+  console.log(out.join('\n'));
+  return out;
+}
+
 // =============================================================================================
 // 3. THE PHASE 4 MIGRATION AND THE CUTOVER (D-024..D-029; DONE 2026-09-21)
 // =============================================================================================

@@ -1974,3 +1974,33 @@ Paul's working money is 5,000.00, the same as Dennis's; Recast owes Paul rises b
 **Citizens now: 79 lines - 62 tied, 15 cards, 2 waiting** (this one, and two more cards Paul saved himself since
 10:35 - not read here). The second check to Paul of 08-12 (607.05) is still a card. 543 tests; pushed, no deploy
 (a one-off).
+
+## 2026-09-29 (14:55) - two checks read from the bank's pictures: James Broussard 1,500 (C-34), Paul's 607.05
+
+Paul first took the 1,500.00 "Inclearing" of 08-11 for a check paying him back for Bowling Green, then for Bowling
+Green and Newport. **The books did not agree** (on 08-11 Recast owed him 704.96 + 206.14 = 911.10 on the two houses),
+the bank's file and its daily email name nobody on it, so he was asked for the bank's picture of the check - and sent
+both. *"i was wrong. this was paid to someone for siding for the mesa house. the 607 check was the reimbursement."*
+A first helper built on his first answer (`addPaulPaidBackBowlingGreen`, 1,500 against Bowling Green) was never run
+and is deleted.
+
+- **1,500.00 to James Broussard** (written Aug 10 by Dennis on the Citizens account, memo "Mesa - Materials") is the
+  old books' 366 Mesa row "James Haroce, Siding, 08-26, Dennis paid" - Paul: *"yes, the same payment. change the name
+  in the file to match the check."* **C-34:** `migration-20260826-eb6baa542688` voided, `manual-20260810-83484ac5a466`
+  posted (1020, paid from 1401). Mesa's costs unchanged; Recast owes Dennis 1,500 less. The other two Mesa checks of
+  that list (Carlos #1146, Juanito #1147) are Dennis's own check numbers - not looked at here.
+- **607.05 to Paul** (written 8/7, cleared 08-12, memo "Bowling Green + Newport"): Recast paying him back, not an
+  advance. The check names no split and the old books never recorded it; Claude's call, told to Paul: 881 Newport
+  206.14 (all it owed him), 136 Bowling Green 400.91. One entry per house, Dr 2030 / Cr 1401:
+  `manual-20260812-d52b66b70320`, `manual-20260812-c821582576ac`.
+- **Dennis's 1,500 of 06-01 on Bowling Green (the $7,000 check) is a different payment** and is untouched.
+
+**Run by Paul 14:51 PDT (`addAugustChecks`), read back live (gviz):** Journal rows 2688-2693; both Feed rows
+`matched`; both cards `dismissed`. Recast owes Paul: 881 Newport **0.00**, 136 Bowling Green **751.52**. Journal
+2,692 rows, balanced (4,817,049.54). **Citizens: 79 lines - 64 tied, 13 cards, 2 waiting.** Also on the Journal
+since 11:00, not from this session: two emailed receipts (Harbor Freight 157.94, Home Depot 55.91, both overhead,
+Paul paid) and Paul's own Saves of the Mower Depot 3.24 and Floor and Decor 42.21 cards. No placeholder has been
+swapped yet. 543 tests; pushed, no deploy (a one-off).
+
+**Rule learned:** a check the bank calls "Inclearing" has no name anywhere in the file or the daily email - ask for
+the bank's picture of the check before booking it on anyone's memory. Build the helper after the picture, not before.
