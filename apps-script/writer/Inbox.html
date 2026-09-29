@@ -83,17 +83,39 @@
   function isWaiting_(entries) {
     return (entries || []).some(function (e) { return (e.items || []).some(function (it) { return String(it.description || '').indexOf(NEED_RECEIPT) === 0; }); });
   }
-  // The one line a placeholder is: the bank's amount, date and store, on the house Paul picks.
-  function placeholderEntry_(env, who, house) {
-    var m = env.model || {};
-    return { date: m.date, payee: m.vendor, memo: 'recorded from the bank statement - the receipt has not come in', property: house, paid_from: m.paid_from,
-      items: [{ account: '1030', amount_cents: Number(m.receipt_total_cents) || 0, description: NEED_RECEIPT + ' ' + String(who).toUpperCase(),
-        trade: 'Waiting on receipt', business_purpose: '', property: house }] };
+  // The bank lines a card was made from, one by one - [{date, amount_cents (signed), name}] - read off
+  // the card's own text ("2026-09-28  -162.91  Home Depot Waxahachie", lib/feed-match.mjs cardEnvelope;
+  // a lint runs this on a card that code made). null when they cannot be read, or do not add up to
+  // the card: a card of three charges must never be recorded as one lump.
+  function bankLines_(env) {
+    var f = env.feed || {}, m = env.model || {}, out = [];
+    String(env.bodyText || '').split('\n').forEach(function (t) {
+      var p = /^(\d{4}-\d{2}-\d{2}) {2}(-?\d[\d,]*\.\d{2}) {2}(.*)$/.exec(t);
+      if (p) out.push({ date: p[1], amount_cents: Math.round(parseFloat(p[2].replace(/,/g, '')) * 100), name: p[3] });
+    });
+    var sum = out.reduce(function (t, l) { return t + l.amount_cents; }, 0);
+    var want = f.amount_cents != null ? Number(f.amount_cents) : null;
+    if (!out.length || out.length !== (f.feed_ids || []).length) return null;
+    if (want != null ? sum !== want : Math.abs(sum) !== Number(m.receipt_total_cents)) return null;
+    return out;
   }
-  // Money out only: a deposit or a refund is never a purchase waiting on its receipt.
+  // A placeholder is ONE entry per bank line - the bank's date, store and amount on one item, on the
+  // house Paul picks - because each charge has its own receipt, and a receipt finds its placeholder
+  // by the amount (2026-09-29: three Home Depot charges came as one card of $337.07). null when the
+  // card's lines cannot be read one by one, or one of them is money in.
+  function placeholderEntries_(env, who, house) {
+    var m = env.model || {}, lines = bankLines_(env);
+    if (!lines || lines.some(function (l) { return l.amount_cents >= 0; })) return null;
+    return lines.map(function (l) {
+      return { date: l.date, payee: l.name, memo: 'recorded from the bank statement - the receipt has not come in', property: house, paid_from: m.paid_from,
+        items: [{ account: '1030', amount_cents: -l.amount_cents, description: NEED_RECEIPT + ' ' + String(who).toUpperCase(),
+          trade: 'Waiting on receipt', business_purpose: '', property: house }] };
+    });
+  }
+  // Money out only, every line of it: a deposit or a refund is never a purchase waiting on its receipt.
   function moneyOut_(env) {
-    var f = env.feed || {};
-    return f.amount_cents != null ? Number(f.amount_cents) < 0 : /-[\d,]+\.\d\d$/.test(String(env.subject || ''));
+    var lines = bankLines_(env);
+    return !!lines && lines.every(function (l) { return l.amount_cents < 0; });
   }
   // What this card would take the place of in the books, ticked or not: the charge Paul was waiting
   // on (D-057, the gate found the placeholder), or an earlier copy the read names in `supersedes`
@@ -308,8 +330,9 @@
   function feedFlags_(entries, why) {
     var kept = approvedOnly_(entries);
     if (isWaiting_(kept)) {
-      return ['No receipt yet: Save records this charge now, just as the bank shows it',
-        'When the receipt comes in it takes this line\'s place - it is not counted twice. If it never comes, the charge stays as it is']
+      return [kept.length > 1 ? 'No receipt yet: Save records these ' + kept.length + ' charges now, each on its own, just as the bank shows them. Pick the house for each'
+        : 'No receipt yet: Save records this charge now, just as the bank shows it',
+        'When a receipt comes in it takes its charge\'s place - it is not counted twice. If it never comes, the charge stays as it is']
         .concat(mismatchFlags_(kept)).map(function (t) { return '<li class="act">' + escapeHtml_(t) + '</li>'; }).join('');
     }
     var out = [plainWhy_(why)];
@@ -569,7 +592,9 @@
     var waitBtn = card.querySelector('[data-wait]');
     if (waitBtn) waitBtn.onclick = function () {
       var first = entries[0] || {};
-      EDIT[env.docId] = [placeholderEntry_(env, card.querySelector('[data-wait-who]').value, first.property && first.property !== 'OVERHEAD' ? first.property : '')];
+      var made = placeholderEntries_(env, card.querySelector('[data-wait-who]').value, first.property && first.property !== 'OVERHEAD' ? first.property : '');
+      if (!made) return showMsg_(msg, false, 'The bank lines on this card could not be read one by one, so nothing was changed. Tell Claude.');
+      EDIT[env.docId] = made;
       rerender_(env.docId);
     };
     var swapBox = card.querySelector('[data-swap]');

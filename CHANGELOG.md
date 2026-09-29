@@ -1888,3 +1888,26 @@ Zelle 280.00 none. **Dennis's card before 09-28:** Lowe's 130.87 (08-10), Home D
 30.57 (09-25) - all four were open Bank statement cards on 09-28 17:08; every other carded line is Paul's 5450.
 **Not done:** a card already in the Inbox does not get its holder (its envelope was made before today) - only cards
 made by a matching run from now on. Still unproven: a real matching run with cards, and the Inbox showing one.
+
+## 2026-09-29 (09:55) - the first real import and match with cards; three charges on one card are three placeholders
+
+**Paul imported the new Citizens file:** "6 new lines ... 73 already there, skipped ... it ties" (169,805.35).
+**Match statement lines, 09:52 PDT:** 8 looked at, 1 tied, 5 need his word, 2 wait for a sale - no question about
+which bank (one bank waiting). Read back from the Feed tab's fresh copy and the three new envelopes:
+- tied: the Zelle 280.00 to Ludivinia Gutierrez = `receipt-20260928-9b87b4e1c617-...` (HVAC inspection, 881 Newport);
+- **D-059 worked on the first real run** - every new card carries its card: Home Depot x3 and Target "on Dennis's
+  card" (9301), CondoCerts "on your card" (5450), in the model's question and in `feed.card`;
+- the cards: ONE card for the three Home Depot charges (337.07: 162.91 + 33.07 + 141.09 - "which house is each one
+  for, 366 Mesa or 469 Brushwood?"), Target 2.65, CondoCerts 375.00 ("the books already show a 375.00 HOA release
+  for 881 Newport dated 09-09 - the same fee, or a second charge?" - 19 days apart, outside the ten the prompt allows);
+- the Feed tab: 55 matched, 22 proposed, 2 unmatched (the Ashburne wire and the 550,000). **So the 17 lines that
+  were cards on 09-28 are all still cards** - the first live reading of the Inbox's state this session.
+
+**Found before Paul opened the cards, fixed and pushed 09:55 (Inbox.html only, no deploy):** `placeholderEntry_` made
+ONE line for the card's whole total, so the three Home Depot charges would have been recorded as one placeholder of
+337.07 - and a receipt finds its placeholder by the amount, so none of the three receipts could ever have matched:
+each would have posted beside the lump (counted twice). Now `placeholderEntries_` makes one entry per bank line
+(`bankLines_` reads them off the card's own text and refuses unless they add up to the card; a refund among the lines
+means no button; nothing is ever lumped). Each entry has its own house picker. Run on the three real cards: 3 + 1 + 1
+placeholders, the amounts the bank's. The lint builds its cards with `applyVerdicts`, so the card's text is the real
+thing. 542 tests. Workbook read back = the repo.

@@ -843,24 +843,56 @@ test("D-057 the Inbox card: Waiting on receipt makes the one placeholder line; t
   assert.ok(inbox.includes(bullet) && poller.includes(bullet), "the card and the 3 AM email say it the same way");
 
   const grab = (head) => { const a = inbox.indexOf(head); let i = inbox.indexOf("{", a), d = 0; do { if (inbox[i] === "{") d++; else if (inbox[i] === "}") d--; i++; } while (d); return inbox.slice(a, i); };
-  const card = new Function(["var SWAP = {}, EDIT = {};", `var NEED_RECEIPT = '${NEED_RECEIPT}';`, ...["isWaiting_", "placeholderEntry_", "moneyOut_", "swapCandidate_", "swapOf_"].map((n) => grab(`function ${n}(`)),
-    "return { isWaiting_, placeholderEntry_, moneyOut_, swapCandidate_, swapOf_, SWAP };"].join("\n"))();
-  const env = { docId: "feed-1401-F9", source: "feed", subject: "Cash - Citizens shared 2026-09-28 THE HOME DEPOT #6505 W -162.91",
-    model: { vendor: "THE HOME DEPOT #6505 W", date: "2026-09-28", receipt_total_cents: 16291, paid_from: "1401" } };
-  const entry = card.placeholderEntry_(env, "Dennis", "469 Brushwood");
-  assert.deepEqual(entry, { date: "2026-09-28", payee: "THE HOME DEPOT #6505 W", memo: "recorded from the bank statement - the receipt has not come in", property: "469 Brushwood", paid_from: "1401",
-    items: [{ account: "1030", amount_cents: 16291, description: "NEED RECEIPT FROM DENNIS", trade: "Waiting on receipt", business_purpose: "", property: "469 Brushwood" }] });
-  // it posts through the same engine as any purchase, the whole amount on the house
-  const built = buildEntry({ type: "purchase", ...entry, source: "receipt", posted_by: "paul" }, makeCtx({ properties: new Set(["469 Brushwood"]), periods: new Map([["2026-09", "open"]]), today: "2026-09-29" }));
-  assert.deepEqual(built.lines.map((l) => [l.account, l.debit, l.credit]), [["1030", 16291, 0], ["1401", 0, 16291]]);
-  assert.equal(built.lines[0].description, "NEED RECEIPT FROM DENNIS");
+  const card = new Function(["var SWAP = {}, EDIT = {};", `var NEED_RECEIPT = '${NEED_RECEIPT}';`, ...["isWaiting_", "bankLines_", "placeholderEntries_", "moneyOut_", "swapCandidate_", "swapOf_"].map((n) => grab(`function ${n}(`)),
+    "return { isWaiting_, bankLines_, placeholderEntries_, moneyOut_, swapCandidate_, swapOf_, SWAP };"].join("\n"))();
+  // cards as code makes them (lib/feed-match.mjs), so the card's own text is the real thing
+  const { applyVerdicts } = await import("../lib/feed-match.mjs");
+  const { ACCOUNTS } = await import("../lib/coa.mjs");
+  const bankLine = (feed_id, amount_cents, name) => ({ feed_id, date: "2026-09-28", amount_cents, name, memo: name });
+  const made = applyVerdicts({
+    verdicts: [{ kind: "question", feed_ids: ["F1", "F2", "F3"], txn_ids: [], entry: null, note: "Which house is each one for?" }, { kind: "question", feed_ids: ["F4"], txn_ids: [], entry: null, note: "What was it?" },
+      { kind: "question", feed_ids: ["F5", "F6"], txn_ids: [], entry: null, note: "A purchase and its refund?" }, { kind: "question", feed_ids: ["F7"], txn_ids: [], entry: null, note: "Big one" }],
+    lines: [bankLine("F1", -16291, "Home Depot Waxahachie"), bankLine("F2", -3307, "Home Depot Waxahachie"), bankLine("F3", -14109, "Home Depot Waxahachie"), bankLine("F4", -265, "Target Waxahachie"),
+      bankLine("F5", -5409, "Home Depot Waxahachie"), bankLine("F6", 5409, "Refund 1315 HWY 77 NORTH WAXA"), bankLine("F7", -119640, "408 S ROGERS STREET WAXAHACHI")],
+    candidates: [], account: "1401", accountName: "Recast Citizens - Shared",
+    ctx: makeCtx({ accounts: new Map(ACCOUNTS.map((a) => [a.code, a])), properties: new Set(["469 Brushwood"]), periods: new Map(), today: "2026-09-29" }), settings: {}, now: "2026-09-29T16:00:00Z",
+  }).envelopes;
+  const [three, env, mixed, big] = made;
+  assert.deepEqual(card.bankLines_(three), [{ date: "2026-09-28", amount_cents: -16291, name: "Home Depot Waxahachie" }, { date: "2026-09-28", amount_cents: -3307, name: "Home Depot Waxahachie" }, { date: "2026-09-28", amount_cents: -14109, name: "Home Depot Waxahachie" }]);
+  assert.deepEqual(card.bankLines_(big), [{ date: "2026-09-28", amount_cents: -119640, name: "408 S ROGERS STREET WAXAHACHI" }], "over a thousand dollars");
 
-  assert.equal(card.isWaiting_([entry]), true);
+  // THREE charges on one card are three placeholders, never one lump of $337.07 - each receipt finds its own by the amount
+  const entries = card.placeholderEntries_(three, "Dennis", "469 Brushwood");
+  assert.deepEqual(entries.map((e) => [e.date, e.payee, e.property, e.paid_from, e.items.length, e.items[0].amount_cents, e.items[0].description]), [
+    ["2026-09-28", "Home Depot Waxahachie", "469 Brushwood", "1401", 1, 16291, "NEED RECEIPT FROM DENNIS"],
+    ["2026-09-28", "Home Depot Waxahachie", "469 Brushwood", "1401", 1, 3307, "NEED RECEIPT FROM DENNIS"],
+    ["2026-09-28", "Home Depot Waxahachie", "469 Brushwood", "1401", 1, 14109, "NEED RECEIPT FROM DENNIS"],
+  ]);
+  const [entry] = card.placeholderEntries_(env, "Dennis", "469 Brushwood");
+  assert.deepEqual(entry, { date: "2026-09-28", payee: "Target Waxahachie", memo: "recorded from the bank statement - the receipt has not come in", property: "469 Brushwood", paid_from: "1401",
+    items: [{ account: "1030", amount_cents: 265, description: "NEED RECEIPT FROM DENNIS", trade: "Waiting on receipt", business_purpose: "", property: "469 Brushwood" }] });
+  // they post through the same engine as any purchase, each the whole amount on the house, each its own entry
+  const ctx29 = makeCtx({ properties: new Set(["469 Brushwood"]), periods: new Map([["2026-09", "open"]]), today: "2026-09-29" });
+  const built = entries.map((e) => buildEntry({ type: "purchase", ...e, source: "receipt", posted_by: "paul" }, ctx29));
+  assert.deepEqual(built.map((b) => b.lines.map((l) => [l.account, l.debit, l.credit])), [[["1030", 16291, 0], ["1401", 0, 16291]], [["1030", 3307, 0], ["1401", 0, 3307]], [["1030", 14109, 0], ["1401", 0, 14109]]]);
+  assert.equal(new Set(built.map((b) => b.txn_id)).size, 3, "three entries, three ids");
+  assert.equal(built[0].lines[0].description, "NEED RECEIPT FROM DENNIS");
+
+  assert.equal(card.isWaiting_(entries), true);
   assert.equal(card.isWaiting_([{ items: [{ description: "screws" }] }]), false);
-  assert.equal(card.moneyOut_(env), true, "an older card: the sign is read off its subject");
-  assert.equal(card.moneyOut_({ subject: "Cash - Citizens shared 2026-09-08 Refund LOWES 191.02" }), false);
-  assert.equal(card.moneyOut_({ feed: { amount_cents: 500000 }, subject: "x -1.00" }), false, "a deposit is never a purchase");
-  assert.equal(card.moneyOut_({ feed: { amount_cents: -324 } }), true);
+  assert.equal(card.moneyOut_(three), true);
+  assert.equal(card.moneyOut_(mixed), false, "a purchase and its refund on one card: no button");
+  assert.equal(card.placeholderEntries_(mixed, "Dennis", "469 Brushwood"), null);
+  // a card whose text and lines disagree is never split by guesswork - and never lumped
+  assert.equal(card.bankLines_({ ...three, bodyText: three.bodyText.replace("-33.07", "-33.70") }), null, "the lines do not add up to the card");
+  assert.equal(card.bankLines_({ ...three, bodyText: "Bank lines" }), null);
+  assert.equal(card.placeholderEntries_({ ...three, bodyText: "" }, "Dennis", "469 Brushwood"), null);
+  assert.equal(card.moneyOut_({ feed: { amount_cents: 500000, feed_ids: ["F9"] }, bodyText: "Bank line on X (1401):\n2026-08-06  5000.00  XFER FROM ACCT", model: { receipt_total_cents: 500000 } }), false, "a deposit is never a purchase");
+  // a card made before 2026-09-29 has no signed amount on it: the lines must add up to the card's total
+  const older = { ...env, feed: { account: "1401", feed_ids: ["F4"] } };
+  assert.equal(card.moneyOut_(older), true);
+  assert.equal(card.placeholderEntries_(older, "Paul", "")[0].items[0].description, "NEED RECEIPT FROM PAUL");
+  assert.ok(inbox.includes("if (!made) return showMsg_(msg, false, 'The bank lines on this card could not be read one by one, so nothing was changed. Tell Claude.');"));
 
   const p = { txn_id: "receipt-wait", paid_from: "1401" };
   assert.equal(card.swapOf_({ docId: "gm-1", source: "email", gate: { placeholder: p } }), p);
@@ -884,14 +916,14 @@ test("D-057 the Inbox card: Waiting on receipt makes the one placeholder line; t
   const style = readFileSync(path.join(__dirname, "..", "apps-script", "writer", "Style.html"), "utf8");
   const grabIn = (src, head) => { const a = src.indexOf(head); let i = src.indexOf("{", a), d = 0; do { if (src[i] === "{") d++; else if (src[i] === "}") d--; i++; } while (d); return src.slice(a, i); };
   const box = new Function(["var SWAP = {}, EDIT = {}, WAITING_ON = ['Dennis', 'Paul'];", `var NEED_RECEIPT = '${NEED_RECEIPT}';`, grabIn(style, "function escapeHtml_("),
-    ...["money_", "opt_", "isWaiting_", "moneyOut_", "swapCandidate_", "waitHtml_"].map((n) => grabIn(inbox, `function ${n}(`)), "return { waitHtml_, SWAP };"].join("\n"))();
+    ...["money_", "opt_", "isWaiting_", "bankLines_", "moneyOut_", "swapCandidate_", "waitHtml_"].map((n) => grabIn(inbox, `function ${n}(`)), "return { waitHtml_, SWAP };"].join("\n"))();
   const text = (html) => html.replace(/<[^>]+>/g, " ").replace(/\s+/g, " ").trim();
-  assert.equal(text(box.waitHtml_(env)), "No receipt yet? Waiting on Dennis Paul Waiting on receipt");
+  assert.equal(text(box.waitHtml_({ ...env, feed: { ...env.feed, card: null } })), "No receipt yet? Waiting on Dennis Paul Waiting on receipt");
   // D-059: the bank's daily email named the card - the box starts on its holder
-  assert.match(box.waitHtml_({ ...env, feed: { amount_cents: -37500, card: { last4: "5450", holder: "Paul" } } }), /<option value="Paul" selected>Paul<\/option>/);
-  assert.doesNotMatch(box.waitHtml_(env), / selected>/, "no card known: nothing is picked for him, the list starts on Dennis");
+  assert.match(box.waitHtml_({ ...env, feed: { ...env.feed, card: { last4: "5450", holder: "Paul" } } }), /<option value="Paul" selected>Paul<\/option>/);
+  assert.doesNotMatch(box.waitHtml_({ ...env, feed: { ...env.feed, card: null } }), / selected>/, "no card known: nothing is picked for him, the list starts on Dennis");
   assert.ok(inbox.includes("escapeHtml_(env.feed.card.holder) + '\\'s card (' + escapeHtml_(env.feed.card.last4) + ')"), "the card's top line says whose card paid");
-  assert.equal(box.waitHtml_({ source: "feed", feed: { amount_cents: 500000 } }), "", "money in: no button");
+  assert.equal(box.waitHtml_(mixed), "", "a refund among the lines: no button");
   assert.equal(text(box.waitHtml_({ docId: "gm-1", source: "email", gate: { placeholder: { txn_id: "receipt-wait", payee: "THE HOME DEPOT #6505 W", date: "2026-09-28", total_cents: 16291, property: "469 Brushwood", paid_from: "1401" } } })),
     "This is the receipt I was waiting for: THE HOME DEPOT #6505 W, 09-28, $162.91, on 469 Brushwood. Save puts this receipt in its place - it is not counted twice. Untick if this is a different purchase.");
   assert.equal(text(box.waitHtml_({ docId: "gm-2", source: "email", model: { supersedes: "receipt-untipped" }, gate: { replaces: old } })),
