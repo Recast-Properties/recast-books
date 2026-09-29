@@ -855,7 +855,8 @@ note says so). **Citizens, 2026-08-06..09-25: 52 matched, 19 cards for Paul's wo
 The 19: Dennis's 5,000 in, the 1,500 check, the two checks to Paul (32,105.26 vs the books' 32,246.84; 607.05), the
 4,858.42 deposit, the TYL 47.26 fee, F&D 42.21 vs 42.41, HD 55.87 vs 55.71, Juan Garcia 2,500, and ten Citizens-card
 store charges with no receipt (proposed for a house or overhead). Site `6abb00aa`, writer pushed (deploy @13 owed).
-Next: Paul decides the cards in the Sheets Inbox; then the reconcile step (spec section 4) - it also owns the three
+**A dismissed bank-line card goes back to `unmatched` with "Paul: <note>" (never `excluded` - on Recast's own account
+every line ends up tied), and the next run shows the model the note.** Next: Paul decides the cards in the Sheets Inbox; then the reconcile step (spec section 4) - it also owns the three
 book-side findings (HD 08-14 x3 125.57 and HOA 375.00 on Citizens with no bank line; the Granite 07-24 sale lines).
 
 ## 2026-09-21 — Phase 4: lists closed, Drive filing done, Newport held, cutover rehearsed end to end

@@ -37,6 +37,7 @@ export function feedRows(resp) {
     memo: String(r.memo || ""),
     status: String(r.status || ""),
     txn_id: String(r.txn_id || ""),
+    match_note: String(r.match_note || ""),
   }));
 }
 

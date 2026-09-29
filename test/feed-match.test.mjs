@@ -266,6 +266,7 @@ test("VERDICTS_TOOL is strict and every line kind is a list with lines[]; lineTe
     assert.ok(item.required.includes("lines"));
   }
   assert.equal(lineText(LINES[1]), "2026-09-01 | -1196.40 | 408 S ROGERS STREET WAXAHACHIE TX");
+  assert.equal(lineText({ ...LINES[1], match_note: "Paul: the water bill for Brushwood" }), "2026-09-01 | -1196.40 | 408 S ROGERS STREET WAXAHACHIE TX | note: Paul: the water bill for Brushwood");
   assert.match(buildUser({ lines: LINES.slice(0, 1), batch: 1, batches: 1, today: "2026-09-28" }), /L1..L1/);
   assert.match(buildSystem({ account: ACCOUNT, accountName: "Citizens", candidates: [], properties: [] }), /nothing in the books touches this account yet/);
   const sys = buildSystem({ account: ACCOUNT, accountName: "Citizens", candidates: [], properties: [], vendors: [{ canonical: "Falcon Creek Lawn Care", aliases: ["Effren", "Effren Landscaper"] }, { canonical: "Home Depot", aliases: [] }] });
@@ -333,7 +334,7 @@ test("runFeedMatch: reads the tabs, sends only the account's open lines, leaves 
   assert.equal(card.status, "pending");
   assert.match(card.model.why, /-30000\.00 of 2026-09-15/);
   assert.equal(card.from, "Recast Citizens - Shared");
-  assert.deepEqual(feedRows({ headers: FEED_HEADERS, rows: [feedRow(LINES[0])] })[0], { feed_id: "F1", account: ACCOUNT, date: "2026-08-13", amount_cents: -54240, name: "Lowe s Waxahachie", memo: "Lowe s Waxahachie", status: "unmatched", txn_id: "" });
+  assert.deepEqual(feedRows({ headers: FEED_HEADERS, rows: [feedRow(LINES[0])] })[0], { feed_id: "F1", account: ACCOUNT, date: "2026-08-13", amount_cents: -54240, name: "Lowe s Waxahachie", memo: "Lowe s Waxahachie", status: "unmatched", txn_id: "", match_note: "" });
 });
 
 test("runFeedMatch: no open lines on the account -> nothing sent, nothing written", async () => {

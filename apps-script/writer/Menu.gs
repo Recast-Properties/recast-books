@@ -1323,7 +1323,9 @@ function inboxDismiss(req) {
     requireOwner_(ss);
     if (!req.note) return { ok: false, error: 'BAD_REQUEST', message: 'a reason is required' };
     siteFetchJson_('/api/inbox', 'post', { action: 'dismiss', docId: req.docId, note: req.note, by: Session.getActiveUser().getEmail() });
-    return { ok: true, feed: tieFeedRows_(ss, req.feed, 'excluded', [], 'Dismissed: ' + req.note) };
+    // On Recast's own account nothing is ever excluded: a dismissed card means "not that" - the line goes
+    // back to the next matching run carrying Paul's words, and ties once the books hold the entry he describes.
+    return { ok: true, feed: tieFeedRows_(ss, req.feed, 'unmatched', [], 'Paul: ' + req.note) };
   } catch (err) {
     return { ok: false, error: (err && err.code) || 'INTERNAL', message: String((err && err.message) || err) };
   }
@@ -2137,8 +2139,8 @@ function feedMatchSummary_(s) {
 }
 
 /** Phase 3: a card born from bank lines (envelope.feed, lib/feed-match.mjs) ties its Feed rows
- *  when Paul decides it - approve -> matched with the posted ids, dismiss -> excluded with his
- *  note - here, in-process, never through the site. Null for a receipt card; a failure is
+ *  when Paul decides it - approve -> matched with the posted ids, dismiss -> back to unmatched
+ *  with his note - here, in-process, never through the site. Null for a receipt card; a failure is
  *  returned, never thrown (the decision itself is already recorded). */
 function tieFeedRows_(ss, feed, status, txnIds, note) {
   var ids = (feed && feed.feed_ids) || [];

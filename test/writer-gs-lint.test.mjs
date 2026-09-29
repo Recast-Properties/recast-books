@@ -803,7 +803,7 @@ test("feedUpdate: one lock, the three verdict columns read once and written once
   assert.doesNotMatch(m.slice(0, m.indexOf("function feedMatchSummary_")), /postEntry_|postBatchEntries_/, "a match never posts from the workbook");
   // The sheet's Inbox ties a bank-line card's rows itself, in-process, on approve and on dismiss.
   assert.match(menu.slice(menu.indexOf("function inboxApprove(")), /tieFeedRows_\(ss, req\.feed, 'matched', txnIds/);
-  assert.match(menu.slice(menu.indexOf("function inboxDismiss(")), /tieFeedRows_\(ss, req\.feed, 'excluded'/);
+  assert.match(menu.slice(menu.indexOf("function inboxDismiss(")), /tieFeedRows_\(ss, req\.feed, 'unmatched', \[\], 'Paul: ' \+ req\.note\)/, "a dismissed bank line goes back to the next run with Paul's words");
   const html = readFileSync(new URL("../apps-script/writer/Inbox.html", import.meta.url), "utf8");
   assert.equal((html.match(/feed: env\.feed \|\| null/g) || []).length, 3, "approve and both dismiss paths send the card's feed rows");
   const reset = menu.slice(menu.indexOf("function resetFeedCards("));
