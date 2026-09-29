@@ -1142,6 +1142,15 @@ partner takes it out, and that withdrawal is a bank line that ties to a repaymen
 `addWorkingCapital()` (Menu.gs, editor, once): Dennis 5,000.00 on 08-06, Paul 4,858.42 on 08-13, both bank lines
 tied, both cards cleared. **Consequence:** Recast owes Paul rises by 4,858.42 (it is his money in the account).
 
+**Added 2026-09-29 - why Paul's was less than 5,000 (Paul, on the card for his check of 08-12):** *"the missing
+$141.58 to add up to my matching $5,000 is the missing $141.58 from this sparkling payout."* His 280 Sparkling
+payout was 32,246.84 (`sale-20260806-e162353297b7`); the check he wrote himself was 32,105.26; the 141.58 he left in
+the account is the rest of his working money (4,858.42 + 141.58 = 5,000.00, the same as Dennis's). **Decided:** one
+entry of 141.58 dated 08-12, Dr 1401 / Cr 2030, no house, no interest; the payout entry is NOT changed (280
+Sparkling is closed and frozen) - the bank's check ties to the payout and this entry together. Posted by
+`addPaulWorkingMoneyLeftIn()` (oneOffScripts.gs). His second check of 08-12 (607.05) is a separate card, not
+answered by this.
+
 ## D-056 · Hand-run scripts live in oneOffScripts.gs; Code.gs and Menu.gs hold only what the workbook reaches - 2026-09-28 · Paul
 
 Paul: *"things are getting messy. i want to stop and clean up the apps scripts in the books file. we have a slew of

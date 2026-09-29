@@ -825,6 +825,38 @@ function addWorkingCapital() {
   return out;
 }
 
+// STATUS: DONE 2026-09-29 ~10:57 PDT by Paul: manual-20260812-22cd3e4a2bc0, the check tied to it and the payout, the card dismissed - all read back. A rerun is refused DUPLICATE.
+// D-055, Paul 2026-09-29, on the card for his check of 08-12: he took 32,105.26 of his 280 Sparkling
+// payout (the books' 32,246.84) and left the other 141.58 in the Citizens account as working money -
+// which is why his deposit of 08-13 was 4,858.42 and not 5,000. Dr 1401 / Cr 2030, no house, no
+// Advances row; his working money is 5,000.00, the same as Dennis's. The payout entry is untouched
+// (280 Sparkling is closed and frozen): the check ties to the payout and this entry TOGETHER
+// (-32,246.84 + 141.58 = -32,105.26). Editor-only, run once (a second run is refused DUPLICATE).
+var PAYOUT_LEFT_IN_2026_08 = { date: '2026-08-12', cents: 14158, payee: 'Paul Bjork', feed_id: '202608120000000543525338',
+  payout_txn: 'sale-20260806-e162353297b7',
+  memo: 'Working money Paul left in the Citizens account out of his 280 Sparkling payout (took 32,105.26 of 32,246.84) - no house, no interest; with his 4,858.42 of 08-13 it is 5,000.00 (D-055)' };
+function addPaulWorkingMoneyLeftIn() {
+  var props = PropertiesService.getScriptProperties();
+  var ss = openWorkbook_(props);
+  requireOwner_(ss);
+  var ctx = buildCtx_(ss);
+  var user = Session.getActiveUser().getEmail() || 'editor';
+  var r = PAYOUT_LEFT_IN_2026_08;
+  var entry = buildEntry({ type: 'journal', date: r.date, memo: r.memo, source: 'manual', posted_by: user, lines: [
+    { account: '1401', debit: r.cents, credit: 0, property: '', payee: r.payee, description: 'Working money left in the account', paid_from: '1401' },
+    { account: '2030', debit: 0, credit: r.cents, property: '', payee: r.payee, description: 'Working money left in the account', paid_from: '1401' }
+  ] }, ctx);
+  var result = postBatchEntries_([entry], props, true);
+  var tie = feedUpdateRows_(ss, [{ feed_id: r.feed_id, status: 'matched', txn_id: r.payout_txn + ', ' + entry.txn_id,
+    match_note: 'Paul\'s 280 Sparkling payout, less the 141.58 he left in the account as working money (D-055)' }]);
+  try { siteFetchJson_('/api/inbox', 'post', { action: 'dismiss', docId: 'feed-1401-' + r.feed_id, by: user, note: 'The 141.58 stayed in the account as Paul\'s working money (D-055)' }); }
+  catch (e) { /* already decided, or not pending - the entry and the tie are what matter */ }
+  warmCache_();
+  var out = 'posted ' + entry.txn_id + ' (Journal rows ' + result.rows.join('-') + '); bank lines tied ' + tie.updated;
+  Logger.log(out);
+  return out;
+}
+
 // =============================================================================================
 // 3. THE PHASE 4 MIGRATION AND THE CUTOVER (D-024..D-029; DONE 2026-09-21)
 // =============================================================================================

@@ -1958,3 +1958,19 @@ the matcher; `/api/bank-mail` and `/api/meta` answer 401 as they should); the wo
 pulled back = the repo. The writer web app stays **@15**: since that deploy only `Inbox.html`, `Menu.gs` and the
 poller changed. Nothing owed. **`HANDOFF-2026-09-29.md` rewritten** as the end-of-session state, with the 18 open
 cards read live (and the card that paid each), what is proven and what is not, and a prompt for the next session.
+
+## 2026-09-29 (11:00) - why Paul's working money was 4,858.42: the 141.58 he left in from the Sparkling payout (D-055)
+
+Paul, on the card for his check of 08-12 (32,105.26 against the books' payout 32,246.84): *"the missing $141.58 to add
+up to my matching $5,000 is the missing $141.58 from this sparkling payout."* Both gaps are 141.58 to the cent. One
+entry, `addPaulWorkingMoneyLeftIn()` (oneOffScripts.gs, a copy of `addWorkingCapital`): 08-12, Dr 1401 / Cr 2030
+141.58, no house, no interest. The payout entry `sale-20260806-e162353297b7` is untouched (280 Sparkling is closed
+and frozen); the bank's check ties to the payout and the new entry together.
+
+**Run by Paul ~10:57 PDT, read back live (gviz):** `manual-20260812-22cd3e4a2bc0`, two lines; Feed row
+`202608120000000543525338` `matched` to `sale-20260806-e162353297b7, manual-20260812-22cd3e4a2bc0`; the card
+`feed-1401-202608120000000543525338` is `dismissed` (books-docs). Journal 2,673 rows, balanced (4,813,228.64).
+Paul's working money is 5,000.00, the same as Dennis's; Recast owes Paul rises by 141.58.
+**Citizens now: 79 lines - 62 tied, 15 cards, 2 waiting** (this one, and two more cards Paul saved himself since
+10:35 - not read here). The second check to Paul of 08-12 (607.05) is still a card. 543 tests; pushed, no deploy
+(a one-off).
