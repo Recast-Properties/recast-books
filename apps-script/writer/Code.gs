@@ -1024,15 +1024,24 @@ function refreshBankSheets_(ss) {
       var name = BANK_SHEETS[account];
       var title = name + ' - every line of the account, newest on top';
       var stamp = bankSheetSummary(rows) + '. Updated ' + Utilities.formatDate(new Date(), 'America/Chicago', 'MMM d, h:mm a') + ' (Texas time)';
+      // the bank-vs-books box above the lines (Paul, 2026-09-30); ponytail: the header row is frozen
+      // under the box, so a long "not explained" list makes a tall frozen band - fix the books, it shrinks
+      var opening = (bankAccountsLast4_(ss).filter(function (a) { return a.code === account; })[0] || {}).opening_cents || 0;
+      var check = bankCheck(feed, journal, account, opening);
+      var box = bankCheckRows(check, name.replace(/ Bank$/, '')).concat([['', '', '']]);
+      var hr = 3 + box.length;   // the header row
       var sh = ss.getSheetByName(name);
       if (sh && sh.getFilter()) sh.getFilter().remove();
-      sh = writeReportRows_(ss, name, title, [BANK_SHEET_HEADER].concat(rows), name);
+      sh = writeReportRows_(ss, name, title, [BANK_SHEET_HEADER].concat(rows), name, box);
       sh.getRange(2, 1).setValue(stamp);
-      sh.getRange(4, 1, rows.length, 1).setNumberFormat('yyyy-mm-dd');
-      sh.getRange(4, 2, rows.length, 1).setNumberFormat('#,##0.00;[red]-#,##0.00');
-      sh.getRange(4, 5, rows.length, 1).setBackgrounds(rows.map(function (r) { return [BANK_STATUS_COLORS[r[4]] || '#ffffff']; }));
+      sh.getRange(3, 1).setFontWeight('bold').setBackground(check.unexplained.length ? '#f4cccc' : '#d9ead3');
+      sh.getRange(4, 2, box.length - 2, 1).setNumberFormat('#,##0.00;[red]-#,##0.00');
+      if (check.unexplained.length) sh.getRange(4 + check.reasons.length + 1, 1, check.unexplained.length, 3).setBackground('#f4cccc');
+      sh.getRange(hr + 1, 1, rows.length, 1).setNumberFormat('yyyy-mm-dd');
+      sh.getRange(hr + 1, 2, rows.length, 1).setNumberFormat('#,##0.00;[red]-#,##0.00');
+      sh.getRange(hr + 1, 5, rows.length, 1).setBackgrounds(rows.map(function (r) { return [BANK_STATUS_COLORS[r[4]] || '#ffffff']; }));
       [90, 100, 280, 80, 170, 90, 170, 420].forEach(function (w, i) { sh.setColumnWidth(i + 1, w); });   // the title would stretch column A
-      sh.getRange(3, 1, rows.length + 1, BANK_SHEET_HEADER.length).createFilter();
+      sh.getRange(hr, 1, rows.length + 1, BANK_SHEET_HEADER.length).createFilter();
     });
   } catch (err) {
     console.error('refreshBankSheets_: ' + String((err && err.message) || err));

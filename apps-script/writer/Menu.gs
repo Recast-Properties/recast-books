@@ -717,12 +717,14 @@ function journalLines_(ss) {
  *  the header row; the caller has already put the tie-out line at the bottom.
  *  Sheet layout: row 1 = title, row 2 = blank, row 3 = rows[0] (the header),
  *  row 4+ = the rest of `rows`. */
-function writeReportRows_(ss, name, title, rows, tabName) {
+// top: rows between the title and the header (the bank tab's bank-vs-books box).
+function writeReportRows_(ss, name, title, rows, tabName, top) {
   var sheetName = tabName || ('Report - ' + name);
   var sh = ss.getSheetByName(sheetName);
   if (sh) sh.clear(); else sh = ss.insertSheet(sheetName);
-  var HEADER_ROW = 3;
-  var body = [[title], []].concat(rows);
+  top = top || [];
+  var HEADER_ROW = 3 + top.length;
+  var body = [[title], []].concat(top, rows);
   var width = body.reduce(function (w, r) { return Math.max(w, r.length); }, 1);
   body = body.map(function (r) { var row = r.slice(); while (row.length < width) row.push(''); return row; });
   sh.getRange(1, 1, body.length, width).setValues(body);

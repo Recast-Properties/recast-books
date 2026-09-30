@@ -382,6 +382,7 @@ function advancesPaidTo_(dryRun) {
 }
 
 // STATUS: RE-RUNNABLE (Phase 3 tuning loop, in use).
+
 /** Phase 3 tuning loop (editor-only, run once, then Match statement lines... again): every
  *  pending Inbox card born from bank lines is dismissed on the site with a note saying why,
  *  and its Feed rows go back to `unmatched` with the note cleared, so the next run sends
@@ -969,6 +970,56 @@ function fixGreenAcresJanicePurchase() {
   rebuildAllPropertyTabs();
   out.push('every held property tab rebuilt');
   Logger.log(out.join('\n'));
+  return out;
+}
+
+// 2026-09-30 Claude, from the bank-vs-books box on the Citizens Bank tab - the 223.67 the books
+// had as paid from Citizens with no bank line behind it. Two mistakes, both found in the receipts:
+// (1) Home Depot and Floor & Decor, 09-03, 469 Brushwood are in the books TWICE: the old books' rows
+//     (Liquid Nails 3.77, Goo Gone 5.39, Paint 46.55; Flooring Transition 42.41) and the bank cards
+//     Paul approved 09-29 (55.87, 42.21 - the bank's own amounts, tied to its lines). Same items, same
+//     day, same card 5450. The old rows are voided; the bank-tied ones stay.
+// (2) Home Depot, 08-14, 366 Mesa (Screws 11.88, Door Lock Sets 69.61, 5/4 PT Siding Trim 44.08):
+//     the old books said Citizens, but both receipts' tender line reads XXXXXXXXXXXX9166 - Paul's own
+//     card. Voided and re-posted the same, paid by Paul: Recast owes Paul 125.57 more.
+// STATUS: DONE 2026-09-30 ~16:16 CT by Paul: the Citizens Bank box reads "they agree", books 4,591.71 (was 4,368.02) - read back from his screenshot.
+var CITIZENS_GAP_2026_09_30 = {
+  twice: ['migration-20260903-ac2804d91eab', 'migration-20260903-b6251164eca9', 'migration-20260903-39c7eff2d016', 'migration-20260903-3d45481fe747'],
+  paulsCard: ['migration-20260814-b906d6aece29', 'migration-20260814-65787b16181a', 'migration-20260814-ad2022230c01']
+};
+function fixCitizensGap() {
+  var props = PropertiesService.getScriptProperties();
+  var ss = openWorkbook_(props);
+  requireOwner_(ss);
+  var user = Session.getActiveUser().getEmail() || 'editor';
+  var today = Utilities.formatDate(new Date(), 'America/Chicago', 'yyyy-MM-dd');
+  var g = CITIZENS_GAP_2026_09_30, out = [];
+  var data = readTabData_(ss, 'Journal', { all: true });
+  var col = {}; data.headers.forEach(function (h, i) { col[h] = i; });
+  var ctx = buildCtx_(ss);
+  // the cost line of each of Paul's-card rows, re-posted as paid by Paul - built (and so checked) first
+  var repost = g.paulsCard.map(function (id) {
+    var r = data.rows.filter(function (row) { return row[col.txn_id] === id && String(row[col.account]) !== '1401'; });
+    if (r.length !== 1 || Number(r[0][col.debit]) <= 0) throw new Error(id + ': expected one cost line, found ' + r.length);
+    r = r[0];
+    return buildEntry({ type: 'expense', date: String(r[col.date]).slice(0, 10), payee: r[col.payee], description: r[col.description],
+      amount_cents: toCents(Number(r[col.debit])), account: String(r[col.account]), trade: r[col.trade] || '', property: r[col.property],
+      paid_from: 'PAUL', doc_url: r[col.doc_url] || '', source: 'manual', posted_by: user,
+      memo: 'old books said Citizens; the receipt\'s tender line is Paul\'s own card 9166 - re-posted as paid by Paul (' + id + ' voided, 2026-09-30)' }, ctx);
+  });
+  g.twice.forEach(function (id) {
+    try { voidEntry_(id, 'in the books twice - the bank-tied receipt of 09-03 is the same purchase (2026-09-30)', today, user, props, true); out.push('voided  ' + id); }
+    catch (err) { out.push('void FAILED ' + id + '  ' + String((err && err.message) || err)); }
+  });
+  g.paulsCard.forEach(function (id) {
+    try { voidEntry_(id, 'paid with Paul\'s own card 9166, not Citizens - re-posted as paid by Paul (2026-09-30)', today, user, props, true); out.push('voided  ' + id); }
+    catch (err) { out.push('void FAILED ' + id + '  ' + String((err && err.message) || err)); }
+  });
+  var result = postBatchEntries_(repost, props);   // refreshes the house tabs
+  out.push('posted  ' + repost.map(function (e) { return e.txn_id; }).join(', ') + ' (Journal rows ' + result.rows.join('-') + ')');
+  refreshBankSheets_(ss);
+  warmCache_();
+  console.log(out.join('\n'));
   return out;
 }
 

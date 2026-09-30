@@ -73,3 +73,33 @@ test("the bank sheet: the summary counts, and a hand-typed name is a holder too"
   assert.equal(holderOfCard("Dennis"), "Dennis");
   assert.equal(holderOfCard(""), "");
 });
+
+test("the bank-vs-books box: every dollar of difference has a reason, or is listed", async () => {
+  const { bankCheck, bankCheckRows } = await import("../lib/bank-sheet.mjs");
+  const J = [
+    ...paid("t-a", "1030", "366 Mesa", "Trim", 5000),
+    ...paid("t-b", "1030", "366 Mesa", "Screws", 1188),          // in the books, no bank line
+    ...paid("t-c", "1030", "469 Brushwood", "Paint", 1001),      // the bank says 10.00: a penny of rounding
+  ];
+  const F = [
+    feed("1", "2026-09-01", 10000, "matched", "", "", ""),       // money in, not tied: not looked at yet
+    feed("2", "2026-09-02", -50, "matched", "t-a", ""),
+    feed("3", "2026-09-03", -10, "matched", "t-c", ""),
+    feed("4", "2026-09-04", -90.67, "proposed", "", "In the Inbox: HD"),
+    feed("5", "2026-09-05", 700000, "unmatched", "", "Waits: Closing wire in for the 366 Mesa sale"),
+  ];
+  F[0].status = "unmatched";
+  const c = bankCheck(F, J, "1401");
+  assert.equal(c.bank_cents, 1000000 - 5000 - 1000 - 9067 + 70000000);
+  assert.equal(c.books_cents, -(5000 + 1188 + 1001));
+  assert.deepEqual(c.unexplained, [{ date: "2026-09-01", cents: -1188, text: "In the books as paid from this account, not on the bank: Home Depot - Screws (366 Mesa)" }]);
+  assert.ok(c.reasons.some((r) => r.text.includes("the 366 Mesa closing") && r.cents === -70000000));
+  assert.ok(c.reasons.some((r) => r.text.startsWith("1 bank line still open") && r.cents === 9067));
+  assert.ok(c.reasons.some((r) => r.text.includes("rounding") && r.cents === -1));
+  // bank + reasons + unexplained = books, to the cent
+  assert.equal(c.bank_cents + [...c.reasons, ...c.unexplained].reduce((s, r) => s + r.cents, 0), c.books_cents);
+  assert.match(bankCheckRows(c, "Citizens")[0][0], /1 thing not explained/);
+
+  const clean = bankCheck(F.slice(1, 3), [...J.slice(0, 2), ...J.slice(4)], "1401");
+  assert.match(bankCheckRows(clean, "Citizens")[0][0], /they agree/);
+});
