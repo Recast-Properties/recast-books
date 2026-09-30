@@ -140,9 +140,8 @@ the amount or how tempting it is to lump it in with a nearby job.**
   fees on a deal that died before closing. Overhead: the property never entered the
   registry, so there is nothing to capitalize to.
 - `6400` Software & subscriptions - Adobe, Apify, PDF.co, Twilio, Telnyx, and similar
-  recurring software. NOT Anthropic: an Anthropic receipt is a credit purchase
-  (top-up, auto-reload) and posts to `1520` Prepaid API credits, overhead. Code
-  expenses the usage monthly from Anthropic's cost report (D-018).
+  recurring software. Anthropic too: a Claude API credit purchase (top-up, auto-reload)
+  is a software cost the day it is bought, overhead (D-064). Never `1520`.
 - `6410` Website & hosting - Netlify and similar hosting/domain costs for the company
   site.
 - `6500` Office supplies & postage - toner, boxes, mailing supplies.

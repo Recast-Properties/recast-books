@@ -423,8 +423,8 @@ function rowsToObjects(headers, rows) {
 // ---------------------------------------------------------------------------
 
 // D-023 (2026-09-15, phase2.7-spec.md §5): Settings and Users are now edited
-// directly on their workbook tabs via the Recast Books menu — this page keeps
-// only the API-costs card (it calls Anthropic, so it has to live on Netlify).
+// directly on their workbook tabs via the Recast Books menu. The API-costs card went with
+// D-064 (2026-09-30): Claude credits are a software cost when bought, nothing to split.
 async function renderSettings() {
   const el = $("page-settings");
   el.innerHTML = `<h1 class="page-title">Settings</h1><div id="settings-banner"></div><div id="settings-tables">Loading…</div>`;
@@ -439,63 +439,14 @@ async function renderSettings() {
   }
 }
 
-/** YYYY-MM of the month before today (for the API usage month picker). */
-function previousMonthStr() {
-  const d = new Date();
-  d.setDate(1);
-  d.setMonth(d.getMonth() - 1);
-  return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}`;
-}
-
 function renderSettingsTables(wbUrl) {
   const wrap = $("settings-tables");
-  const owner = isOwner();
   const wbNote = wbUrl
     ? `<a href="${escapeHtml(wbUrl)}" target="_blank" rel="noopener">the workbook</a>`
     : "the workbook";
 
   wrap.innerHTML = `
-    <p class="muted-note">Settings and Users are edited on their tabs in ${wbNote} (Recast Books menu) — not here.</p>
-    <div class="section-card">
-      <h3>Anthropic API usage by workspace (D-018)</h3>
-      <p style="font-size:13px;color:#666;margin:0 0 10px;">Anthropic's cost report for a month, one line per Console workspace, mapped to an account by the <code>api_cost_account:</code> setting on the Settings tab. Posting debits each account and credits 1520 Prepaid API credits, dated the last day of the month. The poller posts the previous month on the 2nd; a month already posted is skipped.</p>
-      <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;">
-        <input type="month" id="api-costs-month" value="${escapeHtml(previousMonthStr())}">
-        <button class="btn btn-secondary" id="api-costs-load" style="padding:5px 10px;font-size:12px;">Load</button>
-        ${owner ? `<button class="btn" id="api-costs-post" style="padding:5px 10px;font-size:12px;" disabled>Post to Journal</button>` : ""}
-      </div>
-      <div id="api-costs-result" style="margin-top:10px;"></div>
-    </div>`;
-
-  const costsMonth = $("api-costs-month");
-  const costsOut = $("api-costs-result");
-  const costsPost = $("api-costs-post");
-  const renderCosts = (b) => {
-    const rows = b.lines.map((l) => `<tr><td>${escapeHtml(l.workspace)}</td><td style="text-align:right;">$${fromCents(l.cents)}</td><td><code>${escapeHtml(l.account)}</code>${l.mapped ? "" : " <span style=\"color:#999;\">(default)</span>"}</td></tr>`).join("");
-    costsOut.innerHTML = `<table class="rc-table"><thead><tr><th>Workspace</th><th style="text-align:right;">Spend</th><th>Account</th></tr></thead><tbody>${rows}<tr><td><strong>Total</strong></td><td style="text-align:right;"><strong>$${fromCents(b.total_cents)}</strong></td><td>dated ${escapeHtml(b.date)}</td></tr></tbody></table>` +
-      (b.posted === true ? `<div class="banner success" style="margin-top:8px;">Posted <code>${escapeHtml(b.txn_id)}</code>.</div>` : "") +
-      (b.posted === false ? `<div class="banner" style="margin-top:8px;">Not posted: ${escapeHtml(b.reason)}.</div>` : "");
-  };
-  $("api-costs-load").onclick = async () => {
-    costsOut.textContent = "Loading…";
-    try {
-      renderCosts(await api(`api-costs?month=${encodeURIComponent(costsMonth.value)}`));
-      if (costsPost) costsPost.disabled = false;
-    } catch (err) {
-      costsOut.innerHTML = `<div class="banner error">${errorBannerHtml(err)}</div>`;
-    }
-  };
-  if (costsPost) {
-    costsPost.onclick = async () => {
-      if (!confirm(`Post Anthropic usage for ${costsMonth.value} to the Journal?`)) return;
-      costsPost.disabled = true;
-      try {
-        renderCosts(await api("api-costs", { method: "POST", body: { month: costsMonth.value } }));
-      } catch (err) {
-        costsOut.innerHTML = `<div class="banner error">${errorBannerHtml(err)}</div>`;
-      }
-    };
-  }
+    <p class="muted-note">Settings and Users are edited on their tabs in ${wbNote} (Recast Books menu) — not here.</p>`;
 }
 
 // ---------------------------------------------------------------------------

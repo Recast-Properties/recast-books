@@ -1798,7 +1798,7 @@ var M_reports = (function () {
 
     const bal = (acct) => (bs.assets.concat(bs.liabilities).find((x) => x.account === acct) || {}).balance || 0;
     const name = { "1401": "Cash in the Citizens account", "1402": "Cash in the Chase account", "1510": "Money held back at a closing (escrow)",
-      "1520": "Claude API credits bought (the use of them is not taken out yet)" };
+      "1520": "Claude API credits recorded the old way - tell Claude" };
     const owns = [];
     for (const a of bs.assets) {
       if (!a.balance) continue;

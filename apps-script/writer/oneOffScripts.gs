@@ -1023,6 +1023,48 @@ function fixCitizensGap() {
   return out;
 }
 
+// 2026-09-30 Paul, D-064 ("Drop the split. Every top-up just counts as a business cost when you buy it"):
+// moves what sits on 1520 Prepaid API credits to 6400 Software & subscriptions - one entry per month,
+// dated that month's last day (today at the latest), so each month's business costs are right. Reads
+// the live Journal: a rerun only moves what is left (a top-up that landed on 1520 before the prompt
+// change deployed), and nothing when 1520 is at zero.
+// STATUS: NOT YET RUN
+function moveApiCreditsToSoftware() {
+  var props = PropertiesService.getScriptProperties();
+  var ss = openWorkbook_(props);
+  requireOwner_(ss);
+  var user = Session.getActiveUser().getEmail() || 'editor';
+  var today = Utilities.formatDate(new Date(), 'America/Chicago', 'yyyy-MM-dd');
+  var lines = journalLines_(ss);
+  var voided = {};
+  lines.forEach(function (l) { if (l.void_of) voided[l.void_of] = true; });
+  var byMonth = {};
+  lines.forEach(function (l) {
+    if (String(l.account) !== '1520' || l.source === 'void' || voided[l.txn_id]) return;
+    var m = String(l.date).slice(0, 7);
+    byMonth[m] = (byMonth[m] || 0) + l.debit - l.credit;
+  });
+  var ctx = buildCtx_(ss);
+  var entries = Object.keys(byMonth).sort().filter(function (m) { return byMonth[m] !== 0; }).map(function (m) {
+    var cents = byMonth[m];
+    if (cents < 0) throw new Error(m + ': more taken off 1520 than put on (' + fromCents(cents) + ') - stop and look');
+    var date = lastDayOf(m) < today ? lastDayOf(m) : today;
+    var what = 'Claude API credits bought in ' + m + ' - a software cost (D-064)';
+    return buildEntry({ type: 'journal', date: date, source: 'manual', posted_by: user,
+      memo: 'D-064 (Paul, 2026-09-30): the prepaid credits and the monthly usage split are dropped; the ' + m + ' top-ups move to 6400', lines: [
+        { account: '6400', debit: cents, credit: 0, property: 'OVERHEAD', payee: 'Anthropic', description: what },
+        { account: '1520', debit: 0, credit: cents, property: 'OVERHEAD', payee: 'Anthropic', description: what }
+      ] }, ctx);
+  });
+  if (!entries.length) { console.log('1520 is at zero - nothing to move'); return 'nothing to move'; }
+  var result = postBatchEntries_(entries, props);
+  refreshBalanceSheet_(ss);
+  warmCache_();
+  var out = entries.map(function (e) { return e.date + '  ' + fromCents(e.lines[0].debit); }).join('\n') + '\nJournal rows ' + result.rows.join('-');
+  console.log(out);
+  return out;
+}
+
 // =============================================================================================
 // 3. THE PHASE 4 MIGRATION AND THE CUTOVER (D-024..D-029; DONE 2026-09-21)
 // =============================================================================================

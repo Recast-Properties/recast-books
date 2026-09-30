@@ -192,7 +192,7 @@ var ACCOUNTS_SEED = [
   ['1402', 'Cash - Chase operating', '1400', 'asset', '', '', true, ''],
   ['1500', 'Earnest money & deposits', '1400', 'asset', '', '', true, ''],
   ['1510', 'Escrow & holdbacks receivable', '1400', 'asset', '', '', true, ''],
-  ['1520', 'Prepaid API credits', '1400', 'asset', '', '', true, 'D-018: Anthropic top-ups; drawn down monthly by /api/api-costs'],
+  ['1520', 'Prepaid API credits', '1400', 'asset', '', '', true, 'D-064: no longer used - Claude credits are 6400 when bought'],
   ['2000', 'Accrued interest - Dennis', '2000', 'liability', '', '', true, ''],
   ['2010', 'Note payable - Dennis', '2000', 'liability', '', '', true, ''],
   ['2020', 'Backup withholding payable', '2000', 'liability', '', '', true, ''],
