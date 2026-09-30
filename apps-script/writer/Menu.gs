@@ -709,7 +709,7 @@ function inboxPickers() {
   try {
     requireOwner_(ss);
     return { ok: true, pickers: pickerData_(ss),
-      user: Session.getActiveUser().getEmail(), site: PropertiesService.getScriptProperties().getProperty('SITE_URL') || 'https://books.recast-properties.com' };
+      user: Session.getActiveUser().getEmail() };
   } catch (err) {
     return { ok: false, error: (err && err.code) || 'INTERNAL', message: String((err && err.message) || err) };
   }

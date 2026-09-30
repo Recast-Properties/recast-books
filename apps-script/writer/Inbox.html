@@ -69,7 +69,6 @@
 <div id="msg" class="msg hidden"></div>
 <div id="list">Loading...</div>
 <p id="empty" class="hidden">Nothing waiting here.</p>
-<p class="rc-small" style="font-size:11px;color:#777;">Posted, dismissed and errored items: <a id="weblink" href="#" target="_blank" rel="noopener">web Inbox</a>.</p>
 
 <script>
   var DATA = { envelopes: [], pickers: { accounts: [], properties: [], bankAccounts: [] }, site: '' };
@@ -715,13 +714,12 @@
     var finish = function () {
       if (!envelopes || !pickers) return;
       clearInterval(tick);
-      DATA = { ok: true, envelopes: envelopes.envelopes || [], total: envelopes.total, pickers: pickers.pickers, user: pickers.user, site: pickers.site };
+      DATA = { ok: true, envelopes: envelopes.envelopes || [], total: envelopes.total, pickers: pickers.pickers, user: pickers.user };
       EDIT = {};
       // Refresh keeps Paul on his tab, unless it is empty and the other one is not.
       var n = { receipts: 0, bank: 0 }, other = TAB === 'bank' ? 'receipts' : 'bank';
       DATA.envelopes.forEach(function (e) { n[tabOf_(e)]++; });
       if (!n[TAB] && n[other]) TAB = other;
-      document.getElementById('weblink').href = DATA.site + '/#inbox';
       row('cards').textContent = '\u2026 building ' + DATA.envelopes.length + ' card' + (DATA.envelopes.length === 1 ? '' : 's');
       fill.style.width = '100%';
       setTimeout(render_, 300);
