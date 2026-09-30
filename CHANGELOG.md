@@ -2075,3 +2075,18 @@ bank's 169,805.35 less the unbooked Ashburne wires 165,558.65 and 5 open cards 3
 HD 08-14 x3 125.57 is part of it; the reconcile step's job); Chase 0 until Ashburne closes (D-051). "Trial balance"
 stays as the name - Paul asked what it was, not to rename it. 549 tests. **Deployed 11:35: writer web app @18 = the repo;
 site `6abc3ad9` unchanged. Nothing owed.**
+
+## 2026-09-30 (afternoon) - 413 Green Acres and 200 Janice bought: purchase principal recorded, at 9%
+
+Paul recorded both purchases through **Add advance... -> Purchase principal**: 413 Green Acres 127,000.00 on 2026-08-05
+(`manual-20260805-55f2be9e8083`), 200 Janice 267,474.01 on 2026-07-07 (`manual-20260707-6fd33b85123a`); Dr 1000 /
+Cr 2010, Advances rows kind purchase, paid_to Seller. The blank rate box gave 8% (the Settings rate, D-016); Paul:
+*"change to 9"* - the hedge he keeps on held houses (D-038). He typed 9 in both rows' rate_pct; read back live.
+No interest was posted on either, so nothing to correct - the tabs read the rate from the Advances tab. Dennis's
+note (2010) rose 394,474.01 to 1,982,260.38.
+Explained to Paul: Totals' "Accrued interest - Dennis" is posted-but-unpaid interest and reads 0 because nothing has
+been posted since the two sales paid theirs; `Post interest...` records what is owed on the held houses.
+**Open, Paul's step (told to him):** the Properties rows - Green Acres still reads "PIPELINE - not purchased" with no
+purchase date, price or tax_annual; Janice's 267,474.01 sits in `contract_price` (the SALE price estimate the house tab
+uses - its tab thinks it sells for what it cost) and its `purchase_price` is blank; Janice's tax_annual 814 looks low for
+a full year. Then Rebuild property tab on both (a typed Sale Price cell survives a rebuild - check Janice's).
