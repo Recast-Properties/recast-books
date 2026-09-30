@@ -2110,3 +2110,27 @@ right after the column moved). **Paul's, open:** Green Acres' tax_annual (blank)
 year). Also explained: Cost Recapture sits on Properties because the posting rules only accept a listed name (D-031) -
 left there, Paul agreed by not asking to move it. 549 tests. **Deployed 13:52: writer web app @19 = the repo; site
 `6abc3ad9` unchanged. Nothing owed.**
+
+## 2026-09-30 (14:00-16:30) - the bank-vs-books box on the Citizens Bank tab (D-063); the 223.67 found and fixed; writer @20
+
+**The 3 AM list proven:** the 2 AM check of 09-30 (`reconcile/2026-09-30` in books-cache, ran 07:33Z) listed Dennis's
+three Home Depot placeholders of 09-28 (162.91, 33.07, 141.09, 366 Mesa, 337.07) - the digest prints it first. Its one
+other bullet: leave the two June migration-era errors (gm-19edc17308bcd897, gm-19f1a71858c0d365) for Phase 3.
+
+**Citizens read live (gviz):** 79 lines - 69 reconciled, 8 waiting on Dennis (the three placeholders + 130.87 Lowe's
+08-10, 90.67 / 90.23 / 30.57 Home Depot 09-21/24/25 for 469 Brushwood, 2.65 Target 09-28), 0 on Paul, 2 waiting for the
+Ashburne closing. The books-cache `tab/Feed` was ~22 h stale (five cards decided since) - read the Feed live.
+
+**D-063, built instead of section 4's menu item** (Paul: no new steps to remember): `bankCheck` / `bankCheckRows`
+(`lib/bank-sheet.mjs`) put a box above the tab's lines - bank, reasons, red unexplained lines, books;
+`writeReportRows_` takes `top` rows between the title and the header. Test: bank + reasons + unexplained = books to
+the cent. **The 223.67, found by the box, both from the receipts:** (1) 98.12 - Home Depot 55.71 (Liquid Nails, Goo
+Gone, Paint) and Floor & Decor 42.41, 09-03, 469 Brushwood, were in the books TWICE: the old rows and the bank cards
+Paul approved 09-29 (55.87, 42.21, the bank's amounts, card 5450) - the old rows voided. (2) 125.57 - Home Depot 08-14,
+366 Mesa (Screws 11.88, Door Lock Sets 69.61, Siding Trim 44.08): the old books said Citizens, both receipts' tender
+line is 9166, Paul's own card - voided and re-posted paid by Paul (Recast owes Paul 125.57 more). `fixCitizensGap()`,
+run by Paul ~16:16 CT: the box reads **"they agree"** - bank 169,805.35, +344.99 open cards, -165,558.65 Ashburne
+closing, 0.02 rounding, books **4,591.71**. A label starting "=" read as a formula (#ERROR) - reworded. **Blind spot
+carried from 09-26, seen again:** approving a bank card can replay a purchase the old books already hold under
+different cents - the box now catches it as a books line with no bank line. 550 tests. **Deployed 16:30: writer web
+app @20 = the repo; site unchanged (`6abc3ad9`, it does not bundle bank-sheet). Nothing owed.**

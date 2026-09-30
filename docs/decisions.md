@@ -1284,3 +1284,18 @@ No / Part, worked out oldest-first from the person's paybacks on the property - 
 top, with one line above it: Paul is owed, Dennis is owed, paid from the Recast account. Rebuilt after every post like
 any property tab and by Rebuild property tab. D-031 stands: the books underneath are unchanged, only the tab. Nothing
 typed on the tab survives a rebuild.
+
+## D-063 · The monthly bank check is a box on the bank's own tab, not a new step - 2026-09-30 · Paul
+
+Paul, on phase3-spec section 4 (a Reconcile menu item and a Banking page): *"whatever the solution it should be part of
+something that is already built. i dont want to keep adding steps for me to remember. if anything things should be
+becoming more streamlined."*
+
+**Decided:** the bank-vs-books check is a box at the top of the account's tab (`Citizens Bank`), rebuilt with it every
+time a bank line changes (`bankCheck` / `bankCheckRows` in `lib/bank-sheet.mjs`, `refreshBankSheets_`): what the bank
+says (opening balance + every bank line - the import already ties the file to the bank's own balance), each reason the
+books differ (bank lines open in the Inbox, waiting for a closing, not looked at yet, left out; pennies under a dollar),
+anything with no reason as a red line with its date, store and amount, and what the books say. Green "they agree" or
+red "N things not explained". **Replaces section 4's menu item, Banking page and month stamp** (`reconciled_ref`) - the
+stamp waits until the accountant or the year-end close needs it. Code, not judgment. Books lines dated before the
+bank's first line are one line of their own (Granite's 07-24 sale clearing nets to zero, so it shows nothing).
