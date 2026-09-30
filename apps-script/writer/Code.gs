@@ -1048,40 +1048,39 @@ function refreshBankSheets_(ss) {
   }
 }
 
-// The Balance Sheet tab (Paul, 2026-09-30: "i want Balance Sheet as its own tab"): what Recast
-// owns, owes and what is left, in plain words, with Dennis's interest that has built up but is not
-// recorded yet (lib/reports.mjs balanceSheetTab). Values, rebuilt every hour by a timer
-// (installTriggers) - nothing for Paul to run - and never throws. It replaces the old menu report,
-// whose "Report - Balance sheet" tab went stale for weeks (it only changed when someone ran it).
-function refreshBalanceSheet_(ss) {
+// The P&L tab (Paul, 2026-09-30: "i want Balance Sheet as its own tab", then "change the name of the tab
+// to P&L and put the P&L section at the top. remove any duplicate numbers"): this year's profit and loss,
+// then what Recast owns and owes and what is left, in plain words (lib/reports.mjs pnlTab). Values, rebuilt
+// every hour by a timer (installTriggers) - nothing for Paul to run - and never throws. It replaces the menu's
+// Balance sheet and P&L reports, whose "Report - " tabs went stale (they only changed when someone ran them).
+var PNL_TAB = 'P&L';
+function refreshPnl_(ss) {
   try {
     ss = ss || openWorkbook_(PropertiesService.getScriptProperties());
     var today = Utilities.formatDate(new Date(), 'America/Chicago', 'yyyy-MM-dd');
-    var sheet = balanceSheetTab(journalLines_(ss), loadAdvances_(ss), today, getAccrualOpts_(ss));
-    var old = ss.getSheetByName('Report - Balance sheet');
-    if (old) ss.deleteSheet(old);
-    var sh = ss.getSheetByName('Balance Sheet') || ss.insertSheet('Balance Sheet');
+    var t = pnlTab(journalLines_(ss), loadAdvances_(ss), today, getAccrualOpts_(ss));
+    ['Balance Sheet', 'Report - Balance sheet', 'Report - P&L'].forEach(function (n) { var old = ss.getSheetByName(n); if (old) ss.deleteSheet(old); });
+    var sh = ss.getSheetByName(PNL_TAB) || ss.insertSheet(PNL_TAB);
     sh.clear();
-    var body = [['Balance Sheet - what Recast owns, what it owes, and what is left', '', ''],
-      ['As of ' + Utilities.formatDate(new Date(), 'America/Chicago', 'MMM d, yyyy h:mm a') + ' (Texas time) - updates itself every hour', '', ''],
-      ['', '', '']].concat(sheet.rows);
+    var stamp = Utilities.formatDate(new Date(), 'America/Chicago', 'MMM d, yyyy h:mm a') + ' (Texas time) - updates itself every hour - '
+      + (t.ties ? 'adds up' : 'DOES NOT ADD UP - tell Claude');
+    var body = [['P&L - what Recast earned, owns and owes', '', ''], [stamp, '', ''], ['', '', '']].concat(t.rows);
     sh.getRange(1, 1, body.length, 3).setValues(body);
     sh.getRange(1, 1).setFontWeight('bold').setFontSize(12);
-    sh.getRange(4, 2, sheet.rows.length, 1).setNumberFormat('#,##0.00;[red]-#,##0.00;-');
-    body.forEach(function (r, i) {
-      var t = String(r[0]);
-      if (/^WHAT /.test(t)) sh.getRange(i + 1, 1, 1, 3).setFontWeight('bold').setBackground('#a3f67f');
-      else if (/^Total /.test(t)) sh.getRange(i + 1, 1, 1, 3).setFontWeight('bold').setBackground('#ffe599');
-      else if (/^Adds up|^DOES NOT/.test(t)) sh.getRange(i + 1, 1, 1, 3).setFontWeight('bold').setBackground(sheet.ties ? '#d9ead3' : '#f4cccc');
+    if (!t.ties) sh.getRange(2, 1, 1, 3).setFontWeight('bold').setBackground('#f4cccc');
+    sh.getRange(4, 2, t.rows.length, 1).setNumberFormat('#,##0.00;[red]-#,##0.00;-');
+    t.kinds.forEach(function (k, i) {
+      if (k === 'head') sh.getRange(i + 4, 1, 1, 3).setFontWeight('bold').setBackground('#a3f67f');
+      if (k === 'total') sh.getRange(i + 4, 1, 1, 3).setFontWeight('bold').setBackground('#ffe599');
     });
-    [360, 130, 520].forEach(function (w, i) { sh.setColumnWidth(i + 1, w); });
+    [300, 130, 560].forEach(function (w, i) { sh.setColumnWidth(i + 1, w); });
     sh.setFrozenRows(2);
   } catch (err) {
-    console.error('refreshBalanceSheet_: ' + String((err && err.message) || err));
+    console.error('refreshPnl_: ' + String((err && err.message) || err));
   }
 }
-/** The hourly timer's handler (installTriggers). */
-function refreshBalanceSheetHourly() { refreshBalanceSheet_(); }
+/** The hourly timer's handler (installTriggers). The name stays: the trigger installed 2026-09-30 calls it by name. */
+function refreshBalanceSheetHourly() { refreshPnl_(); }
 
 // storeDocument: files one source document (receipt photo, PDF, etc.) to Drive,
 // phase2-spec.md section 7. Creates the root folder "Recast Books" once (id cached
@@ -2297,8 +2296,8 @@ function installTriggers() {
   console.log('onPropertyTabEdit trigger ' + (have ? 'already installed' : 'installed'));
   var hourly = ScriptApp.getProjectTriggers().some(function (t) { return t.getHandlerFunction() === 'refreshBalanceSheetHourly'; });
   if (!hourly) ScriptApp.newTrigger('refreshBalanceSheetHourly').timeBased().everyHours(1).create();
-  refreshBalanceSheet_(ss);
-  console.log('Balance Sheet timer ' + (hourly ? 'already installed' : 'installed') + '; the tab is built');
+  refreshPnl_(ss);
+  console.log('P&L timer ' + (hourly ? 'already installed' : 'installed') + '; the tab is built');
 }
 
 function onPropertyTabEdit(e) {

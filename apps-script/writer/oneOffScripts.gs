@@ -1058,7 +1058,7 @@ function moveApiCreditsToSoftware() {
   });
   if (!entries.length) { console.log('1520 is at zero - nothing to move'); return 'nothing to move'; }
   var result = postBatchEntries_(entries, props);
-  refreshBalanceSheet_(ss);
+  refreshPnl_(ss);   // the Balance Sheet tab when this ran; the P&L tab since (D-065)
   warmCache_();
   var out = entries.map(function (e) { return e.date + '  ' + fromCents(e.lines[0].debit); }).join('\n') + '\nJournal rows ' + result.rows.join('-');
   console.log(out);

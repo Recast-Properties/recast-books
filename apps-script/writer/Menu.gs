@@ -34,7 +34,6 @@ function onOpen() {
     .addSeparator()
     .addSubMenu(ui.createMenu('Reports')
       .addItem('Trial balance', 'reportTrialBalance')
-      .addItem('P&L', 'reportProfitAndLoss')
       .addItem('Job cost', 'reportJobCost')
       .addItem('Dennis ledger', 'reportDennisLedger'))
     .addSeparator()
@@ -747,32 +746,6 @@ function reportTrialBalance() {
   rows.push(['Ties out', '', '', '', report.balanced ? 'YES' : 'NO - debits/credits do not match']);
   writeReportRows_(ss, 'Trial balance', 'Trial balance as of ' + (asOf || 'today'), rows);
   SpreadsheetApp.getUi().alert('Trial balance written to "Report - Trial balance".');
-}
-
-function reportProfitAndLoss() {
-  var props = PropertiesService.getScriptProperties();
-  var ss = openWorkbook_(props);
-  try { requireOwner_(ss, true); } catch (err) { return; }
-  var ui = SpreadsheetApp.getUi();
-  var from = promptDate_('P&L', 'From (YYYY-MM-DD, blank for all time):');
-  if (from === null) return;
-  var to = promptDate_('P&L', 'To (YYYY-MM-DD, blank for today):');
-  if (to === null) return;
-  var report = profitAndLoss(journalLines_(ss), { from: from || undefined, to: to || undefined });
-  var rows = [['Account', 'Name', 'Balance']];
-  rows.push(['INCOME']);
-  report.income.forEach(function (r) { rows.push([r.account, r.name || '', fromCents(r.balance)]); });
-  rows.push(['COGS']);
-  report.cogs.forEach(function (r) { rows.push([r.account, r.name || '', fromCents(r.balance)]); });
-  rows.push(['Gross profit', '', fromCents(report.gross_profit)]);
-  rows.push(['EXPENSES']);
-  report.expenses.forEach(function (r) { rows.push([r.account, r.name || '', fromCents(r.balance)]); });
-  rows.push(['Net income', '', fromCents(report.net_income)]);
-  rows.push([]);
-  rows.push(['BY PROPERTY', 'Income', 'COGS', 'Gross']);
-  report.by_property.forEach(function (p) { rows.push([p.property, fromCents(p.income), fromCents(p.cogs), fromCents(p.gross)]); });
-  writeReportRows_(ss, 'P&L', 'P&L ' + (from || 'inception') + ' to ' + (to || 'today'), rows);
-  ui.alert('P&L written to "Report - P&L".');
 }
 
 function reportJobCost() {

@@ -315,23 +315,35 @@ test("dennisLedger clamps interest_unposted at 0 and flags when posted exceeds a
   assert.equal(row.posted_exceeds_accrued, false);
 });
 
-test("balanceSheetTab: plain words, Dennis's unrecorded interest on both sides, and it adds up", async () => {
-  const { balanceSheetTab } = await import("../lib/reports.mjs");
+test("pnlTab: the year's profit and loss on top, each fact once, Dennis's unrecorded interest on both sides, adds up", async () => {
+  const { pnlTab } = await import("../lib/reports.mjs");
   const L = (txn_id, date, account, debit, credit, property = "", extra = {}) =>
     ({ txn_id, date, period: date.slice(0, 7), account, debit, credit, property, description: "", source: "manual", void_of: "", ...extra });
   const lines = [
     L("p", "2026-08-01", "1000", 10000000, 0, "1 Main"), L("p", "2026-08-01", "2010", 0, 10000000, "1 Main"),
     L("c", "2026-08-02", "1030", 5000, 0, "1 Main"), L("c", "2026-08-02", "2030", 0, 5000, "1 Main"),
     L("o", "2026-08-03", "6510", 2000, 0, "OVERHEAD"), L("o", "2026-08-03", "2030", 0, 2000, "OVERHEAD"),
+    // a house sold for 300.00 that cost 200.00; the 100.00 profit paid out to Paul
+    L("s", "2026-08-10", "1401", 30000, 0, "2 Oak"), L("s", "2026-08-10", "4000", 0, 30000, "2 Oak"),
+    L("s", "2026-08-10", "5000", 20000, 0, "2 Oak"), L("s", "2026-08-10", "1401", 0, 20000, "2 Oak"),
+    L("d", "2026-08-11", "9010", 10000, 0, "2 Oak"), L("d", "2026-08-11", "1401", 0, 10000, "2 Oak"),
   ];
   const advances = [{ advance_id: "adv-p", date: "2026-08-01", amount_cents: 10000000, property: "1 Main", status: "open", repaid_date: "", rate_annual: 0.12 }];
-  const t = balanceSheetTab(lines, advances, "2026-09-01", { rateAnnual: 0.08, stubBasis: 30 });
-  assert.equal(t.interest_cents, 100000, "one month at 1% on 100,000.00");
+  const t = pnlTab(lines, advances, "2026-09-01", { rateAnnual: 0.08, stubBasis: 30 });
   assert.equal(t.ties, true);
-  const by = Object.fromEntries(t.rows.map((r) => [r[0], r[1]]));
-  assert.equal(by["1 Main"], 101050, "the house carries its cost and the interest not recorded yet");
-  assert.equal(by["Dennis - interest built up, not recorded yet"], 1000);
-  assert.equal(by["Paul - what Recast owes him"], 70);
-  assert.equal(by["Total left"], -20);
-  assert.ok(!JSON.stringify(t.rows.map((r) => [r[0], r[2]])).match(/\b(1000|2010|2030|6510|inventory|payable|equity)\b/i), "no account codes or accounting words");
+  assert.equal(t.rows.length, t.kinds.length);
+  assert.equal(t.rows[0][0], "PROFIT AND LOSS - 2026 SO FAR", "the P&L is on top");
+  const by = Object.fromEntries(t.rows.filter((r) => r[0]).map((r) => [r[0], r[1]]));
+  assert.equal(by["2 Oak"], 100);
+  assert.equal(by["Business costs"], -20);
+  assert.equal(by["Recast earned"], 80);
+  assert.equal(by["Houses still held (1)"], 101050, "the house at its cost with the interest not recorded yet (one month at 1%)");
+  assert.equal(by["Dennis - interest not recorded yet"], 1000);
+  assert.equal(by["Paid out to Paul"], -100);
+  assert.equal(by["Left"], -20);
+  // each amount once, except where two facts share a value (Left = -business costs here, said so in its note)
+  const amounts = t.rows.filter((r) => r[1] !== "" && !["Left", "Total"].includes(r[0])).map((r) => r[1]);
+  assert.equal(new Set(amounts).size, amounts.length, "no amount repeated");
+  assert.match(t.rows.find((r) => r[0] === "Left")[2], /same as the business costs/);
+  assert.ok(!JSON.stringify(t.rows.map((r) => [r[0], r[2]])).match(/\b(1000|2010|2030|6510|9010|inventory|payable|equity|draws)\b/i), "no account codes or accounting words");
 });

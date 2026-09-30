@@ -1768,82 +1768,87 @@ var M_reports = (function () {
   }
 
   /**
-   * The Balance Sheet tab (Paul, 2026-09-30: "i want Balance Sheet as its own tab"), in plain words
-   * (CLAUDE.md rule 7): what Recast owns, what it owes, what is left - balanceSheet() underneath,
-   * relabelled, plus Dennis's interest that has built up on the open advances but is not recorded
-   * yet (it is a house cost AND owed to Dennis, so it goes on both sides and the sheet still adds
-   * up). Zero lines are left off. Rows are [what, amount in dollars, note].
+   * The P&L tab (Paul, 2026-09-30: "change the name of the tab to P&L and put the P&L section at the top.
+   * remove any duplicate numbers and streamline this as much as you can"), in plain words (CLAUDE.md rule 7),
+   * each fact once: this year's profit and loss (each house sold, business costs, what Recast earned), then
+   * what Recast owns and owes today, what was paid out and what is left. Dennis's interest built up on the
+   * open advances but not recorded yet is part of what the houses cost AND owed to Dennis, so it is counted
+   * on both sides (the sheet still adds up) and named once, on the owes side. The houses are one line - each
+   * house's tab has its own numbers; business costs by type are on the Totals tab. Zero lines are left off.
    *
    * @param {Array<object>} lines loadJournal lines
    * @param {Array<object>} advances the Advances tab in accrual shape (loadAdvances_)
    * @param {string} asOf YYYY-MM-DD
+   * @returns {{ rows: any[][], kinds: string[], ties: boolean }} rows are [what, dollars, note]; kinds are
+   *   "head", "total" or "" per row
    */
-  function balanceSheetTab(lines, advances, asOf, accrualOpts) {
-    const bs = balanceSheet(lines, { asOf });
-    const d = (c) => c / 100;
-    const usd = (c) => (c / 100).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  function pnlTab(lines, advances, asOf, accrualOpts) {
+    const year = asOf.slice(0, 4);
     const voided = new Set(lines.map((l) => l.void_of).filter(Boolean));
     const live = lines.filter((l) => l.source !== "void" && !voided.has(l.txn_id) && String(l.date).slice(0, 10) <= asOf);
+    const rows = [], kinds = [];
+    const add = (kind, what, cents = "", note = "") => { rows.push([what, cents === "" ? "" : cents / 100, note]); kinds.push(kind); };
 
     // interest built up on each open advance, less what is already recorded against it (1200 lines
-    // "Interest YYYY-MM on <advance_id>", buildInterestEntry_), by house
-    const unrecorded = new Map();
+    // "Interest YYYY-MM on <advance_id>", buildInterestEntry_)
+    let interest = 0;
     for (const a of advances) {
       if (a.status !== "open" || (a.repaid_date && a.repaid_date <= asOf)) continue;
       const posted = live.filter((l) => String(l.account) === "1200" && String(l.description).endsWith(` on ${a.advance_id}`)).reduce((s, l) => s + l.debit - l.credit, 0);
-      const owed = accruedThrough(a, asOf, accrualOpts) - posted;
-      if (owed > 0) unrecorded.set(a.property, (unrecorded.get(a.property) || 0) + owed);
+      interest += Math.max(0, accruedThrough(a, asOf, accrualOpts) - posted);
     }
-    const interest = [...unrecorded.values()].reduce((s, c) => s + c, 0);
 
-    const bal = (acct) => (bs.assets.concat(bs.liabilities).find((x) => x.account === acct) || {}).balance || 0;
+    const pl = profitAndLoss(lines, { from: `${year}-01-01`, to: asOf });
+    const soldOn = new Map(live.filter((l) => seriesOf(l.account) === "4000" && String(l.date).startsWith(year) && l.property).map((l) => [l.property, String(l.date).slice(5, 10)]));
+    const costs = pl.expenses.reduce((s, e) => s + e.balance, 0);
+    add("head", `PROFIT AND LOSS - ${year} SO FAR`);
+    for (const p of pl.by_property) if (p.gross) add("", p.property, p.gross, soldOn.has(p.property) ? `sold ${soldOn.get(p.property)} - Recast's profit after Dennis was paid` : "");
+    const other = pl.gross_profit - pl.by_property.reduce((s, p) => s + p.gross, 0);
+    if (other) add("", "Other income", other);
+    if (costs) add("", "Business costs", -costs, "tools, travel, software - never charged to a house; by type on the Totals tab");
+    add("total", "Recast earned", pl.net_income);
+
+    const bs = balanceSheet(lines, { asOf });
+    const houses = bs.assets.filter((a) => !/^\d+$/.test(a.account) && a.account !== "Cost Recapture" && a.balance);
     const name = { "1401": "Cash in the Citizens account", "1402": "Cash in the Chase account", "1510": "Money held back at a closing (escrow)",
-      "1520": "Claude API credits recorded the old way - tell Claude" };
-    const owns = [];
+      "1520": "Claude API credits recorded the old way - tell Claude", "7000": "Equipment and other big purchases" };
+    add("", "");
+    add("head", "WHAT RECAST OWNS TODAY");
+    if (houses.length) add("", `Houses still held (${houses.length})`, houses.reduce((s, a) => s + a.balance, 0) + interest, "what they cost so far, Dennis's interest included - each has its own tab");
     for (const a of bs.assets) {
-      if (!a.balance) continue;
-      if (/^\d+$/.test(a.account)) owns.push([name[a.account] || a.name, d(a.balance), ""]);
-      else if (a.account === "Cost Recapture") owns.push(["Costs paid after a house sold (to be paid back)", d(a.balance), "Cost Recapture"]);
-      else owns.push([a.account, d(a.balance + (unrecorded.get(a.account) || 0)), unrecorded.get(a.account) ? `what it cost so far, with ${usd(unrecorded.get(a.account))} of Dennis's interest not recorded yet` : "what it cost so far"]);
+      if (!a.balance || houses.includes(a)) continue;
+      if (a.account === "Cost Recapture") add("", "Costs paid after a house sold", a.balance, "the Cost Recapture tab");
+      else add("", name[a.account] || a.name, a.balance);
     }
-    const totalOwns = bs.total_assets + interest;
+    const owns = bs.total_assets + interest;
+    add("total", "Total", owns);
 
-    const owes = [
-      ["Dennis - the money he lent", d(bal("2010")), "for the houses, plus his 5,000 of working money"],
-      ["Dennis - interest recorded, not paid yet", d(bal("2000")), ""],
-      ["Dennis - interest built up, not recorded yet", d(interest), "worked out to today, on every advance still open"],
-      ["Paul - what Recast owes him", d(bal("2030")), "costs he paid himself and his 5,000 of working money"],
-    ].filter((r) => r[1]);
-    for (const l of bs.liabilities) if (!["2000", "2010", "2030"].includes(l.account) && l.balance) owes.push([l.name, d(l.balance), ""]);
-    const totalOwes = bs.total_liabilities + interest;
+    const bal = (acct) => (bs.liabilities.find((x) => x.account === acct) || {}).balance || 0;
+    add("", "");
+    add("head", "WHAT RECAST OWES TODAY");
+    [["Dennis - money he lent", bal("2010"), "for the houses, plus his working money in the account"],
+     ["Dennis - interest recorded, not paid yet", bal("2000"), ""],
+     ["Dennis - interest not recorded yet", interest, "built up to today on every advance still open"],
+     ["Paul", bal("2030"), "costs he paid himself, plus his working money in the account"],
+     ...bs.liabilities.filter((l) => !["2000", "2010", "2030"].includes(l.account)).map((l) => [l.name, l.balance, ""]),
+    ].forEach(([what, c, note]) => { if (c) add("", what, c, note); });
+    const owes = bs.total_liabilities + interest;
+    add("total", "Total", owes);
 
-    // what is left: profit on the sales, less overhead, less what was paid out (9010)
-    let sales = 0, overhead = 0;
-    for (const l of live) {
-      const s = seriesOf(l.account);
-      if (s === "4000") sales += l.credit - l.debit;
-      else if (s === "5000") sales -= l.debit - l.credit;
-      else if (s === "6000") overhead += l.debit - l.credit;
-    }
-    const paidOut = bs.equity.reduce((s, e) => s + e.balance, 0);
-    const left = [
-      ["Profit on the houses sold so far", d(sales), "sale prices less what the houses cost"],
-      ["Business costs so far", d(-overhead), "tools, travel, software - never charged to a house"],
-      ["Paid out to the owners", d(paidOut), "Paul's share of the sales"],
-    ].filter((r) => r[1]);
-    const totalLeft = sales - overhead + paidOut;
-
-    const rows = [
-      ["WHAT RECAST OWNS", "", ""], ...owns, ["Total Recast owns", d(totalOwns), ""], ["", "", ""],
-      ["WHAT RECAST OWES", "", ""], ...owes, ["Total Recast owes", d(totalOwes), ""], ["", "", ""],
-      ["WHAT IS LEFT FOR THE OWNERS", "", ""], ...left, ["Total left", d(totalLeft), totalLeft < 0 ? "below zero because Paul paid the business costs himself - they are in what Recast owes him" : ""], ["", "", ""],
-    ];
-    const ties = totalOwns === totalOwes + totalLeft;
-    rows.push([ties ? "Adds up: what Recast owns = what it owes + what is left" : "DOES NOT ADD UP - tell Claude", d(totalOwns - totalOwes - totalLeft), ""]);
-    return { rows, ties, interest_cents: interest };
+    const allTime = profitAndLoss(lines, { to: asOf }).net_income;
+    const paid = bs.equity.reduce((s, e) => s + e.balance, 0);
+    const left = allTime + paid;
+    add("", "");
+    add("head", "LEFT FOR THE OWNERS");
+    if (allTime !== pl.net_income) add("", `Earned before ${year}`, allTime - pl.net_income);
+    if (paid) add("", paid < 0 ? "Paid out to Paul" : "Put in by Paul", paid, paid < 0 ? "his share of the house profits" : "");
+    add("total", "Left", left,
+      left < 0 && left === -costs && allTime === pl.net_income ? "the same as the business costs: every dollar of house profit went to Paul, and he paid the business costs himself - Recast owes them back to him"
+        : left < 0 ? "below zero - more was paid out than Recast earned" : "what Recast earned less what it paid out");
+    return { rows, kinds, ties: owns === owes + left };
   }
 
-  return { loadJournal, trialBalance, balanceSheet, profitAndLoss, propertyJobCost, propertyBalanceSheet, dennisLedger, balanceSheetTab };
+  return { loadJournal, trialBalance, balanceSheet, profitAndLoss, propertyJobCost, propertyBalanceSheet, dennisLedger, pnlTab };
 })();
 var loadJournal = M_reports.loadJournal;
 var trialBalance = M_reports.trialBalance;
@@ -1852,7 +1857,7 @@ var profitAndLoss = M_reports.profitAndLoss;
 var propertyJobCost = M_reports.propertyJobCost;
 var propertyBalanceSheet = M_reports.propertyBalanceSheet;
 var dennisLedger = M_reports.dennisLedger;
-var balanceSheetTab = M_reports.balanceSheetTab;
+var pnlTab = M_reports.pnlTab;
 
 // ---- lib/property-key.mjs ----
 var M_property_key = (function () {
