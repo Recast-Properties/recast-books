@@ -1767,7 +1767,83 @@ var M_reports = (function () {
     return { by_property, totals };
   }
 
-  return { loadJournal, trialBalance, balanceSheet, profitAndLoss, propertyJobCost, propertyBalanceSheet, dennisLedger };
+  /**
+   * The Balance Sheet tab (Paul, 2026-09-30: "i want Balance Sheet as its own tab"), in plain words
+   * (CLAUDE.md rule 7): what Recast owns, what it owes, what is left - balanceSheet() underneath,
+   * relabelled, plus Dennis's interest that has built up on the open advances but is not recorded
+   * yet (it is a house cost AND owed to Dennis, so it goes on both sides and the sheet still adds
+   * up). Zero lines are left off. Rows are [what, amount in dollars, note].
+   *
+   * @param {Array<object>} lines loadJournal lines
+   * @param {Array<object>} advances the Advances tab in accrual shape (loadAdvances_)
+   * @param {string} asOf YYYY-MM-DD
+   */
+  function balanceSheetTab(lines, advances, asOf, accrualOpts) {
+    const bs = balanceSheet(lines, { asOf });
+    const d = (c) => c / 100;
+    const usd = (c) => (c / 100).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    const voided = new Set(lines.map((l) => l.void_of).filter(Boolean));
+    const live = lines.filter((l) => l.source !== "void" && !voided.has(l.txn_id) && String(l.date).slice(0, 10) <= asOf);
+
+    // interest built up on each open advance, less what is already recorded against it (1200 lines
+    // "Interest YYYY-MM on <advance_id>", buildInterestEntry_), by house
+    const unrecorded = new Map();
+    for (const a of advances) {
+      if (a.status !== "open" || (a.repaid_date && a.repaid_date <= asOf)) continue;
+      const posted = live.filter((l) => String(l.account) === "1200" && String(l.description).endsWith(` on ${a.advance_id}`)).reduce((s, l) => s + l.debit - l.credit, 0);
+      const owed = accruedThrough(a, asOf, accrualOpts) - posted;
+      if (owed > 0) unrecorded.set(a.property, (unrecorded.get(a.property) || 0) + owed);
+    }
+    const interest = [...unrecorded.values()].reduce((s, c) => s + c, 0);
+
+    const bal = (acct) => (bs.assets.concat(bs.liabilities).find((x) => x.account === acct) || {}).balance || 0;
+    const name = { "1401": "Cash in the Citizens account", "1402": "Cash in the Chase account", "1510": "Money held back at a closing (escrow)",
+      "1520": "Claude API credits bought (the use of them is not taken out yet)" };
+    const owns = [];
+    for (const a of bs.assets) {
+      if (!a.balance) continue;
+      if (/^\d+$/.test(a.account)) owns.push([name[a.account] || a.name, d(a.balance), ""]);
+      else if (a.account === "Cost Recapture") owns.push(["Costs paid after a house sold (to be paid back)", d(a.balance), "Cost Recapture"]);
+      else owns.push([a.account, d(a.balance + (unrecorded.get(a.account) || 0)), unrecorded.get(a.account) ? `what it cost so far, with ${usd(unrecorded.get(a.account))} of Dennis's interest not recorded yet` : "what it cost so far"]);
+    }
+    const totalOwns = bs.total_assets + interest;
+
+    const owes = [
+      ["Dennis - the money he lent", d(bal("2010")), "for the houses, plus his 5,000 of working money"],
+      ["Dennis - interest recorded, not paid yet", d(bal("2000")), ""],
+      ["Dennis - interest built up, not recorded yet", d(interest), "worked out to today, on every advance still open"],
+      ["Paul - what Recast owes him", d(bal("2030")), "costs he paid himself and his 5,000 of working money"],
+    ].filter((r) => r[1]);
+    for (const l of bs.liabilities) if (!["2000", "2010", "2030"].includes(l.account) && l.balance) owes.push([l.name, d(l.balance), ""]);
+    const totalOwes = bs.total_liabilities + interest;
+
+    // what is left: profit on the sales, less overhead, less what was paid out (9010)
+    let sales = 0, overhead = 0;
+    for (const l of live) {
+      const s = seriesOf(l.account);
+      if (s === "4000") sales += l.credit - l.debit;
+      else if (s === "5000") sales -= l.debit - l.credit;
+      else if (s === "6000") overhead += l.debit - l.credit;
+    }
+    const paidOut = bs.equity.reduce((s, e) => s + e.balance, 0);
+    const left = [
+      ["Profit on the houses sold so far", d(sales), "sale prices less what the houses cost"],
+      ["Business costs so far", d(-overhead), "tools, travel, software - never charged to a house"],
+      ["Paid out to the owners", d(paidOut), "Paul's share of the sales"],
+    ].filter((r) => r[1]);
+    const totalLeft = sales - overhead + paidOut;
+
+    const rows = [
+      ["WHAT RECAST OWNS", "", ""], ...owns, ["Total Recast owns", d(totalOwns), ""], ["", "", ""],
+      ["WHAT RECAST OWES", "", ""], ...owes, ["Total Recast owes", d(totalOwes), ""], ["", "", ""],
+      ["WHAT IS LEFT FOR THE OWNERS", "", ""], ...left, ["Total left", d(totalLeft), totalLeft < 0 ? "below zero because Paul paid the business costs himself - they are in what Recast owes him" : ""], ["", "", ""],
+    ];
+    const ties = totalOwns === totalOwes + totalLeft;
+    rows.push([ties ? "Adds up: what Recast owns = what it owes + what is left" : "DOES NOT ADD UP - tell Claude", d(totalOwns - totalOwes - totalLeft), ""]);
+    return { rows, ties, interest_cents: interest };
+  }
+
+  return { loadJournal, trialBalance, balanceSheet, profitAndLoss, propertyJobCost, propertyBalanceSheet, dennisLedger, balanceSheetTab };
 })();
 var loadJournal = M_reports.loadJournal;
 var trialBalance = M_reports.trialBalance;
@@ -1776,6 +1852,7 @@ var profitAndLoss = M_reports.profitAndLoss;
 var propertyJobCost = M_reports.propertyJobCost;
 var propertyBalanceSheet = M_reports.propertyBalanceSheet;
 var dennisLedger = M_reports.dennisLedger;
+var balanceSheetTab = M_reports.balanceSheetTab;
 
 // ---- lib/property-key.mjs ----
 var M_property_key = (function () {

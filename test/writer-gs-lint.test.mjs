@@ -149,7 +149,7 @@ test("D-056: every function in Code.gs and Menu.gs is reached from the workbook,
   const dir = path.join(__dirname, "..", "apps-script", "writer");
   const html = readdirSync(dir).filter((f) => f.endsWith(".html")).map((f) => readFileSync(path.join(dir, f), "utf8")).join("\n");
   const entries = new Set([
-    "onOpen", "doGet", "doPost", "onPropertyTabEdit",                     // Apps Script itself calls these
+    "onOpen", "doGet", "doPost", "onPropertyTabEdit", "refreshBalanceSheetHourly",   // Apps Script itself calls these (triggers)
     "setup", "installTriggers", "setupTotals", "rebuildAllPropertyTabs",   // the standing setup tools (README)
     ...[...html.matchAll(/callServer_\(\s*'([A-Za-z0-9_]+)'/g)].map((m) => m[1]),                        // the dialogs
     ...[...html.matchAll(/<\?!?=?\s*([A-Za-z0-9_]+)\s*\(/g)].map((m) => m[1]),                            // template scriptlets (include_)

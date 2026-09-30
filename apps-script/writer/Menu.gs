@@ -34,7 +34,6 @@ function onOpen() {
     .addSeparator()
     .addSubMenu(ui.createMenu('Reports')
       .addItem('Trial balance', 'reportTrialBalance')
-      .addItem('Balance sheet', 'reportBalanceSheet')
       .addItem('P&L', 'reportProfitAndLoss')
       .addItem('Job cost', 'reportJobCost')
       .addItem('Dennis ledger', 'reportDennisLedger'))
@@ -748,32 +747,6 @@ function reportTrialBalance() {
   rows.push(['Ties out', '', '', '', report.balanced ? 'YES' : 'NO - debits/credits do not match']);
   writeReportRows_(ss, 'Trial balance', 'Trial balance as of ' + (asOf || 'today'), rows);
   SpreadsheetApp.getUi().alert('Trial balance written to "Report - Trial balance".');
-}
-
-function reportBalanceSheet() {
-  var props = PropertiesService.getScriptProperties();
-  var ss = openWorkbook_(props);
-  try { requireOwner_(ss, true); } catch (err) { return; }
-  var asOf = promptDate_('Balance sheet', 'As of (YYYY-MM-DD):');
-  if (asOf === null) return;
-  var report = balanceSheet(journalLines_(ss), { asOf: asOf || undefined });
-  var rows = [['', '', 'Balance']];
-  rows.push(['ASSETS']);
-  report.assets.forEach(function (a) { rows.push([a.account, a.name || '', fromCents(a.balance)]); });
-  rows.push(['Total assets', '', fromCents(report.total_assets)]);
-  rows.push([]);
-  rows.push(['LIABILITIES']);
-  report.liabilities.forEach(function (l) { rows.push([l.account, l.name || '', fromCents(l.balance)]); });
-  rows.push(['Total liabilities', '', fromCents(report.total_liabilities)]);
-  rows.push([]);
-  rows.push(['EQUITY']);
-  report.equity.forEach(function (e) { rows.push([e.account, e.name || '', fromCents(e.balance)]); });
-  rows.push(['Current earnings', '', fromCents(report.current_earnings)]);
-  rows.push(['Total equity', '', fromCents(report.total_equity)]);
-  rows.push([]);
-  rows.push(['Ties out (assets = liabilities + equity)', '', report.ties ? 'YES' : 'NO']);
-  writeReportRows_(ss, 'Balance sheet', 'Balance sheet as of ' + (asOf || 'today'), rows);
-  SpreadsheetApp.getUi().alert('Balance sheet written to "Report - Balance sheet".');
 }
 
 function reportProfitAndLoss() {

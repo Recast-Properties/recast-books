@@ -314,3 +314,24 @@ test("dennisLedger clamps interest_unposted at 0 and flags when posted exceeds a
   assert.equal(row.interest_unposted, 0);
   assert.equal(row.posted_exceeds_accrued, false);
 });
+
+test("balanceSheetTab: plain words, Dennis's unrecorded interest on both sides, and it adds up", async () => {
+  const { balanceSheetTab } = await import("../lib/reports.mjs");
+  const L = (txn_id, date, account, debit, credit, property = "", extra = {}) =>
+    ({ txn_id, date, period: date.slice(0, 7), account, debit, credit, property, description: "", source: "manual", void_of: "", ...extra });
+  const lines = [
+    L("p", "2026-08-01", "1000", 10000000, 0, "1 Main"), L("p", "2026-08-01", "2010", 0, 10000000, "1 Main"),
+    L("c", "2026-08-02", "1030", 5000, 0, "1 Main"), L("c", "2026-08-02", "2030", 0, 5000, "1 Main"),
+    L("o", "2026-08-03", "6510", 2000, 0, "OVERHEAD"), L("o", "2026-08-03", "2030", 0, 2000, "OVERHEAD"),
+  ];
+  const advances = [{ advance_id: "adv-p", date: "2026-08-01", amount_cents: 10000000, property: "1 Main", status: "open", repaid_date: "", rate_annual: 0.12 }];
+  const t = balanceSheetTab(lines, advances, "2026-09-01", { rateAnnual: 0.08, stubBasis: 30 });
+  assert.equal(t.interest_cents, 100000, "one month at 1% on 100,000.00");
+  assert.equal(t.ties, true);
+  const by = Object.fromEntries(t.rows.map((r) => [r[0], r[1]]));
+  assert.equal(by["1 Main"], 101050, "the house carries its cost and the interest not recorded yet");
+  assert.equal(by["Dennis - interest built up, not recorded yet"], 1000);
+  assert.equal(by["Paul - what Recast owes him"], 70);
+  assert.equal(by["Total left"], -20);
+  assert.ok(!JSON.stringify(t.rows.map((r) => [r[0], r[2]])).match(/\b(1000|2010|2030|6510|inventory|payable|equity)\b/i), "no account codes or accounting words");
+});
