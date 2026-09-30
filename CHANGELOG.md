@@ -2184,3 +2184,20 @@ P&L report is removed. The Left note wraps (it ran off the sheet) and says why L
 to Paul: all the house profit went to him and none was kept to cover them; what he came out ahead is 56,179.13. Read
 back live 17:26 CT: adds up. 543 tests. **Deployed 17:30 CT on Paul's "deploy": writer web app @22 = the repo; the site
 needs nothing (no function bundles `lib/reports.mjs`), `6abd881d`. Nothing owed.**
+
+## 2026-09-30 (17:40-18:15 CT) - the menu trimmed to what Paul uses; oneOffScripts.gs emptied (D-066); writer @23
+
+Paul, one ask at a time. **Reports submenu removed** - Trial balance, Job cost, Dennis ledger, with `promptDate_` and
+`promptProperty_` that only they used; `refreshPnl_` now also deletes their "Report - " tabs every hour. **Post
+interest and Self test off the menu** - `Interest.html`, `showInterestDialog`, `previewInterest` and
+`runSelfTestFromMenu` deleted; `selfTest` stays in Code.gs (now a lint entry point, a standing setup tool); explained to
+Paul first: the house tabs and the P&L tab work Dennis's interest out and the sell wizard records it at closing, so
+monthly posting is not needed - the open question from D-065 is settled (D-066). **Sell property** moved under Add
+advance. **oneOffScripts.gs emptied** on *"remove all scripts in the oneOffScripts.gs"*: 42 scripts (the 39 in the file
+plus `postInterest`, `buildInterestEntry_`, `advancesDueFor_` moved there an hour earlier), every one already run -
+all in commit **774ecd3**. The file keeps its header: the rule, how to add one, and that a script comes out once it
+has run. Three may come back from git: `postInterest` (year-end), `rebuildAllFrozenRecords` (280 Sparkling's Sale
+Price, parked by Paul), `resetFeedCards` (matcher tuning). Tests 543 -> 539: four tested only removed scripts
+(the replay sweep x2, `reprocessParked_`, `replayErroredReceipts`); three were trimmed to their live-file checks (the
+frozen record's `setupPropertyTab` as-of, `ADVANCE_PAID_TO` and the Advance dialog, the feed tie). **Deployed 18:10 CT
+on Paul's "deploy": writer web app @23 = the repo; the site unchanged (`6abd881d`). Nothing owed.**

@@ -1338,3 +1338,25 @@ Left). Each fact once; "adds up" is in the date line (red when it does not). One
 share it - today Left equals the business costs, because all the house profit went to Paul - and its note says so. The
 menu's P&L report is removed with its tab; the timer handler keeps its first name so the installed trigger still finds it.
 The P&L shows the current year only; tax season needs last year's column before January 2027.
+
+## D-066 · The menu holds only what Paul uses; Dennis's interest is recorded at closing, not monthly; one-off scripts come out once run - 2026-09-30 · Paul
+
+Paul trimmed the workbook the same evening, one ask at a time: *"remove the three reports from the menu"* (Trial
+balance, Job cost, Dennis ledger - the Totals tab has the live trial balance, each house tab its costs, the P&L tab
+Dennis's interest), *"remove both from menu"* (Self test - a code check, never his - and Post interest), *"move sell
+property into the same section as add property and just below add advance"*, then *"remove all scripts in the
+oneOffScripts.gs"*.
+
+**Decided:**
+1. **The menu** is New expense, New journal entry, Void selected entry, Inbox / Add property, Rebuild property tab, Add
+   advance, Sell property / Import statement, Match statement lines, Bank sheet / Close period, Reopen period. The
+   reports' old "Report - " tabs are deleted by the hourly P&L run. `selfTest` stays in Code.gs, run from the editor.
+2. **Dennis's interest is not recorded monthly** (the open question since D-065): each house tab and the P&L tab work
+   it out themselves, and the sell wizard records it at closing (`lib/sale.mjs` trues up anything already posted), so
+   monthly posting would only move the P&L tab's number from "not recorded yet" to "recorded". At the year-end the
+   accountant may want the held houses' interest recorded through 12-31 - Claude restores `postInterest` (commit
+   774ecd3, Menu.gs) and runs it from the editor. The Post interest dialog is deleted.
+3. **One-off scripts come out once they have run and been checked** (amends D-056) - the editor's list stays short.
+   Git keeps every one: all 42 up to 2026-09-30 are in commit 774ecd3 (`git show
+   774ecd3:apps-script/writer/oneOffScripts.gs`; `postInterest` and its helpers in that commit's Menu.gs). The rule
+   of where they live is unchanged: never in Code.gs or Menu.gs.

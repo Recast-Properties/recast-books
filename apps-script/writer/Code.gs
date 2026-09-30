@@ -1059,7 +1059,9 @@ function refreshPnl_(ss) {
     ss = ss || openWorkbook_(PropertiesService.getScriptProperties());
     var today = Utilities.formatDate(new Date(), 'America/Chicago', 'yyyy-MM-dd');
     var t = pnlTab(journalLines_(ss), loadAdvances_(ss), today, getAccrualOpts_(ss));
-    ['Balance Sheet', 'Report - Balance sheet', 'Report - P&L'].forEach(function (n) { var old = ss.getSheetByName(n); if (old) ss.deleteSheet(old); });
+    // the tabs the old menu reports left behind, stale since the day they were run (D-065)
+    ['Balance Sheet', 'Report - Balance sheet', 'Report - P&L', 'Report - Trial balance', 'Report - Job cost', 'Report - Dennis ledger']
+      .forEach(function (n) { var old = ss.getSheetByName(n); if (old) ss.deleteSheet(old); });
     var sh = ss.getSheetByName(PNL_TAB) || ss.insertSheet(PNL_TAB);
     sh.clear();
     var stamp = Utilities.formatDate(new Date(), 'America/Chicago', 'MMM d, yyyy h:mm a') + ' (Texas time) - updates itself every hour - '

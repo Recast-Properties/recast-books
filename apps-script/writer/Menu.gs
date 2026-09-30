@@ -22,22 +22,14 @@ function onOpen() {
     .addItem('Add property...', 'showPropertyDialog')
     .addItem('Rebuild property tab', 'rebuildPropertyTab')
     .addItem('Add advance...', 'showAdvanceDialog')
-    .addItem('Post interest...', 'showInterestDialog')
-    .addSeparator()
     .addItem('Sell property...', 'showSellDialog')
+    .addSeparator()
     .addItem('Import statement...', 'showImportDialog')
     .addItem('Match statement lines...', 'matchStatementLines')
     .addItem('Bank sheet', 'showBankSheet')
     .addSeparator()
     .addItem('Close period...', 'closePeriod')
     .addItem('Reopen period...', 'reopenPeriod')
-    .addSeparator()
-    .addSubMenu(ui.createMenu('Reports')
-      .addItem('Trial balance', 'reportTrialBalance')
-      .addItem('Job cost', 'reportJobCost')
-      .addItem('Dennis ledger', 'reportDennisLedger'))
-    .addSeparator()
-    .addItem('Self test', 'runSelfTestFromMenu')
     .addToUi();
 }
 
@@ -261,11 +253,6 @@ function showPropertyDialog() {
 function showAdvanceDialog() {
   var ss = openIfOwner_();
   if (ss) showDialog_('Advance', 'Add advance', pickerData_(ss));
-}
-
-function showInterestDialog() {
-  var ss = openIfOwner_();
-  if (ss) showDialog_('Interest', 'Post interest', {});
 }
 
 // ---- New expense / New journal entry -------------------------------------------------
@@ -532,10 +519,11 @@ function purchaseOntoProperty_(ss, property, date, amount_cents) {
   CacheService.getScriptCache().remove('ctx');
 }
 
-// ---- Post interest ------------------------------------------------------------------------
-// Mirrors netlify/functions/books-dennis.mjs's loadAdvances/getAccrualOpts/
-// advancesDueFor/buildInterestEntry/previewInterest/postInterest, reading straight
-// off the sheets instead of through the writer's read/postBatch actions.
+// ---- Advances and the interest settings -----------------------------------------------------
+// Read straight off the sheets (the P&L tab's interest not recorded yet, refreshPnl_). The
+// Post interest menu item is gone (2026-09-30, Paul): the house tabs and the P&L tab work the
+// interest out themselves and the sell wizard records it at closing; postInterest(period) is
+// in oneOffScripts.gs for the year-end.
 
 /** Advances tab rows -> lib.gs's accrual "advance" shape. */
 function loadAdvances_(ss) {
@@ -579,100 +567,6 @@ function getAccrualOpts_(ss) {
   };
 }
 
-function advancesDueFor_(advances, period) {
-  return advances.filter(function (a) {
-    return a.status === 'open' && !a.repaid_date && !(a.accrued_to && a.accrued_to >= period);
-  });
-}
-
-/** Dr 1200 / Cr 2000, property on both lines, payee "Dennis Little" - same shape as
- *  books-dennis.mjs's buildInterestEntry. */
-function buildInterestEntry_(advance, period, deltaCents, ctx, postedBy) {
-  var date = lastDayOf(period);
-  var description = 'Interest ' + period + ' on ' + advance.advance_id;
-  var line = function (account, isDebit) {
-    var acct = ctx.accounts.get(account);
-    return {
-      account: account, debit: isDebit ? deltaCents : 0, credit: isDebit ? 0 : deltaCents,
-      property: advance.property, cost_class: (acct && acct.cost_class) || '', tax_treatment: (acct && acct.tax_treatment) || '',
-      trade: '', payee: 'Dennis Little', description: description, paid_from: '',
-      reconciled_ref: '', business_purpose: '', attendee: '', destination: '', odometer: ''
-    };
-  };
-  var txn_id = makeTxnId('close', date, { payee: advance.advance_id, description: period });
-  return {
-    txn_id: txn_id, date: date, period: period, memo: description, source: 'close', posted_by: postedBy,
-    doc_url: '', void_of: '', lines: [line('1200', true), line('2000', false)]
-  };
-}
-
-/** {period} -> [{advance_id, property, delta_cents, entry}], one per advance with a
- *  non-zero delta for that period. No writes. */
-function previewInterest(period) {
-  var props = PropertiesService.getScriptProperties();
-  var ss = openWorkbook_(props);
-  try {
-    requireOwner_(ss, true); // any listed role may preview (books-dennis.mjs's own rule)
-    if (!/^\d{4}-\d{2}$/.test(String(period))) return { ok: false, error: 'BAD_REQUEST', message: 'period (YYYY-MM) is required.' };
-    var ctx = buildCtx_(ss);
-    var advances = loadAdvances_(ss);
-    var accrualOpts = getAccrualOpts_(ss);
-    var previews = [];
-    advancesDueFor_(advances, period).forEach(function (advance) {
-      var deltaCents = interestForPeriod(advance, period, accrualOpts);
-      if (deltaCents === 0) return;
-      var entry = buildInterestEntry_(advance, period, deltaCents, ctx, Session.getActiveUser().getEmail());
-      previews.push({ advance_id: advance.advance_id, property: advance.property, delta_cents: deltaCents, memo: entry.memo });
-    });
-    return { ok: true, period: period, previews: previews };
-  } catch (err) {
-    return { ok: false, error: (err && err.code) || 'INTERNAL', message: String((err && err.message) || err) };
-  }
-}
-
-/** Validates and posts every due advance's interest for `period` as one batch, then
- *  stamps Advances.accrued_to = period on each one posted. Refuses a period that has
- *  not ended yet (interest is booked on the period's last day). */
-function postInterest(period) {
-  var props = PropertiesService.getScriptProperties();
-  var ss = openWorkbook_(props);
-  try {
-    requireOwner_(ss);
-    if (!/^\d{4}-\d{2}$/.test(String(period))) return { ok: false, error: 'BAD_REQUEST', message: 'period (YYYY-MM) is required.' };
-    var today = Utilities.formatDate(new Date(), 'America/Chicago', 'yyyy-MM-dd');
-    if (lastDayOf(period) > today) {
-      return { ok: false, error: 'PERIOD_NOT_ENDED', message: 'period ' + period + ' has not ended yet.' };
-    }
-
-    var ctx = buildCtx_(ss);
-    var advances = loadAdvances_(ss);
-    var accrualOpts = getAccrualOpts_(ss);
-    var due = advancesDueFor_(advances, period);
-    var toPost = [];
-    for (var i = 0; i < due.length; i++) {
-      var advance = due[i];
-      var deltaCents = interestForPeriod(advance, period, accrualOpts);
-      if (deltaCents === 0) continue;
-      var entry = buildInterestEntry_(advance, period, deltaCents, ctx, Session.getActiveUser().getEmail());
-      validateEntry(entry, ctx); // refuses PERIOD_CLOSED etc before anything is posted
-      toPost.push({ advance: advance, entry: entry });
-    }
-    if (toPost.length === 0) { warmCache_(); return { ok: true, period: period, posted: [] }; }
-
-    var batchResult = postBatchEntries_(toPost.map(function (t) { return t.entry; }), props);
-
-    var advSheet = ss.getSheetByName('Advances');
-    var advCols = headerIndex_(advSheet);
-    toPost.forEach(function (t) {
-      upsertRow_(advSheet, advCols, 'advance_id', { advance_id: t.advance.advance_id, accrued_to: period });
-    });
-    warmCache_();
-    return { ok: true, period: period, posted: batchResult.posted, rows: batchResult.rows };
-  } catch (err) {
-    return { ok: false, error: (err && err.code) || 'INTERNAL', message: String((err && err.message) || err) };
-  }
-}
-
 // ---- Close period / Reopen period -----------------------------------------------------
 
 function setPeriodFromMenu_(status) {
@@ -698,12 +592,11 @@ function setPeriodFromMenu_(status) {
 function closePeriod() { setPeriodFromMenu_('closed'); }
 function reopenPeriod() { setPeriodFromMenu_('open'); }
 
-// ---- Reports ----------------------------------------------------------------------------
-// Every report reads the whole Journal once (readTabData_, the same date/period
-// formatting the HTTP read gives), runs it through lib.gs's report functions, and
-// writes the result to a tab named "Report - <name>" (ASCII hyphen - phase0-spec's
-// ASCII constraint applies to sheet names too, since Code.gs writes them), cleared
-// and rewritten every run.
+// ---- Report helpers ---------------------------------------------------------------------
+// The menu's Reports (Trial balance, Balance sheet, P&L, Job cost, Dennis ledger) are gone
+// (2026-09-30, D-065): each wrote a "Report - " tab only when run, and they went stale. The P&L
+// tab (refreshPnl_, hourly) and the bank tabs use these two helpers; the Totals tab has the
+// live trial balance and each house tab its costs.
 
 function journalLines_(ss) {
   var data = readTabData_(ss, 'Journal', { all: true });
@@ -731,94 +624,6 @@ function writeReportRows_(ss, name, title, rows, tabName, top) {
   sh.setFrozenRows(HEADER_ROW);
   sh.autoResizeColumns(1, width);
   return sh;
-}
-
-function reportTrialBalance() {
-  var props = PropertiesService.getScriptProperties();
-  var ss = openWorkbook_(props);
-  try { requireOwner_(ss, true); } catch (err) { return; }
-  var asOf = promptDate_('Trial balance', 'As of (YYYY-MM-DD):');
-  if (asOf === null) return;
-  var report = trialBalance(journalLines_(ss), { asOf: asOf || undefined });
-  var rows = [['Account', 'Name', 'Debit', 'Credit', 'Net']];
-  report.rows.forEach(function (r) { rows.push([r.account, r.name || '', fromCents(r.debit), fromCents(r.credit), fromCents(r.net)]); });
-  rows.push(['TOTAL', '', fromCents(report.total_debit), fromCents(report.total_credit), '']);
-  rows.push(['Ties out', '', '', '', report.balanced ? 'YES' : 'NO - debits/credits do not match']);
-  writeReportRows_(ss, 'Trial balance', 'Trial balance as of ' + (asOf || 'today'), rows);
-  SpreadsheetApp.getUi().alert('Trial balance written to "Report - Trial balance".');
-}
-
-function reportJobCost() {
-  var props = PropertiesService.getScriptProperties();
-  var ss = openWorkbook_(props);
-  try { requireOwner_(ss, true); } catch (err) { return; }
-  var property = promptProperty_(ss, 'Job cost');
-  if (property === null) return;
-  var asOf = promptDate_('Job cost', 'As of (YYYY-MM-DD):');
-  if (asOf === null) return;
-  var report = propertyJobCost(journalLines_(ss), property, { asOf: asOf || undefined });
-  var rows = [['By cost class', 'Total']];
-  report.by_cost_class.forEach(function (r) { rows.push([r.cost_class, fromCents(r.total)]); });
-  rows.push([]);
-  rows.push(['By account', 'Name', 'Total']);
-  report.by_account.forEach(function (r) { rows.push([r.account, r.name || '', fromCents(r.total)]); });
-  rows.push([]);
-  rows.push(['By trade', 'Total']);
-  report.by_trade.forEach(function (r) { rows.push([r.trade, fromCents(r.total)]); });
-  rows.push([]);
-  rows.push(['Total cost', '', fromCents(report.total_cost)]);
-  rows.push(['Released to COGS', '', fromCents(report.released_to_cogs)]);
-  writeReportRows_(ss, 'Job cost', 'Job cost, ' + property + ', as of ' + (asOf || 'today'), rows);
-  SpreadsheetApp.getUi().alert('Job cost written to "Report - Job cost".');
-}
-
-function reportDennisLedger() {
-  var props = PropertiesService.getScriptProperties();
-  var ss = openWorkbook_(props);
-  try { requireOwner_(ss, true); } catch (err) { return; }
-  var asOf = promptDate_('Dennis ledger', 'As of (YYYY-MM-DD):');
-  if (asOf === null) return;
-  var accrualOpts = getAccrualOpts_(ss);
-  var report = dennisLedger(journalLines_(ss), loadAdvances_(ss), { asOf: asOf || undefined }, accrualOpts);
-  var rows = [['Property', 'Principal outstanding', 'Interest posted', 'Interest accrued to date', 'Interest unposted']];
-  report.by_property.forEach(function (p) {
-    rows.push([p.property, fromCents(p.principal_outstanding), fromCents(p.interest_posted),
-      fromCents(p.interest_accrued_to_date), fromCents(p.interest_unposted)]);
-  });
-  rows.push(['TOTAL', fromCents(report.totals.principal_outstanding), fromCents(report.totals.interest_posted),
-    fromCents(report.totals.interest_accrued_to_date), fromCents(report.totals.interest_unposted)]);
-  writeReportRows_(ss, 'Dennis ledger', 'Dennis ledger as of ' + (asOf || 'today'), rows);
-  SpreadsheetApp.getUi().alert('Dennis ledger written to "Report - Dennis ledger".');
-}
-
-/** ui.prompt for a date; '' means "use the default" (today/all-time, per report),
- *  null means the user cancelled. */
-function promptDate_(title, label) {
-  var ui = SpreadsheetApp.getUi();
-  var resp = ui.prompt(title, label, ui.ButtonSet.OK_CANCEL);
-  if (resp.getSelectedButton() !== ui.Button.OK) return null;
-  var v = resp.getResponseText().trim();
-  if (v && !/^\d{4}-\d{2}-\d{2}$/.test(v)) { ui.alert('Enter a date as YYYY-MM-DD, or leave it blank.'); return promptDate_(title, label); }
-  return v;
-}
-
-/** Defaults to the active sheet's name when it is a property tab (phase2.7-spec.md
- *  section 4: "default to the active sheet name if it is a property"); otherwise
- *  prompts. null means cancelled. */
-function promptProperty_(ss, title) {
-  var propSheet = ss.getSheetByName('Properties');
-  var cols = headerIndex_(propSheet);
-  var names = propSheet.getLastRow() > 1
-    ? propSheet.getRange(2, cols['name'], propSheet.getLastRow() - 1, 1).getValues().map(function (r) { return String(r[0]); }).filter(Boolean)
-    : [];
-  var active = ss.getActiveSheet().getName();
-  if (names.indexOf(active) !== -1) return active;
-  var ui = SpreadsheetApp.getUi();
-  var resp = ui.prompt(title, 'Property name (exactly as on the Properties tab):', ui.ButtonSet.OK_CANCEL);
-  if (resp.getSelectedButton() !== ui.Button.OK) return null;
-  var name = resp.getResponseText().trim();
-  if (names.indexOf(name) === -1) { ui.alert('"' + name + '" is not on the Properties tab.'); return null; }
-  return name;
 }
 
 // ---- Inbox (receipts waiting for review) ---------------------------------------------------
@@ -1109,18 +914,6 @@ function inboxReprocess(req) {
     return { ok: true };
   } catch (err) {
     return { ok: false, error: (err && err.code) || 'INTERNAL', message: String((err && err.message) || err) };
-  }
-}
-
-// ---- Self test ----------------------------------------------------------------------------
-
-function runSelfTestFromMenu() {
-  var ui = SpreadsheetApp.getUi();
-  try {
-    var result = selfTest();
-    ui.alert('Self test OK: entry ' + result.txn_id + ', fixture interest ' + result.interest + '.');
-  } catch (err) {
-    ui.alert('Self test FAILED: ' + ((err && err.code) || 'ERROR') + ' - ' + String((err && err.message) || err));
   }
 }
 

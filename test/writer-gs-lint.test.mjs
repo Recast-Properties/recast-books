@@ -131,7 +131,9 @@ test("oneOffScripts.gs exists, is ASCII-only, its braces balance, and it states 
   assert.ok(oneOffSource.length > 0);
   assert.equal([...oneOffSource].filter((ch) => ch.charCodeAt(0) > 127).length, 0, "non-ASCII in oneOffScripts.gs");
   assert.equal((oneOffSource.match(/\{/g) || []).length, (oneOffSource.match(/\}/g) || []).length, "unbalanced braces");
-  assert.ok(/^ \* THE RULE\./m.test(oneOffSource) && /^\/\/ STATUS: /m.test(oneOffSource), "the header states the rule and each block carries a STATUS line");
+  assert.ok(/^ \* THE RULE\./m.test(oneOffSource), "the header states the rule");
+  // a script carries its STATUS line; the file is emptied once its scripts have run (Paul, 2026-09-30)
+  if (/^function /m.test(oneOffSource)) assert.ok(/^\/\/ STATUS: /m.test(oneOffSource), "each script carries a STATUS line");
 });
 
 // D-056 (Paul, 2026-09-28: "get organized"): Code.gs and Menu.gs hold only what the workbook
@@ -150,7 +152,7 @@ test("D-056: every function in Code.gs and Menu.gs is reached from the workbook,
   const html = readdirSync(dir).filter((f) => f.endsWith(".html")).map((f) => readFileSync(path.join(dir, f), "utf8")).join("\n");
   const entries = new Set([
     "onOpen", "doGet", "doPost", "onPropertyTabEdit", "refreshBalanceSheetHourly",   // Apps Script itself calls these (triggers)
-    "setup", "installTriggers", "setupTotals", "rebuildAllPropertyTabs",   // the standing setup tools (README)
+    "setup", "installTriggers", "setupTotals", "rebuildAllPropertyTabs", "selfTest",   // the standing setup tools (README)
     ...[...html.matchAll(/callServer_\(\s*'([A-Za-z0-9_]+)'/g)].map((m) => m[1]),                        // the dialogs
     ...[...html.matchAll(/<\?!?=?\s*([A-Za-z0-9_]+)\s*\(/g)].map((m) => m[1]),                            // template scriptlets (include_)
     ...[...menuSource.matchAll(/addItem\(\s*'[^']*'\s*,\s*'([A-Za-z0-9_]+)'\s*\)/g)].map((m) => m[1]),   // the menu
@@ -281,7 +283,7 @@ test("selling a property drops it from the postable set at once, not in six hour
 
 // 1616 Granite and 280 Sparkling sold before freezing existed, so their record has to be
 // rebuilt from the Journal as it stood the moment before each sale posted.
-test("a property that sold before freezing existed can be reconstructed and frozen", () => {
+test("a sold property's tab can be reconstructed as of its sale (setupPropertyTab with an as-of)", () => {
   const body = bodyOf("setupPropertyTab");
   assert.ok(body.includes("if (!asOf && String((registry || {}).status || '').toLowerCase() === 'sold')"),
     "an as-of must bypass the sold guard - reconstructing the record is the one time rebuilding a sold tab is right");
@@ -292,41 +294,10 @@ test("a property that sold before freezing existed can be reconstructed and froz
     assert.ok(/\(!asOf \|\| String\(g\(r, 'source'\)\) !== 'sale'\)/.test(bodyOf(fn)),
       `${fn} leaves the sale rows in the reconstructed line blocks`);
   }
-  const rebuild = bodyOf("rebuildFrozenRecord");
-  assert.ok(rebuild.includes("setupPropertyTab(name, date)"), "it must rebuild as of the settlement date");
-  assert.ok(rebuild.indexOf("setupPropertyTab(name, date)") < rebuild.indexOf("freezePropertyTab_(ss, name, date)"),
-    "it must freeze AFTER rebuilding, not before");
-  assert.ok(rebuild.includes("!== 'sold'"), "it must refuse a property that is still held");
-  // the Apps Script Run button passes no arguments, so there has to be a no-arg way in
-  const all = bodyOf("rebuildAllFrozenRecords");
-  assert.ok(/function rebuildAllFrozenRecords\(\)/.test(oneOffSource), "rebuildAllFrozenRecords must take no arguments");
-  assert.ok(all.includes("rebuildFrozenRecord(name)") && all.includes("'sold'"),
-    "it must walk the sold properties and reconstruct each one");
 });
 
 // The duplicate that reached 1616 Granite landed on a different property AND a different
 // account than the migrated rows it duplicated (audit 65), so neither may enter the key.
-test("the duplicate-replay sweep keys on date, payee and amount only", () => {
-  const body = bodyOf("reportDuplicateReplays");
-  const key = body.slice(body.indexOf("var key ="), body.indexOf("var live ="));
-  assert.ok(/date/.test(key) && /payee/.test(key) && /debit\(r\)/.test(key), "the key must be date + payee + amount");
-  assert.ok(!/property/.test(key) && !/account/.test(key),
-    "property or account in the key would have hidden the one duplicate we already found");
-  assert.ok(/replace\(\/\^the\\s\+\//.test(body), '"The Home Depot" and "Home Depot" must normalise to one vendor');
-  assert.ok(body.includes("debit(r) > 0"), "credit lines are the payer account and match nothing useful");
-  assert.ok(/src === 'migration' \|\| src === 'sale'/.test(body),
-    "migrated rows are the truth and sale rows are not receipts - neither is a candidate");
-});
-
-test("voiding replays only touches an entry whose every debit line matched", () => {
-  const body = bodyOf("voidDuplicateReplays");
-  assert.ok(/if \(t\.matched < t\.total\)/.test(body) && body.includes("LEFT ALONE"),
-    "a partly-matched entry must be listed and left alone - voiding it would drop a real cost");
-  assert.ok(body.indexOf("LEFT ALONE") < body.indexOf("voidEntry_("),
-    "the partial check must come before the void, not after it");
-  assert.ok(body.includes("voidEntry_(id,"), "it must go through the normal void path, not write rows itself");
-});
-
 test("both line-block refreshers fill a Receipt column", () => {
   for (const fn of ["refreshLineBlocks_", "refreshHeavyBlocks_"]) {
     assert.ok(bodyOf(fn).includes("receiptCell_(g(r, 'doc_url'))"), `${fn} does not fill the Receipt column`);
@@ -625,44 +596,19 @@ test("Journal columns are accessed via headerIndex_, not hardcoded indices", () 
 
 // D-052, Paul 2026-09-28: "anything labeled Draw was cash into one of my personal accounts";
 // an advance named for a worker is money Dennis paid that worker directly.
-test("an advance's paid_to: Draw is Paul, a named worker is Vendor, and the fix voids before it re-posts", () => {
-  const advancePaidToGuess_ = lift("advancePaidToGuess_", "kind, notes, account");
-  assert.strictEqual(advancePaidToGuess_("cash", "Draw - rehab (migration)", "1402"), "Paul", "a draw went to Paul, whatever account the migration used");
-  assert.strictEqual(advancePaidToGuess_("cash", "Draw - buyer repairs (migration)", "1402"), "Paul");
-  assert.strictEqual(advancePaidToGuess_("cash", "Cash advance - Julio, labor (migration)", "2030"), "Vendor");
-  assert.strictEqual(advancePaidToGuess_("cash", "Cash advance, reimbursed Paul (migration)", "2030"), "Paul");
-  assert.strictEqual(advancePaidToGuess_("purchase", "Purchase principal (migration)", "1000"), "Seller");
-  assert.strictEqual(advancePaidToGuess_("cash", "Cash advance (migration)", "1401"), "Citizens", "no words to go on: the account says it");
+test("an advance's paid_to: Paul and Vendor sit on 2030, a purchase on 1000, and the Add advance dialog asks", () => {
   const map = source.match(/var ADVANCE_PAID_TO = (\{[^}]*\});/);
   assert.ok(map, "ADVANCE_PAID_TO is gone");
   const paidTo = eval("(" + map[1] + ")");
   assert.deepStrictEqual([paidTo.Paul, paidTo.Vendor, paidTo.Seller], ["2030", "2030", "1000"],
     "Paul and Vendor both sit on 2030 (D-032); a purchase on 1000");
-  const repoint = bodyOf("repointAdvance_");
-  assert.ok(repoint.indexOf("voidEntry_(") < repoint.indexOf("postEntry_("),
-    "void first: a run that stops half way leaves a voided entry the next run re-posts, never a double");
-  assert.ok(/allow_duplicate_hash: true/.test(repoint), "the txn_id hash ignores the account, so the re-post needs its own id");
   const dialog = readFileSync(path.join(__dirname, "..", "apps-script", "writer", "Advance.html"), "utf8");
   assert.ok(dialog.includes("id=\"a-paid-to\"") && dialog.includes("paid_to: document.getElementById('a-paid-to').value"),
     "the Add advance dialog asks who the money was paid to");
 });
 
 // The editor's re-read loop (oneOffScripts.gs): the Inbox's own Reprocess route, which can only hold (D-049).
-test("reprocessParked_: the Inbox's reprocess route, never a write", () => {
-  const body = bodyOf("reprocessParked_");
-  assert.ok(/siteFetchJson_\('\/api\/inbox', 'post', \{ action: 'reprocess'/.test(body), "not the Inbox's Reprocess route");
-  assert.ok(!/postEntry_|postBatchEntries_|voidEntry_|setValue\(/.test(body), "an editor re-read must never write");
-});
-
 // 2026-09-28 13:06: the first replay run posted three pre-cutover documents on top of their migrated rows.
-test("replayErroredReceipts: never replays a document received before the cutover", () => {
-  const menu = oneOffSource;
-  const body = menu.slice(menu.indexOf("function replayErroredReceipts"), menu.indexOf("function replayErroredReceipts") + 1400);
-  assert.ok(/var REPLAY_CUTOVER = '2026-09-21'/.test(menu), "the cutover date is the line");
-  assert.ok(/receivedAt[\s\S]*< REPLAY_CUTOVER[\s\S]*return;/.test(body), "a pre-cutover envelope must be skipped before the fetch");
-  assert.ok(body.indexOf("REPLAY_CUTOVER") < body.indexOf("siteFetchRaw_('/api/ingest-bg'"), "the skip comes before the replay");
-});
-
 test("Feed tab (Phase 3): the spec's columns, feed_id kept as text, the tab readable and imported_at a timestamp", () => {
   const start = source.indexOf("'Feed': [");
   const feed = source.slice(start, source.indexOf("]", start) + 1);
@@ -738,10 +684,6 @@ test("feedUpdate: one lock, the three verdict columns read once and written once
   assert.match(menu.slice(menu.indexOf("function inboxDismiss(")), /tieFeedRows_\(ss, req\.feed, 'unmatched', \[\], 'Paul: ' \+ req\.note\)/, "a dismissed bank line goes back to the next run with Paul's words");
   const html = readFileSync(new URL("../apps-script/writer/Inbox.html", import.meta.url), "utf8");
   assert.equal((html.match(/feed: env\.feed \|\| null/g) || []).length, 3, "approve and both dismiss paths send the card's feed rows");
-  const resetAt = oneOffSource.indexOf("function resetFeedCards(");
-  const reset = oneOffSource.slice(resetAt, oneOffSource.indexOf("\n}\n", resetAt) + 3);
-  assert.match(reset, /status === 'proposed'/);
-  assert.doesNotMatch(reset, /postEntry_|postBatchEntries_|voidEntry_/);
   const inbox = readFileSync(new URL("../netlify/functions/books-inbox.mjs", import.meta.url), "utf8");
   assert.doesNotMatch(inbox, /await tieFeedRows\(|feedUpdate\(/, "no synchronous site handler waits on the writer");
 });
