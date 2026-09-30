@@ -2201,3 +2201,31 @@ Price, parked by Paul), `resetFeedCards` (matcher tuning). Tests 543 -> 539: fou
 (the replay sweep x2, `reprocessParked_`, `replayErroredReceipts`); three were trimmed to their live-file checks (the
 frozen record's `setupPropertyTab` as-of, `ADVANCE_PAID_TO` and the Advance dialog, the feed tie). **Deployed 18:10 CT
 on Paul's "deploy": writer web app @23 = the repo; the site unchanged (`6abd881d`). Nothing owed.**
+
+## 2026-09-30 (17:45-18:20 CT) - docs drift fixed; the 3 AM email and the sheet's Inbox stop pointing at the web app
+
+A read of all 44 `.md` files (a workflow: eight readers, one checker against the newest docs) found the docs behind
+the live state. Fixed where a session could act on it wrongly (`5ada3cf`, `947d795`):
+- `README.md` named the OLD workbook `1isEbfNK…` as "The live workbook" - now the production "Recast Books"
+  `12QVyxm3…`, the old one listed as closed, never to be touched.
+- `apps-script/writer/README.md` still gave the first-time setup (New deployment, copy the new `/exec` into
+  `WRITER_URL`) - on the live project that would strand both pollers and the Inbox on the old URL. Now: the live ids,
+  push, then `clasp deploy -i` the same id when `Code.gs` or `lib.gs` changed, never New deployment.
+- `CLAUDE.md`: the status line (stuck at 09-16), "front door = web app", the monthly interest job in a
+  `books-dennis.mjs` that does not exist (interest is recorded at closing, D-066), a "1099 block" the code does not
+  have (marked planned), C-1…C-34, `paul_personal_last4` = `9166, 8870, 3746`, 1401's endings, `MAX_TOKENS_PER_TURN`
+  16000, the Phase 3 spec already amended.
+- `BUILD-PLAN.md`: status, the per-advance rate (D-022, D-038: 8% closed deals, 9% held, 12% Ashburne) recorded at
+  closing, what Recast owes Paul repaid in one payment after reconciliation (D-051, D-052), no Plaid, Held/Sold.
+- `data/vendors-1099-2026.md`: a stale-totals warning - Atlas 18,595.17 over 17 payments (audit §26), Vega missing
+  (C-26), "Effren" is Falcon Creek Lawn Care, Dennis-direct payments uncounted; re-derive from the Journal before any
+  W-9 request or filing. `docs/policies.md`: the payment-side 1099 block marked not built.
+- The root router (`../CLAUDE.md`, not a repo): parallel run, web-app pages and "9% compounding" corrected.
+Dated history (older specs, handoffs, the audit's retracted claims) left as written.
+
+**Rule 8 in the code (`947d795`, `7b01718`):** the 3 AM email's last line was `Review:
+https://books.recast-properties.com/#inbox` - now "open the Recast Books workbook, then Recast Books -> Inbox..." and
+the workbook link (poller `dailyDigest`; pushed to both instances, read back by `clasp pull`). The sheet's Inbox had a
+footer link "Posted, dismissed and errored items: web Inbox" - removed with the `site` field only it used
+(`Inbox.html`, `inboxPickers` in Menu.gs); pushed, read back. No deploy: `Code.gs`/`lib.gs` untouched. 539 tests.
+Writer web app @23, site `6abd881d`, nothing owed.
