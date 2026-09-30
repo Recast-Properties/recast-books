@@ -2134,3 +2134,34 @@ closing, 0.02 rounding, books **4,591.71**. A label starting "=" read as a formu
 carried from 09-26, seen again:** approving a bank card can replay a purchase the old books already hold under
 different cents - the box now catches it as a books line with no bank line. 550 tests. **Deployed 16:30: writer web
 app @20 = the repo; site unchanged (`6abc3ad9`, it does not bundle bank-sheet). Nothing owed.**
+
+## 2026-09-30 (16:30-17:15 CT) - the Balance Sheet tab (D-065); Claude credits are a software cost (D-064); writer @21, site `6abd881d`
+
+**Evaluated the Reports -> Balance sheet**: run fresh it ties (owns 1,999,119.18 = owes + left) but (1) Dennis's
+interest on the held houses is not in the books at all (only the two sold houses ever had interest posted), (2)
+Ashburne still reads as owned until its close, (3) 1520 Prepaid API credits 1,081.45 was never drawn down, (4) Cost
+Recapture was labelled "Property inventory", (5) the words were accounting words. Then Paul opened the tab itself: it
+was the **Phase 1 test snapshot of ~09-11** - a report tab only changes when someone runs it.
+
+**D-065, the `Balance Sheet` tab:** `balanceSheetTab` (`lib/reports.mjs`) relabels `balanceSheet()` in plain words and
+adds Dennis's interest built up on each open advance less what is posted against it (`accruedThrough`, 1200 lines "...
+on <advance_id>") to the house and to what Recast owes; zero lines left off. `refreshBalanceSheet_` (Code.gs) writes it
+and deletes the old "Report - Balance sheet"; `refreshBalanceSheetHourly` runs every hour (`installTriggers`, run by
+Paul 14:42 PDT: "Balance Sheet timer installed; the tab is built"). The menu's Balance sheet item is gone; the D-056 lint
+lists the timer handler as an entry point. Read back live, 16:42 CT: owns 2,075,430.87 = owes 2,103,224.61 + left
+-27,793.74; Dennis's unrecorded interest 76,311.69 (Ashburne 46,156.16 - it stops when Ashburne closes).
+
+**What Recast owes Paul, explained to him by house:** 44,652.54 (overhead 28,364.80, Ashburne 10,146.27, working money
+5,000, Bowling Green 751.52, Brushwood 300, Mesa 164.87, Cost Recapture -74.92). The -74.92 is not a payment to him: the
+TXU 161.17 of 06-16 was on both the Granite and the Sparkling tab in the old books and the migration took one copy back
+on Cost Recapture (Sparkling is frozen). The "paid back" column Claude first showed counted voids and correction
+reversals as paybacks - only the net per house is right.
+
+**D-064, Claude credits:** D-018's monthly job had never run (built 09-14, it ran on the 2nd for the previous month
+only - first turn would have been 10-02, and May-August never). Paul dropped the split: the prompt posts a top-up to
+6400 Software & subscriptions; `books-api-costs.mjs`, its test, the web Settings card and the poller's
+`postApiCosts_` are deleted (both pollers pushed); `moveApiCreditsToSoftware()` (run by Paul 14:50 PDT) moved 1520's
+1,081.45 to 6400 by month - 05 90.00, 06 100.00, 07 100.00, 08 322.67, 09 468.78, Journal rows 2736-2745. Read back:
+the credits line gone, owns 2,074,349.42, business costs 28,875.19, adds up. 543 tests (the eight api-costs tests went
+with the job). **Deployed 17:10 CT on Paul's "deploy": site `6abd881d` (`/api/api-costs` 404, the card gone from
+app.js), writer web app @21 = the repo. Nothing owed.**

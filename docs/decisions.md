@@ -1299,3 +1299,32 @@ anything with no reason as a red line with its date, store and amount, and what 
 red "N things not explained". **Replaces section 4's menu item, Banking page and month stamp** (`reconciled_ref`) - the
 stamp waits until the accountant or the year-end close needs it. Code, not judgment. Books lines dated before the
 bank's first line are one line of their own (Granite's 07-24 sale clearing nets to zero, so it shows nothing).
+
+## D-064 · Claude API credits are a software cost when bought; the prepaid line and the monthly split are dropped (reverses D-018) - 2026-09-30 · Paul
+
+The Balance Sheet showed 1,081.45 of "Prepaid API credits": 67 top-ups since May, never drawn down. D-018's monthly
+job (`/api/api-costs`, on the 2nd, previous month only) had never had a turn - built 09-14, first run would have been
+10-02 - and would never have reached May-August. The admin key was in place. Offered: finish D-018 (catch every month
+up, per-system costs kept) or drop the split. Paul: *"Drop the split. Every top-up just counts as a business cost when
+you buy it, and this line disappears. It's simpler, but you lose knowing what each system costs."*
+
+**Decided:** an Anthropic top-up or auto-reload posts to **6400 Software & subscriptions** the day it is bought (the
+bookkeeper prompt). 1520 stays in the chart, unused; the Balance Sheet names anything left on it "recorded the old way
+- tell Claude". `moveApiCreditsToSoftware()` moved the 1,081.45 to 6400 one entry per month, dated each month's last
+day (rerunnable: it moves only what is left). The monthly job, its web card and the poller's call are deleted. The
+Console workspaces and `ANTHROPIC_ADMIN_KEY` are no longer used by the books.
+
+## D-065 · The Balance Sheet is its own tab, in plain words, that updates itself - 2026-09-30 · Paul
+
+The menu's Reports -> Balance sheet wrote "Report - Balance sheet" only when someone ran it; Paul opened it on 09-30
+and found the Phase 1 test snapshot of ~09-11 (TEST Phase 1 gate, Granite still owned). Paul: *"i want Balance Sheet as
+its own tab"* (not a section of Totals).
+
+**Decided:** a `Balance Sheet` tab - what Recast owns (each house at its cost with Dennis's interest not recorded yet,
+costs after a sale, cash), what it owes (Dennis's loans, his interest recorded and not recorded yet, what Recast owes
+Paul), what is left for the owners (profit on the sales, business costs, paid out) and an "Adds up" line
+(`balanceSheetTab` in `lib/reports.mjs`, `refreshBalanceSheet_` in Code.gs). Rebuilt **every hour** by a timer
+(`installTriggers` installs it; Paul ran it 2026-09-30) - nothing to run. Dennis's interest that has built up on the
+open advances but is not posted is counted on BOTH sides (a house cost and owed to Dennis, D-011), so the sheet adds up
+and the houses read what they really cost. The menu item is removed and the old tab deleted. Whether Dennis's interest
+should be POSTED monthly (the Post interest menu, never run on the held houses) is still Paul's call - not decided.
