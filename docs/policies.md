@@ -41,7 +41,7 @@ confidence carry more weight than it can.
   Bill Act). **$600 for prior years.** Both live in a named cell, not in code.
 - **W-9 requested at first dollar**, not at threshold. The threshold monitor is a
   lagging indicator — by the time it fires, the money is gone.
-- **Payment-side block, not a warning:** a GL row flagged `is_1099` whose vendor has no
+- **Payment-side block, not a warning (PLANNED, NOT BUILT as of 2026-09-30 - no 1099 check exists in `lib/`):** a GL row flagged `is_1099` whose vendor has no
   TIN cannot be appended. Either 24% is withheld to 2020, or an override is recorded
   with a reason and a date.
 - **IRS TIN matching before filing.** A mismatched TIN produces a B-notice and reopens

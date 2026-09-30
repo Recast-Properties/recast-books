@@ -492,7 +492,8 @@ function dailyDigest() {
     });
   }
   lines.push('');
-  lines.push('Review: https://books.recast-properties.com/#inbox');
+  lines.push('Review: open the Recast Books workbook, then Recast Books -> Inbox...');
+  lines.push('https://docs.google.com/spreadsheets/d/12QVyxm3KnLD7CDC8mFAPd5ulZuRXRluNDi4qK4BBxKM/edit');
 
   MailApp.sendEmail({ to: CONFIG.DIGEST_TO, subject: subject, body: lines.join('\n') });
   console.log('Daily digest sent for ' + y);

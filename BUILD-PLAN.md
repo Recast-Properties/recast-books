@@ -5,7 +5,7 @@ review, and Paul's answers of 2026-09-11 (decisions D-006 through D-009). This i
 plan for the thing that actually gets built. `PLAN.md` stays as the accounting design it
 implements.
 
-**Status: awaiting Paul's sign-off before any code is written.**
+**Status (2026-09-30): signed off and built - Phases 0-2.7, 4 and 5 done, Phase 3 in progress, live on the real books since the 2026-09-21 cutover. Current state is `CLAUDE.md`; this plan is the design, and where it disagrees with `docs/decisions.md`, the decision wins.**
 
 ---
 
@@ -45,7 +45,7 @@ settlement date the whole balance moves to 5000 COGS. Year-end inventory is a fi
 | What | Account | Behaviour |
 |---|---|---|
 | Advance received | 2010 Note payable — Dennis | Dr cash, Cr 2010. One row per advance in the `Advances` tab, tagged to a property (split allowed). |
-| Interest accrual | 2000 Accrued interest — Dennis / 1200 Financing — interest (property cost) | 8% ÷ 12 (D-016) per advance per month, compounding on each advance's **own monthly anniversary**; stub days at payoff pro-rated on the current month's day count. Posted monthly by the close job. |
+| Interest accrual | 2000 Accrued interest — Dennis / 1200 Financing — interest (property cost) | Each advance's own `rate_pct` ÷ 12 (D-022, D-038; 8% on the closed deals, 9% on held houses, 12% on Ashburne), compounding on each advance's **own monthly anniversary**; stub days at payoff pro-rated on the current month's day count. **Recorded at closing** by the sell wizard (D-066), not monthly. |
 | Repayment at sale | 2010 / 2000 | Principal plus accrued interest for that property, cleared from settlement proceeds. |
 | Profit share | 1220 Profit participation — Dennis (property cost, released to COGS) | The property's `dennis_share_pct` (default 50%, 0 when Dennis is the bank only — D-022) of net profit after all 1000s including interest. Paid at settlement. Not equity. |
 
@@ -62,7 +62,8 @@ rule is reproduced to the cent against the live 881 Newport tab in
 stub days pro-rated over a 30-day month.
 
 **Paul.** 9000 Owner contributions, 9010 Owner draws, **2030 Due to owner** for every
-cost he paid personally in 2026 until the Chase account reimburses him. The `paid_from`
+cost he paid personally in 2026, repaid by one payment after reconciliation (D-051, D-052; Chase 6317 is
+Recast's business account, the old books' "Chase" was Paul's personal). The `paid_from`
 attribute on every line is what makes that balance knowable.
 
 **Overhead (D-010).** RECAST BIZ-type costs post to the 6000s with `property = OVERHEAD`
@@ -147,8 +148,8 @@ console — a one-time click.
 |---|---|---|
 | `Journal` | writer only | One row per line: `txn_id`, `line`, `date`, `account`, `debit`, `credit`, `property`, `cost_class`*, `tax_treatment`*, `trade`, `payee`, `description`, `paid_from`, `doc_url`, `source` (receipt / feed / manual / migration / close), `posted_by` (claude / paul / system), `posted_at`, `period`, `reconciled_ref`, `business_purpose`, `attendee`, `destination`, `odometer`, `void_of`. *derived by formula. |
 | `Accounts` | Paul via app | Chart of accounts from `docs/chart-of-accounts.md`, plus 1220, 2030. |
-| `Bank accounts` | app | One row per 1400 sub-account: name, institution, last4, Plaid item/account id, opening balance and date. |
-| `Properties` | app | Registry: name, address, purchase date, price, status (held / under contract / sold), settlement date, ALTA url, template (light / heavy), Dennis-funded. **The allowlist** — nothing posts to a property not here. |
+| `Bank accounts` | app | One row per 1400 sub-account: name, institution, last4 (comma-separated card and account endings), opening balance and date. |
+| `Properties` | app | Registry: name, address, purchase date, price, status (held / sold - D-017; under contract is still held), settlement date, ALTA url, template (light / heavy), Dennis-funded. **The allowlist** — nothing posts to a property not here. |
 | `Vendors` | app | Canonical name, aliases, entity type, 1099 type, TIN status, W-9 url, default account. |
 | `Advances` | app | Dennis: date landed in Citizens, amount, **one property**, source feed line, status, accrued-to date, repaid date. |
 | `Feed` | statement import | Every bank line: id, account, date, amount, name, merchant, match status, `txn_id`. |

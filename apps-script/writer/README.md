@@ -5,17 +5,18 @@ phase2.7-spec.md (D-023): this project is bound to the "Recast Books" workbook
 Menu.gs adds a **Recast Books** menu to the workbook for posting/reports in-process; the /exec web endpoint below still serves what the site itself needs.
 
 
-1. script.google.com -> New project, named "Recast Books Writer".
-2. Paste `Code.gs` in; add `appsscript.json` via Project Settings ->
-   "Show appsscript.json in editor".
-3. Run `setup` once (function dropdown -> setup -> Run). Grant permissions.
-4. View -> Logs (or Executions) -> copy the workbook URL and WRITER_SECRET.
-5. Deploy -> New deployment -> Web app. Execute as: Me. Access: Anyone.
-6. Copy the `/exec` URL.
-7. In the Netlify site `recast-books`, set env vars:
-   `WRITER_URL` = the `/exec` URL, `WRITER_SECRET` = the secret from step 4.
-8. Re-running `setup` is safe: same workbook, same secret, no-op.
-9. Visit the `/exec` URL in a browser - it should show `{"ok":true,...}`.
+**Live project (do not re-create it):** script id `1_V01CWkkO3MiGl1k4_lTgMZtInidFC4uTwQzj_h4aAPajL8cLMG1kl_y`,
+bound to the production workbook "Recast Books"; web-app deployment
+`AKfycbxNisU_atef_fjnELMBK0R9N1xcnP5e-0MT4LP0FdhpfdPRE1UwlIcb2u4-JS38gx1O3w` = Netlify `WRITER_URL`.
+
+- Change: `clasp push -f` from this folder. It reaches the menus, the sheet's Inbox and the triggers at once.
+- **Then, if `Code.gs` or `lib.gs` changed:** `clasp deploy -i AKfycbxNisU_atef_fjnELMBK0R9N1xcnP5e-0MT4LP0FdhpfdPRE1UwlIcb2u4-JS38gx1O3w`
+  (Paul's step). The web app - both pollers, the web Inbox and `approve-bg` post through it - runs the
+  deployed version of the whole project (audit §67).
+- **Never** Deploy -> New deployment: that makes a new `/exec` URL, and `WRITER_URL`, both pollers and the
+  Inbox would still point at the old one. Always `-i` the same id.
+- `setup` is safe to re-run (same workbook, same secret, no-op). The first-time setup of 2026-09-11 is in
+  `docs/phase0-spec.md` §10-§11 and `docs/phase2.7-spec.md`.
 
 Script properties the menu needs beyond what `setup` writes: `POLLER_SECRET` (the
 Netlify env var of the same name) — the cache-warm poke and the Inbox sidebar send it as

@@ -6,9 +6,9 @@ decision. `PLAN.md` is the accounting design the app implements.
 
 ## What this repo is
 
-The **new, separate** bookkeeping system for Recast Properties LLC, built alongside the
-current workbook and receipts bookkeeper (`../Recast-site/`), which Paul keeps using
-until the parallel run proves this one. A Google Sheets workbook is the system of
+The bookkeeping system for Recast Properties LLC - **the real books since the 2026-09-21
+cutover** (D-024). The old workbook is closed and the old receipts bookkeeper in
+`../Recast-site/` is switched off for the books. A Google Sheets workbook is the system of
 record; Claude is the bookkeeper; the workbook's **Recast Books menu** is the front door
 (D-023, constraint 8). The web app at books.recast-properties.com carries the `/api/*`
 functions the menu, pollers and nightly jobs call - Paul is never sent there.
@@ -17,7 +17,7 @@ functions the menu, pollers and nightly jobs call - Paul is never sent there.
   `lib/` — pure modules (posting engine, auth, writer client, COA, money), unit-tested;
   `apps-script/writer/` — the only thing that writes the workbook; `docs/`, `data/` — design.
 - Live ids (workbook, Apps Script project, Netlify site) are in `docs/phase0-spec.md` §10.
-- `npm test` runs everything (node:test, zero dependencies). Deploy: `npm run deploy`
+- `npm test` runs everything (node:test, no test dependencies). Deploy: `npm run deploy`
   (`netlify deploy --prod --no-build`). Writer: `clasp push -f` from `apps-script/writer/`, then **`clasp deploy -i
   AKfycbxNisU_atef_fjnELMBK0R9N1xcnP5e-0MT4LP0FdhpfdPRE1UwlIcb2u4-JS38gx1O3w` after every push that touches `Code.gs`
   or `lib.gs`** (same id, so `WRITER_URL` never changes). A push reaches the menus, the sheet's Inbox and the triggers
@@ -37,10 +37,12 @@ functions the menu, pollers and nightly jobs call - Paul is never sent there.
    (`lib/sheets-reader.mjs`); without it, through the writer's `read` action as before.
 3. **Claude decides, code executes.** Model judgment for reading, classifying, matching;
    deterministic code for arithmetic, balanced entries, `txn_id` identity, the gates
-   (autofile ceiling, period lock, 1099 block). The UI must show which was which.
+   (autofile ceiling, period lock). The UI must show which was which. A 1099 block (no payment
+   to a payee over the threshold without a W-9, `docs/policies.md`) is planned, **not built**.
 4. **Overhead never touches a property** (D-010). **Every Dennis advance is against a
    property and its interest is that property's cost** (D-011, D-021, D-022). D-010 is
-   enforced in `lib/posting.mjs`; the interest accrual is the close job in `books-dennis.mjs`.
+   enforced in `lib/posting.mjs`; the interest math is `lib/accrual.mjs`, and **Dennis's interest is
+   recorded at closing** by the sell wizard, not monthly (D-066; each advance carries its own `rate_pct`, D-022).
 5. **Dry run, back up, tie out twice** for anything touching history (Phase 4). **The old
    books are the target (D-027):** the migration reproduces them row by row in the new
    system with the receipt linked; the read is evidence, the old row wins, differences go
@@ -88,8 +90,8 @@ for a bank-only deal) drives the split. **Phase 2.7 gated 2026-09-15 (D-023): th
 the workbook** (`docs/phase2.7-spec.md`): the writer is now the project bound to the workbook
 (script id `1_V01CW…kl_y`, web-app deployment `AKfycbxNisU…3w`, update it with `clasp deploy -i`);
 `lib/` is generated into `apps-script/writer/lib.gs` by `node scripts/build-gs.mjs` (never
-edit it; a test keeps it in sync); the web app keeps Dashboard, Inbox, Upload, Settings (API
-costs). The old standalone writer project is dormant. **Inbox review in the sheet built 2026-09-16**
+edit it; a test keeps it in sync); the web app kept Dashboard, Inbox, Upload, Settings (API
+costs) - since D-064 the API-costs page is gone and Paul is never sent to the web app (constraint 8). The old standalone writer project is dormant. **Inbox review in the sheet built 2026-09-16**
 (spec §6: Recast Books → Inbox… sidebar; the queue stays in Blobs, Approve files and posts
 in-process, `mark-posted` records it; `lib/gate.mjs` is in `lib.gs` now; approve is split so the
 user waits only for the post, ~2.5 s - see CHANGELOG 2026-09-16 late). Next: **Phase 4
@@ -98,7 +100,7 @@ migration, forensic, ahead of Phase 3 (D-024, 2026-09-16)** — audit done 2026-
 and the staging re-posts done 2026-09-17/18. **Method changed 2026-09-18 (D-029): the
 migration is row-driven - post the old row, attach the matched receipt (D-027 the old books
 are the target, D-028 returns hold for Paul). **Resume from `HANDOFF-2026-09-30.md` (then `HANDOFF-2026-09-29.md`, `HANDOFF-2026-09-28.md`, `HANDOFF-2026-09-26.md`, `HANDOFF-2026-09-25.md`, `HANDOFF-2026-09-23.md`, `docs/phase4-audit.md` §51-§67)** - dated state from the migration (2026-09-23) through 2026-09-30 late (D-066):
-- **Numbers:** dry run **1,048 entries, $240,844.35**, ten property totals (`rows/expected.json`), all build in the posting engine; **920 linked (87.8% of rows, 78.6% of dollars)**; 128 rows / $51.4K with no document, of which $36,880 Paul accepted (contractor checks and cash) - the rest is cash labor and small rows, proven in Phase 3. 33 advances. Corrections **C-1 … C-33** in audit §13; decisions D-027 … D-034 (D-034: property tax - payments post when paid, the closing proration posts at closing, the tab estimates in between).
+- **Numbers:** dry run **1,048 entries, $240,844.35**, ten property totals (`rows/expected.json`), all build in the posting engine; **920 linked (87.8% of rows, 78.6% of dollars)**; 128 rows / $51.4K with no document, of which $36,880 Paul accepted (contractor checks and cash) - the rest is cash labor and small rows, proven in Phase 3. 33 advances. Corrections **C-1 … C-34** in audit §13 (C-34 added 2026-09-29); decisions D-027 … D-034 (D-034: property tax - payments post when paid, the closing proration posts at closing, the tab estimates in between).
 - **CUTOVER DONE 2026-09-21 (audit §51):** the production Journal was born in one pass - 1,048 entries, $240,844.35, $0.00 on all ten properties, 922 linked (every link a Drive file), 33 advances - tied out on both paths and identical to staging pass 11. `WRITER_URL` points at PRODUCTION; the old receipts poller's triggers are deleted (2026-09-22, §52); live receipts post to the real books. Corrections C-1 … C-33. **2026-09-22 (§52-§54):** the doGet misfire found and fixed in `lib/writer-client.mjs` (reads retry, writes never); `why` is one sentence, the working is in `checked`; the property tabs rebuilt and every one reconciled to the old workbook (Ashburne's heavy layout redone as Paul drew it; Selling-class lines now show on the light tabs). **2026-09-22 later (§55-§56):** the Inbox's 387 migration leftovers dismissed (18 left: 12 parked Home Depot / Lowe's for Phase 3, 6 live); the properties@ poller is ON (project `1k2htSsuL…`, `MAILBOX=properties`, `START_DATE=2026-09-17`, `clasp push -P .clasp-properties.json`); its first reads were refused as `reasoning_extraction` - `checked` reworded, server-side fallback on every model call. The old workbook is **"Recast 2026 CLOSED 2026-09-21"** (duplicate Materials cells deleted, only paul@ has access) and staging is ARCHIVED (§57). Anthropic $13.06 was already linked (card fixed). **D-035 (§58): no attachment, the email is the receipt** - upload stores it as `email.txt`, every filing path links it; writer `setDocUrl` action (web app @4); Wi-Fi Onboard and Berrett linked. **PHASE 5 BUILT AND BOTH CLOSED SALES POSTED 2026-09-22 (audit §60, `docs/phase5-spec.md`, D-036…D-039):** one menu item `Sell property…`, four steps - upload the closing document, Claude reads it and fills the form (`/api/settlement` + `-bg`, a background job: a sync function dies at 10 s), preview, close. 1616 Granite (profit 109,178.56, Paul 28,489.52 = the old tab to the cent, holdback of 60,000 released 09-11) and 280 Sparkling (profit 60,930.09 = the old tab, read from its PDF at Recast's 50% share, D-037) are both closed, escrow and Dennis at zero. 453 tests. The closing tab is written beside the property tab (`CLOSING_TAB_IN_PLACE`) until Paul signs the layout off. **Open:** that sign-off; Newport and Ashburne when they close; then Phase 3.
 - **2026-09-23, the heavy tab and the Inbox (audit §61-§63):** `setupPropertyTab` inserts the left spacer column AFTER writing the grid, so a block sits one column right of where it was built; the light template's `deleteColumn(8)` cancelled that, and `8b5138b` made the delete `!heavy` (to keep column H = Interest), so `refreshHeavyBlocks_` was writing every refresh one column left - into the spacer - and the blocks under their headers went stale. **Both of Paul's symptoms, one cause**; the summary was never wrong (SUMPRODUCTs over the Journal, not the blocks). A block's column is now read from its own header. Also: an untraded Holding line falls under Utilities (the model leaves `trade` null on a utility bill). **The Ashburne tab still needs one rebuild to clear the spacer text** - `rebuildAllPropertyTabs` now does it along with everything else. Inbox (D-040, D-041): every bullet is an action Paul takes and nothing else is a bullet (`why` and `checked` collapsed under "Claude's read"); gate codes are translated and a lint fails if a new one is not; **property is per item** with the entry's select as "set all", and Approve splits one entry per property; the account picker is grouped Property costs / Business overhead / Cash and other; live D-010 check ("Business account on a property - set 6510 to OVERHEAD"); a trade picker, offering the trades the tabs group by. 455 tests.
 - **2026-09-23, the light property tabs (audit §64, D-042) - light template only, 104 Ashburne untouched:** the **Dennis commission rows are gone** from Payouts (his line and Paul's `Less Dennis commission`) - he charges none on a partnership deal; the commission stays a **bank-deal** term (`dennis_commission_pct`, the heavy tab's line, `lib/sale.mjs`'s 1210 entry at closing, D-036). **`Due to Paul (paid less reimbursed)` → `Paul Paid (direct)`** (label only). **`Concession (type it here)`** added to the Profit Breakdown below Closing % - the heavy tab's cell, blue, kept across rebuilds, subtracted as `-ABS(...)` so a hand-typed minus cannot turn a credit into profit. **`Received (advances, refunds)` split into `Received (advances)` + `Received (refunds)`** on payee (an advance's two lines both carry `Dennis Little`, `buildAdvance`; a refund is a negative cost row carrying its vendor) - an **exhaustive partition**, so a payee the rule does not expect can only move a line between the two rows, never out of the block total; verified against the books first (33/33 advances `Dennis Little`, all 7 negative rows vendors). **Dennis Paid (direct) keeps ONE Received row**, unfiltered: a direct-paid Dennis cost *is* an advance, so an advances row there could only read zero (Paul agreed, removed). 455 tests, pushed, no deploy.
@@ -207,7 +209,7 @@ are the target, D-028 returns hold for Paul). **Resume from `HANDOFF-2026-09-30.
   gone (Sell property sits under Add advance); Dennis's interest is recorded at closing, not monthly (the year-end is
   `postInterest` from commit 774ecd3); **oneOffScripts.gs is emptied** - every script had run, git keeps them. **LIVE:
   writer web app @23, site `6abd881d`, nothing owed; 539 tests.**
-- **2026-09-25 (D-044, D-045):** the gate lets a **medium** read post when every other rail holds (low still holds); a vendor's unanimous payment history settles `paid_from` when the document shows no card and Paul wrote no note; Chase checking 8870 is Paul's personal (`paul_personal_last4` = `9166, 8870`); `MAX_TOKENS_PER_TURN` 32k; the warm job replays errored docs from their stored read; the digest names the gate reason. CHANGELOG 2026-09-25.
+- **2026-09-25 (D-044, D-045):** the gate lets a **medium** read post when every other rail holds (low still holds); a vendor's unanimous payment history settles `paid_from` when the document shows no card and Paul wrote no note; Chase checking 8870 is Paul's personal (`paul_personal_last4` = `9166, 8870, 3746` - Discover 3746 added the same day); `MAX_TOKENS_PER_TURN` 16000 (32k broke: the SDK refuses a non-streaming call above ~21k); the warm job replays errored docs from their stored read; the digest names the gate reason. CHANGELOG 2026-09-25.
 - **All five lists are done** (audit §40-§43): list 4 in mail not in the books 0 (`mail_settled`), differences 0 (`differences_settled`), confirm 0 real (the 3 shown are rows Paul dropped), questions answered; every decision, link, refusal (per document), drop, addition and retraction is in `data/migration/2026-09-17/paul-answers.json`. **Paul's stopping rule:** no new cost unless proven paid AND absent from the old books by total, pre-tax subtotal and items; otherwise park for Phase 3.
 - **2026-09-28: 104 Ashburne SOLD** the week of 09-21 (Citizens: $715,558.65 from Bison Title 09-23, $550,000 to Raymond James 09-25) - **not closed in the books yet; Paul starts the sell wizard when he is ready.** Earlier: **Facts corrected on 2026-09-18:** 104 Ashburne had NOT closed then. **881 Newport has NOT closed either - under contract (Paul 2026-09-21, audit §47); sold = Granite and Sparkling only**; its two Cost Recapture lines moved to its own tab. "Effren" rows are **Falcon Creek Lawn Care** (`rename_payee`). Paul's notes are the documents for cash labor.
 - **Matcher fixes 2026-09-21 (`migration-compare.py`):** coincidental subset sums (26 false Home Depot / Lowe's links removed), near-amount tolerance capped at 10% of the row, lone stale-duplicate dismissals are real receipts. `migration-audit-links.py` has a far-from-receipt section; both sections are clean (Shalom's second payment is the one expected line).
@@ -222,7 +224,8 @@ shape and Recast's own accounts on 2026-09-28 (D-051, D-023) - read its amendmen
 Policy learned in the Phase 2 gate (D-012): the bookkeeper decides the easy cases itself —
 PDX↔DFW travel posts with a written purpose; a confident dismiss is final; duplicates are
 caught by invoice number with a fresh ledger read before any post. Card last-4s live on
-`Bank accounts` (1401 → 5450) and Settings `paul_personal_last4` (9166); the model is
+`Bank accounts` (1401 → `2505, 5450, 9301`; 1402 → `6317`) and Settings `paul_personal_last4`
+(`9166, 8870, 3746`); the model is
 shown them with every document.
 
 Operating notes: deploy = `npm run deploy`; writer = `clasp push -f` + `clasp deploy -i
