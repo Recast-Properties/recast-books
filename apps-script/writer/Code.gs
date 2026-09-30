@@ -1162,72 +1162,74 @@ function setupTotals() {
   var props = PropertiesService.getScriptProperties();
   var ss = openOrCreateWorkbook_(props);
   var sh = getOrCreateSheet_(ss, 'Totals');
+  // A previous build's spacer column A (empty, "Totals as of" in B1) is removed first, as the
+  // property tabs do, so the build starts at column A and re-inserts exactly one at the end.
+  if (sh.getLastColumn() > 1 && sh.getRange(1, 1).isBlank() && !sh.getRange(1, 2).isBlank()) sh.deleteColumn(1);
   sh.clear();
   // Voided pairs (an entry + its reversal) are excluded from the gross Debit/Credit
   // columns so a mistake does not inflate them; nets are unchanged either way. A row is
   // excluded when it is a void (P = source) or when some void names its txn_id (Y).
-  // SUMPRODUCT over bounded rows: 5000 lines is years of these books.
-  var N = 5000;
-  var R = function (col) { return 'Journal!$' + col + '$2:$' + col + '$' + N; };
+  // Every range is INDIRECT over the same fixed bound (2026-09-30): the old plain references
+  // (a 5000-row bound) were moved by Sheets as Journal rows were deleted at the cutover and
+  // added since - E2:E6807 against H2:H7164 - so every SUMPRODUCT read "Array arguments to
+  // MULTIPLY are of different size" and the whole tab was #N/A. INDIRECT text never moves;
+  // both tabs are given N rows so the ranges exist. Whole columns would not do: the helper
+  // is on this tab and the Journal has more rows than it, so the arrays differ in size.
+  var N = 20000;   // years of these books (2,710 lines on 2026-09-30)
+  var journal = ss.getSheetByName('Journal');
+  [sh, journal].forEach(function (t) { if (t.getMaxRows() < N + 1) t.insertRowsAfter(t.getMaxRows(), N + 1 - t.getMaxRows()); });
+  var R = function (col) { return 'INDIRECT("Journal!' + col + '2:' + col + N + '")'; };
   // The "is this txn_id voided" lookup is O(rows^2); it is computed once in helper
-  // column H (row 2 down) and every formula reads the flag.
-  var live = '(' + R('P') + '<>"void")*($H$2:$H$' + N + '<>TRUE)*(' + R('C') + '<=$B$1)';
+  // column H (row 2 down, "V" when voided) and every formula reads the flag. SUMIFS, not
+  // SUMPRODUCT (2026-09-30): the SUMPRODUCT build over 20,000 rows made the Spreadsheets
+  // service give up mid-write; SUMIFS does the same sums at a fraction of the work.
+  // The helper column is named by R1C1 through COLUMN($H$1): the spacer column inserted at
+  // the end of the build moves $H$1 (and every plain reference) along, and the INDIRECT text
+  // follows it, where "H2:H" as text would have kept pointing at the old column.
+  var helper = 'INDIRECT("R2C"&COLUMN($H$1)&":R' + N + 'C"&COLUMN($H$1),FALSE)';
+  var live = ',' + R('P') + ',"<>void",' + helper + ',"<>V",' + R('C') + ',"<="&$B$1';
   var critExpr = function (crit) {
-    // crit is "col,value[,col,value]" in SUMIFS form; each pair becomes a (range=value)
-    // factor. Both sides are coerced to text: a code typed by hand is a number, the
-    // writer's are text.
+    // crit is "col,value[,col,value]" in SUMIFS form: a cell (A5), a quoted code ("1401")
+    // or "<>" (non-empty). A code typed by hand is a number, the writer's are text: the
+    // criteria is always text and SUMIFS matches either.
     var parts = crit.split(','), out = '';
     for (var i = 0; i + 1 < parts.length; i += 2) {
       var v = parts[i + 1];
-      out += v === '"<>"' ? '(' + parts[i] + '<>"")*' : '(' + parts[i] + '&""=' + v + '&"")*';
+      out += ',' + parts[i] + ',' + (v === '"<>"' ? '"<>"' : v + '&""');
     }
     return out;
   };
-  var deb = function (crit) { return 'SUMPRODUCT(' + critExpr(crit) + live + '*' + R('F') + ')'; };
-  var cred = function (crit) { return 'SUMPRODUCT(' + critExpr(crit) + live + '*' + R('G') + ')'; };
+  var deb = function (crit) { return 'SUMIFS(' + R('F') + critExpr(crit) + live + ')'; };
+  var cred = function (crit) { return 'SUMIFS(' + R('G') + critExpr(crit) + live + ')'; };
   var ifBlank = function (ref, f) { return '=IF(' + ref + '="","",' + f + ')'; };
 
+  // Paul's own formatting of the tab (2026-09-30): section headers green, TOTAL rows pale
+  // yellow, column labels right over their numbers, one blank row between sections.
   var rows = [];
-  var bold = [];
-  var push = function (r, isBold) { rows.push(r); if (isBold) bold.push(rows.length); };
+  var heads = [], totals = [];
+  var push = function (r, kind) { rows.push(r); if (kind === 'head') heads.push(rows.length); if (kind === 'total') totals.push(rows.length); };
 
-  push(['As of', '=TODAY()', '', '', ''], true);
-  push(['', '', '', '', '']);
-  push(['TRIAL BALANCE', '', 'Debit', 'Credit', 'Net (Dr - Cr)'], true);
-  var tbFirst = rows.length + 1, tbN = 80;
-  for (var i = 0; i < tbN; i++) {
-    var r = tbFirst + i, src = 2 + i;
-    push(['=IF(Accounts!A' + src + '="","",Accounts!A' + src + ')',
-          '=IF(Accounts!A' + src + '="","",Accounts!B' + src + ')',
-          ifBlank('A' + r, deb(R('E') + ',A' + r)),
-          ifBlank('A' + r, cred(R('E') + ',A' + r)),
-          ifBlank('A' + r, 'C' + r + '-D' + r)]);
-  }
-  var tbLast = tbFirst + tbN - 1;
-  push(['TOTAL', '', '=SUM(C' + tbFirst + ':C' + tbLast + ')', '=SUM(D' + tbFirst + ':D' + tbLast + ')',
-        '=SUM(E' + tbFirst + ':E' + tbLast + ')'], true);
+  push(['Totals as of', '=TODAY()', '', '', ''], 'total');
   push(['', '', '', '', '']);
 
-  push(['KEY BALANCES', '', '', '', 'Balance'], true);
+  // Section order and no spare rows (Paul, 2026-09-30: "remove all row gaps before the totals.
+  // reorder the sections like this: Key Balances, overhead, overhead by account, trial balance,
+  // cost by property"): every list is exactly as long as its source, so a new account, property
+  // or 6000-series account needs setupTotals again.
+  var count = function (tab) { return Math.max(1, ss.getSheetByName(tab).getLastRow() - 1); };
+  var overheadNet = deb(R('H') + ',"OVERHEAD",' + R('I') + ',"<>"') + '-' + cred(R('H') + ',"OVERHEAD",' + R('I') + ',"<>"');
+
+  push(['KEY BALANCES', '', '', '', 'Balance'], 'head');
   [['1401', 'Cash - Citizens shared'], ['1402', 'Cash - Chase operating'], ['2030', 'Due to owner (Paul)'],
    ['2010', 'Note payable - Dennis'], ['2000', 'Accrued interest - Dennis']].forEach(function (k) {
     push([k[0], k[1], '', '', '=' + deb(R('E') + ',"' + k[0] + '"') + '-' + cred(R('E') + ',"' + k[0] + '"')]);
   });
   push(['', '', '', '', '']);
 
-  push(['COST BY PROPERTY (capitalized 1000-series lines)', '', '', '', 'Net'], true);
-  var pFirst = rows.length + 1, pN = 30;
-  for (var j = 0; j < pN; j++) {
-    var pr = pFirst + j, psrc = 2 + j;
-    push(['=IF(Properties!A' + psrc + '="","",Properties!A' + psrc + ')', '', '', '',
-          ifBlank('A' + pr, deb(R('H') + ',A' + pr + ',' + R('I') + ',"<>"') + '-' + cred(R('H') + ',A' + pr + ',' + R('I') + ',"<>"'))]);
-  }
-  push(['OVERHEAD', "Paul's alone (D-010) - see below", '', '',
-        '=' + deb(R('H') + ',"OVERHEAD",' + R('I') + ',"<>"') + '-' + cred(R('H') + ',"OVERHEAD",' + R('I') + ',"<>"')], true);
-  push(['', '', '', '', '']);
-
-  push(['OVERHEAD BY ACCOUNT (6000-series)', '', 'Debit', 'Credit', 'Net'], true);
-  var oFirst = rows.length + 1, oN = 40;
+  push(['OVERHEAD BY ACCOUNT (6000-series)', '', 'Debit', 'Credit', 'Net'], 'head');
+  var accountsSheet = ss.getSheetByName('Accounts'), aCols = headerIndex_(accountsSheet);
+  var oN = accountsSheet.getRange(2, aCols['series'], count('Accounts'), 1).getValues().filter(function (r) { return String(r[0]) === '6000'; }).length;
+  var oFirst = rows.length + 1;
   for (var k2 = 0; k2 < oN; k2++) {
     var orow = oFirst + k2, idx = k2 + 1;
     var pick = 'IFERROR(INDEX(FILTER(Accounts!A$2:A,Accounts!C$2:C=6000),' + idx + '),"")';
@@ -1239,11 +1241,40 @@ function setupTotals() {
   }
   var oLast = oFirst + oN - 1;
   push(['TOTAL OVERHEAD', '', '=SUM(C' + oFirst + ':C' + oLast + ')', '=SUM(D' + oFirst + ':D' + oLast + ')',
-        '=SUM(E' + oFirst + ':E' + oLast + ')'], true);
+        '=SUM(E' + oFirst + ':E' + oLast + ')'], 'total');
+  push(['', '', '', '', '']);
+
+  push(['OVERHEAD', "Paul's alone - never charged to a house", '', '', '=' + overheadNet], 'head');
+  push(['', '', '', '', '']);
+
+  push(['TRIAL BALANCE', '', 'Debit', 'Credit', 'Net (Dr - Cr)'], 'head');
+  var tbFirst = rows.length + 1, tbN = count('Accounts');
+  for (var i = 0; i < tbN; i++) {
+    var r = tbFirst + i, src = 2 + i;
+    push(['=IF(Accounts!A' + src + '="","",Accounts!A' + src + ')',
+          '=IF(Accounts!A' + src + '="","",Accounts!B' + src + ')',
+          ifBlank('A' + r, deb(R('E') + ',A' + r)),
+          ifBlank('A' + r, cred(R('E') + ',A' + r)),
+          ifBlank('A' + r, 'C' + r + '-D' + r)]);
+  }
+  var tbLast = tbFirst + tbN - 1;
+  push(['TOTAL', '', '=SUM(C' + tbFirst + ':C' + tbLast + ')', '=SUM(D' + tbFirst + ':D' + tbLast + ')',
+        '=SUM(E' + tbFirst + ':E' + tbLast + ')'], 'total');
+  push(['', '', '', '', '']);
+
+  push(['COST BY PROPERTY (capitalized 1000-series lines)', '', '', '', 'Net'], 'head');
+  var pFirst = rows.length + 1, pN = count('Properties');
+  for (var j = 0; j < pN; j++) {
+    var pr = pFirst + j, psrc = 2 + j;
+    push(['=IF(Properties!A' + psrc + '="","",Properties!A' + psrc + ')', '', '', '',
+          ifBlank('A' + pr, deb(R('H') + ',A' + pr + ',' + R('I') + ',"<>"') + '-' + cred(R('H') + ',A' + pr + ',' + R('I') + ',"<>"'))]);
+  }
 
   sh.getRange(1, 1, rows.length, 5).setValues(rows);
   sh.getRange(1, 8).setValue('helper: voided?');
-  sh.getRange(2, 8).setFormula('=ARRAYFORMULA(IF(' + R('A') + '="","",ISNUMBER(MATCH(' + R('A') + ',' + R('Y') + ',0))))');
+  // a Journal past the bound would go uncounted: say so on the tab
+  sh.getRange(2, 6).setFormula('=IF(COUNTA(INDIRECT("Journal!A' + (N + 1) + ':A"))>0,"JOURNAL PAST ROW ' + N + ' - rebuild Totals with a bigger bound","")');
+  sh.getRange(2, 8).setFormula('=ARRAYFORMULA(IF(' + R('A') + '="","",IF(ISNUMBER(MATCH(' + R('A') + ',' + R('Y') + ',0)),"V","")))');
   sh.getRange(1, 8, 1, 1).setFontColor('#999999');
   sh.setColumnWidth(8, 60);
   sh.getRange(1, 2).setNumberFormat('yyyy-mm-dd');
@@ -1251,7 +1282,22 @@ function setupTotals() {
   sh.setColumnWidth(1, 130); sh.setColumnWidth(2, 280);
   [3, 4, 5].forEach(function (c) { sh.setColumnWidth(c, 120); });
   sh.setFrozenRows(1);
-  bold.forEach(function (r) { sh.getRange(r, 1, 1, 5).setFontWeight('bold'); });
+  sh.getRange(1, 3, rows.length, 3).setHorizontalAlignment('right');
+  sh.getRange(1, 1, rows.length, 2).setHorizontalAlignment('left');
+  // Paul's colors (2026-09-30): a header row #a3f67f, its cells that hold a total #ceffbc; a
+  // TOTAL row #ffe599, its cells that hold a total #fff2cc.
+  var withTotal = function (r, header, cells) {
+    sh.getRange(r, 1, 1, 5).setFontWeight('bold').setBackground(header);
+    for (var c = 3; c <= 5; c++) if (String(rows[r - 1][c - 1]).charAt(0) === '=') sh.getRange(r, c).setBackground(cells);
+  };
+  heads.forEach(function (r) { withTotal(r, '#a3f67f', '#ceffbc'); });
+  totals.forEach(function (r) { withTotal(r, '#ffe599', '#fff2cc'); });
+  sh.getRange(1, 1, 1, 5).setBackground(null);   // the As-of line is bold, not a total
+  // Narrow spacer column on the left, like the property tabs (Paul, 2026-09-30). Inserting
+  // after the build shifts every formula on the tab along with its cell.
+  sh.insertColumnBefore(1);
+  sh.setColumnWidth(1, 20);
+  sh.getRange(1, 1, sh.getMaxRows(), 1).setBackground(null);
   console.log('Totals tab rebuilt: ' + rows.length + ' rows');
   return { ok: true, rows: rows.length };
 }

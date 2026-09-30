@@ -406,6 +406,8 @@ function addProperty(form, skipRebuild) {   // skipRebuild: the migration rebuil
       } catch (err) {
         tabError = String((err && err.message) || err);
       }
+      // the Totals tab lists exactly the properties there are (Paul, 2026-09-30): a new one makes room for itself
+      if (created) { try { setupTotals(); } catch (err) { console.error('setupTotals after addProperty: ' + err); } }
       warmCache_();
     }
     return { ok: true, name: name, created: created, tabRows: tabRows, tabError: tabError };

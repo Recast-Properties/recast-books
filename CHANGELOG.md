@@ -2054,3 +2054,23 @@ the deploy waited on `clasp login` (expired overnight, Paul's step, 09-30 09:38)
 top - Paul is owed on three lines (20.00, 30.00, 20.54, 15.71 less the 161.17 correction), five paid from the Recast
 account, nothing paid back yet. 549 tests. Pushed 10:04. **OWED: the writer web app deploy (Code.gs / lib.gs changed;
 @17 still serves the pollers and the web Inbox - a post through them rebuilds Cost Recapture in the OLD grid until then).**
+
+## 2026-09-30 (10:05-11:35) - the Totals tab: every cell was #N/A; rebuilt, reordered, in Paul's colors
+
+Paul: *"look at the totals tab. all of the values are errors."* Every SUMPRODUCT read "Array arguments to MULTIPLY are
+of different size": the formulas were written with a 5,000-row bound, and Sheets had moved each plain reference by
+itself as Journal rows were deleted at the cutover and added since (E2:E6807 against H2:H7164). Whole columns did not
+do either - the helper is on Totals, the Journal has more rows. **Now:** every range is `INDIRECT` text over a fixed
+bound (N = 20,000; both tabs given that many rows; a note in F2 if the Journal ever passes it), **SUMIFS** instead
+of SUMPRODUCT (the SUMPRODUCT build over 20,000 rows timed out the Spreadsheets service mid-write), the helper column
+named by R1C1 through COLUMN($H$1) so the spacer column's insert moves it too. The property tabs still use the
+plain 5,000-row bound: they were rebuilt after the cutover and rows are never deleted now - left alone.
+Then Paul's layout: no spare rows (every list exactly as long as its source; `addProperty` runs setupTotals so a new
+house makes its own room; a new account needs setupTotals by hand), sections in his order - Key balances, Overhead
+by account + TOTAL OVERHEAD, Overhead, Trial balance + TOTAL, Cost by property - his colors (header #a3f67f, its
+total cells #ceffbc; TOTAL row #ffe599, its total cells #fff2cc), labels right over the numbers, "Totals as of" in
+B1, a spacer column A like the property tabs (removed and re-inserted on each build), "D-010" off the tab. Six
+editor runs by Paul; read back each time: trial balance 4,482,724.04 both sides, net 0.00; Citizens 4,368.02 (the
+bank's 169,805.35 less the unbooked Ashburne wires 165,558.65 and 5 open cards 344.99 leaves 223.67 unexplained -
+HD 08-14 x3 125.57 is part of it; the reconcile step's job); Chase 0 until Ashburne closes (D-051). "Trial balance"
+stays as the name - Paul asked what it was, not to rename it. 549 tests. **Writer web app deploy still owed (@17).**
