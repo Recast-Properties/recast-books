@@ -1074,6 +1074,7 @@ function refreshPnl_(ss) {
       if (k === 'total') sh.getRange(i + 4, 1, 1, 3).setFontWeight('bold').setBackground('#ffe599');
     });
     [300, 130, 560].forEach(function (w, i) { sh.setColumnWidth(i + 1, w); });
+    sh.getRange(4, 3, t.rows.length, 1).setWrap(true);   // a long note wraps instead of running off the sheet
     sh.setFrozenRows(2);
   } catch (err) {
     console.error('refreshPnl_: ' + String((err && err.message) || err));
