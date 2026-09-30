@@ -1328,3 +1328,13 @@ Paul), what is left for the owners (profit on the sales, business costs, paid ou
 open advances but is not posted is counted on BOTH sides (a house cost and owed to Dennis, D-011), so the sheet adds up
 and the houses read what they really cost. The menu item is removed and the old tab deleted. Whether Dennis's interest
 should be POSTED monthly (the Post interest menu, never run on the held houses) is still Paul's call - not decided.
+
+**Amended the same evening (Paul): the tab is `P&L`** - *"change the name of the tab to P&L and put the P&L section at
+the top. remove any duplicate numbers and streamline this as much as you can."* `pnlTab` (replacing `balanceSheetTab`):
+this year's profit and loss first (each house sold with its sale date, other income, business costs, "Recast earned"),
+then what Recast owns (the houses as ONE line - each house's tab has its number - costs after a sale, cash), what it
+owes (Dennis's loans, his interest recorded and not recorded yet - named once, Paul), and what is left (paid out to Paul,
+Left). Each fact once; "adds up" is in the date line (red when it does not). One value may show twice when two facts
+share it - today Left equals the business costs, because all the house profit went to Paul - and its note says so. The
+menu's P&L report is removed with its tab; the timer handler keeps its first name so the installed trigger still finds it.
+The P&L shows the current year only; tax season needs last year's column before January 2027.

@@ -194,12 +194,13 @@ are the target, D-028 returns hold for Paul). **Resume from `HANDOFF-2026-09-30.
   (re-posted paid by Paul) - `fixCitizensGap()`, run by Paul; the box reads **"they agree"** (books 4,591.71). The 3 AM
   waiting list is proven. **Citizens: 69 reconciled, 8 waiting on Dennis, 0 on Paul, 2 on the Ashburne closing. LIVE:
   writer web app @20, site `6abc3ad9`, nothing owed; 550 tests.** Resume from `HANDOFF-2026-09-30.md` START HERE.
-- **2026-09-30 evening (D-064, D-065): the `Balance Sheet` tab** - plain words, Dennis's interest not recorded yet on
-  both sides, rebuilt every hour by a timer (`refreshBalanceSheetHourly`, installed by `installTriggers`); the menu's
-  Balance sheet report and its stale tab are gone. **Claude credits are a software cost (6400) when bought** - D-018's
+- **2026-09-30 evening (D-064, D-065): the `P&L` tab** - this year's profit and loss on top, then what Recast owns and
+  owes and what is left, plain words, each fact once, Dennis's interest not recorded yet on both sides, rebuilt every hour
+  by a timer (`refreshBalanceSheetHourly` -> `refreshPnl_`, installed by `installTriggers`); the menu's Balance sheet and
+  P&L reports and their stale tabs are gone. **Claude credits are a software cost (6400) when bought** - D-018's
   prepaid line, monthly split job (`/api/api-costs`), web card and poller call are deleted; the 1,081.45 moved by month
-  (`moveApiCreditsToSoftware`). Owns 2,074,349.42 = owes 2,103,224.61 + left -28,875.19. **LIVE: writer web app @21,
-  site `6abd881d`, nothing owed; 543 tests.**
+  (`moveApiCreditsToSoftware`). Earned 56,179.13; owns 2,074,349.42 = owes 2,103,224.61 + left -28,875.19. **LIVE:
+  writer web app @22, site `6abd881d`, nothing owed; 543 tests.**
 - **2026-09-25 (D-044, D-045):** the gate lets a **medium** read post when every other rail holds (low still holds); a vendor's unanimous payment history settles `paid_from` when the document shows no card and Paul wrote no note; Chase checking 8870 is Paul's personal (`paul_personal_last4` = `9166, 8870`); `MAX_TOKENS_PER_TURN` 32k; the warm job replays errored docs from their stored read; the digest names the gate reason. CHANGELOG 2026-09-25.
 - **All five lists are done** (audit §40-§43): list 4 in mail not in the books 0 (`mail_settled`), differences 0 (`differences_settled`), confirm 0 real (the 3 shown are rows Paul dropped), questions answered; every decision, link, refusal (per document), drop, addition and retraction is in `data/migration/2026-09-17/paul-answers.json`. **Paul's stopping rule:** no new cost unless proven paid AND absent from the old books by total, pre-tax subtotal and items; otherwise park for Phase 3.
 - **2026-09-28: 104 Ashburne SOLD** the week of 09-21 (Citizens: $715,558.65 from Bison Title 09-23, $550,000 to Raymond James 09-25) - **not closed in the books yet; Paul starts the sell wizard when he is ready.** Earlier: **Facts corrected on 2026-09-18:** 104 Ashburne had NOT closed then. **881 Newport has NOT closed either - under contract (Paul 2026-09-21, audit §47); sold = Granite and Sparkling only**; its two Cost Recapture lines moved to its own tab. "Effren" rows are **Falcon Creek Lawn Care** (`rename_payee`). Paul's notes are the documents for cash labor.

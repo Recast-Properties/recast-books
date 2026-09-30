@@ -2165,3 +2165,22 @@ only - first turn would have been 10-02, and May-August never). Paul dropped the
 the credits line gone, owns 2,074,349.42, business costs 28,875.19, adds up. 543 tests (the eight api-costs tests went
 with the job). **Deployed 17:10 CT on Paul's "deploy": site `6abd881d` (`/api/api-costs` 404, the card gone from
 app.js), writer web app @21 = the repo. Nothing owed.**
+
+## 2026-09-30 (17:15-17:35 CT) - the Balance Sheet tab becomes the P&L tab (D-065 amended); writer @22
+
+Paul asked whether the P&L was "basically the balance sheet" - explained: the P&L is a stretch of time (earned), the
+balance sheet one moment (owns and owes), and the P&L's all-time total is inside the balance sheet's "left". Then:
+*"change the name of the tab to P&L and put the P&L section at the top. remove any duplicate numbers and streamline
+this as much as you can."* `pnlTab` (`lib/reports.mjs`) replaces `balanceSheetTab`, reusing `profitAndLoss` and
+`balanceSheet`: PROFIT AND LOSS - 2026 SO FAR (Granite 54,589.28 sold 07-24, Sparkling 30,465.04 sold 08-06, business
+costs -28,875.19, Recast earned 56,179.13), WHAT RECAST OWNS TODAY (houses still held (8) 2,068,467.59 as one line, costs
+after a sale 1,290.12, Citizens 4,591.71), WHAT RECAST OWES TODAY (Dennis lent 1,982,260.38, his interest not recorded yet
+76,311.69, Paul 44,652.54), LEFT FOR THE OWNERS (paid out to Paul -85,054.32, Left -28,875.19). 27 lines -> 19: the
+per-house lines and their interest notes, "Profit on the houses sold" (= the payout) and the "Adds up" line (now in the
+date line) went. All the books' activity is in 2026, so one column; "Earned before <year>" appears when it is not. The
+tab is `P&L` (`refreshPnl_`, Code.gs; the hourly handler keeps its name `refreshBalanceSheetHourly` so the trigger Paul
+installed still runs it); every run deletes `Balance Sheet`, `Report - Balance sheet` and `Report - P&L`; the menu's
+P&L report is removed. The Left note wraps (it ran off the sheet) and says why Left equals the business costs - explained
+to Paul: all the house profit went to him and none was kept to cover them; what he came out ahead is 56,179.13. Read
+back live 17:26 CT: adds up. 543 tests. **Deployed 17:30 CT on Paul's "deploy": writer web app @22 = the repo; the site
+needs nothing (no function bundles `lib/reports.mjs`), `6abd881d`. Nothing owed.**
