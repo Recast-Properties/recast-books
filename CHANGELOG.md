@@ -2073,4 +2073,5 @@ B1, a spacer column A like the property tabs (removed and re-inserted on each bu
 editor runs by Paul; read back each time: trial balance 4,482,724.04 both sides, net 0.00; Citizens 4,368.02 (the
 bank's 169,805.35 less the unbooked Ashburne wires 165,558.65 and 5 open cards 344.99 leaves 223.67 unexplained -
 HD 08-14 x3 125.57 is part of it; the reconcile step's job); Chase 0 until Ashburne closes (D-051). "Trial balance"
-stays as the name - Paul asked what it was, not to rename it. 549 tests. **Writer web app deploy still owed (@17).**
+stays as the name - Paul asked what it was, not to rename it. 549 tests. **Deployed 11:35: writer web app @18 = the repo;
+site `6abc3ad9` unchanged. Nothing owed.**
