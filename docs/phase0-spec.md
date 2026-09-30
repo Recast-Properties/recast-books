@@ -138,7 +138,7 @@ never by letter):
 
 - `Journal`: `txn_id, line, date, period, account, debit, credit, property, cost_class, tax_treatment, trade, payee, description, paid_from, doc_url, source, posted_by, posted_at, memo, reconciled_ref, business_purpose, attendee, destination, odometer, void_of`
 - `Accounts`: `code, name, series, type, cost_class, tax_treatment, active, notes`
-- `Properties`: `name, address, status, purchase_date, purchase_price, settlement_date, template, dennis_funded, drive_folder, notes`
+- `Properties`: `name, address, status, purchase_date, purchase_price, settlement_date, template, dennis_funded, drive_folder` (`notes` removed 2026-09-30, Paul)
 - `Bank accounts`: `code, name, institution, last4, plaid_item_id, plaid_account_id, opening_balance, opening_date, active`
 - `Vendors`: `canonical, aliases, entity_type, form_1099, tin_status, w9_url, default_account, notes`
 - `Advances`: `advance_id, date, amount, property, source_txn_id, status, accrued_to, repaid_date, notes`

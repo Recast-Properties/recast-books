@@ -180,7 +180,9 @@ are the target, D-028 returns hold for Paul). **Resume from `HANDOFF-2026-09-30.
 - **2026-09-29 15:35 (D-061): the tab `Citizens Bank`** - every line of the account, newest on top, who paid, status,
   waiting on, house, note; built by `lib/bank-sheet.mjs` + `refreshBankSheets_` after every change to a bank line and
   from Recast Books -> Bank sheet. The Feed tab has a last column `card` (the matcher fills it). **LIVE: writer web app
-  @18 (09-30), site `6abc3ad9`, nothing owed; 549 tests.** 09-30: D-062 Cost Recapture's tab is a plain list (newest on top, who
+  @19 (09-30 13:52), site `6abc3ad9`, nothing owed; 549 tests.** 09-30 afternoon: Green Acres and Janice bought (9%); Add
+  advance fills the Properties row on a purchase; Properties `notes` removed; house tabs find Properties cells by header
+  (`propLookup_`), never by column number. 09-30: D-062 Cost Recapture's tab is a plain list (newest on top, who
   paid, paid back); the Totals tab rebuilt (INDIRECT over a fixed bound + SUMIFS - the old 5,000-row references had
   drifted and every cell was #N/A), in Paul's order and colors, no spare rows, `addProperty` rebuilds it. The Inbox's bank cards end with who paid; a waiting-for-closing
   line names its house. Read back: 64 reconciled, 8 waiting on Dennis, 5 on Paul, 2 on the

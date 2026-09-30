@@ -13,7 +13,7 @@
   <div><label>Purchase price</label><input type="text" id="p-purchase-price" placeholder="207000.00"></div>
 </div>
 <div class="row">
-  <div><label>Contract price (optional)</label><input type="text" id="p-contract-price" placeholder="290000"></div>
+  <div><label>Expected sale price (optional)</label><input type="text" id="p-contract-price" placeholder="290000"></div>
   <div><label>Annual property tax</label><input type="text" id="p-tax-annual" placeholder="7942"></div>
 </div>
 <div class="row">
@@ -24,7 +24,6 @@
   <div><label>Dennis-funded</label><select id="p-dennis-funded"><option value="true">Yes</option><option value="false" selected>No</option></select></div>
   <div><label>Drive folder</label><input type="text" id="p-drive-folder" placeholder="https://drive.google.com/..."></div>
 </div>
-<label>Notes</label><input type="text" id="p-notes">
 <button class="primary" id="p-save">Add property</button>
 <div id="p-msg" class="msg hidden"></div>
 
@@ -47,8 +46,7 @@
       dennis_share_pct: document.getElementById('p-dennis-share').value,
       settlement_date: document.getElementById('p-settlement-date').value,
       dennis_funded: document.getElementById('p-dennis-funded').value,
-      drive_folder: document.getElementById('p-drive-folder').value,
-      notes: document.getElementById('p-notes').value
+      drive_folder: document.getElementById('p-drive-folder').value
     };
     btn.disabled = true;
     btn.textContent = 'Saving...';

@@ -63,7 +63,7 @@ const SPEC_HEADERS = {
     "void_of"],
   "Accounts": ["code", "name", "series", "type", "cost_class", "tax_treatment", "active", "notes"],
   "Properties": ["name", "address", "status", "purchase_date", "purchase_price",
-    "settlement_date", "template", "dennis_funded", "drive_folder", "notes"],
+    "settlement_date", "template", "dennis_funded", "drive_folder"],   // notes removed 2026-09-30 (Paul)
   "Bank accounts": ["code", "name", "institution", "last4", "plaid_item_id",
     "plaid_account_id", "opening_balance", "opening_date", "active"],
   "Vendors": ["canonical", "aliases", "entity_type", "form_1099", "tin_status",
@@ -383,8 +383,9 @@ test("setupPropertyTab: old-tab layout (summary / Dennis / Rehab Costs / Utiliti
   assert.ok(body.includes("FILTER("), "line blocks do not use FILTER over Journal");
   assert.ok(body.includes("insertCheckboxes"), "Paul Paid / Dennis Paid / Recast Account are not checkboxes");
   assert.ok(!body.includes("POST-SALE"), "post-sale block belongs to the Phase 5 closing tab, not the property tab");
-  assert.ok(body.includes("Properties!A:F"), "does not read settlement_date (tax proration stops at the sale)");
-  assert.ok(body.includes("Properties!A:K,11"), "does not read contract_price (D-017)");
+  assert.ok(body.includes("propLookup_(safeName, 'settlement_date')"), "does not read settlement_date (tax proration stops at the sale)");
+  assert.ok(body.includes("propLookup_(safeName, 'contract_price')"), "does not read contract_price (D-017)");
+  assert.ok(!/VLOOKUP\([^)]*Properties!/.test(source), "a Properties cell is found by its header, never a column count (2026-09-30)");
   assert.ok(body.includes("readLabelledValue_(sh, 'Sale Price')"), "a rebuild does not keep the typed Sale Price");
   // Paul, 2026-09-23: the light tabs get the Ashburne tab's concession cell, and lose the
   // Dennis commission rows - he charges none on a partnership deal.
@@ -404,7 +405,7 @@ test("setupPropertyTab: old-tab layout (summary / Dennis / Rehab Costs / Utiliti
   assert.strictEqual(body.split("'Received (refunds)'").length - 1, 3, "Received (refunds) is not on all three who-paid blocks");
   assert.ok(body.includes("eq('L', 'Dennis Little')") && body.includes("ne('L', 'Dennis Little')"),
     "the advances/refunds split is not an exhaustive partition on payee");
-  assert.ok(body.includes("Properties!A:L,12"), "does not read tax_annual (property tax proration)");
+  assert.ok(body.includes("propLookup_(safeName, 'tax_annual')"), "does not read tax_annual (property tax proration)");
   assert.ok(body.includes("DATE(YEAR($B$1),1,1)"), "no Jan-1-to-date proration of tax_annual");
 });
 

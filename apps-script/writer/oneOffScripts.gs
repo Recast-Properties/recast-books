@@ -932,6 +932,46 @@ function makeCostRecaptureAList() {
   return out;
 }
 
+// STATUS: DONE 2026-09-30 ~13:40 PDT by Paul: notes column removed, both rows filled, Janice's contract_price and tab Sale Price cleared, every held tab rebuilt - read back.
+// Paul 2026-09-30: "why is the info not showing up properly in the properties tab for janice and green
+// acres?" - Add advance never wrote the Properties row (it does now, purchaseOntoProperty_), and Janice's
+// purchase 267,474.01 was typed into "Contract price", the SALE price estimate (the form's label now says
+// "Expected sale price"). Fills both rows from their purchase advances, clears Janice's contract_price and
+// the Sale Price her tab kept from it (only where they equal what she cost); deletes the Properties tab's
+// notes column first (Paul: "just remove the notes column"); rebuilds every held tab, whose lookups into
+// Properties counted columns until propLookup_. tax_annual is Paul's to type. Editor-only; a rerun changes nothing more.
+function fixGreenAcresJanicePurchase() {
+  var ss = openWorkbook_(PropertiesService.getScriptProperties());
+  requireOwner_(ss);
+  var out = [];
+  // Paul, the same afternoon: "just remove the notes column". First, so every tab rebuilt below is built
+  // against the new columns (the tabs find Properties cells by header now - propLookup_).
+  var props = ss.getSheetByName('Properties'), pc = headerIndex_(props);
+  if (pc['notes']) { props.deleteColumn(pc['notes']); out.push('Properties: notes column removed'); }
+  CacheService.getScriptCache().remove('ctx');
+  [['413 Green Acres', '2026-08-05', 12700000], ['200 Janice', '2026-07-07', 26747401]].forEach(function (p) {
+    purchaseOntoProperty_(ss, p[0], p[1], p[2]);
+    var sh = ss.getSheetByName('Properties'), cols = headerIndex_(sh), row = findRowByValue_(sh, cols['name'], p[0]);
+    var cp = sh.getRange(row, cols['contract_price']);
+    if (Math.round(Number(cp.getValue()) * 100) === p[2]) { cp.clearContent(); out.push(p[0] + ': contract_price cleared'); }
+    var tab = ss.getSheetByName(p[0]);
+    if (tab && tab.getLastRow() > 0) {
+      var grid = tab.getRange(1, 1, tab.getLastRow(), 3).getValues();
+      for (var i = 0; i < grid.length; i++) for (var c = 0; c < 2; c++) {
+        if (String(grid[i][c]).indexOf('Sale Price') === 0 && Math.round(Number(grid[i][c + 1]) * 100) === p[2]) {
+          tab.getRange(i + 1, c + 2).clearContent(); out.push(p[0] + ': tab Sale Price cleared');
+        }
+      }
+    }
+  });
+  CacheService.getScriptCache().remove('ctx');
+  // every held house's tab carries the old lookups by column number: rebuild them all (sold tabs are frozen values)
+  rebuildAllPropertyTabs();
+  out.push('every held property tab rebuilt');
+  Logger.log(out.join('\n'));
+  return out;
+}
+
 // =============================================================================================
 // 3. THE PHASE 4 MIGRATION AND THE CUTOVER (D-024..D-029; DONE 2026-09-21)
 // =============================================================================================

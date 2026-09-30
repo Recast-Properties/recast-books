@@ -392,8 +392,7 @@ function addProperty(form, skipRebuild) {   // skipRebuild: the migration rebuil
       settlement_date: form.settlement_date || '',
       template: form.template || '',
       dennis_funded: form.dennis_funded || 'false',
-      drive_folder: form.drive_folder || '',
-      notes: form.notes || ''
+      drive_folder: form.drive_folder || ''
     };
     var sheet = ss.getSheetByName('Properties');
     var cols = headerIndex_(sheet);
@@ -504,6 +503,7 @@ function addAdvance(form, skipRebuild) {
       kind: kind, rate_pct: rate_pct, paid_to: paidTo
     };
     upsertRow_(advSheet, advCols, 'advance_id', advanceRow);
+    if (kind === 'purchase') purchaseOntoProperty_(ss, property, date, amount_cents);
 
     var tabRows = null, tabError = null;
     if (skipRebuild !== true) {
@@ -518,6 +518,20 @@ function addAdvance(form, skipRebuild) {
   } catch (err) {
     return { ok: false, error: (err && err.code) || 'INTERNAL', message: String((err && err.message) || err) };
   }
+}
+
+/** A purchase recorded through Add advance fills the house's Properties row (Paul, 2026-09-30: "why is
+ *  the info not showing up properly in the properties tab"): purchase date and price where blank,
+ *  dennis_funded TRUE. Never overwrites a value already typed. */
+function purchaseOntoProperty_(ss, property, date, amount_cents) {
+  var sh = ss.getSheetByName('Properties'), cols = headerIndex_(sh);
+  var row = findRowByValue_(sh, cols['name'], property);
+  if (row === -1) return;
+  var cell = function (h) { return sh.getRange(row, cols[h]); };
+  if (cols['purchase_date'] && cell('purchase_date').isBlank()) cell('purchase_date').setValue(date);
+  if (cols['purchase_price'] && cell('purchase_price').isBlank()) cell('purchase_price').setValue(amount_cents / 100);
+  if (cols['dennis_funded']) cell('dennis_funded').setValue(true);
+  CacheService.getScriptCache().remove('ctx');
 }
 
 // ---- Post interest ------------------------------------------------------------------------

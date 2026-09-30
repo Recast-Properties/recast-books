@@ -139,7 +139,7 @@ var TAB_HEADERS = {
   'Accounts': ['code', 'name', 'series', 'type', 'cost_class', 'tax_treatment',
     'active', 'notes'],
   'Properties': ['name', 'address', 'status', 'purchase_date', 'purchase_price',
-    'settlement_date', 'template', 'dennis_funded', 'drive_folder', 'notes', 'contract_price',
+    'settlement_date', 'template', 'dennis_funded', 'drive_folder', 'contract_price',   // notes removed (Paul, 2026-09-30)
     'tax_annual', 'dennis_share_pct', 'dennis_commission_pct'],
   'Bank accounts': ['code', 'name', 'institution', 'last4', 'plaid_item_id',
     'plaid_account_id', 'opening_balance', 'opening_date', 'active'],
@@ -1451,7 +1451,7 @@ function setupPropertyTab(name, asOf) {
   set(1, 1, name, true);
   set(1, 2, asOf ? '=DATE(' + asOf.slice(0, 4) + ',' + Number(asOf.slice(5, 7)) + ',' + Number(asOf.slice(8, 10)) + ')' : '=TODAY()');
   set(1, 4, 'as of');
-  set(2, 1, '=IFERROR(VLOOKUP("' + safeName + '",Properties!A:B,2,FALSE),"")');
+  set(2, 1, '=' + propLookup_(safeName, 'address'));
 
   // ---- DENNIS (D:H) - built first so the summary can point at its totals ---------
   // Two advance schedules (Paul, 2026-09-15: "having cash advances separated at the
@@ -1608,7 +1608,7 @@ function setupPropertyTab(name, asOf) {
   // purchase_price until then.
   // Paul, 2026-09-15: the summary reads like the payout - purchase principal with its
   // interest on one line, the cash advances' interest on the next.
-  set(s, 1, 'Purchase Principal + Interest'); set(s, 2, '=IF(' + net(eq('E', '1000')) + '=0,IFERROR(VLOOKUP("' + safeName + '",Properties!A:E,5,FALSE),0),' + net(eq('E', '1000')) + ')+' + purchaseInterestRef); var purchaseRow = s++;
+  set(s, 1, 'Purchase Principal + Interest'); set(s, 2, '=IF(' + net(eq('E', '1000')) + '=0,N(' + propLookup_(safeName, 'purchase_price') + '),' + net(eq('E', '1000')) + ')+' + purchaseInterestRef); var purchaseRow = s++;
   set(s, 1, 'Cash Advance Interest'); set(s, 2, '=' + cashInterestRef); s++;
   set(s, 1, 'Rehab Costs'); set(s, 2, '=' + net(rehabF)); var rehabRow = s++;
   set(s, 1, 'Utilities'); set(s, 2, '=' + net(holdingF + '*' + ne('E', '1100'))); s++;
@@ -1706,13 +1706,13 @@ function setupPropertyTab(name, asOf) {
   // contract_price (D-017), AN:AQ per-advance math, AR/AS tax.
   sh.getRange(1, HB).setFormula('=IFERROR(VLOOKUP("interest_rate_annual",Settings!A:B,2,FALSE),0)');
   sh.getRange(1, HB + 1).setFormula('=IFERROR(VLOOKUP("stub_days_basis",Settings!A:B,2,FALSE),30)');
-  sh.getRange(1, HB + 2).setFormula('=IFERROR(VLOOKUP("' + safeName + '",Properties!A:F,6,FALSE),"")'); // settlement_date
-  sh.getRange(1, HB + 3).setFormula('=IFERROR(VLOOKUP("' + safeName + '",Properties!A:K,11,FALSE),"")'); // contract_price
+  sh.getRange(1, HB + 2).setFormula('=' + propLookup_(safeName, 'settlement_date')); // settlement_date
+  sh.getRange(1, HB + 3).setFormula('=' + propLookup_(safeName, 'contract_price')); // contract_price
   advHelperBlocks.forEach(function (blk) { sh.getRange(blk[0], HB + 5, blk[1].length, 6).setFormulas(blk[1]); });
-  sh.getRange(1, HB + 11).setFormula('=IFERROR(VLOOKUP("' + safeName + '",Properties!A:L,12,FALSE),"")'); // AT1: tax_annual
+  sh.getRange(1, HB + 11).setFormula('=' + propLookup_(safeName, 'tax_annual')); // AT1: tax_annual
   sh.getRange(1, HB + 12).setFormula('=IF(OR(' + SETTLE + '<>"",' + TAX + '=""),0,' + TAX + '*($B$1-DATE(YEAR($B$1),1,1))/365)'); // AU1: proration estimate while unsold
-  sh.getRange(1, HB + 13).setFormula('=IFERROR(IF(VLOOKUP("' + safeName + '",Properties!A:M,13,FALSE)="",50,VLOOKUP("' + safeName + '",Properties!A:M,13,FALSE)),50)'); // AV1: Dennis profit share % (D-022)
-  sh.getRange(1, HB + 14).setFormula('=IFERROR(IF(VLOOKUP("' + safeName + '",Properties!A:N,14,FALSE)="",0,VLOOKUP("' + safeName + '",Properties!A:N,14,FALSE)),0)'); // AW1: Dennis commission % of sale (bank-only deals, Ashburne)
+  sh.getRange(1, HB + 13).setFormula('=IF(' + propLookup_(safeName, 'dennis_share_pct') + '="",50,' + propLookup_(safeName, 'dennis_share_pct') + ')'); // AV1: Dennis profit share % (D-022)
+  sh.getRange(1, HB + 14).setFormula('=IF(' + propLookup_(safeName, 'dennis_commission_pct') + '="",0,' + propLookup_(safeName, 'dennis_commission_pct') + ')'); // AW1: Dennis commission % of sale (bank-only deals, Ashburne)
   sh.getRange(1, HB, 1, 5).setFontColor('#999999');
   sh.getRange(1, HB + 11, 1, 4).setFontColor('#999999');
   advHelperBlocks.forEach(function (blk) { sh.getRange(blk[0], HB + 5, blk[1].length, 6).setFontColor('#999999'); });
@@ -1820,6 +1820,13 @@ function readLabelledValue_(sh, label) {
     }
   }
   return '';
+}
+
+/** A formula for one cell of a house's Properties row, found by the column's HEADER, never its position
+ *  (2026-09-30: removing the notes column would have moved contract_price, tax_annual and the two Dennis
+ *  percentages under VLOOKUPs that counted columns). Blank when the house or the column is missing. */
+function propLookup_(safeName, header) {
+  return 'IFERROR(INDEX(Properties!A:Z,MATCH("' + safeName + '",Properties!A:A,0),MATCH("' + header + '",Properties!1:1,0)),"")';
 }
 
 /** The Properties row for a name as an object keyed by header, or {} if absent. */

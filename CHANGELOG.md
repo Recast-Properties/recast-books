@@ -2090,3 +2090,23 @@ been posted since the two sales paid theirs; `Post interest...` records what is 
 purchase date, price or tax_annual; Janice's 267,474.01 sits in `contract_price` (the SALE price estimate the house tab
 uses - its tab thinks it sells for what it cost) and its `purchase_price` is blank; Janice's tax_annual 814 looks low for
 a full year. Then Rebuild property tab on both (a typed Sale Price cell survives a rebuild - check Janice's).
+
+## 2026-09-30 (13:00-13:55) - the Properties row fills itself from a purchase; Properties cells by header; notes column gone; writer @19
+
+Paul: *"why is the info not showing up properly in the properties tab for janice and green acres?"* Two causes: **Add
+advance never wrote the Properties row** (only the Journal and Advances), and **Janice's purchase 267,474.01 was typed
+into "Contract price"** on the Add property form - which is the SALE price estimate the house tab uses, so her tab sold
+the house for what it cost. Fixed at the root: a purchase through Add advance now fills the row's purchase date and
+price where blank and sets dennis_funded (`purchaseOntoProperty_`, Menu.gs); the form's box says **"Expected sale
+price"**. Then *"just remove the notes column"* (it held the migration's "Phase 4 migration" labels and a PIPELINE note):
+gone from the schema, the form and the tab. **Found before it bit:** the house tabs read contract_price, tax_annual,
+dennis_share_pct and dennis_commission_pct by VLOOKUP column COUNT (11-14), so deleting notes (column 10) would have
+shifted every one - the tax would have read Dennis's 50. Every Properties lookup is now by header (`propLookup_`: INDEX
++ MATCH on row 1); a lint fails on any VLOOKUP into Properties. `fixGreenAcresJanicePurchase()` (run by Paul ~13:40):
+notes column deleted first, both rows filled, Janice's contract_price and her tab's kept Sale Price cleared (only where
+equal to what she cost), every held tab rebuilt. Read back: Green Acres 08-05 / 127,000 / dennis funded; Janice 07-07 /
+267,474.01 / sale price blank; Janice's tab "Property Tax (prorated, $814/yr)"; Newport's "$7,942/yr" (the lookup
+right after the column moved). **Paul's, open:** Green Acres' tax_annual (blank); check Janice's 814 (low for a full
+year). Also explained: Cost Recapture sits on Properties because the posting rules only accept a listed name (D-031) -
+left there, Paul agreed by not asking to move it. 549 tests. **Deployed 13:52: writer web app @19 = the repo; site
+`6abc3ad9` unchanged. Nothing owed.**
