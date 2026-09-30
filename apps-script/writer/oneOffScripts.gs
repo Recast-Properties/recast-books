@@ -1028,7 +1028,7 @@ function fixCitizensGap() {
 // dated that month's last day (today at the latest), so each month's business costs are right. Reads
 // the live Journal: a rerun only moves what is left (a top-up that landed on 1520 before the prompt
 // change deployed), and nothing when 1520 is at zero.
-// STATUS: NOT YET RUN
+// STATUS: DONE 2026-09-30 14:50 PDT by Paul: five entries (05 90.00, 06 100.00, 07 100.00, 08 322.67, 09 468.78), Journal rows 2736-2745; the Balance Sheet read back - the credits line gone, business costs 28,875.19, adds up.
 function moveApiCreditsToSoftware() {
   var props = PropertiesService.getScriptProperties();
   var ss = openWorkbook_(props);
