@@ -2046,3 +2046,11 @@ Then, on the Citizens Bank tab: *"when it's waiting for closing put the property
 Ashburne"**, the House column too; `bankSheetSummary` counts by prefix. 547 tests. Pushed 15:47 (the menus had it);
 the deploy waited on `clasp login` (expired overnight, Paul's step, 09-30 09:38). **Writer web app @17, 09-30 09:40 -
 = the repo; site `6abc3ad9` unchanged. Nothing owed.**
+
+## 2026-09-30 (10:10) - Cost Recapture is a plain list (D-062); writer deploy owed
+
+`lib/cost-list.mjs` (`costListRows`), a **List** template in `setupPropertyTab` / `refreshLineBlocks_`
+(`writeCostList_`), `makeCostRecaptureAList()` (one-off, run by Paul ~10:10): the tab read back as 10 rows, newest on
+top - Paul is owed on three lines (20.00, 30.00, 20.54, 15.71 less the 161.17 correction), five paid from the Recast
+account, nothing paid back yet. 549 tests. Pushed 10:04. **OWED: the writer web app deploy (Code.gs / lib.gs changed;
+@17 still serves the pollers and the web Inbox - a post through them rebuilds Cost Recapture in the OLD grid until then).**

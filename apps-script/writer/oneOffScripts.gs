@@ -914,6 +914,24 @@ function addAugustChecks() {
   return out;
 }
 
+// STATUS: DONE 2026-09-30 ~10:10 PDT by Paul: template = List, the tab rebuilt as the list (10 rows), read back. A rerun just rebuilds.
+// Paul 2026-09-30: "the Cost Recapture tab is a nightmare ... i just need a simple list that shows the
+// expenses, who is owed and whether it was reimbursed". Sets Properties.template = List for Cost
+// Recapture and rebuilds its tab as that list (writeCostList_). Editor-only; a rerun just rebuilds.
+function makeCostRecaptureAList() {
+  var ss = openWorkbook_(PropertiesService.getScriptProperties());
+  requireOwner_(ss);
+  var sh = ss.getSheetByName('Properties'), cols = headerIndex_(sh), last = sh.getLastRow();
+  var names = sh.getRange(2, cols['name'], last - 1, 1).getValues().map(function (r) { return String(r[0]); });
+  var i = names.indexOf('Cost Recapture');
+  if (i < 0) throw new Error('Cost Recapture is not on the Properties tab');
+  sh.getRange(i + 2, cols['template']).setValue('List');
+  CacheService.getScriptCache().remove('ctx');
+  var out = setupPropertyTab('Cost Recapture');
+  Logger.log(JSON.stringify(out));
+  return out;
+}
+
 // =============================================================================================
 // 3. THE PHASE 4 MIGRATION AND THE CUTOVER (D-024..D-029; DONE 2026-09-21)
 // =============================================================================================

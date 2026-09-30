@@ -1271,3 +1271,16 @@ by hand (a check's signer) is never written over. The bank names nobody on a che
 A card of several bank lines ties each line to all of its entries; the entry for the line's own amount speaks for it.
 ponytail: one tab per account named in `BANK_SHEETS`; Chase gets its line with its first file. Nothing typed on the
 tab survives a refresh.
+
+## D-062 · Cost Recapture's tab is a plain list, not the property grid (Properties.template = List) - 2026-09-30 · Paul
+
+Paul: *"the Cost Recapture tab is a nightmare. i just need a simple list that shows the expenses, who is owed and
+whether it was reimbursed if it was paid for from a personal account. right now its in a property template that
+makes no sense"*, then *"i want it to put the newest at the top"*.
+
+**Decided:** a third template, **List** (`lib/cost-list.mjs`, `writeCostList_` in Code.gs): one row per cost line -
+Date, Store, What, For (the sold house in `trade`), Amount, Paid by (Paul / Dennis / Recast account), Paid back (Yes /
+No / Part, worked out oldest-first from the person's paybacks on the property - entries with no cost line) - newest on
+top, with one line above it: Paul is owed, Dennis is owed, paid from the Recast account. Rebuilt after every post like
+any property tab and by Rebuild property tab. D-031 stands: the books underneath are unchanged, only the tab. Nothing
+typed on the tab survives a rebuild.

@@ -986,6 +986,23 @@ function feedUpdateRows_(ss, rows) {
   return out;
 }
 
+// A property whose tab is a plain list (Properties.template = List; Paul, 2026-09-30, on Cost
+// Recapture: "a simple list that shows the expenses, who is owed and whether it was reimbursed").
+// lib/cost-list.mjs reads the Journal; the tab is values, rebuilt like any property tab after a
+// post (refreshLineBlocks_) and by Rebuild property tab (setupPropertyTab).
+function writeCostList_(ss, name) {
+  var j = readTabData_(ss, 'Journal', { all: true });
+  var list = costListRows(loadJournal(j.headers, j.rows), name);
+  var sh = writeReportRows_(ss, name, name + ' - costs after a house has sold, newest on top', [COST_LIST_HEADER].concat(list.rows), name);
+  sh.getRange(2, 1).setValue(list.summary.join('   |   '));
+  if (list.rows.length) {
+    sh.getRange(4, 1, list.rows.length, 1).setNumberFormat('yyyy-mm-dd');
+    sh.getRange(4, 5, list.rows.length, 1).setNumberFormat('#,##0.00;[red]-#,##0.00');
+  }
+  [90, 160, 420, 130, 100, 120, 110].forEach(function (w, i) { sh.setColumnWidth(i + 1, w); });
+  return { ok: true, rows: list.rows.length };
+}
+
 // The bank account's own tab (Paul, 2026-09-29: "a running sheet that shows each charge, who paid
 // and its status ... so i can easily show dennis that its been reconciled and what i need from
 // him", newest on top). Rebuilt from the Feed tab and the Journal after every change to a bank
@@ -1310,6 +1327,8 @@ function setupPropertyTab(name, asOf) {
     console.log('Property tab NOT rebuilt for "' + name + '": sold, frozen at closing');
     return { ok: true, frozen: true, rows: 0 };
   }
+  // Properties.template = List (Paul, 2026-09-30, Cost Recapture): a plain list, not the property grid.
+  if (String((registry || {}).template || '').toLowerCase() === 'list') return writeCostList_(ss, name);
   var heavy = String((registry || {}).template || '').toLowerCase() === 'heavy';
   var BC = PT_BLOCK_COLS;   // Rehab Costs / Utilities block columns (light template)
   // A previous build's spacer column A (empty, name in B1) is removed so the build
@@ -1930,6 +1949,7 @@ function refreshLineBlocks_(ss, name, asOf) {
   var reg = propertyRow_(ss, name) || {};
   if (!asOf && String(reg.status || '').toLowerCase() === 'sold') return;   // frozen at closing
   if (String(reg.template || '').toLowerCase() === 'heavy') { refreshHeavyBlocks_(ss, name, asOf); return; }
+  if (String(reg.template || '').toLowerCase() === 'list') { writeCostList_(ss, name); return; }
   var journal = ss.getSheetByName('Journal');
   var cols = headerIndex_(journal);
   var last = journal.getLastRow();
