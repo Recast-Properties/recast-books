@@ -9,6 +9,7 @@ const paid = (txn_id, account, property, description, cents) =>
   [line(txn_id, account, property, description, { debit: cents }), line(txn_id, "1401", property, description, { credit: cents })];
 
 const JOURNAL = [
+  line("t-ash", "1030", "104 Ashburne", "Paint"),
   line("t-real", "1030", "366 Mesa", "Siding trim"), line("t-real", "1401", "366 Mesa", "Siding trim"),
   line("t-real2", "1030", "469 Brushwood", "Stain"), line("t-real2", "1401", "469 Brushwood", "Stain"),
   ...paid("t-hold", "1030", "366 Mesa", "NEED RECEIPT FROM DENNIS", 16291),
@@ -53,7 +54,7 @@ test("the bank sheet: who paid and where each line stands", () => {
   // a card in the Inbox: a card charge waits on the card's holder, a check on Paul's word
   assert.deepEqual(cols(by["2026-09-21"]), { who: "Dennis", status: BANK_STATUS.receipt, waiting: "Dennis", house: "", note: "Home Depot supplies for 469 Brushwood" });
   assert.deepEqual(cols(by["2026-09-08"]), { who: "", status: BANK_STATUS.answer, waiting: "Paul", house: "", note: "Check 1021 to Juan Garcia - which house?" });
-  assert.deepEqual(cols(by["2026-09-23"]), { who: "", status: BANK_STATUS.later, waiting: "", house: "", note: "Closing wire in for the 104 Ashburne sale" });
+  assert.deepEqual(cols(by["2026-09-23"]), { who: "", status: "Waiting for closing : 104 Ashburne", waiting: "", house: "104 Ashburne", note: "Closing wire in for the 104 Ashburne sale" });
   assert.equal(by["2026-09-29"][4], BANK_STATUS.fresh);
   // tied to an entry that was voided since: never shown as reconciled
   assert.equal(by["2026-09-02"][4], BANK_STATUS.broken);

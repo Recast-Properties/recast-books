@@ -474,6 +474,7 @@
     var read = [m.why, m.checked].filter(Boolean).map(function (t) { return escapeHtml_(t); }).join('<br><br>');
     var isOpen = !!OPEN[env.docId];
     var title = m.vendor || ('(no vendor) ' + (env.subject || '')).trim();
+    if (env.source === 'feed') title += ' - ' + ((env.feed && env.feed.card && env.feed.card.holder) || 'Unknown');   // who paid (Paul, 2026-09-29)
     var search = [m.vendor, env.subject, m.date, (Number(m.receipt_total_cents || 0) / 100).toFixed(2), props.join(' '), env.channel, env.from, env.docId].join(' ').toLowerCase();
     var head = '<div class="head" data-toggle="1"><span class="tw">' + (isOpen ? '&#9662;' : '&#9656;') + '</span>' +
       '<span class="vendor" title="' + escapeHtml_(title) + '">' + escapeHtml_(title) + '</span>' +
@@ -483,7 +484,7 @@
     if (!isOpen) return '<div class="card closed" data-doc="' + d + '" data-tab="' + tabOf_(env) + '" data-search="' + escapeHtml_(search) + '">' + head + '<div class="msg hidden" data-msg="1"></div></div>';
     return '<div class="card open" data-doc="' + d + '" data-tab="' + tabOf_(env) + '" data-search="' + escapeHtml_(search) + '">' + head + '<div class="body">' +
       '<div class="sub">' + escapeHtml_(m.date || '-') + ' &middot; ' + (m.receipt_total_cents != null ? money_(m.receipt_total_cents) : '-') + ' &middot; ' + escapeHtml_(props.join(', ') || '-') + ' &middot; ' + escapeHtml_(env.channel || '') +
-        (env.feed && env.feed.card ? ' &middot; <b>' + escapeHtml_(env.feed.card.holder) + '\'s card (' + escapeHtml_(env.feed.card.last4) + ')</b>' : '') + '</div>' +
+        (env.feed && env.feed.card ? ' &middot; <b>' + escapeHtml_(env.feed.card.holder) + (env.feed.card.last4 ? '\'s card (' + escapeHtml_(env.feed.card.last4) + ')' : ' paid') + '</b>' : '') + '</div>' +
       atts +
       '<ul class="flags" data-flags="1">' + flagsList_(gate, entries, m.why, env) + '</ul>' +
       (read ? '<details class="why"><summary>Claude\'s read</summary>' + read + '</details>' : '') +

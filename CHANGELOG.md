@@ -2034,3 +2034,15 @@ placeholders, 10 cards, 2 waiting), asked why the Target 2.65 waited on him (no 
 (2 looked at, 2 wait) wrote the card on **46 of 79 lines (Paul 38, Dennis 8)** and rebuilt the tab, read back live:
 **waiting on Dennis 8** (the three placeholders on 366 Mesa, Home Depot 09-21 / 09-24 / 09-25, Target 2.65, Lowe's
 130.87 of 08-10), **waiting on Paul 5**, 64 reconciled, 2 waiting for the Ashburne closing.
+
+## 2026-09-29 (15:50) - 2026-09-30 (09:40) - who paid on the Inbox's bank cards; "Waiting for closing : <house>"; writer @17
+
+Paul, on the Inbox's Bank statement tab: *"put '- Paul' or '- Dennis' or '- Unknown' after each item"* - `feedCardsOnto_`
+(Menu.gs) puts the Feed tab's card column onto every bank card made before D-059 knew it (one name for all of the
+card's lines, or none); `Inbox.html` ends a bank card's name with " - <holder>" or " - Unknown". The Lowe's 130.87 of
+08-10 is Dennis's (his 9301 in the bank's email) - the tab already said so; the Inbox now does too.
+Then, on the Citizens Bank tab: *"when it's waiting for closing put the property in the description"* -
+`bankSheetRows` finds the house the note names (longest name first) and writes **"Waiting for closing : 104
+Ashburne"**, the House column too; `bankSheetSummary` counts by prefix. 547 tests. Pushed 15:47 (the menus had it);
+the deploy waited on `clasp login` (expired overnight, Paul's step, 09-30 09:38). **Writer web app @17, 09-30 09:40 -
+= the repo; site `6abc3ad9` unchanged. Nothing owed.**

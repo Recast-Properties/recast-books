@@ -906,10 +906,32 @@ function inboxEnvelopes() {
   try {
     requireOwner_(ss);
     var resp = siteFetchJson_('/api/inbox?status=pending&limit=500');   // the list is collapsed rows now; 100 hid most of a 387-document queue (2026-09-18)
-    return { ok: true, envelopes: resp.envelopes || [], total: resp.total };
+    var envelopes = resp.envelopes || [];
+    try { feedCardsOnto_(ss, envelopes); } catch (e) { /* who paid is a help: the cards load without it */ }
+    return { ok: true, envelopes: envelopes, total: resp.total };
   } catch (err) {
     return { ok: false, error: (err && err.code) || 'INTERNAL', message: String((err && err.message) || err) };
   }
+}
+
+/** Who paid a bank-line card (Paul, 2026-09-29: "- Paul", "- Dennis" or "- Unknown" after each item):
+ *  the Feed tab's card column ("Dennis (9301)", D-061) onto every card made before the matcher knew
+ *  it (D-059). One name for every line of the card, or none. */
+function feedCardsOnto_(ss, envelopes) {
+  var open = envelopes.filter(function (e) { return e.feed && !e.feed.card && (e.feed.feed_ids || []).length; });
+  if (!open.length) return;
+  var sh = ss.getSheetByName('Feed'), cols = headerIndex_(sh), last = sh.getLastRow();
+  if (!cols['card'] || last < 2) return;
+  var ids = sh.getRange(2, cols['feed_id'], last - 1, 1).getValues();
+  var cards = sh.getRange(2, cols['card'], last - 1, 1).getValues();
+  var cardOf = {};
+  ids.forEach(function (r, i) { cardOf[String(r[0])] = String(cards[i][0] || ''); });
+  open.forEach(function (e) {
+    var seen = e.feed.feed_ids.map(function (id) { return cardOf[String(id)] || ''; });
+    if (!seen[0] || seen.some(function (c) { return c !== seen[0]; })) return;
+    var m = /^(.*?)\s*\((\d{4})\)$/.exec(seen[0]);
+    e.feed.card = { holder: m ? m[1] : seen[0], last4: m ? m[2] : '', name: '' };
+  });
 }
 
 /** The pickers the editor needs (houses, accounts, stores, cards), the user and the site url. */

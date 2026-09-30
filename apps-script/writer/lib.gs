@@ -2324,7 +2324,7 @@ var M_bank_sheet = (function () {
     done: "Reconciled",
     receipt: "Waiting for receipt",
     answer: "Waiting for an answer",
-    later: "Waiting for the closing",
+    later: "Waiting for closing",   // followed by " : <house>" when the note names one (Paul, 2026-09-29)
     booking: "Being recorded",
     fresh: "New - not looked at yet",
     excluded: "Left out",
@@ -2349,6 +2349,8 @@ var M_bank_sheet = (function () {
    */
   function bankSheetRows(feed, journal, account) {
     const voided = new Set(journal.map((l) => l.void_of).filter(Boolean));
+    // the houses the books know, longest name first, to find the one a note names
+    const houses = [...new Set(journal.map((l) => l.property).filter((p) => p && p !== "OVERHEAD"))].sort((a, b) => b.length - a.length);
     const byTxn = new Map();
     for (const l of journal) {
       if (l.void_of || l.source === "void") continue;
@@ -2394,8 +2396,9 @@ var M_bank_sheet = (function () {
         } else if (r.status === "excluded") {
           status = BANK_STATUS.excluded;
         } else if (/^Waits:/.test(note)) {
-          status = BANK_STATUS.later;
           say = note.replace(/^Waits:\s*/, "");
+          where = houses.find((h) => say.includes(h)) || "";
+          status = BANK_STATUS.later + (where ? ` : ${where}` : "");
         } else if (/^Paul:/.test(note)) {
           status = BANK_STATUS.booking; waiting = "Claude";
         } else {
@@ -2408,7 +2411,7 @@ var M_bank_sheet = (function () {
 
   /** The line above the table: how many lines stand where. */
   function bankSheetSummary(rows) {
-    const count = (s) => rows.filter((r) => r[4] === s).length;
+    const count = (s) => rows.filter((r) => String(r[4]).startsWith(s)).length;
     const on = (w) => rows.filter((r) => r[5] === w).length;
     return `${rows.length} lines - ${count(BANK_STATUS.done)} reconciled, ${on("Dennis")} waiting on Dennis, ${on("Paul")} waiting on Paul, ${count(BANK_STATUS.later)} waiting for a closing`;
   }

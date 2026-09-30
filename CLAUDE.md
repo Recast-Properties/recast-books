@@ -180,7 +180,8 @@ are the target, D-028 returns hold for Paul). **Resume from `HANDOFF-2026-09-29.
 - **2026-09-29 15:35 (D-061): the tab `Citizens Bank`** - every line of the account, newest on top, who paid, status,
   waiting on, house, note; built by `lib/bank-sheet.mjs` + `refreshBankSheets_` after every change to a bank line and
   from Recast Books -> Bank sheet. The Feed tab has a last column `card` (the matcher fills it). **LIVE: writer web app
-  @16, site `6abc3ad9`, nothing owed; 547 tests.** Read back: 64 reconciled, 8 waiting on Dennis, 5 on Paul, 2 on the
+  @17 (09-30), site `6abc3ad9`, nothing owed; 547 tests.** The Inbox's bank cards end with who paid; a waiting-for-closing
+  line names its house. Read back: 64 reconciled, 8 waiting on Dennis, 5 on Paul, 2 on the
   Ashburne closing. **Citizens: 67 tied, 10 cards, 2 waiting.**
 - **2026-09-25 (D-044, D-045):** the gate lets a **medium** read post when every other rail holds (low still holds); a vendor's unanimous payment history settles `paid_from` when the document shows no card and Paul wrote no note; Chase checking 8870 is Paul's personal (`paul_personal_last4` = `9166, 8870`); `MAX_TOKENS_PER_TURN` 32k; the warm job replays errored docs from their stored read; the digest names the gate reason. CHANGELOG 2026-09-25.
 - **All five lists are done** (audit §40-§43): list 4 in mail not in the books 0 (`mail_settled`), differences 0 (`differences_settled`), confirm 0 real (the 3 shown are rows Paul dropped), questions answered; every decision, link, refusal (per document), drop, addition and retraction is in `data/migration/2026-09-17/paul-answers.json`. **Paul's stopping rule:** no new cost unless proven paid AND absent from the old books by total, pre-tax subtotal and items; otherwise park for Phase 3.
