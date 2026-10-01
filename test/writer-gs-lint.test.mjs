@@ -287,12 +287,15 @@ test("a sold property's tab can be reconstructed as of its sale (setupPropertyTa
   const body = bodyOf("setupPropertyTab");
   assert.ok(body.includes("if (!asOf && String((registry || {}).status || '').toLowerCase() === 'sold')"),
     "an as-of must bypass the sold guard - reconstructing the record is the one time rebuilding a sold tab is right");
-  assert.ok(body.includes("(asOf ? '*' + ne('P', 'sale') : '')"),
-    "the reconstruction must drop the sale's own rows, or the release entry zeroes it all over again");
+  // Paul, 2026-10-01: the record is frozen when the closing is RUN, not on the closing day - so the reconstruction
+  // drops the sale's own rows and has NO date cut-off (Granite's three bills dated after 07-24 were in its payout);
+  // only a held tab stops at its as-of date.
+  assert.ok(body.includes("(asOf ? '*' + ne('P', 'sale') : '*(' + J('C') + '<=$B$1)')"),
+    "the reconstruction must drop the sale's own rows and keep every other bill whatever its date");
   assert.ok(/asOf \? '=DATE\(/.test(body), "the as-of cell must be pinned to a date, not left on TODAY()");
   for (const fn of ["refreshLineBlocks_", "refreshHeavyBlocks_"]) {
-    assert.ok(/\(!asOf \|\| String\(g\(r, 'source'\)\) !== 'sale'\)/.test(bodyOf(fn)),
-      `${fn} leaves the sale rows in the reconstructed line blocks`);
+    assert.ok(bodyOf(fn).includes("(asOf ? String(g(r, 'source')) !== 'sale' : formatIsoDate_(g(r, 'date')) <= today)"),
+      `${fn}: the reconstructed line blocks must leave out the sale rows and no bill for its date`);
   }
 });
 

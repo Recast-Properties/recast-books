@@ -1400,6 +1400,14 @@ function action_propertyTab_(body, props) {
 // tab. Filtering on the source rather than the date matters: Granite has a real 07-24 cost
 // (Falcon Creek INV 1374) dated the same day it closed. Passing asOf also bypasses the sold
 // guard, because reconstructing the record is the one time rebuilding a sold tab is right.
+//
+// THE RECORD IS FROZEN WHEN THE CLOSING IS RUN, NOT ON THE CLOSING DAY (Paul, 2026-10-01: "i want
+// the property tab to be frozen when we run the closing not the closing day. i have held ashburne
+// and will be holding newport until i am in person with dennis and utility bills will keep coming
+// in."). So the reconstruction has NO date cut-off: every bill on the house that is not the sale
+// itself is on it - 1616 Granite's plumbing, electricity and water bills dated after 07-24 were
+// settled in its payout and were missing from the tab while it stopped at the closing date. A
+// sale run through Sell property freezes the tab as it reads that minute, which is the same rule.
 function setupPropertyTab(name, asOf) {
   name = String(name);
   var safeName = name.replace(/"/g, '""'); // escaped for embedding in formula string literals
@@ -1457,8 +1465,8 @@ function setupPropertyTab(name, asOf) {
   // ONCE, in the helper column, and every formula reads the flag. 2026-09-17's #N/A fix put
   // the MATCH inside every SUMPRODUCT instead - hundreds of 5000-row lookups per Journal
   // append; the staging workbook stalled for minutes and the writer's reads timed out.
-  var live = ne('P', 'void') + '*(' + VOIDED + '<>TRUE)*' + eq('H', safeName) + '*(' + J('C') + '<=$B$1)' +
-    (asOf ? '*' + ne('P', 'sale') : '');
+  var live = ne('P', 'void') + '*(' + VOIDED + '<>TRUE)*' + eq('H', safeName) +
+    (asOf ? '*' + ne('P', 'sale') : '*(' + J('C') + '<=$B$1)');
   var net = function (factor) { return 'SUMPRODUCT(' + factor + '*' + live + '*(' + J('F') + '-' + J('G') + '))'; };
   var deb = function (factor) { return 'SUMPRODUCT(' + factor + '*' + live + '*' + J('F') + ')'; };
   var cred = function (factor) { return 'SUMPRODUCT(' + factor + '*' + live + '*' + J('G') + ')'; };
@@ -2002,7 +2010,7 @@ function refreshHeavyBlocks_(ss, name, asOf) {
   var today = asOf || Utilities.formatDate(new Date(), 'America/Chicago', 'yyyy-MM-dd');
   var lines = rows.filter(function (r) {
     return String(g(r, 'property')) === name && String(g(r, 'source')) !== 'void' && !voided[String(g(r, 'txn_id'))] &&
-      (!asOf || String(g(r, 'source')) !== 'sale') && formatIsoDate_(g(r, 'date')) <= today;
+      (asOf ? String(g(r, 'source')) !== 'sale' : formatIsoDate_(g(r, 'date')) <= today);
   });
   // A block holds the lines carrying its trade name, whatever their class (the old tab's
   // Insurance and Utilities blocks are Holding lines - 2026-09-22: they had all been pushed
@@ -2063,8 +2071,8 @@ function refreshLineBlocks_(ss, name, asOf) {
   var today = asOf || Utilities.formatDate(new Date(), 'America/Chicago', 'yyyy-MM-dd');
   var lines = rows.filter(function (r) {
     return String(g(r, 'property')) === name && String(g(r, 'source')) !== 'void' &&
-      !voided[String(g(r, 'txn_id'))] && (!asOf || String(g(r, 'source')) !== 'sale') &&
-      formatIsoDate_(g(r, 'date')) <= today;
+      !voided[String(g(r, 'txn_id'))] &&
+      (asOf ? String(g(r, 'source')) !== 'sale' : formatIsoDate_(g(r, 'date')) <= today);
   });
   var blocks = [
     // the same split as setupPropertyTab's rehabF / holdingF: lawn care (1130) is a rehab cost
@@ -2251,18 +2259,34 @@ function writeSimpleClosingTab_(ss, name, plan, target) {
   });
   body.push(['', '', '', '']);
   // "After the payout", not "after the sale" (Paul, 2026-10-01): a bill dated after the closing day that the
-  // partners settled in the payout is a project cost above (1616 Granite has three); this row is only what
-  // arrived after they settled and has not been split yet (Cost Recapture, D-031).
+  // partners settled in the payout is a project cost above (1616 Granite has three); this section is only what
+  // arrived after they settled and has not been split yet (Cost Recapture naming the house, D-031). Every bill
+  // is listed, not just their sum ("i want all the bills that come in after the payout to be listed") - live,
+  // so a new one shows the moment it is recorded: the total, then date and payee / amount / what it was.
+  // Corrections and returns show as minus amounts; a taken-back entry and its reversal are left out.
   body.push(['', 'AFTER THE PAYOUT', '', '']);
   heads.push(body.length);
   var q = String(name).replace(/"/g, '""');
-  body.push(['', '  Bills that came in after the payout (not yet split with Dennis)',
-    '=SUMIF(Journal!$K$2:$K$5000,"' + q + '",Journal!$F$2:$F$5000)-SUMIF(Journal!$K$2:$K$5000,"' + q + '",Journal!$G$2:$G$5000)',
+  var jr = function (col) { return 'Journal!$' + col + '$2:$' + col + '$5000'; };   // the bound every tab uses
+  ensureJournalHelpers_(ss);
+  var notVoided = "INDEX('" + HELPER_SHEET + "'!$A:$A,2):INDEX('" + HELPER_SHEET + "'!$A:$A,ROWS(" + jr('A') + ")+1)<>TRUE";
+  body.push(['', 'Bills that came in after the payout (not yet split with Dennis)',
+    '=SUMIF(' + jr('K') + ',"' + q + '",' + jr('F') + ')-SUMIF(' + jr('K') + ',"' + q + '",' + jr('G') + ')',
     'Not part of the numbers above; settled on the next payout']);
+  totals.push(body.length);
+  body.push(['', '=IFERROR(FILTER({"  "&TEXT(' + jr('C') + ',"mm/dd/yyyy")&"  "&' + jr('L') + ',' + jr('F') + '-' + jr('G') + ',' +
+    // what the bill was, without the entry number some corrections end with (Paul reads this; rule 7)
+    'REGEXREPLACE(' + jr('M') + '&"","\\s*\\((migration|manual|receipt)-[0-9a-f-]+\\)","")},' +
+    jr('K') + '="' + q + '",' + jr('P') + '<>"void",' + notVoided + '),"  None yet")', '', '']);
+  var listRow = body.length, LIST_ROOM = 120;   // ponytail: room kept clear and formatted for the list; Sheets adds rows past it, unformatted
 
   var sh = getOrCreateSheet_(ss, target);
   sh.clear();
   sh.getRange(1, 1, sh.getMaxRows(), sh.getMaxColumns()).clearDataValidations();
+  // room for the rows and for the list of bills that spills down from listRow
+  var want = body.length + LIST_ROOM;
+  if (sh.getMaxRows() < want) sh.insertRowsAfter(sh.getMaxRows(), want - sh.getMaxRows());
+  if (sh.getMaxRows() > want) sh.deleteRows(want + 1, sh.getMaxRows() - want);
   sh.getRange(1, 1, body.length, 4).setValues(body);
   sh.getRange(1, 2).setFontWeight('bold').setFontSize(13).setBackground('#a3f67f');
   heads.forEach(function (r) { sh.getRange(r, 2, 1, 3).setFontWeight('bold').setBackground('#ffe599'); });
@@ -2271,7 +2295,9 @@ function writeSimpleClosingTab_(ss, name, plan, target) {
   sh.getRange(1, 4, body.length, 1).setFontColor('#000000').setFontWeight('bold');   // the notes: bold, black (Paul)
   sh.setColumnWidth(1, 20); sh.setColumnWidth(2, 420); sh.setColumnWidth(3, 120); sh.setColumnWidth(4, 460);
   sh.setFrozenRows(1);
-  if (sh.getMaxRows() > body.length + 2) sh.deleteRows(body.length + 3, sh.getMaxRows() - body.length - 2);
+  // the list: its amounts in the same format, its descriptions plain
+  sh.getRange(listRow, 3, LIST_ROOM, 1).setNumberFormat('#,##0.00;(#,##0.00)');
+  sh.getRange(listRow, 4, LIST_ROOM, 1).setFontWeight('normal').setFontColor('#000000');
   keepStatementLines_(sh, plan.statementLines);
   return { sheet: target, rows: body.length };
 }

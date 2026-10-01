@@ -2483,3 +2483,22 @@ heading on Granite's closing tab. **Owed: the writer web app deploy** (D-070, D-
 is gone (`rewriteClosingTabs` no longer keeps it; re-run, read back). He asked why Granite's closing-tab Rehab Costs
 (10,727.97) is larger than its house tab's (9,201.51): the 1,526.46 Verity Plumbing bill of 08-05, after the frozen
 tab's 07-24 cut-off - offered to bring the three later bills onto the house tab (not answered yet).
+
+## 2026-10-01 (16:20-16:30 PDT) - the house tab freezes when the closing is run; every after-payout bill listed (D-072)
+
+Paul: *"i want the property tab to be frozen when we run the closing not the closing day. i have held ashburne and will
+be holding newport until i am in person with dennis and utility bills will keep coming in. for granite add the verity
+plumbing bill to the property tab since its not there. i want all the bills that come in after the payout to be listed
+not just a sum of them all."*
+
+- **`Code.gs`:** a frozen-tab rebuild (`setupPropertyTab(name, asOf)`, `refreshLineBlocks_`, `refreshHeavyBlocks_`)
+  leaves out only the sale's own entries - no date cut-off (a held tab still stops at today). `sellPost` already froze
+  the tab as it read when the closing was run. `writeSimpleClosingTab_`: AFTER THE PAYOUT is the total and a live list
+  (date and payee / amount / what it was), 120 rows kept clear and formatted under it.
+- **`applyFreezeAtRunAndListBills()`** (16:25, again 16:27): Granite's frozen house tab rebuilt only after its summary
+  read what the code had written (no hand edits) - Rehab Costs 9,201.51 -> 10,727.97, Utilities 265.12 -> 1,476.90,
+  Total Project Cost 295,239.73 -> 297,977.97, Net Profit 113,260.27 -> 110,522.03; it now equals its closing tab and
+  the old reconciled sheet. **Sparkling's house tab was not touched** (no later bill; its Profit Breakdown is Paul's
+  typing). Both closing tabs rewritten in place and read back: Granite lists 12 bills = 757.16, Sparkling 7 = 873.54.
+
+546 tests (the lint's as-of test now asserts the new rule). Pushed and committed. **Owed: the writer web app deploy.**

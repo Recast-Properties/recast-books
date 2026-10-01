@@ -27,6 +27,55 @@
  * ASCII ONLY - same paste-into-the-editor constraint as Code.gs.
  ****************************************************************/
 
+// 2026-10-01 Paul: "i want the property tab to be frozen when we run the closing not the closing day ... for
+// granite add the verity plumbing bill to the property tab since its not there. i want all the bills that
+// come in after the payout to be listed not just a sum of them all." (D-072). Code.gs carries both rules;
+// this applies them to what exists:
+//   1. 1616 Granite's frozen house tab is rebuilt with every bill that was on the house when its closing
+//      was run - the three dated after 07-24 that its payout settled (Verity Plumbing 1,526.46, TXU 261.76,
+//      City of Waxahachie 950.02) - and frozen again. ONLY if its summary still reads what the code wrote
+//      last (read 16:20 PDT: no hand edits); otherwise it stops and writes nothing.
+//   2. 280 Sparkling's frozen house tab is NOT touched: it has no later bill, and its Profit Breakdown is
+//      Paul's own typing.
+//   3. Both closing tabs are rewritten in place: AFTER THE PAYOUT lists each bill.
+// Nothing is posted, no money moves.
+// FIRST in the file on purpose: the editor's Run button starts on a file's first function.
+// STATUS: DONE 2026-10-01 16:25 PDT (and 16:27 for the list's wording), run from the editor by Claude: Granite's house tab Rehab Costs 9,201.51 -> 10,727.97, Utilities 265.12 -> 1,476.90, Total Project Cost 295,239.73 -> 297,977.97, Net Profit 113,260.27 -> 110,522.03; both closing tabs list their after-payout bills (Granite 12 = 757.16, Sparkling 7 = 873.54); read back.
+function applyFreezeAtRunAndListBills() {
+  var props = PropertiesService.getScriptProperties();
+  var ss = openWorkbook_(props);
+  requireOwner_(ss);
+  var out = [];
+  var name = '1616 Granite';
+  var tab = ss.getSheetByName(name);
+  var cents = function (label) { return Math.round(Number(readLabelledValue_(tab, label)) * 100); };
+  var was = { total: cents('Total Project Cost'), rehab: cents('Rehab Costs'), utilities: cents('Utilities'), profit: cents('Net Profit') };
+  var already = was.rehab === 1072797 && was.utilities === 147690;
+  if (!already && (was.total !== 29523973 || was.rehab !== 920151 || was.utilities !== 26512 || was.profit !== 11326027)) {
+    throw new Error(name + ' house tab is not what the code wrote last (' + JSON.stringify(was) + ') - someone typed on it. Nothing written.');
+  }
+  if (already) out.push(name + ' house tab: already has the later bills - left alone');
+  else {
+    var date = formatIsoDate_((propertyRow_(ss, name) || {}).settlement_date);
+    var builtTab = setupPropertyTab(name, date);
+    freezePropertyTab_(ss, name, date);
+    tab = ss.getSheetByName(name);
+    out.push(name + ' house tab: rebuilt (' + builtTab.rows + ' rows) and frozen. Rehab Costs ' + (was.rehab / 100) + ' -> ' + readLabelledValue_(tab, 'Rehab Costs') +
+      ', Utilities ' + (was.utilities / 100) + ' -> ' + readLabelledValue_(tab, 'Utilities') + ', Total Project Cost ' + (was.total / 100) + ' -> ' +
+      readLabelledValue_(tab, 'Total Project Cost') + ', Net Profit ' + (was.profit / 100) + ' -> ' + readLabelledValue_(tab, 'Net Profit'));
+  }
+  ['1616 Granite', '280 Sparkling'].forEach(function (n) {
+    var built = closingFromJournal_(ss, n);
+    if (!built) { out.push(n + ': no posted sale found - closing tab left alone'); return; }
+    if (n === '280 Sparkling' && !built.statementLines.some(function (l) { return l.kind === 'to_recast' && l.full_cents; })) {
+      throw new Error('280 Sparkling: the statement lines on its closing tab are gone - the two wires would be lost. Nothing rewritten for it.');
+    }
+    var written = writeClosingTab_(ss, n, built, closingTabName_(n));
+    out.push(n + ' closing tab: "' + written.sheet + '" ' + written.rows + ' rows');
+  });
+  console.log(out.join('\n'));
+}
+
 // 2026-10-01 Paul, shown the two ways the cost list can carry the cash advances, sent his old reconciled
 // Granite tab: "this makes sense to me" (D-071) - Rehab Costs is every bill, and a cash advance's principal
 // is not a cost row. Rewrites the CLOSING tabs of the sold partner deals in place, from the Journal and the

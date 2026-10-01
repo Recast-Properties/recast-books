@@ -1476,3 +1476,27 @@ covered (Granite: Dennis 1,466.63 + 6,838.00 = his old sheet's 8,304.63; Paul 3,
 not 49,263.26); the cash advances' interest is a cost shared 50/50 (D-011/D-021), not +42.35 / -42.35 in the payouts;
 Dennis's total includes the purchase money and interest he was repaid. Every payout is the same to the cent either way.
 
+## D-072 · A house tab is frozen when its closing is RUN, not on the closing day; the closing tab lists every bill after the payout - 2026-10-01 · Paul
+
+*"i want the property tab to be frozen when we run the closing not the closing day. i have held ashburne and will be
+holding newport until i am in person with dennis and utility bills will keep coming in. for granite add the verity
+plumbing bill to the property tab since its not there. i want all the bills that come in after the payout to be listed
+not just a sum of them all."*
+
+**Decided:**
+1. **The frozen house tab is the house as it stood when its closing was run in the books** - every bill on it up to
+   that moment, whatever its date. A house sold at the title company stays `held` in the books, and keeps taking its
+   bills, until Paul runs Sell property (he settles with Dennis in person, sometimes weeks later). `sellPost` already
+   froze the tab as it read that minute; the *reconstruction* (`setupPropertyTab(name, asOf)`, `refreshLineBlocks_`,
+   `refreshHeavyBlocks_`) cut bills off at the settlement date and no longer does - it leaves out only the sale's own
+   entries. 1616 Granite's frozen tab gained the three bills dated after 07-24 that its payout had settled (Verity
+   Plumbing 1,526.46, TXU 261.76, City of Waxahachie 950.02): Rehab Costs 10,727.97 and Utilities 1,476.90, the same
+   as its closing tab and his old reconciled sheet.
+2. **AFTER THE PAYOUT lists each bill** - the total, then one row per bill: date and payee, amount, what it was. Live
+   (a FILTER over the Journal's Cost Recapture lines naming the house), so a new bill shows when it is recorded;
+   corrections and returns are minus amounts; a taken-back entry and its reversal are left out; entry numbers are
+   stripped from the wording.
+
+**Unchanged:** which bills are project costs and which come after is decided by when Sell property is run, as before
+(D-031: a sold house refuses new costs, they go to Cost Recapture naming it).
+
