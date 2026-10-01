@@ -282,7 +282,7 @@ function fixNewportBeforeClosing() {
 //          filed to Drive; register 23 the five online refunds (327.32);
 //   new: Q7 the Wayfair order of 03-25, 324.69, on 104 Ashburne - only if its order email ships to Ashburne
 //          (from its look-only read; otherwise nothing posts and the report says so).
-// STATUS: NOT YET RUN
+// STATUS: DONE 2026-10-01 10:37 PDT by Paul: 11 voids, 20 posts incl. the Wayfair 03-25 324.69; every read-back OK, Journal rows 2792-2850.
 var MR_VOIDS_ASHBURNE = [
   ['migration-20260330-ab7cb509e533', '1030', 5949, 'C-35: the same Lowe\'s receipt (invoice 90143) as migration-20260330-2f6012e9e7e0 "Exterior Ceiling Fans" 340.90, which already holds the knobs - Paul 2026-09-28: same receipt = duplicates'],
   ['migration-20260408-d6927b018c99', '1030', 8111, 'C-10 add retracted: the old books\' 04-08 "Floor mats" 81.22 (migration-20260408-f57255d49994) is the same mats receipt - one purchase'],
