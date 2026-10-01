@@ -822,7 +822,7 @@ function linkPhonePhotos() {
 // Ashburne's costs and what Recast owes Paul each drop by 1,097.15. Ashburne is held (not closed in the books), so
 // the voids go on the house itself - the function stops if it has been closed. A bank line tied to a double goes
 // back to unmatched (the copy kept is another amount). Safe to run twice: a double already out is skipped.
-// STATUS: NOT YET RUN
+// STATUS: DONE 2026-10-01 10:40 PDT by Paul: three voided (51.38, 904.18, 141.59), read back.
 var ASHBURNE_LATE_DOUBLES = [
   { out: 'migration-20260415-6fba4e96bc8b', cents: 5138, keep: ['receipt-20260416-94803fc0a520-8cd4', 'receipt-20260416-d23e7cd176ca-e747'], keepCents: 8883,
     what: 'Home Depot 04-16, 51.38',
