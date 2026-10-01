@@ -202,7 +202,7 @@ function mrFinish_(ss, title, J0, checks, houses, out) {
 // (c) Q1 (Paul: yes, Newport): the Home Depot Pro appliance order H6505-462260 of 07-01, 639.82, paid by Paul
 //     (before 08-01, D-026.2) - posted from its look-only read (step 0), receipt filed under 2026/881 Newport.
 //     Not read yet, or the read disagrees (total, a card that is not Paul's): nothing posts, the report says why.
-// STATUS: NOT YET RUN
+// STATUS: DONE 2026-10-01 10:26 PDT by Paul: HOA 375.00 to 1340 (row added to Accounts), the 607.05 check re-split 44.39 / 562.66, the appliance 639.82 on Newport; every read-back OK, Journal rows 2758-2766.
 var MR_NEWPORT_HOA = { old: 'migration-20260909-3663d0ddee0f', feed: '202609280000000551667474' };
 var MR_CHECK_60705 = { feed: '202608120000000543553682', cents: 60705,
   parts: [{ old: 'manual-20260812-d52b66b70320', property: '881 Newport', cents: 4439 },
