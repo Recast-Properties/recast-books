@@ -1388,6 +1388,10 @@ pictures too large to read.
 
 ## D-068 · On the closing tab a cash advance is its own cost, never part of Rehab Costs - 2026-10-01 · Paul
 
+**SUPERSEDED THE SAME DAY BY D-071** - the netting below (Rehab Costs less the advances, the principal as a cost row)
+was Claude's reading of Paul's sentence and he rejected it against his house tab and his old reconciled sheet. Kept as
+the record of what was built first.
+
 Paul shaped the closing tab's PROJECT COSTS himself (the trial tab `280 Sparkling - Closing (simple)`,
 `docs/phase5-spec.md` section 3a): Purchase Principal, Purchase Interest, Cash Advances Principal, Cash Advances
 Interest, Rehab Costs, Utilities. Asked how the advance principal sits beside the rehab bills it paid for, he answered:

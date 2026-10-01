@@ -161,47 +161,86 @@ two wires), then Cash received. The cost list is net of both sides and adds up t
 in `lib/sale.mjs` (`settlementRows`, `releasedCostRows`) and tested there. The tab keeps its statement lines with
 the sheet, so a rebuild from the dialog does not collapse them to one line per account.
 
-### 3a · The closing tab of every partner deal: Paul's simple layout (2026-10-01, D-068, D-069)
+### 3a · The closing tab of every partner deal: Paul's layout (2026-10-01; D-069, D-070, D-071, D-072)
 
-Designed by Paul on 280 Sparkling, then: "yes. with the exception of ashburne" - `writeClosingTab_` writes it for every
-partner deal (`writeSimpleClosingTab_` in Code.gs paints the rows `lib/sale.mjs` `closingRows` builds, tested on both
-closed sales); the bank deal keeps the long layout of section 3. It follows the cash, in Paul's words and rows:
+Designed by Paul on 280 Sparkling and 1616 Granite over one afternoon, row by row, then: "yes. with the exception of
+ashburne". `writeClosingTab_` writes it for every partner deal (`writeSimpleClosingTab_` in Code.gs paints the rows
+`lib/sale.mjs` `closingRows` builds, tested on both closed sales); the bank deal keeps the long layout of section 3.
+It follows the cash, in his words. As it stands on the two tabs (the state of 2026-10-01 16:40 PDT):
 
 ```
-<house> - CLOSED <date>                                   Sold for 550,000.00. Recast owned 50%.
-Settlement statement        Title company closing document
+B                                                        C            D (notes; every cell wraps)
+1616 Granite - CLOSED 2026-07-24                                      Sold for 430,000.00.          <- size 13; C1:D1 #ceffbc
+Settlement statement                                     Title company closing document (link)
+
 INCOMING CASH AT CLOSING
-  Your half of the sale money (first wire)     259,053.12   After the title company took out commission, closing costs and taxes
-  Reimbursement paid to Recast, in full (second wire)  4,716.82
-Cash received                                  263,769.94
+  Payout from title company                              347,343.03   After commission, closing costs and taxes   (not bold)
+Cash received                                            347,343.03
+  Held back by the title company (escrow)                 60,000.00   Comes later - see the escrow section below  (not bold)
+
 PROJECT COSTS
-  Purchase Principal / Purchase Interest / Cash Advances Interest on $6,838 / Rehab Costs / Utilities
-Total Project Costs                            202,839.85
+  Purchase Principal                                     279,001.00
+  Purchase Interest                                        6,874.44
+  Cash Advances Interest on $6,838                            84.16
+  Rehab Costs                                             10,727.97
+  Utilities                                                1,476.90
+Total Project Costs                                      298,164.47
+
 PROFIT
-Total Profit                                    60,930.09   Cash received less total project costs
-  Dennis 50% / Paul 50%
+Total Profit                                             109,178.56   Cash received plus the escrow less total project costs
+  Dennis 50%                                              54,589.28
+  Paul 50%                                                54,589.28
+
 PAYOUTS
-Dennis      Purchase Principal, Purchase Interest, Cash Advances Principal, Cash Advances Interest,
-            Paid out of pocket, Half of profit  -> Total to Dennis
-Paul        Paid out of pocket, Half of profit  -> Total to Paul
-Refunded to Recast Citizens Account
-Total paid out                                 263,769.94   Matches the cash received at closing
-AFTER THE SALE
-  Bills that came in after the sale (live)
+Dennis
+  Purchase Principal / Purchase Interest / Cash Advances Principal / Cash Advances Interest /
+  Paid out of pocket / Half of profit
+Total to Dennis                                          318,853.51
+Paul
+  Paid out of pocket / Half of profit
+Total to Paul                                             28,489.52
+Refunded to Recast Citizens Account                            0.00
+Total paid out                                           347,343.03   Matches the cash received at closing
+
+ESCROW HELD BACK AT CLOSING            (only when some was held back)
+  Released by the title company 2026-09-11 / Paid to Dennis / Paid to Paul / Refunded to Recast Citizens Account
+  - or, until it is released: Still held by the title company / Owed to Dennis ... / Owed to Paul ...
+
+AFTER THE PAYOUT
+Bills that came in after the payout (not yet split with Dennis)   757.16   Not part of the numbers above; settled on the next payout
+  09/01/2026  Waxahachie Water                               443.49   Water              <- one row per bill, live
+  ...
 ```
 
-Rules: a cost is what each cost account held **before** the sale entries (what the release took out less what the
-settlement entry put in), so the title company's own charges never appear - they are inside the first wire. Rehab Costs
-is everything that is not the purchase, Dennis's interest or a utility bill (lawn care, an HOA release paid before
-closing, listing). Cash less cost must equal the books' profit and each partner's rows must add to his total, or
-nothing is written. No account numbers; notes bold, black, capitalised. Rehab Costs is EVERY such bill and a cash advance's principal is not a cost row
-(D-071, which replaced D-068's netting) - it is under Dennis in PAYOUTS only; the interest row names the advances' total. Pre-closing property tax and insurance
-get their own row after Utilities when a house has them. When escrow was held back: a `Held back by the title company
-(escrow)` row under Cash received, the profit counts it, each share row says `(the part paid at closing)`, and an
-`ESCROW HELD BACK AT CLOSING` section shows the release and who it went to, or what is still owed (1616 Granite). The
-statement lines stay with the sheet (developer metadata) - they alone know what was paid to Recast by name in full -
-so **never delete a closing tab to rebuild it: rebuild it in place** (Sparkling's two-wire split was lost that way
-once and restored from the lines in `rebuildClosedClosingTabs`).
+A co-owned sale (280 Sparkling) differs only at the top: `Sold for 550,000.00. Recast owned 50%.`, a first cash row
+`Your half of the payout from title company (first wire)` and, under it, every line the statement paid to Recast by
+name, in full - `Reimbursement paid to Recast, in full (second wire)` 4,716.82. A house with no cash advances reads
+`Cash Advances Interest` 0.00.
+
+**Rules**
+- **A cost is what each cost account held before the sale entries** (what the release took out less what the settlement
+  entry put in), so the title company's own charges never appear - they are inside the payout. Cash received (plus any
+  escrow) less Total Project Costs must be the books' profit, and each partner's rows must add up to his total; a
+  figure that does not tie says so in its note (the tab is written after the sale has posted, so nothing throws).
+- **Rehab Costs is every bill that is not the purchase, Dennis's interest, a utility, tax or insurance** - rehab, lawn
+  care (D-070), an HOA release paid before closing, listing. **A cash advance's principal is not a cost row** (D-071,
+  which replaced D-068): it paid for bills already in Rehab Costs; it shows only under Dennis in PAYOUTS, and the cost
+  list names it in `Cash Advances Interest on $<total>`. Never net the advances out of Rehab Costs. Property tax or
+  insurance paid before closing get their own row after Utilities when a house has them (Paul has not seen one).
+- **PAYOUTS:** a partner's `Paid out of pocket` is the bills he paid that no advance covered. `Half of profit` is
+  what was paid at closing - no suffix, even when escrow held part back; the escrow section shows the rest.
+- **AFTER THE PAYOUT** (D-070, D-072), never "after the sale": the Cost Recapture lines naming the house - the total
+  and one live row per bill (date and payee / amount / what it was); corrections and returns are minus amounts; a
+  taken-back entry and its reversal are left out. A bill dated after the closing day but settled in the payout is a
+  project cost, not this.
+- **Format:** title B1 #a3f67f size 13; C1:D1 #ceffbc with the `Sold for ...` note at size 13; section heads #ffe599,
+  totals and the two name rows #ceffbc, bold; notes bold black except the two marked not bold; column D wraps; no
+  account numbers anywhere.
+- **The statement lines stay with the sheet** (developer metadata) - they alone know what was paid to Recast by name
+  in full and the wording Paul gave the cash rows - so **never delete a closing tab to rebuild it: rebuild it in place**
+  (Sparkling's two-wire split was lost that way once and restored from the lines in `rebuildClosedClosingTabs`).
+- **The house tab beside it is frozen when the closing is RUN, not on the closing day** (D-072); a frozen house tab is
+  Paul's record and he edits it by hand - read it and compare before any rebuild.
 
 **`CLOSING_TAB_IN_PLACE` stays `false` permanently** and the sign-off it was waiting on is moot.
 `closingTabName_()` therefore always returns `<property> - Closing`.

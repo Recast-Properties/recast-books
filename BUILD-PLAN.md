@@ -268,7 +268,7 @@ he can check it. Posting the wizard writes the release entry, the payoff entries
 profit-participation entry, the reimbursements, and the owner's draw, all dated the
 settlement date, and stamps the property `sold`.
 
-**Closing tab (Paul, 2026-09-15).** The wizard also builds a `<property> — Closing` tab in
+**Closing tab (Paul, 2026-09-15; the layout was redesigned by Paul on 2026-10-01 - `docs/phase5-spec.md` section 3a and D-069..D-072 are current, this paragraph is the original plan).** The wizard also builds a `<property> — Closing` tab in
 the workbook beside the property tab: the Payout report as formulas over the posted
 settlement entries (sale price, every ALTA line, net proceeds, project cost released,
 the waterfall with the interest true-up, payouts = net proceeds to the cent) with, beside
