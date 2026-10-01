@@ -214,7 +214,11 @@ function fixNewportBeforeClosing() {
   var props = PropertiesService.getScriptProperties();
   var ss = openWorkbook_(props);
   requireOwner_(ss);
-  var ctx = buildCtx_(ss), J = mrJournal_(ss), out = [], today = mrToday_();   // J.all stays as read: the before of the report
+  var out = [];
+  // 1340 (D-039) is in the chart but never reached the live Accounts tab (the 10-01 first run stopped on it,
+  // nothing written) - setup()'s ensureSeedRows_ adds a missing seed row and touches no other.
+  if (ensureSeedRows_(ss.getSheetByName('Accounts'), ACCOUNTS_SEED)) { CacheService.getScriptCache().remove('ctx'); out.push('added to Accounts: 1340 Selling - HOA release'); }
+  var ctx = buildCtx_(ss), J = mrJournal_(ss), today = mrToday_();   // J.all stays as read: the before of the report
   var c = MR_CHECK_60705;
   if (c.parts.reduce(function (t, p) { return t + p.cents; }, 0) !== c.cents) throw new Error('the parts do not add up to the check');
   // (a) and (b): every re-post is built (and so checked) before anything is voided
