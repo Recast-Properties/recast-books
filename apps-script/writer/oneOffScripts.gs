@@ -950,3 +950,78 @@ function fixOverheadLeftovers() {
     ['Recast owes Paul, all', '2030', null, planned - aa, -1]
   ], [], out);
 }
+
+// 2026-10-01 Paul (final migration register, Q5: the phone pictures) - the costs his pictures show that no book had,
+// as he answered: "yes to all recommendations with these exceptions: Portland dump run 57.19 (leave off), NTTA tolls in
+// Linda Little's name 30.80 (keep under truck/gas etc), and Dennis's 380 check to Julio 'Joe Wilson + Denali way'
+// (leave off)". Each was checked against the Journal first (amount within 2 cents, 15 days) and is on no book. The
+// three unreadable pictures (04-05, 05-31, 07-01) are skipped - Paul named none as a receipt. Each entry's document
+// is its picture, filed from the look-only read. Paid by Paul before Recast had a bank account (D-026.2) unless noted;
+// card 6774 is Paul's (D-026 rule 1). Sold houses (1616 Granite, 280 Sparkling) go on Cost Recapture (D-031).
+// STATUS: NOT YET RUN
+var MR_TRIP = 'Business travel meal on a Texas house trip (Paul, 2026-10-01)';
+var MR_PHOTO_COSTS = [   // [gmail id, date, payee, property, paid_from, [[account, cents, description, trade, purpose]]]
+  ['19e73f618d4c27bc', '2026-05-29', 'The Home Depot', 'Cost Recapture', 'PAUL', [
+    ['1030', 8431, '10 in. black nylon anchoring stakes (6 @ 12.98)', '1616 Granite'],
+    ['1030', 11029, 'Vigoro 60 ft. plastic lawn edging (3 @ 33.97)', '1616 Granite'],
+    ['1030', 2856, 'Jamestown elongated white toilet seat (29.98 less 3.60 Pro Xtra)', '1616 Granite']]],
+  ['19e74629889eef9c', '2026-05-29', 'The Home Depot', 'Cost Recapture', 'PAUL', [['1030', 2838, 'RB 1/2 in. emitter tubing, 100 ft', '1616 Granite']]],
+  ['19e74fffa707ea10', '2026-05-29', 'The Home Depot', 'Cost Recapture', 'PAUL', [['1030', 398, 'Titebond I wood glue, 8 oz', '1616 Granite']]],
+  ['19ee5c566afee5db', '2026-06-20', 'Sherwin-Williams', 'Cost Recapture', 'PAUL', [
+    ['1030', 5948, 'Duration Home interior paint, 1 gal, SW7555 Patience', '280 Sparkling'],
+    ['1030', 28118, 'Duration Home interior paint, 5 gal, SW6385 Dover White', '280 Sparkling']]],
+  ['19ed2862de1ed651', '2026-06-16', 'The Home Depot', '104 Ashburne', 'PAUL', [
+    ['1030', 1905, 'Flat steel bar 48 in. x 3/4 in. x 1/8 in.', 'House Hardware'],
+    ['1030', 398, 'Titebond I wood glue, 8 oz', 'Supplies'],
+    ['1030', 575, 'Felt pads 2 in. x 4 in., 3-pack', 'Supplies'],
+    ['1030', 604, '6d 2 in. roofing nails, 1 lb', 'House Hardware'],
+    ['1030', 1403, 'Henry 212 clear sealant 10.1 oz', 'Supplies']]],
+  ['19f1ef5d09f24e39', '2026-07-01', 'The Home Depot', '881 Newport', 'PAUL', [
+    ['1030', 214, 'Cantex old-work 1-gang box', 'Lighting & Electrical'],
+    ['1030', 1801, '8 ft. 16/3 replacement cord', 'Lighting & Electrical'],
+    ['1030', 95, '1-gang blank wall plate', 'Lighting & Electrical'],
+    ['1030', 1133, 'Wago 221 lever splicing connectors, 10-pack', 'Lighting & Electrical']]],
+  ['19ed5db63e9af4fb', '2026-06-17', 'The Home Depot', 'OVERHEAD', 'PAUL', [['6510', 4868, 'Milwaukee 5 in. bi-metal hole saw (card 6774, Paul\'s)', '']]],
+  ['19b9e40d59c71079', '2026-01-08', 'The Home Depot', 'OVERHEAD', 'PAUL', [['6510', 4588, 'Gripper gloves, tape measure and bit holder', '']]],
+  ['19ba3e5994a71d3a', '2026-01-09', 'FedEx Office', 'OVERHEAD', 'PAUL', [['6500', 1095, 'FedEx 2Day envelope to the IRS', '']]],
+  ['19d2f968b035206e', '2026-03-27', 'JPMorgan Chase Bank', 'OVERHEAD', 'PAUL', [['6910', 600, 'Counter checks #5896-5901, fee', '']]],
+  ['19b80be843d3625a', '2026-01-02', 'USPS', 'OVERHEAD', 'PAUL', [['6500', 4000, 'Post office mailbox key replacement', '']]],
+  ['19b8adc04987fb38', '2026-01-04', 'Exxon', 'OVERHEAD', 'PAUL', [['6600', 4823, 'Gasoline, 17.871 gal', '', 'Fuel on a Texas house trip (Paul, 2026-10-01)']]],
+  ['19c90b05030991ec', '2026-02-22', 'North Texas Tollway Authority', 'OVERHEAD', 'PAUL', [['6610', 3080, 'NTTA ZipCash tolls (bill in Linda Little\'s name, 2008 Honda) - kept with the truck and gas costs on Paul\'s word', '']]],
+  ['19ca95ea8ff97593', '2026-03-01', 'Potbelly Sandwich Shop', 'OVERHEAD', 'PAUL', [['6710', 1798, 'Meal, Portland airport', '', MR_TRIP]]],
+  ['19cb4d1f8dda1df7', '2026-03-03', 'Farm Luck Soda Fountain', 'OVERHEAD', 'PAUL', [['6710', 2931, 'Lunch for two, Waxahachie', '', MR_TRIP]]],
+  ['19cb9f9e0f111627', '2026-03-04', 'Holy Smoke Bar-B-Que', 'OVERHEAD', 'PAUL', [['6710', 3193, 'Lunch for two', '', MR_TRIP]]],
+  ['19dee4a12c946c1a', '2026-05-03', 'Potbelly Sandwich Shop', 'OVERHEAD', 'PAUL', [['6710', 1573, 'Meal, Portland airport', '', MR_TRIP]]],
+  ['19df8fb9bfebe06a', '2026-05-05', 'Farm Luck Soda Fountain', 'OVERHEAD', 'PAUL', [['6710', 2581, 'Lunch, Waxahachie', '', MR_TRIP]]],
+  ['19e07b8a91efd13d', '2026-05-08', 'TGI Fridays (DFW Airport)', 'OVERHEAD', 'PAUL', [['6710', 1471, 'Breakfast, DFW airport', '', MR_TRIP]]],
+  ['19e7ab6838c32d06', '2026-05-30', 'The Home Depot', 'OVERHEAD', 'PAUL', [['6710', 298, 'Bottled water on a house work day', '', MR_TRIP]]],
+  ['19e7e3fbbd54bfaf', '2026-05-31', 'The Home Depot', 'OVERHEAD', 'PAUL', [['6710', 290, 'Snack on a house work day', '', MR_TRIP]]],
+  ['19e88b20407be118', '2026-06-02', 'Tom Thumb', 'OVERHEAD', 'PAUL', [['6710', 1242, 'Water and snacks on a house work day', '', MR_TRIP]]],
+  ['19fccfca14c026cc', '2026-08-04', 'Justice of the Peace Precinct 1', '200 Janice', 'DENNIS', [['1010', 14400, 'Eviction (forcible-detainer) filing fee, 200 Janice - Dennis\'s check', '']]]
+];
+function addPhotoCosts() {
+  var props = PropertiesService.getScriptProperties();
+  var ss = openWorkbook_(props);
+  requireOwner_(ss);
+  var ctx = buildCtx_(ss), J = mrJournal_(ss), out = [], posts = [], envs = {}, houses = {}, want = { paul: 0, dennis: 0 };
+  MR_PHOTO_COSTS.forEach(function (p) {
+    var env = mrReadAny_(p[0], out);
+    if (!env) return;
+    var e = buildEntry({ type: 'purchase', date: p[1], payee: p[2], property: p[3], paid_from: p[4], source: 'manual', posted_by: mrUser_(),
+      memo: 'Paul\'s phone picture (paul@ ' + p[0] + '), on no book; Paul 2026-10-01 (final migration register, Q5)',
+      items: p[5].map(function (x) { return { account: x[0], amount_cents: x[1], description: x[2], trade: x[3] || '', business_purpose: x[4] || '' }; }) }, ctx);
+    posts.push(e); envs[e.txn_id] = [env, p[3]];
+    if (!J.byTxn[e.txn_id]) want[p[4] === 'DENNIS' ? 'dennis' : 'paul'] += p[5].reduce(function (t, x) { return t + x[1]; }, 0);
+    if (p[3] !== 'OVERHEAD') houses[p[3]] = true;
+  });
+  posts.forEach(function (e) {
+    if (J.byTxn[e.txn_id]) return;
+    var url = mrFile_(envs[e.txn_id][0], ['2026', envs[e.txn_id][1]], null, props);
+    e.doc_url = url; e.lines.forEach(function (l) { l.doc_url = url; });
+  });
+  mrPost_(J, posts, props, out);
+  return mrFinish_(ss, 'addPhotoCosts - ' + new Date(), J, [
+    ['Recast owes Paul, all', '2030', null, want.paul, -1],
+    ['Recast owes Dennis, all', '2010', null, want.dennis, -1]
+  ], Object.keys(houses), out);
+}
