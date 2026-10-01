@@ -899,7 +899,7 @@ function voidAshburneLateDoubles() {
 // themselves are whole - and the American refund read shows the 476.40 as -476.40. Posts the four, links June's
 // Claude Max receipt. Squarespace 69.00: the read calls the welcome email "no payment", but Paul forwarded it to
 // himself as "INVOICE" and the subscription ran its month (expired 07-09) - his note is the document.
-// STATUS: NOT YET RUN
+// STATUS: DONE 2026-10-01 10:58 PDT by Paul: four posted (69.00, 2.30, 20.00, AA refund 476.40), June Claude Max linked; read-back OK.
 function mrReadAny_(gmailId, out) {   // a look-only read whose filing failed is still a read
   var env = mrEnv_('dry-gm-' + gmailId);
   if (!env || !env.model || (env.status !== 'dry' && env.status !== 'error')) { out.push('NOT READ  ' + gmailId); return null; }
