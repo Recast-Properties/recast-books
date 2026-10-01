@@ -2295,6 +2295,10 @@ function writeSimpleClosingTab_(ss, name, plan, target) {
   sh.getRange(1, 3, body.length, 1).setNumberFormat('#,##0.00;(#,##0.00)');
   sh.getRange(1, 4, body.length, 1).setFontColor('#000000').setFontWeight('bold');   // the notes: bold, black (Paul)
   plainNotes.forEach(function (r) { sh.getRange(r, 4).setFontWeight('normal'); });   // except the ones he wants plain
+  // the top line: the "Sold for ..." note as large as the title, and a light green band across C1:D1 (Paul, 2026-10-01)
+  sh.getRange(1, 4).setFontSize(13);
+  sh.getRange(1, 3, 1, 2).setBackground('#ceffbc');
+  sh.getRange(1, 4, sh.getMaxRows(), 1).setWrap(true);   // every note and bill description wraps inside column D (Paul)
   sh.setColumnWidth(1, 20); sh.setColumnWidth(2, 420); sh.setColumnWidth(3, 120); sh.setColumnWidth(4, 460);
   sh.setFrozenRows(1);
   // the list: its amounts in the same format, its descriptions plain

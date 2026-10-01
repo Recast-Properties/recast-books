@@ -2508,3 +2508,9 @@ escrow was held back; a sole-owner sale's cash row is `Payout from title company
 company"); its note is `After commission, closing costs and taxes` and is the one note that is not bold. In
 `closingRows` (`note_plain`) and `writeSimpleClosingTab_`; both closing tabs rewritten in place and read back (Sparkling
 keeps `Your half of the sale money (first wire)`, with the shorter note). 546 tests. Pushed and committed; deploy owed.
+
+**16:34 PDT, closing tab formatting (Paul):** the escrow row's note (`Comes later - see the escrow section below`) is not
+bold; the top note (`Sold for ...`) is size 13; C1:D1 have the light green `#ceffbc`; every cell of column D wraps. In
+`closingRows` (`note_plain`) and `writeSimpleClosingTab_`; both closing tabs rewritten in place, the first three seen in
+the workbook on both tabs (the wrap could not be scrolled to from the session). Paul removed the comparison tab
+`1616 Granite - Closing (your way)` himself. 546 tests. Pushed and committed; deploy owed.

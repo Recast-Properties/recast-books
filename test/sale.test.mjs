@@ -357,6 +357,7 @@ test("Paul's closing tab, D-071: Rehab Costs is every bill, a cash advance's pri
   const profit = rows.find((r) => r.label === "Total Profit");
   assert.deepEqual([profit.cents, profit.note], [summary.profit_cents, "Cash received plus the escrow less total project costs"]);
   assert.equal(amountOf(rows, "Held back by the title company (escrow)"), 6_000_000);
+  assert.equal(rows.find((r) => r.label.trim() === "Held back by the title company (escrow)").note_plain, true);
   assert.equal(sumRows(rowsBetween(rows, "Dennis", "Total to Dennis")), summary.paid.dennis_cents);
   assert.equal(rows.find((r) => r.label === "Total paid out").note, "Matches the cash received at closing");
   assert.deepEqual([amountOf(rows, "Owed to Dennis when it is released"), amountOf(rows, "Owed to Paul when it is released")], [3_000_000, 3_000_000]);
