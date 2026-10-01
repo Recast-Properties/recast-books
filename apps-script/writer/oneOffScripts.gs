@@ -593,7 +593,7 @@ function reprocessStoreReceipts() {
 //   Drive: 13 (Q20) the STAGING folder renamed "Old books receipts (migrated 2026-09-21) - do not delete" and moved
 //          inside "Recast Books" (file ids, and so every link, unchanged).
 // Documents that are paul@ emails come from the look-only reads of step 0; one not read yet is skipped and named.
-// STATUS: NOT YET RUN
+// STATUS: DONE 2026-10-01 10:52 PDT by Paul: 14 voids, 11 posts, every read-back OK; four reads came back "error" (the filing lost its reply) and the AA refund read was negative - finished by fixOverheadLeftovers.
 var COTALITY_FEB_PAID = '2026-06-30';   // the old row's own date: the 05-12 statement's read (dry-gm-19e1cc39cf4e2255) shows no payment date, so none is invented (Claude 2026-10-01)
 var MR_VOIDS_REST = [
   ['receipt-20260216-bbf30d98c8da-5e0f', '6510', 5952, 'duplicate - the sawhorse on Home Depot receipt 6505 00053 48149 is already in the old books as migration-20260216-678771dda3c4 "Saw Horses" 59.51 (tax rounding); the rest of this receipt was voided 09-23 as void-receipt-20260216-526b7608d4b2-c670'],
@@ -892,4 +892,61 @@ function voidAshburneLateDoubles() {
     line('Recast owes Paul in all', before.owedAll, after.owedAll, expOwed));
   Logger.log(out.join('\n'));
   return out;
+}
+
+// 2026-10-01 Paul (final migration register) - what fixOverheadAndTheRest left: its reads of four paul@ emails came
+// back as 'error' only because filing the copy under _dry-runs lost its reply (the doGet misfire) - the reads
+// themselves are whole - and the American refund read shows the 476.40 as -476.40. Posts the four, links June's
+// Claude Max receipt. Squarespace 69.00: the read calls the welcome email "no payment", but Paul forwarded it to
+// himself as "INVOICE" and the subscription ran its month (expired 07-09) - his note is the document.
+// STATUS: NOT YET RUN
+function mrReadAny_(gmailId, out) {   // a look-only read whose filing failed is still a read
+  var env = mrEnv_('dry-gm-' + gmailId);
+  if (!env || !env.model || (env.status !== 'dry' && env.status !== 'error')) { out.push('NOT READ  ' + gmailId); return null; }
+  return env;
+}
+function fixOverheadLeftovers() {
+  var props = PropertiesService.getScriptProperties();
+  var ss = openWorkbook_(props);
+  requireOwner_(ss);
+  var ctx = buildCtx_(ss), J = mrJournal_(ss), out = [], posts = [], fileFor = {}, planned = 0;
+  MR_EMAIL_COSTS.forEach(function (x) {
+    if (['19eaeb28bffd4eb2', '19d5fc9cd76b5b0b', '19f0445e1b3b78ae'].indexOf(x[0]) < 0) return;   // the other three posted
+    var env = mrReadAny_(x[0], out);
+    if (!env) return;
+    var e = buildEntry({ type: 'expense', date: x[1], payee: x[2], account: x[3], property: 'OVERHEAD', paid_from: 'PAUL', amount_cents: x[4],
+      description: x[5], source: 'manual', posted_by: mrUser_(), memo: x[6] + '; paid by Paul (before Recast had a bank account, D-026.2)' +
+        (x[0] === '19eaeb28bffd4eb2' ? '; Paul forwarded this email to himself as "INVOICE" (19eb22fe5663d558) and the subscription ran to 07-09' : '') }, ctx);
+    posts.push(e); fileFor[e.txn_id] = [env, /^Receipt-/i]; if (!J.byTxn[e.txn_id]) planned += x[4];
+  });
+  var rf = mrReadAny_(MR_AA.refund, out), aa = 0;
+  if (rf) {
+    var rc = Math.abs(Number((rf.model || {}).receipt_total_cents) || 0);
+    if (rc && rc !== MR_AA.refundCents) out.push('AA 06-14 REFUND NOT POSTED: the read says ' + fromCents(rc) + ' - tell Claude');
+    else {
+      var re = mrRefund_({ date: '2026-06-18', payee: 'American Airlines', property: 'OVERHEAD', prefix: 'REFUND: ',
+        what: 'REFUND: AA 982 PDX-DFW of Jun 14 (conf CVMBBG) not flown - the whole ticket came back',
+        memo: 'American\'s "Your refund is complete" of 06-18 (paul@ 19edb64cd9341671): 476.40 back; Paul 2026-10-01 (Q19) (register 38)',
+        lines: [['migration-20260611-615fc76343cd', '6700', MR_AA.refundCents, '', 'Airfare PDX-DFW, AA 982, Jun 14 (conf CVMBBG), not flown - refunded', 'Refund of an unflown PDX-DFW business trip']] }, ctx);
+      posts.push(re); fileFor[re.txn_id] = [rf, null]; if (!J.byTxn[re.txn_id]) aa = MR_AA.refundCents;
+    }
+  }
+  posts.forEach(function (e) {
+    var f = fileFor[e.txn_id];
+    if (!f || J.byTxn[e.txn_id]) return;
+    var url = mrFile_(f[0], ['2026', 'OVERHEAD'], f[1], props);
+    e.doc_url = url; e.lines.forEach(function (l) { l.doc_url = url; });
+  });
+  mrPost_(J, posts, props, out);
+  var aj = J.byTxn[MR_ANTHROPIC_JUNE.rows[0]];
+  if (aj && String(aj[0].doc_url || '').indexOf(MR_ANTHROPIC_JUNE.july) >= 0) {
+    var am = mrReadAny_(MR_ANTHROPIC_JUNE.gmail, out), uj = am ? mrFile_(am, ['2026', 'OVERHEAD'], /^Receipt-/i, props) : '';
+    if (uj) out.push('linked ' + setDocUrl_(MR_ANTHROPIC_JUNE.rows, uj, props) + ' lines  ' + MR_ANTHROPIC_JUNE.rows.join(', ') + ' (June\'s receipt #2237-3434-8635)');
+    else out.push('Claude Max June: receipt NOT filed - tell Claude');
+  } else out.push('Claude Max June already relinked');
+  return mrFinish_(ss, 'fixOverheadLeftovers - ' + new Date(), J, [
+    ['Overhead, Recast owes Paul', '2030', 'OVERHEAD', planned - aa, -1],
+    ['Overhead, travel (6700)', '6700', 'OVERHEAD', -aa],
+    ['Recast owes Paul, all', '2030', null, planned - aa, -1]
+  ], [], out);
 }
