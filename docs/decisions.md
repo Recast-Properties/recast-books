@@ -1385,3 +1385,24 @@ pictures too large to read.
 4. A charge is proven by Paul's own note on the email when the email itself shows no payment (the Squarespace welcome
    email he forwarded to himself as "INVOICE").
 5. An entry whose description or memo still says PENDING ROUTING is refused (`lib/posting.mjs`, a void is exempt).
+
+## D-068 · On the closing tab a cash advance is its own cost, never part of Rehab Costs - 2026-10-01 · Paul
+
+Paul shaped the closing tab's PROJECT COSTS himself (the trial tab `280 Sparkling - Closing (simple)`,
+`docs/phase5-spec.md` section 3a): Purchase Principal, Purchase Interest, Cash Advances Principal, Cash Advances
+Interest, Rehab Costs, Utilities. Asked how the advance principal sits beside the rehab bills it paid for, he answered:
+*"cash advances shoudl never be added to rehab costs. they are their own costs."*
+
+**Decided:** `Cash Advances Principal` is a cost row of its own and counts in Total Project Costs. `Rehab Costs` is the
+bills (rehab, lawn care, an HOA release paid before closing, listing) **less the money the cash advances covered** - an
+advance pays a worker directly or pays Paul back for bills he paid, and the books hold both the advance and the bill
+(D-052), so the same dollars must not sit in both rows. The total is unchanged by the split: every cost the books hold,
+once, which is what makes cash received less Total Project Costs the books' profit.
+
+Worked on 881 Newport (2026-10-01, before its closing): bills other than utilities 3,842.64, cash advance 2,000.00 ->
+Cash Advances Principal 2,000.00, Rehab Costs 1,842.64, Utilities 759.53, Purchase Principal 207,000.00.
+
+**Not touched:** the house tabs (the light tab's Total Project Cost has only the cash advances' interest and shows
+Rehab Costs in full; the heavy tab is by funding already), the Journal, and the PAYOUTS block, where Dennis is simply
+repaid his advances. In PAYOUTS, `Paid out of pocket` is bills a partner paid that no advance covered.
+

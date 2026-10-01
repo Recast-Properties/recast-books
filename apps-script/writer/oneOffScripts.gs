@@ -72,17 +72,17 @@ function buildSparklingSimpleClosingTab() {
   var cashAdv = s.interest.by_advance.filter(function (a) { return a.kind === 'cash'; });
   var cashPrincipal = cashAdv.reduce(function (t, a) { return t + a.amount_cents; }, 0);
   var cashInterest = cashAdv.reduce(function (t, a) { return t + a.interest_cents; }, 0);
-  // OPEN WITH PAUL before this layout is used on a house that has cash advances (Granite, Newport, Ashburne,
-  // Mesa, Bowling Green): the advance money paid for bills that are already in Rehab Costs, so adding the
-  // principal as its own cost row counts that money twice. Refused here rather than written wrong.
-  if (cashPrincipal) throw new Error(name + ' has cash advances of ' + cashPrincipal + ' cents - settle with Paul how that row sits beside Rehab Costs first');
+  // D-068 (Paul, 2026-10-01: "cash advances shoudl never be added to rehab costs. they are their own costs."):
+  // Cash Advances Principal is its own cost row, and Rehab Costs is the bills LESS the money the advances
+  // covered - the advance paid for bills (or paid Paul back for them), so leaving that money in Rehab Costs
+  // too would count it twice. The total is the same either way: every cost the books hold, once.
   var purchase = before['1000'] || 0, interest = before['1200'] || 0, utilities = before['1120'] || 0;
   var costRows = [
     ['Purchase Principal', purchase],
     ['Purchase Interest', interest - cashInterest],
     ['Cash Advances Principal', cashPrincipal],
     ['Cash Advances Interest', cashInterest],
-    ['Rehab Costs', totalCost - purchase - interest - utilities],
+    ['Rehab Costs', totalCost - purchase - interest - utilities - cashPrincipal],
     ['Utilities', utilities]
   ];
   var heldBack = 0;

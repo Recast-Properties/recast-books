@@ -226,9 +226,9 @@ are the target, D-028 returns hold for Paul). **Resume from `HANDOFF-2026-09-30.
   green name row, each partner's rows, `Total to ...`, `Refunded to Recast Citizens Account`, `Total paid out`), AFTER
   THE SALE; notes bold black; no account numbers, no title-company charges. **Paul edits that tab by hand - read it
   before every re-run.** **Open:** (1) his verdict - if he keeps it, it becomes `writeClosingTab_`'s layout for every
-  house (Newport closes 10-02, Ashburne ~10-05); (2) **unanswered: on a house with cash advances, Cash Advances Principal
-  beside the full Rehab Costs counts the same money twice** (Newport has 2,000; the script refuses such a house) - show
-  it for information only, or net Rehab Costs; (3) where property tax or insurance paid before closing goes in his six
+  house (Newport closes 10-02, Ashburne ~10-05); (2) **answered, D-068: a cash advance is its own cost row and never part of Rehab
+  Costs** - Rehab Costs is the bills less the money the advances covered, the total unchanged (Newport: advances
+  2,000.00, Rehab Costs 1,842.64); (3) where property tax or insurance paid before closing goes in his six
   rows; (4) the 1130 row must be named from its lines (Sparkling's "HOA" 220.00 was three Falcon Creek lawn bills).
   544 tests. Pushed and committed; **writer web app deploy owed** (Code.gs, Menu.gs, lib.gs changed; only the Sell
   dialog reaches that code and it runs the pushed version).

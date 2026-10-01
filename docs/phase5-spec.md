@@ -193,8 +193,8 @@ Rules: a cost is what each cost account held **before** the sale entries (what t
 settlement entry put in), so the title company's own charges never appear - they are inside the first wire. Rehab Costs
 is everything that is not the purchase, Dennis's interest or a utility bill (lawn care, an HOA release paid before
 closing, listing). Cash less cost must equal the books' profit and each partner's rows must add to his total, or
-nothing is written. No account numbers; notes bold, black, capitalised. **Open:** Cash Advances Principal beside the
-full Rehab Costs double counts on a house that has advances (unanswered); pre-closing property tax and insurance have
+nothing is written. No account numbers; notes bold, black, capitalised. Cash Advances Principal is its own cost and Rehab Costs is the bills less the
+money the advances covered (D-068). **Open:** pre-closing property tax and insurance have
 no row yet; a holdback and a bank deal are not designed. If Paul keeps it, it replaces the full layout in
 `writeClosingTab_`.
 

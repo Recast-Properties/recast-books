@@ -2372,3 +2372,10 @@ Paul's wording - the percentage is the sale's own share. Re-run, seen in the wor
 `HANDOFF-2026-10-01.md` (an afternoon section with the next steps), `docs/phase5-spec.md` section 3a (the simple
 layout) and the router `../CLAUDE.md` brought up to date. The live Apps Script project = the repo (last push 14:10).
 Still owed: the writer web app deploy; Paul's answer on Cash Advances Principal.
+
+**14:20 PDT - D-068: a cash advance is its own cost, never part of Rehab Costs.** Paul's answer to the open question:
+*"cash advances shoudl never be added to rehab costs. they are their own costs."* In the trial tab's script, Rehab Costs
+is now the bills less the cash advances' principal, and the refusal for a house with advances is gone; the total is
+unchanged. 280 Sparkling has no advances, so its tab reads the same and was not re-run. Checked on 881 Newport's live
+balances: bills other than utilities 3,842.64 less the 2,000.00 advance = Rehab Costs 1,842.64. `docs/decisions.md`
+D-068, phase5-spec 3a, CLAUDE.md, the handoff and the router updated. Pushed and committed.
