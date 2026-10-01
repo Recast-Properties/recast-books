@@ -2502,3 +2502,9 @@ not just a sum of them all."*
   typing). Both closing tabs rewritten in place and read back: Granite lists 12 bills = 757.16, Sparkling 7 = 873.54.
 
 546 tests (the lint's as-of test now asserts the new rule). Pushed and committed. **Owed: the writer web app deploy.**
+
+**16:30 PDT, closing tab wording (Paul):** `Half of profit` carries no "(the part paid at closing)" suffix even when
+escrow was held back; a sole-owner sale's cash row is `Payout from title company` (was "Sale money from the title
+company"); its note is `After commission, closing costs and taxes` and is the one note that is not bold. In
+`closingRows` (`note_plain`) and `writeSimpleClosingTab_`; both closing tabs rewritten in place and read back (Sparkling
+keeps `Your half of the sale money (first wire)`, with the shorter note). 546 tests. Pushed and committed; deploy owed.

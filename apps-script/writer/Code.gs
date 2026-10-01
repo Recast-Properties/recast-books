@@ -2251,11 +2251,12 @@ function writeSimpleClosingTab_(ss, name, plan, target) {
   var body = [[ '', name + ' - CLOSED ' + s.date, '', built.title_note ]];
   if (plan.doc_url) body.push(['', 'Settlement statement', '=HYPERLINK("' + String(plan.doc_url).replace(/"/g, '') + '","Title company closing document")', '']);
   body.push(['', '', '', '']);
-  var heads = [], totals = [];
+  var heads = [], totals = [], plainNotes = [];
   built.rows.forEach(function (r) {
     body.push(['', r.label, r.cents === null ? '' : r.cents / 100, r.note || '']);
     if (r.style === 'head') heads.push(body.length);
     if (r.style === 'total') totals.push(body.length);
+    if (r.note_plain) plainNotes.push(body.length);
   });
   body.push(['', '', '', '']);
   // "After the payout", not "after the sale" (Paul, 2026-10-01): a bill dated after the closing day that the
@@ -2293,6 +2294,7 @@ function writeSimpleClosingTab_(ss, name, plan, target) {
   totals.forEach(function (r) { sh.getRange(r, 2, 1, 3).setFontWeight('bold').setBackground('#ceffbc'); });
   sh.getRange(1, 3, body.length, 1).setNumberFormat('#,##0.00;(#,##0.00)');
   sh.getRange(1, 4, body.length, 1).setFontColor('#000000').setFontWeight('bold');   // the notes: bold, black (Paul)
+  plainNotes.forEach(function (r) { sh.getRange(r, 4).setFontWeight('normal'); });   // except the ones he wants plain
   sh.setColumnWidth(1, 20); sh.setColumnWidth(2, 420); sh.setColumnWidth(3, 120); sh.setColumnWidth(4, 460);
   sh.setFrozenRows(1);
   // the list: its amounts in the same format, its descriptions plain

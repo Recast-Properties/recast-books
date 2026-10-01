@@ -360,7 +360,9 @@ test("Paul's closing tab, D-071: Rehab Costs is every bill, a cash advance's pri
   assert.equal(sumRows(rowsBetween(rows, "Dennis", "Total to Dennis")), summary.paid.dennis_cents);
   assert.equal(rows.find((r) => r.label === "Total paid out").note, "Matches the cash received at closing");
   assert.deepEqual([amountOf(rows, "Owed to Dennis when it is released"), amountOf(rows, "Owed to Paul when it is released")], [3_000_000, 3_000_000]);
-  assert.equal(rows.filter((r) => r.label.trim() === "Half of profit (the part paid at closing)").length, 2, "each share was paid in two parts");
+  assert.equal(rows.filter((r) => r.label.trim() === "Half of profit").length, 2, "plain wording even when only part was paid at closing");
+  const payout = rows.find((r) => r.label.trim() === "Payout from title company");
+  assert.deepEqual([payout.cents, payout.note, payout.note_plain], [34_734_303, "After commission, closing costs and taxes", true]);
 
   // once it is released (D-036 1: 60,000 on 2026-09-11, half each) the section says where it went
   const after = closingRows({ summary: { ...summary, owed_after: { dennis_cents: 0, paul_cents: 0, paul_undrawn_cents: 0 } }, intents, lines, dennisPct: 50,
