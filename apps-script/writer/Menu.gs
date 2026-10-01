@@ -1151,6 +1151,7 @@ function sellPost(form) {
       doc_url: docUrl,
       summary: plan.summary,
       statementLines: tabLines,
+      intents: plan.intents,
       costByClass: sellCostByClass_(plan, tabLines, plan.summary.recast_share_pct),
       forecast: forecast
     }, closingTabName_(name));
@@ -1345,7 +1346,13 @@ function closingFromJournal_(ss, name) {
   var costBeforeShare = released - dennisShare;
   var profit = revenue - costBeforeShare;
 
-  var payDennisNote = at(paidDennis, '2010');
+  // "paid to Dennis" carries two 2010 lines, in this order (lib/sale.mjs): his money back, then
+  // the part of his profit share paid at closing - less than the whole share when escrow was
+  // held back. Subtracting the WHOLE share from their sum understated his money back by the
+  // unpaid part (1616 Granite read 257,305.63 for 287,305.63).
+  var dennis2010 = paidDennis ? paidDennis.lines.filter(function (l) { return l.account === '2010'; }).map(function (l) { return l.cents; }) : [];
+  var payDennisNote = dennis2010.length ? dennis2010[0] : 0;
+  var payDennisShare = dennis2010.length > 1 ? dennis2010[1] : 0;
   var payDennisInterest = at(paidDennis, '2000');
   var payPaulDue = at(paidPaul, '2030');
   var payPaulShare = at(paidPaul, '9010');
@@ -1367,10 +1374,19 @@ function closingFromJournal_(ss, name) {
   var asLines = function (entry) {
     return entry.lines.map(function (l) { return l.cents < 0 ? { account: l.account, credit: -l.cents } : { account: l.account, debit: l.cents }; });
   };
-  var costByClass = sellCostByClass_({ intents: [
+  var intents = [
     { memo: 'settlement statement', lines: asLines(settlement) },
     { memo: 'released to COGS', lines: asLines(release) }
-  ] }, statementLines, sharePct);
+  ];
+  var costByClass = sellCostByClass_({ intents: intents }, statementLines, sharePct);
+  // The escrow released since the closing, and who it went to (sellHoldback's entries).
+  var hb = { date: '', received_cents: 0, dennis_cents: 0, paul_cents: 0 };
+  ids.forEach(function (id) {
+    var e = entries[id];
+    if (/escrow holdback released/.test(e.memo)) { hb.received_cents += at(e, '1401'); hb.date = e.date; }
+    else if (/holdback: Dennis's share/.test(e.memo)) hb.dennis_cents -= at(e, '1401');
+    else if (/holdback: Paul's share/.test(e.memo)) hb.paul_cents -= at(e, '1401');
+  });
   // A cost row Paul has renamed on the tab keeps his wording through a rebuild, the same
   // courtesy the settlement lines get: a property closed before a classification was
   // corrected (280 Sparkling's HOA release, D-039) can read right without touching the
@@ -1402,16 +1418,16 @@ function closingFromJournal_(ss, name) {
     },
     paid: {
       dennis_cents: paidDennisTotal, paul_cents: paidPaulTotal,
-      dennis_note_cents: payDennisNote - dennisShare > 0 ? payDennisNote - dennisShare : payDennisNote,
+      dennis_note_cents: payDennisNote,
       dennis_interest_cents: payDennisInterest,
-      dennis_share_cents: Math.min(dennisShare, payDennisNote),
+      dennis_share_cents: payDennisShare,
       paul_due_cents: payPaulDue, paul_share_cents: payPaulShare
     },
     retained_cents: cash - paidDennisTotal - paidPaulTotal,
     owed_after: {
       dennis_cents: -Math.round(balances['2010'] || 0),
       paul_cents: -Math.round(balances['2030'] || 0),
-      paul_undrawn_cents: (profit - dennisShare) - payPaulShare
+      paul_undrawn_cents: (profit - dennisShare) - payPaulShare - hb.paul_cents
     },
     recapture_cents: 0
   };
@@ -1423,7 +1439,8 @@ function closingFromJournal_(ss, name) {
     profit: readLabelledValue_(tab, 'Net Profit')
   } : { sale_price: '', total_cost: '', profit: '' };
 
-  return { summary: summary, statementLines: statementLines, costByClass: costByClass, forecast: forecast, doc_url: postedDocUrl };
+  return { summary: summary, statementLines: statementLines, costByClass: costByClass, forecast: forecast, doc_url: postedDocUrl,
+    intents: intents, holdback: hb.received_cents ? hb : null };
 }
 
 /** The statement lines a closing tab was last written with (writeClosingTab_ keeps them on

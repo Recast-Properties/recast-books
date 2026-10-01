@@ -161,10 +161,11 @@ two wires), then Cash received. The cost list is net of both sides and adds up t
 in `lib/sale.mjs` (`settlementRows`, `releasedCostRows`) and tested there. The tab keeps its statement lines with
 the sheet, so a rebuild from the dialog does not collapse them to one line per account.
 
-### 3a · The simple layout Paul is designing (trial, 2026-10-01)
+### 3a · The closing tab of every partner deal: Paul's simple layout (2026-10-01, D-068, D-069)
 
-On its own tab, `280 Sparkling - Closing (simple)`, beside the full one - built by `buildSparklingSimpleClosingTab`
-(oneOffScripts.gs) from the Journal's sale entries. It follows the cash, in Paul's words and rows:
+Designed by Paul on 280 Sparkling, then: "yes. with the exception of ashburne" - `writeClosingTab_` writes it for every
+partner deal (`writeSimpleClosingTab_` in Code.gs paints the rows `lib/sale.mjs` `closingRows` builds, tested on both
+closed sales); the bank deal keeps the long layout of section 3. It follows the cash, in Paul's words and rows:
 
 ```
 <house> - CLOSED <date>                                   Sold for 550,000.00. Recast owned 50%.
@@ -194,9 +195,13 @@ settlement entry put in), so the title company's own charges never appear - they
 is everything that is not the purchase, Dennis's interest or a utility bill (lawn care, an HOA release paid before
 closing, listing). Cash less cost must equal the books' profit and each partner's rows must add to his total, or
 nothing is written. No account numbers; notes bold, black, capitalised. Cash Advances Principal is its own cost and Rehab Costs is the bills less the
-money the advances covered (D-068). **Open:** pre-closing property tax and insurance have
-no row yet; a holdback and a bank deal are not designed. If Paul keeps it, it replaces the full layout in
-`writeClosingTab_`.
+money the advances covered (D-068). Pre-closing property tax and insurance
+get their own row after Utilities when a house has them. When escrow was held back: a `Held back by the title company
+(escrow)` row under Cash received, the profit counts it, each share row says `(the part paid at closing)`, and an
+`ESCROW HELD BACK AT CLOSING` section shows the release and who it went to, or what is still owed (1616 Granite). The
+statement lines stay with the sheet (developer metadata) - they alone know what was paid to Recast by name in full -
+so **never delete a closing tab to rebuild it: rebuild it in place** (Sparkling's two-wire split was lost that way
+once and restored from the lines in `rebuildClosedClosingTabs`).
 
 **`CLOSING_TAB_IN_PLACE` stays `false` permanently** and the sign-off it was waiting on is moot.
 `closingTabName_()` therefore always returns `<property> - Closing`.

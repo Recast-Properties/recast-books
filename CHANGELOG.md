@@ -2379,3 +2379,32 @@ is now the bills less the cash advances' principal, and the refusal for a house 
 unchanged. 280 Sparkling has no advances, so its tab reads the same and was not re-run. Checked on 881 Newport's live
 balances: bills other than utilities 3,842.64 less the 2,000.00 advance = Rehab Costs 1,842.64. `docs/decisions.md`
 D-068, phase5-spec 3a, CLAUDE.md, the handoff and the router updated. Pushed and committed.
+
+## 2026-10-01 (14:30 PDT) - Paul's simple layout is the closing tab of every partner deal (D-069)
+
+Asked whether the layout he had shaped on the trial tab is what every house gets at closing, Paul: *"yes. with the
+exception of ashburne"*.
+
+- **`lib/sale.mjs`:** `costBeforeClosing(intents)` (what each cost account held before the sale entries) and
+  `closingRows({summary, intents, lines, dennisPct, holdback})` - every row of the tab in his sections, names and
+  order, D-068 included; it never throws (a tab is written after the sale has posted) - a figure that does not tie says
+  so in its note. Two tests: Sparkling row for row, Granite for the cash advances (Rehab Costs 3,889.97 = the old tab's
+  10,727.97 less 6,838.00) and the escrow, held and released.
+- **`Code.gs`:** `writeClosingTab_` hands every deal that is not a bank deal to `writeSimpleClosingTab_`; the long
+  layout stays for 104 Ashburne. `keepStatementLines_` is shared.
+- **`Menu.gs` `closingFromJournal_`:** returns the entries and the escrow released since the closing; reads Dennis's
+  money back and the part of his share paid at closing off their own two lines (it subtracted the WHOLE share, so
+  Granite read 257,305.63 for 287,305.63); what Paul has not drawn no longer counts escrow already paid to him.
+- **A regression made and fixed in the same half hour:** the first run of the shared code on the trial tab wrote one
+  cash row of 263,769.94 - the two wires were gone. Paul had deleted the long `280 Sparkling - Closing` tab, and the
+  statement lines (the reimbursement in full, the wires' wording) were stored on it. `rebuildClosedClosingTabs()`
+  renamed the trial tab `280 Sparkling - Closing`, rewrote it with the eleven lines, and rewrote `1616 Granite -
+  Closing`. **Never delete a closing tab to rebuild it.**
+- **Read back on the live sheet, 14:21 PDT.** Sparkling: 259,053.12 + 4,716.82 = 263,769.94; costs 202,839.85; profit
+  60,930.09; Dennis 231,523.10, Paul 32,246.84. Granite: cash 347,343.03 + 60,000.00 held; costs 298,164.47 (purchase
+  279,001.00, interest 6,874.44 + 84.16, cash advances 6,838.00, Rehab Costs 3,889.97, utilities 1,476.90); profit
+  109,178.56; Dennis 318,853.51, Paul 28,489.52 = the cash; the escrow released 2026-09-11, 30,000.00 each. Granite's
+  interest total is Dennis's agreed 6,958.60; the adjustment sits in Purchase Interest, so the split differs from the
+  old tab's 6,873.90 / 84.70 by 0.54.
+
+546 tests. Pushed and committed. Owed: the writer web app deploy. Next: 881 Newport's closing, 10-02.

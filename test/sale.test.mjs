@@ -1,6 +1,6 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { buildSalePlan, buildHoldbackRelease, splitStatement, isProjectCostAccount, settlementRows, releasedCostRows } from "../lib/sale.mjs";
+import { buildSalePlan, buildHoldbackRelease, splitStatement, isProjectCostAccount, settlementRows, releasedCostRows, closingRows } from "../lib/sale.mjs";
 import { buildEntry, makeCtx } from "../lib/posting.mjs";
 
 // ---- the two sales that actually closed, from their Bison Title seller CDs --------------
@@ -295,6 +295,71 @@ test("closing tab, cost released: the rows add up to the total, and the reimburs
   assert.deepEqual([rows[rehab + 1].label, rows[rehab + 1].cents], ["Less: reimbursement paid to Recast, in full", -471_682]);
   assert.equal(rows[rehab + 2].cents, 235_841, "Recast's half of the charge, the settlement block's own row");
   assert.equal(rows.some((r) => /co-owner/i.test(r.label)), false);
+});
+
+// ---- the closing tab every partner deal gets: Paul's layout (2026-10-01, D-068) -----------
+
+const rowsBetween = (rows, from, to) => {
+  const a = rows.findIndex((r) => r.label === from), b = rows.findIndex((r, i) => i > a && r.label === to);
+  return rows.slice(a + 1, b);
+};
+const amountOf = (rows, label) => rows.find((r) => r.label.trim() === label).cents;
+
+test("Paul's closing tab, 280 Sparkling: his sections, his rows, and every block adds up", () => {
+  const { summary, intents } = buildSalePlan(SPARKLING);
+  const { title_note, rows } = closingRows({ summary, intents, lines: tabLines(SPARKLING.settlement), dennisPct: 50 });
+  assert.equal(title_note, "Sold for 550,000.00. Recast owned 50%.");
+  assert.deepEqual(rows.filter((r) => r.style === "head").map((r) => r.label),
+    ["INCOMING CASH AT CLOSING", "PROJECT COSTS", "PROFIT", "PAYOUTS"]);
+
+  assert.deepEqual(rowsBetween(rows, "INCOMING CASH AT CLOSING", "Cash received").map((r) => r.cents), [25_905_312, 471_682],
+    "the two wires - the reimbursement in full");
+  assert.deepEqual(rowsBetween(rows, "PROJECT COSTS", "Total Project Costs").map((r) => [r.label.trim(), r.cents]), [
+    ["Purchase Principal", 19_685_050], ["Purchase Interest", 280_957],
+    ["Cash Advances Principal", 0], ["Cash Advances Interest", 0],
+    ["Rehab Costs", 240_247],   // rehab 1,398.47 + lawn care 220.00 + HOA release 485.00 + listing 299.00
+    ["Utilities", 77_731],
+  ]);
+  assert.equal(amountOf(rows, "Total Project Costs"), 20_283_985);
+  const profit = rows.find((r) => r.label === "Total Profit");
+  assert.deepEqual([profit.cents, profit.note], [6_093_009, "Cash received less total project costs"]);
+  assert.deepEqual([amountOf(rows, "Dennis 50%"), amountOf(rows, "Paul 50%")], [summary.dennis_share_cents, summary.paul_share_cents]);
+
+  const dennis = rowsBetween(rows, "Dennis", "Total to Dennis");
+  assert.equal(sumRows(dennis), summary.paid.dennis_cents, "Dennis's rows add up to his total");
+  assert.equal(dennis.find((r) => r.label.trim() === "Paid out of pocket").cents, 139_798, "the bills Dennis paid directly");
+  assert.equal(sumRows(rowsBetween(rows, "Paul", "Total to Paul")), summary.paid.paul_cents);
+  const out = rows.find((r) => r.label === "Total paid out");
+  assert.deepEqual([out.cents, out.note], [26_376_994, "Matches the cash received at closing"]);
+  assert.equal(rows.some((r) => /2,358|co-owner|Sam/i.test(r.label + r.note)), false);
+});
+
+test("Paul's closing tab, D-068: a cash advance is its own cost row and never part of Rehab Costs; the total is every cost once", () => {
+  const { summary, intents } = buildSalePlan(GRANITE);
+  const lines = tabLines(GRANITE.settlement);
+  const { title_note, rows } = closingRows({ summary, intents, lines, dennisPct: 50 });
+  assert.equal(title_note, "Sold for 430,000.00.");
+  const cost = Object.fromEntries(rowsBetween(rows, "PROJECT COSTS", "Total Project Costs").map((r) => [r.label.trim(), r.cents]));
+  assert.equal(cost["Cash Advances Principal"], 550_000 + 133_800);
+  // the bills before closing: rehab 9,713.97 + HOA 250.00 + closing-side 465.00 + listing 299.00 = 10,727.97 (the old tab's figure)
+  assert.equal(cost["Rehab Costs"], 1_072_797 - 683_800);
+  assert.equal(sumRows(rowsBetween(rows, "PROJECT COSTS", "Total Project Costs")), amountOf(rows, "Total Project Costs"));
+
+  // a holdback: the profit counts it, the payouts at closing do not
+  const profit = rows.find((r) => r.label === "Total Profit");
+  assert.deepEqual([profit.cents, profit.note], [summary.profit_cents, "Cash received plus the escrow less total project costs"]);
+  assert.equal(amountOf(rows, "Held back by the title company (escrow)"), 6_000_000);
+  assert.equal(sumRows(rowsBetween(rows, "Dennis", "Total to Dennis")), summary.paid.dennis_cents);
+  assert.equal(rows.find((r) => r.label === "Total paid out").note, "Matches the cash received at closing");
+  assert.deepEqual([amountOf(rows, "Owed to Dennis when it is released"), amountOf(rows, "Owed to Paul when it is released")], [3_000_000, 3_000_000]);
+  assert.equal(rows.filter((r) => r.label.trim() === "Half of profit (the part paid at closing)").length, 2, "each share was paid in two parts");
+
+  // once it is released (D-036 1: 60,000 on 2026-09-11, half each) the section says where it went
+  const after = closingRows({ summary: { ...summary, owed_after: { dennis_cents: 0, paul_cents: 0, paul_undrawn_cents: 0 } }, intents, lines, dennisPct: 50,
+    holdback: { date: "2026-09-11", received_cents: 6_000_000, dennis_cents: 3_000_000, paul_cents: 3_000_000 } }).rows;
+  assert.equal(amountOf(after, "Released by the title company 2026-09-11"), 6_000_000);
+  assert.deepEqual([amountOf(after, "Paid to Dennis"), amountOf(after, "Paid to Paul")], [3_000_000, 3_000_000]);
+  assert.equal(after.some((r) => /Still held|Owed to/.test(r.label)), false);
 });
 
 // ---- the rules that must not drift -------------------------------------------------------

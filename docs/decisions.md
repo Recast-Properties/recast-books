@@ -1406,3 +1406,22 @@ Cash Advances Principal 2,000.00, Rehab Costs 1,842.64, Utilities 759.53, Purcha
 Rehab Costs in full; the heavy tab is by funding already), the Journal, and the PAYOUTS block, where Dennis is simply
 repaid his advances. In PAYOUTS, `Paid out of pocket` is bills a partner paid that no advance covered.
 
+## D-069 · The closing tab of a partner deal is Paul's simple layout; 104 Ashburne keeps the long one - 2026-10-01 · Paul
+
+Paul designed a simpler closing tab on 280 Sparkling over an afternoon, one message at a time (the layout is
+`docs/phase5-spec.md` section 3a). Asked whether it is what every house gets at closing: *"yes. with the exception of
+ashburne"*.
+
+**Decided:** `writeClosingTab_` writes the simple layout (`writeSimpleClosingTab_`, rows from `lib/sale.mjs`
+`closingRows`) for every partner deal, at the sale and on every rebuild from the Sell dialog. A **bank deal**
+(`summary.deal === 'bank'`: no profit share, Dennis's commission - 104 Ashburne, the only one) keeps the long layout:
+settlement lines, cost released by account, waterfall, forecast. The simple layout has no account numbers and none of
+the title company's own charges - those are on the linked closing document; a cost is what the account held before
+the sale entries. The tab is still values, still `<property> - Closing` (D-043).
+
+The two closed houses were brought into line the same afternoon: Paul deleted 280 Sparkling's long tab himself and the
+trial tab took its name; 1616 Granite's was rewritten, with an `ESCROW HELD BACK AT CLOSING` section for its 60,000.
+
+**Not designed yet:** where a bank deal's commission would sit if the simple layout ever reaches one; property tax
+and insurance paid before closing get their own rows after Utilities when a house has them (Paul has not seen one).
+

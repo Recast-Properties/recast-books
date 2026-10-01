@@ -2110,10 +2110,16 @@ function propertyBalances_(ss, name) {
  *
  * `target` is the sheet to write: `<property> - Closing`, always (D-043).
  *
+ * THIS LONG LAYOUT IS THE BANK DEAL'S ONLY (104 Ashburne) since 2026-10-01; every partner deal
+ * gets writeSimpleClosingTab_ below.
+ *
  * The two lists - the settlement and the released cost - are built by lib.gs (settlementRows,
  * releasedCostRows via Menu.gs), where a test proves each adds up to the total under it.
  */
 function writeClosingTab_(ss, name, plan, target) {
+  // Paul, 2026-10-01, asked whether his simple layout is what every house gets at closing: "yes. with the
+  // exception of ashburne" - the bank deal (no profit share, Dennis's commission) keeps the long layout below.
+  if (plan.summary.deal !== 'bank') return writeSimpleClosingTab_(ss, name, plan, target);
   var sh = getOrCreateSheet_(ss, target);
   sh.clear();
   sh.getRange(1, 1, sh.getMaxRows(), sh.getMaxColumns()).clearDataValidations();
@@ -2197,15 +2203,68 @@ function writeClosingTab_(ss, name, plan, target) {
   sh.setColumnWidth(1, 20); sh.setColumnWidth(2, 520); sh.setColumnWidth(3, 120); sh.setColumnWidth(4, 180);   // 520: the statement's own wording is long, and a cut-off label reads as a different line
   sh.setFrozenRows(1);
   if (sh.getMaxRows() > body.length + 2) sh.deleteRows(body.length + 3, sh.getMaxRows() - body.length - 2);
-  // The statement lines stay with the sheet, so a later rebuild (a late document, a holdback)
-  // keeps them: the Journal holds one line per account, not per statement line. Never fails
-  // the write - by now the sale is posted.
+  keepStatementLines_(sh, plan.statementLines);
+  return { sheet: target, rows: body.length };
+}
+
+// The statement lines stay with the sheet, so a later rebuild (a late document, a holdback)
+// keeps them: the Journal holds one line per account, not per statement line, and only the
+// lines know what was paid to Recast by name in full. Never fails the write - by the time a
+// closing tab is written the sale is posted.
+function keepStatementLines_(sh, lines) {
   try {
     sh.getDeveloperMetadata().forEach(function (m) { if (m.getKey() === 'statementLines') m.remove(); });
-    sh.addDeveloperMetadata('statementLines', JSON.stringify(plan.statementLines || []));
+    sh.addDeveloperMetadata('statementLines', JSON.stringify(lines || []));
   } catch (err) {
-    console.error('writeClosingTab_ statementLines metadata: ' + err);
+    console.error('keepStatementLines_: ' + err);
   }
+}
+
+/**
+ * The closing tab of a partner deal, in the layout Paul shaped on 280 Sparkling (2026-10-01,
+ * docs/phase5-spec.md section 3a; D-068): INCOMING CASH AT CLOSING, PROJECT COSTS, PROFIT,
+ * PAYOUTS, the escrow when some was held back, AFTER THE SALE. lib.gs's closingRows builds
+ * every row and figure (tested there on both closed sales); this only paints them. Values,
+ * not formulas - except the one live row of bills that arrive after the sale (D-031).
+ * No account numbers, and none of the title company's own charges: those came out of the
+ * sale money before it was wired and are on the linked closing document.
+ */
+function writeSimpleClosingTab_(ss, name, plan, target) {
+  var s = plan.summary;
+  var reg = propertyRow_(ss, name) || {};
+  var dennisPct = reg.dennis_share_pct === '' || reg.dennis_share_pct == null ? 50 : Number(reg.dennis_share_pct);
+  var built = closingRows({ summary: s, intents: plan.intents || [], lines: plan.statementLines || [], dennisPct: dennisPct, holdback: plan.holdback || null });
+
+  var body = [[ '', name + ' - CLOSED ' + s.date, '', built.title_note ]];
+  if (plan.doc_url) body.push(['', 'Settlement statement', '=HYPERLINK("' + String(plan.doc_url).replace(/"/g, '') + '","Title company closing document")', '']);
+  body.push(['', '', '', '']);
+  var heads = [], totals = [];
+  built.rows.forEach(function (r) {
+    body.push(['', r.label, r.cents === null ? '' : r.cents / 100, r.note || '']);
+    if (r.style === 'head') heads.push(body.length);
+    if (r.style === 'total') totals.push(body.length);
+  });
+  body.push(['', '', '', '']);
+  body.push(['', 'AFTER THE SALE', '', '']);
+  heads.push(body.length);
+  var q = String(name).replace(/"/g, '""');
+  body.push(['', '  Bills that came in after the sale',
+    '=SUMIF(Journal!$K$2:$K$5000,"' + q + '",Journal!$F$2:$F$5000)-SUMIF(Journal!$K$2:$K$5000,"' + q + '",Journal!$G$2:$G$5000)',
+    'Not part of the numbers above; settled on the next payout']);
+
+  var sh = getOrCreateSheet_(ss, target);
+  sh.clear();
+  sh.getRange(1, 1, sh.getMaxRows(), sh.getMaxColumns()).clearDataValidations();
+  sh.getRange(1, 1, body.length, 4).setValues(body);
+  sh.getRange(1, 2).setFontWeight('bold').setFontSize(13).setBackground('#a3f67f');
+  heads.forEach(function (r) { sh.getRange(r, 2, 1, 3).setFontWeight('bold').setBackground('#ffe599'); });
+  totals.forEach(function (r) { sh.getRange(r, 2, 1, 3).setFontWeight('bold').setBackground('#ceffbc'); });
+  sh.getRange(1, 3, body.length, 1).setNumberFormat('#,##0.00;(#,##0.00)');
+  sh.getRange(1, 4, body.length, 1).setFontColor('#000000').setFontWeight('bold');   // the notes: bold, black (Paul)
+  sh.setColumnWidth(1, 20); sh.setColumnWidth(2, 420); sh.setColumnWidth(3, 120); sh.setColumnWidth(4, 460);
+  sh.setFrozenRows(1);
+  if (sh.getMaxRows() > body.length + 2) sh.deleteRows(body.length + 3, sh.getMaxRows() - body.length - 2);
+  keepStatementLines_(sh, plan.statementLines);
   return { sheet: target, rows: body.length };
 }
 
