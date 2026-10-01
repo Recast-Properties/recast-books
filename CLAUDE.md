@@ -222,25 +222,23 @@ are the target, D-028 returns hold for Paul). **Resume from `HANDOFF-2026-09-30.
   line by line, and made it the standard: "yes. with the exception of ashburne" (D-069).** `writeClosingTab_` writes
   it for every partner deal (`writeSimpleClosingTab_`, rows from `lib/sale.mjs` `closingRows`, tested on both closed
   sales); the bank deal (104 Ashburne) keeps the long layout. His sections and words: INCOMING CASH AT CLOSING (the
-  wires), PROJECT COSTS (Purchase Principal, Purchase Interest, Cash Advances Principal, Cash Advances Interest, Rehab
+  wires), PROJECT COSTS (Purchase Principal, Purchase Interest, Cash Advances Interest on $<total>, Rehab
   Costs, Utilities), PROFIT (`Total Profit`, `Dennis 50%`, `Paul 50%`), PAYOUTS (a green name row, each partner's rows,
   `Total to ...`, `Refunded to Recast Citizens Account`, `Total paid out`), an escrow section when some was held back,
-  AFTER THE SALE; notes bold black; no account numbers, no title-company charges. **D-068: a cash advance is its own
-  cost row and never part of Rehab Costs** - Rehab Costs is the bills (rehab, lawn care, an HOA release paid before
-  closing, listing) less the money the advances covered. Both closed houses are in the layout (`280 Sparkling -
+  AFTER THE SALE; notes bold black; no account numbers, no title-company charges. **D-071 (replaced D-068): Rehab Costs is EVERY bill and a cash advance's principal is NOT a cost row** - it shows only under Dennis in PAYOUTS; the cost list says `Cash Advances Interest on $6,838`. Never net the advances out of Rehab Costs. Both closed houses are in the layout (`280 Sparkling -
   Closing`, `1616 Granite - Closing`, rebuilt and read back 14:21 PDT by `rebuildClosedClosingTabs`). **Never delete a
   closing tab to rebuild it** - the statement lines live on the sheet (developer metadata) and only they know what was
   paid to Recast by name in full; Paul deleting Sparkling's long tab cost the two-wire split once. Paul edits these tabs
   by hand - read the live tab before a re-run. Fixed on the way: a rebuild read Dennis's money back wrong when escrow was
   held (Granite showed 257,305.63 for 287,305.63) and kept showing 30,000 "undrawn" after the escrow was paid. 546
   tests. Pushed, committed, and **deployed @25 on Paul's "deploy" (14:24 PDT, `/exec` answers ok 0.4.0)** - nothing owed. **Next: 881 Newport closes 10-02 through Sell property - its tab
-  will be the first written in this layout at a sale** (expect Cash Advances Principal 2,000.00, Rehab Costs 1,842.64,
+  will be the first written in this layout at a sale** (expect `Cash Advances Interest on $2,000`, Rehab Costs 3,842.64,
   Utilities 759.53 before any last bills); read it back the moment it posts.
 - **2026-10-01 14:30-14:45 PDT (D-070, CHANGELOG): lawn care is a rehab cost on every tab; the closing tab's last
   section is `AFTER THE PAYOUT`.** Paul asked why Rehab Costs differed between the Granite / Sparkling house tabs and
   their closing tabs: lawn care placement (fixed - 1130 sits in Rehab Costs on the light house tab now, summary and
   line block; every held tab rebuilt, Newport reads Rehab 3,842.64 / Utilities 759.53), cash advances (the closing tab
-  takes them out of Rehab Costs, the house tab does not - **not decided**), and Granite's three bills dated after its
+  took them out of Rehab Costs - **reversed by D-071, both tabs now show every bill**), and Granite's three bills dated after its
   closing day, 2,738.24, settled in its payout and so on the closing tab but not the frozen house tab (**not decided**).
   **A frozen house tab is Paul's record and he edits it by hand: 280 Sparkling's Profit Breakdown (Property Tax
   8,237.00, Net Profit 50,171.98) is his typing - the rebuild overwrote it and `restoreSparklingHouseTabSummary` put it

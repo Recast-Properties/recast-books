@@ -27,6 +27,164 @@
  * ASCII ONLY - same paste-into-the-editor constraint as Code.gs.
  ****************************************************************/
 
+// 2026-10-01 Paul, shown the two ways the cost list can carry the cash advances, sent his old reconciled
+// Granite tab: "this makes sense to me" (D-071) - Rehab Costs is every bill, and a cash advance's principal
+// is not a cost row. Rewrites the CLOSING tabs of the sold partner deals in place, from the Journal and the
+// statement lines kept on each sheet. It does NOT touch a house tab (those are Paul's records - see below).
+// Nothing is posted, no money moves.
+// STATUS: DONE 2026-10-01 15:59 PDT and again 16:12 (the interest row's new wording), run from the editor by Claude: Granite 48 rows (Rehab Costs 10,727.97, no Cash Advances Principal among the costs; the heading AFTER THE SALE he had typed kept), Sparkling 42 rows; read back, totals and payouts unchanged.
+function rewriteClosingTabs() {
+  var ss = openWorkbook_(PropertiesService.getScriptProperties());
+  requireOwner_(ss);
+  var out = [];
+  var pSheet = ss.getSheetByName('Properties');
+  var pCols = headerIndex_(pSheet);
+  pSheet.getRange(2, 1, pSheet.getLastRow() - 1, pSheet.getLastColumn()).getValues().forEach(function (r) {
+    if (String(r[pCols['status'] - 1] || '').toLowerCase() !== 'sold') return;
+    var name = String(r[pCols['name'] - 1]);
+    var built = closingFromJournal_(ss, name);
+    if (!built) { out.push(name + ': no posted sale found - left alone'); return; }
+    if (name === '280 Sparkling' && !built.statementLines.some(function (l) { return l.kind === 'to_recast' && l.full_cents; })) {
+      throw new Error('280 Sparkling: the statement lines on its closing tab are gone - the two wires would be lost. Nothing rewritten for it.');
+    }
+    // Paul types on these tabs. Read 15:58 PDT: on 1616 Granite the last section's heading had been typed back to
+    // "AFTER THE SALE" (the code writes AFTER THE PAYOUT). A heading he typed is kept through the rewrite.
+    var tabName = closingTabName_(name);
+    var old = ss.getSheetByName(tabName);
+    var typedSale = old ? old.getRange(1, 2, old.getLastRow(), 1).getValues().some(function (r) { return String(r[0]).trim() === 'AFTER THE SALE'; }) : false;
+    var written = writeClosingTab_(ss, name, built, tabName);
+    if (typedSale) {
+      var sh = ss.getSheetByName(tabName);
+      var col = sh.getRange(1, 2, sh.getLastRow(), 1).getValues();
+      for (var i = 0; i < col.length; i++) if (String(col[i][0]).trim() === 'AFTER THE PAYOUT') { sh.getRange(i + 1, 2).setValue('AFTER THE SALE'); break; }
+    }
+    out.push(name + ': "' + written.sheet + '" ' + written.rows + ' rows, statement lines ' + built.statementLines.length + (typedSale ? ', heading AFTER THE SALE kept' : ''));
+  });
+  console.log(out.join('\n'));
+}
+
+// 2026-10-01 Paul ("keep the existing closing tabe and make a new one for comparison") - a second Granite
+// tab, "1616 Granite - Closing (your way)", laid out the way his old sheet "1616 Granite RECONCILED" worked,
+// so he can set it beside "1616 Granite - Closing" (which is not touched). His way: the profit is what is
+// left of the cash from closing (the 60,000 escrow is not in it), the cash advances are in the Paul Paid and
+// Dennis Paid boxes and never a cost, their interest is +half to Dennis / -half to Paul in the payouts, and
+// Dennis's payout leaves out the purchase money he was repaid. Figures come from the Journal; the two
+// interest figures are his sheet's own split (6,873.90 on the purchase, 84.70 on the advances - the books
+// hold only their total, 6,958.60, and the script refuses if that no longer agrees). Nothing is posted.
+// FIRST in the file on purpose: the editor's Run button starts on a file's first function.
+// STATUS: DONE 2026-10-01 16:07 PDT, run from the editor by Claude: 49 rows, read back - net after closing 49,263.26, share 24,631.63, Dennis payout 32,978.61, Paul payout 28,489.52 = his old sheet to the cent. A COMPARISON: Paul is choosing between this and "1616 Granite - Closing".
+function buildGraniteClosingYourWay() {
+  var ss = openWorkbook_(PropertiesService.getScriptProperties());
+  requireOwner_(ss);
+  var name = '1616 Granite';
+  var built = closingFromJournal_(ss, name);
+  if (!built) throw new Error('No posted sale found for ' + name);
+  var s = built.summary;
+  var PURCHASE_INTEREST = 687390, ADVANCE_INTEREST = 8470;   // his reconciled sheet
+  if (PURCHASE_INTEREST + ADVANCE_INTEREST !== s.interest.agreed_cents) throw new Error('The agreed interest is ' + s.interest.agreed_cents + ', not 6,958.60');
+
+  var before = costBeforeClosing(built.intents);
+  var at = function (a) { return before.get(a) || 0; };
+  var totalCost = 0;
+  before.forEach(function (c) { totalCost += c; });
+  var purchase = at('1000'), utilities = at('1120');
+  var rehab = totalCost - purchase - at('1200') - utilities;
+  var adv = s.interest.by_advance;
+  var cash = adv.filter(function (a) { return a.kind === 'cash'; });
+  var cashPrincipal = cash.reduce(function (t, a) { return t + a.amount_cents; }, 0);
+  var purchasePrincipal = adv.filter(function (a) { return a.kind !== 'cash'; }).reduce(function (t, a) { return t + a.amount_cents; }, 0);
+  var dennisRehab = s.paid.dennis_note_cents - purchasePrincipal - cashPrincipal;
+  var paulRehab = rehab - dennisRehab;
+  var paulPaid = paulRehab + utilities - cashPrincipal, dennisPaid = dennisRehab + cashPrincipal;
+  var net = s.cash_in_cents - purchase - PURCHASE_INTEREST - rehab - utilities;
+  var share = Math.round(net / 2), half = Math.round(ADVANCE_INTEREST / 2);
+  var dennisPayout = share + dennisPaid + half, paulPayout = (net - share) + paulPaid - half;
+  // his sheet's own totals, and the books': nothing is written if they do not come out
+  if (paulPaid !== s.paid.paul_due_cents || paulPayout !== s.paid.paul_cents ||
+      dennisPayout + purchasePrincipal + PURCHASE_INTEREST !== s.paid.dennis_cents) {
+    throw new Error('Does not tie: Paul paid ' + paulPaid + ' / ' + s.paid.paul_due_cents + ', Paul payout ' + paulPayout + ' / ' + s.paid.paul_cents +
+      ', Dennis ' + (dennisPayout + purchasePrincipal + PURCHASE_INTEREST) + ' / ' + s.paid.dennis_cents);
+  }
+
+  var d = function (c) { return c / 100; };
+  var body = [], heads = [], totals = [];
+  var push = function (label, value, note) { body.push(['', label, value === null ? '' : value, note || '']); return body.length; };
+  var head = function (label) { heads.push(push(label, null, '')); };
+  var total = function (label, value, note) { totals.push(push(label, value, note)); };
+  var blank = function () { push('', null, ''); };
+
+  push(name + ' - CLOSED ' + s.date, null, 'Your old reconciled sheet\'s way, for comparison');
+  blank();
+  head('PURCHASE PRINCIPAL & INTEREST');
+  adv.filter(function (a) { return a.kind !== 'cash'; }).forEach(function (a) { push('  Principal, ' + a.date + ' to ' + a.as_of, d(a.amount_cents), ''); });
+  push('  Interest', d(PURCHASE_INTEREST), '');
+  total('Total Principal Plus Interest', d(purchasePrincipal + PURCHASE_INTEREST), 'Paid back to Dennis; not in his payout below');
+  blank();
+  head('CASH ADVANCES');
+  cash.forEach(function (a) { push('  ' + a.date + ' to ' + a.as_of, d(a.amount_cents), ''); });
+  total('Total cash advances', d(cashPrincipal), '');
+  push('  Interest on cash advances', d(ADVANCE_INTEREST), '');
+  blank();
+  head('PAUL PAID');
+  push('  Rehab Costs', d(paulRehab), '');
+  push('  Utilities', d(utilities), '');
+  push('  (Cash Advances)', d(-cashPrincipal), '');
+  total('Total', d(paulPaid), '');
+  blank();
+  head('DENNIS PAID');
+  push('  Rehab Costs', d(dennisRehab), '');
+  push('  Cash Advances', d(cashPrincipal), '');
+  total('Total', d(dennisPaid), '');
+  blank();
+  head('PROFIT BREAKDOWNS');
+  push('  Sale Price', d(s.revenue_cents), '');
+  push('  Cash from closing', d(s.cash_in_cents), 'After agent fees, closing costs and the 60,000.00 escrow holdback');
+  push('  (Purchase Price)', d(-purchase), '');
+  push('  (Interest on Purchase)', d(-PURCHASE_INTEREST), '');
+  push('  (Rehab Costs)', d(-rehab), '');
+  push('  (Utilities)', d(-utilities), '');
+  total('Net after closing', d(net), '');
+  push('  Individual Share', d(share), '');
+  blank();
+  head('DENNIS PAYOUT');
+  push('  Individual Share', d(share), '');
+  push('  Reimbursement (Dennis Paid)', d(dennisPaid), '');
+  push('  Interest on Cash Advances', d(half), '');
+  total('Total', d(dennisPayout), '');
+  blank();
+  head('PAUL PAYOUT');
+  push('  Individual Share', d(net - share), '');
+  push('  Reimbursement (Paul Paid)', d(paulPaid), '');
+  push('  Interest on Cash Advances', d(-half), '');
+  total('Total', d(paulPayout), '');
+  if (built.holdback) {
+    blank();
+    head('ESCROW, RELEASED ' + built.holdback.date + ' (not on your old sheet)');
+    push('  Paid to Dennis', d(built.holdback.dennis_cents), '');
+    push('  Paid to Paul', d(built.holdback.paul_cents), '');
+  }
+
+  var target = name + ' - Closing (your way)';
+  var sh = getOrCreateSheet_(ss, target);
+  sh.clear();
+  sh.getRange(1, 1, sh.getMaxRows(), sh.getMaxColumns()).clearDataValidations();
+  sh.getRange(1, 1, body.length, 4).setValues(body);
+  sh.getRange(1, 2).setFontWeight('bold').setFontSize(13).setBackground('#a3f67f');
+  heads.forEach(function (r) { sh.getRange(r, 2, 1, 3).setFontWeight('bold').setBackground('#ffe599'); });
+  totals.forEach(function (r) { sh.getRange(r, 2, 1, 3).setFontWeight('bold').setBackground('#ceffbc'); });
+  sh.getRange(1, 3, body.length, 1).setNumberFormat('#,##0.00;-#,##0.00');
+  sh.getRange(1, 4, body.length, 1).setFontColor('#000000').setFontWeight('bold');
+  sh.setColumnWidth(1, 20); sh.setColumnWidth(2, 420); sh.setColumnWidth(3, 120); sh.setColumnWidth(4, 460);
+  sh.setFrozenRows(1);
+  if (sh.getMaxRows() > body.length + 2) sh.deleteRows(body.length + 3, sh.getMaxRows() - body.length - 2);
+  try {   // beside the closing tab it is compared with
+    var full = ss.getSheetByName(closingTabName_(name));
+    if (full) { ss.setActiveSheet(sh); ss.moveActiveSheet(full.getIndex() + 1); }
+  } catch (err) { console.log('left where it was created: ' + err); }
+  console.log('Wrote "' + target + '": ' + body.length + ' rows; net after closing ' + d(net).toFixed(2) + ', share ' + d(share).toFixed(2) +
+    ', Dennis payout ' + d(dennisPayout).toFixed(2) + ', Paul payout ' + d(paulPayout).toFixed(2) + '; gid ' + sh.getSheetId());
+}
+
 // 2026-10-01 - puts back what applyLawnCareAndPayoutWording (below) overwrote on the frozen tab "280 Sparkling".
 // That tab's Profit Breakdown had been finished BY HAND after the 09-26 freeze: a Sale Price of 275,000.00, a
 // Property Tax (prorated) of 8,237.00 that is in no book and no setting, and the profit and payout lines

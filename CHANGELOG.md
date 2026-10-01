@@ -2445,3 +2445,36 @@ the section's name was the fault. And *"yes, and lawn maintenance shodul be in r
 Left as they are, asked of Paul: cash advances as their own row on the house tabs; Granite's three later bills on its
 frozen house tab. 546 tests. Pushed and committed. **Owed: the writer web app deploy** (`Code.gs` changed - the web
 app redraws a house tab's bill lists on every emailed receipt).
+
+## 2026-10-01 (15:45-16:10 PDT) - the cash advances in the cost list: Paul's old reconciled sheet is the model (D-071, in progress)
+
+Paul, looking at Granite's house tab: *"cash advnaces is not part of rehab costs"* - the closing tab (D-068 as Claude
+built it) had taken the 6,838.00 out of Rehab Costs (3,889.97) and listed it as its own cost row. Asked which row can
+go, he sent his old sheet "1616 Granite RECONCILED" (PDF; the same tab is in
+`data/migration/cutover-2026-09-21/old-workbook-cutover.xlsx`): *"this makes sense to me"*. On it the costs are
+Purchase Price, Interest on Purchase, Rehab Costs 10,727.97 (every bill) and Utilities; the cash advances are only in the
+Paul Paid box (-6,838.00), the Dennis Paid box (+6,838.00) and the payouts.
+
+- **`lib/sale.mjs` `closingRows`:** PROJECT COSTS has no `Cash Advances Principal` row and Rehab Costs is every bill
+  (D-068's netting reversed); the principal stays under Dennis in PAYOUTS. Tests changed to his sheet's figures
+  (Rehab 10,727.97, Reimbursement Dennis 8,304.63, Paul 3,900.24).
+- **`rewriteClosingTabs()`** (15:59): both closing tabs rewritten in place, house tabs not touched; read back. A heading
+  Paul had typed on Granite's closing tab (`AFTER THE SALE`, over the code's AFTER THE PAYOUT) was kept - **ask which
+  he wants.**
+- Then *"i want to understand. what is different between my way and your way?"* and *"keep the existing closing tabe
+  and make a new one for comparison"*: **`buildGraniteClosingYourWay()`** (16:07) wrote **`1616 Granite - Closing (your
+  way)`** beside the closing tab - his old sheet's layout from the books: profit 49,263.26 without the escrow, the
+  cash-advance interest as +42.35 / -42.35 in the payouts rather than a cost, Dennis's payout 32,978.61 without the
+  purchase money, the Paul Paid / Dennis Paid boxes. To the cent his old sheet (its interest split 6,873.90 / 84.70 is
+  his; the books hold the total).
+
+**Open:** which of the two Granite tabs he keeps, or which rows of his way go into the closing layout. Not written into
+`docs/decisions.md` yet (D-071 when he decides). Pushed; **not committed; writer web app deploy owed** (D-070 and this).
+
+**16:13 PDT - decided (D-071):** Paul, on the two Granite tabs: *"i like your way. i'm getting my head around it. let's
+add the cash advance total after Cash Advances Interest so it would say Cash Advances Interest on $6,838"*. In
+`closingRows` (plain `Cash Advances Interest` when a house has no advances); both closing tabs rewritten in place and
+read back - Granite `Cash Advances Interest on $6,838` 84.16, Rehab Costs 10,727.97; Sparkling unchanged. D-071 written
+(it replaces D-068), phase5-spec 3a, CLAUDE.md, the handoff and the router updated. 546 tests. Pushed and committed.
+Still there: the comparison tab `1616 Granite - Closing (your way)` (ask before removing) and his typed `AFTER THE SALE`
+heading on Granite's closing tab. **Owed: the writer web app deploy** (D-070, D-071).

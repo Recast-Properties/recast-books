@@ -175,7 +175,7 @@ INCOMING CASH AT CLOSING
   Reimbursement paid to Recast, in full (second wire)  4,716.82
 Cash received                                  263,769.94
 PROJECT COSTS
-  Purchase Principal / Purchase Interest / Cash Advances Principal / Cash Advances Interest / Rehab Costs / Utilities
+  Purchase Principal / Purchase Interest / Cash Advances Interest on $6,838 / Rehab Costs / Utilities
 Total Project Costs                            202,839.85
 PROFIT
 Total Profit                                    60,930.09   Cash received less total project costs
@@ -194,8 +194,8 @@ Rules: a cost is what each cost account held **before** the sale entries (what t
 settlement entry put in), so the title company's own charges never appear - they are inside the first wire. Rehab Costs
 is everything that is not the purchase, Dennis's interest or a utility bill (lawn care, an HOA release paid before
 closing, listing). Cash less cost must equal the books' profit and each partner's rows must add to his total, or
-nothing is written. No account numbers; notes bold, black, capitalised. Cash Advances Principal is its own cost and Rehab Costs is the bills less the
-money the advances covered (D-068). Pre-closing property tax and insurance
+nothing is written. No account numbers; notes bold, black, capitalised. Rehab Costs is EVERY such bill and a cash advance's principal is not a cost row
+(D-071, which replaced D-068's netting) - it is under Dennis in PAYOUTS only; the interest row names the advances' total. Pre-closing property tax and insurance
 get their own row after Utilities when a house has them. When escrow was held back: a `Held back by the title company
 (escrow)` row under Cash received, the profit counts it, each share row says `(the part paid at closing)`, and an
 `ESCROW HELD BACK AT CLOSING` section shows the release and who it went to, or what is still owed (1616 Granite). The

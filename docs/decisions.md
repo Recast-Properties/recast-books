@@ -1452,3 +1452,27 @@ by hand (Sale Price 275,000.00, a Property Tax of 8,237.00 that is in no book, t
 rebuilding the tab for rule 1 overwrote it and it was put back from the figures read earlier the same day. Read a
 frozen tab and compare before any rebuild.
 
+## D-071 · On the closing tab Rehab Costs is every bill and a cash advance's principal is not a cost row (replaces D-068) - 2026-10-01 · Paul
+
+D-068 as built took the cash advances out of Rehab Costs and listed their principal as its own cost row (Granite:
+Rehab Costs 3,889.97, Cash Advances Principal 6,838.00). Paul, looking at Granite's house tab: *"cash advnaces is not
+part of rehab costs"*. Told that one of the two rows has to go - the advance paid for bills already in Rehab Costs - he
+asked *"then by that logic we woudlnt include purchase principal in project cost"* (the purchase is counted in no other
+row; the advance's money is), then sent his old sheet "1616 Granite RECONCILED": *"this makes sense to me"*. Its costs
+are Purchase Price, Interest on Purchase, Rehab Costs 10,727.97 (every bill) and Utilities; the cash advances are only
+in its Paul Paid box (-6,838.00), its Dennis Paid box (+6,838.00) and the payouts.
+
+After seeing a second Granite tab laid out wholly his old way beside the closing tab (`1616 Granite - Closing (your
+way)`): *"i like your way. i'm getting my head around it."*
+
+**Decided - the closing tab of a partner deal (D-069's layout) stays, with PROJECT COSTS as:**
+`Purchase Principal`, `Purchase Interest`, `Cash Advances Interest on $<the advances' total>` (plain `Cash Advances
+Interest` when a house has none), `Rehab Costs` = every bill that is not a utility, tax or insurance, `Utilities`.
+No `Cash Advances Principal` row among the costs; never net the advances out of Rehab Costs. The principal is under
+Dennis in PAYOUTS, where he gets it back, and a partner's `Paid out of pocket` there is the bills he paid that no advance
+covered (Granite: Dennis 1,466.63 + 6,838.00 = his old sheet's 8,304.63; Paul 3,900.24).
+
+**Kept from "Claude's way", knowingly different from his old sheet:** the profit counts the escrow held back (109,178.56,
+not 49,263.26); the cash advances' interest is a cost shared 50/50 (D-011/D-021), not +42.35 / -42.35 in the payouts;
+Dennis's total includes the purchase money and interest he was repaid. Every payout is the same to the cent either way.
+

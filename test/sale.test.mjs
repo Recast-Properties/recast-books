@@ -316,7 +316,7 @@ test("Paul's closing tab, 280 Sparkling: his sections, his rows, and every block
     "the two wires - the reimbursement in full");
   assert.deepEqual(rowsBetween(rows, "PROJECT COSTS", "Total Project Costs").map((r) => [r.label.trim(), r.cents]), [
     ["Purchase Principal", 19_685_050], ["Purchase Interest", 280_957],
-    ["Cash Advances Principal", 0], ["Cash Advances Interest", 0],
+    ["Cash Advances Interest", 0],
     ["Rehab Costs", 240_247],   // rehab 1,398.47 + lawn care 220.00 + HOA release 485.00 + listing 299.00
     ["Utilities", 77_731],
   ]);
@@ -334,15 +334,23 @@ test("Paul's closing tab, 280 Sparkling: his sections, his rows, and every block
   assert.equal(rows.some((r) => /2,358|co-owner|Sam/i.test(r.label + r.note)), false);
 });
 
-test("Paul's closing tab, D-068: a cash advance is its own cost row and never part of Rehab Costs; the total is every cost once", () => {
+test("Paul's closing tab, D-071: Rehab Costs is every bill, a cash advance's principal is not a cost row (his old reconciled Granite tab)", () => {
   const { summary, intents } = buildSalePlan(GRANITE);
   const lines = tabLines(GRANITE.settlement);
   const { title_note, rows } = closingRows({ summary, intents, lines, dennisPct: 50 });
   assert.equal(title_note, "Sold for 430,000.00.");
   const cost = Object.fromEntries(rowsBetween(rows, "PROJECT COSTS", "Total Project Costs").map((r) => [r.label.trim(), r.cents]));
-  assert.equal(cost["Cash Advances Principal"], 550_000 + 133_800);
-  // the bills before closing: rehab 9,713.97 + HOA 250.00 + closing-side 465.00 + listing 299.00 = 10,727.97 (the old tab's figure)
-  assert.equal(cost["Rehab Costs"], 1_072_797 - 683_800);
+  // "1616 Granite RECONCILED": (Purchase Price) 279,001.00, (Rehab Costs) 10,727.97, (Utilities) 1,476.90 - and no
+  // cash advance among the costs; the 6,838.00 is in Dennis Paid / Paul Paid and the payouts only.
+  assert.equal(cost["Purchase Principal"], 27_900_100);
+  assert.equal(cost["Rehab Costs"], 1_072_797);
+  assert.equal(cost["Utilities"], 147_690);
+  assert.equal("Cash Advances Principal" in cost, false);
+  assert.equal("Cash Advances Interest on $6,838" in cost, true, "the interest row names the advances it is interest on");
+  const dennisPaid = Object.fromEntries(rowsBetween(rows, "Dennis", "Total to Dennis").map((r) => [r.label.trim(), r.cents]));
+  assert.equal(dennisPaid["Cash Advances Principal"], 550_000 + 133_800, "Dennis gets his advances back in the payouts");
+  assert.equal(dennisPaid["Cash Advances Principal"] + dennisPaid["Paid out of pocket"], 830_463, "the old tab's Reimbursement (Dennis Paid) 8,304.63");
+  assert.equal(rowsBetween(rows, "Paul", "Total to Paul")[0].cents, 390_024, "the old tab's Reimbursement (Paul Paid) 3,900.24");
   assert.equal(sumRows(rowsBetween(rows, "PROJECT COSTS", "Total Project Costs")), amountOf(rows, "Total Project Costs"));
 
   // a holdback: the profit counts it, the payouts at closing do not
