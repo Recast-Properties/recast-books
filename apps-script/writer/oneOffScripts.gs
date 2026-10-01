@@ -783,7 +783,7 @@ function linkPhonePhotos() {
   requireOwner_(ss);
   var J = mrJournal_(ss), out = [], houses = {};
   MR_PHOTO_LINKS.forEach(function (p) {
-    var env = mrRead_(p[0], out);
+    var env = mrReadAny_(p[0], out);   // a read whose _dry-runs filing lost its reply is still a read
     if (!env) return;
     var got = Number((env.model || {}).receipt_total_cents) || 0;
     var rows = p.slice(1).filter(function (opt) {
