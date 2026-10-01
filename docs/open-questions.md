@@ -102,3 +102,15 @@ ones each need a sign-in and a consent to scan; the groups need none.
 there). `pvb421@gmail.com` is Paul's personal mailbox — listed, used by id only (audit §10).
 `recastpropertiestravel@gmail.com` is a forwarder, not listed. Listings complete: paul@,
 properties@, pvb421@.
+
+## Q-10 · Two items to add back on the 2026 return — FOR THE ACCOUNTANT · 2026-10-01 (final migration register)
+
+Found in the final sweep of the migration (`docs/migration-leftovers-final.md`); the books are right as they stand,
+the return needs the adjustment:
+- **104 Ashburne's 2025 property tax, $16,031.25, paid 2026-03-30, includes a $1,029.52 late-payment penalty**
+  (penalty and interest for paying after January 31). A penalty paid to a government is not deductible (IRC 162(f)),
+  so the $1,029.52 has to come out of the house's cost basis on the return.
+- **The Midlothian speeding ticket of 2026-05-08, $280.95,** is booked as a business vehicle cost Recast owes Paul,
+  labelled "Non-deductible" (re-posted 2026-10-01) - the same rule.
+- Also for the 1099s: whether the flooring material inside Chinos LLC's $13,500 is reportable on a 1099-NEC
+  (`data/vendors-1099-2026.md`).

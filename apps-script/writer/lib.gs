@@ -728,6 +728,13 @@ var M_posting = (function () {
       throw new PostingError("PERIOD_CLOSED", { message: `period ${entry.period} is closed`, period: entry.period });
     }
 
+    // Audit 66 / CLAUDE.md Phase 3 note: on 2026-09-22 a read that wrote its own doubt into the entry -
+    // "PENDING ROUTING: ... reroute to 1030 if a Feb-2026 job is identified" - was approved and posted. An
+    // entry that says it is not finished never posts; a void (which only mirrors an old entry) is exempt.
+    if (entry.source !== "void" && [entry.memo, ...lines.map((l) => l.description)].some((t) => /PENDING ROUTING/i.test(String(t ?? "")))) {
+      throw new PostingError("PENDING_ROUTING", { message: "a line still says PENDING ROUTING - choose its house and account first" });
+    }
+
     return entry;
   }
 

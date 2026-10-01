@@ -595,6 +595,18 @@ test("PERIOD_CLOSED is bypassed when source is void", () => {
   assert.equal(entry.period, "2026-07");
 });
 
+test("PENDING_ROUTING: an entry whose line or memo says PENDING ROUTING is refused; a void of one is not", () => {
+  const ctx = baseCtx();
+  const lines = [
+    { account: "1030", debit: 5620, credit: 0, property: "881 Newport", description: "PENDING ROUTING: bulbs - reroute to 1030 if a job is identified" },
+    { account: "2030", debit: 0, credit: 5620, property: "881 Newport", description: "bulbs" },
+  ];
+  assertPostingError(() => buildEntry(journalLines(lines), ctx), "PENDING_ROUTING");
+  assertPostingError(() => buildEntry({ ...journalLines(lines.map((l) => ({ ...l, description: "bulbs" }))), memo: "pending routing" }, ctx), "PENDING_ROUTING");
+  const v = buildEntry({ ...journalLines(lines), source: "void", void_of: "receipt-20260216-526b7608d4b2-c670" }, ctx);
+  assert.equal(v.source, "void");
+});
+
 test("buildEntry rejects an unknown intent type", () => {
   const ctx = baseCtx();
   assertPostingError(() => buildEntry({ type: "nonsense" }, ctx), "BAD_INTENT");
