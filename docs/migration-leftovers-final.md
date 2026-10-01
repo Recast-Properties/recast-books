@@ -8,6 +8,18 @@
 > Recast owes Paul 43,529.66 (11:22 PDT, before the Inbox cards). Anything migration-era that turns up later is
 > Claude's to settle quietly - never a new list for Paul.
 
+> **WHY IT STAYS DONE (2026-10-01, deployed: site `6abea6fd`, writer web app @24).** The Journal holds 1,421 entries;
+> 59 are corrections (a void, shown nowhere on the house tabs or the P&L - each voided pair is hidden), 31 of them
+> made today by this register. Of the 1,048 entries migrated from the old books, 36 were ever corrected (3.4%).
+> (1) Every source the migration drew on is finite and now swept twice: the old workbook is closed and view-only, so
+> it cannot grow; the 09-17 mail indexes of paul@, properties@ and pvb421 were read item by item; every document
+> read (985 cached reads + 84 today) is accounted for. (2) Nothing new enters the books except through the live
+> bookkeeper, whose rails catch a duplicate by invoice number against a fresh ledger read, hold what it cannot prove
+> and refuse a PENDING ROUTING line. (3) Every night the books check looks for two live entries of the same
+> date-payee-amount and for any receipt on no book, and sends a migration-era one to Claude, not Paul. (4) Each month
+> the Citizens Bank box proves the bank and the books agree to the cent. What no system can see is a purchase on
+> Paul's own card that never produced an email - that is not a migration leftover and never was.
+
 > **PAUL'S ANSWERS, 2026-10-01 (chat): "yes to everything. keep the doorbell. leave $200 dennis mowed off books."**
 > Q1-Q17, Q19, Q20: yes, as recommended. Q12 (Cotality June $200): yes - paid; posted on his word. Q13: keep the
 > doorbell. **Q18: NO - Dennis's $200 backyard mowing of 06-17 (280 Sparkling) stays off the books**; the 08-07 photo is
