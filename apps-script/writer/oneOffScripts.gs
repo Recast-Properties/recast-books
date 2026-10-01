@@ -594,7 +594,7 @@ function reprocessStoreReceipts() {
 //          inside "Recast Books" (file ids, and so every link, unchanged).
 // Documents that are paul@ emails come from the look-only reads of step 0; one not read yet is skipped and named.
 // STATUS: NOT YET RUN
-var COTALITY_FEB_PAID = '2026-05-11';   // Claude sets this from the 05-12 statement's read (dry-gm-19e1cc39cf4e2255) before the Run; never 05-12
+var COTALITY_FEB_PAID = '2026-06-30';   // the old row's own date: the 05-12 statement's read (dry-gm-19e1cc39cf4e2255) shows no payment date, so none is invented (Claude 2026-10-01)
 var MR_VOIDS_REST = [
   ['receipt-20260216-bbf30d98c8da-5e0f', '6510', 5952, 'duplicate - the sawhorse on Home Depot receipt 6505 00053 48149 is already in the old books as migration-20260216-678771dda3c4 "Saw Horses" 59.51 (tax rounding); the rest of this receipt was voided 09-23 as void-receipt-20260216-526b7608d4b2-c670'],
   ['migration-20260530-b6b2af9944c6', '6500', 92, 'duplicate of 1616 Granite RECONCILED row 23 (migration-20260530-1b44e4cee4e7), same Lowe\'s receipt gm-19e79a903622d62d'],
@@ -646,7 +646,7 @@ function fixOverheadAndTheRest() {
     edit: function (l) {
       if (l.account === '6400') l.account = '6300';
       l.payee = 'CoreLogic Inc';
-      l.description = 'Payment of the February bill #30843590 (no receipt email; Cotality\'s past-due letters show it paid)';
+      l.description = 'Cotality payment of an earlier monthly bill (no receipt email; Cotality\'s past-due letters show the bills before June paid)';
       return l;
     } }, ctx);
   var water40 = mrRepost_(J, MR_WATER_40.old, { memo: 'old books: Cost Recapture row 6 "Card Service Fee" 40.00 - it was water: the card fee is the separate 47.26 of 09-02 (3.95% of 1,196.40) (register 35; ' + MR_WATER_40.old + ' voided, label only)',
