@@ -2412,3 +2412,36 @@ exception of ashburne"*.
 **14:24 PDT - deployed on Paul's "deploy": writer web app @25** (`clasp deploy -i` the same id; `clasp deployments`
 reads @25, `/exec` answers ok 0.4.0) = the repo. The site was not redeployed: no function loads `lib/sale.mjs` (checked),
 so `6abea6fd` still equals the repo for everything it runs. Nothing owed.
+
+## 2026-10-01 (14:30-14:45 PDT) - why the house tabs and the closing tabs disagreed; lawn care is a rehab cost (D-070)
+
+Paul: *"concerned the rehab costs on the granit and sparkling properties tabs is different than the closing tabs. whay
+is that?"* Read both pairs live and reconciled them to the cent:
+
+- **280 Sparkling:** house tab Rehab 2,182.47 / Utilities 997.31, closing tab 2,402.47 / 777.31 - the 220.00 of
+  Falcon Creek lawn bills, under Utilities on one and Rehab Costs on the other. Same total, 3,179.78.
+- **1616 Granite:** house tab Rehab 8,951.51 -> closing 3,889.97 = + 250.00 lawn care + 1,526.46 Verity Plumbing
+  (08-05) - 6,838.00 cash advances (D-068). Utilities 515.12 -> 1,476.90 = - 250.00 lawn care + 261.76 TXU (07-25)
+  + 950.02 City of Waxahachie water (07-29). The three later bills, 2,738.24, were settled in Granite's payout (the
+  old reconciled tab: rehab 10,727.97, utilities 1,476.90) and the frozen house tab stops at 07-24.
+
+Then *"then why arent those costs being represented in 'AFTER THE SALE'?"* - because they were settled in the payout;
+the section's name was the fault. And *"yes, and lawn maintenance shodul be in rehab costs"*.
+
+- **`Code.gs`:** `rehabF` / `holdingF` and `refreshLineBlocks_`'s two blocks put account 1130 in Rehab Costs on the
+  light house tab (the heavy tab only uses their sum); `writeSimpleClosingTab_` ends with `AFTER THE PAYOUT` / `Bills
+  that came in after the payout (not yet split with Dennis)`.
+- **`applyLawnCareAndPayoutWording()`** (oneOffScripts.gs, run 14:32-14:35): every held tab rebuilt (Ashburne's typed
+  Sale Price, Concession and agent % kept; Newport's 290,000 kept, Rehab 3,842.64 / Utilities 759.53), both frozen
+  tabs rebuilt as of their closing date, both closing tabs rewritten in place (Sparkling's eleven statement lines came
+  off the sheet - the two wires intact).
+- **A mistake, found on the read-back and fixed:** 280 Sparkling's frozen house tab had a Profit Breakdown finished by
+  hand since the 09-26 freeze - Sale Price 275,000.00, Property Tax (prorated) 8,237.00 (in no book and no setting),
+  Total Project Cost 211,078.02, Net Profit 50,171.98, payouts 226,145.21 / 26,867.79. The rebuild replaced it with the
+  code's figures (no tax line, profit 58,408.98). `restoreSparklingHouseTabSummary()` put the twelve cells back from
+  the 13:05 read (14:41, read back). Granite's frozen tab changed only by the lawn-care move (total 295,239.73 and Net
+  Profit 113,260.27 as before). **Read a frozen tab and compare before rebuilding it.**
+
+Left as they are, asked of Paul: cash advances as their own row on the house tabs; Granite's three later bills on its
+frozen house tab. 546 tests. Pushed and committed. **Owed: the writer web app deploy** (`Code.gs` changed - the web
+app redraws a house tab's bill lists on every emailed receipt).

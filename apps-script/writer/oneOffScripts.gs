@@ -27,6 +27,87 @@
  * ASCII ONLY - same paste-into-the-editor constraint as Code.gs.
  ****************************************************************/
 
+// 2026-10-01 - puts back what applyLawnCareAndPayoutWording (below) overwrote on the frozen tab "280 Sparkling".
+// That tab's Profit Breakdown had been finished BY HAND after the 09-26 freeze: a Sale Price of 275,000.00, a
+// Property Tax (prorated) of 8,237.00 that is in no book and no setting, and the profit and payout lines
+// worked from them (costs shown as positive numbers). Rebuilding the tab from the Journal replaced them with
+// the code's own figures (no tax line, profit 58,408.98). The figures below are the ones read off the live
+// tab at 13:05 PDT, before the rebuild; the lawn-care move (Rehab Costs 2,402.47 / Utilities 777.31) stays -
+// it does not change any total. Values only; nothing is posted.
+// RULE LEARNED: a frozen house tab is Paul's record and he edits it - read it and compare before any rebuild.
+// FIRST in the file on purpose: the editor's Run button starts on a file's first function.
+// STATUS: DONE 2026-10-01 14:41 PDT, run from the editor by Claude: twelve cells put back, read back on the live tab (Total Project Cost 211,078.02, Property Tax 8,237.00, Net Profit 50,171.98, Dennis 226,145.21, Paul 26,867.79).
+function restoreSparklingHouseTabSummary() {
+  var ss = openWorkbook_(PropertiesService.getScriptProperties());
+  requireOwner_(ss);
+  var sh = ss.getSheetByName('280 Sparkling');
+  var WANT = [
+    ['Total Project Cost', 211078.02], ['Property Tax (prorated)', 8237.00], ['Total Project Costs', 211078.02],
+    ['Agent 3%', 8250.00], ['Closing 2%', 5500.00], ['Net Profit', 50171.98],
+    ['Dennis Share (50%)', 25085.99], ['Paul Share (50%)', 25085.99],
+    ['Dennis', 226145.21], ['Dennis Share', 25085.99], ['Paul', 26867.79], ['Paul Share', 25085.99]
+  ];
+  var labels = sh.getRange(1, 2, 60, 1).getValues().map(function (r) { return String(r[0]).trim(); });
+  var out = [];
+  // every label must be there exactly once before anything is written
+  var rows = WANT.map(function (w) {
+    var hits = [];
+    labels.forEach(function (l, i) { if (l === w[0]) hits.push(i + 1); });
+    if (hits.length !== 1) throw new Error('"' + w[0] + '" is on ' + hits.length + ' rows of the tab - nothing written');
+    return hits[0];
+  });
+  // and the parts the restore relies on must read what the 13:05 figures were worked from
+  var val = function (label) { return Number(sh.getRange(labels.indexOf(label) + 1, 3).getValue()); };
+  var base = val('Purchase Principal + Interest') + val('Rehab Costs') + val('Utilities');
+  if (Math.round(base * 100) !== 20284102 || Math.round(val('Sale Price (estimate - type it here)') * 100) !== 27500000) {
+    throw new Error('The tab is not what was expected (costs before tax ' + base + ') - nothing written');
+  }
+  WANT.forEach(function (w, i) {
+    var cell = sh.getRange(rows[i], 3);
+    out.push(w[0] + ': ' + cell.getValue() + ' -> ' + w[1]);
+    cell.setValue(w[1]);
+  });
+  console.log(out.join('\n'));
+}
+
+// 2026-10-01 Paul, on why the house tabs and the closing tabs disagreed: "yes, and lawn maintenance shodul be
+// in rehab costs" (yes = the closing tab's last section is AFTER THE PAYOUT, not AFTER THE SALE). Both rules
+// are in Code.gs; this applies them to the tabs that exist:
+//   1. every held house tab is rebuilt (rebuildAllPropertyTabs) - lawn care moves from Utilities to Rehab Costs;
+//   2. the two sold houses' frozen tabs are rebuilt as of their closing date and frozen again;
+//   3. both closing tabs are rewritten in place (their statement lines are on the sheet) for the new wording.
+// Nothing is posted, no money moves; a typed Sale Price or Concession is kept.
+// STATUS: DONE 2026-10-01 14:35 PDT, run from the editor by Claude: eight held tabs rebuilt, both frozen tabs rebuilt (Granite Rehab 9,201.51 / Utilities 265.12, Sparkling 2,402.47 / 777.31), both closing tabs rewritten. IT OVERWROTE PAUL'S HAND-TYPED PROFIT BREAKDOWN ON THE FROZEN SPARKLING TAB - put back by restoreSparklingHouseTabSummary above. Do not re-run the frozen-tab part without reading the tabs first.
+function applyLawnCareAndPayoutWording() {
+  var props = PropertiesService.getScriptProperties();
+  var ss = openWorkbook_(props);
+  requireOwner_(ss);
+  var out = [];
+  rebuildAllPropertyTabs();
+  out.push('held house tabs rebuilt');
+  var pSheet = ss.getSheetByName('Properties');
+  var pCols = headerIndex_(pSheet);
+  pSheet.getRange(2, 1, pSheet.getLastRow() - 1, pSheet.getLastColumn()).getValues().forEach(function (r) {
+    if (String(r[pCols['status'] - 1] || '').toLowerCase() !== 'sold') return;
+    var name = String(r[pCols['name'] - 1]);
+    var date = formatIsoDate_(r[pCols['settlement_date'] - 1]);
+    if (!date) { out.push(name + ': NO settlement_date - left alone'); return; }
+    var builtTab = setupPropertyTab(name, date);
+    freezePropertyTab_(ss, name, date);
+    var tab = ss.getSheetByName(name);
+    out.push(name + ' house tab: rebuilt as of ' + date + ' (' + builtTab.rows + ' rows) and frozen; Rehab Costs ' +
+      readLabelledValue_(tab, 'Rehab Costs') + ', Utilities ' + readLabelledValue_(tab, 'Utilities'));
+    var built = closingFromJournal_(ss, name);
+    if (!built) { out.push(name + ': no posted sale found - closing tab left alone'); return; }
+    if (name === '280 Sparkling' && !built.statementLines.some(function (l) { return l.kind === 'to_recast' && l.full_cents; })) {
+      throw new Error('280 Sparkling: the statement lines on its closing tab are gone - the two wires would be lost. Nothing rewritten for it.');
+    }
+    var written = writeClosingTab_(ss, name, built, closingTabName_(name));
+    out.push(name + ' closing tab: "' + written.sheet + '" ' + written.rows + ' rows, statement lines ' + built.statementLines.length);
+  });
+  console.log(out.join('\n'));
+}
+
 // 2026-10-01 Paul, asked whether his simple layout is what every house gets at closing: "yes. with the
 // exception of ashburne". writeClosingTab_ writes it for every partner deal from now on (Code.gs
 // writeSimpleClosingTab_, lib closingRows). This brings the two houses already closed into line:

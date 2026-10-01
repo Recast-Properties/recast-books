@@ -1465,8 +1465,12 @@ function setupPropertyTab(name, asOf) {
   var isBank = '(LEFT(' + J('E') + '&"",2)="14")';
   // Rehab Costs = Rehab, Acquisition other than the purchase, and Selling (listing fees, HOA
   // resale - rows the old tabs carried in Rehab Costs; left off the light tabs until 2026-09-22).
-  var rehabF = '(' + eq('I', 'Rehab') + '+' + eq('I', 'Acquisition') + '*' + ne('E', '1000') + '+' + eq('I', 'Selling') + ')';
-  var holdingF = eq('I', 'Holding');
+  // Lawn care is a rehab cost, not a utility (Paul, 2026-10-01: "lawn maintenance shodul be in rehab costs" -
+  // the closing tab had it there and the house tab under Utilities, so the two disagreed). The books file
+  // lawn care on 1130 (with HOA dues and pool service while a house is held), so that account sits in
+  // Rehab Costs here; the two factors still add up to every cost, which is all the heavy tab uses them for.
+  var rehabF = '(' + eq('I', 'Rehab') + '+' + eq('I', 'Acquisition') + '*' + ne('E', '1000') + '+' + eq('I', 'Selling') + '+' + eq('E', '1130') + ')';
+  var holdingF = '(' + eq('I', 'Holding') + '*' + ne('E', '1130') + ')';
   var costLineF = ne('I', '');
 
   var WIDTH = 26; // A..Z (heavy: set from the trade blocks below)
@@ -2063,8 +2067,9 @@ function refreshLineBlocks_(ss, name, asOf) {
       formatIsoDate_(g(r, 'date')) <= today;
   });
   var blocks = [
-    function (r) { var cc = String(g(r, 'cost_class')); return cc === 'Rehab' || cc === 'Selling' || (cc === 'Acquisition' && String(g(r, 'account')) !== '1000'); },
-    function (r) { return String(g(r, 'cost_class')) === 'Holding'; }
+    // the same split as setupPropertyTab's rehabF / holdingF: lawn care (1130) is a rehab cost
+    function (r) { var cc = String(g(r, 'cost_class')), a = String(g(r, 'account')); return cc === 'Rehab' || cc === 'Selling' || (cc === 'Acquisition' && a !== '1000') || a === '1130'; },
+    function (r) { return String(g(r, 'cost_class')) === 'Holding' && String(g(r, 'account')) !== '1130'; }
   ];
   blocks.forEach(function (crit, b) {
     var out = lines.filter(crit).map(function (r) {
@@ -2245,10 +2250,13 @@ function writeSimpleClosingTab_(ss, name, plan, target) {
     if (r.style === 'total') totals.push(body.length);
   });
   body.push(['', '', '', '']);
-  body.push(['', 'AFTER THE SALE', '', '']);
+  // "After the payout", not "after the sale" (Paul, 2026-10-01): a bill dated after the closing day that the
+  // partners settled in the payout is a project cost above (1616 Granite has three); this row is only what
+  // arrived after they settled and has not been split yet (Cost Recapture, D-031).
+  body.push(['', 'AFTER THE PAYOUT', '', '']);
   heads.push(body.length);
   var q = String(name).replace(/"/g, '""');
-  body.push(['', '  Bills that came in after the sale',
+  body.push(['', '  Bills that came in after the payout (not yet split with Dennis)',
     '=SUMIF(Journal!$K$2:$K$5000,"' + q + '",Journal!$F$2:$F$5000)-SUMIF(Journal!$K$2:$K$5000,"' + q + '",Journal!$G$2:$G$5000)',
     'Not part of the numbers above; settled on the next payout']);
 

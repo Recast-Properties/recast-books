@@ -1425,3 +1425,30 @@ trial tab took its name; 1616 Granite's was rewritten, with an `ESCROW HELD BACK
 **Not designed yet:** where a bank deal's commission would sit if the simple layout ever reaches one; property tax
 and insurance paid before closing get their own rows after Utilities when a house has them (Paul has not seen one).
 
+## D-070 · Lawn care is a rehab cost on every tab; the closing tab's last section is "after the payout" - 2026-10-01 · Paul
+
+Paul saw that Rehab Costs on the Granite and Sparkling house tabs differed from their closing tabs. Three causes, all
+reconciled to the cent (CHANGELOG 2026-10-01 14:45): lawn care sat under Utilities on the house tab and under Rehab
+Costs on the closing tab; the closing tab takes cash advances out of Rehab Costs (D-068); and Granite's frozen house
+tab stops at its closing date while three later bills (2,738.24) were settled in its payout. His answers: *"yes, and
+lawn maintenance shodul be in rehab costs"*.
+
+**Decided:**
+1. **Lawn care is a rehab cost.** The books file it on 1130 (with HOA dues and pool service while a house is held);
+   on the light house tab that account now sits in Rehab Costs - the summary row and the line block - not in
+   Utilities, as it already does on the closing tab. The Journal is not touched. The heavy tab (104 Ashburne) groups
+   by trade and is unchanged.
+2. **The closing tab's last section is `AFTER THE PAYOUT`** - `Bills that came in after the payout (not yet split with
+   Dennis)`. A bill dated after the closing day that the partners settled in the payout is a project cost (Granite's
+   three: Verity Plumbing 1,526.46, TXU 261.76, City of Waxahachie 950.02); only what arrives after they settle is
+   in this section (Cost Recapture, D-031).
+
+**Not decided (asked, not answered):** whether the house tabs also show cash advances as their own row (D-068 is the
+closing tab's rule), and whether Granite's frozen house tab gains the three later bills. Until then those two
+differences between a house tab and its closing tab remain, by rule.
+
+**A frozen house tab is Paul's record and he edits it by hand.** 280 Sparkling's Profit Breakdown had been finished
+by hand (Sale Price 275,000.00, a Property Tax of 8,237.00 that is in no book, the profit and payouts from them);
+rebuilding the tab for rule 1 overwrote it and it was put back from the figures read earlier the same day. Read a
+frozen tab and compare before any rebuild.
+
