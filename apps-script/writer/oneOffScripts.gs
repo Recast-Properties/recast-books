@@ -438,7 +438,7 @@ function fixAshburneBeforeClosing() {
 // 4 rows whose link pointed at a receipt that does not hold them are cleared. No amount moves. Also Chinos's
 // estimate note gets its last sentence corrected (register 5). Before 104 Ashburne closes - its tab freezes.
 // [Drive file id, or 'read:<gmail id>' (a look-only read of step 0) or 'env:<docId>' (filed from its envelope), rows]
-// STATUS: NOT YET RUN
+// STATUS: DONE 2026-10-01 10:45 PDT by Paul: 166 lines linked, 8 cleared, the Chinos note corrected; no money moved.
 var MR_RELINKS = [
   ['1ZVDEqXlk7twrRuzyK-JsTl3VhzsqLH7I', ['20260107-d565cdfe6bd3']],
   ['1qrl90s8gwpPdMy3Enq5XWHg5wyQQeJm8', ['20260114-af572d202fb7', '20260114-daaa35949332']],
