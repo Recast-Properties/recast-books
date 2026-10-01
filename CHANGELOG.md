@@ -2262,5 +2262,5 @@ Claude: PENDING ROUTING refused in `lib/posting.mjs` (+ test, 540); the nightly 
 Claude; the Keith Ace 06-30 envelope marked dismissed (on the books as three Ace rows); the W-9 list rebuilt from the
 Journal (`data/vendors-1099-2026.md`, ten payees over $2,000); accountant note Q-10 (the Ashburne tax penalty 1,029.52,
 the ticket). Recast owes Paul 43,529.66 at 11:22 PDT (41,980.79 after the money fixes, then the photo costs and the
-bookkeeper's posts from the forwards). **Owed: `npm run deploy` and `clasp deploy -i` (the rail and the nightly-check
-wording) - Paul's "deploy".**
+bookkeeper's posts from the forwards). **Deployed 10-01 on Paul's "deploy": site `6abea6fd`, writer web app @24 (pinged ok) - nothing owed.** The Journal
+then: 1,421 entries, 59 corrections (31 of them this day), 36 of the 1,048 migrated entries ever corrected.
