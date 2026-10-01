@@ -2408,3 +2408,7 @@ exception of ashburne"*.
   old tab's 6,873.90 / 84.70 by 0.54.
 
 546 tests. Pushed and committed. Owed: the writer web app deploy. Next: 881 Newport's closing, 10-02.
+
+**14:24 PDT - deployed on Paul's "deploy": writer web app @25** (`clasp deploy -i` the same id; `clasp deployments`
+reads @25, `/exec` answers ok 0.4.0) = the repo. The site was not redeployed: no function loads `lib/sale.mjs` (checked),
+so `6abea6fd` still equals the repo for everything it runs. Nothing owed.
