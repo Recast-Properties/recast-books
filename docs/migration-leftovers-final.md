@@ -17,6 +17,9 @@
 > 07-01 Home Depot appliance 639.82 on Newport, paid by Paul. Recast owes Paul: Newport 801.57, Bowling Green 589.77,
 > all 45,292.36. Newport's sale can be posted.
 
+> **Paul 2026-10-01, the three phone pictures too large to read (paul@ 19d60b60c34edaf7 04-05, 19e7fb58b43b6375 05-31,
+> 19f1dc29acc2cf4c 07-01, sent from pvb421, no subject): "ignore them". Closed - never raise again.**
+
 > **Status 2026-10-01 07:00 PT: the list as put to Paul, before his answers and before any fix ran.** Built by two full
 > sweeps (2026-09-30/10-01: 7 finders + a critic, then 7 gap hunters; every item checked by a skeptic, then merged and
 > re-counted against the live Journal of 10-01 04:58). Three checks were still running when it went to Paul (two Anthropic
