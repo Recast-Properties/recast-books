@@ -1,3 +1,17 @@
+> **PAUL'S ANSWERS, 2026-10-01 (chat): "yes to everything. keep the doorbell. leave $200 dennis mowed off books."**
+> Q1-Q17, Q19, Q20: yes, as recommended. Q12 (Cotality June $200): yes - paid; posted on his word. Q13: keep the
+> doorbell. **Q18: NO - Dennis's $200 backyard mowing of 06-17 (280 Sparkling) stays off the books**; the 08-07 photo is
+> still linked to the Julio row (paperwork only).
+
+> **THE THREE LAST CHECKS, landed 2026-10-01 ~07:30 PT (folded in; final):** (a) Anthropic 06-26 20.00 (#2736-1854-1889)
+> and 08-01 10.27 (#2721-0230-2904) - paid by Paul, on no book: POST (D-064, D-045), +30.27 owed to Paul. (b) Home Depot
+> appliance of 09-02 - already on the books (migration-20260902-b6be780e1e70, 469 Brushwood microwave 339.99, tied to
+> Citizens); 297.77 was the item line. Nothing to do. (c) Item-by-item double-count pass over every house and overhead:
+> nothing new on Granite, Sparkling, Mesa, Bowling Green, Newport or overhead; THREE more doubles on 104 Ashburne,
+> confirmed by a skeptic, voided under Paul's 09-28 rule - Home Depot 04-16 51.38, Sunstate scissor-lift rental 904.18
+> (the bill and its payment), Atmos March bill 141.59 (alone and inside the May 197.00 payment): 1,097.15 off Ashburne.
+> **With these the list is closed: 43 items + 2 = 45.**
+
 > **Status 2026-10-01 07:00 PT: the list as put to Paul, before his answers and before any fix ran.** Built by two full
 > sweeps (2026-09-30/10-01: 7 finders + a critic, then 7 gap hunters; every item checked by a skeptic, then merged and
 > re-counted against the live Journal of 10-01 04:58). Three checks were still running when it went to Paul (two Anthropic
