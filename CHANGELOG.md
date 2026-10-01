@@ -2514,3 +2514,15 @@ bold; the top note (`Sold for ...`) is size 13; C1:D1 have the light green `#cef
 `closingRows` (`note_plain`) and `writeSimpleClosingTab_`; both closing tabs rewritten in place, the first three seen in
 the workbook on both tabs (the wrap could not be scrolled to from the session). Paul removed the comparison tab
 `1616 Granite - Closing (your way)` himself. 546 tests. Pushed and committed; deploy owed.
+
+**16:38 PDT - deployed on Paul's "deploy": writer web app @26** (`clasp deploy -i` the same id; `clasp deployments` reads
+@26, `/exec` answers ok 0.4.0) = the repo: D-070, D-071, D-072 and the closing tab's wording and formatting. The site
+runs none of the changed code. Nothing owed. (A test expectation edited by mistake failed for the two minutes around
+the deploy - the wrong test's label, not the code; fixed, 546 pass. Run the suite BEFORE a deploy, with `&&`.)
+
+**16:39 PDT - "then update sparkling closing tab":** `updateSparklingClosingTab()` rewrote `280 Sparkling - Closing` in
+place with everything decided on Granite's tab, and renamed its first cash row to match Granite's `Payout from title
+company`: **`Your half of the payout from title company (first wire)`** (the wording lives in the statement lines kept
+on the sheet; `closingRows`' default for a co-owned sale is the same without the wire). Read back: 259,053.12 +
+4,716.82 = 263,769.94; costs 202,839.85; profit 60,930.09; seven bills after the payout = 873.54. The rename is
+Claude's reading of "update" - told to Paul to confirm.

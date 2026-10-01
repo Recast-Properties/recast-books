@@ -74,7 +74,7 @@ functions the menu, pollers and nightly jobs call - Paul is never sent there.
 
 ## Status
 
-**Now (2026-10-01): LIVE on the real books since the 2026-09-21 cutover. Phases 0-2.7, 4 (migration) and 5 (sell wizard) done; THE MIGRATION IS CLOSED (D-067, `docs/migration-leftovers-final.md` - every leftover settled; a migration-era item that turns up later is Claude's to settle quietly, never a new list for Paul). Phase 3 (bank statements) in progress - import, matcher, Citizens Bank tab and its bank check live. Writer web app **@25** (10-01 14:24 PDT, the closing-tab work below), site `6abea6fd` (10-01; the site does not load `lib/sale.mjs`, so it was not redeployed) - **a writer web app deploy is owed again since D-070 (14:45 PDT)**. 546 tests. Resume from `HANDOFF-2026-10-01.md`; the dated bullets below are the history, newest near the end.**
+**Now (2026-10-01): LIVE on the real books since the 2026-09-21 cutover. Phases 0-2.7, 4 (migration) and 5 (sell wizard) done; THE MIGRATION IS CLOSED (D-067, `docs/migration-leftovers-final.md` - every leftover settled; a migration-era item that turns up later is Claude's to settle quietly, never a new list for Paul). Phase 3 (bank statements) in progress - import, matcher, Citizens Bank tab and its bank check live. Writer web app **@26** (10-01 16:38 PDT; @25 at 14:24), site `6abea6fd` (10-01; the site does not load `lib/sale.mjs`, so it was not redeployed) - nothing owed: **writer web app @26** (10-01 16:38 PDT, D-070..D-072 and the closing tab's wording). 546 tests. Resume from `HANDOFF-2026-10-01.md`; the dated bullets below are the history, newest near the end.**
 History: Phases 0, 1 gated 2026-09-11; Phase 2 gated 2026-09-12; Phase 2.5 (read cache) shipped 2026-09-12; hardening 2026-09-14 (invoice-keyed txn_id, cache warmer, Totals tab, voided pairs hidden; D-015 two locks, D-016 Dennis 8%); Phase 2.6 (property mailboxes via a properties@ poller, property tabs, D-017 Held/Sold) built 2026-09-14. Poller audit 2026-09-16: HEIC photos now convert (`heic-convert`; jimp never could), `error` envelopes the model never reached are retried by the warm job (max 2).
 Phase 0 gate: `docs/phase0-spec.md` §11. Phase 1 gate: `docs/phase1-spec.md` §8. Phase 2
 (receipts bookkeeper — Claude directs the read with zoom/ledger/vendor/property/docs tools,
@@ -242,9 +242,7 @@ are the target, D-028 returns hold for Paul). **Resume from `HANDOFF-2026-09-30.
   closing day, 2,738.24, settled in its payout and so on the closing tab but not the frozen house tab (**not decided**).
   **A frozen house tab is Paul's record and he edits it by hand: 280 Sparkling's Profit Breakdown (Property Tax
   8,237.00, Net Profit 50,171.98) is his typing - the rebuild overwrote it and `restoreSparklingHouseTabSummary` put it
-  back. Never rebuild a frozen tab without reading it and comparing first.** 546 tests; pushed, committed. **Writer web
-  app deploy owed** - until it is deployed an emailed receipt redraws a house tab's bill lists the old way (lawn care
-  under Utilities).
+  back. Never rebuild a frozen tab without reading it and comparing first.** 546 tests; pushed, committed. Deployed with @26 (16:38 PDT).
 - **2026-10-01 15:45-16:30 PDT (D-071, D-072, CHANGELOG):** Paul checked the closing tab against his house tab and his
   old sheet "1616 Granite RECONCILED" (it is in `data/migration/cutover-2026-09-21/old-workbook-cutover.xlsx` - **his
   old sheets are his model; read them when a layout is in dispute**), saw a comparison tab laid out his old way, and
@@ -253,8 +251,10 @@ are the target, D-028 returns hold for Paul). **Resume from `HANDOFF-2026-09-30.
   **D-072: a house tab is frozen when its closing is RUN, not on the closing day** - Ashburne and Newport stay `held`
   and keep taking bills until Paul runs Sell property (he settles with Dennis in person); the frozen-tab rebuild has no
   date cut-off any more, and Granite's house tab gained its three later bills (Rehab 10,727.97, Utilities 1,476.90 - now
-  equal to its closing tab). **AFTER THE PAYOUT lists every bill** (live), not a sum. (The comparison tab `1616 Granite - Closing (your way)` is gone - Paul removed it.) 546 tests; pushed, committed. **Writer web app deploy owed
-  (D-070, D-071, D-072).**
+  equal to its closing tab). **AFTER THE PAYOUT lists every bill** (live), not a sum. (The comparison tab `1616 Granite - Closing (your way)` is gone - Paul removed it.) 546 tests; pushed, committed, **deployed @26 at 16:38 PDT on Paul's "deploy"** (`/exec` answers ok 0.4.0) - nothing owed. The
+  rest of the afternoon was wording and formatting he dictated row by row (CHANGELOG 16:13-16:40): `Payout from title
+  company`, plain `Half of profit`, the short unbolded note, the top line at size 13 on a light green band, column D
+  wrapped; Sparkling's first cash row is `Your half of the payout from title company (first wire)`.
 - **2026-09-25 (D-044, D-045):** the gate lets a **medium** read post when every other rail holds (low still holds); a vendor's unanimous payment history settles `paid_from` when the document shows no card and Paul wrote no note; Chase checking 8870 is Paul's personal (`paul_personal_last4` = `9166, 8870, 3746` - Discover 3746 added the same day); `MAX_TOKENS_PER_TURN` 16000 (32k broke: the SDK refuses a non-streaming call above ~21k); the warm job replays errored docs from their stored read; the digest names the gate reason. CHANGELOG 2026-09-25.
 - **All five lists are done** (audit §40-§43): list 4 in mail not in the books 0 (`mail_settled`), differences 0 (`differences_settled`), confirm 0 real (the 3 shown are rows Paul dropped), questions answered; every decision, link, refusal (per document), drop, addition and retraction is in `data/migration/2026-09-17/paul-answers.json`. **Paul's stopping rule:** no new cost unless proven paid AND absent from the old books by total, pre-tax subtotal and items; otherwise park for Phase 3.
 - **2026-09-28: 104 Ashburne SOLD** the week of 09-21 (Citizens: $715,558.65 from Bison Title 09-23, $550,000 to Raymond James 09-25) - **not closed in the books yet; Paul starts the sell wizard when he is ready.** Earlier: **Facts corrected on 2026-09-18:** 104 Ashburne had NOT closed then. **881 Newport has NOT closed either - under contract (Paul 2026-09-21, audit §47); sold = Granite and Sparkling only**; its two Cost Recapture lines moved to its own tab. "Effren" rows are **Falcon Creek Lawn Care** (`rename_payee`). Paul's notes are the documents for cash labor.

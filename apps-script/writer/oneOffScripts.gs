@@ -27,6 +27,25 @@
  * ASCII ONLY - same paste-into-the-editor constraint as Code.gs.
  ****************************************************************/
 
+// 2026-10-01 Paul ("deploy, then update sparkling closing tab") - 280 Sparkling's closing tab rewritten in place
+// with everything decided on Granite's tab this afternoon, and its first cash row renamed to match Granite's
+// "Payout from title company": "Your half of the payout from title company (first wire)". The wording lives in
+// the statement lines kept on the sheet, so it is changed there. Nothing is posted; the house tab is not touched.
+// FIRST in the file on purpose: the editor's Run button starts on a file's first function.
+// STATUS: DONE 2026-10-01 16:39 PDT, run from the editor by Claude: 43 rows, the eleven statement lines kept; read back - 259,053.12 + 4,716.82 = 263,769.94, seven bills after the payout = 873.54.
+function updateSparklingClosingTab() {
+  var ss = openWorkbook_(PropertiesService.getScriptProperties());
+  requireOwner_(ss);
+  var name = '280 Sparkling';
+  var built = closingFromJournal_(ss, name);
+  if (!built) throw new Error('No posted sale found for ' + name);
+  var paid = built.statementLines.filter(function (l) { return l.kind === 'to_recast' && l.full_cents; });
+  if (!paid.length) throw new Error('The statement lines on the closing tab are gone - the two wires would be lost. Nothing rewritten.');
+  paid[0].rest_label = 'Your half of the payout from title company (first wire)';
+  var written = writeClosingTab_(ss, name, built, closingTabName_(name));
+  console.log('Rewrote "' + written.sheet + '": ' + written.rows + ' rows, statement lines ' + built.statementLines.length);
+}
+
 // 2026-10-01 Paul: "i want the property tab to be frozen when we run the closing not the closing day ... for
 // granite add the verity plumbing bill to the property tab since its not there. i want all the bills that
 // come in after the payout to be listed not just a sum of them all." (D-072). Code.gs carries both rules;

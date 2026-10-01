@@ -2445,7 +2445,7 @@ var M_sale = (function () {
 
     head("INCOMING CASH AT CLOSING");
     // Paul's wording, 2026-10-01: "Payout from title company", and its note short and not bold
-    row((paid[0] && paid[0].rest_label) || (share < 100 ? `Your ${mine} of the sale money` : "Payout from title company"),
+    row((paid[0] && paid[0].rest_label) || (share < 100 ? `Your ${mine} of the payout from title company` : "Payout from title company"),
       s.cash_in_cents - paidFull, "After commission, closing costs and taxes");
     rows[rows.length - 1].note_plain = true;
     for (const l of paid) row(l.paid_label || `${l.label}, paid to Recast in full`, l.full_cents);

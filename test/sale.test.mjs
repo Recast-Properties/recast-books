@@ -314,6 +314,7 @@ test("Paul's closing tab, 280 Sparkling: his sections, his rows, and every block
 
   assert.deepEqual(rowsBetween(rows, "INCOMING CASH AT CLOSING", "Cash received").map((r) => r.cents), [25_905_312, 471_682],
     "the two wires - the reimbursement in full");
+  assert.equal(rowsBetween(rows, "INCOMING CASH AT CLOSING", "Cash received")[0].label.trim(), "Your half of the payout from title company");
   assert.deepEqual(rowsBetween(rows, "PROJECT COSTS", "Total Project Costs").map((r) => [r.label.trim(), r.cents]), [
     ["Purchase Principal", 19_685_050], ["Purchase Interest", 280_957],
     ["Cash Advances Interest", 0],
