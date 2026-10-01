@@ -111,6 +111,16 @@ function listBooksMailReset() {
 // Requires Code.gs in the same project (buildPayload_, postUpload_, CONFIG) and the
 // script properties POLLER_SECRET + BOOKS_UPLOAD_URL.
 
+// 2026-10-01 Paul (final migration register, answers of 10-01) - replayIds learns look-only lists. A Drive list with
+// "dryRun": true sends each email as a dry run: the read is filed under _dry-runs as dry-gm-<id> with status 'dry',
+// nothing posts and no Inbox card appears. It also refuses to start while two Drive files share the list's name, so an
+// old list (no dryRun = posts for real) can never run in place of the new one. First use: books-replay-paul.json,
+// built "2026-10-01-reads", 84 ids (register 21's 67 phone pictures for Q5 + 17 documents for the later one-offs).
+// FILE: apps-script/poller/Listing.gs - REPLACES the function replayIds there. NOT the writer's oneOffScripts.gs (the
+// writer has no Gmail scope and no buildPayload_/postUpload_/CONFIG).
+// Push to both pollers so they stay identical: clasp push -f (paul@), clasp push -f -P .clasp-properties.json
+// (properties@). No deploy: the pollers run the latest saved code. Paul runs replayIds in the paul@ poller editor.
+// STATUS: NOT YET RUN
 function replayIds() {
   var t0 = Date.now();
   var props = PropertiesService.getScriptProperties();
@@ -118,23 +128,31 @@ function replayIds() {
   var uploadUrl = props.getProperty('BOOKS_UPLOAD_URL') || CONFIG.DEFAULT_UPLOAD_URL;
   if (!secret) throw new Error('Missing script property POLLER_SECRET');
   var mailbox = props.getProperty('MAILBOX') || 'paul';
-  var files = DriveApp.getFilesByName('books-replay-' + mailbox + '.json');
-  if (!files.hasNext()) throw new Error('No Drive file books-replay-' + mailbox + '.json');
-  var spec = JSON.parse(files.next().getBlob().getDataAsString());
+  var name = 'books-replay-' + mailbox + '.json';
+  // Exactly one list, trash ignored: with two, which one getFilesByName hands back is not defined (2026-10-01).
+  var found = [], files = DriveApp.getFilesByName(name);
+  while (files.hasNext()) { var f = files.next(); if (!f.isTrashed()) found.push(f); }
+  if (!found.length) throw new Error('No Drive file ' + name);
+  if (found.length > 1) throw new Error(found.length + ' Drive files are named ' + name + ' - rename the old one(s) to ' +
+    name.replace(/\.json$/, '-DONE-<date>.json') + ' and Run again. Nothing was sent.');
+  var spec = JSON.parse(found[0].getBlob().getDataAsString());
   var list = spec.ids || [];
   var reprocess = spec.reprocess === true;   // retry list: re-ingest docs the API failed on
+  var dry = spec.dryRun === true;            // look-only list: filed under _dry-runs as dry-gm-<id>, nothing posts
 
   // A new list (different `built` stamp) starts from index 0 on its own.
   var built = String(spec.built || '');
   if (props.getProperty('replay_built') !== built) { props.setProperty('replay_built', built); props.deleteProperty('replay_idx'); }
   var i = parseInt(props.getProperty('replay_idx') || '0', 10);
+  console.log('LIST ' + name + '  built=' + built + '  ids=' + list.length + '  starting at ' + i +
+              (dry ? '  LOOK-ONLY (dry run) - nothing posts' : '  LIVE - posts to the books'));
   var log = [], ok = 0, skipped = 0, bad = 0;
   for (; i < list.length; i++) {
     if (Date.now() - t0 > 240000) break;          // resume on the next Run
     var it = list[i];
     try {
       var m = GmailApp.getMessageById(it.id);
-      var payload = buildPayload_(m, false, it.ch || undefined);
+      var payload = buildPayload_(m, dry, it.ch || undefined);
       if (reprocess) payload.reprocess = true;
       var res = postUpload_(uploadUrl, secret, payload);
       if (res.ok) { if (res.skipped) skipped++; else ok++; }
