@@ -2478,3 +2478,8 @@ read back - Granite `Cash Advances Interest on $6,838` 84.16, Rehab Costs 10,727
 (it replaces D-068), phase5-spec 3a, CLAUDE.md, the handoff and the router updated. 546 tests. Pushed and committed.
 Still there: the comparison tab `1616 Granite - Closing (your way)` (ask before removing) and his typed `AFTER THE SALE`
 heading on Granite's closing tab. **Owed: the writer web app deploy** (D-070, D-071).
+
+**16:16 PDT:** Paul: the last heading is `AFTER THE PAYOUT` on every closing tab - the typed `AFTER THE SALE` on Granite's
+is gone (`rewriteClosingTabs` no longer keeps it; re-run, read back). He asked why Granite's closing-tab Rehab Costs
+(10,727.97) is larger than its house tab's (9,201.51): the 1,526.46 Verity Plumbing bill of 08-05, after the frozen
+tab's 07-24 cut-off - offered to bring the three later bills onto the house tab (not answered yet).

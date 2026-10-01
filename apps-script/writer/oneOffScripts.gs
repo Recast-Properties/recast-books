@@ -47,18 +47,10 @@ function rewriteClosingTabs() {
     if (name === '280 Sparkling' && !built.statementLines.some(function (l) { return l.kind === 'to_recast' && l.full_cents; })) {
       throw new Error('280 Sparkling: the statement lines on its closing tab are gone - the two wires would be lost. Nothing rewritten for it.');
     }
-    // Paul types on these tabs. Read 15:58 PDT: on 1616 Granite the last section's heading had been typed back to
-    // "AFTER THE SALE" (the code writes AFTER THE PAYOUT). A heading he typed is kept through the rewrite.
-    var tabName = closingTabName_(name);
-    var old = ss.getSheetByName(tabName);
-    var typedSale = old ? old.getRange(1, 2, old.getLastRow(), 1).getValues().some(function (r) { return String(r[0]).trim() === 'AFTER THE SALE'; }) : false;
-    var written = writeClosingTab_(ss, name, built, tabName);
-    if (typedSale) {
-      var sh = ss.getSheetByName(tabName);
-      var col = sh.getRange(1, 2, sh.getLastRow(), 1).getValues();
-      for (var i = 0; i < col.length; i++) if (String(col[i][0]).trim() === 'AFTER THE PAYOUT') { sh.getRange(i + 1, 2).setValue('AFTER THE SALE'); break; }
-    }
-    out.push(name + ': "' + written.sheet + '" ' + written.rows + ' rows, statement lines ' + built.statementLines.length + (typedSale ? ', heading AFTER THE SALE kept' : ''));
+    // The last section's heading is AFTER THE PAYOUT on every closing tab (Paul, 16:20 PDT, asked which he wants -
+    // one had been typed back to AFTER THE SALE on 1616 Granite and was kept through the 15:59 and 16:12 runs).
+    var written = writeClosingTab_(ss, name, built, closingTabName_(name));
+    out.push(name + ': "' + written.sheet + '" ' + written.rows + ' rows, statement lines ' + built.statementLines.length);
   });
   console.log(out.join('\n'));
 }
