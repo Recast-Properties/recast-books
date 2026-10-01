@@ -1,6 +1,6 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { buildSalePlan, buildHoldbackRelease, splitStatement, isProjectCostAccount } from "../lib/sale.mjs";
+import { buildSalePlan, buildHoldbackRelease, splitStatement, isProjectCostAccount, settlementRows, releasedCostRows } from "../lib/sale.mjs";
 import { buildEntry, makeCtx } from "../lib/posting.mjs";
 
 // ---- the two sales that actually closed, from their Bison Title seller CDs --------------
@@ -233,6 +233,68 @@ test("280 Sparkling reproduces the closed tab at Recast's half: profit 60,930 an
     const entry = buildEntry(intent, c);
     assert.equal(entry.lines.reduce((t, l) => t + (l.debit || 0) - (l.credit || 0), 0), 0, `unbalanced: ${intent.memo}`);
   }
+});
+
+// ---- the closing tab's two lists (2026-10-01) ---------------------------------------------
+// Paul read 280 Sparkling's tab as "we only got half" of the 4,716.82: the tab netted the payment
+// against Recast's own half of the charge, and its cost rows did not add up to their total.
+
+// What Menu.gs's sellStatementForTab_ hands the tab: each line at Recast's share.
+function tabLines(settlement) {
+  const share = (settlement.recast_share_pct ?? 100) / 100;
+  return settlement.lines.map((l) => l.kind === "to_recast"
+    ? { label: l.label, account: l.account, kind: l.kind, posted_cents: l.cents - Math.round(l.cents * share), full_cents: l.cents }
+    : { label: l.label, account: l.account, kind: l.kind, posted_cents: Math.round(l.cents * share) });
+}
+const sumRows = (rows) => rows.reduce((t, r) => t + r.cents, 0);
+
+test("closing tab, settlement: Sparkling's reimbursement shows in full, and the two figures are the two wires", () => {
+  const { summary } = buildSalePlan(SPARKLING);
+  const rows = settlementRows(summary, tabLines(SPARKLING.settlement));
+  const totals = rows.filter((r) => r.total);
+  assert.deepEqual(totals.map((r) => [r.label, r.cents]), [
+    ["Your half of the sale money", 25_905_312],   // the 259,053.12 wire
+    ["Cash received", 26_376_994],
+  ]);
+  const half = rows.indexOf(totals[0]);
+  assert.equal(sumRows(rows.slice(0, half)), 25_905_312, "the lines above the subtotal add up to it");
+  assert.deepEqual(rows.slice(half + 1, -1).map((r) => r.cents), [471_682], "the 4,716.82 wire, in full");
+  const charge = rows.find((r) => /Your half of the charge: /.test(r.label));
+  assert.equal(charge.cents, -235_841, "Recast's half of the charge came out of its own sale money");
+});
+
+test("closing tab, settlement: a sole-owner sale is the sale price, its lines and the cash, nothing else", () => {
+  const { summary } = buildSalePlan(GRANITE);
+  const rows = settlementRows(summary, tabLines(GRANITE.settlement));
+  assert.equal(rows.length, GRANITE.settlement.lines.length + 2);
+  assert.equal(rows[0].label, "Sale price");
+  assert.equal(sumRows(rows.slice(0, -1)), 34_734_303);
+  assert.deepEqual([rows.at(-1).label, rows.at(-1).cents, rows.at(-1).total], ["Cash received", 34_734_303, true]);
+});
+
+test("closing tab, settlement: rebuilt from the Journal alone (no statement figure) the rows still add up to the cash", () => {
+  const { summary } = buildSalePlan(SPARKLING);
+  const lines = tabLines(SPARKLING.settlement).map(({ full_cents, ...l }) => l);
+  const rows = settlementRows(summary, lines);
+  assert.equal(rows.filter((r) => r.total).length, 1);
+  assert.equal(sumRows(rows.slice(0, -1)), rows.at(-1).cents);
+});
+
+test("closing tab, cost released: the rows add up to the total, and the reimbursement shows in full", () => {
+  for (const [sale, share] of [[SPARKLING, 50], [GRANITE, 100]]) {
+    const { summary, intents } = buildSalePlan(sale);
+    for (const lines of [tabLines(sale.settlement), []]) {   // with the statement's figures, and from the Journal alone
+      const rows = releasedCostRows(intents, (a) => "account " + a, lines, share);
+      assert.equal(sumRows(rows), summary.released_cents, `${sale.property.name}: rows = Total project cost`);
+    }
+  }
+  const rows = releasedCostRows(buildSalePlan(SPARKLING).intents, (a) => "account " + a, tabLines(SPARKLING.settlement), 50);
+  const rehab = rows.findIndex((r) => r.label === "Rehab");
+  assert.equal(rows[rehab].cents, 60_000 + 79_847, "what was spent on rehab");
+  // Paul, 2026-10-01: "we were reimbursed as a separate wire for the full amount" - the full figure, and no row says the co-owner paid
+  assert.deepEqual([rows[rehab + 1].label, rows[rehab + 1].cents], ["Less: reimbursement paid to Recast, in full", -471_682]);
+  assert.equal(rows[rehab + 2].cents, 235_841, "Recast's half of the charge, the settlement block's own row");
+  assert.equal(rows.some((r) => /co-owner/i.test(r.label)), false);
 });
 
 // ---- the rules that must not drift -------------------------------------------------------

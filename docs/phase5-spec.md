@@ -154,6 +154,50 @@ Three guards keep it frozen, in `Code.gs`: `setupPropertyTab` refuses to rebuild
 `rebuildAllPropertyTabs` cannot overwrite a record), `refreshLineBlocks_` skips one (so a stray post cannot
 rewrite the blocks), and `onPropertyTabEdit` toasts and returns instead of firing a void-and-repost.
 
+**Closing tab layout, 2026-10-01 (CHANGELOG 13:10 PDT).** The settlement block reads the way the money arrived:
+every statement line at Recast's share, a line paid to Recast by name among them as a charge, then on a co-owned
+sale `Your half of the sale money` and the payment to Recast **in full** (280 Sparkling: 259,053.12 + 4,716.82, the
+two wires), then Cash received. The cost list is net of both sides and adds up to its total. Both lists are built
+in `lib/sale.mjs` (`settlementRows`, `releasedCostRows`) and tested there. The tab keeps its statement lines with
+the sheet, so a rebuild from the dialog does not collapse them to one line per account.
+
+### 3a · The simple layout Paul is designing (trial, 2026-10-01)
+
+On its own tab, `280 Sparkling - Closing (simple)`, beside the full one - built by `buildSparklingSimpleClosingTab`
+(oneOffScripts.gs) from the Journal's sale entries. It follows the cash, in Paul's words and rows:
+
+```
+<house> - CLOSED <date>                                   Sold for 550,000.00. Recast owned 50%.
+Settlement statement        Title company closing document
+INCOMING CASH AT CLOSING
+  Your half of the sale money (first wire)     259,053.12   After the title company took out commission, closing costs and taxes
+  Reimbursement paid to Recast, in full (second wire)  4,716.82
+Cash received                                  263,769.94
+PROJECT COSTS
+  Purchase Principal / Purchase Interest / Cash Advances Principal / Cash Advances Interest / Rehab Costs / Utilities
+Total Project Costs                            202,839.85
+PROFIT
+Total Profit                                    60,930.09   Cash received less total project costs
+  Dennis 50% / Paul 50%
+PAYOUTS
+Dennis      Purchase Principal, Purchase Interest, Cash Advances Principal, Cash Advances Interest,
+            Paid out of pocket, Half of profit  -> Total to Dennis
+Paul        Paid out of pocket, Half of profit  -> Total to Paul
+Refunded to Recast Citizens Account
+Total paid out                                 263,769.94   Matches the cash received at closing
+AFTER THE SALE
+  Bills that came in after the sale (live)
+```
+
+Rules: a cost is what each cost account held **before** the sale entries (what the release took out less what the
+settlement entry put in), so the title company's own charges never appear - they are inside the first wire. Rehab Costs
+is everything that is not the purchase, Dennis's interest or a utility bill (lawn care, an HOA release paid before
+closing, listing). Cash less cost must equal the books' profit and each partner's rows must add to his total, or
+nothing is written. No account numbers; notes bold, black, capitalised. **Open:** Cash Advances Principal beside the
+full Rehab Costs double counts on a house that has advances (unanswered); pre-closing property tax and insurance have
+no row yet; a holdback and a bank deal are not designed. If Paul keeps it, it replaces the full layout in
+`writeClosingTab_`.
+
 **`CLOSING_TAB_IN_PLACE` stays `false` permanently** and the sign-off it was waiting on is moot.
 `closingTabName_()` therefore always returns `<property> - Closing`.
 

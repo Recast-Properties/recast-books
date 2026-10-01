@@ -925,10 +925,8 @@ function inboxReprocess(req) {
 // lib.gs's buildSalePlan (lib/sale.mjs) owns every number; this file only fetches what it
 // needs off the sheets, posts what it returns, and writes the tab.
 //
-// Paul, 2026-09-22: while the layout is being proved the closing tab is written BESIDE the
-// property tab as "<property> - Closing" and the live tab is untouched. When he signs the
-// layout off, set CLOSING_TAB_IN_PLACE to true and it is written onto the property tab
-// itself - one constant, not a setting.
+// The closing tab is its own tab, "<property> - Closing", and the property tab is frozen at
+// closing as the record (D-043, Paul 2026-09-23). CLOSING_TAB_IN_PLACE stays false for good.
 var CLOSING_TAB_IN_PLACE = false;
 
 function closingTabName_(name) {
@@ -1148,11 +1146,12 @@ function sellPost(form) {
     // 1616 Granite after its 2026-09-22 close (Paul, 2026-09-23).
     CacheService.getScriptCache().remove('ctx');
 
+    var tabLines = sellStatementForTab_(form, plan);
     var written = writeClosingTab_(ss, name, {
       doc_url: docUrl,
       summary: plan.summary,
-      statementLines: sellStatementForTab_(form, plan),
-      costByClass: sellCostByClass_(ss, name, plan),
+      statementLines: tabLines,
+      costByClass: sellCostByClass_(plan, tabLines, plan.summary.recast_share_pct),
       forecast: forecast
     }, closingTabName_(name));
 
@@ -1168,38 +1167,18 @@ function sellStatementForTab_(form, plan) {
   var share = (plan.summary.recast_share_pct || 100) / 100;
   return sellSettlement_(form).lines.map(function (l) {
     var posted = l.kind === 'to_recast' ? l.cents - Math.round(l.cents * share) : Math.round(l.cents * share);
-    return { label: l.label, account: l.account, kind: l.kind, posted_cents: posted };
+    var out = { label: l.label, account: l.account, kind: l.kind, posted_cents: posted };
+    if (l.kind === 'to_recast') out.full_cents = l.cents;   // the payment itself, shown in full (lib settlementRows)
+    return out;
   });
 }
 
-/** The released cost: one row per account (Paul, 2026-09-22: "separate these costs out
- *  into individual rows" - grouped Holding and Selling lines hid what they were made of),
- *  except the rehab accounts, which collapse into a single Rehab row as the old closed tabs
- *  had them. The account's own name carries its class, e.g. "Holding - utilities". */
-function sellCostByClass_(ss, name, plan) {
+/** The released cost, one row per account with the rehab accounts as one Rehab row (Paul,
+ *  2026-09-22: "separate these costs out into individual rows"). lib.gs's releasedCostRows
+ *  does the adding up; this only supplies each account's name from the chart. */
+function sellCostByClass_(plan, lines, sharePct) {
   var chart = accountMap();
-  var released = {};
-  plan.intents.forEach(function (i) {
-    if (!/released to COGS/.test(i.memo)) return;
-    i.lines.forEach(function (l) { if (l.credit) released[l.account] = (released[l.account] || 0) + l.credit; });
-  });
-  var isRehab = function (a) { return a >= '1020' && a <= '1060'; };
-  var rows = [], rehabCents = 0, rehabAccounts = [];
-  Object.keys(released).sort().forEach(function (a) {
-    if (isRehab(a)) {
-      if (!rehabAccounts.length) rows.push({ rehab: true });
-      rehabCents += released[a];
-      rehabAccounts.push(a);
-      return;
-    }
-    var label = a === '1220'
-      ? "Dennis's half of the profit (a cost of the deal, so your half is the bottom line)"
-      : (chart.get(a) ? chart.get(a).name : 'account ' + a);
-    rows.push({ label: label, cents: released[a], accounts: a });
-  });
-  return rows
-    .map(function (r) { return r.rehab ? { label: 'Rehab', cents: rehabCents, accounts: rehabAccounts.join(' ') } : r; })
-    .filter(function (r) { return r.cents !== 0; });
+  return releasedCostRows(plan.intents, function (a) { return chart.get(a) ? chart.get(a).name : 'account ' + a; }, lines, sharePct);
 }
 
 /**
@@ -1333,7 +1312,6 @@ function closingFromJournal_(ss, name) {
     return t;
   };
 
-  var registry = propertyRow_(ss, name) || {};
   var postedDocUrl = '';
   rows.forEach(function (r) {
     if (postedDocUrl || String(r[cols['property'] - 1]) !== name) return;
@@ -1375,9 +1353,24 @@ function closingFromJournal_(ss, name) {
   var paidPaulTotal = paidPaul ? -at(paidPaul, '1401') : 0;
 
   var balances = propertyBalances_(ss, name);
-  var costByClass = sellCostByClass_(ss, name, { intents: [{ memo: 'released to COGS', lines: release.lines.map(function (l) {
-    return l.cents < 0 ? { account: l.account, credit: -l.cents } : { account: l.account, debit: l.cents };
-  }) }] });
+  // Recast's share of a co-owned sale is not stored anywhere but the entries' own memo
+  // ("... (Recast 50%): settlement statement", lib/sale.mjs memoBase).
+  var shareMatch = settlement.memo.match(/\(Recast ([0-9.]+)%\)/);
+  var sharePct = shareMatch ? Number(shareMatch[1]) : 100;
+  // The statement line by line, as it was confirmed at the sale, when the tab still holds it
+  // and it still adds up to the posted entry: the Journal keeps one line per ACCOUNT, so a
+  // tab rebuilt from it alone loses the statement's own lines and what was paid to Recast
+  // by name in full (2026-10-01).
+  var kept = storedStatementLines_(ss, closingTabName_(name));
+  var keptNet = kept.reduce(function (t, l) { return t + (l.kind === 'credit' || l.kind === 'to_recast' ? 1 : -1) * l.posted_cents; }, 0);
+  if (kept.length && Math.abs(revenue + keptNet - cash) <= Math.max(5, kept.length)) statementLines = kept;
+  var asLines = function (entry) {
+    return entry.lines.map(function (l) { return l.cents < 0 ? { account: l.account, credit: -l.cents } : { account: l.account, debit: l.cents }; });
+  };
+  var costByClass = sellCostByClass_({ intents: [
+    { memo: 'settlement statement', lines: asLines(settlement) },
+    { memo: 'released to COGS', lines: asLines(release) }
+  ] }, statementLines, sharePct);
   // A cost row Paul has renamed on the tab keeps his wording through a rebuild, the same
   // courtesy the settlement lines get: a property closed before a classification was
   // corrected (280 Sparkling's HOA release, D-039) can read right without touching the
@@ -1388,7 +1381,7 @@ function closingFromJournal_(ss, name) {
     property: name,
     deal: commission ? 'bank' : 'partner',
     date: settlement.date,
-    recast_share_pct: registry.recast_share_pct || 100,
+    recast_share_pct: sharePct,
     revenue_cents: revenue,
     cash_in_cents: cash,
     cost_before_share_cents: costBeforeShare,
@@ -1431,6 +1424,19 @@ function closingFromJournal_(ss, name) {
   } : { sale_price: '', total_cost: '', profit: '' };
 
   return { summary: summary, statementLines: statementLines, costByClass: costByClass, forecast: forecast, doc_url: postedDocUrl };
+}
+
+/** The statement lines a closing tab was last written with (writeClosingTab_ keeps them on
+ *  the sheet as developer metadata - invisible, and it survives sh.clear()). [] when none. */
+function storedStatementLines_(ss, target) {
+  try {
+    var sh = ss.getSheetByName(target);
+    var meta = sh ? sh.getDeveloperMetadata().filter(function (m) { return m.getKey() === 'statementLines'; })[0] : null;
+    var lines = meta ? JSON.parse(meta.getValue()) : [];
+    return Array.isArray(lines) ? lines : [];
+  } catch (err) {
+    return [];
+  }
 }
 
 /** Statement-line wording already on a closing tab, by account: the label in column B of

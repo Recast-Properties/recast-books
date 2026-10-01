@@ -27,6 +27,224 @@
  * ASCII ONLY - same paste-into-the-editor constraint as Code.gs.
  ****************************************************************/
 
+// 2026-10-01 Paul ("can you create a new tab so we can perserve the current one? and try one that is
+// simpler") - a TRIAL layout on its own tab, "280 Sparkling - Closing (simple)"; the closing tab itself is
+// not touched, nothing is posted, no money moves. The simple view follows the cash: the two wires in, what
+// the house cost before closing, profit and its two halves, who was paid. The title company's own charges
+// (commission, closing costs, taxes) are not listed - they came out of the sale money before the first wire
+// and are on the linked document and on the full closing tab. Every figure is read from the Journal's sale
+// entries; the script refuses to write if cash less cost is not the books' profit. If Paul keeps this
+// layout it moves into writeClosingTab_ for every house; if not, delete the tab.
+// FIRST in the file on purpose: the editor's Run button starts on a file's first function.
+// STATUS: RE-RUN AS PAUL SHAPES IT - last run 2026-10-01 14:05 PDT from the editor by Claude: 43 rows, read back - cash 263,769.94 less cost 202,839.85 = profit 60,930.09, paid out 263,769.94. A TRIAL: waiting on Paul's verdict (keep and generalise, or delete the tab). READ THE LIVE TAB BEFORE A RE-RUN - he edits it by hand.
+function buildSparklingSimpleClosingTab() {
+  var ss = openWorkbook_(PropertiesService.getScriptProperties());
+  requireOwner_(ss);
+  var name = '280 Sparkling';
+  var built = closingFromJournal_(ss, name);
+  if (!built) throw new Error('No posted sale found for ' + name);
+  var s = built.summary;
+
+  // What each cost account held before the closing: what the release took out, less what the settlement
+  // entry itself put in (the title company's charges). Dennis's half of the profit is not a cost here.
+  var journal = ss.getSheetByName('Journal');
+  var cols = headerIndex_(journal);
+  var rows = journal.getRange(2, 1, journal.getLastRow() - 1, journal.getLastColumn()).getValues();
+  var g = function (r, n) { return r[cols[n] - 1]; };
+  var voided = {};
+  rows.forEach(function (r) { var v = String(g(r, 'void_of') || ''); if (v) voided[v] = true; });
+  var before = {};
+  rows.forEach(function (r) {
+    if (String(g(r, 'property')) !== name || String(g(r, 'source')) !== 'sale' || voided[String(g(r, 'txn_id'))]) return;
+    var a = String(g(r, 'account')), memo = String(g(r, 'memo') || '');
+    if (!isProjectCostAccount(a) || a === '1220') return;
+    if (!/released to COGS|settlement statement/.test(memo)) return;
+    var cents = Math.round(Number(g(r, 'debit') || 0) * 100) - Math.round(Number(g(r, 'credit') || 0) * 100);
+    before[a] = (before[a] || 0) - cents;
+  });
+  // PROJECT COSTS, in Paul's rows and names (2026-10-01: "This is the data structure and naming I want ...
+  // Rename it to 'Project Costs'. I added cash advances. Sparkling does not have any, but other properties
+  // will. ... Rehab Costs should roll up Lawn Care, HOA Release (if it's not in the title costs) and Listing
+  // and Marketing"). Rehab Costs is every cost paid before closing that is not the purchase, Dennis's
+  // interest or a utility bill; the true-up to Dennis's agreed interest sits in Purchase Interest.
+  var totalCost = 0;
+  Object.keys(before).forEach(function (a) { totalCost += before[a]; });
+  var cashAdv = s.interest.by_advance.filter(function (a) { return a.kind === 'cash'; });
+  var cashPrincipal = cashAdv.reduce(function (t, a) { return t + a.amount_cents; }, 0);
+  var cashInterest = cashAdv.reduce(function (t, a) { return t + a.interest_cents; }, 0);
+  // OPEN WITH PAUL before this layout is used on a house that has cash advances (Granite, Newport, Ashburne,
+  // Mesa, Bowling Green): the advance money paid for bills that are already in Rehab Costs, so adding the
+  // principal as its own cost row counts that money twice. Refused here rather than written wrong.
+  if (cashPrincipal) throw new Error(name + ' has cash advances of ' + cashPrincipal + ' cents - settle with Paul how that row sits beside Rehab Costs first');
+  var purchase = before['1000'] || 0, interest = before['1200'] || 0, utilities = before['1120'] || 0;
+  var costRows = [
+    ['Purchase Principal', purchase],
+    ['Purchase Interest', interest - cashInterest],
+    ['Cash Advances Principal', cashPrincipal],
+    ['Cash Advances Interest', cashInterest],
+    ['Rehab Costs', totalCost - purchase - interest - utilities],
+    ['Utilities', utilities]
+  ];
+  var heldBack = 0;
+  built.statementLines.forEach(function (l) { if (l.kind === 'holdback') heldBack += l.posted_cents; });
+  if (s.cash_in_cents + heldBack - totalCost !== s.profit_cents) {
+    throw new Error('Cash ' + s.cash_in_cents + ' + held back ' + heldBack + ' less cost ' + totalCost + ' is not the profit ' + s.profit_cents);
+  }
+  var paid = built.statementLines.filter(function (l) { return l.kind === 'to_recast' && l.full_cents; });
+  var paidFull = paid.reduce(function (t, l) { return t + l.full_cents; }, 0);
+  var paidOut = s.paid.dennis_cents + s.paid.paul_cents + s.retained_cents;
+
+  var d = function (cents) { return Number(cents || 0) / 100; };
+  var body = [], heads = [], totals = [];
+  var push = function (label, value, note) { body.push(['', label, value === null ? '' : value, note || '']); return body.length; };
+  var head = function (label) { heads.push(push(label, null, '')); };
+  var total = function (label, value, note) { totals.push(push(label, value, note)); };
+  var mine = s.recast_share_pct === 50 ? 'half' : 'share';
+
+  push(name + ' - CLOSED ' + s.date, null, 'Sold for ' + d(Math.round(s.revenue_cents * 100 / s.recast_share_pct)).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',') +
+    (s.recast_share_pct < 100 ? '. Recast owned ' + s.recast_share_pct + '%.' : '.'));
+  if (built.doc_url) push('Settlement statement', '=HYPERLINK("' + String(built.doc_url).replace(/"/g, '') + '","Title company closing document")', '');
+  push('', null, '');
+
+  head('INCOMING CASH AT CLOSING');   // Paul's wording, 2026-10-01
+  push('  ' + (paid.length && paid[0].rest_label ? paid[0].rest_label : 'Your ' + mine + ' of the sale money'), d(s.cash_in_cents - paidFull),
+    'After the title company took out commission, closing costs and taxes');
+  paid.forEach(function (l) { push('  ' + (l.paid_label || l.label + ', paid to Recast in full'), d(l.full_cents), ''); });
+  total('Cash received', d(s.cash_in_cents), '');
+  if (heldBack) push('  Still held by the title company (escrow)', d(heldBack), 'Comes later');
+  push('', null, '');
+
+  head('PROJECT COSTS');
+  costRows.forEach(function (r) { push('  ' + r[0], d(r[1]), ''); });
+  total('Total Project Costs', d(totalCost), '');
+  push('', null, '');
+
+  // The PROFIT rows and the PAYOUTS heading are Paul's own wording, typed on the trial tab 2026-10-01
+  // ("change the profit section to match this"): Total Profit, Dennis 50%, Paul 50%.
+  var reg = propertyRow_(ss, name) || {};
+  var dennisPct = reg.dennis_share_pct === '' || reg.dennis_share_pct == null ? 50 : Number(reg.dennis_share_pct);
+  head('PROFIT');
+  total('Total Profit', d(s.profit_cents), 'Cash received' + (heldBack ? ' plus the escrow' : '') + ' less total project costs');
+  if (s.commission_cents) push('  (after Dennis\'s commission ' + d(s.commission_cents).toFixed(2) + ')', null, '');
+  if (dennisPct) push('  Dennis ' + dennisPct + '%', d(s.dennis_share_cents), '');
+  push('  Paul ' + (100 - dennisPct) + '%', d(s.paul_share_cents), '');
+  push('', null, '');
+
+  // PAYOUTS in Paul's layout and wording, typed on the trial tab 2026-10-01 ("make this section match this
+  // layout and styling"): a green name row, each partner's rows, a green total, then what went back to the
+  // Recast account and the grand total. Dennis's "Paid out of pocket" is the bills he paid directly - what is
+  // left of his money back after the purchase and the cash advances (Paul's mock had 0.00 there; 1,397.98 on
+  // this house, and without it his rows do not add up to his total).
+  var purchasePrincipal = s.interest.by_advance.filter(function (a) { return a.kind !== 'cash'; })
+    .reduce(function (t, a) { return t + a.amount_cents; }, 0);
+  var shareLabel = function (pct) { return pct === 50 ? 'Half of profit' : pct + '% of profit'; };
+  var dennisRows = [
+    ['Purchase Principal', purchasePrincipal],
+    ['Purchase Interest', s.paid.dennis_interest_cents - cashInterest],
+    ['Cash Advances Principal', cashPrincipal],
+    ['Cash Advances Interest', cashInterest],
+    ['Paid out of pocket', s.paid.dennis_note_cents - purchasePrincipal - cashPrincipal],
+    [shareLabel(dennisPct), s.paid.dennis_share_cents]
+  ];
+  var paulRows = [
+    ['Paid out of pocket', s.paid.paul_due_cents],
+    [shareLabel(100 - dennisPct), s.paid.paul_share_cents]
+  ];
+  var sumOf = function (rs) { return rs.reduce(function (t, r) { return t + r[1]; }, 0); };
+  if (sumOf(dennisRows) !== s.paid.dennis_cents || sumOf(paulRows) !== s.paid.paul_cents) {
+    throw new Error('The payout rows do not add up: Dennis ' + sumOf(dennisRows) + ' of ' + s.paid.dennis_cents + ', Paul ' + sumOf(paulRows) + ' of ' + s.paid.paul_cents);
+  }
+  head('PAYOUTS');
+  total('Dennis', null, '');
+  dennisRows.forEach(function (r) { push('  ' + r[0], d(r[1]), ''); });
+  total('Total to Dennis', d(s.paid.dennis_cents), '');
+  push('', null, '');
+  total('Paul', null, '');
+  paulRows.forEach(function (r) { push('  ' + r[0], d(r[1]), ''); });
+  total('Total to Paul', d(s.paid.paul_cents), '');
+  push('', null, '');
+  total('Refunded to Recast Citizens Account', d(s.retained_cents), '');
+  push('', null, '');
+  total('Total paid out', d(paidOut), paidOut === s.cash_in_cents ? 'Matches the cash received at closing' : 'DOES NOT MATCH the cash received at closing');
+  push('', null, '');
+
+  head('AFTER THE SALE');
+  var q = String(name).replace(/"/g, '""');
+  var after = push('  Bills that came in after the sale', '=SUMIF(Journal!$K$2:$K$5000,"' + q + '",Journal!$F$2:$F$5000)-SUMIF(Journal!$K$2:$K$5000,"' + q + '",Journal!$G$2:$G$5000)',
+    'Not part of the numbers above; settled on the next payout');
+
+  var target = name + ' - Closing (simple)';
+  var sh = getOrCreateSheet_(ss, target);
+  sh.clear();
+  sh.getRange(1, 1, sh.getMaxRows(), sh.getMaxColumns()).clearDataValidations();
+  sh.getRange(1, 1, body.length, 4).setValues(body);
+  sh.getRange(1, 2).setFontWeight('bold').setFontSize(13).setBackground('#a3f67f');
+  heads.forEach(function (r) { sh.getRange(r, 2, 1, 3).setFontWeight('bold').setBackground('#ffe599'); });
+  totals.forEach(function (r) { sh.getRange(r, 2, 1, 3).setFontWeight('bold').setBackground('#ceffbc'); });
+  sh.getRange(1, 3, body.length, 1).setNumberFormat('#,##0.00;(#,##0.00)');
+  sh.getRange(1, 4, body.length, 1).setFontColor('#000000').setFontWeight('bold');   // the notes: bold, black, a capital first letter (Paul, 2026-10-01)
+  sh.setColumnWidth(1, 20); sh.setColumnWidth(2, 420); sh.setColumnWidth(3, 120); sh.setColumnWidth(4, 460);
+  sh.setFrozenRows(1);
+  if (sh.getMaxRows() > body.length + 2) sh.deleteRows(body.length + 3, sh.getMaxRows() - body.length - 2);
+  // beside the closing tab it is a trial of
+  try {
+    var full = ss.getSheetByName(closingTabName_(name));
+    if (full) { ss.setActiveSheet(sh); ss.moveActiveSheet(full.getIndex() + 1); }
+  } catch (err) { console.log('left where it was created: ' + err); }
+  console.log('Wrote "' + target + '": ' + body.length + ' rows. Cash ' + d(s.cash_in_cents).toFixed(2) + ' less cost ' + d(totalCost).toFixed(2) +
+    ' = profit ' + d(s.profit_cents).toFixed(2) + '; paid out ' + d(paidOut).toFixed(2) + '; after-sale row ' + after + '; gid ' + sh.getSheetId());
+}
+
+// 2026-10-01 Paul ("yes do all three fixes and then we'll re-evaluate") - rewrites the tab
+// "280 Sparkling - Closing" in the new layout: the settlement the way the money arrived (259,053.12 +
+// the 4,716.82 reimbursement in full = the two Bison wires of 08-07), a cost list that adds up to its
+// total, and the forecast read off the frozen house tab (its Sale Price is typed now). Writes that one
+// tab only: nothing is posted, no money moves. The eleven statement lines are the ones the tab was
+// written with at the sale (read back 2026-10-01) - the Journal keeps one line per account, so they
+// are given here, at Recast's half; writeClosingTab_ keeps them with the sheet from now on.
+// FIRST in the file on purpose: the editor's Run button starts on a file's first function.
+// STATUS: DONE 2026-10-01 13:08 PDT (again 13:13 after the label and column-width fix, and 13:20 with the reimbursement in full in the cost list), run from the editor by Claude on Paul's "do all three fixes": 61 rows, read back - lines 259,053.12 + 4,716.82 = 263,769.94, cost rows 244,534.96.
+function rebuildSparklingClosingTab() {
+  var ss = openWorkbook_(PropertiesService.getScriptProperties());
+  requireOwner_(ss);
+  var name = '280 Sparkling';
+  var built = closingFromJournal_(ss, name);
+  if (!built) throw new Error('No posted sale found for ' + name);
+  var L = function (label, account, kind, posted) { return { label: label, account: account, kind: kind, posted_cents: posted }; };
+  var paid = L('Expense Reimbursement to RECAST PROPERTIES LLC', '1030', 'to_recast', 235841);
+  paid.full_cents = 471682;
+  paid.rest_label = 'Your half of the sale money (first wire)';
+  paid.paid_label = 'Reimbursement paid to Recast, in full (second wire)';
+  built.statementLines = [
+    L('HOA Dues 8/7/2026 thru 12/31/2026', '1130', 'credit', 10069),
+    L('HOA Resale Cert Reimbursement', '1130', 'credit', 24250),
+    L('Real Estate Commission - Selling to Texas Connect Realty, LLC', '1300', 'cost', 825000),
+    L('HOA Dues to North Grove Residential Association', '1130', 'cost', 14589),
+    L('Tax Certificate to Zentra Tax LLC', '1310', 'cost', 4330),
+    L("Title - Owner's Title Insurance to Bison Title, LLC", '1310', 'cost', 5000),
+    L('Title - Settlement Fee to Bison Title, LLC', '1310', 'cost', 30000),
+    L('Title - State of Texas Policy Guaranty Fee. to Bison Title - GARC Fee', '1310', 'cost', 100),
+    L("Adjustment for Owner's Policy Paid by Seller", '1310', 'cost', 145150),
+    L('County Property Taxes 1/1/2026 thru 8/6/2026', '1100', 'cost', 368996),
+    paid
+  ];
+  // Both lists must add up before the tab is touched.
+  var s = built.summary;
+  var rows = settlementRows(s, built.statementLines);
+  var half = rows.filter(function (r) { return r.total; })[0];
+  if (half.cents !== 25905312 || rows[rows.length - 1].cents !== 26376994) {
+    throw new Error('The settlement does not come to the two wires: ' + JSON.stringify(rows));
+  }
+  var cost = built.costByClass.reduce(function (t, r) { return t + r.cents; }, 0);
+  if (cost !== s.cost_before_share_cents + s.dennis_share_cents) {
+    throw new Error('The cost rows add to ' + cost + ', the total is ' + (s.cost_before_share_cents + s.dennis_share_cents));
+  }
+  var written = writeClosingTab_(ss, name, built, closingTabName_(name));
+  console.log('Rewrote "' + written.sheet + '": ' + written.rows + ' rows. Sale money ' + (half.cents / 100).toFixed(2) +
+    ' + reimbursement 4716.82 = cash received ' + (s.cash_in_cents / 100).toFixed(2) + '; cost rows add to ' +
+    (cost / 100).toFixed(2) + '; forecast ' + JSON.stringify(built.forecast));
+}
+
 // =============================================================================================
 // 2026-10-01 - THE FINAL MIGRATION REGISTER (docs/migration-leftovers-final.md), PAUL'S ANSWERS OF 10-01
 // Paul, 2026-10-01: "yes to everything. keep the doorbell. leave $200 dennis mowed off books."

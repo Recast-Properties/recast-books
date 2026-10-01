@@ -2264,3 +2264,111 @@ Journal (`data/vendors-1099-2026.md`, ten payees over $2,000); accountant note Q
 the ticket). Recast owes Paul 43,529.66 at 11:22 PDT (41,980.79 after the money fixes, then the photo costs and the
 bookkeeper's posts from the forwards). **Deployed 10-01 on Paul's "deploy": site `6abea6fd`, writer web app @24 (pinged ok) - nothing owed.** The Journal
 then: 1,421 entries, 59 corrections (31 of them this day), 36 of the 1,048 migrated entries ever corrected.
+
+## 2026-10-01 (13:10 PDT) - the closing tab reads the way the money arrived; 280 Sparkling's tab rewritten
+
+Paul, on "280 Sparkling - Closing": *"we should have received the full $4,716.82 reimbursement at closing. it looks
+like we only got half. this sheet is a bit confusing to me overall"*. Checked first: he did get it - Citizens shows
+two Bison wires on 08-07, 259,053.12 and 4,716.82, = the tab's Cash received 263,769.94. Paul confirmed the deal: the
+4,716.82 comes off the top before the split ("we paid all of the rehab costs"), which is what the title company did -
+so the books are right and Sam H owes nothing. No entry changed; the tab's layout did. Three fixes, as he asked:
+
+1. **The settlement block shows the two payments.** A line paid to Recast by name used to show as the net credit
+   (2,358.41 - the payment less Recast's own half of the charge), which read as half a payment. Now the charge shows
+   among the lines at Recast's share like every other line, then `Your half of the sale money` (the first wire),
+   then the payment in full (the second wire), then Cash received. A `Rounding` row appears when the lines at the
+   share miss by a cent, so the block always adds up. `lib/sale.mjs` `settlementRows`.
+2. **The cost list adds up to its total.** `sellCostByClass_` counted the release entry's credits only; a rehab
+   account the closing reimbursed past zero (Sparkling's 1030, -1,559.94) is released with a debit and was left off,
+   so the rows came to 246,094.90 under a total of 244,534.96. Now net of both sides, with Rehab at what was spent
+   (1,398.47) and `Less: the co-owner's half of the reimbursement` (2,358.41) under it. `lib/sale.mjs`
+   `releasedCostRows`; Menu.gs's `sellCostByClass_` only supplies the chart's names.
+3. **The forecast block.** The tab had been written while the frozen house tab's Sale Price was blank (a "loss" of
+   202,841.02). The house tab has 275,000.00 now, so the rewrite reads 50,171.98 forecast against 60,930.09 actual; and
+   a tab with no sale price now says so instead of printing costs as a loss.
+
+Also: a closing tab keeps its statement lines with the sheet (developer metadata, `storedStatementLines_`), so a later
+rebuild from the dialog (a late document, a holdback) keeps them when they still add up to the posted entry - the
+Journal holds one line per account, not per statement line; and a rebuild reads Recast's share off the entry's memo
+(`Properties` never had a share column, so a rebuilt co-owned tab would have said 100%).
+
+`rebuildSparklingClosingTab()` (oneOffScripts.gs) run from the editor 13:08 PDT and read back on the live tab: the
+lines come to 259,053.12, + 4,716.82 = 263,769.94; the cost rows add to 244,534.96; profit 60,930.09 and both payouts
+unchanged. 544 tests (4 new: both lists add up for Sparkling and Granite). Pushed; **writer web app deploy owed**
+(Code.gs and lib.gs changed; only the Sell dialog reaches this code, which runs the pushed version). Not committed.
+
+**13:13 PDT, same change:** on the live tab the reimbursement's charge row was cut off at the column edge ("Expense
+Reimbursement to RECAST PROPERTIES LL (2,358.41)" - the old confusion again). The explanation now leads the label
+(`Your half of the charge: ...`) and the label column is 520 wide. Pushed, the tab regenerated and looked at in the
+workbook. Deploy still owed; not committed.
+
+**13:20 PDT, same change:** the cost list's single net row, "Less: the co-owner's half of the reimbursement (2,358.41)",
+and Claude's explanation of it ("the other half was Sam H's money") were wrong for Paul: *"WE PAID THE ENTIRE 4,716.82.
+SAM DIDNT PAY A PENNY. we were reimbursed as a separate wire for the full amount."* All true - Recast paid the bills,
+Sam H paid nothing out of pocket, the wire was the full amount. The list now shows what the documents show:
+`Less: reimbursement paid to Recast, in full` (4,716.82) and under it `Your half of the charge for it, taken out of
+the sale money (same as above)` 2,358.41 - the settlement block's own two figures; same total. `releasedCostRows` takes
+the tab's statement lines for the full figure; a test refuses the word "co-owner" in any row. Pushed, the tab
+regenerated (61 rows) and read back. Open with Paul: taking Dennis's half out of the cost list (total cost, profit,
+Dennis's half, your half). Deploy owed; not committed.
+
+**13:25 PDT - a trial tab, `280 Sparkling - Closing (simple)`.** Paul: *"can you create a new tab so we can perserve
+the current one? and try one that is simpler"*. `buildSparklingSimpleClosingTab()` (oneOffScripts.gs, run from the
+editor) wrote it beside the closing tab, which is untouched. The cash view, 36 rows, no account numbers: MONEY IN (the
+two wires, 263,769.94), WHAT THE HOUSE COST before closing (purchase, fixing up, HOA release, utilities, HOA dues,
+interest to Dennis, listing = 202,839.85 - each account's balance before the sale entries), PROFIT 60,930.09 and its
+two halves, WHO WAS PAID (Dennis 231,523.10, Paul 32,246.84, total = the cash), and the bills after the sale (live).
+The title company's own charges are not listed - they came out before the first wire; the 2,358.41 does not appear at
+all. The script refuses to write unless cash less cost is the books' profit. Read back on the live tab. Waiting on
+Paul: keep it (then it becomes the closing tab's layout for every house) or drop it.
+
+**13:31 PDT, the trial tab:** its "HOA dues 220.00" row was Claude's wrong label - Paul: *"HOA dues were part of the
+closing costs no?"* Yes: the HOA dues are among the title company's charges. The 220.00 is three Falcon Creek lawn
+bills Paul paid (55.00 07-07, 110.00 07-19, 55.00 08-05; the chart's 1130 is HOA and grounds). Relabelled `Lawn
+care`, re-run, read back. A layout for every house must name that row from its lines, not from the account.
+
+**13:38 PDT, the trial tab - PROJECT COSTS in Paul's rows and names.** Paul gave the structure: *"Rename it to 'Project
+Costs'. I added cash advances. Sparkling does not have any, but other properties will."* - Purchase Principal, Purchase
+Interest, Cash Advances Principal, Cash Advances Interest, Rehab Costs, Utilities; *"Rehab Costs should roll up Lawn
+Care, HOA Release (if it's not in the title costs) and Listing and Marketing."* Built, re-run, read back: 196,850.50 /
+2,809.57 / 0.00 / 0.00 / 2,402.47 (= 1,398.47 + 220.00 + 485.00 + 299.00, the old tab's rehab figure to the cent) /
+777.31 = Total Project Costs 202,839.85; profit and payouts unchanged. **Open with Paul before any house with cash
+advances uses this layout (Granite 6,838, Newport 2,000, Ashburne, Mesa, Bowling Green):** the advance money paid Paul
+back for bills already in Rehab Costs, so a Cash Advances Principal row added beside the full Rehab Costs counts that
+money twice - the script refuses such a house. Also open for the general layout: where property tax or insurance paid
+before closing goes (Sparkling has none).
+
+**13:45 PDT, the trial tab - Paul's own wording.** He typed on the tab itself and sent a picture: *"change the profit
+section to match this"* - `Total Profit`, `Dennis 50%`, `Paul 50%` (the percentages from `Properties.dennis_share_pct`).
+Read back before touching anything: he had also renamed `WHO WAS PAID FROM THE CASH` to `PAYOUTS`. Both are in
+`buildSparklingSimpleClosingTab` now, so a rebuild keeps them. Not re-run - the live tab already reads this way from his
+own edits, and a re-run would overwrite anything else he is typing. **Read the live tab before every re-run of this
+script: Paul edits it by hand.**
+
+**13:43 PDT, the trial tab:** `MONEY IN AT CLOSING` is `INCOMING CASH AT CLOSING` (Paul's wording). The live tab was
+read first (it matched the script apart from this heading), then re-run and read back.
+
+**13:58 PDT, the trial tab - PAYOUTS in Paul's layout.** He typed the layout on the tab and sent a picture (*"make this
+section match this layout and styling"*): a green `Dennis` row, Purchase Principal / Purchase Interest / Cash Advances
+Principal / Cash Advances Interest / Paid out of pocket / Half of profit, green `Total to Dennis`; green `Paul`, Paid out
+of pocket / Half of profit, green `Total to Paul`; green `Refunded to Recast Citizens Account`; green `Total paid out`
+with `Matches the cash received at closing`. In the script now, re-run and read back (43 rows). One figure differs
+from his mock on purpose: Dennis's `Paid out of pocket` is **1,397.98** (the bills he paid directly), not 0.00 - with
+0.00 his rows came to 230,125.12 under a total of 231,523.10. The script refuses to write if either partner's rows do
+not add up to his total.
+
+**14:02 PDT, the trial tab:** the notes column is bold, black and starts with a capital letter (Paul: the "Sold for
+550,000.00..." line, "After the title company took out...", "Cash received less...", "Matches the cash received at
+closing", "Not part of the numbers above..."). Live tab read first (he had capitalised one himself), re-run, seen in
+the workbook.
+
+**14:03 PDT, the trial tab:** the link reads `Title company closing document` (was "the title company document"),
+Paul's wording. Re-run, seen in the workbook. The full closing tab's link is unchanged.
+
+**14:05 PDT, the trial tab:** the top note reads `Sold for 550,000.00. Recast owned 50%.` (was "owned half of it"),
+Paul's wording - the percentage is the sale's own share. Re-run, seen in the workbook.
+
+**14:10 PDT - committed and pushed to GitHub** on Paul's "commit. update git, repo and .md": CLAUDE.md, this file,
+`HANDOFF-2026-10-01.md` (an afternoon section with the next steps), `docs/phase5-spec.md` section 3a (the simple
+layout) and the router `../CLAUDE.md` brought up to date. The live Apps Script project = the repo (last push 14:10).
+Still owed: the writer web app deploy; Paul's answer on Cash Advances Principal.

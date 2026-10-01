@@ -2108,8 +2108,10 @@ function propertyBalances_(ss, name) {
  * sale is history, so there is nothing for a formula to keep up to date. Only the
  * post-sale section is live, because Cost Recapture lines arrive later (D-031).
  *
- * `target` is the sheet to write: during the gate `<property> - Closing`, and once Paul
- * signs the layout off, the property tab itself (Paul, 2026-09-22).
+ * `target` is the sheet to write: `<property> - Closing`, always (D-043).
+ *
+ * The two lists - the settlement and the released cost - are built by lib.gs (settlementRows,
+ * releasedCostRows via Menu.gs), where a test proves each adds up to the total under it.
  */
 function writeClosingTab_(ss, name, plan, target) {
   var sh = getOrCreateSheet_(ss, target);
@@ -2129,12 +2131,9 @@ function writeClosingTab_(ss, name, plan, target) {
   push('', null, '');
 
   head('SETTLEMENT');
-  push('Sale price' + (s.recast_share_pct < 100 ? " (Recast's share)" : ''), d(s.revenue_cents), '');
-  (plan.statementLines || []).forEach(function (l) {
-    var sign = l.kind === 'credit' || l.kind === 'to_recast' ? 1 : -1;
-    push('  ' + l.label, sign * d(l.posted_cents), l.account);
+  settlementRows(s, plan.statementLines || []).forEach(function (r) {
+    (r.total ? total : push)(r.label, d(r.cents), r.note);
   });
-  total('Cash received', d(s.cash_in_cents), '');
   push('', null, '');
 
   head('PROJECT COST RELEASED');
@@ -2171,10 +2170,17 @@ function writeClosingTab_(ss, name, plan, target) {
   push('', null, '');
 
   head('FORECAST AT SALE, FROZEN');
-  push('Sale price typed on the tab', plan.forecast && plan.forecast.sale_price !== '' ? plan.forecast.sale_price : '', '');
-  push('Total project cost forecast', plan.forecast ? plan.forecast.total_cost : '', '');
-  push('Net profit forecast', plan.forecast ? plan.forecast.profit : '', '');
-  push('Difference, forecast less actual', plan.forecast && plan.forecast.profit !== '' ? Number(plan.forecast.profit) - d(s.profit_cents) : '', '');
+  var f = plan.forecast || {};
+  if (f.sale_price === '' || f.sale_price == null || f.profit === '' || f.profit == null) {
+    // With no sale price the house tab's "profit" is only its costs with a minus sign
+    // (280 Sparkling read as a 202,841.02 loss) - say so instead of printing it.
+    push('No sale price was typed on the house tab, so there is no forecast to compare', null, '');
+  } else {
+    push('Sale price typed on the tab', f.sale_price, '');
+    push('Total project cost forecast', f.total_cost, '');
+    push('Net profit forecast', f.profit, '');
+    push('Difference, forecast less actual', Number(f.profit) - d(s.profit_cents), '');
+  }
   push('', null, '');
 
   head('POST-SALE COSTS (Cost Recapture naming this property)');
@@ -2188,9 +2194,18 @@ function writeClosingTab_(ss, name, plan, target) {
   totals.forEach(function (r) { sh.getRange(r, 2, 1, 3).setFontWeight('bold').setBackground('#ceffbc'); });
   sh.getRange(1, 3, body.length, 1).setNumberFormat('#,##0.00;(#,##0.00)');
   sh.getRange(recapRow, 3).setNumberFormat('#,##0.00;(#,##0.00)');
-  sh.setColumnWidth(1, 20); sh.setColumnWidth(2, 340); sh.setColumnWidth(3, 120); sh.setColumnWidth(4, 180);
+  sh.setColumnWidth(1, 20); sh.setColumnWidth(2, 520); sh.setColumnWidth(3, 120); sh.setColumnWidth(4, 180);   // 520: the statement's own wording is long, and a cut-off label reads as a different line
   sh.setFrozenRows(1);
   if (sh.getMaxRows() > body.length + 2) sh.deleteRows(body.length + 3, sh.getMaxRows() - body.length - 2);
+  // The statement lines stay with the sheet, so a later rebuild (a late document, a holdback)
+  // keeps them: the Journal holds one line per account, not per statement line. Never fails
+  // the write - by now the sale is posted.
+  try {
+    sh.getDeveloperMetadata().forEach(function (m) { if (m.getKey() === 'statementLines') m.remove(); });
+    sh.addDeveloperMetadata('statementLines', JSON.stringify(plan.statementLines || []));
+  } catch (err) {
+    console.error('writeClosingTab_ statementLines metadata: ' + err);
+  }
   return { sheet: target, rows: body.length };
 }
 

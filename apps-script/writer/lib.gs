@@ -2273,13 +2273,115 @@ var M_sale = (function () {
     return { intents, checks };
   }
 
-  return { isProjectCostAccount, splitStatement, interestByAdvance, buildSalePlan, buildHoldbackRelease };
+  // ---- the closing tab's two lists (Paul, 2026-10-01: "this sheet is a bit confusing") -------
+  // Pure, so the tab's arithmetic is tested here: every list adds up to the total under it.
+
+  /**
+   * The SETTLEMENT block, the way the money arrived. Every statement line shows at Recast's
+   * share. A line paid to Recast by name shows twice, because that is what happened: once
+   * among the charges (Recast's share of it came out of Recast's own sale money) and once
+   * below the subtotal, in full (the separate payment Recast received). 280 Sparkling: the
+   * 4,716.82 reimbursement came off the top before the split, so 259,053.12 + 4,716.82 are
+   * the two wires - the old layout netted the two to "2,358.41" and read as half a payment.
+   *
+   * @param {{revenue_cents, cash_in_cents, recast_share_pct?}} summary
+   * @param {Array<{label, account, kind, posted_cents, full_cents?, rest_label?, paid_label?}>} lines
+   *   `full_cents` on a to_recast line is the statement's own figure; without it (a tab
+   *   rebuilt from the Journal alone) the line shows as the net credit it was posted as.
+   * @returns {Array<{label, cents, note, total?: true}>} first row the sale price, last row cash received
+   */
+  function settlementRows(summary, lines = []) {
+    const share = Number(summary.recast_share_pct ?? 100);
+    const mine = share === 50 ? "half" : "share";
+    const rows = [{ label: "Sale price" + (share < 100 ? " (Recast's share)" : ""), cents: summary.revenue_cents, note: "" }];
+    const paid = lines.filter((l) => l.kind === "to_recast" && l.full_cents);
+    const paidFull = paid.reduce((t, l) => t + l.full_cents, 0);
+    let running = summary.revenue_cents;
+    for (const l of lines) {
+      const charged = paid.includes(l);
+      const cents = charged ? -(l.full_cents - l.posted_cents)
+        : (l.kind === "credit" || l.kind === "to_recast" ? 1 : -1) * l.posted_cents;
+      running += cents;
+      // the explanation leads: a long statement label is cut off at the column's edge
+      rows.push({ label: "  " + (charged ? `Your ${mine} of the charge: ` : "") + l.label, cents, note: l.account });
+    }
+    const rounding = summary.cash_in_cents - paidFull - running;
+    if (rounding) rows.push({ label: "  Rounding", cents: rounding, note: "" });
+    if (paid.length) {
+      rows.push({ label: paid[0].rest_label || `Your ${mine} of the sale money`, cents: summary.cash_in_cents - paidFull, note: "", total: true });
+      for (const l of paid) rows.push({ label: l.paid_label || `${l.label}, paid to Recast in full`, cents: l.full_cents, note: "" });
+    }
+    rows.push({ label: "Cash received", cents: summary.cash_in_cents, note: "", total: true });
+    return rows;
+  }
+
+  /**
+   * The PROJECT COST RELEASED block: one row per account released to COGS, the rehab accounts
+   * as one Rehab row. Net of both sides - a rehab account the closing reimbursed past zero is
+   * released with a debit, and counting credits only left that row off the list, so the rows
+   * did not add up to the total (280 Sparkling, 1,559.94). Rehab shows what was spent.
+   *
+   * A reimbursement paid to Recast by name shows IN FULL under it, with Recast's share of the
+   * charge for it as its own row - the same two figures as the settlement block. Paul,
+   * 2026-10-01, on a single net row worded "the co-owner's half": "WE PAID THE ENTIRE 4,716.82.
+   * SAM DIDNT PAY A PENNY. we were reimbursed as a separate wire for the full amount." Never
+   * word either row as the co-owner paying.
+   *
+   * @param {Array<{memo, lines}>} intents  the run's entries; the settlement and the release are read
+   * @param {(account: string) => string} nameOf  the chart's name for an account
+   * @param {Array<{kind, account, posted_cents, full_cents?}>} [lines]  the tab's statement lines (settlementRows)
+   * @param {number} [sharePct]  Recast's share of the sale, for the charge row's wording
+   * @returns {Array<{label, cents, accounts}>}
+   */
+  function releasedCostRows(intents, nameOf = (a) => "account " + a, lines = [], sharePct = 100) {
+    const isRehab = (a) => a >= "1020" && a <= "1060";
+    const released = new Map();
+    let reimbursed = 0;   // what the settlement entry credited to the rehab accounts
+    for (const i of intents || []) {
+      const release = /released to COGS/.test(i.memo);
+      const statement = /settlement statement/.test(i.memo);
+      for (const l of i.lines) {
+        const a = String(l.account);
+        if (!isProjectCostAccount(a)) continue;
+        if (release) released.set(a, (released.get(a) || 0) + (l.credit || 0) - (l.debit || 0));
+        else if (statement && isRehab(a)) reimbursed += l.credit || 0;
+      }
+    }
+    const paid = (lines || []).filter((l) => l.kind === "to_recast" && l.full_cents && l.posted_cents && isRehab(String(l.account)));
+    const paidFull = paid.reduce((t, l) => t + l.full_cents, 0);
+    const paidNet = paid.reduce((t, l) => t + l.posted_cents, 0);
+    const rows = [];
+    const rehab = [...released.keys()].filter(isRehab).sort();
+    let rehabDone = false;
+    for (const a of [...released.keys()].sort()) {
+      if (isRehab(a)) {
+        if (rehabDone) continue;
+        rehabDone = true;
+        rows.push({ label: "Rehab", cents: rehab.reduce((t, r) => t + released.get(r), 0) + reimbursed, accounts: rehab.join(" ") });
+        if (paid.length) {
+          rows.push({ label: "Less: reimbursement paid to Recast, in full", cents: -paidFull, accounts: "" });
+          rows.push({ label: `Your ${sharePct === 50 ? "half" : "share"} of the charge for it, taken out of the sale money (same as above)`, cents: paidFull - paidNet, accounts: "" });
+        }
+        rows.push({ label: "Less: rehab reimbursed at closing", cents: -(reimbursed - (paid.length ? paidNet : 0)), accounts: "" });
+        continue;
+      }
+      rows.push({
+        label: a === DENNIS_SHARE ? "Dennis's half of the profit (a cost of the deal, so your half is the bottom line)" : nameOf(a),
+        cents: released.get(a), accounts: a,
+      });
+    }
+    return rows.filter((r) => r.cents !== 0);
+  }
+
+  return { isProjectCostAccount, splitStatement, interestByAdvance, buildSalePlan, buildHoldbackRelease, settlementRows, releasedCostRows };
 })();
 var isProjectCostAccount = M_sale.isProjectCostAccount;
 var splitStatement = M_sale.splitStatement;
 var interestByAdvance = M_sale.interestByAdvance;
 var buildSalePlan = M_sale.buildSalePlan;
 var buildHoldbackRelease = M_sale.buildHoldbackRelease;
+var settlementRows = M_sale.settlementRows;
+var releasedCostRows = M_sale.releasedCostRows;
 
 // ---- lib/statement.mjs ----
 var M_statement = (function () {
