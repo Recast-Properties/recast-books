@@ -551,7 +551,7 @@ function relinkMigrationReceipts() {
 // whose left-off items never reached the books go back to his Sheets Inbox, 104 Ashburne first. A re-read only holds (D-048..D-050): each card shows
 // what the books already hold; Paul marks every other line Approve / Returned / Dismiss. Run after
 // relinkMigrationReceipts (the cards then see the right rows) - the Inbox's own Reprocess route, as 09-28.
-// STATUS: NOT YET RUN
+// STATUS: DONE 2026-10-01 10:48 PDT by Paul: all 29 sent for re-reading; Paul decides the cards.
 var MR_STORE_RECEIPTS = [
   // 104 Ashburne (19)
   'gm-19b9ef373c8332d3', 'gm-19bcc629a4d83e4e', 'gm-19c484998d6bf67a', 'gm-19c5d297b5829e55', 'gm-19cc387a05beb25b',
