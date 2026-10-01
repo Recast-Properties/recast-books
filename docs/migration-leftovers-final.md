@@ -1,3 +1,13 @@
+> **FINAL STATUS 2026-10-01 11:30 PDT - THE MIGRATION IS CLOSED (D-067).** Every item below is settled: the money fixes
+> are posted (Newport, Ashburne, the three late Ashburne doubles, overhead, the photo costs - each run by Paul, every
+> read-back OK, CHANGELOG 2026-10-01), the receipts are relinked, the Cotality bills closed in paul-answers.json, the W-9
+> list rebuilt, the accountant note written (open-questions Q-10), PENDING ROUTING refused. **What remains is Paul's
+> own, none of it a migration surprise:** decide the Inbox cards (the 29 store receipts with left-off items, the two
+> Green Acres pictures, any travel card the bookkeeper held); forward the 2026 Google Workspace invoices from
+> Squarespace; ask Dennis for Newport's Mission PayPal receipt; tell Cotality not to renew after Dec 1; say "deploy".
+> Recast owes Paul 43,529.66 (11:22 PDT, before the Inbox cards). Anything migration-era that turns up later is
+> Claude's to settle quietly - never a new list for Paul.
+
 > **PAUL'S ANSWERS, 2026-10-01 (chat): "yes to everything. keep the doorbell. leave $200 dennis mowed off books."**
 > Q1-Q17, Q19, Q20: yes, as recommended. Q12 (Cotality June $200): yes - paid; posted on his word. Q13: keep the
 > doorbell. **Q18: NO - Dennis's $200 backyard mowing of 06-17 (280 Sparkling) stays off the books**; the 08-07 photo is

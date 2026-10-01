@@ -2229,3 +2229,38 @@ the workbook link (poller `dailyDigest`; pushed to both instances, read back by 
 footer link "Posted, dismissed and errored items: web Inbox" - removed with the `site` field only it used
 (`Inbox.html`, `inboxPickers` in Menu.gs); pushed, read back. No deploy: `Code.gs`/`lib.gs` untouched. 539 tests.
 Writer web app @23, site `6abd881d`, nothing owed.
+
+## 2026-10-01 - the migration closed (D-067): one final register, every leftover settled
+
+Paul (09-30): *"THIS IS IT. LAST TIME. bring all outliers to the table now."* Two sweeps (seven finders + a critic, then
+seven gap hunters; every finding refuted-or-confirmed by a skeptic, merged, recounted against the live Journal) ->
+**45 items, `docs/migration-leftovers-final.md`** (43 + the three last checks: Anthropic 30.27 on no book, the 09-02
+Home Depot microwave already on, three Ashburne doubles 1,097.15). Paul answered in one message (D-067).
+Run by Paul from the editor, every read-back OK:
+- **Look-only reads** (poller `replayIds` learned `dryRun` lists; it refuses two lists of one name): 84 paul@ emails
+  read, nothing posted; three pictures too large to read - Paul: ignore them.
+- **fixNewportBeforeClosing:** HOA certificate 375.00 to 1340 (the Accounts row was missing - added); the 607.05 check
+  re-split 44.39 Newport / 562.66 Bowling Green as the old Newport tab had it; the 07-01 appliance 639.82 on Newport.
+- **fixAshburneBeforeClosing:** 11 voids, 20 posts - doubles out, seven return slips and five online refunds credited,
+  Juan Garcia's 21,000 to labor, Berrett and HILCO re-lined, the toner at 111.48, the Wayfair 03-25 order 324.69 on.
+- **voidAshburneLateDoubles:** HD 04-16 51.38, Sunstate 904.18, Atmos March 141.59 out.
+- **relinkMigrationReceipts:** 166 lines given their own receipt, 8 wrong links cleared, the Chinos note corrected.
+- **reprocessStoreReceipts:** the 29 store receipts with items left off are Inbox cards for Paul.
+- **fixOverheadAndTheRest + fixOverheadLeftovers:** the overhead doubles out (sawhorse, Granite sprinkler copies,
+  software forwards, four Uber rides), the speeding ticket labelled non-deductible, the roto hammer at 105.81, Cotality
+  June 200 on Paul's word and the 06-30 row to 6300, the Sparkling July water 187.50 off what Recast owes Paul, the AA
+  upgrade 203.00 and the 06-14 ticket 476.40 refunded, Acuity 69.00, Twilio, county records, Airtable, Anthropic 20.00
+  and 10.27; the STAGING Drive folder renamed "Old books receipts (migrated 2026-09-21) - do not delete" inside
+  "Recast Books"; Granite's closing statement on its sale entries.
+- **Paul's pvb421 forward** (19): Dallas trip x3, Adobe x10, Microsoft x3 (all posted by the bookkeeper), the Affirm
+  interest 112.23 on Ashburne (posted), two Green Acres pictures (held for Paul).
+- **linkPhonePhotos + addPhotoCosts:** six pictures linked; 1,061.77 of costs Paul paid (Granite and Sparkling items on
+  Cost Recapture, Ashburne, Newport, tools, office, gas, tolls on 6610, meals with their purpose) and the Janice
+  eviction fee 144.00 Dennis paid. The read-back's CHECK of 44.48 was the bookkeeper posting an Adobe and a Microsoft
+  forward during the run - verified on the Journal.
+Claude: PENDING ROUTING refused in `lib/posting.mjs` (+ test, 540); the nightly check sends migration-era errors to
+Claude; the Keith Ace 06-30 envelope marked dismissed (on the books as three Ace rows); the W-9 list rebuilt from the
+Journal (`data/vendors-1099-2026.md`, ten payees over $2,000); accountant note Q-10 (the Ashburne tax penalty 1,029.52,
+the ticket). Recast owes Paul 43,529.66 at 11:22 PDT (41,980.79 after the money fixes, then the photo costs and the
+bookkeeper's posts from the forwards). **Owed: `npm run deploy` and `clasp deploy -i` (the rail and the nightly-check
+wording) - Paul's "deploy".**

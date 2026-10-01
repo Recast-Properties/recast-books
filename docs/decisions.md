@@ -1360,3 +1360,28 @@ oneOffScripts.gs"*.
    Git keeps every one: all 42 up to 2026-09-30 are in commit 774ecd3 (`git show
    774ecd3:apps-script/writer/oneOffScripts.gs`; `postInterest` and its helpers in that commit's Menu.gs). The rule
    of where they live is unchanged: never in Code.gs or Menu.gs.
+
+## D-067 · The migration is closed: one final register, every leftover settled - 2026-10-01 · Paul
+
+Paul, 2026-09-30: *"i'm sick of constantly being told there are more hidden things to deal with from the migration. i
+want all of it done this time and documented. THIS IS IT. LAST TIME. bring all outliers to the table now."* Two full
+sweeps (seven finders and a critic, then seven gap hunters; every finding checked by a skeptic, merged and recounted
+against the live Journal of 10-01) produced **one register of 45 items** - `docs/migration-leftovers-final.md`, the
+record. Paul answered it in one message: *"yes to everything. keep the doorbell. leave $200 dennis mowed off books."*,
+then for the phone pictures *"yes to all recommendations"* except the Portland dump run and Dennis's 380 check to Julio
+("leave off") and the NTTA tolls in Linda Little's name ("keep under truck/gas etc"), and *"ignore them"* for the three
+pictures too large to read.
+
+**Decided:**
+1. **The migration is closed.** Everything it left is settled in the register - posted, voided, relinked, re-labelled,
+   in the Inbox for Paul's cards, or closed by his word. Nothing from the old books, the 09-17 mail indexes or the
+   documents read is open outside it. A migration-era item that shows up later is Claude's to settle quietly (the
+   nightly check now says so), never a new list for Paul.
+2. Paul's personal statements still never come in (D-051), so "the statement will prove it" is retired: the old
+   books' no-receipt rows stay as he typed them (register item 11), and a receipt with items left off is settled by
+   his card in the Inbox, line by line.
+3. **Dennis's 06-17 mowing of 280 Sparkling ($200) stays off the books** (Paul's no); the 08-07 photo is only linked
+   to the Julio row.
+4. A charge is proven by Paul's own note on the email when the email itself shows no payment (the Squarespace welcome
+   email he forwarded to himself as "INVOICE").
+5. An entry whose description or memo still says PENDING ROUTING is refused (`lib/posting.mjs`, a void is exempt).

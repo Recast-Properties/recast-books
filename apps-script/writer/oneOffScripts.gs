@@ -766,7 +766,7 @@ function fixOverheadAndTheRest() {
 // that is the receipt of a row already in the books is linked to it (no money moves), and every read is listed for
 // Claude, who sorts the rest - house photos set aside, anything new goes to Paul as one short list. (The two
 // 413 Green Acres pictures come as Inbox cards through Paul's pvb421 forward, not here.)
-// STATUS: NOT YET RUN
+// STATUS: DONE 2026-10-01 11:06 PDT by Paul: six pictures linked; one (9.98) matched nothing and is left.
 // [gmail id, [[row, cents], ...]] - a picture is linked only when its read's total is the rows' sum (within 2 cents)
 var MR_PHOTO_LINKS = [
   ['19ef04247581e8fd', [['migration-20260622-b654bc0e353f', 5470]]],
@@ -958,7 +958,7 @@ function fixOverheadLeftovers() {
 // three unreadable pictures (04-05, 05-31, 07-01) are skipped - Paul named none as a receipt. Each entry's document
 // is its picture, filed from the look-only read. Paid by Paul before Recast had a bank account (D-026.2) unless noted;
 // card 6774 is Paul's (D-026 rule 1). Sold houses (1616 Granite, 280 Sparkling) go on Cost Recapture (D-031).
-// STATUS: NOT YET RUN
+// STATUS: DONE 2026-10-01 11:22 PDT by Paul: 23 entries, 1,061.77 Paul + 144.00 Dennis; the CHECK of 44.48 was the bookkeeper posting two forwards during the run (verified).
 var MR_TRIP = 'Business travel meal on a Texas house trip (Paul, 2026-10-01)';
 var MR_PHOTO_COSTS = [   // [gmail id, date, payee, property, paid_from, [[account, cents, description, trade, purpose]]]
   ['19e73f618d4c27bc', '2026-05-29', 'The Home Depot', 'Cost Recapture', 'PAUL', [
