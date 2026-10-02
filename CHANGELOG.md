@@ -2753,3 +2753,23 @@ files: the poller replaced every photo over 3 MB with Drive's 2000px rendition b
 document carries a note when a copy was reduced. One new test (the cap, the ladder, the note). Both pollers pushed
 10:00 PDT, live = repo (pull + cmp). No site or writer change. 556 tests. Not yet seen on a real photo; whether Drive
 renders above 2000px is not proven (a refused size falls through, so never worse than before).
+
+**10:20-11:05 PDT - the photos already stored small are put back (D-076; Paul: "yes, replace them").** The list:
+102 shrunk photos by the poller's renamed files; 87 are linked from the Journal (90 Drive files, three filed twice) -
+10 in the paul@ mail, 77 in the properties@ mail; 14 have no link from the Journal and were left (1 was a web upload,
+not shrunk). `apps-script/poller/OneOff.gs` (commit e5ceac2): properties@ copied each original attachment out of its
+mail into a Drive folder shared with paul@, from `pollBooks` on its own timer (three runs: 38, 10, 29 photos - the
+second run got only ten in its four minutes); paul@'s `restoreOriginalPhotos()`, run from the editor six times,
+uploaded each original into the EXISTING Drive file by a resumable upload (same file id, the small copy kept as the
+previous version), only where the file was exactly the stored small copy and the original was bigger. Result: 87 of
+87 replaced, 0 skipped, 0 failed; read back 90 files - all 4032x3024 or 5712x4284 (3.1-4.8 MB), 0 still small. No
+entry changed, nothing re-read, the site's copies untouched.
+- The first run (10:20) failed before touching anything: `DriveApp.searchFolders(... sharedWithMe = true)` ended in
+  "server error occurred while reading from storage, DEADLINE_EXCEEDED" after two minutes. The folder is now found by id.
+- The properties@ export first took its poll's whole turn; from 10:45 it runs for up to 4 minutes and then the mail
+  is read as usual. Two polls (10:20, 10:35) read no property mail.
+- The editor: a click on a file sometimes lands on the sign-in notice instead, leaving Code.gs open with `setup`
+  selected - the selected function was read back before every Run. The Executions page hung the browser tab twice.
+- Of the 77 originals seen, 13 are over 4 MB (up to 4.8 MB): those would still be reduced under the new cap.
+- Tidy-up pushed 11:06 PDT: on its next poll each account clears the restore's script properties and properties@
+  moves the export folder to its trash; then OneOff.gs and its line in pollBooks come out.

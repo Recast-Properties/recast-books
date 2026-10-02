@@ -1579,6 +1579,16 @@ IMG_5869 at 3.1 MB is the camera's 4032x3024. By the poller's renamed files, abo
 photo over 4 MB still cannot, and keeps the largest rendition that fits (8000, 5000, 4032, 3000, then 2000px) -
 with a line on the document saying the stored copy is reduced and the original is in the email.
 
-**Not done:** the photos already stored small - the originals are in the mail and can be put back (a poller-side
-job; the property mailboxes' mail and the Drive files belong to different accounts). A photo over 4 MB stored truly
-whole would need the file to reach Drive without passing through the site (both directions cross the 6 MB limit).
+**The photos already stored small were put back the same day** (Paul: *"yes, replace them"*): 87 photos linked
+from the Journal (90 Drive files) - 10 from the paul@ mail, 77 from the properties@ mail. Each original was uploaded
+INTO its existing Drive file (same id, so every link in the books still opens it; Drive keeps the small copy as the
+previous version for 30 days), only where the file was exactly the small copy on record and the original was bigger.
+Read back: 90 files, all 4032x3024 or 5712x4284, none small, none failed. No entry changed, nothing re-read. The
+Drive files are paul@'s alone, so properties@ copied its originals out of its mail into a folder shared with paul@
+(on its own poll timer - nobody can run that account's code by hand from here), paul@ uploaded them, and the folder
+went to properties@'s trash afterwards.
+
+**Not done:** 14 small photos on receipts with no link from the Journal (12 dismissed, 2 whose Drive file is not
+the linked one) were left alone. The copies kept on the site (what the Inbox shows) are still the small ones. A
+photo over 4 MB stored truly whole would need the file to reach Drive without passing through the site (both
+directions cross the 6 MB limit) - of the 77 originals seen, about one in six was over 4 MB.
