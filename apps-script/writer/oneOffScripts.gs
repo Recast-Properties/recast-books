@@ -29,10 +29,3 @@
  *
  * ASCII ONLY - same paste-into-the-editor constraint as Code.gs.
  ****************************************************************/
-
-// 2026-10-02 Paul ("i dont see it in the sheets doc", D-075) - builds the Taxes tab now instead of at the hourly
-// timer's next turn: the timer's own job, run once by hand.
-// STATUS: DONE 2026-10-02 09:35 PDT, run from the editor by Claude (22 s, no errors); the Taxes tab read back live.
-function buildTaxesTabNow() {
-  refreshBalanceSheetHourly();
-}

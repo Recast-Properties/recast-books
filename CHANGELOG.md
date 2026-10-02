@@ -2714,3 +2714,13 @@ ticket added back, single with nothing else typed = 14,353.08 to set aside; with
 tab's 128,040.09 = 62,612.40 single, 52,330.25 married. 555 tests (5 new, two returns worked by hand). Writer pushed
 09:30 PDT; **the writer web app deploy is owed** (lib.gs and Code.gs changed - the tab itself does not wait for it:
 the timer and the edit trigger run the pushed code). Not yet read back live: the tab the timer builds.
+
+**09:35-09:40 PDT - the `Taxes` tab is live and read back.** Paul: *"i dont see it in the sheets doc"* - the hourly
+timer had not had its turn since the push (it runs at :05). `buildTaxesTabNow()` (the timer's own job, a one-off, in
+commit c59abfc) run from the editor by Claude: 22 s, no errors. Read back through gviz: Recast earned 53,848.42, 628.98
+added back, four held houses listed at their tabs' profit (104 Ashburne 128,040.09, 881 Newport 26,466.55, 366 Mesa
+25,491.84, 469 Brushwood 36,483.81), none marked yes yet. **Paul had already used it:** married picked, 5,000.00
+typed as sent to the IRS - the tab reworked itself at 9:37 (the edit trigger), set aside 7,327.22. The editor's
+function dropdown would not take a selection by click, drag or script this time; a one-off alone in oneOffScripts.gs
+is selected by default, which is the safe way to run one. The one-off is taken out and the writer pushed again.
+The writer web app deploy is still owed.
