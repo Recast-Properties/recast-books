@@ -2695,3 +2695,11 @@ entry of the document the FIRST file's link (`filed[0]`, `setDocUrl_(txnIds, doc
   every one was filed - otherwise the first file, as before. Not done: the web Inbox's approve (`approve-bg`), which
   Paul never uses. 550 tests. Writer pushed (Menu.gs - no web app deploy). **Owed: the site deploy** (the read's new
   field, the ingest) - until then a new several-receipt email still links the first file.
+
+**09:11 PDT - deployed on Paul's "deploy": site `6abfd7ae`** (the read's `attachment` field, the ingest's own-file
+link, D-073; 550 tests). The writer web app stays **@27** - Code.gs and lib.gs are unchanged since it. Not yet seen
+live: a read made after this deploy (the first receipt in will show it).
+**09:13 PDT - "update git, repo, md":** oneOffScripts.gs emptied (all 21 scripts of 10-01 and 10-02 had run and been
+read back - they are in commit db9453f; pushed), decisions D-073 (several receipts in one email) and D-074 (Mastercard
+7952 is Paul's), `HANDOFF-2026-10-02.md`, phase2-spec's attachment lines, CLAUDE.md's Now line. Everything committed
+and on GitHub.

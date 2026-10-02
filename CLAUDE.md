@@ -74,7 +74,7 @@ functions the menu, pollers and nightly jobs call - Paul is never sent there.
 
 ## Status
 
-**Now (2026-10-02): LIVE on the real books since the 2026-09-21 cutover. Phases 0-2.7, 4 (migration) and 5 (sell wizard) done; THE MIGRATION IS CLOSED (D-067, `docs/migration-leftovers-final.md` - every leftover settled; a migration-era item that turns up later is Claude's to settle quietly, never a new list for Paul). Phase 3 (bank statements) in progress - import, matcher, Citizens Bank tab and its bank check live. Writer web app **@27** (10-02 08:40 PDT), site **`6abfd7ae`** (10-02 09:15 PDT), writer and both pollers pushed = the repo - nothing owed. 550 tests. **The closing tab's layout as it stands is `docs/phase5-spec.md` section 3a (decisions D-069..D-072).** Resume from `HANDOFF-2026-10-02.md` (then `HANDOFF-2026-10-01.md` for the closing tab); the dated bullets below are the history, newest near the end.**
+**Now (2026-10-02): LIVE on the real books since the 2026-09-21 cutover. Phases 0-2.7, 4 (migration) and 5 (sell wizard) done; THE MIGRATION IS CLOSED (D-067, `docs/migration-leftovers-final.md` - every leftover settled; a migration-era item that turns up later is Claude's to settle quietly, never a new list for Paul). Phase 3 (bank statements) in progress - import, matcher, Citizens Bank tab and its bank check live. Writer web app **@27** (10-02 08:40 PDT), site **`6abfd7ae`** (10-02 09:11 PDT), writer and both pollers pushed = the repo - nothing owed. 550 tests. **The closing tab's layout as it stands is `docs/phase5-spec.md` section 3a (decisions D-069..D-072).** Resume from `HANDOFF-2026-10-02.md` (then `HANDOFF-2026-10-01.md` for the closing tab); the dated bullets below are the history, newest near the end.**
 History: Phases 0, 1 gated 2026-09-11; Phase 2 gated 2026-09-12; Phase 2.5 (read cache) shipped 2026-09-12; hardening 2026-09-14 (invoice-keyed txn_id, cache warmer, Totals tab, voided pairs hidden; D-015 two locks, D-016 Dennis 8%); Phase 2.6 (property mailboxes via a properties@ poller, property tabs, D-017 Held/Sold) built 2026-09-14. Poller audit 2026-09-16: HEIC photos now convert (`heic-convert`; jimp never could), `error` envelopes the model never reached are retried by the warm job (max 2).
 Phase 0 gate: `docs/phase0-spec.md` §11. Phase 1 gate: `docs/phase1-spec.md` §8. Phase 2
 (receipts bookkeeper — Claude directs the read with zoom/ledger/vendor/property/docs tools,
@@ -270,7 +270,7 @@ are the target, D-028 returns hold for Paul). **Resume from `HANDOFF-2026-09-30.
   two Desktop folders). Journal 3,136 rows, balanced. Pollers pushed; site `6abfd01b` and writer @27 unchanged; 549 tests.
 - **2026-10-02 09:10 PDT (CHANGELOG): each bill of a several-receipt email opens its own PDF** - the 20 Squarespace and
   Roddy bills relinked and read back (20 bills, 20 files); from now on the read names the attachment per entry
-  (`attachment`), the ingest and the sheet's Inbox link each entry's own file. **Deployed 09:15 PDT on Paul's "deploy": site
+  (`attachment`), the ingest and the sheet's Inbox link each entry's own file. **Deployed 09:11 PDT on Paul's "deploy": site
   `6abfd7ae`** (D-073, D-074); the writer web app stays @27 (Code.gs and lib.gs unchanged since). 550 tests.
   oneOffScripts.gs is emptied again - the 21 scripts of 10-01 and 10-02 are in commit db9453f (`git show db9453f:apps-script/writer/oneOffScripts.gs`). **Not yet seen live: a read made after the deploy** (the read's new `attachment` field) -
   look at the first receipt that comes in.
