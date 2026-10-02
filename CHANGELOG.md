@@ -2524,5 +2524,5 @@ the deploy - the wrong test's label, not the code; fixed, 546 pass. Run the suit
 place with everything decided on Granite's tab, and renamed its first cash row to match Granite's `Payout from title
 company`: **`Your half of the payout from title company (first wire)`** (the wording lives in the statement lines kept
 on the sheet; `closingRows`' default for a co-owned sale is the same without the wire). Read back: 259,053.12 +
-4,716.82 = 263,769.94; costs 202,839.85; profit 60,930.09; seven bills after the payout = 873.54. The rename is
-Claude's reading of "update" - told to Paul to confirm.
+4,716.82 = 263,769.94; costs 202,839.85; profit 60,930.09; seven bills after the payout = 873.54. The rename was
+Claude's reading of "update"; Paul confirmed it ("yep").
