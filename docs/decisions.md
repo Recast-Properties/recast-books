@@ -1556,5 +1556,10 @@ A year with no table shows "tell Claude", never a guess - **the 2027 tables go i
 (Q-1 tax home, Q-3 dealer, Q-4 cash or accrual, D-006 how Dennis's share is reported) each move it. The books assume
 the answers that make the estimate higher, except travel, which is shown apart.
 
+**Amended 09:44 PDT (Paul: "youre missing green acres, bowling green, janice, white rock from the property list"):**
+the first build listed only the houses with a sale price typed on their own tab. **Every house still held is listed**;
+one with no sale price yet says `no sale price yet` in place of a profit and adds nothing (even marked `yes`) until
+Paul types a price on that house's tab - its tab would otherwise show its whole cost as a loss.
+
 **Not done:** the Ashburne late-payment penalty of 1,029.52 (Q-10) sits unlabelled inside the house's cost, so it is
 not added back; city and county taxes; credits; an itemized return.

@@ -2729,3 +2729,13 @@ The writer web app deploy is still owed.
 reads @28; live script = HEAD - `clasp pull` copies compared file by file and removed; `/exec` answers ok 0.4.0) = the
 repo: the `Taxes` tab (D-075). The site was not redeployed - no function loads `lib/reports.mjs` or `lib/tax.mjs`
 (checked), so site `6abfd7ae` is still the repo. Nothing owed. 555 tests.
+
+**09:44 PDT - the `Taxes` tab lists every held house.** Paul: *"youre missing green acres, bowling green, janice,
+white rock from the property list"*. Checked on the four tabs first: none has a sale price typed, and the first build
+listed only houses that did (`expectedProfits_`). Now every held house is a row; one with no sale price says
+`no sale price yet` and adds nothing until a price is typed on its own tab (`taxTab`, test extended). Pushed, rebuilt
+by `rebuildTaxesTabNow()` (the timer's job, a one-off, in commit 2d91c40; 12 s, no errors) and read back: eight houses,
+Bowling Green / White Rock / Green Acres / Janice with no price, Paul's `yes` beside 104 Ashburne and 881 Newport
+kept across the rebuild - profit taxed 208,984.04, still owed IRS 41,507.11, Oregon 15,129.20, set aside 56,636.31
+(married, 5,000.00 already sent). The one-off is taken out. **Owed: the writer web app deploy** (Code.gs, lib.gs
+changed after @28). 555 tests.
