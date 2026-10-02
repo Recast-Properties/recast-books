@@ -2646,3 +2646,12 @@ pollers' path. 548 tests. `gatherFacts` re-run on the live Journal (3,090 rows, 
 missing, nothing unlinked, no receipt on no book; the four same-day look-alikes left are the Anthropic top-ups and
 the 05-29 return the check has passed every night. **Nothing owed.** Not yet seen in the workbook itself: the
 several-receipts card (checked on a local copy), and a save that fails going back to the Inbox.
+
+**08:42 PDT - Paul saved the Squarespace and Roddy cards; read back.** Six entries each, every one on its own date,
+all paid by Paul, all on OVERHEAD: Squarespace 52.80 (01-04), 52.80 (02-04), 5.40 (02-23), 69.60 (03-04), 69.60 (04-04),
+50.40 (08-04) = 300.60, Workspace seats on 6400 and the website on 6410; Foreclosure Listing Service 6 x 84.44 = 506.64
+on 6300 (02-15, 04-15, 05-15, 07-15, 08-15, 09-15). Neither was on the books before (only the 06-09 Acuity charge).
+Journal 3,118 rows, 5,273,702.75 both sides. **The several-receipts card is proven in the workbook**, and both cards
+kept their saved lines (`result.entries`, six each). Seen, not chased: every entry of such a card links the FIRST PDF
+of the email (`inboxFinish` files all six, `setDocUrl_` gives every entry the first file's link). Months not in either
+email: Squarespace May, June, July; the Roddy report January, March, June.
