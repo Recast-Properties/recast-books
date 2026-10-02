@@ -179,9 +179,41 @@ test("dryRunBatchProperties_ never labels a thread", () => {
 });
 
 test("upload requests authenticate with x-poller-secret, not a body token", () => {
-  const anchor = source.indexOf("function postUpload_(");
-  assert.ok(anchor !== -1, "postUpload_ not found");
+  const anchor = source.indexOf("function postOne_(");   // the request itself; postUpload_ sends each document of an email through it
+  assert.ok(anchor !== -1, "postOne_ not found");
   const nextFn = source.indexOf("\nfunction ", anchor + 1);
   const body = source.slice(anchor, nextFn === -1 ? source.length : nextFn);
   assert.ok(body.includes("'x-poller-secret'") || body.includes('"x-poller-secret"'));
+});
+
+test("an email with more attachments than one document holds becomes several documents - nothing is dropped", () => {
+  // 2026-10-02: the poller took the first six attachments and dropped the rest without a word
+  // (five of eleven Squarespace invoices). The two functions are run here with Apps Script stubbed.
+  const fn = (name) => { const a = source.indexOf(`function ${name}(`); const b = source.indexOf("\nfunction ", a + 1); return source.slice(a, b === -1 ? source.length : b); };
+  const posted = [];
+  const build = new Function("CONFIG", "Utilities", "channelOf_", "shrinkImageViaDrive_", "UrlFetchApp",
+    `${fn("buildPayload_")}\n${fn("postUpload_")}\n${fn("postOne_")}\nreturn { buildPayload_, postUpload_ };`)(
+    { MAX_ATTACH_BYTES: 3 * 1024 * 1024, MAX_ATTACH_COUNT: 6, MAX_PART_BYTES: 4 * 1024 * 1024 },
+    { base64Encode: (b) => `b64:${b.length}` }, () => "receipts", () => null,
+    { fetch: (url, o) => { const p = JSON.parse(o.payload); posted.push(p); return { getResponseCode: () => 200, getContentText: () => JSON.stringify({ docId: p.docId, skipped: p.docId === "gm-m1" }) }; } });
+  const att = (name, size, type = "application/pdf") => ({ getContentType: () => type, getName: () => name, getBytes: () => ({ length: size }) });
+  const message = (atts) => ({ getAttachments: () => atts, getPlainBody: () => "note", getId: () => "m1", getSubject: () => "s", getFrom: () => "f", getDate: () => null });
+
+  const eleven = build.buildPayload_(message([...Array(11)].map((_, i) => att(`squarespace ${i + 1}.pdf`, 50000))), false);
+  assert.equal(eleven.docId, "gm-m1");
+  assert.deepEqual([eleven, ...eleven.rest].map((p) => p.attachments.length), [6, 5]);
+  assert.equal(eleven.rest[0].docId, "gm-m1-2");
+  assert.match(eleven.rest[0].bodyText, /This email had 11 attachments, read as 2 documents; this is document 2 of 2 and holds 5 of them\./);
+  assert.deepEqual(eleven.rest[0].attachments[0], { name: "squarespace 7.pdf", mime: "application/pdf", base64: "b64:50000" });
+
+  // every document is sent, the first one's answer is the message's; "rest" never goes over the wire
+  const res = build.postUpload_("https://x/api/upload", "s", eleven);
+  assert.deepEqual(res, { ok: true, docId: "gm-m1", skipped: true });
+  assert.deepEqual(posted.map((p) => [p.docId, p.attachments.length, "rest" in p]), [["gm-m1", 6, false], ["gm-m1-2", 5, false]]);
+
+  // big files split on size too (the POST limit), a spreadsheet is not a document, one receipt stays one document
+  assert.deepEqual([build.buildPayload_(message([att("a.pdf", 2.5e6), att("b.pdf", 2.5e6), att("c.xlsx", 10, "application/vnd.ms-excel")]), false)].flatMap((p) => [p, ...p.rest]).map((p) => p.attachments.length), [1, 1]);
+  const one = build.buildPayload_(message([att("r.pdf", 1000)]), false);
+  assert.deepEqual([one.docId, one.rest.length, one.bodyText], ["gm-m1", 0, "note"]);
+  assert.equal(build.buildPayload_(message([]), false).attachments.length, 0);
 });

@@ -81,7 +81,8 @@ var CONFIG = {
   BANK_MAIL_MAX: 60,               // per run; the first run carries about two months
   MAX_THREADS: 20,
   MAX_ATTACH_BYTES: 3 * 1024 * 1024, // raw bytes; base64 grows ~33%, and the whole POST must stay under 6 MB
-  MAX_ATTACH_COUNT: 6 // at most N attachments per email (ported from receipts-poller.gs)
+  MAX_ATTACH_COUNT: 6, // at most N attachments per DOCUMENT; an email with more becomes several (buildPayload_)
+  MAX_PART_BYTES: 4 * 1024 * 1024 // raw bytes per document, for the same 6 MB POST limit
 };
 
 // ---- MAILBOX mode (phase2.6-spec.md) -----------------------------------------
@@ -550,7 +551,7 @@ function buildPayload_(message, dryRun, channelOverride) {
   var attachments = [];
   var notes = [];
   var atts = message.getAttachments({ includeInlineImages: true, includeAttachments: true });
-  for (var i = 0; i < atts.length && attachments.length < CONFIG.MAX_ATTACH_COUNT; i++) {
+  for (var i = 0; i < atts.length; i++) {
     var att = atts[i];
     var type = (att.getContentType() || '').toLowerCase();
     var lname = (att.getName() || '').toLowerCase();
@@ -583,27 +584,57 @@ function buildPayload_(message, dryRun, channelOverride) {
       mime = 'image/jpeg';
       attName = attName.replace(/\.[^.]+$/, '') + '.jpg';
     }
-    attachments.push({ name: attName, mime: mime, base64: Utilities.base64Encode(bytes) });
+    attachments.push({ name: attName, mime: mime, base64: Utilities.base64Encode(bytes), bytes: bytes.length });
   }
 
-  var body = (message.getPlainBody() || '').slice(0, 20000);
-  if (notes.length) body = body + '\n\n[poller notes]\n' + notes.join('\n');
+  // An email with more attachments than one document holds becomes several documents - gm-<id>,
+  // gm-<id>-2, ... - each with Paul's subject and note. Until 2026-10-02 the seventh attachment on
+  // was dropped without a word: five of eleven Squarespace invoices and three of nine Roddy
+  // receipts never reached the books.
+  var parts = [[]], size = 0;
+  attachments.forEach(function (a) {
+    var part = parts[parts.length - 1];
+    if (part.length && (part.length >= CONFIG.MAX_ATTACH_COUNT || size + a.bytes > CONFIG.MAX_PART_BYTES)) { part = []; parts.push(part); size = 0; }
+    size += a.bytes;
+    part.push({ name: a.name, mime: a.mime, base64: a.base64 });
+  });
 
-  return {
-    docId: 'gm-' + message.getId(),
-    source: 'email',
-    channel: channelOverride || channelOf_(message),
-    gmailUrl: 'https://mail.google.com/mail/u/0/#all/' + message.getId(),
-    subject: message.getSubject(),
-    from: message.getFrom(),
-    receivedAt: message.getDate() ? message.getDate().toISOString() : '',
-    bodyText: body,
-    dryRun: !!dryRun,
-    attachments: attachments
-  };
+  var body = (message.getPlainBody() || '').slice(0, 20000);
+  var payloads = parts.map(function (part, k) {
+    var partNotes = notes.slice();
+    if (parts.length > 1) partNotes.push('This email had ' + attachments.length + ' attachments, read as ' + parts.length + ' documents; this is document ' + (k + 1) + ' of ' + parts.length + ' and holds ' + part.length + ' of them.');
+    return {
+      docId: 'gm-' + message.getId() + (k ? '-' + (k + 1) : ''),
+      source: 'email',
+      channel: channelOverride || channelOf_(message),
+      gmailUrl: 'https://mail.google.com/mail/u/0/#all/' + message.getId(),
+      subject: message.getSubject(),
+      from: message.getFrom(),
+      receivedAt: message.getDate() ? message.getDate().toISOString() : '',
+      bodyText: partNotes.length ? body + '\n\n[poller notes]\n' + partNotes.join('\n') : body,
+      dryRun: !!dryRun,
+      attachments: part
+    };
+  });
+  payloads[0].rest = payloads.slice(1);   // postUpload_ sends them after the first
+  return payloads[0];
 }
 
+// Sends a message's document, then the further documents of an email too big for one. All must land:
+// a failure leaves the thread unlabelled, the whole email is sent again next run, and the site skips
+// the documents it already has.
 function postUpload_(url, secret, payload) {
+  var rest = payload.rest || [];
+  delete payload.rest;
+  var first = postOne_(url, secret, payload);
+  for (var i = 0; first.ok && i < rest.length; i++) {
+    var r = postOne_(url, secret, rest[i]);
+    if (!r.ok) return r;
+  }
+  return first;
+}
+
+function postOne_(url, secret, payload) {
   var res = UrlFetchApp.fetch(url, {
     method: 'post',
     contentType: 'application/json',
