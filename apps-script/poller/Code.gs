@@ -297,7 +297,6 @@ function pollBooks() {
   }
   try {
     var props = PropertiesService.getScriptProperties();
-    restoreCleanup_(props);   // ONE-OFF 2026-10-02 (OneOff.gs, D-076): tidies up after the photo restore; comes out with OneOff.gs
     var secret = requireProp_(props, 'POLLER_SECRET');
     var uploadUrl = requireProp_(props, 'BOOKS_UPLOAD_URL');
     var startDate = props.getProperty('START_DATE') || todayIso_();

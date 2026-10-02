@@ -2774,3 +2774,9 @@ entry changed, nothing re-read, the site's copies untouched.
   under the new cap - about 1 photo in 40 of the 387 since January.
 - Tidy-up pushed 11:06 PDT: on its next poll each account clears the restore's script properties and properties@
   moves the export folder to its trash; then OneOff.gs and its line in pollBooks come out.
+
+**11:21 PDT - the photo restore is tidied away.** properties@'s export folder is gone from paul@'s view (its 11:20
+poll moved it to that account's trash; a search by name and by id finds nothing), the restore's script properties are
+cleared on both accounts' polls, and OneOff.gs and its line in `pollBooks` are out of both pollers - pushed 11:21,
+live = repo on both (pull + cmp, three files each). 556 tests. The site and the writer were not touched all along:
+site `6abfd7ae`, writer web app @29, nothing owed.

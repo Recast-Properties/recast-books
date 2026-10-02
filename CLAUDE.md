@@ -291,7 +291,8 @@ are the target, D-028 returns hold for Paul). **Resume from `HANDOFF-2026-09-30.
   a real photo - read back the next phone photo's stored size.** **The photos already stored small are put back
   (10:23-11:05 PDT, Paul: "yes, replace them"): 87 originals uploaded into their existing Drive files (90 files, same
   links), read back full size, none failed** - a poller one-off in two halves (properties@ exported its 77 on its own
-  timer, paul@ uploaded); 14 small photos with no link from the Journal were left. 10 of the 87 originals are over 4 MB
+  timer, paul@ uploaded; the one-off is out of both pollers since 11:21, live = repo); 14 small photos with no link
+  from the Journal were left. 10 of the 87 originals are over 4 MB
   (about 1 photo in 40 overall), so a few new photos will still be stored reduced.
 - **2026-09-25 (D-044, D-045):** the gate lets a **medium** read post when every other rail holds (low still holds); a vendor's unanimous payment history settles `paid_from` when the document shows no card and Paul wrote no note; Chase checking 8870 is Paul's personal (`paul_personal_last4` = `9166, 8870, 3746` - Discover 3746 added the same day); `MAX_TOKENS_PER_TURN` 16000 (32k broke: the SDK refuses a non-streaming call above ~21k); the warm job replays errored docs from their stored read; the digest names the gate reason. CHANGELOG 2026-09-25.
 - **All five lists are done** (audit §40-§43): list 4 in mail not in the books 0 (`mail_settled`), differences 0 (`differences_settled`), confirm 0 real (the 3 shown are rows Paul dropped), questions answered; every decision, link, refusal (per document), drop, addition and retraction is in `data/migration/2026-09-17/paul-answers.json`. **Paul's stopping rule:** no new cost unless proven paid AND absent from the old books by total, pre-tax subtotal and items; otherwise park for Phase 3.
