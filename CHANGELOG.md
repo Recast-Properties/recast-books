@@ -2526,3 +2526,16 @@ company`: **`Your half of the payout from title company (first wire)`** (the wor
 on the sheet; `closingRows`' default for a co-owned sale is the same without the wire). Read back: 259,053.12 +
 4,716.82 = 263,769.94; costs 202,839.85; profit 60,930.09; seven bills after the payout = 873.54. The rename was
 Claude's reading of "update"; Paul confirmed it ("yep").
+
+## 2026-10-01 (17:00 PDT) - the Inbox card says what to click when no kind of cost is picked
+
+Paul, on a Venmo screenshot (500.00 to Juanito, painting, 366 Mesa) whose amount Claude could not read and he typed in:
+*"this wont let me submit this expense because it isnt set up for venmo. this was paid with venmo linked to the citizens
+recast account"*. Not Venmo: the line's account box still read `Choose...`, the engine refused the empty account, and
+the card showed `BAD_ACCOUNT - account is not in the chart of accounts` (rule 7 broken - a code he had to guess at).
+`Inbox.html` only: the box reads `What kind of cost is this? Choose...`; Save stops before the books with what to
+click ("pick what kind of cost this is ... Paying a worker is Rehab - subcontract labor ... how it was paid does not
+matter here"); a BAD_ACCOUNT that still comes back is said in plain words; and a card whose read found no total says
+`No total could be read on this one: $500.00 to record now` instead of the red "$500.00 more than the receipt".
+Paid from 1401 was already right (Venmo draws on Citizens; the bank line ties it later). Pushed (the sheet's Inbox runs
+the pushed code - no deploy), committed. 546 tests.

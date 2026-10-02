@@ -172,7 +172,7 @@
     return ACCT_GROUPS[2];
   }
   function accountOpts_(sel) {
-    var html = opt_('', 'Choose...', !sel);
+    var html = opt_('', 'What kind of cost is this? Choose...', !sel);   // plain words: "Choose..." alone did not say what (Paul, 2026-10-01)
     ACCT_GROUPS.forEach(function (g) {
       var inGroup = DATA.pickers.accounts.filter(function (a) { return acctGroup_(a.code) === g; });
       if (!inGroup.length) return;
@@ -393,6 +393,9 @@
     var readNothing = !((env.model && env.model.entries) || []).length && !sum.approve && !sum.returned && !sum.dismiss;
     var bank = env.source === 'feed';   // a card born from the bank statement is not a receipt
     if (readNothing) return '<div class="totals ok">' + (bank ? 'The bank shows ' + money_(rt) + ': nothing is filled in yet' : 'Receipt ' + money_(rt) + ': nothing to record, by Claude\'s read - see the line above') + '</div>';
+    // A read that found no total (a screenshot with no amount on it) is not a receipt for $0.00 that Paul's typed
+    // amount exceeds - say that no total was read, and what will be recorded.
+    if (!bank && !rt && !already) return '<div class="totals ok">No total could be read on this one: ' + parts.join(' + ') + '</div>';
     var text = (bank ? 'The bank shows ' : 'Receipt ') + money_(rt) + ': ' + parts.join(' + ');
     if (gap > 0) text += ' - ' + money_(gap) + ' missing from the items';
     if (gap < 0) text += ' - ' + money_(-gap) + ' more than the ' + (bank ? 'bank shows' : 'receipt');
@@ -610,7 +613,12 @@
       DATA.envelopes = DATA.envelopes.filter(function (e) { return e.docId !== env.docId; });
       counts_();
     };
-    var fail = function (r) { busy(false); showMsg_(msg, false, '<b>' + escapeHtml_(r.error || 'ERROR') + '</b> - ' + escapeHtml_(r.message || r)); };
+    var fail = function (r) {
+      busy(false);
+      // the one books-engine refusal Paul has met by hand, in his words; the rest keep their code for Claude
+      if (r && r.error === 'BAD_ACCOUNT') return showMsg_(msg, false, 'Nothing was saved: a line has no kind of cost picked. Choose it in the box just above the amount, then Save again.');
+      showMsg_(msg, false, '<b>' + escapeHtml_(r.error || 'ERROR') + '</b> - ' + escapeHtml_(r.message || r));
+    };
 
     // Save does what each line says: records the approved lines, and files the returned and dismissed ones in the
     // note - on the posted card, or on a dismissed one when nothing was kept.
@@ -622,6 +630,13 @@
       if (swap && !swap.earlier) toPost.forEach(function (e) { e.paid_from = swap.paid_from; });
       var waiting = isWaiting_(toPost);
       if (!sum.approve && !sum.returned && !sum.dismiss) return showMsg_(msg, false, 'Nothing on this card to save - type an amount and a description on the line, click Reprocess, or Dismiss all.');
+      // A line to record with no kind of cost picked used to go to the books' engine and come back as
+      // "BAD_ACCOUNT - account is not in the chart of accounts" - Paul read that as "it isn't set up for Venmo"
+      // (2026-10-01, a 500.00 Venmo to a painter he had typed in by hand). Say what to click instead.
+      if (toPost.some(function (e) { return (e.items || []).some(function (it) { return !it.account; }); })) {
+        return showMsg_(msg, false, 'One more thing before Save: pick what kind of cost this is, in the box that says <b>What kind of cost is this?</b> just above the amount. ' +
+          '(Paying a worker is <b>Rehab - subcontract labor</b>; things bought are <b>Rehab - materials</b>.) How it was paid - card, check, Venmo - does not matter here; "Paid from" already says which account.');
+      }
       var rest = [sum.returned ? money_(sum.returned) + ' returned' : '', sum.dismiss ? money_(sum.dismiss) + ' dismissed' : ''].filter(Boolean).join(', ');
       if (saveBtn.dataset.armed !== '1') {
         saveBtn.dataset.armed = '1';
