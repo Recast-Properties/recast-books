@@ -2739,3 +2739,8 @@ Bowling Green / White Rock / Green Acres / Janice with no price, Paul's `yes` be
 kept across the rebuild - profit taxed 208,984.04, still owed IRS 41,507.11, Oregon 15,129.20, set aside 56,636.31
 (married, 5,000.00 already sent). The one-off is taken out. **Owed: the writer web app deploy** (Code.gs, lib.gs
 changed after @28). 555 tests.
+
+**09:47 PDT - deployed on Paul's "deploy": writer web app @29** (`clasp deploy -i` the same id; `clasp deployments`
+reads @29; live script = HEAD - `clasp pull` copies compared file by file and removed) = the repo: the `Taxes` tab's
+full house list. `/exec` answers ok 0.4.0 three times running; the first call right after the deploy came back as a
+Google page instead (the known doGet misfire - reads retry). Site `6abfd7ae` unchanged. Nothing owed. 555 tests.
