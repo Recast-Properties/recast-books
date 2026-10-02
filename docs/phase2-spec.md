@@ -28,7 +28,8 @@ their own books until Phase 6.
 
 Netlify Blobs store **`books-docs`** (strong consistency for writes that gate posting):
 
-- `doc/<docId>` — envelope. `docId` = `gm-<gmailMessageId>` for email, `up-<uuid>` for web
+- `doc/<docId>` — envelope. `docId` = `gm-<gmailMessageId>` for email (`gm-<id>-2`, `-3` ... for the further
+  documents of an email with more attachments than one document holds, D-073), `up-<uuid>` for web
   uploads, prefix `dry-` added in front for dry runs (`dry-gm-...`).
 - `att/<docId>/<i>` — attachment bytes (image or PDF), ≤ 6 MB each.
 
@@ -216,7 +217,8 @@ absent (logged once), stores `BOOKS_UPLOAD_URL` (`https://books.recast-propertie
 creates the Gmail label `books-done`, installs triggers `pollBooks` every 15 min and
 `dailyDigest` at 3 AM America/Chicago. Second function `pollBooks()`: Gmail search
 `(to:receipts@recast-properties.com OR to:travel@recast-properties.com) after:<START_DATE> -label:books-done`,
-up to 20 threads per run; per message: collect attachments (images, PDFs; skip > 6 MB
+up to 20 threads per run; per message: collect attachments (images, PDFs - ALL of them: an email with more
+than six, or more than 4 MB of them, is sent as several documents `gm-<id>`, `gm-<id>-2`, ... since 2026-10-02, D-073; skip > 6 MB
 with a note in `bodyText`; convert HEIC to JPEG is NOT required — pass the bytes, the
 ingest converts with `heic-convert` (jimp cannot decode HEIC; corrected 2026-09-16 after
 the audit found every sub-3 MB HEIC would have held), else holds), base64, POST to `/api/upload` with

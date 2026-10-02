@@ -1504,3 +1504,28 @@ not just a sum of them all."*
 **Unchanged:** which bills are project costs and which come after is decided by when Sell property is run, as before
 (D-031: a sold house refuses new costs, they go to Cost Recapture naming it).
 
+
+## D-073 · An email holding several receipts is several bills, every one read, each opening its own file - 2026-10-02 · Paul
+
+*"the squarespace and roddy report expenses are emails with multiple reciepts each and its showing up as one"* ...
+*"those missing months should be in there. look in my folders on my desktop"* ... *"link each bill to its own pdf"*.
+
+He had sent two emails, 11 Squarespace invoices and 9 Roddy receipts. Three things were wrong, and each is now a rule:
+
+1. **Every attachment is read.** The poller stopped at six attachments and said nothing; eight receipts never reached
+   the bookkeeper. An email with more than six attachments (or more than 4 MB of them) is now several documents -
+   `gm-<id>`, `gm-<id>-2`, ... - each with Paul's subject and note. Nothing is ever left off silently.
+2. **Each receipt is its own bill, and the card says so.** The read already proposed one entry per receipt on its own
+   date; the Inbox card now says `6 receipts`, heads each one (`Receipt 2 of 6: date - amount - what`), and Paid from
+   picked on one fills every receipt still unassigned. The 3 AM email's line reads `(6 receipts, 01/04 to 08/04)`.
+3. **Each bill opens its own receipt.** The read names the attachment an entry came from (`attachment`); the ingest
+   and the sheet's Inbox give the entry that file's link. When the count cannot be trusted (an attachment the read
+   is not shown, one that was not filed) the entry keeps the document's first file, as before.
+
+**Not done, on purpose:** the web Inbox's approve (Paul never uses it, constraint 8) still links the first file.
+
+## D-074 · Mastercard 7952 is Paul's personal card - 2026-10-02 · Paul
+
+*"yes Mastercard ending 7952 is a personal card."* On Settings `paul_personal_last4` (`9166, 8870, 3746, 7952`) and
+named in the bookkeeper's instructions: a receipt showing it is paid by Paul (money Recast owes him), never a card to
+ask about. Squarespace until May 2026 and every Roddy report receipt are on it.
