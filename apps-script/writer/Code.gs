@@ -1063,7 +1063,8 @@ function refreshPnl_(ss) {
   try {
     ss = ss || openWorkbook_(PropertiesService.getScriptProperties());
     var today = Utilities.formatDate(new Date(), 'America/Chicago', 'yyyy-MM-dd');
-    var t = pnlTab(journalLines_(ss), loadAdvances_(ss), today, getAccrualOpts_(ss));
+    var lines = journalLines_(ss);
+    var t = pnlTab(lines, loadAdvances_(ss), today, getAccrualOpts_(ss));
     // the tabs the old menu reports left behind, stale since the day they were run (D-065)
     ['Balance Sheet', 'Report - Balance sheet', 'Report - P&L', 'Report - Trial balance', 'Report - Job cost', 'Report - Dennis ledger']
       .forEach(function (n) { var old = ss.getSheetByName(n); if (old) ss.deleteSheet(old); });
@@ -1083,12 +1084,74 @@ function refreshPnl_(ss) {
     [300, 130, 560].forEach(function (w, i) { sh.setColumnWidth(i + 1, w); });
     sh.getRange(4, 3, t.rows.length, 1).setWrap(true);   // a long note wraps instead of running off the sheet
     sh.setFrozenRows(2);
+    refreshTax_(ss, lines);
   } catch (err) {
     console.error('refreshPnl_: ' + String((err && err.message) || err));
   }
 }
 /** The hourly timer's handler (installTriggers). The name stays: the trigger installed 2026-09-30 calls it by name. */
 function refreshBalanceSheetHourly() { refreshPnl_(); }
+
+// The Taxes tab (Paul, 2026-10-02: "a tab ... that shows me my tax exposure for both IRS and Oregon State"):
+// an estimate of what he may owe on the year's profit (lib/tax.mjs). Rebuilt with the P&L tab every hour from
+// the Journal (`lines`), and at once - from the hour's Journal numbers kept in TAX_FACTS - when he types in
+// one of its blue cells (onPropertyTabEdit). What he typed is read off the tab by its label before the
+// rebuild and written back. Never throws.
+var TAX_TAB = 'Taxes';
+function refreshTax_(ss, lines) {
+  try {
+    var props = PropertiesService.getScriptProperties();
+    var facts = lines ? taxFacts(lines, Utilities.formatDate(new Date(), 'America/Chicago', 'yyyy-MM-dd')) : JSON.parse(props.getProperty('TAX_FACTS') || 'null');
+    if (!facts) return;
+    if (lines) props.setProperty('TAX_FACTS', JSON.stringify(facts));
+    var sh = ss.getSheetByName(TAX_TAB) || ss.insertSheet(TAX_TAB, ss.getSheetByName(PNL_TAB).getIndex());   // beside the P&L tab
+    var typed = {};
+    if (sh.getLastRow()) sh.getRange(1, 1, sh.getLastRow(), 3).getValues().forEach(function (r) { typed[r[0]] = [r[1], r[2]]; });
+    var t = taxTab(facts, expectedProfits_(ss), typed);
+    var stamp = Utilities.formatDate(new Date(), 'America/Chicago', 'MMM d, yyyy h:mm a') + ' (Texas time) - updates itself every hour, and when you change a blue cell - '
+      + 'an estimate from the books; your accountant has the final say';
+    var body = [['Taxes - what you may owe the IRS and Oregon for ' + facts.year, '', ''], [stamp, '', ''], ['', '', '']].concat(t.rows);
+    sh.clear();
+    sh.getRange(1, 1, sh.getMaxRows(), 3).clearDataValidations();
+    sh.getRange(1, 1, body.length, 3).setValues(body);
+    sh.getRange(1, 1).setFontWeight('bold').setFontSize(12);
+    sh.getRange(4, 2, t.rows.length, 1).setNumberFormat('#,##0.00;[red]-#,##0.00;-').setHorizontalAlignment('right');
+    t.kinds.forEach(function (k, i) {
+      if (k === 'head') sh.getRange(i + 4, 1, 1, 3).setFontWeight('bold').setBackground('#a3f67f');
+      if (k === 'total') sh.getRange(i + 4, 1, 1, 3).setFontWeight('bold').setBackground('#ffe599');
+      if (k === 'input') sh.getRange(i + 4, 2).setBackground('#cfe2f3').setNumberFormat('#,##0.00');
+      if (k === 'house') sh.getRange(i + 4, 3).setBackground('#cfe2f3');
+    });
+    sh.getRange(t.kinds.indexOf('input') + 4, 2).setDataValidation(SpreadsheetApp.newDataValidation().requireValueInList(['single', 'married'], true).build());   // "How you file"
+    [330, 130, 560].forEach(function (w, i) { sh.setColumnWidth(i + 1, w); });
+    sh.getRange(4, 3, t.rows.length, 1).setWrap(true);
+    sh.setFrozenRows(2);
+  } catch (err) {
+    console.error('refreshTax_: ' + String((err && err.message) || err));
+  }
+}
+
+/** Each house still held whose tab has a sale price typed: the profit to Paul that its own tab shows
+ *  (`Paul Share` on a partner deal, `Profit` on the bank deal). */
+function expectedProfits_(ss) {
+  var sheet = ss.getSheetByName('Properties');
+  if (!sheet || sheet.getLastRow() < 2) return [];
+  var cols = headerIndex_(sheet), out = [];
+  sheet.getRange(2, 1, sheet.getLastRow() - 1, sheet.getLastColumn()).getValues().forEach(function (r) {
+    var name = String(r[cols['name'] - 1]), tab = ss.getSheetByName(name);
+    if (!tab || tab.getLastRow() < 1 || String(r[cols['status'] - 1]).toLowerCase() === 'sold') return;
+    var sale = '', profit = '';
+    tab.getRange(1, 1, tab.getLastRow(), 3).getValues().forEach(function (v) {
+      for (var c = 0; c < 2; c++) {
+        var label = String(v[c]);
+        if (sale === '' && label.indexOf('Sale Price') === 0) sale = v[c + 1];
+        if (profit === '' && (label === 'Profit' || label.indexOf('Paul Share (') === 0)) profit = v[c + 1];
+      }
+    });
+    if (Number(sale) > 0 && typeof profit === 'number') out.push({ name: name, profit_cents: toCents(profit) });
+  });
+  return out;
+}
 
 // storeDocument: files one source document (receipt photo, PDF, etc.) to Drive,
 // phase2-spec.md section 7. Creates the root folder "Recast Books" once (id cached
@@ -2432,6 +2495,7 @@ function onPropertyTabEdit(e) {
     if (edited === 'Accounts' || edited === 'Properties' || edited === 'Periods') { CacheService.getScriptCache().remove('ctx'); return; }
     if (edited === 'Bank accounts') { mirrorBankAccountEdit_(editedSheet, range); return; }
     if (edited === 'Users') { clearRoleCache_(editedSheet); guardLastOwnerEdit_(e, editedSheet, range); return; }
+    if (edited === TAX_TAB) { refreshTax_(editedSheet.getParent()); return; }   // a blue cell changed: the tax is worked again at once
 
     var col = range.getColumn();
     var isPaidBox = range.getNumRows() === 1 && range.getNumColumns() === 1 && range.getRow() >= 6 &&

@@ -1529,3 +1529,32 @@ He had sent two emails, 11 Squarespace invoices and 9 Roddy receipts. Three thin
 *"yes Mastercard ending 7952 is a personal card."* On Settings `paul_personal_last4` (`9166, 8870, 3746, 7952`) and
 named in the bookkeeper's instructions: a receipt showing it is paid by Paul (money Recast owes him), never a card to
 ask about. Squarespace until May 2026 and every Roddy report receipt are on it.
+
+## D-075 · A `Taxes` tab: an estimate of what Paul may owe the IRS and Oregon, from the books - 2026-10-02 · Paul
+
+*"i want to add a tab to the recast books that shows me my tax exposure for both IRS and Oregon State"*.
+
+**Decided:** a `Taxes` tab beside `P&L`, rebuilt by the same hourly timer (nothing to run, no menu item) and at once
+when Paul changes one of its blue cells (`refreshTax_` in Code.gs, the rows and the arithmetic in `lib/tax.mjs`).
+Top to bottom: his own facts, typed (how he files - single until he says otherwise - other household income, what
+he has already sent to the IRS and to Oregon); what Recast earned this year (the P&L tab's number) plus the costs a
+return does not allow (half of meals, lines whose `tax_treatment` is `Non-deductible`); each house still held with a
+sale price typed on its tab, at the profit to Paul its own tab shows, counted only when he types `yes` beside it (a
+house sold but not closed in the books - 104 Ashburne today - or one he expects to sell before December 31); then the
+IRS (Social Security and Medicare tax, income tax), Oregon, and one figure to set aside. A last block names what is
+not in the numbers: travel (Q-1, shown with its amount), Portland-area local income taxes, interest for paying late.
+
+**The arithmetic is code, from the published tables** (`TAX_TABLES`, one per year: IRS Rev. Proc. 2025-32, SSA wage
+base, Oregon Publication OR-ESTIMATE 2026), checked against two returns worked by hand. It assumes what the books
+assume: Recast is Paul's alone and on his own return, the houses are bought to resell (Q-3: so the profit carries
+the Social Security and Medicare tax), Dennis is a lender (D-006), Paul is an Oregon resident, Texas taxes no income.
+Standard deduction only; the 20% business deduction fades out over the IRS's range because Recast has no payroll;
+Oregon allows no business deduction and subtracts federal income tax up to 8,750, fading out above 125,000 / 250,000.
+A year with no table shows "tell Claude", never a guess - **the 2027 tables go in each fall when they are published.**
+
+**It is an estimate, and the tab says so** - the accountant has the final say, and the accountant's open questions
+(Q-1 tax home, Q-3 dealer, Q-4 cash or accrual, D-006 how Dennis's share is reported) each move it. The books assume
+the answers that make the estimate higher, except travel, which is shown apart.
+
+**Not done:** the Ashburne late-payment penalty of 1,029.52 (Q-10) sits unlabelled inside the house's cost, so it is
+not added back; city and county taxes; credits; an itemized return.

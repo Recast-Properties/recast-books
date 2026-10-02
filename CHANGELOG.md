@@ -2703,3 +2703,14 @@ live: a read made after this deploy (the first receipt in will show it).
 read back - they are in commit db9453f; pushed), decisions D-073 (several receipts in one email) and D-074 (Mastercard
 7952 is Paul's), `HANDOFF-2026-10-02.md`, phase2-spec's attachment lines, CLAUDE.md's Now line. Everything committed
 and on GitHub.
+
+**09:35 PDT - the `Taxes` tab (D-075).** Paul: *"i want to add a tab to the recast books that shows me my tax exposure
+for both IRS and Oregon State"*. `lib/tax.mjs` (`TAX_TABLES` for 2026 from the IRS's and Oregon's own publications,
+`taxEstimate`, `taxFacts`, `taxTab`), in `lib.gs`; `refreshTax_` + `expectedProfits_` in Code.gs, called by the P&L
+tab's hourly timer and by the edit trigger when a blue cell on the tab changes (the hour's Journal numbers are kept in
+the script property `TAX_FACTS`, so a typed cell answers in seconds). `loadJournal` now carries `tax_treatment`.
+Run against the live Journal snapshot before the push: Recast earned 53,848.42, 628.98 of meals and the traffic
+ticket added back, single with nothing else typed = 14,353.08 to set aside; with 104 Ashburne marked yes at its
+tab's 128,040.09 = 62,612.40 single, 52,330.25 married. 555 tests (5 new, two returns worked by hand). Writer pushed
+09:30 PDT; **the writer web app deploy is owed** (lib.gs and Code.gs changed - the tab itself does not wait for it:
+the timer and the edit trigger run the pushed code). Not yet read back live: the tab the timer builds.
