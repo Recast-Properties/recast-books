@@ -217,3 +217,38 @@ test("an email with more attachments than one document holds becomes several doc
   assert.deepEqual([one.docId, one.rest.length, one.bodyText], ["gm-m1", 0, "note"]);
   assert.equal(build.buildPayload_(message([]), false).attachments.length, 0);
 });
+
+test("a phone photo under the cap is stored exactly as sent; one over it keeps the largest copy that fits, and says so", () => {
+  // 2026-10-02 (Paul: "pixelated and sometimes unreadable. i am sending high resolution images"): the cap was
+  // 3 MB and the fallback was always Drive's 2000px copy, so about one photo in four was stored at 1500x2000.
+  const fn = (name) => { const a = source.indexOf(`function ${name}(`); const b = source.indexOf("\nfunction ", a + 1); return source.slice(a, b === -1 ? source.length : b); };
+  const CONFIG = new Function(`${source.slice(source.indexOf("var CONFIG = {"), source.indexOf("};", source.indexOf("var CONFIG = {")) + 2)}\nreturn CONFIG;`)();
+  assert.equal(CONFIG.MAX_ATTACH_BYTES, 4 * 1024 * 1024, "a 3-4 MB phone photo goes up whole");
+  assert.ok(CONFIG.MAX_ATTACH_BYTES * 4 / 3 < 5.9 * 1024 * 1024, "its base64 still fits one 6 MB request");
+  assert.deepEqual(CONFIG.SHRINK_SIZES, [...CONFIG.SHRINK_SIZES].sort((a, b) => b - a), "largest first");
+
+  // the rendition ladder: 8000 is refused, 5000 is too big, 4032 fits - never straight to 2000
+  const asked = [];
+  const sizes = { 8000: { code: 400, n: 0 }, 5000: { code: 200, n: 5e6 }, 4032: { code: 200, n: 2.2e6 }, 3000: { code: 200, n: 1.4e6 }, 2000: { code: 200, n: 5e5 } };
+  const shrink = new Function("CONFIG", "DriveApp", "UrlFetchApp", "ScriptApp", "Utilities", "console", `${fn("shrinkImageViaDrive_")}\nreturn shrinkImageViaDrive_;`)(
+    CONFIG,
+    { createFile: () => ({ getId: () => "tmp1" }), getFileById: () => ({ setTrashed: () => {} }) },
+    { fetch: (url) => {
+      if (/files\/tmp1/.test(url)) return { getResponseCode: () => 200, getContentText: () => JSON.stringify({ thumbnailLink: "https://lh3/x=s220" }) };
+      const px = Number(url.match(/=s(\d+)$/)[1]); asked.push(px);
+      return { getResponseCode: () => sizes[px].code, getContent: () => ({ length: sizes[px].n }) };
+    } },
+    { getOAuthToken: () => "t" }, { sleep: () => {} }, { log: () => {}, warn: () => {} });
+  const photo = { copyBlob: () => ({ setName: (n) => n }), getName: () => "IMG_1.JPG" };
+  assert.equal(shrink(photo).length, 2.2e6);
+  assert.deepEqual(asked, [8000, 5000, 4032]);
+
+  const build = new Function("CONFIG", "Utilities", "channelOf_", "shrinkImageViaDrive_", `${fn("buildPayload_")}\nreturn buildPayload_;`)(
+    CONFIG, { base64Encode: (b) => `b64:${b.length}` }, () => "receipts", () => ({ length: 2.2e6 }));
+  const att = (name, size) => ({ getContentType: () => "image/jpeg", getName: () => name, getBytes: () => ({ length: size }) });
+  const p = build({ getAttachments: () => [att("IMG_5869.JPG", 3.6e6), att("IMG_9000.JPG", 7e6)], getPlainBody: () => "", getId: () => "m2", getSubject: () => "s", getFrom: () => "f", getDate: () => null }, false);
+  const all = [p, ...p.rest].flatMap((d) => d.attachments);
+  assert.deepEqual(all[0], { name: "IMG_5869.JPG", mime: "image/jpeg", base64: "b64:3600000" }, "3.6 MB: untouched");
+  assert.deepEqual(all[1], { name: "IMG_9000.jpg", mime: "image/jpeg", base64: "b64:2200000" }, "7 MB: the reduced copy");
+  assert.match(p.bodyText, /Photo "IMG_9000\.JPG" was too big to store whole \(6\.7 MB\); a reduced copy \(2\.1 MB\)/);
+});

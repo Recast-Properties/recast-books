@@ -80,7 +80,11 @@ var CONFIG = {
   BANK_MAIL_START: '2026-08-01',   // Citizens 2505 opened 2026-08-06
   BANK_MAIL_MAX: 60,               // per run; the first run carries about two months
   MAX_THREADS: 20,
-  MAX_ATTACH_BYTES: 3 * 1024 * 1024, // raw bytes; base64 grows ~33%, and the whole POST must stay under 6 MB
+  // raw bytes; base64 grows ~33%, and the whole POST must stay under 6 MB. Was 3 MB until 2026-10-02: every phone
+  // photo over 3 MB (about one in four) reached the books and Drive as a 1500x2000 copy - Paul: "pixelated and
+  // sometimes unreadable. i am sending high resolution images". A photo under this cap is stored exactly as sent.
+  MAX_ATTACH_BYTES: 4 * 1024 * 1024,
+  SHRINK_SIZES: [8000, 5000, 4032, 3000, 2000], // long side, largest first: a photo over the cap keeps the biggest copy that fits
   MAX_ATTACH_COUNT: 6, // at most N attachments per DOCUMENT; an email with more becomes several (buildPayload_)
   MAX_PART_BYTES: 4 * 1024 * 1024 // raw bytes per document, for the same 6 MB POST limit
 };
@@ -571,15 +575,16 @@ function buildPayload_(message, dryRun, channelOverride) {
     }
     var attName = att.getName();
     if (bytes.length > CONFIG.MAX_ATTACH_BYTES) {
-      // Phone photos routinely exceed the cap (base64 must stay under Netlify's 6 MB
-      // request limit). Ask Drive for a ~2000px JPEG rendition of the image (Drive
-      // renders HEIC too) - the proven approach from the receipts poller. PDFs cannot
-      // be shrunk this way and are skipped with a note.
+      // A photo over the cap cannot go up whole (base64 must stay under Netlify's 6 MB
+      // request limit). Ask Drive for a JPEG rendition of the image (Drive renders HEIC
+      // too), the largest that fits - the note says so, since the stored copy is no longer
+      // what was sent. PDFs cannot be shrunk this way and are skipped with a note.
       var shrunk = isImg ? shrinkImageViaDrive_(att) : null;
       if (!shrunk) {
         notes.push('Skipped oversized attachment "' + attName + '" (' + bytes.length + ' bytes, over the cap; shrink ' + (isImg ? 'failed' : 'not possible for PDFs') + ').');
         continue;
       }
+      notes.push('Photo "' + attName + '" was too big to store whole (' + (bytes.length / 1048576).toFixed(1) + ' MB); a reduced copy (' + (shrunk.length / 1048576).toFixed(1) + ' MB) is what you see and what is filed. The original is in the email.');
       bytes = shrunk;
       mime = 'image/jpeg';
       attName = attName.replace(/\.[^.]+$/, '') + '.jpg';
@@ -719,7 +724,8 @@ function yesterdayIso_() {
 
 
 // Drive renders a resized JPEG of any image it stores (HEIC included). Upload a temp
-// copy, fetch the ~2000px rendition, trash the temp file. Returns bytes or null.
+// copy, fetch the largest rendition that fits under the cap (CONFIG.SHRINK_SIZES - until
+// 2026-10-02 always 2000px), trash the temp file. Returns bytes or null.
 function shrinkImageViaDrive_(att) {
   var fileId = null;
   try {
@@ -732,11 +738,15 @@ function shrinkImageViaDrive_(att) {
       if (metaRes.getResponseCode() === 200) {
         var meta = JSON.parse(metaRes.getContentText());
         if (meta.thumbnailLink) {
-          var url = meta.thumbnailLink.replace(/=s\d+(-[a-z]+)?$/, '=s2000');
-          var imgRes = UrlFetchApp.fetch(url, { muteHttpExceptions: true });
-          if (imgRes.getResponseCode() === 200) {
+          for (var s = 0; s < CONFIG.SHRINK_SIZES.length; s++) {
+            var url = meta.thumbnailLink.replace(/=s\d+(-[a-z]+)?$/, '=s' + CONFIG.SHRINK_SIZES[s]);
+            var imgRes = UrlFetchApp.fetch(url, { muteHttpExceptions: true });
+            if (imgRes.getResponseCode() !== 200) continue;   // a size Drive will not render: try the next one down
             var out = imgRes.getContent();
-            if (out.length > 0 && out.length <= CONFIG.MAX_ATTACH_BYTES) return out;
+            if (out.length > 0 && out.length <= CONFIG.MAX_ATTACH_BYTES) {
+              console.log('shrinkImageViaDrive_: "' + att.getName() + '" kept at ' + CONFIG.SHRINK_SIZES[s] + 'px, ' + out.length + ' bytes');
+              return out;
+            }
           }
         }
       }

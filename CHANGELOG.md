@@ -2744,3 +2744,12 @@ changed after @28). 555 tests.
 reads @29; live script = HEAD - `clasp pull` copies compared file by file and removed) = the repo: the `Taxes` tab's
 full house list. `/exec` answers ok 0.4.0 three times running; the first call right after the deploy came back as a
 Google page instead (the known doGet misfire - reads retry). Site `6abfd7ae` unchanged. Nothing owed. 555 tests.
+
+**10:00 PDT - receipt photos are no longer shrunk at 3 MB (D-076).** Paul: *"the receipts that are being saved to
+drive as pixelated and sometimes unreadable. i am sending high resolution images"*. Cause, measured on the stored
+files: the poller replaced every photo over 3 MB with Drive's 2000px rendition before sending it (1500x2000 for
+3024x4032; IMG_5798, IMG_5868), and that copy was read and filed - about 100 of 387 photos since January. Now
+`MAX_ATTACH_BYTES` is 4 MB and `shrinkImageViaDrive_` walks `SHRINK_SIZES` largest first, logging the size kept; the
+document carries a note when a copy was reduced. One new test (the cap, the ladder, the note). Both pollers pushed
+10:00 PDT, live = repo (pull + cmp). No site or writer change. 556 tests. Not yet seen on a real photo; whether Drive
+renders above 2000px is not proven (a refused size falls through, so never worse than before).

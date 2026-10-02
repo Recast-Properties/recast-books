@@ -1563,3 +1563,22 @@ Paul types a price on that house's tab - its tab would otherwise show its whole 
 
 **Not done:** the Ashburne late-payment penalty of 1,029.52 (Q-10) sits unlabelled inside the house's cost, so it is
 not added back; city and county taxes; credits; an itemized return.
+
+## D-076 · A receipt photo is stored as it was sent, up to 4 MB; over that, the largest copy that fits - 2026-10-02 · Paul
+
+*"the receipts that are being saved to drive as pixelated and sometimes unreadable. i am sending high resolution
+images. why are they being degraded?"*
+
+**Found:** the poller sends each attachment to the site in one request, which Netlify caps at 6 MB, so it held
+attachments to 3 MB and replaced any larger photo with Drive's 2000px rendition (`shrinkImageViaDrive_`). That copy
+- 1500x2000 of a 3024x4032 original, a quarter of the pixels, about a sixth of the bytes - is the one the bookkeeper
+read and the one filed to Drive. Measured on the stored files: IMG_5798 and IMG_5868 (09-21, 09-29) are 1500x2000;
+IMG_5869 at 3.1 MB is the camera's 4032x3024. By the poller's renamed files, about 100 of 387 photos since January.
+
+**Decided:** the cap is 4 MB (base64 5.3 MB, inside one request), so the usual 3-4 MB phone photo goes up whole. A
+photo over 4 MB still cannot, and keeps the largest rendition that fits (8000, 5000, 4032, 3000, then 2000px) -
+with a line on the document saying the stored copy is reduced and the original is in the email.
+
+**Not done:** the photos already stored small - the originals are in the mail and can be put back (a poller-side
+job; the property mailboxes' mail and the Drive files belong to different accounts). A photo over 4 MB stored truly
+whole would need the file to reach Drive without passing through the site (both directions cross the 6 MB limit).
