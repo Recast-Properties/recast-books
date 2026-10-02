@@ -2638,3 +2638,11 @@ Paul ran `npx clasp login`, then: *"yes Mastercard ending 7952 is a personal car
   2 AM check repeats the six false alarms. The Squarespace and Roddy cards are his to save: Paid from = PAUL, once.
 - Not live: the other session's Menu.gs change (the saved lines sent with mark-posted) - its push was overwritten by the
   08:33 push from HEAD; it goes out with that session's own commit and push.
+
+**08:40 PDT - deployed on Paul's "deploy":** site `6abfd01b` (the nightly check's two fixes, `/api/summary` `dates`
+and the saved lines in the Posted list, the instructions' 7952) and **writer web app @27** (`clasp deploy -i` the same
+id; live script = HEAD by `clasp pull`; `/exec` answers ok 0.4.0) - the flush inside the lock and the bank box on the
+pollers' path. 548 tests. `gatherFacts` re-run on the live Journal (3,090 rows, balanced) and every card: nothing
+missing, nothing unlinked, no receipt on no book; the four same-day look-alikes left are the Anthropic top-ups and
+the 05-29 return the check has passed every night. **Nothing owed.** Not yet seen in the workbook itself: the
+several-receipts card (checked on a local copy), and a save that fails going back to the Inbox.
