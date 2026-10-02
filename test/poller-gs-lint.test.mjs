@@ -252,3 +252,20 @@ test("a phone photo under the cap is stored exactly as sent; one over it keeps t
   assert.deepEqual(all[1], { name: "IMG_9000.jpg", mime: "image/jpeg", base64: "b64:2200000" }, "7 MB: the reduced copy");
   assert.match(p.bodyText, /Photo "IMG_9000\.JPG" was too big to store whole \(6\.7 MB\); a reduced copy \(2\.1 MB\)/);
 });
+
+test("ONE-OFF (OneOff.gs, D-076): the original of a stored photo is found by its name, and only the properties@ poll gives its turn to the export", () => {
+  const oneOff = readFileSync(new URL("../apps-script/poller/OneOff.gs", import.meta.url), "utf8");
+  assert.ok(!/[^\x00-\x7f]/.test(oneOff), "ASCII only");
+  const a = oneOff.indexOf("function restorePick_("), b = oneOff.indexOf("\nfunction ", a + 1);
+  const pick = new Function(`${oneOff.slice(a, b)}\nreturn restorePick_;`)();
+  assert.equal(pick(["IMG_5798.JPG"], 0, "IMG_5798.jpg"), 0);
+  assert.equal(pick(["logo.png", "IMG_5798.HEIC"], 0, "IMG_5798.jpg"), 1, "an earlier attachment the poller skipped does not shift it");
+  assert.equal(pick(["image.jpeg", "image.jpeg"], 1, "image.jpg"), 1, "the same name twice: the stored position");
+  assert.equal(pick(["IMG_1.JPG"], 0, "IMG_2.jpg"), -1, "never a different photo");
+  // every item: a docId, a position, a size, a name, at least one Drive file, a known mailbox
+  const items = new Function(`${oneOff.slice(oneOff.indexOf("var RESTORE_ITEMS = ["))}\nreturn RESTORE_ITEMS;`)();
+  assert.equal(items.length, 87);
+  for (const it of items) assert.ok(/^gm-[0-9a-f]+$/.test(it[0]) && Number.isInteger(it[1]) && it[2] > 0 && /\.jpg$/.test(it[3]) && it[4].length >= 1 && ["paul", "properties"].includes(it[5]), JSON.stringify(it));
+  assert.equal(new Set(items.flatMap((it) => it[4])).size, items.flatMap((it) => it[4]).length, "no Drive file twice");
+  assert.match(source, /mailboxMode_\(props\) === 'properties' && exportOriginalsForRestore_\(\)\) return;/);
+});
