@@ -1591,4 +1591,4 @@ went to properties@'s trash afterwards.
 **Not done:** 14 small photos on receipts with no link from the Journal (12 dismissed, 2 whose Drive file is not
 the linked one) were left alone. The copies kept on the site (what the Inbox shows) are still the small ones. A
 photo over 4 MB stored truly whole would need the file to reach Drive without passing through the site (both
-directions cross the 6 MB limit) - of the 77 originals seen, about one in six was over 4 MB.
+directions cross the 6 MB limit) - 10 of the 87 originals are over 4 MB, about 1 photo in 40 of all 387.

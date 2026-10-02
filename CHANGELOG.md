@@ -2770,6 +2770,7 @@ entry changed, nothing re-read, the site's copies untouched.
   is read as usual. Two polls (10:20, 10:35) read no property mail.
 - The editor: a click on a file sometimes lands on the sign-in notice instead, leaving Code.gs open with `setup`
   selected - the selected function was read back before every Run. The Executions page hung the browser tab twice.
-- Of the 77 originals seen, 13 are over 4 MB (up to 4.8 MB): those would still be reduced under the new cap.
+- Of the 87 originals, 10 are over the 4 MB cap (4,194,304 bytes; the largest 4.8 MB): those would still be reduced
+  under the new cap - about 1 photo in 40 of the 387 since January.
 - Tidy-up pushed 11:06 PDT: on its next poll each account clears the restore's script properties and properties@
   moves the export folder to its trash; then OneOff.gs and its line in pollBooks come out.
