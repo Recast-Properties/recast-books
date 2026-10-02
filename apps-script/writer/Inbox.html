@@ -31,6 +31,7 @@
   .flags li { margin-bottom: 2px; }
   .flags li.act { color: #b06000; font-weight: bold; }
   .entry { border-top: 1px dashed #ddd; padding-top: 6px; margin-top: 6px; }
+  .rcpt { font-weight: bold; font-size: 12px; margin-bottom: 4px; }
   .item { background: #fafafa; padding: 4px 6px; margin-bottom: 4px; border-radius: 3px; position: relative; }
   .item .dec { margin-bottom: 4px; }
   .item .dec button { font-size: 11px; padding: 2px 8px; margin: 0 4px 0 0; }
@@ -450,6 +451,9 @@
       return '<a class="pdf" href="#" data-file="' + escapeHtml_(a.key || ('att/' + env.docId + '/' + i)) + '" data-mime="' + escapeHtml_(a.mime || 'application/pdf') + '">PDF: ' + escapeHtml_(a.name || 'open') + '</a>';
     }).join('');
 
+    // One email with several receipts in it (Paul, 2026-10-02: six Squarespace bills "showing up as one"):
+    // each is recorded on its own date, so the card says so - a count up top, a heading on each.
+    var many = entries.some(function (e) { return e.date !== entries[0].date; });
     var entriesHtml = entries.map(function (e, ei) {
       var items = (e.items || []).map(function (it, ii) {
         var dec = decisionOf_(it);
@@ -467,7 +471,9 @@
           '<input data-e="' + ei + '" data-i="' + ii + '" data-f="business_purpose" value="' + escapeHtml_(it.business_purpose || '') + '" placeholder="Business reason (meals, gifts, travel)">' +
           '</div>';
       }).join('');
+      var sum = (e.items || []).reduce(function (t, it) { return t + (Number(it.amount_cents) || 0); }, 0);
       return '<div class="entry">' +
+        (many ? '<div class="rcpt">Receipt ' + (ei + 1) + ' of ' + entries.length + ': ' + escapeHtml_(e.date || '-') + ' &middot; ' + money_(sum) + (e.memo ? ' &middot; ' + escapeHtml_(e.memo) : '') + '</div>' : '') +
         '<div class="row"><div><label>Property (sets every item)</label><select data-e="' + ei + '" data-f="property">' + propertyOpts_(e.property) + '</select></div>' +
         '<div><label>Paid from</label><select data-e="' + ei + '" data-f="paid_from">' + paidFromOpts_(e.paid_from) + '</select></div></div>' +
         items + '<button class="add" data-add="' + ei + '">+ item</button></div>';
@@ -480,12 +486,12 @@
     var search = [m.vendor, env.subject, m.date, (Number(m.receipt_total_cents || 0) / 100).toFixed(2), props.join(' '), env.channel, env.from, env.docId].join(' ').toLowerCase();
     var head = '<div class="head" data-toggle="1"><span class="tw">' + (isOpen ? '&#9662;' : '&#9656;') + '</span>' +
       '<span class="vendor" title="' + escapeHtml_(title) + '">' + escapeHtml_(title) + '</span>' +
-      '<span class="when">' + escapeHtml_(m.date || String(env.receivedAt || '').slice(0, 10) || '-') + '</span>' +
+      '<span class="when">' + (many ? entries.length + ' receipts' : escapeHtml_(m.date || String(env.receivedAt || '').slice(0, 10) || '-')) + '</span>' +
       '<span class="amt">' + (m.receipt_total_cents != null ? money_(m.receipt_total_cents) : '-') + '</span>' +
       '<span class="pill ' + escapeHtml_(m.confidence || '') + '">' + escapeHtml_(m.confidence || '-') + '</span></div>';
     if (!isOpen) return '<div class="card closed" data-doc="' + d + '" data-tab="' + tabOf_(env) + '" data-search="' + escapeHtml_(search) + '">' + head + '<div class="msg hidden" data-msg="1"></div></div>';
     return '<div class="card open" data-doc="' + d + '" data-tab="' + tabOf_(env) + '" data-search="' + escapeHtml_(search) + '">' + head + '<div class="body">' +
-      '<div class="sub">' + escapeHtml_(m.date || '-') + ' &middot; ' + (m.receipt_total_cents != null ? money_(m.receipt_total_cents) : '-') + ' &middot; ' + escapeHtml_(props.join(', ') || '-') + ' &middot; ' + escapeHtml_(env.channel || '') +
+      '<div class="sub">' + (many ? entries.length + ' receipts in one email, each recorded on its own date' : escapeHtml_(m.date || '-')) + ' &middot; ' + (m.receipt_total_cents != null ? money_(m.receipt_total_cents) : '-') + ' &middot; ' + escapeHtml_(props.join(', ') || '-') + ' &middot; ' + escapeHtml_(env.channel || '') +
         (env.feed && env.feed.card ? ' &middot; <b>' + escapeHtml_(env.feed.card.holder) + (env.feed.card.last4 ? '\'s card (' + escapeHtml_(env.feed.card.last4) + ')' : ' paid') + '</b>' : '') + '</div>' +
       atts +
       '<ul class="flags" data-flags="1">' + flagsList_(gate, entries, m.why, env) + '</ul>' +
@@ -571,6 +577,8 @@
           e[el.dataset.f] = el.value;
           // The entry's Property is the "all of them" control; per-item overrides follow it.
           if (el.dataset.f === 'property') { (e.items || []).forEach(function (it) { it.property = el.value; }); rerender_(env.docId); return; }
+          // One email, several receipts on one unknown card: who paid is picked once, not once per receipt.
+          if (el.dataset.f === 'paid_from') { entries.forEach(function (o) { if (!o.paid_from || o.paid_from === 'UNKNOWN') o.paid_from = el.value; }); rerender_(env.docId); return; }
         }
         else if (el.dataset.f === 'amount') e.items[Number(el.dataset.i)].amount_cents = cents_(el.value);
         else e.items[Number(el.dataset.i)][el.dataset.f] = el.value;

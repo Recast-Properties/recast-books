@@ -104,6 +104,8 @@ export default async (req) => {
       docId: e.docId,
       vendor: (e.model && e.model.vendor) || "",
       date: (e.model && e.model.date) || "",
+      // one email, several receipts: each entry's own date, so the digest can say "6 receipts, 01/04 to 08/04"
+      dates: ((e.model && e.model.entries) || []).map((en) => en.date || "").filter(Boolean).sort(),
       receipt_total_cents: (e.model && e.model.receipt_total_cents) || 0,
       why: (e.model && e.model.why) || "",
       gate_reasons: (e.gate && e.gate.reasons) || [],

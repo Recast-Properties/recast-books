@@ -27,6 +27,77 @@
  * ASCII ONLY - same paste-into-the-editor constraint as Code.gs.
  ****************************************************************/
 
+// 2026-10-02 Paul ("what happened with the books last night?") - two of his 33 Inbox saves of 10-01 evening
+// did not finish (CHANGELOG 2026-10-02):
+//   1. Home Depot 03-06 (gm-19cc387a05beb25b, $36.77 oscillating blades, 104 Ashburne): the card was marked
+//      recorded and the execution then failed (Executions: inboxApprove 6:04:20 PM PDT, Failed, no log) - nothing
+//      reached the Journal. Put back to pending and saved again as he saved it (the read's one line, no edits)
+//      through the Inbox's own two steps, so the receipt is filed too.
+//   2. Lowe's 03-21 $4.52 putty knives (receipt-20260321-7696bec1640d-6e7d) is in the books with no receipt
+//      link: the Inbox's second step, run again for it.
+// Safe to run twice: each part looks at the Journal first.
+// FIRST in the file on purpose: the editor's Run button starts on a file's first function.
+// STATUS: NOT YET RUN
+function repairLostSaves20261001() {
+  var props = PropertiesService.getScriptProperties();
+  var ss = openWorkbook_(props);
+  requireOwner_(ss);
+  var journal = ss.getSheetByName('Journal'), cols = headerIndex_(journal);
+  var rowsOf = function (t) { return findAllRowsByValue_(journal, cols['txn_id'], t); };
+  var cardOf = function (docId) {
+    var e = (siteFetchJson_('/api/inbox?docId=' + encodeURIComponent(docId)).envelopes || [])[0];
+    if (!e || e.docId !== docId) throw new Error('No card for ' + docId);
+    return e;
+  };
+
+  var hd = cardOf('gm-19cc387a05beb25b'), lost = 'receipt-20260306-dd62aab4aabf-9646';
+  if (rowsOf(lost).length) console.log('1. Home Depot 03-06: already in the books - nothing done');
+  else {
+    if (hd.status !== 'posted' || ((hd.result || {}).txn_ids || []).join() !== lost) throw new Error('1. The Home Depot card is not as it was read (' + hd.status + ') - nothing done');
+    siteFetchJson_('/api/inbox', 'post', { action: 'mark-pending', docId: hd.docId });
+    var entries = JSON.parse(JSON.stringify(hd.model.entries));
+    entries.forEach(function (e) { (e.items || []).forEach(function (it) { if (it.property === undefined) it.property = e.property || ''; }); });
+    var a = inboxApprove({ docId: hd.docId, entries: entries, model: hd.model, note: '' });
+    if (!a.ok) throw new Error('1. ' + a.message);
+    SpreadsheetApp.flush();
+    var f = inboxFinish({ docId: hd.docId, txn_ids: a.txn_ids, entries: entries, model: hd.model, attachments: hd.attachments || [], bodyText: hd.bodyText || '' });
+    console.log('1. Home Depot 03-06 recorded: ' + a.txn_ids.join(', ') + ', rows ' + rowsOf(a.txn_ids[0]).join('-') + ', receipt ' + (f.ok ? f.doc_url : 'NOT filed: ' + f.message));
+  }
+
+  var lw = cardOf('gm-19d11a93764263f8'), knife = 'receipt-20260321-7696bec1640d-6e7d';
+  var rows = rowsOf(knife);
+  if (!rows.length) throw new Error('2. The Lowe\'s 4.52 entry is not in the books - nothing done');
+  if (String(journal.getRange(rows[0], cols['doc_url']).getValue())) console.log('2. Lowe\'s 03-21: already has its receipt - nothing done');
+  else {
+    var f2 = inboxFinish({ docId: lw.docId, txn_ids: [knife], entries: [{ date: '2026-03-21', property: 'OVERHEAD' }], model: lw.model, attachments: lw.attachments || [], bodyText: lw.bodyText || '' });
+    console.log('2. Lowe\'s 03-21 receipt ' + (f2.ok ? f2.doc_url : 'NOT filed: ' + f2.message));
+  }
+
+  // 3. The Citizens Bank tab last rebuilt 10-01 1:21 PM: its box, with last night's payments and the
+  //    rule that a payment dated after the bank file's last day is a reason, not a red line.
+  SpreadsheetApp.flush();
+  refreshBankSheets_(ss);
+  console.log('3. Citizens Bank tab rebuilt');
+}
+
+// 2026-10-02 - 104 Ashburne's September lawn bill, $60, is in the books twice: the Zelle to Effren from
+// Chase 6317 on 10-01 (receipt-20261001-822eca180792, recorded that morning from the Zelle screenshot, memo
+// "104 Ashburne") and the Ashburne line of Falcon Creek INV 1404 saved from the Inbox that evening as paid
+// by Paul (receipt-20260930-93c8983ebc93-dbe1). The Zelle IS the payment of that line. The evening one is
+// voided; the Zelle entry, on the account that paid, stays. WAITS FOR PAUL'S YES.
+// STATUS: NOT YET RUN
+function voidAshburneLawnCountedTwice() {
+  var props = PropertiesService.getScriptProperties();
+  var ss = openWorkbook_(props);
+  requireOwner_(ss);
+  var journal = ss.getSheetByName('Journal'), cols = headerIndex_(journal);
+  var keep = 'receipt-20261001-822eca180792', twin = 'receipt-20260930-93c8983ebc93-dbe1';
+  if (!findAllRowsByValue_(journal, cols['txn_id'], keep).length || findAllRowsByValue_(journal, cols['void_of'], keep).length) throw new Error('The Zelle entry is not live - nothing voided');
+  if (findAllRowsByValue_(journal, cols['void_of'], twin).length) { console.log('Already voided - nothing done'); return; }
+  var r = voidEntry_(twin, 'in the books twice - the 10-01 Zelle from Chase 6317 (' + keep + ') paid this line of INV 1404', Utilities.formatDate(new Date(), 'America/Chicago', 'yyyy-MM-dd'), Session.getActiveUser().getEmail(), props, false);
+  console.log('Voided ' + twin + ' as ' + r.txn_id + ', rows ' + r.rows.join('-'));
+}
+
 // 2026-10-01 Paul ("deploy, then update sparkling closing tab") - 280 Sparkling's closing tab rewritten in place
 // with everything decided on Granite's tab this afternoon, and its first cash row renamed to match Granite's
 // "Payout from title company": "Your half of the payout from title company (first wire)". The wording lives in

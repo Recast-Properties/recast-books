@@ -102,4 +102,11 @@ test("the bank-vs-books box: every dollar of difference has a reason, or is list
 
   const clean = bankCheck(F.slice(1, 3), [...J.slice(0, 2), ...J.slice(4)], "1401");
   assert.match(bankCheckRows(clean, "Citizens")[0][0], /they agree/);
+
+  // paid after the file's last day (09-03 here): a reason, the box still agrees
+  const late = paid("t-late", "1120", "136 Bowling Green", "Water", 30072).map((l) => ({ ...l, date: "2026-10-01" }));
+  const c2 = bankCheck(F.slice(1, 3), [...J.slice(0, 2), ...J.slice(4), ...late], "1401");
+  assert.deepEqual(c2.unexplained, []);
+  assert.ok(c2.reasons.some((r) => r.text === "1 payment recorded after 09-03, the last day on the bank file - it ties when the next file is imported" && r.cents === -30072));
+  assert.equal(c2.bank_cents + c2.reasons.reduce((s, r) => s + r.cents, 0), c2.books_cents);
 });

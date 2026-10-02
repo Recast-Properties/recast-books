@@ -481,6 +481,11 @@ function dailyDigest() {
   lines.push('Pending review (' + (data.pending || []).length + '):');
   (data.pending || []).forEach(function (p) {
     var when = /^\d{4}-\d{2}-\d{2}$/.test(p.date || '') ? ' (' + p.date.slice(5).replace('-', '/') + ')' : '';
+    // One email with several receipts (Paul, 2026-10-02: "showing up as one"): say how many and from when to when.
+    var ds = p.dates || [];
+    if (ds.length > 1 && ds[0] !== ds[ds.length - 1]) {
+      when = ' (' + ds.length + ' receipts, ' + ds[0].slice(5).replace('-', '/') + ' to ' + ds[ds.length - 1].slice(5).replace('-', '/') + ')';
+    }
     lines.push('  ' + (p.vendor || '(unknown vendor)') + ' - $' + centsToDollars_(p.receipt_total_cents) + when +
       ' - ' + digestReason_(p));
   });

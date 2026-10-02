@@ -579,6 +579,7 @@ function postEntry_(entry, props) {
 
     var startRow = sheet.getLastRow() + 1;
     sheet.getRange(startRow, 1, rows.length, rows[0].length).setValues(rows);
+    SpreadsheetApp.flush();   // land the rows inside the lock - see postBatchEntries_
 
     cache.put('txn:' + entry.txn_id, '1', 21600);
     refreshLineBlocksFor_(ss, entry.lines);
@@ -646,6 +647,7 @@ function voidEntry_(txnId, reason, date, postedBy, props, skipRefresh) {
 
     var startRow = sheet.getLastRow() + 1;
     sheet.getRange(startRow, 1, rows.length, rows[0].length).setValues(rows);
+    SpreadsheetApp.flush();   // land the rows inside the lock - see postBatchEntries_
     if (!skipRefresh) refreshLineBlocksFor_(ss, originalLines);
 
     return { ok: true, rows: [startRow, startRow + rows.length - 1], txn_id: voidTxnId };
@@ -896,6 +898,9 @@ function postBatchEntries_(entries, props, skipRefresh) {
 
     var startRow = sheet.getLastRow() + 1;
     sheet.getRange(startRow, 1, allRows.length, allRows[0].length).setValues(allRows);
+    // Land the rows before the lock goes: a buffered write that fails after the function has returned
+    // is lost with no error anyone catches (2026-10-01: a Save marked a card recorded, nothing in the books).
+    SpreadsheetApp.flush();
 
     postedIds.forEach(function (txnId) { cache.put('txn:' + txnId, '1', 21600); });
     if (!skipRefresh) refreshLineBlocksFor_(ss, entries.reduce(function (acc, en) { return acc.concat(en.lines); }, []));

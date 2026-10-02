@@ -2539,3 +2539,56 @@ matter here"); a BAD_ACCOUNT that still comes back is said in plain words; and a
 `No total could be read on this one: $500.00 to record now` instead of the red "$500.00 more than the receipt".
 Paid from 1401 was already right (Venmo draws on Citizens; the bank line ties it later). Pushed (the sheet's Inbox runs
 the pushed code - no deploy), committed. 546 tests.
+
+## 2026-10-02 (morning) - "what happened with the books last night?" - the long Books check, the red bank line, two saves that did not finish
+
+Paul, on the 3 AM email: *"what happened with the books last night? suddenly the bank part is blown up. also, the
+squarespace and roddy report expenses are emails with multiple receipts each and its showing up as one"*.
+
+**What happened.** The 2 AM check of 10-02 was the first after the 10-01 final register (D-067) and after Paul's 33
+Inbox saves of that evening (17:50-18:11 PDT). Every one of the 33 was read back against the Journal (all 1,257
+documents pulled, each card's saved lines against its entries): 31 landed exactly as he saved them. The check's eight
+lines:
+
+- **Six "may not be in the books at all" (Atmos 141.59, Sunstate 904.18, four Uber rides) were false alarms.** Each is
+  a double the final register voided on purpose on 10-01 (the Atmos bill paid inside the 05-08 197.00; Sunstate inside
+  the 922.26 with its card fee; four Uber receipts before the tip). `receipts_on_no_book` counted a voided entry a card
+  itself posted as a decision, but not a voided MIGRATED row the document was linked to. Fixed in `gatherFacts`: a
+  linked row that was voided accounts for the document.
+- **"Void one of the two Falcon Creek $110" was wrong.** INV 1404 bills 110.00 for each of two yards. One document
+  split across houses is no longer a possible duplicate (`oneBillSplit`). **The real double on that invoice is the
+  104 Ashburne $60**: recorded 10-01 morning from Paul's Zelle screenshot (Chase 6317, memo "104 Ashburne",
+  `receipt-20261001-822eca180792`) and again that evening as INV 1404's Ashburne line, paid by Paul
+  (`receipt-20260930-93c8983ebc93-dbe1`). `voidAshburneLawnCountedTwice()` waits for Paul's yes.
+- **Home Depot 03-06, $36.77 (Ashburne, oscillating blades): REAL - saved, marked recorded, not in the books.**
+  Executions: `inboxApprove` 6:04:20 PM PDT, 12.2 s, **Failed, no log** - the only failure of the evening.
+  `inboxApprove` marks the card first and catches a failed post to put it back; this failure escaped the catch, which
+  is what a buffered `setValues` failing at the end-of-execution flush does. **Fix: `SpreadsheetApp.flush()` straight
+  after the Journal write, inside the lock, on all three write paths** (`postEntry_`, `voidEntry_`,
+  `postBatchEntries_`) - a write that cannot land now throws where the catch puts the card back, and no second writer
+  can read a stale last row.
+- **Lowe's 03-21 $4.52: in the books, receipt link missing** (step two did not finish; the 25.89 downrod on that card
+  was Returned by Paul, as saved).
+- `repairLostSaves20261001()` (oneOffScripts.gs, first function): re-saves the Home Depot line through the Inbox's own
+  two steps, links the Lowe's receipt, rebuilds the Citizens Bank tab.
+
+**The bank box.** One red line: City of Red Oak 300.72, paid from Citizens 10-01, against a bank file that ends 09-28
+(and the tab was last rebuilt 10-01 1:21 PM, so last night's Falcon Creek 700.00 and Juanito 500.00 would have been four
+more). `bankCheck`: an entry dated after the file's last line is a reason - "5 payments recorded after 09-28, the last
+day on the bank file - they tie when the next file is imported" - not a red line. On today's Journal the box adds up:
+169,805.35 + 344.99 - 165,558.65 + 0.02 - 1,500.72 = 3,090.99, "they agree".
+
+**Several receipts in one email.** Both cards were read right - six entries each, own dates and amounts (Squarespace
+52.80 / 52.80 / 5.40 / 69.60 / 69.60 / 50.40; Roddy 6 x 84.44) - but the card and the email showed one vendor, one date
+(the last), one total. Now: the card's head says `6 receipts`, each entry has a heading (`Receipt 2 of 6: 2026-02-04 -
+$52.80 - invoice ...`), **Paid from picked on one receipt fills every receipt still unassigned**, and the 3 AM line reads
+`(6 receipts, 01/04 to 08/04)` (`/api/summary` sends `dates`). Checked on the real two cards in a local copy of the
+dialog (stubbed server) - not yet in the workbook. Both cards wait on one answer: whose card is Mastercard 7952
+(seen before on Twilio, American Airlines, Uber Eats - all recorded as Paul's).
+
+**Seen, not chased:** the 3 AM email's Posted list prints the read's proposed lines, not what Paul saved (Home Depot
+$64.24 shows 27.49 + 36.75; he recorded 20.54 and returned 43.70) - `mark-posted` does not keep the saved entries.
+`refreshBalanceSheetHourly` ran 241 s at 11 PM and 151 s at 8 AM (limit 360 s).
+
+546 tests (new asserts in three). **Owed:** `clasp login` expired (invalid_rapt) - then push writer and poller, run
+`repairLostSaves20261001`, deploy the site (the nightly check, `/api/summary`) and the writer web app (Code.gs, lib.gs).

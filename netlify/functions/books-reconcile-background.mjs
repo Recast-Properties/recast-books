@@ -77,8 +77,11 @@ export function gatherFacts(journal, envelopes, now = Date.now(), record = MIGRA
     const k = `${e.date}|${norm(e.payee)}|${e.debit}`;
     (groups.get(k) || groups.set(k, []).get(k)).push(e);
   }
-  // Two migrated rows alike are the old books as Paul kept them (D-027), not a finding.
-  const possible_duplicates = [...groups.values()].filter((gr) => gr.length > 1 && gr.some((e) => e.source !== "migration"))
+  // Two migrated rows alike are the old books as Paul kept them (D-027), not a finding. Nor is one
+  // document split across houses (Falcon Creek INV 1404, 2026-09-30: 110.00 each for two yards).
+  const fileId = (u) => (String(u || "").match(/\/d\/([\w-]{20,})/) || [])[1];
+  const oneBillSplit = (gr) => fileId(gr[0].doc_url) && gr.every((e) => fileId(e.doc_url) === fileId(gr[0].doc_url)) && new Set(gr.map((e) => e.property)).size === gr.length;
+  const possible_duplicates = [...groups.values()].filter((gr) => gr.length > 1 && gr.some((e) => e.source !== "migration") && !oneBillSplit(gr))
     .map((gr) => ({ date: gr[0].date, payee: gr[0].payee, total: money(gr[0].debit), entries: gr.map((e) => `${e.txn_id} (${e.source}, ${e.property || "no property"}${e.memo ? `; memo: ${e.memo}` : ""})`) }));
 
   // (d) receipt entries with no document - a placeholder has none by design, and has its own list
@@ -106,7 +109,6 @@ export function gatherFacts(journal, envelopes, now = Date.now(), record = MIGRA
   // accounted copy accounts for all of them. Old-book payees are misspelled ("Harbor Frieght"),
   // so the last resort matches on amount and date, with a shared word or the same day.
   const liveIds = new Set(entries.map((e) => e.txn_id));
-  const fileId = (u) => (String(u || "").match(/\/d\/([\w-]{20,})/) || [])[1];
   const liveFiles = new Set(entries.map((e) => fileId(e.doc_url)).filter(Boolean));
   const inA = new Set(envelope_not_on_journal.map((e) => e.docId));
   const words = (s) => String(s || "").toLowerCase().match(/[a-z]{4,}/g) || [];
@@ -122,14 +124,16 @@ export function gatherFacts(journal, envelopes, now = Date.now(), record = MIGRA
     const m = e.model || {}, note = String(e.review?.note || ""), txns = e.result?.txn_ids || [];
     if ((e.status !== "posted" && e.status !== "dismissed") || inA.has(e.docId)) return true; // the queue, (a), (e)
     if (txns.length && txns.every((t) => liveIds.has(t) || voided.has(t))) return true; // a void is a decision, not a loss
-    if ((record.links[e.docId] || []).some((t) => liveIds.has(t))) return true; // a migrated row carries it
+    // a migrated row carries it - or carried it and was voided: taken out on purpose (the 10-01 final
+    // register's doubles came back the next night as six "may not be in the books" lines for Paul)
+    if ((record.links[e.docId] || []).some((t) => liveIds.has(t) || voided.has(t))) return true;
     if (liveFiles.has(fileId(e.result?.doc_url))) return true;
     const named = note.match(/its row is in the Journal: (\S+)/);
     if (named && liveIds.has(named[1])) return true;
     if (settled.has(e.docId) || /recorded decision - /.test(note)) return true;
     // what it says it is a copy of: the model's duplicate_of, or the migration's "a second copy of <doc>"
     for (const p of [m.duplicate_of, (note.match(/second copy of (\S+?)[,\s]/) || [])[1]].filter(Boolean).map(String)) {
-      if (liveIds.has(p) || settled.has(p) || (record.links[p] || []).some((t) => liveIds.has(t))) return true;
+      if (liveIds.has(p) || settled.has(p) || (record.links[p] || []).some((t) => liveIds.has(t) || voided.has(t))) return true;
       const original = byDoc.get(p);
       if (original && !seen.has(e.docId) && accounted(original, seen.add(e.docId))) return true;
     }

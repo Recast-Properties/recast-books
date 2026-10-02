@@ -62,6 +62,14 @@ test("gatherFacts: envelope/Journal disagreement both ways, duplicates across so
   assert.deepEqual(f.stuck.map((e) => e.docId), ["gm-3"]);
   assert.deepEqual(f.errors.map((e) => [e.docId, e.received]), [["gm-5", "2026-05-01"]]);
   assert.deepEqual(f.pending, { count: 1, oldest: "2026-09-23T12:00:00Z" });
+
+  // one lawn invoice, the same amount for two yards: a split of one document, not a duplicate
+  const doc = "https://drive.google.com/file/d/1AbCdEfGhIjKlMnOpQrStUv/view";
+  const lawn = (id, prop) => [row(id, 1, "2026-09-30", "1130", 110, "", prop, "Falcon Creek Lawn Care", doc, "receipt"), row(id, 2, "2026-09-30", "1401", "", 110, prop, "Falcon Creek Lawn Care", doc, "receipt")];
+  const split = gatherFacts({ headers: H, rows: [...JOURNAL.rows, ...lawn("receipt-20260930-bg", "136 Bowling Green"), ...lawn("receipt-20260930-np", "881 Newport")] }, ENVELOPES, NOW);
+  assert.equal(split.possible_duplicates.length, 1, "the two yards are not a finding");
+  const twice = gatherFacts({ headers: H, rows: [...JOURNAL.rows, ...lawn("receipt-20260930-bg", "881 Newport"), ...lawn("receipt-20260930-np", "881 Newport")] }, ENVELOPES, NOW);
+  assert.equal(twice.possible_duplicates.length, 2, "the same yard twice still is");
 });
 
 function fakes() {
@@ -123,6 +131,10 @@ test("receipts_on_no_book: a receipt every copy of which points at something not
     "lost; a second top-up with its own receipt number; a ruled dismissal with no recorded decision");
   assert.match(f.receipts_on_no_book[0].copies[0], /named receipt-20260319-staging as the original - not on the books/);
   assert.match(CHECK_PROMPT, /receipts_on_no_book/);
+
+  // its migrated row was voided: a double taken out on purpose (the Atmos 141.59 of 2026-10-01), not a loss
+  assert.equal(gatherFacts(JOURNAL, [...ENVELOPES, ...docs], NOW, { ...record, links: { ...record.links, "gm-lost": ["receipt-20260901-ddd"] } })
+    .receipts_on_no_book.some((r) => r.vendor === "Harbor Freight"), false);
 
   // its own migrated row puts it back on the books
   assert.equal(gatherFacts(JOURNAL, [...ENVELOPES, ...docs], NOW, { ...record, links: { ...record.links, "gm-lost": ["migration-20260322-aaa"] } })
