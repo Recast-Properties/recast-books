@@ -267,5 +267,5 @@ test("ONE-OFF (OneOff.gs, D-076): the original of a stored photo is found by its
   assert.equal(items.length, 87);
   for (const it of items) assert.ok(/^gm-[0-9a-f]+$/.test(it[0]) && Number.isInteger(it[1]) && it[2] > 0 && /\.jpg$/.test(it[3]) && it[4].length >= 1 && ["paul", "properties"].includes(it[5]), JSON.stringify(it));
   assert.equal(new Set(items.flatMap((it) => it[4])).size, items.flatMap((it) => it[4]).length, "no Drive file twice");
-  assert.match(source, /mailboxMode_\(props\) === 'properties' && exportOriginalsForRestore_\(\)\) return;/);
+  assert.match(source, /if \(mailboxMode_\(props\) === 'properties'\) exportOriginalsForRestore_\(\);/);
 });

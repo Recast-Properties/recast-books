@@ -297,9 +297,9 @@ function pollBooks() {
   }
   try {
     var props = PropertiesService.getScriptProperties();
-    // ONE-OFF 2026-10-02 (OneOff.gs, D-076): on properties@ this run copies photo originals out of the mail for the
-    // restore, and the mail waits for the next run. Comes out with OneOff.gs.
-    if (mailboxMode_(props) === 'properties' && exportOriginalsForRestore_()) return;
+    // ONE-OFF 2026-10-02 (OneOff.gs, D-076): on properties@ each run first copies photo originals out of the mail
+    // for the restore (up to 4 minutes), then reads the mail as usual. Comes out with OneOff.gs.
+    if (mailboxMode_(props) === 'properties') exportOriginalsForRestore_();
     var secret = requireProp_(props, 'POLLER_SECRET');
     var uploadUrl = requireProp_(props, 'BOOKS_UPLOAD_URL');
     var startDate = props.getProperty('START_DATE') || todayIso_();

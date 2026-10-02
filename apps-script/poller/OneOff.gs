@@ -7,8 +7,8 @@
  *
  *   1. properties@ - exportOriginalsForRestore_(), called from pollBooks on that account's own
  *      timer: copies each original attachment out of the mail into a Drive folder
- *      ("books-restore-originals") it shares with paul@ to view. A few minutes per run, and
- *      that run reads no mail; it gives up its turn after RESTORE_MAX_RUNS runs whatever happened.
+ *      ("books-restore-originals") it shares with paul@ to view. Up to 4 minutes at the start
+ *      of a run, then the mail as usual; it stops after RESTORE_MAX_RUNS runs whatever happened.
  *   2. paul@ - restoreOriginalPhotos(), run from the editor, again until it says ALL DONE:
  *      takes each original (from the paul@ mail, or from that folder) and uploads it INTO the
  *      existing Drive file - same file id, so every link in the books still opens it, and Drive
@@ -26,9 +26,8 @@ function restoreOriginalPhotos() {
   if (mailboxMode_(props) !== 'paul') throw new Error('restoreOriginalPhotos runs in the paul@ project only');
   var done = JSON.parse(props.getProperty('RESTORE_DONE') || '{}');
   var shared = {};   // "<docId>__<i>" -> the original, as properties@ exported it
-  var folders = DriveApp.searchFolders("title = '" + RESTORE_FOLDER_NAME + "' and sharedWithMe = true");
-  while (folders.hasNext()) {
-    var files = folders.next().getFiles();
+  if (RESTORE_FOLDER_ID) {   // by id: a Drive search for the shared folder timed out on the first run (10:20 PDT, nothing touched)
+    var files = DriveApp.getFolderById(RESTORE_FOLDER_ID).getFiles();
     while (files.hasNext()) { var f = files.next(); shared[f.getName().split('__').slice(0, 2).join('__')] = f; }
   }
   var started = Date.now(), waiting = 0, failed = [];
@@ -61,12 +60,26 @@ function restoreOriginalPhotos() {
   failed.forEach(function (m) { console.error('FAILED ' + m); });
   skipped.forEach(function (m) { console.warn(m); });
   var left = RESTORE_ITEMS.length - ok - skipped.length;
+  if (!left) {   // the last run reads every file back: its size and the photo's width and height, as Drive has them now
+    var auth = { Authorization: 'Bearer ' + ScriptApp.getOAuthToken() }, small = 0, files = 0;
+    RESTORE_ITEMS.forEach(function (it) {
+      it[4].forEach(function (fileId) {
+        var m = JSON.parse(restoreFetch_('https://www.googleapis.com/drive/v3/files/' + fileId + '?fields=name,size,imageMediaMetadata(width,height)', { headers: auth }).getContentText());
+        var px = m.imageMediaMetadata || {};
+        files++;
+        if (Number(m.size) <= it[2] || (px.width && Math.max(px.width, px.height) <= 2000)) { small++; console.warn('STILL SMALL "' + m.name + '" ' + m.size + ' bytes ' + px.width + 'x' + px.height); }
+        else console.log('read back "' + m.name + '" ' + m.size + ' bytes ' + (px.width ? px.width + 'x' + px.height : '(Drive has not measured it yet)'));
+      });
+    });
+    console.log('read back ' + files + ' Drive files: ' + (files - small) + ' full size, ' + small + ' still small');
+  }
   console.log('restoreOriginalPhotos: ' + ok + ' of ' + RESTORE_ITEMS.length + ' replaced, ' + skipped.length + ' skipped, ' + failed.length + ' failed this run, ' +
     waiting + ' waiting on the properties@ export. ' + (left ? 'RUN AGAIN - ' + left + ' left.' : 'ALL DONE.'));
 }
 
 var RESTORE_FOLDER_NAME = 'books-restore-originals';
-var RESTORE_MAX_RUNS = 6;
+var RESTORE_FOLDER_ID = '1CbqVH8hwHE5dwjuI6dDu6uX-7lpbXLIN';   // the folder properties@ made - filled in once it exists
+var RESTORE_MAX_RUNS = 12;   // the second run got 10 photos in its 4 minutes (the first, 38)
 
 /** The pdf/image attachments of a message, as buildPayload_ counts them, and the one that is the
  *  original of the stored copy (restorePick_). Null when it is not there. */
@@ -133,8 +146,8 @@ function restoreFetch_(url, options) {
 }
 
 /** properties@ only, from pollBooks: copies the originals out of the mail into a folder paul@ can
- *  read. True when this run did the copying (pollBooks then leaves the mail for its next run).
- *  Every photo is tried once, and never more than RESTORE_MAX_RUNS runs, so it cannot hold the mail up. */
+ *  read. True when this run did some copying. Every photo is tried once, 4 minutes a run at most,
+ *  and never more than RESTORE_MAX_RUNS runs. */
 function exportOriginalsForRestore_() {
   try {
     var props = PropertiesService.getScriptProperties();
