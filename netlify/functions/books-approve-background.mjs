@@ -36,7 +36,7 @@ export async function runApprove({ docId, writer, docsStore, folder, folderModel
   const entries = envelope.posting_entries;
   // Back to pending with the reason on the card: nothing was written.
   const backToPending = async (message) => {
-    const { posting_entries, posting_at, ...rest } = envelope;
+    const { posting_entries, posting_at, saved_entries, ...rest } = envelope;
     await docsStore.setJSON(key, { ...rest, status: "pending", gate: { passed: false, reasons: [...(envelope.gate?.reasons || []), `approve failed: ${message}`] } });
     return { ok: false, error: message };
   };
@@ -64,11 +64,12 @@ export async function runApprove({ docId, writer, docsStore, folder, folderModel
     if (!landed) return backToPending(`${err.code || "WRITER_ERROR"}: ${String((err && err.message) || err)}`);
   }
 
-  const { posting_entries, posting_at, ...rest } = envelope;
+  const { posting_entries, posting_at, saved_entries, ...rest } = envelope;
   await docsStore.setJSON(key, {
     ...rest,
     status: "posted",
-    result: { txn_ids: entries.map((e) => e.txn_id), rows, doc_url },
+    // entries: what was approved (possibly edited) - /api/summary prints these, not the read's
+    result: { txn_ids: entries.map((e) => e.txn_id), rows, doc_url, ...(saved_entries?.length ? { entries: saved_entries } : {}) },
     review: { action: "approve", by, at: new Date().toISOString(), note: note || "" },
   });
   await invalidateJournalCache(writer);

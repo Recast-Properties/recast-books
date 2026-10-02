@@ -229,7 +229,7 @@ export default async (req) => {
       if (envelope.status === "posting" && Date.now() - Date.parse(envelope.posting_at || 0) < 5 * 60 * 1000) {
         return json(409, { error: "POSTING", message: "this document is already being posted; reload in a minute" });
       }
-      await docsStore.setJSON(`doc/${docId}`, { ...envelope, status: "posting", posting_at: new Date().toISOString(), posting_entries: entries });
+      await docsStore.setJSON(`doc/${docId}`, { ...envelope, status: "posting", posting_at: new Date().toISOString(), posting_entries: entries, saved_entries: entriesInput });
 
       const origin = new URL(req.url).origin;
       let res;
@@ -264,10 +264,13 @@ export default async (req) => {
       if (envelope.status !== "pending" && envelope.status !== "posting") {
         return json(409, { error: "NOT_PENDING", message: `envelope is "${envelope.status}", not pending` });
       }
+      // entries: what Paul saved in the workbook, which may be less than the read proposed (a line
+      // marked Returned or Dismiss) - /api/summary prints these in the digest's Posted list.
+      const saved = Array.isArray(body.entries) && body.entries.length ? { entries: body.entries } : {};
       const updated = {
         ...envelope,
         status: "posted",
-        result: { txn_ids, rows: body.rows ?? null, doc_url: body.doc_url || envelope.result?.doc_url || "" },
+        result: { txn_ids, rows: body.rows ?? null, doc_url: body.doc_url || envelope.result?.doc_url || "", ...saved },
         review: { action: "approve", by, at: new Date().toISOString(), note: body.note || "", in_process: true },
       };
       // A card born from bank lines ties its Feed rows in the workbook itself (Menu.gs tieFeedRows_):

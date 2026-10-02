@@ -131,6 +131,29 @@ test("buckets posted/pending/dismissed/errors by finishedAt's Chicago date, excl
   assert.equal(body.totals.error_count, 1);
 });
 
+test("Posted prints what Paul saved from the Inbox, not what the read proposed", async () => {
+  // 2026-10-02, The Home Depot 08-05: read as 27.49 + 36.75, Paul marked 43.70 Returned and recorded 20.54.
+  await getDocsStore().setJSON("doc/gm-saved", {
+    docId: "gm-saved",
+    status: "posted",
+    finishedAt: "2026-09-10T16:00:00.000Z",
+    model: {
+      vendor: "The Home Depot",
+      receipt_total_cents: 6424,
+      entries: [
+        { property: "104 Ashburne", items: [{ account: "1030", amount_cents: 2749 }] },
+        { property: "", items: [{ account: "6510", amount_cents: 3675 }] },
+      ],
+    },
+    result: { txn_ids: ["receipt-20260805-x"], entries: [{ property: "1616 Granite", items: [{ account: "1030", amount_cents: 2054 }] }] },
+  });
+  const body = await (await handler(req({ date: "2026-09-10", token: session("owner") }))).json();
+  assert.equal(body.posted[0].total_cents, 2054);
+  assert.equal(body.posted[0].property, "1616 Granite");
+  assert.deepEqual(body.posted[0].account_summary, [{ account: "1030", amount_cents: 2054 }]);
+  assert.equal(body.totals.posted_total_cents, 2054);
+});
+
 test("no date param defaults to today (Chicago)", async () => {
   const res = await handler(req({ token: session("owner") }));
   assert.equal(res.status, 200);

@@ -9,7 +9,9 @@
 // Built entirely from the envelopes already sitting in the "books-docs" Blobs store
 // (no writer call needed) - each envelope already carries everything the digest
 // needs: the model's verdict/why, the gate's reasons, and (for a posted item) the
-// proposed entries' items, which this file aggregates into a per-account summary.
+// entries' items, which this file aggregates into a per-account summary - the entries
+// Paul saved from the Inbox (`result.entries`) when there are any, else the read's own
+// (an auto-post records the read as it stands).
 // Dry-run envelopes are excluded - they are a test read, not real bookkeeping
 // activity for the day (see this task's report for this interpretation).
 
@@ -52,6 +54,22 @@ function propertyOf(model) {
   return first.property || "";
 }
 
+/** One line of the Posted list. What Paul saved wins over what the read proposed: he can mark
+ *  lines Returned or Dismiss, and then the amount is what was recorded, not the receipt's total
+ *  (2026-10-02: Home Depot read as 64.24, 20.54 recorded - the digest printed the 64.24). */
+function postedLine(e) {
+  const saved = e.result && Array.isArray(e.result.entries) && e.result.entries.length ? { entries: e.result.entries } : null;
+  const account_summary = accountSummaryFor(saved || e.model);
+  return {
+    docId: e.docId,
+    vendor: (e.model && e.model.vendor) || "",
+    total_cents: saved ? account_summary.reduce((sum, a) => sum + a.amount_cents, 0) : (e.model && e.model.receipt_total_cents) || 0,
+    property: propertyOf(saved || e.model),
+    account_summary,
+    txn_ids: (e.result && e.result.txn_ids) || [],
+  };
+}
+
 export default async (req) => {
   const configErr = requireConfig(["SESSION_SECRET", "POLLER_SECRET"]);
   if (configErr) return configErr;
@@ -87,16 +105,7 @@ export default async (req) => {
 
   const forDate = envelopes.filter((e) => chicagoDateOf(e.finishedAt || e.startedAt) === date);
 
-  const posted = forDate
-    .filter((e) => e.status === "posted")
-    .map((e) => ({
-      docId: e.docId,
-      vendor: (e.model && e.model.vendor) || "",
-      total_cents: (e.model && e.model.receipt_total_cents) || 0,
-      property: propertyOf(e.model),
-      account_summary: accountSummaryFor(e.model),
-      txn_ids: (e.result && e.result.txn_ids) || [],
-    }));
+  const posted = forDate.filter((e) => e.status === "posted").map(postedLine);
 
   const pending = forDate
     .filter((e) => e.status === "pending")

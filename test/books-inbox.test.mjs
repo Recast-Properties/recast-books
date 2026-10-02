@@ -212,6 +212,20 @@ test("mark-posted records an in-process post on a pending envelope, by from the 
   assert.equal(writerCalls.length, 0); // nothing posted from here - the workbook already did
 });
 
+test("mark-posted keeps the entries Paul saved, and the later doc_url patch does not drop them", { skip }, async () => {
+  await seedEnvelope("gm-mp7");
+  const saved = [{ property: "1616 Granite", items: [{ account: "1030", amount_cents: 2054 }] }];
+  await handler(pollerReq("POST", { body: { action: "mark-posted", docId: "gm-mp7", txn_ids: ["t1"], entries: saved } }));
+  await handler(pollerReq("POST", { body: { action: "mark-posted", docId: "gm-mp7", txn_ids: ["t1"], doc_url: "https://drive/late" } }));
+  let envelope = await getDocsStore().get("doc/gm-mp7", { type: "json" });
+  assert.deepEqual(envelope.result.entries, saved);
+  assert.equal(envelope.result.doc_url, "https://drive/late");
+  // put back to pending (the post failed): nothing was saved after all
+  await handler(pollerReq("POST", { body: { action: "mark-pending", docId: "gm-mp7" } }));
+  envelope = await getDocsStore().get("doc/gm-mp7", { type: "json" });
+  assert.equal(envelope.result.entries, undefined);
+});
+
 test("mark-posted refuses an envelope that is not pending, and an empty txn_ids", { skip }, async () => {
   await seedEnvelope("gm-mp2", { status: "posted" });
   const res = await handler(pollerReq("POST", { body: { action: "mark-posted", docId: "gm-mp2", txn_ids: ["x"] } }));
@@ -274,6 +288,7 @@ test("approve: builds entries, marks the envelope posting with them, fires appro
   assert.equal(envelope.posting_entries.length, 1);
   assert.equal(envelope.posting_entries[0].posted_by, "owner@recast-properties.com");
   assert.equal(envelope.posting_entries[0].lines.some((l) => l.account === "1030"), true);
+  assert.deepEqual(envelope.saved_entries, envelope.model.entries); // approved as read; approve-bg moves it to result.entries
 
   assert.equal(writerCalls.some((c) => c.action === "postBatch"), false, "the sync verb never posts");
   const bg = ingestCalls.find((c) => c.url.endsWith("/api/approve-bg"));

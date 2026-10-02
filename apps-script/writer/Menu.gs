@@ -781,8 +781,10 @@ function inboxApprove(req) {
     var swap = req.supersedes ? replacedEntry_(ss, String(req.supersedes), entries) : null;
     if (swap && swap.refuse) return { ok: false, error: 'NOT_THAT_CHARGE', message: swap.refuse };
 
+    // entries: what Paul saved (lines he marked Returned or Dismiss are not in it) - the 3 AM email's
+    // Posted list prints these, not the read's (2026-10-02: Home Depot 64.24 read, 20.54 recorded).
     siteFetchJson_('/api/inbox', 'post', { action: 'mark-posted', docId: docId, txn_ids: txnIds, rows: null,
-      doc_url: '', by: postedBy, note: req.note || '' });
+      doc_url: '', by: postedBy, note: req.note || '', entries: entries });
     marked = true;
     lap('mark');
 

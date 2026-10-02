@@ -59,13 +59,16 @@ test("files to Drive, posts with the doc_url, marks posted with the review", asy
 });
 
 test("a lost postBatch reply is confirmed on the Journal and recorded as posted", async () => {
-  const store = memStore(envelope({ attachments: [] }));
+  const approved = [{ property: "881 Newport", items: [{ account: "1030", amount_cents: 4500 }] }];
+  const store = memStore(envelope({ attachments: [], saved_entries: approved }));
   const writer = fakeWriter({ post: () => { throw new WriterError("REDIRECT_MISFIRE", "lost"); } });
   const res = await runApprove(args(store, writer));
   assert.equal(res.ok, true);
   const env = await store.get("doc/gm-1", { type: "json" });
   assert.equal(env.status, "posted");
   assert.equal(env.result.rows, null);
+  assert.deepEqual(env.result.entries, approved); // what was approved, for the digest's Posted list
+  assert.equal(env.saved_entries, undefined);
 });
 
 test("a refused post goes back to pending with the writer's reason on the card", async () => {
