@@ -78,13 +78,31 @@ function repairLostSaves20261001() {
   SpreadsheetApp.flush();
   refreshBankSheets_(ss);
   console.log('3. Citizens Bank tab rebuilt');
+
+  // 4, 5. Paul, 2026-10-02 08:30 PDT: "yes Mastercard ending 7952 is a personal card. yes ok to remove second $60"
+  voidAshburneLawnCountedTwice();
+  addPaulPersonalCard7952_(ss);
+}
+
+// Settings paul_personal_last4 gains 7952 (Paul's personal Mastercard - Squarespace, the Roddy report, Twilio),
+// so a receipt showing it is read as paid by Paul. Settings is a key/value tab, not the Journal.
+function addPaulPersonalCard7952_(ss) {
+  var sh = ss.getSheetByName('Settings'), cols = headerIndex_(sh);
+  var rows = findAllRowsByValue_(sh, cols['key'], 'paul_personal_last4');
+  if (rows.length !== 1) throw new Error('5. Settings has ' + rows.length + ' paul_personal_last4 rows - nothing changed');
+  var cell = sh.getRange(rows[0], cols['value']), was = String(cell.getValue());
+  if (was.indexOf('7952') >= 0) { console.log('5. 7952 already on the list: ' + was); return; }
+  cell.setNumberFormat('@').setValue(was + ', 7952');
+  warmCache_();
+  console.log('5. paul_personal_last4: ' + was + ' -> ' + was + ', 7952');
 }
 
 // 2026-10-02 - 104 Ashburne's September lawn bill, $60, is in the books twice: the Zelle to Effren from
 // Chase 6317 on 10-01 (receipt-20261001-822eca180792, recorded that morning from the Zelle screenshot, memo
 // "104 Ashburne") and the Ashburne line of Falcon Creek INV 1404 saved from the Inbox that evening as paid
 // by Paul (receipt-20260930-93c8983ebc93-dbe1). The Zelle IS the payment of that line. The evening one is
-// voided; the Zelle entry, on the account that paid, stays. WAITS FOR PAUL'S YES.
+// voided; the Zelle entry, on the account that paid, stays. Paul: "yes ok to remove second $60".
+// Run by repairLostSaves20261001.
 // STATUS: NOT YET RUN
 function voidAshburneLawnCountedTwice() {
   var props = PropertiesService.getScriptProperties();
