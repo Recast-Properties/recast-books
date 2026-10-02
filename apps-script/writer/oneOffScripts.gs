@@ -29,3 +29,10 @@
  *
  * ASCII ONLY - same paste-into-the-editor constraint as Code.gs.
  ****************************************************************/
+
+// 2026-10-02 Paul ("youre missing green acres, bowling green, janice, white rock", D-075) - rebuilds the Taxes tab
+// now with every held house listed, instead of at the hourly timer's next turn: the timer's own job, run once.
+// STATUS: DONE 2026-10-02 09:44 PDT, run from the editor by Claude (12 s, no errors); all eight held houses read back.
+function rebuildTaxesTabNow() {
+  refreshBalanceSheetHourly();
+}

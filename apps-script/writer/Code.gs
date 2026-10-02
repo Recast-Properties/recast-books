@@ -1131,8 +1131,8 @@ function refreshTax_(ss, lines) {
   }
 }
 
-/** Each house still held whose tab has a sale price typed: the profit to Paul that its own tab shows
- *  (`Paul Share` on a partner deal, `Profit` on the bank deal). */
+/** Every house still held, with the profit to Paul that its own tab shows (`Paul Share` on a partner deal,
+ *  `Profit` on the bank deal) - null while no sale price is typed there (the tab would show its costs as a loss). */
 function expectedProfits_(ss) {
   var sheet = ss.getSheetByName('Properties');
   if (!sheet || sheet.getLastRow() < 2) return [];
@@ -1148,7 +1148,7 @@ function expectedProfits_(ss) {
         if (profit === '' && (label === 'Profit' || label.indexOf('Paul Share (') === 0)) profit = v[c + 1];
       }
     });
-    if (Number(sale) > 0 && typeof profit === 'number') out.push({ name: name, profit_cents: toCents(profit) });
+    if (typeof profit === 'number') out.push({ name: name, profit_cents: Number(sale) > 0 ? toCents(profit) : null });
   });
   return out;
 }

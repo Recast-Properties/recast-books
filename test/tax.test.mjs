@@ -47,7 +47,7 @@ test("taxFacts: the year's profit, half of meals, lines labelled Non-deductible 
 
 test("taxTab: plain rows, Paul's typed cells kept, a house counts only when he typed yes", () => {
   const facts = { year: "2026", earned: 5000000, meals_half: 10000, fines: 28095, travel: 800000 };
-  const houses = [{ name: "104 Ashburne", profit_cents: 12800000 }, { name: "366 Mesa", profit_cents: 3000000 }];
+  const houses = [{ name: "104 Ashburne", profit_cents: 12800000 }, { name: "366 Mesa", profit_cents: 3000000 }, { name: "200 Janice", profit_cents: null }];
   const by = (t) => Object.fromEntries(t.rows.filter((r) => r[0]).map((r) => [r[0], r[1]]));
 
   const first = taxTab(facts, houses);
@@ -58,20 +58,21 @@ test("taxTab: plain rows, Paul's typed cells kept, a house counts only when he t
   assert.equal(by(first)["SET ASIDE FOR BOTH"], (e.self_employment + e.fed_income + e.oregon) / 100);
 
   const typed = { [TAX_INPUTS.status]: ["Married", ""], [TAX_INPUTS.other]: [40000, ""], [TAX_INPUTS.paid_irs]: [10000, ""], [TAX_INPUTS.paid_or]: ["", ""],
-    "104 Ashburne": [128000, "Yes"], "366 Mesa": [30000, ""] };
+    "104 Ashburne": [128000, "Yes"], "366 Mesa": [30000, ""], "200 Janice": ["no sale price yet", "yes"] };
   const t = taxTab(facts, houses, typed);
   const b = by(t);
   assert.equal(b[TAX_INPUTS.status], "married");
   assert.equal(b[TAX_INPUTS.other], 40000);
   assert.equal(t.rows.find((r) => r[0] === "104 Ashburne")[2], "yes");
   assert.equal(t.rows.find((r) => r[0] === "366 Mesa")[2], "");
-  assert.equal(b["Profit you are taxed on"], 178380.95);
+  assert.equal(b["200 Janice"], "no sale price yet", "a held house with no sale price on its tab is listed");
+  assert.equal(b["Profit you are taxed on"], 178380.95, "and adds nothing, even marked yes");
   const m = taxEstimate({ year: "2026", status: "married", profit_cents: 17838095, other_cents: 4000000 });
   assert.equal(b["Still owed to the IRS"], (m.self_employment + m.fed_income) / 100 - 10000);
   assert.equal(b["Still owed to Oregon"], m.oregon / 100);
   assert.equal(b["SET ASIDE FOR BOTH"], (m.self_employment + m.fed_income + m.oregon) / 100 - 10000);
   assert.equal(t.kinds.filter((k) => k === "input").length, 4);
-  assert.equal(t.kinds.filter((k) => k === "house").length, 2);
+  assert.equal(t.kinds.filter((k) => k === "house").length, 3);
   assert.ok(!JSON.stringify(t.rows.map((r) => [r[0], r[2]])).match(/\b(6600|6700|6710|QBI|AGI|Schedule|self-employment|accrual|ledger|journal)\b/i), "no account codes or tax-form words");
 
   const none = taxTab({ ...facts, year: "2031" }, houses, typed);
