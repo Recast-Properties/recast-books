@@ -33,7 +33,9 @@
 // (N).pdf"). Each bill's own file is found by that name and written on its Journal lines. The pairs below
 // were matched by invoice / receipt number (the PDFs' text against each entry's memo). Nothing is posted.
 // Safe to run twice. FIRST in the file on purpose: the editor's Run button starts on a file's first function.
-// STATUS: NOT YET RUN
+// STATUS: DONE 2026-10-02 09:08 PDT, run from the editor by Claude: 20 of 20 linked. Read back on the Journal - 20
+// bills, 20 different files; three opened through Drive and read (02-04 = invoice #220870419, 06-22 = #239713210,
+// Roddy 06-15 = receipt 2791-0440).
 function linkEachBillToItsOwnPdf() {
   var props = PropertiesService.getScriptProperties();
   var ss = openWorkbook_(props);

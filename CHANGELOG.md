@@ -2678,3 +2678,20 @@ no card. Five Squarespace invoices and three Roddy receipts never reached the bo
   09-04), the Roddy report 9 months = 759.96 (01-15 to 09-15). Journal 3,136 rows, 5,274,202.23 both sides.
 - **No other email ever hit the limit** but one: Verity Plumbing 08-06 (six attachments, the invoice and mail images),
   whose 1,526.46 is in the books from the migration.
+
+## 2026-10-02 (09:00-09:10 PDT) - each bill of a several-receipt email opens its own PDF
+
+Paul: *"link each bill to its own pdf"*. Both filing paths stored every attachment in Drive and then gave every
+entry of the document the FIRST file's link (`filed[0]`, `setDocUrl_(txnIds, docUrl)`).
+
+- **The 20 bills of today, relinked** (`linkEachBillToItsOwnPdf()`, run 09:08 PDT): each bill matched to its PDF by
+  invoice / receipt number (the Desktop PDFs' text against the entry memos), the Drive file found by its filed name,
+  the link written on its Journal lines. Read back: 20 bills, 20 different files; three opened through Drive and read
+  (Squarespace 02-04 = #220870419, 06-22 = #239713210; Roddy 06-15 = receipt 2791-0440). Nothing posted.
+- **From now on:** the read says which attachment each entry came from (`attachment` on a `decide` entry, null for a
+  one-receipt document; one paragraph in the instructions); the ingest gives each entry its own file
+  (`ownReceiptUrl` in `_shared.mjs`), and so does the sheet's Inbox on Save (`inboxFinish`). The read counts the
+  attachments it was SHOWN, so the own-file link is used only when every attachment is a PDF or a plain image and
+  every one was filed - otherwise the first file, as before. Not done: the web Inbox's approve (`approve-bg`), which
+  Paul never uses. 550 tests. Writer pushed (Menu.gs - no web app deploy). **Owed: the site deploy** (the read's new
+  field, the ingest) - until then a new several-receipt email still links the first file.
