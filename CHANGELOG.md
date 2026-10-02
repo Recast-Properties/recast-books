@@ -2655,3 +2655,26 @@ Journal 3,118 rows, 5,273,702.75 both sides. **The several-receipts card is prov
 kept their saved lines (`result.entries`, six each). Seen, not chased: every entry of such a card links the FIRST PDF
 of the email (`inboxFinish` files all six, `setDocUrl_` gives every entry the first file's link). Months not in either
 email: Squarespace May, June, July; the Roddy report January, March, June.
+
+## 2026-10-02 (08:45-08:52 PDT) - the email reader dropped every attachment after the sixth
+
+Paul, on the months missing from the two cards: *"those missing months should be in there. look in my folders on my
+desktop"*. They were: `Desktop/Squarespace Invoices` holds 11 PDFs and `Desktop/Roddy Invoices` 9, and he attached all
+of them. **The poller's `MAX_ATTACH_COUNT: 6` ended the attachment loop at six and said nothing** - no note, no error,
+no card. Five Squarespace invoices and three Roddy receipts never reached the bookkeeper.
+
+- **`buildPayload_` (poller `Code.gs`):** an email with more than six attachments, or more than 4 MB of them, becomes
+  several documents - `gm-<id>`, `gm-<id>-2`, ... - each with Paul's subject and note and a poller note saying which
+  part it is. `postUpload_` sends them all (`postOne_` is the request); if one fails the thread stays unlabelled and the
+  site skips the parts it already has. Nothing is dropped any more; the size split also covers six 3 MB photos, which
+  never fitted one 6 MB POST. A runnable test stubs Apps Script and checks 11 -> 6 + 5. 549 tests. Pushed to both
+  mailbox projects (the poller runs the pushed code - no deploy).
+- **The eight left-off receipts** went in through a one-off (`resendLeftOffAttachments`, run 08:49 PDT, then removed):
+  each email sent again, the site skipped the first document and read the second. Both posted on their own (high, the
+  cards now known as Paul's):
+  Squarespace 69.60 (05-09), 69.60 (06-04), 6.16 (06-22), 50.40 (07-04), 50.40 (09-04) = 246.16;
+  Foreclosure Listing Service 84.44 x 3 (01-15, 03-15, 06-15) = 253.32.
+- **Read back:** every file in the two Desktop folders is in the books - Squarespace 11 invoices = 546.76 (01-04 to
+  09-04), the Roddy report 9 months = 759.96 (01-15 to 09-15). Journal 3,136 rows, 5,274,202.23 both sides.
+- **No other email ever hit the limit** but one: Verity Plumbing 08-06 (six attachments, the invoice and mail images),
+  whose 1,526.46 is in the books from the migration.
