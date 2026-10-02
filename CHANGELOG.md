@@ -2724,3 +2724,8 @@ typed as sent to the IRS - the tab reworked itself at 9:37 (the edit trigger), s
 function dropdown would not take a selection by click, drag or script this time; a one-off alone in oneOffScripts.gs
 is selected by default, which is the safe way to run one. The one-off is taken out and the writer pushed again.
 The writer web app deploy is still owed.
+
+**09:40 PDT - deployed on Paul's "deploy": writer web app @28** (`clasp deploy -i` the same id; `clasp deployments`
+reads @28; live script = HEAD - `clasp pull` copies compared file by file and removed; `/exec` answers ok 0.4.0) = the
+repo: the `Taxes` tab (D-075). The site was not redeployed - no function loads `lib/reports.mjs` or `lib/tax.mjs`
+(checked), so site `6abfd7ae` is still the repo. Nothing owed. 555 tests.
