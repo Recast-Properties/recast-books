@@ -2780,3 +2780,27 @@ poll moved it to that account's trash; a search by name and by id finds nothing)
 cleared on both accounts' polls, and OneOff.gs and its line in `pollBooks` are out of both pollers - pushed 11:21,
 live = repo on both (pull + cmp, three files each). 556 tests. The site and the writer were not touched all along:
 site `6abfd7ae`, writer web app @29, nothing owed.
+
+## 2026-10-02 (13:10 PDT) - Paul's 607.05 check is all on 136 Bowling Green
+
+Paul asked how his 607.05 check of 8/7 (memo "Bowling Green + Newport") was divided and why, then: *"let's move the
+entire amount to bowling green."* His word overrides the old 881 Newport tab's 44.39 line (register 28) - **do not
+split it again from the old tab.**
+
+- **Why it had been 44.39 / 562.66:** it is what he worked out on 8/7 from his old tabs, to the cent. Newport: paid
+  2,044.39, less Dennis's 2,000 cash advance of 07-09 = 44.39 (old tab I11, F21:I21). Bowling Green: every row ticked
+  Paul Paid to 08-07 without the thermostat, 2,062.66, less Dennis's 1,500 of 06-01 = 562.66. **The 2,062.66 includes
+  Lupe's carpet laying, 160.00** - ticked Paul Paid AND Dennis Paid until C-13 (09-18, Paul: "dennis paid", CK 1088);
+  the cutover snapshot sums to 1,902.66 without it. So the check paid Paul 160 for a bill Dennis paid; the books
+  already carry Lupe as Dennis's, so nothing to fix - Bowling Green's closing pays Paul that much less.
+- **`moveCheckToBowlingGreen` (one-off, run 13:10 PDT from the editor as paul@):** `manual-20260812-072e078314cd`
+  (Newport 44.39) and `manual-20260812-82db3caac4fd` (Bowling Green 562.66) voided; `manual-20260812-36df34b30c02`
+  posted, 607.05, Dr 2030 / Cr 1401, 136 Bowling Green (Journal rows 3142-3143); Feed `202608120000000543553682`
+  re-tied to it; both house tabs rebuilt.
+- **Read back live:** Recast owes Paul - 881 Newport 834.00 -> **878.39**, 136 Bowling Green 596.12 -> **551.73**;
+  all houses 46,694.32 unchanged; Citizens 3,090.99 unchanged; the Journal balances; the Feed row reads `matched` to
+  the new entry (gviz); the Citizens Bank box reads "they agree" (69 reconciled, 8 waiting on Dennis, 2 on a closing).
+- The one-off is out of oneOffScripts.gs again (it is in the commit before this one's removal); pushed, live = repo.
+  Writer web app @29 and site `6abfd7ae` untouched (a one-off needs no deploy) - nothing owed. 556 tests.
+- The editor in Paul's Chrome opens as pvb421 by default ("You need access"): click the account chip, choose
+  paul@recast-properties.com. With the one-off as the file's first function, the Run dropdown already names it.

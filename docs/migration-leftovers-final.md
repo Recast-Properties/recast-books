@@ -34,6 +34,9 @@
 > (the bill and its payment), Atmos March bill 141.59 (alone and inside the May 197.00 payment): 1,097.15 off Ashburne.
 > **With these the list is closed: 43 items + 2 = 45.**
 
+> **2026-10-02 13:10 PDT, Paul: "let's move the entire amount to bowling green"** - item 28's 44.39 / 562.66 split is
+> replaced: the whole 607.05 check is on 136 Bowling Green (CHANGELOG 10-02 13:10). His word, not a leftover - do not undo it.
+>
 > **DONE 2026-10-01 10:26 PDT - Newport (fixNewportBeforeClosing, run by Paul, every read-back OK):** the HOA certificate
 > 375.00 on 1340 HOA release; the 607.05 check re-split 44.39 Newport / 562.66 Bowling Green (bank line re-tied); the
 > 07-01 Home Depot appliance 639.82 on Newport, paid by Paul. Recast owes Paul: Newport 801.57, Bowling Green 589.77,

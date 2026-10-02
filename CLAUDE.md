@@ -178,8 +178,9 @@ are the target, D-028 returns hold for Paul). **Resume from `HANDOFF-2026-09-30.
   his Sparkling payout less **141.58 he left in as working money** (his working money is 5,000.00 like Dennis's -
   D-055's addition; the payout entry untouched). The 1,500.00 "Inclearing" of 08-11 is a Citizens check Dennis wrote to
   **James Broussard** for Mesa siding - the old books' "James Haroce, Dennis paid" row, voided and re-posted as paid
-  from 1401 (**C-34**; Recast owes Dennis 1,500 less). Paul's 607.05 check paid him back: Newport 206.14 (now owed
-  0.00), Bowling Green 400.91 (now owed 751.52). **A check with no name is booked from the bank's picture of it, not
+  from 1401 (**C-34**; Recast owes Dennis 1,500 less). Paul's 607.05 check paid him back: first split Newport 206.14 / Bowling Green
+  400.91, re-split 44.39 / 562.66 on 10-01, and **all 607.05 on 136 Bowling Green since 2026-10-02 on Paul's word
+  ("move the entire amount to bowling green") - never split it again from the old Newport tab** (CHANGELOG 10-02 13:10). **A check with no name is booked from the bank's picture of it, not
   from memory** - Paul named two other purposes before the picture. **Citizens: 79 lines - 64 tied, 13 cards, 2
   waiting.** Journal 2,692 rows, balanced. 543 tests; pushed, nothing owed.
 - **2026-09-29 15:35 (D-061): the tab `Citizens Bank`** - every line of the account, newest on top, who paid, status,
