@@ -27,6 +27,57 @@
  * ASCII ONLY - same paste-into-the-editor constraint as Code.gs.
  ****************************************************************/
 
+// 2026-10-02 Paul: "link each bill to its own pdf". The 20 Squarespace and Roddy bills recorded today came from
+// four documents (two emails, each read as two); every bill of a document opened that document's FIRST PDF.
+// All 20 PDFs are already in Drive (both filing paths store every attachment, named "<date> <vendor> <total>
+// (N).pdf"). Each bill's own file is found by that name and written on its Journal lines. The pairs below
+// were matched by invoice / receipt number (the PDFs' text against each entry's memo). Nothing is posted.
+// Safe to run twice. FIRST in the file on purpose: the editor's Run button starts on a file's first function.
+// STATUS: NOT YET RUN
+function linkEachBillToItsOwnPdf() {
+  var props = PropertiesService.getScriptProperties();
+  var ss = openWorkbook_(props);
+  requireOwner_(ss);
+  var pairs = [   // [entry, document, which attachment of the document]
+    ['receipt-20260104-0dae40002d19-5c19', 'gm-1a0fa2c63f283335', 0],
+    ['receipt-20260204-0dae40002d19-6b52', 'gm-1a0fa2c63f283335', 4],
+    ['receipt-20260223-0dae40002d19-451f', 'gm-1a0fa2c63f283335', 3],
+    ['receipt-20260304-0dae40002d19-ffea', 'gm-1a0fa2c63f283335', 1],
+    ['receipt-20260404-0dae40002d19-bf2f', 'gm-1a0fa2c63f283335', 2],
+    ['receipt-20260804-0dae40002d19-794e', 'gm-1a0fa2c63f283335', 5],
+    ['receipt-20260215-56aa1b4e687c-9aff', 'gm-1a0fa2cc1f917ff7', 4],
+    ['receipt-20260415-56aa1b4e687c-0210', 'gm-1a0fa2cc1f917ff7', 0],
+    ['receipt-20260515-56aa1b4e687c-02cd', 'gm-1a0fa2cc1f917ff7', 1],
+    ['receipt-20260715-56aa1b4e687c-f710', 'gm-1a0fa2cc1f917ff7', 2],
+    ['receipt-20260815-56aa1b4e687c-f563', 'gm-1a0fa2cc1f917ff7', 3],
+    ['receipt-20260915-56aa1b4e687c-c191', 'gm-1a0fa2cc1f917ff7', 5],
+    ['receipt-20260509-4afbe72efa8e', 'gm-1a0fa2c63f283335-2', 1],
+    ['receipt-20260604-4afbe72efa8e', 'gm-1a0fa2c63f283335-2', 0],
+    ['receipt-20260622-4afbe72efa8e', 'gm-1a0fa2c63f283335-2', 2],
+    ['receipt-20260704-4afbe72efa8e', 'gm-1a0fa2c63f283335-2', 3],
+    ['receipt-20260904-4afbe72efa8e', 'gm-1a0fa2c63f283335-2', 4],
+    ['receipt-20260115-d57ddc3086ea', 'gm-1a0fa2cc1f917ff7-2', 2],
+    ['receipt-20260315-d57ddc3086ea', 'gm-1a0fa2cc1f917ff7-2', 0],
+    ['receipt-20260615-d57ddc3086ea', 'gm-1a0fa2cc1f917ff7-2', 1]
+  ];
+  var cards = {}, done = 0;
+  pairs.forEach(function (p) {
+    var env = cards[p[1]] = cards[p[1]] || (siteFetchJson_('/api/inbox?docId=' + encodeURIComponent(p[1])).envelopes || []).filter(function (e) { return e.docId === p[1]; })[0];
+    if (!env) throw new Error('No card for ' + p[1]);
+    var att = env.attachments[p[2]];
+    var name = driveFileName_(env.model, att.name, p[2]);
+    var files = DriveApp.getFilesByName(name), found = [];
+    while (files.hasNext()) found.push(files.next());
+    if (found.length !== 1) { console.warn(p[0] + ': ' + found.length + ' files named "' + name + '" - left as it is'); return; }
+    var n = setDocUrl_([p[0]], found[0].getUrl(), props);
+    console.log(p[0] + ' -> ' + att.name + ' = "' + name + '" (' + n + ' lines)');
+    done++;
+  });
+  SpreadsheetApp.flush();
+  warmCache_();
+  console.log('Linked ' + done + ' of ' + pairs.length + ' bills to their own PDF');
+}
+
 // 2026-10-02 - 104 Ashburne's tab is 36.07 short in its sections: the two cabinet pulls Paul saved 10-01
 // evening (Home Depot 03-15, 7.55 + 28.52) carry the section "Cabinets & Countertops", which the tab has no
 // block for (the refresh logs "no header for block ... - rebuild the tab"). Rehab Total 184,975.01 is right

@@ -256,3 +256,17 @@ test("refreshTab never stores a writer answer without rows; an empty snapshot is
   assert.deepEqual(out.rows, [[1]]);
   resetCacheStoreForTests(null);
 });
+
+test("ownReceiptUrl: an entry of a several-receipt email opens its own file; anything unsure keeps the first", async () => {
+  // Paul, 2026-10-02: "link each bill to its own pdf" - six Squarespace invoices all opened the first PDF.
+  const { ownReceiptUrl } = await import("../netlify/functions/_shared.mjs");
+  const pdf = { mime: "application/pdf" };
+  const filed = [{ url: "u0" }, { url: "u1" }, { url: "u2" }];
+  assert.equal(ownReceiptUrl({ attachment: 2 }, [pdf, pdf, pdf], filed), "u2");
+  assert.equal(ownReceiptUrl({ attachment: 0 }, [pdf, { mime: "image/jpeg" }, pdf], filed), "u0");
+  assert.equal(ownReceiptUrl({ attachment: null }, [pdf, pdf, pdf], filed), "", "one receipt: no own file");
+  assert.equal(ownReceiptUrl({}, [pdf, pdf, pdf], filed), "");
+  assert.equal(ownReceiptUrl({ attachment: 5 }, [pdf, pdf, pdf], filed), "", "a number past the end");
+  assert.equal(ownReceiptUrl({ attachment: 1 }, [pdf, pdf, pdf], filed.slice(0, 2)), "", "one was not filed: the count no longer lines up");
+  assert.equal(ownReceiptUrl({ attachment: 1 }, [pdf, { mime: "image/heic" }, pdf], filed), "", "a HEIC may not have been shown: the read's count may be off");
+});

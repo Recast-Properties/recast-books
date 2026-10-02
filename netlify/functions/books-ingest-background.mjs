@@ -31,6 +31,7 @@ import {
   rowsToObjectsPublic,
   todayChicago,
   storeAttachmentsToDrive,
+  ownReceiptUrl,
   WriterError,
 } from "./_shared.mjs";
 import { runBookkeeper } from "../../lib/bookkeeper.mjs";
@@ -632,6 +633,8 @@ export async function processDecision({
         doc_url,
         allow_duplicate_hash: false,
       });
+      // several receipts in one email: each entry opens its own file (built 1:1 from model.entries)
+      entries.forEach((e, i) => { e.doc_url = ownReceiptUrl(model.entries[i], envelope.attachments, filed) || e.doc_url; });
 
       const postResult = await writer.postBatch(entries);
       // The bank lines tied to the entry taken out belong to the entries that replaced it - when

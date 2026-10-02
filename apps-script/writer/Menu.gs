@@ -865,6 +865,7 @@ function inboxFinish(req) {
     var folder = [year, first.property || 'OVERHEAD'];
 
     var docUrl = '';
+    var urls = [];
     var atts = req.attachments || [];
     for (var i = 0; i < atts.length; i++) {
       var key = atts[i].key || ('att/' + docId + '/' + i);
@@ -872,6 +873,7 @@ function inboxFinish(req) {
       lap('fetch bytes');
       var stored = storeDocument_(driveFileName_(model, atts[i].name || ('attachment-' + i), i),
         atts[i].mime || 'application/octet-stream', Utilities.base64Encode(bytes), folder, props);
+      urls.push(stored.url);
       if (!docUrl) docUrl = stored.url;
       lap('drive file');
     }
@@ -879,7 +881,17 @@ function inboxFinish(req) {
     // email.txt, as the site's ingest does for new mail. Five email-only cards approved that morning had no link.
     if (!docUrl && req.bodyText) { docUrl = storeEmailText_(model, String(req.bodyText), folder, props); lap('email.txt'); }
     if (docUrl) {
-      setDocUrl_(txnIds, docUrl, props);
+      // Several receipts in one email: each entry opens its own file (Paul, 2026-10-02: "link each bill
+      // to its own pdf"). entry.attachment is the read's count of the attachments it was shown - the
+      // filing order only when every attachment is a kind it is shown (ownReceiptUrl in _shared.mjs).
+      var shown = atts.every(function (a) { return /^(application\/pdf|image\/(jpeg|png|gif|webp))$/.test(String(a.mime || '')); });
+      var byUrl = {};
+      txnIds.forEach(function (t, k) {
+        var n = (entries[k] || {}).attachment;
+        var url = (shown && typeof n === 'number' && urls[n]) || docUrl;
+        (byUrl[url] = byUrl[url] || []).push(t);
+      });
+      Object.keys(byUrl).forEach(function (url) { setDocUrl_(byUrl[url], url, props); });
       siteFetchJson_('/api/inbox', 'post', { action: 'mark-posted', docId: docId, txn_ids: txnIds, doc_url: docUrl, by: Session.getActiveUser().getEmail() });
       lap('doc_url');
     }

@@ -373,6 +373,20 @@ export async function storeAttachmentsToDrive(writer, docsStore, envelope, folde
 }
 
 /**
+ * The Drive link of the receipt an entry was read from, when the email carried several (Paul,
+ * 2026-10-02: "link each bill to its own pdf" - six Squarespace invoices all opened the first).
+ * The read numbers the attachments it was SHOWN; that is the filing order only when every
+ * attachment is a kind it is shown and every one was filed. Otherwise "" - the caller keeps the
+ * document's first file.
+ */
+export function ownReceiptUrl(entry, attachments = [], filed = []) {
+  const n = entry?.attachment;
+  const shown = (a) => /^(application\/pdf|image\/(jpeg|png|gif|webp))$/.test(String(a.mime || ""));
+  if (!Number.isInteger(n) || filed.length !== attachments.length || !attachments.every(shown)) return "";
+  return filed[n]?.url || "";
+}
+
+/**
  * "<date> <vendor> <total>.<ext>" from the model verdict (phone photos all arrive as
  * image.jpg); the original name when there is no verdict to name it from. A second
  * attachment gets " (2)".

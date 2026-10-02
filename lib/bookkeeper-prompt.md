@@ -227,6 +227,12 @@ lumped line cannot be reviewed or split. For each printed line:
   discount or savings line printed under a product folds into that product's item.
   Shipping, delivery or a fee is its own item, on the account of the goods it came with.
 
+**Several receipts in one email.** When the attachments are separate receipts or invoices (six
+monthly invoices forwarded together), propose one entry per receipt, on its own date, and set
+that entry's `attachment` to the N of the attachment it came from (`[attachment N: ...]`) - its
+line in the books then opens its own receipt, not the first one of the email. When the whole
+document is one receipt (one PDF, or several photos of one receipt), `attachment` is null.
+
 One item for the whole document is right only when the document has one line: fuel, a
 utility bill, a single service charge, a ride, a hotel folio, a meal (food and drink are
 never itemized).
