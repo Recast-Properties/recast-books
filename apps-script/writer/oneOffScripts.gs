@@ -33,7 +33,8 @@
 // (it reads the Journal); the blocks add to 184,938.94. A rebuild adds the block; Sale Price and Concession,
 // the typed cells, are kept by setupPropertyTab. Nothing is posted.
 // FIRST in the file on purpose: the editor's Run button starts on a file's first function.
-// STATUS: NOT YET RUN
+// STATUS: DONE 2026-10-02 08:35 PDT, run from the editor by Claude: 305 rows; read back - the summary is unchanged
+// (Sale Price 775,000.00, agent 2.75%, Concession 19,000.00 kept), the 22 sections add to 184,975.01 = Rehab Total.
 function rebuildAshburneTabForCabinetPulls() {
   var r = setupPropertyTab('104 Ashburne');
   console.log('104 Ashburne rebuilt: ' + JSON.stringify(r));

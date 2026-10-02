@@ -2592,3 +2592,49 @@ $64.24 shows 27.49 + 36.75; he recorded 20.54 and returned 43.70) - `mark-posted
 
 546 tests (new asserts in three). **Owed:** `clasp login` expired (invalid_rapt) - then push writer and poller, run
 `repairLostSaves20261001`, deploy the site (the nightly check, `/api/summary`) and the writer web app (Code.gs, lib.gs).
+
+## 2026-10-02 (08:30 PDT) - the 3 AM email's Posted list prints what Paul saved
+
+The Posted list was built from the read (`e.model`), so a card Paul trimmed still printed the read's lines: The Home
+Depot 08-05 (gm-19fd34b701a40539) showed `$64.24 ... 1030: $27.49, 6510: $36.75` when he had marked 43.70 Returned and
+recorded 20.54 (receipt-20260805-4d5bcc478bad-e829). The sheet's Save sent `mark-posted` only the txn_ids and the note.
+
+- `inboxApprove` (Menu.gs) sends the saved `entries` with `mark-posted`; `books-inbox.mjs` keeps them as
+  `result.entries` (the later doc_url patch keeps them, `mark-pending` drops them). The web approve does the same
+  through `saved_entries` -> `result.entries` in `books-approve-background.mjs`.
+- `books-summary.mjs` `postedLine`: house, per-account lines and the amount come from `result.entries` when present -
+  the amount is what was recorded, not the receipt's total - else from the read as before (an auto-post records the
+  read as it stands). The email's subject total follows.
+
+548 tests (two new, two extended). Writer pushed 08:28 PDT and read back with `clasp pull` (= the repo; this push also
+carried the morning's writer changes). **Owed:** the site deploy (`npm run deploy`) - until then the email prints as
+before; cards saved before the deploy keep printing the read (their saved lines were never stored). Still owed from the
+morning: the poller push, `repairLostSaves20261001`, the writer web app deploy (Code.gs, lib.gs).
+
+**Seen, not chased:** `/api/summary` files a card under the day it was READ (`finishedAt`), not the day Paul saved it -
+a card read on one day and saved on a later one is in no day's Posted list.
+
+## 2026-10-02 (08:25-08:35 PDT) - the morning's fixes pushed, the repair run, Paul's two answers
+
+Paul ran `npx clasp login`, then: *"yes Mastercard ending 7952 is a personal card. yes ok to remove second $60"*.
+
+- **Pushed:** the writer (from a clean export of HEAD - another session had uncommitted edits in this checkout; **live =
+  commit afdd519**, checked with `clasp pull`) and the poller, both mailboxes.
+- **`repairLostSaves20261001()` run from the editor 08:30 PDT, read back on the live sheet:**
+  1. Home Depot 03-06, 36.77 on 104 Ashburne: recorded (`receipt-20260306-dd62aab4aabf-7d86`, rows 3088-3089), receipt filed.
+  2. Lowe's 03-21 4.52: receipt linked.
+  3. Citizens Bank tab rebuilt: **"they agree"** - 169,805.35 + 344.99 - 165,558.65 - 1,500.72 (5 payments recorded
+     after 09-28) + 0.02 = 3,090.99.
+  4. The second Ashburne 60.00 voided (`void-receipt-20260930-93c8983ebc93-dbe1`, rows 3090-3091); the 10-01 Zelle from
+     Chase stays.
+  5. Settings `paul_personal_last4` = `9166, 8870, 3746, 7952`; the bookkeeper's instructions name the Mastercard.
+  Journal: 3,090 rows, 5,272,895.51 both sides.
+- **104 Ashburne's tab rebuilt** (`rebuildAshburneTabForCabinetPulls()`, 08:35): the run logged "no header for block
+  Cabinets & Countertops" - the two cabinet pulls Paul saved 10-01 (7.55 + 28.52) carry a section the tab had no block
+  for, so the sections added to 36.07 less than Rehab Total. After: 22 sections = 184,975.01 = Rehab Total; Sale Price
+  775,000.00, agent 2.75%, Concession 19,000.00 kept; Profit 128,040.09, Paid by Paul 8,773.57.
+- **Still owed - Paul's "deploy":** the site (the nightly check's fixes, `/api/summary`, the instructions' 7952) and the
+  writer web app (`clasp deploy -i`: the flush and the bank box on the pollers' path). Until the site deploys, tonight's
+  2 AM check repeats the six false alarms. The Squarespace and Roddy cards are his to save: Paid from = PAUL, once.
+- Not live: the other session's Menu.gs change (the saved lines sent with mark-posted) - its push was overwritten by the
+  08:33 push from HEAD; it goes out with that session's own commit and push.
