@@ -17,7 +17,9 @@
  *
  * Posts nothing, reads nothing again, changes no entry. The copies kept on the site (what the
  * Inbox shows) stay as they are.
- * STATUS: NOT YET RUN
+ * STATUS: DONE 2026-10-02 10:23-11:05 PDT, run from the editor by Claude (six runs; the first, at 10:20, failed on a Drive
+ * folder search before touching anything): 87 of 87 replaced, 0 skipped, 0 failed; read back 90 Drive files, 90 full
+ * size (4032x3024 or 5712x4284), 0 still small. properties@ exported its 77 in three timer runs (38, 10, 29).
  ****************************************************************/
 
 // Keep this the FIRST function in the file: the editor's Run picks it by default.
