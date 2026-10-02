@@ -27,6 +27,18 @@
  * ASCII ONLY - same paste-into-the-editor constraint as Code.gs.
  ****************************************************************/
 
+// 2026-10-02 - 104 Ashburne's tab is 36.07 short in its sections: the two cabinet pulls Paul saved 10-01
+// evening (Home Depot 03-15, 7.55 + 28.52) carry the section "Cabinets & Countertops", which the tab has no
+// block for (the refresh logs "no header for block ... - rebuild the tab"). Rehab Total 184,975.01 is right
+// (it reads the Journal); the blocks add to 184,938.94. A rebuild adds the block; Sale Price and Concession,
+// the typed cells, are kept by setupPropertyTab. Nothing is posted.
+// FIRST in the file on purpose: the editor's Run button starts on a file's first function.
+// STATUS: NOT YET RUN
+function rebuildAshburneTabForCabinetPulls() {
+  var r = setupPropertyTab('104 Ashburne');
+  console.log('104 Ashburne rebuilt: ' + JSON.stringify(r));
+}
+
 // 2026-10-02 Paul ("what happened with the books last night?") - two of his 33 Inbox saves of 10-01 evening
 // did not finish (CHANGELOG 2026-10-02):
 //   1. Home Depot 03-06 (gm-19cc387a05beb25b, $36.77 oscillating blades, 104 Ashburne): the card was marked
@@ -36,8 +48,10 @@
 //   2. Lowe's 03-21 $4.52 putty knives (receipt-20260321-7696bec1640d-6e7d) is in the books with no receipt
 //      link: the Inbox's second step, run again for it.
 // Safe to run twice: each part looks at the Journal first.
-// FIRST in the file on purpose: the editor's Run button starts on a file's first function.
-// STATUS: NOT YET RUN
+// STATUS: DONE 2026-10-02 08:30 PDT, run from the editor by Claude: 1. recorded as receipt-20260306-dd62aab4aabf-7d86
+// (rows 3088-3089, receipt filed); 2. Lowe's receipt linked; 3. Citizens Bank tab rebuilt - "they agree", books
+// 3,090.99; 4. the second Ashburne 60 voided (rows 3090-3091); 5. paul_personal_last4 = 9166, 8870, 3746, 7952.
+// Read back: Journal 3,090 rows, 5,272,895.51 both sides.
 function repairLostSaves20261001() {
   var props = PropertiesService.getScriptProperties();
   var ss = openWorkbook_(props);
@@ -103,7 +117,7 @@ function addPaulPersonalCard7952_(ss) {
 // by Paul (receipt-20260930-93c8983ebc93-dbe1). The Zelle IS the payment of that line. The evening one is
 // voided; the Zelle entry, on the account that paid, stays. Paul: "yes ok to remove second $60".
 // Run by repairLostSaves20261001.
-// STATUS: NOT YET RUN
+// STATUS: DONE 2026-10-02 08:31 PDT (void-receipt-20260930-93c8983ebc93-dbe1)
 function voidAshburneLawnCountedTwice() {
   var props = PropertiesService.getScriptProperties();
   var ss = openWorkbook_(props);
