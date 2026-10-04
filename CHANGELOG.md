@@ -2885,3 +2885,6 @@ split it again from the old tab.**
   of the numbers, the already-used losses have no row. Pushed 16:47, rebuilt and read back 16:48: Social Security and
   Medicare 28,426.70, income tax 17,719.68, Oregon 14,973.83, **set aside 56,120.21**. 559 tests. Web app deploy
   still owed. (A reworded investment note was pushed 16:45 and replaced two minutes later - never rebuilt onto the tab.)
+- **16:55 CDT - deployed on Paul's "deploy": writer web app @30** (`clasp deploy -i` the same id; `clasp deployments`
+  reads @30; live script = the repo - `clasp pull` into a scratch folder, all 13 files identical; `/exec` answers
+  ok 0.4.0). The site was not redeployed - no function loads `lib/tax.mjs`. Nothing owed.
