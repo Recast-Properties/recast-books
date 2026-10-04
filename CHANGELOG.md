@@ -2857,3 +2857,5 @@ split it again from the old tab.**
 - **Not proven live:** both Uber cards were settled before the rule existed, so there is no pair to re-read.
   Look at the next charge that arrives twice while its first copy is still a card.
 - A time fixed above: the re-read ran 06:34 CDT, not PDT (the editor shows Paul's local time).
+- **Deployed on Paul's "deploy": site `6ac23e11`** (one function changed - the receipts reader). Writer web app
+  @29 unchanged. Nothing owed.
