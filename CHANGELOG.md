@@ -2829,3 +2829,15 @@ split it again from the old tab.**
   warm job re-reads them through the normal gate, the real 98.36 receipt before its charge summary) was refused by
   the session's permission system as a write to the live queue - left for Paul to decide. The other road is an
   editor helper calling the Inbox's `reprocess` for the four (constraint 8), which holds each one for him.
+- **Re-read 10-04 06:32-06:34 PDT** (Paul ran `rereadFailedReads20261004` from the editor - the one-off calls the
+  Inbox's `reprocess` for the four, the 98.36 receipt first; `clasp login` had expired, Paul renewed it). **All four
+  read without error - the fix is proven on live reads** (each entry comes back with `attachment` null). A reprocess
+  never posts or dismisses, so all four are cards in Paul's Inbox:
+  - `gm-1a101d67757990ce` Uber to PDX 10-02, 58.97, Paul's Visa 9166, travel - read as post.
+  - `gm-1a101e27a81e0ab2` Eastbank Market at PDX 10-03, 8.47, snacks - held, meals need his OK.
+  - `gm-1a105536170ab7fc` Uber DFW to Midlothian 10-03, 98.36 - the receipt, read as post.
+  - `gm-1a10326a7f72074c` Uber "charge summary" for that same ride, 98.36 - **read as post too, not as a copy**: its
+    receipt was only a held card, not on the books, and the read did not connect them. Paul was told to dismiss it.
+    Seen, not chased: a held card is not enough for the next read to call its twin a duplicate.
+- The one-off is out of oneOffScripts.gs (commit e9d490f keeps it); pushed, live = repo. Site `6ac237cb`, writer
+  web app @29 - nothing owed. 557 tests.
