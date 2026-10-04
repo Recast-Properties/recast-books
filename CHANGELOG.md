@@ -2874,3 +2874,8 @@ split it again from the old tab.**
 - 559 tests (one new: a return worked by hand with the carried amounts). `lib.gs` rebuilt, writer pushed 16:32 CDT
   (the hourly timer and the blue-cell edit run the pushed code). **The writer web app deploy is owed** (lib.gs
   changed; the web app never builds this tab, the rule is the rule).
+- **Read back live 16:41 CDT** (Paul: "run the rebuild now" - a letter typed into the empty cell E1 of the Taxes
+  tab from his Chrome; any edit on that tab rebuilds it, and the rebuild clears the letter): the block is at rows
+  25-29, his cells kept (married, 0, 5,000, `yes` on Ashburne and Newport), Social Security and Medicare 28,426.70,
+  income tax 17,191.68, Oregon 14,711.33, **set aside 55,329.71** - the numbers worked beforehand, to the cent.
+  It is a section of the Taxes tab, not a tab of its own (he asked).
