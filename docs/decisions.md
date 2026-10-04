@@ -1606,3 +1606,37 @@ Paul was told which to dismiss; saving both would have put the ride in the books
 
 **How.** A rule in the bookkeeper's prompt ("Duplicates and updates") - the model's judgment, no new rail: the read
 already saw the waiting card through `search_docs` and said so in `checked`. Not yet seen on a real pair.
+
+## D-078 · The Taxes tab carries last year's return forward: a block of what it leaves for this year - 2026-10-04 · Paul
+
+*"i have a loss that i can carry forward from 2025 taxes. review my 2025 tax return and apply the 2025 loss to my
+2026 tax tab in the recast books"* (the return: `~/Desktop/2025 TAX RETURN.pdf`, Savage Tax, signed 2026-07-14,
+married filing jointly - read whole, never copied into the repo).
+
+**Found on the return's Carryover Worksheet - three things carry into 2026, and no net operating loss:**
+- **Long-term capital loss 37,452** (Schedule D: stock and fund sales, nothing to do with Recast). 3,000 a year comes
+  off other income; more only against a capital gain. Recast's houses are inventory on Schedule C, so its profit is
+  not a capital gain and cannot soak it up.
+- **Home office costs 1,111** (Form 8829 on Recast's Schedule C: operating 725 + depreciation 386, held back because
+  Recast had a 2025 loss). They come off Recast's 2026 profit.
+- **QBI loss 32,135** = the 2025 Schedule C losses 20,037 (Recast 17,810, "Advertising creative" 2,227) + a rental's
+  12,098. **These losses were USED in 2025** - they came off 421,292 of wages (AGI 400,753, refund 13,142). What
+  carries is only that they are subtracted before the 20% business deduction is worked in 2026.
+
+**Decided:** a block `CARRIED OVER FROM YOUR 2025 TAX RETURN` on the Taxes tab between `Profit you are taxed on` and
+`IRS`: the three amounts in full, each with what it does in plain words (the 32,135 row starts "NOT a loss you can use
+again"), and one total `Comes off your income this year` (-4,111.00 = 1,111 + 3,000). The figures are
+`CARRIED_OVER[year]` in `lib/tax.mjs`, typed in each fall beside that year's tables from the return's Carryover
+Worksheet - not blue cells: they are facts off a filed return, not something Paul keeps up. `taxEstimate` takes them
+as `carried`: the home office comes off the profit (never below zero), 3,000 of the investment loss off income
+(federal and Oregon - Oregon's worksheet follows the federal one), the business loss off what the 20% deduction is
+worked on. A year with no entry shows no block. One return worked by hand in the tests.
+
+**What it moved (the live numbers of 10-04, married, no other income typed):** set aside 56,438.79 -> 55,329.71, about
+1,109 less. Not the size Paul may have expected - said to him plainly.
+
+**Seen on the return, not chased:** it answers, as filed for 2025, two of the accountant's open questions - Recast is
+on Schedule C with the houses as **inventory** (750,761 at year end; Q-3 dealer) and on the **cash** method (Q-4);
+2025 travel (1,743) was deducted (Q-1). The tab's `Other income in your household` is 0 while the return shows 421,292
+of paychecks - Paul's cell, put to him. The accountant's 2026 estimate vouchers are 5,500 on 09-15 and 5,500 on
+01-15-2027; Paul typed 5,000 sent.

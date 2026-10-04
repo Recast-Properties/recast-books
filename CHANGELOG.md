@@ -2859,3 +2859,18 @@ split it again from the old tab.**
 - A time fixed above: the re-read ran 06:34 CDT, not PDT (the editor shows Paul's local time).
 - **Deployed on Paul's "deploy": site `6ac23e11`** (one function changed - the receipts reader). Writer web app
   @29 unchanged. Nothing owed.
+
+## 2026-10-04 (16:30 CDT) - the Taxes tab carries the 2025 return forward (D-078)
+
+- **Paul:** "i have a loss that i can carry forward from 2025 taxes. review my 2025 tax return and apply the 2025
+  loss to my 2026 tax tab". The return (87 pages, read with `pypdf` - text by position, the Read tool needs
+  `pdftoppm`) carries three things and no net operating loss: an investment loss of 37,452 (3,000 a year), home
+  office costs of 1,111, and 32,135 of business and rental losses that were already used against 2025's paychecks
+  and now only shrink the 20% deduction.
+- **Built:** `CARRIED_OVER` in `lib/tax.mjs` (by the year it is used), `taxEstimate({ carried })`, and a block on the
+  tab - `CARRIED OVER FROM YOUR 2025 TAX RETURN` - with the three amounts and `Comes off your income this year`
+  -4,111.00. With the live numbers: Social Security and Medicare 28,456.46 -> 28,426.70, income tax 17,912.59 ->
+  17,191.68, Oregon 15,069.74 -> 14,711.33, set aside 56,438.79 -> 55,329.71.
+- 559 tests (one new: a return worked by hand with the carried amounts). `lib.gs` rebuilt, writer pushed 16:32 CDT
+  (the hourly timer and the blue-cell edit run the pushed code). **The writer web app deploy is owed** (lib.gs
+  changed; the web app never builds this tab, the rule is the rule).
