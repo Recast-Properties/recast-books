@@ -30,3 +30,33 @@
  *
  * ASCII ONLY - same paste-into-the-editor constraint as Code.gs.
  ****************************************************************/
+
+// 2026-10-04 Paul ("yes restart them") - the four receipts whose read was refused by the API between the 10-02
+// and 10-04 deploys (one nullable field too many, CHANGELOG 10-04) are read again, as the Inbox's Reprocess
+// button does: each lands in the Inbox for Paul, nothing posts or is dismissed on its own. The 98.36 Uber
+// receipt is read before its "charge summary" copy, so the copy is seen as one.
+// STATUS: NOT YET RUN
+function rereadFailedReads20261004() {
+  var by = Session.getActiveUser().getEmail() || 'editor';
+  var out = [];
+  var reread = function (docId) {
+    try {
+      siteFetchJson_('/api/inbox', 'post', { action: 'reprocess', docId: docId, by: by });
+      out.push('re-reading  ' + docId);
+    } catch (err) {
+      out.push('FAILED  ' + docId + '  ' + ((err && err.code) || '') + ' ' + String((err && err.message) || err));
+    }
+    Utilities.sleep(2000);   // ponytail: a gentle burst - the reads themselves run in the background on the site
+  };
+  var receipt = 'gm-1a105536170ab7fc';
+  ['gm-1a101d67757990ce', 'gm-1a101e27a81e0ab2', receipt].forEach(reread);
+  var status = 'processing';
+  for (var i = 0; i < 24 && status === 'processing'; i++) {   // up to 4 minutes; a read takes about one
+    Utilities.sleep(10000);
+    status = ((siteFetchJson_('/api/inbox?docId=' + encodeURIComponent(receipt)).envelopes || [])[0] || {}).status || '';
+  }
+  out.push('the 98.36 receipt is now: ' + status);
+  reread('gm-1a10326a7f72074c');
+  console.log(out.join('\n'));
+  return out;
+}
