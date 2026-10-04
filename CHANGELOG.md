@@ -2822,3 +2822,10 @@ split it again from the old tab.**
   dismissed): `gm-1a101d67757990ce` Uber 58.97 to PDX (10-02), `gm-1a101e27a81e0ab2` Paul's phone photo (10-03),
   `gm-1a10326a7f72074c` Uber "charge summary" 98.36 from DFW (10-03, says it is not a receipt),
   `gm-1a105536170ab7fc` the receipt for that same ride, 98.36. None has a read; all four need one after the deploy.
+- **Deployed on Paul's "deploy": site `6ac237cb`** (two functions changed; the writer web app stays @29 - no `.gs`
+  file changed). Not yet proven on a live read.
+- **The four are still in `error` with `retries: 2`** - the warm job will not pick them up again, and the sheet's
+  Inbox loads only `pending`, so they have no Reprocess button there. Clearing `retries` from the session (so the
+  warm job re-reads them through the normal gate, the real 98.36 receipt before its charge summary) was refused by
+  the session's permission system as a write to the live queue - left for Paul to decide. The other road is an
+  editor helper calling the Inbox's `reprocess` for the four (constraint 8), which holds each one for him.
