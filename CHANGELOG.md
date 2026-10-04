@@ -2879,3 +2879,9 @@ split it again from the old tab.**
   25-29, his cells kept (married, 0, 5,000, `yes` on Ashburne and Newport), Social Security and Medicare 28,426.70,
   income tax 17,191.68, Oregon 14,711.33, **set aside 55,329.71** - the numbers worked beforehand, to the cent.
   It is a section of the Taxes tab, not a tab of its own (he asked).
+- **16:48 CDT - cut down to what Recast takes (Paul: "only show me what recast can take from 2025").** He read the
+  investment-loss row as 3,000 coming off Recast - which is what the arithmetic was doing. The block is now
+  `WHAT RECAST CARRIES OVER FROM 2025` with one row (home office 1,111.00); the stock loss is out of the tab and out
+  of the numbers, the already-used losses have no row. Pushed 16:47, rebuilt and read back 16:48: Social Security and
+  Medicare 28,426.70, income tax 17,719.68, Oregon 14,973.83, **set aside 56,120.21**. 559 tests. Web app deploy
+  still owed. (A reworded investment note was pushed 16:45 and replaced two minutes later - never rebuilt onto the tab.)

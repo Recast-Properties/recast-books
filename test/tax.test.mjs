@@ -9,7 +9,7 @@ test("taxEstimate: 100,000 of profit, single, worked by hand from the 2026 table
   // business deduction 20% of that = 15,367.05; taxed on 61,468.18: 5,800 + 22% of 11,068.18 = 8,235.00.
   // Oregon: 92,935.22 - 2,900 - 8,235.00 = 81,800.22: 678.50 + 8.75% of 70,400.22 = 6,838.52.
   assert.deepEqual(taxEstimate({ year: "2026", status: "single", profit_cents: 10000000 }),
-    { self_employment: 1412955, fed_income: 823500, oregon: 683852, business_deduction: 1536705, carried_off: 0 });
+    { self_employment: 1412955, fed_income: 823500, oregon: 683852, business_deduction: 1536705 });
 });
 
 test("taxEstimate: high income, married - wage base cap, extra Medicare, no business deduction, no federal subtraction", () => {
@@ -26,22 +26,23 @@ test("taxEstimate: high income, married - wage base cap, extra Medicare, no busi
 });
 
 test("taxEstimate: a loss owes nothing; a year with no table is null, never a guess", () => {
-  assert.deepEqual(taxEstimate({ year: "2026", status: "single", profit_cents: -500000 }), { self_employment: 0, fed_income: 0, oregon: 0, business_deduction: 0, carried_off: 0 });
+  assert.deepEqual(taxEstimate({ year: "2026", status: "single", profit_cents: -500000 }), { self_employment: 0, fed_income: 0, oregon: 0, business_deduction: 0 });
   assert.equal(taxEstimate({ year: "2031", status: "single", profit_cents: 10000000 }), null);
 });
 
-test("taxEstimate: what the 2025 return carries into 2026, worked by hand (married, 100,000 profit, 100,000 of paychecks)", () => {
+test("taxEstimate: what Recast carries in from the 2025 return, worked by hand (married, 100,000 profit, 100,000 of paychecks)", () => {
   // home office 1,111 off the profit: 98,889 x 92.35% = 91,323.99 x 15.3% = 13,972.57
-  // income 98,889 + 100,000 - 6,986.29 - 3,000 of the investment loss = 188,902.71; less 32,200 = 156,702.71
+  // income 98,889 + 100,000 - 6,986.29 = 191,902.71; less 32,200 = 159,702.71
   // business deduction 20% of (98,889 - 6,986.29 - 32,135 of 2025 losses) = 11,953.54
-  // taxed on 144,749.17: 11,600 + 22% of 43,949.17 = 21,268.82
-  // Oregon: 188,902.71 - 5,800 - 8,750 = 174,352.71: 1,357 + 8.75% of 151,552.71 = 14,617.86
+  // taxed on 147,749.17: 11,600 + 22% of 46,949.17 = 21,928.82
+  // Oregon: 191,902.71 - 5,800 - 8,750 = 177,352.71: 1,357 + 8.75% of 154,552.71 = 14,880.36
   const carried = CARRIED_OVER[2026];
-  assert.deepEqual(carried, { home_office: 1111, investment_loss: 37452, business_loss: 32135 }, "the 2025 return's carryover page");
+  assert.deepEqual(carried, { home_office: 1111, business_loss: 32135 }, "Recast's lines of the 2025 return's carryover page - the household's loss on stocks is left out (Paul)");
   assert.deepEqual(taxEstimate({ year: 2026, status: "married", profit_cents: 10000000, other_cents: 10000000, carried }),
-    { self_employment: 1397257, fed_income: 2126882, oregon: 1461786, business_deduction: 1195354, carried_off: 411100 });
-  // no profit: the home office costs wait again, the 3,000 still comes off the other income
-  assert.equal(taxEstimate({ year: 2026, status: "married", profit_cents: -500000, other_cents: 10000000, carried }).carried_off, 300000);
+    { self_employment: 1397257, fed_income: 2192882, oregon: 1488036, business_deduction: 1195354 });
+  // no profit: the home office costs wait again, nothing comes off the other income
+  assert.deepEqual(taxEstimate({ year: 2026, status: "married", profit_cents: -500000, other_cents: 10000000, carried }),
+    taxEstimate({ year: 2026, status: "married", profit_cents: -500000, other_cents: 10000000 }));
 });
 
 const L = (txn_id, date, account, debit, credit, extra = {}) =>
@@ -83,9 +84,8 @@ test("taxTab: plain rows, Paul's typed cells kept, a house counts only when he t
   assert.equal(b["200 Janice"], "no sale price yet", "a held house with no sale price on its tab is listed");
   assert.equal(b["Profit you are taxed on"], 178380.95, "and adds nothing, even marked yes");
   const m = taxEstimate({ year: "2026", status: "married", profit_cents: 17838095, other_cents: 4000000, carried });
-  assert.equal(b["Loss on investments, not used yet"], 37452, "the whole loss is shown");
-  assert.equal(b["Comes off your income this year"], -4111, "1,111 of home office and 3,000 of the investment loss - not the 32,135 already used in 2025");
-  assert.match(t.rows.find((r) => r[0] === "2025 business and rental losses")[2], /^NOT a loss you can use again/);
+  assert.equal(b["Home office costs 2025 could not use"], 1111);
+  assert.deepEqual(t.rows.filter((r) => /invest|stock|paycheck/i.test(r[0] + r[2] )).map((r) => r[0]), [TAX_INPUTS.other, TAX_INPUTS.paid_irs], "only what Recast takes is shown - no row for the stock loss or the losses already used");
   assert.equal(b["Still owed to the IRS"], (m.self_employment + m.fed_income) / 100 - 10000);
   assert.equal(b["Still owed to Oregon"], m.oregon / 100);
   assert.equal(b["SET ASIDE FOR BOTH"], (m.self_employment + m.fed_income + m.oregon) / 100 - 10000);

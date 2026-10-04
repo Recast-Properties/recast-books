@@ -1640,3 +1640,13 @@ on Schedule C with the houses as **inventory** (750,761 at year end; Q-3 dealer)
 2025 travel (1,743) was deducted (Q-1). The tab's `Other income in your household` is 0 while the return shows 421,292
 of paychecks - Paul's cell, put to him. The accountant's 2026 estimate vouchers are 5,500 on 09-15 and 5,500 on
 01-15-2027; Paul typed 5,000 sent.
+
+**Amended 16:48 CDT (Paul, on seeing the block: "are you taking $3,000 off for recast from 2026 for this", then
+"only show me what recast can take from 2025"):** the block is **only what Recast takes** - head `WHAT RECAST
+CARRIES OVER FROM 2025`, one row, `Home office costs 2025 could not use` 1,111.00, no total row. **The household's
+37,452 loss on stocks and funds is out of the tab AND out of its arithmetic** (it had been taking 3,000 off the
+income - Recast's profit, since no other income is typed); it is real and the accountant takes it on the return, it
+is simply not Recast's. The "2025 business and rental losses" row is gone too; the 32,135 stays in the arithmetic
+only where the tax rules put it (it comes off what the 20% deduction is worked on - nothing at today's numbers).
+`CARRIED_OVER[2026] = { home_office: 1111, business_loss: 32135 }`. Set aside, read back live: **56,120.21**
+(56,438.79 before any of this; 55,329.71 for the seven minutes the first version was up).
