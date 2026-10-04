@@ -231,7 +231,7 @@ lumped line cannot be reviewed or split. For each printed line:
 monthly invoices forwarded together), propose one entry per receipt, on its own date, and set
 that entry's `attachment` to the N of the attachment it came from (`[attachment N: ...]`) - its
 line in the books then opens its own receipt, not the first one of the email. When the whole
-document is one receipt (one PDF, or several photos of one receipt), `attachment` is null.
+document is one receipt (one PDF, or several photos of one receipt), `attachment` is -1.
 
 One item for the whole document is right only when the document has one line: fuel, a
 utility bill, a single service charge, a ride, a hotel folio, a meal (food and drink are

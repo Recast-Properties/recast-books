@@ -203,6 +203,15 @@ test("the six client tools are strict with additionalProperties:false", async ()
   }
 });
 
+test("the strict tools carry at most 16 nullable parameters between them (the API refuses a 17th)", async () => {
+  const client = scriptedClient([{ stop_reason: "tool_use", content: [toolUse("t1", "decide", DECIDE_INPUT)], usage: usage() }]);
+  await runBookkeeper({ envelope: baseEnvelope(), attachments: [], deps: baseDeps({ anthropic: client }) });
+  const unions = (s) => !s || typeof s !== "object" ? 0
+    : (Array.isArray(s.type) || s.anyOf ? 1 : 0) + Object.values(s).reduce((n, v) => n + unions(v), 0);
+  const n = client.calls[0].tools.reduce((sum, t) => sum + unions(t.input_schema), 0);
+  assert.ok(n <= 16, `${n} nullable parameters - use a sentinel value instead of adding another`);
+});
+
 test("the system prompt is loaded from lib/bookkeeper-prompt.md and is ASCII-safe", async () => {
   const client = scriptedClient([{ stop_reason: "tool_use", content: [toolUse("t1", "decide", DECIDE_INPUT)], usage: usage() }]);
   await runBookkeeper({ envelope: baseEnvelope(), attachments: [], deps: baseDeps({ anthropic: client }) });

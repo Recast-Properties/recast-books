@@ -2804,3 +2804,21 @@ split it again from the old tab.**
   Writer web app @29 and site `6abfd7ae` untouched (a one-off needs no deploy) - nothing owed. 556 tests.
 - The editor in Paul's Chrome opens as pvb421 by default ("You need access"): click the account chip, choose
   paul@recast-properties.com. With the one-off as the file's first function, the Run dropdown already names it.
+
+## 2026-10-04 - every receipt read since the 10-02 09:11 deploy failed: one nullable field too many
+
+- **What Paul saw:** four documents in `error`, "400 invalid_request_error ... Schemas contains too many parameters
+  with union types (17 parameters with type arrays or anyOf) ... limit: 16", on turn 1 - the request was refused
+  before the model saw anything, so both automatic retries failed the same way.
+- **Cause:** D-073's `attachment` on each entry was `["integer","null"]`. The bookkeeper's strict tools already had
+  16 nullable parameters (decide 9, read_ledger 4, search_docs 3) - exactly the API's limit - and that made 17. The
+  tests use a scripted client, so nothing local could see it; the 10-02 handoff's "check the first read after the
+  deploy" was the check, and no receipt came in until 10-03.
+- **Fix:** `attachment` is a plain integer, **-1 when the whole document is one receipt** (prompt reworded,
+  `normalizeEntry` already turned anything below 0 into null, so nothing downstream changes). New test: the strict
+  tools carry at most 16 nullable parameters between them - **a new optional field takes a sentinel value, not
+  `null`.** 557 tests.
+- **The four documents** (the only ones received since that deploy - every earlier one read back posted or
+  dismissed): `gm-1a101d67757990ce` Uber 58.97 to PDX (10-02), `gm-1a101e27a81e0ab2` Paul's phone photo (10-03),
+  `gm-1a10326a7f72074c` Uber "charge summary" 98.36 from DFW (10-03, says it is not a receipt),
+  `gm-1a105536170ab7fc` the receipt for that same ride, 98.36. None has a read; all four need one after the deploy.
