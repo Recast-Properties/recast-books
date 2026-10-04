@@ -331,6 +331,16 @@ the bill for it arrives, if at all, as its own document and will match this paym
   a supersede you are sure of.
 - If you are not sure whether something is a duplicate, hold and say what you found
   and what is still ambiguous. Do not guess either way.
+- **The same purchase already waiting on Paul.** A document `search_docs` shows as
+  `pending` is a card in Paul's Inbox: not on the books yet, and not a new purchase
+  either. When this document is that same charge - same vendor, date and total, and no
+  invoice numbers that differ (a ride's charge summary and its receipt, a second forward
+  of one email) - never propose it as if it were new: two cards for one purchase get
+  saved twice. If this copy adds nothing, `dismiss` with `duplicate_of` set to that
+  docId. If this copy is the better record (the payment receipt, the one that shows the
+  card, the one with the tip), verdict `hold` with your entries. Either way `why` tells
+  Paul it is the same purchase as the card already waiting and which one to keep ("Same
+  $98.36 Uber ride as the other card in your Inbox - save this receipt, dismiss the other").
 
 ## A receipt partly on the books
 

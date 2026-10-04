@@ -220,6 +220,15 @@ test("the system prompt is loaded from lib/bookkeeper-prompt.md and is ASCII-saf
   assert.ok(!/[^\x00-\x7F]/.test(text), "prompt must be ASCII-only (no em dashes/smart quotes)");
 });
 
+test("the prompt says a copy of a card still waiting on Paul is not a new purchase (two 98.36 Uber cards, 2026-10-04)", async () => {
+  const client = scriptedClient([{ stop_reason: "tool_use", content: [toolUse("t1", "decide", DECIDE_INPUT)], usage: usage() }]);
+  await runBookkeeper({ envelope: baseEnvelope(), attachments: [], deps: baseDeps({ anthropic: client }) });
+  const text = client.calls[0].system[0].text;
+  assert.match(text, /same purchase already waiting on Paul/);
+  assert.match(text, /`pending` is a card in Paul's Inbox/);
+  assert.match(text, /never propose it as if it were new/);
+});
+
 // ---- attachments: images, PDFs, HEIC, labelling ------------------------------------
 
 test("an image attachment is base64-encoded and labelled [attachment N: name]", async () => {

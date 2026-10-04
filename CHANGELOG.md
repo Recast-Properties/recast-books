@@ -2829,7 +2829,7 @@ split it again from the old tab.**
   warm job re-reads them through the normal gate, the real 98.36 receipt before its charge summary) was refused by
   the session's permission system as a write to the live queue - left for Paul to decide. The other road is an
   editor helper calling the Inbox's `reprocess` for the four (constraint 8), which holds each one for him.
-- **Re-read 10-04 06:32-06:34 PDT** (Paul ran `rereadFailedReads20261004` from the editor - the one-off calls the
+- **Re-read 10-04 06:32-06:34 CDT (11:34 UTC - the editor shows Paul's local time and he is in Texas)** (Paul ran `rereadFailedReads20261004` from the editor - the one-off calls the
   Inbox's `reprocess` for the four, the 98.36 receipt first; `clasp login` had expired, Paul renewed it). **All four
   read without error - the fix is proven on live reads** (each entry comes back with `attachment` null). A reprocess
   never posts or dismisses, so all four are cards in Paul's Inbox:
@@ -2841,3 +2841,19 @@ split it again from the old tab.**
     Seen, not chased: a held card is not enough for the next read to call its twin a duplicate.
 - The one-off is out of oneOffScripts.gs (commit e9d490f keeps it); pushed, live = repo. Site `6ac237cb`, writer
   web app @29 - nothing owed. 557 tests.
+
+## 2026-10-04 (later) - a copy of a card still waiting on Paul is not a new purchase (D-077)
+
+- **What Paul did with the four cards (11:37-11:38 UTC):** Uber to PDX 58.97 saved; the airport snacks 8.47 saved;
+  of the two 98.36 Uber cards he saved the charge summary (`gm-1a10326a7f72074c`,
+  `receipt-20261003-878c0cc8dfff-164e`) and dismissed the receipt (`gm-1a105536170ab7fc`, his note "duplicae") -
+  the other way round from what he was told, and fine: the ride is in the books once, 98.36, paid by Paul. The
+  document linked to it is the summary's email text, not the receipt's.
+- **The fix (Paul: "yes fix that"):** the read of the charge summary had found the receipt's card ("pending with no
+  txn_ids, i.e. nothing on the books" - its own `checked`) and proposed the ride again. New rule in the prompt's
+  "Duplicates and updates": a `pending` document is a card in Paul's Inbox, not a new purchase; a copy that adds
+  nothing is dismissed as its duplicate, the better record is held, and `why` says which to keep. Prompt only - the
+  model already had the fact, it lacked the rule. One test (the prompt carries the rule). 558 tests.
+- **Not proven live:** both Uber cards were settled before the rule existed, so there is no pair to re-read.
+  Look at the next charge that arrives twice while its first copy is still a card.
+- A time fixed above: the re-read ran 06:34 CDT, not PDT (the editor shows Paul's local time).

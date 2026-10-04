@@ -1592,3 +1592,17 @@ went to properties@'s trash afterwards.
 the linked one) were left alone. The copies kept on the site (what the Inbox shows) are still the small ones. A
 photo over 4 MB stored truly whole would need the file to reach Drive without passing through the site (both
 directions cross the 6 MB limit) - 10 of the 87 originals are over 4 MB, about 1 photo in 40 of all 387.
+
+## D-077 · A copy of a card still waiting on Paul is not a new purchase - 2026-10-04 · Paul
+
+**Decision (Paul, 2026-10-04: "yes fix that").** When a document is the same charge as a card already waiting in
+the Inbox (same vendor, date and total, no differing invoice numbers), the bookkeeper never proposes it as new. A
+copy that adds nothing is dismissed as a duplicate of that card; the better record (the payment receipt, the card
+shown, the tip) is held, and its one sentence tells Paul it is the same purchase and which card to keep.
+
+**Why.** Uber's 98.36 ride of 10-03 arrived twice - a "charge summary", then the receipt. Both came out as cards
+that read "post", because the first was only waiting on Paul and the bookkeeper took "not on the books" for "new".
+Paul was told which to dismiss; saving both would have put the ride in the books twice.
+
+**How.** A rule in the bookkeeper's prompt ("Duplicates and updates") - the model's judgment, no new rail: the read
+already saw the waiting card through `search_docs` and said so in `checked`. Not yet seen on a real pair.
