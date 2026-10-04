@@ -3114,7 +3114,7 @@ var M_tax = (function () {
       const last = Number(facts.year) - 1;
       add("", "");
       add("head", `WHAT RECAST CARRIES OVER FROM ${last}`);
-      add("", `Home office costs ${last} could not use`, carried.home_office * 100, `Recast made no profit in ${last}, so they waited - they come off Recast's profit this year`);
+      add("", `Less home office costs carried over from ${last}`, -carried.home_office * 100, `taken off Recast's profit this year - they waited because Recast made no profit in ${last}`);
     }
     const irs = t.self_employment + t.fed_income;
     add("", "");

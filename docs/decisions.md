@@ -1650,3 +1650,7 @@ is simply not Recast's. The "2025 business and rental losses" row is gone too; t
 only where the tax rules put it (it comes off what the 20% deduction is worked on - nothing at today's numbers).
 `CARRIED_OVER[2026] = { home_office: 1111, business_loss: 32135 }`. Set aside, read back live: **56,120.21**
 (56,438.79 before any of this; 55,329.71 for the seven minutes the first version was up).
+
+**Reworded 16:54 CDT (Paul: "so wait, i can't take the home ofice 1,111.00?"):** the row is `Less home office costs
+carried over from 2025`, **-1,111.00**, "taken off Recast's profit this year - they waited because Recast made no
+profit in 2025". A row for something that lowers the tax reads `Less ...` with a minus, like `Less what you already sent`.

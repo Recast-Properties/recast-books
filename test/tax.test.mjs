@@ -84,7 +84,7 @@ test("taxTab: plain rows, Paul's typed cells kept, a house counts only when he t
   assert.equal(b["200 Janice"], "no sale price yet", "a held house with no sale price on its tab is listed");
   assert.equal(b["Profit you are taxed on"], 178380.95, "and adds nothing, even marked yes");
   const m = taxEstimate({ year: "2026", status: "married", profit_cents: 17838095, other_cents: 4000000, carried });
-  assert.equal(b["Home office costs 2025 could not use"], 1111);
+  assert.equal(b["Less home office costs carried over from 2025"], -1111, "shown as taken off - Paul read 'could not use' as 'cannot take'");
   assert.deepEqual(t.rows.filter((r) => /invest|stock|paycheck/i.test(r[0] + r[2] )).map((r) => r[0]), [TAX_INPUTS.other, TAX_INPUTS.paid_irs], "only what Recast takes is shown - no row for the stock loss or the losses already used");
   assert.equal(b["Still owed to the IRS"], (m.self_employment + m.fed_income) / 100 - 10000);
   assert.equal(b["Still owed to Oregon"], m.oregon / 100);

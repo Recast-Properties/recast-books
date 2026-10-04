@@ -2888,3 +2888,8 @@ split it again from the old tab.**
 - **16:55 CDT - deployed on Paul's "deploy": writer web app @30** (`clasp deploy -i` the same id; `clasp deployments`
   reads @30; live script = the repo - `clasp pull` into a scratch folder, all 13 files identical; `/exec` answers
   ok 0.4.0). The site was not redeployed - no function loads `lib/tax.mjs`. Nothing owed.
+- **16:54 CDT - the home office line reworded (Paul: "so wait, i can't take the home ofice 1,111.00?").** He read
+  `Home office costs 2025 could not use` as "cannot take". It was always taken; the row now says so:
+  `Less home office costs carried over from 2025` **-1,111.00**, "taken off Recast's profit this year - they waited
+  because Recast made no profit in 2025". No number moved (set aside 56,120.21, read back live 16:54). 559 tests.
+  Pushed 16:53; **the writer web app deploy is owed again** (lib.gs; @30 has the old label, which only the tab shows).
