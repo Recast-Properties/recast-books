@@ -229,7 +229,9 @@ name, in full - `Reimbursement paid to Recast, in full (second wire)` 4,716.82. 
   insurance paid before closing get their own row after Utilities when a house has them (Paul has not seen one).
 - **PAYOUTS:** a partner's `Paid out of pocket` is the bills he paid that no advance covered. `Half of profit` is
   what was paid at closing - no suffix, even when escrow held part back; the escrow section shows the rest.
-- **AFTER THE PAYOUT** (D-070, D-072), never "after the sale": the Cost Recapture lines naming the house - the total
+- **AFTER THE PAYOUT** (D-070, D-072), never "after the sale": its two formulas are the only live cells on the tab and
+  read the Journal to its last row (`journalRange_`, D-080 - on 2026-10-04 the three existing tabs' formulas were
+  rewritten where they stood, not rebuilt). The Cost Recapture lines naming the house - the total
   and one live row per bill (date and payee / amount / what it was); corrections and returns are minus amounts; a
   taken-back entry and its reversal are left out. A bill dated after the closing day but settled in the payout is a
   project cost, not this.

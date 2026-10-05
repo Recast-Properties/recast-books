@@ -182,8 +182,10 @@ tie-out here. The
 actuals from the settlement statement, Dennis's interest true-up and the
 payouts-equal-net-proceeds check live on the **closing tab** the Phase 5 sell wizard
 builds beside this one (BUILD-PLAN §5). Helpers live in AI:AS, greyed; the voided flag on
-the hidden `Journal helpers` sheet. All SUMPRODUCT / FILTER over
-bounded Journal rows, voided pairs excluded via the same helper-column trick as Totals.
+the hidden `Journal helpers` sheet. All SUMPRODUCT / FILTER over the Journal from row 2 to its last row
+(`journalRange_`, D-080, 2026-10-04: the last row is kept in B1 of `Journal helpers`; until then a fixed
+5,000-row bound, which the Journal was two weeks from passing), voided pairs excluded by the helper sheet's flag,
+read to the same row.
 The tab is a view until the property sells, and nothing on it is typed except Sale Price, Concession, the
 End Dates and the paid-by boxes. **The Rehab Costs and Utilities rows are values written by the writer**
 (`refreshLineBlocks_`, after every post/void and on rebuild), not a formula spill, because

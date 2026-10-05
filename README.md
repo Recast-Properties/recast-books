@@ -22,7 +22,8 @@ receipt link a Drive file) and live receipts since; the old workbook is closed (
 **As of 2026-10-04:** three closed sales are in the books - 1616 Granite, 280 Sparkling and 1014 S View (Paul's own
 2025 deal in Molalla OR, brought in line by line from his sheet "Recast 2025", D-079) - each with a frozen house tab
 and a closing tab; eight houses are held. The workbook's `P&L` and `Taxes` tabs rebuild themselves every hour (D-064,
-D-075, D-078); the bank statement work (Phase 3) is in progress.
+D-075, D-078); the bank statement work (Phase 3) is in progress. The house tabs and closing tabs add up the Journal
+to its last row, however long it gets (D-080; they stopped at row 5,000 before).
 
 Nothing here ever writes to the old workbook; migration (Phase 4) reads it.
 
