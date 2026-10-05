@@ -1654,3 +1654,34 @@ only where the tax rules put it (it comes off what the 20% deduction is worked o
 **Reworded 16:54 CDT (Paul: "so wait, i can't take the home ofice 1,111.00?"):** the row is `Less home office costs
 carried over from 2025`, **-1,111.00**, "taken off Recast's profit this year - they waited because Recast made no
 profit in 2025". A row for something that lowers the tax reads `Less ...` with a minus, like `Less what you already sent`.
+
+## D-079 · 1014 S View (Molalla OR) comes into the books as one closed house, in summary - 2026-10-04 · Paul
+
+*"ok i found where the loss is. it was with 1014 s view drive, molalla or. the house i bought and rehabbed at the end
+of 2025, but sold in 2026 ... how should we handle this? import it into the new recast books?"* - and, asked whether
+Dennis was in it: *"no dennis was not the lender. i got a hard money loan from an actual lender"*.
+
+**The facts (his sheet "Recast 2025", tab `1014 S View`, id `1d1TVK7c53cIguj2nSvc2Zknr99TiLUAJxB7YwMj37g8`):** bought
+2025 for 350,000 through an assignment (10,000 to Westfall Offers - the assignment contract is in his Drive), rehabbed
+Sept-Oct 2025, sold 2026-01-12 for 410,000. Purchase and closing 383,802.36, rehab 26,879.89, interest 10,174.58,
+sale closing costs 23,722.27 = 444,579.10 all in; **loss 34,579.10**. It was in neither the old workbook "Recast 2026"
+nor the migration (checked: 0 rows). The 2025 return holds its 2025 costs in year-end inventory (its labor line,
+3,766, is this house's three labor items), so nothing of it was a 2025 loss: **it is a 2026 loss, in full, against
+Recast's 2026 profit** - this is the loss Paul meant when he asked to "apply the 2025 loss" (D-078).
+
+**Decided:** one closed house, in summary, not receipt by receipt (his sheet is the record - D-027's rule):
+- a Properties row `1014 S View`, **sold**, `dennis_share_pct` 0;
+- three entries dated 2026-01-12, linked to his sheet: the costs by his own subtotals and rehab headings (1000-series)
+  against **9000 Owner contributions** (his own money and the lender's loan - neither went through a Recast bank
+  account; the loan in and its payoff wash and are not entries); the sale (4000 410,000, commission 1300, closing costs
+  1310, the rest back through 9000); the release to 5000. Net on 9000: 34,579.10 put in by Paul = the loss he covered.
+  **Not 2030**: Recast does not owe him this back;
+- his own tab copied into the workbook as `1014 S View` - the frozen record, like every sold house's tab.
+The P&L tab then shows the house (-34,579.10) and the Taxes tab's `Recast earned` drops by the same; no special tax
+line. `pnlTab` changed with it: a sold house Dennis put no money into reads "your own deal, Dennis was not in it", and
+what Paul put in (9000) is its own row beside what he was paid out (9010) instead of one netted figure.
+
+**Brought in at his sheet's number.** Two lines look entered twice and are his or the closing papers' to settle: the
+1,260.00 first interest (under Loan Costs as prepaid interest and again as the 9/30/2025 interest payment) and City
+of Molalla 101.67 (under Utilities 12/31/2025 and again in the sale closing costs). If both, the loss is 33,217.43 -
+one small correcting entry. No settlement statement for either closing was found in his Drive by title.

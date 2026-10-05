@@ -2893,3 +2893,18 @@ split it again from the old tab.**
   `Less home office costs carried over from 2025` **-1,111.00**, "taken off Recast's profit this year - they waited
   because Recast made no profit in 2025". No number moved (set aside 56,120.21, read back live 16:54). 559 tests.
   Pushed 16:53; **the writer web app deploy is owed again** (lib.gs; @30 has the old label, which only the tab shows).
+
+## 2026-10-04 (19:05 CDT) - 1014 S View, Molalla: the house that was in no book (D-079)
+
+- **Paul found "where the loss is":** a house of his own (hard money loan, no Dennis), bought and rehabbed in 2025,
+  sold 2026-01-12 for 410,000 against 444,579.10 all in - a 2026 loss of 34,579.10 that the P&L and Taxes tabs do
+  not know about. His sheet "Recast 2025" has it line by line; the books had none of it.
+- **Built:** the one-off `importMolalla` (oneOffScripts.gs) - Properties row (sold), three entries from his sheet's
+  totals (costs / sale / release, the money side on 9000), his tab copied into the workbook, Totals + P&L + Taxes
+  rebuilt, a read-back with OK/CHECK on each figure; safe to run twice. Dry run through the posting engine: the four
+  subtotals and the result tie to his sheet to the cent, the house accounts end at 0.00, set aside 56,120.21 ->
+  43,502.30. `pnlTab`: "your own deal, Dennis was not in it" for a house with no Dennis money; `Put in by Paul`
+  and `Paid out to Paul` are separate rows. 559 tests.
+- **Pushed 19:04 CDT, NOT YET RUN.** Running it from the session's browser was refused by auto mode (a write to the
+  live books), so the Run is Paul's one step. After it: read the P&L and Taxes tabs back, take the one-off out, and
+  the writer web app deploy (owed since 16:54 - the home office relabel, now `lib/reports.mjs` too).
