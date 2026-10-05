@@ -3046,8 +3046,9 @@ split it again from the old tab.**
 - **Removed** from `taxTab` (`lib/tax.mjs`): the section's head and three rows; `taxFacts` drops `travel`. The tab's
   last row is `SET ASIDE FOR BOTH`; a test line holds that. No number on the tab changes. 560 tests.
 - Commit 5c0c0f6; `lib.gs` rebuilt; writer pushed 22:50 CDT, live script = repo by `clasp pull`. The tab is rebuilt
-  by the hourly timer (next 23:05 CDT) or at once when a blue cell changes - **not yet read back**. The web app
-  deploy is owed (lib.gs; the 22:50 sold-house fix was already waiting on one).
+  by the hourly timer or at once when a blue cell changes. **Read back live 23:07 CDT (gviz): rebuilt 11:05 PM, no
+  row of the section left, the last row is `SET ASIDE FOR BOTH` 43,502.30 - the figure it showed before.** It went
+  out with web app @32 at 22:51 CDT (next entry).
 
 ## 2026-10-04 (22:51 CDT) - deployed @32
 
