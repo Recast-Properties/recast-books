@@ -3058,3 +3058,54 @@ split it again from the old tab.**
   `lib.gs`** (the Taxes tab's last section removed), which the other session had pushed a minute earlier. Both were
   waiting on this one deploy. Nothing owed.
 - `1014 S View - old sheet`: Paul removed that tab himself ("yes i removed it") - nothing lost by any script.
+
+## 2026-10-05 (06:50 CDT) - 1014 S View: the receipts matched; the linking script is Paul's one step
+
+Paul, 10-04: "yes match all the receipts and link them". Worked overnight 10-04/05 (the Mac slept twice; the
+helper readers stalled on it - `caffeinate` kept the last passes going).
+
+- **The receipts are in Drive.** A poller one-off (`OneOff.gs`, commits f582e9f, 9e52e44, 8d92e0f; out again in
+  94f302a, live poller = repo) took the spare minutes of the paul@ `pollBooks` after the mail and copied **161
+  emails = 245 files, none failed**, into the Drive folder `1014 S View` / `Receipts from email`: the phone photos
+  Paul mailed himself, store mail naming the house, and the stores' own emailed receipts (Home Depot's "Your
+  Electronic Receipt" for nearly every day of the job, Lowe's, Floor & Decor). Floor & Decor's receipt is a
+  PICTURE inside the email, not attached - a second pass fetched the two pictures. 70 copies that are plainly not
+  this house (Texas trips, text-message screenshots, the "Flippers" thread) were MOVED to the subfolder `Not this
+  house (other mail the search caught)` - nothing deleted.
+- **Matched: 65 receipts -> 136 of the 151 lines** (408,278.73 of 420,856.83), on store, date and the amounts
+  printed. `data/molalla-receipts.json` holds every pair with a note, the receipts that have no line, and the lines
+  with no receipt. On the tab `1014 S View - Frozen`: 110 of its 121 lines get a link (the 30 purchase-side lines on
+  1000 are not listed on the tab; 26 of them are linked in the Journal - the Fidelity FINAL BORROWER'S STATEMENT of
+  9/16/2025 covers 23 lines to the cent).
+- **The link:** one-off `linkMolallaReceipts` (oneOffScripts.gs, pushed 06:46 CDT, live writer = repo; **NOT YET
+  RUN - Paul's one step**). `setDocUrl_` per receipt, then `=HYPERLINK(url,"Receipt")` in the Receipt cell of each
+  matched row of the frozen tab and an empty cell where no receipt was found (the freeze had left the plain word on
+  every row). It reads the tab first, finds each Receipt cell from the entry id four columns to its right, and
+  writes nothing if a cell is not what it expects. Nothing is posted, no amount moves, the tab is not rebuilt.
+- **No receipt found (15 lines, 12,578.10):** the lender's interest payments other than December (4 lines, 7,517.77
+  - the confirmations are in pvb421@gmail.com, which no script of paul@ can read), PGE (4 lines, 214.18 - bills in
+  pvb421 too), NW Natural (3 lines, 250.03 - no mail in either mailbox), Lineage Legacy labor 1,600.00, the county
+  taxes line 2,758.90, the 9/16 City of Molalla 100.00, and Home Depot "Paint" 137.22 of 9/29 (no receipt adds to
+  it; that day's receipt has 96.79 of paint).
+- **Found while matching - nothing changed in the books; Paul's to decide:**
+  - Money that came back and is not on his sheet: Floor & Decor return 10/19/2025 **307.80**; Lowe's credit
+    10/20/2025 **200.00** (scratch on the washer/dryer order); City of Molalla refund check **57.10** (final bill
+    44.57 against the 101.67 the title company sent).
+  - Looks entered twice: the first interest **1,260.00** (the 9/16 closing statement prepays interest to 10/01 and
+    the lender's pulls are Nov, Dec, Jan only; his own 2025 interest total, 6,455.05, counts it once); the City of
+    Molalla deposit **100.00** (it is inside the 449.00 paid 12/11); PGE **3.37** (one bill of 3.37, entered twice).
+    The 101.67 (City of Molalla, also in the sale's closing costs) still waits on the sale's settlement statement.
+  - Paid and not on his sheet: Home Depot paint 9/28/2025, **386.19 + 281.87** (Paint 1.pdf and Paint 2.pdf in his
+    own reimbursement folder, Visa 6926); Venmo to Ramon Garcia Alcaraz 11/25/2025 **325.00**, his note "1014 S
+    View Dr"; the appraisal **1,065.00** ("paid outside closing" on the closing statement); LUMIN's card fees
+    **55.98** (two payments of 960.99 against the 1,866.00 on his sheet). Smaller or unsure: Nest thermostat 129.99
+    (10/28), dryer vent parts 12/23 (73.14 + a hacksaw), roofing materials 12/28 and 12/30 (309.48, 155.77), a
+    Shark extractor 139.00, door stops 14.56, Safeway 8.88, an iron 19.99.
+  - The closing statement says the assignment fee paid outside closing was 8,599.17; his sheet has the 10,000.00
+    he wired Westfall. Not chased.
+- Tools on those receipts (paint sprayers, router, miter saw, sander...) are on his "Recast" tab's Tools list, not
+  on the house - left as he has them.
+- Lessons: the Drive folder is on this Mac (`~/Library/CloudStorage/GoogleDrive-paul@recast-properties.com/My
+  Drive/2_ Properties/1014 S View`); a file's Drive id is `xattr -p 'com.google.drivefs.item-id#S' <file>`, and
+  `pypdf` reads the PDFs there without the Drive connector. The connector's reader returns nothing for some phone
+  photos - those were read by eye in Chrome. 560 tests.
