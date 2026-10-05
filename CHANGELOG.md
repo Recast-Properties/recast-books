@@ -3109,3 +3109,24 @@ helper readers stalled on it - `caffeinate` kept the last passes going).
   Drive/2_ Properties/1014 S View`); a file's Drive id is `xattr -p 'com.google.drivefs.item-id#S' <file>`, and
   `pypdf` reads the PDFs there without the Drive connector. The connector's reader returns nothing for some phone
   photos - those were read by eye in Chrome. 560 tests.
+
+## 2026-10-05 — 881 Newport closed; Sell property fixes (D-082)
+
+- **Sell property showed 881 Newport as "already closed (2026-07-24)"** with Attach and rebuild instead of Read it.
+  The dialog loads its first house (1616 Granite, sold 2026-07-24) on open; Paul switched to Newport and Granite's
+  reply landed last and overwrote the screen. `loadContext_` now drops a reply for a house no longer picked. Nothing
+  was written by the wrong screen. Pushed (commit 94d100a).
+- **881 Newport closed in the books** by Paul through Sell property (settlement 2026-10-02, sold 290,000.00, total
+  profit 53,462.29 - Dennis 26,731.15, Paul 26,731.14; total to Dennis 240,895.21, to Paul 27,609.53, 1,599.90
+  refunded to the Citizens account). Tab `881 Newport - Closing`.
+- **D-082: Dennis's interest is typed per advance.** Paul typed 4,398.83 as the one agreed figure; the books took it,
+  but the closing tab split it with the engine's cash-advance interest (41.79), so Purchase Interest read 4,357.04.
+  Each advance row in the dialog now takes the interest Dennis gave (blank = the books' figure, greyed), kept on
+  `Advances.agreed_interest` and used by `interestByAdvance` - the post, the preview and every rebuild show it. The
+  total box is gone. Test added (561). Pushed (commit 1530351); **writer web app deploy owed** (Code.gs, lib.gs).
+- **Newport's figures from Dennis: purchase 4,355.52, cash advance 43.31** (= 4,398.83, already posted - no amount
+  moves). One-off `setNewportInterest` (pushed, **NOT YET RUN - Paul's one step**) writes them and rewrites the
+  closing tab in place; then read the tab back (Purchase Interest 4,355.52 twice, Cash Advances Interest 43.31 twice).
+- Seen the same morning: two TXU payments (153.96 Bowling Green, 65.12) came in at 06:13 as Inbox cards (payer
+  unknown; the 65.12 also no house) - Paul saved both (65.12 on 881 Newport, both paid from Citizens). The manual
+  G&H Glass & Carpet 254.56 (06/30, Window Repair, Dennis) is on Newport; New expense has no way to attach a receipt.

@@ -1758,3 +1758,23 @@ changed: the flights are still a business cost, and Portland-area local taxes an
 not worked out (D-075 left them out on purpose). `taxFacts` no longer returns `travel` - the row was its only use.
 Q-1 stays open in `docs/open-questions.md`, with the figure. A row that reads to Paul as "you may not be able to"
 about something the books already do is taken off, not reworded (the same lesson as D-078's "could not use").
+
+## D-082 · Dennis's interest is typed per advance at the sale, and the closing tab shows exactly that - 2026-10-05 · Paul
+
+881 Newport was closed through Sell property on 2026-10-05 (settlement 2026-10-02, sold 290,000.00). Paul typed the
+one "Dennis's agreed interest" figure, 4,398.83, and the books took it (an accrual to the engine's 4,893.08 and a
+true-up of -494.25). But the closing tab split the total itself: `Cash Advances Interest` was the engine's own 41.79
+and `Purchase Interest` the rest, 4,357.04 - a number Paul never typed. Paul: *"it should use the interest amount i
+give it. my entry should override. it should not be calculating interest on the final report. i should be able to
+enter the interest amount for the purchase and any cash advances."*
+
+**Decided:** Sell property's Advances table has an **Interest Dennis gave you** box on every advance row (the purchase
+and each cash advance); the single total box is gone. A typed figure is kept on `Advances.agreed_interest` (dollars,
+a new last column, written by `sellPost`) and `interestByAdvance` (`lib/sale.mjs`) uses it instead of the engine's,
+so the post, the preview (one row per advance) and every later rebuild of the closing tab (`closingFromJournal_`)
+show Paul's figures. A blank box still falls back to the books' figure, shown greyed in the box. The house tabs while
+held still show the engine's running estimate - that is a forecast, not the final report.
+
+Newport's figures from Dennis: purchase **4,355.52**, cash advance **43.31** = 4,398.83, the total already posted, so
+no amount moves; the one-off `setNewportInterest` writes them on Newport's two advances and rewrites `881 Newport -
+Closing` in place.
