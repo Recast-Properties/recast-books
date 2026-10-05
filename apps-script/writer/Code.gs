@@ -146,7 +146,8 @@ var TAB_HEADERS = {
   'Vendors': ['canonical', 'aliases', 'entity_type', 'form_1099', 'tin_status',
     'w9_url', 'default_account', 'notes'],
   'Advances': ['advance_id', 'date', 'amount', 'property', 'source_txn_id',
-    'status', 'accrued_to', 'repaid_date', 'notes', 'kind', 'rate_pct', 'paid_to'],
+    'status', 'accrued_to', 'repaid_date', 'notes', 'kind', 'rate_pct', 'paid_to',
+    'agreed_interest'],   // dollars, Dennis's figure typed at the sale; blank = the books' own (2026-10-05)
   'Periods': ['period', 'status', 'closed_at', 'snapshot_url', 'notes'],
   'Settings': ['key', 'value', 'notes'],
   'Users': ['email', 'role', 'name', 'added_at'],

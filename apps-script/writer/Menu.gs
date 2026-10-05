@@ -543,7 +543,8 @@ function loadAdvances_(ss) {
       accrued_to: cols['accrued_to'] ? String(r[cols['accrued_to'] - 1] || '') : '',
       kind: cols['kind'] ? String(r[cols['kind'] - 1] || '') : '',
       repaid_date: cols['repaid_date'] && r[cols['repaid_date'] - 1] !== '' ? formatIsoDate_(r[cols['repaid_date'] - 1]) : '',
-      rate_annual: ratePct !== '' && ratePct != null && Number.isFinite(Number(ratePct)) ? Number(ratePct) / 100 : undefined
+      rate_annual: ratePct !== '' && ratePct != null && Number.isFinite(Number(ratePct)) ? Number(ratePct) / 100 : undefined,
+      agreed_interest_cents: cols['agreed_interest'] && r[cols['agreed_interest'] - 1] !== '' ? toCents(r[cols['agreed_interest'] - 1]) : undefined
     };
   });
 }
@@ -1000,7 +1001,9 @@ function sellContext(name) {
         return {
           advance_id: a.advance_id, date: a.date, amount: a.amount_cents / 100, kind: a.kind || '',
           rate_pct: a.rate_annual == null ? rate * 100 : a.rate_annual * 100,
-          repaid_date: a.repaid_date || '', status: a.status
+          repaid_date: a.repaid_date || '', status: a.status,
+          interest: a.agreed_interest_cents == null ? '' : a.agreed_interest_cents / 100,
+          books_interest: accruedThrough(a, a.repaid_date || formatIsoDate_(new Date())) / 100
         };
       }),
       balances: propertyBalances_(ss, name),
@@ -1035,10 +1038,12 @@ function sellAdvances_(form, ss, name) {
   return loadAdvances_(ss).filter(function (a) { return a.property === name; }).map(function (a) {
     var e = edited[a.advance_id] || {};
     var ratePct = e.rate_pct === '' || e.rate_pct == null ? null : Number(e.rate_pct);
+    var typed = e.interest === '' || e.interest == null ? null : toCents(e.interest);
     return {
       advance_id: a.advance_id, date: a.date, amount_cents: a.amount_cents, kind: a.kind || '',
       rate_annual: ratePct == null ? a.rate_annual : ratePct / 100,
-      repaid_date: e.repaid_date || a.repaid_date || form.date
+      repaid_date: e.repaid_date || a.repaid_date || form.date,
+      agreed_interest_cents: typed == null ? a.agreed_interest_cents : typed
     };
   });
 }
@@ -1124,6 +1129,7 @@ function sellPost(form) {
     // accrual at repaid_date, so this is what stops interest).
     var advSheet = ss.getSheetByName('Advances');
     var advCols = headerIndex_(advSheet);
+    if (!advCols['agreed_interest']) { ensureHeaders_(advSheet, TAB_HEADERS['Advances']); advCols = headerIndex_(advSheet); }
     var advLast = advSheet.getLastRow();
     if (advLast > 1) {
       var edited = {};
@@ -1138,6 +1144,7 @@ function sellPost(form) {
         if (advCols['rate_pct'] && e.rate_pct !== '' && e.rate_pct != null) {
           advSheet.getRange(row, advCols['rate_pct']).setValue(Number(e.rate_pct));
         }
+        if (e.interest !== '' && e.interest != null) advSheet.getRange(row, advCols['agreed_interest']).setValue(Number(e.interest));
       });
     }
 
@@ -1425,10 +1432,7 @@ function closingFromJournal_(ss, name) {
       agreed_cents: engineInterest + trueUpCents,
       true_up_cents: trueUpCents,
       posted_before_cents: 0,
-      by_advance: loadAdvances_(ss).filter(function (a) { return a.property === name; }).map(function (a) {
-        return { advance_id: a.advance_id, date: a.date, kind: a.kind || '', amount_cents: a.amount_cents,
-          as_of: a.repaid_date || settlement.date, interest_cents: accruedThrough(a, a.repaid_date || settlement.date) };
-      })
+      by_advance: interestByAdvance(loadAdvances_(ss).filter(function (a) { return a.property === name; }), settlement.date)
     },
     paid: {
       dennis_cents: paidDennisTotal, paul_cents: paidPaulTotal,

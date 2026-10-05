@@ -2043,7 +2043,9 @@ var M_sale = (function () {
         kind: a.kind || "",
         amount_cents: a.amount_cents,
         as_of: asOf,
-        interest_cents: accruedThrough(a, asOf),
+        // The figure Dennis gave, typed in Sell property, wins over the books' own (Paul, 2026-10-05:
+        // "my entry should override. it should not be calculating interest on the final report").
+        interest_cents: Number.isFinite(a.agreed_interest_cents) ? a.agreed_interest_cents : accruedThrough(a, asOf),
       };
     });
   }

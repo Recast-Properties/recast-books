@@ -69,14 +69,13 @@
   <button id="s-add-line">Add line</button>
   <div id="s-tally" class="balance"></div>
 
-  <label style="margin-top:10px">Advances &ndash; the reconcile: correct a rate or a repayment date here</label>
+  <label style="margin-top:10px">Advances &ndash; type the interest Dennis gave you for the purchase and for each cash advance. What you type is what the closing tab shows (blank = the books' own figure, shown in grey).</label>
   <table class="lines-grid" id="s-adv">
-    <thead><tr><th>Advanced</th><th class="num">Amount</th><th>Kind</th><th>Rate</th><th>Repaid</th></tr></thead>
+    <thead><tr><th>Advanced</th><th class="num">Amount</th><th>Kind</th><th>Rate</th><th>Repaid</th><th class="num">Interest Dennis gave you</th></tr></thead>
     <tbody></tbody>
   </table>
 
   <div class="row" style="margin-top:10px">
-    <div><label>Dennis's agreed interest (blank = the engine's figure)</label><input type="number" id="s-interest" step="0.01"></div>
     <div><label>Cost Recapture settled on this payout</label><input type="number" id="s-recapture" step="0.01"></div>
   </div>
 
@@ -177,14 +176,16 @@
 
   function renderAdvances_(advances) {
     var body = document.querySelector('#s-adv tbody');
-    if (!advances.length) { body.innerHTML = '<tr><td colspan="5">No advances on this property.</td></tr>'; return; }
+    if (!advances.length) { body.innerHTML = '<tr><td colspan="6">No advances on this property.</td></tr>'; return; }
     body.innerHTML = advances.map(function (a) {
       return '<tr data-id="' + escapeHtml_(a.advance_id) + '">' +
         '<td>' + escapeHtml_(a.date) + '</td>' +
         '<td class="num">' + a.amount.toFixed(2) + '</td>' +
         '<td>' + escapeHtml_(a.kind) + '</td>' +
         '<td><input class="a-rate" type="number" step="0.01" value="' + a.rate_pct + '"> %</td>' +
-        '<td><input class="a-repaid" type="date" value="' + escapeHtml_(a.repaid_date) + '"></td></tr>';
+        '<td><input class="a-repaid" type="date" value="' + escapeHtml_(a.repaid_date) + '"></td>' +
+        '<td class="num"><input class="a-interest" type="number" step="0.01" value="' + escapeHtml_(String(a.interest)) +
+        '" placeholder="' + Number(a.books_interest || 0).toFixed(2) + '"></td></tr>';
     }).join('');
   }
 
@@ -194,6 +195,7 @@
         advance_id: tr.getAttribute('data-id'),
         rate_pct: tr.querySelector('.a-rate').value,
         repaid_date: tr.querySelector('.a-repaid').value,
+        interest: tr.querySelector('.a-interest').value,
       };
     });
   }
@@ -206,7 +208,6 @@
       sale_price: document.getElementById('s-price').value,
       net_to_seller: document.getElementById('s-net').value,
       cash_to_recast: CASH_STATED,
-      interest_figure: document.getElementById('s-interest').value,
       recapture: document.getElementById('s-recapture').value,
       lines: readLines_(),
       advances: readAdvances_(),
@@ -260,8 +261,9 @@
       row_('Paid to Paul', s.paid.paul_cents, '') +
       row_('Retained in the Recast account', s.retained_cents, '') +
       owed +
-      row_('Interest: engine', s.interest.engine_cents, "to each advance's repayment date") +
-      row_('Interest: agreed with Dennis', s.interest.agreed_cents, s.interest.true_up_cents ? 'adjustment ' + formatCents_(s.interest.true_up_cents) : 'no adjustment') +
+      s.interest.by_advance.map(function (a) {
+        return row_((a.kind === 'cash' ? 'Cash advance interest' : 'Purchase interest') + ' (' + a.date + ')', a.interest_cents, '');
+      }).join('') +
       '</tbody></table>' +
       '<p class="balance">' + (checks.ok ? 'Checks pass. Payouts tie to the cash received.' : 'CHECKS FAIL: ' + escapeHtml_(JSON.stringify(checks))) + '</p>' +
       '<p>The closing statement will be written to <b>' + escapeHtml_(target) + '</b>.</p>';

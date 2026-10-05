@@ -454,3 +454,17 @@ test("interest already posted for the property is not accrued twice", () => {
   assert.equal(summary.interest.posted_before_cents, 300_000);
   assert.equal(dollars(summary.cost_before_share_cents), "320821.44", "the total is the same either way");
 });
+
+// Paul, 2026-10-05: the interest Dennis gave him for the purchase and for each cash advance is what the
+// closing tab shows - typed per advance, never re-split by the engine.
+test("typed interest per advance is what posts and what the closing tab shows", () => {
+  const typed = { "g-purchase": 680_000, "g-cash-1": 9_000, "g-cash-2": 1_500 };
+  const advances = GRANITE.advances.map((a) => ({ ...a, agreed_interest_cents: typed[a.advance_id] }));
+  const { summary, intents } = buildSalePlan({ ...GRANITE, advances, interestFigureCents: null });
+  assert.equal(summary.interest.agreed_cents, 690_500);
+  assert.equal(summary.interest.true_up_cents, 0);
+  const { rows } = closingRows({ summary, intents });
+  const cents = (label) => rows.filter((r) => r.label.trim().startsWith(label)).map((r) => r.cents);
+  assert.deepEqual(cents("Purchase Interest"), [680_000, 680_000]);
+  assert.deepEqual(cents("Cash Advances Interest"), [10_500, 10_500]);
+});
