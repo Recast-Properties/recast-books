@@ -383,6 +383,28 @@ test("setupPropertyTab: old-tab layout (summary / Dennis / Rehab Costs / Utiliti
   assert.ok(body.includes("DATE(YEAR($B$1),1,1)"), "no Jan-1-to-date proration of tax_annual");
 });
 
+// D-080 (2026-10-04): the house tabs and the closing tabs added up Journal rows 2 to 5,000 with the Journal
+// at 3,500 rows - past the bound every total would have come up short with no error. One range that follows
+// the Journal (journalRange_); no formula in the live files may name a Journal row again. Totals keeps its own
+// INDIRECT bound, which says "JOURNAL PAST ROW ..." on the tab when it is passed.
+test("D-080: every Journal range on a house tab or a closing tab follows the Journal - none has a typed last row", () => {
+  // a range built with a column joined in ('Journal!$' + col + '$2:$' + ...) is read as its literal form
+  const flatten = (src) => src.replace(/'\s*\+\s*[A-Za-z_$][\w$]*\s*\+\s*'/g, "X");
+  const fixedRows = (src) => flatten(src).match(/(?<!INDIRECT\(")Journal!\$?[A-Z]{1,3}\$?\d+/g) || [];
+  assert.deepEqual(fixedRows(source + "\n" + menuSource), [], "a Journal range with a typed row is back - use journalRange_(col)");
+  // the lint itself: both ways the old bound was written are caught
+  assert.equal(fixedRows("var J = function (col) { return 'Journal!$' + col + '$2:$' + col + '$' + N; };").length, 1);
+  assert.equal(fixedRows("'=SUMIF(Journal!$K$2:$K$5000,\"x\",Journal!$F$2:$F$5000)'").length, 2);
+  assert.ok(source.includes("return 'INDEX(Journal!$' + col + ':$' + col + ',2):INDEX(Journal!$' + col + ':$' + col + ',' + JOURNAL_LAST + ')';"),
+    "journalRange_ is row 2 to the Journal's last row (JOURNAL_LAST)");
+  for (const fn of ["setupPropertyTab", "writeSimpleClosingTab_", "writeClosingTab_", "ensureJournalHelpers_"]) {
+    const at = source.indexOf("function " + fn + "("), end = source.indexOf("\nfunction ", at + 1);
+    assert.ok(at !== -1 && source.slice(at, end === -1 ? source.length : end).includes("journalRange_"), fn + " does not use journalRange_");
+  }
+  // the voided flag ends on the same row as every range, or SUMPRODUCT's arrays stop agreeing
+  assert.ok(source.includes(`var JOURNAL_VOIDED = "INDEX('" + HELPER_SHEET + "'!$A:$A,2):INDEX('" + HELPER_SHEET + "'!$A:$A," + JOURNAL_LAST + ")";`));
+});
+
 test("refreshHeavyBlocks_ finds a block by its header, and an untraded Holding line lands under Utilities", () => {
   const anchor = source.indexOf("function refreshHeavyBlocks_(");
   assert.ok(anchor !== -1, "refreshHeavyBlocks_ not found");

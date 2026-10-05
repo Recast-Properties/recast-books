@@ -1419,7 +1419,7 @@ function setupTotals() {
 // ---- Property tab (2026-09-14, phase2.6-spec.md section 5) -----------------------
 // One tab per property, named exactly as its Properties.name, built/rebuilt when the
 // property is added (Properties page -> action_propertyTab_ below) or any time from
-// the editor via setupPropertyTab(name). Formula-only view over bounded Journal rows
+// the editor via setupPropertyTab(name). Formula-only view over the Journal's rows (journalRange_)
 // (same SUMPRODUCT / FILTER / voided-pair-helper-column pattern as setupTotals - read
 // that header comment first).
 //
@@ -1508,22 +1508,20 @@ function setupPropertyTab(name, asOf) {
   // a rebuild.
   sh.getRange(1, 1, sh.getMaxRows(), sh.getMaxColumns()).clearDataValidations();
 
-  var N = 5000;     // Journal bound, same as setupTotals
+  var N = 5000;     // Advances rows the schedules look through (about 40 on 2026-10-04, one per loan draw)
   // Each advance schedule holds as many rows as the property has today plus one spare
   // (Paul, 2026-09-15); the Dennis page rebuilds the tab after each advance it adds.
   var LINES_N = 300; // rows per line block; the sheet is trimmed to end with them (Paul,
                      // 2026-09-15: "extend the checkboxes all the way to the bottom")
 
-  var J = function (col) { return 'Journal!$' + col + '$2:$' + col + '$' + N; };
+  var J = journalRange_;   // row 2 to the Journal's last row, however long it gets (D-080)
   var A = function (col) { return 'Advances!$' + col + '$2:$' + col + '$' + N; };
   // The "is this txn_id voided" flag lives on a hidden helper sheet: an ARRAYFORMULA
-  // spilling 5000 rows on this tab would make Sheets grow the tab back past the line
-  // blocks (Paul, 2026-09-15: "didnt work").
+  // spilling a row per Journal row on this tab would make Sheets grow the tab back past
+  // the line blocks (Paul, 2026-09-15: "didnt work"). It ends on the same row as every
+  // Journal range, so the SUMPRODUCT arrays always agree.
   ensureJournalHelpers_(ss);
-  // The helper column, sized from the Journal range itself: when Sheets grows the Journal
-  // references (rows inserted: 5000 -> 5008 on the staging copy, 2026-09-17) this grows with
-  // them, so the SUMPRODUCT arrays always agree. INDEX:INDEX is not volatile.
-  var VOIDED = "INDEX('" + HELPER_SHEET + "'!$A:$A,2):INDEX('" + HELPER_SHEET + "'!$A:$A,ROWS(" + J('A') + ")+1)";
+  var VOIDED = JOURNAL_VOIDED;
   var eq = function (col, v) { return '(' + J(col) + '&""="' + v + '")'; };
   var ne = function (col, v) { return '(' + J(col) + '&""<>"' + v + '")'; };
 
@@ -1531,7 +1529,7 @@ function setupPropertyTab(name, asOf) {
   // L payee, M description, N paid_from, P source, Y void_of. Voided flag: AD.
   // Voided = the txn_id is named by some void_of (Y). That lookup is O(rows^2): it is computed
   // ONCE, in the helper column, and every formula reads the flag. 2026-09-17's #N/A fix put
-  // the MATCH inside every SUMPRODUCT instead - hundreds of 5000-row lookups per Journal
+  // the MATCH inside every SUMPRODUCT instead - hundreds of whole-Journal lookups per Journal
   // append; the staging workbook stalled for minutes and the writer's reads timed out.
   var live = ne('P', 'void') + '*(' + VOIDED + '<>TRUE)*' + eq('H', safeName) +
     (asOf ? '*' + ne('P', 'sale') : '*(' + J('C') + '<=$B$1)');
@@ -1973,12 +1971,34 @@ function propertyRow_(ss, name) {
 
 var HELPER_SHEET = 'Journal helpers';
 
-/** Hidden sheet holding the Journal-wide "voided?" flag every property tab reads. */
+// ONE JOURNAL RANGE FOR EVERY FORMULA ON A HOUSE TAB OR A CLOSING TAB (D-080, 2026-10-04). They summed
+// rows 2 to 5,000 of the Journal, and the Journal was at 3,500 rows and growing about 100 a day: past
+// row 5,000 every total would have come up short with no error. A range now runs from row 2 to the
+// Journal's last row, and that row number is worked out once, in JOURNAL_LAST on the helper sheet - so
+// there is no bound to outgrow, and a formula only looks at rows that exist (less work than the fixed
+// 5,000 until the Journal passes it; a fixed 20,000 would have made every SUMPRODUCT four times the
+// work - see setupTotals on what that did). INDEX:INDEX is a real range (SUMIF takes it) and is not
+// volatile (INDIRECT is). Every range and the voided flag end on the same row, so SUMPRODUCT's arrays
+// agree whatever rows Sheets inserts or deletes. test/writer-gs-lint.test.mjs fails on a Journal range
+// with a typed last row. (Totals keeps its own INDIRECT bound and says so on its face when passed.)
+var JOURNAL_LAST = "'" + HELPER_SHEET + "'!$B$1";
+function journalRange_(col) {
+  return 'INDEX(Journal!$' + col + ':$' + col + ',2):INDEX(Journal!$' + col + ':$' + col + ',' + JOURNAL_LAST + ')';
+}
+var JOURNAL_VOIDED = "INDEX('" + HELPER_SHEET + "'!$A:$A,2):INDEX('" + HELPER_SHEET + "'!$A:$A," + JOURNAL_LAST + ")";
+
+/** Hidden sheet holding the Journal's last row and the Journal-wide "voided?" flag every house tab reads. */
 function ensureJournalHelpers_(ss) {
   var sh = ss.getSheetByName(HELPER_SHEET);
   if (!sh) { sh = ss.insertSheet(HELPER_SHEET); sh.hideSheet(); }
   sh.getRange(1, 1).setValue('voided? (txn_id named by a void)');
-  sh.getRange(2, 1).setFormula('=ARRAYFORMULA(IF(Journal!$A$2:$A$5000="","",ISNUMBER(MATCH(Journal!$A$2:$A$5000,Journal!$Y$2:$Y$5000,0))))');
+  // B1 = JOURNAL_LAST: the last row holding a txn_id - the largest row number, not a count, so a blank
+  // row could never shorten it.
+  sh.getRange(1, 2).setFormula('=ARRAYFORMULA(MAX(2,(Journal!$A:$A<>"")*ROW(Journal!$A:$A)))');
+  sh.getRange(1, 3).setValue('<- the last Journal row: every house tab and closing tab formula stops here (D-080)');
+  // ponytail: one lookup per Journal row against every Journal row (rows x rows). If this column gets
+  // slow, look only among the void rows: MATCH(txn_id, FILTER(void_of, void_of<>""), 0).
+  sh.getRange(2, 1).setFormula('=ARRAYFORMULA(IF(' + journalRange_('A') + '="","",ISNUMBER(MATCH(' + journalRange_('A') + ',' + journalRange_('Y') + ',0))))');
   return sh;
 }
 
@@ -2272,8 +2292,9 @@ function writeClosingTab_(ss, name, plan, target) {
 
   head('POST-SALE COSTS (Cost Recapture naming this property)');
   var recapRow = body.length + 1;
-  push('Total', '=SUMIF(Journal!$K$2:$K$5000,"' + String(name).replace(/"/g, '""') + '",Journal!$F$2:$F$5000)' +
-    '-SUMIF(Journal!$K$2:$K$5000,"' + String(name).replace(/"/g, '""') + '",Journal!$G$2:$G$5000)', 'live, D-031');
+  ensureJournalHelpers_(ss);   // journalRange_ ends on its last-row cell
+  push('Total', '=SUMIF(' + journalRange_('K') + ',"' + String(name).replace(/"/g, '""') + '",' + journalRange_('F') + ')' +
+    '-SUMIF(' + journalRange_('K') + ',"' + String(name).replace(/"/g, '""') + '",' + journalRange_('G') + ')', 'live, D-031');
 
   sh.getRange(1, 1, body.length, 4).setValues(body);
   sh.getRange(1, 2).setFontWeight('bold').setFontSize(13).setBackground('#a3f67f');
@@ -2339,9 +2360,9 @@ function writeSimpleClosingTab_(ss, name, plan, target) {
   body.push(['', 'AFTER THE PAYOUT', '', '']);
   heads.push(body.length);
   var q = String(name).replace(/"/g, '""');
-  var jr = function (col) { return 'Journal!$' + col + '$2:$' + col + '$5000'; };   // the bound every tab uses
+  var jr = journalRange_;   // row 2 to the Journal's last row, like every house tab (D-080)
   ensureJournalHelpers_(ss);
-  var notVoided = "INDEX('" + HELPER_SHEET + "'!$A:$A,2):INDEX('" + HELPER_SHEET + "'!$A:$A,ROWS(" + jr('A') + ")+1)<>TRUE";
+  var notVoided = JOURNAL_VOIDED + '<>TRUE';
   body.push(['', plan.after_label || 'Bills that came in after the payout (not yet split with Dennis)',
     '=SUMIF(' + jr('K') + ',"' + q + '",' + jr('F') + ')-SUMIF(' + jr('K') + ',"' + q + '",' + jr('G') + ')',
     'Not part of the numbers above; settled on the next payout']);

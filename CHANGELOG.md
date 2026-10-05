@@ -2960,3 +2960,27 @@ split it again from the old tab.**
   `280 Sparkling - Closing`.
 - The one-off is out of oneOffScripts.gs (commit 542847e keeps it); pushed 19:33, live = repo. **The writer web app
   deploy is owed** (Code.gs: `plan.rows`; lib.gs: the 16:54 relabel and `pnlTab`).
+
+## 2026-10-04 (19:45 CDT) - the house tabs and closing tabs follow the Journal to its last row (D-080)
+
+- **The problem:** every sum on a held house's tab and the live "bills after the payout" rows on each closing tab
+  stopped at Journal row 5,000. The Journal is at row 3,546 (3,545 lines, balanced) and grows about 100 rows a
+  day; past row 5,000 the totals would have been short with no error.
+- **The fix:** `journalRange_(col)` (Code.gs) - row 2 to the Journal's last row, the row number kept in B1 of the
+  hidden `Journal helpers` sheet; the voided flag spills over, and is read to, the same row. Used by
+  `setupPropertyTab`, both closing-tab writers and the helper sheet. No number to outgrow, and less work per
+  formula than the old bound until the Journal passes 5,000 rows. Totals keeps its own 20,000 bound (it says so on
+  the tab when passed); the Advances ranges keep theirs (40 rows).
+- **Before, read live 19:35 CDT (old formulas), tab = Journal worked out separately from a gviz read of its rows:**
+  366 Mesa Rehab Costs 12,787.78 / Utilities 305.57 (Total Project Cost 139,086.22); 881 Newport 3,952.64 / 759.53
+  (222,717.27); 104 Ashburne Rehab Total 184,975.01 (All in 568,919.46). `Journal helpers` B1:D4 empty.
+- **Rebuild times before (Executions page):** one Ashburne rebuild 31.6 s (`rebuildAshburneTabForCabinetPulls`,
+  10-02); every held tab plus the closing-tab wording 188 s (`applyLawnCareAndPayoutWording`, 10-01).
+- **The guard:** a lint test (D-080) fails on a Journal range with a typed row in Code.gs or Menu.gs; proven to
+  fail on the old code. 560 tests.
+- **The one-off `followJournalOnTabs`** (oneOffScripts.gs): rewrites any formula on a tab that is not a held house
+  where it stands (the three closing tabs; each rewritten cell must show what it showed), rebuilds the nine houses
+  not sold (timed, the top of each tab compared before and after, each tab's recalculation timed before and
+  after), then reports any formula anywhere still naming a fixed Journal row. Sold houses are skipped by status -
+  not through `rebuildAllPropertyTabs`, which would make an empty tab for a sold house whose tab is named
+  `<house> - Frozen` (flagged as its own task).

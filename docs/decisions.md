@@ -1685,3 +1685,48 @@ what Paul put in (9000) is its own row beside what he was paid out (9010) instea
 1,260.00 first interest (under Loan Costs as prepaid interest and again as the 9/30/2025 interest payment) and City
 of Molalla 101.67 (under Utilities 12/31/2025 and again in the sale closing costs). If both, the loss is 33,217.43 -
 one small correcting entry. No settlement statement for either closing was found in his Drive by title.
+
+## D-080 · The house tabs and the closing tabs follow the Journal to its last row - 2026-10-04 · Claude
+
+Found while 1014 S View was being brought in (D-079): every formula on a held house's tab, and the live "bills after
+the payout" rows of every closing tab, added up `Journal!$X$2:$X$5000`. The Journal was at row 3,546 that evening
+and had grown about 100 rows a day since the cutover - about two weeks from row 5,000, past which each total would
+have come up short with no error. (The comment beside the bound said "same as setupTotals"; Totals had moved to
+20,000 on 2026-09-30.)
+
+**Decided: no bound. One range, `journalRange_(col)` in Code.gs, from row 2 to the Journal's last row:**
+`INDEX(Journal!$X:$X,2):INDEX(Journal!$X:$X,'Journal helpers'!$B$1)`. The last row is worked out once, in B1 of
+the hidden `Journal helpers` sheet (the largest row number holding a txn_id - not a count, so a blank row could not
+shorten it); the voided flag in that sheet's column A spills over the same rows and the tabs read it to the same row
+(`JOURNAL_VOIDED`). `setupPropertyTab` (light and heavy), `writeSimpleClosingTab_`, `writeClosingTab_` and
+`ensureJournalHelpers_` all use it.
+
+**Why this and not a bigger number:**
+- a fixed 20,000 would have made every SUMPRODUCT on every held tab four times the work at once (about 13 on a light
+  tab, eight held tabs, recalculated on every Journal append) - the build that made the Spreadsheets service give
+  up on Totals on 2026-09-30, and the stall of 2026-09-17. Following the Journal is LESS work than the old bound
+  today (3,546 rows against 4,999) and only ever as much as there are rows;
+- `INDIRECT` (what Totals uses) is volatile - it recalculates on every edit anywhere. `INDEX:INDEX` is not, is a
+  real range (SUMIF and FILTER take it), and was already how the tabs read the voided flag;
+- every range in a formula ends on the same cell's row, so SUMPRODUCT's arrays cannot disagree whatever rows Sheets
+  inserts or deletes - the drift that broke Totals (`E2:E6807` against `H2:H7164`) cannot happen here.
+
+**Left as they are, on purpose:**
+- **Totals** keeps its own `INDIRECT` bound of 20,000 rows. It is not silent: F2 of the tab reads "JOURNAL PAST ROW
+  20000 - rebuild Totals with a bigger bound" when passed. At 100 rows a day that is about five months off; moving
+  it onto `journalRange_` (SUMIFS takes the range) is the fix then.
+- the **Advances** ranges on a house tab keep a 5,000-row bound: 40 rows today, one per loan draw.
+- the voided flag is still one lookup per Journal row against every Journal row. It now runs over the rows that
+  exist rather than 4,999; if it ever gets slow, look only among the void rows (a `ponytail:` note in
+  `ensureJournalHelpers_` says how).
+- **frozen house tabs** (`<house> - Frozen`) are values and were not touched. **Closing tabs are never rebuilt**
+  (phase5-spec 3a): their live formulas are rewritten where they stand, text for text what the builder now writes
+  (checked in node: rewrite == builder).
+
+**The guard:** `test/writer-gs-lint.test.mjs` "D-080" fails if Code.gs or Menu.gs builds a Journal range with a typed
+row again, in either form it was written (a literal `Journal!$K$2:$K$5000`, or `'Journal!$' + col + '$2:$' + ...`);
+it was run against the code as it was and fails there.
+
+**Held tabs do not pick this up on their own** - a post only rewrites a tab's line blocks (values); the formulas are
+written by `setupPropertyTab`. The one-off `followJournalOnTabs` does it once: rewrites the closing tabs in place,
+rebuilds every house not sold, and reports.
