@@ -1457,6 +1457,21 @@
    ],
    "lines_total": 2656.81,
    "note": "FCI Lender Services 'ACH Complete' for loan 399618095, 1014 S. View Drive: payment applied 12/04/2025. It prints no amount (his sheet: 2,656.81)"
+  },
+  {
+   "file": "Receipts from email/2025-10-12 Floor & Decor - Your e-Receipt is Enclosed - eReceipt.jpg",
+   "url": "https://drive.google.com/file/d/1DveUXdoVztmK8RWPI38tlNacsvkXg1bJ/view",
+   "lines": [
+    {
+     "txn_id": "migration-20251012-d263d59e28df",
+     "date": "2025-10-12",
+     "payee": "Floor & Decor",
+     "what": "Vanities",
+     "amount": 1364
+    }
+   ],
+   "lines_total": 1364,
+   "note": "Floor and Decor Tualatin 10/12/2025, 1,364.00 = Palma 37 in vanity 517.00 + Palma 61 in vanity 847.00, Visa 5685 (read by eye)"
   }
  ],
  "receipts_with_no_line": [
@@ -1549,6 +1564,12 @@
    "url": "https://drive.google.com/file/d/1-9X8wXeuCcAehA8x5vAqcqaOhldh2zb6/view",
    "what": "Home Depot Troutdale 12/30/25: shingles, roof patch, stop leak 120.80 + firelogs 34.97 = 155.77, Mastercard 6774",
    "note": "not on his sheet; nothing on it names a house"
+  },
+  {
+   "file": "Receipts from email/2025-10-19 Floor & Decor - Your e-Receipt is Enclosed - eReceipt.jpg",
+   "url": "https://drive.google.com/file/d/1pAILDDSUyjlfos-jyrHjX8p7QIgCFuYg/view",
+   "what": "MONEY BACK: Floor and Decor RETURN 10/19/2025 - 20 quarter-round pieces from the 9/22 flooring purchase, 307.80 back to Visa 6926",
+   "note": "not on his sheet - the flooring cost 2,225.62, the books have 2,533.42"
   }
  ],
  "lines_with_no_receipt": [
@@ -1586,13 +1607,6 @@
    "payee": "Hard money lender",
    "what": "Loan interest payment",
    "amount": 1260
-  },
-  {
-   "txn_id": "migration-20251012-d263d59e28df",
-   "date": "2025-10-12",
-   "payee": "Floor & Decor",
-   "what": "Vanities",
-   "amount": 1364
   },
   {
    "txn_id": "migration-20251016-69133904a897",

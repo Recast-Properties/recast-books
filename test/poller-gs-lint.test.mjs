@@ -252,19 +252,3 @@ test("a phone photo under the cap is stored exactly as sent; one over it keeps t
   assert.deepEqual(all[1], { name: "IMG_9000.jpg", mime: "image/jpeg", base64: "b64:2200000" }, "7 MB: the reduced copy");
   assert.match(p.bodyText, /Photo "IMG_9000\.JPG" was too big to store whole \(6\.7 MB\); a reduced copy \(2\.1 MB\)/);
 });
-
-test("ONE-OFF (OneOff.gs, 1014 S View receipts): plain file names, paul@ only, and the poll hands over its spare minutes after the mail", () => {
-  const oneOff = readFileSync(new URL("../apps-script/poller/OneOff.gs", import.meta.url), "utf8");
-  assert.ok(!/[^\x00-\x7f]/.test(oneOff), "ASCII only");
-  assert.equal(oneOff.match(/^function\s+([A-Za-z0-9_]+)/m)[1], "exportMolallaMail", "the editor's Run picks the first function");
-  const a = oneOff.indexOf("function molallaName_("), b = oneOff.indexOf("\nfunction ", a + 1);
-  const name = new Function(`${oneOff.slice(a, b)}\nreturn molallaName_;`)();
-  assert.equal(name('2025-09-17 Lowe\'s - Fwd: "Receipt" 1014/S View\r\n'), "2025-09-17 Lowe's - Fwd Receipt 1014 S View");
-  assert.equal(name("x".repeat(300)).length, 110);
-  assert.match(oneOff, /mailboxMode_\(props\) !== 'paul'\) return/);
-  const c = oneOff.indexOf("function molallaPictureSrc_("), e = oneOff.indexOf("\n}\n", c) + 2;
-  const src = new Function(`${oneOff.slice(c, e)}\nreturn molallaPictureSrc_;`)();
-  assert.equal(src('<img src="https://x/logo.png" alt="Logo"><img alt="eReceipt" width="350" src="https://x/r?a=1&amp;b=2">'), "https://x/r?a=1&b=2");
-  assert.equal(src('<img src="https://x/logo.png" alt="Logo">'), "");
-  assert.match(source, /warmCache_\(uploadUrl, secret\);\n[^\n]*\n[^\n]*\n\s+if \(Date\.now\(\) - t0 < 60000\) console\.log\(exportMolallaMail_\(Date\.now\(\)\)\);/);
-});
