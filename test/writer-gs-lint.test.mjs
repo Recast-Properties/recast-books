@@ -269,6 +269,12 @@ test("a sold property's tab is frozen at closing and nothing writes over it agai
   }
   assert.ok(/status \|\| ''\)\.toLowerCase\(\) === 'sold'/.test(bodyOf("onPropertyTabEdit")),
     "a hand edit on a frozen tab still fires the void-and-repost trigger");
+
+  // a sold house's record is named "<house> - Frozen": looking its plain name up first would create an empty tab
+  const setup = bodyOf("setupPropertyTab");
+  const soldReturn = setup.indexOf("return { ok: true, frozen: true, rows: 0 }"), firstSheet = setup.indexOf("getOrCreateSheet_(");
+  assert.ok(soldReturn !== -1 && firstSheet !== -1 && soldReturn < firstSheet,
+    "setupPropertyTab must return for a sold house before any getOrCreateSheet_, or it leaves an empty tab named after the house");
 });
 
 test("selling a property drops it from the postable set at once, not in six hours", () => {

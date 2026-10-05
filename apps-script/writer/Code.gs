@@ -1481,20 +1481,23 @@ function setupPropertyTab(name, asOf) {
   var safeName = name.replace(/"/g, '""'); // escaped for embedding in formula string literals
   var props = PropertiesService.getScriptProperties();
   var ss = openOrCreateWorkbook_(props);
+  var registry = propertyRow_(ss, name);
+  // A sold property's tab is the frozen record of the day it closed (Paul, 2026-09-23).
+  // Rebuilding it would recompute every formula against a Journal whose release entry has
+  // zeroed the property - which is exactly the damage this guard exists to prevent.
+  // This return comes BEFORE the tab is looked up: a sold house's record is named
+  // "<house> - Frozen", so getOrCreateSheet_ would make an empty tab under its plain name
+  // (found 2026-10-04).
+  if (!asOf && String((registry || {}).status || '').toLowerCase() === 'sold') {
+    console.log('Property tab NOT rebuilt for "' + name + '": sold, frozen at closing');
+    return { ok: true, frozen: true, rows: 0 };
+  }
   var sh = getOrCreateSheet_(ss, name);
   // Sale Price is the one typed cell on the tab (Paul, 2026-09-15: "a live input cell
   // for me to enter the value"): keep what is there across a rebuild, else start from the
   // registry's contract_price.
   var keptSalePrice = readLabelledValue_(sh, 'Sale Price');
   var keptConc = readLabelledValue_(sh, 'Concession');
-  var registry = propertyRow_(ss, name);
-  // A sold property's tab is the frozen record of the day it closed (Paul, 2026-09-23).
-  // Rebuilding it would recompute every formula against a Journal whose release entry has
-  // zeroed the property - which is exactly the damage this guard exists to prevent.
-  if (!asOf && String((registry || {}).status || '').toLowerCase() === 'sold') {
-    console.log('Property tab NOT rebuilt for "' + name + '": sold, frozen at closing');
-    return { ok: true, frozen: true, rows: 0 };
-  }
   // Properties.template = List (Paul, 2026-09-30, Cost Recapture): a plain list, not the property grid.
   if (String((registry || {}).template || '').toLowerCase() === 'list') return writeCostList_(ss, name);
   var heavy = String((registry || {}).template || '').toLowerCase() === 'heavy';

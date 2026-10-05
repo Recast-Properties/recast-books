@@ -3010,3 +3010,30 @@ split it again from the old tab.**
   the web app was deployed @31 at 19:48 CDT with D-080's Code.gs. `clasp push` answered `invalid_rapt` at
   22:45 CDT; Paul ran `npx clasp login` and the push went 22:44 CDT - live script = repo by `clasp pull`, oneOffScripts.gs
   holds no function. Nothing owed.
+
+## 2026-10-04 (22:50 CDT) - a rebuild no longer makes an empty tab for a sold house
+
+- **The problem (found during D-080):** `setupPropertyTab(name)` looked its tab up with `getOrCreateSheet_` BEFORE
+  the sold check. The sold houses' records are named `<house> - Frozen`, so no tab carries a sold house's plain
+  name - and any rebuild of one (`rebuildAllPropertyTabs`, the menu's Rebuild property tab, the Add property
+  dialog's save on a sold house, the web app's `propertyTab` action) would have made an EMPTY tab named
+  `1616 Granite` / `280 Sparkling` / `1014 S View` and then answered "frozen".
+- **The fix (Code.gs):** the Properties row is read and the sold check returns first; the tab is looked up only
+  after it. The `asOf` path (rebuilding a sold house's record on purpose) and the kept Sale Price / Concession for
+  a held house are as before - same lines, moved below the return.
+- **The guard:** one more assertion in the lint test "a sold property's tab is frozen at closing and nothing writes
+  over it again" - in `setupPropertyTab` the sold return must come before any `getOrCreateSheet_`. Fails on the
+  old code (checked against `git show HEAD:`), passes on the new. `npm test`: 560 tests, 559 pass, 1 skipped, 0 fail.
+- **The live workbook, read 22:45 CDT (the tab bar of the open workbook in Paul's Chrome, read-only): 32 tabs, none
+  named plainly after a sold house** - only `1616 Granite - Frozen` / `- Closing`, `280 Sparkling - Frozen` /
+  `- Closing`, `1014 S View - Frozen` / `- Closing`. So nothing to delete. The empty row gviz gave for
+  `sheet=1616 Granite` at 19:40 was gviz's answer for a tab that does not exist: `sheet=NoSuchTabXYZ` gives the same
+  one empty row, while `sheet=1616 Granite - Frozen` gives the real tab. **A gviz read by `sheet=` name never says
+  "no such tab" - check the tab list before reading anything into an empty answer.**
+- **Seen on the way, not chased:** the tab list has no `1014 S View - old sheet` (it was there at 19:33 CDT, per the
+  entry above; gviz answers its name like a tab that does not exist). No code in Code.gs, Menu.gs or the two
+  10-04 one-offs deletes it. Put to Paul.
+- Pushed 22:48 CDT (`clasp push -f`; before it the live script = HEAD file by file, after it = the working tree by
+  `clasp pull`). The menus, the dialogs and the timers run the fix now. **The writer web app deploy is owed**
+  (Code.gs changed; still @31) - until then only the web app's `propertyTab` action has the old order, and nothing
+  calls it for a sold house.
