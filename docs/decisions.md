@@ -1743,3 +1743,18 @@ each): a tab's sums recalculate in 0.43-0.97 s against 0.40-0.85 s before - six 
 0.04 s and 0.16 s, which is noise at one sample. A rebuild took 16.3 s for Ashburne (31.6 s on 10-02, a different
 helper) and 8-12 s for a light tab. The web app was deployed @31 with this Code.gs at 19:48 CDT; the one-off is out
 (commit abf8a19 keeps it).
+
+## D-081 · The Taxes tab loses its "not in these numbers - for your accountant" section - 2026-10-04 · Paul
+
+Paul, on the row `Flights and other travel 12,421.27 ... if the accountant says the Portland-Dallas trips do not
+count, the profit you are taxed on goes up by this much`: *"why would i not be able to write off my flights?"* - and,
+once it was explained (the books DO count them; the row was the accountant's open question Q-1, where his tax home
+is; his 2025 return deducted travel and carries a home office), *"remove this section: NOT IN THESE NUMBERS - FOR
+YOUR ACCOUNTANT"*.
+
+**Decided:** the section is gone - its head and its three rows (flights and other travel, city and county income
+taxes, interest for paying late in the year). The tab ends on `SET ASIDE FOR BOTH`. Nothing in the arithmetic
+changed: the flights are still a business cost, and Portland-area local taxes and late-payment interest are still
+not worked out (D-075 left them out on purpose). `taxFacts` no longer returns `travel` - the row was its only use.
+Q-1 stays open in `docs/open-questions.md`, with the figure. A row that reads to Paul as "you may not be able to"
+about something the books already do is taken off, not reworded (the same lesson as D-078's "could not use").

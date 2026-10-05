@@ -20,7 +20,9 @@ it was missing from the plan's first draft entirely.
 
 **As filed for 2025 (read 2026-10-04, D-078):** the 2025 return (Savage Tax, signed 2026-07-14) deducts Recast's
 travel, 1,743, on its Schedule C. That is how last year was filed, not the accountant's answer for 2026's much
-larger figure - the question stays open, and the Taxes tab still shows travel apart.
+larger figure - the question stays open. The Taxes tab counts the flights as a business cost and, since 2026-10-04,
+no longer shows them apart (D-081: Paul removed that section); if the accountant says the trips do not count, the
+profit he is taxed on goes up by the year's travel (12,421.27 on 2026-10-04).
 
 ---
 

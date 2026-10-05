@@ -3037,3 +3037,14 @@ split it again from the old tab.**
   `clasp pull`). The menus, the dialogs and the timers run the fix now. **The writer web app deploy is owed**
   (Code.gs changed; still @31) - until then only the web app's `propertyTab` action has the old order, and nothing
   calls it for a sold house.
+
+## 2026-10-04 (22:50 CDT) - the Taxes tab ends on its total (D-081)
+
+- **Paul:** "why would i not be able to write off my flights?" (the tab's row `Flights and other travel 12,421.27`
+  under `NOT IN THESE NUMBERS - FOR YOUR ACCOUNTANT`) - answered: he can and the books do; the row flagged the
+  accountant's open question about where the business is based (Q-1). Then: "remove this section".
+- **Removed** from `taxTab` (`lib/tax.mjs`): the section's head and three rows; `taxFacts` drops `travel`. The tab's
+  last row is `SET ASIDE FOR BOTH`; a test line holds that. No number on the tab changes. 560 tests.
+- Commit 5c0c0f6; `lib.gs` rebuilt; writer pushed 22:50 CDT, live script = repo by `clasp pull`. The tab is rebuilt
+  by the hourly timer (next 23:05 CDT) or at once when a blue cell changes - **not yet read back**. The web app
+  deploy is owed (lib.gs; the 22:50 sold-house fix was already waiting on one).
