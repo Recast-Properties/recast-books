@@ -19,6 +19,11 @@ receipt link a Drive file) and live receipts since; the old workbook is closed (
 `HANDOFF-2026-09-23.md`).** The accounting plan went through one adversarial review (five expert lenses,
 35 findings, `docs/review-2026-08-26.md`).
 
+**As of 2026-10-04:** three closed sales are in the books - 1616 Granite, 280 Sparkling and 1014 S View (Paul's own
+2025 deal in Molalla OR, brought in line by line from his sheet "Recast 2025", D-079) - each with a frozen house tab
+and a closing tab; eight houses are held. The workbook's `P&L` and `Taxes` tabs rebuild themselves every hour (D-064,
+D-075, D-078); the bank statement work (Phase 3) is in progress.
+
 Nothing here ever writes to the old workbook; migration (Phase 4) reads it.
 
 ## Start here

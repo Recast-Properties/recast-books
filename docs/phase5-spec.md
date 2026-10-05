@@ -242,6 +242,14 @@ name, in full - `Reimbursement paid to Recast, in full (second wire)` 4,716.82. 
 - **The house tab beside it is frozen when the closing is RUN, not on the closing day** (D-072); a frozen house tab is
   Paul's record and he edits it by hand - read it and compare before any rebuild.
 
+- **A house that did not close through the sell wizard brings its own rows (D-079, 2026-10-04).** 1014 S View - Paul's
+  own deal: a hard money lender, no Dennis, no Recast bank account, no statement on file - has a closing tab in the same
+  sections, written by the same painter: `writeSimpleClosingTab_` takes `plan.rows` (the `closingRows` shape) and
+  `plan.title_note` in place of calling `closingRows`, and `plan.after_label` for the last section's row. Its rows:
+  `Sale money after commission and closing costs`; `Purchase, closing costs, loan costs and interest`, Rehab Costs,
+  Utilities, Property Tax, Insurance; `Total Profit` / `Paul 100%`; under PAYOUTS only Paul. `closingFromJournal_`
+  returns nothing for it (its sale entry is not a wizard's), so nothing rebuilds that tab - it is his record.
+
 **`CLOSING_TAB_IN_PLACE` stays `false` permanently** and the sign-off it was waiting on is moot.
 `closingTabName_()` therefore always returns `<property> - Closing`.
 

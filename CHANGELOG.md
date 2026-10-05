@@ -2984,3 +2984,18 @@ split it again from the old tab.**
   after), then reports any formula anywhere still naming a fixed Journal row. Sold houses are skipped by status -
   not through `rebuildAllPropertyTabs`, which would make an empty tab for a sold house whose tab is named
   `<house> - Frozen` (flagged as its own task).
+
+## 2026-10-04 (19:48 CDT) - deployed @31; the day's docs
+
+- **Deployed on Paul's "deploy": writer web app @31** (`clasp deploy -i` the same id; `clasp deployments` reads @31;
+  `/exec` answers ok 0.4.0). Checked first: the live script = commit cd57933 file by file (`clasp pull` into a scratch
+  folder against `git show HEAD:`), the tree clean. It carries the Taxes tab's carryover block and its `Less ...`
+  wording (D-078), the P&L tab's own-deal note and `Put in by Paul` row and the closing-tab writer's `plan.rows`
+  (D-079), **and D-080's Code.gs** (`journalRange_`), which the other session had pushed at 19:41 and which was
+  already what the menu and the timers ran. D-080's one-off `followJournalOnTabs` is still Paul's Run; taking it out
+  afterwards is a push, not a deploy.
+- The site was not redeployed: no function loads `lib/tax.mjs` or `lib/reports.mjs` (checked again) - `6ac23e11`
+  is still the repo.
+- Docs: `README.md` status (three closed sales, the P&L and Taxes tabs); `docs/open-questions.md` Q-1, Q-3, Q-4 -
+  what the 2025 return shows as filed; `docs/phase5-spec.md` section 3a - a house that did not close through the
+  sell wizard brings its own closing-tab rows. Pushed to GitHub.

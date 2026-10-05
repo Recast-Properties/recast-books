@@ -18,6 +18,10 @@ versus local jobsite driving that belongs in vehicle (6600).
 Settle before another ticket is booked. Raised by the audit lens on 2026-08-26;
 it was missing from the plan's first draft entirely.
 
+**As filed for 2025 (read 2026-10-04, D-078):** the 2025 return (Savage Tax, signed 2026-07-14) deducts Recast's
+travel, 1,743, on its Schedule C. That is how last year was filed, not the accountant's answer for 2026's much
+larger figure - the question stays open, and the Taxes tab still shows travel apart.
+
 ---
 
 ## Q-2 · Entity type, and what is Dennis? — ANSWERED 2026-09-11 · Paul (D-006)
@@ -44,6 +48,10 @@ capital gains treatment.
 Decides whether property costs are COGS or basis, and therefore whether the 1000→5000
 release rule in `docs/chart-of-accounts.md` is the right mechanic. **Blocks Phase 1.**
 
+**As filed for 2025 (read 2026-10-04, D-078): dealer.** The 2025 return carries Recast on Schedule C ("Real estate
+related", 531390) with the houses as inventory - purchases 696,874, year-end inventory 750,761 (the houses held at year end;
+not tied to each house here) - which is the 1000→5000 mechanic the books use. Not yet confirmed by the accountant in so many words.
+
 ---
 
 ## Q-4 · Cash or accrual? — UNANSWERED · accountant
@@ -51,6 +59,9 @@ release rule in `docs/chart-of-accounts.md` is the right mechanic. **Blocks Phas
 Drives when a rehab cost lands and whether year-end work-in-progress sits on a balance
 sheet. With properties straddling year-end this is not academic. **Blocks Phase 0.5**
 (the opening trial balance depends on it).
+
+**As filed for 2025 (read 2026-10-04, D-078): cash.** The 2025 Schedule C for Recast has the cash box ticked, with
+the houses' costs held in inventory until they sell.
 
 ---
 

@@ -74,7 +74,7 @@ functions the menu, pollers and nightly jobs call - Paul is never sent there.
 
 ## Status
 
-**Now (2026-10-02): LIVE on the real books since the 2026-09-21 cutover. Phases 0-2.7, 4 (migration) and 5 (sell wizard) done; THE MIGRATION IS CLOSED (D-067, `docs/migration-leftovers-final.md` - every leftover settled; a migration-era item that turns up later is Claude's to settle quietly, never a new list for Paul). Phase 3 (bank statements) in progress - import, matcher, Citizens Bank tab and its bank check live. Writer web app **@30** (10-04 16:55 CDT), site **`6ac23e11`** (10-04: the nullable-parameter fix and D-077, see the 2026-10-04 bullet), writer and both pollers pushed = the repo - **one writer web app deploy owed** (@30 since 10-04 16:55 CDT, D-078; the home office relabel of 16:54 is pushed, not deployed). 559 tests. **The `Taxes` tab (D-075) is live beside `P&L`, with what Recast carries over from 2025 (D-078).** **The closing tab's layout as it stands is `docs/phase5-spec.md` section 3a (decisions D-069..D-072).** Resume from `HANDOFF-2026-10-02.md` (then `HANDOFF-2026-10-01.md` for the closing tab); the dated bullets below are the history, newest near the end.**
+**Now (2026-10-04): LIVE on the real books since the 2026-09-21 cutover. Phases 0-2.7, 4 (migration) and 5 (sell wizard) done; THE MIGRATION IS CLOSED (D-067, `docs/migration-leftovers-final.md` - every leftover settled; a migration-era item that turns up later is Claude's to settle quietly, never a new list for Paul). Phase 3 (bank statements) in progress - import, matcher, Citizens Bank tab and its bank check live. Writer web app **@31** (10-04 19:48 CDT = commit cd57933's script: D-078, D-079 and D-080's Code.gs), site **`6ac23e11`** (10-04; no function loads `lib/tax.mjs` or `lib/reports.mjs`, so the site is the repo), writer and both pollers pushed = the repo. **Owed: only D-080's one-off `followJournalOnTabs`, Paul's Run** (then it comes out with a push - no deploy). 560 tests. **Three closed sales are in the books: 1616 Granite, 280 Sparkling and 1014 S View** (Paul's own 2025 deal, D-079); the `Taxes` tab (D-075) is live beside `P&L`, with what Recast carries over from 2025 (D-078). **The closing tab's layout as it stands is `docs/phase5-spec.md` section 3a (decisions D-069..D-072).** Resume from `HANDOFF-2026-10-02.md` (then `HANDOFF-2026-10-01.md` for the closing tab); the dated bullets below are the history, newest near the end.**
 History: Phases 0, 1 gated 2026-09-11; Phase 2 gated 2026-09-12; Phase 2.5 (read cache) shipped 2026-09-12; hardening 2026-09-14 (invoice-keyed txn_id, cache warmer, Totals tab, voided pairs hidden; D-015 two locks, D-016 Dennis 8%); Phase 2.6 (property mailboxes via a properties@ poller, property tabs, D-017 Held/Sold) built 2026-09-14. Poller audit 2026-09-16: HEIC photos now convert (`heic-convert`; jimp never could), `error` envelopes the model never reached are retried by the warm job (max 2).
 Phase 0 gate: `docs/phase0-spec.md` §11. Phase 1 gate: `docs/phase1-spec.md` §8. Phase 2
 (receipts bookkeeper — Claude directs the read with zoom/ledger/vendor/property/docs tools,
@@ -308,7 +308,7 @@ are the target, D-028 returns hold for Paul). **Resume from `HANDOFF-2026-09-30.
   its numbers - Paul: "only show me what recast can take from 2025"; never add personal items to this tab.** Set aside
   56,438.79 -> 56,120.21, read back live 16:48 CDT (to rebuild the tab at once: type a letter in an empty cell of it,
   e.g. E1 - the rebuild clears it). The return files Recast on Schedule C with the houses as inventory, cash method.
-  559 tests; deployed @30 at 16:55 CDT on Paul's "deploy"; **the 16:54 relabel is pushed, one web app deploy owed (see the D-079 bullet).** Put to Paul, his cell: `Other income in your household` is 0 and
+  559 tests; deployed @30 at 16:55 CDT on Paul's "deploy"; the 16:54 relabel went out with **@31 at 19:48 CDT - nothing owed.** Put to Paul, his cell: `Other income in your household` is 0 and
   the 2025 return shows 421,292 of paychecks.
 - **2026-10-04 19:07 CDT (D-079, CHANGELOG): 1014 S View, Molalla OR is in the books.** The loss Paul meant in D-078
   is a house of his own (hard money loan, **no Dennis**), bought and rehabbed in 2025, sold 2026-01-12 for 410,000
@@ -319,7 +319,7 @@ are the target, D-028 returns hold for Paul). **Resume from `HANDOFF-2026-09-30.
   his record - never rebuild it). Read back live: P&L `1014 S View -34,579.10`, **Recast earned 19,103.52**, `Put in
   by Paul 34,579.10` its own row; Taxes **set aside 43,502.30**. Open for his closing papers: 1,260.00 (first
   interest) and 101.67 (City of Molalla) look entered twice on his sheet - loss 33,217.43 if so, one small entry.
-  559 tests; writer pushed = repo, **web app deploy owed**.
+  559 tests; writer pushed = repo; deployed with @31 at 19:48 CDT.
 - **2026-10-04 19:30 CDT (CHANGELOG): 1014 S View is in line by line, with a frozen house tab and a closing tab.**
   Paul: "line by line into the ligth template. then freeze it and make a closing tab for it." The one-off
   `importMolallaLines` (commit 542847e; Paul ran it) read his sheet at run time, voided the three summary entries and
@@ -331,8 +331,8 @@ are the target, D-028 returns hold for Paul). **Resume from `HANDOFF-2026-09-30.
   rows as `plan.rows`), `1014 S View - old sheet` (his own, kept). **All three are his records - never rebuild them.**
   The purchase lines carry 2025-09-16, worked out from the sheet, not a document. P&L and Taxes unchanged (Recast
   earned 19,103.52; set aside 43,502.30). Still open for his closing papers: 1,260.00 and 101.67 may be entered
-  twice. 559 tests; writer pushed = repo, **web app deploy owed**. The 5,000-row Journal bound on the house tabs is
-  another session's task (started 10-04).
+  twice. 559 tests; writer pushed = repo; **deployed @31 at 19:48 CDT on Paul's "deploy"** (`/exec` answers ok 0.4.0; live
+  script = commit cd57933 by `clasp pull`) - nothing owed. The 5,000-row Journal bound on the house tabs became D-080 (next bullet).
 - **2026-10-04 19:45 CDT (D-080, CHANGELOG): the house tabs and closing tabs follow the Journal to its last row.**
   They summed Journal rows 2-5,000 (the Journal is at row 3,546, about 100 rows a day). Every Journal range in a tab
   formula is now `journalRange_(col)` - row 2 to the last row, kept in B1 of the hidden `Journal helpers` sheet; the
@@ -341,8 +341,9 @@ are the target, D-028 returns hold for Paul). **Resume from `HANDOFF-2026-09-30.
   does NOT rewrite a held tab's formulas (only its line blocks), so the one-off `followJournalOnTabs` does it once:
   closing tabs rewritten in place (never rebuilt), every house not sold rebuilt and timed. 560 tests; commit
   abf8a19, writer pushed 19:41 CDT = repo. **PUSHED, NOT YET RUN - Paul's one step** (Extensions -> Apps Script ->
-  oneOffScripts.gs -> Run `followJournalOnTabs`); then read back 366 Mesa (Rehab Costs 12,787.78 before), take the
-  one-off out, deploy (Code.gs changed; a deploy was already owed).
+  oneOffScripts.gs -> Run `followJournalOnTabs`); then read back 366 Mesa (Rehab Costs 12,787.78 before) and take the
+  one-off out. **Its Code.gs went out with web app @31 at 19:48 CDT** (the D-079 session's deploy, on Paul's "deploy"),
+  so taking the one-off out needs a push only - no further deploy unless Code.gs or lib.gs changes again.
 - **2026-09-25 (D-044, D-045):** the gate lets a **medium** read post when every other rail holds (low still holds); a vendor's unanimous payment history settles `paid_from` when the document shows no card and Paul wrote no note; Chase checking 8870 is Paul's personal (`paul_personal_last4` = `9166, 8870, 3746` - Discover 3746 added the same day); `MAX_TOKENS_PER_TURN` 16000 (32k broke: the SDK refuses a non-streaming call above ~21k); the warm job replays errored docs from their stored read; the digest names the gate reason. CHANGELOG 2026-09-25.
 - **All five lists are done** (audit §40-§43): list 4 in mail not in the books 0 (`mail_settled`), differences 0 (`differences_settled`), confirm 0 real (the 3 shown are rows Paul dropped), questions answered; every decision, link, refusal (per document), drop, addition and retraction is in `data/migration/2026-09-17/paul-answers.json`. **Paul's stopping rule:** no new cost unless proven paid AND absent from the old books by total, pre-tax subtotal and items; otherwise park for Phase 3.
 - **2026-09-28: 104 Ashburne SOLD** the week of 09-21 (Citizens: $715,558.65 from Bison Title 09-23, $550,000 to Raymond James 09-25) - **not closed in the books yet; Paul starts the sell wizard when he is ready.** Earlier: **Facts corrected on 2026-09-18:** 104 Ashburne had NOT closed then. **881 Newport has NOT closed either - under contract (Paul 2026-09-21, audit §47); sold = Granite and Sparkling only**; its two Cost Recapture lines moved to its own tab. "Effren" rows are **Falcon Creek Lawn Care** (`rename_payee`). Paul's notes are the documents for cash labor.
