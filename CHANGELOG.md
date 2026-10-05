@@ -2944,3 +2944,19 @@ split it again from the old tab.**
   to run again if it stops. After it: read the three tabs back, take the one-off out, deploy (Code.gs and lib.gs).
 - Flagged as its own task, not chased: the house tabs and the closing tab sum only Journal rows 2-5000; the Journal
   will be near 3,500 after this run.
+- **Run by Paul 19:28-19:30 CDT (2 min 24 s), read back live.** The three summary entries voided; **154 entries
+  posted, Journal rows 3222-3546**; every READ BACK line OK (sold 410,000.00, all in 444,579.10, the house
+  -34,579.10, house accounts 0.00, Recast owes Paul on the house 0.00, put in by Paul 34,579.10, Recast earned
+  19,103.52 -> 19,103.52, the Journal balances). **`1014 S View - Frozen`:** Total Project Cost 420,856.83 =
+  Purchase Principal + Interest 391,218.04 + Rehab Costs 23,574.59 + Utilities 3,305.30 + Property Tax 2,758.90;
+  Paul Paid 420,856.83; the lines listed with the Paul Paid box ticked. Two things the template does for every
+  house and so does here: its Net Profit (-31,356.83) is the forecast with Agent 3% and Closing 2%, not the real
+  -34,579.10 (Granite's frozen tab is the same against its closing tab); and the Utilities list's own header
+  (6,064.20) includes the county taxes line, which the summary shows apart. **`1014 S View - Closing`:** as the
+  dry run printed it - cash 386,277.73, total project costs 420,856.83, Total Profit (34,579.10), Total to Paul
+  386,277.73 "Matches the cash received at closing". P&L and Taxes unchanged (19,103.52; set aside 43,502.30).
+- The script's tab move scattered the three tabs (`moveActiveSheet` after `setActiveSheet` in an editor run); put
+  right from Paul's Chrome with the tab menu's Move left: `1014 S View - Frozen | - Closing | - old sheet`, after
+  `280 Sparkling - Closing`.
+- The one-off is out of oneOffScripts.gs (commit 542847e keeps it); pushed 19:33, live = repo. **The writer web app
+  deploy is owed** (Code.gs: `plan.rows`; lib.gs: the 16:54 relabel and `pnlTab`).
