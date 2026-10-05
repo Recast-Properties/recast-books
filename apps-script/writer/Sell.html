@@ -335,7 +335,11 @@
 
   function loadContext_() {
     var msg = document.getElementById('s-msg');
-    callServer_('sellContext', document.getElementById('s-property').value).then(function (result) {
+    var asked = document.getElementById('s-property').value;
+    callServer_('sellContext', asked).then(function (result) {
+      // A reply for a house Paul has since moved off (the dialog loads the first house on
+      // open) must not overwrite the one he picked - 2026-10-05 it showed Newport as closed.
+      if (asked !== document.getElementById('s-property').value) return;
       if (!result.ok) { showMsg_(msg, false, '<b>' + escapeHtml_(result.error) + '</b> - ' + escapeHtml_(result.message)); return; }
       CTX = result;
       renderAdvances_(result.advances);
