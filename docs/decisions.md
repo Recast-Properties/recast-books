@@ -1730,3 +1730,16 @@ it was run against the code as it was and fails there.
 **Held tabs do not pick this up on their own** - a post only rewrites a tab's line blocks (values); the formulas are
 written by `setupPropertyTab`. The one-off `followJournalOnTabs` does it once: rewrites the closing tabs in place,
 rebuilds every house not sold, and reports.
+
+**Run by Paul 2026-10-04 22:35 CDT (127 s) and read back live.** The three closing tabs: two formulas each rewritten
+in place, every one reading what it read (1616 Granite 800.43, 280 Sparkling 891.45, 1014 S View 0.00 / "None yet").
+The eight held house tabs rebuilt, the top of each reading as before; Cost Recapture is a list of values and needed
+nothing. No formula anywhere still names a fixed Journal row; the helper's last-row cell reads 3,546 = the Journal's
+last row. Read back through gviz, the Journal worked out separately from its own rows: 366 Mesa Rehab Costs
+12,787.78 and Utilities 305.57, 881 Newport 3,952.64 and 759.53, 104 Ashburne Rehab Total 184,975.01 (161,632.42 +
+23,342.59), Granite's and Sparkling's bills after the payout - each equal, and each what it was before the run.
+**Speed, measured in the run** (the as-of date set back a day and forward again, old formulas then new, one sample
+each): a tab's sums recalculate in 0.43-0.97 s against 0.40-0.85 s before - six of eight quicker, two slower by
+0.04 s and 0.16 s, which is noise at one sample. A rebuild took 16.3 s for Ashburne (31.6 s on 10-02, a different
+helper) and 8-12 s for a light tab. The web app was deployed @31 with this Code.gs at 19:48 CDT; the one-off is out
+(commit abf8a19 keeps it).

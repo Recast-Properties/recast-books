@@ -2999,3 +2999,13 @@ split it again from the old tab.**
 - Docs: `README.md` status (three closed sales, the P&L and Taxes tabs); `docs/open-questions.md` Q-1, Q-3, Q-4 -
   what the 2025 return shows as filed; `docs/phase5-spec.md` section 3a - a house that did not close through the
   sell wizard brings its own closing-tab rows. Pushed to GitHub.
+- **Run by Paul 22:35 CDT (127 s), read back live 22:40.** Closing tabs: 2 formulas each rewritten in place, each
+  reading as before (Granite 800.43, Sparkling 891.45, 1014 S View 0.00). Held houses rebuilt, the top of every tab
+  as before: 104 Ashburne 16.3 s, 881 Newport 8.9, 136 Bowling Green 11.0, 206 White Rock 11.7, 366 Mesa 9.5, 469
+  Brushwood 8.4, 413 Green Acres 7.9, 200 Janice 8.1. Recalculation of a tab's sums, new (old): 0.44 (0.40), 0.62
+  (0.70), 0.97 (0.81), 0.62 (0.85), 0.43 (0.60), 0.48 (0.53), 0.50 (0.66), 0.44 (0.55) s - no slower. No formula
+  left on a fixed Journal row; the tabs read to row 3,546 = the Journal's last (3,545 lines, balanced). Through
+  gviz: 366 Mesa Rehab Costs 12,787.78, 881 Newport 3,952.64, 104 Ashburne Rehab Total 184,975.01, each = the
+  Journal worked out separately and = before. The one-off is out of oneOffScripts.gs (commit abf8a19 keeps it);
+  the web app was deployed @31 at 19:48 CDT with D-080's Code.gs. Owed: the push that takes the one-off out of
+  the editor - `clasp push` answered `invalid_rapt` at 22:45 CDT (Paul: `npx clasp login`).
