@@ -262,5 +262,9 @@ test("ONE-OFF (OneOff.gs, 1014 S View receipts): plain file names, paul@ only, a
   assert.equal(name('2025-09-17 Lowe\'s - Fwd: "Receipt" 1014/S View\r\n'), "2025-09-17 Lowe's - Fwd Receipt 1014 S View");
   assert.equal(name("x".repeat(300)).length, 110);
   assert.match(oneOff, /mailboxMode_\(props\) !== 'paul'\) return/);
+  const c = oneOff.indexOf("function molallaPictureSrc_("), e = oneOff.indexOf("\n}\n", c) + 2;
+  const src = new Function(`${oneOff.slice(c, e)}\nreturn molallaPictureSrc_;`)();
+  assert.equal(src('<img src="https://x/logo.png" alt="Logo"><img alt="eReceipt" width="350" src="https://x/r?a=1&amp;b=2">'), "https://x/r?a=1&b=2");
+  assert.equal(src('<img src="https://x/logo.png" alt="Logo">'), "");
   assert.match(source, /warmCache_\(uploadUrl, secret\);\n[^\n]*\n[^\n]*\n\s+if \(Date\.now\(\) - t0 < 60000\) console\.log\(exportMolallaMail_\(Date\.now\(\)\)\);/);
 });

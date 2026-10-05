@@ -40,8 +40,9 @@ function exportMolallaMail_(started) {
   try {
     var props = PropertiesService.getScriptProperties();
     if (mailboxMode_(props) !== 'paul') return 'exportMolallaMail_: runs in the paul@ project only';
+    var pictures = molallaReceiptPictures_(props);
     var runs = Number(props.getProperty('MOLALLA_RUNS_2') || 0);
-    if (props.getProperty('MOLALLA_FINISHED_2') || runs >= MOLALLA_MAX_RUNS) return 'exportMolallaMail_: nothing left to do';
+    if (props.getProperty('MOLALLA_FINISHED_2') || runs >= MOLALLA_MAX_RUNS) return 'exportMolallaMail_: nothing left to do' + pictures;
     props.setProperty('MOLALLA_RUNS_2', String(runs + 1));
     var done = JSON.parse(props.getProperty('MOLALLA_DONE') || '{}');
     var folderId = props.getProperty('MOLALLA_FOLDER'), folder;
@@ -89,6 +90,41 @@ function exportMolallaMail_(started) {
   } catch (err) {
     return 'exportMolallaMail_ stopped: ' + String((err && err.message) || err);
   }
+}
+
+/** Floor & Decor mails its receipt as a PICTURE inside the email (not attached, so the email's PDF has no
+ *  receipt on it): fetch that picture and save it beside the others. Once. Returns a note for the log. */
+function molallaReceiptPictures_(props) {
+  if (props.getProperty('MOLALLA_PICTURES') || !props.getProperty('MOLALLA_FOLDER')) return '';
+  props.setProperty('MOLALLA_PICTURES', '1');
+  var folder = DriveApp.getFolderById(props.getProperty('MOLALLA_FOLDER')), said = [];
+  GmailApp.search('from:flooranddecor subject:"e-Receipt" after:2025/10/11 before:2025/10/20').forEach(function (thread) {
+    thread.getMessages().forEach(function (message) {
+      var src = molallaPictureSrc_(message.getBody());
+      if (!src) { said.push('no receipt picture in ' + molallaBase_(message)); return; }
+      var res = UrlFetchApp.fetch(src, { muteHttpExceptions: true });
+      var type = String(res.getHeaders()['Content-Type'] || '').toLowerCase();
+      if (res.getResponseCode() !== 200 || !/^image\//.test(type)) { said.push('picture not served (' + res.getResponseCode() + ') for ' + molallaBase_(message)); return; }
+      var ext = (type.match(/^image\/(png|jpe?g|gif)/) || [])[1] || 'png';
+      folder.createFile(res.getBlob().setName(molallaBase_(message) + ' - eReceipt.' + ext.replace('jpeg', 'jpg')));
+      said.push('saved the receipt picture of ' + molallaBase_(message));
+    });
+  });
+  var note = ' | receipt pictures: ' + (said.join('; ') || 'none found');
+  var old = folder.getFilesByName('_status.txt');
+  if (old.hasNext()) { var f = old.next(); f.setContent(f.getBlob().getDataAsString() + '\n' + note); }
+  return note;
+}
+
+/** The address of the picture an email calls "eReceipt" ('' when there is none). */
+function molallaPictureSrc_(html) {
+  var tags = String(html || '').match(/<img\b[^>]*>/gi) || [];
+  for (var i = 0; i < tags.length; i++) {
+    if (!/\balt\s*=\s*["']eReceipt["']/i.test(tags[i])) continue;
+    var m = tags[i].match(/\bsrc\s*=\s*["']([^"']+)["']/i);
+    if (m) return m[1].replace(/&amp;/g, '&');
+  }
+  return '';
 }
 
 /** A file name Drive and a person can both live with. */
