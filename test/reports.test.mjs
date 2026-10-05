@@ -346,4 +346,22 @@ test("pnlTab: the year's profit and loss on top, each fact once, Dennis's unreco
   assert.equal(new Set(amounts).size, amounts.length, "no amount repeated");
   assert.match(t.rows.find((r) => r[0] === "Left")[2], /same as the business costs/);
   assert.ok(!JSON.stringify(t.rows.map((r) => [r[0], r[2]])).match(/\b(1000|2010|2030|6510|9010|inventory|payable|equity|draws)\b/i), "no account codes or accounting words");
+
+  // D-079: a house of Paul's own (no Dennis) that sold at a loss he covered himself - 410.00 against 444.00 of cost
+  const own = [
+    L("mc", "2026-01-12", "1000", 42000, 0, "9 Own"), L("mc", "2026-01-12", "9000", 0, 42000, "9 Own"),
+    L("ms", "2026-01-12", "1310", 2400, 0, "9 Own"), L("ms", "2026-01-12", "9000", 38600, 0, "9 Own"), L("ms", "2026-01-12", "4000", 0, 41000, "9 Own"),
+    L("mr", "2026-01-12", "5000", 44400, 0, "9 Own"), L("mr", "2026-01-12", "1000", 0, 42000, "9 Own"), L("mr", "2026-01-12", "1310", 0, 2400, "9 Own"),
+  ];
+  const t2 = pnlTab([...lines, ...own], advances, "2026-09-01", { rateAnnual: 0.08, stubBasis: 30 });
+  const by2 = Object.fromEntries(t2.rows.filter((r) => r[0]).map((r) => [r[0], r]));
+  assert.equal(t2.ties, true);
+  assert.equal(by2["9 Own"][1], -34, "the loss is the house's line");
+  assert.match(by2["9 Own"][2], /^sold 01-12 - your own deal, Dennis was not in it$/);
+  assert.equal(by2["Recast earned"][1], 46);
+  assert.equal(by2["Put in by Paul"][1], 34, "what he put in is its own row");
+  assert.match(by2["Put in by Paul"][2], /on 9 Own$/);
+  assert.equal(by2["Paid out to Paul"][1], -100, "and his payout on the other house is not made smaller by it");
+  assert.equal(by2["Houses still held (1)"][1], 101050, "a sold house is not among the houses held");
+  assert.equal(by2["Left"][1], -20);
 });

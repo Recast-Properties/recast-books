@@ -1810,7 +1810,10 @@ var M_reports = (function () {
     const soldOn = new Map(live.filter((l) => seriesOf(l.account) === "4000" && String(l.date).startsWith(year) && l.property).map((l) => [l.property, String(l.date).slice(5, 10)]));
     const costs = pl.expenses.reduce((s, e) => s + e.balance, 0);
     add("head", `PROFIT AND LOSS - ${year} SO FAR`);
-    for (const p of pl.by_property) if (p.gross) add("", p.property, p.gross, soldOn.has(p.property) ? `sold ${soldOn.get(p.property)} - Recast's profit after Dennis was paid` : "");
+    // a house Dennis put no money into (1014 S View, Paul's own deal with an outside lender, D-079) says so
+    const dennisIn = new Set(live.filter((l) => ["2000", "2010", "1220"].includes(String(l.account))).map((l) => l.property));
+    for (const p of pl.by_property) if (p.gross) add("", p.property, p.gross, !soldOn.has(p.property) ? ""
+      : `sold ${soldOn.get(p.property)} - ` + (dennisIn.has(p.property) ? "Recast's profit after Dennis was paid" : "your own deal, Dennis was not in it"));
     const other = pl.gross_profit - pl.by_property.reduce((s, p) => s + p.gross, 0);
     if (other) add("", "Other income", other);
     if (costs) add("", "Business costs", -costs, "tools, travel, software - never charged to a house; by type on the Totals tab");
@@ -1849,7 +1852,10 @@ var M_reports = (function () {
     add("", "");
     add("head", "LEFT FOR THE OWNERS");
     if (allTime !== pl.net_income) add("", `Earned before ${year}`, allTime - pl.net_income);
-    if (paid) add("", paid < 0 ? "Paid out to Paul" : "Put in by Paul", paid, paid < 0 ? "his share of the house profits" : "");
+    // what he put in and what he took out are two facts (D-079): his own money covering a house's loss is not a smaller payout
+    const putInOn = [...new Set(live.filter((l) => String(l.account) === "9000" && l.property).map((l) => l.property))];
+    for (const e of bs.equity) if (e.balance) add("", e.balance < 0 ? "Paid out to Paul" : "Put in by Paul", e.balance,
+      e.balance < 0 ? "his share of the house profits" : "his own money" + (putInOn.length ? `, on ${putInOn.join(", ")}` : ""));
     add("total", "Left", left,
       left < 0 && left === -costs && allTime === pl.net_income ? "the same as the business costs: all the house profit went to Paul, so none was kept to cover them - what Paul paid for them himself, Recast owes him back"
         : left < 0 ? "below zero - more was paid out than Recast earned" : "what Recast earned less what it paid out");
