@@ -320,6 +320,15 @@ are the target, D-028 returns hold for Paul). **Resume from `HANDOFF-2026-09-30.
   by Paul 34,579.10` its own row; Taxes **set aside 43,502.30**. Open for his closing papers: 1,260.00 (first
   interest) and 101.67 (City of Molalla) look entered twice on his sheet - loss 33,217.43 if so, one small entry.
   559 tests; writer pushed = repo, **web app deploy owed**.
+- **2026-10-04 19:27 CDT (CHANGELOG): 1014 S View line by line - PUSHED, NOT YET RUN.** Paul: "line by line into
+  the ligth template. then freeze it and make a closing tab for it." The one-off `importMolallaLines` (commit
+  542847e) reads his sheet at run time, voids the three summary entries, posts 151 cost lines (source `migration`,
+  paid by Paul; the purchase side on 1000) plus the sale, the release and the loss (2030 -> 9000), renames his copied
+  sheet `1014 S View - old sheet`, builds `1014 S View - Frozen` (light template as of 2026-01-12) and
+  `1014 S View - Closing` (his layout, the house's own rows - `writeSimpleClosingTab_` takes `plan.rows`). **Paul
+  runs it**; then read the tabs back (expect Purchase 391,218.04, Rehab Costs 23,574.59, Utilities 3,305.30, Property
+  Tax 2,758.90; Recast earned still 19,103.52), take the one-off out, deploy. A task chip flags the 5,000-row
+  Journal bound on the house tabs.
 - **2026-09-25 (D-044, D-045):** the gate lets a **medium** read post when every other rail holds (low still holds); a vendor's unanimous payment history settles `paid_from` when the document shows no card and Paul wrote no note; Chase checking 8870 is Paul's personal (`paul_personal_last4` = `9166, 8870, 3746` - Discover 3746 added the same day); `MAX_TOKENS_PER_TURN` 16000 (32k broke: the SDK refuses a non-streaming call above ~21k); the warm job replays errored docs from their stored read; the digest names the gate reason. CHANGELOG 2026-09-25.
 - **All five lists are done** (audit §40-§43): list 4 in mail not in the books 0 (`mail_settled`), differences 0 (`differences_settled`), confirm 0 real (the 3 shown are rows Paul dropped), questions answered; every decision, link, refusal (per document), drop, addition and retraction is in `data/migration/2026-09-17/paul-answers.json`. **Paul's stopping rule:** no new cost unless proven paid AND absent from the old books by total, pre-tax subtotal and items; otherwise park for Phase 3.
 - **2026-09-28: 104 Ashburne SOLD** the week of 09-21 (Citizens: $715,558.65 from Bison Title 09-23, $550,000 to Raymond James 09-25) - **not closed in the books yet; Paul starts the sell wizard when he is ready.** Earlier: **Facts corrected on 2026-09-18:** 104 Ashburne had NOT closed then. **881 Newport has NOT closed either - under contract (Paul 2026-09-21, audit §47); sold = Granite and Sparkling only**; its two Cost Recapture lines moved to its own tab. "Effren" rows are **Falcon Creek Lawn Care** (`rename_payee`). Paul's notes are the documents for cash labor.

@@ -2917,3 +2917,30 @@ split it again from the old tab.**
   `1014 S View`, **the last tab** - the move beside "280 Sparkling" failed (no tab of exactly that name), harmless.
 - The one-off is out of oneOffScripts.gs (commit bbcd0be keeps it); pushed 19:08, live = repo. **The writer web app
   deploy is still owed** (lib.gs: the 16:54 relabel and `pnlTab`).
+
+## 2026-10-04 (19:27 CDT) - 1014 S View line by line, a frozen house tab and a closing tab (D-079, continued)
+
+- **Paul:** "so will the writer put the 1014 s view drive expenses into a current property tab template?" - no (the
+  tab was his copied sheet, the books held about 20 category totals) - then: "line by line into the ligth template.
+  then freeze it and make a closing tab for it."
+- **Built: the one-off `importMolallaLines`** - reads his sheet when it runs (`getDisplayValues`; the rehab blocks by
+  the headings of the Totals row, the left block by its labels), throws before writing unless every block adds up to
+  his own total and the whole to 444,579.10 / 410,000.00; voids the three summary entries; posts **151 cost lines**,
+  each its own entry on its own date (source `migration` - the rows of his old books, so the nightly check does not
+  call his alike lines possible duplicates), every one paid by Paul (2030); the sale (his eight closing lines, the
+  sale money back against 2030), the release, and the loss moved from 2030 to 9000 (Recast owes him nothing). Then
+  his copied sheet becomes `1014 S View - old sheet`, the house tab is built by `setupPropertyTab(name, 2026-01-12)`,
+  frozen, and named `1014 S View - Frozen` (his naming for Granite and Sparkling), and `1014 S View - Closing` is
+  written in his layout through `writeSimpleClosingTab_`, which now takes a house's own rows (`plan.rows`).
+- **Choices:** the purchase side - price, the 10,000 assignment fee, title, loan costs, loan interest - is on 1000,
+  so the template's first row reads 391,218.04 and Rehab Costs 23,574.59 + Utilities 3,305.30 come to his Rehab
+  Total of 26,879.89 (on 1010 they would have swollen Rehab Costs to 64,792.63). The purchase lines carry
+  2025-09-16, worked out from the sheet (15 days of prepaid interest to 9/30; the lock and the water account on
+  9/16) - his sheet dates none of them. NW Natural's 3/18/2026 bill is dated at the sale. Two lines his sheet has
+  twice (OTIRO 66 50.00, PGE 3.37) are two entries, the second marked "(2)".
+- Dry run on the sheet's text: 12 blocks and the left block tie, 154 entries with 154 ids (none of the old three),
+  the house -34,579.10, house accounts 0.00, owed to Paul 0.00, put in by Paul 34,579.10. 559 tests.
+- **Pushed 19:26 CDT, NOT YET RUN - Paul's one step** (Extensions -> Apps Script -> oneOffScripts.gs -> Run). Safe
+  to run again if it stops. After it: read the three tabs back, take the one-off out, deploy (Code.gs and lib.gs).
+- Flagged as its own task, not chased: the house tabs and the closing tab sum only Journal rows 2-5000; the Journal
+  will be near 3,500 after this run.
