@@ -3048,3 +3048,12 @@ split it again from the old tab.**
 - Commit 5c0c0f6; `lib.gs` rebuilt; writer pushed 22:50 CDT, live script = repo by `clasp pull`. The tab is rebuilt
   by the hourly timer (next 23:05 CDT) or at once when a blue cell changes - **not yet read back**. The web app
   deploy is owed (lib.gs; the 22:50 sold-house fix was already waiting on one).
+
+## 2026-10-04 (22:51 CDT) - deployed @32
+
+- **Deployed on Paul's "deploy": writer web app @32** (`clasp deploy -i` the same id; `clasp deployments` reads @32;
+  `/exec` answers ok 0.4.0). The live script was pulled just before and just after the deploy and both times was
+  commit 5c0c0f6 file by file - so @32 carries the 22:50 sold-house fix (`setupPropertyTab`) **and D-081's
+  `lib.gs`** (the Taxes tab's last section removed), which the other session had pushed a minute earlier. Both were
+  waiting on this one deploy. Nothing owed.
+- `1014 S View - old sheet`: Paul removed that tab himself ("yes i removed it") - nothing lost by any script.
