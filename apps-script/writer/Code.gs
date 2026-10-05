@@ -2314,7 +2314,10 @@ function writeSimpleClosingTab_(ss, name, plan, target) {
   var s = plan.summary;
   var reg = propertyRow_(ss, name) || {};
   var dennisPct = reg.dennis_share_pct === '' || reg.dennis_share_pct == null ? 50 : Number(reg.dennis_share_pct);
-  var built = closingRows({ summary: s, intents: plan.intents || [], lines: plan.statementLines || [], dennisPct: dennisPct, holdback: plan.holdback || null });
+  // plan.rows: a house that did not close through the sell wizard brings its own rows, in the same shape
+  // (1014 S View, D-079: Paul's own deal - no Dennis, no Recast bank account, no statement on file)
+  var built = plan.rows ? { title_note: plan.title_note || '', rows: plan.rows }
+    : closingRows({ summary: s, intents: plan.intents || [], lines: plan.statementLines || [], dennisPct: dennisPct, holdback: plan.holdback || null });
 
   var body = [[ '', name + ' - CLOSED ' + s.date, '', built.title_note ]];
   if (plan.doc_url) body.push(['', 'Settlement statement', '=HYPERLINK("' + String(plan.doc_url).replace(/"/g, '') + '","Title company closing document")', '']);
@@ -2339,7 +2342,7 @@ function writeSimpleClosingTab_(ss, name, plan, target) {
   var jr = function (col) { return 'Journal!$' + col + '$2:$' + col + '$5000'; };   // the bound every tab uses
   ensureJournalHelpers_(ss);
   var notVoided = "INDEX('" + HELPER_SHEET + "'!$A:$A,2):INDEX('" + HELPER_SHEET + "'!$A:$A,ROWS(" + jr('A') + ")+1)<>TRUE";
-  body.push(['', 'Bills that came in after the payout (not yet split with Dennis)',
+  body.push(['', plan.after_label || 'Bills that came in after the payout (not yet split with Dennis)',
     '=SUMIF(' + jr('K') + ',"' + q + '",' + jr('F') + ')-SUMIF(' + jr('K') + ',"' + q + '",' + jr('G') + ')',
     'Not part of the numbers above; settled on the next payout']);
   totals.push(body.length);
