@@ -3007,5 +3007,6 @@ split it again from the old tab.**
   left on a fixed Journal row; the tabs read to row 3,546 = the Journal's last (3,545 lines, balanced). Through
   gviz: 366 Mesa Rehab Costs 12,787.78, 881 Newport 3,952.64, 104 Ashburne Rehab Total 184,975.01, each = the
   Journal worked out separately and = before. The one-off is out of oneOffScripts.gs (commit abf8a19 keeps it);
-  the web app was deployed @31 at 19:48 CDT with D-080's Code.gs. Owed: the push that takes the one-off out of
-  the editor - `clasp push` answered `invalid_rapt` at 22:45 CDT (Paul: `npx clasp login`).
+  the web app was deployed @31 at 19:48 CDT with D-080's Code.gs. `clasp push` answered `invalid_rapt` at
+  22:45 CDT; Paul ran `npx clasp login` and the push went 22:44 CDT - live script = repo by `clasp pull`, oneOffScripts.gs
+  holds no function. Nothing owed.
