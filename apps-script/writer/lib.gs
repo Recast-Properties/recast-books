@@ -3041,7 +3041,7 @@ var M_tax = (function () {
   /**
    * What the Journal says about the year, for the tab: Recast's profit (the P&L tab's "Recast earned"), the
    * costs in it that cannot be subtracted on a return (half of meals; lines labelled Non-deductible, such as
-   * a traffic fine), and travel (the accountant's open question, shown apart).
+   * a traffic fine).
    *
    * @param {Array<object>} lines loadJournal lines
    * @param {string} asOf YYYY-MM-DD
@@ -3054,7 +3054,7 @@ var M_tax = (function () {
     const fines = lines
       .filter((l) => l.tax_treatment === "Non-deductible" && l.source !== "void" && !voided.has(l.txn_id) && l.date >= from && l.date <= asOf)
       .reduce((s, l) => s + l.debit - l.credit, 0);
-    return { year, earned: pl.net_income, meals_half: Math.round(cost("6710") / 2), fines, travel: cost("6700") };
+    return { year, earned: pl.net_income, meals_half: Math.round(cost("6710") / 2), fines };
   }
 
   /** The cells Paul types (blue, kept across rebuilds) - found again by these labels, so never reword one. */
@@ -3143,11 +3143,9 @@ var M_tax = (function () {
       (profit > 0 ? `the tax is about ${Math.round((irs + t.oregon) * 100 / (profit + other))}% of your income - ` : "")
       + `both want it paid during the year; the last payment date for ${facts.year} is January 15, ${Number(facts.year) + 1}`);
 
-    add("", "");
-    add("head", "NOT IN THESE NUMBERS - FOR YOUR ACCOUNTANT");
-    if (facts.travel) add("", "Flights and other travel", facts.travel, "counted as a business cost above; if the accountant says the Portland-Dallas trips do not count, the profit you are taxed on goes up by this much");
-    add("", "City and county income taxes", "", "the Portland area (Metro, Multnomah County) taxes higher incomes too - not counted");
-    add("", "Interest for paying late in the year", "", "the IRS and Oregon charge it when the year's payments come in late - not counted");
+    // No "not in these numbers - for your accountant" section under the total (Paul, 2026-10-04: "remove this
+    // section"). What it listed is still true of the arithmetic: flights count as a business cost (Q-1 is the
+    // accountant's), and Portland-area local income taxes and interest for paying late are not worked out.
     return { rows, kinds };
   }
 

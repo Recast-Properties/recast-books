@@ -57,11 +57,11 @@ test("taxFacts: the year's profit, half of meals, lines labelled Non-deductible 
     L("t", "2026-06-01", "6700", 50000, 0),
     L("old", "2025-12-31", "6700", 99900, 0),
   ];
-  assert.deepEqual(taxFacts(lines, "2026-10-02"), { year: "2026", earned: 6000000 - 20000 - 28095 - 50000, meals_half: 10000, fines: 28095, travel: 50000 });
+  assert.deepEqual(taxFacts(lines, "2026-10-02"), { year: "2026", earned: 6000000 - 20000 - 28095 - 50000, meals_half: 10000, fines: 28095 });
 });
 
 test("taxTab: plain rows, Paul's typed cells kept, a house counts only when he typed yes", () => {
-  const facts = { year: "2026", earned: 5000000, meals_half: 10000, fines: 28095, travel: 800000 };
+  const facts = { year: "2026", earned: 5000000, meals_half: 10000, fines: 28095 };
   const houses = [{ name: "104 Ashburne", profit_cents: 12800000 }, { name: "366 Mesa", profit_cents: 3000000 }, { name: "200 Janice", profit_cents: null }];
   const by = (t) => Object.fromEntries(t.rows.filter((r) => r[0]).map((r) => [r[0], r[1]]));
 
@@ -91,6 +91,9 @@ test("taxTab: plain rows, Paul's typed cells kept, a house counts only when he t
   assert.equal(b["SET ASIDE FOR BOTH"], (m.self_employment + m.fed_income + m.oregon) / 100 - 10000);
   assert.equal(t.kinds.filter((k) => k === "input").length, 4);
   assert.equal(t.kinds.filter((k) => k === "house").length, 3);
+  // Paul, 2026-10-04: "remove this section: NOT IN THESE NUMBERS - FOR YOUR ACCOUNTANT" - the tab ends on the total
+  assert.equal(t.rows.at(-1)[0], "SET ASIDE FOR BOTH");
+  assert.ok(!t.rows.some((r) => /accountant|travel|city and county|paying late/i.test(r[0])), "no for-your-accountant rows");
   assert.ok(!JSON.stringify(t.rows.map((r) => [r[0], r[2]])).match(/\b(6600|6700|6710|QBI|AGI|Schedule|self-employment|accrual|ledger|journal)\b/i), "no account codes or tax-form words");
 
   const none = taxTab({ ...facts, year: "2031" }, houses, typed);
