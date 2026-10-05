@@ -147,3 +147,32 @@ function linkMolallaReceipts() {
   console.log('linkMolallaReceipts: ' + pairs.length + ' receipts written on ' + journal + ' Journal lines; on the tab ' + linked +
     ' lines now open their receipt and ' + blank + ' have none (' + cells.length + ' lines on the tab).');
 }
+
+// 2026-10-05 Paul: Dennis's interest on 881 Newport is purchase 4,355.52 and the 2,000 cash advance 43.31 (together
+// 4,398.83 - what the books already hold, so no amount moves). Writes the two figures on Newport's Advances rows
+// (agreed_interest) and rewrites "881 Newport - Closing" the way Attach and rebuild does, so its Purchase Interest and
+// Cash Advances Interest lines show his figures. Safe to run twice.
+// STATUS: NOT YET RUN
+function setNewportInterest() {
+  var ss = openWorkbook_(PropertiesService.getScriptProperties());
+  requireOwner_(ss);
+  var name = '881 Newport';
+  var figures = { purchase: 4355.52, cash: 43.31 };
+  var sh = ss.getSheetByName('Advances');
+  var cols = headerIndex_(sh);
+  if (!cols['agreed_interest']) { ensureHeaders_(sh, TAB_HEADERS['Advances']); cols = headerIndex_(sh); }
+  var rows = sh.getRange(2, 1, sh.getLastRow() - 1, sh.getLastColumn()).getValues();
+  var set = 0;
+  rows.forEach(function (r, i) {
+    if (String(r[cols['property'] - 1]) !== name) return;
+    var fig = figures[String(r[cols['kind'] - 1])];
+    if (fig == null) throw new Error('Advance with an unexpected kind on ' + name + ' - nothing more changed');
+    sh.getRange(i + 2, cols['agreed_interest']).setValue(fig);
+    set++;
+  });
+  if (set !== 2) throw new Error('Expected 2 advances on ' + name + ', found ' + set);
+  var built = closingFromJournal_(ss, name);
+  if (!built) throw new Error('No posted sale for ' + name);
+  var written = writeClosingTab_(ss, name, built, closingTabName_(name));
+  Logger.log('Set ' + set + ' advances; rewrote ' + written.sheet);
+}
