@@ -28,7 +28,11 @@ var MOLALLA_MAX_RUNS = 8;
 var MOLALLA_QUERIES = [
   ['photo', 'from:pvb421@gmail.com has:attachment after:2025/07/01 before:2026/02/01'],
   ['store', '("1014 S View" OR "1014 South View" OR "1014 S. View" OR Molalla) after:2025/06/01 before:2026/10/01 ' +
-    '-from:pvb421@gmail.com -from:auction.com -from:redfin -from:zillow']
+    '-from:pvb421@gmail.com -from:auction.com -from:redfin -from:zillow'],
+  // added after the first pass: the stores' own emailed receipts name no house (Home Depot's "Your Electronic
+  // Receipt" for nearly every day of the job, Lowe's, Floor & Decor)
+  ['store', '(from:homedepot OR from:lowes OR from:flooranddecor) (subject:receipt OR subject:invoice OR subject:"Thanks For Your Order") ' +
+    'after:2025/09/01 before:2026/01/01']
 ];
 
 /** One run: saves what is not saved yet, for about 4 minutes. Returns what it did, in one line. */
@@ -36,9 +40,9 @@ function exportMolallaMail_(started) {
   try {
     var props = PropertiesService.getScriptProperties();
     if (mailboxMode_(props) !== 'paul') return 'exportMolallaMail_: runs in the paul@ project only';
-    var runs = Number(props.getProperty('MOLALLA_RUNS') || 0);
-    if (props.getProperty('MOLALLA_FINISHED') || runs >= MOLALLA_MAX_RUNS) return 'exportMolallaMail_: nothing left to do';
-    props.setProperty('MOLALLA_RUNS', String(runs + 1));
+    var runs = Number(props.getProperty('MOLALLA_RUNS_2') || 0);
+    if (props.getProperty('MOLALLA_FINISHED_2') || runs >= MOLALLA_MAX_RUNS) return 'exportMolallaMail_: nothing left to do';
+    props.setProperty('MOLALLA_RUNS_2', String(runs + 1));
     var done = JSON.parse(props.getProperty('MOLALLA_DONE') || '{}');
     var folderId = props.getProperty('MOLALLA_FOLDER'), folder;
     if (folderId) folder = DriveApp.getFolderById(folderId);
@@ -74,7 +78,7 @@ function exportMolallaMail_(started) {
     });
     var messages = 0, files = 0;
     Object.keys(done).forEach(function (k) { messages++; if (done[k] > 0) files += done[k]; });
-    if (!left) props.setProperty('MOLALLA_FINISHED', '1');
+    if (!left) props.setProperty('MOLALLA_FINISHED_2', '1');
     var said = 'run ' + (runs + 1) + ': ' + messages + ' emails, ' + files + ' files saved so far, ' + failed.length + ' failed this run, ' +
       left + ' emails left. ' + (left ? 'MORE TO DO.' : 'ALL DONE.');
     var old = folder.getFilesByName('_status.txt');

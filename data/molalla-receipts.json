@@ -1,0 +1,1388 @@
+{
+ "house": "1014 S View",
+ "receipts": [
+  {
+   "file": "Westfall Receipt for EM Funds.pdf",
+   "url": "https://drive.google.com/file/d/1R_mtyKgCRFj9FLzLdMVH1OFBiWIvLszQ/view",
+   "lines": [
+    {
+     "txn_id": "migration-20250724-9dfc0f80e364",
+     "date": "2025-07-24",
+     "payee": "Westfall Offers",
+     "what": "Assignment fee (deposit)",
+     "amount": 10000
+    }
+   ],
+   "lines_total": 10000,
+   "note": "Westfall's receipt says received 7/25/2025; the wire screenshot beside it (Deposit WIre.png) says the same"
+  },
+  {
+   "file": "Gmail - You paid Mitchell Montgomery $200.00.pdf",
+   "url": "https://drive.google.com/file/d/1iw-YXO-pRScVdZjrVPoBPG0BVZt96aUl/view",
+   "lines": [
+    {
+     "txn_id": "migration-20250805-a81ff32d7be0",
+     "date": "2025-08-05",
+     "payee": "Mitchell Montgomery",
+     "what": "Bid Consultation",
+     "amount": 200
+    }
+   ],
+   "lines_total": 200,
+   "note": "Venmo, Visa 9166"
+  },
+  {
+   "file": "Carpet Receipt.pdf",
+   "url": "https://drive.google.com/file/d/19Im8QhuWSR1UIKh3OdlNzxPo8oXg5hXe/view",
+   "lines": [
+    {
+     "txn_id": "migration-20250911-c1942d1c90c4",
+     "date": "2025-09-11",
+     "payee": "Home Depot",
+     "what": "Carpet",
+     "amount": 4018.98
+    }
+   ],
+   "lines_total": 4018.98,
+   "note": "Home Depot order H4017-548587, receipt dated 9/16/2025, total 4,018.98, balance due 0"
+  },
+  {
+   "file": "1014 S View Dr-Invoice-CV3-20251020.pdf",
+   "url": "https://drive.google.com/file/d/1o_tQwFwMraIre-vNxbSAvk3IqQm6Nndx/view",
+   "lines": [
+    {
+     "txn_id": "migration-20250916-5ad511a21e3e",
+     "date": "2025-09-16",
+     "payee": "OCI",
+     "what": "Insurance",
+     "amount": 2068.51
+    }
+   ],
+   "lines_total": 2068.51,
+   "note": "Obie insurance invoice, amount paid 2,068.51"
+  },
+  {
+   "file": "Paint 6.pdf",
+   "url": "https://drive.google.com/file/d/1zDFhR7yGmPOPov7wgHBPujxBb8_yU8OG/view",
+   "lines": [
+    {
+     "txn_id": "migration-20250917-8b6e2f49a112",
+     "date": "2025-09-17",
+     "payee": "Home Depot",
+     "what": "Paint & Supplies",
+     "amount": 239.07
+    }
+   ],
+   "lines_total": 239.07,
+   "note": "Home Depot 9/17/25 total 541.04 = 239.07 on the house + the paint sprayer 268.00 and spray tip 33.97, which his sheet lists under Tools (business costs)"
+  },
+  {
+   "file": "dumpster reciept.pdf",
+   "url": "https://drive.google.com/file/d/18ONxYpKJ6Io7nfHV3YUC7JcfsksoLvu3/view",
+   "lines": [
+    {
+     "txn_id": "migration-20250917-724226c1bd39",
+     "date": "2025-09-17",
+     "payee": "LDR Site Services",
+     "what": "Dunpster",
+     "amount": 1095
+    }
+   ],
+   "lines_total": 1095,
+   "note": "LDR order 277927"
+  },
+  {
+   "file": "Landscaping Reciept 1.pdf",
+   "url": "https://drive.google.com/file/d/1t-0qDmWNisv_NvG56alKZkq2eTWZK-za/view",
+   "lines": [
+    {
+     "txn_id": "migration-20250917-96c744a287c3",
+     "date": "2025-09-17",
+     "payee": "Lumin Landscaping",
+     "what": "Landscaping",
+     "amount": 1866
+    }
+   ],
+   "lines_total": 1866,
+   "note": "LUMIN was paid twice by card, 960.99 on 9/22 and 960.99 on 9/26 (Landscaping Reciept 2.pdf) = 1,921.98; his sheet has 1,866.00 (933.00 x 2, before a 3% card fee of 55.98)"
+  },
+  {
+   "file": "floor and decor reciept.jpg",
+   "url": "https://drive.google.com/file/d/14JNJLoFzkH9Fvxj9GbHowXKu0dldmdOA/view",
+   "lines": [
+    {
+     "txn_id": "migration-20250922-409a633a9a3d",
+     "date": "2025-09-22",
+     "payee": "Floor & Decor",
+     "what": "Flooring",
+     "amount": 2533.42
+    }
+   ],
+   "lines_total": 2533.42,
+   "note": "9/22/2025, Visa 6926"
+  },
+  {
+   "file": "Paint 5.pdf",
+   "url": "https://drive.google.com/file/d/1rCztPcuftelhEi8kaf72tPwTknYz04qn/view",
+   "lines": [
+    {
+     "txn_id": "migration-20250922-ecde0ade1047",
+     "date": "2025-09-22",
+     "payee": "Home Depot",
+     "what": "Spray Texture",
+     "amount": 27.98
+    }
+   ],
+   "lines_total": 27.98,
+   "note": "Home Depot 9/22/25"
+  },
+  {
+   "file": "Paint 4.pdf",
+   "url": "https://drive.google.com/file/d/1nqR9pwA3inZqu_q2mygEeSfeQbqGVcts/view",
+   "lines": [
+    {
+     "txn_id": "migration-20250924-48a5b7b2a26a",
+     "date": "2025-09-24",
+     "payee": "Home Depot",
+     "what": "HOME DEPOT HVY DTY FLOOR PROTECTION",
+     "amount": 113.94
+    },
+    {
+     "txn_id": "migration-20250924-61aed92a4799",
+     "date": "2025-09-24",
+     "payee": "Home Depot",
+     "what": "Painting Supplies",
+     "amount": 99.91
+    }
+   ],
+   "lines_total": 213.85,
+   "note": "Home Depot 9/24/25 total 213.85 = floor protection 113.94 + the rest 99.91"
+  },
+  {
+   "file": "AK Level INVOICE 318.pdf",
+   "url": "https://drive.google.com/file/d/1HbmSNmfXbAff3JsuuBhdsFsY_Ptd2tHS/view",
+   "lines": [
+    {
+     "txn_id": "migration-20250925-17d52e82d0f6",
+     "date": "2025-09-25",
+     "payee": "Aleksandr Kislyi",
+     "what": "Flooring Install",
+     "amount": 2300
+    }
+   ],
+   "lines_total": 2300,
+   "note": "invoice 318, 9/25/2025, labor only"
+  },
+  {
+   "file": "Paint 3.jpg",
+   "url": "https://drive.google.com/file/d/1sh6243-JzfOKIArR4XTWll09mWcmeHy7/view",
+   "lines": [
+    {
+     "txn_id": "migration-20250925-e466dd0e8772",
+     "date": "2025-09-25",
+     "payee": "Home Depot",
+     "what": "Painting Supplies",
+     "amount": 29.98
+    }
+   ],
+   "lines_total": 29.98,
+   "note": "Home Depot receipt dated 9/26/25 (his sheet says 9/25)"
+  },
+  {
+   "file": "Appliaces Reciept.pdf",
+   "url": "https://drive.google.com/file/d/1LQ_vxElZ6OYy6il1TpTaKysRJsTcRtFr/view",
+   "lines": [
+    {
+     "txn_id": "migration-20250925-a72d1ee05159",
+     "date": "2025-09-25",
+     "payee": "Lowes",
+     "what": "Appliances",
+     "amount": 2366.54
+    }
+   ],
+   "lines_total": 2366.54,
+   "note": "Lowe's order placed 9/25/2025, Visa 9166"
+  },
+  {
+   "file": "IMG_2463.PNG",
+   "url": "https://drive.google.com/file/d/1dNnKCKq9TsT14vVNgPA3_zZuAQCkMcbI/view",
+   "lines": [
+    {
+     "txn_id": "migration-20251017-70d6e4516a1d",
+     "date": "2025-10-17",
+     "payee": "Anastasiia Osadchuk",
+     "what": "Cleaning",
+     "amount": 300
+    }
+   ],
+   "lines_total": 300,
+   "note": "phone screenshot of his payments: Anastasiia Osadchuk $300 'cleaning' Oct 13 (he mailed it to himself 10/20 under 'Cleaning'); it also shows family payments"
+  },
+  {
+   "file": "Receipts from email/2025-09-24 paul bjork - Flooring reducer receipt - 1 IMG_2249.jpg",
+   "url": "https://drive.google.com/file/d/1twdCGRE4T8KXzM3RmQmMlX7hjRuMQ6DT/view",
+   "lines": [
+    {
+     "txn_id": "migration-20250924-6235d4ffcb05",
+     "date": "2025-09-24",
+     "payee": "Floor & Decor",
+     "what": "Flooring Reducers",
+     "amount": 42.89
+    }
+   ],
+   "lines_total": 42.89,
+   "note": "Floor and Decor 09/24/2025, 42.89, debit 9166 (read by eye - the reader returned nothing)"
+  },
+  {
+   "file": "Receipts from email/2025-09-27 paul bjork - Receipt - 1 IMG_2288.jpg",
+   "url": "https://drive.google.com/file/d/1o30ipuV7QkdtAKhddw12cdUaPkSULZUu/view",
+   "lines": [
+    {
+     "txn_id": "migration-20250927-a0b04d93a382",
+     "date": "2025-09-27",
+     "payee": "Home Depot",
+     "what": "Wall Texture",
+     "amount": 61.97
+    }
+   ],
+   "lines_total": 61.97,
+   "note": "Molalla Ace Hardware 9/27/25, 61.97 (his sheet says Home Depot), Mastercard 7952"
+  },
+  {
+   "file": "Receipts from email/2025-09-29 paul bjork - Reciept - 1 IMG_2310.jpg",
+   "url": "https://drive.google.com/file/d/1n-_g7froELPiVl8RuIapkkzq_c0AHU4d/view",
+   "lines": [
+    {
+     "txn_id": "migration-20250929-28f9e28350bd",
+     "date": "2025-09-29",
+     "payee": "Ace Hardware",
+     "what": "Bondo",
+     "amount": 12.99
+    }
+   ],
+   "lines_total": 12.99,
+   "note": "Ace 9/29/25 11:59, 12.99"
+  },
+  {
+   "file": "Receipts from email/2025-09-29 paul bjork - Reciept - 1 IMG_2318.jpg",
+   "url": "https://drive.google.com/file/d/1NElo0tKT8_3Bn3PqURI3Sh6chFY-nSO8/view",
+   "lines": [
+    {
+     "txn_id": "migration-20250929-5b0249bacf6f",
+     "date": "2025-09-29",
+     "payee": "Ace Hardware",
+     "what": "Masking Film",
+     "amount": 23.99
+    }
+   ],
+   "lines_total": 23.99,
+   "note": "Ace 9/29/25 4:39 PM, 23.99 (read by eye)"
+  },
+  {
+   "file": "Receipts from email/2025-10-02 paul bjork - Receipt - 1 IMG_2334.jpg",
+   "url": "https://drive.google.com/file/d/1joFsrJwb2qxULl7XKRVuvaFKx_iMQ85W/view",
+   "lines": [
+    {
+     "txn_id": "migration-20251002-f022d75efef1",
+     "date": "2025-10-02",
+     "payee": "Ace Hardware",
+     "what": "Wood Screws",
+     "amount": 11.99
+    }
+   ],
+   "lines_total": 11.99,
+   "note": "Ace 10/02/25, 11.99"
+  },
+  {
+   "file": "Receipts from email/2025-10-02 paul bjork - Receipt - 1 IMG_2333.jpg",
+   "url": "https://drive.google.com/file/d/1lLdEWMDrs9glLCK-NKgblMk_JBmrxCF8/view",
+   "lines": [
+    {
+     "txn_id": "migration-20251002-a5fc88ef243c",
+     "date": "2025-10-02",
+     "payee": "Sherwin Williams",
+     "what": "Paint Points",
+     "amount": 13.98
+    }
+   ],
+   "lines_total": 13.98,
+   "note": "Sherwin-Williams 10/02/25, 13.98"
+  },
+  {
+   "file": "Receipts from email/2025-10-02 paul bjork - Receipt - 1 IMG_2332.jpg",
+   "url": "https://drive.google.com/file/d/12Gz-mc2EFuA7zJvn9DY2qPFBb2rG2ACG/view",
+   "lines": [
+    {
+     "txn_id": "migration-20251002-c65f5960f8c4",
+     "date": "2025-10-02",
+     "payee": "Rodda",
+     "what": "Paint Points",
+     "amount": 6.19
+    }
+   ],
+   "lines_total": 6.19,
+   "note": "Rodda 10/02/2025, 6.19 (card slip, no items)"
+  },
+  {
+   "file": "Receipts from email/2025-10-09 paul bjork - Receipt - 1 IMG_2384.jpg",
+   "url": "https://drive.google.com/file/d/1r4LuQJfCrbP7-RSDKPML3CiGUSORfiMH/view",
+   "lines": [
+    {
+     "txn_id": "migration-20251009-6133a19664b1",
+     "date": "2025-10-09",
+     "payee": "Ace Hardware",
+     "what": "Item not named on his sheet",
+     "amount": 26.47
+    }
+   ],
+   "lines_total": 26.47,
+   "note": "Ace 10/09/25, 26.47: 2 faucet supply lines 19.98 + cabinet pull 6.49 - the line his sheet does not name"
+  },
+  {
+   "file": "Receipts from email/2025-10-11 paul bjork - Receipt - 1 IMG_2406.jpg",
+   "url": "https://drive.google.com/file/d/165Ug6YvwZx7hSRnrU8aToyt88yLwoEuR/view",
+   "lines": [
+    {
+     "txn_id": "migration-20251011-76cbeffb2f3f",
+     "date": "2025-10-11",
+     "payee": "Home Depot",
+     "what": "Counter Tops",
+     "amount": 663.7
+    },
+    {
+     "txn_id": "migration-20251011-8933cc23322f",
+     "date": "2025-10-11",
+     "payee": "Home Depot",
+     "what": "Tarp",
+     "amount": 19.78
+    },
+    {
+     "txn_id": "migration-20251011-48f70dd3f24c",
+     "date": "2025-10-11",
+     "payee": "Home Depot",
+     "what": "Blue Tape",
+     "amount": 7.98
+    }
+   ],
+   "lines_total": 691.46,
+   "note": "Home Depot 10/11/25 11:04, 691.46 = counter tops 663.70 + tarp 19.78 + tape 7.98, Mastercard 2575"
+  },
+  {
+   "file": "Receipts from email/2025-10-11 paul bjork - Receipt - 1 IMG_2404.jpg",
+   "url": "https://drive.google.com/file/d/13XGrnDzt9i1A96eQmBC3IPLzwbAHGGs-/view",
+   "lines": [
+    {
+     "txn_id": "migration-20251011-f8422c1aa432",
+     "date": "2025-10-11",
+     "payee": "Home Depot",
+     "what": "Floor Protection",
+     "amount": 37.98
+    },
+    {
+     "txn_id": "migration-20251011-3456aa04eefc",
+     "date": "2025-10-11",
+     "payee": "Home Depot",
+     "what": "Foam Brushes",
+     "amount": 3.51
+    },
+    {
+     "txn_id": "migration-20251011-5931025373e8",
+     "date": "2025-10-11",
+     "payee": "Home Depot",
+     "what": "Clear Poly Finish",
+     "amount": 25.43
+    },
+    {
+     "txn_id": "migration-20251011-1401b26bdfa0",
+     "date": "2025-10-11",
+     "payee": "Home Depot",
+     "what": "Sink",
+     "amount": 229
+    },
+    {
+     "txn_id": "migration-20251011-b418692473a7",
+     "date": "2025-10-11",
+     "payee": "Home Depot",
+     "what": "Faucet",
+     "amount": 89
+    },
+    {
+     "txn_id": "migration-20251011-ce464f0b5b54",
+     "date": "2025-10-11",
+     "payee": "Home Depot",
+     "what": "Garbage Disposal",
+     "amount": 129
+    },
+    {
+     "txn_id": "migration-20251011-74aefeeb7e27",
+     "date": "2025-10-11",
+     "payee": "Home Depot",
+     "what": "Dowel",
+     "amount": 4.98
+    },
+    {
+     "txn_id": "migration-20251011-e1525b85e164",
+     "date": "2025-10-11",
+     "payee": "Home Depot",
+     "what": "Screws",
+     "amount": 17.91
+    },
+    {
+     "txn_id": "migration-20251011-1f71b00a4cc6",
+     "date": "2025-10-11",
+     "payee": "Home Depot",
+     "what": "Drydex",
+     "amount": 12.98
+    },
+    {
+     "txn_id": "migration-20251011-d55d48610e92",
+     "date": "2025-10-11",
+     "payee": "Home Depot",
+     "what": "Titebond",
+     "amount": 7.89
+    },
+    {
+     "txn_id": "migration-20251011-36d478473165",
+     "date": "2025-10-11",
+     "payee": "Home Depot",
+     "what": "Putty Knife",
+     "amount": 0.98
+    }
+   ],
+   "lines_total": 558.66,
+   "note": "Home Depot 10/11/25 8:32, 802.54 = these 11 lines (558.25 as printed) + 244.29 of tools (router 99.00, router bits, saw blade, square, file) that are not on the house; the receipt prints Titebond 7.48, his sheet has 7.89"
+  },
+  {
+   "file": "Receipts from email/2025-10-12 paul bjork - Receipt - 1 IMG_2414.jpg",
+   "url": "https://drive.google.com/file/d/1QKASahWIW8MHsRNJrUXcjnbKx4TEmEc5/view",
+   "lines": [
+    {
+     "txn_id": "migration-20251012-401c8e6468bd",
+     "date": "2025-10-12",
+     "payee": "Ace Hardware",
+     "what": "Caulk & Adhesive",
+     "amount": 57.96
+    }
+   ],
+   "lines_total": 57.96,
+   "note": "Ace 10/12/25 1:53, 57.96"
+  },
+  {
+   "file": "Receipts from email/2025-10-12 paul bjork - Receipt - 1 IMG_2413.jpg",
+   "url": "https://drive.google.com/file/d/1TiFUDRXocUfeh4KhHod7ULNQI2zngmhK/view",
+   "lines": [
+    {
+     "txn_id": "migration-20251012-f152b9e43c0f",
+     "date": "2025-10-12",
+     "payee": "Ace Hardware",
+     "what": "Supply Lines",
+     "amount": 38.96
+    }
+   ],
+   "lines_total": 38.96,
+   "note": "Ace 10/12/25 3:41, 38.96, Visa 5685"
+  },
+  {
+   "file": "Receipts from email/2025-10-13 paul bjork - Receipt - 1 IMG_2417.jpg",
+   "url": "https://drive.google.com/file/d/15_Z8vSGsWaeB3RJAxWnsDMDAsgvURUAX/view",
+   "lines": [
+    {
+     "txn_id": "migration-20251013-415c2950a69b",
+     "date": "2025-10-13",
+     "payee": "Ace Hardware",
+     "what": "Supply Lines",
+     "amount": 39.96
+    },
+    {
+     "txn_id": "migration-20251013-5c1291a72ca9",
+     "date": "2025-10-13",
+     "payee": "Ace Hardware",
+     "what": "Shop Towels",
+     "amount": 7.99
+    }
+   ],
+   "lines_total": 47.95,
+   "note": "Ace 10/13/25, 47.95 = supply lines 39.96 + shop towels 7.99, Mastercard 2575"
+  },
+  {
+   "file": "Receipts from email/2025-10-14 paul bjork - Receipt - 1 IMG_2424.jpg",
+   "url": "https://drive.google.com/file/d/1ltkT0Y8Gq8ozM_oI-B9M2NfmMdP-J7v0/view",
+   "lines": [
+    {
+     "txn_id": "migration-20251014-129112f499b0",
+     "date": "2025-10-14",
+     "payee": "Metro",
+     "what": "Dump",
+     "amount": 47
+    }
+   ],
+   "lines_total": 47,
+   "note": "Metro 10/14/2025, 47.00, Visa 5655"
+  },
+  {
+   "file": "Receipts from email/2025-10-14 paul bjork - Recipet - 1 IMG_2425.jpg",
+   "url": "https://drive.google.com/file/d/1NDHcSRTFvfJnhkfr12SUtBpcvrOLHKQS/view",
+   "lines": [
+    {
+     "txn_id": "migration-20251014-9185b6df11d9",
+     "date": "2025-10-14",
+     "payee": "Ace Hardware",
+     "what": "Plumbing parts",
+     "amount": 52.15
+    }
+   ],
+   "lines_total": 52.15,
+   "note": "Ace 10/14/25, 52.15, Visa 7274"
+  },
+  {
+   "file": "Receipts from email/2025-10-15 paul bjork - Reciept - 1 IMG_2437.jpg",
+   "url": "https://drive.google.com/file/d/1NI23sTmYL6BZiSLWOiJLEX1klFdhAFyn/view",
+   "lines": [
+    {
+     "txn_id": "migration-20251015-129112f499b0",
+     "date": "2025-10-15",
+     "payee": "Metro",
+     "what": "Dump",
+     "amount": 47
+    }
+   ],
+   "lines_total": 47,
+   "note": "Metro 10/15/2025, 47.00, Visa 5655 (read by eye) - the second dump run is real"
+  },
+  {
+   "file": "Receipts from email/2025-10-16 paul bjork - Receipt - 1 IMG_2444.jpg",
+   "url": "https://drive.google.com/file/d/1--J_UcK-RsRNGXla8blo6Mcnd5AV3IeR/view",
+   "lines": [
+    {
+     "txn_id": "migration-20251016-17e8a8a7fd79",
+     "date": "2025-10-16",
+     "payee": "Ace Hardware",
+     "what": "Plumbers Putty",
+     "amount": 3.59
+    }
+   ],
+   "lines_total": 3.59,
+   "note": "Ace 10/15/25 9:29, 3.59 (his sheet says 10/16)"
+  },
+  {
+   "file": "Receipts from email/2025-10-16 paul bjork - Receipt - 1 IMG_2443.jpg",
+   "url": "https://drive.google.com/file/d/1zwFZD3RFC5nGZby1YWQ3Ho5_cpgHVPDK/view",
+   "lines": [
+    {
+     "txn_id": "migration-20251016-2dbeec2c3a6e",
+     "date": "2025-10-16",
+     "payee": "Ace Hardware",
+     "what": "Extension Cord",
+     "amount": 15.99
+    },
+    {
+     "txn_id": "migration-20251016-aec1ef8ba402",
+     "date": "2025-10-16",
+     "payee": "Ace Hardware",
+     "what": "Wire Nuts",
+     "amount": 5.99
+    },
+    {
+     "txn_id": "migration-20251016-46677144b142",
+     "date": "2025-10-16",
+     "payee": "Ace Hardware",
+     "what": "Plumbing parts",
+     "amount": 2.99
+    }
+   ],
+   "lines_total": 24.97,
+   "note": "Ace 10/16/25, 24.97 = cord 15.99 + wire connectors 5.99 + extension tube 2.99"
+  },
+  {
+   "file": "Receipts from email/2025-10-19 paul bjork - Reciiept - 1 IMG_2457.jpg",
+   "url": "https://drive.google.com/file/d/1NRSH4EijQupZ3U9vTVr_fJE4K2jUQVRg/view",
+   "lines": [
+    {
+     "txn_id": "migration-20251019-ee033a08bd05",
+     "date": "2025-10-19",
+     "payee": "A-Boy",
+     "what": "Plastic Film",
+     "amount": 19.99
+    }
+   ],
+   "lines_total": 19.99,
+   "note": "A-Boy 10/19/2025, 19.99"
+  },
+  {
+   "file": "Receipts from email/2026-01-02 paul bjork - Mail box key receipt - 1 IMG_2934.jpeg",
+   "url": "https://drive.google.com/file/d/1vHyR5P8jMqelc7-x9qL5sIhuX704s_Au/view",
+   "lines": [
+    {
+     "txn_id": "migration-20260102-68238cd9d13b",
+     "date": "2026-01-02",
+     "payee": "USPS",
+     "what": "Mailbox Key",
+     "amount": 40
+    }
+   ],
+   "lines_total": 40,
+   "note": "USPS Molalla 01/02/2026, 40.00, Mastercard 6774"
+  },
+  {
+   "file": "Receipts from email/2025-09-16 paul bjork - Fwd Order #45142507461 - 1014 S. View Drive, Molalla OR 97038 - Kimberly Bjork ,Paul B - 1 BuyerBorrower Statement.pdf",
+   "url": "https://drive.google.com/file/d/1YXmq9KJoCJsi9vgmGnfcAMvYlqwygBz0/view",
+   "lines": [
+    {
+     "txn_id": "migration-20250916-a6e320e7d3f5",
+     "date": "2025-09-16",
+     "payee": "Fidelity National Title",
+     "what": "Title - Escrow Fee",
+     "amount": 2050
+    },
+    {
+     "txn_id": "migration-20250916-0e8baf1027df",
+     "date": "2025-09-16",
+     "payee": "Fidelity National Title",
+     "what": "Title - Government Lien Search",
+     "amount": 35
+    },
+    {
+     "txn_id": "migration-20250916-0b97290337e2",
+     "date": "2025-09-16",
+     "payee": "Fidelity National Title",
+     "what": "Title - Holdback Charge - Tax",
+     "amount": 75
+    },
+    {
+     "txn_id": "migration-20250916-22c14321efe4",
+     "date": "2025-09-16",
+     "payee": "Fidelity National Title",
+     "what": "Title - Lender's Title Insurance",
+     "amount": 387
+    },
+    {
+     "txn_id": "migration-20250916-5612d83b907b",
+     "date": "2025-09-16",
+     "payee": "Fidelity National Title",
+     "what": "Title - Mobile Signing Service",
+     "amount": 200
+    },
+    {
+     "txn_id": "migration-20250916-f3b8cbd4a144",
+     "date": "2025-09-16",
+     "payee": "Fidelity National Title",
+     "what": "OTIRO 205.1-06 - Planned Unit Development -",
+     "amount": 50
+    },
+    {
+     "txn_id": "migration-20250916-51bb787c0aad",
+     "date": "2025-09-16",
+     "payee": "Fidelity National Title",
+     "what": "OTIRO 209.10-06 - Restrictions, Encroachments, Minerals - Current Violations (ALTA 9.10-06)",
+     "amount": 100
+    },
+    {
+     "txn_id": "migration-20250916-309af9ac9740",
+     "date": "2025-09-16",
+     "payee": "Fidelity National Title",
+     "what": "Title - OTIRO 66 - Elimination of Exceptions",
+     "amount": 50
+    },
+    {
+     "txn_id": "migration-20250916-417b2b8e085a",
+     "date": "2025-09-16",
+     "payee": "Fidelity National Title",
+     "what": "Title - OTIRO 66 - Elimination of Exceptions (2)",
+     "amount": 50
+    },
+    {
+     "txn_id": "migration-20250916-0aa65865354e",
+     "date": "2025-09-16",
+     "payee": "Fidelity National Title",
+     "what": "OTIRO 70 - Statutory Construction Lien Fidelity National Title Company of Oregon",
+     "amount": 240
+    },
+    {
+     "txn_id": "migration-20250916-144fd1ae48e4",
+     "date": "2025-09-16",
+     "payee": "Fidelity National Title",
+     "what": "Title - Reconveyance/Release Service Fidelity National Title Company of Oregon",
+     "amount": 600
+    },
+    {
+     "txn_id": "migration-20250916-21f2f377f2a6",
+     "date": "2025-09-16",
+     "payee": "Fidelity National Title",
+     "what": "Title - Recording Service Fee",
+     "amount": 15
+    },
+    {
+     "txn_id": "migration-20250916-94cf4189f317",
+     "date": "2025-09-16",
+     "payee": "Fidelity National Title",
+     "what": "Title - Owner's Title Insurance",
+     "amount": 1236
+    },
+    {
+     "txn_id": "migration-20250916-ccb7465d27ba",
+     "date": "2025-09-16",
+     "payee": "Fidelity National Title",
+     "what": "Government Fees",
+     "amount": 366
+    },
+    {
+     "txn_id": "migration-20250916-dd7a6ef8f534",
+     "date": "2025-09-16",
+     "payee": "Fidelity National Title",
+     "what": "HOA fees",
+     "amount": 190.4
+    },
+    {
+     "txn_id": "migration-20250916-434ebf4f12d6",
+     "date": "2025-09-16",
+     "payee": "Hard money lender",
+     "what": "% of Loan Amount (Points)",
+     "amount": 4554.53
+    },
+    {
+     "txn_id": "migration-20250916-dcf418bff049",
+     "date": "2025-09-16",
+     "payee": "Hard money lender",
+     "what": "Loan Origination Fee",
+     "amount": 4554.53
+    },
+    {
+     "txn_id": "migration-20250916-ff011aea33a9",
+     "date": "2025-09-16",
+     "payee": "Hard money lender",
+     "what": "Processing Fee - Lender",
+     "amount": 745
+    },
+    {
+     "txn_id": "migration-20250916-030a250ddf76",
+     "date": "2025-09-16",
+     "payee": "Hard money lender",
+     "what": "Underwriting Fee",
+     "amount": 1495
+    },
+    {
+     "txn_id": "migration-20250916-eb91d2d2eb08",
+     "date": "2025-09-16",
+     "payee": "Hard money lender",
+     "what": "Processing Fee - Broker",
+     "amount": 1995
+    },
+    {
+     "txn_id": "migration-20250916-96bb0087fab2",
+     "date": "2025-09-16",
+     "payee": "Hard money lender",
+     "what": "Feasibliity Fee",
+     "amount": 595
+    },
+    {
+     "txn_id": "migration-20250916-64006686095e",
+     "date": "2025-09-16",
+     "payee": "Hard money lender",
+     "what": "Prepaid Interest",
+     "amount": 1260
+    },
+    {
+     "txn_id": "migration-20250916-fb65c2bd332e",
+     "date": "2025-09-16",
+     "payee": "Seller, at the purchase closing",
+     "what": "Purchase price",
+     "amount": 350000
+    }
+   ],
+   "lines_total": 370843.46,
+   "note": "Fidelity National Title, FINAL BORROWER'S STATEMENT, escrow 45142507461, disbursed 9/16/2025: the price 350,000.00, every title and lender charge on his sheet to the cent (debits add to the statement's 393,496.97), prepaid interest 1,260.00 = $84 a day 9/16 to 10/01. It also shows, NOT on his sheet: appraisal 1,065.00 and assignment fee 8,599.17 'paid outside closing by Borrower', property tax holdback 4,950.00, county tax credit to him 949.31, 105.33 back to him"
+  }
+ ],
+ "receipts_with_no_line": [
+  {
+   "file": "Paint 2.pdf",
+   "url": "https://drive.google.com/file/d/16-ffQlYBjjyJw6_VTgLrOb53DToQnAAD/view",
+   "what": "Home Depot 9/28/25 8:25 AM, 3 five-gallon Behr paint + primer + water, 386.19, Visa 6926",
+   "note": "not on his sheet, so not in the books"
+  },
+  {
+   "file": "Paint 1.pdf",
+   "url": "https://drive.google.com/file/d/1cK-so3Fgnj4tYe237uuLDA9l5wC4vLnE/view",
+   "what": "Home Depot 9/28/25 2:13 PM, 2 five-gallon Behr paint + cabinet paint + trays, 281.87, Visa 6926",
+   "note": "not on his sheet, so not in the books"
+  },
+  {
+   "file": "Receipts from email/2025-09-19 paul bjork - Receipt 1014 - 1 IMG_2229.jpg",
+   "url": "https://drive.google.com/file/d/1pi5UJuC6PY1IUtksNtZNT34yh_V3u3kj/view",
+   "what": "Safeway Molalla 9/19/25: water and freezer bags, 8.88, card 9166 - he marked it '1014'",
+   "note": "not on his sheet"
+  },
+  {
+   "file": "Receipts from email/2025-10-11 paul bjork - Receipt - 1 IMG_2405.jpg",
+   "url": "https://drive.google.com/file/d/1-Wp-d7eT0U2kJA7Lh4qx6VOW1blUwB1B/view",
+   "what": "Bi-Mart 10/11/25: compact iron, 19.99, card 9166",
+   "note": "not on his sheet"
+  },
+  {
+   "file": "Receipts from email/2025-10-11 paul bjork - Receipt - 1 IMG_2408.jpg",
+   "url": "https://drive.google.com/file/d/1lItm0Djz5dzO4dfH0hdWdwHKrgXtJRXx/view",
+   "what": "Ace 10/11/25: router bit, 44.99, Mastercard 2575",
+   "note": "a tool - not a cost of the house; not on his sheet's house list"
+  },
+  {
+   "file": "Receipts from email/2025-11-25 paul bjork - Receipt - 1 Screenshot 2025-11-25 at 6.14.35 AM.jpeg",
+   "url": "https://drive.google.com/file/d/1x6weqzdqhNY7vY2uRhAJQYFdJzd2joeq/view",
+   "what": "Venmo to Ramon Garcia Alcaraz, Nov 25 2025, 325.00, his note on it: \"1014 S View Dr\"",
+   "note": "not on his sheet, so not in the books"
+  },
+  {
+   "file": "Receipts from email/2025-10-28 paul bjork - Receipt - 1 IMG_2511.jpg",
+   "url": "https://drive.google.com/file/d/1gWZx7M6j0oXYPLGbPWB7RHNu6n56GYwk/view",
+   "what": "Home Depot Portland 10/28/25: Nest thermostat, 129.99, Mastercard 6774",
+   "note": "not on his sheet; nothing on it names a house"
+  }
+ ],
+ "lines_with_no_receipt": [
+  {
+   "txn_id": "migration-20250911-1345261cdb07",
+   "date": "2025-09-11",
+   "payee": "Lowes",
+   "what": "Appliances",
+   "amount": 1438.3
+  },
+  {
+   "txn_id": "migration-20250916-41f35799bd80",
+   "date": "2025-09-16",
+   "payee": "City of Molalla",
+   "what": "Water/Garbage",
+   "amount": 100
+  },
+  {
+   "txn_id": "migration-20250916-1df96e6527b8",
+   "date": "2025-09-16",
+   "payee": "County, at the purchase closing",
+   "what": "County taxes",
+   "amount": 2758.9
+  },
+  {
+   "txn_id": "migration-20250916-036d61189b7b",
+   "date": "2025-09-16",
+   "payee": "Home Depot",
+   "what": "Trash Bags",
+   "amount": 29.97
+  },
+  {
+   "txn_id": "migration-20250916-49c3221f220d",
+   "date": "2025-09-16",
+   "payee": "Home Depot",
+   "what": "Front Door Lock",
+   "amount": 159
+  },
+  {
+   "txn_id": "migration-20250917-b4b5c3c32557",
+   "date": "2025-09-17",
+   "payee": "NW Natural",
+   "what": "Natural Gas",
+   "amount": 82
+  },
+  {
+   "txn_id": "migration-20250918-d2678d88937e",
+   "date": "2025-09-18",
+   "payee": "Home Depot",
+   "what": "Paint & Supplies",
+   "amount": 30.93
+  },
+  {
+   "txn_id": "migration-20250923-92e612eb92d5",
+   "date": "2025-09-23",
+   "payee": "Home Depot",
+   "what": "Buckets",
+   "amount": 7.96
+  },
+  {
+   "txn_id": "migration-20250923-32b448d9b9af",
+   "date": "2025-09-23",
+   "payee": "Home Depot",
+   "what": "Wax Rings",
+   "amount": 17.94
+  },
+  {
+   "txn_id": "migration-20250923-62688c07aaa5",
+   "date": "2025-09-23",
+   "payee": "Home Depot",
+   "what": "Toilet Bolt Caps",
+   "amount": 11.94
+  },
+  {
+   "txn_id": "migration-20250923-b2f3cbdc75c3",
+   "date": "2025-09-23",
+   "payee": "Home Depot",
+   "what": "5/8\" 4'X8' PARTICLEBOARD",
+   "amount": 23.26
+  },
+  {
+   "txn_id": "migration-20250923-3026cc43afc3",
+   "date": "2025-09-23",
+   "payee": "Home Depot",
+   "what": "1/2\" 4'X8' PB UNDERLAYMENT",
+   "amount": 24.97
+  },
+  {
+   "txn_id": "migration-20250923-2e5841d2762b",
+   "date": "2025-09-23",
+   "payee": "Home Depot",
+   "what": "1/2 X3-1/4 MDF LWM623 BASE",
+   "amount": 50.24
+  },
+  {
+   "txn_id": "migration-20250925-0b32e9fbb327",
+   "date": "2025-09-25",
+   "payee": "Lowes",
+   "what": "Lysol Wipes",
+   "amount": 14.98
+  },
+  {
+   "txn_id": "migration-20250925-697ce2d26976",
+   "date": "2025-09-25",
+   "payee": "Lowes",
+   "what": "Frog Tape",
+   "amount": 36.96
+  },
+  {
+   "txn_id": "migration-20250927-255d29463225",
+   "date": "2025-09-27",
+   "payee": "Home Depot",
+   "what": "Orange Peel",
+   "amount": 19.98
+  },
+  {
+   "txn_id": "migration-20250927-7399d77b9679",
+   "date": "2025-09-27",
+   "payee": "Home Depot",
+   "what": "1x2",
+   "amount": 7.68
+  },
+  {
+   "txn_id": "migration-20250927-f7ee7f07ccfb",
+   "date": "2025-09-27",
+   "payee": "Home Depot",
+   "what": "Blue Tape",
+   "amount": 39.48
+  },
+  {
+   "txn_id": "migration-20250927-f816aab61d02",
+   "date": "2025-09-27",
+   "payee": "Home Depot",
+   "what": "Drywall Screw",
+   "amount": 5.97
+  },
+  {
+   "txn_id": "migration-20250927-be9b15c7df38",
+   "date": "2025-09-27",
+   "payee": "Home Depot",
+   "what": "Bag Fee",
+   "amount": 0.05
+  },
+  {
+   "txn_id": "migration-20250928-782ab94c6128",
+   "date": "2025-09-28",
+   "payee": "Home Depot",
+   "what": "Light Bulbs",
+   "amount": 134.82
+  },
+  {
+   "txn_id": "migration-20250928-ed9acc2f226b",
+   "date": "2025-09-28",
+   "payee": "Home Depot",
+   "what": "1x2",
+   "amount": 9.6
+  },
+  {
+   "txn_id": "migration-20250928-92e612eb92d5",
+   "date": "2025-09-28",
+   "payee": "Home Depot",
+   "what": "Buckets",
+   "amount": 7.96
+  },
+  {
+   "txn_id": "migration-20250929-014cc6adb3e6",
+   "date": "2025-09-29",
+   "payee": "Home Depot",
+   "what": "Paint",
+   "amount": 137.22
+  },
+  {
+   "txn_id": "migration-20250929-f7ee7f07ccfb",
+   "date": "2025-09-29",
+   "payee": "Home Depot",
+   "what": "Blue Tape",
+   "amount": 39.48
+  },
+  {
+   "txn_id": "migration-20250930-34c87c0fe205",
+   "date": "2025-09-30",
+   "payee": "Hard money lender",
+   "what": "Loan interest payment",
+   "amount": 1260
+  },
+  {
+   "txn_id": "migration-20250930-5be8afb6bb8e",
+   "date": "2025-09-30",
+   "payee": "Home Depot",
+   "what": "Kilz",
+   "amount": 24.93
+  },
+  {
+   "txn_id": "migration-20250930-379dd4fc8b0e",
+   "date": "2025-09-30",
+   "payee": "Home Depot",
+   "what": "Carpet Protector",
+   "amount": 44
+  },
+  {
+   "txn_id": "migration-20250930-32105d9f9e2c",
+   "date": "2025-09-30",
+   "payee": "Home Depot",
+   "what": "Light Bulbs",
+   "amount": 32.96
+  },
+  {
+   "txn_id": "migration-20250930-99a5e00b1984",
+   "date": "2025-09-30",
+   "payee": "Home Depot",
+   "what": "Shop Towels",
+   "amount": 8.98
+  },
+  {
+   "txn_id": "migration-20250930-d5f9201628fe",
+   "date": "2025-09-30",
+   "payee": "Home Depot",
+   "what": "Sand Paper",
+   "amount": 34.88
+  },
+  {
+   "txn_id": "migration-20251001-9d560f64a558",
+   "date": "2025-10-01",
+   "payee": "Home Depot",
+   "what": "Masking Film",
+   "amount": 19.98
+  },
+  {
+   "txn_id": "migration-20251001-7fc32a3c7bcf",
+   "date": "2025-10-01",
+   "payee": "Home Depot",
+   "what": "Sand Paper",
+   "amount": 10.97
+  },
+  {
+   "txn_id": "migration-20251002-4f6e142cdb3a",
+   "date": "2025-10-02",
+   "payee": "Home Depot",
+   "what": "Paint",
+   "amount": 80.86
+  },
+  {
+   "txn_id": "migration-20251002-bfc1f65b5649",
+   "date": "2025-10-02",
+   "payee": "Home Depot",
+   "what": "Smoke Detectors",
+   "amount": 39.84
+  },
+  {
+   "txn_id": "migration-20251002-8d4595eb78b8",
+   "date": "2025-10-02",
+   "payee": "Home Depot",
+   "what": "Light Bulbs",
+   "amount": 14.98
+  },
+  {
+   "txn_id": "migration-20251002-f2300643de85",
+   "date": "2025-10-02",
+   "payee": "Home Depot",
+   "what": "Door Stops",
+   "amount": 21.84
+  },
+  {
+   "txn_id": "migration-20251002-4b61f459ffec",
+   "date": "2025-10-02",
+   "payee": "Lowes",
+   "what": "Paint Points",
+   "amount": 3.24
+  },
+  {
+   "txn_id": "migration-20251009-019355c7e500",
+   "date": "2025-10-09",
+   "payee": "Lowes",
+   "what": "Faucets",
+   "amount": 143.92
+  },
+  {
+   "txn_id": "migration-20251009-ef7baeb60c2c",
+   "date": "2025-10-09",
+   "payee": "Lowes",
+   "what": "Pedistal; Sink",
+   "amount": 110
+  },
+  {
+   "txn_id": "migration-20251009-d4d3c7e3f706",
+   "date": "2025-10-09",
+   "payee": "Lowes",
+   "what": "Toggle bolts & washers",
+   "amount": 10.26
+  },
+  {
+   "txn_id": "migration-20251010-74c9ddb797db",
+   "date": "2025-10-10",
+   "payee": "Home Depot",
+   "what": "GRACO PUMP ARMOR FLUID",
+   "amount": 11.98
+  },
+  {
+   "txn_id": "migration-20251012-d263d59e28df",
+   "date": "2025-10-12",
+   "payee": "Floor & Decor",
+   "what": "Vanities",
+   "amount": 1364
+  },
+  {
+   "txn_id": "migration-20251013-44b0de963749",
+   "date": "2025-10-13",
+   "payee": "Home Depot",
+   "what": "Pex Supply Lines",
+   "amount": 13.1
+  },
+  {
+   "txn_id": "migration-20251013-98a92a17ad2a",
+   "date": "2025-10-13",
+   "payee": "Home Depot",
+   "what": "ABS pipe fittings",
+   "amount": 21.26
+  },
+  {
+   "txn_id": "migration-20251013-a5e8e66f5642",
+   "date": "2025-10-13",
+   "payee": "Home Depot",
+   "what": "Counter Tops",
+   "amount": 99
+  },
+  {
+   "txn_id": "migration-20251014-7a81376c90ed",
+   "date": "2025-10-14",
+   "payee": "Home Depot",
+   "what": "Smoke Detectors",
+   "amount": 62.61
+  },
+  {
+   "txn_id": "migration-20251014-6b28a2b9fcd6",
+   "date": "2025-10-14",
+   "payee": "Home Depot",
+   "what": "Plumbing parts",
+   "amount": 28.78
+  },
+  {
+   "txn_id": "migration-20251014-95507ab49ac1",
+   "date": "2025-10-14",
+   "payee": "Home Depot",
+   "what": "Blinds",
+   "amount": 281.92
+  },
+  {
+   "txn_id": "migration-20251014-e44f33bac144",
+   "date": "2025-10-14",
+   "payee": "Lowes",
+   "what": "Curtains and Rods",
+   "amount": 137.37
+  },
+  {
+   "txn_id": "migration-20251015-7838bed44d4a",
+   "date": "2025-10-15",
+   "payee": "Home Depot",
+   "what": "Wall Texture",
+   "amount": 14.98
+  },
+  {
+   "txn_id": "migration-20251015-af620cd974f3",
+   "date": "2025-10-15",
+   "payee": "Home Depot",
+   "what": "Paint Roller",
+   "amount": 7.56
+  },
+  {
+   "txn_id": "migration-20251015-379dd4fc8b0e",
+   "date": "2025-10-15",
+   "payee": "Home Depot",
+   "what": "Carpet Protector",
+   "amount": 44
+  },
+  {
+   "txn_id": "migration-20251015-0c0d8672df31",
+   "date": "2025-10-15",
+   "payee": "Home Depot",
+   "what": "Flowers",
+   "amount": 43.94
+  },
+  {
+   "txn_id": "migration-20251015-32b6ca41c46c",
+   "date": "2025-10-15",
+   "payee": "Home Depot",
+   "what": "Gas Line Conector Kit",
+   "amount": 39.98
+  },
+  {
+   "txn_id": "migration-20251015-fa811435cd7d",
+   "date": "2025-10-15",
+   "payee": "Home Depot",
+   "what": "Shop Towels",
+   "amount": 6.96
+  },
+  {
+   "txn_id": "migration-20251015-23612cee7449",
+   "date": "2025-10-15",
+   "payee": "Home Depot",
+   "what": "Welcome Mat",
+   "amount": 8.88
+  },
+  {
+   "txn_id": "migration-20251015-c16d310b6ea0",
+   "date": "2025-10-15",
+   "payee": "Home Depot",
+   "what": "Door Mat",
+   "amount": 24.98
+  },
+  {
+   "txn_id": "migration-20251016-0ff86dae10e2",
+   "date": "2025-10-16",
+   "payee": "Home Depot",
+   "what": "Corner Braces",
+   "amount": 17.21
+  },
+  {
+   "txn_id": "migration-20251016-c791159ce42e",
+   "date": "2025-10-16",
+   "payee": "Home Depot",
+   "what": "Wall Plate",
+   "amount": 0.98
+  },
+  {
+   "txn_id": "migration-20251016-bff19c7fd752",
+   "date": "2025-10-16",
+   "payee": "Home Depot",
+   "what": "Pipe Insulation",
+   "amount": 9.38
+  },
+  {
+   "txn_id": "migration-20251016-69133904a897",
+   "date": "2025-10-16",
+   "payee": "PGE",
+   "what": "Electricity",
+   "amount": 3.37
+  },
+  {
+   "txn_id": "migration-20251016-b9b1fa99043f",
+   "date": "2025-10-16",
+   "payee": "PGE",
+   "what": "Electricity (2)",
+   "amount": 3.37
+  },
+  {
+   "txn_id": "migration-20251017-0933aa9d1f86",
+   "date": "2025-10-17",
+   "payee": "Home Depot",
+   "what": "Light Bulbs",
+   "amount": 9.98
+  },
+  {
+   "txn_id": "migration-20251017-74f39630c27c",
+   "date": "2025-10-17",
+   "payee": "Home Depot",
+   "what": "Thrshold",
+   "amount": 14.47
+  },
+  {
+   "txn_id": "migration-20251017-b47b2df99939",
+   "date": "2025-10-17",
+   "payee": "Lineage Legacy LLC",
+   "what": "Labor",
+   "amount": 1600
+  },
+  {
+   "txn_id": "migration-20251104-5d2ced674542",
+   "date": "2025-11-04",
+   "payee": "Hard money lender",
+   "what": "Loan interest payment",
+   "amount": 2538.24
+  },
+  {
+   "txn_id": "migration-20251105-f2546aee5ad2",
+   "date": "2025-11-05",
+   "payee": "PGE",
+   "what": "Electricity",
+   "amount": 20.21
+  },
+  {
+   "txn_id": "migration-20251204-aa745f2873a6",
+   "date": "2025-12-04",
+   "payee": "Hard money lender",
+   "what": "Loan interest payment",
+   "amount": 2656.81
+  },
+  {
+   "txn_id": "migration-20251210-b07116e5dd95",
+   "date": "2025-12-10",
+   "payee": "City of Molalla",
+   "what": "Water/Garbage",
+   "amount": 449
+  },
+  {
+   "txn_id": "migration-20251210-6f3847805119",
+   "date": "2025-12-10",
+   "payee": "MOLALLA SANITARY SERVICE",
+   "what": "Water/Garbage",
+   "amount": 121.91
+  },
+  {
+   "txn_id": "migration-20251215-0b0717ad4f4d",
+   "date": "2025-12-15",
+   "payee": "NW Natural",
+   "what": "Natural Gas",
+   "amount": 117.85
+  },
+  {
+   "txn_id": "migration-20251223-dd23c2930b6f",
+   "date": "2025-12-23",
+   "payee": "Home Depot",
+   "what": "Door Mats",
+   "amount": 39.96
+  },
+  {
+   "txn_id": "migration-20251231-f748998bda04",
+   "date": "2025-12-31",
+   "payee": "City of Molalla",
+   "what": "Water/Garbage",
+   "amount": 101.67
+  },
+  {
+   "txn_id": "migration-20251231-0bf448e164bb",
+   "date": "2025-12-31",
+   "payee": "PGE",
+   "what": "Electricity",
+   "amount": 187.23
+  },
+  {
+   "txn_id": "migration-20260105-aa745f2873a6",
+   "date": "2026-01-05",
+   "payee": "Hard money lender",
+   "what": "Loan interest payment",
+   "amount": 2656.81
+  },
+  {
+   "txn_id": "migration-20260112-57c50efeede9",
+   "date": "2026-01-12",
+   "payee": "Hard money lender",
+   "what": "Loan interest payment",
+   "amount": 1062.72
+  },
+  {
+   "txn_id": "migration-20260112-b04b8af00285",
+   "date": "2026-01-12",
+   "payee": "NW Natural",
+   "what": "Natural Gas (billed 2026-03-18, after the sale)",
+   "amount": 50.18
+  }
+ ]
+}
