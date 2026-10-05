@@ -308,16 +308,18 @@ are the target, D-028 returns hold for Paul). **Resume from `HANDOFF-2026-09-30.
   its numbers - Paul: "only show me what recast can take from 2025"; never add personal items to this tab.** Set aside
   56,438.79 -> 56,120.21, read back live 16:48 CDT (to rebuild the tab at once: type a letter in an empty cell of it,
   e.g. E1 - the rebuild clears it). The return files Recast on Schedule C with the houses as inventory, cash method.
-  559 tests; deployed @30 at 16:55 CDT on Paul's "deploy"; **the 16:54 relabel is pushed, one web app deploy owed.** Put to Paul, his cell: `Other income in your household` is 0 and
+  559 tests; deployed @30 at 16:55 CDT on Paul's "deploy"; **the 16:54 relabel is pushed, one web app deploy owed (see the D-079 bullet).** Put to Paul, his cell: `Other income in your household` is 0 and
   the 2025 return shows 421,292 of paychecks.
-- **2026-10-04 19:05 CDT (D-079, CHANGELOG): 1014 S View, Molalla OR - PUSHED, NOT YET RUN.** The loss Paul meant
-  in D-078 is a house of his own (hard money loan, **no Dennis**), bought and rehabbed in 2025, sold 2026-01-12 for
-  410,000 against 444,579.10 all in: a **2026 loss of 34,579.10**, in no book until now (his sheet "Recast 2025" is
-  the record). The one-off `importMolalla` brings it in as one closed house - Properties row (sold), three entries
-  from his sheet's totals with the money side on 9000 (never 2030: Recast does not owe it back), his tab copied in.
-  **Paul runs it in the editor** (auto mode refused the session's browser); then read back P&L (`1014 S View
-  -34,579.10`, `Recast earned` 19,103.52) and Taxes (set aside about 43,502), take the one-off out, deploy. Open for
-  his closing papers: 1,260.00 and 101.67 look entered twice on his sheet (loss 33,217.43 if so).
+- **2026-10-04 19:07 CDT (D-079, CHANGELOG): 1014 S View, Molalla OR is in the books.** The loss Paul meant in D-078
+  is a house of his own (hard money loan, **no Dennis**), bought and rehabbed in 2025, sold 2026-01-12 for 410,000
+  against 444,579.10 all in: a **2026 loss of 34,579.10**, in no book until now. Brought in as ONE closed house by
+  the one-off `importMolalla` (commit bbcd0be; Paul ran it - auto mode refuses the session's browser a write to the
+  live books): Properties row (sold, Dennis 0), three entries dated 01-12 from his sheet's totals with the money side
+  on **9000** (never 2030: Recast does not owe it back), his own sheet tab copied in as `1014 S View` (the last tab;
+  his record - never rebuild it). Read back live: P&L `1014 S View -34,579.10`, **Recast earned 19,103.52**, `Put in
+  by Paul 34,579.10` its own row; Taxes **set aside 43,502.30**. Open for his closing papers: 1,260.00 (first
+  interest) and 101.67 (City of Molalla) look entered twice on his sheet - loss 33,217.43 if so, one small entry.
+  559 tests; writer pushed = repo, **web app deploy owed**.
 - **2026-09-25 (D-044, D-045):** the gate lets a **medium** read post when every other rail holds (low still holds); a vendor's unanimous payment history settles `paid_from` when the document shows no card and Paul wrote no note; Chase checking 8870 is Paul's personal (`paul_personal_last4` = `9166, 8870, 3746` - Discover 3746 added the same day); `MAX_TOKENS_PER_TURN` 16000 (32k broke: the SDK refuses a non-streaming call above ~21k); the warm job replays errored docs from their stored read; the digest names the gate reason. CHANGELOG 2026-09-25.
 - **All five lists are done** (audit §40-§43): list 4 in mail not in the books 0 (`mail_settled`), differences 0 (`differences_settled`), confirm 0 real (the 3 shown are rows Paul dropped), questions answered; every decision, link, refusal (per document), drop, addition and retraction is in `data/migration/2026-09-17/paul-answers.json`. **Paul's stopping rule:** no new cost unless proven paid AND absent from the old books by total, pre-tax subtotal and items; otherwise park for Phase 3.
 - **2026-09-28: 104 Ashburne SOLD** the week of 09-21 (Citizens: $715,558.65 from Bison Title 09-23, $550,000 to Raymond James 09-25) - **not closed in the books yet; Paul starts the sell wizard when he is ready.** Earlier: **Facts corrected on 2026-09-18:** 104 Ashburne had NOT closed then. **881 Newport has NOT closed either - under contract (Paul 2026-09-21, audit §47); sold = Granite and Sparkling only**; its two Cost Recapture lines moved to its own tab. "Effren" rows are **Falcon Creek Lawn Care** (`rename_payee`). Paul's notes are the documents for cash labor.

@@ -2908,3 +2908,12 @@ split it again from the old tab.**
 - **Pushed 19:04 CDT, NOT YET RUN.** Running it from the session's browser was refused by auto mode (a write to the
   live books), so the Run is Paul's one step. After it: read the P&L and Taxes tabs back, take the one-off out, and
   the writer web app deploy (owed since 16:54 - the home office relabel, now `lib/reports.mjs` too).
+- **Run by Paul 19:07 CDT, read back live:** Properties row `1014 S View` (sold, Dennis 0); Journal rows 3150-3185
+  (`manual-20260112-77e138cb840a`, `sale-20260112-d5de02905c64`, `sale-20260112-3aff479a6516`); every READ BACK line
+  OK (sold 410,000.00, cost 444,579.10, the house -34,579.10, house accounts 0.00, put in by Paul 34,579.10, the
+  Journal balances). P&L tab: `1014 S View -34,579.10 sold 01-12 - your own deal, Dennis was not in it`, **Recast
+  earned 53,682.62 -> 19,103.52**, `Put in by Paul 34,579.10` beside `Paid out to Paul -85,054.32`, adds up. Taxes
+  tab: profit taxed 173,716.14, **set aside 43,502.30** (the dry run's figure). His tab is in the workbook as
+  `1014 S View`, **the last tab** - the move beside "280 Sparkling" failed (no tab of exactly that name), harmless.
+- The one-off is out of oneOffScripts.gs (commit bbcd0be keeps it); pushed 19:08, live = repo. **The writer web app
+  deploy is still owed** (lib.gs: the 16:54 relabel and `pnlTab`).
