@@ -290,6 +290,7 @@ function dryRunBatchProperties_(props, secret, uploadUrl) {
 // ---- pollBooks: real ingestion, labels processed threads --------------------
 
 function pollBooks() {
+  var t0 = Date.now();
   var lock = LockService.getScriptLock();
   if (!lock.tryLock(1000)) {
     console.log('Another poll is already running; skipping this run.');
@@ -342,6 +343,9 @@ function pollBooks() {
     console.log('Books poll: ' + sent + ' message(s) uploaded, ' + failed + ' failure(s).');
     pollBankMail_(props, secret, uploadUrl);
     warmCache_(uploadUrl, secret);
+    // ONE-OFF 2026-10-04 (OneOff.gs): once the mail is read, the paul@ run copies 1014 S View's receipts out of the
+    // mail into Drive with the minutes it has left. Comes out with OneOff.gs.
+    if (Date.now() - t0 < 60000) console.log(exportMolallaMail_(Date.now()));
   } finally {
     lock.releaseLock();
   }
