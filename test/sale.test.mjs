@@ -172,7 +172,10 @@ test("1616 Granite reproduces the closed tab: Paul is paid 28,489.52 and each pa
 
   // what the escrow holdback owes each partner afterwards
   assert.equal(dollars(summary.owed_after.dennis_cents), "30000.00");
-  assert.equal(dollars(summary.owed_after.paul_undrawn_cents), "30000.00");
+  assert.equal(dollars(summary.owed_after.paul_cents), "30000.00", "D-084: owed to him on 2030 from the closing day");
+  assert.equal(summary.owed_after.paul_undrawn_cents, 0);
+  const owedEntry = intents.find((i) => /owed to him until he draws it/.test(i.memo));
+  assert.deepEqual(owedEntry.lines.map((l) => [l.account, l.debit, l.credit]), [["9010", 3_000_000, 0], ["2030", 0, 3_000_000]]);
 
   // the 1000s are empty after the release
   assert.equal(summary.released_cents, summary.cost_before_share_cents + summary.dennis_share_cents);
@@ -186,7 +189,7 @@ test("1616 Granite reproduces the closed tab: Paul is paid 28,489.52 and each pa
     assert.equal(debit, credit, `unbalanced: ${intent.memo}`);
     assert.equal(entry.date, "2026-07-24", "every line of the run is dated the settlement");
   }
-  assert.equal(intents.length, 7, "sale, accrual, true-up, share, release, pay Dennis, pay Paul");
+  assert.equal(intents.length, 8, "sale, accrual, true-up, share, release, pay Dennis, pay Paul, Paul's undrawn share owed (D-084)");
 });
 
 test("1616 Granite: the holdback release of 2026-09-11 pays each partner their 30,000 (D-036 §1)", () => {
@@ -404,7 +407,7 @@ test("Paul's closing tab when a payout has not gone out yet: total due, paid so 
 test("the settlement statement's Drive link lands on every entry of the run, so the sale is documented like any receipt", () => {
   const url = "https://drive.google.com/file/d/10Iz6FAyc4OMKF0vuK_yjnKnfrU8zwEmP/view";
   const { intents } = buildSalePlan({ ...GRANITE, docUrl: url });
-  assert.equal(intents.length, 7);
+  assert.equal(intents.length, 8);
   for (const i of intents) assert.equal(i.doc_url, url, `no doc_url on: ${i.memo}`);
   const without = buildSalePlan(GRANITE);
   for (const i of without.intents) assert.equal(i.doc_url, "");
@@ -522,8 +525,9 @@ test("a bank deal paid in part before the close: only what left the account is p
   assert.equal(dollars(summary.paid.dennis_cents), "550000.00");
   assert.equal(summary.paid.paul_cents, 0);
   assert.equal(dollars(summary.owed_after.dennis_cents), "17829.27", "Paul's tab: due to Dennis");
-  assert.equal(dollars(summary.owed_after.paul_cents + summary.owed_after.paul_undrawn_cents), "149669.38",
-    "147,729.38 in Citizens plus the 1,940.00 the earnest money left in Chase");
+  assert.equal(dollars(summary.owed_after.paul_cents), "149669.38",
+    "147,729.38 in Citizens plus the 1,940.00 the earnest money left in Chase - all of it on 2030 (D-084)");
+  assert.ok(intents.some((i) => /owed to him until he draws it/.test(i.memo) && i.lines[0].debit === c(140895.81)), "his profit booked as owed");
   assert.equal(dollars(summary.retained_cents), "165558.65", "17,829.27 + 147,729.38 still in Citizens");
   assert.equal(intents.find((i) => /paid to Dennis/.test(i.memo)).date, "2026-09-25", "dated the day of the wire");
   assert.ok(!intents.some((i) => /paid to Paul/.test(i.memo)), "nothing paid to Paul yet");

@@ -1805,3 +1805,18 @@ out: *"Neither yet"*. **A payout is recorded when the money leaves the account, 
 is due, paid so far and still owed, and `Refunded to Recast Citizens Account` is what stays once both are paid; the
 dialog's `Already paid to Dennis / you` boxes show for every house (blank = paid in full on the closing day, as before).
 When a payout goes out later, its bank line is tied to what is owed.
+
+## D-084 · Paul's share of a sale's profit is owed to him from the closing day - 2026-10-05 · Paul
+
+Paul: *"in the totals tab, Due to owner (Paul) does not show the entirety of what i'm owed. i have not take my payouts
+out of the citizens bank account."* The close recorded his profit share only when it was paid (Dr 9010 / Cr 1401); an
+undrawn share lived nowhere but a computed `paul_undrawn_cents`. Dennis's share has always been owed to him from the
+closing day (Dr 1220 / Cr 2010).
+
+**Decided:** at the close, the part of Paul's share not paid that day posts **Dr 9010 Owner draws / Cr 2030 Due to
+owner** (memo "...: Paul's share of the profit, owed to him until he draws it"); the draw, when it happens, pays 2030
+(the holdback release's Paul line now pays 2030 too). So `Due to owner (Paul)` on Totals and P&L is everything Recast
+owes him - bills he fronted and profit not yet taken; `owed_after.paul_undrawn_cents` is 0 for a new close and the
+closing tabs read the same. The two sales closed before this: one-off `bookPaulShareOwed` (104 Ashburne 140,895.81
+dated 09-23, 881 Newport 26,731.14 dated 10-02), both closing tabs rewritten. Totals' 2030 goes from 46,947.83 to
+214,574.78.

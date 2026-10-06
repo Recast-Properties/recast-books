@@ -1333,6 +1333,7 @@ function closingFromJournal_(ss, name) {
   var release = find(/released to COGS/);
   var paidDennis = find(/paid to Dennis/);
   var paidPaul = find(/paid to Paul/);
+  var shareOwed = find(/owed to him until he draws it/);   // D-084: Paul's undrawn share, on 2030 since the close
   if (!settlement || !release) return null;
 
   var at = function (entry, account) {
@@ -1462,7 +1463,7 @@ function closingFromJournal_(ss, name) {
       // his money back AND his interest: a bank deal paid in part before the close leaves interest owed (104 Ashburne)
       dennis_cents: -Math.round((balances['2010'] || 0) + (balances['2000'] || 0)),
       paul_cents: -Math.round(balances['2030'] || 0),
-      paul_undrawn_cents: (profit - dennisShare) - payPaulShare - hb.paul_cents
+      paul_undrawn_cents: Math.max(0, (profit - dennisShare) - payPaulShare - hb.paul_cents - at(shareOwed, '9010'))
     },
     recapture_cents: 0
   };

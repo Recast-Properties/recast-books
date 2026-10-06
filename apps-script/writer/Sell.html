@@ -306,8 +306,7 @@
     }
     var owed = s.owed_after.dennis_cents || s.owed_after.paul_cents || s.owed_after.paul_undrawn_cents
       ? row_('Still owed after closing - Dennis', s.owed_after.dennis_cents, '') +
-        row_('Still owed after closing - Paul, bills he paid', s.owed_after.paul_cents, '') +
-        row_('Still owed after closing - Paul, profit not taken yet', s.owed_after.paul_undrawn_cents, '')
+        row_('Still owed after closing - Paul', s.owed_after.paul_cents + s.owed_after.paul_undrawn_cents, 'bills he paid and his profit, until he draws it')
       : '';
     document.getElementById('s-result').innerHTML =
       '<table><tbody>' +

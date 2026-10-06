@@ -2225,6 +2225,17 @@ var M_sale = (function () {
       });
     }
 
+    // D-084 (Paul, 2026-10-05: "Due to owner (Paul) does not show the entirety of what i'm owed"): the share he
+    // has not drawn is owed to him from the closing day, on 2030 - the way Dennis's is on 2010. The draw is the payment.
+    const paulShareOwed = paul_share_cents - payPaulShare;
+    if (paulShareOwed) {
+      intents.push({
+        type: "journal", date, source: "sale", posted_by: postedBy, doc_url: docUrl,
+        memo: `${memoBase}: Paul's share of the profit, owed to him until he draws it`,
+        lines: [line(OWNER_DRAWS, paulShareOwed, { property: property.name }), line(DUE_TO_PAUL, -paulShareOwed, { property: property.name })],
+      });
+    }
+
     const summary = {
       property: property.name, deal, date,
       recast_share_pct: settlement.recast_share_pct ?? 100,
@@ -2242,7 +2253,7 @@ var M_sale = (function () {
       paid: { dennis_cents: payDennis, paul_cents: payPaul, dennis_note_cents: payDennisNote, dennis_interest_cents: payDennisInterest, dennis_share_cents: payDennisShare, paul_due_cents: payPaulDue, paul_share_cents: payPaulShare },
       retained_cents: cash,
       paid_dates: { dennis: payDennis ? paidOut.dennis?.date || date : "", paul: payPaul ? paidOut.paul?.date || date : "" },
-      owed_after: { dennis_cents: noteBefore + dennis_share_cents - payDennisNote - payDennisShare + accruedBefore - payDennisInterest, paul_cents: dueToPaul - payPaulDue, paul_undrawn_cents: paul_share_cents - payPaulShare },
+      owed_after: { dennis_cents: noteBefore + dennis_share_cents - payDennisNote - payDennisShare + accruedBefore - payDennisInterest, paul_cents: dueToPaul - payPaulDue + paulShareOwed, paul_undrawn_cents: 0 },
       recapture_cents: recaptureCents,
     };
 
@@ -2285,7 +2296,8 @@ var M_sale = (function () {
       intents.push({
         type: "journal", date, source: "sale", posted_by: postedBy, doc_url: docUrl,
         memo: `${name} holdback: Paul's share`,
-        lines: [line(OWNER_DRAWS, paul_cents, { property: name, payee: "Paul Bjork" }), line(CASH, -paul_cents, { property: name, payee: "Paul Bjork" })],
+        // owed to him on 2030 since the close (D-084), so this pays that down
+        lines: [line(DUE_TO_PAUL, paul_cents, { property: name, payee: "Paul Bjork" }), line(CASH, -paul_cents, { property: name, payee: "Paul Bjork" })],
       });
     }
     const checks = {
@@ -2538,7 +2550,7 @@ var M_sale = (function () {
     }
     blank();
     total("Paul", null);
-    row("Paid out of pocket", s.paid.paul_due_cents + (owed.paul_cents || 0));
+    row("Paid out of pocket", duePaul - paulShare);
     row(shareLabel(100 - dennisPct), paulShare);
     total("Total to Paul", duePaul);
     if (duePaul !== s.paid.paul_cents) {
@@ -2564,7 +2576,7 @@ var M_sale = (function () {
       if (held - got) {
         row("Still held by the title company", held - got);
         row("Owed to Dennis when it is released", s.owed_after.dennis_cents);
-        row("Owed to Paul when it is released", s.owed_after.paul_undrawn_cents);
+        row("Owed to Paul when it is released", (s.owed_after.paul_cents || 0) + (s.owed_after.paul_undrawn_cents || 0));
       }
     }
 
