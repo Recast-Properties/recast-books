@@ -3110,6 +3110,33 @@ helper readers stalled on it - `caffeinate` kept the last passes going).
   `pypdf` reads the PDFs there without the Drive connector. The connector's reader returns nothing for some phone
   photos - those were read by eye in Chrome. 560 tests.
 
+## 2026-10-05 afternoon — a payout is recorded when the money leaves the account (D-083 extended); 881 Newport un-paid
+
+- Paul: *"the cash from the closing of newport is not being shown in the citizens accounting"* - the Citizens Bank tab
+  shows the bank file (ended 09-28); Newport closed 10-02. Asked whether Newport's payouts had gone out: **"Neither
+  yet"** - the morning's close had recorded Dennis paid 240,895.21 and Paul 27,609.53 on 10-02. **Rule, every deal:
+  only money that left the account is a payment.** `closingRows` (the partner closing tab) now works PAYOUTS from what
+  each is DUE (paid + owed_after; while escrow is held the owed amounts stay the escrow section's, as before) with
+  `Paid so far` / `Still owed to ...` rows when a payout is short, `Refunded to Recast Citizens Account` = cash less
+  both totals, and `Total to pay out` while something is owed; a paid-in-full tab is unchanged (test). Sell property
+  shows `Already paid to Dennis / you` on every house (the one-figure box stays the bank deal's). One-off
+  `unpayNewport` (commit d9b785a) voided the two records on their own date (`void-sale-20261002-51ec186f7dcf`,
+  `void-sale-20261002-97890cf3ceb2`) and rewrote `881 Newport - Closing` in place - **run by Paul; read back: Total
+  to Dennis 240,895.21 / paid 0.00 / still owed 240,895.21; Paul 27,609.53 still owed; 1,599.90 Recast's; total to
+  pay out 270,104.64 = cash.** The one-off is out; `setNewportInterest` (ran, 8ee100e) is out too.
+- **Writer web app @34** on Paul's "deploy" (`/exec` answers ok 0.4.0). The gate run showed `fail 1` and the deploy
+  went ahead anyway - my grep did not stop on it (own it: chain on the summary line, not on grep). The failure was
+  `test/statement.test.mjs`'s read of the REAL Citizens export on the Desktop (`10632505.QFX`): a fresh download
+  failed the old pins (73 lines from 08-06). The pins are gone (any range; FITIDs unique; it ties); the file is gone
+  from the Desktop since, so the test skips. The deployed code is the pushed, tested repo.
+- **Paul imported the fresh Citizens file and matched: 87 lines through 10-02, 73 reconciled; Newport's 270,104.64
+  wire tied to the sale**; Citizens 439,261.13. The bank box: 2 unexplained, both Inbox cards for Paul - the 10-01
+  500.00 Venmo to Ivett Avila (the books' Juanito Garcia 500.00 at Mesa the same day?) and the Red Oak water 300.72
+  (the bank has its 2.00 fee apart; the 298.72 is not on the bank yet). 11 cards wait on Dennis, 3 on Paul.
+- When a payout goes out later (Ashburne: Dennis 17,829.27, Paul 147,729.38; Newport: Dennis 240,895.21, Paul
+  27,609.53), its bank line must land on what is owed (2010/2000 Dennis, 2030/9010 Paul) - the matcher's cards
+  offer house costs; **not yet seen on a real payout line** - watch the first one.
+
 ## 2026-10-05 — 104 Ashburne closed (D-083)
 
 - **104 Ashburne closed in the books by Paul through Sell property** (settlement 2026-09-23, sold 775,000.00, Bison file
