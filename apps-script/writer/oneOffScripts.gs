@@ -37,54 +37,11 @@
  *   run by Paul the same morning) is in commit 8ee100e.
  * unpayNewport (2026-10-05, D-083: Newport's two "paid" payout records voided - neither had gone out - and the
  *   closing tab rewritten; run by Paul the same afternoon) is in commit d9b785a.
+ * bookPaulShareOwed (2026-10-05, D-084: Paul's profit from Ashburne and Newport booked as owed to him on 2030, both
+ *   closing tabs rewritten; run by Paul that night) is in commit fdbf246.
  *
  * ASCII ONLY - same paste-into-the-editor constraint as Code.gs.
  ****************************************************************/
-
-// 2026-10-05 Paul: "in the totals tab, Due to owner (Paul) does not show the entirety of what i'm owed" - his profit
-// from a sale was not recorded as owed to him until the day he drew it (Dennis's share is owed from the closing day).
-// D-084: the close now books it on 2030 (Due to owner) the same day. For the two sales closed before that - 104
-// Ashburne 140,895.81 (09-23) and 881 Newport 26,731.14 (10-02) - one entry each through the engine (9010 -> 2030,
-// on the house, with the sale's closing document), then both closing tabs rewritten in place. Nothing else moves.
-// Safe to run twice (a second run finds the entries and only rewrites the tabs).
-// STATUS: NOT YET RUN
-function bookPaulShareOwed() {
-  var props = PropertiesService.getScriptProperties();
-  var ss = openWorkbook_(props);
-  requireOwner_(ss);
-  var who = Session.getActiveUser().getEmail();
-  var journal = ss.getSheetByName('Journal');
-  var cols = headerIndex_(journal);
-  var houses = [
-    { name: '104 Ashburne', date: '2026-09-23', cents: 14089581, sale: 'sale-20260923-5a1506ca784f' },
-    { name: '881 Newport', date: '2026-10-02', cents: 2673114, sale: 'sale-20261002-465b11b1cf51' }
-  ];
-  var memos = journal.getRange(2, cols['memo'], journal.getLastRow() - 1, 1).getValues().map(function (r) { return String(r[0]); });
-  var ctx = buildCtx_(ss);
-  var entries = [];
-  houses.forEach(function (h) {
-    var memo = h.name + ' sale ' + h.date + ": Paul's share of the profit, owed to him until he draws it";
-    if (memos.indexOf(memo) >= 0) { Logger.log(h.name + ': already booked'); return; }
-    var saleRow = findAllRowsByValue_(journal, cols['txn_id'], h.sale)[0];
-    if (!saleRow) throw new Error(h.sale + ' is not on the Journal - nothing changed');
-    var docUrl = String(journal.getRange(saleRow, cols['doc_url']).getValue() || '');
-    ctx.properties.add(h.name);   // a sold house: this is the closing's own entry (as sellHoldback does)
-    entries.push(buildEntry({
-      type: 'journal', date: h.date, source: 'sale', posted_by: who, doc_url: docUrl, memo: memo,
-      lines: [{ account: '9010', debit: h.cents, credit: 0, property: h.name },
-              { account: '2030', debit: 0, credit: h.cents, property: h.name }]
-    }, ctx));
-  });
-  if (entries.length) postBatchEntries_(entries, props, true);
-  houses.forEach(function (h) {
-    var built = closingFromJournal_(ss, h.name);
-    if (!built) throw new Error('No posted sale for ' + h.name);
-    writeClosingTab_(ss, h.name, built, closingTabName_(h.name));
-  });
-  warmCache_();
-  Logger.log('Booked ' + entries.length + ' entries (Ashburne 140,895.81, Newport 26,731.14); both closing tabs rewritten. ' +
-    'Due to owner (Paul) now carries the profit of both sales.');
-}
 
 // 2026-10-05 Paul: "yes match all the receipts and link them" (1014 S View). Each receipt found for the house - in
 // its Drive folder "1014 S View" and in the mail, copied to Drive by the poller one-off - is written on its own
