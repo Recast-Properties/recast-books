@@ -3110,6 +3110,31 @@ helper readers stalled on it - `caffeinate` kept the last passes going).
   `pypdf` reads the PDFs there without the Drive connector. The connector's reader returns nothing for some phone
   photos - those were read by eye in Chrome. 560 tests.
 
+## 2026-10-05 — 104 Ashburne closed (D-083)
+
+- **104 Ashburne closed in the books by Paul through Sell property** (settlement 2026-09-23, sold 775,000.00, Bison file
+  260840 - the scanned PDF in `104 Ashburne / Sale Cloosing Docs`). Dennis gave ONE figure for all 21 loans, principal
+  and interest, 545,149.27 (Paul's tab `104 Ashburne - Dennis`); Sell property on a bank deal now takes it in one box
+  (interest = the figure less what the Advances lent: 44,007.83; the books' own count was 44,900.41, true-up -892.58,
+  memo "for all loans together"), and `Already paid to Dennis` / `Already paid to you` with dates - only that posts as
+  paid (Dennis 550,000.00 dated 09-25; Paul 0), the rest stays owed (`lib/sale.mjs` `paidOut`, check
+  `paid_out_within_due`). The statement's `Earnest Money Released to Seller` 2,000.00 is on 1402 Chase (the check that
+  opened the account, D-051) - the dialog's account list has it. Result: profit 140,895.81, all Paul's; Dennis
+  567,829.27 (lent 501,141.44 + interest + commission 22,680.00 on 756,000), 17,829.27 still owed (all on 2000); Paul
+  147,729.38 still in Citizens = his tab to the cent. Journal rows: `sale-20260923-*`, `sale-20260925-15fa25cf2be3`.
+- **The Preview and the long closing tab read like Paul's own tab** (he rejected "Dennis's half / Paul's half" and
+  wanted the principal shown): DENNIS - what he lent, interest, commission, total, paid so far (date), still owed
+  (the live balance, so a rebuild after he pays reads right); PAUL - profit, due to Paul = cash received less the
+  total to Dennis, paid so far, still in Citizens. A "1,940.00 also yours in Chase" line was shown and taken off on
+  his word ("isn't it already accounted for in the closing doc?" - it is: the statement took the 2,000 off the wire).
+  Then on his "yes": the 1402 settlement line's note reads `1402 Chase - the title company's check, deposited
+  there` (`settlementRows`); `closingTabLabels_` keys a typed label on the note's leading code(s) only, never a date.
+  Owed: Paul rebuilds the tab from the dialog (Attach and rebuild) to get the note; the writer web app deploy
+  (Code.gs, lib.gs); then Match statement lines on Citizens - the 715,558.65 in and 550,000 out were waiting on this
+  close. 562 tests.
+- A closed tab, not a dialog field: Paul ran the Newport close with per-advance figures this morning (D-082); the
+  bank deal's one-figure box is beside them and either path works.
+
 ## 2026-10-05 — 881 Newport closed; Sell property fixes (D-082)
 
 - **Sell property showed 881 Newport as "already closed (2026-07-24)"** with Attach and rebuild instead of Read it.
