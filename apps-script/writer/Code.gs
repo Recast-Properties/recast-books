@@ -1065,6 +1065,7 @@ function refreshPnl_(ss) {
     ss = ss || openWorkbook_(PropertiesService.getScriptProperties());
     var today = Utilities.formatDate(new Date(), 'America/Chicago', 'yyyy-MM-dd');
     var lines = journalLines_(ss);
+    try { sortAdvances_(ss); } catch (e) { console.error('sortAdvances_: ' + e); }   // the Advances tab newest on top (Paul, 2026-10-06)
     var t = pnlTab(lines, loadAdvances_(ss), today, getAccrualOpts_(ss));
     // the tabs the old menu reports left behind, stale since the day they were run (D-065)
     ['Balance Sheet', 'Report - Balance sheet', 'Report - P&L', 'Report - Trial balance', 'Report - Job cost', 'Report - Dennis ledger']

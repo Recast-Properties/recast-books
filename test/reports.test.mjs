@@ -315,6 +315,27 @@ test("dennisLedger clamps interest_unposted at 0 and flags when posted exceeds a
   assert.equal(row.posted_exceeds_accrued, false);
 });
 
+test("pnlTab: Paul's three lines - costs he paid, his money in Citizens (working money + payouts from sold houses), his money in Chase", async () => {
+  const { pnlTab } = await import("../lib/reports.mjs");
+  const L = (txn_id, date, account, debit, credit, property = "") =>
+    ({ txn_id, date, period: date.slice(0, 7), account, debit, credit, property, description: "", source: "manual", void_of: "" });
+  const lines = [
+    L("w", "2026-08-05", "1401", 5000, 0), L("w", "2026-08-05", "2030", 0, 5000),                 // working money 50.00 (D-055)
+    L("b", "2026-08-06", "1030", 1000, 0, "1 Main"), L("b", "2026-08-06", "2030", 0, 1000, "1 Main"), // a bill he paid on a held house 10.00
+    L("o", "2026-08-07", "6510", 2000, 0, "OVERHEAD"), L("o", "2026-08-07", "2030", 0, 2000, "OVERHEAD"), // business cost 20.00
+    L("s", "2026-08-10", "1401", 30000, 0, "2 Oak"), L("s", "2026-08-10", "4000", 0, 30000, "2 Oak"),   // 2 Oak sold
+    L("p", "2026-08-10", "9010", 3000, 0, "2 Oak"), L("p", "2026-08-10", "2030", 0, 3000, "2 Oak"),     // his profit share owed, not drawn (D-084) 30.00
+    L("e", "2026-08-10", "1402", 200, 0, "2 Oak"), L("e", "2026-08-10", "1401", 0, 200, "2 Oak"),       // 2.00 of it sits in Chase (D-051)
+  ];
+  const t = pnlTab(lines, [], "2026-09-01", { rateAnnual: 0.08, stubBasis: 30 });
+  const by = Object.fromEntries(t.rows.filter((r) => r[0]).map((r) => [r[0], r[1]]));
+  assert.equal(t.ties, true);
+  assert.equal(by["Paul - costs he paid"], 30, "the held house's bill and the business cost");
+  assert.equal(by["Paul - money in Recast Citizens"], 50 + 30 - 2);
+  assert.equal(by["Paul - money in Recast Chase"], 2);
+  assert.equal(by["Paul"], undefined, "the old one-line Paul row is gone");
+});
+
 test("pnlTab: the year's profit and loss on top, each fact once, Dennis's unrecorded interest on both sides, adds up", async () => {
   const { pnlTab } = await import("../lib/reports.mjs");
   const L = (txn_id, date, account, debit, credit, property = "", extra = {}) =>
@@ -327,6 +348,9 @@ test("pnlTab: the year's profit and loss on top, each fact once, Dennis's unreco
     L("s", "2026-08-10", "1401", 30000, 0, "2 Oak"), L("s", "2026-08-10", "4000", 0, 30000, "2 Oak"),
     L("s", "2026-08-10", "5000", 20000, 0, "2 Oak"), L("s", "2026-08-10", "1401", 0, 20000, "2 Oak"),
     L("d", "2026-08-11", "9010", 10000, 0, "2 Oak"), L("d", "2026-08-11", "1401", 0, 10000, "2 Oak"),
+    // Paul's working money (D-055): 50.00 into Citizens, no house; a 5.00 check from Citizens paying him back for a house's cost
+    L("w", "2026-08-05", "1401", 5000, 0), L("w", "2026-08-05", "2030", 0, 5000),
+    L("r", "2026-08-12", "2030", 500, 0, "1 Main"), L("r", "2026-08-12", "1401", 0, 500, "1 Main"),
   ];
   const advances = [{ advance_id: "adv-p", date: "2026-08-01", amount_cents: 10000000, property: "1 Main", status: "open", repaid_date: "", rate_annual: 0.12 }];
   const t = pnlTab(lines, advances, "2026-09-01", { rateAnnual: 0.08, stubBasis: 30 });
@@ -341,8 +365,13 @@ test("pnlTab: the year's profit and loss on top, each fact once, Dennis's unreco
   assert.equal(by["Dennis - interest not recorded yet"], 1000);
   assert.equal(by["Paid out to Paul"], -100);
   assert.equal(by["Left"], -20);
-  // each amount once, except where two facts share a value (Left = -business costs here, said so in its note)
-  const amounts = t.rows.filter((r) => r[1] !== "" && !["Left", "Total"].includes(r[0])).map((r) => r[1]);
+  // Paul in three lines (2026-10-06): costs he paid (50.00 + 20.00 less the 5.00 paid back), his money in each bank - Chase shown at zero
+  assert.equal(by["Paul - costs he paid"], 70 - 5, "2 Oak sold with nothing owed to him on it");
+  assert.equal(by["Paul - money in Recast Citizens"], 50);
+  assert.equal(by["Paul - money in Recast Chase"], 0);
+  assert.equal(by["Paul"], undefined, "the old one-line Paul row is gone");
+  // each amount once, except where two facts share a value (Left = -business costs here, said so in its note); zero lines are not facts
+  const amounts = t.rows.filter((r) => r[1] !== "" && r[1] !== 0 && !["Left", "Total"].includes(r[0])).map((r) => r[1]);
   assert.equal(new Set(amounts).size, amounts.length, "no amount repeated");
   assert.match(t.rows.find((r) => r[0] === "Left")[2], /same as the business costs/);
   assert.ok(!JSON.stringify(t.rows.map((r) => [r[0], r[2]])).match(/\b(1000|2010|2030|6510|9010|inventory|payable|equity|draws)\b/i), "no account codes or accounting words");

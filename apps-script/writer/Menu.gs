@@ -488,6 +488,7 @@ function addAdvance(form, skipRebuild) {
       kind: kind, rate_pct: rate_pct, paid_to: paidTo
     };
     upsertRow_(advSheet, advCols, 'advance_id', advanceRow);
+    sortAdvances_(ss);   // newest on top, before the tab below reads the order
     if (kind === 'purchase') purchaseOntoProperty_(ss, property, date, amount_cents);
 
     var tabRows = null, tabError = null;
@@ -547,6 +548,25 @@ function loadAdvances_(ss) {
       agreed_interest_cents: cols['agreed_interest'] && r[cols['agreed_interest'] - 1] !== '' ? toCents(r[cols['agreed_interest'] - 1]) : undefined
     };
   });
+}
+
+/** The Advances tab newest on top (Paul, 2026-10-06: "sort the advances tab by date with oldest at the bottom").
+ *  Every read of the tab goes by value (advance_id; property + date + amount), never by row number, so the order is
+ *  free to change. A house tab lists its advances in this order and its End Dates are typed at build time, so
+ *  addAdvance sorts BEFORE it rebuilds the tab; the hourly refresh keeps the order after a hand edit. Rows are
+ *  written back only when something is out of order; equal dates keep their order. Returns true if it moved rows. */
+function sortAdvances_(ss) {
+  var sheet = ss.getSheetByName('Advances');
+  if (!sheet || sheet.getLastRow() < 3) return false;
+  var cols = headerIndex_(sheet);
+  if (!cols['date']) return false;
+  var range = sheet.getRange(2, 1, sheet.getLastRow() - 1, sheet.getLastColumn());
+  var rows = range.getValues();
+  var keyed = rows.map(function (r, i) { return { key: String(formatIsoDate_(r[cols['date'] - 1]) || ''), i: i, row: r }; });
+  keyed.sort(function (a, b) { return a.key < b.key ? 1 : a.key > b.key ? -1 : a.i - b.i; });
+  if (keyed.every(function (k, i) { return k.i === i; })) return false;
+  range.setValues(keyed.map(function (k) { return k.row; }));
+  return true;
 }
 
 /** Settings interest_rate_annual/stub_days_basis, falling back to 0.08/30 (D-016). */

@@ -3204,3 +3204,23 @@ helper readers stalled on it - `caffeinate` kept the last passes going).
 - Seen the same morning: two TXU payments (153.96 Bowling Green, 65.12) came in at 06:13 as Inbox cards (payer
   unknown; the 65.12 also no house) - Paul saved both (65.12 on 881 Newport, both paid from Citizens). The manual
   G&H Glass & Carpet 254.56 (06/30, Window Repair, Dennis) is on Newport; New expense has no way to attach a receipt.
+
+## 2026-10-06 — P&L tab: Paul in three lines
+
+**Split** the P&L tab's `Paul` line under WHAT RECAST OWES TODAY into `Paul - costs he paid`, `Paul - money in Recast
+Citizens` and `Paul - money in Recast Chase` (Paul's ask). Citizens is his working money (D-055: no house on it,
+5,000.00) plus his payouts from the sold houses waiting in the account (D-084: 104 Ashburne 147,729.38, 881 Newport
+27,609.53 - his closing tabs to the cent); Chase is its balance, 1,940.00 (D-051: Chase is his account - the Ashburne
+earnest money less the 60.00 lawn payment); costs he paid is the rest, 32,295.87 (the held houses, Cost Recapture and the
+business). The three add to the old 214,574.78. A first cut had put the sold-house payouts under costs - Paul caught it
+("wouldnt the money in recast citizens be $175k bigger"). `pnlTab` in `lib/reports.mjs`, `lib.gs` rebuilt, one new
+test; 564 tests. Writer pushed and deployed **@36** (07:36 PDT) - nothing owed; the tab picks it up on its hourly rebuild.
+
+## 2026-10-06 — Advances tab newest on top
+
+**Sorted** the Advances tab by date, newest on top (Paul: "sort the advances tab by date with oldest at the bottom").
+`sortAdvances_` (Menu.gs) rewrites the rows only when one is out of order, same-day rows keep their order; it runs in
+Add advance before the house tab is rebuilt (the tab lists a house's advances in Advances order and its End Dates are
+typed at build time) and in the hourly P&L refresh, which does the first sort within the hour - no step for Paul.
+Every reader of the tab goes by value, never by row number. The held houses each have one advance per kind, so no house
+tab changes. Writer pushed and deployed **@37** (08:36 PDT) - nothing owed; the first sort lands on the next hourly refresh.
