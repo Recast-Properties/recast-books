@@ -3123,8 +3123,8 @@ helper readers stalled on it - `caffeinate` kept the last passes going).
   Journal 2030 = 214,574.78 (was 46,947.83), 9010 252,681.27; Newport's tab unchanged (Paul 878.39 + 26,731.14 =
   27,609.53 still owed); Ashburne's unchanged but its commission note read "on 0"** - `commission_basis_cents` was not
   in the Journal-read summary; fixed (sale price less the 1320 lines), right on the next rebuild. The one-off is out.
-  562 tests. **Owed: the writer web app deploy (Code.gs, lib.gs, Menu.gs); an Attach and rebuild on 104 Ashburne
-  for the note.**
+  562 tests. **Deployed @35 on Paul's "deploy" (10-06, `/exec` answers ok 0.4.0); Paul ran Attach and rebuild on
+  104 Ashburne - the note reads "on 756000". Nothing owed on the writer.**
 - Not built (Paul: "not yet"): a payout bank line landing on what is owed and refreshing the closing tab's "paid so
   far" on its own - the matcher's cards offer house costs only. Asked for when the four payouts go out.
 
