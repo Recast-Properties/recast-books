@@ -6,6 +6,95 @@ that supersedes the old one, not editing history.
 
 ---
 
+## Index (one line each; the entries follow in order)
+
+- D-001 · Books stay in Google Sheets — 2026-08-26 · Paul
+- D-002 · Keep both property templates — 2026-08-26 · Paul
+- D-003 · Agent layer extends the existing bookkeeper — 2026-08-26 · Claude, Paul agreed
+- D-004 · Bank statements are uploaded, not fed — 2026-08-26 · Paul
+- D-005 · Segregation of duties is NOT achieved — 2026-08-26 · Claude, correcting itself
+- D-006 · Dennis is a lender and financial partner, not a member — 2026-09-11 · Paul
+- D-007 · Plaid bank feeds in the first build — 2026-09-11 · Paul
+- D-008 · New system, separate site, code lives in this repo — 2026-09-11 · Paul
+- D-009 · Vehicle: actual expenses on Dennis's truck — 2026-09-11 · Claude, Paul to confirm with accountant
+- D-010 · Advance mechanics and overhead — 2026-09-11 · Paul
+- D-011 · All Dennis interest is a project cost — 2026-09-11 · Paul
+- D-012 · The bookkeeper decides the easy cases itself — 2026-09-11 · Paul
+- D-013 · The books are cleared once, at migration — 2026-09-12 · Paul
+- D-014 · An unidentified payer is held for Paul, never defaulted — 2026-09-12 · Paul
+- D-015 · Two locks: overhead by period, a property at sale — 2026-09-14 · Paul
+- D-016 · Dennis's rate is 8%, not 9% — 2026-09-14 · Paul
+- D-017 · Property status is Held or Sold — 2026-09-14 · Paul
+- D-018 · API credits are prepaid; usage is expensed monthly by workspace — 2026-09-14 · Paul
+- D-019 · No Plaid — bank activity comes from statement downloads — 2026-09-15 · Paul
+- D-020 · Cash-advance interest is Paul's, settled out of his share — 2026-09-15 · Paul
+- D-021 · Cash-advance interest is a property cost after all — 2026-09-15 · Paul
+- D-022 · Personal loans, per-property profit share, per-advance rate — 2026-09-15 · Paul
+- D-023 · The bookkeeping front end lives in the workbook — 2026-09-15 · Paul
+- D-024 · Migrate everything, close the old books, start fresh — 2026-09-16 · Paul
+- D-025 · The migration is ironed out in a staging copy; the real journal is born in one pass — 2026-09-17 · Paul
+- D-026 · Migration review rules — 2026-09-17 · Paul
+- D-027 · The old books are the target; the new books reproduce them, with the receipt linked — 2026-09-17 · Paul
+- D-028 · Returns the old books netted are inferred from the receipt and posted as credits — 2026-09-17 · Paul
+- D-029 · The migration is row-driven: the old row is posted, the receipt is attached — 2026-09-18 · Paul
+- D-030 · Dennis's direct payments carry no interest - 2026-09-18 · Paul
+- D-031 · Cost Recapture: charges after a property has sold - 2026-09-18 · Paul
+- D-032 · Dennis has no direct payments on Ashburne: only cash advances and the purchase loan - 2026-09-18 · Paul
+- D-033 · The sale side is Phase 5; the Phase 4 gate is expense rows and advances - 2026-09-18 · Paul
+- D-034 · Property tax: payments post when paid, the closing proration posts at closing, the tab estimates in between - 2026-09-18 · Paul
+- D-035 · No attachment: the email is the receipt - 2026-09-22 · Paul
+- D-036 · Phase 5 answers: holdback, bank-deal commission, no reserve field, Drive only - 2026-09-22 · Paul
+- D-037 · A co-owned deal is recorded at Recast's undivided share - 2026-09-22 · proposed, awaiting Paul
+- D-038 · The advance rate is per advance: the two closed deals were 8%, held stays 9% - 2026-09-22 · Paul
+- D-039 · An HOA release is a selling cost, not an acquisition cost - 2026-09-22 · Paul
+- D-040 · The Inbox card lists short bullets that name the fix, not a paragraph - 2026-09-23 · Paul
+- D-041 · Property is per item on the Inbox card; the post still splits one entry per property - 2026-09-23 · Paul
+- D-042 · Dennis charges no commission on a partnership deal; the light property tab gains a Concession cell and splits Received - 2026-09-23 · Paul
+- D-043 · The property tab is frozen at closing as the record; the closing tab stays separate - 2026-09-23 · Paul
+- D-044 · "Medium" confidence posts when every other rail holds - 2026-09-25 · Paul
+- D-045 · A vendor's own payment history settles the payer when the document shows no card - 2026-09-25 · Paul
+- D-046 · A utility payment confirmation that matches nothing on the account is a new charge and posts - 2026-09-25 · Paul
+- D-047 · Reads come off the Apps Script writer; writes stay under its lock - 2026-09-25 · Paul ("go")
+- D-048 · A Reprocess never posts or dismisses - 2026-09-26 · Paul (the parked-cards complaint), Claude
+- D-049 · One item per printed line; a hold still proposes its entries - 2026-09-26 · Paul ("the system is not itemizing them")
+- D-050 · A read may say a receipt is partly on the books; the Journal supplies the amounts and it always holds - 2026-09-26 · Claude, from the parked cards
+- D-051 · Bank reconciliation covers Recast's own accounts; Paul's personal statements stay out - 2026-09-28 · Paul
+- D-052 · Every advance says who the money was paid to; the old books' "Chase" was Paul's personal Chase - 2026-09-28 · Paul
+- D-053 · Dennis's bank-deal commission is on the sale price less the seller's concessions - 2026-09-28 · Paul
+- D-054 · On the bank-deal tab the property tax paid is in Rehab Total, not a second line in Total Project Cost - 2026-09-28 · Paul
+- D-055 · The partners' working money in the shared account is owed back, earns no interest and belongs to no house - 2026-09-28 · Paul
+- D-056 · Hand-run scripts live in oneOffScripts.gs; Code.gs and Menu.gs hold only what the workbook reaches - 2026-09-28 · Paul
+- D-057 · A charge can be on the books before its receipt: the placeholder, and the receipt takes its place - 2026-09-29 · Paul
+- D-058 · A held card that replaces an entry takes it out when Paul saves it - 2026-09-29 · Paul
+- D-059 · Which card paid a bank line is read from the bank's daily email - 2026-09-29 · Paul
+- D-060 · One charge, one card - 2026-09-29 · Paul
+- D-061 · The bank account has its own tab: every line, newest on top, who paid and where it stands - 2026-09-29 · Paul
+- D-062 · Cost Recapture's tab is a plain list, not the property grid (Properties.template = List) - 2026-09-30 · Paul
+- D-063 · The monthly bank check is a box on the bank's own tab, not a new step - 2026-09-30 · Paul
+- D-064 · Claude API credits are a software cost when bought; the prepaid line and the monthly split are dropped (reverses D-018) - 2026-09-30 · Paul
+- D-065 · The Balance Sheet is its own tab, in plain words, that updates itself - 2026-09-30 · Paul
+- D-066 · The menu holds only what Paul uses; Dennis's interest is recorded at closing, not monthly; one-off scripts come out once run - 2026-09-30 · Paul
+- D-067 · The migration is closed: one final register, every leftover settled - 2026-10-01 · Paul
+- D-068 · On the closing tab a cash advance is its own cost, never part of Rehab Costs - 2026-10-01 · Paul
+- D-069 · The closing tab of a partner deal is Paul's simple layout; 104 Ashburne keeps the long one - 2026-10-01 · Paul
+- D-070 · Lawn care is a rehab cost on every tab; the closing tab's last section is "after the payout" - 2026-10-01 · Paul
+- D-071 · On the closing tab Rehab Costs is every bill and a cash advance's principal is not a cost row (replaces D-068) - 2026-10-01 · Paul
+- D-072 · A house tab is frozen when its closing is RUN, not on the closing day; the closing tab lists every bill after the payout - 2026-10-01 · Paul
+- D-073 · An email holding several receipts is several bills, every one read, each opening its own file - 2026-10-02 · Paul
+- D-074 · Mastercard 7952 is Paul's personal card - 2026-10-02 · Paul
+- D-075 · A `Taxes` tab: an estimate of what Paul may owe the IRS and Oregon, from the books - 2026-10-02 · Paul
+- D-076 · A receipt photo is stored as it was sent, up to 4 MB; over that, the largest copy that fits - 2026-10-02 · Paul
+- D-077 · A copy of a card still waiting on Paul is not a new purchase - 2026-10-04 · Paul
+- D-078 · The Taxes tab carries last year's return forward: a block of what it leaves for this year - 2026-10-04 · Paul
+- D-079 · 1014 S View (Molalla OR) comes into the books as one closed house, in summary - 2026-10-04 · Paul
+- D-080 · The house tabs and the closing tabs follow the Journal to its last row - 2026-10-04 · Claude
+- D-081 · The Taxes tab loses its "not in these numbers - for your accountant" section - 2026-10-04 · Paul
+- D-082 · Dennis's interest is typed per advance at the sale, and the closing tab shows exactly that - 2026-10-05 · Paul
+- D-083 · 104 Ashburne closes on Dennis's one figure, and only what was really paid is a payment - 2026-10-05 · Paul
+- D-084 · Paul's share of a sale's profit is owed to him from the closing day - 2026-10-05 · Paul
+
+---
+
 ## D-001 · Books stay in Google Sheets — 2026-08-26 · Paul
 
 **Decided:** Not moving to QuickBooks Online.

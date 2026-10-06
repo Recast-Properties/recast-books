@@ -3224,3 +3224,19 @@ Add advance before the house tab is rebuilt (the tab lists a house's advances in
 typed at build time) and in the hourly P&L refresh, which does the first sort within the hour - no step for Paul.
 Every reader of the tab goes by value, never by row number. The held houses each have one advance per kind, so no house
 tab changes. Writer pushed and deployed **@37** (08:36 PDT) - nothing owed; the first sort lands on the next hourly refresh.
+
+## 2026-10-06 — CLAUDE.md cut to rules; one HANDOFF.md; a decisions index; docs/ops.md
+
+**Why:** Paul asked how to keep Claude as knowledgeable as possible about the books and said "do what is best to
+optimize performance without losing accuracy". Measured first: `CLAUDE.md` was 893 words of rules under 9,772 words of
+dated status, the root `../CLAUDE.md` carried a second copy (4,127 words), 118 dollar figures sat in the two
+instruction files, and the same fact lived in up to six places (the 09-30 docs drift was that). **Done, docs only - no
+code, no workbook, no test changed:** both status diaries archived verbatim to `docs/status-archive-2026-10-06.md`;
+every standing rule buried in them lifted into `CLAUDE.md` as rules 10-19, each with its decision number (checked one
+by one against decisions.md, the CHANGELOG and the specs - nine of them were written down nowhere else); `CLAUDE.md`
+is now rules and a map (1,963 words); `HANDOFF.md` is the one current-state file, overwritten each session (the dated
+handoffs are history, not written to); `docs/decisions.md` carries a one-line index of D-001..D-084 at its top;
+`docs/ops.md` gathers push/deploy/verify, what auto mode refuses, how to read the live sheet, the runtime limits and
+the email-intake quirks (from CLAUDE.md's operating notes, the handoffs' gotchas and Claude's memory); the root
+file's books section is ten lines of routing (1,336 words in all). Claude's memory pruned from 49 notes to 30 - the
+dated-state ones that restated this repo. 564 tests unchanged.
