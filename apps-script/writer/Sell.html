@@ -291,8 +291,7 @@
       head_('You') +
       row_('Due to you', dueToPaul, 'cash received less the total to Dennis') +
       row_('Paid to you so far', s.paid.paul_cents, on_(s.paid_dates && s.paid_dates.paul)) +
-      row_('Still in Citizens for you', dueToPaul - s.paid.paul_cents, '') +
-      (s.chase_cents ? row_('Also yours, sitting in Chase', s.chase_cents, 'the earnest money check Recast got before closing (the statement takes it off the wire), less what Chase paid for the house') : '');
+      row_('Still in Citizens for you', dueToPaul - s.paid.paul_cents, '');
   }
 
   function renderSummary_(s, checks, target) {

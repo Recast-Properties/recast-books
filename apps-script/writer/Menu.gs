@@ -1457,7 +1457,6 @@ function closingFromJournal_(ss, name) {
       paul_due_cents: payPaulDue, paul_share_cents: payPaulShare
     },
     retained_cents: cash - paidDennisTotal - paidPaulTotal,
-    chase_cents: Math.round(balances['1402'] || 0),
     paid_dates: { dennis: paidDennis ? paidDennis.date : '', paul: paidPaul ? paidPaul.date : '' },
     owed_after: {
       // his money back AND his interest: a bank deal paid in part before the close leaves interest owed (104 Ashburne)

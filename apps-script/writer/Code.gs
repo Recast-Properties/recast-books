@@ -2286,7 +2286,6 @@ function writeClosingTab_(ss, name, plan, target) {
   total('Due to Paul', d(dueToPaul), 'cash received less the total to Dennis');
   push('Paid so far', d(s.paid.paul_cents), on(s.paid_dates && s.paid_dates.paul));
   total('Still in Citizens for Paul', d(dueToPaul - s.paid.paul_cents), '');
-  if (s.chase_cents) push("Also Paul's, sitting in Chase", d(s.chase_cents), 'the earnest money check Recast got before closing (the statement takes it off the wire), less what Chase paid for the house');
   push('', null, '');
 
   head('PAYOUTS');
