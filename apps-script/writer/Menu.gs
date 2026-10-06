@@ -1441,6 +1441,8 @@ function closingFromJournal_(ss, name) {
     dennis_share_cents: dennisShare,
     paul_share_cents: profit - dennisShare,
     commission_cents: commission,
+    // D-053: on the sale price less the seller's concessions (the 1320 lines) - a rebuilt tab read "on 0" (2026-10-05)
+    commission_basis_cents: commission ? revenue - at(settlement, '1320') : 0,
     released_cents: released,
     interest: {
       engine_cents: engineInterest,

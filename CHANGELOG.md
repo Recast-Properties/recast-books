@@ -3110,6 +3110,24 @@ helper readers stalled on it - `caffeinate` kept the last passes going).
   `pypdf` reads the PDFs there without the Drive connector. The connector's reader returns nothing for some phone
   photos - those were read by eye in Chrome. 560 tests.
 
+## 2026-10-05 night — Paul's profit is owed to him from the closing day (D-084)
+
+- Paul: *"in the totals tab, Due to owner (Paul) does not show the entirety of what i'm owed. i have not take my
+  payouts out of the citizens bank account."* His share of a sale's profit was recorded only when drawn (Dr 9010 /
+  Cr 1401); undrawn it lived only in a computed `paul_undrawn_cents`. **D-084:** at the close the undrawn part posts
+  Dr 9010 / Cr 2030 ("...: Paul's share of the profit, owed to him until he draws it"); the draw pays 2030, the
+  holdback release's Paul line pays 2030; `owed_after.paul_undrawn_cents` is 0 for a new close; `closingFromJournal_`
+  takes the booked share off its undrawn figure; the closing tabs and the Preview read "still owed to Paul" as one
+  figure. One-off `bookPaulShareOwed` (commit 7e9c3a0's parent - `git log -S bookPaulShareOwed`): 104 Ashburne
+  140,895.81 dated 09-23, 881 Newport 26,731.14 dated 10-02, both tabs rewritten - **run by Paul; read back:
+  Journal 2030 = 214,574.78 (was 46,947.83), 9010 252,681.27; Newport's tab unchanged (Paul 878.39 + 26,731.14 =
+  27,609.53 still owed); Ashburne's unchanged but its commission note read "on 0"** - `commission_basis_cents` was not
+  in the Journal-read summary; fixed (sale price less the 1320 lines), right on the next rebuild. The one-off is out.
+  562 tests. **Owed: the writer web app deploy (Code.gs, lib.gs, Menu.gs); an Attach and rebuild on 104 Ashburne
+  for the note.**
+- Not built (Paul: "not yet"): a payout bank line landing on what is owed and refreshing the closing tab's "paid so
+  far" on its own - the matcher's cards offer house costs only. Asked for when the four payouts go out.
+
 ## 2026-10-05 afternoon — a payout is recorded when the money leaves the account (D-083 extended); 881 Newport un-paid
 
 - Paul: *"the cash from the closing of newport is not being shown in the citizens accounting"* - the Citizens Bank tab
