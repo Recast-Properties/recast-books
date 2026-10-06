@@ -2326,8 +2326,9 @@ var M_sale = (function () {
         : (l.kind === "credit" || l.kind === "to_recast" ? 1 : -1) * l.posted_cents;
       running += cents;
       // the explanation leads: a long statement label is cut off at the column's edge
-      // 1402 is Chase: the earnest money check went there before closing - said in words (Paul, 2026-10-05)
-      const note = String(l.account) === "1402" ? "1402 Chase - the title company's check, deposited there" : l.account;
+      // 1402 is Chase: the earnest money check went there before closing - in Paul's own words, typed on the
+      // live tab 2026-10-05 (a rebuild must keep them)
+      const note = String(l.account) === "1402" ? "1402 - the title company's check, deposited in Chase Recast" : l.account;
       rows.push({ label: "  " + (charged ? `Your ${mine} of the charge: ` : "") + l.label, cents, note });
     }
     const rounding = summary.cash_in_cents - paidFull - running;
