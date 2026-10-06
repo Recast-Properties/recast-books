@@ -500,6 +500,7 @@ test("a bank deal paid in part before the close: only what left the account is p
   assert.equal(dollars(summary.owed_after.paul_cents + summary.owed_after.paul_undrawn_cents), "149669.38",
     "147,729.38 in Citizens plus the 1,940.00 the earnest money left in Chase");
   assert.equal(dollars(summary.retained_cents), "165558.65", "17,829.27 + 147,729.38 still in Citizens");
+  assert.equal(dollars(summary.chase_cents), "1940.00", "the earnest money in Chase, less the 60.00 lawn paid from there");
   assert.equal(intents.find((i) => /paid to Dennis/.test(i.memo)).date, "2026-09-25", "dated the day of the wire");
   assert.ok(!intents.some((i) => /paid to Paul/.test(i.memo)), "nothing paid to Paul yet");
 

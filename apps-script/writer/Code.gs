@@ -2253,42 +2253,48 @@ function writeClosingTab_(ss, name, plan, target) {
   total('NET PROFIT', d(s.profit_cents), '');
   push('', null, '');
 
-  head('WATERFALL');
-  // Paul, 2026-10-05: what Dennis gave is what the tab shows. One figure for all loans (104 Ashburne) is one line.
+  // Paul, 2026-10-05 (D-083): the shape of his own "104 Ashburne - Dennis" tab. Dennis gets his loans back,
+  // interest (his one figure for all loans, when he gave one) and his commission - no share of the profit;
+  // the profit is all Paul's. "Still owed" is the live balance, so a rebuild after Paul pays Dennis reads right.
+  var loans = s.interest.by_advance || [];
+  var lent = loans.reduce(function (t, a) { return t + a.amount_cents; }, 0);
+  var dennisTotal = lent + s.interest.agreed_cents + (s.commission_cents || 0);
   var owedDennis = (s.owed_after && s.owed_after.dennis_cents) || 0;
-  var owedPaul = (s.owed_after && s.owed_after.paul_cents) || 0;
+  var paidDennis = dennisTotal - owedDennis;
+  var on = function (date) { return date && date !== s.date ? 'paid ' + date : ''; };
+  head('DENNIS');
+  push('What he lent', d(lent), loans.length + ' loans');
   if (s.interest.typed_total) {
-    var loans = s.interest.by_advance || [];
-    push('Dennis - what he lent', d(loans.reduce(function (t, a) { return t + a.amount_cents; }, 0)), loans.length + ' loans');
-    total('Dennis - interest', d(s.interest.agreed_cents), "Dennis's number for all loans together, less what he lent");
+    total('Interest', d(s.interest.agreed_cents), "Dennis's number for all loans together, less what he lent");
   } else {
-    push('Dennis - principal and advances', d(s.paid.dennis_note_cents), '');
-    (s.interest.by_advance || []).forEach(function (a) {
+    loans.forEach(function (a) {
       push('  interest on ' + a.amount_cents / 100 + ' of ' + a.date + ' to ' + a.as_of, d(a.interest_cents), a.kind);
     });
     if (s.interest.true_up_cents) push('  adjustment to the figure you and Dennis agreed', d(s.interest.true_up_cents), 'engine said ' + d(s.interest.engine_cents));
-    total('Dennis - interest', d(s.interest.agreed_cents), '');
+    total('Interest', d(s.interest.agreed_cents), '');
   }
-  if (s.commission_cents) total('Dennis - commission', d(s.commission_cents), 'bank deal, on ' + d(s.commission_basis_cents || 0));
-  if (s.dennis_share_cents) push('Dennis - his half of the profit', d(s.dennis_share_cents), '');
-  push('Paul - bills he paid', d(s.paid.paul_due_cents + owedPaul), '');
-  push(s.dennis_share_cents ? 'Paul - his half of the profit' : 'Paul - the profit (all of it, bank deal)', d(s.paul_share_cents), '');
+  if (s.commission_cents) total('Commission', d(s.commission_cents), 'on ' + d(s.commission_basis_cents || 0));
+  total('Total to Dennis', d(dennisTotal), '');
+  push('Paid so far', d(paidDennis), paidDennis === s.paid.dennis_cents ? on(s.paid_dates && s.paid_dates.dennis) : '');
+  total('Still owed to Dennis', d(owedDennis), '');
   push('', null, '');
 
-  var on = function (date) { return date && date !== s.date ? 'paid ' + date : ''; };
+  // ponytail: Paul's "paid so far" is the sale entry's; a draw he takes later shows on the Citizens Bank tab, not here
+  var dueToPaul = s.cash_in_cents - dennisTotal;
+  head('PAUL');
+  push('Profit', d(s.profit_cents), "all Paul's - Dennis takes no share on this deal");
+  total('Due to Paul', d(dueToPaul), 'cash received less the total to Dennis');
+  push('Paid so far', d(s.paid.paul_cents), on(s.paid_dates && s.paid_dates.paul));
+  total('Still in Citizens for Paul', d(dueToPaul - s.paid.paul_cents), '');
+  if (s.chase_cents) push("Also Paul's, sitting in Chase", d(s.chase_cents), 'the earnest money check, less what Chase paid for the house');
+  push('', null, '');
+
   head('PAYOUTS');
   total('Paid to Dennis', d(s.paid.dennis_cents), on(s.paid_dates && s.paid_dates.dennis));
   total('Paid to Paul', d(s.paid.paul_cents), on(s.paid_dates && s.paid_dates.paul));
   total('Retained in the Recast account', d(s.retained_cents), '');
   total('Payouts = cash received', d(s.paid.dennis_cents + s.paid.paul_cents + s.retained_cents),
     s.paid.dennis_cents + s.paid.paul_cents + s.retained_cents === s.cash_in_cents ? 'ties' : 'DOES NOT TIE');
-  if (owedDennis || owedPaul || s.owed_after.paul_undrawn_cents) {
-    push('', null, '');
-    head('STILL OWED AFTER CLOSING');
-    push('Dennis', d(owedDennis), '');
-    push('Paul - bills he paid', d(owedPaul), '');
-    push('Paul - profit not taken yet', d(s.owed_after.paul_undrawn_cents), '');
-  }
   push('', null, '');
 
   head('FORECAST AT SALE, FROZEN');

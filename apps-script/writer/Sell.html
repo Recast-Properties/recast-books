@@ -265,7 +265,43 @@
       escapeHtml_(note || '') + '</td></tr>';
   }
 
+  // The bank deal (104 Ashburne), in the shape of Paul's own "104 Ashburne - Dennis" tab (2026-10-05):
+  // Dennis gets his loans back, interest and a commission - no share of the profit; the profit is all Paul's.
+  function bankRows_(s) {
+    var dennisTotal = s.paid.dennis_cents + s.owed_after.dennis_cents;
+    var lent = dennisTotal - s.interest.agreed_cents - s.commission_cents;
+    var dueToPaul = s.cash_in_cents - dennisTotal;
+    var pct = s.commission_basis_cents ? Math.round(s.commission_cents / s.commission_basis_cents * 10000) / 100 : 0;
+    var head_ = function (t) { return '<tr><td colspan="3"><b>' + t + '</b></td></tr>'; };
+    var on_ = function (d) { return d ? 'on ' + d : ''; };
+    return row_('Cash received', s.cash_in_cents, '') +
+      row_('Total project cost released', s.released_cents, '') +
+      row_('Profit - all yours, Dennis takes no share on this deal', s.profit_cents, '') +
+      head_('Dennis') +
+      row_('What he lent (' + s.interest.by_advance.length + ' loans)', lent, '') +
+      (s.interest.typed_total
+        ? row_('Interest - his number for all loans together, less what he lent', s.interest.agreed_cents, '')
+        : s.interest.by_advance.map(function (a) {
+            return row_((a.kind === 'cash' ? 'Cash advance interest' : 'Purchase interest') + ' (' + a.date + ')', a.interest_cents, '');
+          }).join('')) +
+      row_('Commission - ' + pct + '% on ' + formatCents_(s.commission_basis_cents), s.commission_cents, '') +
+      row_('Total to Dennis', dennisTotal, '') +
+      row_('Paid to Dennis so far', s.paid.dennis_cents, on_(s.paid_dates && s.paid_dates.dennis)) +
+      row_('Still owed to Dennis', s.owed_after.dennis_cents, '') +
+      head_('You') +
+      row_('Due to you', dueToPaul, 'cash received less the total to Dennis') +
+      row_('Paid to you so far', s.paid.paul_cents, on_(s.paid_dates && s.paid_dates.paul)) +
+      row_('Still in Citizens for you', dueToPaul - s.paid.paul_cents, '') +
+      (s.chase_cents ? row_('Also yours, sitting in Chase', s.chase_cents, 'the earnest money check, less what Chase paid for the house') : '');
+  }
+
   function renderSummary_(s, checks, target) {
+    if (s.deal === 'bank') {
+      document.getElementById('s-result').innerHTML = '<table><tbody>' + bankRows_(s) + '</tbody></table>' +
+        '<p class="balance">' + (checks.ok ? 'Checks pass. Payouts tie to the cash received.' : 'CHECKS FAIL: ' + escapeHtml_(JSON.stringify(checks))) + '</p>' +
+        '<p>The closing statement will be written to <b>' + escapeHtml_(target) + '</b>.</p>';
+      return;
+    }
     var owed = s.owed_after.dennis_cents || s.owed_after.paul_cents || s.owed_after.paul_undrawn_cents
       ? row_('Still owed after closing - Dennis', s.owed_after.dennis_cents, '') +
         row_('Still owed after closing - Paul, bills he paid', s.owed_after.paul_cents, '') +
