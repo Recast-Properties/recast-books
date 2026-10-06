@@ -75,6 +75,20 @@
     <tbody></tbody>
   </table>
 
+  <!-- the bank deal (104 Ashburne): Dennis's one figure, and what was paid before the close (2026-10-05) -->
+  <div id="s-bank" class="hidden">
+    <label style="margin-top:10px">Dennis's number for all loans together (what he lent plus the interest). Type it here and leave the interest boxes above blank.</label>
+    <input type="number" id="s-int-total" step="0.01">
+    <div class="row">
+      <div><label>Already paid to Dennis (blank = paid in full on the closing day)</label><input type="number" id="s-paid-dennis" step="0.01"></div>
+      <div><label>Paid on</label><input type="date" id="s-paid-dennis-date"></div>
+    </div>
+    <div class="row">
+      <div><label>Already paid to you (blank = paid in full on the closing day, 0 = not yet)</label><input type="number" id="s-paid-paul" step="0.01"></div>
+      <div><label>Paid on</label><input type="date" id="s-paid-paul-date"></div>
+    </div>
+  </div>
+
   <div class="row" style="margin-top:10px">
     <div><label>Cost Recapture settled on this payout</label><input type="number" id="s-recapture" step="0.01"></div>
   </div>
@@ -131,6 +145,7 @@
     ['1030', '1030 Rehab - materials'],
     ['1040', '1040 Rehab - fixtures & appliances'],
     ['1510', '1510 Escrow & holdbacks receivable'],
+    ['1402', '1402 Chase - money Recast already has there (104 Ashburne earnest money)'],
     ['4030', '4030 Other income'],
   ];
 
@@ -209,6 +224,11 @@
       net_to_seller: document.getElementById('s-net').value,
       cash_to_recast: CASH_STATED,
       recapture: document.getElementById('s-recapture').value,
+      interest_total: document.getElementById('s-int-total').value,
+      paid_dennis: document.getElementById('s-paid-dennis').value,
+      paid_dennis_date: document.getElementById('s-paid-dennis-date').value,
+      paid_paul: document.getElementById('s-paid-paul').value,
+      paid_paul_date: document.getElementById('s-paid-paul-date').value,
       lines: readLines_(),
       advances: readAdvances_(),
       doc_url: document.getElementById('s-doc-url').value,
@@ -246,9 +266,10 @@
   }
 
   function renderSummary_(s, checks, target) {
-    var owed = s.owed_after.dennis_cents || s.owed_after.paul_undrawn_cents
-      ? row_('Still owed after closing - Dennis', s.owed_after.dennis_cents, 'the escrow holdback') +
-        row_('Still owed after closing - Paul (undrawn)', s.owed_after.paul_undrawn_cents, '')
+    var owed = s.owed_after.dennis_cents || s.owed_after.paul_cents || s.owed_after.paul_undrawn_cents
+      ? row_('Still owed after closing - Dennis', s.owed_after.dennis_cents, '') +
+        row_('Still owed after closing - Paul, bills he paid', s.owed_after.paul_cents, '') +
+        row_('Still owed after closing - Paul, profit not taken yet', s.owed_after.paul_undrawn_cents, '')
       : '';
     document.getElementById('s-result').innerHTML =
       '<table><tbody>' +
@@ -261,9 +282,10 @@
       row_('Paid to Paul', s.paid.paul_cents, '') +
       row_('Retained in the Recast account', s.retained_cents, '') +
       owed +
+      (s.interest.typed_total ? row_("Interest, Dennis's figure for all loans together", s.interest.agreed_cents, '') :
       s.interest.by_advance.map(function (a) {
         return row_((a.kind === 'cash' ? 'Cash advance interest' : 'Purchase interest') + ' (' + a.date + ')', a.interest_cents, '');
-      }).join('') +
+      }).join('')) +
       '</tbody></table>' +
       '<p class="balance">' + (checks.ok ? 'Checks pass. Payouts tie to the cash received.' : 'CHECKS FAIL: ' + escapeHtml_(JSON.stringify(checks))) + '</p>' +
       '<p>The closing statement will be written to <b>' + escapeHtml_(target) + '</b>.</p>';
@@ -345,6 +367,7 @@
       if (!result.ok) { showMsg_(msg, false, '<b>' + escapeHtml_(result.error) + '</b> - ' + escapeHtml_(result.message)); return; }
       CTX = result;
       renderAdvances_(result.advances);
+      document.getElementById('s-bank').classList.toggle('hidden', !(result.property.dennis_share_pct === 0 && !result.sold));
       var note = document.getElementById('s-sold-note');
       if (result.sold) {
         note.innerHTML = 'This property is already closed (' + escapeHtml_(result.settlement_date || '') + '). ' +

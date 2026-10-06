@@ -468,3 +468,41 @@ test("typed interest per advance is what posts and what the closing tab shows", 
   assert.deepEqual(cents("Purchase Interest"), [680_000, 680_000]);
   assert.deepEqual(cents("Cash Advances Interest"), [10_500, 10_500]);
 });
+
+// 104 Ashburne (Paul, 2026-10-05): Dennis gave one figure for all loans together, 545,149.27, and was wired
+// 550,000 on 09-25 before the close; the rest of his and all of Paul's are still to pay. Paul's own tab:
+// Dennis 567,829.27 (17,829.27 still due), Paul 147,729.38.
+test("a bank deal paid in part before the close: only what left the account is paid, the rest stays owed", () => {
+  const c = (d) => Math.round(d * 100);
+  const L = (label, account, amt, kind = "cost") => ({ label, account, cents: c(amt), kind });
+  const input = {
+    property: { name: "104 Ashburne", deal: "bank", dennis_share_pct: 0, dennis_commission_pct: 3 },
+    settlement: { date: "2026-09-23", sale_price_cents: c(775000), net_to_seller_cents: c(715558.65), recast_share_pct: 100,
+      lines: [L("HOA Dues", "1130", 67.13, "credit"), L("Closing costs", "1310", 23874.10 - 21312.5 - 50), L("HOA Transfer Fee", "1340", 50),
+        L("Commission", "1300", 21312.5), L("Earnest Money Released to Seller", "1402", 2000), L("Seller Credit", "1320", 19000),
+        L("Owner's Policy", "1310", 3908), L("County Property Taxes", "1100", 10726.38)] },
+    advances: [{ advance_id: "a", date: "2025-12-02", amount_cents: c(501141.44), kind: "purchase", rate_annual: 0.12 }],
+    balances: { 1000: c(325000), 1020: c(87140.63), 1030: c(36953.79), 1040: c(28818.29), 1060: c(465.72), 1100: c(16031.25),
+      1110: c(3389.26), 1120: c(3922.08), 1130: c(6577.74), 1330: c(1676.25), 1402: c(-60), 2010: c(-501141.44), 2030: c(-8773.57) },
+    interestFigureCents: c(545149.27 - 501141.44),
+  };
+  const full = buildSalePlan(input);
+  assert.equal(dollars(full.summary.paid.dennis_cents), "567829.27", "Paul's tab: total to Dennis");
+  assert.equal(dollars(full.summary.paid.paul_cents), "147729.38", "Paul's tab: due to Paul");
+  assert.ok(full.intents.some((i) => /for all loans together/.test(i.memo)), "the true-up says it was one figure");
+  assert.equal(full.summary.interest.typed_total, true);
+
+  const { summary, intents, checks } = buildSalePlan({ ...input, paidOut: { dennis: { cents: c(550000), date: "2026-09-25" }, paul: { cents: 0 } } });
+  assert.equal(checks.ok, true);
+  assert.equal(dollars(summary.paid.dennis_cents), "550000.00");
+  assert.equal(summary.paid.paul_cents, 0);
+  assert.equal(dollars(summary.owed_after.dennis_cents), "17829.27", "Paul's tab: due to Dennis");
+  assert.equal(dollars(summary.owed_after.paul_cents + summary.owed_after.paul_undrawn_cents), "149669.38",
+    "147,729.38 in Citizens plus the 1,940.00 the earnest money left in Chase");
+  assert.equal(dollars(summary.retained_cents), "165558.65", "17,829.27 + 147,729.38 still in Citizens");
+  assert.equal(intents.find((i) => /paid to Dennis/.test(i.memo)).date, "2026-09-25", "dated the day of the wire");
+  assert.ok(!intents.some((i) => /paid to Paul/.test(i.memo)), "nothing paid to Paul yet");
+
+  assert.equal(buildSalePlan({ ...input, paidOut: { dennis: { cents: c(600000), date: "2026-09-25" } } }).checks.ok, false,
+    "more than was due to Dennis is refused");
+});

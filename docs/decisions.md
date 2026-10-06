@@ -1778,3 +1778,21 @@ held still show the engine's running estimate - that is a forecast, not the fina
 Newport's figures from Dennis: purchase **4,355.52**, cash advance **43.31** = 4,398.83, the total already posted, so
 no amount moves; the one-off `setNewportInterest` writes them on Newport's two advances and rewrites `881 Newport -
 Closing` in place.
+
+## D-083 · 104 Ashburne closes on Dennis's one figure, and only what was really paid is a payment - 2026-10-05 · Paul
+
+Dennis gave one number for all of Ashburne's 21 loans, principal and interest together: **545,149.27** (Paul's tab
+`104 Ashburne - Dennis`, beside his 3% on 756,000 = 22,680.00, total 567,829.27, 550,000.00 wired 09/25, 17,829.27 due).
+Since D-082 Sell property asked for interest loan by loan. Asked whether he has taken his 147,729.38 or paid Dennis the
+rest: *"Not yet"* to both.
+
+**Decided:** on a bank deal Sell property shows one box, `Dennis's number for all loans together`; the interest posted is
+that number less what the Advances lent (Ashburne: 545,149.27 - 501,141.44 = **44,007.83**; the books' own count to 09-23
+was 44,900.41), and the long closing tab shows it as one line, not the books' per-loan figures. Two more boxes, `Already
+paid to Dennis` / `Already paid to you`, each with its date: only that is posted as paid, on that date; the rest stays
+owed (Dennis's on 2010/2000, Paul's bills on 2030, his profit undrawn) - blank keeps the old behaviour (paid in full on
+the closing day). The closing statement's `Earnest Money Released to Seller` 2,000.00 posts on **1402 Chase**, where the
+check went (D-051) - not a cost, so the profit includes it. By the books with these figures: profit 140,895.81, all
+Paul's; Dennis 567,829.27 and Paul 147,729.38 out of Citizens = Paul's tab to the cent (the other 1,940.00 of his profit
+is the earnest money left in Chase after a 60.00 lawn payment). When Paul pays Dennis the 17,829.27 and himself, those
+bank lines are booked against what is owed.

@@ -1052,6 +1052,19 @@ function sellPlan_(ss, form, docUrl) {
   var name = form.property;
   var registry = propertyRow_(ss, name) || {};
   var bank = Number(registry.dennis_share_pct) === 0 || String(form.deal || '') === 'bank';
+  var advances = sellAdvances_(form, ss, name);
+  var typed = function (v) { return v !== '' && v != null; };
+  // The bank deal: Dennis gave one figure for all loans, principal and interest (104 Ashburne, 2026-10-05)
+  var interestCents = typed(form.interest_figure) ? toCents(form.interest_figure) : null;
+  if (typed(form.interest_total)) {
+    var lent = advances.reduce(function (t, a) { return t + a.amount_cents; }, 0);
+    interestCents = toCents(form.interest_total) - lent;
+    if (interestCents < 0) throw new Error("Dennis's number for all loans together (" + form.interest_total +
+      ') is less than the ' + (lent / 100).toFixed(2) + ' he lent - check the number.');
+  }
+  var paidOut = {};
+  if (typed(form.paid_dennis)) paidOut.dennis = { cents: toCents(form.paid_dennis), date: form.paid_dennis_date || form.date };
+  if (typed(form.paid_paul)) paidOut.paul = { cents: toCents(form.paid_paul), date: form.paid_paul_date || form.date };
   return buildSalePlan({
     property: {
       name: name,
@@ -1060,9 +1073,10 @@ function sellPlan_(ss, form, docUrl) {
       dennis_commission_pct: registry.dennis_commission_pct === '' || registry.dennis_commission_pct == null ? 0 : Number(registry.dennis_commission_pct)
     },
     settlement: sellSettlement_(form),
-    advances: sellAdvances_(form, ss, name),
+    advances: advances,
     balances: propertyBalances_(ss, name),
-    interestFigureCents: form.interest_figure === '' || form.interest_figure == null ? null : toCents(form.interest_figure),
+    interestFigureCents: interestCents,
+    paidOut: paidOut,
     recaptureCents: form.recapture === '' || form.recapture == null ? 0 : toCents(form.recapture),
     docUrl: docUrl || '',
     postedBy: Session.getActiveUser().getEmail()
@@ -1431,6 +1445,7 @@ function closingFromJournal_(ss, name) {
       engine_cents: engineInterest,
       agreed_cents: engineInterest + trueUpCents,
       true_up_cents: trueUpCents,
+      typed_total: !!trueUp && /all loans together/.test(trueUp.memo),
       posted_before_cents: 0,
       by_advance: interestByAdvance(loadAdvances_(ss).filter(function (a) { return a.property === name; }), settlement.date)
     },
@@ -1442,8 +1457,10 @@ function closingFromJournal_(ss, name) {
       paul_due_cents: payPaulDue, paul_share_cents: payPaulShare
     },
     retained_cents: cash - paidDennisTotal - paidPaulTotal,
+    paid_dates: { dennis: paidDennis ? paidDennis.date : '', paul: paidPaul ? paidPaul.date : '' },
     owed_after: {
-      dennis_cents: -Math.round(balances['2010'] || 0),
+      // his money back AND his interest: a bank deal paid in part before the close leaves interest owed (104 Ashburne)
+      dennis_cents: -Math.round((balances['2010'] || 0) + (balances['2000'] || 0)),
       paul_cents: -Math.round(balances['2030'] || 0),
       paul_undrawn_cents: (profit - dennisShare) - payPaulShare - hb.paul_cents
     },
