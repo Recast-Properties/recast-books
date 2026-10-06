@@ -3129,8 +3129,8 @@ helper readers stalled on it - `caffeinate` kept the last passes going).
   his word ("isn't it already accounted for in the closing doc?" - it is: the statement took the 2,000 off the wire).
   Then on his "yes": the 1402 settlement line's note reads `1402 Chase - the title company's check, deposited
   there` (`settlementRows`); `closingTabLabels_` keys a typed label on the note's leading code(s) only, never a date.
-  Owed: Paul rebuilds the tab from the dialog (Attach and rebuild) to get the note; the writer web app deploy
-  (Code.gs, lib.gs); then Match statement lines on Citizens - the 715,558.65 in and 550,000 out were waiting on this
+  Owed: Paul rebuilds the tab from the dialog (Attach and rebuild) to get the note; ~~the writer web app deploy~~
+  (**deployed @33 on Paul's "deploy", `/exec` answers ok 0.4.0**); then Match statement lines on Citizens - the 715,558.65 in and 550,000 out were waiting on this
   close. 562 tests.
 - A closed tab, not a dialog field: Paul ran the Newport close with per-advance figures this morning (D-082); the
   bank deal's one-figure box is beside them and either path works.
