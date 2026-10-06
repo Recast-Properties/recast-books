@@ -33,9 +33,42 @@
  *   tab; run 19:28 CDT) is in commit 542847e.
  * followJournalOnTabs (2026-10-04, D-080: the closing tabs' Journal formulas rewritten in place and every house not
  *   sold rebuilt onto the range that follows the Journal; run 22:35 CDT) is in commit abf8a19.
+ * setNewportInterest (2026-10-05, D-082: Dennis's figures on 881 Newport's two advances, the closing tab rewritten;
+ *   run by Paul the same morning) is in commit 8ee100e.
  *
  * ASCII ONLY - same paste-into-the-editor constraint as Code.gs.
  ****************************************************************/
+
+// 2026-10-05 Paul: neither 881 Newport payout has gone out ("Neither yet") - the close this morning had recorded
+// Dennis paid 240,895.21 and Paul 27,609.53 on 10-02. Takes those two records out (voided on their own date, so the
+// Citizens history reads as it was), so both stay owed until the money leaves Citizens (D-083), and rewrites
+// "881 Newport - Closing" in place the way Attach and rebuild does: Total to Dennis / Total to Paul, paid so far
+// 0.00, still owed. Nothing else moves. Safe to run twice (a second run finds them voided and only rewrites the tab).
+// STATUS: NOT YET RUN
+function unpayNewport() {
+  var props = PropertiesService.getScriptProperties();
+  var ss = openWorkbook_(props);
+  requireOwner_(ss);
+  var name = '881 Newport';
+  var ids = ['sale-20261002-51ec186f7dcf', 'sale-20261002-97890cf3ceb2'];   // paid to Dennis, paid to Paul
+  var who = Session.getActiveUser().getEmail();
+  var journal = ss.getSheetByName('Journal');
+  var cols = headerIndex_(journal);
+  var done = 0;
+  ids.forEach(function (id) {
+    if (!findAllRowsByValue_(journal, cols['txn_id'], id).length) throw new Error(id + ' is not on the Journal - nothing changed');
+    if (findAllRowsByValue_(journal, cols['void_of'], id).length) { Logger.log(id + ' already voided'); return; }
+    voidEntry_(id, 'Paul, 2026-10-05: not paid yet - the payout stays owed until the money leaves Citizens (D-083)', '2026-10-02', who, props, true);
+    done++;
+  });
+  var built = closingFromJournal_(ss, name);
+  if (!built) throw new Error('No posted sale for ' + name);
+  var written = writeClosingTab_(ss, name, built, closingTabName_(name));
+  warmCache_();
+  Logger.log('Voided ' + done + ' payout records; rewrote ' + written.sheet + ' - Dennis still owed ' +
+    (built.summary.owed_after.dennis_cents / 100).toFixed(2) + ', Paul ' +
+    ((built.summary.owed_after.paul_cents + built.summary.owed_after.paul_undrawn_cents) / 100).toFixed(2));
+}
 
 // 2026-10-05 Paul: "yes match all the receipts and link them" (1014 S View). Each receipt found for the house - in
 // its Drive folder "1014 S View" and in the mail, copied to Drive by the poller one-off - is written on its own
@@ -146,33 +179,4 @@ function linkMolallaReceipts() {
   warmCache_();
   console.log('linkMolallaReceipts: ' + pairs.length + ' receipts written on ' + journal + ' Journal lines; on the tab ' + linked +
     ' lines now open their receipt and ' + blank + ' have none (' + cells.length + ' lines on the tab).');
-}
-
-// 2026-10-05 Paul: Dennis's interest on 881 Newport is purchase 4,355.52 and the 2,000 cash advance 43.31 (together
-// 4,398.83 - what the books already hold, so no amount moves). Writes the two figures on Newport's Advances rows
-// (agreed_interest) and rewrites "881 Newport - Closing" the way Attach and rebuild does, so its Purchase Interest and
-// Cash Advances Interest lines show his figures. Safe to run twice.
-// STATUS: NOT YET RUN
-function setNewportInterest() {
-  var ss = openWorkbook_(PropertiesService.getScriptProperties());
-  requireOwner_(ss);
-  var name = '881 Newport';
-  var figures = { purchase: 4355.52, cash: 43.31 };
-  var sh = ss.getSheetByName('Advances');
-  var cols = headerIndex_(sh);
-  if (!cols['agreed_interest']) { ensureHeaders_(sh, TAB_HEADERS['Advances']); cols = headerIndex_(sh); }
-  var rows = sh.getRange(2, 1, sh.getLastRow() - 1, sh.getLastColumn()).getValues();
-  var set = 0;
-  rows.forEach(function (r, i) {
-    if (String(r[cols['property'] - 1]) !== name) return;
-    var fig = figures[String(r[cols['kind'] - 1])];
-    if (fig == null) throw new Error('Advance with an unexpected kind on ' + name + ' - nothing more changed');
-    sh.getRange(i + 2, cols['agreed_interest']).setValue(fig);
-    set++;
-  });
-  if (set !== 2) throw new Error('Expected 2 advances on ' + name + ', found ' + set);
-  var built = closingFromJournal_(ss, name);
-  if (!built) throw new Error('No posted sale for ' + name);
-  var written = writeClosingTab_(ss, name, built, closingTabName_(name));
-  Logger.log('Set ' + set + ' advances; rewrote ' + written.sheet);
 }

@@ -75,10 +75,13 @@
     <tbody></tbody>
   </table>
 
-  <!-- the bank deal (104 Ashburne): Dennis's one figure, and what was paid before the close (2026-10-05) -->
+  <!-- the bank deal (104 Ashburne): Dennis's one figure (2026-10-05) -->
   <div id="s-bank" class="hidden">
     <label style="margin-top:10px">Dennis's number for all loans together (what he lent plus the interest). Type it here and leave the interest boxes above blank.</label>
     <input type="number" id="s-int-total" step="0.01">
+  </div>
+  <!-- every deal: what has really been paid out (D-083 - 881 Newport was closed with payouts nobody had made) -->
+  <div id="s-paid">
     <div class="row">
       <div><label>Already paid to Dennis (blank = paid in full on the closing day)</label><input type="number" id="s-paid-dennis" step="0.01"></div>
       <div><label>Paid on</label><input type="date" id="s-paid-dennis-date"></div>
@@ -403,6 +406,7 @@
       CTX = result;
       renderAdvances_(result.advances);
       document.getElementById('s-bank').classList.toggle('hidden', !(result.property.dennis_share_pct === 0 && !result.sold));
+      document.getElementById('s-paid').classList.toggle('hidden', !!result.sold);
       var note = document.getElementById('s-sold-note');
       if (result.sold) {
         note.innerHTML = 'This property is already closed (' + escapeHtml_(result.settlement_date || '') + '). ' +

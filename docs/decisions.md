@@ -1796,3 +1796,12 @@ check went (D-051) - not a cost, so the profit includes it. By the books with th
 Paul's; Dennis 567,829.27 and Paul 147,729.38 out of Citizens = Paul's tab to the cent (the other 1,940.00 of his profit
 is the earnest money left in Chase after a 60.00 lawn payment). When Paul pays Dennis the 17,829.27 and himself, those
 bank lines are booked against what is owed.
+
+**Extended the same afternoon (every deal, not only the bank deal):** Paul: *"the cash from the closing of newport is
+not being shown in the citizens accounting"* - the Citizens Bank tab shows the bank file, which ends 09-28; Newport
+closed 10-02. Asked whether Newport's payouts (Dennis 240,895.21, Paul 27,609.53, recorded as paid 10-02) had gone
+out: *"Neither yet"*. **A payout is recorded when the money leaves the account, on every deal.** The one-off
+`unpayNewport` voids the two "paid" records on their own date; the partner closing tab (`closingRows`) shows what each
+is due, paid so far and still owed, and `Refunded to Recast Citizens Account` is what stays once both are paid; the
+dialog's `Already paid to Dennis / you` boxes show for every house (blank = paid in full on the closing day, as before).
+When a payout goes out later, its bank line is tied to what is owed.

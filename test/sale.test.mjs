@@ -376,6 +376,29 @@ test("Paul's closing tab, D-071: Rehab Costs is every bill, a cash advance's pri
   assert.equal(after.some((r) => /Still held|Owed to/.test(r.label)), false);
 });
 
+// 881 Newport, 2026-10-05: closed with both payouts recorded as paid on 10-02; Paul: "Neither yet". The tab shows
+// what each is due, paid so far and still owed, and the Recast refund is what it would be once both are paid.
+test("Paul's closing tab when a payout has not gone out yet: total due, paid so far, still owed (D-083)", () => {
+  const full = buildSalePlan(SPARKLING);
+  const held = buildSalePlan({ ...SPARKLING, paidOut: { dennis: { cents: 0 }, paul: { cents: 0 } } });
+  assert.equal(held.checks.ok, true);
+  assert.equal(held.summary.paid.dennis_cents + held.summary.paid.paul_cents, 0);
+  const lines = tabLines(SPARKLING.settlement);
+  const was = closingRows({ summary: full.summary, intents: full.intents, lines, dennisPct: 50 }).rows;
+  const { rows } = closingRows({ summary: held.summary, intents: held.intents, lines, dennisPct: 50 });
+  assert.equal(amountOf(rows, "Total to Dennis"), full.summary.paid.dennis_cents, "due to Dennis = what the full payout would be");
+  assert.equal(amountOf(rows, "Total to Paul"), full.summary.paid.paul_cents);
+  assert.equal(sumRows(rowsBetween(rows, "Dennis", "Total to Dennis")), amountOf(rows, "Total to Dennis"), "Dennis's rows add up");
+  assert.equal(sumRows(rowsBetween(rows, "Paul", "Total to Paul")), amountOf(rows, "Total to Paul"));
+  assert.deepEqual([amountOf(rows, "Still owed to Dennis"), amountOf(rows, "Still owed to Paul")],
+    [full.summary.paid.dennis_cents, full.summary.paid.paul_cents]);
+  assert.equal(rows.filter((r) => r.label.trim() === "Paid so far").every((r) => r.cents === 0), true);
+  assert.equal(amountOf(rows, "Refunded to Recast Citizens Account"), amountOf(was, "Refunded to Recast Citizens Account"));
+  const out = rows.find((r) => r.label === "Total to pay out");
+  assert.deepEqual([out.cents, out.note], [held.summary.cash_in_cents, "Matches the cash received at closing"]);
+  assert.equal(was.some((r) => /Still owed|Paid so far|to pay out/.test(r.label)), false, "a paid-in-full tab is unchanged");
+});
+
 // ---- the rules that must not drift -------------------------------------------------------
 
 test("the settlement statement's Drive link lands on every entry of the run, so the sale is documented like any receipt", () => {
