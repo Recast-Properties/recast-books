@@ -3129,9 +3129,13 @@ helper readers stalled on it - `caffeinate` kept the last passes going).
   his word ("isn't it already accounted for in the closing doc?" - it is: the statement took the 2,000 off the wire).
   Then on his "yes": the 1402 settlement line's note reads `1402 Chase - the title company's check, deposited
   there` (`settlementRows`); `closingTabLabels_` keys a typed label on the note's leading code(s) only, never a date.
-  Owed: Paul rebuilds the tab from the dialog (Attach and rebuild) to get the note; ~~the writer web app deploy~~
-  (**deployed @33 on Paul's "deploy", `/exec` answers ok 0.4.0**); then Match statement lines on Citizens - the 715,558.65 in and 550,000 out were waiting on this
-  close. 562 tests.
+  ~~Owed~~ ALL DONE the same hour: Paul rebuilt the tab (Attach and rebuild) and typed his own note on the 1402 line
+  (`1402 - the title company's check, deposited in Chase Recast` - now the code's wording, pushed; **deploy owed for
+  that lib.gs push only, nothing live depends on it**); the writer web app **deployed @33** on his "deploy" (`/exec`
+  answers ok 0.4.0); **Match statement lines on Citizens tied both wires** (715,558.65 in = the sale,
+  550,000 out = Dennis's payoff) and the bank box reads "they agree" - Citizens 169,805.35, books 169,986.56 (5 old
+  Inbox cards 344.99, 11 payments after 09-28, 0.02 rounding), nothing unexplained. Citizens: 0 waiting on a closing.
+  562 tests.
 - A closed tab, not a dialog field: Paul ran the Newport close with per-advance figures this morning (D-082); the
   bank deal's one-figure box is beside them and either path works.
 
