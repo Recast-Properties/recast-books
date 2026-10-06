@@ -1507,7 +1507,9 @@ function closingTabLabels_(ss, target) {
     // Keyed by the note column: one account for a settlement line, a list of them for a
     // released-cost row ("1020 1030 1040"). A label this code wrote as its own fallback is
     // not Paul's wording - ignoring it lets a better name replace it (2026-09-22).
-    if (label && /^[0-9]{4}( [0-9]{4})*$/.test(note) && !/^account [0-9]{4}$/.test(label)) out[note] = label;
+    // the note may go on in words after the code(s) ("1402 Chase - ..."); a date ("2026-09-25") is not a code
+    var codes = (note.match(/^[0-9]{4}( [0-9]{4})*(?=$|\s)/) || [''])[0];
+    if (label && codes && !/^account [0-9]{4}$/.test(label)) out[codes] = label;
   });
   return out;
 }

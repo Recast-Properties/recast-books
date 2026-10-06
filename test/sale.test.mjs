@@ -265,6 +265,8 @@ test("closing tab, settlement: Sparkling's reimbursement shows in full, and the 
 
 test("closing tab, settlement: a sole-owner sale is the sale price, its lines and the cash, nothing else", () => {
   const { summary } = buildSalePlan(GRANITE);
+  const chase = settlementRows({ revenue_cents: 100, cash_in_cents: 90 }, [{ label: "Earnest Money Released to Seller", account: "1402", kind: "cost", posted_cents: 10 }]);
+  assert.equal(chase[1].note, "1402 Chase - the title company's check, deposited there", "the Chase line says where the check went");
   const rows = settlementRows(summary, tabLines(GRANITE.settlement));
   assert.equal(rows.length, GRANITE.settlement.lines.length + 2);
   assert.equal(rows[0].label, "Sale price");
