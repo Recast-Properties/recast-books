@@ -276,7 +276,7 @@
     var on_ = function (d) { return d ? 'on ' + d : ''; };
     return row_('Cash received', s.cash_in_cents, '') +
       row_('Total project cost released', s.released_cents, '') +
-      row_('Profit - all yours, Dennis takes no share on this deal', s.profit_cents, '') +
+      row_('Profit', s.profit_cents, '') +
       head_('Dennis') +
       row_('What he lent (' + s.interest.by_advance.length + ' loans)', lent, '') +
       (s.interest.typed_total
@@ -292,7 +292,7 @@
       row_('Due to you', dueToPaul, 'cash received less the total to Dennis') +
       row_('Paid to you so far', s.paid.paul_cents, on_(s.paid_dates && s.paid_dates.paul)) +
       row_('Still in Citizens for you', dueToPaul - s.paid.paul_cents, '') +
-      (s.chase_cents ? row_('Also yours, sitting in Chase', s.chase_cents, 'the earnest money check, less what Chase paid for the house') : '');
+      (s.chase_cents ? row_('Also yours, sitting in Chase', s.chase_cents, 'the earnest money check Recast got before closing (the statement takes it off the wire), less what Chase paid for the house') : '');
   }
 
   function renderSummary_(s, checks, target) {

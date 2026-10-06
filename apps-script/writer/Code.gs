@@ -2282,11 +2282,11 @@ function writeClosingTab_(ss, name, plan, target) {
   // ponytail: Paul's "paid so far" is the sale entry's; a draw he takes later shows on the Citizens Bank tab, not here
   var dueToPaul = s.cash_in_cents - dennisTotal;
   head('PAUL');
-  push('Profit', d(s.profit_cents), "all Paul's - Dennis takes no share on this deal");
+  push('Profit', d(s.profit_cents), '');
   total('Due to Paul', d(dueToPaul), 'cash received less the total to Dennis');
   push('Paid so far', d(s.paid.paul_cents), on(s.paid_dates && s.paid_dates.paul));
   total('Still in Citizens for Paul', d(dueToPaul - s.paid.paul_cents), '');
-  if (s.chase_cents) push("Also Paul's, sitting in Chase", d(s.chase_cents), 'the earnest money check, less what Chase paid for the house');
+  if (s.chase_cents) push("Also Paul's, sitting in Chase", d(s.chase_cents), 'the earnest money check Recast got before closing (the statement takes it off the wire), less what Chase paid for the house');
   push('', null, '');
 
   head('PAYOUTS');
