@@ -3279,3 +3279,14 @@ on a sale, after `resetFeedCards`). Menu.gs and Import.html only: a push, no dep
 = the repo). Seen on Paul's real import the same morning: Citizens, 8 new lines, 3 tied, 5 to the Inbox, the bank
 box on the Citizens Bank tab adds up. The Desktop Citizens-export test fails before and after this change - the
 file there no longer ties; not chased.
+
+## 2026-10-07 — The keypad deadbolts on the shelf: three onto their houses
+
+Paul bought keypad deadbolts "to have on hand" (6510, the shelf - the 2026-09-29 entry). Read on Amazon, the 08-13 order
+is **4 locks**, not the 2 the books' description says (2 satin nickel, 2 matte black, 37.79 + tax = 40.15 each, 160.60),
+and the 09-01 order 2 oil rubbed bronze (38.01 + tax = 40.39 each, 80.78). Paul: 3808 Kings satin nickel, 413 Green Acres
+oil rubbed bronze, 366 Mesa matte black; one oil rubbed bronze damaged, not returnable - it stays a business cost. One-off
+`moveLocksToHouses` (commit a2d14f3, pushed, NOT YET RUN): three entries dated 10-07, Dr 1030 the house / Cr 6510
+OVERHEAD, House Hardware, the Amazon order as the receipt, paid_from 1401 as the purchase was. Checked locally against
+`buildEntry`; a who-paid box ticked on one of these lines changes nothing (no paid-from line to move). Left on the
+shelf: one satin nickel, one matte black (80.30).
