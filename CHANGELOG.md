@@ -3252,5 +3252,4 @@ own the house's (so sellContext, the closing tab's `interestByAdvance` and the P
 rate cell (AI1) reads the house's rate before Settings. `ratePctOrBlank_` is the one rate check, shared by Add property
 and Add advance. `addProperty` no longer passes `contract_price` or `settlement_date`, so re-adding a name leaves those
 cells alone. One lint test added. No house has a rate typed yet, so no tab, advance or interest figure changes today. Writer
-pushed after Paul's `clasp login` (verified: `clasp pull` = HEAD); **deploy owed** (`Code.gs` and `Menu.gs` changed - the
-pollers and the web Inbox run the deployed version).
+pushed after Paul's `clasp login` (verified: `clasp pull` = HEAD); Paul deployed **@38**; `/exec` answers ok 0.4.0 - nothing owed.

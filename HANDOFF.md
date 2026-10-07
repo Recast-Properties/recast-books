@@ -7,17 +7,12 @@ there; a figure written here is only as of its date.
 
 ## As of 2026-10-06 morning
 
-Live: writer web app **@37**, site **`6ac23e11`**, both pollers pushed - all = the repo. 564 tests. Nothing owed on a
+Live: writer web app **@38** (D-085, Add property asks the interest rate), site **`6ac23e11`**, both pollers pushed - all = the repo. 564 tests. Nothing owed on a
 deploy. Every house of the old books is closed in the books (1616 Granite, 280 Sparkling, 881 Newport, 104 Ashburne)
 plus Paul's own 1014 S View (D-079). Phase 3 (bank statements): import, matcher, the Citizens Bank tab and its bank
 check are live; Citizens imported through 10-02 (87 lines, 73 reconciled).
 
 ## Owed - Paul's one step
-
-**First (2026-10-06, D-085):** the Add property change (interest rate in, sale price and settlement date out) is
-pushed (verified by `clasp pull` = HEAD) and live in the menu. **Deploy owed** because `Code.gs` and `Menu.gs`
-changed: Paul runs `npx clasp deploy -i` with the writer id from `apps-script/writer/` (`docs/ops.md`). No house has a
-rate typed yet, so nothing in the books moves.
 
 Run `linkMolallaReceipts` (the only function in `oneOffScripts.gs`; pushed 10-05 06:46 CDT, a push only, no deploy -
 commit 94f302a). It writes each receipt's Drive link on its Journal lines and in the Receipt cell of each matched row
