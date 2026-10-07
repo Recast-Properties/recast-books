@@ -3276,5 +3276,6 @@ words as the menu item, in the dialog in place of the toast and alert. The dialo
 waiting, so the six-minute limit is not in play; closing the box leaves the run going on the site. The counting moved to
 `unmatchedFeedCounts_`, shared with **Match statement lines...**, which stays for reruns (a busy failure, lines waiting
 on a sale, after `resetFeedCards`). Menu.gs and Import.html only: a push, no deploy (commit 70a7555, pushed; `clasp pull`
-= the repo). Not yet seen on a real import. The Desktop Citizens-export test fails before and after this change - the
+= the repo). Seen on Paul's real import the same morning: Citizens, 8 new lines, 3 tied, 5 to the Inbox, the bank
+box on the Citizens Bank tab adds up. The Desktop Citizens-export test fails before and after this change - the
 file there no longer ties; not chased.
