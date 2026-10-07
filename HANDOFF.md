@@ -15,9 +15,9 @@ check are live; Citizens imported through 10-02 (87 lines, 73 reconciled).
 ## Owed - Paul's one step
 
 **First (2026-10-06, D-085):** the Add property change (interest rate in, sale price and settlement date out) is
-committed but **not pushed** - `clasp login` had expired. Paul runs `npx clasp login` in `apps-script/writer/`; then
-Claude runs `clasp push -f`, checks it with `clasp pull`, and Paul deploys (`clasp deploy -i` with the writer id,
-`docs/ops.md`) because `Code.gs` and `Menu.gs` changed. No house has a rate typed yet, so nothing in the books moves.
+pushed (verified by `clasp pull` = HEAD) and live in the menu. **Deploy owed** because `Code.gs` and `Menu.gs`
+changed: Paul runs `npx clasp deploy -i` with the writer id from `apps-script/writer/` (`docs/ops.md`). No house has a
+rate typed yet, so nothing in the books moves.
 
 Run `linkMolallaReceipts` (the only function in `oneOffScripts.gs`; pushed 10-05 06:46 CDT, a push only, no deploy -
 commit 94f302a). It writes each receipt's Drive link on its Journal lines and in the Receipt cell of each matched row
