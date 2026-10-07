@@ -3262,6 +3262,7 @@ tab, and only Add advance -> Purchase principal wrote there - the price had to b
 property calls `recordDennisPurchase_` after saving the row: on a Dennis-funded house with a price and date and no
 purchase loan yet, it runs `addAdvance` kind purchase (entry + Advances row, the house's rate), then the tab is built
 once. Add advance refuses a second purchase loan on a house. The dialog says what was recorded. One-off
-`recordPurchaseKingsErinHills` does the same for tonight's two houses (placed first in `oneOffScripts.gs`;
-`linkMolallaReceipts` is still owed). One lint test. Menu.gs, Property.html and oneOffScripts.gs only - a push, no
+`recordPurchaseKingsErinHills` does the same for tonight's two houses - **run by Paul the same night**; read back on
+the Advances tab: one purchase row each (3808 Kings 156,000 at the Settings rate, 658 Erin Hills 210,451 at 8%), and
+Paul confirmed both tabs; the one-off is out (commit 9525dc8 keeps it). One lint test. Menu.gs, Property.html and oneOffScripts.gs only - a push, no
 deploy (the web app never calls these).

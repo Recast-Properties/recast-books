@@ -5,20 +5,16 @@ history and are not written to; `CHANGELOG.md` keeps its dated entry per change.
 `docs/ops.md`. The books' numbers live on the workbook's tabs (P&L, Totals, Citizens Bank, the house tabs) - read them
 there; a figure written here is only as of its date.
 
-## As of 2026-10-06 morning
+## As of 2026-10-06 night
 
-Live: writer web app **@38** (D-085, Add property asks the interest rate), site **`6ac23e11`**, both pollers pushed - all = the repo. 564 tests. Nothing owed on a
+Live: writer web app **@38**, writer pushed after it (D-085 Add property asks the interest rate; D-086 it records a
+Dennis-funded house's purchase loan - 3808 Kings and 658 Erin Hills added 10-06 and fixed), site **`6ac23e11`**, both
+pollers pushed - all = the repo. 566 tests. Nothing owed on a
 deploy. Every house of the old books is closed in the books (1616 Granite, 280 Sparkling, 881 Newport, 104 Ashburne)
 plus Paul's own 1014 S View (D-079). Phase 3 (bank statements): import, matcher, the Citizens Bank tab and its bank
 check are live; Citizens imported through 10-02 (87 lines, 73 reconciled).
 
 ## Owed - Paul's one step
-
-**First (2026-10-06 night, D-086):** run `recordPurchaseKingsErinHills` (first in `oneOffScripts.gs`, pushed, commit
-9525dc8). It records Dennis's purchase loan on 3808 Kings (156,000, rate blank = Settings) and 658 Erin Hills
-(210,451, 8%) and rebuilds both tabs. **Then read back:** the log (two "recorded" lines), both tabs' Purchase
-Principal + Interest schedule filled, the Advances tab has one purchase row each; take the one-off out, push,
-`clasp pull` to confirm. `linkMolallaReceipts` below is still owed after it.
 
 Run `linkMolallaReceipts` (the only function in `oneOffScripts.gs`; pushed 10-05 06:46 CDT, a push only, no deploy -
 commit 94f302a). It writes each receipt's Drive link on its Journal lines and in the Receipt cell of each matched row

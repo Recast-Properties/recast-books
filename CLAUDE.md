@@ -44,7 +44,9 @@ functions the menu, pollers and nightly jobs call - Paul is never sent there.
 4. **Overhead never touches a property** (D-010). **Every Dennis advance is against a
    property and its interest is that property's cost** (D-011, D-021, D-022). D-010 is
    enforced in `lib/posting.mjs`; the interest math is `lib/accrual.mjs`, and **Dennis's interest is
-   recorded at closing** by the sell wizard, not monthly (D-066; each advance carries its own `rate_pct`, D-022).
+   recorded at closing** by the sell wizard, not monthly (D-066; each advance carries its own `rate_pct`, D-022; blank =
+   the house's rate typed at Add property, D-085). **Add property records a Dennis-funded house's purchase loan** -
+   never make Paul type the price again in Add advance; one purchase loan per house (D-086).
 5. **Dry run, back up, tie out twice** for anything touching history (Phase 4). **The old
    books are the target (D-027):** the migration reproduces them row by row in the new
    system with the receipt linked; the read is evidence, the old row wins, differences go

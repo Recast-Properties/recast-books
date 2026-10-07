@@ -39,24 +39,11 @@
  *   closing tab rewritten; run by Paul the same afternoon) is in commit d9b785a.
  * bookPaulShareOwed (2026-10-05, D-084: Paul's profit from Ashburne and Newport booked as owed to him on 2030, both
  *   closing tabs rewritten; run by Paul that night) is in commit fdbf246.
+ * recordPurchaseKingsErinHills (2026-10-06, D-086: Dennis's purchase loan recorded on 3808 Kings and 658 Erin Hills,
+ *   added before Add property did it; run by Paul that night) is in commit 9525dc8.
  *
  * ASCII ONLY - same paste-into-the-editor constraint as Code.gs.
  ****************************************************************/
-
-// 2026-10-06 Paul ("it's weird that you're asking me for the purchase info but i have to enter it again", D-086) -
-// records Dennis's purchase loan on the two houses added tonight before Add property did it (from their Properties
-// rows: price, date, the house's rate) and rebuilds their tabs. Safe to run twice: a house that has it is skipped.
-// STATUS: NOT YET RUN
-function recordPurchaseKingsErinHills() {
-  var ss = openWorkbook_(PropertiesService.getScriptProperties());
-  ['3808 Kings', '658 Erin Hills'].forEach(function (name) {
-    var r = recordDennisPurchase_(ss, name);
-    console.log(name + ': ' + (r == null ? 'nothing to record (already there, or not Dennis-funded)'
-      : r.ok ? 'recorded ' + r.txn_id + ', advance ' + r.advance_id : 'NOT recorded - ' + r.error + ': ' + r.message));
-    if (r && r.ok) console.log(name + ': tab rebuilt, ' + setupPropertyTab(name).rows + ' rows');
-  });
-  warmCache_();
-}
 
 // 2026-10-05 Paul: "yes match all the receipts and link them" (1014 S View). Each receipt found for the house - in
 // its Drive folder "1014 S View" and in the mail, copied to Drive by the poller one-off - is written on its own
