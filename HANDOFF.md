@@ -14,6 +14,12 @@ check are live; Citizens imported through 10-02 (87 lines, 73 reconciled).
 
 ## Owed - Paul's one step
 
+**First (2026-10-06 night, D-086):** run `recordPurchaseKingsErinHills` (first in `oneOffScripts.gs`, pushed, commit
+9525dc8). It records Dennis's purchase loan on 3808 Kings (156,000, rate blank = Settings) and 658 Erin Hills
+(210,451, 8%) and rebuilds both tabs. **Then read back:** the log (two "recorded" lines), both tabs' Purchase
+Principal + Interest schedule filled, the Advances tab has one purchase row each; take the one-off out, push,
+`clasp pull` to confirm. `linkMolallaReceipts` below is still owed after it.
+
 Run `linkMolallaReceipts` (the only function in `oneOffScripts.gs`; pushed 10-05 06:46 CDT, a push only, no deploy -
 commit 94f302a). It writes each receipt's Drive link on its Journal lines and in the Receipt cell of each matched row
 of `1014 S View - Frozen`; safe to run twice. **Then read back and close it out** as `HANDOFF-2026-10-05.md` START
