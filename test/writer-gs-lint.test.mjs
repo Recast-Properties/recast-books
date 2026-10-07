@@ -973,3 +973,16 @@ test("Add property asks the interest rate (default 8), not the sale price or set
   const advance = readFileSync(path.join(dir, "Advance.html"), "utf8");
   assert.ok(advance.includes("(DATA.propertyRates || {})[p] || DATA.interestRatePct"), "Add advance defaults to the house's rate");
 });
+
+// 2026-10-06, Paul: "it's weird that you're asking me for the purchase info but i have to enter it again" (D-086).
+test("Add property records a Dennis-funded house's purchase loan; Add advance refuses a second one", () => {
+  const menu = readFileSync(path.join(__dirname, "..", "apps-script", "writer", "Menu.gs"), "utf8");
+  const rec = menu.slice(menu.indexOf("function recordDennisPurchase_("), menu.indexOf("function addProperty("));
+  assert.match(rec, /dennis_funded\)\.toLowerCase\(\) !== 'true'/, "only a Dennis-funded house");
+  assert.match(rec, /if \(countAdvances_\(ss, name, true\) > 0\) return null;/, "once per house");
+  assert.match(rec, /addAdvance\(\{ kind: 'purchase'/, "through Add advance's own path (the entry, the Advances row)");
+  const add = menu.slice(menu.indexOf("function addProperty("), menu.indexOf("function rebuildPropertyTab("));
+  assert.ok(add.indexOf("recordDennisPurchase_(ss, name)") > add.indexOf("upsertRow_(") &&
+    add.indexOf("recordDennisPurchase_(ss, name)") < add.indexOf("setupPropertyTab(name)"), "after the row is saved, before the tab is built");
+  assert.match(menu, /if \(kind === 'purchase' && countAdvances_\(ss, property, true\) > 0\)/, "no second purchase loan");
+});

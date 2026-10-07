@@ -366,6 +366,19 @@ function ratePctOrBlank_(v) {
   return Number.isFinite(n) && n > 0 && n < 100 ? n : null;
 }
 
+/** A Dennis-funded house's purchase price IS Dennis's purchase loan (Paul, 2026-10-06: "it's weird that you're
+ *  asking me for the purchase info but i have to enter it again"), so it is recorded from the Properties row exactly
+ *  as Add advance's Purchase principal does, at the house's rate. Once per house: a house that already has its
+ *  purchase loan, or is not Dennis-funded, or has no price or date, is left alone (null). Else addAdvance's result.
+ *  The caller rebuilds the house tab. */
+function recordDennisPurchase_(ss, name) {
+  var p = propertyRow_(ss, name);
+  if (String(p.dennis_funded).toLowerCase() !== 'true' || !(Number(p.purchase_price) > 0) || !p.purchase_date) return null;
+  if (countAdvances_(ss, name, true) > 0) return null;
+  return addAdvance({ kind: 'purchase', property: name, amount: String(p.purchase_price),
+    date: formatIsoDate_(p.purchase_date), rate_pct: p.rate_pct }, true);
+}
+
 function addProperty(form, skipRebuild) {   // skipRebuild: the migration rebuilds every tab once at the end
   var props = PropertiesService.getScriptProperties();
   var ss = openWorkbook_(props);
@@ -399,6 +412,7 @@ function addProperty(form, skipRebuild) {   // skipRebuild: the migration rebuil
       cols = headerIndex_(sheet);
     }
     var created = upsertRow_(sheet, cols, 'name', row);
+    var purchase = recordDennisPurchase_(ss, name);   // Dennis's purchase loan, so the price is not typed twice
 
     var tabRows = null, tabError = null;
     if (skipRebuild !== true) {
@@ -411,7 +425,9 @@ function addProperty(form, skipRebuild) {   // skipRebuild: the migration rebuil
       if (created) { try { setupTotals(); } catch (err) { console.error('setupTotals after addProperty: ' + err); } }
       warmCache_();
     }
-    return { ok: true, name: name, created: created, tabRows: tabRows, tabError: tabError };
+    return { ok: true, name: name, created: created, tabRows: tabRows, tabError: tabError,
+      purchaseRecorded: purchase && purchase.ok ? row.purchase_price : null,
+      purchaseError: purchase && !purchase.ok ? purchase.message : null };
   } catch (err) {
     return { ok: false, error: (err && err.code) || 'INTERNAL', message: String((err && err.message) || err) };
   }
@@ -464,6 +480,9 @@ function addAdvance(form, skipRebuild) {
     var kind = form.kind === 'purchase' ? 'purchase' : 'cash';
     var property = form.property;
     if (!property) return { ok: false, error: 'BAD_REQUEST', message: 'Choose a property.' };
+    if (kind === 'purchase' && countAdvances_(ss, property, true) > 0) {   // one purchase loan per house (2026-09-15)
+      return { ok: false, error: 'ALREADY_RECORDED', message: property + "'s purchase money from Dennis is already recorded. More money from him on this house is a cash advance." };
+    }
     var amount_cents = toCents(form.amount);
     var date = form.date;
 

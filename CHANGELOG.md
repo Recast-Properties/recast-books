@@ -3253,3 +3253,15 @@ rate cell (AI1) reads the house's rate before Settings. `ratePctOrBlank_` is the
 and Add advance. `addProperty` no longer passes `contract_price` or `settlement_date`, so re-adding a name leaves those
 cells alone. One lint test added. No house has a rate typed yet, so no tab, advance or interest figure changes today. Writer
 pushed after Paul's `clasp login` (verified: `clasp pull` = HEAD); Paul deployed **@38**; `/exec` answers ok 0.4.0 - nothing owed.
+
+## 2026-10-06 (night) — Add property records Dennis's purchase loan (D-086)
+
+**Found:** 3808 Kings and 658 Erin Hills, added tonight, showed an empty Purchase Principal + Interest schedule. The
+tab's summary line falls back to `Properties.purchase_price`, but the schedule and the Dennis payout read the Advances
+tab, and only Add advance -> Purchase principal wrote there - the price had to be typed twice. **Changed:** Add
+property calls `recordDennisPurchase_` after saving the row: on a Dennis-funded house with a price and date and no
+purchase loan yet, it runs `addAdvance` kind purchase (entry + Advances row, the house's rate), then the tab is built
+once. Add advance refuses a second purchase loan on a house. The dialog says what was recorded. One-off
+`recordPurchaseKingsErinHills` does the same for tonight's two houses (placed first in `oneOffScripts.gs`;
+`linkMolallaReceipts` is still owed). One lint test. Menu.gs, Property.html and oneOffScripts.gs only - a push, no
+deploy (the web app never calls these).

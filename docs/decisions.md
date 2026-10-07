@@ -93,6 +93,7 @@ that supersedes the old one, not editing history.
 - D-083 · 104 Ashburne closes on Dennis's one figure, and only what was really paid is a payment - 2026-10-05 · Paul
 - D-084 · Paul's share of a sale's profit is owed to him from the closing day - 2026-10-05 · Paul
 - D-085 · The interest rate is typed when a house is added and its advances inherit it; no sale price or settlement date at Add property - 2026-10-06 · Paul
+- D-086 · Add property records a Dennis-funded house's purchase loan; one per house - 2026-10-06 · Paul
 
 ---
 
@@ -1925,3 +1926,16 @@ cell reads the house's rate before Settings. Settings `interest_rate_annual` (D-
 house with no rate typed. `settlement_date` is written by the sell wizard alone; `contract_price` stays a column the
 house tab and the sell wizard read but nothing asks for it at purchase. The column reaches the live Properties tab the
 first time a house is added - no setup run.
+
+## D-086 · Add property records a Dennis-funded house's purchase loan; one per house - 2026-10-06 · Paul
+
+Paul added 3808 Kings and 658 Erin Hills through Add property and found their Purchase Principal + Interest schedule
+empty: the schedule (and the Dennis payout's principal line) reads the Advances tab, and only Add advance ->
+Purchase principal wrote a purchase there. Paul: *"it's weird that you're asking me for the purchase info but i have
+to enter it again in a cash advance yeah?"*
+
+**Decided:** on a Dennis-funded house, the purchase price and date typed at Add property ARE Dennis's purchase loan.
+Saving the house records it through Add advance's own path (`recordDennisPurchase_` -> `addAdvance` kind purchase:
+the Dr 1000 / Cr 2010 entry and the Advances row, at the house's rate, D-085). A house has one purchase loan: Add
+property skips a house that has one, and Add advance refuses a second. Add advance -> Purchase principal stays for a
+house whose purchase was not recorded at Add property. A house that is not Dennis-funded records nothing, as before.

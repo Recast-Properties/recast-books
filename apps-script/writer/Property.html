@@ -53,8 +53,10 @@
       btn.textContent = 'Add property';
       if (!result.ok) { showMsg_(msg, false, '<b>' + escapeHtml_(result.error) + '</b> - ' + escapeHtml_(result.message)); return; }
       var html = 'Saved <code>' + escapeHtml_(result.name) + '</code>.';
+      if (result.purchaseRecorded) html += " Dennis's purchase money ($" + escapeHtml_(result.purchaseRecorded) + ') is recorded - no Add advance needed for it.';
+      if (result.purchaseError) html += " <b>Dennis's purchase money was NOT recorded:</b> " + escapeHtml_(result.purchaseError);
       html += result.tabError ? ' Property tab was not built: ' + escapeHtml_(result.tabError) : ' Property tab built (' + result.tabRows + ' rows).';
-      showMsg_(msg, true, html);
+      showMsg_(msg, !result.purchaseError, html);
       finishDialog_(btn);
     }, function (err) {
       btn.disabled = false;
