@@ -5,6 +5,17 @@ history and are not written to; `CHANGELOG.md` keeps its dated entry per change.
 `docs/ops.md`. The books' numbers live on the workbook's tabs (P&L, Totals, Citizens Bank, the house tabs) - read them
 there; a figure written here is only as of its date.
 
+## 2026-10-07 (morning) - on top of the 10-06 state below
+
+- **Import statement now matches too** (Menu.gs/Import.html, a push, no deploy): the dialog starts the matching on the
+  account it imported and shows the progress and summary in its own box. Seen on Paul's real import: Citizens, 8 new
+  lines to 10-06, 3 tied, 5 to the Inbox; the bank box adds up. Match statement lines... stays for reruns.
+- **Paul says Dennis moved money out of Citizens.** Not in the bank yet: the file Paul downloaded at 08:37 runs to 10-06
+  and the bank's balance is still 438,304.21. Asked Paul how much and for which house (Ashburne / Newport) - **no answer
+  yet**. It is the first payout: build the payout-line matcher (Open 3) before he imports the file that has it.
+- Three keypad deadbolts moved off the shelf (6510) onto 3808 Kings, 413 Green Acres, 366 Mesa (`moveLocksToHouses`,
+  run and taken out). Two left on the shelf: one satin nickel, one matte black, 40.15 each.
+
 ## As of 2026-10-06 night
 
 Live: writer web app **@38**, writer pushed after it (D-085 Add property asks the interest rate; D-086 it records a
