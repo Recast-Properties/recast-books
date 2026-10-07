@@ -954,3 +954,22 @@ test("a bank statement card speaks of the bank, not a receipt; a question is not
   assert.equal(summary({ total: 3, matched: 1, cards: 0, later: 2, none: 0 }).split("\n")[2], "None need your word.");
   assert.equal(summary({ total: 8, matched: 1, cards: 5, later: 2, none: 0 }).split("\n")[2], "5 need your word - they are in the Inbox (Recast Books -> Inbox..., the Bank statement tab).");
 });
+
+// 2026-10-06, Paul: "i will never know the sale price or settlement date the day i buy the property" - Add property
+// asks the interest rate instead (default 8, D-085); the rate reaches the Properties tab, the Add advance default,
+// the Advances loader every interest reader uses, and the house tab's rate cell.
+test("Add property asks the interest rate (default 8), not the sale price or settlement date; the rate reaches every reader", () => {
+  const dir = path.join(__dirname, "..", "apps-script", "writer");
+  const dialog = readFileSync(path.join(dir, "Property.html"), "utf8");
+  assert.ok(!/settlement|contract.price/.test(dialog), "no sale price or settlement date at Add property");
+  assert.ok(dialog.includes('id="p-rate" value="8"') && dialog.includes("rate_pct: document.getElementById('p-rate').value"), "interest rate asked, default 8");
+  const start = source.indexOf("'Properties': [");
+  assert.ok(source.slice(start, source.indexOf("]", start)).includes("'rate_pct'"), "Properties.rate_pct in TAB_HEADERS");
+  assert.match(source, /var houseRate = propLookup_\(safeName, 'rate_pct'\)/, "the house tab's rate cell reads the house's rate first");
+  const menu = readFileSync(path.join(dir, "Menu.gs"), "utf8");
+  assert.match(menu, /var rate_pct = ratePctOrBlank_\(form\.rate_pct\);\n\s+if \(rate_pct === null\)/, "addProperty validates the rate");
+  assert.match(menu, /setValue\('rate_pct'\)/, "the column reaches the live tab on first use");
+  assert.match(menu, /houseRates\[String\(r\[cols\['property'\] - 1\] \|\| ''\)\]/, "loadAdvances_ falls back to the house's rate");
+  const advance = readFileSync(path.join(dir, "Advance.html"), "utf8");
+  assert.ok(advance.includes("(DATA.propertyRates || {})[p] || DATA.interestRatePct"), "Add advance defaults to the house's rate");
+});

@@ -13,15 +13,14 @@
   <div><label>Purchase price</label><input type="text" id="p-purchase-price" placeholder="207000.00"></div>
 </div>
 <div class="row">
-  <div><label>Expected sale price (optional)</label><input type="text" id="p-contract-price" placeholder="290000"></div>
   <div><label>Annual property tax</label><input type="text" id="p-tax-annual" placeholder="7942"></div>
+  <div><label>Interest rate (% per year)</label><input type="text" id="p-rate" value="8"></div>
 </div>
 <div class="row">
   <div><label>Dennis profit share % (0 = bank only)</label><input type="text" id="p-dennis-share" value="50"></div>
-  <div><label>Settlement date</label><input type="date" id="p-settlement-date"></div>
+  <div><label>Dennis-funded</label><select id="p-dennis-funded"><option value="true">Yes</option><option value="false" selected>No</option></select></div>
 </div>
 <div class="row">
-  <div><label>Dennis-funded</label><select id="p-dennis-funded"><option value="true">Yes</option><option value="false" selected>No</option></select></div>
   <div><label>Drive folder</label><input type="text" id="p-drive-folder" placeholder="https://drive.google.com/..."></div>
 </div>
 <button class="primary" id="p-save">Add property</button>
@@ -41,10 +40,9 @@
       template: document.getElementById('p-template').value,
       purchase_date: document.getElementById('p-purchase-date').value,
       purchase_price: document.getElementById('p-purchase-price').value,
-      contract_price: document.getElementById('p-contract-price').value,
       tax_annual: document.getElementById('p-tax-annual').value,
+      rate_pct: document.getElementById('p-rate').value,
       dennis_share_pct: document.getElementById('p-dennis-share').value,
-      settlement_date: document.getElementById('p-settlement-date').value,
       dennis_funded: document.getElementById('p-dennis-funded').value,
       drive_folder: document.getElementById('p-drive-folder').value
     };

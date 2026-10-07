@@ -92,6 +92,7 @@ that supersedes the old one, not editing history.
 - D-082 · Dennis's interest is typed per advance at the sale, and the closing tab shows exactly that - 2026-10-05 · Paul
 - D-083 · 104 Ashburne closes on Dennis's one figure, and only what was really paid is a payment - 2026-10-05 · Paul
 - D-084 · Paul's share of a sale's profit is owed to him from the closing day - 2026-10-05 · Paul
+- D-085 · The interest rate is typed when a house is added and its advances inherit it; no sale price or settlement date at Add property - 2026-10-06 · Paul
 
 ---
 
@@ -1909,3 +1910,18 @@ owes him - bills he fronted and profit not yet taken; `owed_after.paul_undrawn_c
 closing tabs read the same. The two sales closed before this: one-off `bookPaulShareOwed` (104 Ashburne 140,895.81
 dated 09-23, 881 Newport 26,731.14 dated 10-02), both closing tabs rewritten. Totals' 2030 goes from 46,947.83 to
 214,574.78.
+
+## D-085 · The interest rate is typed when a house is added and its advances inherit it; no sale price or settlement date at Add property - 2026-10-06 · Paul
+
+Paul, on the Add property dialog: *"remove 'Expected sale price (optional)' and 'Settlement date' from the add
+property inputs. i will never know the sale price or settlement date the day i buy the property. instead add an input
+field for interest rate. default to 8."*
+
+**Decided:** Add property asks **Interest rate (% per year)**, default 8, stored as `Properties.rate_pct`. It is the
+rate for every advance on that house: the Add advance dialog pre-fills it when the house is picked (D-022 still
+holds - the advance keeps the rate it was given), an advance with no rate of its own takes the house's in every
+interest reader (the Advances loader, so the sell wizard, the closing tab and the P&L agree), and the house tab's rate
+cell reads the house's rate before Settings. Settings `interest_rate_annual` (D-016) is now only the fallback for a
+house with no rate typed. `settlement_date` is written by the sell wizard alone; `contract_price` stays a column the
+house tab and the sell wizard read but nothing asks for it at purchase. The column reaches the live Properties tab the
+first time a house is added - no setup run.

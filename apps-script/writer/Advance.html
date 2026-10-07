@@ -33,7 +33,13 @@
 
   document.getElementById('a-date').value = new Date(Date.now() - new Date().getTimezoneOffset() * 60000).toISOString().slice(0, 10);
   fillSelect_(document.getElementById('a-property'), DATA.properties.map(function (p) { return { value: p, label: p }; }));
-  document.getElementById('a-rate').value = DATA.interestRatePct;
+  // The rate typed at Add property (D-085), else Settings; follows the house picked.
+  function rateFor_() {
+    var p = document.getElementById('a-property').value;
+    document.getElementById('a-rate').value = (DATA.propertyRates || {})[p] || DATA.interestRatePct;
+  }
+  document.getElementById('a-property').addEventListener('change', rateFor_);
+  rateFor_();
 
   function updateKind_() {
     var cash = document.getElementById('a-kind').value === 'cash';

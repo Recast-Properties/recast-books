@@ -140,7 +140,8 @@ var TAB_HEADERS = {
     'active', 'notes'],
   'Properties': ['name', 'address', 'status', 'purchase_date', 'purchase_price',
     'settlement_date', 'template', 'dennis_funded', 'drive_folder', 'contract_price',   // notes removed (Paul, 2026-09-30)
-    'tax_annual', 'dennis_share_pct', 'dennis_commission_pct'],
+    'tax_annual', 'dennis_share_pct', 'dennis_commission_pct',
+    'rate_pct'],   // % per year typed at Add property (D-085, 2026-10-06); blank = Settings interest_rate_annual
   'Bank accounts': ['code', 'name', 'institution', 'last4', 'plaid_item_id',
     'plaid_account_id', 'opening_balance', 'opening_date', 'active'],
   'Vendors': ['canonical', 'aliases', 'entity_type', 'form_1099', 'tin_status',
@@ -1440,8 +1441,9 @@ function setupTotals() {
 //   D:H   DENNIS - Purchase Principal + Interest schedule (Advances.kind = purchase),
 //         then Paul Paid / Dennis Paid direct / Recast Account who-paid blocks, then
 //         the Cash Advances schedule (every other advance). Each schedule row: Start,
-//         End (repaid_date), Principal, Interest to Date at Settings!interest_rate_annual
-//         (D-016, 8%) by the D-006 method, Notes.
+//         End (repaid_date), Principal, Interest to Date at the advance's own rate, else the
+//         house's Properties.rate_pct (D-085), else Settings!interest_rate_annual (D-016, 8%),
+//         by the D-006 method, Notes.
 //   J:R   REHAB COSTS - payee, date, description, amount, Receipt (a HYPERLINK to the
 //         line's doc_url, blank when it has none), then Paul Paid / Dennis Paid /
 //         Recast Account checkboxes (from paid_from).
@@ -1831,9 +1833,10 @@ function setupPropertyTab(name, asOf) {
   else if (maxRows < needRows) sh.insertRowsAfter(maxRows, needRows - maxRows);
   sh.getRange(1, 1, grid.length, WIDTH).setValues(grid);
 
-  // Helpers past the grid: AI1 rate, AJ1 stub basis, AK1 settlement_date, AL1
+  // Helpers past the grid: AI1 rate (the house's, else Settings), AJ1 stub basis, AK1 settlement_date, AL1
   // contract_price (D-017), AN:AQ per-advance math, AR/AS tax.
-  sh.getRange(1, HB).setFormula('=IFERROR(VLOOKUP("interest_rate_annual",Settings!A:B,2,FALSE),0)');
+  var houseRate = propLookup_(safeName, 'rate_pct');   // the house's own rate (D-085), else Settings
+  sh.getRange(1, HB).setFormula('=IFERROR(IF(' + houseRate + '="",VLOOKUP("interest_rate_annual",Settings!A:B,2,FALSE),' + houseRate + '/100),0)');
   sh.getRange(1, HB + 1).setFormula('=IFERROR(VLOOKUP("stub_days_basis",Settings!A:B,2,FALSE),30)');
   sh.getRange(1, HB + 2).setFormula('=' + propLookup_(safeName, 'settlement_date')); // settlement_date
   sh.getRange(1, HB + 3).setFormula('=' + propLookup_(safeName, 'contract_price')); // contract_price

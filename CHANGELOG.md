@@ -3240,3 +3240,16 @@ handoffs are history, not written to); `docs/decisions.md` carries a one-line in
 the email-intake quirks (from CLAUDE.md's operating notes, the handoffs' gotchas and Claude's memory); the root
 file's books section is ten lines of routing (1,336 words in all). Claude's memory pruned from 49 notes to 30 - the
 dated-state ones that restated this repo. 564 tests unchanged.
+
+## 2026-10-06 — Add property: interest rate in, sale price and settlement date out (D-085)
+
+**Changed** the Add property dialog (Paul: "i will never know the sale price or settlement date the day i buy the
+property. instead add an input field for interest rate. default to 8"): the two fields are gone, **Interest rate (%
+per year)** is asked, default 8, saved as a new `Properties.rate_pct` column (appended to the live tab's header row
+the first time a house is added; no other header moves). The rate is the house's default for its advances: Add advance
+pre-fills it from the house picked (`pickerData_.propertyRates`), `loadAdvances_` gives an advance with no rate of its
+own the house's (so sellContext, the closing tab's `interestByAdvance` and the P&L tab all agree), and the house tab's
+rate cell (AI1) reads the house's rate before Settings. `ratePctOrBlank_` is the one rate check, shared by Add property
+and Add advance. `addProperty` no longer passes `contract_price` or `settlement_date`, so re-adding a name leaves those
+cells alone. One lint test added. No house has a rate typed yet, so no tab, advance or interest figure changes today. Writer
+pushed; **deploy owed** (`Code.gs` and `Menu.gs` changed - the pollers and the web Inbox run the deployed version).

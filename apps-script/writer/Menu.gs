@@ -204,7 +204,8 @@ function pickerData_(ss) {
 
   return {
     accounts: accounts, properties: properties, bankAccounts: bankAccounts, trades: trades,
-    interestRatePct: Math.round(rateAnnual * 10000) / 100
+    interestRatePct: Math.round(rateAnnual * 10000) / 100,
+    propertyRates: propertyRates_(ss)   // the Add advance default per house (D-085)
   };
 }
 
@@ -351,10 +352,18 @@ function voidSelected() {
 
 /** toCents/fromCents round-trip: validates a dollar string and normalizes it to
  *  "1234.56" the way the sheet already stores Properties money columns. Blank in,
- *  blank out - these fields (contract_price, tax_annual) are optional. */
+ *  blank out - these fields (purchase_price, tax_annual) are optional. */
 function dollarsOrBlank_(v) {
   var s = String(v == null ? '' : v).trim();
   return s === '' ? '' : fromCents(toCents(s));
+}
+
+/** A typed interest rate as a percent number; '' when blank; null when it is not a percent between 0 and 100. */
+function ratePctOrBlank_(v) {
+  var s = String(v == null ? '' : v).trim().replace('%', '');
+  if (s === '') return '';
+  var n = Number(s);
+  return Number.isFinite(n) && n > 0 && n < 100 ? n : null;
 }
 
 function addProperty(form, skipRebuild) {   // skipRebuild: the migration rebuilds every tab once at the end
@@ -364,23 +373,31 @@ function addProperty(form, skipRebuild) {   // skipRebuild: the migration rebuil
     requireOwner_(ss);
     var name = String(form.name || '').trim();
     if (!name) return { ok: false, error: 'BAD_REQUEST', message: 'Name is required.' };
+    var rate_pct = ratePctOrBlank_(form.rate_pct);
+    if (rate_pct === null) return { ok: false, error: 'BAD_REQUEST', message: 'Interest rate must be a percent between 0 and 100.' };
+    // No sale price or settlement date here (Paul, 2026-10-06: he never knows them the day he buys);
+    // the sell wizard writes settlement_date, and an upsert leaves a column it is not given alone.
     var row = {
       name: name,
       address: form.address || '',
       status: form.status || 'held',
       purchase_date: form.purchase_date || '',
       purchase_price: dollarsOrBlank_(form.purchase_price),
-      contract_price: dollarsOrBlank_(form.contract_price),
       tax_annual: dollarsOrBlank_(form.tax_annual),
+      rate_pct: rate_pct,   // D-085: the default for every advance on the house; blank = Settings rate
       dennis_share_pct: String(form.dennis_share_pct || '50').replace('%', '').trim() || '50',
       dennis_commission_pct: String(form.dennis_commission_pct == null ? '' : form.dennis_commission_pct).replace('%', '').trim(),
-      settlement_date: form.settlement_date || '',
       template: form.template || '',
       dennis_funded: form.dennis_funded || 'false',
       drive_folder: form.drive_folder || ''
     };
     var sheet = ss.getSheetByName('Properties');
     var cols = headerIndex_(sheet);
+    if (!cols['rate_pct']) {   // the column reaches the live tab on first use, appended so no other header moves
+      if (sheet.getMaxColumns() <= sheet.getLastColumn()) sheet.insertColumnAfter(sheet.getLastColumn());
+      sheet.getRange(1, sheet.getLastColumn() + 1).setValue('rate_pct');
+      cols = headerIndex_(sheet);
+    }
     var created = upsertRow_(sheet, cols, 'name', row);
 
     var tabRows = null, tabError = null;
@@ -450,14 +467,8 @@ function addAdvance(form, skipRebuild) {
     var amount_cents = toCents(form.amount);
     var date = form.date;
 
-    var rate_pct = '';
-    var rateRaw = String(form.rate_pct == null ? '' : form.rate_pct).trim().replace('%', '');
-    if (rateRaw !== '') {
-      rate_pct = Number(rateRaw);
-      if (!(Number.isFinite(rate_pct) && rate_pct > 0 && rate_pct < 100)) {
-        return { ok: false, error: 'BAD_REQUEST', message: 'Interest rate must be a percent between 0 and 100.' };
-      }
-    }
+    var rate_pct = ratePctOrBlank_(form.rate_pct);
+    if (rate_pct === null) return { ok: false, error: 'BAD_REQUEST', message: 'Interest rate must be a percent between 0 and 100.' };
 
     // D-052: the dialog says who the money was paid to and the account follows from it.
     // migrationRegisterAdvances still passes `into`.
@@ -526,15 +537,32 @@ function purchaseOntoProperty_(ss, property, date, amount_cents) {
 // interest out themselves and the sell wizard records it at closing; postInterest(period) is
 // in oneOffScripts.gs for the year-end.
 
-/** Advances tab rows -> lib.gs's accrual "advance" shape. */
+/** Properties.rate_pct by house name (a percent, only where one is typed): the rate for every advance on the
+ *  house that carries none of its own (D-085). */
+function propertyRates_(ss) {
+  var sheet = ss.getSheetByName('Properties');
+  var cols = headerIndex_(sheet);
+  var out = {};
+  if (!cols['rate_pct'] || sheet.getLastRow() < 2) return out;
+  sheet.getRange(2, 1, sheet.getLastRow() - 1, sheet.getLastColumn()).getValues().forEach(function (r) {
+    var pct = Number(r[cols['rate_pct'] - 1]);
+    if (pct > 0) out[String(r[cols['name'] - 1])] = pct;
+  });
+  return out;
+}
+
+/** Advances tab rows -> lib.gs's accrual "advance" shape. An advance with no rate of its own takes its
+ *  house's (D-085); with neither, lib.gs falls back to the Settings rate it is given. */
 function loadAdvances_(ss) {
   var sheet = ss.getSheetByName('Advances');
   var cols = headerIndex_(sheet);
   var lastRow = sheet.getLastRow();
   if (lastRow < 2) return [];
+  var houseRates = propertyRates_(ss);
   var rows = sheet.getRange(2, 1, lastRow - 1, sheet.getLastColumn()).getValues();
   return rows.map(function (r) {
     var ratePct = cols['rate_pct'] ? r[cols['rate_pct'] - 1] : '';
+    if (ratePct === '' || ratePct == null) ratePct = houseRates[String(r[cols['property'] - 1] || '')] || '';
     return {
       advance_id: String(r[cols['advance_id'] - 1] || ''),
       date: formatIsoDate_(r[cols['date'] - 1]),
