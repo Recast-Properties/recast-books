@@ -6,17 +6,48 @@
 </style>
 <h3>Import a bank statement</h3>
 <p class="hint">Download the account's activity from the bank's website as a <b>Quicken / QFX</b> file and choose it
-here. Each line lands on the <b>Feed</b> tab. A line already there is skipped, so importing the same file twice adds
-nothing.</p>
+here. Each line lands on the <b>Feed</b> tab, then the bookkeeper ties the new lines to the books right here. A line
+already there is skipped, so importing the same file twice adds nothing.</p>
 <div class="hint" id="i-accounts"></div>
 <label>The file from the bank (.qfx or .ofx)</label>
 <input type="file" id="i-file" accept=".qfx,.ofx,.QFX,.OFX,application/x-ofx,application/vnd.intu.qfx">
 <button class="primary" id="i-go" disabled>Import</button>
 <div id="i-msg" class="msg hidden"></div>
+<div id="i-match" class="msg hidden"></div>
 
 <script>
   var DATA = <?!= JSON.stringify(data) ?>;
   var FILE = null;
+  var MATCH_POLLS = 60, MATCH_WAIT_MS = 5000;   // FEED_MATCH_POLLS / FEED_MATCH_WAIT_MS in Menu.gs: five minutes
+
+  function plain_(s) { return escapeHtml_(s).replace(/\n/g, '<br>'); }
+
+  // The matching, right after the import (Paul, 2026-10-07: one step, its progress in this box).
+  function match_(account) {
+    var m = document.getElementById('i-match');
+    var fail = function (err) { showMsg_(m, false, plain_(err && err.message ? err.message : err)); };
+    showMsg_(m, true, 'Starting the bookkeeper on the new lines...');
+    callServer_('startFeedMatch', account).then(function (r) {
+      if (!r.ok) { fail(r); return; }
+      if (!r.count) { showMsg_(m, true, 'Every line is already tied to the books or waiting in the Inbox - nothing to match.'); return; }
+      var i = 0;
+      (function poll() {
+        if (i > MATCH_POLLS) {
+          showMsg_(m, true, 'Still running after five minutes. Look at the Feed tab in a few minutes - the notes land there when it finishes.');
+          return;
+        }
+        showMsg_(m, true, 'Tying ' + r.count + ' bank line' + (r.count === 1 ? '' : 's') + ' to the books... ' +
+          Math.round(i++ * MATCH_WAIT_MS / 1000) + ' s<br>You can close this box - the notes land on the Feed tab either way.');
+        setTimeout(function () {
+          callServer_('feedMatchStatus', r.job_id).then(function (s) {
+            if (!s.ok) fail(s);
+            else if (s.done) showMsg_(m, true, '<b>Matched.</b><br>' + plain_(s.message));
+            else poll();
+          }, fail);
+        }, MATCH_WAIT_MS);
+      })();
+    }, fail);
+  }
 
   (function () {
     var parts = DATA.bankAccounts.map(function (a) {
@@ -66,6 +97,7 @@ nothing.</p>
       }
       showMsg_(msg, true, html);
       finishDialog_(btn);
+      match_(r.code);
     }, function (err) {
       btn.disabled = false;
       btn.textContent = 'Import';

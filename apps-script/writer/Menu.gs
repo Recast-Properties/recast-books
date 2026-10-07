@@ -1660,7 +1660,8 @@ function sellHoldback(form) {
 // comma-separated list - Citizens "2505, 5450, 9301", Chase "6317"), one row per line,
 // deduped on the bank's FITID, so the same file imported twice adds nothing. The dialog
 // then says whether opening balance + every Feed line = the bank's balance (spec section 4's
-// first check). Matching the lines to the books is the site's job, the next step.
+// first check). The dialog then starts the matching on that account itself (startFeedMatch,
+// below) and shows its progress and summary in place - one step for Paul (2026-10-07).
 
 function showImportDialog() {
   var ss = openIfOwner_();
@@ -1770,7 +1771,7 @@ function importStatement(req) {
       warmCache_();
       var bal = parsed.ledger_balance_cents;
       return {
-        ok: true, account: account.name, added: rows.length, skipped: parsed.lines.length - rows.length,
+        ok: true, account: account.name, code: account.code, added: rows.length, skipped: parsed.lines.length - rows.length,
         first: parsed.lines[0].date, last: parsed.lines[parsed.lines.length - 1].date,
         bank_balance: bal == null ? '' : fromCents(bal), feed_balance: fromCents(feedCents),
         off_by: bal == null ? '' : fromCents(feedCents - bal), ties: bal != null && feedCents === bal
@@ -1791,10 +1792,8 @@ function importStatement(req) {
 var FEED_MATCH_POLLS = 60;
 var FEED_MATCH_WAIT_MS = 5000;
 
-function matchStatementLines() {
-  var ss = openIfOwner_();
-  if (!ss) return;
-  var ui = SpreadsheetApp.getUi();
+/** Unmatched Feed lines per account code. */
+function unmatchedFeedCounts_(ss) {
   var sh = ss.getSheetByName('Feed');
   var cols = headerIndex_(sh);
   var last = sh.getLastRow();
@@ -1806,6 +1805,46 @@ function matchStatementLines() {
       counts[a] = (counts[a] || 0) + 1;
     });
   }
+  return counts;
+}
+
+/** google.script.run from Import.html, right after the import: start matching the account just
+ *  imported. {ok, count, job_id}; count 0 = nothing waiting, no job started. The dialog polls
+ *  feedMatchStatus itself, so no one server call waits out the run. */
+function startFeedMatch(account) {
+  var ss = openWorkbook_(PropertiesService.getScriptProperties());
+  try {
+    requireOwner_(ss);
+    var count = unmatchedFeedCounts_(ss)[account] || 0;
+    if (!count) return { ok: true, count: 0 };
+    var started = siteFetchJson_('/api/feed-match', 'post', { account: account, by: Session.getActiveUser().getEmail() });
+    if (!started.job_id) return { ok: false, message: 'The site did not start the matching.' };
+    return { ok: true, count: count, job_id: started.job_id };
+  } catch (err) {
+    return { ok: false, message: matchFailure_((err && err.message) || err) };
+  }
+}
+
+/** google.script.run from Import.html every FEED_MATCH_WAIT_MS: {ok, done, message} - the summary
+ *  or the failure, in the same words the menu item's box uses. */
+function feedMatchStatus(jobId) {
+  var ss = openWorkbook_(PropertiesService.getScriptProperties());
+  try {
+    requireOwner_(ss);
+    var job = siteFetchJson_('/api/feed-match?job=' + encodeURIComponent(jobId));
+    if (job.status === 'done') return { ok: true, done: true, message: feedMatchSummary_(job.summary) };
+    if (job.status === 'error') return { ok: false, message: matchFailure_(job.error) };
+    return { ok: true, done: false };
+  } catch (err) {
+    return { ok: false, message: matchFailure_((err && err.message) || err) };
+  }
+}
+
+function matchStatementLines() {
+  var ss = openIfOwner_();
+  if (!ss) return;
+  var ui = SpreadsheetApp.getUi();
+  var counts = unmatchedFeedCounts_(ss);
   var accounts = Object.keys(counts);
   if (!accounts.length) {
     ui.alert('Nothing to match', 'Every line on the Feed tab is already tied to the books or waiting in the Inbox. Import a statement first.', ui.ButtonSet.OK);

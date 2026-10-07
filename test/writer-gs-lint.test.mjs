@@ -686,7 +686,15 @@ test("feedUpdate: one lock, the three verdict columns read once and written once
   assert.match(menu, /addItem\('Match statement lines\.\.\.', 'matchStatementLines'\)/);
   const m = menu.slice(menu.indexOf("function matchStatementLines("));
   assert.match(m, /siteFetchJson_\('\/api\/feed-match', 'post'/);
-  assert.match(m, /!== 'unmatched'\) return;/, "only open lines are counted");
+  assert.match(m, /unmatchedFeedCounts_\(ss\)/);
+  assert.match(gsFn(menu, "unmatchedFeedCounts_"), /!== 'unmatched'\) return;/, "only open lines are counted");
+  // Paul, 2026-10-07: Import statement matches the account it just imported, its progress in the same box.
+  const imp = readFileSync(new URL("../apps-script/writer/Import.html", import.meta.url), "utf8");
+  assert.match(imp, /finishDialog_\(btn\);\n\s*match_\(r\.code\);/, "the import starts the match");
+  assert.match(imp, /callServer_\('feedMatchStatus', r\.job_id\)/);
+  assert.match(gsFn(menu, "importStatement"), /code: account\.code/);
+  assert.match(gsFn(menu, "startFeedMatch"), /unmatchedFeedCounts_\(ss\)\[account\][\s\S]*siteFetchJson_\('\/api\/feed-match', 'post'/);
+  assert.match(gsFn(menu, "feedMatchStatus"), /feedMatchSummary_\(job\.summary\)[\s\S]*matchFailure_\(job\.error\)/, "the same words as the menu item's box");
   // Paul was shown the machine's own error (2026-09-29, a 529): a failed run is said in plain words, the raw text last
   const failure = new Function(menu.slice(menu.indexOf("function matchFailure_("), menu.indexOf("\n}\n", menu.indexOf("function matchFailure_(")) + 3) + " return matchFailure_;")();
   assert.equal(failure('The Anthropic API call failed (batch 1): 529 {"type":"error","error":{"type":"overloaded_error","message":"Overloaded"}}'),
