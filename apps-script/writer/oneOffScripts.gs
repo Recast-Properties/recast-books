@@ -155,3 +155,44 @@ function linkMolallaReceipts() {
   console.log('linkMolallaReceipts: ' + pairs.length + ' receipts written on ' + journal + ' Journal lines; on the tab ' + linked +
     ' lines now open their receipt and ' + blank + ' have none (' + cells.length + ' lines on the tab).');
 }
+
+// 2026-10-07 Paul: the keypad deadbolts bought "to have on hand" sit on 6510 (the shelf, CHANGELOG 2026-09-29). One
+// each went on 3808 Kings (satin nickel), 413 Green Acres (oil rubbed bronze) and 366 Mesa (matte black); a fourth
+// (oil rubbed bronze) was damaged, cannot go back, and stays a business cost. Each lock's cost, tax in, comes off the
+// shelf onto its house under House Hardware with its Amazon order as the receipt. Read on Amazon: the 08-13 order is
+// 4 locks @ 37.79 + tax = 40.15 each (160.60), the 09-01 order 2 @ 38.01 + tax = 40.39 each (80.78). Left on the
+// shelf: one satin nickel, one matte black. Safe to run twice.
+// STATUS: NOT YET RUN
+function moveLocksToHouses() {
+  var props = PropertiesService.getScriptProperties();
+  var ss = openWorkbook_(props);
+  requireOwner_(ss);
+  var who = Session.getActiveUser().getEmail();
+  var journal = ss.getSheetByName('Journal');
+  var cols = headerIndex_(journal);
+  var aug = 'https://drive.google.com/file/d/12IBKhDxaEpKyEQo_8l-3kr50Nb3lpwAn/view?usp=drivesdk';
+  var sep = 'https://drive.google.com/file/d/1cCGO5oU5RftdnWGDQhrzEb5yMOTxxVJg/view?usp=drivesdk';
+  var locks = [
+    { house: '3808 Kings', cents: 4015, color: 'satin nickel', order: '08-13', doc: aug },
+    { house: '413 Green Acres', cents: 4039, color: 'oil rubbed bronze', order: '09-01', doc: sep },
+    { house: '366 Mesa', cents: 4015, color: 'matte black', order: '08-13', doc: aug }
+  ];
+  var memos = journal.getRange(2, cols['memo'], journal.getLastRow() - 1, 1).getValues().map(function (r) { return String(r[0]); });
+  var ctx = buildCtx_(ss);
+  var entries = [];
+  locks.forEach(function (l) {
+    var memo = 'Keypad deadbolt off the shelf onto ' + l.house;
+    if (memos.indexOf(memo) >= 0) { console.log(l.house + ': already moved'); return; }
+    var description = 'Amazon Basics keypad deadbolt, ' + l.color + ' - 1 of the ' + l.order + ' Amazon order, bought to have on hand';
+    var line = { trade: 'House Hardware', payee: 'Amazon.com', description: description, paid_from: '1401' };
+    entries.push(buildEntry({
+      type: 'journal', date: '2026-10-07', source: 'manual', posted_by: who, doc_url: l.doc, memo: memo,
+      lines: [Object.assign({ account: '1030', debit: l.cents, credit: 0, property: l.house }, line),
+              Object.assign({ account: '6510', debit: 0, credit: l.cents, property: 'OVERHEAD' }, line)]
+    }, ctx));
+  });
+  if (entries.length) postBatchEntries_(entries, props);
+  warmCache_();
+  console.log('moveLocksToHouses: ' + entries.length + ' of 3 locks moved onto their houses (3808 Kings 40.15, 413 Green Acres 40.39, ' +
+    '366 Mesa 40.15); each house tab refreshed.');
+}
