@@ -3266,3 +3266,15 @@ once. Add advance refuses a second purchase loan on a house. The dialog says wha
 the Advances tab: one purchase row each (3808 Kings 156,000 at the Settings rate, 658 Erin Hills 210,451 at 8%), and
 Paul confirmed both tabs; the one-off is out (commit 9525dc8 keeps it). One lint test. Menu.gs, Property.html and oneOffScripts.gs only - a push, no
 deploy (the web app never calls these).
+
+## 2026-10-07 — Import statement matches too, in the same box
+
+Paul: "why can't the statement import also include the match line?" Now it does. After the lines land on the Feed tab,
+`Import.html` starts the matching on the account it just imported (`startFeedMatch`, Menu.gs) and polls
+`feedMatchStatus` every 5 s for five minutes, showing "Tying N bank lines... X s" and then the same summary or failure
+words as the menu item, in the dialog in place of the toast and alert. The dialog polls rather than one server call
+waiting, so the six-minute limit is not in play; closing the box leaves the run going on the site. The counting moved to
+`unmatchedFeedCounts_`, shared with **Match statement lines...**, which stays for reruns (a busy failure, lines waiting
+on a sale, after `resetFeedCards`). Menu.gs and Import.html only: a push, no deploy (commit 70a7555, pushed; `clasp pull`
+= the repo). Not yet seen on a real import. The Desktop Citizens-export test fails before and after this change - the
+file there no longer ties; not chased.
