@@ -5,6 +5,15 @@ history and are not written to; `CHANGELOG.md` keeps its dated entry per change.
 `docs/ops.md`. The books' numbers live on the workbook's tabs (P&L, Totals, Citizens Bank, the house tabs) - read them
 there; a figure written here is only as of its date.
 
+## 2026-10-09 - owed, in order (on top of everything below)
+
+1. **Paul: `npx clasp login`** (expired 10-09 mid-push). Then Claude: `clasp push -f` from `apps-script/writer/` and
+   `clasp pull` to confirm Code.gs = the repo (commit 4c6d345: "Recast Account Paid" follows the who-paid box).
+2. **Paul: rebuild three tabs** - open the tab, Recast Books -> Rebuild property tab: 3808 Kings (Back to Recast
+   should read 140.15), 366 Mesa (9,373.55), 413 Green Acres (344.39). Sale Price / Concession cells survive a rebuild.
+3. **Paul: `clasp deploy -i AKfycbxNisU_atef_fjnELMBK0R9N1xcnP5e-0MT4LP0FdhpfdPRE1UwlIcb2u4-JS38gx1O3w`** - Code.gs changed.
+4. Still unanswered: how much Dennis moved out of Citizens and for which house (below).
+
 ## 2026-10-07 (morning) - on top of the 10-06 state below
 
 - **Import statement now matches too** (Menu.gs/Import.html, a push, no deploy): the dialog starts the matching on the

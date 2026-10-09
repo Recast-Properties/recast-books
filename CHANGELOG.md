@@ -3290,3 +3290,16 @@ oil rubbed bronze, 366 Mesa matte black; one oil rubbed bronze damaged, not retu
 OVERHEAD, House Hardware, the Amazon order as the receipt, paid_from 1401 as the purchase was. Checked locally against
 `buildEntry`; a who-paid box ticked on one of these lines changes nothing (no paid-from line to move). Left on the
 shelf: one satin nickel, one matte black (80.30).
+
+## 2026-10-09 — A house tab's "Recast Account Paid" follows the who-paid box
+
+Paul, on 3808 Kings: "this sheet is not adding correctly. the amount back to recast should be 140.15" - the tab said
+100.00. The lock moved off the shelf on 10-07 (Dr 1030 house / Cr 6510 OVERHEAD, paid_from 1401) shows its Recast box
+ticked, but "Recast Account Paid" was `cred(isBank)` - the bank's credit lines on the house - and a move between two
+piles has no bank line (the money left Citizens once, 08-13, under OVERHEAD). Now `deb(paidFromBank)`: debits whose
+`paid_from` starts "14", the bank's own line excluded (`setupPropertyTab`, Code.gs) - the same test
+`refreshLineBlocks_` uses to tick the box, so the total is the ticked lines. Checked first on every held house (gviz,
+the live Journal): the two sums agree to the cent on all nine except exactly the three moved locks (Kings 100 ->
+140.15, Green Acres 304 -> 344.39, Mesa 9,333.40 -> 9,373.55). Paul Paid / Dennis Paid untouched. Commit 4c6d345.
+**Push failed - clasp login expired (invalid_rapt).** Owed: Paul's `npx clasp login`, the push, a rebuild of the three
+tabs (Recast Books -> Rebuild property tab on each), and `clasp deploy -i`.
