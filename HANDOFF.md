@@ -52,6 +52,11 @@ lines = 272, the Frozen tab's summary numbers unchanged, take the one-off out, p
    change only on his word, cell by cell.
 2. **The bank box waits on two Inbox cards of Paul's:** the 10-01 500.00 Venmo to Ivett Avila (the books have
    Juanito Garcia 500.00 at 366 Mesa) and the Red Oak water 300.72 (the bank shows its 2.00 fee apart).
+   **Paul, 10-09: Ivett Avila is Juanito's wife** - the Venmo is his 500.00. The card has no "same payment" button: Paul clicks
+   Dismiss all, types that it is the Juanito 500.00 at 366 Mesa, then Recast Books -> Match statement lines... ties
+   the line to the entry the books already hold (inboxDismiss -> unmatched with "Paul: ...", the matcher reads it). The alias goes on the Vendors tab (Juan Garcia | Juanito, Juanito Garcia, Ivett Avila) so
+   the matcher and the bookkeeper know her name next time. Paul's rule from 10-09: no payment to Juanito or Armandre
+   Vega without an invoice; W-9s he is collecting himself.
 3. **The payout-line matcher is not built** (Paul: not yet). Build it when the first of the four payouts goes out -
    the amounts as of 10-05 are on the two closing tabs (Ashburne: Dennis 17,829.27, Paul 147,729.38; Newport: Dennis
    240,895.21, Paul 27,609.53; D-083, D-084, all still in Citizens). The bank line must land on what is owed

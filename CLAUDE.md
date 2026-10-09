@@ -14,7 +14,8 @@ what was here before is `docs/status-archive-2026-10-06.md`, verbatim).
 The bookkeeping system for Recast Properties LLC - **the real books since the 2026-09-21
 cutover** (D-024). The old workbook is closed and the old receipts bookkeeper in
 `../Recast-site/` is switched off for the books. A Google Sheets workbook is the system of
-record; Claude is the bookkeeper; the workbook's **Recast Books menu** is the front door
+record; Claude is the bookkeeper - **Paul calls the bookkeeper Penny**, and a message addressed to Penny is a
+books task; the workbook's **Recast Books menu** is the front door
 (D-023, constraint 8). The web app at books.recast-properties.com carries the `/api/*`
 functions the menu, pollers and nightly jobs call - Paul is never sent there.
 
@@ -126,7 +127,10 @@ functions the menu, pollers and nightly jobs call - Paul is never sent there.
     bought (D-064). Paul's subject line and typed note settle who paid - read them first.
 19. **One `HANDOFF.md`**, overwritten at the end of a session: what is live, what is owed, what is open, what is
     built but unproven. The dated `HANDOFF-2026-*.md` files are history and are not written to. Every change still
-    gets its dated CHANGELOG entry.
+    gets its dated CHANGELOG entry. **Penny keeps the record and the backup herself (Paul: "tell me when its time to
+    update any git, repo or md and just do it"):** after a piece of work, update CHANGELOG / HANDOFF / decisions,
+    commit only this session's files and `git push` - no asking, one line to Paul saying what went up. Production
+    deploys (`clasp deploy -i`, `npm run deploy`) and `clasp login` stay his.
 
 ## Where things are
 

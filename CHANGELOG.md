@@ -1,5 +1,29 @@
 # Changelog
 
+## 2026-10-09 - Juanito Garcia / Armandre Vega: the invoice list, and Ivett Avila
+
+Paul asked for every payment to Juanito Garcia and Armandre Vega with no invoice. Read from the Journal (gviz) and the
+linked Drive files: not one payment to either has a bill from the man himself. Five have nothing on file at all (Juan
+Garcia 7,000.00 x4 on 104 Ashburne, 01-12 / 01-23 / 02-09 / 02-20, Paul paid; Juanito 2,000.00 on 366 Mesa 08-28,
+Dennis's check 1147). The rest hold only proof the money left (check photos, Zelle and Venmo screens, Paul's own
+one-line emails, the Chinos LLC estimate 126). Advice given: pull the bank's record of the four 7,000s from his Chase
+account, Dennis's check 1147 picture, and one signed year list from each man alongside the W-9.
+
+Paul: **Ivett Avila is Juanito's wife** - the 10-01 500.00 Venmo in her name is his paint-and-labor payment at 366
+Mesa (the open Inbox card's answer is "same payment"). Noted in HANDOFF, `data/vendors-1099-2026.md` (Juanito = Juan
+Garcia, one payee) and memory; the alias row for the Vendors tab (the matcher and the bookkeeper read it). Paul's rule
+going forward: no payment to either man without an invoice.
+
+Paul named the bookkeeper **Penny** ("Penny, check something in my books" = a Recast-books task). Wired into the
+root routing `CLAUDE.md`, this repo's `CLAUDE.md` and memory.
+
+Paul: Penny keeps the repo current herself - CHANGELOG / HANDOFF / decisions, commit and push to GitHub without
+asking, one line to him. Rule 19 in `CLAUDE.md`. Production deploys and `clasp login` stay his.
+
+Ivett Avila card: Paul clicked Dismiss all with his note; the Feed line is `unmatched` carrying "Paul: Same as the
+$500 to Juanito Garcia..."; next is Match statement lines... to tie it. Vendors tab row typed for Juan Garcia
+(aliases Juanito, Juanito Garcia, Juannito Garcia, Ivett Avila), verified by gviz.
+
 ## 2026-08-26 — Repo created, plan drafted and reviewed
 
 **Created** this repo as a fourth workstream under `Desktop/Claude/`, alongside
