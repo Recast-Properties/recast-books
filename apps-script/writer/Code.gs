@@ -1544,6 +1544,13 @@ function setupPropertyTab(name, asOf) {
   var deb = function (factor) { return 'SUMPRODUCT(' + factor + '*' + live + '*' + J('F') + ')'; };
   var cred = function (factor) { return 'SUMPRODUCT(' + factor + '*' + live + '*' + J('G') + ')'; };
   var isBank = '(LEFT(' + J('E') + '&"",2)="14")';
+  // Who paid, as the line's own checkbox says it (paid_from, column N - refreshLineBlocks_ ticks the Recast box
+  // on LEFT(N,2)="14"). "Recast Account Paid" used to add up the bank's credit lines on the house instead, which
+  // misses a cost moved onto the house from the business shelf (Dr 1030 house / Cr 6510 OVERHEAD, paid_from 1401):
+  // the money left the bank once, in August, under OVERHEAD. Paul, 2026-10-09, 3808 Kings: "the amount back to
+  // recast should be 140.15" - the tab said 100. Checked on every held house that day: the two sums agree to the
+  // cent everywhere but the three moved locks. The bank's own line is left out so it is not counted twice.
+  var paidFromBank = '(LEFT(' + J('N') + '&"",2)="14")*(LEFT(' + J('E') + '&"",2)<>"14")';
   // Rehab Costs = Rehab, Acquisition other than the purchase, and Selling (listing fees, HOA
   // resale - rows the old tabs carried in Rehab Costs; left off the light tabs until 2026-09-22).
   // Lawn care is a rehab cost, not a utility (Paul, 2026-10-01: "lawn maintenance shodul be in rehab costs" -
@@ -1673,7 +1680,7 @@ function setupPropertyTab(name, asOf) {
     ['Dennis Paid', '=' + deb(costLineF + '*' + eq('N', 'DENNIS'))],
     ['Received (refunds)', '=-' + cred(costLineF + '*' + eq('N', 'DENNIS'))]]);
   var cashTop = heavy ? dueToPaulRow : subBlock(recastNetRow, 'Recast Account Paid', [
-    ['Recast Account Paid', '=' + cred(isBank)],
+    ['Recast Account Paid', '=' + deb(paidFromBank)],
     ['Received (advances)', '=-' + deb(isBank + '*' + isAdvance)],
     ['Received (refunds)', '=-' + deb(isBank + '*' + notAdvance)]]);
   var cash = advanceSchedule(cashTop, 'Cash Advances + Interest', isCash, countAdvances_(ss, name, false) + 1);
