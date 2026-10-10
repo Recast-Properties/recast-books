@@ -50,11 +50,10 @@ lines = 272, the Frozen tab's summary numbers unchanged, take the one-off out, p
    are in pvb421@gmail.com: forward to paul@ on his explicit yes, save to Drive with the poller one-off pattern
    (`git show 8d92e0f:apps-script/poller/OneOff.gs`), match, a second small link run. The Frozen and Closing tabs
    change only on his word, cell by cell.
-2. **The bank box waits on two Inbox cards of Paul's:** the 10-01 500.00 Venmo to Ivett Avila (the books have
-   Juanito Garcia 500.00 at 366 Mesa) and the Red Oak water 300.72 (the bank shows its 2.00 fee apart).
-   **Paul, 10-09: Ivett Avila is Juanito's wife** - the Venmo is his 500.00. The card has no "same payment" button: Paul clicks
-   Dismiss all, types that it is the Juanito 500.00 at 366 Mesa, then Recast Books -> Match statement lines... ties
-   the line to the entry the books already hold (inboxDismiss -> unmatched with "Paul: ...", the matcher reads it). The alias goes on the Vendors tab (Juan Garcia | Juanito, Juanito Garcia, Ivett Avila) so
+2. **The bank box waits on one Inbox card of Paul's:** the Red Oak water 300.72 (the bank shows its 2.00 fee apart).
+   The 10-01 500.00 Venmo to Ivett Avila is tied (10-10): she is Juanito's wife (Paul), the line is his 500.00 paint and
+   labor at 366 Mesa. The way to answer a "same payment?" card: Dismiss all with the answer typed in, then Recast Books
+   -> Match statement lines... (inboxDismiss -> unmatched carrying "Paul: ...", the matcher reads it and ties). The alias goes on the Vendors tab (Juan Garcia | Juanito, Juanito Garcia, Ivett Avila) so
    the matcher and the bookkeeper know her name next time. Paul's rule from 10-09: no payment to Juanito or Armandre
    Vega without an invoice; W-9s he is collecting himself.
 3. **The payout-line matcher is not built** (Paul: not yet). Build it when the first of the four payouts goes out -

@@ -21,7 +21,9 @@ Paul: Penny keeps the repo current herself - CHANGELOG / HANDOFF / decisions, co
 asking, one line to him. Rule 19 in `CLAUDE.md`. Production deploys and `clasp login` stay his.
 
 Ivett Avila card: Paul clicked Dismiss all with his note; the Feed line is `unmatched` carrying "Paul: Same as the
-$500 to Juanito Garcia..."; next is Match statement lines... to tie it. Vendors tab row typed for Juan Garcia
+$500 to Juanito Garcia..."; next is Match statement lines... to tie it. **Tied 10-10:** Match statement lines... read his note and
+matched the line to the 10-01 Juanito Garcia 500.00 entry (1 line looked at, 1 tied, none needing his word; verified on
+the Feed tab). One bank-box card left: the Red Oak water 300.72. Vendors tab row typed for Juan Garcia
 (aliases Juanito, Juanito Garcia, Juannito Garcia, Ivett Avila), verified by gviz.
 
 ## 2026-08-26 — Repo created, plan drafted and reviewed
