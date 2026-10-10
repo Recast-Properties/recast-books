@@ -5,6 +5,16 @@ history and are not written to; `CHANGELOG.md` keeps its dated entry per change.
 `docs/ops.md`. The books' numbers live on the workbook's tabs (P&L, Totals, Citizens Bank, the house tabs) - read them
 there; a figure written here is only as of its date.
 
+## 2026-10-10 - owed, in order (on top of everything below)
+
+0. **Paul: `npm run deploy`** - D-087 (a receipt answers its waiting bank card; a free line folds into the memo) is
+   committed and tested, not deployed. Then the Inbox clean-up: round 1 (twelve Saves, listed in the 10-10 chat),
+   round 2 (Dismiss all on the seven bank cards whose receipts he saved, plus the $67.60 return card and the $5.00
+   clerk duplicate; then Match statement lines... once), round 3 (three bank lines with no receipt - Lowe's 08-10
+   130.87, Home Depot 09-24 90.23 and 09-25 30.57: Waiting on Dennis -> Waiting on receipt). Answers still owed:
+   HILCO 860.00 which house; Alaska 579.40 is Visa 7274 his; Chino's 3,500.00 paid and by whom; the four old
+   sold-house receipts (cards 2749 / 3274, 33.62) count or drop; Foremost 267.34 which house; Zelle in 500.00 Charvale.
+
 ## 2026-10-09 - owed, in order (on top of everything below)
 
 1. **Paul: `npx clasp login`** (expired 10-09 mid-push). Then Claude: `clasp push -f` from `apps-script/writer/` and
@@ -73,6 +83,9 @@ lines = 272, the Frozen tab's summary numbers unchanged, take the one-off out, p
 
 ## Built, not yet seen on a real case
 
+- D-087: a receipt that answers a waiting bank-line card posts, ties the line and dismisses the card on its own
+  (`retireBankCard`); a $0.00 item folds into the memo. Watch the first one: the Feed row matched with the new txn
+  id, the card gone from the Inbox, the note "The receipt came in (...) and the bookkeeper tied it".
 - D-057: a receipt taking a `NEED RECEIPT FROM <NAME>` placeholder's place; D-058: a held card replacing an entry
   (the yellow box); D-060: one charge, one card - all on real cards.
 - D-077: a copy of a card still waiting on Paul (the prompt rule to dismiss the copy).

@@ -94,6 +94,7 @@ that supersedes the old one, not editing history.
 - D-084 · Paul's share of a sale's profit is owed to him from the closing day - 2026-10-05 · Paul
 - D-085 · The interest rate is typed when a house is added and its advances inherit it; no sale price or settlement date at Add property - 2026-10-06 · Paul
 - D-086 · Add property records a Dennis-funded house's purchase loan; one per house - 2026-10-06 · Paul
+- D-087 · A receipt that answers a bank-line card still waiting posts and retires the card; a free line folds into the memo - 2026-10-10 · Paul
 
 ---
 
@@ -1939,3 +1940,25 @@ Saving the house records it through Add advance's own path (`recordDennisPurchas
 the Dr 1000 / Cr 2010 entry and the Advances row, at the house's rate, D-085). A house has one purchase loan: Add
 property skips a house that has one, and Add advance refuses a second. Add advance -> Purchase principal stays for a
 house whose purchase was not recorded at Add property. A house that is not Dennis-funded records nothing, as before.
+
+## D-087 · A receipt that answers a bank-line card still waiting posts and retires the card; a free line folds into the memo - 2026-10-10 · Paul
+
+**Context.** Paul imported the Citizens statement on 10-07 and forwarded Dennis's receipts on 10-09. Every charge had a
+bank-line card in the Inbox first, so each receipt read as "the same purchase already waiting on Paul" (the rule
+written for a ride's summary and its receipt arriving as two cards) and held - six Saves for receipts that were
+right in every field. Paul: "the whole idea of the system is to be able to save an expense like the $2.65 Target
+expense by itself." A seventh, a drill, held because its free BOGO battery printed as a $0.00 line and the books
+refuse a line for nothing.
+
+**Decision.** `search_docs` tells the reader which waiting card is a bank line (`source: "feed"`). A receipt that
+answers one posts as any receipt would and names the card's docId in `supersedes`; code (`retireBankCard` in the
+ingest) ties the card's bank lines to the new entries and dismisses the card - only while the card is still
+waiting, the totals agree to the cent and the receipt was paid from the card's account. Anything else leaves the
+card for Paul. The post stands whatever happens to the card. A bank-card id never stays in `supersedes` (nothing
+to void, no yellow box, no 409 on a Save): it moves to `bank_card` on the stored read. A second copy of a receipt
+still holds for Paul as before. A $0.00 item folds into the entry's memo ("free with it: ...") instead of
+standing as a line; an item the read could not price is still caught by TOTAL_MISMATCH.
+
+**Consequences.** The order Paul works in no longer matters: statement first or receipts first, a receipt with the
+house and the card on it records itself. The cards already held on 10-09 still take his Save - a reprocess never
+posts (D-048). Built on tests (570); first real case not yet seen.

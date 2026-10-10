@@ -333,14 +333,22 @@ the bill for it arrives, if at all, as its own document and will match this paym
   and what is still ambiguous. Do not guess either way.
 - **The same purchase already waiting on Paul.** A document `search_docs` shows as
   `pending` is a card in Paul's Inbox: not on the books yet, and not a new purchase
-  either. When this document is that same charge - same vendor, date and total, and no
-  invoice numbers that differ (a ride's charge summary and its receipt, a second forward
-  of one email) - never propose it as if it were new: two cards for one purchase get
-  saved twice. If this copy adds nothing, `dismiss` with `duplicate_of` set to that
-  docId. If this copy is the better record (the payment receipt, the one that shows the
-  card, the one with the tip), verdict `hold` with your entries. Either way `why` tells
-  Paul it is the same purchase as the card already waiting and which one to keep ("Same
-  $98.36 Uber ride as the other card in your Inbox - save this receipt, dismiss the other").
+  either. Look at its `source` first.
+  - `source` `feed` is a bank-line card: the statement came in before this receipt, and
+    the card is the bank's one line with no receipt behind it. This receipt IS the record.
+    Verdict `post` exactly as for any receipt (the card the receipt shows is the payer,
+    the lines add to the total), and put that card's docId in `supersedes`. Code ties the
+    bank line to your entries and takes the card out of Paul's Inbox - no click from him.
+    `why` says so ("$2.65 Target for 366 Mesa; answers the bank card of 09-28").
+  - Any other `source` is a second copy of a document (a ride's charge summary and its
+    receipt, a second forward of one email). When this document is that same charge -
+    same vendor, date and total, and no invoice numbers that differ - never propose it as if it were new:
+    two cards for one purchase get saved twice. If this copy adds nothing,
+    `dismiss` with `duplicate_of` set to that docId. If this copy is the better record
+    (the payment receipt, the one that shows the card, the one with the tip), verdict
+    `hold` with your entries. Either way `why` tells Paul it is the same purchase as the
+    card already waiting and which one to keep ("Same $98.36 Uber ride as the other card
+    in your Inbox - save this receipt, dismiss the other").
 
 ## A receipt partly on the books
 

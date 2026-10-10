@@ -121,7 +121,8 @@ functions the menu, pollers and nightly jobs call - Paul is never sent there.
     (D-078). Each fall the new year's tables and `CARRIED_OVER` go into `lib/tax.mjs` when published (D-075, D-078).
 18. **The bookkeeper:** a medium read posts when every other rail holds (D-044); a vendor's unanimous payment
     history settles the payer (D-045); a utility payment matching nothing on the account posts (D-046); a copy of a
-    card still waiting on Paul is not a new purchase (D-077); Reprocess never posts or dismisses (D-048); no
+    card still waiting on Paul is not a new purchase (D-077) but the receipt for a waiting BANK-LINE card posts and
+    retires the card on its own (D-087); Reprocess never posts or dismisses (D-048); no
     attachment means the email is the receipt (D-035); sold houses keep their mailbox and their costs land on Cost
     Recapture; an entry whose description says PENDING ROUTING is refused; Claude credits are a software cost when
     bought (D-064). Paul's subject line and typed note settle who paid - read them first.

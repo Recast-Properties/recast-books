@@ -683,3 +683,66 @@ test("D-058: an earlier copy replaced - its bank lines move when the amount is t
     assert.deepEqual(calls, [["void", "receipt-20260909-old", `superseded by ${docId}`, true], ["postBatch"], ["feedRetie", "receipt-20260909-old", expectTo]], docId);
   }
 });
+
+// ---- 2026-10-10: a receipt answers a bank-line card still waiting in the Inbox ---------------------------
+// The statement came in before Dennis's receipts; every charge had a card first, and each receipt then held as
+// "the same purchase already waiting on Paul" - six Saves for nothing. Now the read names the bank card in
+// `supersedes`, the receipt posts, the bank line ties to it and the card goes.
+const BANK_CARD = { docId: "feed-1401-abc", source: "feed", channel: "bankfeed", status: "pending", model: { verdict: "hold", vendor: "Home Depot Waxahachie", date: "2026-09-10", receipt_total_cents: 4500 },
+  feed: { account: "1401", feed_ids: ["abc"], amount_cents: -4500, card: null } };
+
+test("search_docs says which waiting card is a bank line", { skip }, async () => {
+  const store = getDocsStore();
+  await store.setJSON("doc/feed-1401-src", { ...BANK_CARD, docId: "feed-1401-src", finishedAt: new Date().toISOString() });
+  await store.setJSON("doc/gm-src", { docId: "gm-src", status: "pending", model: { vendor: "Home Depot", date: "2026-09-10", receipt_total_cents: 4500 }, finishedAt: new Date().toISOString() });
+  const by = Object.fromEntries((await searchDocs(store, { vendor: "Home Depot", amount_cents: 4500, days: 400 }, "gm-self")).map((d) => [d.docId, d]));
+  assert.equal(by["feed-1401-src"].source, "feed");
+  assert.equal(by["gm-src"].source, "email");
+});
+
+test("a receipt answering a waiting bank card: posted, nothing voided, the bank line tied, the card dismissed", { skip }, async () => {
+  const envelope = await seedEnvelope({ docId: "gm-answers" });
+  const store = getDocsStore();
+  await store.set("att/gm-answers/0", Buffer.from("hi").toString("base64"), { metadata: {} });
+  await store.setJSON(`doc/${BANK_CARD.docId}`, BANK_CARD);
+  const calls = [];
+  const writer = {
+    storeDocument: async () => ({ fileId: "f1", url: "https://drive/x", folderUrl: "https://drive/folder" }),
+    void: async (txn_id) => { calls.push(["void", txn_id]); return { ok: true }; },
+    postBatch: async (entries) => { calls.push(["postBatch", entries.length]); return { rows: [1, 2] }; },
+    feedUpdate: async (rows) => { calls.push(["feedUpdate", rows]); return { ok: true, updated: rows.length }; },
+    read: async () => ({ ok: true, headers: ["txn_id"], rows: [] }),
+  };
+  const result = await processDecision({ envelope, docId: "gm-answers", model: postModel({ supersedes: BANK_CARD.docId }), transcript_summary: [], usage: {},
+    gateResult: PASS_GATE, ctx: baseCtx(), writer, docsStore: store });
+  assert.equal(result.status, "posted");
+  assert.equal(result.model.supersedes, "", "a bank card is not an entry to void or replace");
+  assert.equal(result.model.bank_card, BANK_CARD.docId);
+  assert.equal(calls[0][0], "postBatch");
+  assert.ok(!calls.some((c) => c[0] === "void"));
+  const tie = calls.find((c) => c[0] === "feedUpdate")[1];
+  assert.deepEqual(tie, [{ feed_id: "abc", status: "matched", txn_id: result.result.txn_ids[0], match_note: "The receipt came in (gm-answers) and the bookkeeper tied it" }]);
+  const card = await store.get(`doc/${BANK_CARD.docId}`, { type: "json" });
+  assert.equal(card.status, "dismissed");
+  assert.equal(card.review.by, "claude");
+});
+
+test("a receipt naming a bank card for a different total: posted, the card stays for Paul", { skip }, async () => {
+  const envelope = await seedEnvelope({ docId: "gm-answers-2" });
+  const store = getDocsStore();
+  await store.set("att/gm-answers-2/0", Buffer.from("hi").toString("base64"), { metadata: {} });
+  await store.setJSON("doc/feed-1401-tip", { ...BANK_CARD, docId: "feed-1401-tip", feed: { ...BANK_CARD.feed, feed_ids: ["tip"], amount_cents: -4600 } });
+  const calls = [];
+  const writer = {
+    storeDocument: async () => ({ fileId: "f1", url: "https://drive/x", folderUrl: "https://drive/folder" }),
+    void: async () => { calls.push("void"); return { ok: true }; },
+    postBatch: async () => ({ rows: [1, 2] }),
+    feedUpdate: async () => { calls.push("feedUpdate"); return { ok: true }; },
+    read: async () => ({ ok: true, headers: ["txn_id"], rows: [] }),
+  };
+  const result = await processDecision({ envelope, docId: "gm-answers-2", model: postModel({ supersedes: "feed-1401-tip" }), transcript_summary: [], usage: {},
+    gateResult: PASS_GATE, ctx: baseCtx(), writer, docsStore: store });
+  assert.equal(result.status, "posted");
+  assert.deepEqual(calls, []);
+  assert.equal((await store.get("doc/feed-1401-tip", { type: "json" })).status, "pending");
+});

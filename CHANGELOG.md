@@ -1,5 +1,23 @@
 # Changelog
 
+## 2026-10-10 - A receipt answers its waiting bank card on its own (D-087)
+
+Paul: "if the expenses in round 1 are correct why werent they completed by the poller?" Six of the twelve cards
+held only because the statement (imported 10-07) had made a bank-line card for each charge before the receipt came
+(10-09), and the reader's rule for a second copy of a document held the receipt as "the same purchase already
+waiting on Paul". A seventh (the $247.89 drill) held over a $0.00 free-battery line.
+
+- `search_docs` now reports each document's `source`; the prompt rule splits on it: a waiting `feed` card is answered
+  by the receipt (verdict post, the card's docId in `supersedes`), any other waiting copy holds as before.
+- Ingest: a `feed-` id in `supersedes` moves to `bank_card` before the read is stored; after the post,
+  `retireBankCard` ties the card's Feed rows to the new entries (`feedUpdate`, matched) and dismisses the card -
+  only while it is still pending, the totals agree and the receipt was paid from the card's account.
+- `normalizeEntry`: a $0.00 item folds into the memo ("free with it: ...") and is not a line.
+- Tests: search_docs source, the retire path, the totals-differ path, the free line. 570 tests. `normalizeDecide`
+  exported for the test.
+
+Owed: `npm run deploy` (Paul). The six cards held on 10-09 still take his Save (round 1 of the Inbox clean-up).
+
 ## 2026-10-09 - Juanito Garcia / Armandre Vega: the invoice list, and Ivett Avila
 
 Paul asked for every payment to Juanito Garcia and Armandre Vega with no invoice. Read from the Journal (gviz) and the

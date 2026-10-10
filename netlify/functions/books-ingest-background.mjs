@@ -266,6 +266,9 @@ export async function searchDocs(docsStore, { vendor = "", amount_cents, days = 
     const practiceRun = env.status === "posted" && onBooks && !txn_ids.some((t) => onBooks.has(t));
     out.push({
       docId: env.docId,
+      // "feed" is a card born from a bank line (lib/feed-match.mjs cardEnvelope): no receipt behind it. The
+      // receipt that answers one posts and retires it (2026-10-10) instead of holding as a second copy.
+      source: env.source || "email",
       status: practiceRun ? "not on the books (posted only on a practice run - none of its rows is on the Journal)" : env.status,
       vendor: env.model.vendor || "",
       date: env.model.date || "",
@@ -536,6 +539,11 @@ export async function processDecision({
 }) {
   let envelope = initialEnvelope;
   const envelopeKey = `doc/${docId}`;
+  // 2026-10-10: a receipt that answers a bank-line card still waiting in the Inbox names that card's docId in
+  // `supersedes`. It is not a Journal entry - nothing to void, no yellow box, no 409 on a Save - so it moves to
+  // `bank_card` before the model is stored, and the post below retires the card (retireBankCard).
+  const bankCardId = /^feed-/.test(String(model?.supersedes || "")) ? String(model.supersedes) : "";
+  if (bankCardId) model = { ...model, supersedes: "", bank_card: bankCardId };
   const save = async (patch) => {
     envelope = { ...envelope, ...patch };
     await docsStore.setJSON(envelopeKey, envelope);
@@ -649,6 +657,7 @@ export async function processDecision({
             waiting ? `The receipt came in (${docId}) and replaced the placeholder` : same ? `A corrected copy (${docId}) replaced the entry` : `The entry this was tied to was replaced by ${docId} for another amount`);
         } catch (err) { console.error(`books-ingest-bg: ${docId} replaced ${replaced.txn_id} but its bank lines were not moved: ${String((err && err.message) || err)}`); }
       }
+      if (bankCardId) await retireBankCard({ bankCardId, entries, docId, writer, docsStore });
       await invalidateJournalCache(writer); // covers the void above too - one Journal refresh
 
       return save({
@@ -700,6 +709,34 @@ export async function processDecision({
     result: { txn_ids: [], rows: null, doc_url: "" },
     finishedAt: new Date().toISOString(),
   });
+}
+
+/**
+ * 2026-10-10: the receipt for a bank line whose card is still waiting in the Inbox. When the statement is
+ * imported before the receipts, the matcher makes a card for every charge; the receipt is the record. Once
+ * it is posted, the bank line ties to it and the card leaves Paul's Inbox with no click from him - but only
+ * while the card is still waiting, the totals agree to the cent and the receipt was paid from the card's
+ * account. Anything else leaves the card for Paul. The post stands whatever happens here; a miss is logged.
+ */
+async function retireBankCard({ bankCardId, entries, docId, writer, docsStore }) {
+  try {
+    const card = await docsStore.get(`doc/${bankCardId}`, { type: "json" });
+    const feed = card?.feed;
+    if (!card || card.status !== "pending" || !Array.isArray(feed?.feed_ids) || !feed.feed_ids.length) return;
+    const total = entries.reduce((t, e) => t + (e.lines || []).reduce((s, l) => s + (Number(l.debit) || 0), 0), 0);
+    const sameTotal = total === Math.abs(Number(feed.amount_cents) || 0);
+    const paidFromCard = entries.every((e) => (e.lines || []).some((l) => String(l.account) === String(feed.account)));
+    if (!sameTotal || !paidFromCard) {
+      console.error(`books-ingest-bg: ${docId} names bank card ${bankCardId} but ${sameTotal ? "the payer differs" : "the totals differ"} - the card stays for Paul`);
+      return;
+    }
+    const note = `The receipt came in (${docId}) and the bookkeeper tied it`;
+    const txn_id = entries.map((e) => e.txn_id).join(", ");
+    await writer.feedUpdate(feed.feed_ids.map((feed_id) => ({ feed_id, status: "matched", txn_id, match_note: note })));
+    await docsStore.setJSON(`doc/${bankCardId}`, { ...card, status: "dismissed", review: { action: "dismiss", by: "claude", at: new Date().toISOString(), note } });
+  } catch (err) {
+    console.error(`books-ingest-bg: ${docId} posted but bank card ${bankCardId} was not retired: ${String((err && err.message) || err)}`);
+  }
 }
 
 // buildEntriesFromModel (lib/gate.mjs) is expected to already run every
