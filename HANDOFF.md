@@ -7,8 +7,8 @@ there; a figure written here is only as of its date.
 
 ## 2026-10-10 - owed, in order (on top of everything below)
 
-0. **Paul: `npm run deploy`** - D-087 (a receipt answers its waiting bank card; a free line folds into the memo) is
-   committed and tested, not deployed. Then the Inbox clean-up: round 1 (twelve Saves, listed in the 10-10 chat),
+0. D-087 (a receipt answers its waiting bank card; a free line folds into the memo) is **live - site `6aca41c9`,
+   deployed by Paul 10-10**. Then the Inbox clean-up: round 1 (twelve Saves, listed in the 10-10 chat),
    round 2 (Dismiss all on the seven bank cards whose receipts he saved, plus the $67.60 return card and the $5.00
    clerk duplicate; then Match statement lines... once), round 3 (three bank lines with no receipt - Lowe's 08-10
    130.87, Home Depot 09-24 90.23 and 09-25 30.57: Waiting on Dennis -> Waiting on receipt). Answers still owed:
@@ -38,7 +38,7 @@ there; a figure written here is only as of its date.
 ## As of 2026-10-06 night
 
 Live: writer web app **@38**, writer pushed after it (D-085 Add property asks the interest rate; D-086 it records a
-Dennis-funded house's purchase loan - 3808 Kings and 658 Erin Hills added 10-06 and fixed), site **`6ac23e11`**, both
+Dennis-funded house's purchase loan - 3808 Kings and 658 Erin Hills added 10-06 and fixed), site **`6aca41c9`** (10-10, D-087), both
 pollers pushed - all = the repo. 566 tests. Nothing owed on a
 deploy. Every house of the old books is closed in the books (1616 Granite, 280 Sparkling, 881 Newport, 104 Ashburne)
 plus Paul's own 1014 S View (D-079). Phase 3 (bank statements): import, matcher, the Citizens Bank tab and its bank

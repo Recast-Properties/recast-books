@@ -16,7 +16,8 @@ waiting on Paul". A seventh (the $247.89 drill) held over a $0.00 free-battery l
 - Tests: search_docs source, the retire path, the totals-differ path, the free line. 570 tests. `normalizeDecide`
   exported for the test.
 
-Owed: `npm run deploy` (Paul). The six cards held on 10-09 still take his Save (round 1 of the Inbox clean-up).
+Deployed by Paul the same morning: site `6aca41c9`. The six cards held on 10-09 still take his Save (round 1 of the
+Inbox clean-up).
 
 ## 2026-10-09 - Juanito Garcia / Armandre Vega: the invoice list, and Ivett Avila
 
