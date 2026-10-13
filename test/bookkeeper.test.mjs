@@ -569,3 +569,32 @@ test("a JPEG declared image/png is sent as image/jpeg (the bytes win)", async ()
   const image = client.calls[0].messages[0].content.find((b) => b.type === "image");
   assert.equal(image.source.media_type, "image/jpeg");
 });
+
+test("a photo wider than 2000px is shown scaled down while zoom still crops the full-size original", async () => {
+  const client = scriptedClient([
+    { stop_reason: "tool_use", content: [toolUse("z1", "zoom", { attachment: 0, x0: 0, y0: 0, x1: 0.5, y1: 1 })], usage: usage() },
+    { stop_reason: "tool_use", content: [toolUse("t1", "decide", DECIDE_INPUT)], usage: usage() },
+  ]);
+  await runBookkeeper({
+    envelope: baseEnvelope(),
+    attachments: [{ name: "IMG_6074.JPG", mime: "image/jpeg", bytes: await makePng(4032, 400) }],
+    deps: baseDeps({ anthropic: client }),
+  });
+
+  const shownBlock = client.calls[0].messages[0].content.find((b) => b.type === "image");
+  const shownImg = await Jimp.read(Buffer.from(shownBlock.source.data, "base64"));
+  assert.equal(shownBlock.source.media_type, "image/jpeg");
+  assert.ok(shownImg.width <= 2000 && shownImg.height <= 2000, `shown copy must fit 2000px, got ${shownImg.width}x${shownImg.height}`);
+
+  const zoomResult = client.calls[1].messages.at(-1).content[0].content.find((b) => b.type === "text");
+  assert.match(zoomResult.text, /source 4032x400px/, "zoom must crop the full-size original, not the shown copy");
+});
+
+test("a photo that already fits 2000px is shown exactly as it came", async () => {
+  const client = scriptedClient([{ stop_reason: "tool_use", content: [toolUse("t1", "decide", DECIDE_INPUT)], usage: usage() }]);
+  const bytes = await makePng(1200, 900);
+  await runBookkeeper({ envelope: baseEnvelope(), attachments: [{ name: "small.png", mime: "image/png", bytes }], deps: baseDeps({ anthropic: client }) });
+  const shownBlock = client.calls[0].messages[0].content.find((b) => b.type === "image");
+  assert.equal(shownBlock.source.media_type, "image/png");
+  assert.equal(shownBlock.source.data, bytes.toString("base64"));
+});

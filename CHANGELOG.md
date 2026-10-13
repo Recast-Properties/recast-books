@@ -1,5 +1,20 @@
 # Changelog
 
+## 2026-10-13 - A full-size phone photo no longer fails the read
+
+Paul: "the receipts for 241 Poinsetta dont seem to be being processed." Both house mailboxes (241 Poinsetta, 658 Erin
+Hills) are being checked - their labels are in the properties@ poller's list and mail from both reached the books
+10-07 to 10-12. One photo for 241 Poinsetta (10-11, IMG_6074, gm-1a12d6f7780f7d94) failed: the API refused it at turn
+15 - "image dimensions exceed max allowed size for many-image requests: 3000 pixels". Since 10-02 the poller stores an
+iPhone photo at its full 4032 px (D-076), the model was shown that original, and once the zoom crops had made the
+request a many-image one the API's 3000 px cap applied.
+
+- `lib/bookkeeper.mjs`: the copy the model is SHOWN is scaled to fit 2000 px (`shownCopy`, jimp, JPEG 85); `zoom`
+  still crops the full-size original, and Drive still gets the file as sent. A format jimp cannot decode goes as
+  before. Two tests. 572 tests.
+
+Needs `npm run deploy` (Paul), then Reprocess on the failed card in the Inbox.
+
 ## 2026-10-10 - A receipt answers its waiting bank card on its own (D-087)
 
 Paul: "if the expenses in round 1 are correct why werent they completed by the poller?" Six of the twelve cards
