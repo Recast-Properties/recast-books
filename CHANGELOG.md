@@ -13,7 +13,7 @@ request a many-image one the API's 3000 px cap applied.
   still crops the full-size original, and Drive still gets the file as sent. A format jimp cannot decode goes as
   before. Two tests. 572 tests.
 
-Needs `npm run deploy` (Paul), then Reprocess on the failed card in the Inbox.
+Deployed 10-13 from the session on Paul's word: site `6ace1cfb`. Then Reprocess on the failed card in the Inbox.
 
 ## 2026-10-10 - A receipt answers its waiting bank card on its own (D-087)
 

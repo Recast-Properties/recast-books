@@ -7,9 +7,9 @@ there; a figure written here is only as of its date.
 
 ## 2026-10-13 - owed, in order (on top of everything below)
 
-0. **Paul: `npm run deploy`** - `lib/bookkeeper.mjs` now shows the model a copy of a photo scaled to 2000 px (a 4032 px
-   iPhone photo for 241 Poinsetta, gm-1a12d6f7780f7d94, failed at turn 15 on the API's many-image 3000 px cap). Then
-   Reprocess that card in the Inbox (it is the 10-11 photo with no store name on its card). Both house mailboxes
+0. Deployed 10-13 (site `6ace1cfb`): `lib/bookkeeper.mjs` now shows the model a copy of a photo scaled to 2000 px (a 4032 px
+   iPhone photo for 241 Poinsetta, gm-1a12d6f7780f7d94, failed at turn 15 on the API's many-image 3000 px cap). **Owed: Paul clicks
+   Reprocess** on that card in the Inbox (it is the 10-11 photo with no store name on its card). Both house mailboxes
    (241 Poinsetta, 658 Erin Hills) are being checked - labels present, mail flowing 10-07 to 10-12.
 1. Waiting on Paul in the Inbox (as of 10-13 morning): 241 Poinsetta - Home Depot $3.36 refund (10-11), and the
    $226.58 Home Depot of 10-11 sent to receipts@ with no house (receipt 6505 00052 12022, the one the refund came
