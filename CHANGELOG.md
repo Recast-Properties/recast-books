@@ -1,5 +1,18 @@
 # Changelog
 
+## 2026-10-14 - Advice: how a draw from Chase is recorded
+
+Paul: "i want to take a draw from the recast chase business account. how do i document that?" Answered as Penny: the
+bank's own transfer record is the document; a draw is Recast paying him back part of what it owes him (2030 Due to
+owner, 216,737.38 on Totals today - bills he fronted plus his Ashburne and Newport profit not yet taken), so the entry
+is Dr 2030 / Cr 1402 dated the day the money leaves (D-083, D-084), no house; anything past what is owed is 9010. He
+tells Penny the date and the amount after he moves it; the Chase line then ties to the entry by amount on import, no
+payout matcher needed. Flagged: the books hold Chase (1402) at 1,940.00 (the 2,000 earnest money in 09-23, 60 out
+10-01) and **no Chase statement has ever been imported** (the Feed is 1401 only) - whatever else is in the account the
+books have not seen; the first Chase import records his own deposits as working capital (D-055, Dr 1402 / Cr 2030).
+The parser recognises a 6317 file (`test/statement.test.mjs`); a real Chase download is untried. Nothing posted; no
+code change.
+
 ## 2026-10-13 - A full-size phone photo no longer fails the read
 
 Paul: "the receipts for 241 Poinsetta dont seem to be being processed." Both house mailboxes (241 Poinsetta, 658 Erin

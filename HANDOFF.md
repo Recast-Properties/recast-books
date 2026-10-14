@@ -5,6 +5,14 @@ history and are not written to; `CHANGELOG.md` keeps its dated entry per change.
 `docs/ops.md`. The books' numbers live on the workbook's tabs (P&L, Totals, Citizens Bank, the house tabs) - read them
 there; a figure written here is only as of its date.
 
+## 2026-10-14 - owed, in order (on top of everything below)
+
+0. **Paul is taking a draw from Chase (6317)** - advice given 10-14 (CHANGELOG). When he gives the date and the amount:
+   one entry Dr 2030 / Cr 1402, memo "Paul draw", no house, dated the day the money left (D-083); up to what is owed
+   (2030 is 216,737.38 on Totals 10-14), past it 9010 (D-084). The books hold 1402 at 1,940.00 and **Chase has never
+   been imported** (Feed is 1401 only): his first Chase import is the parser's first real Chase file; his own deposits
+   are working capital (D-055, Dr 1402 / Cr 2030); the draw line ties to the entry by amount, no payout matcher needed.
+
 ## 2026-10-13 - owed, in order (on top of everything below)
 
 0. Deployed 10-13 (site `6ace1cfb`): `lib/bookkeeper.mjs` now shows the model a copy of a photo scaled to 2000 px (a 4032 px
