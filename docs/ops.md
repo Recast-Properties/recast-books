@@ -101,8 +101,14 @@ CLAUDE.md's operating notes, the handoffs' "gotchas met" sections and Claude's m
 - Amazon's newer order emails name no items - give Paul the order link
   `https://www.amazon.com/gp/your-account/order-details?orderID=<111-...>`.
 - An email with more than six attachments or over 4 MB becomes several documents (`gm-<id>`, `gm-<id>-2`, ...).
-  Before saying Paul left a receipt out, check his Desktop folders (`Squarespace Invoices/`, `Roddy Invoices/`) and
-  these intake limits.
+  Before saying Paul left a receipt out, check his Desktop folders (`Squarespace Invoices/`, `Roddy Invoices/` - gone
+  by 2026-10-20) and these intake limits.
 - A photo over 4 MB is stored as the largest Drive copy that fits (about 1 in 40), with a note on the document.
+- **Receipts no vendor emails:** Squarespace (Google Workspace, the 4th) and Roddy's Foreclosure Listing Service (the
+  15th) send no receipt to any mailbox. Paul downloads the PDFs from each site and sends them to
+  receipts@ in a batch (10-01: 11 Squarespace, 9 Roddy). A month with no such send has no October Workspace or
+  Roddy line - that is the cause, not a poller miss. The poller reads only mail addressed to receipts@/travel@: a
+  vendor's confirmation that lands in paul@'s Inbox (Foremost's auto-pay on Citizens 5450, enrolled 2026-10-05) is
+  invisible until forwarded.
 - Paul's subject lines, the notes above a forward and Zelle memos carry who paid and which house - the reader takes
   them first; search the mail listings before asking him.

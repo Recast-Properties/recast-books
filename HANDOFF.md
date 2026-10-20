@@ -5,6 +5,23 @@ history and are not written to; `CHANGELOG.md` keeps its dated entry per change.
 `docs/ops.md`. The books' numbers live on the workbook's tabs (P&L, Totals, Citizens Bank, the house tabs) - read them
 there; a figure written here is only as of its date.
 
+## 2026-10-20 - owed, in order (on top of everything below)
+
+0. **Foremost 267.34 (Feed line of 10-06, status proposed, card "Paul (5450)")** is a NEW auto-pay enrolled 10-05 on the
+   Citizens debit card 5450 (policy ***-*******269): the "registered for automatic payments" and "Payment Confirmation"
+   emails of 10-05 sit in paul@'s Inbox, never forwarded, so the poller never saw them (it reads only mail to
+   receipts@/travel@). Not Paul's 9166, and not the old 104 Ashburne 374.58 policy, which did not bill in October
+   (Ashburne is sold). **Owed: Paul answers the Inbox card - which house.** Forwarding the 10-05 Payment Confirmation to
+   receipts@ afterwards attaches the receipt to the line (D-087).
+1. **October's Google Workspace (Squarespace, 50.40, due 10-04) and Roddy / Foreclosure Listing Service (84.44, due
+   10-15) are not in the books because neither vendor emails a receipt to any mailbox.** On 10-01 Paul downloaded the
+   PDFs himself (11 Squarespace invoices, 9 Roddy receipts) and sent them to receipts@ - the only way they arrive
+   (`docs/ops.md`, Email intake). The October ones are owed the same way, Paul's step. The Squarespace account's own
+   emails go to pvb421@gmail.com; Roddy's account is on paul@.
+2. 10-20 chat: Paul asked for the recurring charges on his personal card 9166 - answered from the Journal (the books
+   mark "PAUL", not which card; 9166 is confirmed in the memo only on Apify, Workspace, Energy Texas, Berrett and the
+   September Anthropic top-ups; Adobe and Microsoft 365 are PayPal from Chase 8870). No books change.
+
 ## 2026-10-14 - owed, in order (on top of everything below)
 
 0. **Paul is taking a draw from Chase (6317)** - advice given 10-14 (CHANGELOG). When he gives the date and the amount:

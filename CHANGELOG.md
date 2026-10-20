@@ -1,5 +1,29 @@
 # Changelog
 
+## 2026-10-20 - Recurring charges on Paul's card 9166; why three October receipts are missing
+
+Paul (as Penny): "generate and provide a list of all the recurring payments using my personal card ending in 9166."
+Answered from the Journal snapshot (`books-cache` `tab/Journal`, 3,836 rows, 1,611 live entries, 1,331 paid by Paul):
+the books mark `paid_from` PAUL, not which personal card, so the list was given in three groups - 9166 named in the
+memo (Anthropic API top-ups, Apify 29.00/18th, Google Workspace via Squarespace 50.40/4th, Energy Texas auto-pay,
+Berrett Pest 270.63 quarterly, Cotality 200.00 by hand), paid by Paul with no card on the receipt (Anthropic Max
+100.00/13th, Netlify 20.00, Foreclosure Listing Service 84.44/15th, Klarna Apple lease 57.99/28th, Driversnote 12.00,
+Foremost 374.58, Atlas Pools 256.01, Atmos, Telnyx/Twilio top-ups), and recurring but NOT 9166 (Adobe 34.49 twice a
+month and Microsoft 365 9.99, both PayPal from Chase 8870). Gone quiet: Airtable, Virtual Staging AI, PDF.co,
+Microsoft 365. No books change.
+
+Then "check why the October Google Workspace, Foreclosure Listing Service and Foremost receipts have not reached the
+books yet." Found (Gmail paul@ and pvb421@ in Chrome, the Feed tab by gviz, `reconcile/latest`):
+- **Foremost:** the October charge is 267.34 on 10-06, on the Citizens debit card 5450 (Feed line proposed, card
+  "Paul (5450)"), a new auto-pay enrolled 10-05 (policy ***-*******269) - its two Foremost emails sit in paul@'s Inbox,
+  never forwarded. Not 9166; the old 104 Ashburne 374.58 did not bill in October (sold). The Inbox card asking which
+  house is still waiting on Paul (HANDOFF 10-10 "Foremost 267.34 which house").
+- **Google Workspace and Roddy:** neither vendor emails a receipt to any mailbox. The September ones arrived only
+  because Paul downloaded the PDFs and sent them to receipts@ on 10-01 (11 Squarespace invoices, 9 Roddy receipts;
+  threads "quarespace receipts" and "roddy report receipts", books-done). October's need the same send. No October
+  PDFs on this Mac; the `Squarespace Invoices/` and `Roddy Invoices/` Desktop folders named in ops.md are gone.
+HANDOFF 10-20 block; `docs/ops.md` Email intake gets the standing note. Nothing posted, nothing changed in the books.
+
 ## 2026-10-14 - Advice: how a draw from Chase is recorded
 
 Paul: "i want to take a draw from the recast chase business account. how do i document that?" Answered as Penny: the
