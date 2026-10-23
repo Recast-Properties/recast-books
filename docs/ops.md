@@ -21,8 +21,11 @@ CLAUDE.md's operating notes, the handoffs' "gotchas met" sections and Claude's m
 - **Pollers** (`apps-script/poller/`): `clasp push -f` for the paul@ instance and `npx clasp push -f -P
   .clasp-properties.json` for the properties@ instance (git-ignored copy of `.clasp.json`); no deploy - a poller runs
   its latest saved code. Verify by a pull into a scratch folder and `cmp`. Push both after any poller change.
-- **One-off scripts** (`apps-script/writer/oneOffScripts.gs`, constraint 9): a push only, no deploy. Paul runs one:
-  Extensions -> Apps Script -> `oneOffScripts.gs` -> Run - the first function in the file is the one selected, so keep
+- **One-off scripts** (`apps-script/writer/oneOffScripts.gs`, constraint 9): a push only, no deploy. **Penny runs one
+  herself** (Paul, 2026-10-23: "for these one off scripts can you just run them?"): in his Chrome (claude-in-chrome, u/0)
+  open the script editor, `oneOffScripts.gs`, pick the function in the Run dropdown with real mouse actions (synthetic
+  clicks are ignored), Run, then read the Executions page; a new scope's one-time permission is his click. Hand it to
+  him only when the editor will not take the clicks: Extensions -> Apps Script -> `oneOffScripts.gs` -> Run - the first function in the file is the one selected, so keep
   one function in the file at a time. `Code.gs` defaults to `setup` in the editor - never press Run there. Once run,
   the script comes out with a header line naming its commit.
 - **Before any push or deploy:** `git status`, `git log`, and compare `clasp pull` with HEAD. Other sessions share

@@ -7,11 +7,11 @@ there; a figure written here is only as of its date.
 
 ## 2026-10-23 (later) - owed, in order (on top of everything below)
 
-0. **The 10-14 2,100.00 Juan Garcia (via Ivett Avila) flooring receipt at 413 Green Acres posted but is not on Drive**
-   (`receipt-20261014-ec048d8c2aba-90d0`; `/api/file` threw on a name outside Latin-1, fixed in `books-file.mjs`,
-   CHANGELOG; site `6adb7f86`, deployed by Paul). Owed: **Paul runs `refileGreenAcresFlooring20261023`** in the
-   editor (pushed), then Claude reads back the Receipt link on both Journal
-   lines, the file under `2026/413 Green Acres/`, and takes the one-off out.
+0. Done 10-23: the 10-14 2,100.00 Juan Garcia (via Ivett Avila) flooring receipt at 413 Green Acres
+   (`receipt-20261014-ec048d8c2aba-90d0`) is on Drive and linked on both Journal lines (`/api/file` fixed for names
+   outside Latin-1 - macOS screenshot names - site `6adb7f86`; the re-file one-off run by Paul and taken out). **From
+   now on Penny runs one-offs herself through the editor in Paul's Chrome** (his word, 10-23); `oneOffScripts.gs` holds
+   only `linkMolallaReceipts` (still owed, below).
 1. **413 Green Acres, Armandre Vega (Chinos LLC):** draw 1, 3,500.00 Zelle 10-09, is on the tab as Chinos LLC. **Draw 2,
    3,500.00 Zelle 10-16 ("For work completed at 413 Green Acres"), is in no book** - owed: Paul forwards the bank's
    10-16 notice (paul@ Inbox, "Notification - Your $3,500.00 to Armandre Vega was sent") to receipts@ naming the house
