@@ -1,5 +1,32 @@
 # Changelog
 
+## 2026-10-23 - Returns and refunds post: a negative amount is a refund (D-091)
+
+Paul: "the poller cannot figure out any of the returns. see the inbox. it should be able to find the item that was
+returned and apply the credit to the card and property or overhead. right now it cant even read the amount." Read the
+pending cards from Blobs: the model reads a return correctly - four Home Depot slips (3.36 at 241 Poinsetta, 43.80 at
+658 Erin Hills, 52.37 and 94.33 at 366 Mesa) each name the items taken back, the house and the card (5450 -> 1401),
+verdict post, high - and a fifth (67.60, refunded to three cards) is a fair hold. What refused them was code: the gate
+required `receipt_total_cents > 0` (ZERO_TOTAL) and `buildPurchase` could only debit an item, so a negative item was
+BAD_AMOUNT; the card then showed the ZERO_TOTAL words "Claude could not read the total". Nothing in the books could
+record a refund from a card.
+- `lib/posting.mjs` `buildPurchase`: an item with a negative amount is a credit on its cost account; the paid_from line
+  nets the items - a debit when money comes back, a credit when it goes out, none on an even exchange. The id hashes
+  the first item line with its amount negative, so a same-day return of the thing bought is not the purchase's twin.
+- `lib/gate.mjs` condition 4: the total must be non-zero; the ceiling is on its size either way.
+- `lib/bookkeeper.mjs`: `document_type` gains `refund`; the total and item amounts say NEGATIVE for a refund. The
+  prompt gets "Returns and refunds": read like a purchase with the sign flipped, find the original with `read_ledger` /
+  `search_docs` and take its house, account and trade, name it in the memo, the card the money went back to is the
+  payer; hold only when the house is unknown or one slip refunds to several cards. `Inbox.html` `money_` reads -$43.80.
+- Tests: posting (a refund entry's lines and balance, a net slip, an even exchange, a distinct id), gate (a negative
+  total passes, the ceiling on its size). 577 tests. `lib.gs` and the prompt module rebuilt. Writer pushed.
+- **Owed, in order: `npm run deploy` (the gate and the prompt), `clasp deploy -i` (the engine in lib.gs for the
+  ingest's own posting), then Penny runs `rereadRefunds20261023` (the four cards re-read from their stored files with
+  posting allowed).** The 67.60 three-card slip stays Paul's: the card asks which cards.
+- Not done: `buildPostedEntries` still sums an entry's debit side, so a posted refund shows a positive total there - a
+  second copy of the same refund slip is caught by its receipt number, not by the twin rail; and the Feed's refund
+  lines tie to the new entries on the next Match statement lines.
+
 ## 2026-10-23 - The card stops a Save the engine would refuse, and names the line
 
 Paul, two items on one card - batteries on OVERHEAD and door hardware on 658 Erin Hills, both under 1030 Rehab -

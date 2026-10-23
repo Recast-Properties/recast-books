@@ -846,3 +846,23 @@ test("purchase txn_id is keyed by vendor + invoice number when one is given (D-0
   assert.notEqual(a.txn_id, d.txn_id, "no invoice falls back to the line hash");
 });
 
+// --- D-091: a refund is a purchase with the sign flipped -------------------------
+
+test("purchase with negative items (a refund) credits the cost accounts and debits the paid_from account, balanced", () => {
+  const entry = buildEntry(
+    purchaseIntent({ items: [{ account: "1030", amount_cents: -2217, description: "Refund: touch-up texture" }, { account: "1040", amount_cents: -2163, description: "Refund: showerhead" }] }),
+    baseCtx(),
+  );
+  assert.equal(entry.lines.length, 3);
+  assert.deepEqual(entry.lines.map((l) => [l.account, l.debit, l.credit]), [["1030", 0, 2217], ["1040", 0, 2163], ["1401", 4380, 0]]);
+  assert.match(entry.txn_id, /^receipt-\d{8}-[0-9a-f]{12}$/);
+  const bought = buildEntry(purchaseIntent({ items: [{ account: "1030", amount_cents: 2217, description: "Refund: touch-up texture" }, { account: "1040", amount_cents: 2163, description: "Refund: showerhead" }] }), baseCtx());
+  assert.notEqual(entry.txn_id, bought.txn_id, "a same-day return of the item bought is not the purchase's twin");
+});
+
+test("a slip with a return and a new purchase nets on the paid_from line; an even exchange moves no money", () => {
+  const net = buildEntry(purchaseIntent({ items: [{ account: "1030", amount_cents: -1000, description: "Return: valve" }, { account: "1030", amount_cents: 1500, description: "Bigger valve" }] }), baseCtx());
+  assert.deepEqual(net.lines.map((l) => [l.account, l.debit, l.credit]), [["1030", 0, 1000], ["1030", 1500, 0], ["1401", 0, 500]]);
+  const even = buildEntry(purchaseIntent({ items: [{ account: "1030", amount_cents: -1000, description: "Return: valve" }, { account: "1030", amount_cents: 1000, description: "Same valve, other finish" }] }), baseCtx());
+  assert.deepEqual(even.lines.map((l) => [l.account, l.debit, l.credit]), [["1030", 0, 1000], ["1030", 1000, 0]]);
+});

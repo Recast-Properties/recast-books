@@ -157,3 +157,24 @@ function linkMolallaReceipts() {
   console.log('linkMolallaReceipts: ' + pairs.length + ' receipts written on ' + journal + ' Journal lines; on the tab ' + linked +
     ' lines now open their receipt and ' + blank + ' have none (' + cells.length + ' lines on the tab).');
 }
+
+// 2026-10-23 Paul ("the poller cannot figure out any of the returns"): the four Home Depot return cards the read got
+// right (post, high) but the gate and the engine refused for their negative amounts (D-091). Uploads each again from
+// its stored files with reprocess: true - the full read, posting allowed - so they record on their own. Run AFTER the
+// site deploy (the gate) and clasp deploy -i (the engine in lib.gs). Safe to run twice: a posted document is skipped.
+// STATUS: NOT YET RUN
+function rereadRefunds20261023() {
+  var ids = ['gm-1a12d6afc86a0fdd', 'gm-1a13113bd16e333e', 'gm-1a137d77bd1b904c', 'gm-1a13a965e3b3ba3e'];
+  ids.forEach(function (docId) {
+    var env = (siteFetchJson_('/api/inbox?docId=' + encodeURIComponent(docId)).envelopes || [])[0];
+    if (!env) { console.log(docId + ': no envelope'); return; }
+    if (env.status === 'posted') { console.log(docId + ': already posted'); return; }
+    var atts = (env.attachments || []).map(function (a, i) {
+      var bytes = siteFetchRaw_('/api/file?key=' + encodeURIComponent(a.key || ('att/' + docId + '/' + i))).getContent();
+      return { name: a.name || ('attachment-' + i), mime: a.mime || 'application/octet-stream', base64: Utilities.base64Encode(bytes) };
+    });
+    var r = siteFetchJson_('/api/upload', 'post', { docId: docId, source: env.source || 'email', channel: env.channel || 'receipts', gmailUrl: env.gmailUrl || '',
+      subject: env.subject || '', from: env.from || '', receivedAt: env.receivedAt || '', bodyText: env.bodyText || '', reprocess: true, attachments: atts });
+    console.log(docId + ': ' + JSON.stringify(r) + ' (' + atts.length + ' files)');
+  });
+}

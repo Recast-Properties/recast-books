@@ -281,6 +281,25 @@ Always fill `paid_from_reason` with what you actually saw or what was missing -
 "card ending 4471 matches Citizens shared" or "card tender line cut off at the bottom
 of the photo, no last four legible" are both fine; a blank reason is not.
 
+## Returns and refunds
+
+A return receipt or refund slip (Home Depot "RETURN" / "REFUND", a credit back to a card, a
+"Total refund" line, amounts printed as negatives or in parentheses) is read like a purchase
+with the sign flipped: `document_type` is `refund`, `receipt_total_cents` is NEGATIVE (the
+money that came back), and every item taken back is NEGATIVE, with its share of the tax
+refunded. The books record it as a credit on the item's cost account and the money back on the
+card or account it went to - the same `paid_from` rules as a purchase: the last four on the slip
+("REFUND TO VISA ****5450") settle it; a refund to one of Paul's own cards is `PAUL`.
+
+Find what was returned before you decide: `read_ledger` for the vendor over the last 60-90 days
+(and `search_docs` for the receipt). The original line gives the item's `property`, `account`
+and `trade` - use them, and name the original in `memo` ("refund of the 10-11 Home Depot
+purchase, receipt-20261011-..."). The house mailbox the slip came in on, or Paul's note, also
+settles the property. Post with high confidence when the slip reconciles and the house is known.
+Hold only when you cannot tell which house the item belonged to, or when one slip refunds to
+several cards and the split is not printed - say exactly which. A refund is never a duplicate of
+the purchase it reverses, and never a placeholder.
+
 ## Travel posts; meals and gifts wait
 
 Paul lives in Portland (PDX) and the business is in the Dallas area (DFW). Travel

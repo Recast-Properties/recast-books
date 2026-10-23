@@ -944,12 +944,16 @@ var M_posting = (function () {
     // reasoning as buildExpense.
     const { creditAccount } = resolvePaidFrom(paid_from, property, ctx);
 
-    const debitLines = items.map((item) =>
-      fillLineDefaults(
+    // A return or refund is the same receipt with the sign flipped (D-091, 2026-10-23): a line taken back is a
+    // credit on its cost account, and the money comes back as a debit on the paid_from side. A slip with lines
+    // of both signs (a return and a new purchase together) nets on the paid_from line.
+    const itemLines = items.map((item) => {
+      const cents = item.amount_cents ?? 0;
+      return fillLineDefaults(
         {
           account: item.account,
-          debit: item.amount_cents,
-          credit: 0,
+          debit: cents >= 0 ? cents : 0,
+          credit: cents < 0 ? -cents : 0,
           property,
           trade: item.trade,
           payee,
@@ -958,16 +962,16 @@ var M_posting = (function () {
           business_purpose: item.business_purpose,
         },
         ctx,
-      ),
-    );
+      );
+    });
 
     const totalCents = sumCents(items.map((item) => item.amount_cents ?? 0));
 
-    const creditLine = fillLineDefaults(
+    const paidLine = fillLineDefaults(
       {
         account: creditAccount,
-        debit: 0,
-        credit: totalCents,
+        debit: totalCents < 0 ? -totalCents : 0,
+        credit: totalCents >= 0 ? totalCents : 0,
         property,
         payee,
         description: items.map((item) => item.description).filter(Boolean).join("; "),
@@ -976,7 +980,10 @@ var M_posting = (function () {
       ctx,
     );
 
-    const firstDebit = debitLines[0] ?? {};
+    // The id hashes the first item line; a refunded line hashes with its amount negative, so a
+    // same-day return of the very item bought is not the purchase's twin.
+    const firstItem = itemLines[0] ?? {};
+    const firstDebit = firstItem.credit ? { ...firstItem, debit: -firstItem.credit } : firstItem;
     const defaultMemo =
       items.length === 1 ? `${payee} — ${items[0]?.description ?? ""}` : `${payee} — ${items.length} items`;
 
@@ -998,7 +1005,7 @@ var M_posting = (function () {
       posted_by,
       doc_url,
       void_of,
-      lines: [...debitLines, creditLine],
+      lines: totalCents === 0 ? itemLines : [...itemLines, paidLine],   // an even exchange moves no money
     };
 
     return validateEntry(entry, ctx);
@@ -1248,11 +1255,13 @@ var M_gate = (function () {
       push("BAD_DATE");
     }
 
-    // 4. receipt total vs. the autofile ceiling
+    // 4. receipt total: not zero, and within the autofile ceiling either way. A negative total is a
+    // refund or return (D-091, 2026-10-23): the read flips the sign of the total and of every item
+    // taken back, and buildPurchase posts the money coming back on the paid_from side.
     const receiptTotal = Number(model?.receipt_total_cents);
-    if (!(Number.isFinite(receiptTotal) && receiptTotal > 0)) push("ZERO_TOTAL");
+    if (!(Number.isFinite(receiptTotal) && receiptTotal !== 0)) push("ZERO_TOTAL");
     const ceiling = Number(settings?.autofile_ceiling_cents);
-    if (Number.isFinite(receiptTotal) && Number.isFinite(ceiling) && receiptTotal > ceiling) {
+    if (Number.isFinite(receiptTotal) && Number.isFinite(ceiling) && Math.abs(receiptTotal) > ceiling) {
       push("OVER_CEILING");
     }
 

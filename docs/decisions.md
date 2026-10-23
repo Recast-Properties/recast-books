@@ -98,6 +98,7 @@ that supersedes the old one, not editing history.
 - D-088 · The recurring business charges move to the Recast Chase card 7416; Chase gets its own bank tab - 2026-10-23 · Paul
 - D-089 · A forward that lists its files but does not carry them is read with the original message's files - 2026-10-23 · Paul
 - D-090 · The autofile ceiling is 2,000.00; Penny runs one-offs and does not read a saved card back - 2026-10-23 · Paul
+- D-091 · A return or refund is a receipt with the sign flipped: it posts on its own to the item's house and the card the money came back to - 2026-10-23 · Paul
 
 ---
 
@@ -2012,3 +2013,21 @@ rail holds (payer known, the house allowed, the chart, no duplicate, the read no
 fresh on every document. **And:** a one-off is Penny's to run (she drives the editor in his Chrome, rule 19), and
 once Paul says he saved a card, that is the record - she does not read the entry, the Receipt link or the Drive file
 back to him. Reading back stays for her own checks when something went wrong, never as a report to him.
+
+## D-091 · A return or refund is a receipt with the sign flipped: it posts on its own to the item's house and the card the money came back to - 2026-10-23 · Paul
+
+*"the poller cannot figure out any of the returns. see the inbox. it should be able to find the item that was returned
+and apply the credit to the card and property or overhead. right now it cant even read the amount."*
+
+The reads were right (four Home Depot return slips: items, house, card 5450, post/high); the gate's `total > 0` and the
+engine's debit-only item lines refused every one, and the card's ZERO_TOTAL words said "could not read the total".
+
+**Decided:** a refund is the same document with the sign flipped. The read gives `document_type: refund`, a NEGATIVE
+`receipt_total_cents` and NEGATIVE items; the engine posts each item taken back as a credit on its cost account and
+the money coming back as a debit on the `paid_from` side (1401 for the Citizens card, 2030 when it went to Paul's own
+card, 2010 to Dennis); a slip with both signs nets. The gate holds a zero total and sizes the ceiling on the absolute
+amount; every other rail is unchanged, so a refund posts on its own under 2,000.00 when the house and the card are
+known. The read finds the original purchase (`read_ledger`, `search_docs`) and takes its house, account and trade;
+it holds only when the house is unknown or one slip refunds to several cards. The house tab already shows a refund as
+a negative cost row and under Received (refunds) (D-069's layout). Not changed: the posted-entries view still sums
+the debit side, so a refund's twin is caught by its receipt number, not by amount.

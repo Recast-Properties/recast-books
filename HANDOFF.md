@@ -7,6 +7,12 @@ there; a figure written here is only as of its date.
 
 ## 2026-10-23 (later) - owed, in order (on top of everything below)
 
+0c. **Returns (D-091): code pushed, not deployed.** Owed, in order: **Paul `npm run deploy`** (gate + prompt), **Paul
+   `clasp deploy -i AKfycbxNisU_atef_fjnELMBK0R9N1xcnP5e-0MT4LP0FdhpfdPRE1UwlIcb2u4-JS38gx1O3w`** (lib.gs: the engine
+   the ingest posts through), then **Penny runs `rereadRefunds20261023`** in the editor - the four Home Depot return
+   cards (3.36 Poinsetta, 43.80 Erin Hills, 52.37 and 94.33 Mesa) re-read with posting allowed; read back that each
+   posted as a credit on 1030/1040 and a debit on 1401, take the one-off out. The 67.60 slip refunded to three cards
+   stays a card for Paul. Then Match statement lines ties the Feed's refund lines (10-02 61.91 etc.).
 0b. **Autofile ceiling is 2,000.00** (Settings `autofile_ceiling_cents` 200000, Paul 10-23, D-090; was 500.00). Bills
    up to that post without him when every other rail holds. The Cool Hand Electric 516.00 was saved by Paul 10-23
    (OVERHEAD, paid by Paul) - on his word; not read back.

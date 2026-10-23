@@ -194,9 +194,13 @@ test("ZERO_TOTAL: a zero receipt total fails", () => {
   assert.ok(result.reasons.includes("ZERO_TOTAL"));
 });
 
-test("ZERO_TOTAL: a negative receipt total fails", () => {
-  const result = evaluateGate(baseModel({ receipt_total_cents: -500 }), baseCtx(), baseSettings());
-  assert.ok(result.reasons.includes("ZERO_TOTAL"));
+test("a negative receipt total is a refund, not ZERO_TOTAL (D-091); the ceiling is on its size", () => {
+  const refund = baseModel({ receipt_total_cents: -500, entries: [baseEntry({ items: [{ account: "1030", amount_cents: -500, description: "Return: valve" }] })] });
+  const result = evaluateGate(refund, baseCtx(), baseSettings());
+  assert.ok(!result.reasons.includes("ZERO_TOTAL"), result.reasons.join(","));
+  assert.ok(!result.reasons.some((r) => r.startsWith("ENTRY_INVALID")), result.reasons.join(","));
+  const big = evaluateGate(baseModel({ receipt_total_cents: -900000, entries: [baseEntry({ items: [{ account: "1030", amount_cents: -900000, description: "Return: fan" }] })] }), baseCtx(), baseSettings());
+  assert.ok(big.reasons.includes("OVER_CEILING"));
 });
 
 test("OVER_CEILING: a total above the ceiling fails even though everything else is valid", () => {
