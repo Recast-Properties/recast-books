@@ -20,6 +20,12 @@ there; a figure written here is only as of its date.
    and a store credit card, Paul 10-23). Then Match statement lines ties the Feed's refund lines (10-02 61.91 etc.).
    Watch the next return the poller reads on its own.
 
+0g. **Paul imported Citizens 10-23 (lines through 10-21; Feed: 124 matched, 25 proposed, 2 unmatched).** Every Venmo to
+   Ivett Avila and Zelle to Armandre Vega is tied: 413 Green Acres carries Juanito 1,500 (bank 10-07) + 2,100 (10-15)
+   and Armandre 3,500 (10-09) + 3,500 (10-16) = 10,600.00, nothing waiting in the Inbox for either. Items 1 and 2
+   below are closed by this import. **Not yet looked at: the 25 proposed cards** - the bank balance was 21,636.57 on
+   10-23 against 438,304.21 on 10-06, so the sale payouts are among them; the payout-line matcher is not built (Open 3)
+   and those cards must be tied to the sales by hand, not answered as house costs.
 0f. **Done 10-23: the two Venmo payments to Ivett Avila (= Juanito) that reached no mailbox are in the books** - Paul:
    "log the expenses from those screenshots". 1,500.00 on 413 Green Acres dated 10-08 (labor, "work done at 413 Green
    Acres") and 450.00 on 241 Poinsetta dated 10-13 (trash removal), both paid from Citizens, each line opening Paul's
