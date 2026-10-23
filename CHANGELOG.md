@@ -1,6 +1,15 @@
 # Changelog
 
 
+## 2026-10-23 - Who holds the MacBook lease (asked as Penny)
+
+Paul: "check the charge in my receipts" after asking how to change the card on his Apple MacBook lease. Answered from
+the filed receipts (Drive `2026/OVERHEAD`, 08-28 and 09-28 Klarna forwards; the 10-20 recurring-charges list): the
+lease is **Klarna's "Apple Upgrade" lease** (Klarna order MGD3K0HC, Apple order W1404282348, opened 07-28), 57.99 on
+the 28th, 34 months left as of 09-28, charged to Paul's Visa 9166, emails to pvb421@gmail.com - so the card changes in
+the Klarna app, not with Apple. It reaches the books only when he forwards Klarna's receipt to receipts@. If it moves
+to Chase 7416, the next receipt lands as paid from Chase (D-088). No books change.
+
 ## 2026-10-23 - Two Venmo payments to Juanito, recorded from Paul's screenshots
 
 Paul showed his Venmo feed to Ivett Avila (Juanito's wife - his pay, Vendors tab) and asked whether every payment was
