@@ -467,14 +467,14 @@
           '<div class="row3"><div><input data-e="' + ei + '" data-i="' + ii + '" data-f="amount" value="' + escapeHtml_((Number(it.amount_cents || 0) / 100).toFixed(2)) + '" placeholder="Amount"></div>' +
           '<div><input data-e="' + ei + '" data-i="' + ii + '" data-f="description" value="' + escapeHtml_(it.description || '') + '" placeholder="Description"></div>' +
           '<div class="tr"><select data-e="' + ei + '" data-i="' + ii + '" data-f="trade">' + tradeOpts_(it.trade || '') + '</select></div></div>' +
-          '<select data-e="' + ei + '" data-i="' + ii + '" data-f="property">' + propertyOpts_(itemProperty_(e, it)) + '</select>' +
+          '<label>House for this item (each item can differ)</label><select data-e="' + ei + '" data-i="' + ii + '" data-f="property">' + propertyOpts_(itemProperty_(e, it)) + '</select>' +
           '<input data-e="' + ei + '" data-i="' + ii + '" data-f="business_purpose" value="' + escapeHtml_(it.business_purpose || '') + '" placeholder="Business reason (meals, gifts, travel)">' +
           '</div>';
       }).join('');
       var sum = (e.items || []).reduce(function (t, it) { return t + (Number(it.amount_cents) || 0); }, 0);
       return '<div class="entry">' +
         (many ? '<div class="rcpt">Receipt ' + (ei + 1) + ' of ' + entries.length + ': ' + escapeHtml_(e.date || '-') + ' &middot; ' + money_(sum) + (e.memo ? ' &middot; ' + escapeHtml_(e.memo) : '') + '</div>' : '') +
-        '<div class="row"><div><label>Property (sets every item)</label><select data-e="' + ei + '" data-f="property">' + propertyOpts_(e.property) + '</select></div>' +
+        '<div class="row"><div><label>Property for every item (then change any one item below)</label><select data-e="' + ei + '" data-f="property">' + propertyOpts_(e.property) + '</select></div>' +
         '<div><label>Paid from</label><select data-e="' + ei + '" data-f="paid_from">' + paidFromOpts_(e.paid_from) + '</select></div></div>' +
         items + '<button class="add" data-add="' + ei + '">+ item</button></div>';
     }).join('');

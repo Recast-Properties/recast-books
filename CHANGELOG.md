@@ -1,5 +1,14 @@
 # Changelog
 
+## 2026-10-23 - The Inbox card says that each item has its own house
+
+Paul, on a two-item hardware card: "i should be able to assign individual items in a receipt to different properties.
+right now i can only assign all items to one property or overhead etc." It already can - D-041 (2026-09-23, his same
+words): every item has its own Property select and Save splits the receipt into one entry per house
+(`splitByProperty_`). The per-item select had no label and the entry's read "Property (sets every item)", so it looked
+like the only control. `Inbox.html`: the per-item select is labelled "House for this item (each item can differ)" and
+the entry's "Property for every item (then change any one item below)". A push, no deploy. No logic change.
+
 ## 2026-10-23 - The autofile ceiling is 2,000.00 (was 500.00)
 
 Paul, after answering the Cool Hand Electric card (held partly as over the ceiling): "thats just busy work dont do that.
