@@ -20,9 +20,14 @@ record a refund from a card.
   payer; hold only when the house is unknown or one slip refunds to several cards. `Inbox.html` `money_` reads -$43.80.
 - Tests: posting (a refund entry's lines and balance, a net slip, an even exchange, a distinct id), gate (a negative
   total passes, the ceiling on its size). 577 tests. `lib.gs` and the prompt module rebuilt. Writer pushed.
-- Site deployed **`6adb8c58`** on Paul's word (the gate and the prompt). **Owed, in order: `clasp deploy -i` (the engine in
-  lib.gs for the ingest's own posting), then Penny runs `rereadRefunds20261023` (the four cards re-read from their stored files with
-  posting allowed).** The 67.60 three-card slip stays Paul's: the card asks which cards.
+- Site deployed **`6adb8c58`** on Paul's word (the gate and the prompt); writer **@40** (Paul); `rereadRefunds20261023`
+  run by Penny from the editor 09:36 PDT, taken out, pushed. **Three posted on their own:** 3.36 lamp holders, 241
+  Poinsetta (`receipt-20261011-7c411b6f0ef6`); 52.37 ceiling fan, 366 Mesa (`receipt-20261013-3e2712493cbd`); 94.33 as
+  two entries, the faucets credited to 413 Green Acres and the electrical to 366 Mesa, each matched to its purchase
+  (`receipt-20261014-62371b6c512d`, `-4e22c532ebd2`) - all credits on 1030/1040 with the money back on 1401. **One held
+  with a fair question:** 43.80 - the touch-up texture is Erin Hills' 10-12 purchase, but the 19.98 showerhead's only
+  matching 10-11 purchase is on 413 Green Acres (`receipt-20261011-965771df7857-ebf7`) though the slip's job name says
+  Erin Hills; the card leaves that item's house for Paul. The 67.60 three-card slip stays his too.
 - Not done: `buildPostedEntries` still sums an entry's debit side, so a posted refund shows a positive total there - a
   second copy of the same refund slip is caught by its receipt number, not by the twin rail; and the Feed's refund
   lines tie to the new entries on the next Match statement lines.

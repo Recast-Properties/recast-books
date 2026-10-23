@@ -7,26 +7,13 @@ there; a figure written here is only as of its date.
 
 ## 2026-10-23 (later) - owed, in order (on top of everything below)
 
-0c. **Returns (D-091): site deployed `6adb8c58` (gate + prompt); the writer engine not yet.** Owed, in order: **Paul
-   `clasp deploy -i AKfycbxNisU_atef_fjnELMBK0R9N1xcnP5e-0MT4LP0FdhpfdPRE1UwlIcb2u4-JS38gx1O3w`** (lib.gs: the engine
-   the ingest posts through), then **Penny runs `rereadRefunds20261023`** in the editor - the four Home Depot return
-   cards (3.36 Poinsetta, 43.80 Erin Hills, 52.37 and 94.33 Mesa) re-read with posting allowed; read back that each
-   posted as a credit on 1030/1040 and a debit on 1401, take the one-off out. The 67.60 slip refunded to three cards
-   stays a card for Paul. Then Match statement lines ties the Feed's refund lines (10-02 61.91 etc.).
-0b. **Autofile ceiling is 2,000.00** (Settings `autofile_ceiling_cents` 200000, Paul 10-23, D-090; was 500.00). Bills
-   up to that post without him when every other rail holds. The Cool Hand Electric 516.00 was saved by Paul 10-23
-   (OVERHEAD, paid by Paul) - on his word; not read back.
-0a. **Cool Hand Electric (forwarded 10-14, Paul's note: general expense, not 366 Mesa, Dennis did not pay):** re-read
-   10-23 with the invoice and the photos taken from the vendor's original email (his iPhone forward carried no files -
-   D-089, the poller now does this on its own). Read 10-23: invoice #68029768, $516.00, paid 10/13 by a Visa with no
-   last four, work at 366 Mesa, drafted as OVERHEAD on Paul's note and **held for his Save** (over the ceiling, who
-   paid, 366 Mesa on the paper vs general in his note) - `gm-1a13a708a62a458b` in the Inbox. The `-2` document (two job
-   photos) was dismissed by the model itself.
-0. Done 10-23: the 10-14 2,100.00 Juan Garcia (via Ivett Avila) flooring receipt at 413 Green Acres
-   (`receipt-20261014-ec048d8c2aba-90d0`) is on Drive and linked on both Journal lines (`/api/file` fixed for names
-   outside Latin-1 - macOS screenshot names - site `6adb7f86`; the re-file one-off run by Paul and taken out). **From
-   now on Penny runs one-offs herself through the editor in Paul's Chrome** (his word, 10-23); `oneOffScripts.gs` holds
-   only `linkMolallaReceipts` (still owed, below).
+0c. **Returns (D-091) are live:** site `6adb8c58`, writer @40, the four held Home Depot return cards re-read 10-23 - three
+   posted on their own (3.36 Poinsetta; 52.37 Mesa; 94.33 split Green Acres / Mesa by the original purchases), the
+   43.80 one **waits in the Inbox for Paul**: the showerhead's house (the slip says Erin Hills, its purchase is on 413
+   Green Acres) - pick it and Save. The 67.60 slip refunded to three cards also waits for him (which cards). Then
+   Match statement lines ties the Feed's refund lines (10-02 61.91 etc.). Watch the next return the poller reads on
+   its own.
+
 1. **413 Green Acres, Armandre Vega (Chinos LLC):** draw 1, 3,500.00 Zelle 10-09, is on the tab as Chinos LLC. **Draw 2,
    3,500.00 Zelle 10-16 ("For work completed at 413 Green Acres"), is in no book** - owed: Paul forwards the bank's
    10-16 notice (paul@ Inbox, "Notification - Your $3,500.00 to Armandre Vega was sent") to receipts@ naming the house
