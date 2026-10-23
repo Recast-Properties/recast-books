@@ -11,7 +11,8 @@ as both `Paint` and `Flooring`, and the model's `trade` field says the two are s
 so new reads pick one of the two. Lines already tagged `Paint & Flooring` are left alone: a light tab never shows the
 trade, and the frozen Ashburne tab's block keeps its name (on any future heavy rebuild that block would follow the
 listed ones, not lead them - read rule 11 first). Writer pushed (Menu.gs only - a push, no deploy; `clasp pull` =
-the working copy); the site change is **owed Paul's `npm run deploy`**. One test updated; 578 pass. Watch the first
+the working copy); the site change is **live - site `6adb9889`** (Paul: "deploy", run from the session the same day; two functions
+uploaded). One test updated; 578 pass. Watch the first
 paint or flooring receipt after the deploy: its card should offer and pre-pick `Paint` or `Flooring`, never the old
 name.
 
