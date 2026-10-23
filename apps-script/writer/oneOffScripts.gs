@@ -43,6 +43,8 @@
  *   added before Add property did it; run by Paul that night) is in commit 9525dc8.
  * moveLocksToHouses (2026-10-07, three keypad deadbolts off the shelf onto 3808 Kings, 413 Green Acres and 366 Mesa;
  *   run by Paul the same day) is in commit a2d14f3.
+ * recordVenmoJuanito20261023 (2026-10-23, two Venmo payments to Juanito from Paul's screenshots - 1,500 on 413 Green
+ *   Acres 10-08 and 450 on 241 Poinsetta 10-13; run by Penny from the editor the same day) is in commit 133156e.
  *
  * ASCII ONLY - same paste-into-the-editor constraint as Code.gs.
  ****************************************************************/
@@ -156,46 +158,4 @@ function linkMolallaReceipts() {
   warmCache_();
   console.log('linkMolallaReceipts: ' + pairs.length + ' receipts written on ' + journal + ' Journal lines; on the tab ' + linked +
     ' lines now open their receipt and ' + blank + ' have none (' + cells.length + ' lines on the tab).');
-}
-
-// 2026-10-23 Paul: "can you log the expenses from those screenshots" - two Venmo payments to Ivett Avila (Juanito's
-// wife - his pay, Vendors tab) that reached no mailbox: 1,500.00 about 10-08 "To Juan Diego Garcia for work done at
-// 413 Green Acres, Palmer TX" (labor, 1020) and 450.00 about 10-13 "trash removal 241 Poinsetta Dr, Palmer" (1060,
-// Trash). Paid from Citizens as the 10-01 Venmo was; the bank line gives the exact day on the next import. The
-// receipt on each line is Paul's Venmo screenshot, filed in the house's Drive folder. Safe to run twice.
-// STATUS: NOT YET RUN
-function recordVenmoJuanito20261023() {
-  var props = PropertiesService.getScriptProperties();
-  var ss = openWorkbook_(props);
-  requireOwner_(ss);
-  var who = Session.getActiveUser().getEmail();
-  var journal = ss.getSheetByName('Journal');
-  var cols = headerIndex_(journal);
-  var memos = journal.getRange(2, cols['memo'], journal.getLastRow() - 1, 1).getValues().map(function (r) { return String(r[0]); });
-  var ctx = buildCtx_(ss);
-  var pays = [
-    { date: '2026-10-08', cents: 150000, house: '413 Green Acres', account: '1020', trade: '',
-      description: 'Work done at 413 Green Acres (Venmo to Ivett Avila)',
-      note: 'To Juan Diego Garcia for work done at 413 Green Acres, Palmer TX',
-      doc: 'https://drive.google.com/file/d/1FkPrawNNCMXLmwMTDBlzFwlukIgULRFp/view' },
-    { date: '2026-10-13', cents: 45000, house: '241 Poinsetta', account: '1060', trade: 'Trash',
-      description: 'Trash removal at 241 Poinsetta (Venmo to Ivett Avila)',
-      note: 'Jusn Diego Garcia for trash removal 241 Poinsetta Dr, Palmer',
-      doc: 'https://drive.google.com/file/d/1R_HK8Ii5cIuR3UALOHk5sbVrwXRYeRfZ/view' }
-  ];
-  var entries = [];
-  pays.forEach(function (p) {
-    var memo = 'Venmo to Ivett Avila (Juanito) about ' + p.date.slice(5).replace('-', '-') + ', his note "' + p.note +
-      '" - from Paul\'s Venmo screenshot 2026-10-23, no Venmo email in a mailbox; the bank line gives the exact day';
-    if (memos.indexOf(memo) >= 0) { console.log(p.house + ' ' + p.cents / 100 + ': already recorded'); return; }
-    var line = { trade: p.trade, payee: 'Juan Garcia', description: p.description, paid_from: '1401' };
-    entries.push(buildEntry({
-      type: 'journal', date: p.date, source: 'manual', posted_by: who, doc_url: p.doc, memo: memo,
-      lines: [Object.assign({ account: p.account, debit: p.cents, credit: 0, property: p.house }, line),
-              Object.assign({ account: '1401', debit: 0, credit: p.cents, property: p.house }, line)]
-    }, ctx));
-  });
-  if (entries.length) postBatchEntries_(entries, props);
-  warmCache_();
-  console.log('recordVenmoJuanito20261023: ' + entries.length + ' of 2 recorded (413 Green Acres 1,500.00 on 10-08, 241 Poinsetta 450.00 on 10-13); each house tab refreshed.');
 }

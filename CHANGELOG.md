@@ -1,5 +1,23 @@
 # Changelog
 
+
+## 2026-10-23 - Two Venmo payments to Juanito, recorded from Paul's screenshots
+
+Paul showed his Venmo feed to Ivett Avila (Juanito's wife - his pay, Vendors tab) and asked whether every payment was
+in. Read the live Journal (payee, description, memo and the amounts since 09-25), the Feed (Citizens imported to
+10-06) and the Drive receipts folder: 2,100.00 (10-14, 413 Green Acres flooring) and 500.00 (10-01, 366 Mesa) were
+in; **1,500.00 about 10-08 ("work done at 413 Green Acres") and 450.00 about 10-13 ("trash removal 241 Poinsetta
+Dr") were in no book** - no email ever reached a mailbox, so no card. Paul: "can you log the expenses from those
+screenshots". Done with the one-off `recordVenmoJuanito20261023` (commit 133156e; the moveLocksToHouses pattern,
+buildEntry + postBatchEntries_, safe to run twice): 1,500.00 Dr 1020 / Cr 1401 on 413 Green Acres dated 10-08, payee
+Juan Garcia, no trade (the note says only "work done"); 450.00 Dr 1060 / Cr 1401 on 241 Poinsetta dated 10-13, trade
+Trash. Each line's receipt is the screenshot, copied into the house's Drive folder by the mount (`2026-10-08 Juan
+Garcia 1500.00.png`, `2026-10-13 Juan Garcia 450.00.png`) and linked by its Drive id. Run by Penny from the editor
+(10:38 CDT; the dropdown took a plain click on the option this time), read back on the Journal and both tabs, the
+one-off taken out and the writer pushed again. The dates come from Venmo's "15d" / "10d" count: the next Citizens
+import carries the exact days and ties the two lines (ten-day window). The screenshot path is a one-off answer, not
+a new intake: the mailbox stays the way in.
+
 ## 2026-10-23 - Paint and Flooring are two kinds of cost, not one
 
 Paul, on the Inbox card's trade dropdown: "i want to split the floors & paint expense into two separate expenses vs
