@@ -1,5 +1,25 @@
 # Changelog
 
+## 2026-10-23 - Why Juanito and Armandre are not on the 413 Green Acres tab
+
+Paul (as Penny): "why are my payments to juanito and armandre not showing up in the 413 green acres expenses?" Read the
+tab, the Journal and the Feed by gviz, paul@'s Gmail in Chrome, the saved emails on the Drive mount. Found:
+- **Armandre's first 3,500.00 IS on the tab** - Zelle from Citizens 10-09, memo "413 Green Acres, invoice 26002" - as
+  `Chinos LLC | Draw (1 @ $3,500.00)`, his company's name (one payee, `data/vendors-1099-2026.md`). Paul did not
+  recognise it.
+- **Armandre's second 3,500.00 (Zelle from Citizens 10-16, memo "For work completed at 413 Green Acres") is in no
+  book:** the bank's notice sits in paul@'s Inbox, nothing was sent to receipts@ or the house mailbox, and the Citizens
+  file has not been imported since 10-06 (Feed: 95 lines, last 10-06), so the bank line has not arrived either.
+- **Nothing for Juanito on Green Acres reached the books.** October's Juanito items are all elsewhere, each by Paul's
+  own email: 500.00 paint 366 Mesa (10-01, Venmo via Ivett Avila), 400.00 dumpster cash 366 Mesa (10-05, Dennis),
+  800.00 eviction set-out 200 Janice (10-06, Dennis's check #1154, sent to the 200 Janice mailbox). The bank added
+  Juanito as a Zelle payee 10-01 but has sent no "was sent" notice for him since.
+- Also seen: Armandre's 850.00 Zelle of 10-10 is "Trash removal at 200 Janice" (forwarded to the Janice mailbox) -
+  not Green Acres, and not in the books either: no Journal line and no longer among the pending cards (today's
+  digest lists three: Home Depot 624.77, two Uber 100.00 gift cards).
+Nothing posted. Told Paul in plain words; asked how and how much he paid Juanito for Green Acres, and gave the one
+step for Armandre's 10-16 payment (forward the bank's notice to receipts@ naming the house and the draw).
+
 ## 2026-10-23 - Chase card 7416; a Chase Bank tab like Citizens'
 
 Paul (as Penny): the Recast Chase account has a card ending 7416, he is moving the recurring charges off his personal

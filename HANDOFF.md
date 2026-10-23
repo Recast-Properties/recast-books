@@ -5,6 +5,19 @@ history and are not written to; `CHANGELOG.md` keeps its dated entry per change.
 `docs/ops.md`. The books' numbers live on the workbook's tabs (P&L, Totals, Citizens Bank, the house tabs) - read them
 there; a figure written here is only as of its date.
 
+## 2026-10-23 (later) - owed, in order (on top of everything below)
+
+0. **413 Green Acres, Armandre Vega (Chinos LLC):** draw 1, 3,500.00 Zelle 10-09, is on the tab as Chinos LLC. **Draw 2,
+   3,500.00 Zelle 10-16 ("For work completed at 413 Green Acres"), is in no book** - owed: Paul forwards the bank's
+   10-16 notice (paul@ Inbox, "Notification - Your $3,500.00 to Armandre Vega was sent") to receipts@ naming the house
+   and the draw; it is over the ceiling, so it holds in the Inbox for his Save. The Citizens file has not been imported
+   since 10-06 - the bank line ties on the next Import statement.
+1. **Juanito on 413 Green Acres: nothing reached the books.** Asked Paul how and how much he paid; no Zelle from
+   Citizens to him since he was added 10-01. October's Juanito entries (Mesa 500 / 400, Janice 800) are by his own
+   emails and on the right houses.
+2. Armandre's 850.00 Zelle of 10-10 is 200 Janice ("Trash removal at 200 Janice"), not in the books and not pending in
+   the Inbox any more - settle with Paul when he answers the above (his rule: no payment to Armandre without an invoice).
+
 ## 2026-10-23 - done (on top of everything below)
 
 - **Chase card 7416** (D-088): on the `Bank accounts` tab the Chase row's last4 reads `6317, 7416` (typed by Paul,
