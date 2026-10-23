@@ -18,7 +18,11 @@ was never sent.
 - The Cool Hand card re-read: a temporary `rereadCoolHand20261023` (the message uploaded again with `reprocess: true`),
   run by Penny from the editor in Paul's Chrome 08:56 PDT - the first one-off run under the new rule - found 8 files:
   two documents, `gm-1a13a708a62a458b` (both PDFs and four photos) and `-2` (the last two photos); taken out and pushed
-  again. Paul's note on the forward stands: general expense, not 366 Mesa, Dennis did not pay.
+  again. The read (15:59 UTC): the invoice is #68029768, $516.00, "PAID ON 10/13/2026, Visa" with no last four, a
+  level-2 electrical diagnostic and a repaired attic junction box at 366 Mesa; the model drafted it as OVERHEAD on
+  Paul's note ("bill it as general expense ... keep it off Mesa") and **held** - over the ceiling, payer unknown, and
+  the paperwork says 366 Mesa where he said general - one card in the Inbox for his Save. The `-2` document (two attic
+  job photos) the model dismissed on its own.
 - Not covered: a forward from another mailbox (pvb421@) whose original is not in paul@ - the card still says the files
   did not arrive; the fix there is to forward again with "Include attachments" (`docs/ops.md`, Email intake).
 

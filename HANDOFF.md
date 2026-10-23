@@ -9,8 +9,10 @@ there; a figure written here is only as of its date.
 
 0a. **Cool Hand Electric (forwarded 10-14, Paul's note: general expense, not 366 Mesa, Dennis did not pay):** re-read
    10-23 with the invoice and the photos taken from the vendor's original email (his iPhone forward carried no files -
-   D-089, the poller now does this on its own). **Watch the Inbox:** the card with the invoice (`gm-1a13a708a62a458b`)
-   and a second card of two job photos (`-2`) that is likely a dismiss.
+   D-089, the poller now does this on its own). Read 10-23: invoice #68029768, $516.00, paid 10/13 by a Visa with no
+   last four, work at 366 Mesa, drafted as OVERHEAD on Paul's note and **held for his Save** (over the ceiling, who
+   paid, 366 Mesa on the paper vs general in his note) - `gm-1a13a708a62a458b` in the Inbox. The `-2` document (two job
+   photos) was dismissed by the model itself.
 0. Done 10-23: the 10-14 2,100.00 Juan Garcia (via Ivett Avila) flooring receipt at 413 Green Acres
    (`receipt-20261014-ec048d8c2aba-90d0`) is on Drive and linked on both Journal lines (`/api/file` fixed for names
    outside Latin-1 - macOS screenshot names - site `6adb7f86`; the re-file one-off run by Paul and taken out). **From
