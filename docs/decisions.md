@@ -95,6 +95,7 @@ that supersedes the old one, not editing history.
 - D-085 · The interest rate is typed when a house is added and its advances inherit it; no sale price or settlement date at Add property - 2026-10-06 · Paul
 - D-086 · Add property records a Dennis-funded house's purchase loan; one per house - 2026-10-06 · Paul
 - D-087 · A receipt that answers a bank-line card still waiting posts and retires the card; a free line folds into the memo - 2026-10-10 · Paul
+- D-088 · The recurring business charges move to the Recast Chase card 7416; Chase gets its own bank tab - 2026-10-23 · Paul
 
 ---
 
@@ -1962,3 +1963,20 @@ standing as a line; an item the read could not price is still caught by TOTAL_MI
 **Consequences.** The order Paul works in no longer matters: statement first or receipts first, a receipt with the
 house and the card on it records itself. The cards already held on 10-09 still take his Save - a reprocess never
 posts (D-048). Built on tests (570); first real case not yet seen.
+
+## D-088 · The recurring business charges move to the Recast Chase card 7416; Chase gets its own bank tab - 2026-10-23 · Paul
+
+*"i have a card number for the recast chase account. it ends with 7416. i will be working to transfer all of the
+recurring charges to my personal car[d] to this card. i also want a tab dedicated to this account like the Citizens
+Bank tab."*
+
+**Decided:** 7416 is a card on the Chase operating account (1402), listed in the `Bank accounts` tab's last4 beside
+6317 - Paul's cell, D-074's rule: the digits live on the tab and the bookkeeper and the importer read them fresh. A
+receipt showing 7416 is paid from Chase, never `PAUL`: as each recurring charge moves (the 10-20 list - Anthropic,
+Apify, Google Workspace, Energy Texas, Berrett, Cotality on 9166; Adobe and Microsoft 365 through PayPal), it stops
+adding to what Recast owes Paul (2030) and comes off the Chase balance instead. The card on the receipt beats D-045's
+"paid the way it was paid last month", so the switch needs no prompt change. `Chase Bank` joins `Citizens Bank` in
+`BANK_SHEETS` (Code.gs): the same tab and the same bank-vs-books box (D-063), standing as a stub ("No bank lines yet
+- import a statement") until the first Chase file is imported. **Not decided:** anything about Chase's history - the
+account has never been imported (10-14), and its first import brings Paul's own deposits in as working capital
+(D-055).

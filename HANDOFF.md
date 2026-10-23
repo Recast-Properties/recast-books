@@ -5,6 +5,20 @@ history and are not written to; `CHANGELOG.md` keeps its dated entry per change.
 `docs/ops.md`. The books' numbers live on the workbook's tabs (P&L, Totals, Citizens Bank, the house tabs) - read them
 there; a figure written here is only as of its date.
 
+## 2026-10-23 - owed, in order (on top of everything below)
+
+0. **Paul: `npx clasp login`** (expired again 10-23). Then Claude: `clasp push -f` from `apps-script/writer/` and
+   `clasp pull` to confirm live = repo (the Chase Bank tab, D-088).
+1. **Paul: on the `Bank accounts` tab, the Chase row's last4 cell reads `6317` - make it `6317, 7416`.** From then on
+   a receipt showing 7416 is paid from Chase (1402), not by Paul - nothing else to change (D-088). He is moving the
+   recurring charges onto it himself (the 10-20 list in CHANGELOG); as each one moves, its next receipt lands on Chase.
+2. **Paul: Recast Books -> Bank sheet** (after the push) - the `Chase Bank` tab appears beside Citizens', a stub until
+   the first Chase statement file is imported with Import statement... (the parser has seen only a test 6317 file; a
+   real Chase download is untried - 10-14 note below).
+3. **Paul: `clasp deploy -i AKfycbxNisU_atef_fjnELMBK0R9N1xcnP5e-0MT4LP0FdhpfdPRE1UwlIcb2u4-JS38gx1O3w`** - Code.gs
+   changed. Until then the deployed writer (the Inbox's saves, the matcher) rebuilds only the Citizens tab, so the
+   Chase tab would go stale after its first import.
+
 ## 2026-10-20 - owed, in order (on top of everything below)
 
 0. **Foremost 267.34 (Feed line of 10-06, status proposed, card "Paul (5450)")** is a NEW auto-pay enrolled 10-05 on the

@@ -1016,8 +1016,8 @@ function writeCostList_(ss, name) {
 // line (feedUpdateRows_, importStatement) and from the menu; lib/bank-sheet.mjs says what each
 // line is. Values, not formulas - nothing typed on the tab survives a refresh. Never throws: the
 // bank line's own write has already happened.
-// ponytail: one tab per account named here; add '1402': 'Chase Bank' with Chase's first file.
-var BANK_SHEETS = { '1401': 'Citizens Bank' };
+// ponytail: one tab per account named here.
+var BANK_SHEETS = { '1401': 'Citizens Bank', '1402': 'Chase Bank' };
 var BANK_STATUS_COLORS = { 'Reconciled': '#d9ead3', 'Waiting for receipt': '#fff2cc', 'Waiting for an answer': '#fff2cc', 'Needs a look': '#f4cccc' };
 function refreshBankSheets_(ss) {
   try {
@@ -1025,11 +1025,15 @@ function refreshBankSheets_(ss) {
     var feed = data.rows.map(function (r) { var o = {}; data.headers.forEach(function (h, i) { o[h] = r[i]; }); return o; });
     var journal = null;
     Object.keys(BANK_SHEETS).forEach(function (account) {
-      if (!feed.some(function (r) { return String(r.account) === account; })) return;
-      if (!journal) { var j = readTabData_(ss, 'Journal', { all: true }); journal = loadJournal(j.headers, j.rows); }
-      var rows = bankSheetRows(feed, journal, account);
       var name = BANK_SHEETS[account];
       var title = name + ' - every line of the account, newest on top';
+      if (!feed.some(function (r) { return String(r.account) === account; })) {
+        // the tab stands before the account's first file (Paul, 2026-10-23: a Chase tab like Citizens'), made once, saying what to do
+        if (!ss.getSheetByName(name)) writeReportRows_(ss, name, title, [BANK_SHEET_HEADER], name).getRange(2, 1).setValue('No bank lines yet - download a statement file from the bank and use Recast Books -> Import statement...');
+        return;
+      }
+      if (!journal) { var j = readTabData_(ss, 'Journal', { all: true }); journal = loadJournal(j.headers, j.rows); }
+      var rows = bankSheetRows(feed, journal, account);
       var stamp = bankSheetSummary(rows) + '. Updated ' + Utilities.formatDate(new Date(), 'America/Chicago', 'MMM d, h:mm a') + ' (Texas time)';
       // the bank-vs-books box above the lines (Paul, 2026-09-30); ponytail: the header row is frozen
       // under the box, so a long "not explained" list makes a tall frozen band - fix the books, it shrinks

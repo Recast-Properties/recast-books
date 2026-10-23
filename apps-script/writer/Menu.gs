@@ -1657,7 +1657,7 @@ function sellHoldback(form) {
 // The bank's QFX/OFX export, chosen in the dialog and read there as text, parsed by
 // lib.gs's parseOfx (no model), and appended to the Feed tab under the writer's lock:
 // the account by the file's account-number last four against Bank accounts.last4 (a
-// comma-separated list - Citizens "2505, 5450, 9301", Chase "6317"), one row per line,
+// comma-separated list - Citizens "2505, 5450, 9301", Chase "6317, 7416"), one row per line,
 // deduped on the bank's FITID, so the same file imported twice adds nothing. The dialog
 // then says whether opening balance + every Feed line = the bank's balance (spec section 4's
 // first check). The dialog then starts the matching on that account itself (startFeedMatch,
@@ -1709,14 +1709,15 @@ function feedRow_(cols, values) {
   return row;
 }
 
-/** Recast Books -> Bank sheet: the bank account's own tab, rebuilt and brought to the front. */
+/** Recast Books -> Bank sheet: the bank accounts' own tabs, rebuilt; stays on the one open, else Citizens' to the front. */
 function showBankSheet() {
   var ss = openWorkbook_(PropertiesService.getScriptProperties());
   try { requireOwner_(ss, true); } catch (err) { return; }
   refreshBankSheets_(ss);
-  var sh = ss.getSheetByName(BANK_SHEETS['1401']);
+  var open = ss.getActiveSheet().getName();
+  var names = Object.keys(BANK_SHEETS).map(function (a) { return BANK_SHEETS[a]; });
+  var sh = ss.getSheetByName(names.indexOf(open) !== -1 ? open : BANK_SHEETS['1401']);
   if (sh) ss.setActiveSheet(sh);
-  else SpreadsheetApp.getUi().alert('No bank lines yet - use Import statement... first.');
 }
 
 /** google.script.run from Import.html: {name, text} - the file's name and its text. */

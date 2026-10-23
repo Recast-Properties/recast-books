@@ -1,5 +1,21 @@
 # Changelog
 
+## 2026-10-23 - Chase card 7416; a Chase Bank tab like Citizens'
+
+Paul (as Penny): the Recast Chase account has a card ending 7416, he is moving the recurring charges off his personal
+card onto it, and wants a tab for the account like the Citizens Bank tab. D-088.
+- `Code.gs`: `BANK_SHEETS` gains `'1402': 'Chase Bank'`. An account with no Feed lines yet gets its tab once, as a
+  stub (title, "No bank lines yet - download a statement file from the bank and use Recast Books -> Import
+  statement...", the header row) instead of being skipped; the first import fills it and the box appears. `Menu.gs`
+  `showBankSheet`: rebuilds every bank tab and stays on whichever one is open, else Citizens' to the front; the
+  "No bank lines yet" alert is gone.
+- The live `Bank accounts` tab (gviz): 1401 `2505, 5450, 9301`, 1402 `6317`, both opening balances blank. 7416 goes in
+  the 1402 row's last4 cell - Paul's cell (D-074: the digits live on the tab). The bookkeeper (`payment_instruments`,
+  read fresh each run) and the importer pick it up with no deploy; a receipt showing 7416 then posts as paid from
+  Chase (1402), not by Paul.
+- 572 tests (571 pass, 1 skipped). `clasp push` refused - login expired (`invalid_rapt`). **Owed: Paul's `npx clasp
+  login`, then the push, then `clasp deploy -i` (Code.gs changed).** Nothing posted; the books are unchanged.
+
 ## 2026-10-20 - Recurring charges on Paul's card 9166; why three October receipts are missing
 
 Paul (as Penny): "generate and provide a list of all the recurring payments using my personal card ending in 9166."
