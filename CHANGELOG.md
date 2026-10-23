@@ -10,6 +10,13 @@ the 28th, 34 months left as of 09-28, charged to Paul's Visa 9166, emails to pvb
 the Klarna app, not with Apple. It reaches the books only when he forwards Klarna's receipt to receipts@. If it moves
 to Chase 7416, the next receipt lands as paid from Chase (D-088). No books change.
 
+Then "same with pacer". PACER (federal court records) account 8731588, Paul Bjork, on paul@: billed quarterly, auto-charged
+to "the credit card on file" up to 7 days before the due date, shows on a statement as "PACER 800-676-6856 IR". The
+October invoice (39.30, due 11-10) is the only bill so far and is in the books as paid by Paul (6300, 10-14, line
+receipt-20261014-9273a9d35c1a-a818); its Drive file is only PACER's logo image - the email body is the receipt. No
+PACER line on Citizens through 10-21. The card on file is not named anywhere - PACER's "Payment Information" was
+changed 08-02 (Gmail, paul@). The card changes at pacer.uscourts.gov, Manage My Account, Payments. No books change.
+
 ## 2026-10-23 - Two Venmo payments to Juanito, recorded from Paul's screenshots
 
 Paul showed his Venmo feed to Ivett Avila (Juanito's wife - his pay, Vendors tab) and asked whether every payment was
