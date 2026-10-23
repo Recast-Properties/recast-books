@@ -20,6 +20,14 @@ there; a figure written here is only as of its date.
    and a store credit card, Paul 10-23). Then Match statement lines ties the Feed's refund lines (10-02 61.91 etc.).
    Watch the next return the poller reads on its own.
 
+0f. **Two Venmo payments to Ivett Avila (= Juanito) are in no book (Paul's Venmo feed, 10-23):** 1,500.00 about 10-08
+   ("To Juan Diego Garcia for work done at 413 Green Acres, Palmer TX") and 450.00 about 10-13 ("trash removal 241
+   Poinsetta Dr, Palmer"). Checked the live Journal (no 1,500 or 450 line since 09-25 but voids of other things, no
+   Juanito line on Poinsetta), the Feed (Citizens imported only to 10-06) and the Drive folder (no document for either).
+   The other two in the feed ARE in: 2,100.00 flooring 413 Green Acres (10-14, saved by Paul 10-23) and 500.00 366 Mesa
+   (10-01, tied to the bank's Venmo line). **Owed: Paul forwards Venmo's two payment emails to receipts@** - both under
+   the 2,000 ceiling, the Vendors tab knows Ivett is his pay, so they post on their own; the bank lines tie on the next
+   Citizens import (they left Citizens by the debit card 5450, as the 10-01 one did - confirm on the import).
 1. **413 Green Acres, Armandre Vega (Chinos LLC):** draw 1, 3,500.00 Zelle 10-09, is on the tab as Chinos LLC. **Draw 2,
    3,500.00 Zelle 10-16 ("For work completed at 413 Green Acres"), is in no book** - owed: Paul forwards the bank's
    10-16 notice (paul@ Inbox, "Notification - Your $3,500.00 to Armandre Vega was sent") to receipts@ naming the house
