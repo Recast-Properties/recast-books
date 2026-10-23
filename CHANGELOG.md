@@ -7,7 +7,9 @@ Paul's Save of the 10-14 $2,100 Juan Garcia (via Ivett Avila) flooring card at 4
 Drive: Response header contains a character that is not a Latin-1 character ... Cannot convert argument to a
 ByteString". Cause: `/api/file` (`books-file.mjs`) puts the stored attachment's own name in `content-disposition`, and
 Node refuses a header value outside Latin-1, so the function threw before sending the bytes and `inboxFinish` stopped at
-its first fetch - no Drive file, no Receipt link on the two Journal lines, no line block on the house tab.
+its first fetch - no Drive file, no Receipt link on the two Journal lines, no line block on the house tab. The name:
+`Screenshot 2026-10-14 at 6.21.51 PM.png` (envelope `gm-1a13d270c1c1ce59`) - macOS puts a narrow no-break space
+(U+202F) before "PM" in every screenshot name, so every Mac screenshot Paul sends would have hit this.
 - Fix: `contentDisposition()` - ASCII in `filename` (anything else becomes `_`), the real name beside it RFC
   5987-encoded (`filename*=UTF-8''...`). Test added (a curly quote and dashes). 573 tests.
 - `refileGreenAcresFlooring20261023` in `oneOffScripts.gs`: finds the posted envelope by the txn id and runs
