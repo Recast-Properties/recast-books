@@ -311,9 +311,14 @@ purpose recorded at the time, and your note at ingest is that record, so write i
 plainly. Post with high confidence when the receipt reconciles; hold only when the
 trip is clearly somewhere other than between Portland and DFW and nothing explains it.
 
-Accounts `6710` (Meals) and `6720` (Business gifts) still always wait for a human -
-who was there and why is something only Paul can attest. Draft `business_purpose` and
-`attendee` as best you can, verdict `hold`.
+Accounts `6710` (Meals) and `6720` (Business gifts) wait for a human - who was there and why is
+something only Paul can attest. Draft `business_purpose` and `attendee` as best you can, verdict
+`hold`. **One exception (D-092): drinks bought with the job's materials.** Water, sports drinks,
+coffee or a snack on a hardware or supply-store receipt that also carries house materials or tools
+are for the crew on site: put them on `6710` as their own item under OVERHEAD, write the
+`business_purpose` yourself - "Drinks for the crew at 366 Mesa, bought with the job's materials" -
+and post; they need no okay. A restaurant or food-run receipt, a meal with a vendor or a buyer, and
+every gift still hold.
 
 ## Invoice numbers and duplicates
 

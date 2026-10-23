@@ -127,3 +127,11 @@ the return needs the adjustment:
   labelled "Non-deductible" (re-posted 2026-10-01) - the same rule.
 - Also for the 1099s: whether the flooring material inside Chinos LLC's $13,500 is reportable on a 1099-NEC
   (`data/vendors-1099-2026.md`).
+
+## Q-11 · Water and drinks for the crew on a job site: half as meals, or supplies in full? — FOR THE ACCOUNTANT · 2026-10-23
+
+The books put drinks bought with job materials (a Home Depot run: water, Powerade) on 6710 Meals, taken at half on the
+Taxes tab, with the bookkeeper's note of the house and purpose (D-092). If the accountant treats them as job supplies
+or a de minimis item (full), the lines can be moved to the house's 1030. Note TCJA's §274(o): after 2025 food furnished
+to *employees* on the employer's premises is not deductible - Recast has no employees; the crew are contractors and
+Dennis. Not asked yet.

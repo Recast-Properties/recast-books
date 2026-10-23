@@ -157,3 +157,21 @@ function linkMolallaReceipts() {
   console.log('linkMolallaReceipts: ' + pairs.length + ' receipts written on ' + journal + ' Journal lines; on the tab ' + linked +
     ' lines now open their receipt and ' + blank + ' have none (' + cells.length + ' lines on the tab).');
 }
+
+// 2026-10-23 Paul (D-092, "ok lets change the rule"): the 155.41 Home Depot card at 366 Mesa held over 5.70 of drinks.
+// Uploads it again from its stored file with reprocess: true - the full read, posting allowed - so it records on its
+// own under the new rule. Run AFTER the site deploy. Safe to run twice: a posted document is skipped.
+// STATUS: NOT YET RUN
+function rereadDrinks20261023() {
+  var docId = 'gm-1a1372020c1f71c8';
+  var env = (siteFetchJson_('/api/inbox?docId=' + encodeURIComponent(docId)).envelopes || [])[0];
+  if (!env) throw new Error('no envelope for ' + docId);
+  if (env.status === 'posted') { console.log('already posted'); return; }
+  var atts = (env.attachments || []).map(function (a, i) {
+    var bytes = siteFetchRaw_('/api/file?key=' + encodeURIComponent(a.key || ('att/' + docId + '/' + i))).getContent();
+    return { name: a.name || ('attachment-' + i), mime: a.mime || 'application/octet-stream', base64: Utilities.base64Encode(bytes) };
+  });
+  var r = siteFetchJson_('/api/upload', 'post', { docId: docId, source: env.source || 'email', channel: env.channel || 'receipts', gmailUrl: env.gmailUrl || '',
+    subject: env.subject || '', from: env.from || '', receivedAt: env.receivedAt || '', bodyText: env.bodyText || '', reprocess: true, attachments: atts });
+  console.log(docId + ': ' + JSON.stringify(r) + ' (' + atts.length + ' files)');
+}

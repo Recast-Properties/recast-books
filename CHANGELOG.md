@@ -1,5 +1,17 @@
 # Changelog
 
+## 2026-10-23 - Drinks bought with the job's materials post on their own (D-092)
+
+Paul, on the 155.41 Home Depot card (10-13, 366 Mesa) held "for the $5.70 of drinks": "it looks like it knows everything.
+why does it need my approval?" then "ok lets change the rule. what is allowable by the irs?" D-012's rule held every
+6710 line for him. Now (`lib/gate.mjs` condition 5): a 6710 line up to 25.00 with a written business purpose, on a
+document whose other lines are house materials or tools, passes; a 6710-only receipt, a bigger line, a blank purpose
+and every 6720 gift still hold. The prompt tells the read to write the purpose itself ("Drinks for the crew at 366
+Mesa, bought with the job's materials") and post. Two gate tests; 579 tests; prompt module and lib.gs rebuilt; writer
+pushed (no deploy -i needed - the gate runs on the site). `docs/policies.md` condition 7 amended; Q-11 for the
+accountant (half as meals vs supplies in full). **Owed: `npm run deploy` (Paul's word), then Penny runs
+`rereadDrinks20261023` so the 155.41 card records on its own.**
+
 ## 2026-10-23 - Returns and refunds post: a negative amount is a refund (D-091)
 
 Paul: "the poller cannot figure out any of the returns. see the inbox. it should be able to find the item that was

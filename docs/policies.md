@@ -16,7 +16,8 @@ An item files automatically only when **all** hold:
 4. Vendor and date present
 5. Line items sum to the receipt's stated pre-tax subtotal (±0.5%)
 6. **`amount <= <ceiling>`** ← NEW, not yet set
-7. **Account is not 6700, 6710 or 6720** ← NEW (§274(d) categories need a human)
+7. **Account is not 6700, 6710 or 6720** ← NEW (§274(d) categories need a human). Since D-012 travel (6700) posts
+   with the bookkeeper's purpose; since D-092 a drinks line up to 25.00 on 6710, bought with job materials, posts with it too.
 
 Conditions 1–5 are live today. 6 and 7 are additions from the 2026-08-26 review.
 

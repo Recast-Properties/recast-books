@@ -572,3 +572,29 @@ test("D-058: the gate tells the card what a read's `supersedes` would take out -
   assert.equal(swap.replaces, null, "a placeholder is reported as the placeholder");
   assert.equal(swap.placeholder.txn_id, WAITING.txn_id);
 });
+
+// --- D-092: drinks bought with the job's materials post on their own -----------------
+
+test("D-092: a small 6710 drinks line with a purpose, beside house materials, does not need a human", () => {
+  const model = baseModel({
+    receipt_total_cents: 9201,
+    entries: [
+      baseEntry({ items: [{ account: "1030", amount_cents: 8631, description: "Junction box and outlets", trade: "Electrical" }] }),
+      baseEntry({ property: "OVERHEAD", items: [{ account: "6710", amount_cents: 570, description: "Dasani water and Powerade", business_purpose: "Drinks for the crew at 881 Newport, bought with the job's materials" }] }),
+    ],
+  });
+  const result = evaluateGate(model, baseCtx(), baseSettings());
+  assert.ok(!result.reasons.includes("NEEDS_HUMAN_274D"), result.reasons.join(","));
+});
+
+test("D-092: a restaurant receipt (6710 alone), a big drinks line, a purpose left blank, and any gift still wait", () => {
+  const alone = baseModel({ receipt_total_cents: 570, entries: [baseEntry({ property: "OVERHEAD", items: [{ account: "6710", amount_cents: 570, description: "Lunch", business_purpose: "crew lunch" }] })] });
+  assert.ok(evaluateGate(alone, baseCtx(), baseSettings()).reasons.includes("NEEDS_HUMAN_274D"));
+  const materials = (item) => baseModel({ receipt_total_cents: 8631 + item.amount_cents, entries: [
+    baseEntry({ items: [{ account: "1030", amount_cents: 8631, description: "Outlets", trade: "Electrical" }] }),
+    baseEntry({ property: "OVERHEAD", items: [item] }),
+  ] });
+  assert.ok(evaluateGate(materials({ account: "6710", amount_cents: 4000, description: "Catering", business_purpose: "crew" }), baseCtx(), baseSettings()).reasons.includes("NEEDS_HUMAN_274D"), "over the drinks size");
+  assert.ok(evaluateGate(materials({ account: "6710", amount_cents: 570, description: "Water" }), baseCtx(), baseSettings()).reasons.includes("NEEDS_HUMAN_274D"), "no purpose written");
+  assert.ok(evaluateGate(materials({ account: "6720", amount_cents: 570, description: "Gift card", business_purpose: "thank you" }), baseCtx(), baseSettings()).reasons.includes("NEEDS_HUMAN_274D"), "a gift");
+});

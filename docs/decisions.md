@@ -99,6 +99,7 @@ that supersedes the old one, not editing history.
 - D-089 · A forward that lists its files but does not carry them is read with the original message's files - 2026-10-23 · Paul
 - D-090 · The autofile ceiling is 2,000.00; Penny runs one-offs and does not read a saved card back - 2026-10-23 · Paul
 - D-091 · A return or refund is a receipt with the sign flipped: it posts on its own to the item's house and the card the money came back to - 2026-10-23 · Paul
+- D-092 · Drinks bought with the job's materials post on their own; meals and gifts still wait - 2026-10-23 · Paul
 
 ---
 
@@ -2031,3 +2032,21 @@ known. The read finds the original purchase (`read_ledger`, `search_docs`) and t
 it holds only when the house is unknown or one slip refunds to several cards. The house tab already shows a refund as
 a negative cost row and under Received (refunds) (D-069's layout). Not changed: the posted-entries view still sums
 the debit side, so a refund's twin is caught by its receipt number, not by amount.
+
+## D-092 · Drinks bought with the job's materials post on their own; meals and gifts still wait - 2026-10-23 · Paul
+
+*"explain to me why the poller can't just log the home depot expenses in the receipt for $155.41. it looks like it
+knows everything. why does it need my approval?"* then *"ok lets change the rule. what is allowable by the irs?"* The
+card held on 5.70 of Dasani water and Powerade on 6710, under D-012's rule that meals and gifts always wait for him.
+
+**Decided:** a drinks line - water, sports drinks, coffee, a snack - on a hardware or supply-store receipt that also
+carries house materials or tools (a 1000-1399 or 6510 line) is for the crew on site and posts on its own: on `6710`
+under OVERHEAD, up to 25.00, with the `business_purpose` the read writes ("Drinks for the crew at 366 Mesa, bought
+with the job's materials") as the contemporaneous record - the same shape as D-012's travel note. The gate's
+condition 5 (`lib/gate.mjs`) carries the exception; `buildEntry` still refuses a 6710 line with no purpose. A
+restaurant or food-run receipt, a meal with a vendor or a buyer, and every gift still hold for Paul.
+
+**Why 6710 and not a house cost:** the IRS treats water and drinks as "food or beverages" - deductible when bought
+for the business, generally at half, with the amount, date, place and purpose recorded; the Taxes tab already takes
+half of 6710. Booking them as house supplies at the full amount is a position for the accountant (Q-11). Penny is
+not the accountant; the books take the safer line and the accountant can reclassify.
