@@ -7,8 +7,8 @@ there; a figure written here is only as of its date.
 
 ## 2026-10-23 - owed, in order (on top of everything below)
 
-0. **Paul: `npx clasp login`** (expired again 10-23). Then Claude: `clasp push -f` from `apps-script/writer/` and
-   `clasp pull` to confirm live = repo (the Chase Bank tab, D-088).
+0. Done 10-23 08:10 PDT: Paul's `clasp login`, then the writer pushed and `clasp pull` says live = repo (commit 6ece2e8,
+   the Chase Bank tab, D-088). The deploy (step 3) is still owed.
 1. **Paul: on the `Bank accounts` tab, the Chase row's last4 cell reads `6317` - make it `6317, 7416`.** From then on
    a receipt showing 7416 is paid from Chase (1402), not by Paul - nothing else to change (D-088). He is moving the
    recurring charges onto it himself (the 10-20 list in CHANGELOG); as each one moves, its next receipt lands on Chase.

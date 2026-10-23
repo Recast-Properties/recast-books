@@ -13,8 +13,10 @@ card onto it, and wants a tab for the account like the Citizens Bank tab. D-088.
   the 1402 row's last4 cell - Paul's cell (D-074: the digits live on the tab). The bookkeeper (`payment_instruments`,
   read fresh each run) and the importer pick it up with no deploy; a receipt showing 7416 then posts as paid from
   Chase (1402), not by Paul.
-- 572 tests (571 pass, 1 skipped). `clasp push` refused - login expired (`invalid_rapt`). **Owed: Paul's `npx clasp
-  login`, then the push, then `clasp deploy -i` (Code.gs changed).** Nothing posted; the books are unchanged.
+- 572 tests (571 pass, 1 skipped). `clasp push` refused at first - login expired (`invalid_rapt`); after Paul's `npx
+  clasp login` the writer was pushed 08:10 PDT and `clasp pull` says live = repo (its `.js` copies deleted - pull into a
+  scratch folder next time, `docs/ops.md`). **Owed: `clasp deploy -i` (Code.gs changed).** Nothing posted; the books
+  are unchanged.
 
 ## 2026-10-20 - Recurring charges on Paul's card 9166; why three October receipts are missing
 
