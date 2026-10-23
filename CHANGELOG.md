@@ -14,7 +14,7 @@ its first fetch - no Drive file, no Receipt link on the two Journal lines, no li
   5987-encoded (`filename*=UTF-8''...`). Test added (a curly quote and dashes). 573 tests.
 - `refileGreenAcresFlooring20261023` in `oneOffScripts.gs`: finds the posted envelope by the txn id and runs
   `inboxFinish` again; stops if a link is already there. Pushed (a push only, no deploy).
-- **Owed: `npm run deploy` (Paul, or his word "deploy"), then Paul runs the one-off in the editor**, then read back:
+- **Deployed by Paul 10-23 (site `6adb7f86`). Owed: Paul runs the one-off in the editor**, then read back:
   the two Journal lines carry the Receipt link, the file sits under `2026/413 Green Acres/`, the Green Acres tab shows
   the line with its link.
 - This entry is Juanito's Green Acres payment Paul asked about earlier today: on the tab now as "Juan Garcia (paid via

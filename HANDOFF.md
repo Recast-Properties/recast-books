@@ -9,8 +9,8 @@ there; a figure written here is only as of its date.
 
 0. **The 10-14 2,100.00 Juan Garcia (via Ivett Avila) flooring receipt at 413 Green Acres posted but is not on Drive**
    (`receipt-20261014-ec048d8c2aba-90d0`; `/api/file` threw on a name outside Latin-1, fixed in `books-file.mjs`,
-   CHANGELOG). Owed, in order: **`npm run deploy`** (Paul, or his word), then **Paul runs
-   `refileGreenAcresFlooring20261023`** in the editor (pushed), then Claude reads back the Receipt link on both Journal
+   CHANGELOG; site `6adb7f86`, deployed by Paul). Owed: **Paul runs `refileGreenAcresFlooring20261023`** in the
+   editor (pushed), then Claude reads back the Receipt link on both Journal
    lines, the file under `2026/413 Green Acres/`, and takes the one-off out.
 1. **413 Green Acres, Armandre Vega (Chinos LLC):** draw 1, 3,500.00 Zelle 10-09, is on the tab as Chinos LLC. **Draw 2,
    3,500.00 Zelle 10-16 ("For work completed at 413 Green Acres"), is in no book** - owed: Paul forwards the bank's
