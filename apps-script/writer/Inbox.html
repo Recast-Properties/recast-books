@@ -257,9 +257,12 @@
       (e.items || []).forEach(function (it) {
         var g = acctGroup_(it.account || ''), prop = itemProperty_(e, it);
         if (!it.account) return;
-        if (g === ACCT_GROUPS[1] && prop && prop !== 'OVERHEAD') out.push(acctName_(it.account) + ' is a business cost, not a house cost - set its property to OVERHEAD');
-        if (g === ACCT_GROUPS[0] && prop === 'OVERHEAD') out.push(acctName_(it.account) + ' is a house cost - pick which house');
-        if (g === ACCT_GROUPS[0] && !prop) out.push(acctName_(it.account) + ' needs a house - pick which one');
+        // Name the line (Paul, 2026-10-23: batteries on OVERHEAD under Rehab - materials went to the engine and
+        // came back PROPERTY_REQUIRED; the flag alone did not stop the Save, and did not say which item).
+        var who = it.description ? '"' + String(it.description).slice(0, 40) + '": ' : '';
+        if (g === ACCT_GROUPS[1] && prop && prop !== 'OVERHEAD') out.push(who + acctName_(it.account) + ' is a business cost, not a house cost - set its house to OVERHEAD, or pick a house account');
+        if (g === ACCT_GROUPS[0] && prop === 'OVERHEAD') out.push(who + acctName_(it.account) + ' is a house cost - pick which house for it, or a business account (the Business overhead group, e.g. Office supplies or Small tools)');
+        if (g === ACCT_GROUPS[0] && !prop) out.push(who + acctName_(it.account) + ' needs a house - pick which one');
       });
     });
     return out.filter(function (t, i) { return out.indexOf(t) === i; });
@@ -645,6 +648,9 @@
         return showMsg_(msg, false, 'One more thing before Save: pick what kind of cost this is, in the box that says <b>What kind of cost is this?</b> just above the amount. ' +
           '(Paying a worker is <b>Rehab - subcontract labor</b>; things bought are <b>Rehab - materials</b>.) How it was paid - card, check, Venmo - does not matter here; "Paid from" already says which account.');
       }
+      // The engine refuses a house account on OVERHEAD and a business account on a house (D-010); say it here, by line.
+      var wrong = mismatchFlags_(toPost);
+      if (wrong.length) return showMsg_(msg, false, 'One more thing before Save: ' + wrong.map(escapeHtml_).join('<br>'));
       var rest = [sum.returned ? money_(sum.returned) + ' returned' : '', sum.dismiss ? money_(sum.dismiss) + ' dismissed' : ''].filter(Boolean).join(', ');
       if (saveBtn.dataset.armed !== '1') {
         saveBtn.dataset.armed = '1';

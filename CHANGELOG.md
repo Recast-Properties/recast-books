@@ -1,5 +1,16 @@
 # Changelog
 
+## 2026-10-23 - The card stops a Save the engine would refuse, and names the line
+
+Paul, two items on one card - batteries on OVERHEAD and door hardware on 658 Erin Hills, both under 1030 Rehab -
+materials: "didnt work" - the Save came back `PROPERTY_REQUIRED - account 1030 requires a property (got "OVERHEAD")`.
+D-010 (a house account needs a house; a business account sits only on OVERHEAD) was on the card as a flag in the list
+above the lines, but the flag did not stop the Save and did not say which item. `Inbox.html`: `mismatchFlags_` names
+the line ('"Duracell AA batteries 10-pack...": Rehab - materials is a house cost - pick which house for it, or a
+business account (the Business overhead group, e.g. Office supplies or Small tools)'), and Save stops on any such flag
+with that text instead of sending the entry to the engine. A push, no deploy. The per-house split itself (D-041) is
+unchanged and works.
+
 ## 2026-10-23 - The Inbox card says that each item has its own house
 
 Paul, on a two-item hardware card: "i should be able to assign individual items in a receipt to different properties.
