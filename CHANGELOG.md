@@ -1,5 +1,20 @@
 # Changelog
 
+## 2026-10-23 - Paint and Flooring are two kinds of cost, not one
+
+Paul, on the Inbox card's trade dropdown: "i want to split the floors & paint expense into two separate expenses vs
+one." The dropdown is `pickerData_` (Menu.gs): `PT_HEAVY_ORDER` (the old Ashburne tab's block order, left as the
+snapshot it is) plus every trade name the Journal has seen. Now `Paint & Flooring` in that order becomes `Paint`,
+`Flooring`, and the old combined name is never offered even though the Journal still carries it. On the site,
+`tradesByProperty` (the sections the bookkeeper and the matcher see per house) counts a line tagged with the old name
+as both `Paint` and `Flooring`, and the model's `trade` field says the two are separate sections, never one combined -
+so new reads pick one of the two. Lines already tagged `Paint & Flooring` are left alone: a light tab never shows the
+trade, and the frozen Ashburne tab's block keeps its name (on any future heavy rebuild that block would follow the
+listed ones, not lead them - read rule 11 first). Writer pushed (Menu.gs only - a push, no deploy; `clasp pull` =
+the working copy); the site change is **owed Paul's `npm run deploy`**. One test updated; 578 pass. Watch the first
+paint or flooring receipt after the deploy: its card should offer and pre-pick `Paint` or `Flooring`, never the old
+name.
+
 ## 2026-10-23 - Drinks bought with the job's materials post on their own (D-092)
 
 Paul, on the 155.41 Home Depot card (10-13, 366 Mesa) held "for the $5.70 of drinks": "it looks like it knows everything.

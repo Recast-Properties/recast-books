@@ -192,12 +192,16 @@ function pickerData_(ss) {
   var journal = ss.getSheetByName('Journal');
   var jCols = headerIndex_(journal);
   var jLast = journal.getLastRow();
-  var trades = PT_HEAVY_ORDER.slice();
+  // Paul, 2026-10-23: paint and flooring are two kinds of cost, not one. The picker offers them apart; the old
+  // combined name stays on the lines that carry it (and the frozen Ashburne tab's block) but is never offered.
+  var split = { 'Paint & Flooring': ['Paint', 'Flooring'] };
+  var trades = [];
+  PT_HEAVY_ORDER.forEach(function (t) { trades = trades.concat(split[t] || [t]); });
   if (jLast > 1 && jCols['trade']) {
     var seen = {};
     journal.getRange(2, jCols['trade'], jLast - 1, 1).getValues().forEach(function (r) {
       var t = String(r[0] || '').trim();
-      if (t) seen[t] = true;
+      if (t && !split[t]) seen[t] = true;
     });
     Object.keys(seen).sort().forEach(function (t) { if (trades.indexOf(t) < 0) trades.push(t); });
   }

@@ -590,7 +590,7 @@ test("tradesByProperty: a house's sections from its cost lines, most used first,
     L("104 Ashburne", "", 100), L("104 Ashburne", "Marketing", -100), L("1616 Granite", "Paint & Flooring", 100), L("OVERHEAD", "", 100),
   ]);
   assert.deepEqual(out["104 Ashburne"], ["Lighting & Electrical", "Pool"]);
-  assert.deepEqual(out["1616 Granite"], ["Paint & Flooring"]);
+  assert.deepEqual(out["1616 Granite"], ["Flooring", "Paint"]);   // the old combined name counts as both (2026-10-23)
   assert.equal(out["OVERHEAD"], undefined);
 });
 

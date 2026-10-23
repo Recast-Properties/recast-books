@@ -7,6 +7,10 @@ there; a figure written here is only as of its date.
 
 ## 2026-10-23 (later) - owed, in order (on top of everything below)
 
+0e. **Paint and Flooring are two trades now (10-23):** the Inbox dropdown offers them apart (writer pushed, Menu.gs only -
+   close and reopen the Inbox to see it); the bookkeeper's sections and field say the same on the site - **owed: Paul's
+   `npm run deploy`**, then watch the first paint or flooring receipt's card pre-pick `Paint` or `Flooring`. Old lines
+   keep `Paint & Flooring` (a light tab never shows the trade; the frozen Ashburne tab's block keeps its name).
 0d. Done 10-23: drinks with job materials (D-092) live - site `6adb92f1`; the 155.41 Home Depot card posted on its own
    (Mesa parts, tools, 5.70 of drinks on 6710 with the read's purpose). Q-11 for the accountant: half as meals vs
    supplies in full. Watch the next hardware run with drinks on it.

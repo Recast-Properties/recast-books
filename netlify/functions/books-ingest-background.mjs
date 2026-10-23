@@ -201,13 +201,16 @@ function makeVendorsDep(vendorRows, journalLines) {
  *  bookkeeper reuses them instead of inventing near-duplicates (2026-09-28: 42 Amazon reads gave
  *  104 Ashburne "Electrical & Lighting" beside its "Lighting & Electrical", "Fireplace" beside
  *  "Chimney/FIreplace/Glass", "Staging" beside "Marketing" - twelve new blocks on the tab). */
+// Paul, 2026-10-23: paint and flooring are two kinds of cost, not one. Lines still tagged with the old
+// combined name count as both sections, so the model never sees - or reuses - the combined name.
+const SPLIT_TRADES = { "Paint & Flooring": ["Paint", "Flooring"] };
 export function tradesByProperty(lines, cap = 30) {
   const counts = new Map();
   for (const l of lines || []) {
-    const trade = String(l.trade || "").trim();
-    if (!trade || !l.property || !(l.amount_cents > 0)) continue;
+    const raw = String(l.trade || "").trim();
+    if (!raw || !l.property || !(l.amount_cents > 0)) continue;
     const byTrade = counts.get(l.property) || new Map();
-    byTrade.set(trade, (byTrade.get(trade) || 0) + 1);
+    for (const trade of SPLIT_TRADES[raw] || [raw]) byTrade.set(trade, (byTrade.get(trade) || 0) + 1);
     counts.set(l.property, byTrade);
   }
   const out = {};
