@@ -9,12 +9,12 @@ there; a figure written here is only as of its date.
 
 0. Done 10-23 08:10 PDT: Paul's `clasp login`, then the writer pushed and `clasp pull` says live = repo (commit 6ece2e8,
    the Chase Bank tab, D-088). The deploy (step 3) is still owed.
-1. **Paul: on the `Bank accounts` tab, the Chase row's last4 cell reads `6317` - make it `6317, 7416`.** From then on
-   a receipt showing 7416 is paid from Chase (1402), not by Paul - nothing else to change (D-088). He is moving the
-   recurring charges onto it himself (the 10-20 list in CHANGELOG); as each one moves, its next receipt lands on Chase.
-2. **Paul: Recast Books -> Bank sheet** (after the push) - the `Chase Bank` tab appears beside Citizens', a stub until
-   the first Chase statement file is imported with Import statement... (the parser has seen only a test 6317 file; a
-   real Chase download is untried - 10-14 note below).
+1. Done 10-23 (read back by gviz): the `Bank accounts` tab's Chase row last4 reads `6317, 7416`. From now on a receipt
+   showing 7416 is paid from Chase (1402), not by Paul - nothing else to change (D-088). He is moving the recurring
+   charges onto it himself (the 10-20 list in CHANGELOG); as each one moves, its next receipt lands on Chase.
+2. Done 10-23: Paul ran Recast Books -> Bank sheet (he first looked for a tab by that name - it is a menu item) and the
+   `Chase Bank` tab is there, a stub until the first Chase statement file is imported with Import statement... (the
+   parser has seen only a test 6317 file; a real Chase download is untried - 10-14 note below).
 3. **Paul: `clasp deploy -i AKfycbxNisU_atef_fjnELMBK0R9N1xcnP5e-0MT4LP0FdhpfdPRE1UwlIcb2u4-JS38gx1O3w`** - Code.gs
    changed. Until then the deployed writer (the Inbox's saves, the matcher) rebuilds only the Citizens tab, so the
    Chase tab would go stale after its first import.

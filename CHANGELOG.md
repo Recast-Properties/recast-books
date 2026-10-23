@@ -12,7 +12,8 @@ card onto it, and wants a tab for the account like the Citizens Bank tab. D-088.
 - The live `Bank accounts` tab (gviz): 1401 `2505, 5450, 9301`, 1402 `6317`, both opening balances blank. 7416 goes in
   the 1402 row's last4 cell - Paul's cell (D-074: the digits live on the tab). The bookkeeper (`payment_instruments`,
   read fresh each run) and the importer pick it up with no deploy; a receipt showing 7416 then posts as paid from
-  Chase (1402), not by Paul.
+  Chase (1402), not by Paul. **Typed by Paul 10-23 and read back by gviz: `6317, 7416`.** The Chase Bank tab is in
+  the workbook (he ran Recast Books -> Bank sheet).
 - 572 tests (571 pass, 1 skipped). `clasp push` refused at first - login expired (`invalid_rapt`); after Paul's `npx
   clasp login` the writer was pushed 08:10 PDT and `clasp pull` says live = repo (its `.js` copies deleted - pull into a
   scratch folder next time, `docs/ops.md`). **Owed: `clasp deploy -i` (Code.gs changed).** Nothing posted; the books
