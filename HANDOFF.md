@@ -7,6 +7,9 @@ there; a figure written here is only as of its date.
 
 ## 2026-10-23 (later) - owed, in order (on top of everything below)
 
+0b. **Autofile ceiling is 2,000.00** (Settings `autofile_ceiling_cents` 200000, Paul 10-23, D-090; was 500.00). Bills
+   up to that post without him when every other rail holds. The Cool Hand Electric 516.00 was saved by Paul 10-23
+   (OVERHEAD, paid by Paul) - on his word; not read back.
 0a. **Cool Hand Electric (forwarded 10-14, Paul's note: general expense, not 366 Mesa, Dennis did not pay):** re-read
    10-23 with the invoice and the photos taken from the vendor's original email (his iPhone forward carried no files -
    D-089, the poller now does this on its own). Read 10-23: invoice #68029768, $516.00, paid 10/13 by a Visa with no

@@ -97,6 +97,7 @@ that supersedes the old one, not editing history.
 - D-087 · A receipt that answers a bank-line card still waiting posts and retires the card; a free line folds into the memo - 2026-10-10 · Paul
 - D-088 · The recurring business charges move to the Recast Chase card 7416; Chase gets its own bank tab - 2026-10-23 · Paul
 - D-089 · A forward that lists its files but does not carry them is read with the original message's files - 2026-10-23 · Paul
+- D-090 · The autofile ceiling is 2,000.00; Penny runs one-offs and does not read a saved card back - 2026-10-23 · Paul
 
 ---
 
@@ -1998,3 +1999,16 @@ letters, digits and dots. **Not covered:** a forward whose original is in anothe
 says the files did not arrive, and the fix is to forward again with "Include attachments". A document that was in
 the books as text only is re-read by uploading the message again with `reprocess: true` (books-upload.mjs), which
 replaces the card.
+
+## D-090 · The autofile ceiling is 2,000.00; Penny runs one-offs and does not read a saved card back - 2026-10-23 · Paul
+
+*"thats just busy work dont do that. i need you to increase the limit the poller can file without me to over $1500."*
+Said after he saved the Cool Hand Electric card (516.00, held as over the 500.00 ceiling among other things) and
+Penny began reading the entry and the Drive files back.
+
+**Decided:** Settings `autofile_ceiling_cents` is 200000: a document up to 2,000.00 posts on its own when every other
+rail holds (payer known, the house allowed, the chart, no duplicate, the read not low) - a medium read included
+(D-044). Above it, the card waits for his Save as before. Changed on the Settings tab by a one-off; the gate reads it
+fresh on every document. **And:** a one-off is Penny's to run (she drives the editor in his Chrome, rule 19), and
+once Paul says he saved a card, that is the record - she does not read the entry, the Receipt link or the Drive file
+back to him. Reading back stays for her own checks when something went wrong, never as a report to him.

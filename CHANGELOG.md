@@ -1,5 +1,15 @@
 # Changelog
 
+## 2026-10-23 - The autofile ceiling is 2,000.00 (was 500.00)
+
+Paul, after answering the Cool Hand Electric card (held partly as over the ceiling): "thats just busy work dont do that.
+i need you to increase the limit the poller can file without me to over $1500." Settings `autofile_ceiling_cents`
+50000 -> 200000 by the one-off `setAutofileCeiling20261023` (run by Penny from the editor in his Chrome 09:08 PDT, log
+"before: 50000 / after: 200000"; taken out and pushed). The gate reads Settings on every document - no deploy. D-090.
+Every other rail stands: who paid, the house, the chart, a duplicate, low confidence. A medium-confidence read now
+posts up to 2,000.00 on its own (D-044). Also his word on read-backs: when he says he saved a card, that is the
+record - no reading the entry or the Drive file back to him.
+
 ## 2026-10-23 - A forward without its files: the poller takes them from the original message
 
 Paul, on the Cool Hand Electric card held in the Inbox ("the invoice file didn't come through"): "i am not satisfied
