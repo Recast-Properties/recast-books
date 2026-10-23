@@ -14,9 +14,11 @@ its first fetch - no Drive file, no Receipt link on the two Journal lines, no li
   5987-encoded (`filename*=UTF-8''...`). Test added (a curly quote and dashes). 573 tests.
 - `refileGreenAcresFlooring20261023` in `oneOffScripts.gs`: finds the posted envelope by the txn id and runs
   `inboxFinish` again; stops if a link is already there. Pushed (a push only, no deploy).
-- **Deployed by Paul 10-23 (site `6adb7f86`). Owed: Paul runs the one-off in the editor**, then read back:
-  the two Journal lines carry the Receipt link, the file sits under `2026/413 Green Acres/`, the Green Acres tab shows
-  the line with its link.
+- Deployed by Paul 10-23 (site `6adb7f86`); **the one-off run by Paul 08:42 PDT and read back:** both Journal lines
+  carry the Receipt link (Drive file `11G_Jwf4w3TCEt8T6pYtfbika3d-R3aD0`), the file is `2026/413 Green Acres/2026-10-14
+  Juan Garcia 2100.00.png` on the Drive mount. The one-off is taken out (D-066; this commit); writer pushed.
+- Paul, on being handed the editor step: *"for these one off scripts can you just run them?"* - from now on Penny runs a
+  one-off herself by driving the script editor in his Chrome (`docs/ops.md`, CLAUDE.md rule 19); he is not handed it.
 - This entry is Juanito's Green Acres payment Paul asked about earlier today: on the tab now as "Juan Garcia (paid via
   Ivett Avila), Flooring material, 2,100.00", paid from Citizens 10-14; the bank line ties on the next Citizens import.
 
