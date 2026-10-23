@@ -9,8 +9,10 @@ document whose other lines are house materials or tools, passes; a 6710-only rec
 and every 6720 gift still hold. The prompt tells the read to write the purpose itself ("Drinks for the crew at 366
 Mesa, bought with the job's materials") and post. Two gate tests; 579 tests; prompt module and lib.gs rebuilt; writer
 pushed (no deploy -i needed - the gate runs on the site). `docs/policies.md` condition 7 amended; Q-11 for the
-accountant (half as meals vs supplies in full). **Owed: `npm run deploy` (Paul's word), then Penny runs
-`rereadDrinks20261023` so the 155.41 card records on its own.**
+accountant (half as meals vs supplies in full). Site deployed **`6adb92f1`** on Paul's word; `rereadDrinks20261023` run by
+Penny from the editor 10:02 PDT and taken out: **the 155.41 card posted on its own** (post, high) - 86.31 of Mesa parts
+(`receipt-20261013-5852d2672a7b`), 76.80 of Milwaukee tools on 6510 and 5.70 of drinks on 6710 with the purpose
+"Drinks for the crew at 366 Mesa, bought with the job's materials" (`receipt-20261013-17d3f5a09e7a`).
 
 ## 2026-10-23 - Returns and refunds post: a negative amount is a refund (D-091)
 

@@ -7,10 +7,9 @@ there; a figure written here is only as of its date.
 
 ## 2026-10-23 (later) - owed, in order (on top of everything below)
 
-0d. **Drinks with job materials (D-092): gate + prompt changed, pushed, NOT deployed.** Owed: **Paul `npm run deploy`**,
-   then **Penny runs `rereadDrinks20261023`** (the 155.41 Home Depot card at 366 Mesa re-read with posting allowed),
-   reads back that it posted (86.31 Mesa parts, 76.80 tools, 5.70 drinks on 6710 with a purpose), takes the one-off
-   out. Q-11 for the accountant: half as meals vs supplies in full.
+0d. Done 10-23: drinks with job materials (D-092) live - site `6adb92f1`; the 155.41 Home Depot card posted on its own
+   (Mesa parts, tools, 5.70 of drinks on 6710 with the read's purpose). Q-11 for the accountant: half as meals vs
+   supplies in full. Watch the next hardware run with drinks on it.
 0c. **Returns (D-091) are live:** site `6adb8c58`, writer @40, the four held Home Depot return cards re-read 10-23 - three
    posted on their own (3.36 Poinsetta; 52.37 Mesa; 94.33 split Green Acres / Mesa by the original purchases), the
    43.80 one **waits in the Inbox for Paul**: the showerhead's house (the slip says Erin Hills, its purchase is on 413
