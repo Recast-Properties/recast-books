@@ -555,6 +555,16 @@ function buildPayload_(message, dryRun, channelOverride) {
   var attachments = [];
   var notes = [];
   var atts = message.getAttachments({ includeInlineImages: true, includeAttachments: true });
+  // An iPhone Mail forward sent without its files keeps only their names in the text - "<Invoice #68029768.pdf>" -
+  // and the files stay on the original message, which is in this mailbox when the vendor wrote to paul@ (Cool Hand
+  // Electric, 2026-10-14: the card held with "the invoice file didn't come through"). Take them from that message.
+  if (!atts.some(isDocAttachment_)) {
+    var borrowed = forwardedAttachments_(message);
+    if (borrowed.length) {
+      atts = borrowed;
+      notes.push('The forward carried no files; the ' + borrowed.length + ' it lists were taken from the original message in the same conversation.');
+    }
+  }
   for (var i = 0; i < atts.length; i++) {
     var att = atts[i];
     var type = (att.getContentType() || '').toLowerCase();
@@ -623,6 +633,41 @@ function buildPayload_(message, dryRun, channelOverride) {
   });
   payloads[0].rest = payloads.slice(1);   // postUpload_ sends them after the first
   return payloads[0];
+}
+
+/** A PDF or an image - the kinds the books read. */
+function isDocAttachment_(att) {
+  var type = (att.getContentType() || '').toLowerCase();
+  var lname = (att.getName() || '').toLowerCase();
+  return type === 'application/pdf' || /\.pdf$/.test(lname) || /^image\//.test(type) || /\.(jpe?g|png|gif|webp|heic|heif|bmp|tiff?)$/.test(lname);
+}
+
+/** The files a forward lists but does not carry, taken from the earlier message in the same conversation that has them. */
+function forwardedAttachments_(message) {
+  var names = placeholderNames_(message.getPlainBody() || '');
+  if (!names.length) return [];
+  var msgs = message.getThread().getMessages();
+  for (var i = msgs.length - 1; i >= 0; i--) {
+    var m = msgs[i];
+    if (m.getId() === message.getId() || m.getDate() > message.getDate()) continue;
+    var hit = m.getAttachments({ includeInlineImages: true, includeAttachments: true }).filter(function (a) {
+      return names.indexOf(plainName_(a.getName())) !== -1;
+    });
+    if (hit.length) return hit;
+  }
+  return [];
+}
+
+/** The file names an iPhone Mail forward puts in place of the files it left out: a line that is only "<name.pdf>". */
+function placeholderNames_(body) {
+  var names = [], re = /^>?[ \t]*<([^<>\r\n]+\.(?:pdf|jpe?g|png|gif|webp|heic|heif))>[ \t]*$/gim, m;
+  while ((m = re.exec(body))) names.push(plainName_(m[1]));
+  return names;
+}
+
+/** A file name as the two sides may spell it: lower case, letters, digits and dots only. */
+function plainName_(s) {
+  return String(s || '').toLowerCase().replace(/[^a-z0-9.]/g, '');
 }
 
 // Sends a message's document, then the further documents of an email too big for one. All must land:
@@ -761,4 +806,3 @@ function shrinkImageViaDrive_(att) {
     if (fileId) { try { DriveApp.getFileById(fileId).setTrashed(true); } catch (e2) {} }
   }
 }
-

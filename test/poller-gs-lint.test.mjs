@@ -192,7 +192,7 @@ test("an email with more attachments than one document holds becomes several doc
   const fn = (name) => { const a = source.indexOf(`function ${name}(`); const b = source.indexOf("\nfunction ", a + 1); return source.slice(a, b === -1 ? source.length : b); };
   const posted = [];
   const build = new Function("CONFIG", "Utilities", "channelOf_", "shrinkImageViaDrive_", "UrlFetchApp",
-    `${fn("buildPayload_")}\n${fn("postUpload_")}\n${fn("postOne_")}\nreturn { buildPayload_, postUpload_ };`)(
+    `${fn("buildPayload_")}\n${fn("isDocAttachment_")}\n${fn("forwardedAttachments_")}\n${fn("placeholderNames_")}\n${fn("plainName_")}\n${fn("postUpload_")}\n${fn("postOne_")}\nreturn { buildPayload_, postUpload_ };`)(
     { MAX_ATTACH_BYTES: 3 * 1024 * 1024, MAX_ATTACH_COUNT: 6, MAX_PART_BYTES: 4 * 1024 * 1024 },
     { base64Encode: (b) => `b64:${b.length}` }, () => "receipts", () => null,
     { fetch: (url, o) => { const p = JSON.parse(o.payload); posted.push(p); return { getResponseCode: () => 200, getContentText: () => JSON.stringify({ docId: p.docId, skipped: p.docId === "gm-m1" }) }; } });
@@ -243,7 +243,7 @@ test("a phone photo under the cap is stored exactly as sent; one over it keeps t
   assert.equal(shrink(photo).length, 2.2e6);
   assert.deepEqual(asked, [8000, 5000, 4032]);
 
-  const build = new Function("CONFIG", "Utilities", "channelOf_", "shrinkImageViaDrive_", `${fn("buildPayload_")}\nreturn buildPayload_;`)(
+  const build = new Function("CONFIG", "Utilities", "channelOf_", "shrinkImageViaDrive_", `${fn("buildPayload_")}\n${fn("isDocAttachment_")}\n${fn("forwardedAttachments_")}\n${fn("placeholderNames_")}\n${fn("plainName_")}\nreturn buildPayload_;`)(
     CONFIG, { base64Encode: (b) => `b64:${b.length}` }, () => "receipts", () => ({ length: 2.2e6 }));
   const att = (name, size) => ({ getContentType: () => "image/jpeg", getName: () => name, getBytes: () => ({ length: size }) });
   const p = build({ getAttachments: () => [att("IMG_5869.JPG", 3.6e6), att("IMG_9000.JPG", 7e6)], getPlainBody: () => "", getId: () => "m2", getSubject: () => "s", getFrom: () => "f", getDate: () => null }, false);

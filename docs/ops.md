@@ -107,6 +107,12 @@ CLAUDE.md's operating notes, the handoffs' "gotchas met" sections and Claude's m
   Before saying Paul left a receipt out, check his Desktop folders (`Squarespace Invoices/`, `Roddy Invoices/` - gone
   by 2026-10-20) and these intake limits.
 - A photo over 4 MB is stored as the largest Drive copy that fits (about 1 in 40), with a note on the document.
+- **An iPhone Mail forward can carry no files** (10-14 Cool Hand Electric: `multipart/alternative`, the left-out files
+  listed as `<Invoice #68029768.pdf>` lines). The poller takes files listed that way from the earlier message in the
+  same Gmail conversation (D-089) and the card's poller note says so. When the original is not in that mailbox (a
+  forward from pvb421@), the card says the files did not arrive - Paul forwards again with "Include attachments".
+  To re-read a message once its files are in reach: upload it again with `reprocess: true` (a poller one-off calling
+  `buildPayload_` + `postUpload_`); the card is replaced, not duplicated.
 - **Receipts no vendor emails:** Squarespace (Google Workspace, the 4th) and Roddy's Foreclosure Listing Service (the
   15th) send no receipt to any mailbox. Paul downloads the PDFs from each site and sends them to
   receipts@ in a batch (10-01: 11 Squarespace, 9 Roddy). A month with no such send has no October Workspace or

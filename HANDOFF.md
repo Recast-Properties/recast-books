@@ -7,6 +7,10 @@ there; a figure written here is only as of its date.
 
 ## 2026-10-23 (later) - owed, in order (on top of everything below)
 
+0a. **Cool Hand Electric (forwarded 10-14, Paul's note: general expense, not 366 Mesa, Dennis did not pay):** re-read
+   10-23 with the invoice and the photos taken from the vendor's original email (his iPhone forward carried no files -
+   D-089, the poller now does this on its own). **Watch the Inbox:** the card with the invoice (`gm-1a13a708a62a458b`)
+   and a second card of two job photos (`-2`) that is likely a dismiss.
 0. Done 10-23: the 10-14 2,100.00 Juan Garcia (via Ivett Avila) flooring receipt at 413 Green Acres
    (`receipt-20261014-ec048d8c2aba-90d0`) is on Drive and linked on both Journal lines (`/api/file` fixed for names
    outside Latin-1 - macOS screenshot names - site `6adb7f86`; the re-file one-off run by Paul and taken out). **From
@@ -151,6 +155,9 @@ lines = 272, the Frozen tab's summary numbers unchanged, take the one-off out, p
 
 ## Built, not yet seen on a real case
 
+- D-089: the next iPhone forward that lists its files without carrying them - the poller takes them from the original
+  message in the conversation and the card's poller note says so (built 10-23, exercised once by the one-off, not yet
+  by the 15-minute poll).
 - D-088: the first receipt showing card 7416 posting as paid from Chase (1402), not PAUL; the first Chase statement
   import filling the `Chase Bank` tab and its bank box (the stub is replaced on the same refresh).
 - D-087: a receipt that answers a waiting bank-line card posts, ties the line and dismisses the card on its own

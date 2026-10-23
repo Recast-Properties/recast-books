@@ -96,6 +96,7 @@ that supersedes the old one, not editing history.
 - D-086 · Add property records a Dennis-funded house's purchase loan; one per house - 2026-10-06 · Paul
 - D-087 · A receipt that answers a bank-line card still waiting posts and retires the card; a free line folds into the memo - 2026-10-10 · Paul
 - D-088 · The recurring business charges move to the Recast Chase card 7416; Chase gets its own bank tab - 2026-10-23 · Paul
+- D-089 · A forward that lists its files but does not carry them is read with the original message's files - 2026-10-23 · Paul
 
 ---
 
@@ -1980,3 +1981,20 @@ adding to what Recast owes Paul (2030) and comes off the Chase balance instead. 
 - import a statement") until the first Chase file is imported. **Not decided:** anything about Chase's history - the
 account has never been imported (10-14), and its first import brings Paul's own deposits in as working capital
 (D-055).
+
+## D-089 · A forward that lists its files but does not carry them is read with the original message's files - 2026-10-23 · Paul
+
+*"i am not satisfied with the way the poller is functioning when there is an attached pdf. look at the cool hand
+electric expense currently in the inbox. the poller should be smart enough to read the attached pdf, yes?"*
+
+The forward from his iPhone carried no files at all (`multipart/alternative`, text and html); iPhone Mail had listed
+the ones it left out as `<Invoice #68029768.pdf>` lines. The vendor's original email, in the same Gmail conversation,
+had all eight.
+
+**Decided:** the poller (`buildPayload_`) reads a message that carries no PDF or image but lists file names that way
+with the files of those names from the earlier message in the same conversation, and the card says so in a poller
+note. The same rule on both poller instances. Code, not judgment: names are matched after dropping everything but
+letters, digits and dots. **Not covered:** a forward whose original is in another mailbox (pvb421@): the card still
+says the files did not arrive, and the fix is to forward again with "Include attachments". A document that was in
+the books as text only is re-read by uploading the message again with `reprocess: true` (books-upload.mjs), which
+replaces the card.

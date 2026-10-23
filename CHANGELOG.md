@@ -1,5 +1,27 @@
 # Changelog
 
+## 2026-10-23 - A forward without its files: the poller takes them from the original message
+
+Paul, on the Cool Hand Electric card held in the Inbox ("the invoice file didn't come through"): "i am not satisfied
+with the way the poller is functioning when there is an attached pdf ... the poller should be smart enough to read the
+attached pdf, yes?" Found (the envelope in Blobs, Gmail's "Show original" in Chrome): his iPhone Mail forward of 10-14
+(`gm-1a13a708a62a458b`, X-Mailer iPhone Mail 23G90) is `multipart/alternative` - text and html only, no files; iPhone
+Mail lists the files it left out as lines like `<Invoice #68029768.pdf>`. The vendor's original email of 10-13, in the
+same Gmail conversation, carries the eight files (two PDFs, six job photos). The poller reads only the message addressed
+to receipts@, found no attachment, stored the email text alone, and the bookkeeper rightly held. Nothing was lost; it
+was never sent.
+- `apps-script/poller/Code.gs` `buildPayload_`: when a message carries no PDF or image but its text lists file names
+  that way, `forwardedAttachments_` takes the files with those names from the earlier message in the same conversation
+  (`placeholderNames_` / `plainName_` match "Today's Task.pdf" to the attachment however the apostrophe is spelled); a
+  poller note on the card says so. Both poller instances pushed (D-089). `test/poller-forward.test.mjs` runs the two
+  name functions out of the .gs source; the lint test's lifted `buildPayload_` gets the helpers. 575 tests.
+- The Cool Hand card re-read: a temporary `rereadCoolHand20261023` (the message uploaded again with `reprocess: true`),
+  run by Penny from the editor in Paul's Chrome 08:56 PDT - the first one-off run under the new rule - found 8 files:
+  two documents, `gm-1a13a708a62a458b` (both PDFs and four photos) and `-2` (the last two photos); taken out and pushed
+  again. Paul's note on the forward stands: general expense, not 366 Mesa, Dennis did not pay.
+- Not covered: a forward from another mailbox (pvb421@) whose original is not in paul@ - the card still says the files
+  did not arrive; the fix there is to forward again with "Include attachments" (`docs/ops.md`, Email intake).
+
 ## 2026-10-23 - A receipt name outside Latin-1 stopped the Drive filing
 
 Paul's Save of the 10-14 $2,100 Juan Garcia (via Ivett Avila) flooring card at 413 Green Acres posted
