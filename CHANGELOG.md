@@ -20,8 +20,8 @@ record a refund from a card.
   payer; hold only when the house is unknown or one slip refunds to several cards. `Inbox.html` `money_` reads -$43.80.
 - Tests: posting (a refund entry's lines and balance, a net slip, an even exchange, a distinct id), gate (a negative
   total passes, the ceiling on its size). 577 tests. `lib.gs` and the prompt module rebuilt. Writer pushed.
-- **Owed, in order: `npm run deploy` (the gate and the prompt), `clasp deploy -i` (the engine in lib.gs for the
-  ingest's own posting), then Penny runs `rereadRefunds20261023` (the four cards re-read from their stored files with
+- Site deployed **`6adb8c58`** on Paul's word (the gate and the prompt). **Owed, in order: `clasp deploy -i` (the engine in
+  lib.gs for the ingest's own posting), then Penny runs `rereadRefunds20261023` (the four cards re-read from their stored files with
   posting allowed).** The 67.60 three-card slip stays Paul's: the card asks which cards.
 - Not done: `buildPostedEntries` still sums an entry's debit side, so a posted refund shows a positive total there - a
   second copy of the same refund slip is caught by its receipt number, not by the twin rail; and the Feed's refund

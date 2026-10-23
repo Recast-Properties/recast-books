@@ -7,7 +7,7 @@ there; a figure written here is only as of its date.
 
 ## 2026-10-23 (later) - owed, in order (on top of everything below)
 
-0c. **Returns (D-091): code pushed, not deployed.** Owed, in order: **Paul `npm run deploy`** (gate + prompt), **Paul
+0c. **Returns (D-091): site deployed `6adb8c58` (gate + prompt); the writer engine not yet.** Owed, in order: **Paul
    `clasp deploy -i AKfycbxNisU_atef_fjnELMBK0R9N1xcnP5e-0MT4LP0FdhpfdPRE1UwlIcb2u4-JS38gx1O3w`** (lib.gs: the engine
    the ingest posts through), then **Penny runs `rereadRefunds20261023`** in the editor - the four Home Depot return
    cards (3.36 Poinsetta, 43.80 Erin Hills, 52.37 and 94.33 Mesa) re-read with posting allowed; read back that each
