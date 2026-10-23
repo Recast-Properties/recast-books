@@ -131,7 +131,9 @@ functions the menu, pollers and nightly jobs call - Paul is never sent there.
     gets its dated CHANGELOG entry. **Penny keeps the record and the backup herself (Paul: "tell me when its time to
     update any git, repo or md and just do it"):** after a piece of work, update CHANGELOG / HANDOFF / decisions,
     commit only this session's files and `git push` - no asking, one line to Paul saying what went up. Production
-    deploys (`clasp deploy -i`, `npm run deploy`) and `clasp login` stay his.
+    deploys (`clasp deploy -i`, `npm run deploy`) and `clasp login` stay his; **a one-off script Penny runs herself**,
+    driving the editor in his Chrome (Paul: "for these one off scripts can you just run them?"; how in `docs/ops.md`) -
+    he is handed it only when the editor will not take the clicks.
 
 ## Where things are
 
