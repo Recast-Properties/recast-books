@@ -5,19 +5,16 @@ history and are not written to; `CHANGELOG.md` keeps its dated entry per change.
 `docs/ops.md`. The books' numbers live on the workbook's tabs (P&L, Totals, Citizens Bank, the house tabs) - read them
 there; a figure written here is only as of its date.
 
-## 2026-10-23 - owed, in order (on top of everything below)
+## 2026-10-23 - done (on top of everything below)
 
-0. Done 10-23 08:10 PDT: Paul's `clasp login`, then the writer pushed and `clasp pull` says live = repo (commit 6ece2e8,
-   the Chase Bank tab, D-088). The deploy (step 3) is still owed.
-1. Done 10-23 (read back by gviz): the `Bank accounts` tab's Chase row last4 reads `6317, 7416`. From now on a receipt
-   showing 7416 is paid from Chase (1402), not by Paul - nothing else to change (D-088). He is moving the recurring
-   charges onto it himself (the 10-20 list in CHANGELOG); as each one moves, its next receipt lands on Chase.
-2. Done 10-23: Paul ran Recast Books -> Bank sheet (he first looked for a tab by that name - it is a menu item) and the
-   `Chase Bank` tab is there, a stub until the first Chase statement file is imported with Import statement... (the
-   parser has seen only a test 6317 file; a real Chase download is untried - 10-14 note below).
-3. **Paul: `clasp deploy -i AKfycbxNisU_atef_fjnELMBK0R9N1xcnP5e-0MT4LP0FdhpfdPRE1UwlIcb2u4-JS38gx1O3w`** - Code.gs
-   changed. Until then the deployed writer (the Inbox's saves, the matcher) rebuilds only the Citizens tab, so the
-   Chase tab would go stale after its first import.
+- **Chase card 7416** (D-088): on the `Bank accounts` tab the Chase row's last4 reads `6317, 7416` (typed by Paul,
+  read back by gviz). A receipt showing 7416 is paid from Chase (1402), not by Paul. He is moving the recurring charges
+  onto it himself (the 10-20 list in CHANGELOG); as each one moves, its next receipt lands on Chase - watch the first.
+- **`Chase Bank` tab** beside Citizens' (`BANK_SHEETS` has 1402): a stub ("No bank lines yet...") until the first
+  Chase statement file is imported with Import statement... (a real Chase download is untried - 10-14 note below; the
+  account has never been imported, so the first file brings Paul's own deposits in as working capital, D-055). Writer
+  pushed and deployed **@39** (Paul, 10-23 08:40 PDT); live = repo by `clasp pull`; `/exec` answers ok 0.4.0. Nothing
+  owed. "Bank sheet" is a menu item, not a tab - Paul looked for a tab first.
 
 ## 2026-10-20 - owed, in order (on top of everything below)
 
@@ -89,7 +86,7 @@ there; a figure written here is only as of its date.
 
 ## As of 2026-10-06 night
 
-Live: writer web app **@38**, writer pushed after it (D-085 Add property asks the interest rate; D-086 it records a
+Live: writer web app **@39** (10-23, D-088; was @38 from 10-06), writer pushed after it (D-085 Add property asks the interest rate; D-086 it records a
 Dennis-funded house's purchase loan - 3808 Kings and 658 Erin Hills added 10-06 and fixed), site **`6aca41c9`** (10-10, D-087), both
 pollers pushed - all = the repo. 566 tests. Nothing owed on a
 deploy. Every house of the old books is closed in the books (1616 Granite, 280 Sparkling, 881 Newport, 104 Ashburne)
@@ -135,6 +132,8 @@ lines = 272, the Frozen tab's summary numbers unchanged, take the one-off out, p
 
 ## Built, not yet seen on a real case
 
+- D-088: the first receipt showing card 7416 posting as paid from Chase (1402), not PAUL; the first Chase statement
+  import filling the `Chase Bank` tab and its bank box (the stub is replaced on the same refresh).
 - D-087: a receipt that answers a waiting bank-line card posts, ties the line and dismisses the card on its own
   (`retireBankCard`); a $0.00 item folds into the memo. Watch the first one: the Feed row matched with the new txn
   id, the card gone from the Inbox, the note "The receipt came in (...) and the bookkeeper tied it".

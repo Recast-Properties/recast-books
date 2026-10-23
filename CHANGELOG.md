@@ -16,7 +16,7 @@ card onto it, and wants a tab for the account like the Citizens Bank tab. D-088.
   the workbook (he ran Recast Books -> Bank sheet).
 - 572 tests (571 pass, 1 skipped). `clasp push` refused at first - login expired (`invalid_rapt`); after Paul's `npx
   clasp login` the writer was pushed 08:10 PDT and `clasp pull` says live = repo (its `.js` copies deleted - pull into a
-  scratch folder next time, `docs/ops.md`). **Owed: `clasp deploy -i` (Code.gs changed).** Nothing posted; the books
+  scratch folder next time, `docs/ops.md`). **Deployed @39 by Paul 08:40 PDT**, `/exec` answers ok 0.4.0; nothing owed. Nothing posted; the books
   are unchanged.
 
 ## 2026-10-20 - Recurring charges on Paul's card 9166; why three October receipts are missing
