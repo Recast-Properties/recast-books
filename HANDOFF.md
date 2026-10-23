@@ -10,9 +10,9 @@ there; a figure written here is only as of its date.
 0c. **Returns (D-091) are live:** site `6adb8c58`, writer @40, the four held Home Depot return cards re-read 10-23 - three
    posted on their own (3.36 Poinsetta; 52.37 Mesa; 94.33 split Green Acres / Mesa by the original purchases), the
    43.80 one **waits in the Inbox for Paul**: the showerhead's house (the slip says Erin Hills, its purchase is on 413
-   Green Acres) - pick it and Save. The 67.60 slip refunded to three cards also waits for him (which cards). Then
-   Match statement lines ties the Feed's refund lines (10-02 61.91 etc.). Watch the next return the poller reads on
-   its own.
+   Green Acres) - pick it and Save. The 67.60 slip is recorded (61.91 to 1401, 5.69 to Dennis - his Mastercard 1343
+   and a store credit card, Paul 10-23). Then Match statement lines ties the Feed's refund lines (10-02 61.91 etc.).
+   Watch the next return the poller reads on its own.
 
 1. **413 Green Acres, Armandre Vega (Chinos LLC):** draw 1, 3,500.00 Zelle 10-09, is on the tab as Chinos LLC. **Draw 2,
    3,500.00 Zelle 10-16 ("For work completed at 413 Green Acres"), is in no book** - owed: Paul forwards the bank's

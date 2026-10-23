@@ -27,7 +27,15 @@ record a refund from a card.
   (`receipt-20261014-62371b6c512d`, `-4e22c532ebd2`) - all credits on 1030/1040 with the money back on 1401. **One held
   with a fair question:** 43.80 - the touch-up texture is Erin Hills' 10-12 purchase, but the 19.98 showerhead's only
   matching 10-11 purchase is on 413 Green Acres (`receipt-20261011-965771df7857-ebf7`) though the slip's job name says
-  Erin Hills; the card leaves that item's house for Paul. The 67.60 three-card slip stays his too.
+  Erin Hills; the card leaves that item's house for Paul.
+- **The 67.60 slip** (Paul: "how can the $67.60 be refunded across three cards on one receipt?"): the photo, read from
+  Blobs, shows exactly that - five items from four earlier purchases, each refunded to what paid for it: Visa 9301
+  (Dennis's Citizens card) 61.91, Mastercard 1343 2.90, a Home Depot store credit card 6567 2.79. Paul: the Mastercard
+  is Dennis's and Dennis has the store credit. Recorded by `postMesaReturn20261023` (the card's own Save path,
+  `inboxApprove` + `inboxFinish`, run by Penny from the editor 09:49 PDT, taken out): 61.91 back to 1401 for the vinyl
+  and the two supply lines (`receipt-20260930-eb8a320383fc-8fb2`), 5.69 to Dennis (Dr 2010) for the ball valve and the
+  PVC (`receipt-20260930-eb0a320383fc-f2d2`), both on 366 Mesa, the slip filed and linked. The Feed's 10-02 61.91
+  "Refund THE HOME DEPOT" line ties to the first on the next Match statement lines.
 - Not done: `buildPostedEntries` still sums an entry's debit side, so a posted refund shows a positive total there - a
   second copy of the same refund slip is caught by its receipt number, not by the twin rail; and the Feed's refund
   lines tie to the new entries on the next Match statement lines.
