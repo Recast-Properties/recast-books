@@ -1,5 +1,23 @@
 # Changelog
 
+## 2026-10-23 - A receipt name outside Latin-1 stopped the Drive filing
+
+Paul's Save of the 10-14 $2,100 Juan Garcia (via Ivett Avila) flooring card at 413 Green Acres posted
+(`receipt-20261014-ec048d8c2aba-90d0`, Dr 1030 / Cr 1401) but the Inbox said "recorded, but the receipt did not save to
+Drive: Response header contains a character that is not a Latin-1 character ... Cannot convert argument to a
+ByteString". Cause: `/api/file` (`books-file.mjs`) puts the stored attachment's own name in `content-disposition`, and
+Node refuses a header value outside Latin-1, so the function threw before sending the bytes and `inboxFinish` stopped at
+its first fetch - no Drive file, no Receipt link on the two Journal lines, no line block on the house tab.
+- Fix: `contentDisposition()` - ASCII in `filename` (anything else becomes `_`), the real name beside it RFC
+  5987-encoded (`filename*=UTF-8''...`). Test added (a curly quote and dashes). 573 tests.
+- `refileGreenAcresFlooring20261023` in `oneOffScripts.gs`: finds the posted envelope by the txn id and runs
+  `inboxFinish` again; stops if a link is already there. Pushed (a push only, no deploy).
+- **Owed: `npm run deploy` (Paul, or his word "deploy"), then Paul runs the one-off in the editor**, then read back:
+  the two Journal lines carry the Receipt link, the file sits under `2026/413 Green Acres/`, the Green Acres tab shows
+  the line with its link.
+- This entry is Juanito's Green Acres payment Paul asked about earlier today: on the tab now as "Juan Garcia (paid via
+  Ivett Avila), Flooring material, 2,100.00", paid from Citizens 10-14; the bank line ties on the next Citizens import.
+
 ## 2026-10-23 - Why Juanito and Armandre are not on the 413 Green Acres tab
 
 Paul (as Penny): "why are my payments to juanito and armandre not showing up in the 413 green acres expenses?" Read the

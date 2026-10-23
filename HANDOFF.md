@@ -7,15 +7,21 @@ there; a figure written here is only as of its date.
 
 ## 2026-10-23 (later) - owed, in order (on top of everything below)
 
-0. **413 Green Acres, Armandre Vega (Chinos LLC):** draw 1, 3,500.00 Zelle 10-09, is on the tab as Chinos LLC. **Draw 2,
+0. **The 10-14 2,100.00 Juan Garcia (via Ivett Avila) flooring receipt at 413 Green Acres posted but is not on Drive**
+   (`receipt-20261014-ec048d8c2aba-90d0`; `/api/file` threw on a name outside Latin-1, fixed in `books-file.mjs`,
+   CHANGELOG). Owed, in order: **`npm run deploy`** (Paul, or his word), then **Paul runs
+   `refileGreenAcresFlooring20261023`** in the editor (pushed), then Claude reads back the Receipt link on both Journal
+   lines, the file under `2026/413 Green Acres/`, and takes the one-off out.
+1. **413 Green Acres, Armandre Vega (Chinos LLC):** draw 1, 3,500.00 Zelle 10-09, is on the tab as Chinos LLC. **Draw 2,
    3,500.00 Zelle 10-16 ("For work completed at 413 Green Acres"), is in no book** - owed: Paul forwards the bank's
    10-16 notice (paul@ Inbox, "Notification - Your $3,500.00 to Armandre Vega was sent") to receipts@ naming the house
    and the draw; it is over the ceiling, so it holds in the Inbox for his Save. The Citizens file has not been imported
    since 10-06 - the bank line ties on the next Import statement.
-1. **Juanito on 413 Green Acres: nothing reached the books.** Asked Paul how and how much he paid; no Zelle from
-   Citizens to him since he was added 10-01. October's Juanito entries (Mesa 500 / 400, Janice 800) are by his own
-   emails and on the right houses.
-2. Armandre's 850.00 Zelle of 10-10 is 200 Janice ("Trash removal at 200 Janice"), not in the books and not pending in
+2. **Juanito on 413 Green Acres is on the tab now:** Paul saved the 10-14 2,100.00 Juan Garcia (via Ivett Avila)
+   flooring card after the morning's answer (item 0 for its file). No Zelle from Citizens to him since he was added
+   10-01 - this one is a Venmo to Ivett, paid from Citizens 10-14; the bank line ties on the next import. October's
+   other Juanito entries (Mesa 500 / 400, Janice 800) are by his own emails and on the right houses.
+3. Armandre's 850.00 Zelle of 10-10 is 200 Janice ("Trash removal at 200 Janice"), not in the books and not pending in
    the Inbox any more - settle with Paul when he answers the above (his rule: no payment to Armandre without an invoice).
 
 ## 2026-10-23 - done (on top of everything below)

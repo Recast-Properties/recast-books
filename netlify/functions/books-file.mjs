@@ -74,10 +74,19 @@ export default async (req) => {
     status: 200,
     headers: {
       "content-type": mime,
-      "content-disposition": filename ? `inline; filename="${filename.replace(/"/g, "")}"` : "inline",
+      "content-disposition": contentDisposition(filename),
       "cache-control": "private, max-age=3600",
     },
   });
 };
+
+/** A header value must be Latin-1 (2026-10-23: a filename with a curly quote threw "Cannot convert argument to a
+ *  ByteString" and the receipt never reached Drive). ASCII in `filename`, the real name RFC 5987-encoded beside it. */
+export function contentDisposition(filename) {
+  const name = String(filename || "");
+  if (!name) return "inline";
+  const ascii = name.replace(/["\\]/g, "").replace(/[^\x20-\x7e]/g, "_");
+  return `inline; filename="${ascii}"; filename*=UTF-8''${encodeURIComponent(name)}`;
+}
 
 export const config = { path: "/api/file" };

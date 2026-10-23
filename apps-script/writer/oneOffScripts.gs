@@ -158,3 +158,23 @@ function linkMolallaReceipts() {
     ' lines now open their receipt and ' + blank + ' have none (' + cells.length + ' lines on the tab).');
 }
 
+// 2026-10-23 Paul (the $2,100 Juan Garcia flooring card at 413 Green Acres, Save in the Inbox): recorded, but the
+// receipt never reached Drive - /api/file threw on an attachment name outside Latin-1 (fixed in books-file.mjs, a site
+// deploy). Runs step two (inboxFinish) again for the envelope that posted that entry: the Drive file, the Receipt link
+// on both Journal lines, the house tab's line block. Safe to run twice: it stops when the envelope already has a link.
+// STATUS: NOT YET RUN
+function refileGreenAcresFlooring20261023() {
+  var txnId = 'receipt-20261014-ec048d8c2aba-90d0';
+  var list = siteFetchJson_('/api/inbox?status=posted&limit=500', 'get');
+  var env = (list.envelopes || []).filter(function (e) { return ((e.result || {}).txn_ids || []).indexOf(txnId) !== -1; })[0];
+  if (!env) throw new Error('no posted envelope carries ' + txnId);
+  if ((env.result || {}).doc_url) { console.log('already filed: ' + env.result.doc_url); return; }
+  var ss = openWorkbook_(PropertiesService.getScriptProperties());
+  var j = readTabData_(ss, 'Journal', { all: true });
+  var line = loadJournal(j.headers, j.rows).filter(function (l) { return l.txn_id === txnId; })[0];
+  if (!line) throw new Error(txnId + ' is not on the Journal');
+  var r = inboxFinish({ docId: env.docId, txn_ids: env.result.txn_ids, entries: [{ date: String(line.date).slice(0, 10), property: line.property }],
+    model: env.model || {}, attachments: env.attachments || [], bodyText: env.bodyText || '' });
+  console.log(JSON.stringify(r));
+  if (!r.ok) throw new Error(r.message);
+}

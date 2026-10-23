@@ -120,3 +120,13 @@ test("POST is not allowed", async () => {
   const res = await handler(new Request("https://books.test/api/file?key=att/doc1/0", { method: "POST" }));
   assert.equal(res.status, 405);
 });
+
+test("a filename outside Latin-1 still serves (2026-10-23: a curly quote broke the Drive filing)", async () => {
+  const store = getDocsStore();
+  await store.set("att/doc10/0", Buffer.from("bytes").toString("base64"), { metadata: { contentType: "image/png", filename: "Paul’s receipt — “flooring”.png" } });
+  const res = await handler(req({ key: "att/doc10/0", token: session("owner") }));
+  assert.equal(res.status, 200);
+  const cd = res.headers.get("content-disposition");
+  assert.match(cd, /^inline; filename="Paul_s receipt _ _flooring_.png"; filename\*=UTF-8''Paul%E2%80%99s/);
+  assert.equal(await res.text(), "bytes");
+});
