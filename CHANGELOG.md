@@ -1,6 +1,17 @@
 # Changelog
 
 
+## 2026-10-23 - Advice: how to download the Chase file for Import statement (asked as Penny)
+
+Paul: "how do i generate the right bank statements to upload to the system from my chase account?" Answered as Penny:
+the importer takes only a Quicken / QFX (or OFX) download - not the CSV, not the PDF statement (Import.html,
+`parseOfx`). On chase.com: open the Recast checking account (6317), download account activity, file type Quicken (QFX),
+the widest range Chase offers (its window is about two years, so a young account comes down whole), one file, then
+Recast Books -> Import statement... The box ties only if the file starts at the account's opening; otherwise he tells
+Penny and she sets `opening_balance` / `opening_date` on the Bank accounts tab from the file. Card 7416 is in the
+checking download, not a file of its own; personal Chase never comes in (rule 16). A real Chase QFX is still untried
+by the parser - if the dialog refuses it, the file goes on the Desktop for Penny. Nothing posted; no code change.
+
 ## 2026-10-23 - Who holds the MacBook lease (asked as Penny)
 
 Paul: "check the charge in my receipts" after asking how to change the card on his Apple MacBook lease. Answered from

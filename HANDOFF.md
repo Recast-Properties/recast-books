@@ -54,7 +54,9 @@ there; a figure written here is only as of its date.
   Chase statement file is imported with Import statement... (a real Chase download is untried - 10-14 note below; the
   account has never been imported, so the first file brings Paul's own deposits in as working capital, D-055). Writer
   pushed and deployed **@39** (Paul, 10-23 08:40 PDT); live = repo by `clasp pull`; `/exec` answers ok 0.4.0. Nothing
-  owed. "Bank sheet" is a menu item, not a tab - Paul looked for a tab first.
+  owed. "Bank sheet" is a menu item, not a tab - Paul looked for a tab first. **Paul asked how to make the Chase file
+  (10-23 PM):** told QFX, widest range, Import statement... (CHANGELOG). If his first import says DOES NOT ADD UP, the
+  account is older than the file - set `opening_balance` / `opening_date` on the Bank accounts tab from the file.
 
 ## 2026-10-20 - owed, in order (on top of everything below)
 
