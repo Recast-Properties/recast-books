@@ -22,7 +22,8 @@ functions the menu, pollers and nightly jobs call - Paul is never sent there.
 - `web/` — static front end (Netlify publish dir); `netlify/functions/` — `/api/*`;
   `lib/` — pure modules (posting engine, auth, writer client, COA, money), unit-tested;
   `apps-script/writer/` — the only thing that writes the workbook; `docs/`, `data/` — design.
-- `npm test` runs everything (node:test, no test dependencies). Deploy: `npm run deploy`. Writer: `clasp push -f`
+- `npm test` runs everything (node:test, no test dependencies). **`npm run ship` is the one ship step** (tests, build
+  stamp, push, both deploys, read-back - Paul runs it; `docs/ops.md`). The pieces: `npm run deploy`; writer: `clasp push -f`
   from `apps-script/writer/`, then **`clasp deploy -i AKfycbxNisU_atef_fjnELMBK0R9N1xcnP5e-0MT4LP0FdhpfdPRE1UwlIcb2u4-JS38gx1O3w`
   after every push that touches `Code.gs` or `lib.gs`** (same id, so `WRITER_URL` never changes) - the pollers and
   the web Inbox run the DEPLOYED version of the whole project, a push alone reaches only the menus, the sheet's Inbox

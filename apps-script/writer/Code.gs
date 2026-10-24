@@ -66,7 +66,8 @@ function setup() {
 // ---- web app entry points ----------------------------------------------
 
 function doGet(e) {
-  return jsonOutput_({ ok: true, service: 'recast-books-writer', version: WRITER_VERSION });
+  // build: the stamp scripts/ship.mjs wrote into Build.gs at the last ship (absent on a plain clasp push)
+  return jsonOutput_({ ok: true, service: 'recast-books-writer', version: WRITER_VERSION, build: typeof BUILD_STAMP === 'string' ? BUILD_STAMP : '' });
 }
 
 function doPost(e) {
@@ -525,7 +526,7 @@ function jsonOutput_(obj) {
 
 function action_ping_(props) {
   var ss = openWorkbook_(props);
-  return jsonOutput_({ ok: true, spreadsheet_url: ss.getUrl(), version: WRITER_VERSION });
+  return jsonOutput_({ ok: true, spreadsheet_url: ss.getUrl(), version: WRITER_VERSION, build: typeof BUILD_STAMP === 'string' ? BUILD_STAMP : '' });
 }
 
 function action_post_(body, props) {

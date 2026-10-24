@@ -24,8 +24,9 @@ name the voided entries - let mark-posted in `books-inbox.mjs` re-point a posted
 (receipt-20261012-c9dbcd2427b4 and receipt-20261014-e2d5e17b44c4 are the live ones), then re-point them.
 **Audit #7 built 10-24 evening (601 tests; CHANGELOG "Audit #7"): Paul said yes to the write (section 6 q2).** Site deployed
 (`6add1ddf`, Paul 10-24); the two Mariana receipt records re-pointed (done). **Writer web app @43 deployed by Paul 10-24**; live = pushed.
-Watch the first "will be remembered" card. **Next:
-audit items 8 (ship script), 9 (index blob), 10 (poller label + heartbeat - section 6 q5).** `git push` owed.
+Watch the first "will be remembered" card. **Audit #8 built (CHANGELOG "Audit #8"): `npm run ship` is Paul's one step from now on - owed: his first run, which
+ships the ship script itself (expect writer @44 and a new site id; the read-back must say both carry the stamp).**
+**Next: audit items 9 (index blob), 10 (poller label + heartbeat - section 6 q5).** `git push` owed after.
 **Noted:** Match statement lines never offers a bank whose every open line already has a card (`unmatchedFeedCounts_`
 counts `unmatched` only), so the ten-day sweep cannot run there until a card is dismissed - recorded, not changed.
 

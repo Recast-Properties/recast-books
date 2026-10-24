@@ -1,6 +1,19 @@
 # Changelog
 
 
+## 2026-10-24 (evening) - Audit #8: one ship step with a build stamp (`npm run ship`)
+
+`scripts/ship.mjs`, Paul's one step from now on: refuses a dirty tree, runs the tests, writes a build stamp (short
+commit + the minute, Texas time) into `apps-script/writer/Build.gs` and `web/build.json` (both git-ignored), `clasp
+push -f`, `clasp deploy -i` (the same id as always, the stamp as its description), `netlify deploy --prod`, then reads
+`/exec` (its ping now returns `build`) and `/build.json` back and refuses to say "shipped" unless both carry the stamp.
+With `POLLER_SECRET` in the shell it also uploads one dry-run receipt and reports the read ("dry-run read OK" or "THE
+READ IS BROKEN"); without it, says so and skips. Stops at the first failure with the thing to do - "run npx clasp
+login" when clasp is logged out (its three spellings). `--dry` = the checks and the stamp only. `test/ship.test.mjs`
+pins the two CLI parsers, the login detector and the stamp (603 tests). `docs/ops.md` and CLAUDE.md's map name it;
+the single pieces still work. **Owed: the first `npm run ship` (Paul) - it ships this very change and proves the
+read-back.** 11 of the 97 post-cutover incidents were a push or deploy left out or not carrying the fix.
+
 ## 2026-10-24 (evening) - Audit #7: an unknown card number is learned once (Paul's yes: the books may write it)
 
 Paul: "when I pick who paid on a card, the books may write that card's last four digits onto the Bank accounts tab (or

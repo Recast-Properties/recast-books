@@ -6,6 +6,13 @@ CLAUDE.md's operating notes, the handoffs' "gotchas met" sections and Claude's m
 
 ## Push, deploy, verify
 
+- **`npm run ship` is the one step (Paul's; audit 2026-10-24 #8):** clean tree, `node --test`, a build stamp (commit +
+  minute) into `apps-script/writer/Build.gs` and `web/build.json` (both git-ignored), `clasp push -f`, `clasp deploy -i`,
+  `netlify deploy --prod`, then reads `/exec` and `/build.json` back and refuses to say "shipped" unless both carry the
+  stamp; with `POLLER_SECRET` in the shell it also uploads one dry-run receipt and reports the read. Stops at the first
+  failure and says what to do - "run npx clasp login" when that is it. `--dry` runs the checks and the stamp only.
+  The pieces below still work one at a time.
+
 - **Site:** `npm run deploy` (`netlify deploy --prod --no-build`). A production deploy: Paul's step - hand him the
   command as his one step, or run it from the session when he says "deploy" in chat. Record the site id in the
   CHANGELOG entry.

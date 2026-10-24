@@ -5,3 +5,5 @@ apps-script/writer/.clasp.json
 apps-script/poller/.clasp.json
 .cache/
 apps-script/poller/.clasp-properties.json
+apps-script/writer/Build.gs
+web/build.json
