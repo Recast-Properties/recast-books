@@ -16,8 +16,8 @@ nightly check (it reads every document's fields, once a night, in a background f
 cost nothing, and the poller's kick is the one that was there when the site's own schedule did not fire (09-14).
 Tests: the test doubles list etags now (`etagOf` in the fake store); two index tests count the fetches (first scan
 all, unchanged store none, a changed document one, a deleted one dropped, a prefix scan prunes only its own). 605
-tests. **Owed: `npm run ship`** (site only changes, but ship is the step). Watch: the first Inbox open after the
-deploy builds the index (one slow load), the next is quick; `blobs:get books-docs index/docs` shows it.
+tests. **Shipped by Paul 10-24 16:36 CT: web app @45, site `6add24f9`, read-back OK.** Watch: the first Inbox open after
+the deploy builds the index (one slow load), the next is quick; `blobs:get books-docs index/docs` shows it.
 
 ## 2026-10-24 (evening) - Audit #8: one ship step with a build stamp (`npm run ship`)
 
