@@ -19,6 +19,13 @@
 
 const METADATA_HEADERS = ["netlify-blobs-metadata", "x-amz-meta-user"];
 
+/** The real store lists an etag per blob; loadDocIndex (_shared.mjs) relies on it. FNV-1a over the text, quoted. */
+export function etagOf(text) {
+  let h = 0x811c9dc5;
+  for (const ch of String(text)) { h ^= ch.codePointAt(0); h = Math.imul(h, 0x01000193) >>> 0; }
+  return `"${h.toString(16)}"`;
+}
+
 function decodeMetadataHeader(headers) {
   if (!headers) return null;
   for (const name of METADATA_HEADERS) {
@@ -83,7 +90,7 @@ export function makeFakeDocsStore({ apiOrigin = "https://blobs.test", contentOri
 
       if (method === "get" && url.searchParams.has("prefix")) {
         const prefix = url.searchParams.get("prefix") || "";
-        const blobs = [...items.keys()].filter((k) => k.startsWith(prefix)).map((k) => ({ key: k }));
+        const blobs = [...items.keys()].filter((k) => k.startsWith(prefix)).map((k) => ({ key: k, etag: etagOf(items.get(k).data) }));
         return new Response(JSON.stringify({ blobs, directories: [] }), {
           status: 200,
           headers: { "content-type": "application/json" },

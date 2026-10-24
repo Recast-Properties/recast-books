@@ -18,8 +18,10 @@ import {
   invalidateCtxCache,
   getJournalAll,
   invalidateJournalCache,
+  loadDocIndex, loadEnvelopes, summarizeEnvelope, DOC_INDEX_KEY,
 } from "../netlify/functions/_shared.mjs";
 import { makeFakeCacheStore } from "./helpers/fake-cache-store.mjs";
+import { makeFakeDocsStore, installFakeBlobsContext } from "./helpers/fake-docs-store.mjs";
 
 beforeEach(() => {
   resetCacheStoreForTests(makeFakeCacheStore());
@@ -269,4 +271,66 @@ test("ownReceiptUrl: an entry of a several-receipt email opens its own file; any
   assert.equal(ownReceiptUrl({ attachment: 5 }, [pdf, pdf, pdf], filed), "", "a number past the end");
   assert.equal(ownReceiptUrl({ attachment: 1 }, [pdf, pdf, pdf], filed.slice(0, 2)), "", "one was not filed: the count no longer lines up");
   assert.equal(ownReceiptUrl({ attachment: 1 }, [pdf, { mime: "image/heic" }, pdf], filed), "", "a HEIC may not have been shown: the read's count may be off");
+});
+
+// ---- the document index (audit 2026-10-24 #9) --------------------------------------------------------------------
+import { getStore } from "@netlify/blobs";
+
+/** A docs store over the fake wire protocol, with the content GETs counted. */
+function countedDocsStore() {
+  installFakeBlobsContext();
+  const fake = makeFakeDocsStore();
+  const counts = { gets: 0 };
+  const fetchImpl = async (url, opts) => {
+    const u = new URL(typeof url === "string" ? url : url.url);
+    if (u.origin === "https://blobs-content.test" && (opts?.method || "get").toLowerCase() === "get") counts.gets++;
+    return fake.fetchImpl(url, opts);
+  };
+  const store = getStore({ name: "books-docs", consistency: "strong", fetch: fetchImpl });
+  return { store, counts, fake };
+}
+
+test("loadDocIndex: the first scan fetches every document and writes the index; an unchanged store fetches nothing but the index", async () => {
+  const { store, counts } = countedDocsStore();
+  await store.setJSON("doc/gm-1", { docId: "gm-1", status: "pending", source: "email", startedAt: "2026-10-01T10:00:00Z", model: { verdict: "post", vendor: "Home Depot", receipt_total_cents: 4500, paid_from: "UNKNOWN", paid_from_reason: "card ending 7952 matches nothing" }, gate: { reasons: ["PAYER_UNKNOWN"] } });
+  await store.setJSON("doc/gm-2", { docId: "gm-2", status: "posted", source: "email", result: { txn_ids: ["receipt-1"] }, model: { verdict: "post", vendor: "Lowe's" } });
+  await store.setJSON("doc/feed-1401-9", { docId: "feed-1401-9", status: "pending", source: "feed", feed: { account: "1401", feed_ids: ["9"], amount_cents: -1200 } });
+  await store.setJSON("att/gm-1/0", "not a document");
+
+  counts.gets = 0;
+  const first = await loadDocIndex(store);
+  assert.deepEqual(first.map((d) => d.docId).sort(), ["feed-1401-9", "gm-1", "gm-2"]);
+  assert.equal(counts.gets, 1 + 3, "the index (missing) and the three documents");
+  const one = first.find((d) => d.docId === "gm-1");
+  assert.equal(one.vendor, "Home Depot"); assert.equal(one.cited_last4, "7952"); assert.deepEqual(one.gate_reasons, ["PAYER_UNKNOWN"]); assert.equal(one.has_model, true);
+  assert.deepEqual(first.find((d) => d.docId === "feed-1401-9").feed, { account: "1401", feed_ids: ["9"], amount_cents: -1200 });
+  assert.ok((await store.get(DOC_INDEX_KEY, { type: "json" })).docs["doc/gm-2"].etag, "the index carries each blob's etag");
+
+  counts.gets = 0;
+  const second = await loadDocIndex(store);
+  assert.equal(second.length, 3);
+  assert.equal(counts.gets, 1, "only the index was read");
+});
+
+test("loadDocIndex: a changed document is re-read, a deleted one is dropped, a prefix scan prunes only its own keys", async () => {
+  const { store, counts } = countedDocsStore();
+  await store.setJSON("doc/gm-1", { docId: "gm-1", status: "pending" });
+  await store.setJSON("doc/gm-2", { docId: "gm-2", status: "pending" });
+  await store.setJSON("doc/feed-1401-1", { docId: "feed-1401-1", status: "pending", source: "feed" });
+  await loadDocIndex(store);
+
+  await store.setJSON("doc/gm-1", { docId: "gm-1", status: "posted", result: { txn_ids: ["receipt-9"] } });
+  await store.delete("doc/gm-2");
+  counts.gets = 0;
+  const after = await loadDocIndex(store);
+  assert.deepEqual(after.map((d) => [d.docId, d.status]).sort(), [["feed-1401-1", "pending"], ["gm-1", "posted"]]);
+  assert.equal(counts.gets, 2, "the index and the one changed document");
+
+  const feedOnly = await loadDocIndex(store, { prefix: "doc/feed-1401-" });
+  assert.deepEqual(feedOnly.map((d) => d.docId), ["feed-1401-1"]);
+  assert.ok((await store.get(DOC_INDEX_KEY, { type: "json" })).docs["doc/gm-1"], "a narrower scan leaves the other documents in the index");
+
+  const whole = await loadEnvelopes(store, ["doc/gm-1", "doc/none"]);
+  assert.equal(whole.length, 1); assert.equal(whole[0].docId, "gm-1");
+  assert.equal(summarizeEnvelope(null).status, "");
 });

@@ -15,7 +15,7 @@ function memDocsStore(envelopes) {
   const items = new Map(envelopes.map((e) => [`doc/${e.docId}`, e]));
   return {
     items,
-    list: async () => ({ blobs: [...items.keys()].map((key) => ({ key })) }),
+    list: async ({ prefix = "" } = {}) => ({ blobs: [...items.keys()].filter((key) => key.startsWith(prefix)).map((key) => ({ key })) }),
     get: async (key) => items.get(key) ?? null,
     setJSON: async (key, value) => { items.set(key, value); },
   };

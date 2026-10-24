@@ -1,6 +1,24 @@
 # Changelog
 
 
+## 2026-10-24 (evening) - Audit #9: the document store is indexed; a scan is one list call, not 1,400 fetches
+
+`index/docs` in the books-docs store (`_shared.mjs` `loadDocIndex`, `loadEnvelopes`, `summarizeEnvelope`): one summary
+per document (status, source, dates, vendor, date, total, verdict, txn ids, gate reasons, cited card digits, feed line)
+keyed by the blob's etag. A scan lists the store, fetches only the documents whose etag changed since the index was
+written, rewrites the index when anything did, and hands back the summaries; a caller then fetches whole only the
+documents it picked. No write site changes - anything that writes a document (a function, a script, the CLI) is seen
+by the next scan through its etag. On the index now: `search_docs` (every read, 1.2 calls per read), the Inbox list
+(the 10-second function that loaded 1,426 documents), the warm job's retry scan (every 5 minutes - it keeps the index
+fresh), the digest's day pick, the feed cards per account, and #7's relearn. Left on a full scan on purpose: the
+nightly check (it reads every document's fields, once a night, in a background function) and the migration-era
+`repost-all`. Not done: dropping the poller's warm kick ("one warm driver") - with the scan this cheap two drivers
+cost nothing, and the poller's kick is the one that was there when the site's own schedule did not fire (09-14).
+Tests: the test doubles list etags now (`etagOf` in the fake store); two index tests count the fetches (first scan
+all, unchanged store none, a changed document one, a deleted one dropped, a prefix scan prunes only its own). 605
+tests. **Owed: `npm run ship`** (site only changes, but ship is the step). Watch: the first Inbox open after the
+deploy builds the index (one slow load), the next is quick; `blobs:get books-docs index/docs` shows it.
+
 ## 2026-10-24 (evening) - Audit #8: one ship step with a build stamp (`npm run ship`)
 
 `scripts/ship.mjs`, Paul's one step from now on: refuses a dirty tree, runs the tests, writes a build stamp (short

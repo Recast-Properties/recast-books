@@ -3,7 +3,7 @@
 // ever the first (cold, 8 s-capped) read of a tab. Background function: the writer can
 // take 10–15 s cold and this has minutes. Invoked by books-warm.mjs on a schedule, or
 // by anything holding POLLER_SECRET (header x-poller-secret).
-import { requireConfig, json, getWriter, getDocsStore, refreshTab, pollerSecretOk } from "./_shared.mjs";
+import { requireConfig, json, getWriter, getDocsStore, refreshTab, pollerSecretOk, loadDocIndex } from "./_shared.mjs";
 
 export const WARM_TABS = ["Users", "Settings", "Accounts", "Properties", "Bank accounts", "Vendors", "Periods", "Advances", "Journal"];
 const WARM_TIMEOUT_MS = 120 * 1000;
@@ -31,15 +31,18 @@ export const MAX_RETRIES_PER_RUN = 2; // the writer serialises reads; a burst of
 export const STUCK_MS = 30 * 60 * 1000;
 
 export async function retryErroredDocs(origin, docsStore, nowMs = Date.now()) {
-  // ponytail: full scan of doc/* every run; index error docs if the store grows past a few hundred
-  const { blobs } = await docsStore.list({ prefix: "doc/" });
+  // Audit 2026-10-24 #9: this run keeps the document index fresh (one list, the changed documents) and reads the
+  // candidates off it; only those few are fetched whole.
+  const isStuck = (d) => d.status === "processing" && nowMs - Date.parse(d.startedAt || 0) > STUCK_MS;
+  const candidates = (await loadDocIndex(docsStore)).filter((d) => (d.status === "error" || isStuck(d)) && (d.retries || 0) < MAX_AUTO_RETRIES &&
+    String(d.receivedAt || d.startedAt || "").slice(0, 10) >= RETRY_SINCE);
   const retried = [];
-  for (const b of blobs || []) {
-    const env = await docsStore.get(b.key, { type: "json" });
+  for (const b of candidates) {
     if (retried.length >= MAX_RETRIES_PER_RUN) break;
-    const stuck = !!env && env.status === "processing" && nowMs - Date.parse(env.startedAt || 0) > STUCK_MS;
-    if (!env || (env.status !== "error" && !stuck) || (env.retries || 0) >= MAX_AUTO_RETRIES) continue;
-    if (String(env.receivedAt || env.startedAt || "").slice(0, 10) < RETRY_SINCE) continue;
+    const env = await docsStore.get(b.key, { type: "json" });
+    if (!env) continue;
+    const stuck = env.status === "processing" && nowMs - Date.parse(env.startedAt || 0) > STUCK_MS;
+    if ((env.status !== "error" && !stuck) || (env.retries || 0) >= MAX_AUTO_RETRIES) continue;
     const fromStored = !!(env.model && env.model.verdict);
     const now = new Date().toISOString();
     const reset = { ...env, status: "processing", startedAt: now, finishedAt: "", error: "", gate: null, result: null, retries: (env.retries || 0) + 1 };

@@ -15,7 +15,7 @@
 // Dry-run envelopes are excluded - they are a test read, not real bookkeeping
 // activity for the day (see this task's report for this interpretation).
 
-import { requireConfig, json, getDocsStore, getCacheStore, getSessionPayload, authErrorResponse, pollerSecretOk } from "./_shared.mjs";
+import { requireConfig, json, getDocsStore, getCacheStore, getSessionPayload, authErrorResponse, pollerSecretOk, loadDocIndex, loadEnvelopes } from "./_shared.mjs";
 
 const ISO_DATE = /^\d{4}-\d{2}-\d{2}$/;
 
@@ -96,9 +96,9 @@ export default async (req) => {
   const store = getDocsStore();
   let envelopes;
   try {
-    const { blobs } = await store.list({ prefix: "doc/" });
-    const loaded = await Promise.all((blobs || []).map((b) => store.get(b.key, { type: "json" })));
-    envelopes = loaded.filter(Boolean).filter((e) => !e.dryRun);
+    // audit 2026-10-24 #9: the index picks the day's documents; only those are fetched whole
+    const wanted = (await loadDocIndex(store)).filter((d) => !d.dryRun && chicagoDateOf(d.finishedAt || d.startedAt) === date);
+    envelopes = await loadEnvelopes(store, wanted.map((d) => d.key));
   } catch (err) {
     return json(502, { error: "STORE_ERROR", message: String((err && err.message) || err) });
   }

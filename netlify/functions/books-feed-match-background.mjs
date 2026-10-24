@@ -13,6 +13,7 @@ import Anthropic from "@anthropic-ai/sdk";
 import {
   requireConfig, json, pollerSecretOk, getDocsStore, getCacheStore, getWriter, readTab, getPostingCtx,
   rowsToObjectsPublic, refreshTabAfterWrite, todayChicago,
+  loadDocIndex, loadEnvelopes,
 } from "./_shared.mjs";
 import { cardsForLines, loadSummaries } from "../../lib/bank-mail.mjs";
 import { flattenJournalLines, buildPostedEntries, tradesByProperty } from "./books-ingest-background.mjs";
@@ -46,9 +47,8 @@ export function feedRows(resp) {
 
 /** The account's Inbox cards still waiting - one short list, the key carries the account. */
 export async function loadPendingFeedCards(docsStore, account) {
-  const { blobs } = await docsStore.list({ prefix: `doc/feed-${account}-` });
-  const cards = await Promise.all((blobs || []).map((b) => docsStore.get(b.key, { type: "json" })));
-  return cards.filter((c) => c && c.status === "pending");
+  const wanted = (await loadDocIndex(docsStore, { prefix: `doc/feed-${account}-` })).filter((d) => d.status === "pending");
+  return loadEnvelopes(docsStore, wanted.map((d) => d.key));
 }
 
 /**

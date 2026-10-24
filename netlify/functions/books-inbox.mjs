@@ -26,8 +26,9 @@ import {
   authErrorResponse,
   todayChicago,
   pollerSecretOk,
+  loadDocIndex, loadEnvelopes,
 } from "./_shared.mjs";
-import { buildEntriesFromModel, citedLast4 } from "../../lib/gate.mjs";
+import { buildEntriesFromModel } from "../../lib/gate.mjs";
 
 const STATUSES = new Set(["pending", "posted", "dismissed", "dry", "error", "processing"]);
 const DELETABLE_STATUSES = new Set(["dry", "error"]);
@@ -91,24 +92,21 @@ export default async (req) => {
     const limitParam = Number(url.searchParams.get("limit"));
     const limit = Number.isFinite(limitParam) && limitParam > 0 ? Math.min(limitParam, 500) : 50;
 
-    let envelopes;
+    // Audit 2026-10-24 #9: the index says which documents are wanted; only those are fetched whole.
+    let picked;
     try {
-      const { blobs } = await docsStore.list({ prefix: onlyDocId ? `doc/${onlyDocId}` : "doc/" });
-      const loaded = await Promise.all((blobs || []).map((b) => docsStore.get(b.key, { type: "json" })));
-      envelopes = loaded.filter(Boolean);
+      picked = (await loadDocIndex(docsStore, { prefix: onlyDocId ? `doc/${onlyDocId}` : "doc/" }))
+        .filter((d) => (!onlyDocId || d.docId === onlyDocId) && (status === "all" || d.status === status));
     } catch (err) {
       return json(502, { error: "STORE_ERROR", message: String((err && err.message) || err) });
     }
-
-    if (onlyDocId) envelopes = envelopes.filter((e) => e.docId === onlyDocId);
-    if (status !== "all") envelopes = envelopes.filter((e) => e.status === status);
-    envelopes.sort((a, b) => {
+    picked.sort((a, b) => {
       const ta = a.startedAt || a.receivedAt || "";
       const tb = b.startedAt || b.receivedAt || "";
       return ta < tb ? 1 : ta > tb ? -1 : 0;
     });
-
-    return json(200, { envelopes: envelopes.slice(0, limit), total: envelopes.length });
+    const envelopes = await loadEnvelopes(docsStore, picked.slice(0, limit).map((d) => d.key));
+    return json(200, { envelopes, total: picked.length });
   }
 
   if (req.method === "POST") {
@@ -170,10 +168,9 @@ export default async (req) => {
       if (!/^\d{4}$/.test(last4) || !/^(14\d\d|PAUL)$/.test(payer)) {
         return json(400, { error: "BAD_REQUEST", message: "last4 (four digits) and paid_from (a 14xx account or PAUL) are required" });
       }
-      const { blobs } = await docsStore.list({ prefix: "doc/" });   // ponytail: full scan, as the Inbox list does; audit #9 indexes it
-      const loaded = await Promise.all((blobs || []).map((b) => docsStore.get(b.key, { type: "json" })));
-      const waiting = loaded.filter((e) => e && e.status === "pending" && e.source !== "feed" && !e.dryRun && e.model?.verdict &&
-        (e.gate?.reasons || []).includes("PAYER_UNKNOWN") && citedLast4(e.model) === last4);
+      const wanted = (await loadDocIndex(docsStore)).filter((d) => d.status === "pending" && d.source !== "feed" && !d.dryRun && d.has_model &&
+        d.verdict && d.gate_reasons.includes("PAYER_UNKNOWN") && d.cited_last4 === last4);
+      const waiting = await loadEnvelopes(docsStore, wanted.map((d) => d.key));
       const origin = new URL(req.url).origin;
       const started = [], failed = [];
       for (const e of waiting) {

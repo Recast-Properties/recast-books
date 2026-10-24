@@ -10,6 +10,7 @@
 // agents and may not exist on disk yet — that is expected; this file must not stub or
 // duplicate them.
 
+import { citedLast4 } from "../../lib/gate.mjs";
 import { timingSafeEqual } from "node:crypto";
 import { getStore } from "@netlify/blobs";
 import { verifySession, requireRole, AuthError } from "../../lib/auth.mjs";
@@ -418,4 +419,68 @@ export async function tieFeedRows(writer, envelope, { status, txn_ids = [], note
   } catch (err) {
     return { ok: false, error: String((err && err.message) || err) };
   }
+}
+
+// ---- The document index (audit 2026-10-24 #9) --------------------------------------------------------------------
+// Every scan of the document store used to list and fetch every envelope (1,426 on 10-24): search_docs on every
+// read, the Inbox load inside a 10-second function, the warm job every 5 minutes, the digest, the feed cards. One
+// blob, "index/docs", holds a summary per document keyed by the blob's etag: a scan is one list call, a fetch of the
+// documents whose etag changed since the index was written, and a write of the index when anything did. No write
+// site changes - a document saved by any function, script or CLI is picked up by the next scan through its etag.
+export const DOC_INDEX_KEY = "index/docs";
+
+/** What the scans need from an envelope, small. `extra` carries {key, etag} from the listing. */
+export function summarizeEnvelope(env, extra = {}) {
+  const m = env?.model || {}, r = env?.result || {}, g = env?.gate || {}, rv = env?.review || null;
+  return {
+    ...extra,
+    docId: String(env?.docId || ""), status: String(env?.status || ""), source: String(env?.source || ""), channel: String(env?.channel || ""),
+    dryRun: !!env?.dryRun, receivedAt: env?.receivedAt || "", startedAt: env?.startedAt || "", finishedAt: env?.finishedAt || "",
+    posting_at: env?.posting_at || "", retries: Number(env?.retries) || 0, error: String(env?.error || "").slice(0, 200),
+    subject: String(env?.subject || "").slice(0, 120), has_model: !!env?.model,
+    verdict: String(m.verdict || ""), vendor: String(m.vendor || ""), date: String(m.date || ""),
+    receipt_total_cents: Number(m.receipt_total_cents) || 0, duplicate_of: String(m.duplicate_of || ""), supersedes: String(m.supersedes || ""),
+    cited_last4: citedLast4(m), gate_reasons: Array.isArray(g.reasons) ? g.reasons : [],
+    txn_ids: Array.isArray(r.txn_ids) ? r.txn_ids : [], doc_url: String(r.doc_url || ""),
+    review: rv ? { action: rv.action || "", by: rv.by || "", at: rv.at || "" } : null,
+    feed: env?.feed ? { account: String(env.feed.account || ""), feed_ids: env.feed.feed_ids || [], amount_cents: env.feed.amount_cents } : null,
+  };
+}
+
+/**
+ * The summaries of every document under `prefix`, in the store's listing order, fresh: an entry whose etag still
+ * matches is served from the index; the rest are fetched and the index rewritten. A listing with no etags (an older
+ * store, a test double) fetches everything and still works. Only keys under `prefix` are pruned from the index.
+ */
+export async function loadDocIndex(docsStore, { prefix = "doc/" } = {}) {
+  let idx = null;
+  try { idx = await docsStore.get(DOC_INDEX_KEY, { type: "json" }); } catch { idx = null; }
+  const docs = idx && idx.docs && typeof idx.docs === "object" ? idx.docs : {};
+  const { blobs } = await docsStore.list({ prefix });
+  const seen = new Set();
+  const stale = [];
+  for (const b of blobs || []) {
+    seen.add(b.key);
+    const have = docs[b.key];
+    if (have && b.etag && have.etag === b.etag) continue;
+    stale.push(b);
+  }
+  let changed = stale.length;
+  const loaded = await Promise.all(stale.map(async (b) => [b, await docsStore.get(b.key, { type: "json" })]));
+  for (const [b, env] of loaded) {
+    if (env) docs[b.key] = summarizeEnvelope(env, { key: b.key, etag: b.etag || "" });
+    else delete docs[b.key];
+  }
+  for (const k of Object.keys(docs)) if (k.startsWith(prefix) && !seen.has(k)) { delete docs[k]; changed++; }
+  if (changed) {
+    try { await docsStore.setJSON(DOC_INDEX_KEY, { updatedAt: new Date().toISOString(), docs }); }
+    catch (err) { console.error(`doc index not written: ${String((err && err.message) || err)}`); }
+  }
+  return (blobs || []).map((b) => docs[b.key]).filter(Boolean);
+}
+
+/** The full envelopes for a few keys (the ones a scan picked), in order; a missing one is dropped. */
+export async function loadEnvelopes(docsStore, keys) {
+  const out = await Promise.all((keys || []).map((k) => docsStore.get(k, { type: "json" })));
+  return out.filter(Boolean);
 }

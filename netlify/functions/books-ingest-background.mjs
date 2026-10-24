@@ -34,6 +34,7 @@ import {
   ownReceiptUrl,
   refreshTabAfterWrite,
   WriterError,
+  loadDocIndex,
 } from "./_shared.mjs";
 import { runBookkeeper } from "../../lib/bookkeeper.mjs";
 import { evaluateGate, buildEntriesFromModel, findDuplicate } from "../../lib/gate.mjs";
@@ -254,32 +255,28 @@ async function loadSettingsMap(writer) {
  *  2026-09-28 called a sconce "already in the books" on the strength of one - Paul had to
  *  type it. Such a copy is reported as not on the books, with no ids to lean on. */
 export async function searchDocs(docsStore, { vendor = "", amount_cents, days = 90 } = {}, excludeDocId, onBooks = null) {
-  const { blobs } = await docsStore.list({ prefix: "doc/" });
+  const docs = await loadDocIndex(docsStore);   // audit 2026-10-24 #9: one list and the changed documents, not every document
   const cutoffMs = Date.now() - days * 86400000;
   const out = [];
-  for (const b of blobs || []) {
+  for (const s of docs) {
     if (out.length >= DOC_SEARCH_CAP) break;
-    const id = b.key.slice("doc/".length);
-    if (id === excludeDocId) continue;
-    const env = await docsStore.get(b.key, { type: "json" });
-    if (!env || !env.model) continue;
-    const when = Date.parse(env.finishedAt || env.startedAt || "") || 0;
+    if (s.docId === excludeDocId || !s.has_model) continue;
+    const when = Date.parse(s.finishedAt || s.startedAt || "") || 0;
     if (when && when < cutoffMs) continue;
-    if (vendor && !String(env.model.vendor || "").toLowerCase().includes(vendor.toLowerCase())) continue;
-    if (Number.isFinite(amount_cents) && env.model.receipt_total_cents !== amount_cents) continue;
-    const txn_ids = (env.result && env.result.txn_ids) || [];
-    const practiceRun = env.status === "posted" && onBooks && !txn_ids.some((t) => onBooks.has(t));
+    if (vendor && !s.vendor.toLowerCase().includes(vendor.toLowerCase())) continue;
+    if (Number.isFinite(amount_cents) && s.receipt_total_cents !== amount_cents) continue;
+    const practiceRun = s.status === "posted" && onBooks && !s.txn_ids.some((t) => onBooks.has(t));
     out.push({
-      docId: env.docId,
+      docId: s.docId,
       // "feed" is a card born from a bank line (lib/feed-match.mjs cardEnvelope): no receipt behind it. The
       // receipt that answers one posts and retires it (2026-10-10) instead of holding as a second copy.
-      source: env.source || "email",
-      status: practiceRun ? "not on the books (posted only on a practice run - none of its rows is on the Journal)" : env.status,
-      vendor: env.model.vendor || "",
-      date: env.model.date || "",
-      receipt_total_cents: env.model.receipt_total_cents ?? 0,
-      txn_ids: practiceRun ? [] : txn_ids,
-      verdict: env.model.verdict || "",
+      source: s.source || "email",
+      status: practiceRun ? "not on the books (posted only on a practice run - none of its rows is on the Journal)" : s.status,
+      vendor: s.vendor,
+      date: s.date,
+      receipt_total_cents: s.receipt_total_cents,
+      txn_ids: practiceRun ? [] : s.txn_ids,
+      verdict: s.verdict,
     });
   }
   return out;
