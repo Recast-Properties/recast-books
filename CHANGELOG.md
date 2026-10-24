@@ -11,8 +11,9 @@ With `POLLER_SECRET` in the shell it also uploads one dry-run receipt and report
 READ IS BROKEN"); without it, says so and skips. Stops at the first failure with the thing to do - "run npx clasp
 login" when clasp is logged out (its three spellings). `--dry` = the checks and the stamp only. `test/ship.test.mjs`
 pins the two CLI parsers, the login detector and the stamp (603 tests). `docs/ops.md` and CLAUDE.md's map name it;
-the single pieces still work. **Owed: the first `npm run ship` (Paul) - it ships this very change and proves the
-read-back.** 11 of the 97 post-cutover incidents were a push or deploy left out or not carrying the fix.
+the single pieces still work. **First `npm run ship` by Paul 10-24 16:28 CT: tests 603, pushed 14 files, web app @44, site
+`6add2314`, `/exec` and `/build.json` both read back the stamp `c83b12c 2026-10-24 16:28`; the dry-run upload skipped
+(no POLLER_SECRET in his shell).** 11 of the 97 post-cutover incidents were a push or deploy left out or not carrying the fix.
 
 ## 2026-10-24 (evening) - Audit #7: an unknown card number is learned once (Paul's yes: the books may write it)
 
