@@ -159,39 +159,3 @@ function linkMolallaReceipts() {
   console.log('linkMolallaReceipts: ' + pairs.length + ' receipts written on ' + journal + ' Journal lines; on the tab ' + linked +
     ' lines now open their receipt and ' + blank + ' have none (' + cells.length + ' lines on the tab).');
 }
-
-// 2026-10-24 Paul: "that was a personal thing that got in there by accident. my zelle is set up for the business and
-// someone sent me a zelle for personal and it wound up there." The 500.00 Zelle into Citizens from Charvale Productions
-// LLC on 09-30 is Paul's own money, in Recast's account by mistake: Dr 1401 / Cr 2030, no house - owed back to him,
-// like working money (D-055). The Feed line tied, its card retired, bank tabs refreshed. Safe to run twice (by memo).
-// STATUS: NOT YET RUN
-function recordCharvaleZelle20261024() {
-  var props = PropertiesService.getScriptProperties();
-  var ss = openWorkbook_(props);
-  requireOwner_(ss);
-  var who = Session.getActiveUser().getEmail();
-  var journal = ss.getSheetByName('Journal');
-  var cols = headerIndex_(journal);
-  var memo = "Paul's own money in the Citizens account by mistake - a personal Zelle from Charvale Productions LLC 2026-09-30 sent to his business Zelle; owed back to him, no house, no interest (Paul, 2026-10-24)";
-  var id = '';
-  journal.getRange(2, cols['memo'], journal.getLastRow() - 1, 1).getValues().forEach(function (r, i) { if (!id && String(r[0]) === memo) id = String(journal.getRange(i + 2, cols['txn_id']).getValue()); });
-  if (id) { console.log('already recorded as ' + id); }
-  else {
-    var line = { property: '', payee: 'Paul Bjork', description: "Paul's money put into the account by mistake (a personal Zelle, Charvale Productions)", paid_from: '1401' };
-    var built = buildEntry({ type: 'journal', date: '2026-09-30', source: 'manual', posted_by: who, doc_url: '', memo: memo,
-      lines: [Object.assign({ account: '1401', debit: 50000, credit: 0 }, line),
-              Object.assign({ account: '2030', debit: 0, credit: 50000 }, line)] }, buildCtx_(ss));
-    postBatchEntries_([built], props, true);
-    id = built.txn_id;
-  }
-  var note = "Paul's own money, in the account by mistake (a personal Zelle from Charvale Productions) - owed back to him (Paul, 2026-10-24)";
-  var tied = feedUpdateRows_(ss, [{ feed_id: '202609300000000552053781', status: 'matched', txn_id: id, match_note: note }]);
-  var retired = 0;
-  try {
-    var r = siteFetchJson_('/api/inbox', 'post', { action: 'dismiss', docId: 'feed-1401-202609300000000552053781', note: note, by: 'claude', only_pending: true });
-    if (r && r.status === 'dismissed') retired++;
-  } catch (e) { console.log('card not retired: ' + e); }
-  refreshBankSheets_(ss);
-  warmCache_();
-  console.log('recordCharvaleZelle20261024: ' + id + '; ' + tied.updated + ' bank line tied; ' + retired + ' card retired.');
-}

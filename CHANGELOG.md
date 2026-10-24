@@ -1,6 +1,18 @@
 # Changelog
 
 
+## 2026-10-24 (afternoon) - The 500 Zelle from Charvale Productions is Paul's own money, in the account by mistake
+
+Paul: "that was a personal thing that got in there by accident. my zelle is set up for the business and someone sent me
+a zelle for personal and it wound up there. what shoudl i do?" Answer: nothing at the bank - the 500.00 is his money
+sitting in Recast's account, recorded as owed back to him and netted the next time he takes money out. One-off
+`recordCharvaleZelle20261024` (commit 9e5052f), run from the editor by Penny 13:26 CDT: `manual-20260930-aaa1c44b7d8c`,
+Dr 1401 / Cr 2030 500.00 dated 09-30, no house (D-055 shape); the Citizens line tied, its card retired. Read back on the
+Feed and the Citizens box (14 small lines left open, 1,473.51 - receipts and fees, no partner money). One-off out.
+**Every partner-money bank line of the audit is now in the books** (the five cards plus Dennis's two unmatched lines,
+the truck payment and the Mariana correction): the Chase statement is tied line for line; on Citizens only ordinary
+receipt and fee cards remain in the Inbox.
+
 ## 2026-10-24 (afternoon) - The 574.63 Chase payment "To AL": Paul's truck loan, paid from Recast by mistake
 
 Paul did not know the 10-14 line "Online Payment 31209116906 To AL"; nothing in his mail or the books named it (the
