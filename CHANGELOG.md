@@ -22,8 +22,10 @@ number. Built, 601 tests:
 - Also in `books-inbox.mjs`: mark-posted with `repoint: true` moves a posted record onto new entry ids (for the two
   Mariana records that still name their voided entries; a one-off calls it once the site is deployed).
 - Tests: citedLast4 / learnCardNumber (gate.test), relearn selection, invoke failure and bad input, repoint
-  (books-inbox.test). Prompt and lib.gs regenerated. **Owed: `npm run deploy` (the site) and `clasp deploy -i` (lib.gs
-  changed) - Paul's steps; writer pushed.** Watch the first card that says "will be remembered": the row's digits after
+  (books-inbox.test). Prompt and lib.gs regenerated. **Site deployed by Paul 10-24: `6add1ddf`.** The two Mariana
+  receipt records re-pointed the same hour (one-off `repointMarianaRecords20261024`, commit 73583cf, run from the
+  editor by Penny 14:08 CDT; read back: each names its live entry, `review.repointed.from` keeps the voided one;
+  one-off out). **Owed: `clasp deploy -i` (lib.gs changed) - Paul's step; writer pushed.** Watch the first card that says "will be remembered": the row's digits after
   the Save, and the other cards with that number posting on their own.
 
 ## 2026-10-24 (afternoon) - The 500 Zelle from Charvale Productions is Paul's own money, in the account by mistake
