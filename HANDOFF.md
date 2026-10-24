@@ -5,6 +5,16 @@ history and are not written to; `CHANGELOG.md` keeps its dated entry per change.
 `docs/ops.md`. The books' numbers live on the workbook's tabs (P&L, Totals, Citizens Bank, the house tabs) - read them
 there; a figure written here is only as of its date.
 
+## 2026-10-24 - the system audit (read before touching the intake, the Inbox or the bank path)
+
+`docs/audit-2026-10-24.md` is the ranked list (ten changes, most under a day; no rebuild); `docs/audit-2026-10-24-agents.md`
+holds the five agent reports and the live-store tally. Nothing was changed. **Live right now:** five partner-money bank
+cards (147,729.38 wire out and in 10-09, 30,000 to Chase 8870 10-14, the 2,000 deposit, 500 Charvale in) carry an
+editable purchase line and Save runs no ceiling - Dismiss with a note, never Save, until audit #5 is built; 12 of the
+30 waiting bank cards are already answered by saved receipts or are 09-29 leftovers (audit #1 and #2 retire them);
+the 10-12 Poinsetta photo gm-1a12d6f7780f7d94 is still in error, one Reprocess reads it; do audit #14 before the first
+Chase import. Paul's decisions are the audit's section 6.
+
 ## 2026-10-23 (later) - owed, in order (on top of everything below)
 
 0e. **Paint and Flooring are two trades now (10-23):** the Inbox dropdown offers them apart (writer pushed, Menu.gs only -

@@ -1,6 +1,28 @@
 # Changelog
 
 
+## 2026-10-24 - System audit: receipts intake, poller, /api, bank statements, review (no code, no books changed)
+
+Paul asked for a multi-agent audit of the whole intake-to-review path after five weeks on the real books: spaghetti,
+patches, efficiency, weak spots, patterns in the fixes, and a ranked list by effort vs reward - with a rebuild on the
+table if the case held. Five agents (ingest+gate, poller, bank path, workbook Inbox+state, fix-history patterns), every
+high-reward claim re-read in the code, and the live store tallied (302 receipts, 35 bank cards since cutover).
+Report: `docs/audit-2026-10-24.md`; the five reports and the data run: `docs/audit-2026-10-24-agents.md`.
+
+- Verdict: no rebuild - the reads are right (4 model errors in 97 fixes), the plumbing classes stopped after 10-02; ten
+  ranked changes, most under a day, remove the recurring classes at their root.
+- Measured: 3 receipts in 4 need no click; of the saves, 22 changed only the payer, 8 the house, 3 an item; 12 of the
+  27 "who paid?" holds were card 7952 asked twelve times; 9 of the 76 cards Paul touched had a bank card for the same
+  purchase also waiting, and 8 of those bank cards are still in the Inbox (a saved receipt does not retire its bank
+  card); 12 of the 30 waiting bank cards are already settled or leftovers; 0 of 228 automatic posts differ from the
+  receipt total (the tolerance worry is not real).
+- Found by reading: a swap Save can post twice (the bank-line move after the post is uncaught; the Save path's random
+  txn suffix defeats the duplicate rail); a read killed mid-run is never retried; a void never frees its bank line;
+  "proposed" Feed rows are never re-matched; the matcher's tied set spans accounts (bites at the first Chase import);
+  the document is re-sent uncached on every model turn; the poller dropped the old `anyEligible` guard; the warm job
+  scans the whole store from two drivers; partner-money bank cards carry an editable purchase line and Save runs no
+  ceiling. Nothing changed yet - the list is Paul's to pick from; the decisions only he can make are in section 6.
+
 ## 2026-10-23 - Advice: how to download the Chase file for Import statement (asked as Penny)
 
 Paul: "how do i generate the right bank statements to upload to the system from my chase account?" Answered as Penny:
