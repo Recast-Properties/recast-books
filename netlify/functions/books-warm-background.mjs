@@ -3,7 +3,7 @@
 // ever the first (cold, 8 s-capped) read of a tab. Background function: the writer can
 // take 10–15 s cold and this has minutes. Invoked by books-warm.mjs on a schedule, or
 // by anything holding POLLER_SECRET (header x-poller-secret).
-import { requireConfig, json, getWriter, getDocsStore, refreshTab, pollerSecretOk, loadDocIndex } from "./_shared.mjs";
+import { requireConfig, json, getWriter, getDocsStore, getCacheStore, refreshTab, pollerSecretOk, loadDocIndex, stampHeartbeat } from "./_shared.mjs";
 
 export const WARM_TABS = ["Users", "Settings", "Accounts", "Properties", "Bank accounts", "Vendors", "Periods", "Advances", "Journal"];
 const WARM_TIMEOUT_MS = 120 * 1000;
@@ -67,6 +67,15 @@ export default async (req) => {
   const configErr = requireConfig(["WRITER_URL", "WRITER_SECRET", "POLLER_SECRET"]);
   if (configErr) return configErr;
   if (!pollerSecretOk(req)) return json(401, { error: "UNAUTHORIZED" });
+  // Audit 2026-10-24 #10c: a kick from a poller names its mailbox and what the poll did - the heartbeat. The
+  // site's own 5-minute schedule sends no body and stamps nothing, so quiet pollers show as quiet.
+  let kick = null;
+  try { kick = await req.json(); } catch { kick = null; }
+  let heartbeat = false;
+  if (kick && kick.mailbox) {
+    try { heartbeat = await stampHeartbeat(getCacheStore(), String(kick.mailbox), { sent: Number(kick.sent) || 0, failed: Number(kick.failed) || 0, polled_at: String(kick.at || "") }); }
+    catch (err) { console.error("warm: heartbeat not stamped: " + String((err && err.message) || err)); }
+  }
   const writer = getWriter();
   const failed = [];
   for (const tab of WARM_TABS) {
@@ -84,7 +93,7 @@ export default async (req) => {
     console.error("warm: error-doc retry scan failed: " + String((err && err.message) || err));
   }
   if (retried.length) console.log("warm: retried errored doc(s) " + retried.join(", "));
-  return json(200, { warmed: WARM_TABS.length - failed.length, failed, retried });
+  return json(200, { warmed: WARM_TABS.length - failed.length, failed, retried, heartbeat });
 };
 
 export const config = { path: "/api/warm-bg" };

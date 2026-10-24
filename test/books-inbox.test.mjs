@@ -13,6 +13,7 @@ import { test, beforeEach } from "node:test";
 import assert from "node:assert/strict";
 import { issueSession } from "../lib/auth.mjs";
 import { installFakeBlobsContext, makeFakeDocsStore } from "./helpers/fake-docs-store.mjs";
+import { makeFakeCacheStore } from "./helpers/fake-cache-store.mjs";
 
 process.env.WRITER_URL = "https://writer.test/exec";
 process.env.WRITER_SECRET = "writer-secret";
@@ -20,10 +21,10 @@ process.env.SESSION_SECRET = "session-secret";
 process.env.POLLER_SECRET = "poller-secret";
 installFakeBlobsContext();
 
-let handler, resetWriterForTests, getDocsStore, importError;
+let handler, resetWriterForTests, getDocsStore, resetCacheStoreForTests, importError;
 try {
   ({ default: handler } = await import("../netlify/functions/books-inbox.mjs"));
-  ({ resetWriterForTests, getDocsStore } = await import("../netlify/functions/_shared.mjs"));
+  ({ resetWriterForTests, getDocsStore, resetCacheStoreForTests } = await import("../netlify/functions/_shared.mjs"));
 } catch (err) {
   importError = err;
 }
@@ -502,6 +503,23 @@ test("mark-posted with repoint:true moves a posted record onto new entries and k
   // without the flag a posted record is still refused
   const again = await handler(req("POST", { token: session("owner"), body: { action: "mark-posted", docId: "gm-repoint", txn_ids: ["receipt-20261012-third"] } }));
   assert.equal(again.status, 409);
+});
+
+// ---- heartbeat (audit 2026-10-24 #10c) ---------------------------------------------------------
+
+test("GET ?heartbeat=1 answers the stamps alone; the list carries them too", { skip }, async () => {
+  const cache = makeFakeCacheStore();
+  resetCacheStoreForTests(cache);
+  await cache.setJSON("poller/last/paul", { mailbox: "paul", at: "2026-10-24T20:00:00.000Z", sent: 1, failed: 0 });
+  await seedEnvelope("gm-hb");
+  const alone = await handler(req("GET", { token: session("owner"), search: "?heartbeat=1" }));
+  assert.equal(alone.status, 200);
+  const a = await alone.json();
+  assert.equal(a.heartbeat.paul.at, "2026-10-24T20:00:00.000Z"); assert.equal(a.heartbeat.bank_mail, null); assert.equal(a.envelopes, undefined);
+  const list = await handler(req("GET", { token: session("owner"), search: "?status=pending" }));
+  const l = await list.json();
+  assert.equal(l.envelopes.length, 1); assert.equal(l.heartbeat.paul.sent, 1);
+  resetCacheStoreForTests(null);
 });
 
 // ---- delete ------------------------------------------------------------------------

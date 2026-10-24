@@ -252,3 +252,18 @@ test("a phone photo under the cap is stored exactly as sent; one over it keeps t
   assert.deepEqual(all[1], { name: "IMG_9000.jpg", mime: "image/jpeg", base64: "b64:2200000" }, "7 MB: the reduced copy");
   assert.match(p.bodyText, /Photo "IMG_9000\.JPG" was too big to store whole \(6\.7 MB\); a reduced copy \(2\.1 MB\)/);
 });
+
+test("audit 2026-10-24 #10: the to-books label is a second way in, a thread is done only when something was uploaded, and every poll reports in", () => {
+  assert.match(source, /BOOKS_LABEL: 'to-books'/);
+  assert.match(source, /OR label:' \+ CONFIG\.BOOKS_LABEL \+/, "the search includes label:to-books");
+  assert.match(source, /if \(!GmailApp\.getUserLabelByName\(CONFIG\.BOOKS_LABEL\)\) GmailApp\.createLabel\(CONFIG\.BOOKS_LABEL\)/, "the label is created so Paul finds it");
+  const a = source.indexOf("function pollBooks(");
+  const body = source.slice(a, source.indexOf("\n}\n", a));
+  assert.match(body, /if \(!threadLabeled && !isAddressedToInbox_\(message\)\) return;\n\s*anyEligible = true;/, "a labelled thread is read whole; an unaddressed message is skipped");
+  assert.match(body, /if \(threadOk && anyEligible\) thread\.addLabel\(doneLabel\)/, "the done label needs an upload (the old poller's guard)");
+  assert.match(body, /warmCache_\(uploadUrl, secret, 'paul', sent, failed\)/);
+  assert.match(source, /warmCache_\(uploadUrl, secret, 'properties', sent, failed\)/);
+  const w = source.indexOf("function warmCache_(");
+  const warm = source.slice(w, source.indexOf("\n}\n", w));
+  assert.match(warm, /mailbox: mailbox \|\| ''/, "the kick names the mailbox - the site's heartbeat");
+});

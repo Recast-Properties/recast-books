@@ -74,6 +74,10 @@ var CONFIG = {
   RECEIPT_ADDRESS: 'receipts@recast-properties.com',
   TRAVEL_ADDRESS: 'travel@recast-properties.com',
   DONE_LABEL: 'books-done',
+  // Audit 2026-10-24 #10b (Paul, 10-24: "ok, lets try it"): a second way in. A thread Paul (or a Gmail filter) labels
+  // to-books is read like mail to receipts@ - every message in it - so Foremost, the bank's Zelle notices, PACER and
+  // Venmo forwards come in without a forward. The label or a forward, never both (the twin rails catch most of the rest).
+  BOOKS_LABEL: 'to-books',
   DEFAULT_DRY_QUERY: 'newer_than:30d',
   DIGEST_TO: 'paul@recast-properties.com',
   BANK_MAIL_QUERY: 'from:alerts@cnboftexas.com subject:"Daily Summary"',
@@ -235,13 +239,13 @@ function pollBooksProperties_(secret, uploadUrl, startDate, doneLabel) {
           console.error('Poller error on ' + message.getId() + ': ' + String(err));
         }
       });
-      if (threadOk) thread.addLabel(doneLabel);
+      if (threadOk) thread.addLabel(doneLabel);   // every message of a property-labelled thread is uploaded, so the guard is moot here
     });
   }
 
   console.log('Books poll (properties): ' + sent + ' message(s) uploaded, ' + failed + ' failure(s), ' +
     m.matched.length + ' label(s) matched, ' + m.skipped.length + ' skipped.');
-  warmCache_(uploadUrl, secret);
+  warmCache_(uploadUrl, secret, 'properties', sent, failed);
 }
 
 // ---- dryRunBatchProperties_: same label set, DRY_QUERY, never labels -----------
@@ -308,18 +312,25 @@ function pollBooks() {
       return;
     }
 
-    var query = '(to:' + CONFIG.RECEIPT_ADDRESS + ' OR to:' + CONFIG.TRAVEL_ADDRESS +
+    // the to-books label exists from the first poll, so Paul finds it in Gmail's list and in a filter's "apply label"
+    if (!GmailApp.getUserLabelByName(CONFIG.BOOKS_LABEL)) GmailApp.createLabel(CONFIG.BOOKS_LABEL);
+    var query = '(to:' + CONFIG.RECEIPT_ADDRESS + ' OR to:' + CONFIG.TRAVEL_ADDRESS + ' OR label:' + CONFIG.BOOKS_LABEL +
       ') after:' + startDate + ' -label:' + CONFIG.DONE_LABEL;
     var threads = GmailApp.search(query, 0, CONFIG.MAX_THREADS);
 
     var sent = 0, failed = 0;
     threads.forEach(function (thread) {
       var threadOk = true;
+      // Audit 2026-10-24 #10a: a thread is marked done only when something in it was uploaded (the old poller's
+      // anyEligible guard, dropped in the port): a Bcc'd or filter-forwarded receipt used to be skipped silently.
+      var anyEligible = false;
+      var threadLabeled = thread.getLabels().some(function (l) { return l.getName().toLowerCase() === CONFIG.BOOKS_LABEL; });
       thread.getMessages().forEach(function (message) {
         // Only messages actually addressed to receipts@/travel@ (ported from
         // receipts-poller.gs): a thread matches on any one message, but a reply in it
-        // is not a document. Skipped messages still let the thread be labelled done.
-        if (!isAddressedToInbox_(message)) return;
+        // is not a document. A thread Paul labelled to-books is read whole (#10b).
+        if (!threadLabeled && !isAddressedToInbox_(message)) return;
+        anyEligible = true;
         try {
           var payload = buildPayload_(message, false);
           var res = postUpload_(uploadUrl, secret, payload);
@@ -336,12 +347,12 @@ function pollBooks() {
           console.error('Poller error on ' + message.getId() + ': ' + String(err));
         }
       });
-      if (threadOk) thread.addLabel(doneLabel);
+      if (threadOk && anyEligible) thread.addLabel(doneLabel);
     });
 
     console.log('Books poll: ' + sent + ' message(s) uploaded, ' + failed + ' failure(s).');
     pollBankMail_(props, secret, uploadUrl);
-    warmCache_(uploadUrl, secret);
+    warmCache_(uploadUrl, secret, 'paul', sent, failed);
   } finally {
     lock.releaseLock();
   }
@@ -528,10 +539,13 @@ function fail_(code, message) {
 // Kicks the site's cache warmer (books-warm-background.mjs) so every tab snapshot is
 // refreshed on this trigger's cadence; the site's own 5-min schedule was not firing
 // on 2026-09-14. Fire-and-forget: the function answers 202 at once.
-function warmCache_(uploadUrl, secret) {
+// Audit 2026-10-24 #10c: the kick carries which mailbox polled and what it did - the site stamps it (poller/last/<mailbox>)
+// as the heartbeat the Inbox header, the nightly check and the writer's hourly watcher read.
+function warmCache_(uploadUrl, secret, mailbox, sent, failed) {
   try {
     var url = uploadUrl.replace(/\/api\/upload$/, '/api/warm-bg');
-    UrlFetchApp.fetch(url, { method: 'post', headers: { 'x-poller-secret': secret }, muteHttpExceptions: true });
+    var payload = JSON.stringify({ mailbox: mailbox || '', at: new Date().toISOString(), sent: sent || 0, failed: failed || 0 });
+    UrlFetchApp.fetch(url, { method: 'post', contentType: 'application/json', payload: payload, headers: { 'x-poller-secret': secret }, muteHttpExceptions: true });
   } catch (err) {
     console.error('warmCache_: ' + String(err));
   }

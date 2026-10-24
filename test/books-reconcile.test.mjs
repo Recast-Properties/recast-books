@@ -207,3 +207,11 @@ test("audit 2026-10-24 #2d gatherFacts reads the Feed tab: proposed lines with n
   assert.equal(gatherFacts(JOURNAL, ENVELOPES, NOW).bank_lines, undefined, "no Feed tab, no bank facts - never a crash");
   assert.match(CHECK_PROMPT, /bank_lines/, "the check knows what the bank facts are");
 });
+
+test("audit 2026-10-24 #10c: a quiet mail poller is a fact with a 'Paste to Claude' line; a live one adds nothing", () => {
+  const quiet = gatherFacts(JOURNAL, ENVELOPES, NOW, undefined, null, { paul: { at: new Date(NOW - 5 * 3600000).toISOString() } });
+  assert.match(quiet.mail_poller_quiet, /not checked paul@'s mail for 5 hours.*Paste to Claude/);
+  const live = gatherFacts(JOURNAL, ENVELOPES, NOW, undefined, null, { paul: { at: new Date(NOW - 10 * 60000).toISOString() } });
+  assert.equal(live.mail_poller_quiet, undefined);
+  assert.equal(gatherFacts(JOURNAL, ENVELOPES, NOW).mail_poller_quiet, undefined, "no heartbeat given (older callers) - no fact");
+});

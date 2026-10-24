@@ -10,7 +10,9 @@
 // `reconcile/latest`; /api/summary returns it as `check`; the paul@ poller's dailyDigest
 // prints it first. It never writes to the workbook - voids and approves stay Paul's clicks.
 import Anthropic from "@anthropic-ai/sdk";
-import { requireConfig, json, pollerSecretOk, getWriter, getDocsStore, getCacheStore, readTab } from "./_shared.mjs";
+import { requireConfig, json, pollerSecretOk, getWriter, getDocsStore, getCacheStore, readTab,
+  loadHeartbeat, heartbeatWarning,
+} from "./_shared.mjs";
 import { NEED_RECEIPT } from "../../lib/gate.mjs";
 import { MODEL_ID } from "../../lib/bookkeeper.mjs";
 import { MIGRATION_RECORD } from "../../lib/migration-record.mjs";
@@ -33,7 +35,7 @@ const money = (c) => (c / 100).toFixed(2);
  * The facts. Pure: (headers, rows) of the Journal and the list of envelopes in.
  * Mirrors reportDuplicateReplays in apps-script/writer/Code.gs for (c).
  */
-export function gatherFacts(journal, envelopes, now = Date.now(), record = MIGRATION_RECORD, feed = null) {
+export function gatherFacts(journal, envelopes, now = Date.now(), record = MIGRATION_RECORD, feed = null, heartbeat = undefined) {
   const idx = Object.fromEntries(journal.headers.map((h, i) => [h, i]));
   const g = (r, n) => (idx[n] === undefined ? "" : r[idx[n]]);
   const rows = journal.rows;
@@ -193,6 +195,8 @@ export function gatherFacts(journal, envelopes, now = Date.now(), record = MIGRA
     stuck: cap(stuck), errors: cap(errors), pending: { count: pending.length, oldest },
     receipts_on_no_book: cap(receipts_on_no_book),
     ...(bank_lines ? { bank_lines } : {}),
+    // audit 2026-10-24 #10c: only when the mail poller has gone quiet (a fact with an action: tell Claude)
+    ...(heartbeat !== undefined && heartbeatWarning(heartbeat, now) ? { mail_poller_quiet: heartbeatWarning(heartbeat, now) + " Paste to Claude: the receipts poller has not reported in; check its trigger." } : {}),
   };
 }
 
@@ -234,7 +238,8 @@ export async function runCheck({ writer, docsStore, cacheStore, anthropic, now =
   const feed = await readTab(writer, "Feed").catch(() => null);   // the bank side of the check; never fatal
   const { blobs } = await docsStore.list({ prefix: "doc/" });
   const envelopes = (await Promise.all((blobs || []).map((b) => docsStore.get(b.key, { type: "json" })))).filter(Boolean);
-  const facts = gatherFacts(journal, envelopes, now, MIGRATION_RECORD, feed);
+  const heartbeat = await loadHeartbeat(cacheStore).catch(() => null);
+  const facts = gatherFacts(journal, envelopes, now, MIGRATION_RECORD, feed, heartbeat);
 
   let text = "", usage = null, error = "";
   try {

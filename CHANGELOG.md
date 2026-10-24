@@ -1,6 +1,29 @@
 # Changelog
 
 
+## 2026-10-24 (evening) - Audit #10: the poller's done-label guard, the to-books label, and a heartbeat
+
+Paul on the label ("what is the advantage of the label vs forwarding?" - one click, a filter can do it, the files stay
+attached): "ok, lets try it." Built, 610 tests:
+- **10a.** `pollBooks` marks a thread done only when something in it was uploaded (`threadOk && anyEligible`, the old
+  receipts poller's guard that the port dropped): a Bcc'd or filter-forwarded receipt is no longer skipped silently.
+- **10b.** The search is `(to:receipts@ OR to:travel@ OR label:to-books) after:<start> -label:books-done`; a thread
+  carrying `to-books` is read whole (every message), the label is created on the first poll so Paul finds it in Gmail
+  and in a filter's "apply label". The rule for him: the label or a forward, never both.
+- **10c.** Every poll ends by kicking `/api/warm-bg` with `{mailbox, at, sent, failed}`; the warm job stamps
+  `poller/last/<mailbox>` in books-cache (`stampHeartbeat`; the scheduled kick has no body and stamps nothing);
+  `/api/bank-mail` stamps `poller/last/bank-mail` as each daily email lands. `/api/inbox` carries `heartbeat` on the
+  list and answers `?heartbeat=1` alone; the Inbox shows "Mail last checked Fri 4:32 PM" under the tabs, red past three
+  hours; the nightly check gets a `mail_poller_quiet` fact (with its Paste to Claude line) only when stale; the writer's
+  hourly trigger (`checkMailHeartbeat_`, Code.gs) mails Paul one line when paul@'s mail has not been checked for three
+  hours - once, then after a day of silence. That needs the `script.send_mail` scope on the writer (appsscript.json) -
+  **Paul's one-time Allow click in the editor after the push; until then the hourly trigger logs an authorization
+  error and the P&L refresh still runs first.**
+- Tests: poller lint (label, guard, kick), warm (stamp / no stamp / bad name), bank-mail (stamp), inbox (heartbeat alone
+  and on the list), reconcile (the fact), shared (warning wording). **Owed: poller push (both instances - Penny),
+  `npm run ship`, the Allow click, then Paul's Gmail filters (Foremost, the bank's Zelle notices, PACER, Venmo) one at
+  a time - or the label by hand.** Not done: #10's inline-logo skip (#18) and Listing.gs's cutover-era functions.
+
 ## 2026-10-24 (evening) - Audit #9: the document store is indexed; a scan is one list call, not 1,400 fetches
 
 `index/docs` in the books-docs store (`_shared.mjs` `loadDocIndex`, `loadEnvelopes`, `summarizeEnvelope`): one summary

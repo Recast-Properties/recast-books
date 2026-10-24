@@ -27,6 +27,7 @@ import {
   todayChicago,
   pollerSecretOk,
   loadDocIndex, loadEnvelopes,
+  getCacheStore, loadHeartbeat,
 } from "./_shared.mjs";
 import { buildEntriesFromModel } from "../../lib/gate.mjs";
 
@@ -81,6 +82,9 @@ export default async (req) => {
 
   if (req.method === "GET") {
     const url = new URL(req.url);
+    // Audit 2026-10-24 #10c: when the pollers last reported in - alone (the writer's hourly watcher) or with the list.
+    const heartbeat = await loadHeartbeat(getCacheStore()).catch(() => null);
+    if (url.searchParams.get("heartbeat")) return json(200, { heartbeat });
     const status = url.searchParams.get("status") || "all";
     if (status !== "all" && !STATUSES.has(status)) {
       return json(400, { error: "BAD_REQUEST", message: `unknown status "${status}"` });
@@ -106,7 +110,7 @@ export default async (req) => {
       return ta < tb ? 1 : ta > tb ? -1 : 0;
     });
     const envelopes = await loadEnvelopes(docsStore, picked.slice(0, limit).map((d) => d.key));
-    return json(200, { envelopes, total: picked.length });
+    return json(200, { envelopes, total: picked.length, heartbeat });
   }
 
   if (req.method === "POST") {

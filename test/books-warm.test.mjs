@@ -111,3 +111,22 @@ test("audit 2026-10-24 #4: a doc stuck at processing longer than STUCK_MS is ret
   assert.equal(docs.items.get("doc/gm-dead").retries, 1);
   assert.ok(Date.parse(docs.items.get("doc/gm-dead").startedAt) >= now - 1000, "the retry restarts the clock, so it is not retried again next run");
 });
+
+test("audit 2026-10-24 #10c: a kick that names its mailbox is stamped as the heartbeat; the scheduled kick (no body) stamps nothing", async () => {
+  const store = makeFakeCacheStore();
+  resetCacheStoreForTests(store);
+  resetDocsStoreForTests(memDocsStore([]));
+  resetWriterForTests();
+  globalThis.fetch = async () => ({ status: 200, text: async () => JSON.stringify({ ok: true, headers: ["a"], rows: [[1]] }) });
+  const kick = await handler(new Request("https://x/api/warm-bg", { method: "POST", headers: { "x-poller-secret": "poller-secret", "content-type": "application/json" },
+    body: JSON.stringify({ mailbox: "paul", at: "2026-10-24T20:00:00.000Z", sent: 2, failed: 0 }) }));
+  assert.equal((await kick.json()).heartbeat, true);
+  const stamp = await store.get("poller/last/paul", { type: "json" });
+  assert.equal(stamp.mailbox, "paul"); assert.equal(stamp.sent, 2); assert.equal(stamp.polled_at, "2026-10-24T20:00:00.000Z"); assert.ok(stamp.at);
+  const plain = await handler(new Request("https://x/api/warm-bg", { method: "POST", headers: { "x-poller-secret": "poller-secret" } }));
+  assert.equal((await plain.json()).heartbeat, false);
+  assert.equal(await store.get("poller/last/properties", { type: "json" }), null);
+  const bad = await handler(new Request("https://x/api/warm-bg", { method: "POST", headers: { "x-poller-secret": "poller-secret", "content-type": "application/json" }, body: JSON.stringify({ mailbox: "../x" }) }));
+  assert.equal((await bad.json()).heartbeat, false, "a mailbox name is letters and dashes only");
+  resetWriterForTests(); resetCacheStoreForTests(null); resetDocsStoreForTests(null);
+});

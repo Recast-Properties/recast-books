@@ -8,7 +8,7 @@
 // (lib/bank-mail.mjs) can be corrected without asking the mailbox again. The matcher reads them
 // when it builds a bank line's card. Nothing here touches the books.
 
-import { requireConfig, json, pollerSecretOk, getCacheStore } from "./_shared.mjs";
+import { requireConfig, json, pollerSecretOk, getCacheStore, stampHeartbeat } from "./_shared.mjs";
 
 export const BANK_MAIL_PREFIX = "bankmail/";
 const MAX_BODY = 60000;
@@ -34,6 +34,7 @@ export default async (req) => {
     id, from, subject: String(body?.subject || "").slice(0, 200), receivedAt: String(body?.receivedAt || ""),
     bodyText: bodyText.slice(0, MAX_BODY), storedAt: new Date().toISOString(),
   });
+  try { await stampHeartbeat(getCacheStore(), "bank-mail", { received_at: String(body?.receivedAt || ""), id }); } catch { /* the email is kept; the stamp is a help */ }
   return json(200, { ok: true, id });
 };
 

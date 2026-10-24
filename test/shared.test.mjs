@@ -19,6 +19,7 @@ import {
   getJournalAll,
   invalidateJournalCache,
   loadDocIndex, loadEnvelopes, summarizeEnvelope, DOC_INDEX_KEY,
+  stampHeartbeat, loadHeartbeat, heartbeatWarning,
 } from "../netlify/functions/_shared.mjs";
 import { makeFakeCacheStore } from "./helpers/fake-cache-store.mjs";
 import { makeFakeDocsStore, installFakeBlobsContext } from "./helpers/fake-docs-store.mjs";
@@ -333,4 +334,17 @@ test("loadDocIndex: a changed document is re-read, a deleted one is dropped, a p
   const whole = await loadEnvelopes(store, ["doc/gm-1", "doc/none"]);
   assert.equal(whole.length, 1); assert.equal(whole[0].docId, "gm-1");
   assert.equal(summarizeEnvelope(null).status, "");
+});
+
+test("the heartbeat (audit 2026-10-24 #10c): stamped per mailbox, read as three, a warning only past three hours", async () => {
+  const cache = makeFakeCacheStore();
+  assert.equal(await stampHeartbeat(cache, "paul", { sent: 1 }), true);
+  assert.equal(await stampHeartbeat(cache, "Bad Name!"), false);
+  const hb = await loadHeartbeat(cache);
+  assert.equal(hb.paul.sent, 1); assert.equal(hb.properties, null); assert.equal(hb.bank_mail, null);
+  const now = Date.parse("2026-10-24T20:00:00Z");
+  assert.equal(heartbeatWarning({ paul: { at: "2026-10-24T19:00:00Z" } }, now), "");
+  assert.match(heartbeatWarning({ paul: { at: "2026-10-24T15:00:00Z" } }, now), /not checked paul@'s mail for 5 hours/);
+  assert.match(heartbeatWarning({ paul: { at: "2026-10-21T15:00:00Z" } }, now), /for 3 days/);
+  assert.match(heartbeatWarning({ paul: null }, now), /never reported in/);
 });

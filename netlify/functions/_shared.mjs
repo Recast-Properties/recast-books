@@ -484,3 +484,38 @@ export async function loadEnvelopes(docsStore, keys) {
   const out = await Promise.all((keys || []).map((k) => docsStore.get(k, { type: "json" })));
   return out.filter(Boolean);
 }
+
+// ---- The intake heartbeat (audit 2026-10-24 #10c) ----------------------------------------------------------------
+// Every poll ends by kicking /api/warm-bg with {mailbox, at, sent, failed}; the warm job stamps it here. The bank's
+// daily emails stamp bank-mail as they land (books-bank-mail.mjs). The Inbox header shows the paul@ stamp, the nightly
+// check names it when stale, and the writer's hourly trigger mails Paul one line when it is - so a dead poller is
+// known within hours, not when a bill goes missing.
+export const HEARTBEAT_PREFIX = "poller/last/";
+export const HEARTBEAT_STALE_MS = 3 * 60 * 60 * 1000;
+
+export async function stampHeartbeat(cacheStore, mailbox, extra = {}) {
+  if (!/^[a-z-]{1,24}$/.test(String(mailbox || ""))) return false;
+  await cacheStore.setJSON(`${HEARTBEAT_PREFIX}${mailbox}`, { mailbox, at: new Date().toISOString(), ...extra });
+  return true;
+}
+
+/** {paul: {at, sent, failed} | null, properties: ..., bank_mail: ...} - a missing stamp is null. */
+export async function loadHeartbeat(cacheStore) {
+  const out = {};
+  for (const name of ["paul", "properties", "bank-mail"]) {
+    let v = null;
+    try { v = await cacheStore.get(`${HEARTBEAT_PREFIX}${name}`, { type: "json" }); } catch { v = null; }
+    out[name.replace("-", "_")] = v && v.at ? v : null;
+  }
+  return out;
+}
+
+/** "" when fresh, else plain words for Paul: how long paul@'s mail has gone unchecked. */
+export function heartbeatWarning(heartbeat, nowMs = Date.now(), staleMs = HEARTBEAT_STALE_MS) {
+  const at = heartbeat && heartbeat.paul && Date.parse(heartbeat.paul.at);
+  if (!at) return "The mail poller has never reported in - receipts sent to receipts@ are not being read.";
+  const age = nowMs - at;
+  if (age < staleMs) return "";
+  const hours = Math.round(age / 3600000);
+  return `The mail poller has not checked paul@'s mail for ${hours >= 48 ? Math.round(hours / 24) + " days" : hours + " hours"} - receipts sent since then are not being read.`;
+}

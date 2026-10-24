@@ -66,6 +66,7 @@
   <div><button id="collapse">Collapse all</button> <button id="refresh">Refresh</button></div>
 </div>
 <div id="tabs"><button data-tab="receipts">Receipts <span></span></button><button data-tab="bank">Bank statement <span></span></button></div>
+<div id="heartbeat" class="docid"></div>
 <input id="filter" placeholder="Filter: vendor, subject, date, amount, property...">
 <div id="msg" class="msg hidden"></div>
 <div id="list">Loading...</div>
@@ -357,6 +358,17 @@
     return '<div>Card ending ' + escapeHtml_(l.last4) + ' is on file for ' + escapeHtml_(l.name) + ' now' +
       (n ? ' - ' + n + ' other waiting card' + (n === 1 ? '' : 's') + ' with that number ' + (n === 1 ? 'is' : 'are') + ' being recorded with it' : '') +
       (l.relearn_error ? ' (the other cards could not be re-run: ' + escapeHtml_(l.relearn_error) + ')' : '') + '.</div>';
+  }
+  // Audit 2026-10-24 #10c: when the mail was last checked, under the tabs; red past three hours.
+  function heartbeatLine_(hb) {
+    var el = document.getElementById('heartbeat');
+    if (!el) return;
+    var at = hb && hb.paul && hb.paul.at ? new Date(hb.paul.at) : null;
+    if (!at || isNaN(at.getTime())) { el.textContent = 'Mail: the poller has never reported in - tell Claude'; el.style.color = '#a50e0e'; return; }
+    var age = Date.now() - at.getTime();
+    var when = at.toLocaleString('en-US', { timeZone: 'America/Chicago', weekday: 'short', hour: 'numeric', minute: '2-digit' });
+    el.textContent = 'Mail last checked ' + when + (age > 3 * 3600000 ? ' - more than three hours ago, tell Claude' : '');
+    el.style.color = age > 3 * 3600000 ? '#a50e0e' : '#999';
   }
   function feedNote_(f) {
     if (!f) return '';
@@ -781,6 +793,7 @@
       if (!envelopes || !pickers) return;
       clearInterval(tick);
       DATA = { ok: true, envelopes: envelopes.envelopes || [], total: envelopes.total, pickers: pickers.pickers, user: pickers.user };
+      heartbeatLine_(envelopes.heartbeat);
       EDIT = {};
       // Refresh keeps Paul on his tab, unless it is empty and the other one is not.
       var n = { receipts: 0, bank: 0 }, other = TAB === 'bank' ? 'receipts' : 'bank';

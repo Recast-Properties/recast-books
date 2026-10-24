@@ -760,7 +760,7 @@ function inboxEnvelopes() {
     var resp = siteFetchJson_('/api/inbox?status=pending&limit=500');   // the list is collapsed rows now; 100 hid most of a 387-document queue (2026-09-18)
     var envelopes = resp.envelopes || [];
     try { feedCardsOnto_(ss, envelopes); } catch (e) { /* who paid is a help: the cards load without it */ }
-    return { ok: true, envelopes: envelopes, total: resp.total };
+    return { ok: true, envelopes: envelopes, total: resp.total, heartbeat: resp.heartbeat || null };
   } catch (err) {
     return { ok: false, error: (err && err.code) || 'INTERNAL', message: String((err && err.message) || err) };
   }

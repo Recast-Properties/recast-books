@@ -27,6 +27,8 @@ test("bank-mail: the poller's secret, the bank's address and a Gmail id - then t
   const kept = await store.get(`bankmail/${MAIL.id}`, { type: "json" });
   assert.equal(kept.bodyText, MAIL.bodyText);
   assert.equal(kept.receivedAt, MAIL.receivedAt);
+  const hb = await store.get("poller/last/bank-mail", { type: "json" });   // audit 2026-10-24 #10c
+  assert.equal(hb.received_at, MAIL.receivedAt); assert.equal(hb.id, MAIL.id);
 });
 
 test("the poller sends the bank's summaries oldest first, remembers the newest sent, puts no label on the mail and never stops the receipts poll", () => {

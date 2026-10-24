@@ -1098,7 +1098,31 @@ function refreshPnl_(ss) {
   }
 }
 /** The hourly timer's handler (installTriggers). The name stays: the trigger installed 2026-09-30 calls it by name. */
-function refreshBalanceSheetHourly() { refreshPnl_(); }
+function refreshBalanceSheetHourly() { refreshPnl_(); checkMailHeartbeat_(); }
+
+// Audit 2026-10-24 #10c: the independent watcher. The pollers run in their own project, so a dead one cannot report
+// itself; this hourly trigger reads the site's heartbeat (/api/inbox?heartbeat=1) and mails Paul one line when
+// paul@'s mail has not been checked for three hours - once, then again only after a day of silence. Never throws.
+var HEARTBEAT_STALE_MS = 3 * 60 * 60 * 1000;
+var HEARTBEAT_REMIND_MS = 24 * 60 * 60 * 1000;
+function checkMailHeartbeat_() {
+  try {
+    var props = PropertiesService.getScriptProperties();
+    var hb = (siteFetchJson_('/api/inbox?heartbeat=1') || {}).heartbeat || {};
+    var at = hb.paul && hb.paul.at ? Date.parse(hb.paul.at) : 0;
+    var age = Date.now() - at;
+    if (at && age < HEARTBEAT_STALE_MS) { props.deleteProperty('HEARTBEAT_MAILED_AT'); return; }
+    var mailed = Number(props.getProperty('HEARTBEAT_MAILED_AT') || 0);
+    if (mailed && Date.now() - mailed < HEARTBEAT_REMIND_MS) return;
+    var since = at ? Utilities.formatDate(new Date(at), 'America/Chicago', 'EEE MMM d, h:mm a') + ' (Texas time)' : 'it was set up';
+    MailApp.sendEmail(Session.getEffectiveUser().getEmail(), 'Recast Books: receipts are not being read',
+      'The mail poller has not checked paul@ since ' + since + ' - receipts sent to receipts@ since then are not in the books.\n\n' +
+      'Paste to Claude: the receipts poller has not reported in since ' + since + '; check its trigger.');
+    props.setProperty('HEARTBEAT_MAILED_AT', String(Date.now()));
+  } catch (err) {
+    console.error('checkMailHeartbeat_: ' + String((err && err.message) || err));
+  }
+}
 
 // The Taxes tab (Paul, 2026-10-02: "a tab ... that shows me my tax exposure for both IRS and Oregon State"):
 // an estimate of what he may owe on the year's profit (lib/tax.mjs). Rebuilt with the P&L tab every hour from
