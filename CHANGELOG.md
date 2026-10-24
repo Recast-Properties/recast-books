@@ -1,6 +1,21 @@
 # Changelog
 
 
+## 2026-10-24 (afternoon) - Paul's 104 Ashburne payout: the 147,729.38 wire from Citizens to Chase is in the books
+
+Paul: "Yes - the 147,729.38 wire on 10-09 is my 104 Ashburne payout, moved from Citizens into the Recast Chase account.
+Record it the way you said." One-off `recordAshburnePayoutWire20261024` (commit 12a83e1), run from the editor by Penny
+10:04 CDT: three entries dated 10-09 - the payout to Paul out of Citizens (`sale-20261009-18627406fc12`, source sale with
+"paid to Paul" in the memo, so the closing tab reads it), the same 147,729.38 into Chase as his working money, no house,
+no interest (`manual-20261009-db29cb233826`, D-055), and the 25.00 wire fee on 6910 (`manual-20261009-c81c2525984b`).
+The three Feed lines (Citizens -147,729.38 and -25.00, Chase +147,729.38) are tied and their Inbox cards retired by
+claude. Read back: `104 Ashburne - Closing` says Paid to Paul 147,729.38 (paid 10-09), Still in Citizens for Paul 0.00,
+Retained 17,829.27 = Dennis still owed, Payouts = cash received ties; the Chase Bank box has 149,664.38 in the books
+against the bank's 118,444.75, the five open Chase lines and the 2,000 earnest-money line being the gap. One-off out.
+Noted on the way: the menu never offered Match statement lines on Chase (every Chase line already had its card), so the
+ten-day sweep that would tie the 2,000 deposit of 09-28 to the 09-23 earnest-money entry has not run - that tie goes
+in the next one-off, no question for Paul (D-051, constraint 14).
+
 ## 2026-10-24 (later) - the audit's first six changes built (plus #14); 593 tests; deploys owed
 
 Paul: "ok. go" on the audit's ranked list. Built and tested, nothing deployed yet:
