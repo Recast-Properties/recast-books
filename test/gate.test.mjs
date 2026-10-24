@@ -1,6 +1,6 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { evaluateGate, buildEntriesFromModel } from "../lib/gate.mjs";
+import { evaluateGate, buildEntriesFromModel, citedLast4, learnCardNumber } from "../lib/gate.mjs";
 import { PostingError, makeCtx } from "../lib/posting.mjs";
 
 function baseCtx(overrides = {}) {
@@ -597,4 +597,38 @@ test("D-092: a restaurant receipt (6710 alone), a big drinks line, a purpose lef
   assert.ok(evaluateGate(materials({ account: "6710", amount_cents: 4000, description: "Catering", business_purpose: "crew" }), baseCtx(), baseSettings()).reasons.includes("NEEDS_HUMAN_274D"), "over the drinks size");
   assert.ok(evaluateGate(materials({ account: "6710", amount_cents: 570, description: "Water" }), baseCtx(), baseSettings()).reasons.includes("NEEDS_HUMAN_274D"), "no purpose written");
   assert.ok(evaluateGate(materials({ account: "6720", amount_cents: 570, description: "Gift card", business_purpose: "thank you" }), baseCtx(), baseSettings()).reasons.includes("NEEDS_HUMAN_274D"), "a gift");
+});
+
+// ---- audit 2026-10-24 #7: learn an unknown card number once ---------------------------------------
+const BANKS = [{ code: "1401", name: "Recast Citizens - Shared", last4: ["2505", "5450", "9301"] }, { code: "1402", name: "Recast Chase - Operating", last4: "6317, 7416" }];
+const unknownRead = (extra = {}) => ({ paid_from: "UNKNOWN", paid_from_reason: "card ending 7952 matches nothing on file", entries: [{ paid_from: "UNKNOWN" }], ...extra });
+
+test("citedLast4: the read's own field first, else the four digits after 'ending' / 'last four' / x's in its reason; '' when none", () => {
+  assert.equal(citedLast4({ card_last4: "7952" }), "7952");
+  assert.equal(citedLast4({ card_last4: "**** 7952" }), "7952");
+  assert.equal(citedLast4({ paid_from_reason: "card ending 7952 matches nothing on file" }), "7952");
+  assert.equal(citedLast4({ paid_from_reason: "Visa ending in 1234; nothing else" }), "1234");
+  assert.equal(citedLast4({ paid_from_reason: "last four 4471 matches Citizens" }), "4471");
+  assert.equal(citedLast4({ paid_from_reason: "xxxx-xxxx-xxxx-9166" }), "9166");
+  assert.equal(citedLast4({ paid_from_reason: "no card tender line legible" }), "");
+  assert.equal(citedLast4({ paid_from_reason: "order 12345 placed 2026-10-01" }), "");
+});
+
+test("learnCardNumber: an unknown number goes on the bank row Paul picked, appended to what is there", () => {
+  const got = learnCardNumber({ model: unknownRead(), paid_from: "1402", bankRows: BANKS, personalLast4: "9166, 8870" });
+  assert.deepEqual(got, { last4: "7952", where: "bank", code: "1402", name: "Recast Chase - Operating", value: "6317, 7416, 7952" });
+});
+
+test("learnCardNumber: PAUL puts it on the personal list; the read's card_last4 wins over the reason text", () => {
+  const got = learnCardNumber({ model: unknownRead({ card_last4: "3746", paid_from_reason: "unreadable" }), paid_from: "PAUL", bankRows: BANKS, personalLast4: ["9166"] });
+  assert.deepEqual(got, { last4: "3746", where: "personal", name: "Paul's personal cards", value: "9166, 3746" });
+});
+
+test("learnCardNumber: nothing to learn when the read knew the payer, cited no digits, the digits are on a list already, or the payer has no list", () => {
+  assert.equal(learnCardNumber({ model: { ...unknownRead(), paid_from: "1401", entries: [{ paid_from: "1401" }] }, paid_from: "1401", bankRows: BANKS }), null, "the read knew");
+  assert.equal(learnCardNumber({ model: unknownRead({ paid_from_reason: "no tender line" }), paid_from: "1402", bankRows: BANKS }), null, "no digits");
+  assert.equal(learnCardNumber({ model: unknownRead({ paid_from_reason: "card ending 7416" }), paid_from: "1401", bankRows: BANKS }), null, "already on Chase's list - a read problem, not a missing fact");
+  assert.equal(learnCardNumber({ model: unknownRead({ card_last4: "9166" }), paid_from: "1402", bankRows: BANKS, personalLast4: "9166" }), null, "already on the personal list");
+  assert.equal(learnCardNumber({ model: unknownRead(), paid_from: "DENNIS", bankRows: BANKS }), null, "Dennis's cards have no list");
+  assert.equal(learnCardNumber({ model: unknownRead(), paid_from: "UNKNOWN", bankRows: BANKS }), null, "nothing picked");
 });

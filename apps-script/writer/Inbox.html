@@ -345,6 +345,19 @@
   }
   // What Save or Dismiss did about the bank line, under the result (audit 2026-10-24 #2c: a failed tie used to
   // come back ok:true and vanish; a retired card used to stay in the Bank statement tab until Paul found it).
+  // Audit 2026-10-24 #7: a card number the read could not place is remembered when Paul picks who paid.
+  function payerText_(env) {
+    var l4 = String(((env || {}).model || {}).card_last4 || '');
+    return GATE_TEXT.PAYER_UNKNOWN + (l4 ? ' - card ending ' + l4 + ' will be remembered' : '');
+  }
+  function learnedNote_(l) {
+    if (!l) return '';
+    if (l.error) return '<div style="color:#a50e0e">Recorded, but the card number was not remembered: ' + escapeHtml_(l.error) + ' - tell Claude.</div>';
+    var n = (l.started || []).length;
+    return '<div>Card ending ' + escapeHtml_(l.last4) + ' is on file for ' + escapeHtml_(l.name) + ' now' +
+      (n ? ' - ' + n + ' other waiting card' + (n === 1 ? '' : 's') + ' with that number ' + (n === 1 ? 'is' : 'are') + ' being recorded with it' : '') +
+      (l.relearn_error ? ' (the other cards could not be re-run: ' + escapeHtml_(l.relearn_error) + ')' : '') + '.</div>';
+  }
   function feedNote_(f) {
     if (!f) return '';
     if (f.ok === false) return '<div style="color:#a50e0e">Recorded, but the bank line for it was not tied: ' + escapeHtml_(f.message || f.error || 'unknown') + ' - tell Claude.</div>';
@@ -373,7 +386,7 @@
     var kept = approvedOnly_(entries);
     var swapping = !!(env && swapOf_(env) && !swapOf_(env).earlier);   // a placeholder: the bank line already says who paid
     var flags = ((gate && gate.reasons) || []).filter(function (r) { return r !== 'NEEDS_HUMAN_274D' && !(swapping && (r === 'PAYER_UNKNOWN' || r === 'BAD_PAID_FROM')); })
-      .map(function (r) { return r === 'PARTLY_ON_BOOKS' ? partlyText_(gate, entries) : (r === 'NO_ENTRIES' && why) ? noEntriesText_(why) : flagText_(r); })
+      .map(function (r) { return r === 'PARTLY_ON_BOOKS' ? partlyText_(gate, entries) : (r === 'NO_ENTRIES' && why) ? noEntriesText_(why) : r === 'PAYER_UNKNOWN' ? payerText_(env) : flagText_(r); })
       .filter(Boolean).concat(mismatchFlags_(kept));
     if (needsPurpose_(kept)) flags.push(GATE_TEXT.NEEDS_HUMAN_274D);
     if (needsTrade_(kept)) flags.push('Pick a trade (the kind of work) for each house item');
@@ -696,7 +709,7 @@
         // The bank card this receipt answered is gone from the Bank statement tab too (tieOpenBankLine_).
         if (r.feed && r.feed.retired && r.feed.retired.length) DATA.envelopes = DATA.envelopes.filter(function (e) { return r.feed.retired.indexOf(e.docId) < 0; });
         done('Recorded ' + money_(sum.approve) + (rest ? ' - ' + escapeHtml_(rest) : '') + ' <span class="docid">' + r.txn_ids.map(escapeHtml_).join(', ') + '</span>' +
-          ' <span data-finish="1">&middot; saving the receipt to Drive...</span>' + feedNote_(r.feed) +
+          ' <span data-finish="1">&middot; saving the receipt to Drive...</span>' + feedNote_(r.feed) + learnedNote_(r.learned) +
           (r.timings ? '<div class="docid">' + escapeHtml_(r.timings) + '</div>' : ''));
         // Step two runs while the user moves on: Drive filing, doc_url, line blocks, cache.
         var slot = msg.querySelector('[data-finish]');

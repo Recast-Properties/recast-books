@@ -438,6 +438,72 @@ test("reprocess invoke failure marks the envelope error and returns 502", { skip
   assert.equal(envelope.status, "error");
 });
 
+// ---- relearn (audit 2026-10-24 #7) --------------------------------------------------------------
+
+const heldForPayer = (reason, extra = {}) => ({
+  model: postModel({ paid_from: "UNKNOWN", paid_from_reason: reason, entries: [{ ...postModel().entries[0], paid_from: "UNKNOWN" }] }),
+  gate: { passed: false, reasons: ["PAYER_UNKNOWN"] },
+  ...extra,
+});
+
+test("relearn: every pending receipt card citing the number is re-run from its stored read with the payer; others are left alone", { skip }, async () => {
+  await seedEnvelope("gm-same1", heldForPayer("card ending 7952 matches nothing on file"));
+  await seedEnvelope("gm-same2", heldForPayer("unreadable", { model: { ...postModel({ paid_from: "UNKNOWN", entries: [{ ...postModel().entries[0], paid_from: "UNKNOWN" }] }), card_last4: "7952" } }));
+  await seedEnvelope("gm-other", heldForPayer("card ending 1111 matches nothing on file"));
+  await seedEnvelope("gm-posted", heldForPayer("card ending 7952 matches nothing on file", { status: "posted" }));
+  await seedEnvelope("gm-noverdict", heldForPayer("card ending 7952", { model: { ...postModel({ paid_from: "UNKNOWN" }), verdict: "" } }));
+  await seedEnvelope("feed-1402-1", heldForPayer("card ending 7952", { source: "feed" }));
+
+  const res = await handler(req("POST", { token: session("owner"), body: { action: "relearn", last4: "7952", paid_from: "1402" } }));
+  assert.equal(res.status, 200);
+  const body = await res.json();
+  assert.deepEqual(body.started.sort(), ["gm-same1", "gm-same2"]);
+  assert.deepEqual(body.failed, []);
+
+  const calls = ingestCalls.filter((c) => c.url.endsWith("/api/ingest-bg"));
+  assert.equal(calls.length, 2);
+  for (const c of calls) {
+    assert.equal(c.body.fromStored, true, "no new model read");
+    assert.equal(c.body.overrides.paid_from, "1402");
+    assert.equal(c.headers["x-poller-secret"], "poller-secret");
+  }
+  assert.equal((await getDocsStore().get("doc/gm-same1", { type: "json" })).status, "processing");
+  assert.equal((await getDocsStore().get("doc/gm-other", { type: "json" })).status, "pending");
+  assert.equal((await getDocsStore().get("doc/gm-posted", { type: "json" })).status, "posted");
+});
+
+test("relearn: a failed invoke puts that card back as it was; bad input -> 400", { skip }, async () => {
+  const before = await seedEnvelope("gm-fail", heldForPayer("card ending 7952 matches nothing on file"));
+  globalThis.fetch = async (url, opts) => {
+    const u = String(typeof url === "string" ? url : url.url);
+    if (u === "https://books.test/api/ingest-bg") return new Response("", { status: 500 });
+    return docsStore.fetchImpl(url, opts);
+  };
+  const res = await handler(req("POST", { token: session("owner"), body: { action: "relearn", last4: "7952", paid_from: "PAUL" } }));
+  assert.equal(res.status, 200);
+  const body = await res.json();
+  assert.deepEqual(body.failed, ["gm-fail"]);
+  const after = await getDocsStore().get("doc/gm-fail", { type: "json" });
+  assert.equal(after.status, "pending");
+  assert.deepEqual(after.gate, before.gate);
+
+  assert.equal((await handler(req("POST", { token: session("owner"), body: { action: "relearn", last4: "79", paid_from: "1402" } }))).status, 400);
+  assert.equal((await handler(req("POST", { token: session("owner"), body: { action: "relearn", last4: "7952", paid_from: "DENNIS" } }))).status, 400);
+});
+
+test("mark-posted with repoint:true moves a posted record onto new entries and keeps where it came from", { skip }, async () => {
+  await seedEnvelope("gm-repoint", { status: "posted", result: { txn_ids: ["receipt-20261012-old"], rows: null, doc_url: "" } });
+  const res = await handler(req("POST", { token: session("owner"), body: { action: "mark-posted", docId: "gm-repoint", txn_ids: ["receipt-20261012-new"], repoint: true, note: "re-posted paid from Chase" } }));
+  assert.equal(res.status, 200);
+  const env = await getDocsStore().get("doc/gm-repoint", { type: "json" });
+  assert.deepEqual(env.result.txn_ids, ["receipt-20261012-new"]);
+  assert.deepEqual(env.review.repointed.from, ["receipt-20261012-old"]);
+  assert.equal(env.status, "posted");
+  // without the flag a posted record is still refused
+  const again = await handler(req("POST", { token: session("owner"), body: { action: "mark-posted", docId: "gm-repoint", txn_ids: ["receipt-20261012-third"] } }));
+  assert.equal(again.status, 409);
+});
+
 // ---- delete ------------------------------------------------------------------------
 
 test("delete is owner-only", { skip }, async () => {

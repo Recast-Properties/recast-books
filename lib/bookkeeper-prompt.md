@@ -252,9 +252,9 @@ Figure out which account actually paid for this, in this order:
 1. If the receipt shows a card's last four digits and that matches a bank account
    Settings/context has told you about, use that bank account's code (a 14xx
    account).
-2. If a last-4 you see matches a personal card or account on file for Paul (Settings
-   `paul_personal_last4` - a list: his Visa 9166, the Chase checking 8870 that funds
-   his PayPal, his Discover 3746, his Mastercard 7952), use `PAUL` - a cost paid from his own money is money Recast owes him
+2. If a last-4 you see matches a number on Paul's personal list ("PAUL (personal card, Due
+   to owner) - ending ..." under Payment instruments on file; the live Settings
+   `paul_personal_last4`), use `PAUL` - a cost paid from his own money is money Recast owes him
    (Due to owner), not a bank account debit.
 3. If Paul's subject or note says who paid, that settles it, card or no card: Dennis
    ("Dennis paid him", a subject like "Dennis $400") -> `DENNIS`; the Recast or
@@ -278,6 +278,9 @@ Figure out which account actually paid for this, in this order:
 Always fill `paid_from_reason` with what you actually saw or what was missing -
 "card ending 4471 matches Citizens shared" or "card tender line cut off at the bottom
 of the photo, no last four legible" are both fine; a blank reason is not.
+Always put the last four digits you can read in `card_last4` ("" when none is legible) -
+also, and especially, when they match nothing on file: Paul then picks the payer once on
+the card and the books remember that number for every later receipt.
 
 ## Returns and refunds
 

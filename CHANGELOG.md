@@ -1,6 +1,31 @@
 # Changelog
 
 
+## 2026-10-24 (evening) - Audit #7: an unknown card number is learned once (Paul's yes: the books may write it)
+
+Paul: "when I pick who paid on a card, the books may write that card's last four digits onto the Bank accounts tab (or
+the Settings list for my personal cards) so it is never asked again." 12 of October's 27 "who paid?" cards were one
+number. Built, 601 tests:
+- **The read reports the digits.** `card_last4` on the bookkeeper's decide schema (`lib/bookkeeper.mjs`): the last four
+  the document shows, even when they match nothing on file. The prompt's hard-coded personal digits (9166, 8870, 3746,
+  7952 - 7416 was already missing) are gone; rule 2 points at the live Settings list the read is given.
+- **The Save remembers them.** `learnCardNumber` / `citedLast4` (`lib/gate.mjs`, in lib.gs too): on a card the read held
+  for PAYER_UNKNOWN, the digits it cited (`card_last4`, else the four after "ending" / "last four" / x's in its reason)
+  go on the row Paul picked - the bank account's `last4` list (1401 / 1402) or Settings `paul_personal_last4` (PAUL) -
+  appended, never when the number is on any list already, never for Dennis. Menu.gs `learnCard_` writes it after the
+  post (`upsertRow_`, in-process) and the dialog says "Card ending 7952 is on file for Recast Chase - Operating now".
+  The card's flag reads "Who paid? Pick the card or account - card ending 7952 will be remembered".
+- **The other waiting cards follow, with no second question and no new read.** `/api/inbox {action: relearn, last4,
+  paid_from}`: every pending receipt card citing that number is re-run from its stored read through ingest-bg with
+  `fromStored` + `overrides.paid_from` (the D-025 replay) - the gate and the post, as if the read had known the card;
+  one that still fails another rail stays a card with the payer filled in. The Save calls it and reports how many.
+- Also in `books-inbox.mjs`: mark-posted with `repoint: true` moves a posted record onto new entry ids (for the two
+  Mariana records that still name their voided entries; a one-off calls it once the site is deployed).
+- Tests: citedLast4 / learnCardNumber (gate.test), relearn selection, invoke failure and bad input, repoint
+  (books-inbox.test). Prompt and lib.gs regenerated. **Owed: `npm run deploy` (the site) and `clasp deploy -i` (lib.gs
+  changed) - Paul's steps; writer pushed.** Watch the first card that says "will be remembered": the row's digits after
+  the Save, and the other cards with that number posting on their own.
+
 ## 2026-10-24 (afternoon) - The 500 Zelle from Charvale Productions is Paul's own money, in the account by mistake
 
 Paul: "that was a personal thing that got in there by accident. my zelle is set up for the business and someone sent me

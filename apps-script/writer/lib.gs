@@ -1236,6 +1236,42 @@ var M_gate = (function () {
    *   shows it beside the entries); placeholder is the waiting charge this document touches, if any;
    *   replaces is the other live entry the read's `supersedes` names, if any
    */
+  /**
+   * Audit 2026-10-24 #7 (Paul: "when I pick who paid on a card, the books may write that card's last four digits"):
+   * the last four digits a read cites - `card_last4` when the read filled it, else the four digits after "ending" /
+   * "last four" / "x" in its paid_from_reason ("card ending 7952 matches nothing on file"). "" when none.
+   */
+  function citedLast4(model) {
+    const own = String(model?.card_last4 || "").replace(/\D/g, "").slice(-4);
+    if (own.length === 4) return own;
+    const m = String(model?.paid_from_reason || "").match(/(?:ending(?: in)?|last (?:four|4)(?: digits)?|[x*]{2,})[-\s#]*(\d{4})\b/i);
+    return m ? m[1] : "";
+  }
+
+  /**
+   * What to remember after Paul picks the payer on a card the read held for PAYER_UNKNOWN: the cited last four go on
+   * the row he picked - a bank account's `last4` list (1401 / 1402) or Settings `paul_personal_last4` (PAUL) - so the
+   * same number is never asked about again. null when there is nothing to learn: the read already knew the payer, no
+   * digits were cited, the digits are on a list already (any list - a number the read should have matched is a read
+   * problem, not a missing fact), or the payer is Dennis / unknown (his cards have no list).
+   *   bankRows: [{code, name, last4: ["2505", ...] | "2505, 5450"}]   personalLast4: ["9166", ...] | "9166, 8870"
+   */
+  function learnCardNumber({ model, paid_from, bankRows = [], personalLast4 = [] } = {}) {
+    const last4 = citedLast4(model);
+    if (!last4) return null;
+    const unknown = String(model?.paid_from || "") === "UNKNOWN" || (model?.entries || []).some((e) => String(e?.paid_from || "") === "UNKNOWN");
+    if (!unknown) return null;
+    const list = (v) => (Array.isArray(v) ? v : String(v || "").split(/[\s,;]+/)).map((x) => String(x).trim()).filter(Boolean);
+    const personal = list(personalLast4);
+    const banks = bankRows.map((b) => ({ code: String(b.code), name: String(b.name || b.code), last4: list(b.last4) }));
+    if (personal.includes(last4) || banks.some((b) => b.last4.includes(last4))) return null;
+    const payer = String(paid_from || "");
+    if (payer === "PAUL") return { last4, where: "personal", name: "Paul's personal cards", value: personal.concat(last4).join(", ") };
+    const bank = banks.find((b) => b.code === payer);
+    if (!bank) return null;
+    return { last4, where: "bank", code: bank.code, name: bank.name, value: bank.last4.concat(last4).join(", ") };
+  }
+
   function evaluateGate(model, ctx, settings, { postedEntries = [], placeholders = true } = {}) {
     const reasons = [];
     const push = (reason) => {
@@ -1382,12 +1418,14 @@ var M_gate = (function () {
     );
   }
 
-  return { NEED_RECEIPT, isPlaceholder, findPlaceholder, findDuplicate, evaluateGate, buildEntriesFromModel };
+  return { NEED_RECEIPT, isPlaceholder, findPlaceholder, findDuplicate, citedLast4, learnCardNumber, evaluateGate, buildEntriesFromModel };
 })();
 var NEED_RECEIPT = M_gate.NEED_RECEIPT;
 var isPlaceholder = M_gate.isPlaceholder;
 var findPlaceholder = M_gate.findPlaceholder;
 var findDuplicate = M_gate.findDuplicate;
+var citedLast4 = M_gate.citedLast4;
+var learnCardNumber = M_gate.learnCardNumber;
 var evaluateGate = M_gate.evaluateGate;
 var buildEntriesFromModel = M_gate.buildEntriesFromModel;
 

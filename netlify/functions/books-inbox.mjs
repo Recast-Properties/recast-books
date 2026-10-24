@@ -5,6 +5,8 @@
 //   POST /api/inbox {action:"dismiss", docId, note}               (owner)
 //   POST /api/inbox {action:"reprocess", docId}                   (owner)
 //   POST /api/inbox {action:"repost", docId}                      (owner/poller; D-025, re-post from the stored read)
+//   POST /api/inbox {action:"relearn", last4, paid_from}          (owner/poller; audit 2026-10-24 #7 - the other cards
+//                                                                   citing a card number Paul just placed, re-run from their reads)
 //   POST /api/inbox {action:"repost-all", after?, limit?, only?:[docId], overrides?:{docId|"*":{paid_from?,property?}}}  (owner/poller; D-025, paged)
 //   POST /api/inbox {action:"delete", docId}                      (owner; dry/error only)
 //
@@ -25,7 +27,7 @@ import {
   todayChicago,
   pollerSecretOk,
 } from "./_shared.mjs";
-import { buildEntriesFromModel } from "../../lib/gate.mjs";
+import { buildEntriesFromModel, citedLast4 } from "../../lib/gate.mjs";
 
 const STATUSES = new Set(["pending", "posted", "dismissed", "dry", "error", "processing"]);
 const DELETABLE_STATUSES = new Set(["dry", "error"]);
@@ -157,6 +159,42 @@ export default async (req) => {
       return json(200, { fired, skipped, after: last, done: keys.length < limit });
     }
 
+    // Audit 2026-10-24 #7: the workbook learned a card's last four (Paul picked the payer on a card held for
+    // PAYER_UNKNOWN - Menu.gs learnCard_). Every other receipt card still waiting that cites the same number is
+    // re-run from its stored read with that payer - no new model read: the gate and the post happen in ingest-bg
+    // (fromStored + overrides.paid_from, the D-025 replay). A card that still fails another rail stays a card,
+    // with the payer filled in. 12 of October's 27 "who paid?" cards were one number.
+    if (body.action === "relearn") {
+      const last4 = String(body.last4 || "");
+      const payer = String(body.paid_from || "");
+      if (!/^\d{4}$/.test(last4) || !/^(14\d\d|PAUL)$/.test(payer)) {
+        return json(400, { error: "BAD_REQUEST", message: "last4 (four digits) and paid_from (a 14xx account or PAUL) are required" });
+      }
+      const { blobs } = await docsStore.list({ prefix: "doc/" });   // ponytail: full scan, as the Inbox list does; audit #9 indexes it
+      const loaded = await Promise.all((blobs || []).map((b) => docsStore.get(b.key, { type: "json" })));
+      const waiting = loaded.filter((e) => e && e.status === "pending" && e.source !== "feed" && !e.dryRun && e.model?.verdict &&
+        (e.gate?.reasons || []).includes("PAYER_UNKNOWN") && citedLast4(e.model) === last4);
+      const origin = new URL(req.url).origin;
+      const started = [], failed = [];
+      for (const e of waiting) {
+        const now = new Date().toISOString();
+        await docsStore.setJSON(`doc/${e.docId}`, { ...e, status: "processing", startedAt: now, finishedAt: "", error: "", gate: null, result: null });
+        try {
+          const res = await fetch(`${origin}/api/ingest-bg`, {
+            method: "POST",
+            headers: { "content-type": "application/json", "x-poller-secret": process.env.POLLER_SECRET },
+            body: JSON.stringify({ docId: e.docId, fromStored: true, overrides: { paid_from: payer, note: `card ending ${last4} is ${payer} - ${by} placed it on another card` } }),
+          });
+          if (res.status !== 202 && res.status !== 200) throw new Error(`ingest-bg returned HTTP ${res.status}`);
+          started.push(e.docId);
+        } catch (err) {
+          try { await docsStore.setJSON(`doc/${e.docId}`, e); } catch { /* best-effort: back as it was */ }
+          failed.push(e.docId);
+        }
+      }
+      return json(200, { last4, paid_from: payer, started, failed });
+    }
+
     const docId = body.docId;
     if (!validateDocId(docId)) {
       return json(400, { error: "BAD_REQUEST", message: "docId is required" });
@@ -260,6 +298,14 @@ export default async (req) => {
         const patched = { ...envelope, result: { ...envelope.result, doc_url: body.doc_url || envelope.result?.doc_url || "" } };
         await docsStore.setJSON(`doc/${docId}`, patched);
         return json(200, { docId, status: "posted", txn_ids, doc_url: patched.result.doc_url });
+      }
+      // 2026-10-24: a posted record whose entries were voided and posted again by hand (Mariana's two Zelles,
+      // re-posted paid from Chase) is pointed at the live entries - a one-off's call, with the new ids named.
+      if (envelope.status === "posted" && body.repoint === true) {
+        const repointed = { ...envelope, result: { ...(envelope.result || {}), txn_ids },
+          review: { ...(envelope.review || {}), repointed: { from: envelope.result?.txn_ids || [], by, at: new Date().toISOString(), note: body.note || "" } } };
+        await docsStore.setJSON(`doc/${docId}`, repointed);
+        return json(200, { docId, status: "posted", txn_ids, repointed: true });
       }
       if (envelope.status !== "pending" && envelope.status !== "posting") {
         return json(409, { error: "NOT_PENDING", message: `envelope is "${envelope.status}", not pending` });
@@ -368,7 +414,7 @@ export default async (req) => {
       return json(200, { docId, deleted: true });
     }
 
-    return json(400, { error: "BAD_REQUEST", message: "action must be approve, mark-posted, mark-pending, dismiss, reprocess or delete" });
+    return json(400, { error: "BAD_REQUEST", message: "action must be approve, mark-posted, mark-pending, dismiss, reprocess, relearn or delete" });
   }
 
   return json(405, { error: "METHOD_NOT_ALLOWED" });

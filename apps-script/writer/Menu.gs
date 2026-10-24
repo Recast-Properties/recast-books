@@ -893,7 +893,13 @@ function inboxApprove(req) {
       feed = { ok: false, error: (feedErr && feedErr.code) || 'INTERNAL', message: String((feedErr && feedErr.message) || feedErr) };
     }
     lap('feed');
-    return { ok: true, txn_ids: txnIds, rows: result.rows, entries: built, feed: feed, timings: timings.join(', ') };
+    // Audit 2026-10-24 #7: a card held for "who paid?" that cites a card number - Paul's pick is remembered on the
+    // row he picked, and the other waiting cards with that number are re-run with it from their stored reads.
+    var learned = null;
+    try { learned = learnCard_(ss, req.model || {}, entries, postedBy); }
+    catch (learnErr) { learned = { error: String((learnErr && learnErr.message) || learnErr) }; }
+    lap('learn');
+    return { ok: true, txn_ids: txnIds, rows: result.rows, entries: built, feed: feed, learned: learned, timings: timings.join(', ') };
   } catch (err) {
     var message = String((err && err.message) || err);
     if (marked) {
@@ -903,6 +909,33 @@ function inboxApprove(req) {
     }
     return { ok: false, error: (err && err.code) || 'INTERNAL', message: message };
   }
+}
+
+/** Audit 2026-10-24 #7 (Paul, 10-24: "when I pick who paid on a card, the books may write that card's last four
+ *  digits onto the Bank accounts tab (or the Settings list for my personal cards) so it is never asked again"). The
+ *  digits the read cited go on the row of the payer Paul picked - lib/gate.mjs learnCardNumber says which row, or
+ *  nothing - then the site re-runs every other waiting card that cites the same number from its stored read
+ *  (/api/inbox relearn: the gate and the post, no new model read). Returns what was learned, for the dialog, or null. */
+function learnCard_(ss, model, entries, by) {
+  var payer = String((entries[0] || {}).paid_from || '');
+  var settings = ss.getSheetByName('Settings');
+  var setCols = headerIndex_(settings);
+  var setRow = findRowByValue_(settings, setCols['key'], 'paul_personal_last4');
+  var personal = setRow === -1 ? '' : String(settings.getRange(setRow, setCols['value']).getValue() || '');
+  var learned = learnCardNumber({ model: model, paid_from: payer, bankRows: bankAccountsLast4_(ss), personalLast4: personal });
+  if (!learned) return null;
+  if (learned.where === 'bank') {
+    var bank = ss.getSheetByName('Bank accounts');
+    upsertRow_(bank, headerIndex_(bank), 'code', { code: learned.code, last4: learned.value });
+  } else {
+    upsertRow_(settings, setCols, 'key', { key: 'paul_personal_last4', value: learned.value });
+  }
+  var out = { last4: learned.last4, name: learned.name, started: [] };
+  try {
+    var r = siteFetchJson_('/api/inbox', 'post', { action: 'relearn', last4: learned.last4, paid_from: payer, by: by });
+    out.started = (r && r.started) || [];
+  } catch (e) { out.relearn_error = String((e && e.message) || e); }
+  return out;
 }
 
 /** The entry a card is about to take the place of, read off the Journal - {txn_id, date (the
