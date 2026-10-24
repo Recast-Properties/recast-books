@@ -25,7 +25,7 @@ number. Built, 601 tests:
   (books-inbox.test). Prompt and lib.gs regenerated. **Site deployed by Paul 10-24: `6add1ddf`.** The two Mariana
   receipt records re-pointed the same hour (one-off `repointMarianaRecords20261024`, commit 73583cf, run from the
   editor by Penny 14:08 CDT; read back: each names its live entry, `review.repointed.from` keeps the voided one;
-  one-off out). **Owed: `clasp deploy -i` (lib.gs changed) - Paul's step; writer pushed.** Watch the first card that says "will be remembered": the row's digits after
+  one-off out). **Writer web app deployed @43 by Paul 10-24** (`/exec` answers ok 0.4.0). Watch the first card that says "will be remembered": the row's digits after
   the Save, and the other cards with that number posting on their own.
 
 ## 2026-10-24 (afternoon) - The 500 Zelle from Charvale Productions is Paul's own money, in the account by mistake
