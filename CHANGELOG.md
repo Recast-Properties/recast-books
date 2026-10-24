@@ -31,8 +31,9 @@ Paul: "ok. go" on the audit's ranked list. Built and tested, nothing deployed ye
 - Live checks before building: the eight answered receipts were saved paid from 1401 (the matcher will tie them);
   the two same-day same-total Anthropic groups of 09-17 carry different receipt numbers (not double posts); the
   Mariana Martinez 350.00 of 10-14 was saved as paid by Paul while Chase 1402 shows the Zelle - Paul's word.
-- Owed: `npm run deploy` (site), `npx clasp login` then `clasp push -f` and `clasp deploy -i` (lib.gs changed), one
-  Match statement lines run on Citizens and on Chase (the clean-up), `git push`. 593 tests, 592 pass, 1 skipped.
+- **Site deployed by Paul 10-24: `6adcd34f`** (the ingest tie, the matcher retire/reopen, the stuck-read retry, the cached
+  document, the nightly Feed facts are live). Owed: `npx clasp login` then `clasp push -f` and `clasp deploy -i` (lib.gs
+  changed), one Match statement lines run on Citizens and on Chase (the clean-up), `git push`. 593 tests, 592 pass, 1 skipped.
 
 ## 2026-10-24 - System audit: receipts intake, poller, /api, bank statements, review (no code, no books changed)
 

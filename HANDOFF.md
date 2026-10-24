@@ -9,9 +9,9 @@ there; a figure written here is only as of its date.
 
 `docs/audit-2026-10-24.md` is the ranked list (ten changes; no rebuild); `docs/audit-2026-10-24-agents.md` holds the five
 agent reports and the live-store tally. **Built 10-24, tested (593), NOT deployed:** audit #1-#6 and #14 (CHANGELOG
-"the audit's first six changes"). Owed, in order - Paul's steps, one at a time: (1) `npm run deploy` - brings the
-ingest's bank-line tie, the matcher's retire/reopen, the stuck-read retry, the cached document, the nightly Feed facts;
-(2) `npx clasp login` (expired 10-24 - a `clasp pull` answered invalid_rapt, so live = repo is unverified), then Claude:
+"the audit's first six changes"). Site deployed 10-24 (`6adcd34f`): the ingest's bank-line tie, the matcher's
+retire/reopen, the stuck-read retry, the cached document and the nightly Feed facts are live. Owed, in order - Paul's
+steps, one at a time: (2) `npx clasp login` (expired 10-24 - a `clasp pull` answered invalid_rapt, so live = repo is unverified), then Claude:
 `clasp push -f` and `clasp pull` compare; (3) `clasp deploy -i AKfycbxNisU_atef_fjnELMBK0R9N1xcnP5e-0MT4LP0FdhpfdPRE1UwlIcb2u4-JS38gx1O3w`
 (lib.gs changed); (4) Recast Books -> Match statement lines... once on Citizens and once on Chase - that run retires
 the nine answered bank cards and the three 09-29 leftovers and reopens any proposed row whose card is gone; (5) `git push`.
