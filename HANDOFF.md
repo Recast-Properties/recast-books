@@ -11,9 +11,8 @@ there; a figure written here is only as of its date.
 agent reports and the live-store tally. **Built 10-24, tested (593), NOT deployed:** audit #1-#6 and #14 (CHANGELOG
 "the audit's first six changes"). Site deployed 10-24 (`6adcd34f`): the ingest's bank-line tie, the matcher's
 retire/reopen, the stuck-read retry, the cached document and the nightly Feed facts are live. Writer pushed 10-24 (Paul ran `clasp login`; `clasp pull` = repo): the swap-Save guard,
-the Save-path bank-line tie, the partner-money cards and the void that frees its line run in the sheet now. Owed, in order -
-Paul's steps, one at a time: (3) `clasp deploy -i AKfycbxNisU_atef_fjnELMBK0R9N1xcnP5e-0MT4LP0FdhpfdPRE1UwlIcb2u4-JS38gx1O3w`
-(lib.gs changed); (4) Recast Books -> Match statement lines... once on Citizens and once on Chase - that run retires
+the Save-path bank-line tie, the partner-money cards and the void that frees its line run in the sheet now. Web app deployed @41 (Paul, 10-24). Owed, in order -
+Paul's steps, one at a time: (4) Recast Books -> Match statement lines... once on Citizens and once on Chase - that run retires
 the nine answered bank cards and the three 09-29 leftovers and reopens any proposed row whose card is gone; (5) `git push`.
 **Still Paul's word:** the five partner-money cards (147,729.38 out and in 10-09, 30,000 to 8870 10-14, 2,000 deposit
 09-28, 500 Charvale in) - after the push they show no Save; Dismiss all with what each was, Claude books them (D-055,
