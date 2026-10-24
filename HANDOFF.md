@@ -5,15 +5,22 @@ history and are not written to; `CHANGELOG.md` keeps its dated entry per change.
 `docs/ops.md`. The books' numbers live on the workbook's tabs (P&L, Totals, Citizens Bank, the house tabs) - read them
 there; a figure written here is only as of its date.
 
-## 2026-10-24 - the system audit (read before touching the intake, the Inbox or the bank path)
+## 2026-10-24 - the system audit, and its first six changes built (owed: the deploys)
 
-`docs/audit-2026-10-24.md` is the ranked list (ten changes, most under a day; no rebuild); `docs/audit-2026-10-24-agents.md`
-holds the five agent reports and the live-store tally. Nothing was changed. **Live right now:** five partner-money bank
-cards (147,729.38 wire out and in 10-09, 30,000 to Chase 8870 10-14, the 2,000 deposit, 500 Charvale in) carry an
-editable purchase line and Save runs no ceiling - Dismiss with a note, never Save, until audit #5 is built; 12 of the
-30 waiting bank cards are already answered by saved receipts or are 09-29 leftovers (audit #1 and #2 retire them);
-the 10-12 Poinsetta photo gm-1a12d6f7780f7d94 is still in error, one Reprocess reads it; do audit #14 before the first
-Chase import. Paul's decisions are the audit's section 6.
+`docs/audit-2026-10-24.md` is the ranked list (ten changes; no rebuild); `docs/audit-2026-10-24-agents.md` holds the five
+agent reports and the live-store tally. **Built 10-24, tested (593), NOT deployed:** audit #1-#6 and #14 (CHANGELOG
+"the audit's first six changes"). Owed, in order - Paul's steps, one at a time: (1) `npm run deploy` - brings the
+ingest's bank-line tie, the matcher's retire/reopen, the stuck-read retry, the cached document, the nightly Feed facts;
+(2) `npx clasp login` (expired 10-24 - a `clasp pull` answered invalid_rapt, so live = repo is unverified), then Claude:
+`clasp push -f` and `clasp pull` compare; (3) `clasp deploy -i AKfycbxNisU_atef_fjnELMBK0R9N1xcnP5e-0MT4LP0FdhpfdPRE1UwlIcb2u4-JS38gx1O3w`
+(lib.gs changed); (4) Recast Books -> Match statement lines... once on Citizens and once on Chase - that run retires
+the nine answered bank cards and the three 09-29 leftovers and reopens any proposed row whose card is gone; (5) `git push`.
+**Still Paul's word:** the five partner-money cards (147,729.38 out and in 10-09, 30,000 to 8870 10-14, 2,000 deposit
+09-28, 500 Charvale in) - after the push they show no Save; Dismiss all with what each was, Claude books them (D-055,
+D-083, D-084). The Mariana Martinez 350.00 of 10-14 was saved as paid by Paul, but Chase 1402 shows the Zelle - say
+which and Claude corrects it. The 10-11 Poinsetta photo gm-1a12d6f7780f7d94 is still in error: forward that email to
+receipts@ again (the 2000-px fix is live) and Claude clears the old error card. Decisions only Paul can make: the
+audit's section 6.
 
 ## 2026-10-23 (later) - owed, in order (on top of everything below)
 

@@ -332,7 +332,12 @@ function fakeWriter() {
 }
 function fakeDocsStore() {
   const items = new Map();
-  return { items, get: async (k, { type } = {}) => (items.has(k) ? (type === "json" ? JSON.parse(items.get(k)) : items.get(k)) : null), setJSON: async (k, v) => { items.set(k, JSON.stringify(v)); } };
+  return {
+    items,
+    get: async (k, { type } = {}) => (items.has(k) ? (type === "json" ? JSON.parse(items.get(k)) : items.get(k)) : null),
+    setJSON: async (k, v) => { items.set(k, JSON.stringify(v)); },
+    list: async ({ prefix = "" } = {}) => ({ blobs: [...items.keys()].filter((k) => k.startsWith(prefix)).map((key) => ({ key })) }),
+  };
 }
 
 beforeEach(() => resetCacheStoreForTests(makeFakeCacheStore()));
@@ -419,4 +424,67 @@ test("tieFeedRows: a card with feed rows ties them (approve -> matched with the 
   assert.equal(await tieFeedRows(writer, { docId: "receipt-1" }, { status: "matched", txn_ids: ["x"] }), null);
   const broken = { feedUpdate: async () => { throw new Error("writer down"); } };
   assert.deepEqual(await tieFeedRows(broken, env, { status: "excluded", note: "Dismissed" }), { ok: false, error: "writer down" });
+});
+
+test("audit 2026-10-24 #1/#2a runFeedMatch: a waiting card whose line a posted entry pays for is tied and retired by code; a leftover card is retired; a proposed row with no card is open again", async () => {
+  const base = fakeWriter();
+  const extraFeed = [
+    feedRow(line("F11", "2026-09-16", -8800, "THE HOME DEPOT #6505"), "proposed"),          // its receipt was saved from the Inbox since
+    feedRow(line("F12", "2026-09-19", -4321, "LOWES #00907"), "proposed"),                   // its card is gone: a tie that failed
+    feedRow(line("F13", "2026-09-10", -2000, "Home Depot Waxahachie"), "matched", "manual-9"), // tied another way; its card never left
+  ];
+  const extraJournal = [
+    journalLine("receipt-11", "2026-09-15", "1030", 8800, { property: "366 Mesa", payee: "The Home Depot" }),
+    journalLine("receipt-11", "2026-09-15", ACCOUNT, -8800, { payee: "The Home Depot" }),
+  ].map(journalRow);
+  const writer = {
+    calls: base.calls, feedUpdate: base.feedUpdate,
+    read: async (tab) => { const t = await base.read(tab); return tab === "Feed" ? { ...t, rows: [...t.rows, ...extraFeed] } : tab === "Journal" ? { ...t, rows: [...t.rows, ...extraJournal] } : t; },
+  };
+  const docsStore = fakeDocsStore();
+  const card = (id, ids) => ({ docId: `feed-1401-${id}`, source: "feed", status: "pending", feed: { account: ACCOUNT, feed_ids: ids, amount_cents: -8800 }, model: { vendor: "x" } });
+  await docsStore.setJSON("doc/feed-1401-F11", card("F11", ["F11"]));
+  await docsStore.setJSON("doc/feed-1401-F13", card("F13", ["F13"]));
+  await docsStore.setJSON("doc/feed-1402-F99", { ...card("F99", ["F99"]), docId: "feed-1402-F99" });   // another account: untouched
+  const anthropic = fakeAnthropic(answerByAmount);
+  const out = await runFeedMatch({ account: ACCOUNT, writer, docsStore, anthropic, now: "2026-09-28T20:00:00Z" });
+
+  const sent = [...anthropic.calls[0].messages[0].content.matchAll(/^L\d+ \| /gm)].length;
+  assert.equal(sent, 9, "the eight open lines plus F12, open again");
+  assert.doesNotMatch(anthropic.calls[0].system[0].text, /receipt-11|8,?800\.00/, "the entry that pays F11 was spent before the model saw it");
+  assert.equal(out.summary.retired, 2);
+  assert.equal(out.summary.reopened, 1);
+  const upd = writer.calls.find((c) => c[0] === "feedUpdate")[1];
+  const byId = Object.fromEntries(upd.map((u) => [u.feed_id, u]));
+  assert.equal(byId.F11.status, "matched");
+  assert.equal(byId.F11.txn_id, "receipt-11");
+  assert.match(byId.F11.match_note, /receipt came in and was recorded/);
+  assert.ok(byId.F12, "F12 got a verdict this run");
+  assert.equal(byId.F13, undefined, "a matched row is not rewritten");
+  const f11 = await docsStore.get("doc/feed-1401-F11", { type: "json" });
+  assert.equal(f11.status, "dismissed");
+  assert.equal(f11.review.by, "claude");
+  const f13 = await docsStore.get("doc/feed-1401-F13", { type: "json" });
+  assert.equal(f13.status, "dismissed");
+  assert.match(f13.review.note, /already tied \(manual-9\)/);
+  assert.equal((await docsStore.get("doc/feed-1402-F99", { type: "json" })).status, "pending");
+});
+
+test("audit 2026-10-24 #14 runFeedMatch: an entry tied on one account's row is still a candidate on the other account it touches (a transfer between Recast's accounts)", async () => {
+  const base = fakeWriter();
+  const extraFeed = [feedRow(line("F20", "2026-09-20", -100000, "Online Transfer to CHK ...6317"), "matched", "transfer-1")];
+  const extraJournal = [
+    journalLine("transfer-1", "2026-09-20", "1402", 100000, { payee: "Transfer", source: "manual" }),
+    journalLine("transfer-1", "2026-09-20", ACCOUNT, -100000, { payee: "Transfer", source: "manual" }),
+  ].map(journalRow);
+  const writer = {
+    calls: base.calls, feedUpdate: base.feedUpdate,
+    read: async (tab) => { const t = await base.read(tab); return tab === "Feed" ? { ...t, rows: [...t.rows, ...extraFeed] } : tab === "Journal" ? { ...t, rows: [...t.rows, ...extraJournal] } : t; },
+  };
+  const anthropic = fakeAnthropic(answerByAmount);
+  await runFeedMatch({ account: "1402", writer, docsStore: fakeDocsStore(), anthropic, now: "2026-09-28T20:00:00Z" });
+  assert.match(anthropic.calls[0].system[0].text, /transfer-1|1,?000\.00 \| Transfer/, "the Chase side of the transfer is offered on the Chase run");
+  const again = fakeAnthropic(answerByAmount);
+  await runFeedMatch({ account: ACCOUNT, writer, docsStore: fakeDocsStore(), anthropic: again, now: "2026-09-28T20:00:00Z" });
+  assert.doesNotMatch(again.calls[0].system[0].text, /Transfer/, "on the Citizens run it is tied already");
 });

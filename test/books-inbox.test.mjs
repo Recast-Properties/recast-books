@@ -481,3 +481,16 @@ test("PUT is not allowed", { skip }, async () => {
   const res = await handler(req("PUT", { token: session("owner") }));
   assert.equal(res.status, 405);
 });
+
+test("audit 2026-10-24 #1: dismiss with only_pending leaves a card Paul already decided as he left it", { skip }, async () => {
+  const store = getDocsStore();
+  await store.setJSON("doc/feed-1401-posted1", { docId: "feed-1401-posted1", source: "feed", status: "posted", result: { txn_ids: ["receipt-x"] } });
+  await store.setJSON("doc/feed-1401-pend1", { docId: "feed-1401-pend1", source: "feed", status: "pending" });
+  let res = await handler(req("POST", { token: session("owner"), body: { action: "dismiss", docId: "feed-1401-posted1", note: "the receipt came in", only_pending: true } }));
+  assert.equal(res.status, 200);
+  assert.deepEqual(await res.json(), { docId: "feed-1401-posted1", status: "posted", unchanged: true });
+  assert.equal((await store.get("doc/feed-1401-posted1", { type: "json" })).status, "posted");
+  res = await handler(req("POST", { token: session("owner"), body: { action: "dismiss", docId: "feed-1401-pend1", note: "the receipt came in", only_pending: true } }));
+  assert.equal((await res.json()).status, "dismissed");
+  assert.equal((await store.get("doc/feed-1401-pend1", { type: "json" })).review.note, "the receipt came in");
+});

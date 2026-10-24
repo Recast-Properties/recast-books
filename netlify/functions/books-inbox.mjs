@@ -295,6 +295,9 @@ export default async (req) => {
       if (!body.note) return json(400, { error: "BAD_REQUEST", message: "note is required" });
       const envelope = await loadEnvelope(docsStore, docId);
       if (!envelope) return json(404, { error: "NOT_FOUND", message: `no envelope for docId ${docId}` });
+      // only_pending: the workbook retiring a bank card whose line a saved receipt now pays for (Menu.gs
+      // tieOpenBankLine_, audit 2026-10-24 #1) - a card Paul decided meanwhile is left as he left it.
+      if (body.only_pending && envelope.status !== "pending") return json(200, { docId, status: envelope.status, unchanged: true });
 
       const updated = {
         ...envelope,

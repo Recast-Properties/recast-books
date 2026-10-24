@@ -178,11 +178,13 @@ function pickerData_(ss) {
   var setLast = setSheet.getLastRow();
   var setRows = setLast > 1 ? setSheet.getRange(2, 1, setLast - 1, setSheet.getLastColumn()).getValues() : [];
   var rateAnnual = 0.08; // D-016 default
+  var ceilingCents = 0;  // the autofile ceiling (D-090): the Inbox treats a bank line over it as partner money, never a purchase
   setRows.forEach(function (r) {
     if (r[setCols['key'] - 1] === 'interest_rate_annual') {
       var v = Number(r[setCols['value'] - 1]);
       if (v > 0) rateAnnual = v;
     }
+    if (r[setCols['key'] - 1] === 'autofile_ceiling_cents') ceilingCents = Number(r[setCols['value'] - 1]) || 0;
   });
 
   // The trades the property tabs group by, so the Inbox can offer them instead of free
@@ -209,6 +211,7 @@ function pickerData_(ss) {
   return {
     accounts: accounts, properties: properties, bankAccounts: bankAccounts, trades: trades,
     interestRatePct: Math.round(rateAnnual * 10000) / 100,
+    autofileCeilingCents: ceilingCents,
     propertyRates: propertyRates_(ss)   // the Add advance default per house (D-085)
   };
 }
@@ -345,8 +348,16 @@ function voidSelected() {
   var today = Utilities.formatDate(new Date(), 'America/Chicago', 'yyyy-MM-dd');
   try {
     var result = voidEntry_(String(txnId), reason, today, Session.getActiveUser().getEmail(), props);
+    // Audit 2026-10-24 #2b: the bank line it was tied to goes back to the next matching run - it used to stay
+    // tied to the dead entry, red on the bank tab until someone edited the Feed by hand. (A receipt replacing an
+    // entry moves the line itself - inboxApprove - so this lives here, on the plain void, not in voidEntry_.)
+    var freed = null;
+    try { freed = feedRetieRows_(ss, String(txnId), [], 'The entry was taken out: ' + reason); }
+    catch (feedErr) { freed = { ok: false, message: String((feedErr && feedErr.message) || feedErr) }; }
     warmCache_();
-    ui.alert('Voided ' + txnId + ' as ' + result.txn_id + '.');
+    ui.alert('Voided ' + txnId + ' as ' + result.txn_id + '.' +
+      (freed && freed.ok && freed.updated ? ' Its bank line is open again; the next Match statement lines run will look at it.' : '') +
+      (freed && freed.ok === false ? ' Its bank line could not be freed: ' + freed.message + ' - tell Claude.' : ''));
   } catch (err) {
     ui.alert('Could not void ' + txnId + ': ' + ((err && err.code) || 'ERROR') + ' - ' + String((err && err.message) || err));
   }
@@ -867,10 +878,20 @@ function inboxApprove(req) {
     var result = postBatchEntries_(built, props, true);
     lap('post');
     // Its bank lines move to the new entries when the amount is the same, else go back to the next matching run.
-    var feed = swap
-      ? feedRetieRows_(ss, swap.txn_id, swap.same ? txnIds : [], swap.placeholder ? 'The receipt came in and replaced the placeholder'
-        : swap.same ? 'A corrected copy replaced the entry' : 'The entry this was tied to was replaced for another amount')
-      : tieFeedRows_(ss, req.feed, 'matched', txnIds, 'Recorded from the Inbox' + (req.note ? ' - ' + req.note : ''));
+    // Best effort, like tieFeedRows_: the entry is posted by now, so a Feed-tab failure here must never reach the
+    // catch below - that would put the card back to pending, and a second Save would post the receipt again under
+    // a fresh id (this path allows a duplicate hash). The dialog shows a failed tie in red instead.
+    var feed;
+    try {
+      feed = swap
+        ? feedRetieRows_(ss, swap.txn_id, swap.same ? txnIds : [], swap.placeholder ? 'The receipt came in and replaced the placeholder'
+          : swap.same ? 'A corrected copy replaced the entry' : 'The entry this was tied to was replaced for another amount')
+        : (req.feed && (req.feed.feed_ids || []).length)
+          ? tieFeedRows_(ss, req.feed, 'matched', txnIds, 'Recorded from the Inbox' + (req.note ? ' - ' + req.note : ''))
+          : tieOpenBankLine_(ss, built, txnIds, docId);   // a receipt: the bank may already hold its charge (audit 2026-10-24 #1)
+    } catch (feedErr) {
+      feed = { ok: false, error: (feedErr && feedErr.code) || 'INTERNAL', message: String((feedErr && feedErr.message) || feedErr) };
+    }
     lap('feed');
     return { ok: true, txn_ids: txnIds, rows: result.rows, entries: built, feed: feed, timings: timings.join(', ') };
   } catch (err) {
@@ -1923,4 +1944,43 @@ function tieFeedRows_(ss, feed, status, txnIds, note) {
   } catch (err) {
     return { ok: false, error: (err && err.code) || 'INTERNAL', message: String((err && err.message) || err) };
   }
+}
+
+/** Audit 2026-10-24 #1: a receipt Paul saves retires the bank card for the same charge, as an automatic post does
+ *  (books-ingest-background.mjs tieOpenBankLine). Nine of the thirty cards waiting that day were charges whose
+ *  receipt he had already saved. The Feed tab is in hand: the one open line of the entries' bank account with the
+ *  same amount within TIE_DAYS (lib/feed-tie.mjs) is tied to the new entries and its card, if still waiting, is
+ *  dismissed on the site. Returns feedUpdateRows_'s answer plus `retired` (the card ids), or null when nothing
+ *  matched; a failure is the caller's to show, never to throw past the post. */
+function tieOpenBankLine_(ss, built, txnIds, docId) {
+  var bank = {};
+  bankAccountsLast4_(ss).forEach(function (a) { bank[String(a.code)] = true; });
+  var moves = bankMovements(built, function (code) { return !!bank[code]; });
+  if (!moves.length) return null;
+  var sh = ss.getSheetByName('Feed');
+  var cols = headerIndex_(sh);
+  var last = sh.getLastRow();
+  if (last < 2 || !cols['feed_id'] || !cols['status']) return null;
+  var rows = sh.getRange(2, 1, last - 1, sh.getLastColumn()).getValues().map(function (r) {
+    return { feed_id: String(r[cols['feed_id'] - 1]), account: String(r[cols['account'] - 1]), date: formatIsoDate_(r[cols['date'] - 1]),
+      amount_cents: toCents(Number(r[cols['amount'] - 1]) || 0), status: String(r[cols['status'] - 1]), txn_id: String(r[cols['txn_id'] - 1] || '') };
+  });
+  var note = 'The receipt came in and was recorded (' + docId + '); the bookkeeper tied it';
+  var updates = [], cards = [];
+  moves.forEach(function (mv) {
+    var line = openLineFor(rows, mv);
+    if (!line) return;
+    updates.push({ feed_id: line.feed_id, status: 'matched', txn_id: txnIds.join(', '), match_note: note });
+    cards.push('feed-' + line.account + '-' + line.feed_id);
+  });
+  if (!updates.length) return null;
+  var out = feedUpdateRows_(ss, updates);
+  out.retired = [];
+  cards.forEach(function (id) {
+    try {
+      var r = siteFetchJson_('/api/inbox', 'post', { action: 'dismiss', docId: id, note: note, by: 'claude', only_pending: true });
+      if (r && r.status === 'dismissed') out.retired.push(id);
+    } catch (e) { /* no card for that line, or the site is away: the line is tied, which is what matters */ }
+  });
+  return out;
 }

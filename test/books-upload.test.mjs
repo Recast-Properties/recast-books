@@ -316,3 +316,18 @@ test("GET is not allowed", async () => {
   const res = await handler(new Request("https://books.test/api/upload", { method: "GET" }));
   assert.equal(res.status, 405);
 });
+
+test("audit 2026-10-24 #4: a docId whose read is still running is skipped; one stuck at processing for over 30 minutes is not", async () => {
+  const store = getDocsStore();
+  await store.setJSON("doc/up-live", { docId: "up-live", status: "processing", startedAt: new Date().toISOString() });
+  await store.setJSON("doc/up-dead", { docId: "up-dead", status: "processing", startedAt: new Date(Date.now() - 31 * 60 * 1000).toISOString() });
+
+  let res = await handler(req({ body: { docId: "up-live", source: "upload", channel: "upload", attachments: [] }, token: session("owner") }));
+  assert.deepEqual(await res.json(), { docId: "up-live", skipped: true, in_flight: true });
+  assert.equal(ingestCalls.length, 0);
+
+  res = await handler(req({ body: { docId: "up-dead", source: "upload", channel: "upload", attachments: [] }, token: session("owner") }));
+  const body = await res.json();
+  assert.equal(body.skipped, undefined);
+  assert.equal(ingestCalls.length, 1);
+});

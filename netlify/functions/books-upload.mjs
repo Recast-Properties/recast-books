@@ -48,6 +48,7 @@ async function isRegisteredPropertyChannel(channel) {
   }
 }
 const TERMINAL_SKIP_STATUSES = new Set(["posted", "dismissed", "pending"]);
+const IN_FLIGHT_MS = 30 * 60 * 1000;   // = books-warm-background.mjs STUCK_MS: younger is a live read, older a dead one
 // docId is used verbatim inside Blobs keys (doc/<docId>, att/<docId>/<i>) and later
 // inside Drive folder/file naming - restrict to a safe charset so nothing resembling
 // a path-traversal or a stray "/" can reach either.
@@ -140,6 +141,12 @@ export default async (req) => {
     const existing = await store.get(envelopeKey, { type: "json" });
     if (existing && TERMINAL_SKIP_STATUSES.has(existing.status)) {
       return json(200, { docId, skipped: true });
+    }
+    // A read still running is not started again: a multi-part email re-sends every part when one part's upload
+    // failed, and two reads of one document can post it twice (audit 2026-10-24 #4). One that has sat at
+    // "processing" longer than IN_FLIGHT_MS died; the warm job retries it, and a re-upload may too.
+    if (existing && existing.status === "processing" && Date.now() - Date.parse(existing.startedAt || 0) < IN_FLIGHT_MS) {
+      return json(200, { docId, skipped: true, in_flight: true });
     }
   }
 

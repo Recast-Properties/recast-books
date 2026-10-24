@@ -33,7 +33,7 @@ const money = (c) => (c / 100).toFixed(2);
  * The facts. Pure: (headers, rows) of the Journal and the list of envelopes in.
  * Mirrors reportDuplicateReplays in apps-script/writer/Code.gs for (c).
  */
-export function gatherFacts(journal, envelopes, now = Date.now(), record = MIGRATION_RECORD) {
+export function gatherFacts(journal, envelopes, now = Date.now(), record = MIGRATION_RECORD, feed = null) {
   const idx = Object.fromEntries(journal.headers.map((h, i) => [h, i]));
   const g = (r, n) => (idx[n] === undefined ? "" : r[idx[n]]);
   const rows = journal.rows;
@@ -166,6 +166,25 @@ export function gatherFacts(journal, envelopes, now = Date.now(), record = MIGRA
   }));
 
   const cap = (list) => (list.length > MAX_ITEMS ? [...list.slice(0, MAX_ITEMS), `... and ${list.length - MAX_ITEMS} more`] : list);
+
+  // (i) the bank side (audit 2026-10-24 #2d). The check never read the Feed tab: a "proposed" line whose Inbox
+  // card is gone was never re-matched, a line tied to an entry since voided sat red on the bank tab, and a line
+  // nobody has explained in ten days is a receipt someone owes. `feed` is the tab; null when it could not be read.
+  let bank_lines = null;
+  if (feed && Array.isArray(feed.headers) && Array.isArray(feed.rows)) {
+    const fi = Object.fromEntries(feed.headers.map((h, i) => [h, i]));
+    const fg = (r, n) => (fi[n] === undefined ? "" : r[fi[n]]);
+    const waiting = new Set(envelopes.filter((e) => e.source === "feed" && e.status === "pending" && !e.dryRun).flatMap((e) => e.feed?.feed_ids || []));
+    const line = (r) => ({ feed_id: String(fg(r, "feed_id")), account: String(fg(r, "account")), date: String(fg(r, "date")).slice(0, 10), amount: money(cents(fg(r, "amount"))), text: String(fg(r, "name") || fg(r, "memo") || "").slice(0, 60) });
+    const status = (r) => String(fg(r, "status") || "");
+    const txns = (r) => String(fg(r, "txn_id") || "").split(/[\s,]+/).filter(Boolean);
+    bank_lines = {
+      proposed_without_card: cap(feed.rows.filter((r) => status(r) === "proposed" && !txns(r).length && !waiting.has(String(fg(r, "feed_id")))).map(line)),
+      tied_to_missing_entry: cap(feed.rows.filter((r) => status(r) === "matched" && txns(r).some((t) => voided.has(t) || !journalIds.has(t))).map((r) => ({ ...line(r), txn_id: txns(r).join(", ") }))),
+      open_over_10_days: cap(feed.rows.filter((r) => status(r) === "unmatched" && now - Date.parse(String(fg(r, "date"))) > 10 * 864e5).map(line)),
+    };
+  }
+
   return {
     journal_rows: rows.length, live_entries: entries.length,
     balance: { debits: money(debits), credits: money(credits), balanced: debits === credits },
@@ -173,6 +192,7 @@ export function gatherFacts(journal, envelopes, now = Date.now(), record = MIGRA
     possible_duplicates: cap(possible_duplicates), receipts_without_document: cap(receipts_without_document),
     stuck: cap(stuck), errors: cap(errors), pending: { count: pending.length, oldest },
     receipts_on_no_book: cap(receipts_on_no_book),
+    ...(bank_lines ? { bank_lines } : {}),
   };
 }
 
@@ -204,15 +224,17 @@ You receive the facts the code gathered tonight as JSON. Judge them and write wh
 - Pending cards are holds - Paul's decision is what they wait for, and some are parked on purpose for the Phase 3 bank statement. The queue count is context, not an action: never tell Paul to approve, dismiss or "clear" a card the check has not read. Mention the queue only if it is growing or a card is over 30 days old.
 - Errors dated before 2026-09-17 are migration-era. Every migration leftover was settled with Paul on 2026-10-01 (docs/migration-leftovers-final.md), so one showing up now is Claude's to look at, never Paul's: one bullet with a "Paste to Claude:" line naming the docIds. Do not ask for replays of them.
 - receipts_on_no_book: every copy of each receipt listed was posted or dismissed against something that is not on the books, so the receipt may be on no book at all. One bullet per receipt ("Lowe's 03-16 $465.73 may be missing from the books - paste the line below to Claude"), and it is Claude's job: add the Paste to Claude line naming the docIds.
+- bank_lines is the bank statement tab. proposed_without_card: lines whose Inbox card is gone and that the matcher must see again - Claude's job, one bullet with "Paste to Claude: run Match statement lines on <account>". tied_to_missing_entry: lines tied to an entry that was voided or is not in the books - Claude's job, name the ids. open_over_10_days: charges nobody has explained - one bullet per line naming the store, the date and the amount, asking Paul for its receipt or a word on what it was.
 - Paul fixes a plain click himself: void (workbook menu), approve / dismiss / reprocess (Inbox). Anything else - an envelope whose status disagrees with the Journal, a stuck card, a Drive link to attach, a balance problem, an error to diagnose - is Claude's job. Under such a bullet add one indented line starting "Paste to Claude:" with a self-contained instruction naming the ids, e.g. "Paste to Claude: mark envelope gm-19f... posted, its entries receipt-2026... are on the Journal."
 - Do not repeat a fact without an action. Do not explain the rules. No headers, no preamble.
 - If nothing needs Paul, answer exactly: Books check: clean.`;
 
 export async function runCheck({ writer, docsStore, cacheStore, anthropic, now = Date.now() }) {
   const journal = await readTab(writer, "Journal", { all: true });
+  const feed = await readTab(writer, "Feed").catch(() => null);   // the bank side of the check; never fatal
   const { blobs } = await docsStore.list({ prefix: "doc/" });
   const envelopes = (await Promise.all((blobs || []).map((b) => docsStore.get(b.key, { type: "json" })))).filter(Boolean);
-  const facts = gatherFacts(journal, envelopes, now);
+  const facts = gatherFacts(journal, envelopes, now, MIGRATION_RECORD, feed);
 
   let text = "", usage = null, error = "";
   try {

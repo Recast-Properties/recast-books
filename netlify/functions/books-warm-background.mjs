@@ -24,15 +24,21 @@ export const MAX_AUTO_RETRIES = 2;
 // row that the 60-day duplicate window could not see (Sherwin-Williams 03-22, voided).
 export const RETRY_SINCE = "2026-09-17";
 export const MAX_RETRIES_PER_RUN = 2; // the writer serialises reads; a burst of replays times them all out
+// A read that died mid-run (the 15-minute cap, memory on a big photo, a platform fault) leaves its envelope at
+// "processing" with nothing to retry it: the poller labelled the thread at upload and the Inbox lists pending only
+// (audit 2026-10-24 #4). Past this age a "processing" envelope is an error in all but name - no real read has
+// run anywhere near it since reads came off the writer (D-047). books-upload.mjs uses the same bar.
+export const STUCK_MS = 30 * 60 * 1000;
 
-export async function retryErroredDocs(origin, docsStore) {
+export async function retryErroredDocs(origin, docsStore, nowMs = Date.now()) {
   // ponytail: full scan of doc/* every run; index error docs if the store grows past a few hundred
   const { blobs } = await docsStore.list({ prefix: "doc/" });
   const retried = [];
   for (const b of blobs || []) {
     const env = await docsStore.get(b.key, { type: "json" });
     if (retried.length >= MAX_RETRIES_PER_RUN) break;
-    if (!env || env.status !== "error" || (env.retries || 0) >= MAX_AUTO_RETRIES) continue;
+    const stuck = !!env && env.status === "processing" && nowMs - Date.parse(env.startedAt || 0) > STUCK_MS;
+    if (!env || (env.status !== "error" && !stuck) || (env.retries || 0) >= MAX_AUTO_RETRIES) continue;
     if (String(env.receivedAt || env.startedAt || "").slice(0, 10) < RETRY_SINCE) continue;
     const fromStored = !!(env.model && env.model.verdict);
     const now = new Date().toISOString();

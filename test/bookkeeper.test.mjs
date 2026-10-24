@@ -154,14 +154,34 @@ test("the last system block and the last tool carry cache_control ephemeral", as
 
   const lastTool = req.tools[req.tools.length - 1];
   assert.deepEqual(lastTool.cache_control, { type: "ephemeral" });
-  assert.equal(lastTool.type, "web_search_20260209");
-  assert.equal(lastTool.name, "web_search");
-  assert.equal(lastTool.max_uses, 5);
+  assert.equal(lastTool.name, "decide");
+  assert.ok(!req.tools.some((t) => t.type === "web_search_20260209"), "web_search is gone: 0 uses in 298 reads (audit 2026-10-24)");
 
   // every earlier tool has no cache_control of its own (only the last block carries it)
   for (const t of req.tools.slice(0, -1)) {
     assert.ok(!("cache_control" in t));
   }
+  // the document (first user message) is cached once too
+  const first = req.messages[0].content;
+  assert.deepEqual(first[first.length - 1].cache_control, { type: "ephemeral" });
+});
+
+test("the latest tool results carry a moving cache marker; earlier ones lose theirs; the document keeps its own (four markers at most)", async () => {
+  const client = scriptedClient([
+    { stop_reason: "tool_use", content: [toolUse("t1", "list_properties", {})], usage: usage() },
+    { stop_reason: "tool_use", content: [toolUse("t2", "read_ledger", { payee: null, days: null, property: null, date: null })], usage: usage() },
+    { stop_reason: "tool_use", content: [toolUse("t3", "decide", DECIDE_INPUT)], usage: usage() },
+  ]);
+  await runBookkeeper({ envelope: baseEnvelope(), attachments: [], deps: baseDeps({ anthropic: client }) });
+  assert.equal(client.calls.length, 3);
+  const third = client.calls[2].messages;
+  const marked = (m) => Array.isArray(m.content) && m.content.some((b) => b.cache_control);
+  assert.ok(marked(third[0]), "the document keeps its marker");
+  assert.ok(!marked(third[2]), "the first turn's tool results lost theirs");
+  assert.ok(marked(third[4]), "the latest tool results carry it");
+  assert.deepEqual(third[4].content[third[4].content.length - 1].cache_control, { type: "ephemeral" });
+  const markers = third.reduce((n, m) => n + (Array.isArray(m.content) ? m.content.filter((b) => b.cache_control).length : 0), 0);
+  assert.equal(markers, 2, "two markers in the messages (system and tools carry the other two)");
 });
 
 // ---- property mailbox hint (phase2.6-spec.md §4) -----------------------------------
@@ -195,9 +215,8 @@ test("the six client tools are strict with additionalProperties:false", async ()
 
   const req = client.calls[0];
   const names = req.tools.map((t) => t.name);
-  assert.deepEqual(names, ["zoom", "read_ledger", "find_vendor", "list_properties", "search_docs", "decide", "web_search"]);
+  assert.deepEqual(names, ["zoom", "read_ledger", "find_vendor", "list_properties", "search_docs", "decide"]);
   for (const t of req.tools) {
-    if (t.name === "web_search") continue;
     assert.equal(t.strict, true, `${t.name} should be strict`);
     assert.equal(t.input_schema.additionalProperties, false, `${t.name} should set additionalProperties:false`);
   }

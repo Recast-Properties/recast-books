@@ -187,3 +187,23 @@ test("D-057: charges waiting on a receipt are listed by code under the check, ol
   const check = await runCheck({ writer, docsStore, cacheStore: cache, anthropic, now: NOW });
   assert.match(check.text, /^Books check: clean\.\nWaiting on receipts \(2, \$195\.98\)/);
 });
+
+test("audit 2026-10-24 #2d gatherFacts reads the Feed tab: proposed lines with no card, lines tied to a voided or missing entry, lines open over ten days", () => {
+  const FH = ["feed_id", "account", "date", "amount", "name", "memo", "status", "txn_id"];
+  const feed = { headers: FH, rows: [
+    ["A", "1401", "2026-09-20", -52.85, "1315 HWY 77", "", "proposed", ""],              // its card is gone
+    ["B", "1401", "2026-09-21", -3.14, "Home Depot", "", "proposed", ""],                // its card is waiting: fine
+    ["C", "1401", "2026-09-01", -9, "Lowe's", "", "matched", "receipt-20260901-ddd"],     // voided entry
+    ["D", "1401", "2026-09-02", -5, "X", "", "matched", "receipt-nowhere"],               // not on the Journal
+    ["E", "1401", "2026-09-22", -55.72, "SW", "", "matched", "receipt-20260322-bbb"],     // live: fine
+    ["F", "1401", "2026-09-10", -230, "ROCKETT SPECIAL UTILIT", "", "unmatched", ""],     // 16 days open
+    ["G", "1401", "2026-09-24", -16.25, "AMAZON", "", "unmatched", ""],                   // 2 days: fine
+  ] };
+  const envelopes = [...ENVELOPES, { docId: "feed-1401-B", source: "feed", status: "pending", feed: { feed_ids: ["B"] } }, { docId: "feed-1401-A", source: "feed", status: "posted", feed: { feed_ids: ["A"] } }];
+  const f = gatherFacts(JOURNAL, envelopes, NOW, undefined, feed);
+  assert.deepEqual(f.bank_lines.proposed_without_card.map((l) => l.feed_id), ["A"]);
+  assert.deepEqual(f.bank_lines.tied_to_missing_entry.map((l) => [l.feed_id, l.txn_id]), [["C", "receipt-20260901-ddd"], ["D", "receipt-nowhere"]]);
+  assert.deepEqual(f.bank_lines.open_over_10_days.map((l) => [l.feed_id, l.amount, l.text]), [["F", "-230.00", "ROCKETT SPECIAL UTILIT"]]);
+  assert.equal(gatherFacts(JOURNAL, ENVELOPES, NOW).bank_lines, undefined, "no Feed tab, no bank facts - never a crash");
+  assert.match(CHECK_PROMPT, /bank_lines/, "the check knows what the bank facts are");
+});

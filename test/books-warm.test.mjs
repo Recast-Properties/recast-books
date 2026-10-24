@@ -93,3 +93,21 @@ test("warm-bg refuses without the poller secret", async () => {
   const res = await handler(new Request("https://x/api/warm-bg", { method: "POST" }));
   assert.equal(res.status, 401);
 });
+
+test("audit 2026-10-24 #4: a doc stuck at processing longer than STUCK_MS is retried like an error; a live one is left alone", async () => {
+  const { STUCK_MS } = await import("../netlify/functions/books-warm-background.mjs");
+  const now = Date.parse("2026-10-24T12:00:00.000Z");
+  const docs = memDocsStore([
+    { docId: "gm-live", status: "processing", startedAt: new Date(now - 5 * 60 * 1000).toISOString(), receivedAt: "2026-10-24T11:50:00.000Z", model: null },
+    { docId: "gm-dead", status: "processing", startedAt: new Date(now - STUCK_MS - 60 * 1000).toISOString(), receivedAt: "2026-10-24T09:00:00.000Z", model: null },
+    { docId: "gm-dead-read", status: "processing", startedAt: new Date(now - 3 * STUCK_MS).toISOString(), receivedAt: "2026-10-24T08:00:00.000Z", model: { verdict: "post" } },
+  ]);
+  const invoked = [];
+  globalThis.fetch = async (_url, opts) => { invoked.push(JSON.parse(opts.body)); return new Response("", { status: 202 }); };
+  const retried = await retryErroredDocs("https://books.test", docs, now);
+  assert.deepEqual(retried, ["gm-dead", "gm-dead-read"]);
+  assert.deepEqual(invoked, [{ docId: "gm-dead", reprocess: true }, { docId: "gm-dead-read", fromStored: true }]);
+  assert.equal(docs.items.get("doc/gm-live").retries, undefined, "a read five minutes in is still running");
+  assert.equal(docs.items.get("doc/gm-dead").retries, 1);
+  assert.ok(Date.parse(docs.items.get("doc/gm-dead").startedAt) >= now - 1000, "the retry restarts the clock, so it is not retried again next run");
+});

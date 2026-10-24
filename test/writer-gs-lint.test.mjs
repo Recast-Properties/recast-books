@@ -729,8 +729,8 @@ test("feedUpdate: one lock, the three verdict columns read once and written once
 
 test("the Inbox card born from bank lines gets its own flags (feedFlags_) on both call sites", () => {
   const html = readFileSync(new URL("../apps-script/writer/Inbox.html", import.meta.url), "utf8");
-  assert.match(html, /function feedFlags_\(entries, why\)/);
-  assert.match(html, /if \(env && env\.source === 'feed'\) return feedFlags_\(entries, why\);/);
+  assert.match(html, /function feedFlags_\(entries, why, env\)/);
+  assert.match(html, /if \(env && env\.source === 'feed'\) return feedFlags_\(entries, why, env\);/);
   assert.equal((html.match(/flagsList_\([^)]*, env\)/g) || []).length, 2, "both call sites pass the envelope");
 });
 
@@ -940,15 +940,21 @@ test("a bank statement card speaks of the bank, not a receipt; a question is not
   const style = readFileSync(path.join(__dirname, "..", "apps-script", "writer", "Style.html"), "utf8");
   const grabIn = (src, head) => { const a = src.indexOf(head); let i = src.indexOf("{", a), d = 0; do { if (src[i] === "{") d++; else if (src[i] === "}") d--; i++; } while (d); return src.slice(a, i); };
   const card = new Function(["var EDIT = {}, DATA = { pickers: { accounts: [] } };", "var NEED_RECEIPT = 'NEED RECEIPT FROM';", grabIn(style, "function escapeHtml_("),
-    inbox.match(/var ACCT_GROUPS = .*;/)[0], grabIn(inbox, "var DECISIONS = ") + ";",
-    ...["money_", "acctGroup_", "acctName_", "itemProperty_", "mismatchFlags_", "decisionOf_", "approvedOnly_", "sortByDecision_", "plainWhy_", "isWaiting_", "feedFlags_", "totalsLine_"].map((n) => grabIn(inbox, `function ${n}(`)),
-    "return { feedFlags_, totalsLine_, EDIT };"].join("\n"))();
+    inbox.match(/var ACCT_GROUPS = .*;/)[0], grabIn(inbox, "var DECISIONS = ") + ";", inbox.match(/var PARTNER_RE = .*;/)[0], inbox.match(/var PARTNER_TEXT = .*;/)[0],
+    ...["money_", "acctGroup_", "acctName_", "itemProperty_", "mismatchFlags_", "decisionOf_", "approvedOnly_", "sortByDecision_", "plainWhy_", "isWaiting_", "partnerMoney_", "feedFlags_", "totalsLine_"].map((n) => grabIn(inbox, `function ${n}(`)),
+    "return { feedFlags_, totalsLine_, partnerMoney_, EDIT };"].join("\n"))();
   const text = (html) => html.replace(/<[^>]+>/g, " ").replace(/\s+/g, " ").trim();
   // the blank line every empty card carries is not a proposal (2026-09-29: a question card read "Claude thinks this bank line is a purchase")
   const blank = [{ property: "", items: [{ account: "", amount_cents: 0, description: "", trade: "" }] }];
   assert.match(text(card.feedFlags_(blank, "What was it?")), /^What was it\? A purchase\? Fill in the line below and Save\./);
   const proposed = [{ property: "366 Mesa", items: [{ account: "1030", amount_cents: 9067, description: "Home Depot supplies", trade: "Supplies" }] }];
   assert.match(text(card.feedFlags_(proposed, "Home Depot supplies.")), /Claude thinks this bank line is a purchase/);
+  // audit 2026-10-24 #5: partner money gets no line and says so; a line the matcher read as a purchase keeps its line
+  const wire = { source: "feed", bodyText: "Bank lines on Citizens (1401):\n2026-10-09  -147729.38  Wire transfer to RECAST PROPERTIES LLC", model: { vendor: "Wire transfer to RECAST PROPE", entries: [] }, feed: { amount_cents: -14772938 } };
+  assert.equal(card.partnerMoney_(wire), true);
+  assert.match(text(card.feedFlags_([], "A wire of $147,729.38 went out.", wire)), /not a purchase, so there is nothing to fill in\. Click Dismiss all/);
+  assert.equal(card.partnerMoney_({ ...wire, model: { vendor: "Home Depot", entries: proposed } }), false);
+  assert.equal(card.partnerMoney_({ source: "feed", bodyText: "2026-10-13  -37.84  Home Depot Waxahachie", model: { entries: [] }, feed: { amount_cents: -3784 } }), false);
 
   const env = { docId: "feed-1", source: "feed", model: { receipt_total_cents: 9067, entries: [] }, gate: {} };
   card.EDIT["feed-1"] = blank;
@@ -993,4 +999,53 @@ test("Add property records a Dennis-funded house's purchase loan; Add advance re
   assert.ok(add.indexOf("recordDennisPurchase_(ss, name)") > add.indexOf("upsertRow_(") &&
     add.indexOf("recordDennisPurchase_(ss, name)") < add.indexOf("setupPropertyTab(name)"), "after the row is saved, before the tab is built");
   assert.match(menu, /if \(kind === 'purchase' && countAdvances_\(ss, property, true\) > 0\)/, "no second purchase loan");
+});
+
+test("audit 2026-10-24 #3: in inboxApprove the bank-line tie after the post is best effort - a Feed-tab failure never reaches the catch that puts the card back to pending", () => {
+  const fn = gsFn(menuSource, "inboxApprove");
+  const tryAt = fn.indexOf("try {\n      feed = swap");
+  const retieAt = fn.indexOf("feedRetieRows_(ss, swap.txn_id");
+  const catchAt = fn.indexOf("} catch (feedErr) {");
+  assert.ok(tryAt !== -1 && retieAt !== -1 && catchAt !== -1, "the tie is wrapped in its own try/catch");
+  assert.ok(tryAt < retieAt && retieAt < catchAt, "feedRetieRows_ is inside that try");
+  assert.match(fn.slice(catchAt), /feed = \{ ok: false, error: \(feedErr && feedErr\.code\) \|\| 'INTERNAL'/, "a failed tie is returned as feed.ok false, not thrown");
+  assert.ok(fn.indexOf("postBatchEntries_(built, props, true)") < tryAt, "the post comes before the tie");
+});
+
+test("audit 2026-10-24 #1: a receipt saved from the Inbox ties the open bank line for its charge and retires the card (tieOpenBankLine_), the void menu frees its line (#2b)", () => {
+  const fn = gsFn(menuSource, "inboxApprove");
+  assert.match(fn, /: tieOpenBankLine_\(ss, built, txnIds, docId\);/, "a receipt card (no feed, no swap) looks for its bank line");
+  const tie = gsFn(menuSource, "tieOpenBankLine_");
+  assert.match(tie, /bankMovements\(built, function \(code\)/, "the movements come from lib/feed-tie.mjs");
+  assert.match(tie, /openLineFor\(rows, mv\)/);
+  assert.match(tie, /action: 'dismiss', docId: id, note: note, by: 'claude', only_pending: true/, "the card is retired only while still waiting");
+  assert.match(tie, /formatIsoDate_\(r\[cols\['date'\] - 1\]\)/, "the Feed's Date cells are read as ISO dates");
+  const lib = readFileSync(new URL("../apps-script/writer/lib.gs", import.meta.url), "utf8");
+  for (const name of ["bankMovements", "openLineFor", "candidateFor"]) assert.match(lib, new RegExp(`^var ${name} = M_feed_tie\\.${name};`, "m"), `${name} is in lib.gs`);
+  const voidFn = gsFn(menuSource, "voidSelected");
+  assert.match(voidFn, /feedRetieRows_\(ss, String\(txnId\), \[\], 'The entry was taken out: ' \+ reason\)/, "a plain void frees its bank line");
+  assert.ok(voidFn.indexOf("voidEntry_(") < voidFn.indexOf("feedRetieRows_("), "after the void, not before");
+});
+
+test("audit 2026-10-24 #5: a partner-money bank card gets no line to fill in and no Save; #2c the dialog shows what happened to the bank line", () => {
+  const html = readFileSync(new URL("../apps-script/writer/Inbox.html", import.meta.url), "utf8");
+  const partnerRe = html.match(/var PARTNER_RE = (\/.*\/i);/);
+  assert.ok(partnerRe, "PARTNER_RE is declared");
+  const re = new Function(`return ${partnerRe[1]}`)();
+  for (const t of ["Bank lines on Citizens (1401):\n2026-10-09  -147729.38  Wire transfer to RECAST PROPE", "2026-10-14  -30000.00  Online Transfer to CHK ...8870", "2026-09-28  2000.00  DEPOSIT ID NUMBER 157399", "FEDWIRE CREDIT VIA: THE BANKER"]) {
+    assert.ok(re.test(t), `partner money: ${t}`);
+  }
+  for (const t of ["2026-10-13  -37.84  Home Depot Waxahachie", "Zelle payment to Mariana Martinez", "AMAZON.COM SEATTLE WA", "ROCKETT SPECIAL UTILIT"]) {
+    assert.ok(!re.test(t), `a purchase or a worker, not partner money: ${t}`);
+  }
+  assert.match(html, /if \(!entries\.length && !partnerMoney_\(env\)\) \{/, "no typed line on a partner-money card");
+  assert.match(html, /\(partnerMoney_\(env\) \? '' : '<button class="primary" data-save="1">Save<\/button>'\)/, "no Save on it");
+  assert.match(html, /if \(saveBtn\) saveBtn\.onclick = function/, "the dialog survives a card with no Save");
+  assert.match(html, /if \(\(m\.entries \|\| \[\]\)\.length\) return false;/, "a bank line the matcher read as a purchase keeps its line");
+  assert.match(html, /autofileCeilingCents/, "a line over the ceiling counts as partner money");
+  assert.match(gsFn(menuSource, "pickerData_"), /autofileCeilingCents: ceilingCents/);
+  assert.match(html, /function feedNote_\(f\)/);
+  assert.match(html, /f\.ok === false\) return '<div style="color:#a50e0e">Recorded, but the bank line for it was not tied/);
+  assert.match(html, /feedNote_\(r\.feed\)/);
+  assert.match(html, /if \(r\.feed && r\.feed\.retired && r\.feed\.retired\.length\) DATA\.envelopes = DATA\.envelopes\.filter/, "a retired card leaves the Bank statement tab at once");
 });

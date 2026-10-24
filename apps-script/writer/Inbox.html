@@ -330,8 +330,30 @@
   }
   // A card born from a bank line (Phase 3) is not a receipt: the bullets say what Claude asks and which
   // button answers it (Paul, 2026-09-28: "the system is not set up for this type of thing").
-  function feedFlags_(entries, why) {
+  // Audit 2026-10-24 #5: money between Paul, Dennis and the bank - a wire, a transfer, a deposit, a sale's payout -
+  // is never a purchase, and Save on a bank card runs no ceiling: one Save would have booked the 147,729.38 wire
+  // of 10-09 as a house cost. Such a card gets no line to fill in and no Save; Dismiss all with a note routes it to
+  // Claude, who books it the right way (D-055, D-083, D-084). A line over the autofile ceiling is treated the same.
+  var PARTNER_RE = /\b(wire|fedwire|transfer|deposit|payout|dennis|little|recast prop)\b/i;
+  var PARTNER_TEXT = 'This is money moving between you, Dennis and the bank - a wire, a transfer, a deposit or a payout - not a purchase, so there is nothing to fill in. Click Dismiss all and say in your own words what it was; Claude books it the right way.';
+  function partnerMoney_(env) {
+    if (!env || env.source !== 'feed') return false;
+    var f = env.feed || {}, m = env.model || {};
+    if ((m.entries || []).length) return false;   // the matcher proposed a purchase: Paul checks it as before
+    var ceiling = Number((DATA.pickers && DATA.pickers.autofileCeilingCents) || 0);
+    return PARTNER_RE.test(String(env.bodyText || '') + ' ' + String(m.vendor || '')) || (ceiling > 0 && Math.abs(Number(f.amount_cents) || 0) > ceiling);
+  }
+  // What Save or Dismiss did about the bank line, under the result (audit 2026-10-24 #2c: a failed tie used to
+  // come back ok:true and vanish; a retired card used to stay in the Bank statement tab until Paul found it).
+  function feedNote_(f) {
+    if (!f) return '';
+    if (f.ok === false) return '<div style="color:#a50e0e">Recorded, but the bank line for it was not tied: ' + escapeHtml_(f.message || f.error || 'unknown') + ' - tell Claude.</div>';
+    if (f.retired && f.retired.length) return '<div>The bank line for this charge is tied and its card has left the Bank statement tab.</div>';
+    return '';
+  }
+  function feedFlags_(entries, why, env) {
     var kept = approvedOnly_(entries);
+    if (partnerMoney_(env)) return [plainWhy_(why), PARTNER_TEXT].map(function (t) { return '<li class="act">' + escapeHtml_(t) + '</li>'; }).join('');
     if (isWaiting_(kept)) {
       return [kept.length > 1 ? 'No receipt yet: Save records these ' + kept.length + ' charges now, each on its own, just as the bank shows them. Pick the house for each'
         : 'No receipt yet: Save records this charge now, just as the bank shows it',
@@ -347,7 +369,7 @@
     return out.concat(mismatchFlags_(kept)).map(function (t) { return '<li class="act">' + escapeHtml_(t) + '</li>'; }).join('');
   }
   function flagsList_(gate, entries, why, env) {
-    if (env && env.source === 'feed') return feedFlags_(entries, why);
+    if (env && env.source === 'feed') return feedFlags_(entries, why, env);
     var kept = approvedOnly_(entries);
     var swapping = !!(env && swapOf_(env) && !swapOf_(env).earlier);   // a placeholder: the bank line already says who paid
     var flags = ((gate && gate.reasons) || []).filter(function (r) { return r !== 'NEEDS_HUMAN_274D' && !(swapping && (r === 'PAYER_UNKNOWN' || r === 'BAD_PAID_FROM')); })
@@ -436,8 +458,8 @@
       entries.forEach(function (e) { (e.items || []).forEach(function (it) { if (it.property === undefined) it.property = e.property || ''; }); });
       // Paul, 2026-09-28: a card the read left empty still shows one full line to type into ("i need a way to
       // enter the information if none is present") - the same fields as any other line. The house defaults
-      // to the mailbox it came in on; a blank line saves nothing (sortByDecision_).
-      if (!entries.length) {
+      // to the mailbox it came in on; a blank line saves nothing (sortByDecision_). Partner money gets no line.
+      if (!entries.length && !partnerMoney_(env)) {
         var home = m.property || (DATA.pickers.properties.indexOf(env.channel) >= 0 ? env.channel : '');
         // date, payee and memo are what a read's entry carries and what posting needs (purchaseIntentFromEntry).
         entries.push({ date: m.date || String(env.receivedAt || '').slice(0, 10), payee: m.vendor || '', memo: 'typed by Paul in the Inbox - Claude found nothing to record',
@@ -502,7 +524,7 @@
       entriesHtml +
       '<div class="tot">' + totalsLine_(env) + '</div>' +
       waitHtml_(env) +
-      '<div class="verbs"><button class="primary" data-save="1">Save</button>' +
+      '<div class="verbs">' + (partnerMoney_(env) ? '' : '<button class="primary" data-save="1">Save</button>') +
       '<button data-dismiss="1" title="The whole document is not a cost - nothing is added to the books">Dismiss all</button><button data-reprocess="1">Reprocess</button></div>' +
       '<div class="note hidden"><input data-note="1" value="' + escapeHtml_((m.entries || []).length || env.source === 'feed' ? '' : plainWhy_(m.why)) + '" placeholder="' + (env.source === 'feed' ? 'What was it? In your own words' : 'Why? (not a receipt, duplicate...)') + '"><button data-dismiss-go="1">Dismiss all</button><button data-dismiss-cancel="1">Cancel</button></div>' +
       '<div class="msg hidden" data-msg="1"></div>' +
@@ -634,7 +656,7 @@
     // Save does what each line says: records the approved lines, and files the returned and dismissed ones in the
     // note - on the posted card, or on a dismissed one when nothing was kept.
     var saveBtn = card.querySelector('[data-save]');
-    saveBtn.onclick = function () {
+    if (saveBtn) saveBtn.onclick = function () {   // partner money has no Save (partnerMoney_)
       var sorted = sortByDecision_(entries), toPost = splitByProperty_(sorted.keep), sum = sorted.sum;
       // The bank line is the proof of who paid: the receipt Paul was waiting for is paid from that account.
       var swap = toPost.length ? swapOf_(env) : null;
@@ -665,14 +687,16 @@
       if (!toPost.length) {
         callServer_('inboxDismiss', { docId: env.docId, note: sorted.note, feed: env.feed || null }).then(function (r) {
           if (!r.ok) return fail(r);
-          done('Saved - nothing was added to the books (' + escapeHtml_(rest) + ').');
+          done('Saved - nothing was added to the books (' + escapeHtml_(rest) + ').' + feedNote_(r.feed));
         }, broke);
         return;
       }
       callServer_('inboxApprove', { docId: env.docId, entries: toPost, model: env.model || {}, note: sorted.note, feed: env.feed || null, supersedes: swap ? swap.txn_id : null }).then(function (r) {
         if (!r.ok) return fail(r);
+        // The bank card this receipt answered is gone from the Bank statement tab too (tieOpenBankLine_).
+        if (r.feed && r.feed.retired && r.feed.retired.length) DATA.envelopes = DATA.envelopes.filter(function (e) { return r.feed.retired.indexOf(e.docId) < 0; });
         done('Recorded ' + money_(sum.approve) + (rest ? ' - ' + escapeHtml_(rest) : '') + ' <span class="docid">' + r.txn_ids.map(escapeHtml_).join(', ') + '</span>' +
-          ' <span data-finish="1">&middot; saving the receipt to Drive...</span>' +
+          ' <span data-finish="1">&middot; saving the receipt to Drive...</span>' + feedNote_(r.feed) +
           (r.timings ? '<div class="docid">' + escapeHtml_(r.timings) + '</div>' : ''));
         // Step two runs while the user moves on: Drive filing, doc_url, line blocks, cache.
         var slot = msg.querySelector('[data-finish]');
@@ -697,7 +721,7 @@
       busy(true);
       callServer_('inboxDismiss', { docId: env.docId, note: reason, feed: env.feed || null }).then(function (r) {
         if (!r.ok) return fail(r);
-        done('Dismissed all - ' + escapeHtml_(reason));
+        done('Dismissed all - ' + escapeHtml_(reason) + feedNote_(r.feed));
       }, function (err) { fail({ error: 'SCRIPT', message: err && err.message ? err.message : err }); });
     };
 

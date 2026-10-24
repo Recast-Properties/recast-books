@@ -32,10 +32,12 @@ import {
   todayChicago,
   storeAttachmentsToDrive,
   ownReceiptUrl,
+  refreshTabAfterWrite,
   WriterError,
 } from "./_shared.mjs";
 import { runBookkeeper } from "../../lib/bookkeeper.mjs";
 import { evaluateGate, buildEntriesFromModel, findDuplicate } from "../../lib/gate.mjs";
+import { bankMovements, openLineFor } from "../../lib/feed-tie.mjs";
 import { toCents } from "../../lib/money.mjs";
 import { LOST_REPLY } from "../../lib/writer-client.mjs";
 import Anthropic from "@anthropic-ai/sdk";
@@ -494,6 +496,14 @@ export default async (req) => {
         const fresh = await readTab(writer, "Journal", { fresh: true, since: isoDaysAgo(LEDGER_WINDOW_DAYS), limit: 20000, timeoutMs: JOURNAL_READ_TIMEOUT_MS });
         return findDuplicate(m, buildPostedEntries(flattenJournalLines(fresh.headers, fresh.rows)));
       },
+      // The Feed tab as it stands now, for tieOpenBankLine (audit 2026-10-24 #1).
+      openFeedRows: async () => {
+        const feed = await readTab(writer, "Feed", { fresh: true });
+        return rowsToObjectsPublic(feed.headers, feed.rows).map((r) => ({
+          feed_id: String(r.feed_id || ""), account: String(r.account || ""), date: String(r.date || "").slice(0, 10),
+          amount_cents: toCents(Number(r.amount) || 0), status: String(r.status || ""), txn_id: String(r.txn_id || ""),
+        }));
+      },
     });
     return json(200, { docId, status: finalEnvelope.status });
   } catch (err) {
@@ -537,6 +547,7 @@ export async function processDecision({
   holdOnly = false,
   recheckDuplicate,
   confirmPosted,
+  openFeedRows,
   writer,
   docsStore,
 }) {
@@ -661,6 +672,7 @@ export async function processDecision({
         } catch (err) { console.error(`books-ingest-bg: ${docId} replaced ${replaced.txn_id} but its bank lines were not moved: ${String((err && err.message) || err)}`); }
       }
       if (bankCardId) await retireBankCard({ bankCardId, entries, docId, writer, docsStore });
+      else if (!replaced && typeof openFeedRows === "function") await tieOpenBankLine({ entries, docId, writer, docsStore, ctx, openFeedRows });
       await invalidateJournalCache(writer); // covers the void above too - one Journal refresh
 
       return save({
@@ -739,6 +751,41 @@ async function retireBankCard({ bankCardId, entries, docId, writer, docsStore })
     await docsStore.setJSON(`doc/${bankCardId}`, { ...card, status: "dismissed", review: { action: "dismiss", by: "claude", at: new Date().toISOString(), note } });
   } catch (err) {
     console.error(`books-ingest-bg: ${docId} posted but bank card ${bankCardId} was not retired: ${String((err && err.message) || err)}`);
+  }
+}
+
+/**
+ * Audit 2026-10-24 #1: the read named no bank card, but the bank may already hold this payment as an open line -
+ * the statement came in first and the matcher made a card the read did not see, or the line is simply still
+ * unmatched. The one open line of the entries' bank account with the same amount within TIE_DAYS is this
+ * receipt's (lib/feed-tie.mjs): tie it and retire its card, so Paul is never asked about a charge whose receipt
+ * is already in the books. Best effort - the post stands; a miss is logged.
+ */
+export async function tieOpenBankLine({ entries, docId, writer, docsStore, ctx, openFeedRows }) {
+  try {
+    const isBank = (code) => String(ctx?.accounts?.get(String(code))?.series) === "1400";
+    const moves = bankMovements(entries, isBank);
+    if (!moves.length) return [];
+    const rows = await openFeedRows();
+    const txn_id = entries.map((e) => e.txn_id).join(", ");
+    const tied = [];
+    for (const mv of moves) {
+      const line = openLineFor(rows, mv);
+      if (!line) continue;
+      const note = `The receipt came in (${docId}) and the bookkeeper tied it`;
+      await writer.feedUpdate([{ feed_id: line.feed_id, status: "matched", txn_id, match_note: note }]);
+      await refreshTabAfterWrite(writer, "Feed");
+      const cardKey = `doc/feed-${line.account}-${line.feed_id}`;
+      const card = await docsStore.get(cardKey, { type: "json" });
+      if (card && card.status === "pending") {
+        await docsStore.setJSON(cardKey, { ...card, status: "dismissed", review: { action: "dismiss", by: "claude", at: new Date().toISOString(), note } });
+      }
+      tied.push(line.feed_id);
+    }
+    return tied;
+  } catch (err) {
+    console.error(`books-ingest-bg: ${docId} posted but its bank line was not tied: ${String((err && err.message) || err)}`);
+    return [];
   }
 }
 

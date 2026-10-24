@@ -746,3 +746,44 @@ test("a receipt naming a bank card for a different total: posted, the card stays
   assert.deepEqual(calls, []);
   assert.equal((await store.get("doc/feed-1401-tip", { type: "json" })).status, "pending");
 });
+
+test("audit 2026-10-24 #1: a posted receipt whose read named no card still ties the one open bank line for its charge and retires that line's card", { skip }, async () => {
+  const envelope = await seedEnvelope({ docId: "gm-quiet" });
+  const store = getDocsStore();
+  await store.set("att/gm-quiet/0", Buffer.from("hi").toString("base64"), { metadata: {} });
+  await store.setJSON("doc/feed-1401-open1", { ...BANK_CARD, docId: "feed-1401-open1", feed: { ...BANK_CARD.feed, feed_ids: ["open1"] } });
+  const calls = [];
+  const writer = {
+    storeDocument: async () => ({ fileId: "f1", url: "https://drive/x", folderUrl: "https://drive/folder" }),
+    void: async () => { calls.push("void"); return { ok: true }; },
+    postBatch: async () => ({ rows: [1, 2] }),
+    feedUpdate: async (rows) => { calls.push(["feedUpdate", rows]); return { ok: true, updated: rows.length }; },
+    read: async () => ({ ok: true, headers: ["txn_id"], rows: [] }),
+  };
+  const ctx = baseCtx();
+  ctx.accounts.get("1401").series = "1400";
+  const feedRows = [
+    { feed_id: "open1", account: "1401", date: "2026-09-11", amount_cents: -4500, status: "proposed", txn_id: "" },   // the charge, a day after the receipt
+    { feed_id: "tied", account: "1401", date: "2026-09-10", amount_cents: -4500, status: "matched", txn_id: "receipt-other" },
+    { feed_id: "far", account: "1401", date: "2026-08-01", amount_cents: -4500, status: "unmatched", txn_id: "" },
+  ];
+  const result = await processDecision({ envelope, docId: "gm-quiet", model: postModel(), transcript_summary: [], usage: {},
+    gateResult: PASS_GATE, ctx, writer, docsStore: store, openFeedRows: async () => feedRows });
+  assert.equal(result.status, "posted");
+  assert.ok(!calls.includes("void"));
+  const tie = calls.find((c) => c[0] === "feedUpdate")[1];
+  assert.deepEqual(tie, [{ feed_id: "open1", status: "matched", txn_id: result.result.txn_ids[0], match_note: "The receipt came in (gm-quiet) and the bookkeeper tied it" }]);
+  const card = await store.get("doc/feed-1401-open1", { type: "json" });
+  assert.equal(card.status, "dismissed");
+  assert.equal(card.review.by, "claude");
+
+  // two open lines fit: nothing is tied - the matcher's call
+  const calls2 = [];
+  const writer2 = { ...writer, feedUpdate: async (rows) => { calls2.push(rows); return { ok: true }; } };
+  const envelope2 = await seedEnvelope({ docId: "gm-quiet2" });
+  await store.set("att/gm-quiet2/0", Buffer.from("hi").toString("base64"), { metadata: {} });
+  const r2 = await processDecision({ envelope: envelope2, docId: "gm-quiet2", model: postModel(), transcript_summary: [], usage: {},
+    gateResult: PASS_GATE, ctx, writer: writer2, docsStore: store, openFeedRows: async () => [...feedRows, { feed_id: "open2", account: "1401", date: "2026-09-12", amount_cents: -4500, status: "unmatched", txn_id: "" }, { ...feedRows[0], status: "unmatched" }] });
+  assert.equal(r2.status, "posted");
+  assert.deepEqual(calls2, []);
+});

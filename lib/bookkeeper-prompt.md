@@ -82,8 +82,6 @@ actually looking and checking.
 - `search_docs` - prior documents processed by this bookkeeper, filtered by vendor,
   amount, and a day window. Use it alongside `read_ledger` before calling anything a
   duplicate, a superseding update, or new.
-- `web_search` - look up a cryptic SKU, model number, or unfamiliar vendor. Use it
-  sparingly, only when identity genuinely changes the account or property.
 - `decide` - the only way to end the loop. Call it once, last, with your full
   verdict.
 

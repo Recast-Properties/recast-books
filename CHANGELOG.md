@@ -1,6 +1,39 @@
 # Changelog
 
 
+## 2026-10-24 (later) - the audit's first six changes built (plus #14); 593 tests; deploys owed
+
+Paul: "ok. go" on the audit's ranked list. Built and tested, nothing deployed yet:
+
+- **#1 A saved receipt retires its bank card.** `lib/feed-tie.mjs` (pure, in lib.gs too): the one open line of the
+  entries' bank account with the same amount within ten days is the receipt's. On the workbook's Save
+  (`tieOpenBankLine_`, Menu.gs) and on an automatic post whose read named no card (`tieOpenBankLine`, ingest) the
+  line is tied and its card, if still waiting, is dismissed (`/api/inbox` dismiss takes `only_pending`). The matcher
+  run does the same for cards already waiting (`retirePendingCards`): a card whose line a posted entry pays for is
+  tied and retired; a card whose lines were all tied another way is a leftover and is retired. That run is the
+  clean-up for the nine answered cards and the three 09-29 leftovers in the Inbox.
+- **#2 The Feed tab stops lying.** (a) A "proposed" row whose card is no longer waiting is open again on the next
+  matcher run. (b) Void (the menu) frees the entry's bank line (`feedRetieRows_` to nothing). (c) The Inbox shows a
+  failed tie in red and says when a bank card left with the receipt. (d) The nightly check reads the Feed tab:
+  proposed lines with no card, lines tied to a voided or missing entry, lines open over ten days (`bank_lines`).
+- **#3 The swap Save cannot post twice.** The bank-line move after the post is wrapped like `tieFeedRows_`; a
+  Feed-tab failure returns `feed.ok:false` instead of sending the card back to pending (a second Save would have
+  posted again under a fresh id - the Save path allows a duplicate hash).
+- **#4 A read killed mid-run is retried.** `processing` older than 30 minutes is an error to the warm job's retry;
+  `/api/upload` skips a document whose read is younger than that (`in_flight`).
+- **#5 Partner money cannot be saved as a cost.** A bank card whose text names a wire, a transfer, a deposit, a
+  payout, Dennis or Recast, or whose amount is over the autofile ceiling (now in the pickers), gets no line to fill in
+  and no Save - Dismiss all with a note, which goes to Claude. The matcher's own purchase proposals keep their line.
+- **#6 The document is cached in the model loop.** A cache marker on the first user message and a moving one on the
+  latest tool results; the never-used web_search tool is gone (0 of 298 reads).
+- **#14 (pulled forward - Chase lines are already in the Feed):** the matcher's "already tied" set is built from the
+  account's own rows, so a transfer between Recast's accounts is offered on both sides.
+- Live checks before building: the eight answered receipts were saved paid from 1401 (the matcher will tie them);
+  the two same-day same-total Anthropic groups of 09-17 carry different receipt numbers (not double posts); the
+  Mariana Martinez 350.00 of 10-14 was saved as paid by Paul while Chase 1402 shows the Zelle - Paul's word.
+- Owed: `npm run deploy` (site), `npx clasp login` then `clasp push -f` and `clasp deploy -i` (lib.gs changed), one
+  Match statement lines run on Citizens and on Chase (the clean-up), `git push`. 593 tests, 592 pass, 1 skipped.
+
 ## 2026-10-24 - System audit: receipts intake, poller, /api, bank statements, review (no code, no books changed)
 
 Paul asked for a multi-agent audit of the whole intake-to-review path after five weeks on the real books: spaghetti,
