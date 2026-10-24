@@ -44,7 +44,10 @@ Paul: "ok. go" on the audit's ranked list. Built and tested, nothing deployed ye
   misread - they are real charges on Dennis's card with no receipt and no placeholder; they stay. Writer pushed again
   (Menu.gs, lib.gs). **Site `6adcdcc9` deployed by Paul 10-24** (the sweep's group rule). Owed: Match statement lines on Chase and once
   more on Citizens (ties the 52.85), `clasp deploy -i` with the next deploy (lib.gs changed; nothing the web app runs
-  uses it), `git push`. 594 tests. 593 tests, 592 pass, 1 skipped.
+  uses it), `git push`. 594 tests. 593 tests, 592 pass, 1 skipped. **Writer web app deployed @42 by Paul 10-24** (`/exec` answers ok 0.4.0; live = repo by
+  `clasp pull`). Match statement lines on Chase was not offered: the menu lists only a bank with `unmatched` lines
+  (`unmatchedFeedCounts_`), and every Chase line already carries its card from the 10-23 import - nothing for the matcher
+  to do there until Paul answers the six cards; not a fault, not changed.
 
 ## 2026-10-24 - System audit: receipts intake, poller, /api, bank statements, review (no code, no books changed)
 

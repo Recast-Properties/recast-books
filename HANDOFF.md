@@ -5,17 +5,19 @@ history and are not written to; `CHANGELOG.md` keeps its dated entry per change.
 `docs/ops.md`. The books' numbers live on the workbook's tabs (P&L, Totals, Citizens Bank, the house tabs) - read them
 there; a figure written here is only as of its date.
 
-## 2026-10-24 - the system audit, and its first six changes built (owed: the deploys)
+## 2026-10-24 - the system audit, and its first six changes built and deployed (owed: the push)
 
 `docs/audit-2026-10-24.md` is the ranked list (ten changes; no rebuild); `docs/audit-2026-10-24-agents.md` holds the five
 agent reports and the live-store tally. **Built 10-24, tested (593), NOT deployed:** audit #1-#6 and #14 (CHANGELOG
 "the audit's first six changes"). Site deployed 10-24 (`6adcd34f`): the ingest's bank-line tie, the matcher's
 retire/reopen, the stuck-read retry, the cached document and the nightly Feed facts are live. Writer pushed 10-24 (Paul ran `clasp login`; `clasp pull` = repo): the swap-Save guard,
 the Save-path bank-line tie, the partner-money cards and the void that frees its line run in the sheet now. Web app deployed @41 (Paul, 10-24). First Citizens matcher run done 10-24: 7 cards retired on their own (CHANGELOG). Site `6adcdcc9` deployed 10-24 (the
-sweep ties a receipt saved split by house). Citizens run again 10-24: 1 more card cleared (the 52.85) - 8 of the morning's 30 gone by code. Owed, in order -
-Paul's steps, one at a time: (5) Recast Books -> Match statement lines... on Chase (NOT yet run); (6) `clasp deploy -i`
-with the next writer change (lib.gs changed after @41; nothing the web app runs uses it); (7) `git push` - commits
-000dd25..HEAD are local only (the auto-mode check refuses the push from a session). The three Dennis's-card cards
+sweep ties a receipt saved split by house). Citizens run again 10-24: 1 more card cleared (the 52.85) - 8 of the morning's 30 gone by code. **Writer web app deployed @42 by Paul 10-24** (`/exec` answers ok 0.4.0; `clasp pull` = repo): the sweep's group rule and
+the matcher's summary box run everywhere now. **Match statement lines on Chase is moot:** the menu offers only a bank with lines
+nobody has asked about yet (`unmatchedFeedCounts_` counts `unmatched`), and every Chase line already has its card from the
+10-23 import - the matcher has nothing to do there until Paul answers the six cards (then Dismiss all puts each line back
+in front of it with his words). Owed: `git push` - commits 000dd25..HEAD are local only (the auto-mode check refuses the
+push from a session). The three Dennis's-card cards
 (Lowe's 08-10 130.87, Home Depot 09-24 90.23, 09-25 30.57) are real charges with no receipt - not leftovers; they wait
 on Dennis like the rest.
 **Still Paul's word:** the five partner-money cards (147,729.38 out and in 10-09, 30,000 to 8870 10-14, 2,000 deposit
