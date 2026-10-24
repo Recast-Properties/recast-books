@@ -20,8 +20,8 @@ attached): "ok, lets try it." Built, 610 tests:
   **Paul's one-time Allow click in the editor after the push; until then the hourly trigger logs an authorization
   error and the P&L refresh still runs first.**
 - Tests: poller lint (label, guard, kick), warm (stamp / no stamp / bad name), bank-mail (stamp), inbox (heartbeat alone
-  and on the list), reconcile (the fact), shared (warning wording). **Owed: poller push (both instances - Penny),
-  `npm run ship`, the Allow click, then Paul's Gmail filters (Foremost, the bank's Zelle notices, PACER, Venmo) one at
+  and on the list), reconcile (the fact), shared (warning wording). **Poller pushed to both instances by Penny 10-24; shipped by Paul 10-24 18:47 CT: web app @46,
+  site `6add438a`, read-back OK. Owed: the Allow click, then Paul's Gmail filters (Foremost, the bank's Zelle notices, PACER, Venmo) one at
   a time - or the label by hand.** Not done: #10's inline-logo skip (#18) and Listing.gs's cutover-era functions.
 
 ## 2026-10-24 (evening) - Audit #9: the document store is indexed; a scan is one list call, not 1,400 fetches

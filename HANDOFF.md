@@ -27,8 +27,8 @@ name the voided entries - let mark-posted in `books-inbox.mjs` re-point a posted
 Watch the first "will be remembered" card. **Audit #8 live (CHANGELOG "Audit #8"): `npm run ship` is Paul's one step from now on; first run 10-24 - web app @44,
 site `6add2314`, read-back OK.** A ship is a deploy: hand him `npm run ship` instead of the two commands.
 **Audit #9 live (CHANGELOG "Audit #9"): the document index - shipped 10-24, web app @45, site `6add24f9`.** The
-first scan after it builds the index (slow once), then loads are quick; check `blobs:get books-docs index/docs`. **Audit #10 built (CHANGELOG "Audit #10"; Paul: the to-books label, "ok, lets try it"): owed in order - the poller
-push to both instances (Penny), `npm run ship`, Paul's one-time Allow click for the writer's new mail scope (open the
+first scan after it builds the index (slow once), then loads are quick; check `blobs:get books-docs index/docs`. **Audit #10 built (CHANGELOG "Audit #10"; Paul: the to-books label, "ok, lets try it"): poller pushed to both instances,
+shipped 10-24 (web app @46, site `6add438a`); owed in order - Paul's one-time Allow click for the writer's new mail scope (open the
 editor, run selfTest, Allow), then his Gmail filters that apply `to-books` (Foremost, the bank's Zelle notices, PACER,
 Venmo), one at a time. Watch: the Inbox header's "Mail last checked", the first labelled email coming in, and the
 writer's hourly trigger log after the Allow.** `git push` owed after.
