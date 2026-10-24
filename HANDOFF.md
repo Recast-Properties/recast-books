@@ -11,9 +11,8 @@ there; a figure written here is only as of its date.
 agent reports and the live-store tally. **Built 10-24, tested (593), NOT deployed:** audit #1-#6 and #14 (CHANGELOG
 "the audit's first six changes"). Site deployed 10-24 (`6adcd34f`): the ingest's bank-line tie, the matcher's
 retire/reopen, the stuck-read retry, the cached document and the nightly Feed facts are live. Writer pushed 10-24 (Paul ran `clasp login`; `clasp pull` = repo): the swap-Save guard,
-the Save-path bank-line tie, the partner-money cards and the void that frees its line run in the sheet now. Web app deployed @41 (Paul, 10-24). First Citizens matcher run done 10-24: 7 cards retired on their own (CHANGELOG). Owed, in order -
-Paul's steps, one at a time: (4) `npm run deploy` (the sweep now ties a receipt saved split by house - the 52.85 card);
-(5) Recast Books -> Match statement lines... on Chase, then once more on Citizens; (6) `clasp deploy -i` with the next
+the Save-path bank-line tie, the partner-money cards and the void that frees its line run in the sheet now. Web app deployed @41 (Paul, 10-24). First Citizens matcher run done 10-24: 7 cards retired on their own (CHANGELOG). Site `6adcdcc9` deployed 10-24 (the
+sweep ties a receipt saved split by house). Owed, in order - Paul's steps, one at a time: (5) Recast Books -> Match statement lines... on Chase, then once more on Citizens; (6) `clasp deploy -i` with the next
 writer change (lib.gs changed again; nothing the web app runs uses it); (7) `git push`. The three Dennis's-card cards
 (Lowe's 08-10 130.87, Home Depot 09-24 90.23, 09-25 30.57) are real charges with no receipt - not leftovers; they wait
 on Dennis like the rest.

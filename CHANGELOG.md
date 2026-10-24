@@ -42,9 +42,9 @@ Paul: "ok. go" on the audit's ranked list. Built and tested, nothing deployed ye
   the matcher's summary box now says what the sweep did ("N cards cleared from the Inbox", "N lines looked at again").
   The three "leftover" cards of the morning's tally (Lowe's 08-10 130.87, Home Depot 09-24 90.23 and 09-25 30.57) were
   misread - they are real charges on Dennis's card with no receipt and no placeholder; they stay. Writer pushed again
-  (Menu.gs, lib.gs). Owed: `npm run deploy` (the sweep's group rule), Match statement lines on Chase and once more on
-  Citizens (ties the 52.85), `clasp deploy -i` with the next deploy (lib.gs changed; nothing the web app runs uses it),
-  `git push`. 594 tests. 593 tests, 592 pass, 1 skipped.
+  (Menu.gs, lib.gs). **Site `6adcdcc9` deployed by Paul 10-24** (the sweep's group rule). Owed: Match statement lines on Chase and once
+  more on Citizens (ties the 52.85), `clasp deploy -i` with the next deploy (lib.gs changed; nothing the web app runs
+  uses it), `git push`. 594 tests. 593 tests, 592 pass, 1 skipped.
 
 ## 2026-10-24 - System audit: receipts intake, poller, /api, bank statements, review (no code, no books changed)
 
