@@ -159,3 +159,80 @@ function linkMolallaReceipts() {
   console.log('linkMolallaReceipts: ' + pairs.length + ' receipts written on ' + journal + ' Journal lines; on the tab ' + linked +
     ' lines now open their receipt and ' + blank + ' have none (' + cells.length + ' lines on the tab).');
 }
+
+// 2026-10-24 Paul: "yes that's right. he left $10,000 in the citizens account for operating expenses." Dennis's two
+// payouts left Citizens 10-07 and were never recorded (D-083: a payout is recorded when the money leaves): 17,829.27
+// for 104 Ashburne (all interest - his principal was paid before the close) and 240,895.21 for 881 Newport in full
+// (his money back 209,765.23, his half of the profit 26,731.15, interest 4,398.83), of which 10,000.00 stayed in the
+// account as his working money - no house, no interest, owed back when he takes it out (D-055) - so the bank shows
+// 230,895.21. Three entries dated 10-07 (source sale with "paid to Dennis", so the closing tabs read them; the working
+// money manual), the two Feed lines tied (Newport's to both its entries), both closing tabs rewritten in place
+// (Paul's word), bank tabs refreshed. Safe to run twice: an entry already on the Journal is found by its memo.
+// STATUS: NOT YET RUN
+function recordDennisPayouts20261024() {
+  var props = PropertiesService.getScriptProperties();
+  var ss = openWorkbook_(props);
+  requireOwner_(ss);
+  var who = Session.getActiveUser().getEmail();
+  var date = '2026-10-07';
+  var journal = ss.getSheetByName('Journal');
+  var cols = headerIndex_(journal);
+  var data = journal.getRange(2, 1, journal.getLastRow() - 1, journal.getLastColumn()).getValues();
+  var g = function (r, n) { return r[cols[n] - 1]; };
+  var idByMemo = {}, docOf = {};
+  data.forEach(function (r) {
+    idByMemo[String(g(r, 'memo'))] = String(g(r, 'txn_id'));
+    if (/: settlement statement$/.test(String(g(r, 'memo')))) docOf[String(g(r, 'property'))] = String(g(r, 'doc_url') || '');
+  });
+  // what Dennis is owed on each house, live, by account - the payout clears exactly that
+  var owed = function (house, account) {
+    var t = 0;
+    data.forEach(function (r) { if (String(g(r, 'property')) === house && String(g(r, 'account')) === account) t += Math.round(Number(g(r, 'credit') || 0) * 100) - Math.round(Number(g(r, 'debit') || 0) * 100); });
+    return t;
+  };
+  var ashInterest = owed('104 Ashburne', '2000'), ashNote = owed('104 Ashburne', '2010');
+  var nwNote = owed('881 Newport', '2010'), nwInterest = owed('881 Newport', '2000'), nwShare = 2673115;
+  if (ashNote !== 0 || ashInterest !== 1782927) throw new Error('104 Ashburne: Dennis is owed ' + ashNote / 100 + ' + ' + ashInterest / 100 + ', expected 0 + 17,829.27 - nothing changed');
+  if (nwNote + nwInterest !== 24089521) throw new Error('881 Newport: Dennis is owed ' + (nwNote + nwInterest) / 100 + ', expected 240,895.21 - nothing changed');
+  var ctx = buildCtx_(ss);
+  ctx.properties.add('104 Ashburne'); ctx.properties.add('881 Newport');   // sold houses: the closing's own entries
+  var L = function (house, extra) { return Object.assign({ property: house, payee: 'Dennis Little', paid_from: '1401' }, extra); };
+  var want = [
+    { key: 'ashburne', memo: "104 Ashburne sale 2026-09-23: paid to Dennis - the rest of his money, interest (bank line of 10-07; Paul, 2026-10-24)",
+      entry: { type: 'journal', date: date, source: 'sale', posted_by: who, doc_url: docOf['104 Ashburne'] || '',
+        lines: [L('104 Ashburne', { account: '2000', debit: ashInterest, credit: 0, description: 'Paid to Dennis - his interest on 104 Ashburne' }),
+                L('104 Ashburne', { account: '1401', debit: 0, credit: ashInterest, description: 'Paid to Dennis - his interest on 104 Ashburne' })] } },
+    { key: 'newport', memo: "881 Newport sale 2026-10-02: paid to Dennis - principal, interest and his share (bank line of 10-07, 10,000.00 of it left in the account as his working money, D-055; Paul, 2026-10-24)",
+      entry: { type: 'journal', date: date, source: 'sale', posted_by: who, doc_url: docOf['881 Newport'] || '',
+        lines: [L('881 Newport', { account: '2010', debit: nwNote - nwShare, credit: 0, description: 'Paid to Dennis - his money back on 881 Newport' }),
+                L('881 Newport', { account: '2010', debit: nwShare, credit: 0, description: 'Paid to Dennis - his half of the 881 Newport profit' }),
+                L('881 Newport', { account: '2000', debit: nwInterest, credit: 0, description: 'Paid to Dennis - his interest on 881 Newport' }),
+                L('881 Newport', { account: '1401', debit: 0, credit: nwNote + nwInterest, description: 'Paid to Dennis - 881 Newport payout' })] } },
+    { key: 'working', memo: 'Working money Dennis left in the Citizens account out of his 881 Newport payout 2026-10-07, for operating expenses - no house, no interest; owed back when he takes it out (D-055)',
+      entry: { type: 'journal', date: date, source: 'manual', posted_by: who, doc_url: '',
+        lines: [L('', { account: '1401', debit: 1000000, credit: 0, description: 'Working money put into the account' }),
+                L('', { account: '2010', debit: 0, credit: 1000000, description: 'Working money put into the account' })] } }
+  ];
+  var toPost = [], idOf = {};
+  want.forEach(function (w) {
+    if (idByMemo[w.memo]) { idOf[w.key] = idByMemo[w.memo]; console.log(w.key + ': already recorded as ' + idOf[w.key]); return; }
+    var built = buildEntry(Object.assign({ memo: w.memo }, w.entry), ctx);
+    idOf[w.key] = built.txn_id;
+    toPost.push(built);
+  });
+  if (toPost.length) postBatchEntries_(toPost, props, true);
+  var tied = feedUpdateRows_(ss, [
+    { feed_id: '202610070000000553325204', status: 'matched', txn_id: idOf.ashburne, match_note: "Dennis's 104 Ashburne payout - the rest of his money, all interest (Paul, 2026-10-24)" },
+    { feed_id: '202610070000000553377272', status: 'matched', txn_id: idOf.newport + ', ' + idOf.working, match_note: "Dennis's 881 Newport payout in full, less the 10,000.00 he left in the account as working money (Paul, 2026-10-24)" }
+  ]);
+  ['104 Ashburne', '881 Newport'].forEach(function (house) {
+    var built = closingFromJournal_(ss, house);
+    if (!built) throw new Error('No posted sale for ' + house);
+    writeClosingTab_(ss, house, built, closingTabName_(house));
+    console.log(house + ': Dennis paid so far ' + (built.summary.paid.dennis_cents / 100).toFixed(2) + ', still owed ' + (built.summary.owed_after.dennis_cents / 100).toFixed(2));
+  });
+  refreshBankSheets_(ss);
+  warmCache_();
+  console.log('recordDennisPayouts20261024: ' + toPost.length + ' of 3 entries recorded (' + Object.keys(idOf).map(function (k) { return k + ' ' + idOf[k]; }).join(', ') +
+    '); ' + tied.updated + ' bank lines tied' + (tied.missing.length ? ' (not found: ' + tied.missing.join(', ') + ')' : '') + '.');
+}

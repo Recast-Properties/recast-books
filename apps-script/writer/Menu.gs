@@ -1417,14 +1417,17 @@ function closingFromJournal_(ss, name) {
   if (!ids.length) return null;
 
   var find = function (re) { for (var i = 0; i < ids.length; i++) if (re.test(entries[ids[i]].memo)) return entries[ids[i]]; return null; };
+  // A partner can be paid in more than one go (104 Ashburne: 550,000 before the close, the rest 10-07): every
+  // "paid to" entry counts toward paid so far, in Journal order; the first one still names the note / share split.
+  var findAll = function (re) { return ids.filter(function (id) { return re.test(entries[id].memo); }).map(function (id) { return entries[id]; }); };
   var settlement = find(/settlement statement/);
   var accrual = find(/interest accrued/);
   var trueUp = find(/true-up|adjustment to the figure/);
   var shareEntry = find(/of net profit/);
   var commissionEntry = find(/commission on the sale price/);
   var release = find(/released to COGS/);
-  var paidDennis = find(/paid to Dennis/);
-  var paidPaul = find(/paid to Paul/);
+  var paidDennisAll = findAll(/paid to Dennis/), paidPaulAll = findAll(/paid to Paul/);
+  var paidDennis = paidDennisAll[0] || null, paidPaul = paidPaulAll[0] || null;
   var shareOwed = find(/owed to him until he draws it/);   // D-084: Paul's undrawn share, on 2030 since the close
   if (!settlement || !release) return null;
 
@@ -1481,11 +1484,12 @@ function closingFromJournal_(ss, name) {
   var dennis2010 = paidDennis ? paidDennis.lines.filter(function (l) { return l.account === '2010'; }).map(function (l) { return l.cents; }) : [];
   var payDennisNote = dennis2010.length ? dennis2010[0] : 0;
   var payDennisShare = dennis2010.length > 1 ? dennis2010[1] : 0;
-  var payDennisInterest = at(paidDennis, '2000');
-  var payPaulDue = at(paidPaul, '2030');
-  var payPaulShare = at(paidPaul, '9010');
-  var paidDennisTotal = paidDennis ? -at(paidDennis, '1401') : 0;
-  var paidPaulTotal = paidPaul ? -at(paidPaul, '1401') : 0;
+  var atAll = function (list, account) { return list.reduce(function (t, e) { return t + at(e, account); }, 0); };
+  var payDennisInterest = atAll(paidDennisAll, '2000');
+  var payPaulDue = atAll(paidPaulAll, '2030');
+  var payPaulShare = atAll(paidPaulAll, '9010');
+  var paidDennisTotal = -atAll(paidDennisAll, '1401');
+  var paidPaulTotal = -atAll(paidPaulAll, '1401');
 
   var balances = propertyBalances_(ss, name);
   // Recast's share of a co-owned sale is not stored anywhere but the entries' own memo
@@ -1552,7 +1556,7 @@ function closingFromJournal_(ss, name) {
       paul_due_cents: payPaulDue, paul_share_cents: payPaulShare
     },
     retained_cents: cash - paidDennisTotal - paidPaulTotal,
-    paid_dates: { dennis: paidDennis ? paidDennis.date : '', paul: paidPaul ? paidPaul.date : '' },
+    paid_dates: { dennis: paidDennisAll.length ? paidDennisAll[paidDennisAll.length - 1].date : '', paul: paidPaulAll.length ? paidPaulAll[paidPaulAll.length - 1].date : '' },
     owed_after: {
       // his money back AND his interest: a bank deal paid in part before the close leaves interest owed (104 Ashburne)
       dennis_cents: -Math.round((balances['2010'] || 0) + (balances['2000'] || 0)),
