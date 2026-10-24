@@ -159,39 +159,3 @@ function linkMolallaReceipts() {
   console.log('linkMolallaReceipts: ' + pairs.length + ' receipts written on ' + journal + ' Journal lines; on the tab ' + linked +
     ' lines now open their receipt and ' + blank + ' have none (' + cells.length + ' lines on the tab).');
 }
-
-// 2026-10-24 Paul: "i think i accidentally paid my truck payment from this account" - the Chase line of 10-14, Online
-// Payment 31209116906 To ALA 1201, 574.63, is his personal truck loan (Chase auto loan ...1201, VROOM) paid from the
-// Recast Chase account. His own money out, no cost to Recast (Dr 2030 / Cr 1402, no house - as his 30,000 draw of the
-// same day); the Feed line tied, its card retired, bank tabs refreshed. Safe to run twice (found by memo).
-// STATUS: NOT YET RUN
-function recordTruckPaymentDraw20261024() {
-  var props = PropertiesService.getScriptProperties();
-  var ss = openWorkbook_(props);
-  requireOwner_(ss);
-  var who = Session.getActiveUser().getEmail();
-  var journal = ss.getSheetByName('Journal');
-  var cols = headerIndex_(journal);
-  var memo = "Paul's truck loan payment (Chase auto loan ...1201, VROOM) paid from the Recast Chase account by mistake 2026-10-14 - his own money out, no cost to Recast (Paul, 2026-10-24)";
-  var id = '';
-  journal.getRange(2, cols['memo'], journal.getLastRow() - 1, 1).getValues().forEach(function (r, i) { if (!id && String(r[0]) === memo) id = String(journal.getRange(i + 2, cols['txn_id']).getValue()); });
-  if (id) { console.log('already recorded as ' + id); }
-  else {
-    var line = { property: '', payee: 'Paul Bjork', description: 'Working money taken out of the account - his truck loan payment, paid from Recast by mistake', paid_from: '1402' };
-    var built = buildEntry({ type: 'journal', date: '2026-10-14', source: 'manual', posted_by: who, doc_url: '', memo: memo,
-      lines: [Object.assign({ account: '2030', debit: 57463, credit: 0 }, line),
-              Object.assign({ account: '1402', debit: 0, credit: 57463 }, line)] }, buildCtx_(ss));
-    postBatchEntries_([built], props, true);
-    id = built.txn_id;
-  }
-  var note = "Paul's truck loan payment (Chase auto loan ...1201), paid from the Recast account by mistake - his own money out (Paul, 2026-10-24)";
-  var tied = feedUpdateRows_(ss, [{ feed_id: '202610141', status: 'matched', txn_id: id, match_note: note }]);
-  var retired = 0;
-  try {
-    var r = siteFetchJson_('/api/inbox', 'post', { action: 'dismiss', docId: 'feed-1402-202610141', note: note, by: 'claude', only_pending: true });
-    if (r && r.status === 'dismissed') retired++;
-  } catch (e) { console.log('card not retired: ' + e); }
-  refreshBankSheets_(ss);
-  warmCache_();
-  console.log('recordTruckPaymentDraw20261024: ' + id + '; ' + tied.updated + ' bank line tied; ' + retired + ' card retired.');
-}

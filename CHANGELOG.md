@@ -1,6 +1,17 @@
 # Changelog
 
 
+## 2026-10-24 (afternoon) - The 574.63 Chase payment "To AL": Paul's truck loan, paid from Recast by mistake
+
+Paul did not know the 10-14 line "Online Payment 31209116906 To AL"; nothing in his mail or the books named it (the
+QFX cuts the payee at 32 characters, the memo carries "A 1201"). He opened it in Chase: VROOM ACCOUNT ...1201, a Chase
+auto loan, "Loan payment" 574.63 - "i think i accidentally paid my truck payment from this account" (his debit card
+only arrived 10-22; this is a bill payment, not a card). One-off `recordTruckPaymentDraw20261024` (commit 4c0cec8),
+run from the editor by Penny 13:17 CDT: `manual-20261014-246c56d5cf36`, Dr 2030 / Cr 1402 574.63, no house - his own
+money out, no cost to Recast (D-078: his personal items never become a Recast cost); the Feed line tied, the card
+retired. Read back: every Chase line is tied; the Chase Bank box has 118,439.75 in the books against the bank's
+118,444.75, the 5.00 Telnyx charge after the file's last day being the whole gap. One-off out.
+
 ## 2026-10-24 (afternoon) - Dennis's two payouts of 10-07 are in the books; 10,000 of Newport's stayed in as his working money
 
 Paul: "yes that's right. he left $10,000 in the citizens account for operating expenses." One-off
