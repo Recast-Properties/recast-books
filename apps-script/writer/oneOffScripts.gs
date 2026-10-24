@@ -159,3 +159,24 @@ function linkMolallaReceipts() {
   console.log('linkMolallaReceipts: ' + pairs.length + ' receipts written on ' + journal + ' Journal lines; on the tab ' + linked +
     ' lines now open their receipt and ' + blank + ' have none (' + cells.length + ' lines on the tab).');
 }
+
+// 2026-10-24 - the two Mariana Martinez receipt records in the Inbox store still name the entries voided today
+// (re-posted paid from Chase, CHANGELOG "Mariana Martinez's two Zelles"). mark-posted with repoint:true (site
+// 6add1ddf) moves each onto its live entry. Nothing on the Journal changes. Safe to run twice.
+// STATUS: NOT YET RUN
+function repointMarianaRecords20261024() {
+  var ss = openWorkbook_(PropertiesService.getScriptProperties());
+  requireOwner_(ss);
+  var who = Session.getActiveUser().getEmail();
+  var moves = [
+    { docId: 'gm-1a132380fd81f253', to: 'receipt-20261012-c9dbcd2427b4' },
+    { docId: 'gm-1a13d720f8a1aa80', to: 'receipt-20261014-e2d5e17b44c4' }
+  ];
+  var done = [];
+  moves.forEach(function (m) {
+    var r = siteFetchJson_('/api/inbox', 'post', { action: 'mark-posted', docId: m.docId, txn_ids: [m.to], repoint: true, by: who,
+      note: 'Re-posted paid from Chase 2026-10-24 (the Zelle left the Recast Chase account); the earlier entry is voided' });
+    done.push(m.docId + ' -> ' + m.to + ' (' + ((r && r.status) || 'no answer') + (r && r.repointed ? ', repointed' : '') + ')');
+  });
+  console.log('repointMarianaRecords20261024: ' + done.join('; '));
+}
