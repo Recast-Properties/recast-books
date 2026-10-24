@@ -1,6 +1,22 @@
 # Changelog
 
 
+## 2026-10-24 (afternoon) - Dennis's two payouts of 10-07 are in the books; 10,000 of Newport's stayed in as his working money
+
+Paul: "yes that's right. he left $10,000 in the citizens account for operating expenses." One-off
+`recordDennisPayouts20261024` (commit d8f8dd1), run from the editor by Penny 13:06 CDT: `sale-20261007-2bae4fbf6a3a` -
+104 Ashburne, 17,829.27 to Dennis, all interest (his principal was paid before the close); `sale-20261007-f392649df9a0` -
+881 Newport, 240,895.21 to Dennis in full (money back 209,765.23, half the profit 26,731.15, interest 4,398.83);
+`manual-20261007-e6cdf9f2384d` - 10,000.00 of it left in Citizens as his working money, no house, no interest (D-055).
+The two unmatched Citizens lines of 10-07 are tied (Newport's to both its entries - the bank shows 230,895.21), both
+closing tabs rewritten in place on Paul's word. Read back: 104 Ashburne - Closing reads Paid to Dennis 567,829.27,
+Still owed 0.00, Retained 0.00, payouts = cash received; 881 Newport - Closing reads Dennis paid 240,895.21, owed 0.00
+(Paul still owed 27,609.53); Dennis's 2010 and 2000 net to zero on both houses; the Citizens box no longer carries the
+two "waiting for the closing" lines. `closingFromJournal_` (Menu.gs) now counts EVERY "paid to Dennis / Paul" entry
+toward paid so far and takes the latest one's date - before this the second payment to a partner was left out of the
+PAYOUTS block (Ashburne would have read Paid to Dennis 550,000.00 with 17,829.27 "retained"). Menu.gs only, the sheet
+runs it on the push; no deploy needed. One-off out.
+
 ## 2026-10-24 (afternoon) - Mariana Martinez's two Zelles were paid from Chase, not by Paul
 
 Paul: "yes paid from recast chase." The 300.00 of 10-12 (cleaning, 241 Poinsetta, posted by the bookkeeper as paid by
