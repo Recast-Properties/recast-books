@@ -967,6 +967,10 @@ test("a bank statement card speaks of the bank, not a receipt; a question is not
   const summary = new Function(menuSource.slice(menuSource.indexOf("function feedMatchSummary_("), menuSource.indexOf("\n}\n", menuSource.indexOf("function feedMatchSummary_(")) + 3) + " return feedMatchSummary_;")();
   assert.equal(summary({ total: 3, matched: 1, cards: 0, later: 2, none: 0 }).split("\n")[2], "None need your word.");
   assert.equal(summary({ total: 8, matched: 1, cards: 5, later: 2, none: 0 }).split("\n")[2], "5 need your word - they are in the Inbox (Recast Books -> Inbox..., the Bank statement tab).");
+  // audit 2026-10-24: what the run tidied before asking the model
+  const tidy = summary({ total: 2, matched: 0, cards: 0, later: 2, none: 0, retired: 7, reopened: 1 }).split("\n");
+  assert.equal(tidy[4], "7 cards cleared from the Inbox - the receipt was already in the books.");
+  assert.equal(tidy[5], "1 line looked at again - its card was gone.");
 });
 
 // 2026-10-06, Paul: "i will never know the sale price or settlement date the day i buy the property" - Add property

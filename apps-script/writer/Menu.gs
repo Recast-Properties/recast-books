@@ -1928,6 +1928,9 @@ function feedMatchSummary_(s) {
     s.cards ? s.cards + ' need your word - they are in the Inbox (Recast Books -> Inbox..., the Bank statement tab).' : 'None need your word.'];
   if (s.later) out.push(s.later + ' wait for a sale to close.');
   if (s.none) out.push(s.none + ' got no answer - run this again.');
+  // Audit 2026-10-24 #1, #2a: what the run tidied before asking the model.
+  if (s.retired) out.push(s.retired + (s.retired === 1 ? ' card' : ' cards') + ' cleared from the Inbox - the receipt was already in the books.');
+  if (s.reopened) out.push(s.reopened + (s.reopened === 1 ? ' line' : ' lines') + ' looked at again - its card was gone.');
   out.push('Each line\'s note is in the match_note column of the Feed tab.');
   return out.join('\n');
 }

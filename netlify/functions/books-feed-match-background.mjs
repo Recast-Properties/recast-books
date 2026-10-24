@@ -17,7 +17,7 @@ import {
 import { cardsForLines, loadSummaries } from "../../lib/bank-mail.mjs";
 import { flattenJournalLines, buildPostedEntries, tradesByProperty } from "./books-ingest-background.mjs";
 import { buildCandidates, runMatcher, applyVerdicts } from "../../lib/feed-match.mjs";
-import { candidateFor } from "../../lib/feed-tie.mjs";
+import { candidatesFor } from "../../lib/feed-tie.mjs";
 import { toCents } from "../../lib/money.mjs";
 import { jobKey } from "./books-feed-match.mjs";
 
@@ -71,11 +71,12 @@ export function retirePendingCards({ pendingCards, rows, candidates, used }) {
     }
     if (!lines.every((l) => l.status === "proposed" && !l.txn_id)) continue;
     const total = lines.reduce((t, l) => t + l.amount_cents, 0);
-    const c = candidateFor(candidates, { amount_cents: total, date: lines[0].date }, used);
-    if (!c) continue;
-    used.add(c.txn_id);
-    const note = `The receipt came in and was recorded (${c.txn_id}); the bookkeeper tied it`;
-    for (const l of lines) updates.push({ feed_id: l.feed_id, status: "matched", txn_id: c.txn_id, match_note: note });
+    const found = candidatesFor(candidates, { amount_cents: total, date: lines[0].date }, used);   // one entry, or one receipt split by house
+    if (!found.length) continue;
+    found.forEach((c) => used.add(c.txn_id));
+    const txn_id = found.map((c) => c.txn_id).join(", ");
+    const note = `The receipt came in and was recorded (${txn_id}); the bookkeeper tied it`;
+    for (const l of lines) updates.push({ feed_id: l.feed_id, status: "matched", txn_id, match_note: note });
     dismissed.push({ card, note });
   }
   return { updates, dismissed };

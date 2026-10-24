@@ -1,7 +1,7 @@
 // test/feed-tie.test.mjs - audit 2026-10-24 #1: which open bank line a posted entry pays for.
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { bankMovements, openLineFor, candidateFor, TIE_DAYS } from "../lib/feed-tie.mjs";
+import { bankMovements, openLineFor, candidateFor, candidatesFor, TIE_DAYS } from "../lib/feed-tie.mjs";
 
 const isBank = (code) => code === "1401" || code === "1402";
 const purchase = (date, cents, account = "1401") => ({ date, txn_id: `receipt-${date}-x`, lines: [{ account: "1030", debit: cents, credit: 0 }, { account, debit: 0, credit: cents }] });
@@ -33,4 +33,17 @@ test("candidateFor: the one untied entry with the line's signed amount within TI
   assert.equal(candidateFor(cands, { amount_cents: -35000, date: "2026-10-14" }, new Set(["r1"])), null, "spent already");
   assert.equal(candidateFor([...cands, { txn_id: "r4", date: "2026-10-15", amount_cents: -35000 }], { amount_cents: -35000, date: "2026-10-14" }), null, "two fit: ambiguous");
   assert.equal(candidateFor(cands, { amount_cents: 35000, date: "2026-10-14" }), null, "the sign matters: money in is not money out");
+});
+
+test("candidatesFor: a receipt split by house (D-041) is one group of same-payee same-date entries adding up to the line; two such groups, or a single plus a group, is nobody's", () => {
+  const split = [
+    { txn_id: "a", date: "2026-10-06", amount_cents: -1000, payee: "The Home Depot" },
+    { txn_id: "b", date: "2026-10-06", amount_cents: -4285, payee: "The Home Depot" },
+    { txn_id: "c", date: "2026-10-06", amount_cents: -4285, payee: "Lowe's" },
+  ];
+  assert.deepEqual(candidatesFor(split, { amount_cents: -5285, date: "2026-10-06" }).map((c) => c.txn_id), ["a", "b"]);
+  assert.deepEqual(candidatesFor(split, { amount_cents: -4285, date: "2026-10-06" }), [], "two single entries fit: ambiguous");
+  assert.deepEqual(candidatesFor(split, { amount_cents: -5285, date: "2026-10-06" }, new Set(["a"])), [], "a spent entry breaks the group");
+  const two = [...split, { txn_id: "d", date: "2026-10-05", amount_cents: -5285, payee: "Lowe's" }];
+  assert.deepEqual(candidatesFor(two, { amount_cents: -5285, date: "2026-10-06" }).map((c) => c.txn_id), ["d"], "a single entry wins over a group");
 });

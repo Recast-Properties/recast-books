@@ -33,8 +33,18 @@ Paul: "ok. go" on the audit's ranked list. Built and tested, nothing deployed ye
   Mariana Martinez 350.00 of 10-14 was saved as paid by Paul while Chase 1402 shows the Zelle - Paul's word.
 - **Site deployed by Paul 10-24: `6adcd34f`** (the ingest tie, the matcher retire/reopen, the stuck-read retry, the cached
   document, the nightly Feed facts are live). **Writer pushed 10-24 after Paul's `clasp login`; `clasp pull` says live = repo** (the sheet's Inbox and menus run
-  it now). **Writer web app deployed @41 by Paul 10-24.** Owed: one Match statement lines run on Citizens and on Chase (the
-  clean-up), `git push`. 593 tests, 592 pass, 1 skipped.
+  it now). **Writer web app deployed @41 by Paul 10-24.** First Match statement lines run on Citizens (Paul, 10-24): the sweep
+  retired 7 cards on its own - Target 2.65, Family Dollar 5.63, Home Depot 3.14 / 3.65 / 71.38 (receipts Paul had saved),
+  the 61.91 Home Depot refund (the 10-23 return) and the 09-21 Home Depot 90.67 (its 09-18 receipt) - each Feed row tied
+  to its entry, each card dismissed by claude with the entry named. Not retired: the 52.85 of 10-06 - its receipt was
+  saved as two entries (OVERHEAD + 658 Erin Hills, D-041) and the sweep looked for one. **Fixed the same hour:**
+  `candidatesFor` in `lib/feed-tie.mjs` also takes the one group of same-payee same-date entries that add up to the line;
+  the matcher's summary box now says what the sweep did ("N cards cleared from the Inbox", "N lines looked at again").
+  The three "leftover" cards of the morning's tally (Lowe's 08-10 130.87, Home Depot 09-24 90.23 and 09-25 30.57) were
+  misread - they are real charges on Dennis's card with no receipt and no placeholder; they stay. Writer pushed again
+  (Menu.gs, lib.gs). Owed: `npm run deploy` (the sweep's group rule), Match statement lines on Chase and once more on
+  Citizens (ties the 52.85), `clasp deploy -i` with the next deploy (lib.gs changed; nothing the web app runs uses it),
+  `git push`. 594 tests. 593 tests, 592 pass, 1 skipped.
 
 ## 2026-10-24 - System audit: receipts intake, poller, /api, bank statements, review (no code, no books changed)
 
