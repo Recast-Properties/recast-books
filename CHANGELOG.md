@@ -1,6 +1,17 @@
 # Changelog
 
 
+## 2026-10-24 (afternoon) - Paul's 30,000 out of Chase; the 2,000 earnest-money line tied
+
+Paul: "Yes - the 30,000.00 to checking 8870 on 10-14 is me taking my own money out of the Recast Chase account. Record
+it as paid to me." One-off `recordPaulDraw20261024` (commit 698715e), run from the editor by Penny 10:09 CDT:
+`manual-20261014-711c18794e32`, Dr 2030 / Cr 1402 30,000.00 dated 10-14, no house (D-055), its Feed line tied and its
+card retired. The same run tied the Chase deposit of 09-28 (Feed 202609280, 2,000.00) to the Ashburne settlement entry
+`sale-20260923-5a1506ca784f` that already carries it on 1402 (D-051; settled, not re-asked) and retired that card. Read
+back: the Chase Bank box says 119,664.38 in the books against the bank's 118,444.75, the three open lines (Mariana 300
+and 350, the 574.63 to "AL") and the 5.00 Telnyx after the file's last day being the whole gap; Chase's 1402 balance on
+the Journal is 119,664.38. One-off out.
+
 ## 2026-10-24 (afternoon) - Paul's 104 Ashburne payout: the 147,729.38 wire from Citizens to Chase is in the books
 
 Paul: "Yes - the 147,729.38 wire on 10-09 is my 104 Ashburne payout, moved from Citizens into the Recast Chase account.
