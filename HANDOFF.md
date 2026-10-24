@@ -12,8 +12,10 @@ agent reports and the live-store tally. **Built 10-24, tested (593), NOT deploye
 "the audit's first six changes"). Site deployed 10-24 (`6adcd34f`): the ingest's bank-line tie, the matcher's
 retire/reopen, the stuck-read retry, the cached document and the nightly Feed facts are live. Writer pushed 10-24 (Paul ran `clasp login`; `clasp pull` = repo): the swap-Save guard,
 the Save-path bank-line tie, the partner-money cards and the void that frees its line run in the sheet now. Web app deployed @41 (Paul, 10-24). First Citizens matcher run done 10-24: 7 cards retired on their own (CHANGELOG). Site `6adcdcc9` deployed 10-24 (the
-sweep ties a receipt saved split by house). Owed, in order - Paul's steps, one at a time: (5) Recast Books -> Match statement lines... on Chase, then once more on Citizens; (6) `clasp deploy -i` with the next
-writer change (lib.gs changed again; nothing the web app runs uses it); (7) `git push`. The three Dennis's-card cards
+sweep ties a receipt saved split by house). Citizens run again 10-24: 1 more card cleared (the 52.85) - 8 of the morning's 30 gone by code. Owed, in order -
+Paul's steps, one at a time: (5) Recast Books -> Match statement lines... on Chase (NOT yet run); (6) `clasp deploy -i`
+with the next writer change (lib.gs changed after @41; nothing the web app runs uses it); (7) `git push` - commits
+000dd25..HEAD are local only (the auto-mode check refuses the push from a session). The three Dennis's-card cards
 (Lowe's 08-10 130.87, Home Depot 09-24 90.23, 09-25 30.57) are real charges with no receipt - not leftovers; they wait
 on Dennis like the rest.
 **Still Paul's word:** the five partner-money cards (147,729.38 out and in 10-09, 30,000 to 8870 10-14, 2,000 deposit
@@ -228,7 +230,12 @@ lines = 272, the Frozen tab's summary numbers unchanged, take the one-off out, p
 
 ## Prompt for the next session
 
-> Work in `/Users/paulbjork/Desktop/Claude/Recast-books`. Read `CLAUDE.md`, then `HANDOFF.md`. I ran
-> `linkMolallaReceipts`. Read the tab `1014 S View - Frozen` and the Journal back, tell me in plain words whether every
-> line opens its receipt, close the one-off out, and then tell me the one next step for the lines that still have no
-> receipt.
+> Work in `/Users/paulbjork/Desktop/Claude/Recast-books`. Read `CLAUDE.md`, then `HANDOFF.md` (the 2026-10-24 section
+> first), then `docs/audit-2026-10-24.md` section 3. The audit's items 1-6 and 14 are built, deployed (site `6adcdcc9`,
+> writer @41 + a later push) and tested (594). Pick up in this order, one step at a time and in plain words: (a) I run
+> Match statement lines on Chase and paste the box - read the Inbox back with the Netlify CLI (`blobs:list books-docs
+> --prefix doc/feed-`), not the API; (b) the clasp deploy and `git push` are mine - hand me each as one command;
+> (c) the five partner-money bank cards and the Mariana Martinez 350 payer need my word - ask, then book them;
+> (d) then audit item 7 (learn an unknown card number once), 8 (the ship script with a commit stamp), 9 (the index
+> blob), 10 (the poller's `to-books` label and heartbeat), each with tests, each recorded in CHANGELOG/HANDOFF and
+> committed. The audit's section 6 lists the decisions only I can make - ask them when they come up, not all at once.
