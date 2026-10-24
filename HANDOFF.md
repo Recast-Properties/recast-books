@@ -5,6 +5,28 @@ history and are not written to; `CHANGELOG.md` keeps its dated entry per change.
 `docs/ops.md`. The books' numbers live on the workbook's tabs (P&L, Totals, Citizens Bank, the house tabs) - read them
 there; a figure written here is only as of its date.
 
+## 2026-10-24 (afternoon) - the partner money, booked one card at a time (session cut off by the usage limit)
+
+**Booked on Paul's word 10-24, each read back on the sheets (CHANGELOG has the ids):** his 104 Ashburne payout
+147,729.38 wired Citizens -> Chase 10-09 (payout + his working money in Chase + 25.00 fee; the Ashburne closing tab
+says Paid to Paul 147,729.38 and ties); his 30,000.00 out of Chase to personal 8870 on 10-14; the 2,000 earnest-money
+Chase line tied (D-051); Mariana Martinez's 300 (Poinsetta) and 350 (Erin Hills) re-posted paid from Chase. Nine bank
+cards retired. **Writer web app @42 deployed by Paul 10-24.**
+**Pushed, NOT RUN - run it first:** one-off `recordDennisPayouts20261024` in `oneOffScripts.gs` (commit d8f8dd1; Paul:
+"yes that's right. he left $10,000 in the citizens account for operating expenses"): Dennis's 10-07 payouts - 17,829.27
+Ashburne (all interest) and 240,895.21 Newport in full, with 10,000.00 of it his working money in Citizens (D-055) -
+ties the two unmatched Citizens lines, rewrites both closing tabs. Penny runs it from the editor (Run dropdown, drag
+or click, verify aria-selected), reads back both closing tabs (Dennis still owed 0 on both) and the Citizens box, takes
+the one-off out, pushes, records. The same commit made `closingFromJournal_` count EVERY "paid to Dennis / Paul" entry
+toward paid so far (Menu.gs only; no deploy needed) - check Ashburne's PAYOUTS block reads Paid to Dennis 567,829.27.
+**Still Paul's word:** the Chase 574.63 "Online Payment 31209116906 To AL" of 10-14 (who, which house); the Citizens
+500.00 Zelle in from Charvale Productions LLC 09-30 (the bank notice has no memo). **Small fix owed:** the Inbox store's
+two Mariana receipt records (`gm-1a132380fd81f253`, `gm-1a13d720f8a1aa80`) still name the voided entries - let
+mark-posted in `books-inbox.mjs` re-point a posted record whose entries are all voided, then re-point them. Then
+audit items 7-10 (not started). `git push` owed (commits since 074a8dc are local).
+**Noted:** Match statement lines never offers a bank whose every open line already has a card (`unmatchedFeedCounts_`
+counts `unmatched` only), so the ten-day sweep cannot run there until a card is dismissed - recorded, not changed.
+
 ## 2026-10-24 - the system audit, and its first six changes built and deployed (owed: the push)
 
 `docs/audit-2026-10-24.md` is the ranked list (ten changes; no rebuild); `docs/audit-2026-10-24-agents.md` holds the five
