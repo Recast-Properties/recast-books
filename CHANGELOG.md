@@ -1,6 +1,21 @@
 # Changelog
 
 
+## 2026-10-24 (afternoon) - Mariana Martinez's two Zelles were paid from Chase, not by Paul
+
+Paul: "yes paid from recast chase." The 300.00 of 10-12 (cleaning, 241 Poinsetta, posted by the bookkeeper as paid by
+Paul) and the 350.00 of 10-14 (cleaning, 658 Erin Hills, saved by Paul as paid by Paul) both left the Recast Chase
+account by the bank file. One-off `fixMarianaPaidFrom20261024` (commit 648443c), run from the editor by Penny 10:21 CDT:
+each entry voided on its own date and posted again paid from 1402 - `receipt-20261012-c9dbcd2427b4` (300.00) and
+`receipt-20261014-e2d5e17b44c4` (350.00), same house, trade and receipt link; the Chase lines of 10-13 and 10-14 tied
+to them and their cards retired; both house tabs refreshed. What Recast owes Paul is 650.00 less. Read back: the Chase
+Bank box has 119,014.38 in the books against the bank's 118,444.75 - the one open line (574.63 to "AL") and the 5.00
+Telnyx after the file's last day are the gap; the Poinsetta tab's Mariana row carries the new entry. **Not done:** the
+two receipt records in the Inbox store (`gm-1a132380fd81f253`, `gm-1a13d720f8a1aa80`) still name the voided entries -
+`/api/inbox` mark-posted refuses a record already posted unless the ids are the same, and mark-pending reverts only
+an in-process post. Fix with the next `books-inbox.mjs` change: let mark-posted re-point a posted record whose
+entries are all voided on the Journal, then re-point these two. One-off out.
+
 ## 2026-10-24 (afternoon) - Paul's 30,000 out of Chase; the 2,000 earnest-money line tied
 
 Paul: "Yes - the 30,000.00 to checking 8870 on 10-14 is me taking my own money out of the Recast Chase account. Record
