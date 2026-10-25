@@ -5,11 +5,12 @@ history and are not written to; `CHANGELOG.md` keeps its dated entry per change.
 `docs/ops.md`. The books' numbers live on the workbook's tabs (P&L, Totals, Citizens Bank, the house tabs) - read them
 there; a figure written here is only as of its date.
 
-## 2026-10-25 - the audit's second list is done; #19 built, not yet shipped (START HERE)
+## 2026-10-25 - the audit's list is done; #19 live, Paul's look at the Inbox pending (START HERE)
 
-**#19 built 10-25 (615 tests), committed - owed: Paul runs `npm run ship`.** The Inbox card's logic is
+**#19 live since 10-25 14:01 CT - web app @52, site `6ade522d`, 15 files (InboxCard.html among them), read-back OK; 615
+tests.** The Inbox card's logic is
 `lib/inbox-card.mjs`, included by the dialog as the generated `InboxCard.html` (build-gs writes it; the test keeps it
-in sync); the card reads exactly as before. **Watch after the ship - the one real check:** Paul opens Recast Books ->
+in sync); the card reads exactly as before. **Owed - the one real check, not yet done:** Paul opens Recast Books ->
 Inbox... once: the list must render, a card must open with its bullets, totals line and yellow box, and Save /
 Dismiss all must behave as before. A blank card or a "... is not defined" message means a global the dialog expects is
 missing - tell Claude (the include order is Style, InboxCard, then the dialog's own script).

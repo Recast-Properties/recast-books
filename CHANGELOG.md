@@ -14,7 +14,8 @@ from gate.mjs, `PLAIN_WORDS` from plain-words.mjs) are stripped by the build and
 `test/inbox-card.test.mjs` imports the module - every assertion the three `new Function` tests made, plus a few the
 old shape could not (the dialog's copy run under `vm` with the same globals; the include is in sync; nothing is
 defined twice; the call sites pass the state). The lints that reached into Inbox.html for those words now read the
-module. 615 tests. The audit's second list (#11-#19) is complete. Shipping: Paul's `npm run ship` (Inbox.html changed).
+module. 615 tests. The audit's second list (#11-#19) is complete. **Shipped by Paul 10-25 14:01 CT: web app @52, site
+`6ade522d`, 15 files pushed (InboxCard.html among them), read-back OK.** Paul's look at the Inbox: pending.
 
 ## 2026-10-25 - Audit #18: the poller skips logo-sized pictures, and the cutover-era Listing.gs is out of both pollers
 
