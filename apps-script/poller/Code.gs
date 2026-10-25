@@ -746,7 +746,7 @@ var GATE_TEXT = {
   LOW_CONFIDENCE: 'Claude is not sure of the amounts - check them against the receipt, then Save',
   MISSING_VENDOR: 'Claude could not read the store name - click Reprocess, or Dismiss all',
   MISSING_DATE: 'Claude could not read the date - click Reprocess, or Dismiss all',
-  BAD_DATE: 'The date looks wrong - click Reprocess, or Dismiss all',
+  BAD_DATE: 'Dated in the future, or not a real date - a payment that has not happened yet is not a receipt: Dismiss all, the receipt comes when it is paid',
   ZERO_TOTAL: 'Claude could not read the total - type the amounts, or Dismiss all',
   OVER_CEILING: 'Too big for Claude to record on its own - check it, then Save',
   TOTAL_MISMATCH: 'The items do not add up to the receipt total - fix the amounts',

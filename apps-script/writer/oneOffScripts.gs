@@ -162,3 +162,19 @@ function linkMolallaReceipts() {
   console.log('linkMolallaReceipts: ' + pairs.length + ' receipts written on ' + journal + ' Journal lines; on the tab ' + linked +
     ' lines now open their receipt and ' + blank + ' have none (' + cells.length + ' lines on the tab).');
 }
+
+// 2026-10-25 Paul: the Klarna "Upcoming lease payment" email of 10-25 is a warning of an automatic payment, not a
+// payment, and should never have been a card. The bookkeeper read it as post dated 10-28, the date check held it,
+// and it sat in the Inbox. Dismisses that one card through the same call the Inbox's Dismiss all makes; nothing is
+// posted. The rule itself is in the prompt now ("A payment that has not happened yet"); the receipt is the
+// "Lease payment received" email Klarna sends on 10-28. Safe to run twice (a second dismiss is a no-op).
+// STATUS: NOT YET RUN
+function dismissKlarnaNotice20261025() {
+  var r = inboxDismiss({
+    docId: 'gm-1a1753cba75fe1ec',
+    note: 'Not a payment yet - Klarna charges the card on 10-28 and the receipt comes then (Penny, 2026-10-25)',
+    feed: null
+  });
+  Logger.log(JSON.stringify(r));
+  if (!r.ok) throw new Error('dismiss failed: ' + r.error + ' - ' + r.message);
+}

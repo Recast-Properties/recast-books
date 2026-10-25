@@ -1,5 +1,32 @@
 # Changelog
 
+## 2026-10-25 - A payment that has not happened yet is not a receipt (the Klarna notice)
+
+Paul: "this is an email warning me of an upcoming automatic payment, not a payment. it says so in the email. the ai
+part of the poller should have understood this and not put it in the inbox."
+- What happened: Klarna's "Upcoming lease payment" email of 10-25 (the Apple MacBook lease, 57.99 due 10-28) came to
+  receipts@ on its own (Klarna has mailed the books' address directly since the 10-04 address change). The bookkeeper
+  read it right - its working says "$57.99 will be charged ... on October 28" and "the charge itself falls on 10-28,
+  three days after this notice" - and still said post, dated 10-28. The date check (BAD_DATE: a future date never
+  posts) held it, so it sat in the Inbox as a card. The prompt had no rule for a notice of a payment still to come;
+  its nearest neighbour, D-046, says a utility's bill notice posts.
+- The rule, `lib/bookkeeper-prompt.md` "A payment that has not happened yet": upcoming payment, "will be charged on
+  <a later date>", payment due, a reminder to keep money on the card - nothing was paid; `dismiss`, confidence high,
+  `why` in Paul's words; the receipt is the vendor's "payment received" email on the day (Klarna sends both, three
+  days apart); a date after today is the tell - never move the date to the charge day and post, never hold it for
+  Paul. A bill for work already done still posts (D-046). The dismiss definition in "Ending the loop" names it too.
+- The card's words for BAD_DATE (`lib/inbox-card.mjs`, the generated `InboxCard.html`, the digest's copy in the
+  poller's `Code.gs`): "Dated in the future, or not a real date - a payment that has not happened yet is not a receipt:
+  Dismiss all, the receipt comes when it is paid".
+- The card itself: dismissed by Penny from the editor (`dismissKlarnaNotice20261025` in `oneOffScripts.gs`, run 16:22
+  PT, `{"ok":true}`) with the note "Not a payment yet - Klarna charges the card on 10-28 and the receipt comes then";
+  `gm-1a1753cba75fe1ec` reads dismissed in the live store. Writer pushed (the dialog's words, the one-off; no deploy
+  needed - Code.gs and lib.gs unchanged); both pollers pushed and verified by pull. 626 tests.
+- Owed: Paul's `npm run ship` - the prompt reaches the live bookkeeper only on the Netlify deploy.
+- Flag, not chased: the notice names card 7416, on file as Recast's Chase card (1402); the Aug and Sep lease payments
+  were recorded as paid by Paul personally (6510 OVERHEAD with the 2030 offset). The 10-28 "Lease payment received"
+  email shows the card; the bookkeeper uses the card shown.
+
 ## 2026-10-25 - The look back for guessed houses: one in 164; and a sold house's mailbox stands for Cost Recapture
 
 Paul: "look back over the receipts the bookkeeper posted on its own since the cutover and list any where it guessed the

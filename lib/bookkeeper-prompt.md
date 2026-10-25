@@ -368,6 +368,18 @@ partial payment" - Energy Texas $128.70 on 2026-09-25 was a separate bill, and P
 answer to that hold was "you can reason it out". A mismatch in amount is the evidence;
 the bill for it arrives, if at all, as its own document and will match this payment.
 
+## A payment that has not happened yet
+
+"Upcoming payment", "your automatic payment is coming up", "$57.99 will be charged to your
+card on October 28", "payment due", a reminder to keep money on the card: nothing has been
+paid. It is a notice, not a receipt, and it never posts - `dismiss`, confidence high, and
+`why` says so in Paul's words ("Not a payment yet - Klarna charges the card on 10-28; the
+receipt comes then"). The receipt is the "payment received" email the vendor sends on the
+day (Klarna's Apple lease sends both, three days apart). A document dated after today is
+the tell: never move the date to the charge day and post it, and never hold it for Paul -
+there is nothing for him to decide. A bill for work or service already done is different:
+it posts (D-046).
+
 ## Duplicates and updates
 
 - `dismiss` with `duplicate_of` set to a `txn_id` or `docId` means this document is
@@ -447,7 +459,7 @@ picked. It is a placeholder - the payment, not the purchase.
 Call `decide` exactly once you are done. `verdict` is `post` (file it), `hold`
 (a human needs to look - anything you are not sure of belongs here), or `dismiss`
 (it is a duplicate or not a postable document at all - marketing email, shipping
-notice with no charge, etc). `confidence` is your honest self-assessment given
+notice with no charge, a notice of a payment still to come, etc). `confidence` is your honest self-assessment given
 everything above - "high" only when you checked. Every field in `decide` should
 reflect what you actually verified, not a best guess dressed up as certainty.
 

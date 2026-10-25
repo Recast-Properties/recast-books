@@ -5,7 +5,21 @@ history and are not written to; `CHANGELOG.md` keeps its dated entry per change.
 `docs/ops.md`. The books' numbers live on the workbook's tabs (P&L, Totals, Citizens Bank, the house tabs) - read them
 there; a figure written here is only as of its date.
 
-## 2026-10-25 - the audit's list is done and live (START HERE)
+## 2026-10-25 (evening) - the Klarna notice: a payment that has not happened yet (START HERE)
+
+**Paul: Klarna's "Upcoming lease payment" email is a warning of an automatic payment, not a payment, and should never
+have been a card.** The bookkeeper read it right and still said post dated 10-28; the date check held it. Fixed at the
+root (CHANGELOG, same date): the prompt's new rule "A payment that has not happened yet" (dismiss, high confidence; a
+date after today is the tell; a bill for work done still posts, D-046) and the card's BAD_DATE words say it in Paul's
+words. The card is dismissed (Penny, from the editor, 16:22 PT); `gm-1a1753cba75fe1ec` reads dismissed. Writer and both
+pollers pushed and verified; 626 tests. **Owed: Paul's `npm run ship` - until then the live bookkeeper runs the old
+prompt and would hold the next such notice again.** Watch: 10-28, Klarna's "Lease payment received" email (57.99) - it
+should post on its own as September's did (`receipt-20260928-26180d4cca28`), never treating the dismissed notice as a
+twin; and the next "upcoming" / "will be charged" email from any vendor - dismissed with "Not a payment yet..." in its
+why, no card. Flag, not chased: the notice names card 7416 = Recast's Chase (1402); Aug and Sep were recorded as paid
+by Paul - the 10-28 receipt decides, and the bookkeeper uses the card shown.
+
+## 2026-10-25 - the audit's list is done and live
 
 **D-096 live since 17:50 CT - web app @58, site `6ade87d3`, read-back OK (stamp `352a22e`); 627 tests:** the bookkeeper never guesses the house - only the
 receipt, the house's own mailbox, Paul's words or the original purchase name it; `houseRail` takes off any other house
