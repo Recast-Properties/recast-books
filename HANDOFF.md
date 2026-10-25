@@ -5,13 +5,12 @@ history and are not written to; `CHANGELOG.md` keeps its dated entry per change.
 `docs/ops.md`. The books' numbers live on the workbook's tabs (P&L, Totals, Citizens Bank, the house tabs) - read them
 there; a figure written here is only as of its date.
 
-## 2026-10-25 - #15, #13, #16 live; #17 built, not yet shipped; next #12 (START HERE)
+## 2026-10-25 - #15, #13, #16, #17 live; next #12 (START HERE)
 
-**#17 built 10-25 (617 tests), committed - owed: Paul runs `npm run ship`.** A bank card answered in words (Dismiss all
+**#17 live since 10-25 13:30 CT - web app @49, site `6ade4add`, read-back OK; 617 tests. Nothing owed on the ship.** A bank card answered in words (Dismiss all
 with a note, or a Save that recorded nothing) starts the matching for that account from the card itself and shows the
 run's summary there, with a Refresh link; the site's starter joins a run already going on the account (within ten
-minutes) instead of starting a second, and the card then runs once more so the later answer is read. **Watch after
-the ship:** Paul's next Dismiss all with a note on a Bank statement card - the card's box should read "Claude is
+minutes) instead of starting a second, and the card then runs once more so the later answer is read. **Watch:** Paul's next Dismiss all with a note on a Bank statement card - the card's box should read "Claude is
 reading your answer against the N open bank lines... 5 s" and end with the run's summary; the Feed row's note the
 run leaves should answer his words.
 

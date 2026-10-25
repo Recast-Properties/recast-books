@@ -12,7 +12,8 @@ to Recast Books -> Match statement lines before the bookkeeper read them. Built:
   run on the same lines (two runs could tie one entry twice). `startFeedMatch` passes `joined` through; the card
   waits that run out and starts once more, so an answer that landed after the first run's read is read too.
 - Tests: `books-feed-match.test.mjs` (new: start, join, another account, a finished and a stale mark, GET, refusals)
-  and a lint on the two call sites, the loop and the pass-through. 617 tests. Shipping: Paul's `npm run ship`.
+  and a lint on the two call sites, the loop and the pass-through. 617 tests. **Shipped by Paul 10-25 13:30 CT: web app
+  @49, site `6ade4add`, read-back OK.**
 
 ## 2026-10-25 - Audit #16: the bank's own fees under 50.00 are settled by code in the matching run, no card (D-093)
 
