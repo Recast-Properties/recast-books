@@ -103,6 +103,7 @@ that supersedes the old one, not editing history.
 - D-093 · The bank's own fee under 50.00 is recorded by code from the bank line, no card - 2026-10-25 · Paul
 - D-094 · A utility's card or online fee under 50.00 is recorded on the house of the bill it came with, no card - 2026-10-25 · Paul
 - D-095 · Hardware kept on hand is Supplies on hand (1530); a piece goes on a house through New expense paid from the shelf - 2026-10-25 · Paul
+- D-096 · Never guess the house: only the receipt, the house's own mailbox, Paul's words or the original purchase name it - 2026-10-25 · Paul
 
 ---
 
@@ -2131,4 +2132,31 @@ saved by Paul with the kind of cost set to 1530 Supplies on hand and the house O
 one New expense. Anything else kept on hand by the box or the pack goes the same way - the locks' batteries first
 (Paul, same day: "can this also be used for batteries for the locks"): the pack on the shelf, and a lock's New expense
 carries its batteries at the per-battery price, one line, "door lock with 4 batteries".
+
+## D-096 · Never guess the house: only the receipt, the house's own mailbox, Paul's words or the original purchase name it - 2026-10-25 · Paul
+
+*"I don't like it assigning the house. I have multiple houses happening at once."* Then: *"unless the receipt says the
+address or it comes from the property specific email it should not guess the property."* The case: the 197.88 Amazon
+order of 10-12 (2 bath vanity lights, 3 black ceiling fans), added from its bank card; the receipt names no house and
+ships to Paul's home, and the read posted it to 413 Green Acres at medium confidence "from routing precedent - every
+October Amazon lighting order went to 413 Green Acres". D-044 lets a medium read post; Paul ruled the house is never
+that kind of call.
+
+**Decided:** a house comes from one of four places and the read says which (`property_from` on every entry): `document`
+- the receipt itself names it (a service or delivery address, a job or PO name that is the house, as "poinsetta" on the
+37.84 Home Depot); `mailbox` - it came to that property's own mailbox; `paul` - his own words name it (subject line,
+note above a forward); `original` - the same purchase is on the books with its house (a return's original line, the
+placeholder Paul made). Nothing else: not other purchases from the store, not which house is in what phase, not a finish
+that fits, not a delivery to his home. **Code enforces it** (`houseRail`, lib/bookkeeper.mjs, run in the ingest before the
+gate): any other house - and a `mailbox` house that is not the mailbox's own - is taken off (property "", the gate holds
+it as BAD_PROPERTY), a post becomes a hold, the card's line reads "Which house? The receipt does not say - pick it on
+this card.", and the read's working records what was taken off. An old read with no `property_from` counts as a guess.
+The bank-line matcher no longer proposes a house for a store charge from its amount and date; it asks. Paul's own
+`"paul"` includes the words he types; a receipt added from a bank card carries none yet, so it holds unless the receipt
+names the house.
+
+**Kept:** D-094's utility fee goes on the house of the bill it came with (the bill names the service address); a utility
+line or a Zelle whose bank text names the house still names it. D-044 still lets a medium read post when every rail
+holds - the house is now one of the rails. Paul answers the hold on the card; Add receipt stays, and email with a line
+naming the house is the way to have one post on its own.
 

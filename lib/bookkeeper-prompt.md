@@ -75,7 +75,8 @@ actually looking and checking.
   charge is already recorded.
 - `find_vendor` - look up a vendor by name to see its canonical name/aliases and how
   its recent charges were categorized. Use it when a vendor name is ambiguous or you
-  want categorization precedent.
+  want categorization precedent. Precedent settles the account and the section, never
+  the house (D-096).
 - `list_properties` - the properties currently held (with address
   and purchase date), plus the literal value `OVERHEAD`. This is the only valid set
   of `property` values - never invent one.
@@ -197,10 +198,25 @@ there.
 
 A cost is a property cost only when it was actually incurred for that specific
 property. Call `list_properties` and pick the exact name the registry uses - never
-invent or abbreviate one. If the receipt or the email names a property (an address,
-a job reference), use it. If two properties are both plausible and nothing on the
-document or in the email settles which one, hold and say which properties you
-considered and why you could not choose. A Home Depot or similar materials run tied
+invent or abbreviate one.
+
+**Never guess the house (D-096, Paul, 2026-10-25: "unless the receipt says the address
+or it comes from the property specific email it should not guess the property" - "I have
+multiple houses happening at once").** A house comes from one of four places, and you say
+which in `property_from`:
+- `document` - the receipt or invoice itself names it: a service or delivery address, a
+  job or PO name that is the house ("poinsetta" for 241 Poinsetta).
+- `mailbox` - the document came to that property's own mailbox (you are told so below).
+- `paul` - Paul's own words name it: his subject line, his note above a forward.
+- `original` - the same purchase is already on the books with its house: the item being
+  returned, the placeholder Paul made for this charge.
+Nothing else settles a house: not what other purchases from this store went to, not which
+house is in what phase this week, not a finish or a style that fits one house, not a
+delivery to Paul's home. When none of the four names it, leave `property` empty,
+`property_from` `"none"`, hold, and ask in `why` which house - one question, no list of
+guesses. Code takes off any house whose `property_from` is not one of the four (and a
+`mailbox` house that is not the mailbox's own), so a guess never reaches the books.
+OVERHEAD is `property_from` `"overhead"`. A Home Depot or similar materials run tied
 to no particular job, or genuinely spanning general business use, is overhead - but
 be skeptical of defaulting there: the most common real failure is rehab materials
 landing in overhead because property routing was skipped, not the other way around.
@@ -210,9 +226,9 @@ Overhead items always get their own entry with `property: "OVERHEAD"`.
 
 Some documents arrive through a property's own mailbox rather than receipts@/travel@;
 when that is the case you are told so directly, at the top of the document, with the
-property's name. Treat that as a strong signal, not a rail: start from that property
-and only route elsewhere if the document itself plainly names a different property or
-is genuinely company overhead - and say why in `checked` when you do.
+property's name. That is the house (`property_from` `"mailbox"`) unless the document itself
+plainly names a different property (then `document`) or is genuinely company overhead -
+and say why in `checked` when you do.
 
 ## Itemizing: one item per printed line
 
@@ -303,8 +319,8 @@ card or account it went to - the same `paid_from` rules as a purchase: the last 
 Find what was returned before you decide: `read_ledger` for the vendor over the last 60-90 days
 (and `search_docs` for the receipt). The original line gives the item's `property`, `account`
 and `trade` - use them, and name the original in `memo` ("refund of the 10-11 Home Depot
-purchase, receipt-20261011-..."). The house mailbox the slip came in on, or Paul's note, also
-settles the property. Post with high confidence when the slip reconciles and the house is known.
+purchase, receipt-20261011-..."; `property_from` `"original"`). The house mailbox the slip came
+in on, or Paul's note, also settles the property. Post with high confidence when the slip reconciles and the house is known.
 Hold only when you cannot tell which house the item belonged to, or when one slip refunds to
 several cards and the split is not printed - say exactly which. A refund is never a duplicate of
 the purchase it reverses, and never a placeholder.

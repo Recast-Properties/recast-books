@@ -36,7 +36,7 @@ import {
   WriterError,
   loadDocIndex,
 } from "./_shared.mjs";
-import { runBookkeeper } from "../../lib/bookkeeper.mjs";
+import { runBookkeeper, houseRail } from "../../lib/bookkeeper.mjs";
 import { evaluateGate, buildEntriesFromModel, findDuplicate } from "../../lib/gate.mjs";
 import { bankMovements, openLineFor } from "../../lib/feed-tie.mjs";
 import { toCents } from "../../lib/money.mjs";
@@ -423,6 +423,9 @@ export default async (req) => {
           deps,
         });
     if (fromStored && body.overrides && typeof body.overrides === "object") model = applyPayerOverride(model, body.overrides);
+    // D-096: a house the read did not get from the receipt, the house's mailbox or Paul's words is taken off here,
+    // before the gate - the card then asks Paul which house.
+    model = houseRail(model, { mailbox: mailboxHint || "" }).model;
 
     const gateResult = evaluateGate(model, ctx, settings, { postedEntries });
 

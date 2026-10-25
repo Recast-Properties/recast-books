@@ -617,3 +617,44 @@ test("a photo that already fits 2000px is shown exactly as it came", async () =>
   assert.equal(shownBlock.source.media_type, "image/png");
   assert.equal(shownBlock.source.data, bytes.toString("base64"));
 });
+
+// ---- D-096: never guess the house ------------------------------------------------------------------------------
+test("D-096 houseRail: a house stays only when the read got it from the receipt, Paul's words, the original purchase or the house's own mailbox; any other house is taken off, a post becomes a hold, the card asks which house and the read's working says what was taken off", async () => {
+  const { houseRail, DECIDE_ENTRY_SCHEMA } = await import("../lib/bookkeeper.mjs");
+  assert.ok(DECIDE_ENTRY_SCHEMA.required.includes("property_from"), "every entry says where its house came from");
+  assert.deepEqual(DECIDE_ENTRY_SCHEMA.properties.property_from.enum, ["document", "mailbox", "paul", "original", "overhead", "none"]);
+  assert.equal(DECIDE_ENTRY_SCHEMA.properties.property_from.type, "string", "a plain string - no nullable parameter spent");
+  const entry = (property, property_from) => ({ date: "2026-10-12", payee: "Amazon.com", memo: "", property, property_from, paid_from: "1401", attachment: null, items: [{ account: "1040", amount_cents: 19788, description: "fans", trade: "Lighting & Electrical", business_purpose: "" }] });
+  const read = (entries) => ({ verdict: "post", confidence: "medium", why: "Posted: Amazon lights and fans for 413 Green Acres.", checked: "PDF read.", entries });
+  for (const from of ["document", "paul", "original"]) {
+    const out = houseRail(read([entry("413 Green Acres", from)]));
+    assert.equal(out.taken.length, 0, from);
+    assert.equal(out.model.verdict, "post", from);
+    assert.equal(out.model.entries[0].property, "413 Green Acres", from);
+  }
+  assert.equal(houseRail(read([entry("413 Green Acres", "mailbox")]), { mailbox: "413 Green Acres" }).taken.length, 0, "the house's own mailbox");
+  const otherBox = houseRail(read([entry("413 Green Acres", "mailbox")]), { mailbox: "366 Mesa" });
+  assert.equal(otherBox.model.entries[0].property, "", "a mailbox house that is not the mailbox's own is taken off");
+  // the 197.88 Amazon of 10-25: the read picked 413 Green Acres from other October lighting orders
+  const guessed = houseRail(read([entry("413 Green Acres", "none")]));
+  assert.deepEqual(guessed.taken, [{ property: "413 Green Acres", from: "none" }]);
+  assert.equal(guessed.model.verdict, "hold");
+  assert.equal(guessed.model.entries[0].property, "");
+  assert.equal(guessed.model.entries[0].property_from, "none");
+  assert.equal(guessed.model.why, "Which house? The receipt does not say - pick it on this card.");
+  assert.match(guessed.model.checked, /^PDF read\.\n\[house rail, D-096: 413 Green Acres \(from: none\) taken off - not named by the receipt, the house's mailbox or Paul's words\. Claude's own why: Posted: Amazon lights and fans for 413 Green Acres\.\]$/);
+  assert.equal(houseRail(read([entry("413 Green Acres", undefined)])).model.entries[0].property, "", "an old read with no property_from is a guess");
+  // OVERHEAD, a blank house and a dismiss are left as they are
+  const overhead = read([entry("OVERHEAD", "overhead"), entry("", "none")]);
+  assert.equal(houseRail(overhead).model, overhead);
+  const mixed = houseRail(read([entry("OVERHEAD", "overhead"), entry("241 Poinsetta", "document"), entry("366 Mesa", "none")]));
+  assert.deepEqual(mixed.model.entries.map((e) => e.property), ["OVERHEAD", "241 Poinsetta", ""], "only the guessed entry loses its house");
+  assert.equal(houseRail({ ...read([entry("366 Mesa", "none")]), verdict: "hold" }).model.verdict, "hold");
+});
+
+test("D-096 the prompt: a house only from the document, the mailbox, Paul's words or the original purchase - never from other purchases, a house's phase or a delivery to Paul's home; precedent settles the account, never the house", () => {
+  const md = readFileSync(new URL("../lib/bookkeeper-prompt.md", import.meta.url), "utf8");
+  assert.match(md, /\*\*Never guess the house \(D-096/);
+  assert.match(md, /Nothing else settles a house: not what other purchases from this store went to, not which\nhouse is in what phase this week/);
+  assert.match(md, /Precedent settles the account and the section, never\n  the house \(D-096\)\./);
+});

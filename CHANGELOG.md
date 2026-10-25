@@ -1,5 +1,27 @@
 # Changelog
 
+## 2026-10-25 - D-096: the bookkeeper never guesses the house
+
+Paul, after the 197.88 Amazon lights and fans landed on 413 Green Acres from a receipt that names no house: "I don't
+like it assigning the house. I have multiple houses happening at once." - "unless the receipt says the address or it
+comes from the property specific email it should not guess the property."
+- `lib/bookkeeper.mjs`: every proposed entry carries `property_from` (document | mailbox | paul | original | overhead |
+  none; a plain string enum, no nullable parameter spent); `normalizeEntry` keeps it ("none" when missing).
+  `houseRail(model, {mailbox})` - pure - takes off any house not from the document, Paul's words, the original purchase
+  or the mailbox's own house: property "", post -> hold, why "Which house? The receipt does not say - pick it on this
+  card.", the working records "[house rail, D-096: <house> (from: <source>) taken off ...]".
+- `books-ingest-background.mjs`: the rail runs on every read (fresh or re-run from the stored read) before the gate, with
+  the envelope's property mailbox. The gate's BAD_PROPERTY then holds it; the card already asks for the house in words.
+- `lib/bookkeeper-prompt.md` (generated .mjs): "Never guess the house" - the four sources, what does not count (other
+  purchases, a house's phase, a finish, a delivery to Paul's home); the mailbox is the house unless the document names
+  another; precedent settles the account and the section, never the house; a return's house is `original`.
+- `lib/feed-match.mjs` MATCH_PROMPT rule 2: a store charge with no receipt is a question - never a house from the amount,
+  the date or what other houses are buying (was: "for the house the amount and date point to").
+- Tests: the schema field; the rail's keep and take-off cases, an old read, OVERHEAD, a mixed receipt; the prompt and the
+  matcher's words. 627 tests. D-096; CLAUDE.md rule 18.
+- **Needs `npm run ship` (Paul)** - the site carries the bookkeeper and the matcher. Not changed: the 197.88 already on 413
+  Green Acres - asked Paul which house; moved on his word.
+
 ## 2026-10-25 - D-095: Supplies on hand - the Amazon door locks, and any hardware kept on hand by the box
 
 Paul, on the 361.35 Amazon card of 10-07 (9 keypad deadbolts, 40.15 each with tax, held since 10-07 for want of a house):

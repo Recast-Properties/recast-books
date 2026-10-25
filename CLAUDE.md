@@ -128,7 +128,8 @@ functions the menu, pollers and nightly jobs call - Paul is never sent there.
     Taxes tab's inputs are found BY LABEL - never reword `TAX_INPUTS` or a house's name row; never put the "for your
     accountant" section or a travel row back on the Taxes tab (D-081) and never add Paul's personal items to it
     (D-078). Each fall the new year's tables and `CARRIED_OVER` go into `lib/tax.mjs` when published (D-075, D-078).
-18. **The bookkeeper:** a medium read posts when every other rail holds (D-044); a vendor's unanimous payment
+18. **The bookkeeper:** never guesses the house - only the receipt, the house's own mailbox, Paul's words or the original
+    purchase name it, and `houseRail` takes off any other (D-096); a medium read posts when every other rail holds (D-044); a vendor's unanimous payment
     history settles the payer (D-045); a utility payment matching nothing on the account posts (D-046); a copy of a
     card still waiting on Paul is not a new purchase (D-077) but the receipt for a waiting BANK-LINE card posts and
     retires the card on its own (D-087); Reprocess never posts or dismisses (D-048); no

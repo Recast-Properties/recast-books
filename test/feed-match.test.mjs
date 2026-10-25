@@ -706,3 +706,9 @@ test("D-094 runFeedMatch: the waiting SERVFEE card goes back to the model with R
   assert.equal(out.summary.utility_fees, 1);
   assert.equal(today.length, 10);
 });
+
+test("D-096 the matcher: a store charge with no receipt is a question - never a house from the amount, the date or what other houses are buying", async () => {
+  const { MATCH_PROMPT } = await import("../lib/feed-match.mjs");
+  assert.match(MATCH_PROMPT, /a store charge with no receipt on the books is a question: what was bought and for which house - never a house from the amount, the date or what other houses are buying/);
+  assert.doesNotMatch(MATCH_PROMPT, /for the house the amount and date point to/);
+});
