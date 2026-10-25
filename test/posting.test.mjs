@@ -866,3 +866,21 @@ test("a slip with a return and a new purchase nets on the paid_from line; an eve
   const even = buildEntry(purchaseIntent({ items: [{ account: "1030", amount_cents: -1000, description: "Return: valve" }, { account: "1030", amount_cents: 1000, description: "Same valve, other finish" }] }), baseCtx());
   assert.deepEqual(even.lines.map((l) => [l.account, l.debit, l.credit]), [["1030", 0, 1000], ["1030", 1000, 0]]);
 });
+
+// --- D-095: Supplies on hand - hardware bought by the box, a piece moved to a house when used ----------------
+test("D-095: a box of locks lands on 1530 Supplies on hand with no house; a lock off the shelf is a purchase paid from 1530 for a house - credit the shelf, debit the house's materials; off the shelf to OVERHEAD or to no house is refused", async () => {
+  const { SUPPLIES_ACCOUNT } = await import("../lib/posting.mjs");
+  assert.equal(SUPPLIES_ACCOUNT, "1530");
+  const ctx = baseCtx();
+  const box = buildEntry({ type: "purchase", date: "2026-09-05", payee: "Amazon", memo: "9 keypad deadbolts, 40.15 each", property: "OVERHEAD", paid_from: "1401",
+    items: [{ account: "1530", amount_cents: 36135, description: "Amazon Basics keypad deadbolt x9", trade: "Doors & Hardware" }] }, ctx);
+  assert.deepEqual(box.lines.map((l) => [l.account, l.debit, l.credit, l.property]), [["1530", 36135, 0, "OVERHEAD"], ["1401", 0, 36135, "OVERHEAD"]]);
+  const lock = buildEntry({ type: "purchase", date: "2026-09-10", payee: "Supplies on hand", memo: "one keypad deadbolt off the shelf", property: "881 Newport", paid_from: "1530",
+    items: [{ account: "1030", amount_cents: 4015, description: "Keypad deadbolt, front door", trade: "Doors & Hardware" }] }, ctx);
+  assert.deepEqual(lock.lines.map((l) => [l.account, l.debit, l.credit, l.property]), [["1030", 4015, 0, "881 Newport"], ["1530", 0, 4015, "881 Newport"]]);
+  assertPostingError(() => buildEntry({ type: "purchase", date: "2026-09-10", payee: "Supplies on hand", property: "OVERHEAD", paid_from: "1530",
+    items: [{ account: "6510", amount_cents: 4015, description: "a lock" }] }, ctx), "PROPERTY_REQUIRED");
+  assertPostingError(() => buildEntry({ type: "purchase", date: "2026-09-10", payee: "Supplies on hand", property: "", paid_from: "1530",
+    items: [{ account: "1030", amount_cents: 4015, description: "a lock" }] }, ctx), "PROPERTY_REQUIRED");
+});
+

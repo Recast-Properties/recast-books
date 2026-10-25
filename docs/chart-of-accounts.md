@@ -29,6 +29,7 @@ where the registry says `status = held`.
 | 1400 | Cash — one code per account | Each bank and card. Reconciliation needs something to reconcile *to*. |
 | 1500 | Earnest money & auction deposits | Released to 1000 at close, or to 6350 when a deal dies |
 | 1510 | Escrow & holdbacks receivable | 1616 Granite's $60,000 — currently inside a net-profit figure and in no account |
+| 1530 | Supplies on hand | D-095: hardware bought by the box to keep on hand (keypad door locks), no house. A piece goes on a house through New expense paid from 1530 - its cost moves to that house's 1030. Balance ÷ unit cost = pieces left. |
 
 ## 2000 — Liabilities
 

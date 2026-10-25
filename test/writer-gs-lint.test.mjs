@@ -971,3 +971,14 @@ test("2026-10-25 Add receipt: a bank card takes the receipt from Paul's computer
   assert.match(inbox, /done\('Got it - Claude is reading the receipt/, "the card closes on Add receipt - no Save can race the read");
   assert.doesNotMatch(fn, /postBatchEntries_|postEntry_|buildEntry/, "nothing is posted from here - the bookkeeper reads the receipt as any other");
 });
+
+test("D-095 Supplies on hand: the writer's Accounts seed carries 1530, and both Paid from lists offer the shelf", () => {
+  const dir = path.join(__dirname, "..", "apps-script", "writer");
+  const code = readFileSync(path.join(dir, "Code.gs"), "utf8");
+  const expense = readFileSync(path.join(dir, "Expense.html"), "utf8");
+  const inbox = readFileSync(path.join(dir, "Inbox.html"), "utf8");
+  assert.match(code, /\['1530', 'Supplies on hand', '1400', 'asset', '', '', true, 'D-095/);
+  assert.match(expense, /\{ value: '1530', label: '1530 Supplies on hand \(a lock off the shelf - pick the house it went on\)' \}/);
+  assert.match(inbox, /opt_\('1530', '1530 Supplies on hand \(off the shelf\)', sel === '1530'\)/);
+});
+

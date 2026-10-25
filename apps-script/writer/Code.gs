@@ -196,6 +196,7 @@ var ACCOUNTS_SEED = [
   ['1500', 'Earnest money & deposits', '1400', 'asset', '', '', true, ''],
   ['1510', 'Escrow & holdbacks receivable', '1400', 'asset', '', '', true, ''],
   ['1520', 'Prepaid API credits', '1400', 'asset', '', '', true, 'D-064: no longer used - Claude credits are 6400 when bought'],
+  ['1530', 'Supplies on hand', '1400', 'asset', '', '', true, 'D-095: hardware kept on hand (door locks by the box); a piece goes on a house through New expense paid from 1530'],
   ['2000', 'Accrued interest - Dennis', '2000', 'liability', '', '', true, ''],
   ['2010', 'Note payable - Dennis', '2000', 'liability', '', '', true, ''],
   ['2020', 'Backup withholding payable', '2000', 'liability', '', '', true, ''],

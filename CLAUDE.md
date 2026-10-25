@@ -105,7 +105,8 @@ functions the menu, pollers and nightly jobs call - Paul is never sent there.
     09-28 is 104 Ashburne's earnest money (D-051); Paul's 607.05 check is all on 136 Bowling Green - never re-split
     it from the old Newport tab; the partners' working money is a plain loan, no house, no interest (D-055); 1014 S
     View's loss sits on 9000, never 2030 (D-079); a one-time tool is overhead and a mixed hardware receipt is two
-    entries (D-010).
+    entries (D-010); hardware kept on hand by the box is 1530 Supplies on hand, no house, and a piece goes on a house
+    through New expense paid from 1530 (D-095).
 15. **Bank lines:** a check with no name is booked from the bank's picture of it, never from memory (to-the-cent
     ties confirm; anything else needs the document). One charge, one card (D-060). `NEED RECEIPT FROM <NAME>` is
     the exact placeholder marker the Inbox and the lint share - never reword it; a receipt replaces a placeholder on

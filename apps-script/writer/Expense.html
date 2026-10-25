@@ -37,7 +37,8 @@
   fillSelect_(document.getElementById('f-property'), [{ value: 'OVERHEAD', label: 'OVERHEAD' }].concat(
     DATA.properties.map(function (p) { return { value: p, label: p }; })), null);
   fillSelect_(document.getElementById('f-paidfrom'), [{ value: 'PAUL', label: 'PAUL (Due to owner)' }, { value: 'DENNIS', label: 'DENNIS (direct-paid advance)' }].concat(
-    DATA.bankAccounts.map(function (b) { return { value: b.code, label: b.code + ' ' + b.name }; })), 'Choose...');
+    DATA.bankAccounts.map(function (b) { return { value: b.code, label: b.code + ' ' + b.name }; }),
+    [{ value: '1530', label: '1530 Supplies on hand (a lock off the shelf - pick the house it went on)' }]), 'Choose...');   // D-095
 
   function updateReq_() {
     var req = PURPOSE_REQUIRED[document.getElementById('f-account').value];

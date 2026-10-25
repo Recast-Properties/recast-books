@@ -102,6 +102,7 @@ that supersedes the old one, not editing history.
 - D-092 · Drinks bought with the job's materials post on their own; meals and gifts still wait - 2026-10-23 · Paul
 - D-093 · The bank's own fee under 50.00 is recorded by code from the bank line, no card - 2026-10-25 · Paul
 - D-094 · A utility's card or online fee under 50.00 is recorded on the house of the bill it came with, no card - 2026-10-25 · Paul
+- D-095 · Hardware kept on hand is Supplies on hand (1530); a piece goes on a house through New expense paid from the shelf - 2026-10-25 · Paul
 
 ---
 
@@ -2103,4 +2104,29 @@ the engine refuses stay a card. The run's summary says "N utility fees recorded 
 processing fee on 1120 for 136 Bowling Green - and Paul's words were "against the house whose bill it came with". The
 09-02 47.26 on 6910 OVERHEAD, booked by hand before this rule, is left as it is. The bank's own fee stays D-093
 (OVERHEAD 6910): the bank's charge is the business's, a utility's is the house's.
+
+## D-095 · Hardware kept on hand is Supplies on hand (1530); a piece goes on a house through New expense paid from the shelf - 2026-10-25 · Paul
+
+*"Those are door locks that we keep on hand to use when we buy properties. They are essentially inventory that gets
+assigned to a house when we use them."* The case: the 10-07 Amazon order, 9 keypad deadbolts, 361.35 (40.15 each with
+tax), held in the Inbox since 10-07 because no house fit. Paul asked how to book them and how to apply one to a house,
+and whether a bespoke menu item was needed.
+
+**Decided:** a new account **1530 Supplies on hand** (asset, the 1400 series, no house - `property: "OVERHEAD"` like
+any company asset). A box of hardware bought to keep on hand posts there whole, the count and the price per piece in
+the memo; the bookkeeper's prompt says so and never splits a box across houses on its own. **A piece goes on a house
+through New expense** - house, "door lock", the per-piece price, Paid from **1530 Supplies on hand**: the engine debits
+the house's 1030 and credits the shelf (`resolvePaidFrom`: 1530 is a 1400-series account like a bank, with one rail -
+paid from the shelf needs a house, never OVERHEAD and never nowhere, PROPERTY_REQUIRED). The shelf's balance ÷ the
+per-piece price is what is left in the garage; the Balance Sheet carries it under cash and other assets. No new menu
+item: the same New expense, one more Paid from choice (Expense.html and the Inbox card's Paid from both offer it).
+
+**Why not the alternatives:** all nine on the first house overstates that house's rehab cost and Dennis's share of it
+(the closing tab is EVERY bill, D-069); overhead (6510 small tools, D-010's "tools are overhead") keeps them off every
+house for good, and a lock is consumed into the house the way materials are, unlike a tool. A bespoke "assign a lock"
+menu item would be a second way to do what New expense already does.
+
+**Consequences:** the Accounts tab gets the 1530 row (one-off `addSuppliesOnHandAccount20261025`); the Amazon card is
+saved by Paul with the kind of cost set to 1530 Supplies on hand and the house OVERHEAD; each lock used from then on is
+one New expense. Anything else kept on hand by the box (smoke alarms, say) goes the same way.
 

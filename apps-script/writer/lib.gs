@@ -72,6 +72,9 @@ var M_coa = (function () {
     acct("1500", "Earnest money & deposits", "1400", "asset", NONE),
     acct("1510", "Escrow & holdbacks receivable", "1400", "asset", NONE),
     acct("1520", "Prepaid API credits", "1400", "asset", NONE),
+    // D-095 (Paul, 2026-10-25): hardware bought to keep on hand - door locks by the box - sits here, no house, until a
+    // piece goes on a house: then New expense, paid from this account, moves its cost to that house (lib/posting.mjs).
+    acct("1530", "Supplies on hand", "1400", "asset", NONE),
 
     // 2000 series — liabilities
     acct("2000", "Accrued interest — Dennis", "2000", "liability", NONE),
@@ -742,6 +745,8 @@ var M_posting = (function () {
    * `expense`'s credit side: a 1400-series bank account, or the PAUL/DENNIS
    * direct-paid shorthand.
    */
+  const SUPPLIES_ACCOUNT = "1530";   // D-095: Supplies on hand - the shelf
+
   function resolvePaidFrom(paid_from, property, ctx) {
     if (paid_from === "PAUL") {
       // BUILD-PLAN §2 "Paul": a cost he pays personally is Due to owner until reimbursed.
@@ -762,6 +767,12 @@ var M_posting = (function () {
     if (!bankAccount || seriesOf(paid_from) !== "1400") {
       throw new PostingError("BAD_ACCOUNT", {
         message: `paid_from must be a 1400-series bank account, "PAUL", or "DENNIS" — got "${paid_from}"`,
+      });
+    }
+    // D-095: a piece taken off the shelf (Supplies on hand) goes on a house - never overhead, never nowhere.
+    if (paid_from === SUPPLIES_ACCOUNT && (!property || property === "OVERHEAD")) {
+      throw new PostingError("PROPERTY_REQUIRED", {
+        message: "paid_from 1530 Supplies on hand requires a property (a lock off the shelf goes on a house)",
       });
     }
     return { creditAccount: paid_from };
@@ -1035,13 +1046,14 @@ var M_posting = (function () {
     }
   }
 
-  return { PostingError, makeCtx, periodOf, makeTxnId, validateEntry, buildEntry };
+  return { PostingError, makeCtx, periodOf, makeTxnId, validateEntry, SUPPLIES_ACCOUNT, buildEntry };
 })();
 var PostingError = M_posting.PostingError;
 var makeCtx = M_posting.makeCtx;
 var periodOf = M_posting.periodOf;
 var makeTxnId = M_posting.makeTxnId;
 var validateEntry = M_posting.validateEntry;
+var SUPPLIES_ACCOUNT = M_posting.SUPPLIES_ACCOUNT;
 var buildEntry = M_posting.buildEntry;
 
 // ---- lib/gate.mjs ----

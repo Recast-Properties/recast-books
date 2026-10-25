@@ -133,7 +133,8 @@
     // D-014: UNKNOWN never silently becomes the first account; the engine refuses it.
     var html = (!sel || sel === 'UNKNOWN') ? opt_('UNKNOWN', '- assign account -', true) : '';
     html += DATA.pickers.bankAccounts.map(function (b) { return opt_(b.code, b.code + ' ' + b.name, b.code === sel); }).join('');
-    return html + opt_('PAUL', 'PAUL (personal)', sel === 'PAUL') + opt_('DENNIS', 'DENNIS (direct)', sel === 'DENNIS');
+    return html + opt_('PAUL', 'PAUL (personal)', sel === 'PAUL') + opt_('DENNIS', 'DENNIS (direct)', sel === 'DENNIS') +
+      opt_('1530', '1530 Supplies on hand (off the shelf)', sel === '1530');   // D-095
   }
 
 

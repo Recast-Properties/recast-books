@@ -161,3 +161,16 @@ function linkMolallaReceipts() {
   console.log('linkMolallaReceipts: ' + pairs.length + ' receipts written on ' + journal + ' Journal lines; on the tab ' + linked +
     ' lines now open their receipt and ' + blank + ' have none (' + cells.length + ' lines on the tab).');
 }
+
+// 2026-10-25 Paul (D-095, the Amazon door locks kept on hand) - 1530 Supplies on hand joins the chart; the live Accounts
+// tab gets the row (ensureSeedRows_ adds only codes it is missing), and the posting ctx cache is dropped so the
+// engine sees it at once. Run by Penny from the editor.
+// STATUS: NOT YET RUN
+function addSuppliesOnHandAccount20261025() {
+  var ss = openWorkbook_(PropertiesService.getScriptProperties());
+  requireOwner_(ss);
+  var added = ensureSeedRows_(ss.getSheetByName('Accounts'), ACCOUNTS_SEED);
+  CacheService.getScriptCache().remove('ctx');
+  Logger.log('Accounts rows added: ' + added + ' (1530 Supplies on hand expected once)');
+}
+
