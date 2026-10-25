@@ -7,6 +7,11 @@ there; a figure written here is only as of its date.
 
 ## 2026-10-25 - the audit's list is done and live (START HERE)
 
+**15:56 CT - the two 1.00 ATM cards of 10-07 are gone (CHANGELOG, same date):** D-093 never got a turn because Match
+statement lines refused a bank whose open lines all had cards; the menu now counts a waiting line as open (Menu.gs pushed,
+no deploy). Both fees are on 6910 under OVERHEAD, lines tied, cards retired; the Bank statement tab shows 12. The 10-24
+note "the ten-day sweep cannot run there until a card is dismissed" is closed.
+
 **#19 live since 10-25 14:01 CT - web app @52, site `6ade522d`, 15 files (InboxCard.html among them), read-back OK; 615
 tests.** The Inbox card's logic is
 `lib/inbox-card.mjs`, included by the dialog as the generated `InboxCard.html` (build-gs writes it; the test keeps it
@@ -19,8 +24,7 @@ asked one at a time as they come up (q1 wait ten days for the bank, q4 payouts, 
 q8 the two-click Save, q9 who reads properties@ / the digest); #5 step two (a pre-filled payout card) before the
 next sale. Owed from before: Paul's Gmail filters for `to-books` (when he says); the 10-11 Poinsetta photo
 (`gm-1a12d6f7780f7d94`) - Paul forwards it to receipts@ again; the 28.15 Deluxe check order of 08-11 on 6930, moved
-only on his word. Watch: the first spike's `refreshPnl_ timings:` line; the next Match statement lines (the two 1.00
-ATM cards retire themselves); the next Dismiss all with a note (the card re-runs the matching); the next Lowe's or Home
+only on his word. Watch: the first spike's `refreshPnl_ timings:` line; the next Dismiss all with a note (the card re-runs the matching); the next Lowe's or Home
 Depot email (no logo filed as the receipt).
 
 ## 2026-10-25 (end of afternoon) - #15, #13, #16, #17, #12, #11, #18 live

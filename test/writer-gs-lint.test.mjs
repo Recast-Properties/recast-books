@@ -637,7 +637,7 @@ test("feedUpdate: one lock, the three verdict columns read once and written once
   const m = menu.slice(menu.indexOf("function matchStatementLines("));
   assert.match(m, /siteFetchJson_\('\/api\/feed-match', 'post'/);
   assert.match(m, /unmatchedFeedCounts_\(ss\)/);
-  assert.match(gsFn(menu, "unmatchedFeedCounts_"), /!== 'unmatched'\) return;/, "only open lines are counted");
+  assert.match(gsFn(menu, "unmatchedFeedCounts_"), /status === 'unmatched' \|\| \(status === 'proposed' && !tied\)/, "open lines are counted: unmatched, or proposed and still waiting in the Inbox (the run's housekeeping acts on those, 2026-10-25)");
   // Paul, 2026-10-07: Import statement matches the account it just imported, its progress in the same box.
   const imp = readFileSync(new URL("../apps-script/writer/Import.html", import.meta.url), "utf8");
   assert.match(imp, /finishDialog_\(btn\);\n\s*match_\(r\.code\);/, "the import starts the match");

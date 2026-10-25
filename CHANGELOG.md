@@ -1,5 +1,22 @@
 # Changelog
 
+## 2026-10-25 - Match statement lines runs on a bank whose open lines are all waiting in the Inbox (the two 1.00 ATM cards retired)
+
+Paul, 15:50 CT, the Inbox still showing the 10-07 FOREIGN ATM CHARGE card: "i thought we fixed this". D-093 (#16) was
+live since 13:22, but it acts only inside a matching run, and no run on Citizens had happened since 10-24 16:29 UTC.
+Running one from the menu said "Nothing to match": `unmatchedFeedCounts_` counted `unmatched` rows only, and every open
+Citizens line already had a card - the gap HANDOFF had noted on 10-24 ("the ten-day sweep cannot run there until a card
+is dismissed"). So the fix could never reach the two cards.
+- Menu.gs `unmatchedFeedCounts_`: an open line is `unmatched`, or `proposed` with no `txn_id` (waiting in the Inbox) -
+  the run's housekeeping (the D-093 fee pass, a card whose receipt came in, #2a's reopen) acts on those. The "Nothing to
+  match" box now says "already tied to the books" only. `startFeedMatch` (Import.html, the #17 card) shares the count.
+- `test/writer-gs-lint.test.mjs` pins the new rule. 615 tests. **Writer pushed by Penny 15:52 CT (Menu.gs only, no deploy);
+  live = repo checked by pull first.**
+- Run from the sheet by Penny (Chrome) 15:56 CT: "0 bank lines looked at ... 2 bank fees recorded on their own". Verified on
+  the tabs: `bank-1401-202610070000000553324046` and `bank-1401-202610070000000553378354`, each 1.00 on 6910 under OVERHEAD
+  paid from 1401, both Feed rows `matched` with the D-093 note, both cards dismissed by claude 20:56 UTC. The Inbox's Bank
+  statement tab goes from 14 to 12; the 9.94 SERVFEE card and the rest stay for Paul.
+
 ## 2026-10-25 - Audit #19: the Inbox card's logic is a lib module with plain unit tests, not source strings run through new Function
 
 Structure only; the card reads the same. Thirty-one functions and seven constants that were the dialog's own

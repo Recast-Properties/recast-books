@@ -1858,7 +1858,9 @@ function importStatement(req) {
 var FEED_MATCH_POLLS = 60;
 var FEED_MATCH_WAIT_MS = 5000;
 
-/** Unmatched Feed lines per account code. */
+/** Open Feed lines per account code: unmatched, or proposed and still waiting in the Inbox. A waiting line counts
+ *  (2026-10-25): the run's own housekeeping - the bank's fee under the D-093 ceiling, a card whose receipt came in -
+ *  acts on those, and counting only 'unmatched' kept the two 1.00 ATM cards of 10-07 waiting after D-093 shipped. */
 function unmatchedFeedCounts_(ss) {
   var sh = ss.getSheetByName('Feed');
   var cols = headerIndex_(sh);
@@ -1866,7 +1868,9 @@ function unmatchedFeedCounts_(ss) {
   var counts = {};
   if (last > 1 && cols['status'] && cols['account']) {
     sh.getRange(2, 1, last - 1, sh.getLastColumn()).getValues().forEach(function (r) {
-      if (String(r[cols['status'] - 1]) !== 'unmatched') return;
+      var status = String(r[cols['status'] - 1]);
+      var tied = cols['txn_id'] ? String(r[cols['txn_id'] - 1]) : '';
+      if (!(status === 'unmatched' || (status === 'proposed' && !tied))) return;
       var a = String(r[cols['account'] - 1]);
       counts[a] = (counts[a] || 0) + 1;
     });
@@ -1914,7 +1918,7 @@ function matchStatementLines() {
   var counts = unmatchedFeedCounts_(ss);
   var accounts = Object.keys(counts);
   if (!accounts.length) {
-    ui.alert('Nothing to match', 'Every line on the Feed tab is already tied to the books or waiting in the Inbox. Import a statement first.', ui.ButtonSet.OK);
+    ui.alert('Nothing to match', 'Every line on the Feed tab is already tied to the books. Import a statement first.', ui.ButtonSet.OK);
     return;
   }
   // One bank per run (a run can take five of the script's six minutes). With more than one bank
