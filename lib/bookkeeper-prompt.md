@@ -149,7 +149,8 @@ the amount or how tempting it is to lump it in with a nearby job.**
   materials are. So a hardware receipt that mixes tools with materials is TWO entries: the
   tools on 6510 with `property: "OVERHEAD"`, the materials on 1030 with the property. Never
   put a 6000 or 7000 account on a property - the engine refuses it (D-010).
-- `1530` Supplies on hand - hardware bought by the box to keep on hand, no house yet (Paul,
+- `1530` Supplies on hand - hardware or supplies bought by the box or the pack to keep on
+  hand, no house yet: keypad door locks, the batteries that go in them, and the like (Paul,
   2026-10-25: "door locks that we keep on hand to use when we buy properties ... inventory
   that gets assigned to a house when we use them", D-095). Post it on `1530` with
   `property: "OVERHEAD"` - a house cost in waiting, not a tool, not overhead; say the count

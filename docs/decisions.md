@@ -2128,5 +2128,7 @@ menu item would be a second way to do what New expense already does.
 
 **Consequences:** the Accounts tab gets the 1530 row (one-off `addSuppliesOnHandAccount20261025`); the Amazon card is
 saved by Paul with the kind of cost set to 1530 Supplies on hand and the house OVERHEAD; each lock used from then on is
-one New expense. Anything else kept on hand by the box (smoke alarms, say) goes the same way.
+one New expense. Anything else kept on hand by the box or the pack goes the same way - the locks' batteries first
+(Paul, same day: "can this also be used for batteries for the locks"): the pack on the shelf, and a lock's New expense
+carries its batteries at the per-battery price, one line, "door lock with 4 batteries".
 

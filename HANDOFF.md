@@ -10,7 +10,9 @@ there; a figure written here is only as of its date.
 **17:25 CT - D-095 Supplies on hand built (CHANGELOG, same date):** the Amazon door locks (9 at 40.15) are stock: a new
 account 1530 Supplies on hand, on the live Accounts tab; a lock goes on a house through New expense with Paid from 1530.
 The sheet's dialogs have it (writer pushed). **Live since 17:22 CT - web app @57, site `6ade8133`, read-back OK (stamp `8a612c8`). Owed: Paul's Save of the Amazon
-card (kind of cost 1530 Supplies on hand, house OVERHEAD, 361.35).** Watch: his first lock off the shelf -
+card (kind of cost 1530 Supplies on hand, house OVERHEAD, 361.35).** The prompt's shelf rule now names batteries and the
+like (17:30 CT, in the repo; rides the next ship - the Save path does not need it). Paul has a battery-pack receipt coming
+in for the shelf; the three Amazon bank cards still waiting (16.25 of 10-07, 65.86 and 197.88 of 10-13) may be it. Watch: his first lock off the shelf -
 New expense, the house, 40.15, Paid from 1530 - lands on the house's Doors & Hardware and the Balance Sheet's Supplies on
 hand drops by 40.15.
 
