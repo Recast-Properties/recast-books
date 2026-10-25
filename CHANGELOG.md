@@ -21,7 +21,8 @@ fee under $50 can be recorded on its own against the house whose bill it came wi
   autopost vs card; the run end to end (the waiting 9.94 card re-offered, B1 in the prompt, posted on 1120 for the bill's
   house with the house tab rebuilt, line tied, card retired, summary 1). 618 tests. D-094; phase3-spec amended; CLAUDE.md
   rule 15.
-- **Shipped by Paul 16:28 CT: web app @54, site `6ade748b`, read-back OK (stamp `809cc6a`).** His first ship of 16:23
+- **Shipped by Paul 16:28 CT: web app @54, site `6ade748b`, read-back OK (stamp `809cc6a`); shipped once more 16:29 CT
+  at `420e3f3` (a notes-only commit, the same code): web app @55, site `6ade74b4`, read-back OK - the live stamp.** His first ship of 16:23
   had stamped `dbd5aa0` (web app @53, site `6ade734b`) - the commit before this one, so it carried the 16:20 prompt change
   only. **Proved live 16:29 CT** - Match statement lines on Citizens, run by Penny from the sheet: "1 bank lines looked at.
   0 tied to the books. None need your word. 1 utility fee recorded with its bill". On the tabs: `bank-1401-202610080000000553575826`,

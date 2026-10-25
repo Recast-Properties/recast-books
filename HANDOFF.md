@@ -7,7 +7,8 @@ there; a figure written here is only as of its date.
 
 ## 2026-10-25 - the audit's list is done and live (START HERE)
 
-**D-094 live since 10-25 16:28 CT - web app @54, site `6ade748b`, read-back OK; 618 tests. Nothing owed on the ship.**
+**D-094 live since 10-25 16:28 CT; the live stamp is `420e3f3` 16:29 CT - web app @55, site `6ade74b4`, read-back OK (a
+third ship of the same code); 618 tests. Nothing owed on the ship.**
 Paul's rule: a utility's card or online fee under $50 is recorded on the house of the bill it came with, no card. In the
 matching run the model sees RECENT BILLS, names the bill, and code records the one-item 1120 proposal for that house
 (`bank-<account>-<feed_id>`); a waiting one-line fee card is offered again each run. **Proved 16:29 CT:** the 9.94
