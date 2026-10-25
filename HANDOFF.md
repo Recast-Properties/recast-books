@@ -10,8 +10,9 @@ there; a figure written here is only as of its date.
 **D-096 live since 17:50 CT - web app @58, site `6ade87d3`, read-back OK (stamp `352a22e`); 627 tests:** the bookkeeper never guesses the house - only the
 receipt, the house's own mailbox, Paul's words or the original purchase name it; `houseRail` takes off any other house
 before the gate and the card asks. The matcher asks too, instead of pre-filling a house from amount and date. Watch: the next receipt with no house on it
-holds with "Which house? The receipt does not say" and its working shows the house rail line. Asked Paul: which house the 197.88 Amazon lights and fans (10-12, `receipt-20261012-6ca646e73108`,
-on 413 Green Acres by guess) belong to - move on his word. The 65.86 towel bars wait under Receipts for his house pick.
+holds with "Which house? The receipt does not say" and its working shows the house rail line. **Settled on Paul's word (18:15 CT): "all the charges were correct and acted as planned. the cost recaptures are right.
+do not change anything."** The 197.88 Amazon lights and fans stay on 413 Green Acres; no entry from the look back is
+touched. The 65.86 towel bars wait under Receipts for his house pick.
 Look back done (18:10 CT): one guessed house in 164 - the 197.88 above. It found a gap: a sold house's mailbox did not
 stand for Cost Recapture in the rail; fixed in the repo (`mailboxSold`). **Owed: `npm run ship` (Paul) for that fix.**
 

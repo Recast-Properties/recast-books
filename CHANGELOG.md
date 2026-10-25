@@ -6,7 +6,7 @@ Paul: "look back over the receipts the bookkeeper posted on its own since the cu
 house." Read from the live store (164 documents posted with no review since 09-21, fetched whole):
 - 87 overhead only; 70 on the house of the mailbox they came to; 7 read one by one.
 - **One guess:** the 197.88 Amazon lights and fans of 10-12 (`receipt-20261012-6ca646e73108`) on 413 Green Acres "from
-  routing precedent". Asked Paul which house.
+  routing precedent". **Paul: every charge was right - "do not change anything." It stays.**
 - Not guesses: the 37.84 Home Depot of 10-11 (the receipt's job name "poinsetta"); the 125.53 Home Depot shutters of 10-24
   (delivery address and job field "#Green Acres"); the -94.33 Home Depot return of 10-14 (each credit back on its original
   purchase: faucets 413 Green Acres, electrical 366 Mesa, job name "mesa"); the 15.71 Amazon doorbell of 05-28 (Paul's note
