@@ -485,5 +485,5 @@ test("audit 2026-10-24 #11: the site no longer posts - approve, repost and repos
     assert.match((await res.json()).message || "", /unknown action|docId/i);
   }
   assert.equal(ingestCalls.length, 0, "nothing was fired");
-  assert.equal((await docsStore.get("doc/gm-no-approve", { type: "json" })).status, "pending", "the envelope is untouched");
+  assert.equal((await getDocsStore().get("doc/gm-no-approve", { type: "json" })).status, "pending", "the envelope is untouched");
 });
