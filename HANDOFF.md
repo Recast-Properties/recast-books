@@ -31,8 +31,9 @@ first scan after it builds the index (slow once), then loads are quick; check `b
 shipped 10-24 (web app @46, site `6add438a`); owed in order - his Gmail filters that apply `to-books` (Foremost, the bank's Zelle notices, PACER,
 Venmo), one at a time. Penny ran selfTest in the editor after the push and no permission prompt came - check the writer's
 Executions page after the next hourly run for an authorization error on `checkMailHeartbeat_` (if one, Paul runs any
-function and clicks Allow). Watch: the Inbox header's "Mail last checked" (needs one poll after the push), the
-first labelled email coming in.** `git push` owed after.
+function and clicks Allow). **Heartbeat verified 10-24 evening:** `poller/last/paul` stamped by the 4:58 PM PT poll (sent 1, failed 0) and
+`poller/last/properties` by the 4:50 PM poll; the Inbox header shows it from now on. Watch the first labelled email
+coming in, and the writer's hourly log for `checkMailHeartbeat_`.** `git push` owed after.
 **Noted:** Match statement lines never offers a bank whose every open line already has a card (`unmatchedFeedCounts_`
 counts `unmatched` only), so the ten-day sweep cannot run there until a card is dismissed - recorded, not changed.
 
