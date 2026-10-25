@@ -5,7 +5,21 @@ history and are not written to; `CHANGELOG.md` keeps its dated entry per change.
 `docs/ops.md`. The books' numbers live on the workbook's tabs (P&L, Totals, Citizens Bank, the house tabs) - read them
 there; a figure written here is only as of its date.
 
-## 2026-10-25 - #15, #13, #16, #17, #12, #11 live; next #18 (START HERE)
+## 2026-10-25 - #15, #13, #16, #17, #12, #11, #18 live; next #19 (START HERE)
+
+**#18 live 10-25 11:50 PT - a poller push to both instances by Penny, verified by pull (611 tests); nothing for Paul
+to run.** A picture under 20 KB in an email is a logo and is skipped with a poller note; an email with only a logo is
+read from its text. The same bar in `isDocAttachment_` fixes a gap: a forward carrying only a logo now still borrows
+the file it lists from the original message (D-089). `Listing.gs` (the cutover listing, `replayIds`, `repostAll`,
+`repostWatch`) is gone from both pollers. **Watch:** the next Lowe's or Home Depot email - its card should show the
+receipt (the body or the real picture), never a logo; the poller note names any skipped picture. **Known:** if the
+properties@ or paul@ project had a live `repostWatch` trigger it is now a trigger to a missing function (it logs an
+error every five minutes) - check the Triggers page of each poller project once; delete it there if present.
+
+**Next work, in Paul's order:** #19 - the 150 lines of `writer-gs-lint` that run Inbox.html's card logic through
+`new Function` become plain unit tests (structure only; then the audit's second list is done).
+
+## 2026-10-25 (late afternoon) - #15, #13, #16, #17, #12, #11 live
 
 **#11 live since 10-25 13:47 CT - web app @51, site `6ade4eb7`, read-back OK; 610 tests. Nothing owed on the ship.** One posting path: the web Inbox's Approve
 verb, its background half and button are gone; so are D-025's `repost` / `repost-all` replays, `recover-errored.mjs`
@@ -14,9 +28,7 @@ learning uses (`applyPayerOverride`). Nothing Paul does changes: he saves in the
 posting on their own) is the one live user of the kept path - it should still work. **Known:** the poller's
 `Listing.gs` `repostAll` (cutover-era, never run since) now calls a verb that is gone - #18 removes it.
 
-**Next work, in Paul's order:** #18 the poller skips inline images under ~20 KB (a vendor's logo is filed as the
-receipt today) and Listing.gs's cutover-era functions come out of both live poller projects (a poller push, both
-instances - Penny's), then #19 the Inbox lint's `new Function` card logic as plain unit tests.
+**Next work (late afternoon; #18 done above):** #19.
 
 ## 2026-10-25 (mid-afternoon) - #15, #13, #16, #17, #12 live
 

@@ -10,7 +10,7 @@
 
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { readFileSync } from "node:fs";
+import { readFileSync, existsSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import path from "node:path";
 
@@ -266,4 +266,29 @@ test("audit 2026-10-24 #10: the to-books label is a second way in, a thread is d
   const w = source.indexOf("function warmCache_(");
   const warm = source.slice(w, source.indexOf("\n}\n", w));
   assert.match(warm, /mailbox: mailbox \|\| ''/, "the kick names the mailbox - the site's heartbeat");
+});
+
+test("audit 2026-10-24 #18: an image under 20 KB is a logo, skipped with a note; it does not count as a file, so a forward that carries only a logo still borrows the files it lists (D-089); Listing.gs and its replays are gone", () => {
+  const fn = (name) => { const a = source.indexOf(`function ${name}(`); const b = source.indexOf("\nfunction ", a + 1); return source.slice(a, b === -1 ? source.length : b); };
+  const CONFIG = new Function(`${source.slice(source.indexOf("var CONFIG = {"), source.indexOf("};", source.indexOf("var CONFIG = {")) + 2)}\nreturn CONFIG;`)();
+  assert.equal(CONFIG.MIN_IMAGE_BYTES, 20 * 1024);
+  const build = new Function("CONFIG", "Utilities", "channelOf_", "shrinkImageViaDrive_", `${fn("buildPayload_")}\n${fn("isDocAttachment_")}\n${fn("forwardedAttachments_")}\n${fn("placeholderNames_")}\n${fn("plainName_")}\nreturn buildPayload_;`)(
+    CONFIG, { base64Encode: (b) => `b64:${b.length}` }, () => "receipts", () => null);
+  const att = (name, size, type) => ({ getContentType: () => type, getName: () => name, getBytes: () => ({ length: size }) });
+  const msg = (atts, body, extra = {}) => ({ getAttachments: () => atts, getPlainBody: () => body, getId: () => "m3", getSubject: () => "s", getFrom: () => "f", getDate: () => new Date("2026-10-25T12:00:00Z"), ...extra });
+
+  const p = build(msg([att("logo.png", 9 * 1024, "image/png"), att("IMG_1.JPG", 300000, "image/jpeg"), att("pixel.gif", 43, "image/gif")], "Your Lowe's receipt"), false);
+  assert.deepEqual(p.attachments.map((a) => a.name), ["IMG_1.JPG"], "the logo and the pixel are not documents");
+  assert.match(p.bodyText, /Skipped a small picture \("logo\.png", 9 KB\) - logo-sized, not a receipt; the email text is the receipt\./);
+  assert.equal(build(msg([att("logo.png", 9 * 1024, "image/png")], "Your Lowe's receipt\nTotal $12.00"), false).attachments.length, 0, "a logo alone: the email text is the receipt (D-035)");
+
+  // the iPhone forward that lists its file but carries only the vendor's logo: the file is taken from the original
+  const original = msg([att("Invoice #68029768.pdf", 50000, "application/pdf")], "the invoice", { getId: () => "m0", getDate: () => new Date("2026-10-24T12:00:00Z") });
+  const forward = msg([att("logo.png", 9 * 1024, "image/png")], "FYI\n\n<Invoice #68029768.pdf>\n", { getThread: () => ({ getMessages: () => [original, { getId: () => "m3", getDate: () => new Date("2026-10-25T12:00:00Z") }] }) });
+  const f = build(forward, false);
+  assert.deepEqual(f.attachments.map((a) => a.name), ["Invoice #68029768.pdf"], "borrowed from the original - a logo did not count as the file");
+  assert.match(f.bodyText, /The forward carried no files; the 1 it lists were taken from the original message/);
+
+  assert.ok(!existsSync(path.join(__dirname, "..", "apps-script", "poller", "Listing.gs")), "Listing.gs (the cutover-era listing, id replay and repost watcher) is gone");
+  for (const name of ["repostAll", "replayIds", "listBooksMail", "repostWatch"]) assert.ok(!source.includes(`function ${name}(`), `${name} is not in Code.gs either`);
 });

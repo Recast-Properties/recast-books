@@ -88,6 +88,10 @@ var CONFIG = {
   // photo over 3 MB (about one in four) reached the books and Drive as a 1500x2000 copy - Paul: "pixelated and
   // sometimes unreadable. i am sending high resolution images". A photo under this cap is stored exactly as sent.
   MAX_ATTACH_BYTES: 4 * 1024 * 1024,
+  // Audit 2026-10-24 #18: a picture under this is a vendor's logo or a tracking pixel, never a receipt - a Lowe's or
+  // Home Depot email carries two or three, and one was filed as the receipt. ponytail: one size test; an inline-vs-
+  // attached test only if a real receipt ever arrives under it.
+  MIN_IMAGE_BYTES: 20 * 1024,
   SHRINK_SIZES: [8000, 5000, 4032, 3000, 2000], // long side, largest first: a photo over the cap keeps the biggest copy that fits
   MAX_ATTACH_COUNT: 6, // at most N attachments per DOCUMENT; an email with more becomes several (buildPayload_)
   MAX_PART_BYTES: 4 * 1024 * 1024 // raw bytes per document, for the same 6 MB POST limit
@@ -588,6 +592,10 @@ function buildPayload_(message, dryRun, channelOverride) {
     if (!isPdf && !isImg) continue;
 
     var bytes = att.getBytes();
+    if (isImg && bytes.length < (CONFIG.MIN_IMAGE_BYTES || 0)) {   // audit #18: a logo, not a receipt
+      notes.push('Skipped a small picture ("' + att.getName() + '", ' + Math.round(bytes.length / 1024) + ' KB) - logo-sized, not a receipt; the email text is the receipt.');
+      continue;
+    }
     // Decide the mime by extension when the client sent none or octet-stream (Netlify
     // invoices arrive as application/octet-stream; 2026-09-14 the model was told they
     // were unsupported). Same normalization the old receipts poller does.
@@ -649,11 +657,15 @@ function buildPayload_(message, dryRun, channelOverride) {
   return payloads[0];
 }
 
-/** A PDF or an image - the kinds the books read. */
+/** A PDF, or an image big enough to be a receipt - the kinds the books read. Audit 2026-10-24 #18: an image under
+ *  CONFIG.MIN_IMAGE_BYTES is a vendor's logo; counting one as a document kept a forward's real files (D-089) from
+ *  being borrowed from the original message. */
 function isDocAttachment_(att) {
   var type = (att.getContentType() || '').toLowerCase();
   var lname = (att.getName() || '').toLowerCase();
-  return type === 'application/pdf' || /\.pdf$/.test(lname) || /^image\//.test(type) || /\.(jpe?g|png|gif|webp|heic|heif|bmp|tiff?)$/.test(lname);
+  if (type === 'application/pdf' || /\.pdf$/.test(lname)) return true;
+  var isImg = /^image\//.test(type) || /\.(jpe?g|png|gif|webp|heic|heif|bmp|tiff?)$/.test(lname);
+  return isImg && att.getBytes().length >= (CONFIG.MIN_IMAGE_BYTES || 0);
 }
 
 /** The files a forward lists but does not carry, taken from the earlier message in the same conversation that has them. */

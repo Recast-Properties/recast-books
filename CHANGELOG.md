@@ -1,5 +1,21 @@
 # Changelog
 
+## 2026-10-25 - Audit #18: the poller skips logo-sized pictures, and the cutover-era Listing.gs is out of both pollers
+
+- `CONFIG.MIN_IMAGE_BYTES` = 20 KB: an image under it is a vendor's logo or a tracking pixel, never a receipt - a
+  Lowe's or Home Depot email carries two or three, and one had been filed as the receipt. `buildPayload_` skips it
+  with a poller note ("Skipped a small picture ("logo.png", 9 KB) - logo-sized, not a receipt; the email text is the
+  receipt"), so an email with only a logo is read from its text (D-035). `isDocAttachment_` applies the same bar -
+  found while building it: a forward that carried only the vendor's logo counted as having a file, so the PDF it
+  listed was never borrowed from the original message (D-089). Now it is.
+- `apps-script/poller/Listing.gs` deleted (git keeps it): the Phase 4 mailbox listing one-off, `replayIds` (posted for
+  real from a Drive list), `repostAll` / `repostWatch` (called a verb #11 removed, and installed a five-minute trigger),
+  and their resets. **Pushed by Penny to both pollers 10-25 11:50 PT (`clasp push -f`; `-P .clasp-properties.json`),
+  each verified by a pull into a scratch folder: two files, Code = the repo, no Listing.gs.** No deploy: a poller runs
+  its latest saved code.
+- Lint: the logo skip, the note, the logo-only email, the forward case, and that Listing.gs and its four functions are
+  gone. 611 tests. Nothing for Paul to run.
+
 ## 2026-10-25 - Audit #11: one posting path - the web Inbox's Approve and the staging replays are gone
 
 Four "not done on the other path" notes in five weeks came from keeping three posting paths in step for a button Paul
