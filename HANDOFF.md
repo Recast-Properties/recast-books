@@ -7,6 +7,12 @@ there; a figure written here is only as of its date.
 
 ## 2026-10-25 - the audit's list is done and live (START HERE)
 
+**16:20 CT - the Red Oak $2 fee card and its 298.72 twin are gone (CHANGELOG, same date):** both lines tied to the 10-01
+receipt by a rerun of the matching; the prompt now says in words that a utility bill and its online fee are one receipt.
+**Owed: `npm run ship` (Paul) - the prompt change is in the repo, not on the site yet.** Asked, not decided: should a
+utility's card fee under $50 (the 9.94 WAXAHACHIE SERVFEE card of 10-08, not in the books) record itself like the bank's?
+The Bank statement tab shows 10.
+
 **15:56 CT - the two 1.00 ATM cards of 10-07 are gone (CHANGELOG, same date):** D-093 never got a turn because Match
 statement lines refused a bank whose open lines all had cards; the menu now counts a waiting line as open (Menu.gs pushed,
 no deploy). Both fees are on 6910 under OVERHEAD, lines tied, cards retired; the Bank statement tab shows 12. The 10-24

@@ -1,5 +1,24 @@
 # Changelog
 
+## 2026-10-25 - The Red Oak water bill and its $2 online fee: two bank lines, one receipt - matched, no more asking
+
+Paul, 16:10 CT, on the 2.00 MUNICIPAL ONLINE PAYMEN card of 10-02: "again with these". The books held the payment as one
+receipt (`receipt-20261001-069ed84c43c9`, 300.72 = the bill 295.76 + the city's 2.96 processing fee + the 2.00 Municipal
+Online Payments fee, 136 Bowling Green, paid from 1401); the bank split it into 10-02 -2.00 and 10-05 -298.72. The 10-06
+run made a question card of each line ("should I split the $2 off?") instead of matching both to the receipt - the
+September pair (09-01 2.00 + 09-02 527.24 = 529.24) had matched - and a line waiting on a card is never offered again.
+- `lib/feed-match.mjs` MATCH_PROMPT rule 1, in words: a utility bill and its online-payment or card-processing fee
+  (MUNICIPAL ONLINE PAYMEN, SERVFEE) that the receipt itemises are two lines for one entry - match both, never ask
+  whether to split. `test/feed-match.test.mjs` pins it. 615 tests. **Needs the site deploy (`npm run ship`), owed.**
+- `rematchRedOakFeeLines20261025` (oneOffScripts.gs, commit 2113638, run by Penny from the editor 16:15 CT, out of the
+  file after): retired the two cards on the site, opened the two lines with a Claude note, ran the matching on Citizens
+  (the live prompt): "2 bank lines looked at. 2 tied to the books. None need your word." Verified on the Feed tab: both
+  rows `matched` to the 10-01 receipt, note "the bank split it into the bill and the $2 online fee". Bank statement tab
+  12 -> 10.
+- Not changed: the 9.94 WAXAHACHIE SERVFEE card of 10-08 is a different case - the city's card fee for the 469 Brushwood
+  water bill, and the receipt on the books (251.64) does not carry it. Its card proposes recording it; whether a utility's
+  fee under the ceiling should record itself like the bank's (D-093) is Paul's call, asked.
+
 ## 2026-10-25 - Match statement lines runs on a bank whose open lines are all waiting in the Inbox (the two 1.00 ATM cards retired)
 
 Paul, 15:50 CT, the Inbox still showing the 10-07 FOREIGN ATM CHARGE card: "i thought we fixed this". D-093 (#16) was
