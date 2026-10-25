@@ -14,7 +14,8 @@ holds with "Which house? The receipt does not say" and its working shows the hou
 do not change anything."** The 197.88 Amazon lights and fans stay on 413 Green Acres; no entry from the look back is
 touched. The 65.86 towel bars wait under Receipts for his house pick.
 Look back done (18:10 CT): one guessed house in 164 - the 197.88 above. It found a gap: a sold house's mailbox did not
-stand for Cost Recapture in the rail; fixed in the repo (`mailboxSold`). **Owed: `npm run ship` (Paul) for that fix.**
+stand for Cost Recapture in the rail; fixed (`mailboxSold`), **live since 18:00 CT - web app @59, site `6ade8a20`, read-back OK (stamp `34a6adb`), shipped
+from the session on Paul's "deploy". Nothing owed.**
 
 **17:29 CT - Add receipt proved, clean:** Paul added the PDF on the 16.25 Amazon card of 10-07; the bookkeeper read a
 48-pack of AA batteries, posted it on 1530 Supplies on hand (`receipt-20261007-f0efd5e16e48`, about 0.34 each), tied the

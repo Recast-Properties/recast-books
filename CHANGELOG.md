@@ -19,7 +19,7 @@ house." Read from the live store (164 documents posted with no review since 09-2
   envelope's channel when it is a property mailbox (books-upload accepts only a Properties name there) and whether that
   house is sold. The prompt says a sold house's mail on Cost Recapture is `"mailbox"`. Tests for both. 627 tests.
 - Not looked at: cards Paul saved himself (he saw the house when he saved); before the cutover (the migration is closed).
-- **Needs `npm run ship` (Paul)** for the Cost Recapture fix.
+- **Shipped from the session on Paul's "deploy" 18:00 CT: web app @59, site `6ade8a20`, read-back OK (stamp `34a6adb`).**
 
 ## 2026-10-25 - D-096: the bookkeeper never guesses the house
 
