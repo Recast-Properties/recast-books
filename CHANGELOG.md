@@ -21,7 +21,8 @@ fee under $50 can be recorded on its own against the house whose bill it came wi
   autopost vs card; the run end to end (the waiting 9.94 card re-offered, B1 in the prompt, posted on 1120 for the bill's
   house with the house tab rebuilt, line tied, card retired, summary 1). 618 tests. D-094; phase3-spec amended; CLAUDE.md
   rule 15.
-- **Needs `npm run ship` (Paul)** - the site (the run) and the writer (the summary line). The 9.94 SERVFEE card of 10-08
+- **Not shipped yet.** Paul's `npm run ship` of 16:23 CT stamped `dbd5aa0` (web app @53, site `6ade734b`, read-back OK)
+  - the commit before this one, so it carried the 16:20 prompt change but not D-094; a second ship is owed. The 9.94 SERVFEE card of 10-08
   then clears itself on the next Match statement lines: the model names the 10-08 Waxahachie bill (469 Brushwood) and the
   fee is recorded on 1120 for 469 Brushwood. Watch that run's summary for "1 utility fee recorded with its bill".
 - Not changed: the 09-02 TYL SERVFEE 47.26 Paul booked by hand to 6910 OVERHEAD.
@@ -40,7 +41,7 @@ September pair (09-01 2.00 + 09-02 527.24 = 529.24) had matched - and a line wai
   file after): retired the two cards on the site, opened the two lines with a Claude note, ran the matching on Citizens
   (the live prompt): "2 bank lines looked at. 2 tied to the books. None need your word." Verified on the Feed tab: both
   rows `matched` to the 10-01 receipt, note "the bank split it into the bill and the $2 online fee". Bank statement tab
-  12 -> 10.
+  12 -> 10. **The prompt change shipped by Paul 16:23 CT: web app @53, site `6ade734b`, read-back OK (stamp `dbd5aa0`).**
 - Not changed: the 9.94 WAXAHACHIE SERVFEE card of 10-08 is a different case - the city's card fee for the 469 Brushwood
   water bill, and the receipt on the books (251.64) does not carry it. Its card proposes recording it; whether a utility's
   fee under the ceiling should record itself like the bank's (D-093) is Paul's call, asked.

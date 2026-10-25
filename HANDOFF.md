@@ -10,7 +10,8 @@ there; a figure written here is only as of its date.
 **16:45 CT - D-094 built, not shipped (CHANGELOG, same date):** Paul's rule - a utility's card or online fee under $50
 is recorded on the house of the bill it came with, no card. In the matching run the model sees RECENT BILLS, names the
 bill, and code records the one-item 1120 proposal for that house (`bank-<account>-<feed_id>`). **Owed: `npm run ship`
-(Paul) - it carries the 16:20 prompt change too.** Watch: the next Match statement lines on Citizens - the 9.94 SERVFEE
+(Paul) - his 16:23 ship stamped `dbd5aa0` (web app @53, site `6ade734b`), the commit before D-094, so the site runs the
+16:20 prompt change but not the fee rule.** Watch: the next Match statement lines on Citizens - the 9.94 SERVFEE
 card of 10-08 should clear itself ("1 utility fee recorded with its bill"), 469 Brushwood's tab gaining the 9.94 on
 utilities; the Bank statement tab then shows 9.
 
