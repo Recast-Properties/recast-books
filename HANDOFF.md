@@ -5,10 +5,10 @@ history and are not written to; `CHANGELOG.md` keeps its dated entry per change.
 `docs/ops.md`. The books' numbers live on the workbook's tabs (P&L, Totals, Citizens Bank, the house tabs) - read them
 there; a figure written here is only as of its date.
 
-## 2026-10-25 - audit #15 and #13 built, not yet shipped; next #16 (START HERE)
+## 2026-10-25 - audit #15 and #13 live; next #16 (START HERE)
 
-**Built 10-25 (612 tests), committed - owed: Paul runs `npm run ship` (Code.gs and Menu.gs changed, so the web app
-deploy is part of it).** **#15:** the hourly P&L run was measured first from the writer's Executions log (26 runs, 10-24
+**Live since 10-25 13:03 CT - `npm run ship` by Paul: web app @47, site `6ade4486`, read-back OK; 612 tests. Nothing owed on
+the ship.** **#15:** the hourly P&L run was measured first from the writer's Executions log (26 runs, 10-24
 08:05 to 10-25 10:05 PT): most take 15-55 s, five took 140-354 s, and the 10-24 3:05 PM run finished 6 s under the 360 s
 cap - a spike, not a steady climb. `refreshPnl_` now logs `refreshPnl_ timings: journal Ns, advances Ns, pnl math Ns,
 pnl tab Ns, taxes Ns` every run; the hourly handler leaves `PNL_RUN_STARTED` in Script Properties while it runs, and the
@@ -18,12 +18,12 @@ timings line to say which stage. **#13:** the three HTTP write paths (`postEntry
 and the import give the lock back right after the rows land and rebuild the house / bank tabs after it; every
 `waitLock` is `LOCK_WAIT_MS` = 120 s.
 
-**Watch after the ship:** the next hourly run's Executions entry carries the timings line (Chrome, the writer's
+**Watch (live from the 2:05 PM CT run on):** the next hourly run's Executions entry carries the timings line (Chrome, the writer's
 Executions page; the 9:05 AM, 3:05 PM and 1:05 AM PT runs have spiked before) - the first spike's line names the stage
 to split; a `console.error` "never finished" line is a death; Paul's first Save or void after the ship still shows the
 house tab updated (the rebuild moved after the lock, it did not go away).
 
-**Owed, in order:** (1) `npm run ship` (Paul). (2) From 10-24, unchanged: Paul's Gmail filters that apply `to-books`,
+**Owed, in order:** (1) From 10-24, unchanged: Paul's Gmail filters that apply `to-books`,
 one at a time when he says; the 10-11 Poinsetta photo (`gm-1a12d6f7780f7d94`) - Paul forwards that email to receipts@
 again, Claude clears the old error card.
 

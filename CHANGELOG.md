@@ -18,8 +18,8 @@ suggestion was already true).
 **#13:** `postEntry_`, `voidEntry_` and `postBatchEntries_` give the lock back right after `SpreadsheetApp.flush()` and
 rebuild the house tabs after it (the Save path already did; `importStatement` the same for the bank tab, with a flush
 inside the lock now); every `waitLock` is `LOCK_WAIT_MS` = 120 s (was a typed 30000 in six places). Two lint tests pin
-both (`writer-gs-lint`). 612 tests. Committed; **shipping is Paul's `npm run ship`** (Code.gs changed, so the web app
-deploy is in it).
+both (`writer-gs-lint`). 612 tests. **Shipped by Paul 10-25 13:03 CT (`clasp login` renewed first): web app @47, site
+`6ade4486`, read-back OK.**
 
 
 ## 2026-10-24 (evening) - Audit #10: the poller's done-label guard, the to-books label, and a heartbeat
