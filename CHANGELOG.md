@@ -23,7 +23,7 @@ Paul, asked the ceiling (section 6 q3): "Yes - a bank fee under $50 can be recor
   (interest) - the prompt's old wording. Moving it is a void and a re-post on 6910, on Paul's word.
 - **Watch:** the next Match statement lines (or Import statement) on Citizens - the two 1.00 ATM cards of 10-07 leave
   the Inbox on their own and the lines read matched to `bank-1401-...`; the 9.94 SERVFEE card stays for Paul.
-  Shipping: Paul's `npm run ship` (Menu.gs and the site changed).
+  **Shipped by Paul 10-25 13:22 CT: web app @48, site `6ade48f6`, read-back OK.**
 
 ## 2026-10-25 - Audit #15 and #13: the hourly P&L run is measured and no longer dies in silence; the house-tab rebuild is out from under the writer's lock
 
