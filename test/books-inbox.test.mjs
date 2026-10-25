@@ -487,3 +487,26 @@ test("audit 2026-10-24 #11: the site no longer posts - approve, repost and repos
   assert.equal(ingestCalls.length, 0, "nothing was fired");
   assert.equal((await getDocsStore().get("doc/gm-no-approve", { type: "json" })).status, "pending", "the envelope is untouched");
 });
+
+test("2026-10-25 receipt-added: Paul added the receipt on a bank card - the card is marked and hidden from the pending list for ten minutes, then shows again; a card no longer pending is left as it is; no receipt id is refused", { skip }, async () => {
+  await seedEnvelope("feed-1401-ra1", { source: "feed", feed: { account: "1401", feed_ids: ["ra1"], amount_cents: -3784 } });
+  const res = await handler(pollerReq("POST", { body: { action: "receipt-added", docId: "feed-1401-ra1", receipt: "rc-abc123" } }));
+  assert.equal(res.status, 200);
+  const env = await getDocsStore().get("doc/feed-1401-ra1", { type: "json" });
+  assert.equal(env.status, "pending");
+  assert.equal(env.receipt_added, "rc-abc123");
+  assert.ok(env.receipt_added_at);
+  let list = await (await handler(req("GET", { token: session("owner"), search: "?status=pending" }))).json();
+  assert.ok(!list.envelopes.some((e) => e.docId === "feed-1401-ra1"), "hidden while the receipt is read");
+  const one = await (await handler(req("GET", { token: session("owner"), search: "?status=all&docId=feed-1401-ra1" }))).json();
+  assert.equal(one.envelopes.length, 1, "asked for by id, it is there");
+  await getDocsStore().setJSON("doc/feed-1401-ra1", { ...env, receipt_added_at: new Date(Date.now() - 11 * 60000).toISOString() });
+  list = await (await handler(req("GET", { token: session("owner"), search: "?status=pending" }))).json();
+  assert.ok(list.envelopes.some((e) => e.docId === "feed-1401-ra1"), "back after ten minutes");
+  await seedEnvelope("feed-1401-ra2", { status: "posted" });
+  const left = await handler(pollerReq("POST", { body: { action: "receipt-added", docId: "feed-1401-ra2", receipt: "rc-abc124" } }));
+  assert.equal((await left.json()).unchanged, true);
+  const bad = await handler(pollerReq("POST", { body: { action: "receipt-added", docId: "feed-1401-ra1" } }));
+  assert.equal(bad.status, 400);
+});
+

@@ -967,5 +967,7 @@ test("2026-10-25 Add receipt: a bank card takes the receipt from Paul's computer
   assert.match(fn, /siteFetchJson_\('\/api\/upload', 'post', \{/);
   assert.match(fn, /source: 'upload', channel: 'upload'/);
   assert.match(fn, /The bank card waiting for it is ' \+ String\(req\.docId \|\| ''\)/, "the note names the card so the read can answer it (D-087)");
+  assert.match(fn, /action: 'receipt-added', docId: req\.docId, receipt: r\.docId/, "the card is set aside on the site while the receipt is read");
+  assert.match(inbox, /done\('Got it - Claude is reading the receipt/, "the card closes on Add receipt - no Save can race the read");
   assert.doesNotMatch(fn, /postBatchEntries_|postEntry_|buildEntry/, "nothing is posted from here - the bookkeeper reads the receipt as any other");
 });

@@ -7,6 +7,9 @@
 //                                                                   citing a card number Paul just placed, re-run from their reads)
 //   POST /api/inbox {action:"mark-posted" | "mark-pending", ...}  (owner/poller; the workbook's Inbox records its post here)
 //   POST /api/inbox {action:"delete", docId}                      (owner; dry/error only)
+//   POST /api/inbox {action:"receipt-added", docId, receipt}      (owner/poller; 2026-10-25 - Paul added the receipt on a
+//                                                                   bank card: the card is set aside RECEIPT_READ_MS while
+//                                                                   the bookkeeper reads it, so a Save cannot race the read)
 //
 // Nothing here posts to the books (audit 2026-10-24 #11, D-023): an entry is posted by the workbook's Inbox
 // (Menu.gs inboxApprove, in-process) or by the ingest's automatic path (D-044) - the site records and manages the
@@ -27,6 +30,7 @@ import {
 } from "./_shared.mjs";
 const STATUSES = new Set(["pending", "posted", "dismissed", "dry", "error", "processing"]);
 const DELETABLE_STATUSES = new Set(["dry", "error"]);
+export const RECEIPT_READ_MS = 10 * 60 * 1000;   // a read takes about a minute; the card is back in ten if the receipt did not answer it
 const DOC_ID_RE = /^[A-Za-z0-9_-]{1,200}$/;
 
 async function loadEnvelope(docsStore, docId) {
@@ -76,7 +80,8 @@ export default async (req) => {
     let picked;
     try {
       picked = (await loadDocIndex(docsStore, { prefix: onlyDocId ? `doc/${onlyDocId}` : "doc/" }))
-        .filter((d) => (!onlyDocId || d.docId === onlyDocId) && (status === "all" || d.status === status));
+        .filter((d) => (!onlyDocId || d.docId === onlyDocId) && (status === "all" || d.status === status))
+        .filter((d) => onlyDocId || !(d.status === "pending" && d.receipt_added_at && Date.now() - Date.parse(d.receipt_added_at) < RECEIPT_READ_MS));
     } catch (err) {
       return json(502, { error: "STORE_ERROR", message: String((err && err.message) || err) });
     }
@@ -198,6 +203,18 @@ export default async (req) => {
       return json(200, { docId, status: "pending" });
     }
 
+    if (body.action === "receipt-added") {
+      // 2026-10-25 (Menu.gs inboxAddReceipt): the receipt for this bank card went up /api/upload as `receipt`. The card is
+      // set aside while the bookkeeper reads it - the 37.84 Home Depot of 10-13 was typed and read at the same time and
+      // went in twice. A card no longer pending is left as it is.
+      if (!validateDocId(String(body.receipt || ""))) return json(400, { error: "BAD_REQUEST", message: "receipt is required" });
+      const envelope = await loadEnvelope(docsStore, docId);
+      if (!envelope) return json(404, { error: "NOT_FOUND", message: `no envelope for docId ${docId}` });
+      if (envelope.status !== "pending") return json(200, { docId, status: envelope.status, unchanged: true });
+      await docsStore.setJSON(`doc/${docId}`, { ...envelope, receipt_added: String(body.receipt), receipt_added_at: new Date().toISOString() });
+      return json(200, { docId, status: "pending", receipt_added: String(body.receipt) });
+    }
+
     if (body.action === "dismiss") {
       if (!body.note) return json(400, { error: "BAD_REQUEST", message: "note is required" });
       const envelope = await loadEnvelope(docsStore, docId);
@@ -275,7 +292,7 @@ export default async (req) => {
       return json(200, { docId, deleted: true });
     }
 
-    return json(400, { error: "BAD_REQUEST", message: "unknown action - it must be mark-posted, mark-pending, dismiss, reprocess, relearn or delete" });
+    return json(400, { error: "BAD_REQUEST", message: "unknown action - it must be mark-posted, mark-pending, dismiss, reprocess, relearn, receipt-added or delete" });
   }
 
   return json(405, { error: "METHOD_NOT_ALLOWED" });

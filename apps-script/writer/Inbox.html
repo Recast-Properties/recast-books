@@ -440,7 +440,8 @@
       }).then(function (r) {
         addReceipt.disabled = false;
         if (!r.ok) return showMsg_(msg, false, plainError_(r));
-        showMsg_(msg, true, 'Got it - Claude is reading the receipt. When it matches this charge the card clears itself in a minute or two; if it does not match, the receipt comes back as its own card. Click Refresh.');
+        // The card closes here and is set aside on the site while the receipt is read - no Save can race it.
+        done('Got it - Claude is reading the receipt (a minute or two). When it matches this charge the card clears itself; if it does not match, the receipt comes back as its own card and this one returns in ten minutes.');
       }, function (err) { addReceipt.disabled = false; showMsg_(msg, false, err && err.message ? err.message : String(err)); });
     };
 

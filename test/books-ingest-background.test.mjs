@@ -801,3 +801,52 @@ test("audit 2026-10-24 #11 / #7 applyPayerOverride: a re-run from a stored read 
   assert.equal(out.verdict, "post", "nothing else changes");
   assert.equal(applyPayerOverride(postModel(), {}).paid_from, "1401", "a known payer is left alone");
 });
+
+// ---- 2026-10-25: the receipt arrives after Paul saved the bank card by hand (the 37.84 Home Depot of 10-13 went in twice)
+const TYPED_CARD = { ...BANK_CARD, status: "posted", review: { action: "approve", by: "paul@recast-properties.com", at: "2026-10-25T21:44:40Z" },
+  result: { txn_ids: ["receipt-typed"], rows: null, doc_url: "", entries: [{ date: "2026-09-10", payee: "Home Depot Waxahachie", property: "366 Mesa", paid_from: "1401", items: [{ account: "1030", amount_cents: 4500 }] }] } };
+function typedWriter(calls) {
+  return {
+    storeDocument: async () => ({ fileId: "f1", url: "https://drive/x", folderUrl: "https://drive/folder" }),
+    void: async (txn_id, reason, date, by) => { calls.push(["void", txn_id, date, by]); return { ok: true }; },
+    postBatch: async (entries) => { calls.push(["postBatch", entries.length]); return { rows: [1, 2] }; },
+    feedRetie: async (from, to) => { calls.push(["feedRetie", from, to]); return { ok: true, updated: 1 }; },
+    feedUpdate: async (rows) => { calls.push(["feedUpdate", rows]); return { ok: true, updated: rows.length }; },
+    read: async () => ({ ok: true, headers: ["txn_id"], rows: [] }),
+  };
+}
+
+test("2026-10-25: a receipt answering a bank card Paul already saved by hand, same total and account - the recheck's twin is the typed copy, not a reason to dismiss; the receipt posts, the typed copy is voided on its own date, its bank lines move, the card's record names the receipt", { skip }, async () => {
+  const envelope = await seedEnvelope({ docId: "gm-typed" });
+  const store = getDocsStore();
+  await store.set("att/gm-typed/0", Buffer.from("hi").toString("base64"), { metadata: {} });
+  await store.setJSON(`doc/${BANK_CARD.docId}`, TYPED_CARD);
+  const calls = [];
+  const result = await processDecision({ envelope, docId: "gm-typed", model: postModel({ supersedes: BANK_CARD.docId }), transcript_summary: [], usage: {},
+    gateResult: PASS_GATE, ctx: baseCtx(), writer: typedWriter(calls), docsStore: store, recheckDuplicate: async () => ({ txn_id: "receipt-typed", kind: "twin" }) });
+  assert.equal(result.status, "posted");
+  const posted = result.result.txn_ids;
+  assert.deepEqual(calls.map((c) => c[0]), ["postBatch", "void", "feedRetie"]);
+  assert.deepEqual(calls[1], ["void", "receipt-typed", "2026-09-10", "claude"], "the typed copy goes out on its own date");
+  assert.deepEqual(calls[2], ["feedRetie", "receipt-typed", posted]);
+  const card = await store.get(`doc/${BANK_CARD.docId}`, { type: "json" });
+  assert.equal(card.status, "posted");
+  assert.deepEqual(card.result.txn_ids, posted);
+  assert.equal(card.result.replaced, "receipt-typed");
+  assert.match(card.review.note, /replaced the entry typed in the Inbox/);
+});
+
+test("2026-10-25: the same receipt for a card saved by hand with a different total - the typed copy stays, nothing is voided, and the recheck's twin dismisses the receipt as before", { skip }, async () => {
+  const envelope = await seedEnvelope({ docId: "gm-typed-off" });
+  const store = getDocsStore();
+  await store.setJSON(`doc/${BANK_CARD.docId}`, { ...TYPED_CARD, feed: { ...TYPED_CARD.feed, amount_cents: -4600 } });
+  const calls = [];
+  const result = await processDecision({ envelope, docId: "gm-typed-off", model: postModel({ supersedes: BANK_CARD.docId }), transcript_summary: [], usage: {},
+    gateResult: PASS_GATE, ctx: baseCtx(), writer: typedWriter(calls), docsStore: store, recheckDuplicate: async () => ({ txn_id: "receipt-typed", kind: "twin" }) });
+  assert.equal(result.status, "dismissed");
+  assert.equal(result.model.duplicate_of, "receipt-typed");
+  assert.deepEqual(calls, []);
+  const card = await store.get(`doc/${BANK_CARD.docId}`, { type: "json" });
+  assert.deepEqual(card.result.txn_ids, ["receipt-typed"], "left as Paul saved it");
+});
+

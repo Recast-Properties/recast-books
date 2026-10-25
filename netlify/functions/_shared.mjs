@@ -444,6 +444,7 @@ export function summarizeEnvelope(env, extra = {}) {
     txn_ids: Array.isArray(r.txn_ids) ? r.txn_ids : [], doc_url: String(r.doc_url || ""),
     review: rv ? { action: rv.action || "", by: rv.by || "", at: rv.at || "" } : null,
     feed: env?.feed ? { account: String(env.feed.account || ""), feed_ids: env.feed.feed_ids || [], amount_cents: env.feed.amount_cents } : null,
+    receipt_added_at: String(env?.receipt_added_at || ""),   // 2026-10-25: a bank card set aside while its receipt is read
   };
 }
 

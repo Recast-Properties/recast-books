@@ -1076,6 +1076,10 @@ function inboxAddReceipt(req) {
       dryRun: false,
       attachments: atts.map(function (a) { return { name: String(a.name || 'receipt'), mime: String(a.mime || 'application/octet-stream'), base64: String(a.base64 || '') }; })
     });
+    // The card is set aside on the site while the receipt is read (ten minutes at most), so a Save cannot race the
+    // read - the 37.84 Home Depot of 10-13 was typed and read at the same time and went in twice. The upload stands
+    // whatever happens here.
+    try { siteFetchJson_('/api/inbox', 'post', { action: 'receipt-added', docId: req.docId, receipt: r.docId, by: Session.getActiveUser().getEmail() }); } catch (e) { /* the card just stays in the list */ }
     return { ok: true, docId: r.docId };
   } catch (err) {
     return { ok: false, error: (err && err.code) || 'INTERNAL', message: String((err && err.message) || err) };

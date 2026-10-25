@@ -592,9 +592,14 @@ export async function processDecision({
     try {
       // Two copies of one receipt often arrive together and are read in parallel, so the
       // ledger the gate saw may predate the other copy's post. Re-read fresh, right now.
+      // 2026-10-25: the bank card this receipt answers may already have been saved by hand - Paul typed the charge
+      // while the receipt was being read, and the 37.84 Home Depot of 10-13 went in twice. That typed copy is the
+      // twin the recheck finds; when the totals and the account agree the receipt is the better record: it posts,
+      // and retireBankCard takes the typed copy out on its own date and moves the bank line.
+      const typedTwin = bankCardId ? await typedTwinOf({ bankCardId, model, docsStore }) : "";
       if (typeof recheckDuplicate === "function") {
         const late = await recheckDuplicate(model);
-        if (late) {
+        if (late && late.txn_id !== typedTwin) {
           return save({
             status: "dismissed",
             model: { ...model, duplicate_of: late.txn_id, why: `${model.why} [rail: ${late.kind === "duplicate" ? "duplicate of" : "possible twin of"} ${late.txn_id}, posted moments earlier]` },
@@ -697,14 +702,47 @@ export async function processDecision({
  * while the card is still waiting, the totals agree to the cent and the receipt was paid from the card's
  * account. Anything else leaves the card for Paul. The post stands whatever happens here; a miss is logged.
  */
+/** 2026-10-25: the one entry Paul typed from the bank card this read answers, when the card was saved by hand (not by
+ *  claude), the read's entries add up to the card's line and are paid from its account - the twin the receipt replaces.
+ *  "" otherwise. Best effort: a store miss is "". */
+export async function typedTwinOf({ bankCardId, model, docsStore }) {
+  try {
+    const card = await docsStore.get(`doc/${bankCardId}`, { type: "json" });
+    const ids = card?.result?.txn_ids || [];
+    if (!card || card.status !== "posted" || ids.length !== 1 || card.review?.by === "claude") return "";
+    const total = (model?.entries || []).reduce((t, e) => t + (e.items || []).reduce((s, it) => s + (Number(it.amount_cents) || 0), 0), 0);
+    const sameTotal = total === Math.abs(Number(card.feed?.amount_cents) || 0);
+    const sameAccount = (model?.entries || []).every((e) => String(e.paid_from) === String(card.feed?.account));
+    return sameTotal && sameAccount ? String(ids[0]) : "";
+  } catch {
+    return "";
+  }
+}
+
 async function retireBankCard({ bankCardId, entries, docId, writer, docsStore }) {
   try {
     const card = await docsStore.get(`doc/${bankCardId}`, { type: "json" });
     const feed = card?.feed;
-    if (!card || card.status !== "pending" || !Array.isArray(feed?.feed_ids) || !feed.feed_ids.length) return;
+    if (!card || !Array.isArray(feed?.feed_ids) || !feed.feed_ids.length) return;
     const total = entries.reduce((t, e) => t + (e.lines || []).reduce((s, l) => s + (Number(l.debit) || 0), 0), 0);
     const sameTotal = total === Math.abs(Number(feed.amount_cents) || 0);
     const paidFromCard = entries.every((e) => (e.lines || []).some((l) => String(l.account) === String(feed.account)));
+    if (card.status === "posted") {
+      // 2026-10-25: Paul saved the card by hand while this receipt was being read (the 37.84 Home Depot of 10-13 went in
+      // twice). Same total, same account: the receipt is the better record - the typed copy goes out on its own date
+      // (D-057's rule, so the bank balance is right on every day between), its bank lines move to the receipt's entries,
+      // and the card's record names the receipt. Anything else is left as Paul saved it.
+      const ids = card.result?.txn_ids || [];
+      if (ids.length !== 1 || card.review?.by === "claude" || !sameTotal || !paidFromCard) return;
+      const typed = String(ids[0]);
+      const date = /^\d{4}-\d{2}-\d{2}$/.test(String(card.result?.entries?.[0]?.date || "")) ? String(card.result.entries[0].date) : todayChicago();
+      await writer.void(typed, `replaced by its receipt ${docId} - the same charge, typed in the Inbox while the receipt was being read`, date, "claude");
+      const replacedNote = `The receipt came in (${docId}) and replaced the entry typed in the Inbox`;
+      await writer.feedRetie(typed, entries.map((e) => e.txn_id), replacedNote);
+      await docsStore.setJSON(`doc/${bankCardId}`, { ...card, result: { ...card.result, txn_ids: entries.map((e) => e.txn_id), replaced: typed }, review: { ...(card.review || {}), note: replacedNote } });
+      return;
+    }
+    if (card.status !== "pending") return;
     if (!sameTotal || !paidFromCard) {
       console.error(`books-ingest-bg: ${docId} names bank card ${bankCardId} but ${sameTotal ? "the payer differs" : "the totals differ"} - the card stays for Paul`);
       return;
