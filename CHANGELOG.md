@@ -25,9 +25,8 @@ Waxahachie" vs "The Home Depot", 10-13 vs 10-11).
   and the recheck dismisses the read as before.
 - Tests: the inbox verb and the ten-minute hide; the ingest's typed-twin path and the different-total path; the lint on
   the menu's call and the dialog's close. 622 tests.
-- **Writer pushed by Penny (Menu.gs, Inbox.html, the one-off out). The site needs `npm run ship` (Paul)** - until then
-  the card still hides on Add receipt (the dialog closes it) but a Refresh within the minute shows it again, and a late
-  receipt after a by-hand Save would post beside the typed copy as it did here.
+- **Shipped by Paul 16:56 CT: web app @56, site `6ade7afd`, read-back OK (stamp `e2a76f3`).** The site half (the
+  ten-minute set-aside, the typed-twin replacement) is live with it.
 
 ## 2026-10-25 - Add receipt on a bank card: the receipt goes in from the card itself
 

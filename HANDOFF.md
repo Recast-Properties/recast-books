@@ -11,7 +11,7 @@ there; a figure written here is only as of its date.
 and Saved the card by hand before the read finished; the typed copy is voided and the bank line points at the receipt
 (37.84 once, 241 Poinsetta, PDF filed). The race is closed in code: the card closes on Add receipt, the site sets it
 aside ten minutes (`receipt-added`), and a receipt that arrives after a by-hand Save replaces the typed copy
-(`typedTwinOf`, `retireBankCard`). **Owed: `npm run ship` (Paul) - the site half is in the repo, not live.** Watch the
+(`typedTwinOf`, `retireBankCard`). **Live since 16:56 CT - web app @56, site `6ade7afd`, read-back OK (stamp `e2a76f3`); nothing owed.** Watch the
 next Add receipt: the card goes away at once and does not come back on Refresh; the receipt's entry appears within two
 minutes; nothing typed.
 
