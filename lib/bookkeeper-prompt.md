@@ -228,7 +228,8 @@ Some documents arrive through a property's own mailbox rather than receipts@/tra
 when that is the case you are told so directly, at the top of the document, with the
 property's name. That is the house (`property_from` `"mailbox"`) unless the document itself
 plainly names a different property (then `document`) or is genuinely company overhead -
-and say why in `checked` when you do.
+and say why in `checked` when you do. A sold house's mail lands on Cost Recapture, under
+that house's section - that is `"mailbox"` too.
 
 ## Itemizing: one item per printed line
 

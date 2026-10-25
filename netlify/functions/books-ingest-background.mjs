@@ -424,8 +424,10 @@ export default async (req) => {
         });
     if (fromStored && body.overrides && typeof body.overrides === "object") model = applyPayerOverride(model, body.overrides);
     // D-096: a house the read did not get from the receipt, the house's mailbox or Paul's words is taken off here,
-    // before the gate - the card then asks Paul which house.
-    model = houseRail(model, { mailbox: mailboxHint || "" }).model;
+    // before the gate - the card then asks Paul which house. A sold house's mailbox is not in ctx.properties (D-017) -
+    // its channel still names it, and its mail lands on Cost Recapture (books-upload accepts only a Properties name).
+    const mailboxHouse = ["receipts", "travel", "upload", "bankfeed", ""].includes(String(envelope.channel || "")) ? "" : String(envelope.channel);
+    model = houseRail(model, { mailbox: mailboxHouse, mailboxSold: !!mailboxHouse && !ctx.properties.has(mailboxHouse) }).model;
 
     const gateResult = evaluateGate(model, ctx, settings, { postedEntries });
 

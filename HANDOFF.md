@@ -12,8 +12,8 @@ receipt, the house's own mailbox, Paul's words or the original purchase name it;
 before the gate and the card asks. The matcher asks too, instead of pre-filling a house from amount and date. Watch: the next receipt with no house on it
 holds with "Which house? The receipt does not say" and its working shows the house rail line. Asked Paul: which house the 197.88 Amazon lights and fans (10-12, `receipt-20261012-6ca646e73108`,
 on 413 Green Acres by guess) belong to - move on his word. The 65.86 towel bars wait under Receipts for his house pick.
-Offered, not done: a look back over the receipts the bookkeeper posted on its own since 09-21 for other guessed houses
-(164 of them).
+Look back done (18:10 CT): one guessed house in 164 - the 197.88 above. It found a gap: a sold house's mailbox did not
+stand for Cost Recapture in the rail; fixed in the repo (`mailboxSold`). **Owed: `npm run ship` (Paul) for that fix.**
 
 **17:29 CT - Add receipt proved, clean:** Paul added the PDF on the 16.25 Amazon card of 10-07; the bookkeeper read a
 48-pack of AA batteries, posted it on 1530 Supplies on hand (`receipt-20261007-f0efd5e16e48`, about 0.34 each), tied the

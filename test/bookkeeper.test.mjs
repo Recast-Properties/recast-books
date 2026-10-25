@@ -635,6 +635,10 @@ test("D-096 houseRail: a house stays only when the read got it from the receipt,
   assert.equal(houseRail(read([entry("413 Green Acres", "mailbox")]), { mailbox: "413 Green Acres" }).taken.length, 0, "the house's own mailbox");
   const otherBox = houseRail(read([entry("413 Green Acres", "mailbox")]), { mailbox: "366 Mesa" });
   assert.equal(otherBox.model.entries[0].property, "", "a mailbox house that is not the mailbox's own is taken off");
+  // a sold house's mailbox stands for Cost Recapture (the 10-06 Rockett water to 881 Newport's mailbox after its sale)
+  assert.equal(houseRail(read([entry("Cost Recapture", "mailbox")]), { mailbox: "881 Newport", mailboxSold: true }).taken.length, 0, "a sold house's mail on Cost Recapture");
+  assert.equal(houseRail(read([entry("Cost Recapture", "mailbox")]), { mailbox: "413 Green Acres", mailboxSold: false }).model.entries[0].property, "", "a held house's mailbox does not stand for Cost Recapture");
+  assert.equal(houseRail(read([entry("366 Mesa", "mailbox")]), { mailbox: "881 Newport", mailboxSold: true }).model.entries[0].property, "", "nor for another house");
   // the 197.88 Amazon of 10-25: the read picked 413 Green Acres from other October lighting orders
   const guessed = houseRail(read([entry("413 Green Acres", "none")]));
   assert.deepEqual(guessed.taken, [{ property: "413 Green Acres", from: "none" }]);
@@ -657,4 +661,5 @@ test("D-096 the prompt: a house only from the document, the mailbox, Paul's word
   assert.match(md, /\*\*Never guess the house \(D-096/);
   assert.match(md, /Nothing else settles a house: not what other purchases from this store went to, not which\nhouse is in what phase this week/);
   assert.match(md, /Precedent settles the account and the section, never\n  the house \(D-096\)\./);
+  assert.match(md, /A sold house's mail lands on Cost Recapture, under\nthat house's section - that is `"mailbox"` too\./);
 });

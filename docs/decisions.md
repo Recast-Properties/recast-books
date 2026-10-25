@@ -2160,3 +2160,7 @@ line or a Zelle whose bank text names the house still names it. D-044 still lets
 holds - the house is now one of the rails. Paul answers the hold on the card; Add receipt stays, and email with a line
 naming the house is the way to have one post on its own.
 
+**Amended the same day (the look back):** a sold house leaves the posting allowlist (D-017) but keeps its mailbox, and
+its mail lands on Cost Recapture - so a sold house's mailbox stands for Cost Recapture in the rail (`mailboxSold`). Of the
+164 receipts posted on their own since the cutover, one had a guessed house (the 197.88 Amazon of 10-12).
+

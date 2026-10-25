@@ -1,5 +1,26 @@
 # Changelog
 
+## 2026-10-25 - The look back for guessed houses: one in 164; and a sold house's mailbox stands for Cost Recapture
+
+Paul: "look back over the receipts the bookkeeper posted on its own since the cutover and list any where it guessed the
+house." Read from the live store (164 documents posted with no review since 09-21, fetched whole):
+- 87 overhead only; 70 on the house of the mailbox they came to; 7 read one by one.
+- **One guess:** the 197.88 Amazon lights and fans of 10-12 (`receipt-20261012-6ca646e73108`) on 413 Green Acres "from
+  routing precedent". Asked Paul which house.
+- Not guesses: the 37.84 Home Depot of 10-11 (the receipt's job name "poinsetta"); the 125.53 Home Depot shutters of 10-24
+  (delivery address and job field "#Green Acres"); the -94.33 Home Depot return of 10-14 (each credit back on its original
+  purchase: faucets 413 Green Acres, electrical 366 Mesa, job name "mesa"); the 15.71 Amazon doorbell of 05-28 (Paul's note
+  "1616 Granite", Cost Recapture since Granite is sold); the 128.38 Rockett water of 10-06 and the 464.15 Ovilla water of
+  10-07 (each to its sold house's mailbox - 881 Newport, 104 Ashburne - and on Cost Recapture; Ovilla's bill prints the
+  address).
+- **A gap in D-096 the look back found:** a sold house is not in the posting allowlist (D-017), so its mailbox gave the
+  rail no house and a Cost Recapture entry read as "mailbox" would have been taken off - those two water bills would have
+  held. `houseRail(model, {mailbox, mailboxSold})`: a sold house's mailbox stands for Cost Recapture. The ingest passes the
+  envelope's channel when it is a property mailbox (books-upload accepts only a Properties name there) and whether that
+  house is sold. The prompt says a sold house's mail on Cost Recapture is `"mailbox"`. Tests for both. 627 tests.
+- Not looked at: cards Paul saved himself (he saw the house when he saved); before the cutover (the migration is closed).
+- **Needs `npm run ship` (Paul)** for the Cost Recapture fix.
+
 ## 2026-10-25 - D-096: the bookkeeper never guesses the house
 
 Paul, after the 197.88 Amazon lights and fans landed on 413 Green Acres from a receipt that names no house: "I don't
