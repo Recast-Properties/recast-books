@@ -5,59 +5,50 @@ history and are not written to; `CHANGELOG.md` keeps its dated entry per change.
 `docs/ops.md`. The books' numbers live on the workbook's tabs (P&L, Totals, Citizens Bank, the house tabs) - read them
 there; a figure written here is only as of its date.
 
-## 2026-10-24 (afternoon) - the partner money is in the books; next: audit items 7-10
+## 2026-10-24 - the audit's ten changes are live; the partner money is in the books (START HERE)
 
-**Booked on Paul's word 10-24, each read back on the sheets (CHANGELOG has every id):** his 104 Ashburne payout
-147,729.38 wired Citizens -> Chase 10-09 (payout + his working money in Chase + 25.00 fee); his 30,000.00 out of Chase
-to personal 8870 on 10-14; the 2,000 earnest-money Chase line tied (D-051); Mariana Martinez's 300 (Poinsetta) and 350
-(Erin Hills) re-posted paid from Chase; Dennis's 10-07 payouts - 17,829.27 Ashburne (all interest) and 240,895.21
-Newport in full with 10,000.00 of it left in Citizens as his working money (D-055); the 574.63 Chase "To ALA 1201" =
-Paul's truck loan paid from Recast by mistake, his money out; the 500.00 Charvale Zelle into Citizens = Paul's own money
-by mistake, owed back to him. **Both closing tabs read paid in full to Dennis and to Paul (Newport: Paul still owed
-27,609.53).** The Chase statement is tied line for line (books 118,439.75 vs bank 118,444.75, the 5.00 Telnyx after the
-file's end is the gap). Citizens: 14 small lines open in the Inbox (1,473.51) - the three Dennis's-card charges with no
-receipt, the Red Oak 298.72 + 2.00 pair (card asks whether to split the 2.00 off), two 1.00 ATM fees, 9.94 Waxahachie
-fee, four Amazon charges, a Home Depot 37.84, Rockett 230.00 - ordinary cards, Paul's Inbox. Writer web app @42
-deployed by Paul 10-24; Menu.gs changed after it (closingFromJournal_ sums every "paid to" entry) - no deploy needed.
-**Small fix owed:** the Inbox store's two Mariana receipt records (`gm-1a132380fd81f253`, `gm-1a13d720f8a1aa80`) still
-name the voided entries - let mark-posted in `books-inbox.mjs` re-point a posted record whose entries are all voided
-(receipt-20261012-c9dbcd2427b4 and receipt-20261014-e2d5e17b44c4 are the live ones), then re-point them.
-**Audit #7 built 10-24 evening (601 tests; CHANGELOG "Audit #7"): Paul said yes to the write (section 6 q2).** Site deployed
-(`6add1ddf`, Paul 10-24); the two Mariana receipt records re-pointed (done). **Writer web app @43 deployed by Paul 10-24**; live = pushed.
-Watch the first "will be remembered" card. **Audit #8 live (CHANGELOG "Audit #8"): `npm run ship` is Paul's one step from now on; first run 10-24 - web app @44,
-site `6add2314`, read-back OK.** A ship is a deploy: hand him `npm run ship` instead of the two commands.
-**Audit #9 live (CHANGELOG "Audit #9"): the document index - shipped 10-24, web app @45, site `6add24f9`.** The
-first scan after it builds the index (slow once), then loads are quick; check `blobs:get books-docs index/docs`. **Audit #10 built (CHANGELOG "Audit #10"; Paul: the to-books label, "ok, lets try it"): poller pushed to both instances,
-shipped 10-24 (web app @46, site `6add438a`); owed in order - his Gmail filters that apply `to-books` (Foremost, the bank's Zelle notices, PACER,
-Venmo), one at a time. Penny ran selfTest in the editor after the push and no permission prompt came - check the writer's
-Executions page after the next hourly run for an authorization error on `checkMailHeartbeat_` (if one, Paul runs any
-function and clicks Allow). **Heartbeat verified 10-24 evening:** `poller/last/paul` stamped by the 4:58 PM PT poll (sent 1, failed 0) and
-`poller/last/properties` by the 4:50 PM poll; the Inbox header shows it from now on. Watch the first labelled email
-coming in, and the writer's hourly log for `checkMailHeartbeat_`.** `git push` owed after.
-**Noted:** Match statement lines never offers a bank whose every open line already has a card (`unmatchedFeedCounts_`
-counts `unmatched` only), so the ten-day sweep cannot run there until a card is dismissed - recorded, not changed.
+**Live (every piece shipped by `npm run ship` or deployed by Paul 10-24; the last ship: web app @46, site `6add438a`,
+poller pushed to both instances):** audit #1-#6 and #14 (CHANGELOG "the audit's first six changes"), **#7** a card number
+the read cannot place is remembered on the row Paul picks and the other waiting cards with it post on their own
+(`/api/inbox relearn`; Paul's yes to the write, section 6 q2), **#8** `npm run ship` is Paul's one ship step (tests, build
+stamp, push, both deploys, read-back of `/exec` and `/build.json`; `--dry` for the checks only), **#9** the document
+index `index/docs` (1,428 documents, 1.1 MB; a scan is one list call plus the changed documents), **#10** the poller marks
+a thread done only after an upload, the `to-books` Gmail label is a second way in (Paul: "ok, lets try it"; the label or
+a forward, never both), and a heartbeat per mailbox (`poller/last/<mailbox>` in books-cache, stamped by every poll;
+the Inbox header says "Mail last checked ...", red past three hours; the nightly check names it when stale; the
+writer's hourly trigger mails Paul one line when paul@ has gone three hours unchecked). Heartbeats verified 10-24
+evening for both mailboxes. `mark-posted` takes `repoint: true` for a posted record whose entries were voided.
 
-## 2026-10-24 - the system audit, and its first six changes built and deployed (owed: the push)
+**The books (all on Paul's word 10-24, each read back; ids in CHANGELOG):** his 104 Ashburne payout 147,729.38 wired
+Citizens -> Chase 10-09 (payout + his working money in Chase + 25.00 fee); his 30,000.00 to personal 8870 10-14; the
+2,000 earnest-money line tied (D-051); Mariana Martinez's 300 (Poinsetta) and 350 (Erin Hills) re-posted paid from
+Chase (their Inbox records re-pointed); Dennis's 10-07 payouts - 17,829.27 Ashburne (all interest), 240,895.21 Newport
+in full with 10,000.00 left in Citizens as his working money (D-055); the 574.63 Chase "To ALA 1201" = Paul's truck
+loan paid from Recast by mistake, his money out; the 500.00 Charvale Zelle = Paul's own money by mistake, owed back.
+Both closing tabs read paid in full to Dennis; Paul still owed 27,609.53 on Newport. Chase is tied line for line.
+Citizens: 14 ordinary cards in the Inbox (1,473.51 - three Dennis's-card charges with no receipt, Red Oak 298.72 +
+2.00, two 1.00 ATM fees, 9.94 fee, four Amazon, Home Depot 37.84, Rockett 230.00). `closingFromJournal_` now counts
+every "paid to" entry toward paid so far (a second payment to a partner used to be left off the PAYOUTS block).
 
-`docs/audit-2026-10-24.md` is the ranked list (ten changes; no rebuild); `docs/audit-2026-10-24-agents.md` holds the five
-agent reports and the live-store tally. **Built 10-24, tested (593), NOT deployed:** audit #1-#6 and #14 (CHANGELOG
-"the audit's first six changes"). Site deployed 10-24 (`6adcd34f`): the ingest's bank-line tie, the matcher's
-retire/reopen, the stuck-read retry, the cached document and the nightly Feed facts are live. Writer pushed 10-24 (Paul ran `clasp login`; `clasp pull` = repo): the swap-Save guard,
-the Save-path bank-line tie, the partner-money cards and the void that frees its line run in the sheet now. Web app deployed @41 (Paul, 10-24). First Citizens matcher run done 10-24: 7 cards retired on their own (CHANGELOG). Site `6adcdcc9` deployed 10-24 (the
-sweep ties a receipt saved split by house). Citizens run again 10-24: 1 more card cleared (the 52.85) - 8 of the morning's 30 gone by code. **Writer web app deployed @42 by Paul 10-24** (`/exec` answers ok 0.4.0; `clasp pull` = repo): the sweep's group rule and
-the matcher's summary box run everywhere now. **Match statement lines on Chase is moot:** the menu offers only a bank with lines
-nobody has asked about yet (`unmatchedFeedCounts_` counts `unmatched`), and every Chase line already has its card from the
-10-23 import - the matcher has nothing to do there until Paul answers the six cards (then Dismiss all puts each line back
-in front of it with his words). Owed: `git push` - commits 000dd25..HEAD are local only (the auto-mode check refuses the
-push from a session). The three Dennis's-card cards
-(Lowe's 08-10 130.87, Home Depot 09-24 90.23, 09-25 30.57) are real charges with no receipt - not leftovers; they wait
-on Dennis like the rest.
-**Still Paul's word:** the five partner-money cards (147,729.38 out and in 10-09, 30,000 to 8870 10-14, 2,000 deposit
-09-28, 500 Charvale in) - after the push they show no Save; Dismiss all with what each was, Claude books them (D-055,
-D-083, D-084). The Mariana Martinez 350.00 of 10-14 was saved as paid by Paul, but Chase 1402 shows the Zelle - say
-which and Claude corrects it. The 10-11 Poinsetta photo gm-1a12d6f7780f7d94 is still in error: forward that email to
-receipts@ again (the 2000-px fix is live) and Claude clears the old error card. Decisions only Paul can make: the
-audit's section 6.
+**Owed, in order:** (1) `git push` (Paul; two note commits local). (2) Paul's Gmail filters that apply `to-books` -
+Foremost, the bank's Zelle "was sent" notices, PACER, Venmo forwards - one at a time, when he says ("we'll do the
+filters later"); the label works by hand now. (3) The 10-11 Poinsetta photo `gm-1a12d6f7780f7d94` is still in error:
+Paul forwards that email to receipts@ again (the 2000-px fix is live), Claude clears the old error card.
+
+**Watch:** the first card that says "card ending NNNN will be remembered" (the row's digits after the Save, the other
+cards with that number posting on their own); the first `to-books` email coming in; the writer's hourly Executions log
+for `checkMailHeartbeat_` (no permission prompt came when Penny ran the writer after the scope was added - if the log
+shows an authorization error, Paul runs any function in the editor and clicks Allow); the Inbox header's time.
+
+**Next work, Paul's pick (audit section 3's second list; he asked what is left):** #15 measure
+`refreshBalanceSheetHourly` (241 of 360 s, a silent stop past it) and #13 the house-tab rebuild out from under the
+writer's lock on the three HTTP paths + `waitLock` 30 -> 120 s - both small, both against silent failures - then #16
+bank fees under a ceiling posting from the matcher (needs his yes and the amount, section 6 q3), #17 a bank answer
+re-running the matcher by itself, #12 plain words for every code, #11 one posting path, #18 inline logos + the pollers'
+cutover code, #19 the Inbox lint as unit tests. #5 step two (a pre-filled payout card) only before the next sale.
+Decisions still his, asked one at a time as they come up: section 6 q1 (wait ten days for the bank), q3, q4, q6, q7,
+q8, q9. **Noted, not changed:** Match statement lines never offers a bank whose every open line already has a card
+(`unmatchedFeedCounts_` counts `unmatched` only), so the ten-day sweep cannot run there until a card is dismissed.
 
 ## 2026-10-23 (later) - owed, in order (on top of everything below)
 
@@ -264,12 +255,14 @@ lines = 272, the Frozen tab's summary numbers unchanged, take the one-off out, p
 
 ## Prompt for the next session
 
-> Work in `/Users/paulbjork/Desktop/Claude/Recast-books`. Read `CLAUDE.md`, then `HANDOFF.md` (the 2026-10-24 section
-> first), then `docs/audit-2026-10-24.md` section 3. The audit's items 1-6 and 14 are built, deployed (site `6adcdcc9`,
-> writer @41 + a later push) and tested (594). Pick up in this order, one step at a time and in plain words: (a) I run
-> Match statement lines on Chase and paste the box - read the Inbox back with the Netlify CLI (`blobs:list books-docs
-> --prefix doc/feed-`), not the API; (b) the clasp deploy and `git push` are mine - hand me each as one command;
-> (c) the five partner-money bank cards and the Mariana Martinez 350 payer need my word - ask, then book them;
-> (d) then audit item 7 (learn an unknown card number once), 8 (the ship script with a commit stamp), 9 (the index
-> blob), 10 (the poller's `to-books` label and heartbeat), each with tests, each recorded in CHANGELOG/HANDOFF and
-> committed. The audit's section 6 lists the decisions only I can make - ask them when they come up, not all at once.
+> Work in `/Users/paulbjork/Desktop/Claude/Recast-books` as Penny. Read `CLAUDE.md`, then `HANDOFF.md` (the 2026-10-24
+> START HERE section first), then `docs/audit-2026-10-24.md` section 3's second list and section 6. The audit's ten
+> ranked changes are all live (last ship: web app @46, site `6add438a`); the partner money is in the books. Pick up in
+> this order, one step at a time and in plain words: (a) if two note commits are still local, hand me `git push` as one
+> command; (b) audit #15 (measure the hourly P&L refresh and stop it silently dying past 360 s) and #13 (the house-tab
+> rebuild out from under the writer's lock on the three HTTP paths, `waitLock` 30 -> 120 s), each with tests, recorded in
+> CHANGELOG/HANDOFF, committed, shipped with `npm run ship` (my step - hand it to me as one command); (c) then #16
+> (ask me the bank-fee ceiling, section 6 q3, before building), #17, #12, #11, #18, #19 in that order, the same way.
+> The Gmail filters for `to-books` are mine, later - when I say. Read the Inbox back with the Netlify CLI
+> (`blobs:list books-docs --prefix doc/feed-`, `blobs:get books-docs index/docs`), not the API. Deploys are `npm run
+> ship`; `clasp login` is mine. Section 6's decisions: ask them when they come up, not all at once.
