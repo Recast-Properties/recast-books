@@ -5,7 +5,35 @@ history and are not written to; `CHANGELOG.md` keeps its dated entry per change.
 `docs/ops.md`. The books' numbers live on the workbook's tabs (P&L, Totals, Citizens Bank, the house tabs) - read them
 there; a figure written here is only as of its date.
 
-## 2026-10-24 - the audit's ten changes are live; the partner money is in the books (START HERE)
+## 2026-10-25 - audit #15 and #13 built, not yet shipped; next #16 (START HERE)
+
+**Built 10-25 (612 tests), committed - owed: Paul runs `npm run ship` (Code.gs and Menu.gs changed, so the web app
+deploy is part of it).** **#15:** the hourly P&L run was measured first from the writer's Executions log (26 runs, 10-24
+08:05 to 10-25 10:05 PT): most take 15-55 s, five took 140-354 s, and the 10-24 3:05 PM run finished 6 s under the 360 s
+cap - a spike, not a steady climb. `refreshPnl_` now logs `refreshPnl_ timings: journal Ns, advances Ns, pnl math Ns,
+pnl tab Ns, taxes Ns` every run; the hourly handler leaves `PNL_RUN_STARTED` in Script Properties while it runs, and the
+next run logs a leftover mark as a death, counts it (`PNL_RUN_DEATHS`) and after two in a row mails Paul one line (once
+a day, `mailPaulOnce_`, which the mail heartbeat now shares). Not done: splitting the run - wait for the first spike's
+timings line to say which stage. **#13:** the three HTTP write paths (`postEntry_`, `voidEntry_`, `postBatchEntries_`)
+and the import give the lock back right after the rows land and rebuild the house / bank tabs after it; every
+`waitLock` is `LOCK_WAIT_MS` = 120 s.
+
+**Watch after the ship:** the next hourly run's Executions entry carries the timings line (Chrome, the writer's
+Executions page; the 9:05 AM, 3:05 PM and 1:05 AM PT runs have spiked before) - the first spike's line names the stage
+to split; a `console.error` "never finished" line is a death; Paul's first Save or void after the ship still shows the
+house tab updated (the rebuild moved after the lock, it did not go away).
+
+**Owed, in order:** (1) `npm run ship` (Paul). (2) From 10-24, unchanged: Paul's Gmail filters that apply `to-books`,
+one at a time when he says; the 10-11 Poinsetta photo (`gm-1a12d6f7780f7d94`) - Paul forwards that email to receipts@
+again, Claude clears the old error card.
+
+**Next work, in Paul's order:** #16 bank fees under a ceiling posting from the matcher - **ask him the ceiling first
+(section 6 q3: "may a bank fee under, say, $50 post on its own, no card?")** - then #17, #12, #11, #18, #19, each with
+tests, CHANGELOG/HANDOFF, a commit and `npm run ship` handed to him as one command. Section 6's other decisions (q1, q4,
+q6, q7, q8, q9) are asked one at a time as they come up, never all at once. The Inbox is read back with the Netlify CLI
+(`blobs:list books-docs --prefix doc/feed-`, `blobs:get books-docs index/docs`), not the API.
+
+## 2026-10-24 - the audit's ten changes are live; the partner money is in the books
 
 **Live (every piece shipped by `npm run ship` or deployed by Paul 10-24; the last ship: web app @46, site `6add438a`,
 poller pushed to both instances):** audit #1-#6 and #14 (CHANGELOG "the audit's first six changes"), **#7** a card number
@@ -30,7 +58,7 @@ Citizens: 14 ordinary cards in the Inbox (1,473.51 - three Dennis's-card charges
 2.00, two 1.00 ATM fees, 9.94 fee, four Amazon, Home Depot 37.84, Rockett 230.00). `closingFromJournal_` now counts
 every "paid to" entry toward paid so far (a second payment to a partner used to be left off the PAYOUTS block).
 
-**Owed, in order:** (1) `git push` (Paul; two note commits local). (2) Paul's Gmail filters that apply `to-books` -
+**Owed, in order:** (1) done - the two note commits were on GitHub by 10-25. (2) Paul's Gmail filters that apply `to-books` -
 Foremost, the bank's Zelle "was sent" notices, PACER, Venmo forwards - one at a time, when he says ("we'll do the
 filters later"); the label works by hand now. (3) The 10-11 Poinsetta photo `gm-1a12d6f7780f7d94` is still in error:
 Paul forwards that email to receipts@ again (the 2000-px fix is live), Claude clears the old error card.
@@ -40,7 +68,7 @@ cards with that number posting on their own); the first `to-books` email coming 
 for `checkMailHeartbeat_` (no permission prompt came when Penny ran the writer after the scope was added - if the log
 shows an authorization error, Paul runs any function in the editor and clicks Allow); the Inbox header's time.
 
-**Next work, Paul's pick (audit section 3's second list; he asked what is left):** #15 measure
+**Next work, Paul's pick (audit section 3's second list; he asked what is left; #15 and #13 done 10-25, above):** #15 measure
 `refreshBalanceSheetHourly` (241 of 360 s, a silent stop past it) and #13 the house-tab rebuild out from under the
 writer's lock on the three HTTP paths + `waitLock` 30 -> 120 s - both small, both against silent failures - then #16
 bank fees under a ceiling posting from the matcher (needs his yes and the amount, section 6 q3), #17 a bank answer

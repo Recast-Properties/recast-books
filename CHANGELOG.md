@@ -1,5 +1,26 @@
 # Changelog
 
+## 2026-10-25 - Audit #15 and #13: the hourly P&L run is measured and no longer dies in silence; the house-tab rebuild is out from under the writer's lock
+
+**#15, measured first (the writer's Executions log, 26 hourly runs 10-24 08:05 to 10-25 10:05 PT):** most runs take
+15-55 s, but five took 140-354 s (10-24 9:05 AM 321 s, 3:05 PM 354 s, 4:05 PM 173 s; 10-25 12:05 AM 141 s, 1:05 AM
+302 s) - the 3:05 PM one finished 6 s under the 360 s cap. Not a steady climb with the Journal: a spike, cause unknown
+until the stages are timed. Built: `refreshPnl_` logs one line per run (`refreshPnl_ timings: journal Ns, advances Ns,
+pnl math Ns, pnl tab Ns, taxes Ns`, in a `finally`, so a thrown run logs too); the hourly handler
+`refreshBalanceSheetHourly` leaves `PNL_RUN_STARTED` in Script Properties while it runs and clears it when done - the next
+run finds a leftover mark, logs the death (`console.error ... never finished - killed at the 360 s cap`), counts it
+(`PNL_RUN_DEATHS`), and after two unfinished runs in a row mails Paul one plain line (once, then after a day) through
+`mailPaulOnce_`, which `checkMailHeartbeat_` now shares (same behaviour, less code). A finished run clears the mailed
+stamp so a later streak mails again. Not done: the split onto two triggers - after the first spike's timings line says
+which stage it is. `sortAdvances_` already wrote the Advances tab only when a row was out of order (the audit's first
+suggestion was already true).
+
+**#13:** `postEntry_`, `voidEntry_` and `postBatchEntries_` give the lock back right after `SpreadsheetApp.flush()` and
+rebuild the house tabs after it (the Save path already did; `importStatement` the same for the bank tab, with a flush
+inside the lock now); every `waitLock` is `LOCK_WAIT_MS` = 120 s (was a typed 30000 in six places). Two lint tests pin
+both (`writer-gs-lint`). 612 tests. Committed; **shipping is Paul's `npm run ship`** (Code.gs changed, so the web app
+deploy is in it).
+
 
 ## 2026-10-24 (evening) - Audit #10: the poller's done-label guard, the to-books label, and a heartbeat
 

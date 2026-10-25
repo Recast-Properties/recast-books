@@ -86,7 +86,8 @@ CLAUDE.md's operating notes, the handoffs' "gotchas met" sections and Claude's m
 ## Runtime limits
 
 - The writer serialises every call behind its ScriptLock: fire re-reads one at a time, about 75 s apart. A lost
-  `postBatch` reply usually landed - confirm on the Journal before posting again.
+  `postBatch` reply usually landed - confirm on the Journal before posting again. A write waits up to 120 s for the lock
+  (`LOCK_WAIT_MS`) and holds it only while its rows land - the house or bank tab is rebuilt after the lock is given back.
 - A synchronous Netlify function dies at about 10 s (the proxy at 26 s) - never wait on the writer from one; the
   `-bg` background jobs do that (`approve-bg`, `settlement-bg`, `reconcile-bg`).
 - Anthropic SDK: a non-streaming call above about 21k `max_tokens` throws "Streaming is required";
@@ -96,7 +97,9 @@ CLAUDE.md's operating notes, the handoffs' "gotchas met" sections and Claude's m
   a test holds the count.
 - A "posted" envelope cannot be re-pointed at a new txn (`mark-posted` answers 409); `mark-pending` takes an
   in-process one back.
-- `refreshBalanceSheetHourly` has run 241 s against a 360 s limit - watch it.
+- `refreshBalanceSheetHourly` usually runs 15-55 s but has spiked to 354 s against its 360 s cap (10-24). Its
+  `refreshPnl_ timings:` log line in the Executions page says where the time went; a run the platform kills leaves
+  `PNL_RUN_STARTED` in Script Properties, the next run logs it as a death and two in a row mail Paul (`PNL_RUN_DEATHS`).
 - The Mac sleeps and background work stalls (subagents die with "no progress for 600s"; a local read "took"
   1,058 s): run `caffeinate -i -t <seconds>` in the background before a long wait; save in small batches.
 - Netlify function logs: `npx netlify-cli logs --source functions --function <name> --since 15m` - unreliable;

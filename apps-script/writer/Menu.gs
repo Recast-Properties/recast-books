@@ -1802,7 +1802,7 @@ function importStatement(req) {
     var sourceFile = String((req && req.name) || '').replace(/\d{5,}/g, function (d) { return '****' + d.slice(-4); });
 
     var lock = LockService.getScriptLock();
-    lock.waitLock(30000);
+    lock.waitLock(LOCK_WAIT_MS);
     try {
       var sh = ss.getSheetByName('Feed');
       ensureFeedHeaders_(sh);
@@ -1830,18 +1830,19 @@ function importStatement(req) {
         }));
       });
       if (rows.length) sh.getRange(last + 1, 1, rows.length, rows[0].length).setValues(rows);
-      refreshBankSheets_(ss);
-      warmCache_();
-      var bal = parsed.ledger_balance_cents;
-      return {
-        ok: true, account: account.name, code: account.code, added: rows.length, skipped: parsed.lines.length - rows.length,
-        first: parsed.lines[0].date, last: parsed.lines[parsed.lines.length - 1].date,
-        bank_balance: bal == null ? '' : fromCents(bal), feed_balance: fromCents(feedCents),
-        off_by: bal == null ? '' : fromCents(feedCents - bal), ties: bal != null && feedCents === bal
-      };
+      SpreadsheetApp.flush();   // the lines land inside the lock - see postBatchEntries_
     } finally {
       lock.releaseLock();
     }
+    refreshBankSheets_(ss);   // after the lock (audit 2026-10-24 #13)
+    warmCache_();
+    var bal = parsed.ledger_balance_cents;
+    return {
+      ok: true, account: account.name, code: account.code, added: rows.length, skipped: parsed.lines.length - rows.length,
+      first: parsed.lines[0].date, last: parsed.lines[parsed.lines.length - 1].date,
+      bank_balance: bal == null ? '' : fromCents(bal), feed_balance: fromCents(feedCents),
+      off_by: bal == null ? '' : fromCents(feedCents - bal), ties: bal != null && feedCents === bal
+    };
   } catch (err) {
     return { ok: false, error: (err && err.code) || 'INTERNAL', message: String((err && err.message) || err) };
   }

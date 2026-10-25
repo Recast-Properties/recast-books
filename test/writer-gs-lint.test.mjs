@@ -1053,3 +1053,42 @@ test("audit 2026-10-24 #5: a partner-money bank card gets no line to fill in and
   assert.match(html, /feedNote_\(r\.feed\)/);
   assert.match(html, /if \(r\.feed && r\.feed\.retired && r\.feed\.retired\.length\) DATA\.envelopes = DATA\.envelopes\.filter/, "a retired card leaves the Bank statement tab at once");
 });
+
+test("audit 2026-10-24 #13: a write holds the writer's lock only while its rows land - the house-tab rebuild comes after the lock on all three HTTP paths and the import, and every wait is LOCK_WAIT_MS (120 s)", () => {
+  assert.match(source, /^var LOCK_WAIT_MS = 120000;$/m, "one constant for the wait");
+  for (const [src, name] of [[source, "Code.gs"], [menuSource, "Menu.gs"]]) {
+    const waits = src.match(/waitLock\([^)]*\)/g) || [];
+    assert.ok(waits.length > 0, `${name} takes the lock somewhere`);
+    for (const w of waits) assert.equal(w, "waitLock(LOCK_WAIT_MS)", `${name}: ${w} - every wait is the constant, never a typed number`);
+  }
+  for (const name of ["postEntry_", "voidEntry_", "postBatchEntries_"]) {
+    const fn = gsFn(source, name);
+    const flush = fn.indexOf("SpreadsheetApp.flush()"), release = fn.indexOf("lock.releaseLock()"), rebuild = fn.indexOf("refreshLineBlocksFor_(");
+    assert.ok(flush !== -1 && release !== -1 && rebuild !== -1, `${name}: flush, release and rebuild are all there`);
+    assert.ok(flush < release, `${name}: the rows land (flush) before the lock is given back`);
+    assert.ok(release < rebuild, `${name}: the house tab is rebuilt after the lock is given back`);
+    assert.ok(fn.indexOf("return {") > release, `${name}: the result is returned after the lock, not from inside it`);
+  }
+  const imp = gsFn(menuSource, "importStatement");
+  assert.ok(imp.indexOf("SpreadsheetApp.flush()") < imp.indexOf("lock.releaseLock()"), "the import lands its lines inside the lock");
+  assert.ok(imp.indexOf("lock.releaseLock()") < imp.indexOf("refreshBankSheets_(ss)"), "and rebuilds the bank tab after it");
+});
+
+test("audit 2026-10-24 #15: the hourly P&L run is timed per stage, leaves a mark while it runs, and two unfinished runs in a row mail Paul once a day", () => {
+  const pnl = gsFn(source, "refreshPnl_");
+  for (const stage of ["journal", "advances", "pnl math", "pnl tab", "taxes"]) assert.ok(pnl.includes(`lap('${stage}')`), `refreshPnl_ times the ${stage} stage`);
+  assert.ok(pnl.indexOf("lap('taxes')") > pnl.indexOf("refreshTax_(ss, lines)"), "the taxes lap comes after the Taxes tab is built");
+  assert.match(pnl, /\} finally \{\n    console\.log\('refreshPnl_ timings: ' \+ timings\.join\(', '\)\);/, "the timings are logged whether the run finished or not");
+  const hourly = gsFn(source, "refreshBalanceSheetHourly");
+  const mark = hourly.indexOf("props.setProperties(mark)"), run = hourly.indexOf("refreshPnl_();"), clear = hourly.indexOf("props.deleteProperty('PNL_RUN_STARTED')");
+  assert.ok(mark !== -1 && run !== -1 && clear !== -1 && mark < run && run < clear, "the mark is set before the run and cleared after it");
+  assert.match(hourly, /console\.error\('refreshBalanceSheetHourly: the run started '/, "every unfinished run is logged");
+  assert.match(hourly, /if \(deaths >= 2\) mailPaulOnce_\('PNL_DIED_MAILED_AT'/, "the second unfinished run in a row mails Paul");
+  assert.match(hourly, /else \{\n    props\.deleteProperty\('PNL_DIED_MAILED_AT'\);/, "a finished run lets the next streak mail again");
+  const once = gsFn(source, "mailPaulOnce_");
+  assert.match(once, /if \(mailed && Date\.now\(\) - mailed < HEARTBEAT_REMIND_MS\) return;/, "once a day");
+  assert.match(once, /MailApp\.sendEmail\(Session\.getEffectiveUser\(\)\.getEmail\(\), subject, body\);/);
+  const hb = gsFn(source, "checkMailHeartbeat_");
+  assert.match(hb, /mailPaulOnce_\('HEARTBEAT_MAILED_AT'/, "the mail heartbeat uses the same once-a-day mail");
+  assert.doesNotMatch(hb, /MailApp\.sendEmail/, "and no longer mails on its own");
+});

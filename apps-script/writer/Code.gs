@@ -533,6 +533,10 @@ function action_post_(body, props) {
   return jsonOutput_(postEntry_(body.entry, props));
 }
 
+// Audit 2026-10-24 #13: how long a write waits for the writer's lock. A typed 30 s gave lock-timeout errors under the
+// 09-28 burst; the hold itself is short now that a house tab is rebuilt after the lock is given back.
+var LOCK_WAIT_MS = 120000;
+
 // The body of the old action_post_, unwrapped from JSON so Menu.gs's dialog
 // handlers can call it directly with an already-built entry (phase2.7-spec.md
 // section 4) instead of going through doPost. Throws via fail_ on any refusal -
@@ -549,7 +553,7 @@ function postEntry_(entry, props) {
   entry.period = String(entry.date).slice(0, 7);
 
   var lock = LockService.getScriptLock();
-  lock.waitLock(30000);
+  lock.waitLock(LOCK_WAIT_MS);
   try {
     var ss = openWorkbook_(props);
     var sheet = ss.getSheetByName('Journal');
@@ -585,12 +589,11 @@ function postEntry_(entry, props) {
     SpreadsheetApp.flush();   // land the rows inside the lock - see postBatchEntries_
 
     cache.put('txn:' + entry.txn_id, '1', 21600);
-    refreshLineBlocksFor_(ss, entry.lines);
-
-    return { ok: true, rows: [startRow, startRow + rows.length - 1] };
   } finally {
     lock.releaseLock();
   }
+  refreshLineBlocksFor_(ss, entry.lines);   // after the lock: a tab rebuild is seconds nobody else need wait for (audit 2026-10-24 #13)
+  return { ok: true, rows: [startRow, startRow + rows.length - 1] };
 }
 
 function action_void_(body, props) {
@@ -604,7 +607,7 @@ function voidEntry_(txnId, reason, date, postedBy, props, skipRefresh) {
   if (!date || !/^\d{4}-\d{2}-\d{2}$/.test(String(date))) fail_('BAD_REQUEST', 'date (YYYY-MM-DD) is required');
 
   var lock = LockService.getScriptLock();
-  lock.waitLock(30000);
+  lock.waitLock(LOCK_WAIT_MS);
   try {
     var ss = openWorkbook_(props);
     var sheet = ss.getSheetByName('Journal');
@@ -651,12 +654,11 @@ function voidEntry_(txnId, reason, date, postedBy, props, skipRefresh) {
     var startRow = sheet.getLastRow() + 1;
     sheet.getRange(startRow, 1, rows.length, rows[0].length).setValues(rows);
     SpreadsheetApp.flush();   // land the rows inside the lock - see postBatchEntries_
-    if (!skipRefresh) refreshLineBlocksFor_(ss, originalLines);
-
-    return { ok: true, rows: [startRow, startRow + rows.length - 1], txn_id: voidTxnId };
   } finally {
     lock.releaseLock();
   }
+  if (!skipRefresh) refreshLineBlocksFor_(ss, originalLines);   // after the lock (audit 2026-10-24 #13)
+  return { ok: true, rows: [startRow, startRow + rows.length - 1], txn_id: voidTxnId };
 }
 
 function action_read_(body, props) {
@@ -874,7 +876,7 @@ function postBatchEntries_(entries, props, skipRefresh) {
   }
 
   var lock = LockService.getScriptLock();
-  lock.waitLock(30000);
+  lock.waitLock(LOCK_WAIT_MS);
   try {
     var ss = openWorkbook_(props);
     var sheet = ss.getSheetByName('Journal');
@@ -906,12 +908,11 @@ function postBatchEntries_(entries, props, skipRefresh) {
     SpreadsheetApp.flush();
 
     postedIds.forEach(function (txnId) { cache.put('txn:' + txnId, '1', 21600); });
-    if (!skipRefresh) refreshLineBlocksFor_(ss, entries.reduce(function (acc, en) { return acc.concat(en.lines); }, []));
-
-    return { ok: true, posted: postedIds, rows: [startRow, startRow + allRows.length - 1] };
   } finally {
     lock.releaseLock();
   }
+  if (!skipRefresh) refreshLineBlocksFor_(ss, entries.reduce(function (acc, en) { return acc.concat(en.lines); }, []));   // after the lock (audit 2026-10-24 #13)
+  return { ok: true, posted: postedIds, rows: [startRow, startRow + allRows.length - 1] };
 }
 
 // feedUpdate: Phase 3 (docs/phase3-spec.md section 3) - the matcher's verdicts onto Feed
@@ -956,7 +957,7 @@ function feedRetieRows_(ss, from, to, note) {
 // the proxy's timeout on the first dismiss when the site's dismiss called feedUpdate).
 function feedUpdateRows_(ss, rows) {
   var lock = LockService.getScriptLock();
-  lock.waitLock(30000);
+  lock.waitLock(LOCK_WAIT_MS);
   var out;
   try {
     var sh = ss.getSheetByName('Feed');
@@ -1067,12 +1068,18 @@ function refreshBankSheets_(ss) {
 // Balance sheet and P&L reports, whose "Report - " tabs went stale (they only changed when someone ran them).
 var PNL_TAB = 'P&L';
 function refreshPnl_(ss) {
+  // audit 2026-10-24 #15: one log line per run says where the time went (the platform kills the run at 360 s)
+  var t0 = Date.now(), timings = [];
+  var lap = function (label) { timings.push(label + ' ' + Math.round((Date.now() - t0) / 1000) + 's'); t0 = Date.now(); };
   try {
     ss = ss || openWorkbook_(PropertiesService.getScriptProperties());
     var today = Utilities.formatDate(new Date(), 'America/Chicago', 'yyyy-MM-dd');
     var lines = journalLines_(ss);
-    try { sortAdvances_(ss); } catch (e) { console.error('sortAdvances_: ' + e); }   // the Advances tab newest on top (Paul, 2026-10-06)
+    lap('journal');
+    try { sortAdvances_(ss); } catch (e) { console.error('sortAdvances_: ' + e); }   // the Advances tab newest on top (Paul, 2026-10-06); writes only when out of order
+    lap('advances');
     var t = pnlTab(lines, loadAdvances_(ss), today, getAccrualOpts_(ss));
+    lap('pnl math');
     // the tabs the old menu reports left behind, stale since the day they were run (D-065)
     ['Balance Sheet', 'Report - Balance sheet', 'Report - P&L', 'Report - Trial balance', 'Report - Job cost', 'Report - Dennis ledger']
       .forEach(function (n) { var old = ss.getSheetByName(n); if (old) ss.deleteSheet(old); });
@@ -1092,13 +1099,56 @@ function refreshPnl_(ss) {
     [300, 130, 560].forEach(function (w, i) { sh.setColumnWidth(i + 1, w); });
     sh.getRange(4, 3, t.rows.length, 1).setWrap(true);   // a long note wraps instead of running off the sheet
     sh.setFrozenRows(2);
+    lap('pnl tab');
     refreshTax_(ss, lines);
+    lap('taxes');
   } catch (err) {
     console.error('refreshPnl_: ' + String((err && err.message) || err));
+  } finally {
+    console.log('refreshPnl_ timings: ' + timings.join(', '));
   }
 }
-/** The hourly timer's handler (installTriggers). The name stays: the trigger installed 2026-09-30 calls it by name. */
-function refreshBalanceSheetHourly() { refreshPnl_(); checkMailHeartbeat_(); }
+
+/** Mails Paul once, then again only after a day of silence - `key` is the Script Property holding when it last went;
+ *  the caller clears it when things are well again. Never throws. */
+function mailPaulOnce_(key, subject, body) {
+  try {
+    var props = PropertiesService.getScriptProperties();
+    var mailed = Number(props.getProperty(key) || 0);
+    if (mailed && Date.now() - mailed < HEARTBEAT_REMIND_MS) return;
+    MailApp.sendEmail(Session.getEffectiveUser().getEmail(), subject, body);
+    props.setProperty(key, String(Date.now()));
+  } catch (err) {
+    console.error('mailPaulOnce_ ' + key + ': ' + String((err && err.message) || err));
+  }
+}
+
+/** The hourly timer's handler (installTriggers). The name stays: the trigger installed 2026-09-30 calls it by name.
+ *  Audit 2026-10-24 #15: a run the platform kills at its 360 s cap used to vanish - the P&L and Taxes tabs just stopped
+ *  updating (10-24 3:05 PM: 354 s). The run leaves a mark in Script Properties while it works and clears it when done;
+ *  the next run finds a leftover mark, logs the death, counts it, and after two unfinished runs in a row mails Paul one
+ *  line (once, then after a day). Where the time goes: refreshPnl_'s `timings` log line. */
+function refreshBalanceSheetHourly() {
+  var props = PropertiesService.getScriptProperties();
+  var unfinished = props.getProperty('PNL_RUN_STARTED');
+  var deaths = unfinished ? Number(props.getProperty('PNL_RUN_DEATHS') || 0) + 1 : 0;
+  var mark = { PNL_RUN_STARTED: String(Date.now()), PNL_RUN_DEATHS: String(deaths) };
+  props.setProperties(mark);
+  if (unfinished) {
+    var since = Utilities.formatDate(new Date(Number(unfinished)), 'America/Chicago', 'EEE MMM d, h:mm a') + ' (Texas time)';
+    console.error('refreshBalanceSheetHourly: the run started ' + since + ' never finished - killed at the 360 s cap (' + deaths + ' in a row)');
+    if (deaths >= 2) mailPaulOnce_('PNL_DIED_MAILED_AT', 'Recast Books: the P&L and Taxes tabs have stopped updating',
+      'The hourly update of the P&L and Taxes tabs has run out of time ' + deaths + ' times in a row, so those two tabs are behind - ' +
+      'the second line of the P&L tab says when they last updated. Nothing else in the books is affected.\n\n' +
+      'Paste to Claude: refreshBalanceSheetHourly has been killed at the 360 s cap ' + deaths + ' runs in a row since ' + since +
+      ' - read its timings in the Executions log and split the run.');
+  } else {
+    props.deleteProperty('PNL_DIED_MAILED_AT');
+  }
+  refreshPnl_();
+  checkMailHeartbeat_();
+  props.deleteProperty('PNL_RUN_STARTED');
+}
 
 // Audit 2026-10-24 #10c: the independent watcher. The pollers run in their own project, so a dead one cannot report
 // itself; this hourly trigger reads the site's heartbeat (/api/inbox?heartbeat=1) and mails Paul one line when
@@ -1112,13 +1162,10 @@ function checkMailHeartbeat_() {
     var at = hb.paul && hb.paul.at ? Date.parse(hb.paul.at) : 0;
     var age = Date.now() - at;
     if (at && age < HEARTBEAT_STALE_MS) { props.deleteProperty('HEARTBEAT_MAILED_AT'); return; }
-    var mailed = Number(props.getProperty('HEARTBEAT_MAILED_AT') || 0);
-    if (mailed && Date.now() - mailed < HEARTBEAT_REMIND_MS) return;
     var since = at ? Utilities.formatDate(new Date(at), 'America/Chicago', 'EEE MMM d, h:mm a') + ' (Texas time)' : 'it was set up';
-    MailApp.sendEmail(Session.getEffectiveUser().getEmail(), 'Recast Books: receipts are not being read',
+    mailPaulOnce_('HEARTBEAT_MAILED_AT', 'Recast Books: receipts are not being read',
       'The mail poller has not checked paul@ since ' + since + ' - receipts sent to receipts@ since then are not in the books.\n\n' +
       'Paste to Claude: the receipts poller has not reported in since ' + since + '; check its trigger.');
-    props.setProperty('HEARTBEAT_MAILED_AT', String(Date.now()));
   } catch (err) {
     console.error('checkMailHeartbeat_: ' + String((err && err.message) || err));
   }
@@ -1205,7 +1252,7 @@ function action_setDocUrl_(body, props) {
   if (!Array.isArray(txnIds) || txnIds.length === 0) fail_('BAD_REQUEST', 'txn_ids must be a non-empty array');
   if (!url) fail_('BAD_REQUEST', 'url is required');
   var lock = LockService.getScriptLock();
-  lock.waitLock(30000);
+  lock.waitLock(LOCK_WAIT_MS);
   try {
     return jsonOutput_({ ok: true, updated: setDocUrl_(txnIds, url, props) });
   } finally {
