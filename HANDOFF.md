@@ -7,7 +7,7 @@ there; a figure written here is only as of its date.
 
 ## 2026-10-25 - #15, #13, #16, #17, #12 live; #11 built, not yet shipped; next #18 (START HERE)
 
-**#11 built 10-25 (613 tests), committed - owed: Paul runs `npm run ship`.** One posting path: the web Inbox's Approve
+**#11 built 10-25 (610 tests), committed - owed: Paul runs `npm run ship`.** One posting path: the web Inbox's Approve
 verb, its background half and button are gone; so are D-025's `repost` / `repost-all` replays, `recover-errored.mjs`
 and the replay's migration rules in the ingest. What stays of the stored-read re-run is exactly what #7's card
 learning uses (`applyPayerOverride`). Nothing Paul does changes: he saves in the workbook's Inbox as before. **Watch
