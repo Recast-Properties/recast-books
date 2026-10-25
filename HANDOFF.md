@@ -7,6 +7,11 @@ there; a figure written here is only as of its date.
 
 ## 2026-10-25 - the audit's list is done and live (START HERE)
 
+**17:29 CT - Add receipt proved, clean:** Paul added the PDF on the 16.25 Amazon card of 10-07; the bookkeeper read a
+48-pack of AA batteries, posted it on 1530 Supplies on hand (`receipt-20261007-f0efd5e16e48`, about 0.34 each), tied the
+bank line and retired the card in 72 s - nothing typed, nothing twice. The first Add receipt watch is closed. Asked by
+Paul: the card closes on Add receipt, so he cannot type a word about the purchase there; a note box beside it is offered.
+
 **17:25 CT - D-095 Supplies on hand built (CHANGELOG, same date):** the Amazon door locks (9 at 40.15) are stock: a new
 account 1530 Supplies on hand, on the live Accounts tab; a lock goes on a house through New expense with Paid from 1530.
 The sheet's dialogs have it (writer pushed). **Live since 17:22 CT - web app @57, site `6ade8133`, read-back OK (stamp `8a612c8`). Owed: Paul's Save of the Amazon
