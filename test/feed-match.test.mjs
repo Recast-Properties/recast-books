@@ -328,6 +328,7 @@ function fakeWriter() {
     calls,
     read: async (tab) => { calls.push(["read", tab]); return { ok: true, ...tabs[tab] }; },
     feedUpdate: async (rows) => { calls.push(["feedUpdate", rows]); return { ok: true, updated: rows.length, missing: [] }; },
+    postBatch: async (entries, opts) => { calls.push(["postBatch", entries, opts]); return { ok: true, posted: entries.map((e) => e.txn_id), rows: [1, 2] }; },
   };
 }
 function fakeDocsStore() {
@@ -349,7 +350,7 @@ test("runFeedMatch: reads the tabs, sends only the account's open lines, leaves 
   const out = await runFeedMatch({ account: ACCOUNT, writer, docsStore, anthropic, now: "2026-09-28T20:00:00Z" });
   assert.equal(anthropic.calls.length, 1);
   const sent = [...anthropic.calls[0].messages[0].content.matchAll(/^L\d+ \| /gm)].length;
-  assert.equal(sent, 8, "F9 (matched) and F10 (another account) stay home");
+  assert.equal(sent, 7, "F9 (matched) and F10 (another account) stay home; F8, the bank's check order, is recorded by code (D-093)");
   assert.doesNotMatch(anthropic.calls[0].system[0].text, /Deluxe/, "manual-6 is tied to F9 already, so it is no candidate");
   assert.match(anthropic.calls[0].system[0].text, /Falcon Creek Lawn Care \| Effren, Effren Landscaper/, "the Vendors tab's other names reach the model");
   assert.equal(out.candidates, 4);
@@ -358,10 +359,11 @@ test("runFeedMatch: reads the tabs, sends only the account's open lines, leaves 
   assert.equal(byId.F1.status, "matched");
   assert.equal(byId.F1.txn_id, "receipt-1");
   assert.equal(byId.F6.status, "proposed");
-  assert.equal(out.summary.total, 8);
+  assert.equal(out.summary.total, 7);
   assert.equal(out.summary.matched, 1);
-  assert.equal(out.summary.cards, 7);
-  assert.equal(out.cards.length, 7);
+  assert.equal(out.summary.cards, 6);
+  assert.equal(out.cards.length, 6);
+  assert.equal(out.summary.fees, 1, "F8 (D-093)");
   const card = await docsStore.get("doc/feed-1401-F6", { type: "json" });
   assert.equal(card.status, "pending");
   assert.match(card.model.why, /-30000\.00 of 2026-09-15/);
@@ -394,7 +396,7 @@ test("D-059 runFeedMatch: the card the bank's daily email names reaches the mode
   try {
     const out2 = await runFeedMatch({ account: ACCOUNT, writer: fakeWriter(), docsStore: fakeDocsStore(), anthropic: fakeAnthropic(answerByAmount), cacheStore: broken, now: "2026-09-28T20:00:00Z" });
     assert.equal(out2.carded, 0);
-    assert.equal(out2.summary.total, 8, "the run goes on without the cards");
+    assert.equal(out2.summary.total, 7, "the run goes on without the cards");
   } finally { console.error = quiet; }
 });
 
@@ -443,7 +445,7 @@ test("audit 2026-10-24 #1/#2a runFeedMatch: a waiting card whose line a posted e
     journalLine("receipt-14b", "2026-09-16", ACCOUNT, -4285, { payee: "The Home Depot" }),
   ].map(journalRow);
   const writer = {
-    calls: base.calls, feedUpdate: base.feedUpdate,
+    calls: base.calls, feedUpdate: base.feedUpdate, postBatch: base.postBatch,
     read: async (tab) => { const t = await base.read(tab); return tab === "Feed" ? { ...t, rows: [...t.rows, ...extraFeed] } : tab === "Journal" ? { ...t, rows: [...t.rows, ...extraJournal] } : t; },
   };
   const docsStore = fakeDocsStore();
@@ -456,7 +458,7 @@ test("audit 2026-10-24 #1/#2a runFeedMatch: a waiting card whose line a posted e
   const out = await runFeedMatch({ account: ACCOUNT, writer, docsStore, anthropic, now: "2026-09-28T20:00:00Z" });
 
   const sent = [...anthropic.calls[0].messages[0].content.matchAll(/^L\d+ \| /gm)].length;
-  assert.equal(sent, 9, "the eight open lines plus F12, open again");
+  assert.equal(sent, 8, "the seven open lines (F8 is recorded by code, D-093) plus F12, open again");
   assert.doesNotMatch(anthropic.calls[0].system[0].text, /receipt-11|8,?800\.00/, "the entry that pays F11 was spent before the model saw it");
   assert.equal(out.summary.retired, 3);
   assert.equal(out.summary.reopened, 1);
@@ -488,7 +490,7 @@ test("audit 2026-10-24 #14 runFeedMatch: an entry tied on one account's row is s
     journalLine("transfer-1", "2026-09-20", ACCOUNT, -100000, { payee: "Transfer", source: "manual" }),
   ].map(journalRow);
   const writer = {
-    calls: base.calls, feedUpdate: base.feedUpdate,
+    calls: base.calls, feedUpdate: base.feedUpdate, postBatch: base.postBatch,
     read: async (tab) => { const t = await base.read(tab); return tab === "Feed" ? { ...t, rows: [...t.rows, ...extraFeed] } : tab === "Journal" ? { ...t, rows: [...t.rows, ...extraJournal] } : t; },
   };
   const anthropic = fakeAnthropic(answerByAmount);
@@ -497,4 +499,87 @@ test("audit 2026-10-24 #14 runFeedMatch: an entry tied on one account's row is s
   const again = fakeAnthropic(answerByAmount);
   await runFeedMatch({ account: ACCOUNT, writer, docsStore: fakeDocsStore(), anthropic: again, now: "2026-09-28T20:00:00Z" });
   assert.doesNotMatch(again.calls[0].system[0].text, /Transfer/, "on the Citizens run it is tied already");
+});
+
+// ---- D-093: the bank's own fees under the ceiling, recorded by code -----------------------------
+
+test("D-093 isBankFee: the bank's own charge - money out, under 50.00, FEE or CHARGE as a whole word or a check order; a utility's SERVFEE, a fee of 50.00, money in and a store line are not", async () => {
+  const { isBankFee, bankFeeIntent, BANK_FEE_CEILING_CENTS, BANK_FEE_ACCOUNT, MATCH_PROMPT } = await import("../lib/feed-match.mjs");
+  const { buildEntry } = await import("../lib/posting.mjs");
+  assert.equal(BANK_FEE_CEILING_CENTS, 5000);
+  assert.equal(BANK_FEE_ACCOUNT, "6910", "the chart's Bank & merchant fees, never 6930 (interest)");
+  assert.match(MATCH_PROMPT, /OVERHEAD 6910 Bank & merchant fees - never 6930/, "the model is told the same account");
+  const yes = [
+    line("A1", "2026-09-07", -100, "FOREIGN ATM CHARGE SUPL CD 11", "FOREIGN ATM CHARGE SUPL CD 11 1 AT 1.00"),
+    line("A2", "2026-09-09", -2500, "Wire transfer fee"),
+    line("A3", "2026-08-11", -2815, "DELUXE CHECK -CHECK/ACC."),
+    line("A4", "2026-09-01", -1200, "MONTHLY SERVICE CHARGE"),
+    line("A5", "2026-09-01", -4999, "CHECK ORDER"),
+  ];
+  const no = [
+    line("N1", "2026-09-08", -994, "WAXAHACHIE SERVFEE PLANO TX"),
+    line("N2", "2026-09-02", -4726, "TYL WAXAHACHIE SERVFEE PLANO", "TYL WAXAHACHIE SERVFEE PLANO TX"),
+    line("N3", "2026-09-01", -5000, "MONTHLY SERVICE CHARGE"),
+    line("N4", "2026-09-01", 100, "FEE REFUND"),
+    line("N5", "2026-09-14", -2390, "LOWES #00907* 866-483-7521 NC"),
+    line("N6", "2026-09-07", -100, "", ""),
+  ];
+  for (const l of yes) assert.ok(isBankFee(l), `${l.feed_id} ${l.memo} is the bank's own fee`);
+  for (const l of no) assert.ok(!isBankFee(l), `${l.feed_id} ${l.memo} is not`);
+  const entry = buildEntry(bankFeeIntent(yes[0], ACCOUNT, "Citizens Bank"), ctx());
+  assert.equal(entry.source, "bank");
+  assert.equal(entry.posted_by, "claude");
+  assert.match(entry.memo, /Citizens Bank fee 1\.00 - the bank's own charge, recorded from the bank line/);
+  assert.deepEqual(entry.lines.map((l) => [l.account, l.debit, l.credit, l.property, l.payee]), [["6910", 100, 0, "OVERHEAD", "Citizens Bank"], [ACCOUNT, 0, 100, "OVERHEAD", "Citizens Bank"]]);
+  assert.equal(entry.lines[0].description, "FOREIGN ATM CHARGE SUPL CD 11 1 AT 1.00", "the bank's own text is the description");
+});
+
+test("D-093 runFeedMatch: the bank's own fees are settled before the model sees the lines - a fee the books hold is tied to it, the rest posted one at a time on the line's own id (a DUPLICATE still tied), a waiting one-line card retired; a utility's SERVFEE still goes to the model", async () => {
+  const { WriterError } = await import("../lib/writer-client.mjs");
+  const base = fakeWriter();
+  const F11 = line("F11", "2026-10-07", -100, "FOREIGN ATM CHARGE SUPL CD 11", "FOREIGN ATM CHARGE SUPL CD 11 1 AT 1.00");
+  const F12 = line("F12", "2026-10-07", -100, "FOREIGN ATM CHARGE SUPL CD 11", "FOREIGN ATM CHARGE SUPL CD 11 1 AT 1.00");
+  const F13 = line("F13", "2026-10-08", -994, "WAXAHACHIE SERVFEE PLANO TX");
+  const F14 = line("F14", "2026-10-09", -2500, "Wire transfer fee");
+  const extraJournal = [
+    journalLine("manual-25", "2026-10-09", "6910", 2500, { property: "OVERHEAD", payee: "Citizens National Bank of Texas", source: "manual" }),
+    journalLine("manual-25", "2026-10-09", ACCOUNT, -2500, { payee: "Citizens National Bank of Texas", source: "manual" }),
+  ].map(journalRow);
+  const posted = [];
+  const writer = {
+    calls: base.calls, feedUpdate: base.feedUpdate,
+    read: async (tab) => { const r = await base.read(tab); return tab === "Feed" ? { ...r, rows: [...r.rows, feedRow(F11), feedRow(F12, "proposed"), feedRow(F13), feedRow(F14)] } : tab === "Journal" ? { ...r, rows: [...r.rows, ...extraJournal] } : r; },
+    postBatch: async (entries, opts) => {
+      posted.push([entries, opts]);
+      if (entries[0].txn_id === "bank-1401-F12") throw new WriterError("DUPLICATE", "txn_id already in Journal");
+      return { ok: true, posted: entries.map((e) => e.txn_id), rows: [1, 2] };
+    },
+  };
+  const docsStore = fakeDocsStore();
+  await docsStore.setJSON("doc/feed-1401-F12", { docId: "feed-1401-F12", status: "pending", source: "feed", feed: { account: ACCOUNT, feed_ids: ["F12"], amount_cents: -100 }, model: { why: "a second $1 charge" } });
+  const anthropic = fakeAnthropic(answerByAmount);
+  const out = await runFeedMatch({ account: ACCOUNT, writer, docsStore, anthropic, now: "2026-10-25T20:00:00Z" });
+  assert.deepEqual(posted.map((p) => p[0][0].txn_id).sort(), ["bank-1401-F11", "bank-1401-F12", "bank-1401-F8"], "one post per fee the books do not hold; F14 is never posted");
+  assert.ok(posted.every((p) => p[0].length === 1 && p[1].skipRefresh === true), "one at a time, no house tab to rebuild");
+  assert.equal(posted[0][0][0].lines[0].account, "6910");
+  const prompt = anthropic.calls[0].messages[0].content;
+  assert.doesNotMatch(prompt, /FOREIGN ATM|Wire transfer fee|DELUXE/, "a settled fee never reaches the model");
+  assert.match(prompt, /SERVFEE/, "the utility's processing fee still does");
+  const upd = writer.calls.find((c) => c[0] === "feedUpdate")[1];
+  const byId = Object.fromEntries(upd.map((u) => [u.feed_id, u]));
+  assert.equal(byId.F11.status, "matched");
+  assert.equal(byId.F11.txn_id, "bank-1401-F11");
+  assert.match(byId.F11.match_note, /The bank's own fee, under \$50\.00 - recorded on its own \(your rule of 10-25\)/);
+  assert.equal(byId.F12.status, "matched", "DUPLICATE means it is already there: tied, not left open");
+  assert.equal(byId.F12.txn_id, "bank-1401-F12");
+  assert.equal(byId.F14.status, "matched");
+  assert.equal(byId.F14.txn_id, "manual-25", "the wire fee Paul typed is tied, not posted again");
+  assert.match(byId.F14.match_note, /already in the books \(manual-25\)/);
+  assert.equal(byId.F13.status, "proposed", "the 9.94 SERVFEE is still Paul's card");
+  assert.doesNotMatch(anthropic.calls[0].system[0].text, /manual-25/, "the tied entry is no candidate any more");
+  const card = await docsStore.get("doc/feed-1401-F12", { type: "json" });
+  assert.equal(card.status, "dismissed");
+  assert.equal(card.review.by, "claude");
+  assert.match(card.review.note, /recorded on its own/);
+  assert.equal(out.summary.fees, 4);
 });

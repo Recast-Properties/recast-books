@@ -100,6 +100,7 @@ that supersedes the old one, not editing history.
 - D-090 · The autofile ceiling is 2,000.00; Penny runs one-offs and does not read a saved card back - 2026-10-23 · Paul
 - D-091 · A return or refund is a receipt with the sign flipped: it posts on its own to the item's house and the card the money came back to - 2026-10-23 · Paul
 - D-092 · Drinks bought with the job's materials post on their own; meals and gifts still wait - 2026-10-23 · Paul
+- D-093 · The bank's own fee under 50.00 is recorded by code from the bank line, no card - 2026-10-25 · Paul
 
 ---
 
@@ -2050,3 +2051,24 @@ restaurant or food-run receipt, a meal with a vendor or a buyer, and every gift 
 for the business, generally at half, with the amount, date, place and purpose recorded; the Taxes tab already takes
 half of 6710. Booking them as house supplies at the full amount is a position for the accountant (Q-11). Penny is
 not the accountant; the books take the safer line and the accountant can reclassify.
+
+## D-093 · The bank's own fee under 50.00 is recorded by code from the bank line, no card - 2026-10-25 · Paul
+
+*"Yes - a bank fee under $50 can be recorded on its own, no card."* (audit 2026-10-24 #16, section 6 q3, asked and
+answered 2026-10-25). Of the cards waiting that week, the bank's own charges were two 1.00 foreign-ATM charges of
+10-07; earlier ones Paul had answered by hand were the 25.00 wire fee of 10-09 and the 28.15 check order of 08-11.
+
+**Decided:** in the matching run, before the model sees the lines, a bank line that is money out, under 50.00, and
+whose own text says FEE or CHARGE as a whole word (or is a check order) is the bank's own fee and is settled by code
+(`isBankFee`, `bankFeePass`): when the books already hold it - an entry for that amount within ten days, the same rail
+that retires an answered card - the line is tied to that entry; otherwise it is recorded on `6910` Bank & merchant
+fees under OVERHEAD, paid from that account, the bank as payee, the bank's own text as the description, with the id
+`bank-<account>-<line id>` so the same line can never post twice. The Feed row is tied with a note; a card already
+waiting for exactly that line is retired. A fee of 50.00 or more, a third party's fee ("WAXAHACHIE SERVFEE" is the
+city's card-processing charge, not the bank's - no whole word, and not the bank's charge), and a line the posting
+engine refuses still come to Paul as a card. The ceiling is `BANK_FEE_CEILING_CENTS` in `lib/feed-match.mjs`, changed
+only on Paul's word.
+
+**Why 6910:** it is the chart's bank-fee account and where every fee Paul answered by hand already sits. The matcher's
+prompt had told the model 6930 (Interest - other) and the 08-11 check order went there on its word; the prompt now
+says 6910. That one 28.15 line is flagged in HANDOFF, not moved.

@@ -1,5 +1,30 @@
 # Changelog
 
+## 2026-10-25 - Audit #16: the bank's own fees under 50.00 are settled by code in the matching run, no card (D-093)
+
+Paul, asked the ceiling (section 6 q3): "Yes - a bank fee under $50 can be recorded on its own, no card." Built:
+- `lib/feed-match.mjs`: `isBankFee` (money out, under `BANK_FEE_CEILING_CENTS` 5000, FEE / CHARGE as a whole word or a
+  check order - "WAXAHACHIE SERVFEE" is not one), `bankFeeIntent` (a purchase intent: `6910` under OVERHEAD, paid from
+  the account, the bank as payee, the bank's text as the description, source `bank`, posted by claude). The prompt's
+  "bank fees and check orders are OVERHEAD 6930" was wrong (6930 is Interest - other; every fee Paul answered by hand
+  is on 6910) - it says 6910 now.
+- `books-feed-match-background.mjs`: `bankFeePass` runs before the model - the open lines that are fees, and a waiting
+  card that is exactly one such line (the two 10-07 1.00 ATM charges). A fee the books already hold within ten days
+  (`candidatesFor`, the rail `retirePendingCards` uses) is tied to that entry, never posted again - found in the test
+  fixture, where the 08-11 check order would have posted twice. Otherwise one `postBatch` per line on the id
+  `bank-<account>-<feed_id>`; a DUPLICATE (a rerun after a lost reply) is tied as already there; any other refusal
+  leaves the line for the model. The cards are retired, the Journal snapshot refreshed, the summary carries `fees`.
+- Menu.gs `feedMatchSummary_`: "N bank fees recorded on their own - the bank's own charge under $50, no card".
+- Tests: `isBankFee` on the real Citizens wordings (yes: FOREIGN ATM CHARGE, Wire transfer fee, DELUXE CHECK, MONTHLY
+  SERVICE CHARGE, CHECK ORDER; no: SERVFEE x2, exactly 50.00, money in, a store, blank) and the built entry; the job end
+  to end (tie, post, DUPLICATE, card retired, SERVFEE still to the model); the shared fixture's F8 check order is now
+  recorded by code, so three older counts moved by one. 614 tests. D-093; phase3-spec amended; CLAUDE.md rule 15.
+- **Flagged, not changed:** the 28.15 Deluxe check order of 08-11 (`receipt-20260811-6f1e7f8fc6d9-f728`) sits on 6930
+  (interest) - the prompt's old wording. Moving it is a void and a re-post on 6910, on Paul's word.
+- **Watch:** the next Match statement lines (or Import statement) on Citizens - the two 1.00 ATM cards of 10-07 leave
+  the Inbox on their own and the lines read matched to `bank-1401-...`; the 9.94 SERVFEE card stays for Paul.
+  Shipping: Paul's `npm run ship` (Menu.gs and the site changed).
+
 ## 2026-10-25 - Audit #15 and #13: the hourly P&L run is measured and no longer dies in silence; the house-tab rebuild is out from under the writer's lock
 
 **#15, measured first (the writer's Executions log, 26 hourly runs 10-24 08:05 to 10-25 10:05 PT):** most runs take

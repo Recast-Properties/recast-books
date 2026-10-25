@@ -2,6 +2,11 @@
 
 Written 2026-09-15 for Paul's review before any code. Supersedes the Plaid plan (D-019).
 
+**Amended 2026-10-25 (D-093):** the bank's own fee under 50.00 (money out, FEE or CHARGE as a whole word in the bank's
+text, or a check order) is settled by code in the matching run before the model sees the lines - tied to an entry the
+books already hold, else recorded on 6910 under OVERHEAD on the id `bank-<account>-<feed_id>`, its waiting card retired
+(`bankFeePass`, `isBankFee`). §3's "nothing here posts" has that one exception.
+
 **Amended 2026-09-28 (D-051):** Recast's own accounts only - Citizens (1401) and Chase (1402). Paul's personal
 card/checking is never imported; its business charges arrive as receipts, paid by Paul (2030), as they do now. The
 third account in §1 and "then the personal card" in §9 are withdrawn.

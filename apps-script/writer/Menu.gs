@@ -1969,6 +1969,8 @@ function feedMatchSummary_(s) {
   // Audit 2026-10-24 #1, #2a: what the run tidied before asking the model.
   if (s.retired) out.push(s.retired + (s.retired === 1 ? ' card' : ' cards') + ' cleared from the Inbox - the receipt was already in the books.');
   if (s.reopened) out.push(s.reopened + (s.reopened === 1 ? ' line' : ' lines') + ' looked at again - its card was gone.');
+  // D-093 (Paul, 2026-10-25): the bank's own fee under $50 is recorded by code, no card.
+  if (s.fees) out.push(s.fees + (s.fees === 1 ? ' bank fee' : ' bank fees') + ' recorded on ' + (s.fees === 1 ? 'its' : 'their') + ' own - the bank\'s own charge under $50, no card (your rule of 10-25).');
   out.push('Each line\'s note is in the match_note column of the Feed tab.');
   return out.join('\n');
 }

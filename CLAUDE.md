@@ -108,7 +108,9 @@ functions the menu, pollers and nightly jobs call - Paul is never sent there.
     the exact placeholder marker the Inbox and the lint share - never reword it; a receipt replaces a placeholder on
     its own only on an exact match (name, total, payer), otherwise it holds for Paul (D-057); a held card that is
     the corrected copy of an entry takes the old one out when he saves it (D-058). No holding account for a charge
-    with no house - it stays a card. Tune the matcher through the prompt and data, then `resetFeedCards()` and
+    with no house - it stays a card. The bank's own fee under the D-093 ceiling is settled by code in the matching
+    run (`isBankFee`: the bank's words, a whole word, never a vendor list) - tied when the books hold it, else recorded
+    on 6910, never 6930. Tune the matcher through the prompt and data, then `resetFeedCards()` and
     rerun - never edit verdicts by hand. The monthly bank check is the box at the top of the Citizens Bank tab
     (D-063), not a menu item - fold new things into what exists.
 16. **Recast's own accounts only** (D-051): Citizens 1401 and Chase 1402 (Paul's business account, never Dennis);

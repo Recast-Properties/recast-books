@@ -5,7 +5,25 @@ history and are not written to; `CHANGELOG.md` keeps its dated entry per change.
 `docs/ops.md`. The books' numbers live on the workbook's tabs (P&L, Totals, Citizens Bank, the house tabs) - read them
 there; a figure written here is only as of its date.
 
-## 2026-10-25 - audit #15 and #13 live; next #16 (START HERE)
+## 2026-10-25 - #15 and #13 live; #16 built, not yet shipped; next #17 (START HERE)
+
+**#16 built 10-25 (614 tests), committed - owed: Paul runs `npm run ship`.** Paul's word: "a bank fee under $50 can be
+recorded on its own, no card" (D-093). In the matching run, before the model: a line that is money out, under 50.00,
+the bank's own words saying FEE or CHARGE (or a check order) is settled by code - tied to an entry the books already
+hold within ten days, else recorded on 6910 under OVERHEAD on the id `bank-<account>-<feed_id>`; its card, if waiting,
+is retired; the run's summary says "N bank fees recorded on their own". "WAXAHACHIE SERVFEE" (the city's processing
+fee) is not one and stays a card. The matcher's prompt said 6930 for fees - wrong, it is interest; it says 6910 now.
+
+**Watch after the ship:** the next Match statement lines (or Import statement) on Citizens - the two 1.00 FOREIGN ATM
+CHARGE cards of 10-07 leave the Inbox on their own, their lines read matched to `bank-1401-2026100700000005533...`,
+the 9.94 SERVFEE card stays; the summary box shows the fees line. **Flagged, not changed:** the 28.15 Deluxe check
+order of 08-11 (`receipt-20260811-6f1e7f8fc6d9-f728`) is on 6930 (interest) - move to 6910 only on Paul's word (a void
+and a re-post).
+
+**Next work, in Paul's order:** #17 a bank question answered in words re-runs the matcher by itself, then #12, #11,
+#18, #19 - each with tests, CHANGELOG/HANDOFF, a commit and `npm run ship` handed to him as one command.
+
+## 2026-10-25 (morning) - audit #15 and #13 live
 
 **Live since 10-25 13:03 CT - `npm run ship` by Paul: web app @47, site `6ade4486`, read-back OK; 612 tests. Nothing owed on
 the ship.** **#15:** the hourly P&L run was measured first from the writer's Executions log (26 runs, 10-24
@@ -27,8 +45,7 @@ house tab updated (the rebuild moved after the lock, it did not go away).
 one at a time when he says; the 10-11 Poinsetta photo (`gm-1a12d6f7780f7d94`) - Paul forwards that email to receipts@
 again, Claude clears the old error card.
 
-**Next work, in Paul's order:** #16 bank fees under a ceiling posting from the matcher - **ask him the ceiling first
-(section 6 q3: "may a bank fee under, say, $50 post on its own, no card?")** - then #17, #12, #11, #18, #19, each with
+**Next work (10-25 morning; #16 done above):** #16 bank fees - asked and answered ($50, D-093) - then #17, #12, #11, #18, #19, each with
 tests, CHANGELOG/HANDOFF, a commit and `npm run ship` handed to him as one command. Section 6's other decisions (q1, q4,
 q6, q7, q8, q9) are asked one at a time as they come up, never all at once. The Inbox is read back with the Netlify CLI
 (`blobs:list books-docs --prefix doc/feed-`, `blobs:get books-docs index/docs`), not the API.
