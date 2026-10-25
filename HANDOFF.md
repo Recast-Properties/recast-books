@@ -7,10 +7,10 @@ there; a figure written here is only as of its date.
 
 ## 2026-10-25 - the audit's list is done and live (START HERE)
 
-**17:50 CT - D-096 built, not shipped (CHANGELOG, same date):** the bookkeeper never guesses the house - only the
+**D-096 live since 17:50 CT - web app @58, site `6ade87d3`, read-back OK (stamp `352a22e`); 627 tests:** the bookkeeper never guesses the house - only the
 receipt, the house's own mailbox, Paul's words or the original purchase name it; `houseRail` takes off any other house
-before the gate and the card asks. The matcher asks too, instead of pre-filling a house from amount and date. **Owed:
-`npm run ship` (Paul).** Asked Paul: which house the 197.88 Amazon lights and fans (10-12, `receipt-20261012-6ca646e73108`,
+before the gate and the card asks. The matcher asks too, instead of pre-filling a house from amount and date. Watch: the next receipt with no house on it
+holds with "Which house? The receipt does not say" and its working shows the house rail line. Asked Paul: which house the 197.88 Amazon lights and fans (10-12, `receipt-20261012-6ca646e73108`,
 on 413 Green Acres by guess) belong to - move on his word. The 65.86 towel bars wait under Receipts for his house pick.
 Offered, not done: a look back over the receipts the bookkeeper posted on its own since 09-21 for other guessed houses
 (164 of them).

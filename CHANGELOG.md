@@ -19,8 +19,8 @@ comes from the property specific email it should not guess the property."
   the date or what other houses are buying (was: "for the house the amount and date point to").
 - Tests: the schema field; the rail's keep and take-off cases, an old read, OVERHEAD, a mixed receipt; the prompt and the
   matcher's words. 627 tests. D-096; CLAUDE.md rule 18.
-- **Needs `npm run ship` (Paul)** - the site carries the bookkeeper and the matcher. Not changed: the 197.88 already on 413
-  Green Acres - asked Paul which house; moved on his word.
+- **Shipped by Paul 17:50 CT: web app @58, site `6ade87d3`, read-back OK (stamp `352a22e`).** Not changed: the 197.88
+  already on 413 Green Acres - asked Paul which house; moved on his word.
 
 ## 2026-10-25 - D-095: Supplies on hand - the Amazon door locks, and any hardware kept on hand by the box
 
