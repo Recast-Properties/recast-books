@@ -787,3 +787,17 @@ test("audit 2026-10-24 #1: a posted receipt whose read named no card still ties 
   assert.equal(r2.status, "posted");
   assert.deepEqual(calls2, []);
 });
+
+test("audit 2026-10-24 #11 / #7 applyPayerOverride: a re-run from a stored read takes the payer where the read had none, leaves a known payer alone, records the override", async () => {
+  const { applyPayerOverride } = await import("../netlify/functions/books-ingest-background.mjs");
+  const e = postModel().entries[0];
+  const model = postModel({ paid_from: "UNKNOWN", entries: [{ ...e, paid_from: "UNKNOWN" }, { ...e, paid_from: "" }, { ...e, paid_from: "PAUL" }] });
+  const out = applyPayerOverride(model, { paid_from: "1402", note: "card ending 7416 is 1402" });
+  assert.equal(out.paid_from, "1402");
+  assert.deepEqual(out.entries.map((x) => x.paid_from), ["1402", "1402", "PAUL"]);
+  assert.equal(out.overrides.paid_from, "1402");
+  assert.equal(out.overrides.note, "card ending 7416 is 1402");
+  assert.ok(out.overrides.applied_at);
+  assert.equal(out.verdict, "post", "nothing else changes");
+  assert.equal(applyPayerOverride(postModel(), {}).paid_from, "1401", "a known payer is left alone");
+});

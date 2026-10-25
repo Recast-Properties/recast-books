@@ -1,5 +1,25 @@
 # Changelog
 
+## 2026-10-25 - Audit #11: one posting path - the web Inbox's Approve and the staging replays are gone
+
+Four "not done on the other path" notes in five weeks came from keeping three posting paths in step for a button Paul
+never sees (D-023: the menu, not the web app). Deleted:
+- `/api/inbox` `approve` (and `approveFolderFor`, `buildErrorResponse`, the gate/ctx imports it alone used),
+  `netlify/functions/books-approve-background.mjs` and its test; `web/app.js`'s Approve button and `approveDoc`
+  (Dismiss, Reprocess and Delete stay - queue management, never a post). `mark-posted` no longer accepts a `posting`
+  envelope (nothing makes one).
+- `/api/inbox` `repost` and `repost-all` (D-025's staging reruns) and `scripts/recover-errored.mjs` (the warm job
+  retries an errored read since #4). The poller's `Listing.gs` `repostAll` now calls a verb that no longer exists -
+  it is cutover-era code #18 takes out.
+- In the ingest, the replay's migration rules: the dismiss-replay ("the duplicate an old read named is on no book")
+  and the property / trade / 65xx->1030 / verdict overrides (D-026). What stays is what audit #7's `relearn` uses -
+  `fromStored` plus the payer override, now one pure function `applyPayerOverride` (fills an UNKNOWN or blank payer on
+  the model and its entries, records `overrides` on the model) with its own test. The poller's digest still strips the
+  old `[rule: ...]` suffix on envelopes that carry one; the lint now pins that the ingest writes none.
+- Tests: the nine approve tests out, one in (approve / repost / repost-all are unknown actions, nothing fired, the
+  envelope untouched); `applyPayerOverride`; the poller lint updated. 613 tests. Shipping: Paul's `npm run ship`.
+  Not changed: the web page's entry-editing fields (they fed Approve; harmless, and the page is Penny's read door).
+
 ## 2026-10-25 - Audit #12: every refusal reaches Paul in plain words, from one map
 
 Twice a posting-engine refusal (`BAD_ACCOUNT`, `PROPERTY_REQUIRED`) reached Paul as a bold code and its machine

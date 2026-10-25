@@ -129,7 +129,7 @@ test("the digest's pending line is a snapshot in the Inbox card's words, never t
   assert.equal(reason({ why: "x".repeat(400), gate_reasons: ["NOT_POST_VERDICT"] }), "Open it in the Inbox");
 
   const ingest = readFileSync(path.join(__dirname, "..", "netlify", "functions", "books-ingest-background.mjs"), "utf8");
-  assert.ok(ingest.includes("is not on the books, the dismiss was against"), "the replay rule's wording changed - update digestReason_");
+  assert.ok(!ingest.includes("[rule: "), "audit 2026-10-24 #11: the ingest writes no [rule: ...] suffix any more; digestReason_ still strips the old envelopes' ones");
   assert.ok(fn(source, "dailyDigest").includes("digestReason_(p)"), "dailyDigest no longer goes through digestReason_");
   assert.ok(!/p\.why/.test(fn(source, "dailyDigest")), "dailyDigest prints the model's why raw again");
 });

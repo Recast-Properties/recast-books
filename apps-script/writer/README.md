@@ -11,7 +11,7 @@ bound to the production workbook "Recast Books"; web-app deployment
 
 - Change: `clasp push -f` from this folder. It reaches the menus, the sheet's Inbox and the triggers at once.
 - **Then, if `Code.gs` or `lib.gs` changed:** `clasp deploy -i AKfycbxNisU_atef_fjnELMBK0R9N1xcnP5e-0MT4LP0FdhpfdPRE1UwlIcb2u4-JS38gx1O3w`
-  (Paul's step). The web app - both pollers, the web Inbox and `approve-bg` post through it - runs the
+  (Paul's step). The web app - both pollers and the ingest's automatic posts go through it - runs the
   deployed version of the whole project (audit §67).
 - **Never** Deploy -> New deployment: that makes a new `/exec` URL, and `WRITER_URL`, both pollers and the
   Inbox would still point at the old one. Always `-i` the same id.

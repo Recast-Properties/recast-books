@@ -73,6 +73,18 @@ function isoDaysAgo(days) {
 // ---- deps builders (phase2-spec.md section 3's client tools read through these) --
 
 /** Flat, line-level rows (not grouped by entry) - what read_ledger's compact format needs. */
+/** The one override a re-run from a stored read takes (audit 2026-10-24 #7, relearn): the payer, where the read had
+ *  none ("UNKNOWN" or blank) - on the model and on each entry. Recorded on the model as `overrides`. Pure. */
+export function applyPayerOverride(model, o) {
+  const fill = (p) => (o.paid_from && (!p || p === "UNKNOWN") ? o.paid_from : p);
+  return {
+    ...model,
+    paid_from: fill(model.paid_from),
+    entries: (model.entries || []).map((e) => ({ ...e, paid_from: fill(e.paid_from) })),
+    overrides: { paid_from: o.paid_from || "", note: o.note || "", applied_at: new Date().toISOString() },
+  };
+}
+
 export function flattenJournalLines(headers, rows) {
   const idx = Object.fromEntries(headers.map((h, i) => [h, i]));
   const get = (row, name) => (idx[name] !== undefined ? row[idx[name]] : "");
@@ -398,10 +410,10 @@ export default async (req) => {
     // its own regardless of this hint).
     const mailboxHint = propertyMailboxHint(ctx, envelope);
     if (mailboxHint) context.property_mailbox_hint = mailboxHint;
-    // D-025: a replay re-posts from the READ already stored on the envelope instead
-    // of paying for a second model read. books-inbox.mjs's `repost` / `repost-all`
-    // verbs invoke this with {docId, fromStored:true}; the gate and every
-    // deterministic step below still run fresh against the current ledger.
+    // A re-run from the READ already stored on the envelope instead of a second model read: audit 2026-10-24 #7
+    // (books-inbox.mjs `relearn` - Paul placed a card number, the other cards citing it run again with that payer,
+    // {docId, fromStored:true, overrides:{paid_from, note}}). The gate and every deterministic step below still run
+    // fresh against the current ledger. D-025's staging replays and their migration-rule overrides went with #11.
     const fromStored = body.fromStored === true && envelope.model && envelope.model.verdict;
     let { model, transcript_summary, usage } = fromStored
       ? (({ usage: u, transcript_summary: t, ...m }) => ({ model: m, usage: u, transcript_summary: t }))(envelope.model)
@@ -410,52 +422,7 @@ export default async (req) => {
           attachments: attachmentsForModel,
           deps,
         });
-    // D-025: reads happen once, but the ledger a read was made against may be gone
-    // (staging is cleared between runs). A stored "dismiss, duplicate of <txn>" whose txn
-    // is on no book now is not a duplicate - it is the only read of that receipt (2026-09-17:
-    // 94 documents, 177 old rows). Replay it as the read: post when the model kept its
-    // entries, hold when it did not. The gate's duplicate rails still run against the
-    // current ledger, so a real twin posted meanwhile is still refused.
-    if (fromStored && model.verdict === "dismiss" && /^receipt-/.test(String(model.duplicate_of || ""))) {
-      const whole = await readTab(writer, "Journal", { all: true });
-      const known = new Set(flattenJournalLines(whole.headers, whole.rows).map((l) => l.txn_id));
-      if (!known.has(model.duplicate_of)) {
-        const verdict = (model.entries || []).length ? "post" : "hold";
-        model = { ...model, verdict, duplicate_of: "",
-                  why: `${model.why || ""} [rule: ${model.duplicate_of} is not on the books, the dismiss was against an earlier run's ledger - replayed as ${verdict}]` };
-      }
-    }
-    // Phase 4 review rules (D-025): a re-post may carry overrides Paul decided once for
-    // many documents - `paid_from` (resolves PAYER_UNKNOWN: "6774 is my Chase card",
-    // "everything before June was the personal Visa") and `property` (the old books'
-    // attribution wins over the model's guess). Applied to the stored read only; the
-    // gate and duplicate checks still run on the result. Recorded on the envelope.
-    if (fromStored && body.overrides && typeof body.overrides === "object") {
-      const o = body.overrides;
-      // D-026.9 (Paul, 2026-09-17): fuel / truck / trailer (66xx) is a general business
-      // expense wherever the old books put it - an entry that is only 66xx keeps OVERHEAD.
-      const allFuel = (e) => (e.items || []).length > 0 && (e.items || []).every((it) => /^66/.test(String(it.account || "")));
-      const entries = (model.entries || []).map((e) => ({
-        ...e,
-        paid_from: o.paid_from && (!e.paid_from || e.paid_from === "UNKNOWN") ? o.paid_from : e.paid_from,
-        property: o.property && !allFuel(e) ? o.property : e.property,
-        // `trade` carries the old heavy-template block name (Ashburne's 21 categories), so
-        // the per-trade view of the property tab reproduces the old layout (D-002).
-        // Old-tab attribution wins (D-026.3), and overhead never touches a property
-        // (D-010): a tools/supplies line (65xx) the old books carried on a property becomes
-        // rehab materials (1030). Fuel (66xx) and meals (67xx) stay as read and hold.
-        items: (e.items || []).map((it) => ({
-          ...it,
-          trade: o.trade && !allFuel(e) ? o.trade : it.trade,
-          account: o.property && o.property !== "OVERHEAD" && /^65/.test(String(it.account || "")) ? "1030" : it.account,
-        })),
-      }));
-      model = { ...model, entries, paid_from: o.paid_from && (!model.paid_from || model.paid_from === "UNKNOWN") ? o.paid_from : model.paid_from,
-                overrides: { ...o, applied_at: new Date().toISOString() } };
-      // A rule can also dismiss ("personal Uber ride that is not an airport run", "the bill
-      // whose payment is already posted") - the verdict flips, the read stays on record.
-      if (o.verdict === "dismiss") model = { ...model, verdict: "dismiss", why: `${model.why || ""} [rule: ${o.note || "dismissed by migration rule"}]` };
-    }
+    if (fromStored && body.overrides && typeof body.overrides === "object") model = applyPayerOverride(model, body.overrides);
 
     const gateResult = evaluateGate(model, ctx, settings, { postedEntries });
 

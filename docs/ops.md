@@ -19,7 +19,7 @@ CLAUDE.md's operating notes, the handoffs' "gotchas met" sections and Claude's m
 - **Writer** (`apps-script/writer/`): `clasp push -f`. A push reaches the menus, the sheet's Inbox and the triggers at
   once. **If `Code.gs` or `lib.gs` changed, also `clasp deploy -i
   AKfycbxNisU_atef_fjnELMBK0R9N1xcnP5e-0MT4LP0FdhpfdPRE1UwlIcb2u4-JS38gx1O3w`** - the pollers, the web Inbox and
-  `approve-bg` post through the web app, which runs the DEPLOYED version of the whole project (`refreshLineBlocks_`
+  the ingest's automatic posts go through the web app, which runs the DEPLOYED version of the whole project (`refreshLineBlocks_`
   included, not just `doPost`). "doPost unchanged, no deploy" kept a tab fix off every emailed receipt for four days
   (audit §67). Always the same id, so `WRITER_URL` never changes; **never Deploy -> New deployment** (a new `/exec`
   URL breaks `WRITER_URL` and both pollers). The deploy is Paul's step. Verify: the web app's `/exec` answers
@@ -89,7 +89,7 @@ CLAUDE.md's operating notes, the handoffs' "gotchas met" sections and Claude's m
   `postBatch` reply usually landed - confirm on the Journal before posting again. A write waits up to 120 s for the lock
   (`LOCK_WAIT_MS`) and holds it only while its rows land - the house or bank tab is rebuilt after the lock is given back.
 - A synchronous Netlify function dies at about 10 s (the proxy at 26 s) - never wait on the writer from one; the
-  `-bg` background jobs do that (`approve-bg`, `settlement-bg`, `reconcile-bg`).
+  `-bg` background jobs do that (`ingest-bg`, `settlement-bg`, `reconcile-bg`, `feed-match-bg`).
 - Anthropic SDK: a non-streaming call above about 21k `max_tokens` throws "Streaming is required";
   `MAX_TOKENS_PER_TURN` is 16000.
 - The bookkeeper's strict tools carry at most 16 nullable parameters - a 17th is a 400 before the model sees

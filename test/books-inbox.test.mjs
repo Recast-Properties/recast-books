@@ -76,7 +76,7 @@ beforeEach(() => {
       writerCalls.push(body);
       return { status: 200, text: async () => JSON.stringify(writerRouter(body)) };
     }
-    if (u === "https://books.test/api/ingest-bg" || u === "https://books.test/api/approve-bg") {
+    if (u === "https://books.test/api/ingest-bg") {
       ingestCalls.push({ url: u, body: JSON.parse(opts.body), headers: opts.headers });
       return new Response(JSON.stringify({ docId: JSON.parse(opts.body).docId }), { status: 202 });
     }
@@ -267,108 +267,6 @@ test("a session still cannot mark-posted without the owner role", { skip }, asyn
 });
 
 // ---- approve -----------------------------------------------------------------------
-
-test("approve is owner-only", { skip }, async () => {
-  await seedEnvelope("gm-approve1");
-  const res = await handler(req("POST", { token: session("partner"), body: { action: "approve", docId: "gm-approve1" } }));
-  assert.equal(res.status, 403);
-});
-
-test("approve: builds entries, marks the envelope posting with them, fires approve-bg, answers 202", { skip }, async () => {
-  await seedEnvelope("gm-approve2");
-  const store = getDocsStore();
-
-  const res = await handler(req("POST", { token: session("owner"), body: { action: "approve", docId: "gm-approve2", note: "ok" } }));
-  assert.equal(res.status, 202);
-  const body = await res.json();
-  assert.equal(body.status, "posting");
-  assert.equal(body.txn_ids.length, 1);
-
-  const envelope = await store.get("doc/gm-approve2", { type: "json" });
-  assert.equal(envelope.status, "posting");
-  assert.equal(envelope.posting_entries.length, 1);
-  assert.equal(envelope.posting_entries[0].posted_by, "owner@recast-properties.com");
-  assert.equal(envelope.posting_entries[0].lines.some((l) => l.account === "1030"), true);
-  assert.deepEqual(envelope.saved_entries, envelope.model.entries); // approved as read; approve-bg moves it to result.entries
-
-  assert.equal(writerCalls.some((c) => c.action === "postBatch"), false, "the sync verb never posts");
-  const bg = ingestCalls.find((c) => c.url.endsWith("/api/approve-bg"));
-  assert.ok(bg, "approve-bg was not fired");
-  assert.equal(bg.headers["x-poller-secret"], "poller-secret");
-  assert.deepEqual(bg.body.folder, ["2026", "881 Newport"]);
-  assert.equal(bg.body.by, "owner@recast-properties.com");
-  assert.equal(bg.body.note, "ok");
-});
-
-test("approve: a second click while posting -> 409", { skip }, async () => {
-  await seedEnvelope("gm-approve2b", { status: "posting", posting_at: new Date().toISOString(), posting_entries: [] });
-  const res = await handler(req("POST", { token: session("owner"), body: { action: "approve", docId: "gm-approve2b" } }));
-  assert.equal(res.status, 409);
-});
-
-test("D-057 approve: a receipt that may replace a placeholder is refused here - only the workbook's Inbox can swap it", { skip }, async () => {
-  await seedEnvelope("gm-approve-wait", { gate: { passed: false, reasons: ["PLACEHOLDER_WAITING:receipt-wait"], placeholder: { txn_id: "receipt-wait" } } });
-  const res = await handler(req("POST", { token: session("owner"), body: { action: "approve", docId: "gm-approve-wait" } }));
-  assert.equal(res.status, 409);
-  assert.equal((await res.json()).error, "PLACEHOLDER_WAITING");
-  assert.equal((await getDocsStore().get("doc/gm-approve-wait", { type: "json" })).status, "pending");
-  assert.equal(ingestCalls.some((c) => c.url.endsWith("/api/approve-bg")), false);
-
-  // D-058: the same for a card whose read names an earlier copy to replace
-  const seeded = await seedEnvelope("gm-approve-tip");
-  await getDocsStore().setJSON("doc/gm-approve-tip", { ...seeded, model: { ...seeded.model, supersedes: "receipt-untipped" } });
-  const res2 = await handler(req("POST", { token: session("owner"), body: { action: "approve", docId: "gm-approve-tip" } }));
-  assert.equal(res2.status, 409);
-  assert.equal((await res2.json()).error, "REPLACES_AN_ENTRY");
-});
-
-test("approve honors human-edited entries over the model's original proposal", { skip }, async () => {
-  await seedEnvelope("gm-approve3");
-  const editedEntries = [
-    {
-      date: "2026-09-10",
-      payee: "Home Depot",
-      memo: "drywall (corrected)",
-      property: "881 Newport",
-      paid_from: "1401",
-      items: [{ account: "1030", amount_cents: 5000, description: "drywall", trade: "", business_purpose: "" }],
-    },
-  ];
-
-  const res = await handler(
-    req("POST", { token: session("owner"), body: { action: "approve", docId: "gm-approve3", entries: editedEntries } }),
-  );
-  assert.equal(res.status, 202);
-
-  const envelope = await getDocsStore().get("doc/gm-approve3", { type: "json" });
-  const debitLine = envelope.posting_entries[0].lines.find((l) => l.account === "1030");
-  assert.equal(debitLine.debit, 5000);
-});
-
-test("approve: approve-bg unreachable -> 502 and the envelope is back to pending", { skip }, async () => {
-  await seedEnvelope("gm-approve4");
-  const inner = globalThis.fetch;
-  globalThis.fetch = async (url, opts) => {
-    if (String(url).endsWith("/api/approve-bg")) return new Response("nope", { status: 500 });
-    return inner(url, opts);
-  };
-  const res = await handler(req("POST", { token: session("owner"), body: { action: "approve", docId: "gm-approve4" } }));
-  assert.equal(res.status, 502);
-  assert.equal((await getDocsStore().get("doc/gm-approve4", { type: "json" })).status, "pending");
-});
-
-test("approve with no entries anywhere -> 400", { skip }, async () => {
-  await seedEnvelope("gm-approve5", { model: { ...postModel(), entries: [] } });
-  const res = await handler(req("POST", { token: session("owner"), body: { action: "approve", docId: "gm-approve5" } }));
-  assert.equal(res.status, 400);
-});
-
-test("approve on an unknown docId -> 404", { skip }, async () => {
-  const res = await handler(req("POST", { token: session("owner"), body: { action: "approve", docId: "gm-nope" } }));
-  assert.equal(res.status, 404);
-});
-
-// ---- dismiss -----------------------------------------------------------------------
 
 test("dismiss is owner-only", { skip }, async () => {
   await seedEnvelope("gm-dismiss1");
@@ -577,4 +475,15 @@ test("audit 2026-10-24 #1: dismiss with only_pending leaves a card Paul already 
   res = await handler(req("POST", { token: session("owner"), body: { action: "dismiss", docId: "feed-1401-pend1", note: "the receipt came in", only_pending: true } }));
   assert.equal((await res.json()).status, "dismissed");
   assert.equal((await store.get("doc/feed-1401-pend1", { type: "json" })).review.note, "the receipt came in");
+});
+
+test("audit 2026-10-24 #11: the site no longer posts - approve, repost and repost-all are unknown actions; mark-posted, dismiss, reprocess, relearn and delete remain", { skip }, async () => {
+  await seedEnvelope("gm-no-approve");
+  for (const action of ["approve", "repost", "repost-all"]) {
+    const res = await handler(req("POST", { token: session("owner"), body: { action, docId: "gm-no-approve", entries: [] } }));
+    assert.equal(res.status, 400, `${action} is gone`);
+    assert.match((await res.json()).message || "", /unknown action|docId/i);
+  }
+  assert.equal(ingestCalls.length, 0, "nothing was fired");
+  assert.equal((await docsStore.get("doc/gm-no-approve", { type: "json" })).status, "pending", "the envelope is untouched");
 });

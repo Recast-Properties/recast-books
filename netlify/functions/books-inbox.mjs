@@ -1,47 +1,33 @@
 // netlify/functions/books-inbox.mjs — path /api/inbox — phase2-spec.md section 5
 //   GET  /api/inbox?status=pending|posted|dismissed|dry|error|all&limit=
 //     -> {envelopes:[...]} newest first, no attachment bytes (any signed-in role)
-//   POST /api/inbox {action:"approve", docId, entries?, note?}    (owner) -> 202, posts in /api/approve-bg
 //   POST /api/inbox {action:"dismiss", docId, note}               (owner)
 //   POST /api/inbox {action:"reprocess", docId}                   (owner)
-//   POST /api/inbox {action:"repost", docId}                      (owner/poller; D-025, re-post from the stored read)
 //   POST /api/inbox {action:"relearn", last4, paid_from}          (owner/poller; audit 2026-10-24 #7 - the other cards
 //                                                                   citing a card number Paul just placed, re-run from their reads)
-//   POST /api/inbox {action:"repost-all", after?, limit?, only?:[docId], overrides?:{docId|"*":{paid_from?,property?}}}  (owner/poller; D-025, paged)
+//   POST /api/inbox {action:"mark-posted" | "mark-pending", ...}  (owner/poller; the workbook's Inbox records its post here)
 //   POST /api/inbox {action:"delete", docId}                      (owner; dry/error only)
 //
-// Every POST verb here is owner-only (task brief: "Owner-only verbs in books-inbox") -
-// approve is the human bypass around the model+gate, dismiss/reprocess/delete are
-// review-queue management. GET is read-only for every signed-in role, like the other
-// *-ledger-ish pages.
+// Nothing here posts to the books (audit 2026-10-24 #11, D-023): an entry is posted by the workbook's Inbox
+// (Menu.gs inboxApprove, in-process) or by the ingest's automatic path (D-044) - the site records and manages the
+// queue. The web Inbox's `approve` verb and its background half, and D-025's `repost` / `repost-all` staging
+// replays, went with #11. Every POST verb is owner-only; GET is read-only for every signed-in role.
 
 import {
   requireConfig,
   json,
   getWriter,
   getDocsStore,
-  getPostingCtx,
   getSessionPayload,
   requireRole,
   authErrorResponse,
-  todayChicago,
   pollerSecretOk,
   loadDocIndex, loadEnvelopes,
   getCacheStore, loadHeartbeat,
 } from "./_shared.mjs";
-import { buildEntriesFromModel } from "../../lib/gate.mjs";
-
 const STATUSES = new Set(["pending", "posted", "dismissed", "dry", "error", "processing"]);
 const DELETABLE_STATUSES = new Set(["dry", "error"]);
 const DOC_ID_RE = /^[A-Za-z0-9_-]{1,200}$/;
-
-/** A thrown build error (PostingError-shaped: has .code) -> 422; anything else rethrows. */
-function buildErrorResponse(err) {
-  if (err && typeof err.code === "string") {
-    return json(422, { error: err.code, message: err.message, details: err.details });
-  }
-  return null;
-}
 
 async function loadEnvelope(docsStore, docId) {
   return docsStore.get(`doc/${docId}`, { type: "json" });
@@ -49,16 +35,6 @@ async function loadEnvelope(docsStore, docId) {
 
 function validateDocId(docId) {
   return typeof docId === "string" && DOC_ID_RE.test(docId);
-}
-
-/** Folder for a document that was never filed on the way into Pending (hold never
- * files to Drive - see books-ingest-background.mjs): ["<year>", "<property or
- * OVERHEAD>"] from the (possibly human-edited) first entry being approved. */
-function approveFolderFor(entries) {
-  const first = entries[0] || {};
-  const year = (first.date || todayChicago()).slice(0, 4);
-  const property = first.property || "OVERHEAD";
-  return [year, property];
 }
 
 export default async (req) => {
@@ -132,35 +108,6 @@ export default async (req) => {
     }
     const by = isPoller ? String(body.by || "workbook") : session.email;
 
-    // D-025 staging reruns: re-post every document that already carries a stored
-    // read, without a second model call. Pages through the docs store so the
-    // caller (a local script) controls the pace; each doc is handed to ingest-bg
-    // with fromStored:true. Skips dry runs, test uploads and docs with no verdict.
-    if (body.action === "repost-all") {
-      const limit = Math.min(Math.max(parseInt(body.limit, 10) || 20, 1), 100);
-      const after = String(body.after || "");
-      const only = Array.isArray(body.only) ? new Set(body.only.map(String)) : null;
-      const overrides = body.overrides && typeof body.overrides === "object" ? body.overrides : {};
-      const { blobs } = await docsStore.list({ prefix: "doc/" });
-      const keys = blobs.map((b) => b.key).filter((k) => k > `doc/${after}` && (!only || only.has(k.slice(4)))).sort().slice(0, limit);
-      const fired = [], skipped = [];
-      const origin = new URL(req.url).origin;
-      for (const key of keys) {
-        const id = key.slice(4);
-        const env = await docsStore.get(key, { type: "json" });
-        if (!env || env.dryRun || id.startsWith("dry-") || id.startsWith("up-test-") || !env.model || !env.model.verdict) { skipped.push(id); continue; }
-        await docsStore.setJSON(key, { ...env, status: "processing", startedAt: new Date().toISOString(), finishedAt: "", error: "", gate: null, result: null });
-        const res = await fetch(`${origin}/api/ingest-bg`, {
-          method: "POST",
-          headers: { "content-type": "application/json", "x-poller-secret": process.env.POLLER_SECRET },
-          body: JSON.stringify({ docId: id, fromStored: true, overrides: overrides[id] || overrides["*"] || undefined }),
-        });
-        fired.push({ docId: id, http: res.status });
-      }
-      const last = keys.length ? keys[keys.length - 1].slice(4) : "";
-      return json(200, { fired, skipped, after: last, done: keys.length < limit });
-    }
-
     // Audit 2026-10-24 #7: the workbook learned a card's last four (Paul picked the payer on a card held for
     // PAYER_UNKNOWN - Menu.gs learnCard_). Every other receipt card still waiting that cites the same number is
     // re-run from its stored read with that payer - no new model read: the gate and the post happen in ingest-bg
@@ -201,93 +148,6 @@ export default async (req) => {
       return json(400, { error: "BAD_REQUEST", message: "docId is required" });
     }
 
-    if (body.action === "repost") {
-      const envelope = await loadEnvelope(docsStore, docId);
-      if (!envelope) return json(404, { error: "NOT_FOUND", message: `no envelope for docId ${docId}` });
-      if (!envelope.model || !envelope.model.verdict) return json(409, { error: "NO_STORED_READ", message: "this document has no stored model read; use reprocess" });
-      await docsStore.setJSON(`doc/${docId}`, { ...envelope, status: "processing", startedAt: new Date().toISOString(), finishedAt: "", error: "", gate: null, result: null });
-      const origin = new URL(req.url).origin;
-      const res = await fetch(`${origin}/api/ingest-bg`, {
-        method: "POST",
-        headers: { "content-type": "application/json", "x-poller-secret": process.env.POLLER_SECRET },
-        body: JSON.stringify({ docId, fromStored: true }),
-      });
-      if (res.status !== 202 && res.status !== 200) return json(502, { error: "INGEST_INVOKE", message: `ingest-bg returned HTTP ${res.status}` });
-      return json(202, { docId, status: "processing", fromStored: true });
-    }
-
-    if (body.action === "approve") {
-      const envelope = await loadEnvelope(docsStore, docId);
-      if (!envelope) return json(404, { error: "NOT_FOUND", message: `no envelope for docId ${docId}` });
-
-      // D-057, D-058: only the workbook's Inbox can put a card in the place of an entry already on
-      // the books. Approving it here would record the purchase a second time, beside the first.
-      if (envelope.gate?.placeholder) {
-        return json(409, { error: "PLACEHOLDER_WAITING", message: "This may be a receipt Paul was waiting on. Open it in the workbook: Recast Books -> Inbox." });
-      }
-      if (envelope.model?.supersedes) {
-        return json(409, { error: "REPLACES_AN_ENTRY", message: "This replaces one already in the books. Open it in the workbook: Recast Books -> Inbox." });
-      }
-
-      const modelSource = envelope.model || {};
-      const entriesInput = Array.isArray(body.entries) ? body.entries : modelSource.entries;
-      if (!Array.isArray(entriesInput) || entriesInput.length === 0) {
-        return json(400, { error: "BAD_REQUEST", message: "no entries to approve" });
-      }
-
-      let ctx;
-      try {
-        ctx = await getPostingCtx(writer);
-      } catch (err) {
-        return json(502, { error: "WRITER_ERROR", message: String((err && err.message) || err) });
-      }
-
-      // Drive filing happens in the background job; the entries are built with the
-      // doc_url the envelope already has (an auto-filed dry run) or none, and the job fills it.
-      const doc_url = envelope.result?.doc_url || "";
-      const modelForBuild = { ...modelSource, entries: entriesInput };
-      let entries;
-      try {
-        entries = buildEntriesFromModel(modelForBuild, ctx, {
-          posted_by: by,
-          doc_url,
-          allow_duplicate_hash: true,
-        });
-      } catch (err) {
-        const resp = buildErrorResponse(err);
-        if (resp) return resp;
-        throw err;
-      }
-
-      // 2026-09-16: an approve ran past the function's timeout (504) after the writer
-      // had posted but before this envelope was marked - and a second Approve would have
-      // posted it again (manual txn_ids carry a random suffix). 2026-09-25: it happened
-      // twice more at the proxy's ~26 s. So the work is a background job now
-      // (books-approve-background.mjs): mark "posting" with the built entries, refuse a
-      // re-entry, fire the job, answer 202. The page polls the envelope.
-      if (envelope.status === "posting" && Date.now() - Date.parse(envelope.posting_at || 0) < 5 * 60 * 1000) {
-        return json(409, { error: "POSTING", message: "this document is already being posted; reload in a minute" });
-      }
-      await docsStore.setJSON(`doc/${docId}`, { ...envelope, status: "posting", posting_at: new Date().toISOString(), posting_entries: entries, saved_entries: entriesInput });
-
-      const origin = new URL(req.url).origin;
-      let res;
-      try {
-        res = await fetch(`${origin}/api/approve-bg`, {
-          method: "POST",
-          headers: { "content-type": "application/json", "x-poller-secret": process.env.POLLER_SECRET },
-          body: JSON.stringify({ docId, folder: approveFolderFor(entriesInput), folderModel: modelSource, by, note: body.note || "" }),
-        });
-      } catch (err) {
-        res = { status: 0, statusText: String((err && err.message) || err) };
-      }
-      if (res.status !== 202 && res.status !== 200) {
-        await docsStore.setJSON(`doc/${docId}`, envelope); // back to pending, nothing was written
-        return json(502, { error: "APPROVE_INVOKE_FAILED", message: `approve-bg returned HTTP ${res.status} ${res.statusText || ""}`.trim(), docId });
-      }
-      return json(202, { docId, status: "posting", txn_ids: entries.map((e) => e.txn_id) });
-    }
-
     if (body.action === "mark-posted") {
       const envelope = await loadEnvelope(docsStore, docId);
       if (!envelope) return json(404, { error: "NOT_FOUND", message: `no envelope for docId ${docId}` });
@@ -308,7 +168,7 @@ export default async (req) => {
         await docsStore.setJSON(`doc/${docId}`, repointed);
         return json(200, { docId, status: "posted", txn_ids, repointed: true });
       }
-      if (envelope.status !== "pending" && envelope.status !== "posting") {
+      if (envelope.status !== "pending") {
         return json(409, { error: "NOT_PENDING", message: `envelope is "${envelope.status}", not pending` });
       }
       // entries: what Paul saved in the workbook, which may be less than the read proposed (a line
@@ -415,7 +275,7 @@ export default async (req) => {
       return json(200, { docId, deleted: true });
     }
 
-    return json(400, { error: "BAD_REQUEST", message: "action must be approve, mark-posted, mark-pending, dismiss, reprocess, relearn or delete" });
+    return json(400, { error: "BAD_REQUEST", message: "unknown action - it must be mark-posted, mark-pending, dismiss, reprocess, relearn or delete" });
   }
 
   return json(405, { error: "METHOD_NOT_ALLOWED" });

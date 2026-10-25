@@ -862,7 +862,6 @@ function renderInboxCard(env) {
   const verbs = [];
   if (isOwner()) {
     if (env.status === "pending") {
-      verbs.push(`<button class="btn btn-primary" data-approve="${escapeHtml(env.docId)}" type="button">Approve</button>`);
       verbs.push(`<button class="btn btn-secondary" data-dismiss="${escapeHtml(env.docId)}" type="button">Dismiss</button>`);
       verbs.push(`<button class="btn btn-secondary" data-reprocess="${escapeHtml(env.docId)}" type="button">Reprocess</button>`);
     } else if (env.status === "dry" || env.status === "error") {
@@ -1000,8 +999,6 @@ function wireInboxCard(env) {
     };
   });
 
-  const approveBtn = card.querySelector("[data-approve]");
-  if (approveBtn) approveBtn.onclick = () => approveDoc(env.docId);
   const dismissBtn = card.querySelector("[data-dismiss]");
   if (dismissBtn) dismissBtn.onclick = () => dismissDoc(env.docId);
   const reprocessBtn = card.querySelector("[data-reprocess]");
@@ -1010,26 +1007,8 @@ function wireInboxCard(env) {
   if (deleteBtn) deleteBtn.onclick = () => deleteDoc(env.docId);
 }
 
-async function approveDoc(docId) {
-  const env = inboxState.envelopes.find((e) => e.docId === docId);
-  const entries = inboxState.editing[docId] || (env && env.model && env.model.entries) || [];
-  if (!confirm(`Approve ${docId} and post ${entries.length} entr${entries.length === 1 ? "y" : "ies"}?`)) return;
-  try {
-    await api("inbox", { method: "POST", body: { action: "approve", docId, entries } });
-    delete inboxState.editing[docId];
-    // The post itself runs in the background (books-approve-background.mjs); the card
-    // is "posting" until the envelope says posted (or is back in Pending with the reason).
-    inboxState.banner = { kind: "success", html: `Approved <code>${escapeHtml(docId)}</code> - posting…` };
-    renderInboxBanner();
-    inboxState.focusDocId = docId;
-    pollFocusDoc();
-    await loadInboxTab();
-  } catch (err) {
-    inboxState.banner = { kind: "error", html: errorBannerHtml(err) };
-    renderInboxBanner();
-  }
-}
-
+// Audit 2026-10-24 #11 (D-023): the web Inbox no longer posts - a card is saved in the workbook's Inbox (Recast
+// Books -> Inbox...). Dismiss, Reprocess and Delete stay: queue management, never a post.
 async function dismissDoc(docId) {
   const note = prompt(`Reason for dismissing ${docId}:`);
   if (note === null) return; // cancelled

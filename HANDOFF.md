@@ -5,7 +5,21 @@ history and are not written to; `CHANGELOG.md` keeps its dated entry per change.
 `docs/ops.md`. The books' numbers live on the workbook's tabs (P&L, Totals, Citizens Bank, the house tabs) - read them
 there; a figure written here is only as of its date.
 
-## 2026-10-25 - #15, #13, #16, #17, #12 live; next #11 (START HERE)
+## 2026-10-25 - #15, #13, #16, #17, #12 live; #11 built, not yet shipped; next #18 (START HERE)
+
+**#11 built 10-25 (613 tests), committed - owed: Paul runs `npm run ship`.** One posting path: the web Inbox's Approve
+verb, its background half and button are gone; so are D-025's `repost` / `repost-all` replays, `recover-errored.mjs`
+and the replay's migration rules in the ingest. What stays of the stored-read re-run is exactly what #7's card
+learning uses (`applyPayerOverride`). Nothing Paul does changes: he saves in the workbook's Inbox as before. **Watch
+after the ship:** nothing visible; the next `relearn` (a card number placed on a card, the other cards with it
+posting on their own) is the one live user of the kept path - it should still work. **Known:** the poller's
+`Listing.gs` `repostAll` (cutover-era, never run since) now calls a verb that is gone - #18 removes it.
+
+**Next work, in Paul's order:** #18 the poller skips inline images under ~20 KB (a vendor's logo is filed as the
+receipt today) and Listing.gs's cutover-era functions come out of both live poller projects (a poller push, both
+instances - Penny's), then #19 the Inbox lint's `new Function` card logic as plain unit tests.
+
+## 2026-10-25 (mid-afternoon) - #15, #13, #16, #17, #12 live
 
 **#12 live since 10-25 13:39 CT - web app @50, site `6ade4d0b`, read-back OK; 620 tests. Nothing owed on the ship.** One map, `lib/plain-words.mjs`, holds
 Paul's words for every code the posting engine, the writer, the menu, the dialogs and the site can answer with;
@@ -18,9 +32,7 @@ grey Paste line under it, never a bold code.
 **#15's first timings line (11:05 AM PT run, 17.7 s):** journal 7s, advances 1s, pnl math 1s, pnl tab 0s, taxes 5s.
 A normal run. Read the next spike's line (Executions page, click the run) - that names the stage to split.
 
-**Next work, in Paul's order:** #11 one posting path (delete the web Inbox's `approve` verb, `approve-bg`, its test,
-and the migration-only posting code in the ingest: `overrides`, dismiss-replay, `repost`/`repost-all`,
-`recover-errored.mjs`; keep `/api/file`, the read verbs and the sign-in), then #18, #19.
+**Next work (mid-afternoon; #11 done above):** #18, #19.
 
 ## 2026-10-25 (afternoon) - #15, #13, #16, #17 live
 
