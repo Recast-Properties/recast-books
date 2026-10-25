@@ -1,5 +1,28 @@
 # Changelog
 
+## 2026-10-25 - D-095: Supplies on hand - the Amazon door locks, and any hardware kept on hand by the box
+
+Paul, on the 361.35 Amazon card of 10-07 (9 keypad deadbolts, 40.15 each with tax, held since 10-07 for want of a house):
+"those are door locks that we keep on hand to use when we buy properties. they are essentially inventory that gets
+assigned to a house when we use them." He asked how to book them, how to apply one to a house, and whether a bespoke menu
+item was needed. Built, no new menu item (D-095):
+- `lib/coa.mjs`: **1530 Supplies on hand** (asset, the 1400 series, no house). `lib/posting.mjs`: `SUPPLIES_ACCOUNT`;
+  `resolvePaidFrom` takes 1530 as it takes a bank (it is a 1400-series account) with one rail - paid from the shelf
+  needs a house, never OVERHEAD and never nowhere (PROPERTY_REQUIRED). A box posts on 1530 under OVERHEAD, paid from
+  the bank; a lock off the shelf is a purchase for the house on 1030, paid from 1530 - debit the house, credit the shelf.
+- `Expense.html` and the Inbox card's Paid from offer "1530 Supplies on hand"; the card's "What kind of cost" dropdown
+  shows 1530 under Cash, prepaid and other once the tab has it. Code.gs `ACCOUNTS_SEED` carries the row;
+  `addSuppliesOnHandAccount20261025` (commit 4d09a8d, run by Penny from the editor 22:21 UTC, out of the file after)
+  put it on the live Accounts tab ("Accounts rows added: 1") and dropped the ctx cache.
+- `lib/bookkeeper-prompt.md` (and the generated .mjs): a box of hardware kept on hand posts on 1530 with
+  `property: "OVERHEAD"`, count and per-piece price in the memo; never split across houses, never held for a house name.
+- Tests: the chart has 1530; the engine builds the box and the lock, refuses the shelf to OVERHEAD or to no house; the
+  lint on the seed and both Paid from lists. 624 tests. D-095; `docs/chart-of-accounts.md`; CLAUDE.md rule 14.
+- **Writer pushed by Penny (Code.gs, lib.gs, Expense.html, Inbox.html, the one-off out). Needs `npm run ship` (Paul)** - the
+  sheet's Inbox and New expense have it now (a push reaches the dialogs); the deployed web app and the site's bookkeeper
+  get it with the ship. **Then Paul saves the Amazon card: kind of cost 1530 Supplies on hand, house OVERHEAD, 361.35.**
+  Each lock used from then on: New expense, the house, "door lock", 40.15, Paid from 1530 Supplies on hand.
+
 ## 2026-10-25 - Add receipt's first use went in twice; fixed on the books, and the race closed
 
 Paul used Add receipt on the 37.84 Home Depot card of 10-13 at 21:44:02 UTC (a PDF, 35 KB), then Saved the card by hand

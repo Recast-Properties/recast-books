@@ -7,6 +7,13 @@ there; a figure written here is only as of its date.
 
 ## 2026-10-25 - the audit's list is done and live (START HERE)
 
+**17:25 CT - D-095 Supplies on hand built (CHANGELOG, same date):** the Amazon door locks (9 at 40.15) are stock: a new
+account 1530 Supplies on hand, on the live Accounts tab; a lock goes on a house through New expense with Paid from 1530.
+The sheet's dialogs have it (writer pushed). **Owed: `npm run ship` (Paul) for the web app and the site's bookkeeper; then
+his Save of the Amazon card (kind of cost 1530 Supplies on hand, house OVERHEAD).** Watch: his first lock off the shelf -
+New expense, the house, 40.15, Paid from 1530 - lands on the house's Doors & Hardware and the Balance Sheet's Supplies on
+hand drops by 40.15.
+
 **17:10 CT - Add receipt's first use went in twice, fixed (CHANGELOG, same date):** Paul added the 37.84 Home Depot PDF
 and Saved the card by hand before the read finished; the typed copy is voided and the bank line points at the receipt
 (37.84 once, 241 Poinsetta, PDF filed). The race is closed in code: the card closes on Add receipt, the site sets it

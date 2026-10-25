@@ -30,6 +30,7 @@
  * rereadFailedReads20261004 (the four receipts the API refused 10-02..10-04, read again) is in commit e9d490f.
  * rematchRedOakFeeLines20261025 (2026-10-25, the Red Oak bill and its $2 online fee re-matched as one receipt) is in commit 2113638.
  * voidTypedHomeDepot3784_20261025 (2026-10-25, the 37.84 Home Depot typed while its receipt was being read - voided, line moved to the receipt) is in commit 08fad59.
+ * addSuppliesOnHandAccount20261025 (2026-10-25, D-095: the 1530 Supplies on hand row onto the live Accounts tab) is in commit 4d09a8d.
  * importMolalla (2026-10-04, D-079: 1014 S View brought in as one closed house; run 19:07 CDT) is in commit bbcd0be.
  * importMolallaLines (2026-10-04, D-079: the same house line by line from his sheet, its frozen house tab and closing
  *   tab; run 19:28 CDT) is in commit 542847e.
@@ -161,16 +162,3 @@ function linkMolallaReceipts() {
   console.log('linkMolallaReceipts: ' + pairs.length + ' receipts written on ' + journal + ' Journal lines; on the tab ' + linked +
     ' lines now open their receipt and ' + blank + ' have none (' + cells.length + ' lines on the tab).');
 }
-
-// 2026-10-25 Paul (D-095, the Amazon door locks kept on hand) - 1530 Supplies on hand joins the chart; the live Accounts
-// tab gets the row (ensureSeedRows_ adds only codes it is missing), and the posting ctx cache is dropped so the
-// engine sees it at once. Run by Penny from the editor.
-// STATUS: NOT YET RUN
-function addSuppliesOnHandAccount20261025() {
-  var ss = openWorkbook_(PropertiesService.getScriptProperties());
-  requireOwner_(ss);
-  var added = ensureSeedRows_(ss.getSheetByName('Accounts'), ACCOUNTS_SEED);
-  CacheService.getScriptCache().remove('ctx');
-  Logger.log('Accounts rows added: ' + added + ' (1530 Supplies on hand expected once)');
-}
-
