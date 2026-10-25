@@ -5,15 +5,14 @@ history and are not written to; `CHANGELOG.md` keeps its dated entry per change.
 `docs/ops.md`. The books' numbers live on the workbook's tabs (P&L, Totals, Citizens Bank, the house tabs) - read them
 there; a figure written here is only as of its date.
 
-## 2026-10-25 - the audit's list is done; #19 live, Paul's look at the Inbox pending (START HERE)
+## 2026-10-25 - the audit's list is done and live (START HERE)
 
 **#19 live since 10-25 14:01 CT - web app @52, site `6ade522d`, 15 files (InboxCard.html among them), read-back OK; 615
 tests.** The Inbox card's logic is
 `lib/inbox-card.mjs`, included by the dialog as the generated `InboxCard.html` (build-gs writes it; the test keeps it
-in sync); the card reads exactly as before. **Owed - the one real check, not yet done:** Paul opens Recast Books ->
-Inbox... once: the list must render, a card must open with its bullets, totals line and yellow box, and Save /
-Dismiss all must behave as before. A blank card or a "... is not defined" message means a global the dialog expects is
-missing - tell Claude (the include order is Style, InboxCard, then the dialog's own script).
+in sync); the card reads exactly as before. **Checked by Paul 14:05 CT (screenshot):** the Inbox renders on the new include - tabs, mail line, the Amazon card with
+its bullets, per-item buttons and pickers. Not yet exercised on the new code: a Save and a Dismiss all (the handlers
+are unchanged; their helpers moved) - the first of each is the last proof.
 
 **With #19 the audit's ranked list (#1-#19) is all live or built.** Left from the audit: section 6's decisions,
 asked one at a time as they come up (q1 wait ten days for the bank, q4 payouts, q6 the ceiling, q7 Chase deposits,
