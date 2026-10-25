@@ -124,7 +124,9 @@ test("D-057: Waiting on receipt makes one placeholder line per bank line; the sw
   assert.doesNotMatch(card.flagsList_({ ...payer, placeholder: p }, [], "", { docId: "gm-1", source: "email", gate: { ...payer, placeholder: p } }, state()), /Who paid\?/);
 
   // the yellow box, in Paul's words, for each kind of card
-  assert.equal(text(card.waitHtml_({ ...env, feed: { ...env.feed, card: null } }, [], undefined)), "No receipt yet? Waiting on Dennis Paul Waiting on receipt");
+  assert.equal(text(card.waitHtml_({ ...env, feed: { ...env.feed, card: null } }, [], undefined)), "Have the receipt? Add receipt No receipt yet? Waiting on Dennis Paul Waiting on receipt");
+  // 2026-10-25: the receipt goes in from the card - a picker for a photo or a PDF and Add receipt (Inbox.html readReceiptFiles_ -> inboxAddReceipt)
+  assert.match(card.waitHtml_({ ...env, feed: { ...env.feed, card: null } }, [], undefined), /<input type="file" accept="image\/\*,application\/pdf" data-receipt-file="1" multiple> <button data-add-receipt="1">Add receipt<\/button>/);
   // D-059: the bank's daily email named the card - the box starts on its holder
   assert.match(card.waitHtml_({ ...env, feed: { ...env.feed, card: { last4: "5450", holder: "Paul" } } }, [], undefined), /<option value="Paul" selected>Paul<\/option>/);
   assert.doesNotMatch(card.waitHtml_({ ...env, feed: { ...env.feed, card: null } }, [], undefined), / selected>/, "no card known: nothing is picked for him, the list starts on Dennis");

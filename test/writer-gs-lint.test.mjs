@@ -672,7 +672,7 @@ test("feedUpdate: one lock, the three verdict columns read once and written once
   assert.match(menu.slice(menu.indexOf("function inboxApprove(")), /tieFeedRows_\(ss, req\.feed, 'matched', txnIds/);
   assert.match(menu.slice(menu.indexOf("function inboxDismiss(")), /tieFeedRows_\(ss, req\.feed, 'unmatched', \[\], 'Paul: ' \+ req\.note\)/, "a dismissed bank line goes back to the next run with Paul's words");
   const html = readFileSync(new URL("../apps-script/writer/Inbox.html", import.meta.url), "utf8");
-  assert.equal((html.match(/feed: env\.feed \|\| null/g) || []).length, 3, "approve and both dismiss paths send the card's feed rows");
+  assert.equal((html.match(/feed: env\.feed \|\| null/g) || []).length, 4, "approve, both dismiss paths and Add receipt (2026-10-25) send the card's feed rows");
   const inbox = readFileSync(new URL("../netlify/functions/books-inbox.mjs", import.meta.url), "utf8");
   assert.doesNotMatch(inbox, /await tieFeedRows\(|feedUpdate\(/, "no synchronous site handler waits on the writer");
 });
@@ -951,4 +951,21 @@ test("audit 2026-10-24 #12: every dialog's refusal goes through plainError_ (Sty
   const inbox = readFileSync(path.join(dir, "Inbox.html"), "utf8");
   assert.ok(readFileSync(path.join(__dirname, "..", "lib", "inbox-card.mjs"), "utf8").includes("(PLAIN_WORDS[rest] || rest)"), "ENTRY_INVALID:<code> on a card uses the same words");
   assert.ok(!inbox.includes("r.error === 'BAD_ACCOUNT'"), "the one-off BAD_ACCOUNT sentence lives in the map now");
+});
+
+test("2026-10-25 Add receipt: a bank card takes the receipt from Paul's computer - the dialog reads the files (a big photo shrunk, a big PDF refused in words) and inboxAddReceipt sends them up /api/upload as source upload with a note naming the bank line, the account and the card; nothing is posted there", () => {
+  const dir = path.join(__dirname, "..", "apps-script", "writer");
+  const inbox = readFileSync(path.join(dir, "Inbox.html"), "utf8");
+  const menu = readFileSync(path.join(dir, "Menu.gs"), "utf8");
+  assert.match(inbox, /function readReceiptFiles_\(files\)/);
+  assert.match(inbox, /a PDF has to be under 4 MB to send from here/);
+  assert.match(inbox, /c\.toDataURL\('image\/jpeg', 0\.85\)/, "a photo over 1 MB is sent as a 2000 px JPEG");
+  assert.match(inbox, /callServer_\('inboxAddReceipt', \{ docId: env\.docId, feed: env\.feed \|\| null, subject: env\.subject \|\| '', attachments: atts \}\)/);
+  assert.match(inbox, /Pick the receipt first - a photo or a PDF - then click Add receipt\./);
+  const fn = menu.slice(menu.indexOf("function inboxAddReceipt("), menu.indexOf("function inboxReprocess("));
+  assert.match(fn, /requireOwner_\(ss\)/);
+  assert.match(fn, /siteFetchJson_\('\/api\/upload', 'post', \{/);
+  assert.match(fn, /source: 'upload', channel: 'upload'/);
+  assert.match(fn, /The bank card waiting for it is ' \+ String\(req\.docId \|\| ''\)/, "the note names the card so the read can answer it (D-087)");
+  assert.doesNotMatch(fn, /postBatchEntries_|postEntry_|buildEntry/, "nothing is posted from here - the bookkeeper reads the receipt as any other");
 });

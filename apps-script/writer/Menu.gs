@@ -1048,6 +1048,40 @@ function inboxDismiss(req) {
   }
 }
 
+/** 2026-10-25 (Paul: "if there is no receipt i should have a way to add a receipt to this"): the receipt for a bank card,
+ *  picked from his computer on the card itself. It goes up the door the mail poller uses (/api/upload, source upload) with
+ *  a note naming the bank line, the account and the card that paid - the bookkeeper reads it as any receipt and, when it
+ *  answers the card (D-087), ties the line and retires the card on its own. Nothing is posted here. */
+function inboxAddReceipt(req) {
+  var ss = openWorkbook_(PropertiesService.getScriptProperties());
+  try {
+    requireOwner_(ss);
+    var atts = (req && req.attachments) || [];
+    if (!atts.length) return { ok: false, error: 'BAD_REQUEST', message: 'no file came through - pick the receipt and try again' };
+    var feed = (req && req.feed) || {};
+    var names = {};
+    bankAccountsLast4_(ss).forEach(function (a) { names[a.code] = a.name; });
+    var bank = (names[feed.account] || feed.account || 'the bank') + (feed.account ? ' (' + feed.account + ')' : '');
+    var who = feed.card ? feed.card.holder + "'s card (" + feed.card.last4 + ')' : 'that account';
+    var line = String(req.subject || '').trim() || ('the bank line ' + (feed.feed_ids || []).join(', '));
+    var amount = (Math.abs(Number(feed.amount_cents) || 0) / 100).toFixed(2);
+    var r = siteFetchJson_('/api/upload', 'post', {
+      docId: 'rc-' + Utilities.getUuid().replace(/-/g, '').slice(0, 20),
+      source: 'upload', channel: 'upload', gmailUrl: '',
+      subject: 'Receipt for ' + line,
+      from: Session.getActiveUser().getEmail(),
+      receivedAt: new Date().toISOString(),
+      bodyText: 'Paul added this receipt from the Inbox for the bank charge on ' + bank + ': ' + line + ', $' + amount + ', paid with ' + who +
+        '. It is the receipt for that charge - paid from ' + bank + '. The bank card waiting for it is ' + String(req.docId || '') + '.',
+      dryRun: false,
+      attachments: atts.map(function (a) { return { name: String(a.name || 'receipt'), mime: String(a.mime || 'application/octet-stream'), base64: String(a.base64 || '') }; })
+    });
+    return { ok: true, docId: r.docId };
+  } catch (err) {
+    return { ok: false, error: (err && err.code) || 'INTERNAL', message: String((err && err.message) || err) };
+  }
+}
+
 function inboxReprocess(req) {
   var ss = openWorkbook_(PropertiesService.getScriptProperties());
   try {

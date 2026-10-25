@@ -1,5 +1,27 @@
 # Changelog
 
+## 2026-10-25 - Add receipt on a bank card: the receipt goes in from the card itself
+
+Paul, on the 37.84 Home Depot card of 10-13: "if there is no receipt i should have a way to add a receipt to this." Until
+now a bank card's receipt came in only by mail (receipts@, a forward, the to-books label); a receipt on his computer had
+no door. Built, nothing new in the books' logic:
+- `lib/inbox-card.mjs` `waitHtml_`: the yellow box on a money-out bank card reads "Have the receipt? [file] Add receipt /
+  No receipt yet? Waiting on ..." - a picker for a photo or a PDF (several at once) and a button. InboxCard.html rebuilt.
+- `Inbox.html`: `readReceiptFiles_` turns the files into {name, mime, base64}; a photo over 1 MB is drawn down to 2000 px
+  on its long side as a JPEG (a phone photo is 3-8 MB, the site's POST is 6 MB); a PDF over 4 MB is refused in words
+  ("email it to receipts@ instead"). The click calls `inboxAddReceipt` and says "Got it - Claude is reading the receipt.
+  When it matches this charge the card clears itself in a minute or two; if it does not match, the receipt comes back as
+  its own card."
+- `Menu.gs` `inboxAddReceipt`: the owner only; the files go up `/api/upload` (source `upload`, channel `upload`, docId
+  `rc-<uuid>`) - the same door the mail poller uses - with a note naming the bank line, the account, the card that paid
+  and the waiting card's id. The bookkeeper reads it as any receipt; one that answers the card ties the line and retires
+  the card (D-087). Nothing is posted from the menu.
+- Tests: the box's markup; the dialog's file read, the size words, the call; the menu function's door, its note and
+  that it posts nothing; the Inbox lint's count of paths that send the card's feed rows is four. 619 tests.
+- **Writer pushed by Penny (Menu.gs, Inbox.html, InboxCard.html - the dialog; no deploy, the site is unchanged).** Close
+  and reopen the Inbox to see it. **Watch:** Paul's first Add receipt - the card should clear itself within two minutes
+  (the ingest's read, then D-087's tie); a receipt whose total or card differs comes back as its own card instead.
+
 ## 2026-10-25 - D-094: a utility's card or online fee under 50.00 is recorded on the house of its bill, no card
 
 Paul, on the 2.00 Municipal Online Payments card: "again with these"; asked, he ruled: *a utility's card or processing

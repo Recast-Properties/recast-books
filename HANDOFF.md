@@ -7,6 +7,13 @@ there; a figure written here is only as of its date.
 
 ## 2026-10-25 - the audit's list is done and live (START HERE)
 
+**16:55 CT - Add receipt on a bank card (CHANGELOG, same date):** a money-out bank card's yellow box takes a photo or PDF
+from Paul's computer and sends it up /api/upload with a note naming the line, the account and the card; the bookkeeper
+reads it as any receipt and D-087 retires the card when it matches. Writer pushed (the dialog only; no deploy). **Watch:**
+Paul's first Add receipt - the card clears itself within two minutes, or the receipt comes back as its own card when the
+total or the card differs. Not built: adding a receipt to a card he already saved as "Waiting on receipt" - that one still
+comes by mail and replaces the placeholder (D-057).
+
 **D-094 live since 10-25 16:28 CT; the live stamp is `420e3f3` 16:29 CT - web app @55, site `6ade74b4`, read-back OK (a
 third ship of the same code); 618 tests. Nothing owed on the ship.**
 Paul's rule: a utility's card or online fee under $50 is recorded on the house of the bill it came with, no card. In the

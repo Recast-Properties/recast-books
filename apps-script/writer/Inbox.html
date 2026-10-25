@@ -168,6 +168,37 @@
   // a second trip to the menu. A run already going on the account is joined, then one more follows with this answer
   // in (startFeedMatch's `joined`). The same loop as Import.html's match_.
   var MATCH_POLLS = 60, MATCH_WAIT_MS = 5000;   // FEED_MATCH_POLLS / FEED_MATCH_WAIT_MS in Menu.gs: five minutes
+  // 2026-10-25: the receipt for a bank card, picked on the card. Each file becomes {name, mime, base64} for /api/upload
+  // (a 6 MB POST, books-upload.mjs): a PDF over 4 MB is refused in words; a photo over 1 MB is drawn down to 2000 px on
+  // its long side as a JPEG - a phone photo is 3-8 MB and reads just as well at that size.
+  function readReceiptFiles_(files) {
+    var MAX_PDF = 4 * 1024 * 1024;
+    return Promise.all(Array.prototype.map.call(files, function (f) {
+      return new Promise(function (resolve, reject) {
+        var isImg = /^image\//.test(f.type || '');
+        if (!isImg && f.size > MAX_PDF) return reject(new Error(f.name + ' is ' + (f.size / 1048576).toFixed(1) + ' MB - a PDF has to be under 4 MB to send from here. Email it to receipts@ instead.'));
+        var r = new FileReader();
+        r.onerror = function () { reject(new Error('Could not read ' + f.name)); };
+        r.onload = function () {
+          var dataUrl = String(r.result);
+          var asIs = { name: f.name, mime: f.type || 'application/octet-stream', base64: dataUrl.split(',')[1] || '' };
+          if (!isImg || f.size <= 1024 * 1024) return resolve(asIs);
+          var img = new Image();
+          img.onerror = function () { resolve(asIs); };
+          img.onload = function () {
+            var s = Math.min(1, 2000 / Math.max(img.width, img.height));
+            var c = document.createElement('canvas');
+            c.width = Math.round(img.width * s); c.height = Math.round(img.height * s);
+            c.getContext('2d').drawImage(img, 0, 0, c.width, c.height);
+            resolve({ name: f.name.replace(/\.[^.]+$/, '') + '.jpg', mime: 'image/jpeg', base64: c.toDataURL('image/jpeg', 0.85).split(',')[1] });
+          };
+          img.src = dataUrl;
+        };
+        r.readAsDataURL(f);
+      });
+    }));
+  }
+
   function rematch_(account, msg) {
     var m = document.createElement('div');
     m.style.marginTop = '6px';
@@ -398,6 +429,20 @@
     };
     var swapBox = card.querySelector('[data-swap]');
     if (swapBox) swapBox.onchange = function () { SWAP[env.docId] = swapBox.checked; applySwap_(env); rerender_(env.docId); };
+    var addReceipt = card.querySelector('[data-add-receipt]');
+    if (addReceipt) addReceipt.onclick = function () {
+      var files = card.querySelector('[data-receipt-file]').files;
+      if (!files || !files.length) return showMsg_(msg, false, 'Pick the receipt first - a photo or a PDF - then click Add receipt.');
+      addReceipt.disabled = true;
+      showMsg_(msg, true, 'Sending the receipt to Claude...');
+      readReceiptFiles_(files).then(function (atts) {
+        return callServer_('inboxAddReceipt', { docId: env.docId, feed: env.feed || null, subject: env.subject || '', attachments: atts });
+      }).then(function (r) {
+        addReceipt.disabled = false;
+        if (!r.ok) return showMsg_(msg, false, plainError_(r));
+        showMsg_(msg, true, 'Got it - Claude is reading the receipt. When it matches this charge the card clears itself in a minute or two; if it does not match, the receipt comes back as its own card. Click Refresh.');
+      }, function (err) { addReceipt.disabled = false; showMsg_(msg, false, err && err.message ? err.message : String(err)); });
+    };
 
     var busy = function (on) { card.querySelectorAll('.verbs button').forEach(function (b) { b.disabled = on; }); };
     var done = function (html) {
