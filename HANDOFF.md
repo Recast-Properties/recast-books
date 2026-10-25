@@ -5,7 +5,24 @@ history and are not written to; `CHANGELOG.md` keeps its dated entry per change.
 `docs/ops.md`. The books' numbers live on the workbook's tabs (P&L, Totals, Citizens Bank, the house tabs) - read them
 there; a figure written here is only as of its date.
 
-## 2026-10-25 - #15, #13, #16, #17 live; next #12 (START HERE)
+## 2026-10-25 - #15, #13, #16, #17 live; #12 built, not yet shipped; next #11 (START HERE)
+
+**#12 built 10-25 (620 tests), committed - owed: Paul runs `npm run ship`.** One map, `lib/plain-words.mjs`, holds
+Paul's words for every code the posting engine, the writer, the menu, the dialogs and the site can answer with;
+`Style.html`'s `plainError_` shows them in every dialog with a "Paste to Claude: CODE - message" line under, the
+menu's void and period alerts the same through `plainWords`; `include_` evaluates Style.html as a template so the map
+lands in each dialog. A new code without words fails `test/plain-words.test.mjs`. **Watch after the ship:** open any
+dialog (Add expense, the Inbox) - it must render; the first refusal Paul meets should read as a sentence with the
+grey Paste line under it, never a bold code.
+
+**#15's first timings line (11:05 AM PT run, 17.7 s):** journal 7s, advances 1s, pnl math 1s, pnl tab 0s, taxes 5s.
+A normal run. Read the next spike's line (Executions page, click the run) - that names the stage to split.
+
+**Next work, in Paul's order:** #11 one posting path (delete the web Inbox's `approve` verb, `approve-bg`, its test,
+and the migration-only posting code in the ingest: `overrides`, dismiss-replay, `repost`/`repost-all`,
+`recover-errored.mjs`; keep `/api/file`, the read verbs and the sign-in), then #18, #19.
+
+## 2026-10-25 (afternoon) - #15, #13, #16, #17 live
 
 **#17 live since 10-25 13:30 CT - web app @49, site `6ade4add`, read-back OK; 617 tests. Nothing owed on the ship.** A bank card answered in words (Dismiss all
 with a note, or a Save that recorded nothing) starts the matching for that account from the card itself and shows the
@@ -14,9 +31,8 @@ minutes) instead of starting a second, and the card then runs once more so the l
 reading your answer against the N open bank lines... 5 s" and end with the run's summary; the Feed row's note the
 run leaves should answer his words.
 
-**Next work, in Paul's order:** #12 plain words for every code that can reach him (one map for the posting engine's
-refusals too), then #11 one posting path, #18 inline logos + the pollers' cutover code, #19 the Inbox lint as unit
-tests - each with tests, CHANGELOG/HANDOFF, a commit and `npm run ship` handed to him as one command.
+**Next work (afternoon; #12 done above):** #11, #18, #19 - each with tests, CHANGELOG/HANDOFF, a commit and
+`npm run ship` handed to him as one command.
 
 ## 2026-10-25 (midday) - #15, #13 and #16 live
 

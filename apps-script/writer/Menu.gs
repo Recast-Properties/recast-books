@@ -220,7 +220,7 @@ function pickerData_(ss) {
 
 /** <?!= include_('Style') ?> inside a dialog template pulls in the shared style block. */
 function include_(filename) {
-  return HtmlService.createHtmlOutputFromFile(filename).getContent();
+  return HtmlService.createTemplateFromFile(filename).evaluate().getContent();   // evaluated: Style.html carries PLAIN_WORDS (audit 2026-10-24 #12)
 }
 
 function showDialog_(file, title, data) {
@@ -359,7 +359,8 @@ function voidSelected() {
       (freed && freed.ok && freed.updated ? ' Its bank line is open again; the next Match statement lines run will look at it.' : '') +
       (freed && freed.ok === false ? ' Its bank line could not be freed: ' + freed.message + ' - tell Claude.' : ''));
   } catch (err) {
-    ui.alert('Could not void ' + txnId + ': ' + ((err && err.code) || 'ERROR') + ' - ' + String((err && err.message) || err));
+    var pw = plainWords((err && err.code) || 'ERROR', (err && err.message) || err);   // #12: plain words, the code underneath
+    ui.alert('Could not take it out', pw.text + '\n\nPaste to Claude: ' + pw.raw + ' (' + txnId + ')', ui.ButtonSet.OK);
   }
 }
 
@@ -668,7 +669,8 @@ function setPeriodFromMenu_(status) {
     var result = setPeriodStatus_(period, status, props);
     ui.alert('Period ' + result.period + ' is now ' + result.status + '.');
   } catch (err) {
-    ui.alert('Could not set period: ' + ((err && err.code) || 'ERROR') + ' - ' + String((err && err.message) || err));
+    var pw = plainWords((err && err.code) || 'ERROR', (err && err.message) || err);   // #12
+    ui.alert('Could not change the month', pw.text + '\n\nPaste to Claude: ' + pw.raw, ui.ButtonSet.OK);
   }
 }
 

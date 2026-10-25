@@ -1103,3 +1103,20 @@ test("audit 2026-10-24 #17: a bank card answered in words re-runs the matching f
   assert.match(fn, /data-refresh="1"/, "the Inbox is refreshed on a click, never under Paul's hands");
   assert.match(gsFn(menuSource, "startFeedMatch"), /joined: !!started\.joined/);
 });
+
+test("audit 2026-10-24 #12: every dialog's refusal goes through plainError_ (Style.html, the one map), never a raw code in bold; the menu's alerts through plainWords", () => {
+  const dir = path.join(__dirname, "..", "apps-script", "writer");
+  for (const f of readdirSync(dir).filter((n) => n.endsWith(".html"))) {
+    const html = readFileSync(path.join(dir, f), "utf8");
+    assert.ok(!/'<b>' \+ escapeHtml_\([^)]*\.error/.test(html), `${f} still shows a raw code in bold`);
+  }
+  const style = readFileSync(path.join(dir, "Style.html"), "utf8");
+  assert.match(style, /var PLAIN_WORDS = <\?!= JSON\.stringify\(PLAIN_WORDS\) \?>;/, "the map is written into every dialog");
+  assert.match(style, /function plainError_\(r\)[\s\S]*PLAIN_WORDS\[code\] \|\| PLAIN_WORDS\.UNKNOWN[\s\S]*Paste to Claude: /);
+  assert.match(gsFn(menuSource, "include_"), /createTemplateFromFile\(filename\)\.evaluate\(\)\.getContent\(\)/, "Style.html is evaluated so the map lands in it");
+  assert.equal((menuSource.match(/plainWords\(/g) || []).length, 2, "the void and the period alerts");
+  assert.ok(!/\(\(err && err\.code\) \|\| 'ERROR'\) \+ ' - '/.test(menuSource), "no alert glues a code to its message any more");
+  const inbox = readFileSync(path.join(dir, "Inbox.html"), "utf8");
+  assert.ok(inbox.includes("(PLAIN_WORDS[rest] || rest)"), "ENTRY_INVALID:<code> on a card uses the same words");
+  assert.ok(!inbox.includes("r.error === 'BAD_ACCOUNT'"), "the one-off BAD_ACCOUNT sentence lives in the map now");
+});

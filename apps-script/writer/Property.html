@@ -51,7 +51,7 @@
     callServer_('addProperty', form).then(function (result) {
       btn.disabled = false;
       btn.textContent = 'Add property';
-      if (!result.ok) { showMsg_(msg, false, '<b>' + escapeHtml_(result.error) + '</b> - ' + escapeHtml_(result.message)); return; }
+      if (!result.ok) { showMsg_(msg, false, plainError_(result)); return; }
       var html = 'Saved <code>' + escapeHtml_(result.name) + '</code>.';
       if (result.purchaseRecorded) html += " Dennis's purchase money ($" + escapeHtml_(result.purchaseRecorded) + ') is recorded - no Add advance needed for it.';
       if (result.purchaseError) html += " <b>Dennis's purchase money was NOT recorded:</b> " + escapeHtml_(result.purchaseError);

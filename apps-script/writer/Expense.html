@@ -64,7 +64,7 @@
     btn.disabled = true;
     callServer_('postExpense', form).then(function (result) {
       btn.disabled = false;
-      if (!result.ok) { showMsg_(msg, false, '<b>' + escapeHtml_(result.error) + '</b> - ' + escapeHtml_(result.message)); return; }
+      if (!result.ok) { showMsg_(msg, false, plainError_(result)); return; }
       showMsg_(msg, true, 'Posted <code>' + escapeHtml_(result.txn_id) + '</code>.' + entryLinesTable_(result.entry));
       finishDialog_(btn);
     }, function (err) {

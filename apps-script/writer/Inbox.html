@@ -228,7 +228,7 @@
     var head = i < 0 ? t : t.slice(0, i), rest = i < 0 ? '' : t.slice(i + 1);
     if (head === 'DUPLICATE_OF') return 'Already in the books - Dismiss all (' + rest + ')';
     if (head === 'POSSIBLE_TWIN') return 'Might already be in the books - check, then Save or Dismiss all (' + rest + ')';
-    if (head === 'ENTRY_INVALID') return 'Something on this card will not save (' + rest + ') - fix it, or Dismiss all';
+    if (head === 'ENTRY_INVALID') return 'Will not save as it is: ' + (PLAIN_WORDS[rest] || rest).replace(/^Nothing was saved - /, '') + ' Or Dismiss all';   // #12: the same words as a refusal
     if (head === 'PLACEHOLDER_WAITING') return 'This looks like a receipt you were waiting on - check the yellow box below, then Save';
     return GATE_TEXT.hasOwnProperty(head) ? GATE_TEXT[head] : t;
   }
@@ -647,7 +647,7 @@
         var w = window.open('', '_blank');
         if (!w) return showMsg_(msg, false, 'The browser blocked the new tab - allow pop-ups for this sheet.');
         callServer_('inboxFile', a.dataset.file).then(function (r) {
-          if (!r.ok) { w.close(); return showMsg_(msg, false, '<b>' + escapeHtml_(r.error) + '</b> - ' + escapeHtml_(r.message)); }
+          if (!r.ok) { w.close(); return showMsg_(msg, false, plainError_(r)); }
           var bin = atob(r.b64), bytes = new Uint8Array(bin.length);
           for (var i = 0; i < bin.length; i++) bytes[i] = bin.charCodeAt(i);
           w.location.href = URL.createObjectURL(new Blob([bytes], { type: a.dataset.mime }));
@@ -708,9 +708,7 @@
     };
     var fail = function (r) {
       busy(false);
-      // the one books-engine refusal Paul has met by hand, in his words; the rest keep their code for Claude
-      if (r && r.error === 'BAD_ACCOUNT') return showMsg_(msg, false, 'Nothing was saved: a line has no kind of cost picked. Choose it in the box just above the amount, then Save again.');
-      showMsg_(msg, false, '<b>' + escapeHtml_(r.error || 'ERROR') + '</b> - ' + escapeHtml_(r.message || r));
+      showMsg_(msg, false, plainError_(r));   // every refusal in Paul's words, the code underneath (audit 2026-10-24 #12)
     };
 
     // Save does what each line says: records the approved lines, and files the returned and dismissed ones in the
@@ -821,7 +819,7 @@
     var tick = setInterval(paint, 250); paint();
     var fail = function (r) {
       clearInterval(tick);
-      showMsg_(top, false, '<b>' + escapeHtml_((r && r.error) || 'ERROR') + '</b> - ' + escapeHtml_((r && r.message) || r));
+      showMsg_(top, false, plainError_(r));
       list.innerHTML = '';
     };
     var landedOne = function () { landed++; since = Date.now(); paint(); };

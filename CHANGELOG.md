@@ -1,5 +1,27 @@
 # Changelog
 
+## 2026-10-25 - Audit #12: every refusal reaches Paul in plain words, from one map
+
+Twice a posting-engine refusal (`BAD_ACCOUNT`, `PROPERTY_REQUIRED`) reached Paul as a bold code and its machine
+message; every dialog built that line itself (`'<b>' + escapeHtml_(result.error) + '</b> - ' + ...`, twelve places),
+the Inbox card had one hand-written exception for BAD_ACCOUNT, and the menu's void and period alerts glued the code
+to the message. Built:
+- `lib/plain-words.mjs`: `PLAIN_WORDS`, one map - every PostingError code, every `fail_` and `error:` code in Code.gs
+  and Menu.gs, every code in the dialogs and every `/api` answer (78 entries, each what happened and what to do, no
+  code in the sentence; `UNKNOWN` for anything new) - and `plainWords(code, message)` -> `{text, raw}`. In lib.gs via
+  build-gs (a new module).
+- `Style.html` carries the map (`include_` now evaluates the file as a template, so `<?!= JSON.stringify(PLAIN_WORDS) ?>`
+  lands in every dialog) and `plainError_(r)`: the words, then "Paste to Claude: CODE - message" on a small grey line.
+  Every failure site in Expense, Advance, Property, Journal, Sell (six) and Inbox (three) calls it; the Inbox's
+  `ENTRY_INVALID:<code>` card bullet uses the same words; the void and period alerts use `plainWords`.
+- Lint: `test/plain-words.test.mjs` scans the sources for codes and fails on one without words (the way a new gate
+  reason is caught), and checks every sentence is Paul's (no code inside, a full stop, short); `writer-gs-lint` fails
+  on a dialog that builds a bold code again, on `include_` not evaluating, and on an alert that glues. 620 tests.
+  Shipping: Paul's `npm run ship`.
+- **#15 measured on the new code:** the 11:05 AM PT run (the first after the ship) logged `refreshPnl_ timings:
+  journal 7s, advances 1s, pnl math 1s, pnl tab 0s, taxes 5s` - 17.7 s, a normal run; the breakdown of a spike waits
+  for the next spike (they have come at 9:05 AM, 3:05 PM and 1:05 AM PT).
+
 ## 2026-10-25 - Audit #17: a bank question answered in words re-runs the matching by itself
 
 Until now a bank card dismissed with a note (Paul's words land on the Feed row as "Paul: ...") waited for a second trip

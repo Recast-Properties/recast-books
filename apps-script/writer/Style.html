@@ -20,6 +20,7 @@
   .balance { margin: 8px 0; font-weight: bold; }
   .balance.off { color: #a50e0e; }
   .balance.ok { color: #137333; }
+  .paste { font-size: 11px; color: #666; margin-top: 4px; word-break: break-all; }
 </style>
 <script>
   // Generic google.script.run -> Promise bridge shared by every dialog: callServer_
@@ -42,6 +43,17 @@
     c.textContent = 'Close';
     c.onclick = function () { google.script.host.close(); };
     btn.parentNode.replaceChild(c, btn);
+  }
+
+  // Audit 2026-10-24 #12 (rule 7): every refusal reaches Paul in plain words - lib/plain-words.mjs, one map for the
+  // posting engine, the writer, the site and the dialogs - with the code and its message on a "Paste to Claude" line
+  // underneath. The map is written in here when the dialog is built (include_ evaluates this file as a template).
+  var PLAIN_WORDS = <?!= JSON.stringify(PLAIN_WORDS) ?>;
+  function plainError_(r) {
+    var code = String((r && (r.error || r.code)) || 'ERROR');
+    var message = String((r && r.message) || (typeof r === 'string' ? r : '') || '');
+    return escapeHtml_(PLAIN_WORDS[code] || PLAIN_WORDS.UNKNOWN) +
+      '<div class="paste">Paste to Claude: ' + escapeHtml_(code + (message && message !== code ? ' - ' + message : '')) + '</div>';
   }
 
   function showMsg_(el, ok, html) {

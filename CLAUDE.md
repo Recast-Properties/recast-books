@@ -62,7 +62,10 @@ functions the menu, pollers and nightly jobs call - Paul is never sent there.
    amount. No accounting or system jargon (entries, posted rows, migrated, ledger, journal,
    gate, envelope, txn ids, account codes, reason codes like PARTLY_ON_BOOKS); if a word would
    need explaining, use a simpler one. Ids go on a separate line for Claude ("Paste to Claude:
-   ..."), never in the sentence Paul has to understand. Say plainly what something is NOT when
+   ..."), never in the sentence Paul has to understand. Every refusal code that can reach him has its words in
+   `lib/plain-words.mjs` - one map for the posting engine, the writer, the site and the dialogs; `plainError_` in
+   Style.html and `plainWords` show them; `test/plain-words.test.mjs` fails on a code without words. Never glue a
+   code to a message for him. Say plainly what something is NOT when
    he could take it the wrong way ("not a duplicate - these two items were never recorded").
 8. **The books are in Sheets (Paul, 2026-09-28: "the books should be only in sheets now").** Paul
    works in the workbook - its menus, the Inbox (Recast Books -> Inbox...), an editor helper he runs

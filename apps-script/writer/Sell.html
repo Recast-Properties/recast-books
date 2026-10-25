@@ -401,7 +401,7 @@
       // A reply for a house Paul has since moved off (the dialog loads the first house on
       // open) must not overwrite the one he picked - 2026-10-05 it showed Newport as closed.
       if (asked !== document.getElementById('s-property').value) return;
-      if (!result.ok) { showMsg_(msg, false, '<b>' + escapeHtml_(result.error) + '</b> - ' + escapeHtml_(result.message)); return; }
+      if (!result.ok) { showMsg_(msg, false, plainError_(result)); return; }
       CTX = result;
       renderAdvances_(result.advances);
       document.getElementById('s-bank').classList.toggle('hidden', !(result.property.dennis_share_pct === 0 && !result.sold));
@@ -458,7 +458,7 @@
       doc_url: document.getElementById('s-doc-url').value,
     }).then(function (result) {
       btn.disabled = false;
-      if (!result.ok) { showMsg_(msg, false, '<b>' + escapeHtml_(result.error) + '</b> - ' + escapeHtml_(result.message)); return; }
+      if (!result.ok) { showMsg_(msg, false, plainError_(result)); return; }
       document.getElementById('s-done-head').textContent = 'Holdback released';
       document.getElementById('s-done').innerHTML = result.posted.length + ' entries posted' +
         (result.tab ? ', and <b>' + escapeHtml_(result.tab) + '</b> rebuilt' : '') + '.';
@@ -489,7 +489,7 @@
       btn.disabled = true;
       callServer_('sellUpdate', form_()).then(function (result) {
         btn.disabled = false;
-        if (!result.ok) { showMsg_(msg, false, '<b>' + escapeHtml_(result.error) + '</b> - ' + escapeHtml_(result.message)); return; }
+        if (!result.ok) { showMsg_(msg, false, plainError_(result)); return; }
         document.getElementById('s-done-head').textContent = 'Updated';
         document.getElementById('s-done').innerHTML =
           (result.linked ? 'Linked the settlement statement on ' + result.linked + ' Journal lines. ' : '') +
@@ -514,7 +514,7 @@
     }).then(function (result) {
       btn.disabled = false;
       btn.textContent = 'Read it';
-      if (result.error) { showMsg_(msg, false, '<b>' + escapeHtml_(result.error) + '</b> - ' + escapeHtml_(result.message)); return; }
+      if (result.error) { showMsg_(msg, false, plainError_(result)); return; }
       fillFromRead_(result);
       show_(2);
     }, function (err) {
@@ -542,7 +542,7 @@
     btn.disabled = true;
     callServer_('sellPreview', form_()).then(function (result) {
       btn.disabled = false;
-      if (!result.ok) { showMsg_(msg, false, '<b>' + escapeHtml_(result.error) + '</b> - ' + escapeHtml_(result.message)); return; }
+      if (!result.ok) { showMsg_(msg, false, plainError_(result)); return; }
       renderSummary_(result.summary, result.checks, result.target);
       document.getElementById('s-post').disabled = !result.checks.ok;
       show_(3);
@@ -562,7 +562,7 @@
     btn.textContent = 'Closing...';
     callServer_('sellPost', form_()).then(function (result) {
       btn.textContent = 'Close it';
-      if (!result.ok) { btn.disabled = false; showMsg_(msg, false, '<b>' + escapeHtml_(result.error) + '</b> - ' + escapeHtml_(result.message)); return; }
+      if (!result.ok) { btn.disabled = false; showMsg_(msg, false, plainError_(result)); return; }
       document.getElementById('s-done-head').textContent = 'Closed ' + name;
       document.getElementById('s-done').innerHTML =
         result.posted.length + ' entries posted, the statement written to <b>' + escapeHtml_(result.tab) + '</b>' +
