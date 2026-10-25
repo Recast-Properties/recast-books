@@ -101,6 +101,7 @@ that supersedes the old one, not editing history.
 - D-091 · A return or refund is a receipt with the sign flipped: it posts on its own to the item's house and the card the money came back to - 2026-10-23 · Paul
 - D-092 · Drinks bought with the job's materials post on their own; meals and gifts still wait - 2026-10-23 · Paul
 - D-093 · The bank's own fee under 50.00 is recorded by code from the bank line, no card - 2026-10-25 · Paul
+- D-094 · A utility's card or online fee under 50.00 is recorded on the house of the bill it came with, no card - 2026-10-25 · Paul
 
 ---
 
@@ -2072,3 +2073,27 @@ only on Paul's word.
 **Why 6910:** it is the chart's bank-fee account and where every fee Paul answered by hand already sits. The matcher's
 prompt had told the model 6930 (Interest - other) and the 08-11 check order went there on its word; the prompt now
 says 6910. That one 28.15 line is flagged in HANDOFF, not moved.
+
+## D-094 · A utility's card or online fee under 50.00 is recorded on the house of the bill it came with, no card - 2026-10-25 · Paul
+
+*"Yes - a utility's card or processing fee under $50 can be recorded on its own against the house whose bill it came
+with, no card."* Asked after the 2.00 Municipal Online Payments card ("again with these"); the cases on the books were
+Waxahachie's SERVFEE (9.94 on 10-08 for 469 Brushwood's water bill; 47.26 on 09-02, which Paul had booked by hand to
+6910 OVERHEAD) and Red Oak's MUNICIPAL ONLINE PAYMEN (2.00 on 10-02, which the receipt itemised).
+
+**Decided:** in the matching run a bank line that is money out, under the D-093 ceiling and carries the utility's fee
+words (`isUtilityFeeLine`: SERVFEE, MUNICIPAL ONLINE PAYMEN - the two measured; add a wording when its fee lands as a
+card) goes to the model with RECENT BILLS in view (the account's utility bills of the last 45 days, tied or not,
+`buildBills`). The model says which bill the fee came with; when its proposal is one item on `1120` for that bill's
+house, adding up to the line, code records it (`utilityFeeIntent`, the engine, the id `bank-<account>-<line id>` so a
+rerun is a DUPLICATE and simply tied), ties the line and retires a card waiting for it. A waiting one-line card that is
+such a fee is offered again on every run (its lines were never re-offered before, D-077), so the cards of the past
+clear themselves. A fee the receipt already itemises is a match, never a second entry (rule 1, the Red Oak 2.00); a fee
+whose house the model cannot name from the bills is a question; OVERHEAD, another account, 50.00 and up, or an entry
+the engine refuses stay a card. The run's summary says "N utility fees recorded with their bill".
+
+**Why 1120 and the house:** the fee is part of paying that house's bill - the Red Oak receipt already put its 2.96
+processing fee on 1120 for 136 Bowling Green - and Paul's words were "against the house whose bill it came with". The
+09-02 47.26 on 6910 OVERHEAD, booked by hand before this rule, is left as it is. The bank's own fee stays D-093
+(OVERHEAD 6910): the bank's charge is the business's, a utility's is the house's.
+

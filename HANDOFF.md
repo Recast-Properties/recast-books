@@ -7,11 +7,17 @@ there; a figure written here is only as of its date.
 
 ## 2026-10-25 - the audit's list is done and live (START HERE)
 
+**16:45 CT - D-094 built, not shipped (CHANGELOG, same date):** Paul's rule - a utility's card or online fee under $50
+is recorded on the house of the bill it came with, no card. In the matching run the model sees RECENT BILLS, names the
+bill, and code records the one-item 1120 proposal for that house (`bank-<account>-<feed_id>`). **Owed: `npm run ship`
+(Paul) - it carries the 16:20 prompt change too.** Watch: the next Match statement lines on Citizens - the 9.94 SERVFEE
+card of 10-08 should clear itself ("1 utility fee recorded with its bill"), 469 Brushwood's tab gaining the 9.94 on
+utilities; the Bank statement tab then shows 9.
+
 **16:20 CT - the Red Oak $2 fee card and its 298.72 twin are gone (CHANGELOG, same date):** both lines tied to the 10-01
 receipt by a rerun of the matching; the prompt now says in words that a utility bill and its online fee are one receipt.
-**Owed: `npm run ship` (Paul) - the prompt change is in the repo, not on the site yet.** Asked, not decided: should a
-utility's card fee under $50 (the 9.94 WAXAHACHIE SERVFEE card of 10-08, not in the books) record itself like the bank's?
-The Bank statement tab shows 10.
+Asked and answered (D-094, above): a utility's fee under $50 records itself on the house of its bill. The Bank
+statement tab shows 10.
 
 **15:56 CT - the two 1.00 ATM cards of 10-07 are gone (CHANGELOG, same date):** D-093 never got a turn because Match
 statement lines refused a bank whose open lines all had cards; the menu now counts a waiting line as open (Menu.gs pushed,

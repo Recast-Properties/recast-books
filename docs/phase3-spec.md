@@ -11,6 +11,13 @@ text, or a check order) is settled by code in the matching run before the model 
 books already hold, else recorded on 6910 under OVERHEAD on the id `bank-<account>-<feed_id>`, its waiting card retired
 (`bankFeePass`, `isBankFee`). §3's "nothing here posts" has that one exception.
 
+**Amended 2026-10-25 (D-094):** a utility's card or online fee under the same ceiling (`isUtilityFeeLine`: SERVFEE,
+MUNICIPAL ONLINE PAYMEN) goes to the model with RECENT BILLS in view (the account's 1120 entries of the last 45 days,
+`buildBills`); the model names the bill it came with (`bill` on the proposal) and code records a proposal that is one
+item on 1120 for that bill's house on the id `bank-<account>-<feed_id>` (`utilityFeeIntent`, `applyVerdicts`'s
+`autoposts`), ties the line and retires its card; a waiting one-line card that is such a fee is offered again each run.
+The second exception to "nothing here posts".
+
 **Amended 2026-09-28 (D-051):** Recast's own accounts only - Citizens (1401) and Chase (1402). Paul's personal
 card/checking is never imported; its business charges arrive as receipts, paid by Paul (2030), as they do now. The
 third account in §1 and "then the personal card" in §9 are withdrawn.

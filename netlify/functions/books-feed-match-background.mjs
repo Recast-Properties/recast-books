@@ -18,7 +18,7 @@ import {
 } from "./_shared.mjs";
 import { cardsForLines, loadSummaries } from "../../lib/bank-mail.mjs";
 import { flattenJournalLines, buildPostedEntries, tradesByProperty } from "./books-ingest-background.mjs";
-import { buildCandidates, runMatcher, applyVerdicts, isBankFee, bankFeeIntent, BANK_FEE_CEILING_CENTS } from "../../lib/feed-match.mjs";
+import { buildCandidates, runMatcher, applyVerdicts, isBankFee, bankFeeIntent, BANK_FEE_CEILING_CENTS, isUtilityFeeLine, buildBills } from "../../lib/feed-match.mjs";
 import { candidatesFor } from "../../lib/feed-tie.mjs";
 import { toCents, fromCents } from "../../lib/money.mjs";
 import { buildEntry } from "../../lib/posting.mjs";
@@ -141,7 +141,13 @@ export async function runFeedMatch({ account, writer, docsStore, anthropic, cach
   const pendingCards = await loadPendingFeedCards(docsStore, account);
   const waitingIds = new Set(pendingCards.flatMap((c) => c.feed?.feed_ids || []));
   const reopened = mine.filter((r) => r.status === "proposed" && !r.txn_id && !waitingIds.has(r.feed_id));
-  let lines = mine.filter((r) => r.status === "unmatched").concat(reopened);
+  // D-094: a waiting card that is exactly one utility-fee line goes back to the model, RECENT BILLS in view. The run's
+  // verdict takes the card's place (a new card lands on the same docId) or retires it when the fee is recorded.
+  const byFeedId = new Map(mine.map((r) => [r.feed_id, r]));
+  const feeCards = pendingCards.filter((c) => (c.feed?.feed_ids || []).length === 1)
+    .map((c) => ({ card: c, row: byFeedId.get(c.feed.feed_ids[0]) }))
+    .filter((x) => x.row && x.row.status === "proposed" && !x.row.txn_id && isUtilityFeeLine(x.row));
+  let lines = mine.filter((r) => r.status === "unmatched").concat(reopened, feeCards.map((x) => x.row));
   // Tied on THIS account's rows (audit 2026-10-24 #14): an entry that moves money between Recast's accounts touches
   // both, and tied on the Citizens side it must still be offered on the Chase side. Built from every row, Chase's
   // side of every transfer became a card.
@@ -210,8 +216,43 @@ export async function runFeedMatch({ account, writer, docsStore, anthropic, cach
     return { summary: { total: 0, matched: 0, cards: 0, later: 0, none: 0, ...housekeeping }, candidates: candidates.length, usage: null, transcript: "no open lines" };
   }
 
-  const { verdicts, usage, transcript } = await runMatcher({ anthropic, account, accountName, lines, candidates, properties, vendors, today: ctx.today });
+  const bills = buildBills(journalLines, account, ctx.today);
+  const { verdicts, usage, transcript } = await runMatcher({ anthropic, account, accountName, lines, candidates, properties, vendors, bills, today: ctx.today });
   const applied = applyVerdicts({ verdicts, lines, candidates, account, accountName, ctx, settings, postedEntries: buildPostedEntries(journalLines), now });
+
+  // D-094: the utility's fee under the ceiling, on the house of the bill it came with - recorded here, one at a time on
+  // the line's own id (a rerun's DUPLICATE is tied as already there); a refusal makes it the card it would have been.
+  let utilityPosted = 0;
+  const utilityDone = new Set();
+  for (const a of applied.autoposts || []) {
+    try {
+      const entry = buildEntry(a.intent, ctx);
+      entry.txn_id = a.txn_id;
+      try {
+        await writer.postBatch([entry]);   // a house cost: the house tab is rebuilt
+        utilityPosted++;
+      } catch (err) {
+        if (!(err instanceof WriterError && err.code === "DUPLICATE")) throw err;
+      }
+      applied.updates.push({ feed_id: a.line.feed_id, status: "matched", txn_id: a.txn_id, match_note: `${a.note} - the utility's own fee under $${fromCents(BANK_FEE_CEILING_CENTS)}, recorded with its bill (your rule of 10-25)` });
+      applied.summary.utility_fees = (applied.summary.utility_fees || 0) + 1;
+      utilityDone.add(a.line.feed_id);
+    } catch (err) {
+      console.error(`feed-match-bg: the utility fee on line ${a.line.feed_id} was not recorded, it is a card: ${String((err && err.message) || err)}`);
+      applied.envelopes.push(a.fallback.env);
+      applied.updates.push(...a.fallback.updates);
+      applied.summary.cards += 1;
+    }
+  }
+  if (utilityPosted) await invalidateJournalCache(writer);
+  const newCardIds = new Set(applied.envelopes.map((e) => e.docId));
+  for (const { card, row } of feeCards) {
+    if (newCardIds.has(card.docId)) continue;   // the run's card took its place
+    const note = utilityDone.has(row.feed_id)
+      ? `The utility's own fee under $${fromCents(BANK_FEE_CEILING_CENTS)} - recorded with its bill (your rule of 10-25)`
+      : "The line was looked at again and is open on the Feed tab";
+    await docsStore.setJSON(`doc/${card.docId}`, { ...card, status: "dismissed", review: { action: "dismiss", by: "claude", at: now, note } });
+  }
 
   for (const env of applied.envelopes) await docsStore.setJSON(`doc/${env.docId}`, env);
   applied.updates.unshift(...retired.updates, ...fees.updates);

@@ -1978,6 +1978,8 @@ function feedMatchSummary_(s) {
   if (s.reopened) out.push(s.reopened + (s.reopened === 1 ? ' line' : ' lines') + ' looked at again - its card was gone.');
   // D-093 (Paul, 2026-10-25): the bank's own fee under $50 is recorded by code, no card.
   if (s.fees) out.push(s.fees + (s.fees === 1 ? ' bank fee' : ' bank fees') + ' recorded on ' + (s.fees === 1 ? 'its' : 'their') + ' own - the bank\'s own charge under $50, no card (your rule of 10-25).');
+  // D-094 (Paul, 2026-10-25): a utility's card or online fee under $50 is recorded on the house of its bill, no card.
+  if (s.utility_fees) out.push(s.utility_fees + (s.utility_fees === 1 ? ' utility fee' : ' utility fees') + ' recorded with ' + (s.utility_fees === 1 ? 'its' : 'their') + ' bill - the city\'s card or online fee under $50, on the house (your rule of 10-25).');
   out.push('Each line\'s note is in the match_note column of the Feed tab.');
   return out.join('\n');
 }

@@ -249,8 +249,9 @@ function fakeAnthropic(answer, { silentFirst = false } = {}) {
       calls.push(req);
       const lines = parse(req.messages[0].content, "L");
       const cands = parse(req.system[0].text, "C");
+      const bills = parse(req.system[0].text, "B");
       if (silentFirst && calls.length === 1) return { stop_reason: "end_turn", content: [{ type: "text", text: "Let me think." }], usage: { input_tokens: 10, output_tokens: 2 } };
-      return { stop_reason: "tool_use", content: [{ type: "tool_use", id: "t1", name: VERDICTS_TOOL.name, input: answer(lines, cands) }], usage: { input_tokens: 100, output_tokens: 50, cache_read_input_tokens: 80 } };
+      return { stop_reason: "tool_use", content: [{ type: "tool_use", id: "t1", name: VERDICTS_TOOL.name, input: answer(lines, cands, bills) }], usage: { input_tokens: 100, output_tokens: 50, cache_read_input_tokens: 80 } };
     } } },
   };
 }
@@ -297,7 +298,7 @@ test("VERDICTS_TOOL is strict and every line kind is a list with lines[]; lineTe
   assert.match(buildUser({ lines: LINES.slice(0, 1), batch: 1, batches: 1, today: "2026-09-28" }), /L1..L1/);
   assert.match(buildSystem({ account: ACCOUNT, accountName: "Citizens", candidates: [], properties: [] }), /nothing in the books touches this account yet/);
   const sys = buildSystem({ account: ACCOUNT, accountName: "Citizens", candidates: [], properties: [], vendors: [{ canonical: "Falcon Creek Lawn Care", aliases: ["Effren", "Effren Landscaper"] }, { canonical: "Home Depot", aliases: [] }] });
-  assert.match(sys, /VENDOR NAMES[^\n]*\n(Falcon Creek Lawn Care \| Effren, Effren Landscaper)\n\nCANDIDATES/);
+  assert.match(sys, /VENDOR NAMES[^\n]*\n(Falcon Creek Lawn Care \| Effren, Effren Landscaper)\n\nRECENT BILLS[^\n]*\n\(none in the last 45 days\)\n\nCANDIDATES/);
 });
 
 // ---- the job, end to end with fakes ---------------------------------------------------------
@@ -584,4 +585,124 @@ test("D-093 runFeedMatch: the bank's own fees are settled before the model sees 
   assert.equal(card.review.by, "claude");
   assert.match(card.review.note, /recorded on its own/);
   assert.equal(out.summary.fees, 4);
+});
+
+// ---- D-094: a utility's card or online fee under 50.00 is recorded with its bill, no card --------------------------
+
+test("D-094 isUtilityFeeLine / buildBills / utilityFeeIntent: the utility's own fee words under 50.00 and money out; the bills of the last 45 days with a house; the intent only for one item on 1120 for the bill's house", async () => {
+  const { isUtilityFeeLine, buildBills, utilityFeeIntent, UTILITY_FEE_ACCOUNT, BILL_DAYS, MATCH_PROMPT, VERDICTS_TOOL: tool } = await import("../lib/feed-match.mjs");
+  const { buildEntry } = await import("../lib/posting.mjs");
+  assert.equal(BILL_DAYS, 45);
+  assert.equal(UTILITY_FEE_ACCOUNT, "1120");
+  const yes = [
+    line("U1", "2026-10-08", -994, "WAXAHACHIE SERVFEE PLANO TX"),
+    line("U2", "2026-09-02", -4726, "TYL WAXAHACHIE SERVFEE PLANO", "TYL WAXAHACHIE SERVFEE PLANO TX"),
+    line("U3", "2026-10-02", -200, "MUNICIPAL ONLINE PAYMEN 844-7", "MUNICIPAL ONLINE PAYMEN 844-7244507 TX"),
+  ];
+  const no = [
+    line("N1", "2026-10-05", -29872, "CITY OF RED OAK ECOMM 972-617"),
+    line("N2", "2026-10-08", -5000, "WAXAHACHIE SERVFEE PLANO TX"),
+    line("N3", "2026-10-08", 994, "WAXAHACHIE SERVFEE PLANO TX"),
+    line("N4", "2026-10-07", -100, "FOREIGN ATM CHARGE SUPL CD 11"),
+    line("N5", "2026-10-13", -3784, "Home Depot Waxahachie"),
+  ];
+  for (const l of yes) assert.ok(isUtilityFeeLine(l), `${l.feed_id} is the utility's fee`);
+  for (const l of no) assert.ok(!isUtilityFeeLine(l), `${l.feed_id} is not`);
+  assert.match(MATCH_PROMPT, /A utility's own fee for paying by card or online \(SERVFEE, MUNICIPAL ONLINE PAYMEN\) under 50\.00[^.]*the house whose bill it came with/);
+  assert.ok(tool.input_schema.properties.proposals.items.required.includes("bill"), "a proposal names the bill it came with");
+
+  const bills = buildBills(JOURNAL, ACCOUNT, "2026-09-28");
+  assert.deepEqual(bills.map((b) => [b.txn_id, b.property, b.amount_cents]), [["manual-2", "Cost Recapture", 109640], ["manual-3", "108 Brushwood", 10000]], "the two water bills of 09-01, tied or not; a voided entry and the store never");
+  assert.deepEqual(buildBills(JOURNAL, ACCOUNT, "2026-11-30"), [], "older than 45 days: gone");
+
+  const entry = { date: "2026-10-08", payee: "City of Waxahachie", memo: "Card service fee", property: "108 Brushwood", paid_from: ACCOUNT, items: [{ account: "1120", amount_cents: 994, description: "Service fee", trade: "Utilities" }] };
+  const bill = { txn_id: "manual-3", property: "108 Brushwood" };
+  const intent = utilityFeeIntent(yes[0], entry, ACCOUNT, bill);
+  assert.equal(intent.type, "purchase");
+  assert.equal(intent.property, "108 Brushwood");
+  assert.equal(intent.source, "bank");
+  assert.equal(intent.posted_by, "claude");
+  assert.deepEqual(intent.items, [{ account: "1120", amount_cents: 994, description: "Service fee", trade: "Utilities" }]);
+  assert.equal(utilityFeeIntent(yes[0], entry, ACCOUNT, null), null, "no bill named: a card");
+  assert.equal(utilityFeeIntent(yes[0], entry, ACCOUNT, { txn_id: "manual-2", property: "Cost Recapture" }), null, "the bill's house is not the proposal's: a card");
+  assert.equal(utilityFeeIntent(yes[0], { ...entry, property: "OVERHEAD" }, ACCOUNT, { txn_id: "x", property: "OVERHEAD" }), null, "never OVERHEAD");
+  assert.equal(utilityFeeIntent(yes[0], { ...entry, items: [{ ...entry.items[0], account: "1030" }] }, ACCOUNT, bill), null, "not on 1120: a card");
+  assert.equal(utilityFeeIntent(yes[0], { ...entry, items: [{ ...entry.items[0], amount_cents: 1000 }] }, ACCOUNT, bill), null, "does not add up: a card");
+  assert.equal(utilityFeeIntent(no[5 - 1], entry, ACCOUNT, bill), null, "a store line is never one");
+  const built = buildEntry(intent, makeCtx({ accounts: new Map(ACCOUNTS.map((a) => [a.code, a])), properties: new Set(["108 Brushwood"]), periods: new Map(), today: "2026-10-25" }));
+  assert.equal(built.lines.length, 2);
+  assert.equal(built.lines[0].account, "1120");
+  assert.equal(built.lines[0].property, "108 Brushwood");
+});
+
+test("D-094 applyVerdicts: a proposal that is a utility's fee for its bill's house is an autopost with the card as its fallback, not a card; the same proposal with no bill is a card", () => {
+  const fee = line("U1", "2026-10-08", -994, "WAXAHACHIE SERVFEE PLANO TX");
+  const entry = { date: "2026-10-08", payee: "City of Waxahachie", memo: "Card service fee", property: "108 Brushwood", paid_from: "1402", attachment: -1, items: [{ account: "1120", amount_cents: 994, description: "Service fee", trade: "Utilities", business_purpose: null }] };
+  const base = { lines: [fee], candidates: [], account: ACCOUNT, accountName: "Citizens", ctx: ctx(), now: "2026-10-25T20:00:00Z" };
+  const withBill = applyVerdicts({ ...base, verdicts: [{ kind: "propose", feed_ids: ["U1"], txn_ids: [], entry, note: "The city's card fee on the 10-08 water bill for 108 Brushwood", bill: { txn_id: "receipt-bill", property: "108 Brushwood" } }] });
+  assert.equal(withBill.envelopes.length, 0, "no card");
+  assert.equal(withBill.updates.length, 0, "the run writes the row after it posts");
+  assert.equal(withBill.summary.cards, 0);
+  assert.equal(withBill.autoposts.length, 1);
+  const a = withBill.autoposts[0];
+  assert.equal(a.txn_id, "bank-1401-U1");
+  assert.equal(a.intent.paid_from, ACCOUNT, "paid from this account whatever the model wrote");
+  assert.equal(a.intent.property, "108 Brushwood");
+  assert.equal(a.fallback.env.docId, "feed-1401-U1");
+  assert.equal(a.fallback.env.status, "pending");
+  assert.deepEqual(a.fallback.updates.map((u) => [u.feed_id, u.status]), [["U1", "proposed"]]);
+  const noBill = applyVerdicts({ ...base, verdicts: [{ kind: "propose", feed_ids: ["U1"], txn_ids: [], entry, note: "a fee", bill: null }] });
+  assert.equal(noBill.autoposts.length, 0);
+  assert.equal(noBill.envelopes.length, 1, "Paul's card, as before");
+  assert.equal(noBill.summary.cards, 1);
+});
+
+test("D-094 runFeedMatch: the waiting SERVFEE card goes back to the model with RECENT BILLS in view; its proposal for the bill's house posts on the line's id, the line is tied, the card retired, the summary counts it", async () => {
+  const base = fakeWriter();
+  const F13 = line("F13", "2026-10-08", -994, "WAXAHACHIE SERVFEE PLANO TX");
+  const F15 = line("F15", "2026-10-08", -25164, "CITY OF WAXAHACHIE WAXAHACHIE");
+  const today = new Date().toISOString().slice(0, 10);
+  const billDate = new Date(Date.now() - 3 * 86400000).toISOString().slice(0, 10);   // inside the 45-day window whatever today is
+  const extraJournal = [
+    journalLine("receipt-bill", billDate, "1120", 25164, { property: "108 Brushwood", payee: "City of Waxahachie - Utility Billing", description: "water", paid_from: ACCOUNT }),
+    journalLine("receipt-bill", billDate, ACCOUNT, -25164, { payee: "City of Waxahachie - Utility Billing", paid_from: ACCOUNT }),
+  ].map(journalRow);
+  const posted = [];
+  const writer = {
+    calls: base.calls, feedUpdate: base.feedUpdate,
+    read: async (tab) => { const r = await base.read(tab); return tab === "Feed" ? { ...r, rows: [...r.rows, feedRow(F13, "proposed"), feedRow(F15, "matched", "receipt-bill")] } : tab === "Journal" ? { ...r, rows: [...r.rows, ...extraJournal] } : r; },
+    postBatch: async (entries, opts) => { posted.push([entries, opts]); return { ok: true, posted: entries.map((e) => e.txn_id), rows: [1, 2] }; },
+  };
+  const docsStore = fakeDocsStore();
+  await docsStore.setJSON("doc/feed-1401-F13", { docId: "feed-1401-F13", status: "pending", source: "feed", feed: { account: ACCOUNT, feed_ids: ["F13"], amount_cents: -994 }, model: { why: "The $9.94 service fee that came with the Waxahachie water bill" } });
+  const answer = (lines, cands, bills) => {
+    const out = answerByAmount(lines, cands);
+    const l = lines.find((x) => x.amount === "-9.94");
+    const b = bills.find((x) => x.amount === "251.64");
+    out.questions = out.questions.filter((q) => !q.lines.includes(l.alias));
+    out.proposals.push({ lines: [l.alias], bill: b.alias, note: "The city's card fee on the 10-08 water bill for 108 Brushwood",
+      entry: { date: "2026-10-08", payee: "City of Waxahachie - Utility Billing", memo: "Card service fee on the water payment", property: "108 Brushwood", paid_from: ACCOUNT, attachment: -1, items: [{ account: "1120", amount_cents: 994, description: "Service fee on the water payment", trade: "Utilities", business_purpose: null }] } });
+    return out;
+  };
+  const anthropic = fakeAnthropic(answer);
+  const out = await runFeedMatch({ account: ACCOUNT, writer, docsStore, anthropic, now: "2026-10-25T21:00:00Z" });
+  const sys = anthropic.calls[0].system[0].text;
+  assert.match(sys, new RegExp(`RECENT BILLS[^\\n]*\\nB1 \\| ${billDate} \\| 251\\.64 \\| City of Waxahachie - Utility Billing \\| 108 Brushwood`), "the tied bill is in view");
+  assert.match(anthropic.calls[0].messages[0].content, /SERVFEE/, "the waiting fee line went back to the model");
+  const fee = posted.find((p) => p[0][0].txn_id === "bank-1401-F13");
+  assert.ok(fee, "the fee posted on the line's own id");
+  assert.equal(fee[0][0].lines[0].account, "1120");
+  assert.equal(fee[0][0].lines[0].property, "108 Brushwood");
+  assert.ok(!fee[1] || !fee[1].skipRefresh, "a house cost: the house tab is rebuilt");
+  const upd = writer.calls.find((c) => c[0] === "feedUpdate")[1];
+  const byId = Object.fromEntries(upd.map((u) => [u.feed_id, u]));
+  assert.equal(byId.F13.status, "matched");
+  assert.equal(byId.F13.txn_id, "bank-1401-F13");
+  assert.match(byId.F13.match_note, /recorded with its bill \(your rule of 10-25\)/);
+  const card = await docsStore.get("doc/feed-1401-F13", { type: "json" });
+  assert.equal(card.status, "dismissed");
+  assert.equal(card.review.by, "claude");
+  assert.match(card.review.note, /recorded with its bill/);
+  assert.equal(out.summary.utility_fees, 1);
+  assert.equal(today.length, 10);
 });

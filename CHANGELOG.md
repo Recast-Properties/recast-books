@@ -1,5 +1,31 @@
 # Changelog
 
+## 2026-10-25 - D-094: a utility's card or online fee under 50.00 is recorded on the house of its bill, no card
+
+Paul, on the 2.00 Municipal Online Payments card: "again with these"; asked, he ruled: *a utility's card or processing
+fee under $50 can be recorded on its own against the house whose bill it came with, no card.* Built in the shape of D-093:
+- `lib/feed-match.mjs`: `isUtilityFeeLine` (money out, under `BANK_FEE_CEILING_CENTS`, SERVFEE or MUNICIPAL ONLINE
+  PAYMEN in the bank's text, never the bank's own fee); `buildBills` (the account's 1120 entries of the last `BILL_DAYS`
+  = 45 days with a house, tied or not) rendered as RECENT BILLS (B1, B2, ...) in the system block; the proposal schema
+  takes `bill` (the alias of the bill the fee came with, "" otherwise) and `expandVerdicts` resolves it to {txn_id,
+  house} from the bills or the candidates; `utilityFeeIntent` (one item on 1120 adding up to the line, the proposal's
+  house = the bill's house, never OVERHEAD) and `applyVerdicts` returns such proposals as `autoposts`, each carrying the
+  card it would have been as its fallback. The prompt's rule 2 says it in words; rule 1 still says a fee the receipt
+  itemises is a match.
+- `books-feed-match-background.mjs`: a waiting one-line card that is a utility fee goes back to the model each run; after
+  the verdicts, each autopost is built by the engine and posted on `bank-<account>-<feed_id>` (a DUPLICATE is tied), the
+  line tied with the note, the card retired (or replaced by the run's new card on the same docId); a refusal makes it the
+  fallback card. Summary `utility_fees`; Menu.gs `feedMatchSummary_` says "N utility fees recorded with their bill".
+- Tests: the fee words (yes: SERVFEE 9.94, TYL SERVFEE 47.26, MUNICIPAL ONLINE PAYMEN 2.00; no: the Red Oak bill, 50.00,
+  money in, the ATM charge, a store); `buildBills` on the fixture and its window; `utilityFeeIntent`'s rails; `applyVerdicts`
+  autopost vs card; the run end to end (the waiting 9.94 card re-offered, B1 in the prompt, posted on 1120 for the bill's
+  house with the house tab rebuilt, line tied, card retired, summary 1). 618 tests. D-094; phase3-spec amended; CLAUDE.md
+  rule 15.
+- **Needs `npm run ship` (Paul)** - the site (the run) and the writer (the summary line). The 9.94 SERVFEE card of 10-08
+  then clears itself on the next Match statement lines: the model names the 10-08 Waxahachie bill (469 Brushwood) and the
+  fee is recorded on 1120 for 469 Brushwood. Watch that run's summary for "1 utility fee recorded with its bill".
+- Not changed: the 09-02 TYL SERVFEE 47.26 Paul booked by hand to 6910 OVERHEAD.
+
 ## 2026-10-25 - The Red Oak water bill and its $2 online fee: two bank lines, one receipt - matched, no more asking
 
 Paul, 16:10 CT, on the 2.00 MUNICIPAL ONLINE PAYMEN card of 10-02: "again with these". The books held the payment as one
