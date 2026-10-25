@@ -5,14 +5,14 @@ history and are not written to; `CHANGELOG.md` keeps its dated entry per change.
 `docs/ops.md`. The books' numbers live on the workbook's tabs (P&L, Totals, Citizens Bank, the house tabs) - read them
 there; a figure written here is only as of its date.
 
-## 2026-10-25 - #15, #13, #16, #17 live; #12 built, not yet shipped; next #11 (START HERE)
+## 2026-10-25 - #15, #13, #16, #17, #12 live; next #11 (START HERE)
 
-**#12 built 10-25 (620 tests), committed - owed: Paul runs `npm run ship`.** One map, `lib/plain-words.mjs`, holds
+**#12 live since 10-25 13:39 CT - web app @50, site `6ade4d0b`, read-back OK; 620 tests. Nothing owed on the ship.** One map, `lib/plain-words.mjs`, holds
 Paul's words for every code the posting engine, the writer, the menu, the dialogs and the site can answer with;
 `Style.html`'s `plainError_` shows them in every dialog with a "Paste to Claude: CODE - message" line under, the
 menu's void and period alerts the same through `plainWords`; `include_` evaluates Style.html as a template so the map
-lands in each dialog. A new code without words fails `test/plain-words.test.mjs`. **Watch after the ship:** open any
-dialog (Add expense, the Inbox) - it must render; the first refusal Paul meets should read as a sentence with the
+lands in each dialog. A new code without words fails `test/plain-words.test.mjs`. **Watch (not yet seen):** Paul opens any
+dialog (Add expense, the Inbox) - it must render (Style.html is evaluated as a template now); the first refusal Paul meets should read as a sentence with the
 grey Paste line under it, never a bold code.
 
 **#15's first timings line (11:05 AM PT run, 17.7 s):** journal 7s, advances 1s, pnl math 1s, pnl tab 0s, taxes 5s.

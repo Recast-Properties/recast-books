@@ -17,7 +17,7 @@ to the message. Built:
 - Lint: `test/plain-words.test.mjs` scans the sources for codes and fails on one without words (the way a new gate
   reason is caught), and checks every sentence is Paul's (no code inside, a full stop, short); `writer-gs-lint` fails
   on a dialog that builds a bold code again, on `include_` not evaluating, and on an alert that glues. 620 tests.
-  Shipping: Paul's `npm run ship`.
+  **Shipped by Paul 10-25 13:39 CT: web app @50, site `6ade4d0b`, read-back OK.**
 - **#15 measured on the new code:** the 11:05 AM PT run (the first after the ship) logged `refreshPnl_ timings:
   journal 7s, advances 1s, pnl math 1s, pnl tab 0s, taxes 5s` - 17.7 s, a normal run; the breakdown of a spike waits
   for the next spike (they have come at 9:05 AM, 3:05 PM and 1:05 AM PT).
