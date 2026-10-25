@@ -5,13 +5,12 @@ history and are not written to; `CHANGELOG.md` keeps its dated entry per change.
 `docs/ops.md`. The books' numbers live on the workbook's tabs (P&L, Totals, Citizens Bank, the house tabs) - read them
 there; a figure written here is only as of its date.
 
-## 2026-10-25 - #15, #13, #16, #17, #12 live; #11 built, not yet shipped; next #18 (START HERE)
+## 2026-10-25 - #15, #13, #16, #17, #12, #11 live; next #18 (START HERE)
 
-**#11 built 10-25 (610 tests), committed - owed: Paul runs `npm run ship`.** One posting path: the web Inbox's Approve
+**#11 live since 10-25 13:47 CT - web app @51, site `6ade4eb7`, read-back OK; 610 tests. Nothing owed on the ship.** One posting path: the web Inbox's Approve
 verb, its background half and button are gone; so are D-025's `repost` / `repost-all` replays, `recover-errored.mjs`
 and the replay's migration rules in the ingest. What stays of the stored-read re-run is exactly what #7's card
-learning uses (`applyPayerOverride`). Nothing Paul does changes: he saves in the workbook's Inbox as before. **Watch
-after the ship:** nothing visible; the next `relearn` (a card number placed on a card, the other cards with it
+learning uses (`applyPayerOverride`). Nothing Paul does changes: he saves in the workbook's Inbox as before. **Watch:** nothing visible; the next `relearn` (a card number placed on a card, the other cards with it
 posting on their own) is the one live user of the kept path - it should still work. **Known:** the poller's
 `Listing.gs` `repostAll` (cutover-era, never run since) now calls a verb that is gone - #18 removes it.
 

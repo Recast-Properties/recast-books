@@ -17,7 +17,8 @@ never sees (D-023: the menu, not the web app). Deleted:
   the model and its entries, records `overrides` on the model) with its own test. The poller's digest still strips the
   old `[rule: ...]` suffix on envelopes that carry one; the lint now pins that the ingest writes none.
 - Tests: the nine approve tests out, one in (approve / repost / repost-all are unknown actions, nothing fired, the
-  envelope untouched); `applyPayerOverride`; the poller lint updated. 610 tests (the approve tests went). Shipping: Paul's `npm run ship`.
+  envelope untouched); `applyPayerOverride`; the poller lint updated. 610 tests (the approve tests went). **Shipped by Paul
+  10-25 13:47 CT: web app @51, site `6ade4eb7`, read-back OK.**
   Not changed: the web page's entry-editing fields (they fed Approve; harmless, and the page is Penny's read door).
 
 ## 2026-10-25 - Audit #12: every refusal reaches Paul in plain words, from one map
