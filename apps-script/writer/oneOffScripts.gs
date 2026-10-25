@@ -159,3 +159,31 @@ function linkMolallaReceipts() {
   console.log('linkMolallaReceipts: ' + pairs.length + ' receipts written on ' + journal + ' Journal lines; on the tab ' + linked +
     ' lines now open their receipt and ' + blank + ' have none (' + cells.length + ' lines on the tab).');
 }
+
+// 2026-10-25 Paul ("again with these", the 2.00 Municipal Online Payments card) - the Red Oak water payment of 10-01 is
+// one receipt on the books (receipt-20261001-069ed84c43c9, 300.72: the bill 295.76, the city's 2.96 processing fee and
+// the 2.00 Municipal Online Payments fee) and two bank lines (10-02 -2.00, 10-05 -298.72). The 10-06 run asked Paul about
+// each line instead of matching both to the receipt, and a line waiting on a card is never offered to the matcher again.
+// This retires the two cards on the site, opens the two lines with a note the matcher reads, and runs the matching on
+// Citizens (rule 15: tune, reset, rerun - never a tie by hand). Run by Penny from the editor.
+// STATUS: NOT YET RUN
+function rematchRedOakFeeLines20261025() {
+  var ss = openWorkbook_(PropertiesService.getScriptProperties());
+  requireOwner_(ss);
+  var note = 'Claude: one payment in two bank lines - the Red Oak water receipt of 10-01 on the books (300.72) itemises this charge; opened again 10-25 to be matched with its other line';
+  [
+    { docId: 'feed-1401-202610020000000552544896', feed: { account: '1401', feed_ids: ['202610020000000552544896'] } },
+    { docId: 'feed-1401-202610050000000552946826', feed: { account: '1401', feed_ids: ['202610050000000552946826'] } }
+  ].forEach(function (c) {
+    Logger.log('dismiss ' + c.docId + ' ' + JSON.stringify(siteFetchJson_('/api/inbox', 'post', { action: 'dismiss', docId: c.docId, note: note, by: 'claude', only_pending: true })));
+    Logger.log('feed row ' + JSON.stringify(tieFeedRows_(ss, c.feed, 'unmatched', [], note)));
+  });
+  var started = startFeedMatch('1401');
+  Logger.log('startFeedMatch ' + JSON.stringify(started));
+  for (var i = 0; i < 40 && started.ok && started.job_id; i++) {
+    Utilities.sleep(5000);
+    var s = feedMatchStatus(started.job_id);
+    if (s.done || !s.ok) { Logger.log('match ' + JSON.stringify(s)); return; }
+  }
+  Logger.log('still running - look at the Feed tab in a minute');
+}

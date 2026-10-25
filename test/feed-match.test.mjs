@@ -505,6 +505,8 @@ test("audit 2026-10-24 #14 runFeedMatch: an entry tied on one account's row is s
 
 test("D-093 isBankFee: the bank's own charge - money out, under 50.00, FEE or CHARGE as a whole word or a check order; a utility's SERVFEE, a fee of 50.00, money in and a store line are not", async () => {
   const { isBankFee, bankFeeIntent, BANK_FEE_CEILING_CENTS, BANK_FEE_ACCOUNT, MATCH_PROMPT } = await import("../lib/feed-match.mjs");
+  assert.match(MATCH_PROMPT, /a utility bill and its online-payment or card-processing fee \(MUNICIPAL ONLINE PAYMEN, SERVFEE\) that the receipt itemises are two lines for one entry - match both to it, never ask whether to split them/,
+    "2026-10-25: the 10-06 run asked Paul about the 2.00 Municipal Online Payments line and the 298.72 Red Oak line instead of matching both to the 300.72 receipt");
   const { buildEntry } = await import("../lib/posting.mjs");
   assert.equal(BANK_FEE_CEILING_CENTS, 5000);
   assert.equal(BANK_FEE_ACCOUNT, "6910", "the chart's Bank & merchant fees, never 6930 (interest)");
