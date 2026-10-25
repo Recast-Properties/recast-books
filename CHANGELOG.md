@@ -21,10 +21,13 @@ fee under $50 can be recorded on its own against the house whose bill it came wi
   autopost vs card; the run end to end (the waiting 9.94 card re-offered, B1 in the prompt, posted on 1120 for the bill's
   house with the house tab rebuilt, line tied, card retired, summary 1). 618 tests. D-094; phase3-spec amended; CLAUDE.md
   rule 15.
-- **Not shipped yet.** Paul's `npm run ship` of 16:23 CT stamped `dbd5aa0` (web app @53, site `6ade734b`, read-back OK)
-  - the commit before this one, so it carried the 16:20 prompt change but not D-094; a second ship is owed. The 9.94 SERVFEE card of 10-08
-  then clears itself on the next Match statement lines: the model names the 10-08 Waxahachie bill (469 Brushwood) and the
-  fee is recorded on 1120 for 469 Brushwood. Watch that run's summary for "1 utility fee recorded with its bill".
+- **Shipped by Paul 16:28 CT: web app @54, site `6ade748b`, read-back OK (stamp `809cc6a`).** His first ship of 16:23
+  had stamped `dbd5aa0` (web app @53, site `6ade734b`) - the commit before this one, so it carried the 16:20 prompt change
+  only. **Proved live 16:29 CT** - Match statement lines on Citizens, run by Penny from the sheet: "1 bank lines looked at.
+  0 tied to the books. None need your word. 1 utility fee recorded with its bill". On the tabs: `bank-1401-202610080000000553575826`,
+  10-08, 1120 9.94 for 469 Brushwood (Utilities, City of Waxahachie - Utility Billing, "Service fee for paying the City of
+  Waxahachie water bill online", source bank, posted by claude); the Feed row `matched` with the D-094 note; the card
+  dismissed by claude 21:29 UTC. Bank statement tab 10 -> 9.
 - Not changed: the 09-02 TYL SERVFEE 47.26 Paul booked by hand to 6910 OVERHEAD.
 
 ## 2026-10-25 - The Red Oak water bill and its $2 online fee: two bank lines, one receipt - matched, no more asking

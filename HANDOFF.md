@@ -7,13 +7,14 @@ there; a figure written here is only as of its date.
 
 ## 2026-10-25 - the audit's list is done and live (START HERE)
 
-**16:45 CT - D-094 built, not shipped (CHANGELOG, same date):** Paul's rule - a utility's card or online fee under $50
-is recorded on the house of the bill it came with, no card. In the matching run the model sees RECENT BILLS, names the
-bill, and code records the one-item 1120 proposal for that house (`bank-<account>-<feed_id>`). **Owed: `npm run ship`
-(Paul) - his 16:23 ship stamped `dbd5aa0` (web app @53, site `6ade734b`), the commit before D-094, so the site runs the
-16:20 prompt change but not the fee rule.** Watch: the next Match statement lines on Citizens - the 9.94 SERVFEE
-card of 10-08 should clear itself ("1 utility fee recorded with its bill"), 469 Brushwood's tab gaining the 9.94 on
-utilities; the Bank statement tab then shows 9.
+**D-094 live since 10-25 16:28 CT - web app @54, site `6ade748b`, read-back OK; 618 tests. Nothing owed on the ship.**
+Paul's rule: a utility's card or online fee under $50 is recorded on the house of the bill it came with, no card. In the
+matching run the model sees RECENT BILLS, names the bill, and code records the one-item 1120 proposal for that house
+(`bank-<account>-<feed_id>`); a waiting one-line fee card is offered again each run. **Proved 16:29 CT:** the 9.94
+SERVFEE card of 10-08 cleared itself - 9.94 on 1120 for 469 Brushwood, line tied, card retired. The Bank statement tab
+shows 9: Lowe's 130.87 (08-10), Home Depot 90.23 / 30.57 / 37.84, Amazon 361.35 / 16.25 / 65.86 / 197.88, Rockett 230.00
+- every one a purchase or a question only Paul can answer. Watch: the next utility fee from a city not yet in
+`isUtilityFeeLine` (SERVFEE, MUNICIPAL ONLINE PAYMEN) lands as a card - add its wording there.
 
 **16:20 CT - the Red Oak $2 fee card and its 298.72 twin are gone (CHANGELOG, same date):** both lines tied to the 10-01
 receipt by a rerun of the matching; the prompt now says in words that a utility bill and its online fee are one receipt.
