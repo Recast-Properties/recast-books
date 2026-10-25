@@ -1,5 +1,34 @@
 # Changelog
 
+## 2026-10-25 - Add receipt's first use went in twice; fixed on the books, and the race closed
+
+Paul used Add receipt on the 37.84 Home Depot card of 10-13 at 21:44:02 UTC (a PDF, 35 KB), then Saved the card by hand
+at 21:44:40 while the bookkeeper was still reading; the read posted at 21:45:02. Two entries for one charge:
+`receipt-20261013-02b9bfeea918-53ab` (typed: one line, 1030 Cleaning, 241 Poinsetta, no receipt) and
+`receipt-20261011-c86ec29115cb` (the PDF: two itemised lines, carpet cleaners, 241 Poinsetta, filed to Drive). D-087's
+tie found the card already posted and left it; the recheck did not see the typed copy as a twin (payee "Home Depot
+Waxahachie" vs "The Home Depot", 10-13 vs 10-11).
+- **The books (one-off `voidTypedHomeDepot3784_20261025`, commit 08fad59, run by Penny from the editor 21:53 UTC, out of
+  the file after):** the typed copy voided on its own date (`void-receipt-20261013-02b9bfeea918-53ab`, rows 4003-4004), the
+  Feed row moved to the receipt ("The receipt came in (rc-e04a8f9724cc4d82b057) and replaced the entry typed in the
+  Inbox"). Verified on the Journal and Feed tabs: 37.84 once, 241 Poinsetta, with the PDF.
+- **The dialog:** a successful Add receipt closes the card (`done`), so there is no Save to click.
+- **The site, `books-inbox.mjs`:** a new verb `receipt-added` {docId, receipt} marks the pending card
+  (`receipt_added`, `receipt_added_at`); the pending list leaves such a card out for `RECEIPT_READ_MS` = 10 minutes (a
+  read takes about one), so a Refresh cannot bring back a Save; asked for by id it is still there. `_shared.mjs`'s index
+  summary carries `receipt_added_at`. Menu.gs `inboxAddReceipt` calls it after the upload, best effort.
+- **The ingest, `books-ingest-background.mjs`:** `typedTwinOf` - the one entry Paul typed from the bank card the read
+  answers, when the card was saved by hand (not by claude), the read's entries add up to the card's line and are paid
+  from its account. That twin is not a reason to dismiss the read (the recheck's "posted moments earlier" rail skips it);
+  `retireBankCard` on a posted card voids the typed copy on its own date, moves its bank lines to the receipt's entries
+  (`feedRetie`) and points the card's record at the receipt. A different total or account leaves Paul's entry as it is
+  and the recheck dismisses the read as before.
+- Tests: the inbox verb and the ten-minute hide; the ingest's typed-twin path and the different-total path; the lint on
+  the menu's call and the dialog's close. 622 tests.
+- **Writer pushed by Penny (Menu.gs, Inbox.html, the one-off out). The site needs `npm run ship` (Paul)** - until then
+  the card still hides on Add receipt (the dialog closes it) but a Refresh within the minute shows it again, and a late
+  receipt after a by-hand Save would post beside the typed copy as it did here.
+
 ## 2026-10-25 - Add receipt on a bank card: the receipt goes in from the card itself
 
 Paul, on the 37.84 Home Depot card of 10-13: "if there is no receipt i should have a way to add a receipt to this." Until

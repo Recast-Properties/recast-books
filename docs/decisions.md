@@ -1970,6 +1970,13 @@ standing as a line; an item the read could not price is still caught by TOTAL_MI
 house and the card on it records itself. The cards already held on 10-09 still take his Save - a reprocess never
 posts (D-048). Built on tests (570); first real case not yet seen.
 
+**Amended 2026-10-25.** A receipt that answers a bank card Paul already saved by hand - the card `posted` by him, one
+typed entry, the receipt's entries adding up to the card's line and paid from its account - replaces that typed copy:
+the read is not dismissed as its duplicate, it posts, the typed entry is voided on its own date, its bank lines move to
+the receipt and the card's record names the receipt (`typedTwinOf`, `retireBankCard`). The first Add receipt (the 37.84
+Home Depot of 10-13) was typed and read at the same time and went in twice; the card now closes on Add receipt and the
+site sets it aside ten minutes (`receipt-added`). Any other difference leaves Paul's entry as he saved it.
+
 ## D-088 · The recurring business charges move to the Recast Chase card 7416; Chase gets its own bank tab - 2026-10-23 · Paul
 
 *"i have a card number for the recast chase account. it ends with 7416. i will be working to transfer all of the

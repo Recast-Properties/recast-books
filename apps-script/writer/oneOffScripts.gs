@@ -29,6 +29,7 @@
  * moveCheckToBowlingGreen (2026-10-02, Paul's 607.05 check all on 136 Bowling Green) is in commit a3c3ff7.
  * rereadFailedReads20261004 (the four receipts the API refused 10-02..10-04, read again) is in commit e9d490f.
  * rematchRedOakFeeLines20261025 (2026-10-25, the Red Oak bill and its $2 online fee re-matched as one receipt) is in commit 2113638.
+ * voidTypedHomeDepot3784_20261025 (2026-10-25, the 37.84 Home Depot typed while its receipt was being read - voided, line moved to the receipt) is in commit 08fad59.
  * importMolalla (2026-10-04, D-079: 1014 S View brought in as one closed house; run 19:07 CDT) is in commit bbcd0be.
  * importMolallaLines (2026-10-04, D-079: the same house line by line from his sheet, its frozen house tab and closing
  *   tab; run 19:28 CDT) is in commit 542847e.
@@ -160,22 +161,3 @@ function linkMolallaReceipts() {
   console.log('linkMolallaReceipts: ' + pairs.length + ' receipts written on ' + journal + ' Journal lines; on the tab ' + linked +
     ' lines now open their receipt and ' + blank + ' have none (' + cells.length + ' lines on the tab).');
 }
-
-// 2026-10-25 Paul ("check to see if it logged it with the receipt") - the 37.84 Home Depot charge of 10-13 is in the books
-// twice: receipt-20261013-02b9bfeea918-53ab typed by Paul in the Inbox at 21:44:40 UTC (one line, 1030 Cleaning, 241
-// Poinsetta, no receipt) and receipt-20261011-c86ec29115cb read from the PDF he added on the card at 21:44:02 and posted
-// at 21:45:02 (two itemised lines, the PDF filed to Drive). The receipt stays; the typed copy comes out on its own date
-// and the bank line moves to the receipt. Run by Penny from the editor.
-// STATUS: NOT YET RUN
-function voidTypedHomeDepot3784_20261025() {
-  var props = PropertiesService.getScriptProperties();
-  var ss = openWorkbook_(props);
-  requireOwner_(ss);
-  var typed = 'receipt-20261013-02b9bfeea918-53ab', receipt = 'receipt-20261011-c86ec29115cb';
-  var res = voidEntry_(typed, 'replaced by its receipt ' + receipt + ' (rc-e04a8f9724cc4d82b057) - the same 37.84 Home Depot charge of 10-13, typed in the Inbox while the receipt was being read', '2026-10-13', 'claude', props, false);
-  Logger.log('voided ' + typed + ' -> ' + JSON.stringify(res));
-  Logger.log('feed -> ' + JSON.stringify(feedRetieRows_(ss, typed, [receipt], 'The receipt came in (rc-e04a8f9724cc4d82b057) and replaced the entry typed in the Inbox')));
-  warmCache_();
-  Logger.log('done');
-}
-

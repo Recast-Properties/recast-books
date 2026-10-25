@@ -7,6 +7,14 @@ there; a figure written here is only as of its date.
 
 ## 2026-10-25 - the audit's list is done and live (START HERE)
 
+**17:10 CT - Add receipt's first use went in twice, fixed (CHANGELOG, same date):** Paul added the 37.84 Home Depot PDF
+and Saved the card by hand before the read finished; the typed copy is voided and the bank line points at the receipt
+(37.84 once, 241 Poinsetta, PDF filed). The race is closed in code: the card closes on Add receipt, the site sets it
+aside ten minutes (`receipt-added`), and a receipt that arrives after a by-hand Save replaces the typed copy
+(`typedTwinOf`, `retireBankCard`). **Owed: `npm run ship` (Paul) - the site half is in the repo, not live.** Watch the
+next Add receipt: the card goes away at once and does not come back on Refresh; the receipt's entry appears within two
+minutes; nothing typed.
+
 **16:55 CT - Add receipt on a bank card (CHANGELOG, same date):** a money-out bank card's yellow box takes a photo or PDF
 from Paul's computer and sends it up /api/upload with a note naming the line, the account and the card; the bookkeeper
 reads it as any receipt and D-087 retires the card when it matches. Writer pushed (the dialog only; no deploy). **Watch:**
