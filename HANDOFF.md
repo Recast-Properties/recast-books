@@ -5,7 +5,25 @@ history and are not written to; `CHANGELOG.md` keeps its dated entry per change.
 `docs/ops.md`. The books' numbers live on the workbook's tabs (P&L, Totals, Citizens Bank, the house tabs) - read them
 there; a figure written here is only as of its date.
 
-## 2026-10-25 - #15, #13, #16, #17, #12, #11, #18 live; next #19 (START HERE)
+## 2026-10-25 - the audit's second list is done; #19 built, not yet shipped (START HERE)
+
+**#19 built 10-25 (615 tests), committed - owed: Paul runs `npm run ship`.** The Inbox card's logic is
+`lib/inbox-card.mjs`, included by the dialog as the generated `InboxCard.html` (build-gs writes it; the test keeps it
+in sync); the card reads exactly as before. **Watch after the ship - the one real check:** Paul opens Recast Books ->
+Inbox... once: the list must render, a card must open with its bullets, totals line and yellow box, and Save /
+Dismiss all must behave as before. A blank card or a "... is not defined" message means a global the dialog expects is
+missing - tell Claude (the include order is Style, InboxCard, then the dialog's own script).
+
+**With #19 the audit's ranked list (#1-#19) is all live or built.** Left from the audit: section 6's decisions,
+asked one at a time as they come up (q1 wait ten days for the bank, q4 payouts, q6 the ceiling, q7 Chase deposits,
+q8 the two-click Save, q9 who reads properties@ / the digest); #5 step two (a pre-filled payout card) before the
+next sale. Owed from before: Paul's Gmail filters for `to-books` (when he says); the 10-11 Poinsetta photo
+(`gm-1a12d6f7780f7d94`) - Paul forwards it to receipts@ again; the 28.15 Deluxe check order of 08-11 on 6930, moved
+only on his word. Watch: the first spike's `refreshPnl_ timings:` line; the next Match statement lines (the two 1.00
+ATM cards retire themselves); the next Dismiss all with a note (the card re-runs the matching); the next Lowe's or Home
+Depot email (no logo filed as the receipt).
+
+## 2026-10-25 (end of afternoon) - #15, #13, #16, #17, #12, #11, #18 live
 
 **#18 live 10-25 11:50 PT - a poller push to both instances by Penny, verified by pull (611 tests); nothing for Paul
 to run.** A picture under 20 KB in an email is a logo and is skipped with a poller note; an email with only a logo is
@@ -16,8 +34,7 @@ receipt (the body or the real picture), never a logo; the poller note names any 
 properties@ or paul@ project had a live `repostWatch` trigger it is now a trigger to a missing function (it logs an
 error every five minutes) - check the Triggers page of each poller project once; delete it there if present.
 
-**Next work, in Paul's order:** #19 - the 150 lines of `writer-gs-lint` that run Inbox.html's card logic through
-`new Function` become plain unit tests (structure only; then the audit's second list is done).
+**Next work (end of afternoon; #19 done above):** nothing left on the audit's list.
 
 ## 2026-10-25 (late afternoon) - #15, #13, #16, #17, #12, #11 live
 

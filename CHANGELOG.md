@@ -1,5 +1,21 @@
 # Changelog
 
+## 2026-10-25 - Audit #19: the Inbox card's logic is a lib module with plain unit tests, not source strings run through new Function
+
+Structure only; the card reads the same. Thirty-one functions and seven constants that were the dialog's own
+(`isWaiting_` ... `waitHtml_`, `GATE_TEXT`, `PARTNER_RE`, ...) moved, comments and all, from `Inbox.html` to
+`lib/inbox-card.mjs`. The handful that read the dialog's state now take it as arguments - `swapOf_(env, swap)`,
+`mismatchFlags_(entries, accounts)`, `partnerMoney_(env, ceilingCents)`, `feedFlags_(..., accounts, ceilingCents)`,
+`flagsList_(gate, entries, why, env, state)`, `totalsLine_(env, entries)`, `waitHtml_(env, entries, swapTicked)` - and
+Inbox.html hands them over (`ceiling_()`, `cardState_()`, `EDIT[env.docId]`, `SWAP`). The dialog runs the same code:
+`scripts/build-gs.mjs` now also writes `apps-script/writer/InboxCard.html` (the module as an IIFE plus its names as
+globals, the lib.gs shape), which Inbox.html includes right after Style.html; the module's two imports (`NEED_RECEIPT`
+from gate.mjs, `PLAIN_WORDS` from plain-words.mjs) are stripped by the build and resolve to the dialog's own globals.
+`test/inbox-card.test.mjs` imports the module - every assertion the three `new Function` tests made, plus a few the
+old shape could not (the dialog's copy run under `vm` with the same globals; the include is in sync; nothing is
+defined twice; the call sites pass the state). The lints that reached into Inbox.html for those words now read the
+module. 615 tests. The audit's second list (#11-#19) is complete. Shipping: Paul's `npm run ship` (Inbox.html changed).
+
 ## 2026-10-25 - Audit #18: the poller skips logo-sized pictures, and the cutover-era Listing.gs is out of both pollers
 
 - `CONFIG.MIN_IMAGE_BYTES` = 20 KB: an image under it is a vendor's logo or a tracking pixel, never a receipt - a

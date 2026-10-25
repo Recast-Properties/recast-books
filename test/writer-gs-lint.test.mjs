@@ -425,63 +425,12 @@ test("refreshHeavyBlocks_ finds a block by its header, and an untraded Holding l
   assert.ok(body.includes("'Utilities'"), "an untraded Holding line has no block to fall into");
 });
 
-test("the Inbox card: each line is Approve, Returned or Dismiss, and the card says in plain dollars where the receipt goes", () => {
+test("the Inbox card: Save posts the kept lines with the note; the whole-card buttons stay gone (the card's logic: test/inbox-card.test.mjs)", () => {
   // 2026-09-26: "Part is on the books already" read as "this is a duplicate", and one Returned button for the whole
-  // card "defeats the purpose of itemizing". The card's own functions, run on Home Depot 01-11.
+  // card "defeats the purpose of itemizing". The card's own functions are lib/inbox-card.mjs now (audit #19).
   const inbox = readFileSync(path.join(__dirname, "..", "apps-script", "writer", "Inbox.html"), "utf8");
-  const style = readFileSync(path.join(__dirname, "..", "apps-script", "writer", "Style.html"), "utf8");
-  const grab = (s, head) => {
-    const a = s.indexOf(head);
-    assert.ok(a !== -1, `${head} not found`);
-    let i = s.indexOf("{", a), depth = 0;
-    do { if (s[i] === "{") depth++; else if (s[i] === "}") depth--; i++; } while (depth);
-    return s.slice(a, i);
-  };
-  const names = ["money_", "acctGroup_", "acctName_", "flagText_", "needsTrade_", "itemProperty_", "mismatchFlags_", "itemsSum_",
-    "decisionOf_", "approvedOnly_", "sortByDecision_", "needsPurpose_", "partlyText_", "flagsList_", "totalsLine_"];
-  const card = new Function([
-    "var EDIT = {}, DATA = { pickers: { accounts: [{ code: '1030', name: 'Rehab - materials' }] } };",
-    grab(style, "function escapeHtml_("), inbox.match(/var ACCT_GROUPS = .*;/)[0], inbox.match(/var TRADELESS_ACCOUNTS = [^;]*;/)[0],
-    grab(inbox, "var GATE_TEXT = ") + ";", grab(inbox, "var DECISIONS = ") + ";", ...names.map((n) => grab(inbox, `function ${n}(`)),
-    "return { flagsList_, totalsLine_, sortByDecision_, EDIT };",
-  ].join("\n"))();
-
-  const gate = { reasons: ["NOT_POST_VERDICT", "PARTLY_ON_BOOKS"], already_posted_cents: 15479 };
-  const pack = (cents, description, decision, reason) => ({ account: "1030", amount_cents: cents, description, trade: "Supplies", decision, reason });
-  const both = [{ property: "104 Ashburne", items: [pack(995, "GRK 3/8 x 12"), pack(589, "GRK 3/8 x 8")] }];
-  const env = { docId: "d", model: { receipt_total_cents: 17063 }, gate };
-  assert.match(card.flagsList_(gate, both), /\$154\.79 of this receipt is already in the books\. The items below \(\$15\.84\) never got recorded - on each one click Approve \(you kept it\), Returned \(it went back to the store\) or Dismiss/);
-  card.EDIT.d = both;
-  assert.match(card.totalsLine_(env), /class="totals ok">Receipt \$170\.63: \$154\.79 already in the books \+ \$15\.84 to record now</);
-
-  // One pack went back, one was personal: nothing to record, both in the note, every dollar accounted for.
-  const mixed = [{ property: "104 Ashburne", items: [pack(995, "GRK 3/8 x 12", "returned"), pack(589, "GRK 3/8 x 8", "dismiss", "personal")] }];
-  card.EDIT.d = mixed;
-  assert.match(card.totalsLine_(env), /class="totals ok">Receipt \$170\.63: \$154\.79 already in the books \+ \$0\.00 to record now \+ \$9\.95 returned \+ \$5\.89 dismissed</);
-  const sorted = card.sortByDecision_(mixed);
-  assert.deepEqual(sorted.keep, []);
-  assert.equal(sorted.note, "Returned ($9.95): GRK 3/8 x 12 | Dismissed ($5.89): GRK 3/8 x 8 - personal");
-
-  // Approve one, return one: only the kept line is posted, stripped of the choice fields.
-  const one = card.sortByDecision_([{ property: "104 Ashburne", items: [pack(995, "GRK 3/8 x 12", "returned"), pack(589, "GRK 3/8 x 8")] }]);
-  assert.equal(one.keep.length, 1);
-  assert.deepEqual(one.keep[0].items.map((it) => [it.amount_cents, it.decision, it.reason]), [[589, undefined, undefined]]);
-  assert.equal(one.note, "Returned ($9.95): GRK 3/8 x 12");
   assert.ok(inbox.includes("callServer_('inboxApprove', { docId: env.docId, entries: toPost, model: env.model || {}, note: sorted.note, feed: env.feed || null, supersedes: swap ? swap.txn_id : null })"),
     "Save posts the kept lines with the note");
-
-  // A meal line needs its who-and-why only while it is kept (HD 03-02's water).
-  const water = (decision) => [{ property: "OVERHEAD", items: [{ account: "6710", amount_cents: 258, description: "Dasani", decision }] }];
-  const meal = /Meal or gift - type who it was with/;
-  assert.match(card.flagsList_({ reasons: ["NEEDS_HUMAN_274D"] }, water()), meal);
-  assert.doesNotMatch(card.flagsList_({ reasons: ["NEEDS_HUMAN_274D"] }, water("dismiss")), meal);
-
-  card.EDIT.n = [{ property: "104 Ashburne", items: [{ account: "1030", amount_cents: 4500, trade: "Paint" }] }];
-  assert.match(card.totalsLine_({ docId: "n", model: { receipt_total_cents: 4500 }, gate: { reasons: [] } }), /Receipt \$45\.00: \$45\.00 to record now</);
-  assert.match(card.flagsList_({ reasons: [] }, [{ property: "OVERHEAD", items: [{ account: "1030", amount_cents: 100 }] }]), /Rehab - materials is a house cost - pick which house/);
-  for (const jargon of [/Entries \$/, /does not match/, /on the books already/, /entry/i]) {
-    assert.ok(!jargon.test(card.flagsList_(gate, both) + card.totalsLine_(env)), `jargon on the card: ${jargon}`);
-  }
   for (const gone of ["data-approve", "data-returned", "data-rm"]) assert.ok(!inbox.includes(gone), `the whole-card ${gone} button is back`);
 });
 
@@ -489,18 +438,19 @@ test("the Inbox card translates every gate reason code into a plain-English bull
   // Paul, 2026-09-23: the card lists short bullets that name the fix, not reason codes and
   // not a paragraph. A new gate reason with no translation would show as a raw code.
   const inbox = readFileSync(path.join(__dirname, "..", "apps-script", "writer", "Inbox.html"), "utf8");
+  const lib = readFileSync(path.join(__dirname, "..", "lib", "inbox-card.mjs"), "utf8");   // the card's words live there (audit #19)
   const gate = readFileSync(path.join(__dirname, "..", "lib", "gate.mjs"), "utf8");
   const plain = [...gate.matchAll(/push\("([A-Z_0-9]+)"\)/g)].map((m) => m[1]);
   const prefixed = [...gate.matchAll(/`([A-Z_0-9]+):\$\{/g)].map((m) => m[1]);   // ENTRY_INVALID:, DUPLICATE_OF:, POSSIBLE_TWIN:
   assert.ok(plain.length >= 10 && prefixed.length >= 2, "gate reason codes not found - did the push() shape change?");
   for (const code of plain) {
-    assert.match(inbox, new RegExp("\\b" + code + ":"), `no bullet text for gate reason ${code}`);
+    assert.match(lib, new RegExp("\\b" + code + ":"), `no bullet text for gate reason ${code}`);
   }
   for (const code of prefixed) {
-    assert.ok(inbox.includes("'" + code + "'"), `no bullet text for gate reason ${code}:<value>`);
+    assert.ok(lib.includes("'" + code + "'"), `no bullet text for gate reason ${code}:<value>`);
   }
   assert.ok(!inbox.includes('class="chip"'), "reason codes are being shown raw again");
-  assert.ok(inbox.includes("Pick a trade (the kind of work) for each house item"), "the missing-trade bullet is gone");
+  assert.ok(lib.includes("Pick a trade (the kind of work) for each house item"), "the missing-trade bullet is gone");
 });
 
 test("WRITER_VERSION is 0.4.0", () => {
@@ -729,15 +679,16 @@ test("feedUpdate: one lock, the three verdict columns read once and written once
 
 test("the Inbox card born from bank lines gets its own flags (feedFlags_) on both call sites", () => {
   const html = readFileSync(new URL("../apps-script/writer/Inbox.html", import.meta.url), "utf8");
-  assert.match(html, /function feedFlags_\(entries, why, env\)/);
-  assert.match(html, /if \(env && env\.source === 'feed'\) return feedFlags_\(entries, why, env\);/);
-  assert.equal((html.match(/flagsList_\([^)]*, env\)/g) || []).length, 2, "both call sites pass the envelope");
+  const lib = readFileSync(new URL("../lib/inbox-card.mjs", import.meta.url), "utf8");
+  assert.match(lib, /export function feedFlags_\(entries, why, env, accounts, ceilingCents\)/);
+  assert.match(lib, /if \(env && env\.source === 'feed'\) return feedFlags_\(entries, why, env, state\.accounts, state\.ceiling\);/);
+  assert.equal((html.match(/flagsList_\(.*?, env, cardState_\(\)\)/g) || []).length, 2, "both call sites pass the envelope and the dialog's state");
 });
 
-test("the Inbox has two tabs: a bank-line card is on Bank statement, everything else on Receipts", () => {
+test("the Inbox has two tabs: a bank-line card is on Bank statement, everything else on Receipts", async () => {
   // Paul, 2026-09-29: the bank statement's questions apart from the unresolved receipts.
   const html = readFileSync(new URL("../apps-script/writer/Inbox.html", import.meta.url), "utf8");
-  const tabOf = new Function(html.match(/function tabOf_\(env\) \{[^}]*\}/)[0] + " return tabOf_;")();
+  const { tabOf_: tabOf } = await import("../lib/inbox-card.mjs");
   assert.equal(tabOf({ source: "feed" }), "bank");
   assert.equal(tabOf({ source: "gmail" }), "receipts");
   assert.equal(tabOf({}), "receipts");
@@ -829,141 +780,24 @@ test("D-057, D-058 inboxApprove: refused before anything is marked, the old entr
   assert.match(fn, /if \(swap && !swap\.voided\) \{ voidEntry_/, "an entry already taken out is not voided twice");
 });
 
-test("D-057 the Inbox card: Waiting on receipt makes the one placeholder line; the swap box sends the placeholder with Save", async () => {
+test("D-057 the Inbox card: the placeholder's words match lib/gate.mjs and the 3 AM email; Save sends the placeholder; the top line names the card (the logic: test/inbox-card.test.mjs)", async () => {
   const { NEED_RECEIPT } = await import("../lib/gate.mjs");
   const inbox = readFileSync(path.join(__dirname, "..", "apps-script", "writer", "Inbox.html"), "utf8");
+  const lib = readFileSync(path.join(__dirname, "..", "lib", "inbox-card.mjs"), "utf8");
   const poller = readFileSync(path.join(__dirname, "..", "apps-script", "poller", "Code.gs"), "utf8");
   assert.ok(inbox.includes(`var NEED_RECEIPT = '${NEED_RECEIPT}';`), "the card's words for a placeholder drifted from lib/gate.mjs");
   const bullet = "if (head === 'PLACEHOLDER_WAITING') return 'This looks like a receipt you were waiting on - check the yellow box below, then Save';";
-  assert.ok(inbox.includes(bullet) && poller.includes(bullet), "the card and the 3 AM email say it the same way");
-
-  const grab = (head) => { const a = inbox.indexOf(head); let i = inbox.indexOf("{", a), d = 0; do { if (inbox[i] === "{") d++; else if (inbox[i] === "}") d--; i++; } while (d); return inbox.slice(a, i); };
-  const card = new Function(["var SWAP = {}, EDIT = {};", `var NEED_RECEIPT = '${NEED_RECEIPT}';`, ...["isWaiting_", "bankLines_", "placeholderEntries_", "moneyOut_", "swapCandidate_", "swapOf_"].map((n) => grab(`function ${n}(`)),
-    "return { isWaiting_, bankLines_, placeholderEntries_, moneyOut_, swapCandidate_, swapOf_, SWAP };"].join("\n"))();
-  // cards as code makes them (lib/feed-match.mjs), so the card's own text is the real thing
-  const { applyVerdicts } = await import("../lib/feed-match.mjs");
-  const { ACCOUNTS } = await import("../lib/coa.mjs");
-  const bankLine = (feed_id, amount_cents, name) => ({ feed_id, date: "2026-09-28", amount_cents, name, memo: name });
-  const made = applyVerdicts({
-    // a card of several lines still happens - a match the books could not back up is asked about as one (D-060 splits only what the read ASKED together)
-    verdicts: [{ kind: "match", feed_ids: ["F1", "F2", "F3"], txn_ids: [], entry: null, note: "three runs" }, { kind: "question", feed_ids: ["F4"], txn_ids: [], entry: null, note: "What was it?" },
-      { kind: "question", feed_ids: ["F5", "F6"], txn_ids: [], entry: null, note: "A purchase and its refund?" }, { kind: "question", feed_ids: ["F7"], txn_ids: [], entry: null, note: "Big one" }],
-    lines: [bankLine("F1", -16291, "Home Depot Waxahachie"), bankLine("F2", -3307, "Home Depot Waxahachie"), bankLine("F3", -14109, "Home Depot Waxahachie"), bankLine("F4", -265, "Target Waxahachie"),
-      bankLine("F5", -5409, "Home Depot Waxahachie"), bankLine("F6", 5409, "Refund 1315 HWY 77 NORTH WAXA"), bankLine("F7", -119640, "408 S ROGERS STREET WAXAHACHI")],
-    candidates: [], account: "1401", accountName: "Recast Citizens - Shared",
-    ctx: makeCtx({ accounts: new Map(ACCOUNTS.map((a) => [a.code, a])), properties: new Set(["469 Brushwood"]), periods: new Map(), today: "2026-09-29" }), settings: {}, now: "2026-09-29T16:00:00Z",
-  }).envelopes;
-  const [three, env, mixed, big] = made;
-  assert.deepEqual(card.bankLines_(three), [{ date: "2026-09-28", amount_cents: -16291, name: "Home Depot Waxahachie" }, { date: "2026-09-28", amount_cents: -3307, name: "Home Depot Waxahachie" }, { date: "2026-09-28", amount_cents: -14109, name: "Home Depot Waxahachie" }]);
-  assert.deepEqual(card.bankLines_(big), [{ date: "2026-09-28", amount_cents: -119640, name: "408 S ROGERS STREET WAXAHACHI" }], "over a thousand dollars");
-
-  // THREE charges on one card are three placeholders, never one lump of $337.07 - each receipt finds its own by the amount
-  const entries = card.placeholderEntries_(three, "Dennis", "469 Brushwood");
-  assert.deepEqual(entries.map((e) => [e.date, e.payee, e.property, e.paid_from, e.items.length, e.items[0].amount_cents, e.items[0].description]), [
-    ["2026-09-28", "Home Depot Waxahachie", "469 Brushwood", "1401", 1, 16291, "NEED RECEIPT FROM DENNIS"],
-    ["2026-09-28", "Home Depot Waxahachie", "469 Brushwood", "1401", 1, 3307, "NEED RECEIPT FROM DENNIS"],
-    ["2026-09-28", "Home Depot Waxahachie", "469 Brushwood", "1401", 1, 14109, "NEED RECEIPT FROM DENNIS"],
-  ]);
-  const [entry] = card.placeholderEntries_(env, "Dennis", "469 Brushwood");
-  assert.deepEqual(entry, { date: "2026-09-28", payee: "Target Waxahachie", memo: "recorded from the bank statement - the receipt has not come in", property: "469 Brushwood", paid_from: "1401",
-    items: [{ account: "1030", amount_cents: 265, description: "NEED RECEIPT FROM DENNIS", trade: "Waiting on receipt", business_purpose: "", property: "469 Brushwood" }] });
-  // they post through the same engine as any purchase, each the whole amount on the house, each its own entry
-  const ctx29 = makeCtx({ properties: new Set(["469 Brushwood"]), periods: new Map([["2026-09", "open"]]), today: "2026-09-29" });
-  const built = entries.map((e) => buildEntry({ type: "purchase", ...e, source: "receipt", posted_by: "paul" }, ctx29));
-  assert.deepEqual(built.map((b) => b.lines.map((l) => [l.account, l.debit, l.credit])), [[["1030", 16291, 0], ["1401", 0, 16291]], [["1030", 3307, 0], ["1401", 0, 3307]], [["1030", 14109, 0], ["1401", 0, 14109]]]);
-  assert.equal(new Set(built.map((b) => b.txn_id)).size, 3, "three entries, three ids");
-  assert.equal(built[0].lines[0].description, "NEED RECEIPT FROM DENNIS");
-
-  assert.equal(card.isWaiting_(entries), true);
-  assert.equal(card.isWaiting_([{ items: [{ description: "screws" }] }]), false);
-  assert.equal(card.moneyOut_(three), true);
-  assert.equal(card.moneyOut_(mixed), false, "a purchase and its refund on one card: no button");
-  assert.equal(card.placeholderEntries_(mixed, "Dennis", "469 Brushwood"), null);
-  // a card whose text and lines disagree is never split by guesswork - and never lumped
-  assert.equal(card.bankLines_({ ...three, bodyText: three.bodyText.replace("-33.07", "-33.70") }), null, "the lines do not add up to the card");
-  assert.equal(card.bankLines_({ ...three, bodyText: "Bank lines" }), null);
-  assert.equal(card.placeholderEntries_({ ...three, bodyText: "" }, "Dennis", "469 Brushwood"), null);
-  assert.equal(card.moneyOut_({ feed: { amount_cents: 500000, feed_ids: ["F9"] }, bodyText: "Bank line on X (1401):\n2026-08-06  5000.00  XFER FROM ACCT", model: { receipt_total_cents: 500000 } }), false, "a deposit is never a purchase");
-  // a card made before 2026-09-29 has no signed amount on it: the lines must add up to the card's total
-  const older = { ...env, feed: { account: "1401", feed_ids: ["F4"] } };
-  assert.equal(card.moneyOut_(older), true);
-  assert.equal(card.placeholderEntries_(older, "Paul", "")[0].items[0].description, "NEED RECEIPT FROM PAUL");
+  assert.ok(lib.includes(bullet) && poller.includes(bullet), "the card and the 3 AM email say it the same way");
   assert.ok(inbox.includes("if (!made) return showMsg_(msg, false, 'The bank lines on this card could not be read one by one, so nothing was changed. Tell Claude.');"));
-
-  const p = { txn_id: "receipt-wait", paid_from: "1401" };
-  assert.equal(card.swapOf_({ docId: "gm-1", source: "email", gate: { placeholder: p } }), p);
-  assert.equal(card.swapOf_({ docId: "gm-1", source: "feed", gate: { placeholder: p } }), null, "a bank statement card replaces nothing");
-  card.SWAP["gm-1"] = false;
-  assert.equal(card.swapOf_({ docId: "gm-1", source: "email", gate: { placeholder: p } }), null, "Paul unticked it: a different purchase");
-  assert.equal(card.swapCandidate_({ docId: "gm-1", source: "email", gate: { placeholder: p } }), p, "the box stays on the card so he can tick it again");
-
-  // D-058: a held card whose read names an earlier copy - Save takes that one out
-  const old = { txn_id: "receipt-untipped", date: "2026-09-12", payee: "Uber", property: "", paid_from: "PAUL", total_cents: 2500 };
-  assert.deepEqual(card.swapOf_({ docId: "gm-2", source: "email", model: { supersedes: "receipt-untipped" }, gate: { replaces: old } }),
-    { txn_id: "receipt-untipped", earlier: true, payee: "Uber", date: "2026-09-12", total_cents: 2500, property: "" });
-  // a card read before the gate reported it: the id is all there is
-  assert.deepEqual(card.swapOf_({ docId: "gm-3", source: "email", model: { supersedes: "receipt-untipped" }, gate: { reasons: [] } }),
-    { txn_id: "receipt-untipped", earlier: true, payee: undefined, date: undefined, total_cents: undefined, property: undefined });
-  assert.equal(card.swapOf_({ docId: "gm-4", source: "email", model: { supersedes: null }, gate: {} }), null);
   assert.ok(inbox.includes("if (swap && !swap.earlier) toPost.forEach(function (e) { e.paid_from = swap.paid_from; });"), "only a placeholder's bank line settles who paid");
-  assert.ok(inbox.includes("var swapping = !!(env && swapOf_(env) && !swapOf_(env).earlier);"), "an earlier copy never hides 'Who paid?'");
-
-  // the yellow box, in Paul's words, for each kind of card
-  const style = readFileSync(path.join(__dirname, "..", "apps-script", "writer", "Style.html"), "utf8");
-  const grabIn = (src, head) => { const a = src.indexOf(head); let i = src.indexOf("{", a), d = 0; do { if (src[i] === "{") d++; else if (src[i] === "}") d--; i++; } while (d); return src.slice(a, i); };
-  const box = new Function(["var SWAP = {}, EDIT = {}, WAITING_ON = ['Dennis', 'Paul'];", `var NEED_RECEIPT = '${NEED_RECEIPT}';`, grabIn(style, "function escapeHtml_("),
-    ...["money_", "opt_", "isWaiting_", "bankLines_", "moneyOut_", "swapCandidate_", "waitHtml_"].map((n) => grabIn(inbox, `function ${n}(`)), "return { waitHtml_, SWAP };"].join("\n"))();
-  const text = (html) => html.replace(/<[^>]+>/g, " ").replace(/\s+/g, " ").trim();
-  assert.equal(text(box.waitHtml_({ ...env, feed: { ...env.feed, card: null } })), "No receipt yet? Waiting on Dennis Paul Waiting on receipt");
-  // D-059: the bank's daily email named the card - the box starts on its holder
-  assert.match(box.waitHtml_({ ...env, feed: { ...env.feed, card: { last4: "5450", holder: "Paul" } } }), /<option value="Paul" selected>Paul<\/option>/);
-  assert.doesNotMatch(box.waitHtml_({ ...env, feed: { ...env.feed, card: null } }), / selected>/, "no card known: nothing is picked for him, the list starts on Dennis");
+  assert.ok(lib.includes("var swapping = !!(env && swapOf_(env, state.swap) && !swapOf_(env, state.swap).earlier);"), "an earlier copy never hides 'Who paid?'");
   assert.ok(inbox.includes("escapeHtml_(env.feed.card.holder) + (env.feed.card.last4 ? '\\'s card (' + escapeHtml_(env.feed.card.last4) + ')' : ' paid')"), "the card's top line says whose card paid");
-  // Paul, 2026-09-29: who paid after every bank card's name in the list - the email's card, the Feed tab's, or Unknown
   assert.ok(inbox.includes("if (env.source === 'feed') title += ' - ' + ((env.feed && env.feed.card && env.feed.card.holder) || 'Unknown');"));
   assert.match(menuSource, /feedCardsOnto_\(ss, envelopes\)/);
-  assert.equal(box.waitHtml_(mixed), "", "a refund among the lines: no button");
-  assert.equal(text(box.waitHtml_({ docId: "gm-1", source: "email", gate: { placeholder: { txn_id: "receipt-wait", payee: "THE HOME DEPOT #6505 W", date: "2026-09-28", total_cents: 16291, property: "469 Brushwood", paid_from: "1401" } } })),
-    "This is the receipt I was waiting for: THE HOME DEPOT #6505 W, 09-28, $162.91, on 469 Brushwood. Save puts this receipt in its place - it is not counted twice. Untick if this is a different purchase.");
-  assert.equal(text(box.waitHtml_({ docId: "gm-2", source: "email", model: { supersedes: "receipt-untipped" }, gate: { replaces: old } })),
-    "This replaces one already in the books: Uber, 09-12, $25.00. Save takes the old one out - it is not counted twice. Untick if this is a separate purchase.");
-  assert.equal(text(box.waitHtml_({ docId: "gm-3", source: "email", model: { supersedes: "receipt-untipped" }, gate: {} })),
-    "This replaces one already in the books. Save takes the old one out - it is not counted twice. Untick if this is a separate purchase. receipt-untipped");
-  assert.equal(box.waitHtml_({ docId: "gm-4", source: "email", model: {}, gate: {} }), "", "an ordinary receipt has no box");
-  box.SWAP["gm-2"] = false;
-  assert.match(box.waitHtml_({ docId: "gm-2", source: "email", model: { supersedes: "receipt-untipped" }, gate: { replaces: old } }), /data-swap="1"> /, "unticked, the box is still there");
   assert.ok(inbox.includes("bodyText: waiting ? '' : env.bodyText || ''"), "a placeholder would get a Receipt link to the bank line's text");
 });
 
-test("a bank statement card speaks of the bank, not a receipt; a question is not called a purchase; a match that needs nothing says so", () => {
-  const inbox = readFileSync(path.join(__dirname, "..", "apps-script", "writer", "Inbox.html"), "utf8");
-  const style = readFileSync(path.join(__dirname, "..", "apps-script", "writer", "Style.html"), "utf8");
-  const grabIn = (src, head) => { const a = src.indexOf(head); let i = src.indexOf("{", a), d = 0; do { if (src[i] === "{") d++; else if (src[i] === "}") d--; i++; } while (d); return src.slice(a, i); };
-  const card = new Function(["var EDIT = {}, DATA = { pickers: { accounts: [] } };", "var NEED_RECEIPT = 'NEED RECEIPT FROM';", grabIn(style, "function escapeHtml_("),
-    inbox.match(/var ACCT_GROUPS = .*;/)[0], grabIn(inbox, "var DECISIONS = ") + ";", inbox.match(/var PARTNER_RE = .*;/)[0], inbox.match(/var PARTNER_TEXT = .*;/)[0],
-    ...["money_", "acctGroup_", "acctName_", "itemProperty_", "mismatchFlags_", "decisionOf_", "approvedOnly_", "sortByDecision_", "plainWhy_", "isWaiting_", "partnerMoney_", "feedFlags_", "totalsLine_"].map((n) => grabIn(inbox, `function ${n}(`)),
-    "return { feedFlags_, totalsLine_, partnerMoney_, EDIT };"].join("\n"))();
-  const text = (html) => html.replace(/<[^>]+>/g, " ").replace(/\s+/g, " ").trim();
-  // the blank line every empty card carries is not a proposal (2026-09-29: a question card read "Claude thinks this bank line is a purchase")
-  const blank = [{ property: "", items: [{ account: "", amount_cents: 0, description: "", trade: "" }] }];
-  assert.match(text(card.feedFlags_(blank, "What was it?")), /^What was it\? A purchase\? Fill in the line below and Save\./);
-  const proposed = [{ property: "366 Mesa", items: [{ account: "1030", amount_cents: 9067, description: "Home Depot supplies", trade: "Supplies" }] }];
-  assert.match(text(card.feedFlags_(proposed, "Home Depot supplies.")), /Claude thinks this bank line is a purchase/);
-  // audit 2026-10-24 #5: partner money gets no line and says so; a line the matcher read as a purchase keeps its line
-  const wire = { source: "feed", bodyText: "Bank lines on Citizens (1401):\n2026-10-09  -147729.38  Wire transfer to RECAST PROPERTIES LLC", model: { vendor: "Wire transfer to RECAST PROPE", entries: [] }, feed: { amount_cents: -14772938 } };
-  assert.equal(card.partnerMoney_(wire), true);
-  assert.match(text(card.feedFlags_([], "A wire of $147,729.38 went out.", wire)), /not a purchase, so there is nothing to fill in\. Click Dismiss all/);
-  assert.equal(card.partnerMoney_({ ...wire, model: { vendor: "Home Depot", entries: proposed } }), false);
-  assert.equal(card.partnerMoney_({ source: "feed", bodyText: "2026-10-13  -37.84  Home Depot Waxahachie", model: { entries: [] }, feed: { amount_cents: -3784 } }), false);
-
-  const env = { docId: "feed-1", source: "feed", model: { receipt_total_cents: 9067, entries: [] }, gate: {} };
-  card.EDIT["feed-1"] = blank;
-  assert.equal(text(card.totalsLine_(env)), "The bank shows $90.67: nothing is filled in yet");
-  card.EDIT["feed-1"] = proposed;
-  assert.equal(text(card.totalsLine_(env)), "The bank shows $90.67: $90.67 to record now");
-  card.EDIT["gm-1"] = proposed;
-  assert.equal(text(card.totalsLine_({ docId: "gm-1", source: "email", model: { receipt_total_cents: 9067, entries: proposed }, gate: {} })), "Receipt $90.67: $90.67 to record now");
-
+test("the matching summary box: the counts in plain words and the tidy-up lines (the bank card's words: test/inbox-card.test.mjs)", () => {
   const summary = new Function(menuSource.slice(menuSource.indexOf("function feedMatchSummary_("), menuSource.indexOf("\n}\n", menuSource.indexOf("function feedMatchSummary_(")) + 3) + " return feedMatchSummary_;")();
   assert.equal(summary({ total: 3, matched: 1, cards: 0, later: 2, none: 0 }).split("\n")[2], "None need your word.");
   assert.equal(summary({ total: 8, matched: 1, cards: 5, later: 2, none: 0 }).split("\n")[2], "5 need your word - they are in the Inbox (Recast Books -> Inbox..., the Bank statement tab).");
@@ -972,7 +806,6 @@ test("a bank statement card speaks of the bank, not a receipt; a question is not
   assert.equal(tidy[4], "7 cards cleared from the Inbox - the receipt was already in the books.");
   assert.equal(tidy[5], "1 line looked at again - its card was gone.");
 });
-
 // 2026-10-06, Paul: "i will never know the sale price or settlement date the day i buy the property" - Add property
 // asks the interest rate instead (default 8, D-085); the rate reaches the Properties tab, the Add advance default,
 // the Advances loader every interest reader uses, and the house tab's rate cell.
@@ -1031,21 +864,20 @@ test("audit 2026-10-24 #1: a receipt saved from the Inbox ties the open bank lin
   assert.ok(voidFn.indexOf("voidEntry_(") < voidFn.indexOf("feedRetieRows_("), "after the void, not before");
 });
 
-test("audit 2026-10-24 #5: a partner-money bank card gets no line to fill in and no Save; #2c the dialog shows what happened to the bank line", () => {
+test("audit 2026-10-24 #5: a partner-money bank card gets no line to fill in and no Save; #2c the dialog shows what happened to the bank line", async () => {
   const html = readFileSync(new URL("../apps-script/writer/Inbox.html", import.meta.url), "utf8");
-  const partnerRe = html.match(/var PARTNER_RE = (\/.*\/i);/);
-  assert.ok(partnerRe, "PARTNER_RE is declared");
-  const re = new Function(`return ${partnerRe[1]}`)();
+  const lib = readFileSync(new URL("../lib/inbox-card.mjs", import.meta.url), "utf8");
+  const { PARTNER_RE: re } = await import("../lib/inbox-card.mjs");
   for (const t of ["Bank lines on Citizens (1401):\n2026-10-09  -147729.38  Wire transfer to RECAST PROPE", "2026-10-14  -30000.00  Online Transfer to CHK ...8870", "2026-09-28  2000.00  DEPOSIT ID NUMBER 157399", "FEDWIRE CREDIT VIA: THE BANKER"]) {
     assert.ok(re.test(t), `partner money: ${t}`);
   }
   for (const t of ["2026-10-13  -37.84  Home Depot Waxahachie", "Zelle payment to Mariana Martinez", "AMAZON.COM SEATTLE WA", "ROCKETT SPECIAL UTILIT"]) {
     assert.ok(!re.test(t), `a purchase or a worker, not partner money: ${t}`);
   }
-  assert.match(html, /if \(!entries\.length && !partnerMoney_\(env\)\) \{/, "no typed line on a partner-money card");
-  assert.match(html, /\(partnerMoney_\(env\) \? '' : '<button class="primary" data-save="1">Save<\/button>'\)/, "no Save on it");
+  assert.match(html, /if \(!entries\.length && !partnerMoney_\(env, ceiling_\(\)\)\) \{/, "no typed line on a partner-money card");
+  assert.match(html, /\(partnerMoney_\(env, ceiling_\(\)\) \? '' : '<button class="primary" data-save="1">Save<\/button>'\)/, "no Save on it");
   assert.match(html, /if \(saveBtn\) saveBtn\.onclick = function/, "the dialog survives a card with no Save");
-  assert.match(html, /if \(\(m\.entries \|\| \[\]\)\.length\) return false;/, "a bank line the matcher read as a purchase keeps its line");
+  assert.match(lib, /if \(\(m\.entries \|\| \[\]\)\.length\) return false;/, "a bank line the matcher read as a purchase keeps its line");
   assert.match(html, /autofileCeilingCents/, "a line over the ceiling counts as partner money");
   assert.match(gsFn(menuSource, "pickerData_"), /autofileCeilingCents: ceilingCents/);
   assert.match(html, /function feedNote_\(f\)/);
@@ -1117,6 +949,6 @@ test("audit 2026-10-24 #12: every dialog's refusal goes through plainError_ (Sty
   assert.equal((menuSource.match(/plainWords\(/g) || []).length, 2, "the void and the period alerts");
   assert.ok(!/\(\(err && err\.code\) \|\| 'ERROR'\) \+ ' - '/.test(menuSource), "no alert glues a code to its message any more");
   const inbox = readFileSync(path.join(dir, "Inbox.html"), "utf8");
-  assert.ok(inbox.includes("(PLAIN_WORDS[rest] || rest)"), "ENTRY_INVALID:<code> on a card uses the same words");
+  assert.ok(readFileSync(path.join(__dirname, "..", "lib", "inbox-card.mjs"), "utf8").includes("(PLAIN_WORDS[rest] || rest)"), "ENTRY_INVALID:<code> on a card uses the same words");
   assert.ok(!inbox.includes("r.error === 'BAD_ACCOUNT'"), "the one-off BAD_ACCOUNT sentence lives in the map now");
 });

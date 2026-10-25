@@ -113,9 +113,10 @@ test("the digest's pending line is a snapshot in the Inbox card's words, never t
     return s.slice(a, b === -1 ? s.length : b);
   };
   const mapOf = (s) => s.slice(s.indexOf("var GATE_TEXT = {"), s.indexOf("};", s.indexOf("var GATE_TEXT = {")) + 2);
-  const inbox = readFileSync(path.join(__dirname, "..", "apps-script", "writer", "Inbox.html"), "utf8");
+  const lib = readFileSync(path.join(__dirname, "..", "lib", "inbox-card.mjs"), "utf8");   // the card's words (audit #19)
+  const litOf = (s, head) => s.slice(s.indexOf("{", s.indexOf(head)), s.indexOf("};", s.indexOf(head)) + 1);
   const bare = (m) => m.replace(/\/\/.*$/gm, "").replace(/\s+/g, "");
-  assert.equal(bare(mapOf(source)), bare(mapOf(inbox)), "the digest's GATE_TEXT drifted from the Inbox card's");
+  assert.equal(bare(litOf(source, "var GATE_TEXT = {")), bare(litOf(lib, "GATE_TEXT = {")), "the digest's GATE_TEXT drifted from the Inbox card's");
 
   const reason = new Function([mapOf(source), fn(source, "gateText_"), fn(source, "digestReason_"), "return digestReason_;"].join("\n"))();
   const novel = "Harbor Freight e-receipt, tender 9166, search_docs found gm-19d0639545d977c3. ".repeat(20) +

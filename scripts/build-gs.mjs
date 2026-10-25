@@ -32,21 +32,30 @@ function randomBytes(n) {
 }
 `;
 
+/** One lib module as an IIFE plus its exports re-declared as globals (the shape both outputs share). */
+function moduleBlock(name, src) {
+  const exported = [];
+  const body = src
+    .replace(/^import[^\n]*\n/gm, "")
+    .replace(/^export (function|const|class|let) ([A-Za-z_$][\w$]*)/gm, (_, kw, id) => { exported.push(id); return `${kw} ${id}`; });
+  if (/^export\b/m.test(body)) throw new Error(`${name}.mjs: unsupported export form`);
+  const tag = `M_${name.replace(/-/g, "_")}`;
+  const indented = body.replace(/^(?=.)/gm, "  "); // module bodies indented: only real top-level names start a line
+  return `\n// ---- lib/${name}.mjs ----\nvar ${tag} = (function () {\n${indented}\n  return { ${exported.join(", ")} };\n})();\n` +
+    exported.map((id) => `var ${id} = ${tag}.${id};`).join("\n") + "\n";
+}
+
 export function buildGs(read = (name) => readFileSync(new URL(`../lib/${name}.mjs`, import.meta.url), "utf8")) {
   let out = PRELUDE;
-  for (const name of MODULES) {
-    const src = read(name);
-    const exported = [];
-    const body = src
-      .replace(/^import[^\n]*\n/gm, "")
-      .replace(/^export (function|const|class|let) ([A-Za-z_$][\w$]*)/gm, (_, kw, id) => { exported.push(id); return `${kw} ${id}`; });
-    if (/^export\b/m.test(body)) throw new Error(`${name}.mjs: unsupported export form`);
-    const tag = `M_${name.replace(/-/g, "_")}`;
-    const indented = body.replace(/^(?=.)/gm, "  "); // module bodies indented: only real top-level names start a line
-    out += `\n// ---- lib/${name}.mjs ----\nvar ${tag} = (function () {\n${indented}\n  return { ${exported.join(", ")} };\n})();\n`;
-    out += exported.map((id) => `var ${id} = ${tag}.${id};`).join("\n") + "\n";
-  }
+  for (const name of MODULES) out += moduleBlock(name, read(name));
   return out;
+}
+
+// The Inbox card's logic (lib/inbox-card.mjs) for the dialog itself: Inbox.html includes this file after Style.html
+// (audit 2026-10-24 #19). test/inbox-card.test.mjs asserts it is in sync.
+export function buildInboxCard(read = (name) => readFileSync(new URL(`../lib/${name}.mjs`, import.meta.url), "utf8")) {
+  return "<script>\n// GENERATED from lib/inbox-card.mjs by scripts/build-gs.mjs - do not edit by hand. Included by Inbox.html.\n" +
+    moduleBlock("inbox-card", read("inbox-card")) + "</script>\n";
 }
 
 if (process.argv[1] && import.meta.url.endsWith(process.argv[1].split("/").pop())) {
@@ -54,4 +63,7 @@ if (process.argv[1] && import.meta.url.endsWith(process.argv[1].split("/").pop()
   const out = buildGs();
   writeFileSync(target, out);
   console.log("wrote apps-script/writer/lib.gs", out.length, "chars");
+  const card = buildInboxCard();
+  writeFileSync(new URL("../apps-script/writer/InboxCard.html", import.meta.url), card);
+  console.log("wrote apps-script/writer/InboxCard.html", card.length, "chars");
 }
