@@ -5,7 +5,21 @@ history and are not written to; `CHANGELOG.md` keeps its dated entry per change.
 `docs/ops.md`. The books' numbers live on the workbook's tabs (P&L, Totals, Citizens Bank, the house tabs) - read them
 there; a figure written here is only as of its date.
 
-## 2026-10-25 - #15, #13 and #16 live; next #17 (START HERE)
+## 2026-10-25 - #15, #13, #16 live; #17 built, not yet shipped; next #12 (START HERE)
+
+**#17 built 10-25 (617 tests), committed - owed: Paul runs `npm run ship`.** A bank card answered in words (Dismiss all
+with a note, or a Save that recorded nothing) starts the matching for that account from the card itself and shows the
+run's summary there, with a Refresh link; the site's starter joins a run already going on the account (within ten
+minutes) instead of starting a second, and the card then runs once more so the later answer is read. **Watch after
+the ship:** Paul's next Dismiss all with a note on a Bank statement card - the card's box should read "Claude is
+reading your answer against the N open bank lines... 5 s" and end with the run's summary; the Feed row's note the
+run leaves should answer his words.
+
+**Next work, in Paul's order:** #12 plain words for every code that can reach him (one map for the posting engine's
+refusals too), then #11 one posting path, #18 inline logos + the pollers' cutover code, #19 the Inbox lint as unit
+tests - each with tests, CHANGELOG/HANDOFF, a commit and `npm run ship` handed to him as one command.
+
+## 2026-10-25 (midday) - #15, #13 and #16 live
 
 **#16 live since 10-25 13:22 CT - web app @48, site `6ade48f6`, read-back OK; 614 tests. Nothing owed on the ship.** Paul's word: "a bank fee under $50 can be
 recorded on its own, no card" (D-093). In the matching run, before the model: a line that is money out, under 50.00,
@@ -20,8 +34,7 @@ the 9.94 SERVFEE card stays; the summary box shows the fees line. **Flagged, not
 order of 08-11 (`receipt-20260811-6f1e7f8fc6d9-f728`) is on 6930 (interest) - move to 6910 only on Paul's word (a void
 and a re-post).
 
-**Next work, in Paul's order:** #17 a bank question answered in words re-runs the matcher by itself, then #12, #11,
-#18, #19 - each with tests, CHANGELOG/HANDOFF, a commit and `npm run ship` handed to him as one command.
+**Next work (midday; #17 done above):** #12, #11, #18, #19.
 
 ## 2026-10-25 (morning) - audit #15 and #13 live
 

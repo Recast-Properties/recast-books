@@ -14,6 +14,15 @@ import { requireConfig, json, pollerSecretOk, getDocsStore } from "./_shared.mjs
 export function jobKey(jobId) {
   return `feedmatch/${jobId}`;
 }
+/** The account's running job (audit 2026-10-24 #17): {job_id, startedAt}. */
+export function activeKey(account) {
+  return `feedmatch/active/${account}`;
+}
+// A run is started by a dismissed bank card now (Inbox.html rematch_), not only by the menu and the import, so two
+// answers in a row must not start two runs on one account - both would read the same lines and could tie one entry
+// twice. A start while the account's job is still matching joins it: {job_id, joined: true}; the dialog waits it
+// out and starts once more, so the later answer is read too. A mark older than this is stale (a run killed mid-way).
+const ACTIVE_MS = 10 * 60 * 1000;
 
 export default async (req) => {
   const configErr = requireConfig(["POLLER_SECRET"]);
@@ -39,10 +48,17 @@ export default async (req) => {
   const account = String(body?.account || "");
   if (!/^14\d\d$/.test(account)) return json(400, { error: "BAD_REQUEST", message: "account must be a 14xx bank account code" });
 
+  const active = await store.get(activeKey(account), { type: "json" }).catch(() => null);
+  if (active?.job_id && Date.now() - Date.parse(active.startedAt || 0) < ACTIVE_MS) {
+    const running = await store.get(jobKey(active.job_id), { type: "json" }).catch(() => null);
+    if (running?.status === "matching") return json(200, { job_id: active.job_id, status: "matching", joined: true });
+  }
+
   const jobId = randomUUID();
   const job = { job_id: jobId, status: "matching", account, by: String(body?.by || ""), startedAt: new Date().toISOString(), finishedAt: "" };
   try {
     await store.setJSON(jobKey(jobId), job);
+    await store.setJSON(activeKey(account), { job_id: jobId, startedAt: job.startedAt });
   } catch (err) {
     return json(502, { error: "STORE_ERROR", message: String((err && err.message) || err) });
   }

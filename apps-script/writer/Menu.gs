@@ -1872,9 +1872,10 @@ function unmatchedFeedCounts_(ss) {
   return counts;
 }
 
-/** google.script.run from Import.html, right after the import: start matching the account just
- *  imported. {ok, count, job_id}; count 0 = nothing waiting, no job started. The dialog polls
- *  feedMatchStatus itself, so no one server call waits out the run. */
+/** google.script.run from Import.html, right after the import, and from Inbox.html when a bank card is answered in
+ *  words (audit 2026-10-24 #17): start matching the account. {ok, count, job_id, joined}; count 0 = nothing waiting,
+ *  no job started; joined = a run on the account was already going and this is its id (the site's guard). The dialog
+ *  polls feedMatchStatus itself, so no one server call waits out the run. */
 function startFeedMatch(account) {
   var ss = openWorkbook_(PropertiesService.getScriptProperties());
   try {
@@ -1883,7 +1884,7 @@ function startFeedMatch(account) {
     if (!count) return { ok: true, count: 0 };
     var started = siteFetchJson_('/api/feed-match', 'post', { account: account, by: Session.getActiveUser().getEmail() });
     if (!started.job_id) return { ok: false, message: 'The site did not start the matching.' };
-    return { ok: true, count: count, job_id: started.job_id };
+    return { ok: true, count: count, job_id: started.job_id, joined: !!started.joined };
   } catch (err) {
     return { ok: false, message: matchFailure_((err && err.message) || err) };
   }

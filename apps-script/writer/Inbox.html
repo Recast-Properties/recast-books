@@ -370,6 +370,41 @@
     el.textContent = 'Mail last checked ' + when + (age > 3 * 3600000 ? ' - more than three hours ago, tell Claude' : '');
     el.style.color = age > 3 * 3600000 ? '#a50e0e' : '#999';
   }
+  // Audit 2026-10-24 #17: a bank card answered in words re-runs the matching by itself (Import statement already
+  // does), in this card's box - the line went back carrying Paul's words and the bookkeeper reads them now, not after
+  // a second trip to the menu. A run already going on the account is joined, then one more follows with this answer
+  // in (startFeedMatch's `joined`). The same loop as Import.html's match_.
+  var MATCH_POLLS = 60, MATCH_WAIT_MS = 5000;   // FEED_MATCH_POLLS / FEED_MATCH_WAIT_MS in Menu.gs: five minutes
+  function rematch_(account, msg) {
+    var m = document.createElement('div');
+    m.style.marginTop = '6px';
+    msg.appendChild(m);
+    var say = function (html) { m.innerHTML = html; };
+    var fail = function (err) { say('<span style="color:#a50e0e">The bookkeeper did not get to read your answer: ' + escapeHtml_(err && err.message ? err.message : err) + ' - run Recast Books -> Match statement lines when you are done here.</span>'); };
+    var again = 0;
+    (function start() {
+      say('Claude is reading your answer against the bank lines...');
+      callServer_('startFeedMatch', account).then(function (r) {
+        if (!r.ok) return fail(r);
+        if (!r.count) return say('Nothing left to match on this account.');
+        var i = 0;
+        (function poll() {
+          if (i > MATCH_POLLS) return say('Still running after five minutes - the notes land on the Feed tab when it finishes; click Refresh later.');
+          say((r.joined ? 'The bookkeeper was already going through this account - waiting for that run, then one more with your answer in... '
+            : 'Claude is reading your answer against the ' + r.count + ' open bank line' + (r.count === 1 ? '' : 's') + '... ') + Math.round(i++ * MATCH_WAIT_MS / 1000) + ' s');
+          setTimeout(function () {
+            callServer_('feedMatchStatus', r.job_id).then(function (s) {
+              if (!s.ok) return fail(s);
+              if (!s.done) return poll();
+              if (r.joined && again++ < 1) return start();   // that run began before your answer landed - one more, with it in
+              say('<b>Done.</b> ' + escapeHtml_(s.message).replace(/\n/g, '<br>') + '<br><a href="#" data-refresh="1">Refresh</a> to see what changed.');
+              m.querySelector('[data-refresh]').onclick = function (e) { e.preventDefault(); load_(); };
+            }, fail);
+          }, MATCH_WAIT_MS);
+        })();
+      }, fail);
+    })();
+  }
   function feedNote_(f) {
     if (!f) return '';
     if (f.ok === false) return '<div style="color:#a50e0e">Recorded, but the bank line for it was not tied: ' + escapeHtml_(f.message || f.error || 'unknown') + ' - tell Claude.</div>';
@@ -713,6 +748,7 @@
         callServer_('inboxDismiss', { docId: env.docId, note: sorted.note, feed: env.feed || null }).then(function (r) {
           if (!r.ok) return fail(r);
           done('Saved - nothing was added to the books (' + escapeHtml_(rest) + ').' + feedNote_(r.feed));
+          if (env.source === 'feed' && env.feed && env.feed.account) rematch_(env.feed.account, msg);   // #17
         }, broke);
         return;
       }
@@ -747,6 +783,7 @@
       callServer_('inboxDismiss', { docId: env.docId, note: reason, feed: env.feed || null }).then(function (r) {
         if (!r.ok) return fail(r);
         done('Dismissed all - ' + escapeHtml_(reason) + feedNote_(r.feed));
+        if (env.source === 'feed' && env.feed && env.feed.account) rematch_(env.feed.account, msg);   // #17
       }, function (err) { fail({ error: 'SCRIPT', message: err && err.message ? err.message : err }); });
     };
 

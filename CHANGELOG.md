@@ -1,5 +1,19 @@
 # Changelog
 
+## 2026-10-25 - Audit #17: a bank question answered in words re-runs the matching by itself
+
+Until now a bank card dismissed with a note (Paul's words land on the Feed row as "Paul: ...") waited for a second trip
+to Recast Books -> Match statement lines before the bookkeeper read them. Built:
+- `Inbox.html` `rematch_`: after Dismiss all on a bank card, and after a Save on one that recorded nothing, the card's
+  box starts the matching for that account (`startFeedMatch`) and polls it (`feedMatchStatus`) - Import.html's loop,
+  copied - then shows the run's summary and a Refresh link (never a reload under Paul's hands; EDIT would be lost).
+- `books-feed-match.mjs`: a guard, now that answers start runs - `feedmatch/active/<account>` remembers the running
+  job; a start while it is still matching (within ten minutes) answers `{job_id, joined: true}` instead of a second
+  run on the same lines (two runs could tie one entry twice). `startFeedMatch` passes `joined` through; the card
+  waits that run out and starts once more, so an answer that landed after the first run's read is read too.
+- Tests: `books-feed-match.test.mjs` (new: start, join, another account, a finished and a stale mark, GET, refusals)
+  and a lint on the two call sites, the loop and the pass-through. 617 tests. Shipping: Paul's `npm run ship`.
+
 ## 2026-10-25 - Audit #16: the bank's own fees under 50.00 are settled by code in the matching run, no card (D-093)
 
 Paul, asked the ceiling (section 6 q3): "Yes - a bank fee under $50 can be recorded on its own, no card." Built:

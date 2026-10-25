@@ -1092,3 +1092,14 @@ test("audit 2026-10-24 #15: the hourly P&L run is timed per stage, leaves a mark
   assert.match(hb, /mailPaulOnce_\('HEARTBEAT_MAILED_AT'/, "the mail heartbeat uses the same once-a-day mail");
   assert.doesNotMatch(hb, /MailApp\.sendEmail/, "and no longer mails on its own");
 });
+
+test("audit 2026-10-24 #17: a bank card answered in words re-runs the matching from the Inbox itself - both dismiss paths, the Import dialog's loop, a running job joined then run once more", () => {
+  const html = readFileSync(new URL("../apps-script/writer/Inbox.html", import.meta.url), "utf8");
+  assert.equal((html.match(/if \(env\.source === 'feed' && env\.feed && env\.feed\.account\) rematch_\(env\.feed\.account, msg\);/g) || []).length, 2, "after Dismiss all and after a Save that recorded nothing");
+  const fn = html.slice(html.indexOf("function rematch_(account, msg)"), html.indexOf("function feedNote_(f)"));
+  assert.match(fn, /callServer_\('startFeedMatch', account\)/);
+  assert.match(fn, /callServer_\('feedMatchStatus', r\.job_id\)/);
+  assert.match(fn, /if \(r\.joined && again\+\+ < 1\) return start\(\);/, "a run that began before the answer landed is followed by one more");
+  assert.match(fn, /data-refresh="1"/, "the Inbox is refreshed on a click, never under Paul's hands");
+  assert.match(gsFn(menuSource, "startFeedMatch"), /joined: !!started\.joined/);
+});
