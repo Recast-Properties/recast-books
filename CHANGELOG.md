@@ -18,9 +18,7 @@ item was needed. Built, no new menu item (D-095):
   `property: "OVERHEAD"`, count and per-piece price in the memo; never split across houses, never held for a house name.
 - Tests: the chart has 1530; the engine builds the box and the lock, refuses the shelf to OVERHEAD or to no house; the
   lint on the seed and both Paid from lists. 624 tests. D-095; `docs/chart-of-accounts.md`; CLAUDE.md rule 14.
-- **Writer pushed by Penny (Code.gs, lib.gs, Expense.html, Inbox.html, the one-off out). Needs `npm run ship` (Paul)** - the
-  sheet's Inbox and New expense have it now (a push reaches the dialogs); the deployed web app and the site's bookkeeper
-  get it with the ship. **Then Paul saves the Amazon card: kind of cost 1530 Supplies on hand, house OVERHEAD, 361.35.**
+- **Shipped by Paul 17:22 CT: web app @57, site `6ade8133`, read-back OK (stamp `8a612c8`).** **Then Paul saves the Amazon card: kind of cost 1530 Supplies on hand, house OVERHEAD, 361.35.**
   Each lock used from then on: New expense, the house, "door lock", 40.15, Paid from 1530 Supplies on hand.
 
 ## 2026-10-25 - Add receipt's first use went in twice; fixed on the books, and the race closed
