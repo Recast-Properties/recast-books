@@ -5,9 +5,23 @@ history and are not written to; `CHANGELOG.md` keeps its dated entry per change.
 `docs/ops.md`. The books' numbers live on the workbook's tabs (P&L, Totals, Citizens Bank, the house tabs) - read them
 there; a figure written here is only as of its date.
 
-## 2026-10-25 (evening) - the Klarna notice: a payment that has not happened yet (START HERE)
+## 2026-10-26 - the nightly check's list is Claude's, not Paul's (START HERE)
 
-**Review done (CHANGELOG, same date): one expense came from a notice - PACER's 39.30 of 10-14 (`receipt-20261014-9273a9d35c1a-a818`), charged to Paul's card only in early November. **Taken out on his word 17:48 PT** (voided on its own date, the email marked not a payment yet; CHANGELOG). **Owed, early November: PACER charges Paul's card up to 7 days before 11-10 (no statement comes in) - ask him the day it hits, then record 39.30 on 6300 OVERHEAD paid by PAUL dated that day, from the same email (gm-1a1420f20a4773c1).**
+**Paul: "i thought we took care of all the lingering issues in the inbox yesterday."** The 10-26 digest had mailed him
+four of Claude's own jobs as "Paste to Claude" chores. All four are settled and read back (CHANGELOG, same date): the
+Amazon 263.74 record points at the two live entries; Lupe's 300 has its screenshot linked; the USPS 40 overhead double
+is voided on its own date; the 10-11 Poinsetta photo re-read, found to be the 37.84 Home Depot already in the books,
+its card dismissed. **Nothing in the Inbox from the check.**
+**The fix for the pattern is in the repo, not live:** the check keeps a "For Claude:" list in `reconcile/latest`
+(`claude`); Paul's mail carries only his clicks plus one line "Claude has N things of its own to settle". Penny reads
+that list at the start of every books session (CLAUDE.md constraint 19, `docs/ops.md`). **Owed, in order: (1) Paul runs
+`npx clasp login` (expired, invalid_rapt - the writer and poller pushes bounced; the two one-offs were pasted into the
+editor instead and the live `oneOffScripts.gs` still holds them until a push); (2) Penny pushes both pollers and the
+writer and verifies by pull; (3) Paul's `npm run ship`.** Watch: the 10-27 3 AM digest - Paul's part should be his
+clicks or "nothing for you to do", one line for Claude's count; `reconcile/latest` carries `claude`.
+
+## 2026-10-25 (evening) - the Klarna notice: a payment that has not happened yet
+**Review done 10-25 (CHANGELOG): one expense came from a notice - PACER's 39.30 of 10-14 (`receipt-20261014-9273a9d35c1a-a818`), charged to Paul's card only in early November. **Taken out on his word 17:48 PT** (voided on its own date, the email marked not a payment yet; CHANGELOG). **Owed, early November: PACER charges Paul's card up to 7 days before 11-10 (no statement comes in) - ask him the day it hits, then record 39.30 on 6300 OVERHEAD paid by PAUL dated that day, from the same email (gm-1a1420f20a4773c1).**
 
 **Paul: Klarna's "Upcoming lease payment" email is a warning of an automatic payment, not a payment, and should never
 have been a card.** The bookkeeper read it right and still said post dated 10-28; the date check held it. Fixed at the

@@ -53,6 +53,7 @@
  * dismissKlarnaNotice20261025 (2026-10-25, the Klarna "Upcoming lease payment" notice taken out of the Inbox as not a payment; run 16:22 PT) is in commit 63d63c9.
  * voidPacerNotice20261025 (2026-10-25, PACER's 10-14 notice taken out until the card is charged - the entry voided on its own date, the email marked; run 17:48 PT) is in commit 697b606.
  * settleCheck20261026 (2026-10-26, the nightly check's four items: the Amazon 263.74 record noted, Lupe's 300 relinked to its screenshot, the USPS 40 overhead double voided, the 10-11 Poinsetta photo re-read; run 14:45 PT, pasted into the editor - clasp login was expired, so the live file keeps it until the next push) is in commit ed25343.
+ * dismissPoinsettaPhoto20261026 (2026-10-26, the re-read 10-11 photo = the 37.84 Home Depot already in the books; its card dismissed; run 14:49 PT, pasted into the editor) is in commit 7608f28.
  ****************************************************************/
 
 // 2026-10-05 Paul: "yes match all the receipts and link them" (1014 S View). Each receipt found for the house - in
@@ -164,16 +165,4 @@ function linkMolallaReceipts() {
   warmCache_();
   console.log('linkMolallaReceipts: ' + pairs.length + ' receipts written on ' + journal + ' Journal lines; on the tab ' + linked +
     ' lines now open their receipt and ' + blank + ' have none (' + cells.length + ' lines on the tab).');
-}
-
-// 2026-10-26 the 10-11 Poinsetta photo (gm-1a12d6f7780f7d94), re-read by settleCheck20261026: it is the 37.84 Home
-// Depot carpet-cleaner receipt already in the books since 10-25 (receipt-20261011 from Paul's Add receipt, 241
-// Poinsetta); the read said so, and a reprocess never dismisses, so it sat as a card. Dismisses that card with the
-// reason - the same call as the Inbox's Dismiss all. Safe to run twice.
-// STATUS: NOT YET RUN
-function dismissPoinsettaPhoto20261026() {
-  var r = inboxDismiss({ docId: 'gm-1a12d6f7780f7d94', feed: null,
-    note: 'already in the books - the 37.84 Home Depot carpet cleaner of 10-11 was recorded from the PDF Paul added on 10-25 (Penny, 2026-10-26)' });
-  Logger.log(JSON.stringify(r));
-  if (!r.ok) throw new Error('dismiss failed: ' + r.error + ' - ' + r.message);
 }

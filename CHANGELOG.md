@@ -1,5 +1,37 @@
 # Changelog
 
+## 2026-10-26 - The nightly check's items for Claude stay with Claude; the 10-26 check's four items settled
+
+Paul, on the 10-26 digest: "i thought we took care of all the lingering issues in the inbox yesterday." The check
+had mailed him four "Send ... to Claude / Paste to Claude" chores - Claude's own jobs, routed through him.
+- **The check** (`books-reconcile-background.mjs`): the prompt now puts every item that is Claude's job under one
+  final line "For Claude:" and never as a bullet for Paul; `splitForClaude` stores that part as `claude` on
+  `reconcile/<date>` and `reconcile/latest`, and Paul's `text` carries only his clicks ("Books check: nothing for you
+  to do." when he has none). `/api/summary` passes `claude` through; the digest (`poller/Code.gs`) prints one line -
+  "Claude has N things of its own to settle - nothing for you to do" - never the list. Rule in CLAUDE.md (constraint
+  19) and `docs/ops.md`: Penny reads `reconcile/latest`'s `claude` at the start of every books session and settles
+  it. Tests updated (627). **Not yet live: needs Paul's `npx clasp login` (expired - invalid_rapt) for the poller
+  push, then `npm run ship`.**
+- **The four items, settled by `settleCheck20261026` (commit ed25343; pasted into the editor and run 14:45 PT, every
+  step `ok`; read back from the workbook and the store):**
+  - Amazon 10-12 263.74 (`gm-1a12fff9d09da35c`): not on no book. The entry its dismissal named
+    (`receipt-20261012-951d0beb4954`) never landed on the Journal, but the two orders in that email are the 197.88
+    lights and fans (`receipt-20261012-6ca646e73108`) and the 65.86 towel bars (`receipt-20261012-cec8226b435c-04d3`)
+    Paul put the PDFs on 10-25. The record now says so ("its row is in the Journal: ..."), which the check reads.
+  - Lupe Carpet Guy 300.00 (`gm-1a1319f1b94de2cf`, `receipt-20261012-72a42d193c8e-b95a`): Paul's Save of 10-23 posted
+    it but step two (file the screenshot, write the link) never finished. `inboxFinish` re-run: the screenshot is in
+    Drive (`1GJqoK09ASZFQ9cigUyzUf_G0IzxqZZrD`), the entry and the record carry the link.
+  - USPS 40.00 of 01-02 twice: one mailbox key, once as overhead from Paul's phone picture (10-01 register,
+    `manual-20260102-861fb6853d0e`) and once on 1014 S View from his sheet (10-04 import,
+    `migration-20260102-68238cd9d13b`). His sheet's row wins (D-027) and sits on the frozen tab; the overhead copy is
+    voided on its own date (`void-manual-20260102-861fb6853d0e`, rows 4018-4019). Settled quietly (D-067).
+  - The 10-11 Poinsetta photo (`gm-1a12d6f7780f7d94`, failed on the 3000 px cap, fixed in the bookkeeper since):
+    re-read by Reprocess - it is the 37.84 Home Depot carpet cleaner already in the books from Paul's 10-25 Add
+    receipt. The read said "dismiss"; a reprocess never dismisses, so `dismissPoinsettaPhoto20261026` (this commit's
+    parent) dismissed the card with the reason. Nothing for Paul.
+- **The live `oneOffScripts.gs` still holds both functions** (pasted in, clasp login expired): they come out of the
+  project on the next `clasp push` (the repo file is clean; a second run is harmless).
+
 ## 2026-10-25 - Review: expenses recorded from email notices since the cutover
 
 Paul, after the Klarna notice: "review the books for any erroneous expenses that resulted from email notices." Read
