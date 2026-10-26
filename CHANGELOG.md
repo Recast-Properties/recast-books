@@ -10,8 +10,8 @@ had mailed him four "Send ... to Claude / Paste to Claude" chores - Claude's own
   to do." when he has none). `/api/summary` passes `claude` through; the digest (`poller/Code.gs`) prints one line -
   "Claude has N things of its own to settle - nothing for you to do" - never the list. Rule in CLAUDE.md (constraint
   19) and `docs/ops.md`: Penny reads `reconcile/latest`'s `claude` at the start of every books session and settles
-  it. Tests updated (627). **Not yet live: needs Paul's `npx clasp login` (expired - invalid_rapt) for the poller
-  push, then `npm run ship`.**
+  it. Tests updated (627). **Writer and both pollers pushed after Paul's `npx clasp login`, verified by pull;
+  the Netlify half waits on `npm run ship`.**
 - **The four items, settled by `settleCheck20261026` (commit ed25343; pasted into the editor and run 14:45 PT, every
   step `ok`; read back from the workbook and the store):**
   - Amazon 10-12 263.74 (`gm-1a12fff9d09da35c`): not on no book. The entry its dismissal named
@@ -29,8 +29,8 @@ had mailed him four "Send ... to Claude / Paste to Claude" chores - Claude's own
     re-read by Reprocess - it is the 37.84 Home Depot carpet cleaner already in the books from Paul's 10-25 Add
     receipt. The read said "dismiss"; a reprocess never dismisses, so `dismissPoinsettaPhoto20261026` (this commit's
     parent) dismissed the card with the reason. Nothing for Paul.
-- **The live `oneOffScripts.gs` still holds both functions** (pasted in, clasp login expired): they come out of the
-  project on the next `clasp push` (the repo file is clean; a second run is harmless).
+- The two one-offs were pasted into the editor while clasp login was expired; the push after Paul's login took them
+  out of the live file (checked by pull).
 
 ## 2026-10-25 - Review: expenses recorded from email notices since the cutover
 

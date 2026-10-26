@@ -14,10 +14,11 @@ is voided on its own date; the 10-11 Poinsetta photo re-read, found to be the 37
 its card dismissed. **Nothing in the Inbox from the check.**
 **The fix for the pattern is in the repo, not live:** the check keeps a "For Claude:" list in `reconcile/latest`
 (`claude`); Paul's mail carries only his clicks plus one line "Claude has N things of its own to settle". Penny reads
-that list at the start of every books session (CLAUDE.md constraint 19, `docs/ops.md`). **Owed, in order: (1) Paul runs
-`npx clasp login` (expired, invalid_rapt - the writer and poller pushes bounced; the two one-offs were pasted into the
-editor instead and the live `oneOffScripts.gs` still holds them until a push); (2) Penny pushes both pollers and the
-writer and verifies by pull; (3) Paul's `npm run ship`.** Watch: the 10-27 3 AM digest - Paul's part should be his
+that list at the start of every books session (CLAUDE.md constraint 19, `docs/ops.md`). **Paul ran `npx clasp login`; Penny pushed the writer and
+both pollers and verified each by pull - the live `oneOffScripts.gs` is clean (the two run one-offs are out) and both
+pollers carry the digest's one line for Claude. Owed: Paul's `npm run ship` (the check's split and `/api/summary`
+passing `claude` are Netlify code - until then the digest's new line never fires and the check still writes "For
+Claude:" items into Paul's text).** Watch: the 10-27 3 AM digest - Paul's part should be his
 clicks or "nothing for you to do", one line for Claude's count; `reconcile/latest` carries `claude`.
 
 ## 2026-10-25 (evening) - the Klarna notice: a payment that has not happened yet
