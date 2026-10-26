@@ -16,9 +16,8 @@ its card dismissed. **Nothing in the Inbox from the check.**
 (`claude`); Paul's mail carries only his clicks plus one line "Claude has N things of its own to settle". Penny reads
 that list at the start of every books session (CLAUDE.md constraint 19, `docs/ops.md`). **Paul ran `npx clasp login`; Penny pushed the writer and
 both pollers and verified each by pull - the live `oneOffScripts.gs` is clean (the two run one-offs are out) and both
-pollers carry the digest's one line for Claude. Owed: Paul's `npm run ship` (the check's split and `/api/summary`
-passing `claude` are Netlify code - until then the digest's new line never fires and the check still writes "For
-Claude:" items into Paul's text).** Watch: the 10-27 3 AM digest - Paul's part should be his
+pollers carry the digest's one line for Claude. **Live since 18:27 CT - web app @61, site `6adfe1d4`, read-back OK (stamp
+`167b70f`), shipped from the session on Paul's "deploy". Nothing owed.** Watch: the 10-27 3 AM digest - Paul's part should be his
 clicks or "nothing for you to do", one line for Claude's count; `reconcile/latest` carries `claude`.
 
 ## 2026-10-25 (evening) - the Klarna notice: a payment that has not happened yet

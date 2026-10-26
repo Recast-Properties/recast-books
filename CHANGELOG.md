@@ -11,7 +11,8 @@ had mailed him four "Send ... to Claude / Paste to Claude" chores - Claude's own
   "Claude has N things of its own to settle - nothing for you to do" - never the list. Rule in CLAUDE.md (constraint
   19) and `docs/ops.md`: Penny reads `reconcile/latest`'s `claude` at the start of every books session and settles
   it. Tests updated (627). **Writer and both pollers pushed after Paul's `npx clasp login`, verified by pull;
-  the Netlify half waits on `npm run ship`.**
+  shipped from the session on Paul's "deploy" 18:27 CT: web app @61, site `6adfe1d4`, read-back OK (stamp
+  `167b70f`).**
 - **The four items, settled by `settleCheck20261026` (commit ed25343; pasted into the editor and run 14:45 PT, every
   step `ok`; read back from the workbook and the store):**
   - Amazon 10-12 263.74 (`gm-1a12fff9d09da35c`): not on no book. The entry its dismissal named
