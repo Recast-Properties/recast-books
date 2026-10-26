@@ -1,5 +1,27 @@
 # Changelog
 
+## 2026-10-25 - Review: expenses recorded from email notices since the cutover
+
+Paul, after the Klarna notice: "review the books for any erroneous expenses that resulted from email notices." Read
+from the live store (every document the bookkeeper recorded since 09-21: 130 emails, 14 bank cards, 11 uploads) and
+the workbook (Journal and Feed through gviz): every subject line, the text of the 16 that looked like a bill, invoice,
+statement, order or notice, same-vendor same-amount pairs within 45 days, and which Recast-paid entries the bank has
+tied. Scope: since the cutover - a pre-cutover read mirrors Paul's old row (D-027) and the migration is closed (D-067).
+- **One from a notice: PACER's quarterly invoice of 10-14, 39.30** (`receipt-20261014-9273a9d35c1a-a818`, 6300
+  OVERHEAD, paid by PAUL). The email says the card on file will be charged up to 7 days before the 11-10 due date -
+  the same shape as Klarna. The bookkeeper held it asking for the card and Paul saved it; nothing has left his pocket
+  yet. Left in place pending his word (leave it, or take it out until the charge).
+- Bills for work or service already done, recorded on the day (by design, D-046, each with Paul's note or the
+  payment printed): Waxahachie "Your Utility Bill is Ready" 251.64 of 10-08 (Paul: "paid with citizens account"; its
+  9.94 fee line is tied), Cool Hand Electric's invoice 516.00 of 10-13 (Paul's save, paid by PAUL - an invoice, not a
+  payment receipt; his to confirm), Central States 71.27 (paid 10-08 on 5450), Robinson Air 245.67 (QuickBooks
+  payment confirmation, Paid), Driversnote 12.00 (debited).
+- Order confirmations (charged at order): Home Depot 125.53 shutters, Amazon 242.91, the three flights.
+- Pairs: all recurring charges with their own invoice numbers (Anthropic, Adobe, Apify, Wi-Fi Onboard) - no
+  notice-plus-receipt double.
+- Not notice-related, seen in passing: 25 Recast-paid entries older than ten days with no bank line tied - Home Depot
+  and lawn-care splits, deposits by check, ATM fees; the matching run's business, nothing changed.
+
 ## 2026-10-25 - A payment that has not happened yet is not a receipt (the Klarna notice)
 
 Paul: "this is an email warning me of an upcoming automatic payment, not a payment. it says so in the email. the ai
