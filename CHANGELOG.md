@@ -22,7 +22,8 @@ part of the poller should have understood this and not put it in the inbox."
   PT, `{"ok":true}`) with the note "Not a payment yet - Klarna charges the card on 10-28 and the receipt comes then";
   `gm-1a1753cba75fe1ec` reads dismissed in the live store. Writer pushed (the dialog's words, the one-off; no deploy
   needed - Code.gs and lib.gs unchanged); both pollers pushed and verified by pull. 626 tests.
-- Owed: Paul's `npm run ship` - the prompt reaches the live bookkeeper only on the Netlify deploy.
+- **Shipped from the session on Paul's `npm run ship` (run from the wrong folder, then here) 19:30 CT: web app @60, site
+  `6ade9f2f`, read-back OK (stamp `100eb6f`). Nothing owed.**
 - Flag, not chased: the notice names card 7416, on file as Recast's Chase card (1402); the Aug and Sep lease payments
   were recorded as paid by Paul personally (6510 OVERHEAD with the 2030 offset). The 10-28 "Lease payment received"
   email shows the card; the bookkeeper uses the card shown.

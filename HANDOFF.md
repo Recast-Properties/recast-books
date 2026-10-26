@@ -12,8 +12,8 @@ have been a card.** The bookkeeper read it right and still said post dated 10-28
 root (CHANGELOG, same date): the prompt's new rule "A payment that has not happened yet" (dismiss, high confidence; a
 date after today is the tell; a bill for work done still posts, D-046) and the card's BAD_DATE words say it in Paul's
 words. The card is dismissed (Penny, from the editor, 16:22 PT); `gm-1a1753cba75fe1ec` reads dismissed. Writer and both
-pollers pushed and verified; 626 tests. **Owed: Paul's `npm run ship` - until then the live bookkeeper runs the old
-prompt and would hold the next such notice again.** Watch: 10-28, Klarna's "Lease payment received" email (57.99) - it
+pollers pushed and verified; 626 tests. **Live since 19:30 CT - web app @60, site `6ade9f2f`, read-back OK (stamp `100eb6f`), shipped from the session on
+Paul's `npm run ship`. Nothing owed.** Watch: 10-28, Klarna's "Lease payment received" email (57.99) - it
 should post on its own as September's did (`receipt-20260928-26180d4cca28`), never treating the dismissed notice as a
 twin; and the next "upcoming" / "will be charged" email from any vendor - dismissed with "Not a payment yet..." in its
 why, no card. Flag, not chased: the notice names card 7416 = Recast's Chase (1402); Aug and Sep were recorded as paid
