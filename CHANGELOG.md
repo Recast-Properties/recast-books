@@ -10,7 +10,10 @@ tied. Scope: since the cutover - a pre-cutover read mirrors Paul's old row (D-02
 - **One from a notice: PACER's quarterly invoice of 10-14, 39.30** (`receipt-20261014-9273a9d35c1a-a818`, 6300
   OVERHEAD, paid by PAUL). The email says the card on file will be charged up to 7 days before the 11-10 due date -
   the same shape as Klarna. The bookkeeper held it asking for the card and Paul saved it; nothing has left his pocket
-  yet. Left in place pending his word (leave it, or take it out until the charge).
+  yet. **Paul: "Take the PACER 39.30 out until the card is actually charged." Done 17:48 PT (`voidPacerNotice20261025`,
+  commit 697b606): voided on its own date 10-14 (`void-receipt-20261014-9273a9d35c1a-a818`, Journal rows 4016-4017,
+  read back), the email `gm-1a1420f20a4773c1` marked dismissed with the reason. October carries nothing for PACER; it
+  is recorded again on the day the card is charged.**
 - Bills for work or service already done, recorded on the day (by design, D-046, each with Paul's note or the
   payment printed): Waxahachie "Your Utility Bill is Ready" 251.64 of 10-08 (Paul: "paid with citizens account"; its
   9.94 fee line is tied), Cool Hand Electric's invoice 516.00 of 10-13 (Paul's save, paid by PAUL - an invoice, not a

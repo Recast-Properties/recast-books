@@ -7,7 +7,7 @@ there; a figure written here is only as of its date.
 
 ## 2026-10-25 (evening) - the Klarna notice: a payment that has not happened yet (START HERE)
 
-**Review done (CHANGELOG, same date): one expense came from a notice - PACER's 39.30 of 10-14 (`receipt-20261014-9273a9d35c1a-a818`), charged to Paul's card only in early November; waiting on his word to leave it or take it out. Watch early November: PACER's charge (Paul's card, no statement comes in) - if he says take it out, record it then.**
+**Review done (CHANGELOG, same date): one expense came from a notice - PACER's 39.30 of 10-14 (`receipt-20261014-9273a9d35c1a-a818`), charged to Paul's card only in early November. **Taken out on his word 17:48 PT** (voided on its own date, the email marked not a payment yet; CHANGELOG). **Owed, early November: PACER charges Paul's card up to 7 days before 11-10 (no statement comes in) - ask him the day it hits, then record 39.30 on 6300 OVERHEAD paid by PAUL dated that day, from the same email (gm-1a1420f20a4773c1).**
 
 **Paul: Klarna's "Upcoming lease payment" email is a warning of an automatic payment, not a payment, and should never
 have been a card.** The bookkeeper read it right and still said post dated 10-28; the date check held it. Fixed at the
