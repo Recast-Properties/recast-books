@@ -163,3 +163,22 @@ function linkMolallaReceipts() {
   console.log('linkMolallaReceipts: ' + pairs.length + ' receipts written on ' + journal + ' Journal lines; on the tab ' + linked +
     ' lines now open their receipt and ' + blank + ' have none (' + cells.length + ' lines on the tab).');
 }
+
+// 2026-10-25 Paul: "Take the PACER 39.30 out until the card is actually charged." PACER's quarterly invoice email of
+// 10-14 says the card on file is charged up to 7 days before the 11-10 due date - a notice of a payment still to come,
+// not a payment (the Klarna rule). Voids receipt-20261014-9273a9d35c1a-a818 (39.30 on 6300 OVERHEAD, paid by PAUL) on
+// its own date so October carries nothing, and marks the email dismissed with the reason. Recorded again on the day
+// the card is charged. Safe to run twice (a second void is refused as ALREADY_VOIDED before anything changes).
+// STATUS: NOT YET RUN
+function voidPacerNotice20261025() {
+  var props = PropertiesService.getScriptProperties();
+  var who = Session.getActiveUser().getEmail();
+  var v = voidEntry_('receipt-20261014-9273a9d35c1a-a818',
+    'not a payment yet - PACER charges the card in early November; recorded again when it is charged (Paul, 2026-10-25)',
+    '2026-10-14', who, props);
+  Logger.log(JSON.stringify(v));
+  var d = siteFetchJson_('/api/inbox', 'post', { action: 'dismiss', docId: 'gm-1a1420f20a4773c1',
+    note: 'Not a payment yet - PACER charges the card in early November; the 39.30 was taken out of the books until then (Paul, 2026-10-25)',
+    by: who });
+  Logger.log(JSON.stringify(d));
+}
