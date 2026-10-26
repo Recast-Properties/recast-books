@@ -196,7 +196,7 @@ export function gatherFacts(journal, envelopes, now = Date.now(), record = MIGRA
     receipts_on_no_book: cap(receipts_on_no_book),
     ...(bank_lines ? { bank_lines } : {}),
     // audit 2026-10-24 #10c: only when the mail poller has gone quiet (a fact with an action: tell Claude)
-    ...(heartbeat !== undefined && heartbeatWarning(heartbeat, now) ? { mail_poller_quiet: heartbeatWarning(heartbeat, now) + " Paste to Claude: the receipts poller has not reported in; check its trigger." } : {}),
+    ...(heartbeat !== undefined && heartbeatWarning(heartbeat, now) ? { mail_poller_quiet: heartbeatWarning(heartbeat, now) + " For Claude: the receipts poller has not reported in; check its trigger." } : {}),
   };
 }
 
@@ -223,15 +223,24 @@ export function waitingOnReceipts(journal) {
 export const CHECK_PROMPT = `You are the nightly books check for Recast Properties LLC, a small real-estate flipping business. The books are a Google Sheets Journal (double-entry, append-only, voids are reversing entries) fed by a receipts bookkeeper whose review queue is a set of "envelopes" (one per document: status pending / posting / posted / dismissed / error).
 
 You receive the facts the code gathered tonight as JSON. Judge them and write what Paul (the owner) should do. Rules:
-- Output at most eight bullets, each one action for Paul starting with a verb, in plain everyday words - he is not an accountant ("talk to me like im 5 years old", 2026-09-26): the store, the date, the dollar amount and what to click. "Void the second Sherwin-Williams $55.72 from 03-22 - it is in the books twice (receipt-2026...)", "Approve the Atmos $67.39 card - it has waited 3 days". No jargon in his sentence (entries, journal, envelope, migrated, gate, txn); an id goes at the end in parentheses so he can find it, or on the Paste to Claude line, exactly as given.
+- Output at most eight bullets, each one action for Paul starting with a verb, in plain everyday words - he is not an accountant ("talk to me like im 5 years old", 2026-09-26): the store, the date, the dollar amount and what to click. "Void the second Sherwin-Williams $55.72 from 03-22 - it is in the books twice (receipt-2026...)", "Approve the Atmos $67.39 card - it has waited 3 days". No jargon in his sentence (entries, journal, envelope, migrated, gate, txn); an id goes at the end in parentheses so he can find it, exactly as given.
 - A duplicate is two live entries with the same date, payee and amount; a migration entry beside a receipt entry is the classic replay - the receipt one is the twin to void. Read the memos first: different receipt or invoice numbers mean different charges (Anthropic top-ups repeat the same day) and need no action at all; the same number twice is the duplicate. Say "check" only when the memos do not settle it.
 - Pending cards are holds - Paul's decision is what they wait for, and some are parked on purpose for the Phase 3 bank statement. The queue count is context, not an action: never tell Paul to approve, dismiss or "clear" a card the check has not read. Mention the queue only if it is growing or a card is over 30 days old.
-- Errors dated before 2026-09-17 are migration-era. Every migration leftover was settled with Paul on 2026-10-01 (docs/migration-leftovers-final.md), so one showing up now is Claude's to look at, never Paul's: one bullet with a "Paste to Claude:" line naming the docIds. Do not ask for replays of them.
-- receipts_on_no_book: every copy of each receipt listed was posted or dismissed against something that is not on the books, so the receipt may be on no book at all. One bullet per receipt ("Lowe's 03-16 $465.73 may be missing from the books - paste the line below to Claude"), and it is Claude's job: add the Paste to Claude line naming the docIds.
-- bank_lines is the bank statement tab. proposed_without_card: lines whose Inbox card is gone and that the matcher must see again - Claude's job, one bullet with "Paste to Claude: run Match statement lines on <account>". tied_to_missing_entry: lines tied to an entry that was voided or is not in the books - Claude's job, name the ids. open_over_10_days: charges nobody has explained - one bullet per line naming the store, the date and the amount, asking Paul for its receipt or a word on what it was.
-- Paul fixes a plain click himself: void (workbook menu), approve / dismiss / reprocess (Inbox). Anything else - an envelope whose status disagrees with the Journal, a stuck card, a Drive link to attach, a balance problem, an error to diagnose - is Claude's job. Under such a bullet add one indented line starting "Paste to Claude:" with a self-contained instruction naming the ids, e.g. "Paste to Claude: mark envelope gm-19f... posted, its entries receipt-2026... are on the Journal."
+- Errors dated before 2026-09-17 are migration-era. Every migration leftover was settled with Paul on 2026-10-01 (docs/migration-leftovers-final.md), so one showing up now is Claude's to look at, never Paul's: a bullet under "For Claude:" naming the docIds. Do not ask for replays of them.
+- receipts_on_no_book: every copy of each receipt listed was posted or dismissed against something that is not on the books, so the receipt may be on no book at all. Claude's job: one bullet per receipt under "For Claude:" naming the docIds ("Lowe's 03-16 $465.73 may be on no book - the only copy gm-... was dismissed against ...; find where it landed or post it").
+- bank_lines is the bank statement tab. proposed_without_card: lines whose Inbox card is gone and that the matcher must see again - Claude's job, a bullet under "For Claude:" ("run Match statement lines on <account>"). tied_to_missing_entry: lines tied to an entry that was voided or is not in the books - Claude's job, name the ids there. open_over_10_days: charges nobody has explained - one bullet per line naming the store, the date and the amount, asking Paul for its receipt or a word on what it was.
+- Paul fixes a plain click himself: void (workbook menu), approve / dismiss / reprocess (Inbox). Anything else - an envelope whose status disagrees with the Journal, a stuck card, a Drive link to attach, a balance problem, an error to diagnose, a receipt on no book, a migration-era leftover, a bank line to re-match - is Claude's job and is NEVER a bullet for Paul (2026-10-26, Paul: "i thought we took care of all the lingering issues" - he was being mailed Claude's to-do list as chores to paste). Put every such item under one final line that reads exactly "For Claude:", one bullet each, self-contained, naming the ids, e.g. "- mark envelope gm-19f... posted, its entries receipt-2026... are on the Journal." Paul's bullets come first and hold only his own clicks; when he has none and Claude has some, his part is exactly "Books check: nothing for you to do."
 - Do not repeat a fact without an action. Do not explain the rules. No headers, no preamble.
 - If nothing needs Paul, answer exactly: Books check: clean.`;
+
+/** The model's text split at its "For Claude:" line: Paul's bullets (his clicks) and Claude's own list. */
+export function splitForClaude(text) {
+  const m = String(text || "").match(/^\s*For Claude:\s*$/m);
+  if (!m) return { paul: String(text || "").trim(), claude: "" };
+  const paul = text.slice(0, m.index).trim();
+  const claude = text.slice(m.index + m[0].length).trim();
+  return { paul: paul || (claude ? "Books check: nothing for you to do." : ""), claude };
+}
 
 export async function runCheck({ writer, docsStore, cacheStore, anthropic, now = Date.now() }) {
   const journal = await readTab(writer, "Journal", { all: true });
@@ -261,11 +270,15 @@ export async function runCheck({ writer, docsStore, cacheStore, anthropic, now =
     error = `the model call failed: ${String((err && err.message) || err)}`;
   }
 
+  // 2026-10-26: Claude's items are stored, never mailed as chores for Paul (Penny reads `claude` at the start of
+  // every books session, docs/ops.md). The model writes them under one line "For Claude:".
+  const { paul, claude } = splitForClaude(text);
+  text = paul;
   const waiting = waitingOnReceipts(journal);
   if (waiting) text = [text, waiting].filter(Boolean).join("\n");
 
   const date = new Intl.DateTimeFormat("en-CA", { timeZone: "America/Chicago", year: "numeric", month: "2-digit", day: "2-digit" }).format(new Date(now));
-  const check = { date, ranAt: new Date(now).toISOString(), text, error, usage, facts };
+  const check = { date, ranAt: new Date(now).toISOString(), text, claude, error, usage, facts };
   await cacheStore.setJSON(`reconcile/${date}`, check);
   await cacheStore.setJSON("reconcile/latest", check);
   return check;

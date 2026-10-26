@@ -144,6 +144,10 @@ functions the menu, pollers and nightly jobs call - Paul is never sent there.
     deploys (`clasp deploy -i`, `npm run deploy`) and `clasp login` stay his; **a one-off script Penny runs herself**,
     driving the editor in his Chrome (Paul: "for these one off scripts can you just run them?"; how in `docs/ops.md`) -
     he is handed it only when the editor will not take the clicks.
+    **The nightly check's items for Claude are stored, never mailed** (2026-10-26, Paul: "i thought we took care of all
+    the lingering issues"): the check writes Paul only his own clicks and keeps its "For Claude:" list in books-cache
+    `reconcile/latest` (`claude`). Penny reads it at the start of every books session (`docs/ops.md`) and settles it
+    before anything else; Paul never pastes it.
 
 ## Where things are
 

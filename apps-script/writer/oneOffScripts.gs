@@ -164,3 +164,45 @@ function linkMolallaReceipts() {
   console.log('linkMolallaReceipts: ' + pairs.length + ' receipts written on ' + journal + ' Journal lines; on the tab ' + linked +
     ' lines now open their receipt and ' + blank + ' have none (' + cells.length + ' lines on the tab).');
 }
+
+// 2026-10-26 Paul: "i thought we took care of all the lingering issues in the inbox yesterday" - the 10-26 nightly
+// check's four items, each Claude's to settle, done here in one run (each step on its own, a failure in one does not
+// stop the others; the log says which ran):
+//  (1) Amazon 10-12 263.74 (gm-1a12fff9d09da35c): dismissed on 10-12 naming receipt-20261012-951d0beb4954, an entry
+//      that never landed on the Journal. The charge IS in the books: 197.88 receipt-20261012-6ca646e73108 and 65.86
+//      receipt-20261012-cec8226b435c-04d3 (the two bank cards Paul put the PDFs on 10-25). The record gets a note the
+//      check reads ("its row is in the Journal: ...") so it stops reading as "on no book".
+//  (2) Lupe Carpet Guy 300.00 (gm-1a1319f1b94de2cf): Paul's Save of 10-23 posted it but step two (file the screenshot
+//      to Drive, write doc_url) never finished (in_process). Runs inboxFinish for it.
+//  (3) USPS 40.00 of 01-02 twice: manual-20260102-861fb6853d0e (overhead, from Paul's phone picture, 10-01 register)
+//      and migration-20260102-68238cd9d13b (1014 S View, from his sheet "Recast 2025", 10-04 import). One key, one
+//      charge; his sheet's row wins (D-027) and it sits on the frozen 1014 S View tab. Voids the overhead copy on its
+//      own date (D-067: a migration-era double is Claude's to settle).
+//  (4) The 10-11 Poinsetta photo gm-1a12d6f7780f7d94 that failed on the API's 3000 px cap (fixed in the bookkeeper
+//      since): asks the site to read it again (Reprocess - a card for Paul, never a post).
+// STATUS: NOT YET RUN
+function settleCheck20261026() {
+  var props = PropertiesService.getScriptProperties();
+  var who = Session.getActiveUser().getEmail();
+  var out = {};
+  try {
+    out.amazon = siteFetchJson_('/api/inbox', 'post', { action: 'dismiss', docId: 'gm-1a12fff9d09da35c', by: who,
+      note: 'its row is in the Journal: receipt-20261012-6ca646e73108 (the 197.88 lights and fans) and receipt-20261012-cec8226b435c-04d3 (the 65.86 towel bars) - the two orders in this email were recorded from the bank cards on 10-25; the entry this copy first named never landed (Penny, 2026-10-26)' });
+  } catch (e) { out.amazon = 'FAILED ' + e; }
+  try {
+    out.lupe = inboxFinish({ docId: 'gm-1a1319f1b94de2cf', txn_ids: ['receipt-20261012-72a42d193c8e-b95a'],
+      entries: [{ date: '2026-10-12', payee: 'Lupe Carpet Guy (ANL LLC)', property: '658 Erin Hills', paid_from: '1401',
+        items: [{ account: '1020', amount_cents: 30000, description: 'Carpet installation labor - payment to Lupe Carpet Guy (ANL LLC)', trade: 'Paint & Flooring' }] }],
+      model: { vendor: 'Lupe Carpet Guy (ANL LLC)', date: '2026-10-12', receipt_total_cents: 30000 },
+      attachments: [{ key: 'att/gm-1a1319f1b94de2cf/0', name: 'Screenshot 2026-10-12 at 2.37.25 PM.png', mime: 'image/png' }] });
+  } catch (e) { out.lupe = 'FAILED ' + e; }
+  try {
+    out.usps = voidEntry_('manual-20260102-861fb6853d0e',
+      'the same 40.00 USPS mailbox key is on 1014 S View from his sheet (migration-20260102-68238cd9d13b); one key, one charge (Penny, 2026-10-26)',
+      '2026-01-02', who, props);
+  } catch (e) { out.usps = 'FAILED ' + e; }
+  try {
+    out.photo = siteFetchJson_('/api/inbox', 'post', { action: 'reprocess', docId: 'gm-1a12d6f7780f7d94', by: who });
+  } catch (e) { out.photo = 'FAILED ' + e; }
+  Logger.log(JSON.stringify(out));
+}

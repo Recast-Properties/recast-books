@@ -150,7 +150,8 @@ test("lib/migration-record.mjs is generated from the migration data (run scripts
 
 test("the prompt tells the model which fixes are Paul's clicks and which get a 'Paste to Claude' line", async () => {
   const { CHECK_PROMPT } = await import("../netlify/functions/books-reconcile-background.mjs");
-  assert.match(CHECK_PROMPT, /Paste to Claude:/);
+  assert.match(CHECK_PROMPT, /"For Claude:"/);
+  assert.doesNotMatch(CHECK_PROMPT, /Paste to Claude/);
   assert.match(CHECK_PROMPT, /void \(workbook menu\), approve \/ dismiss \/ reprocess \(Inbox\)/);
 });
 
@@ -208,10 +209,18 @@ test("audit 2026-10-24 #2d gatherFacts reads the Feed tab: proposed lines with n
   assert.match(CHECK_PROMPT, /bank_lines/, "the check knows what the bank facts are");
 });
 
-test("audit 2026-10-24 #10c: a quiet mail poller is a fact with a 'Paste to Claude' line; a live one adds nothing", () => {
+test("audit 2026-10-24 #10c: a quiet mail poller is a fact with a 'For Claude' line; a live one adds nothing", () => {
   const quiet = gatherFacts(JOURNAL, ENVELOPES, NOW, undefined, null, { paul: { at: new Date(NOW - 5 * 3600000).toISOString() } });
-  assert.match(quiet.mail_poller_quiet, /not checked paul@'s mail for 5 hours.*Paste to Claude/);
+  assert.match(quiet.mail_poller_quiet, /not checked paul@'s mail for 5 hours.*For Claude/);
   const live = gatherFacts(JOURNAL, ENVELOPES, NOW, undefined, null, { paul: { at: new Date(NOW - 10 * 60000).toISOString() } });
   assert.equal(live.mail_poller_quiet, undefined);
   assert.equal(gatherFacts(JOURNAL, ENVELOPES, NOW).mail_poller_quiet, undefined, "no heartbeat given (older callers) - no fact");
+});
+
+test("2026-10-26: the model's 'For Claude:' section is stored as `claude`, never in Paul's text; nothing for Paul reads so", async () => {
+  const { splitForClaude } = await import("../netlify/functions/books-reconcile-background.mjs");
+  assert.deepEqual(splitForClaude("- Approve the Atmos $67.39 card.\nFor Claude:\n- mark envelope gm-1 posted, its entries receipt-2 are on the Journal.\n- run Match statement lines on 1401."),
+    { paul: "- Approve the Atmos $67.39 card.", claude: "- mark envelope gm-1 posted, its entries receipt-2 are on the Journal.\n- run Match statement lines on 1401." });
+  assert.deepEqual(splitForClaude("For Claude:\n- find where Amazon 10-12 $263.74 landed."), { paul: "Books check: nothing for you to do.", claude: "- find where Amazon 10-12 $263.74 landed." });
+  assert.deepEqual(splitForClaude("Books check: clean."), { paul: "Books check: clean.", claude: "" });
 });

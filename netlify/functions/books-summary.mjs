@@ -150,7 +150,7 @@ export default async (req) => {
   let check = null;
   try {
     const latest = await getCacheStore().get("reconcile/latest", { type: "json" });
-    if (latest) check = { date: latest.date, ranAt: latest.ranAt, text: latest.text, error: latest.error };
+    if (latest) check = { date: latest.date, ranAt: latest.ranAt, text: latest.text, error: latest.error, ...(latest.claude ? { claude: latest.claude } : {}) };
   } catch { /* no check tonight is not a failure of the summary */ }
 
   return json(200, { date, posted, pending, dismissed, errors, totals, check });

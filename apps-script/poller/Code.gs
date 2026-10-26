@@ -490,6 +490,12 @@ function dailyDigest() {
   if (data.check && (data.check.text || data.check.error)) {
     lines.push('Books check (' + String(data.check.ranAt || '').slice(0, 10) + '):');
     String(data.check.text || data.check.error).split('\n').forEach(function (l) { if (l.trim()) lines.push('  ' + l.trim()); });
+    // 2026-10-26: Claude's own items are stored, not mailed (Paul: "i thought we took care of all the lingering
+    // issues"). One line so he knows they exist; Penny settles them next time he opens a books session.
+    if (data.check.claude) {
+      var n = String(data.check.claude).split('\n').filter(function (l) { return /^\s*-/.test(l); }).length || 1;
+      lines.push('  Claude has ' + n + ' thing' + (n === 1 ? '' : 's') + ' of its own to settle - nothing for you to do; Penny does them next time you open a books session.');
+    }
     lines.push('');
   }
   lines.push('Posted (' + (data.posted || []).length + '):');

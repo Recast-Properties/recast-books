@@ -58,6 +58,11 @@ CLAUDE.md's operating notes, the handoffs' "gotchas met" sections and Claude's m
 
 ## Reading the live books
 
+- **Start of every books session:** `npx netlify blobs:get books-cache reconcile/latest -O /tmp/check.json` (no secret
+  needed) and read its `claude` field - the nightly check's own list for Claude (a receipt on no book, a record to
+  relink, a migration-era double, a bank line to re-match). Settle each, through the writer (a one-off) or the Inbox
+  API from a one-off, and note it in CHANGELOG. Paul's mail carries only his clicks and one line saying how many
+  things Claude has.
 - **gviz through Chrome:** `https://docs.google.com/spreadsheets/d/<id>/gviz/tq?tqx=out:csv&sheet=<name>&headers=1&tq=<query>`.
   A `sheet=` name that does not exist answers one empty row, never an error - check the tab list first. Values only:
   a Receipt cell that reads `Receipt` is a link, an empty one has none.
