@@ -10,8 +10,8 @@ there; a figure written here is only as of its date.
 **Paul asked about the 10-27 digest's "check your 10-07 statement for the two $1.00 fees" line.** The bank's own file
 shows two charges, one per out-of-network ATM withdrawal that day (Palmer 163.00, Ennis 104.00) - both stay, nothing
 voided. The check was wrong twice (CHANGELOG, same date): it called two bank lines a possible double, and its prompt
-sent an unsettled double to Paul as "check" instead of to Claude. Both fixed in the repo, 628 tests. **Owed: a ship
-(`npm run deploy`, Paul's step or his "deploy") - until then each 3 AM digest repeats the line.** Watch: the next
+sent an unsettled double to Paul as "check" instead of to Claude. Both fixed, 628 tests. **Live since 09:41 CT - web app @62, site
+`6ae0b847`, read-back OK (stamp `9c51468`), shipped from the session on Paul's "deploy". Nothing owed.** Watch: the next
 digest has no ATM-fee line; `reconcile/latest` `facts.possible_duplicates` has no 2026-10-07 group.
 
 ## 2026-10-26 - the nightly check's list is Claude's, not Paul's (START HERE)

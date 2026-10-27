@@ -13,7 +13,8 @@ own file (****2505.QFX) has two FOREIGN ATM CHARGE lines of 1.00 on 10-07 with t
 - **The prompt**: a duplicate the memos do not settle is Claude's to look into under "For Claude:", never a "check
   your statement" bullet for Paul (it said "Say 'check' only when the memos do not settle it" - a chore that was mine).
 - Tests: two bank-line fees are not a finding, a bank line beside a receipt is, the prompt has no "Say \"check\"".
-  628 tests. **Not live until shipped** (`npm run deploy` - a function change only, no clasp).
+  628 tests. **Live since 09:41 CT - web app @62, site `6ae0b847`, read-back OK (stamp `9c51468`), shipped from the
+  session on Paul's "deploy".**
 
 ## 2026-10-26 - The nightly check's items for Claude stay with Claude; the 10-26 check's four items settled
 
