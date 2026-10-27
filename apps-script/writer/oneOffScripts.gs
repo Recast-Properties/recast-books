@@ -172,5 +172,6 @@ function linkMolallaReceipts() {
 // books-cache reconcile/dry/<date> (never the digest's reconcile/latest). Returns at once; the run takes a few minutes.
 // STATUS: NOT YET RUN
 function dryRunNightlyCheck20261027() {
-  Logger.log(JSON.stringify(siteFetchJson_('/api/reconcile-bg', 'post', { dry: true })));
+  var res = siteFetchRaw_('/api/reconcile-bg', 'post', { dry: true });   // a background function: 202, empty body
+  Logger.log('dry run started: HTTP ' + res.getResponseCode());
 }
