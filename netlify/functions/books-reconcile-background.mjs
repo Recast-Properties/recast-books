@@ -14,7 +14,7 @@ import Anthropic from "@anthropic-ai/sdk";
 import { requireConfig, json, pollerSecretOk, getWriter, getDocsStore, getCacheStore, readTab,
   loadHeartbeat, heartbeatWarning, refreshTabAfterWrite, storeAttachmentsToDrive,
 } from "./_shared.mjs";
-import { NEED_RECEIPT } from "../../lib/gate.mjs";
+import { NEED_RECEIPT, citedLast4 } from "../../lib/gate.mjs";
 import { MODEL_ID, placeCacheMarkers } from "../../lib/bookkeeper.mjs";
 import { MIGRATION_RECORD } from "../../lib/migration-record.mjs";
 
@@ -424,6 +424,33 @@ export function checkTools({ journal, feed, envelopes, facts, writer, docsStore,
   return { run, fixed, refused };
 }
 
+/**
+ * Paul, 2026-10-27: "flag any charges that come through on my personal accounts". The entries recorded on `day` (the
+ * Journal's posted_at, Texas time) that his own card paid for (paid_from PAUL - Recast owes him each one back, D-051), as
+ * the lines the 3 AM email prints under the check: store, date, amount, house, and the card's last four when the receipt
+ * shows them. The amount is what his card moved (account 2030): a refund to his card prints as money back. Code writes
+ * these, not the model. "" when there are none.
+ */
+export function onPaulsCard(journal, envelopes, day) {
+  const idx = Object.fromEntries(journal.headers.map((h, i) => [h, i]));
+  const g = (r, n) => (idx[n] === undefined ? "" : r[idx[n]]);
+  const voided = new Set(journal.rows.map((r) => String(g(r, "void_of") || "")).filter(Boolean));
+  const byTxn = new Map();
+  for (const r of journal.rows) {
+    const id = String(g(r, "txn_id"));
+    if (String(g(r, "paid_from")) !== "PAUL" || String(g(r, "source")) === "void" || voided.has(id) || String(g(r, "posted_at")).slice(0, 10) !== day) continue;
+    const e = byTxn.get(id) || byTxn.set(id, { date: String(g(r, "date")).slice(0, 10), payee: String(g(r, "payee")), property: "", cents: 0 }).get(id);
+    if (String(g(r, "account")) === "2030") e.cents += cents(g(r, "credit")) - cents(g(r, "debit"));
+    if (!e.property && g(r, "property")) e.property = String(g(r, "property"));
+  }
+  const card = new Map(envelopes.flatMap((e) => (e.result?.txn_ids || []).map((t) => [t, citedLast4(e.model)])));
+  const list = [...byTxn.entries()].filter(([, e]) => e.cents !== 0).sort(([, a], [, b]) => (a.date < b.date ? -1 : a.date > b.date ? 1 : 0));
+  if (!list.length) return "";
+  const total = list.reduce((t, [, e]) => t + e.cents, 0);
+  return [`Paid with your own card, recorded yesterday (${list.length}, $${money(total)}) - the business owes you these back:`,
+    ...list.map(([t, e]) => `- ${e.payee}, ${e.date.slice(5)}, ${e.cents < 0 ? `$${money(-e.cents)} back to your card` : `$${money(e.cents)}`}, ${e.property || "no house"}${card.get(t) ? `, card ending ${card.get(t)}` : ""}`)].join("\n");
+}
+
 export const CHECK_PROMPT = `You are the nightly books check for Recast Properties LLC, a small real-estate flipping business. The books are a Google Sheets Journal (double-entry, append-only, voids are reversing entries) fed by a receipts bookkeeper whose review queue is a set of "envelopes" (one per document: status pending / posting / posted / dismissed / error).
 
 You receive the facts the code gathered tonight as JSON. Look things up, fix what your fix tools cover, then write what Paul (the owner) should do. Rules:
@@ -501,7 +528,8 @@ export async function runCheck({ writer, docsStore, cacheStore, anthropic, now =
   // 2026-10-27: what code fixed tonight, in the model's words, first in Paul's email; what it refused, on Claude's list
   if (refused.length) claude = [claude, ...refused.map((r) => `- the check's ${r.fix} ${JSON.stringify({ ...r.input, plain: undefined })} was not done: ${r.why}`)].filter(Boolean).join("\n");
   if (fixed.length && (!paul || /^Books check: (clean|nothing for you to do)\.$/.test(paul))) paul = "Books check: nothing for you to do.";
-  text = [fixed.length ? ["Fixed overnight:", ...fixed.map((f) => `- ${f.plain}`)].join("\n") : "", paul, waitingOnReceipts(journal)].filter(Boolean).join("\n");
+  text = [fixed.length ? ["Fixed overnight:", ...fixed.map((f) => `- ${f.plain}`)].join("\n") : "", paul, waitingOnReceipts(journal),
+    onPaulsCard(journal, envelopes, chicagoDate(now - 864e5))].filter(Boolean).join("\n");
 
   const date = chicagoDate(now);
   const check = { date, ranAt: new Date(now).toISOString(), text, claude, error, usage, fixed, refused, facts, ...(dry ? { dry: true } : {}) };

@@ -5,6 +5,13 @@ history and are not written to; `CHANGELOG.md` keeps its dated entry per change.
 `docs/ops.md`. The books' numbers live on the workbook's tabs (P&L, Totals, Citizens Bank, the house tabs) - read them
 there; a figure written here is only as of its date.
 
+## 2026-10-27 (evening) - the email flags his own-card charges
+
+**Paul: "flag any charges that come through on my personal accounts."** Built and tested (CHANGELOG, same date; 636
+tests): under the check, the 3 AM email lists every entry recorded the day before that his own card paid for, with the
+card's last four when the receipt shows them. **In the repo, not live: owed a ship (his "deploy").** Watch: the first
+email after the ship - the list, or nothing when his card paid for nothing that day.
+
 ## 2026-10-27 (later) - the nightly check fixes what it can (D-097) (START HERE)
 
 **Paul: "have the nightly check look things up and fix what it can on its own, and tell me in the morning email what it

@@ -406,3 +406,40 @@ test("a dry run: every rail runs, nothing is written, and the result never becom
   assert.ok(await cache.get("reconcile/dry/2026-10-27", { type: "json" }));
   assert.equal(await cache.get("reconcile/latest", { type: "json" }), null);
 });
+
+test("onPaulsCard: what his own card paid for, recorded yesterday, with the card when the receipt shows it; voided, other payers and other days left out; a refund is money back", async () => {
+  const { onPaulsCard } = await import("../netlify/functions/books-reconcile-background.mjs");
+  const HP = ["txn_id", "line", "date", "account", "debit", "credit", "property", "payee", "paid_from", "source", "posted_at", "void_of"];
+  const e = (id, date, payee, prop, amt, paid_from, posted_at, src = "receipt") => [
+    [id, 1, date, "1030", amt, "", prop, payee, paid_from, src, posted_at, ""],
+    [id, 2, date, paid_from === "PAUL" ? "2030" : paid_from, "", amt, prop, payee, paid_from, src, posted_at, ""]];
+  const journal = { headers: HP, rows: [
+    ...e("receipt-lowes", "2026-10-12", "Lowe's", "658 Erin Hills", 3.8, "PAUL", "2026-10-23T10:36:00"),
+    ...e("receipt-adobe", "2026-10-23", "Adobe", "OVERHEAD", 34.49, "PAUL", "2026-10-23T17:44:00"),
+    ...e("receipt-chase", "2026-10-23", "Home Depot", "366 Mesa", 50, "1402", "2026-10-23T12:00:00"),
+    ...e("receipt-pacer", "2026-10-14", "PACER", "OVERHEAD", 39.3, "PAUL", "2026-10-23T11:08:00"),
+    ["void-receipt-pacer", 1, "2026-10-14", "1030", "", 39.3, "OVERHEAD", "PACER", "PAUL", "void", "2026-10-25T19:48:00", "receipt-pacer"],
+    ["void-receipt-pacer", 2, "2026-10-14", "2030", 39.3, "", "OVERHEAD", "PACER", "PAUL", "void", "2026-10-25T19:48:00", "receipt-pacer"],
+    ...e("receipt-fedex", "2026-10-24", "FedEx Office", "OVERHEAD", 135.95, "PAUL", "2026-10-24T14:30:00"),
+    // a return to his card: 2030 debited
+    ["manual-return", 1, "2026-10-20", "2030", 12, "", "366 Mesa", "Home Depot", "PAUL", "manual", "2026-10-23T09:00:00", ""],
+    ["manual-return", 2, "2026-10-20", "1030", "", 12, "366 Mesa", "Home Depot", "PAUL", "manual", "2026-10-23T09:00:00", ""],
+  ] };
+  const envelopes = [{ result: { txn_ids: ["receipt-lowes"] }, model: { card_last4: "9166" } }];
+  assert.equal(onPaulsCard(journal, envelopes, "2026-10-23"), [
+    "Paid with your own card, recorded yesterday (3, $26.29) - the business owes you these back:",
+    "- Lowe's, 10-12, $3.80, 658 Erin Hills, card ending 9166",
+    "- Home Depot, 10-20, $12.00 back to your card, 366 Mesa",
+    "- Adobe, 10-23, $34.49, OVERHEAD",
+  ].join("\n"));
+  assert.equal(onPaulsCard(journal, envelopes, "2026-10-26"), "");
+
+  // the 3 AM email prints it under the check, for the day before the run
+  const cache = makeFakeCacheStore();
+  resetCacheStoreForTests(cache);
+  const writer = { read: async (tab) => ({ ok: true, ...(tab === "Feed" ? { headers: [], rows: [] } : journal) }) };
+  const docsStore = { list: async () => ({ blobs: [] }), get: async () => null };
+  const anthropic = { beta: { messages: { create: async () => ({ stop_reason: "end_turn", model: "m", usage: {}, content: [{ type: "text", text: "Books check: clean." }] }) } } };
+  const check = await runCheck({ writer, docsStore, cacheStore: cache, anthropic, now: Date.parse("2026-10-25T07:30:00Z") });
+  assert.equal(check.text, "Books check: clean.\nPaid with your own card, recorded yesterday (1, $135.95) - the business owes you these back:\n- FedEx Office, 10-24, $135.95, OVERHEAD");
+});

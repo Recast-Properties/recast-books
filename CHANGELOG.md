@@ -1,5 +1,17 @@
 # Changelog
 
+## 2026-10-27 - The morning email lists what his own card paid for
+
+Paul: "one thing i want to add to the daily email report: flag any charges that come through on my personal accounts."
+- `onPaulsCard` (`books-reconcile-background.mjs`), code not the model, like the waiting-on-receipts list: every entry
+  recorded the day before the check (Journal `posted_at`, Texas time) with `paid_from` PAUL, its amount what moved on
+  2030 (a refund to his card prints as money back), not voided; store, date, amount, house, and "card ending NNNN"
+  when the receipt cited one. Printed under the check: "Paid with your own card, recorded yesterday (N, $X) - the
+  business owes you these back:". Each entry is listed once - the check at ~2:30 AM covers the day before.
+- On the live snapshot: 10-23 lists six (699.33 - the Mariana 350 and PACER 39.30 recorded that day were taken out
+  since, so they are not); 10-24 lists the FedEx 135.95; 10-25 and 10-26 none.
+- Test: the list, its exclusions, the refund and the email composition. 636 tests.
+
 ## 2026-10-27 - The nightly check looks things up and fixes what it can (D-097)
 
 Paul: "the receipts are set up to use you as the brain through the API. why isn't the system handling it there?", then
