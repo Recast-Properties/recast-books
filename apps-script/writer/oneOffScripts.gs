@@ -54,16 +54,8 @@
  * voidPacerNotice20261025 (2026-10-25, PACER's 10-14 notice taken out until the card is charged - the entry voided on its own date, the email marked; run 17:48 PT) is in commit 697b606.
  * settleCheck20261026 (2026-10-26, the nightly check's four items: the Amazon 263.74 record noted, Lupe's 300 relinked to its screenshot, the USPS 40 overhead double voided, the 10-11 Poinsetta photo re-read; run 14:45 PT, pasted into the editor - clasp login was expired, so the live file keeps it until the next push) is in commit ed25343.
  * dismissPoinsettaPhoto20261026 (2026-10-26, the re-read 10-11 photo = the 37.84 Home Depot already in the books; its card dismissed; run 14:49 PT, pasted into the editor) is in commit 7608f28.
+ * dryRunNightlyCheck20261027 (2026-10-27, D-097: one dry run of the new nightly check on the live books; run 08:25 PT, clean - no fix tried, none refused) is in commit 8881ae4.
  ****************************************************************/
-
-// 2026-10-27 Paul: "have the nightly check look things up and fix what it can on its own" (D-097) - one dry run of the
-// new check on the live books before its first real run: every rail runs, nothing is written, the result is stored at
-// books-cache reconcile/dry/<date> (never the digest's reconcile/latest). Returns at once; the run takes a few minutes.
-// STATUS: NOT YET RUN
-function dryRunNightlyCheck20261027() {
-  var res = siteFetchRaw_('/api/reconcile-bg', 'post', { dry: true });   // a background function: 202, empty body
-  Logger.log('dry run started: HTTP ' + res.getResponseCode());
-}
 
 // 2026-10-05 Paul: "yes match all the receipts and link them" (1014 S View). Each receipt found for the house - in
 // its Drive folder "1014 S View" and in the mail, copied to Drive by the poller one-off - is written on its own

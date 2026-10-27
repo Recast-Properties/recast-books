@@ -24,6 +24,12 @@ Paul: "the receipts are set up to use you as the brain through the API. why isn'
 - Checked against tonight's snapshots (Journal 4,022 rows, Feed): the ATM pair is gone from the possible doubles; the
   four left (three Anthropic top-up groups with their own receipt numbers, the Home Depot return) are ones the check has
   always left alone.
+- **Live since 10:20 CT - web app @63, site `6ae0c158`, read-back OK (stamp `8881ae4`), shipped from the session on
+  Paul's "deploy".** Then one dry run on the live books (`dryRunNightlyCheck20261027`, run by Penny from the editor
+  08:25 PT): clean - two turns, no fix tried, none refused, no error; Paul's part "Books check: clean." plus the three
+  Dennis receipts. The one-off is out (header line, commit 8881ae4). clasp login lapsed between the ship and the
+  one-off's reorder, so both edits to the live `oneOffScripts.gs` were made in the editor and checked against the
+  repo's copy by hash (identical) - nothing else differs from HEAD.
 
 ## 2026-10-27 - The two 1.00 ATM fees of 10-07 are two real charges; the check stops mailing Paul "check"
 

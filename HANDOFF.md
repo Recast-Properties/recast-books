@@ -11,9 +11,10 @@ there; a figure written here is only as of its date.
 fixed."** Built and tested (CHANGELOG, same date; 635 tests): the check looks up the bank's lines, the Journal and the
 documents, and fixes four kinds of item itself behind code rails - a double, where a receipt on no book landed, a receipt
 never filed, a failed read. Paul's email opens with "Fixed overnight:" in plain sentences; anything refused lands on
-Claude's list with the reason. **In the repo, not live: owed a ship (`npm run ship`, or his "deploy"), then one dry run
-from the writer editor (`docs/ops.md`) - read `reconcile/dry/<date>` and check `fixed` / `refused` before the 3 AM run.**
-Watch: the first real run - `reconcile/latest` carries `fixed` and `refused`; with tonight's facts nothing should be
+Claude's list with the reason. **Live since 10:20 CT - web app @63, site `6ae0c158`, read-back OK (stamp `8881ae4`), on
+Paul's "deploy"; one dry run on the live books came back clean (no fix tried, none refused). Nothing owed.** clasp login
+has lapsed again (`invalid_rapt` at 10:24 CT) - the next writer push needs Paul's `npx clasp login`; the live
+`oneOffScripts.gs` was edited in the editor to match HEAD exactly. Watch: the first real run - `reconcile/latest` carries `fixed` and `refused`; with tonight's facts nothing should be
 fixed (the four possible doubles left are settled by their memos, or refused by the return rail).
 
 ## 2026-10-27 - the two 1.00 ATM fees of 10-07 are real (START HERE)
