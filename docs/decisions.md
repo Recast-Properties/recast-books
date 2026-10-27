@@ -104,6 +104,7 @@ that supersedes the old one, not editing history.
 - D-094 · A utility's card or online fee under 50.00 is recorded on the house of the bill it came with, no card - 2026-10-25 · Paul
 - D-095 · Hardware kept on hand is Supplies on hand (1530); a piece goes on a house through New expense paid from the shelf - 2026-10-25 · Paul
 - D-096 · Never guess the house: only the receipt, the house's own mailbox, Paul's words or the original purchase name it - 2026-10-25 · Paul
+- D-097 · The nightly check looks things up and fixes what its four fix tools cover; the morning email says what it fixed - 2026-10-27 · Paul
 
 ---
 
@@ -2163,4 +2164,31 @@ naming the house is the way to have one post on its own.
 **Amended the same day (the look back):** a sold house leaves the posting allowlist (D-017) but keeps its mailbox, and
 its mail lands on Cost Recapture - so a sold house's mailbox stands for Cost Recapture in the rail (`mailboxSold`). Of the
 164 receipts posted on their own since the cutover, one had a guessed house (the 197.88 Amazon of 10-12).
+
+## D-097 · The nightly check looks things up and fixes what its four fix tools cover; the morning email says what it fixed - 2026-10-27 · Paul
+
+*"the receipts are set up to use you as the brain through the API. why isn't the system handling it there?"* Then:
+*"have the nightly check look things up and fix what it can on its own, and tell me in the morning email what it
+fixed."* The case: the 10-27 digest asked him to "check your 10-07 statement" for two 1.00 ATM fees that the bank's own
+lines settle at a glance (two withdrawals, Palmer 163.00 and Ennis 104.00, one fee each). The check had been built to
+read a summary with no tools and never write; every item it put on Claude's list from 10-14 on waited for a chat.
+
+**Decided:** the check runs with tools. Three look-ups (the bank's lines, the Journal's lines, the documents) read what
+it already holds. Four fixes write, each behind a rail code checks against tonight's facts (CLAUDE.md constraint 3):
+- `take_out_double` voids a double on its own date: both live, same date, payee and amount, the money came from the same
+  account in both (a purchase and its return never pair), not each tied to its own bank line, the old books' row is the
+  one kept (D-027); its bank line moves to the entry kept.
+- `point_receipt_at_entries` records where a receipt on no book landed: live entries within 10 days adding up to its
+  total to the cent.
+- `file_missing_receipt` files the receipt of the document that posted the entry and links it (no second Drive copy
+  when it was filed once).
+- `read_again` re-reads a document in error once, never one from before the cutover (D-067); a re-read never posts.
+At most eight fixes a night. Each carries the model's one plain sentence for Paul, no ids (code refuses one with an id);
+the morning email opens with "Fixed overnight:" and those sentences - only for fixes code ran. A refused or failed fix
+goes on Claude's list with code's reason. A double the look-ups do not settle is Claude's, never "check your
+statement". `{dry: true}` runs every rail and writes nothing (`reconcile/dry/<date>`).
+
+**Kept:** approving or dismissing a card, and a word or a receipt for a charge nobody has explained, stay Paul's. Two
+entries recorded from two bank lines are never a possible double (the facts leave them out). The list for Claude stays
+stored, never mailed (2026-10-26).
 

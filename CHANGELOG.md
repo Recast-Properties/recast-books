@@ -1,5 +1,30 @@
 # Changelog
 
+## 2026-10-27 - The nightly check looks things up and fixes what it can (D-097)
+
+Paul: "the receipts are set up to use you as the brain through the API. why isn't the system handling it there?", then
+"have the nightly check look things up and fix what it can on its own, and tell me in the morning email what it fixed."
+- **The check** (`books-reconcile-background.mjs`) now runs the bookkeeper's tool loop, cut down (16 turns, ends by
+  writing the check). Look-ups: `bank_lines`, `entries`, `documents`, over what the check already holds. Fixes, each
+  behind a code rail tied to tonight's facts (`checkTools`): `take_out_double`, `point_receipt_at_entries`,
+  `file_missing_receipt`, `read_again` - the four kinds of item on Claude's list since 10-14 (the Amazon 263.74, the
+  10-11 photo, Lupe's 300, the USPS 40). At most eight a night; the model's plain sentence for each (code refuses one
+  with an id) opens Paul's email under "Fixed overnight:"; a refused or failed fix goes on Claude's list with code's
+  reason. `fixed` and `refused` are stored on the record. `{dry: true}` runs every rail, writes nothing and stores at
+  `reconcile/dry/<date>` only.
+- The take-out rail was set from the live rows: the 7.56 Home Depot pair of 05-29 is a purchase and its return (2030 is
+  credited in one and debited in the other) - refused; both USPS 40 rows of 01-02 pay from 2030 - allowed, the old
+  books' row kept.
+- The prompt: look before judging; fix what a tool covers; Paul's bullets are his own decisions only (approve or dismiss
+  a card, a word or a receipt for a charge nobody explained) - voids and re-reads are no longer his clicks.
+- Per-turn output raised to 16000: the 10-26 check stopped at the old 4000 exactly.
+- `liveEntries` split out of `gatherFacts` (the facts and the fixes share it, now with each entry's credited accounts).
+- Tests: the look-ups on the 10-07 bank lines; each fix with the case that taught it and its refusals; the email
+  composition; the dry run. 635 tests. Rule: CLAUDE.md constraint 19; how-to: `docs/ops.md`.
+- Checked against tonight's snapshots (Journal 4,022 rows, Feed): the ATM pair is gone from the possible doubles; the
+  four left (three Anthropic top-up groups with their own receipt numbers, the Home Depot return) are ones the check has
+  always left alone.
+
 ## 2026-10-27 - The two 1.00 ATM fees of 10-07 are two real charges; the check stops mailing Paul "check"
 
 Paul, on the 10-27 digest: "what is this?" - "Check your 10-07 statement for the two $1.00 Recast Citizens - Shared

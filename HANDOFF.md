@@ -5,6 +5,17 @@ history and are not written to; `CHANGELOG.md` keeps its dated entry per change.
 `docs/ops.md`. The books' numbers live on the workbook's tabs (P&L, Totals, Citizens Bank, the house tabs) - read them
 there; a figure written here is only as of its date.
 
+## 2026-10-27 (later) - the nightly check fixes what it can (D-097) (START HERE)
+
+**Paul: "have the nightly check look things up and fix what it can on its own, and tell me in the morning email what it
+fixed."** Built and tested (CHANGELOG, same date; 635 tests): the check looks up the bank's lines, the Journal and the
+documents, and fixes four kinds of item itself behind code rails - a double, where a receipt on no book landed, a receipt
+never filed, a failed read. Paul's email opens with "Fixed overnight:" in plain sentences; anything refused lands on
+Claude's list with the reason. **In the repo, not live: owed a ship (`npm run ship`, or his "deploy"), then one dry run
+from the writer editor (`docs/ops.md`) - read `reconcile/dry/<date>` and check `fixed` / `refused` before the 3 AM run.**
+Watch: the first real run - `reconcile/latest` carries `fixed` and `refused`; with tonight's facts nothing should be
+fixed (the four possible doubles left are settled by their memos, or refused by the return rail).
+
 ## 2026-10-27 - the two 1.00 ATM fees of 10-07 are real (START HERE)
 
 **Paul asked about the 10-27 digest's "check your 10-07 statement for the two $1.00 fees" line.** The bank's own file

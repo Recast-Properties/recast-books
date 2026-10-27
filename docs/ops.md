@@ -62,7 +62,12 @@ CLAUDE.md's operating notes, the handoffs' "gotchas met" sections and Claude's m
   needed) and read its `claude` field - the nightly check's own list for Claude (a receipt on no book, a record to
   relink, a migration-era double, a bank line to re-match). Settle each, through the writer (a one-off) or the Inbox
   API from a one-off, and note it in CHANGELOG. Paul's mail carries only his clicks and one line saying how many
-  things Claude has.
+  things Claude has. Since D-097 the check settles most of these itself: `fixed` on the same record is what it did
+  (with the ids), `refused` what code would not let it do and why - the reasons are also on the `claude` list.
+- **A dry run of the nightly check** (D-097): from the writer editor, a one-off calling
+  `siteFetchJson_('/api/reconcile-bg', 'post', { dry: true })` (202 at once; the run takes a few minutes), then
+  `npx netlify blobs:get books-cache reconcile/dry/<date> -O <file>` - every rail ran, nothing was written, and the
+  digest's `reconcile/latest` is untouched.
 - **gviz through Chrome:** `https://docs.google.com/spreadsheets/d/<id>/gviz/tq?tqx=out:csv&sheet=<name>&headers=1&tq=<query>`.
   A `sheet=` name that does not exist answers one empty row, never an error - check the tab list first. Values only:
   a Receipt cell that reads `Receipt` is a link, an empty one has none.

@@ -147,7 +147,9 @@ functions the menu, pollers and nightly jobs call - Paul is never sent there.
     **The nightly check's items for Claude are stored, never mailed** (2026-10-26, Paul: "i thought we took care of all
     the lingering issues"): the check writes Paul only his own clicks and keeps its "For Claude:" list in books-cache
     `reconcile/latest` (`claude`). Penny reads it at the start of every books session (`docs/ops.md`) and settles it
-    before anything else; Paul never pastes it.
+    before anything else; Paul never pastes it. **The check fixes what its four fix tools cover itself** (D-097: a
+    double, a receipt's landing place, a receipt never filed, a failed read), each behind a code rail, and Paul's email
+    opens with what it fixed in plain words - add a kind of fix as a tool with a rail, never as a chore for Paul.
 
 ## Where things are
 
