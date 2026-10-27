@@ -166,3 +166,11 @@ function linkMolallaReceipts() {
   console.log('linkMolallaReceipts: ' + pairs.length + ' receipts written on ' + journal + ' Journal lines; on the tab ' + linked +
     ' lines now open their receipt and ' + blank + ' have none (' + cells.length + ' lines on the tab).');
 }
+
+// 2026-10-27 Paul: "have the nightly check look things up and fix what it can on its own" (D-097) - one dry run of the
+// new check on the live books before its first real run: every rail runs, nothing is written, the result is stored at
+// books-cache reconcile/dry/<date> (never the digest's reconcile/latest). Returns at once; the run takes a few minutes.
+// STATUS: NOT YET RUN
+function dryRunNightlyCheck20261027() {
+  Logger.log(JSON.stringify(siteFetchJson_('/api/reconcile-bg', 'post', { dry: true })));
+}
