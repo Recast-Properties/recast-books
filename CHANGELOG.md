@@ -1,5 +1,20 @@
 # Changelog
 
+## 2026-10-27 - The two 1.00 ATM fees of 10-07 are two real charges; the check stops mailing Paul "check"
+
+Paul, on the 10-27 digest: "what is this?" - "Check your 10-07 statement for the two $1.00 Recast Citizens - Shared
+fees - if the bank only took one, void the extra (bank-1401-202610070000000553378354)". Read the Feed tab: the bank's
+own file (****2505.QFX) has two FOREIGN ATM CHARGE lines of 1.00 on 10-07 with two different bank ids
+(...553324046, ...553378354), one for each cash withdrawal that day at an out-of-network ATM - Palmer 163.00 and Ennis
+104.00. **Both fees are real; nothing voided.** Two faults, both the check's:
+- **The facts** (`gatherFacts`): entries recorded straight from bank lines (`source` bank, id `bank-<account>-<feed_id>`)
+  are no longer grouped as a possible double - each carries the bank's own line id. A bank line beside a receipt
+  still is.
+- **The prompt**: a duplicate the memos do not settle is Claude's to look into under "For Claude:", never a "check
+  your statement" bullet for Paul (it said "Say 'check' only when the memos do not settle it" - a chore that was mine).
+- Tests: two bank-line fees are not a finding, a bank line beside a receipt is, the prompt has no "Say \"check\"".
+  628 tests. **Not live until shipped** (`npm run deploy` - a function change only, no clasp).
+
 ## 2026-10-26 - The nightly check's items for Claude stay with Claude; the 10-26 check's four items settled
 
 Paul, on the 10-26 digest: "i thought we took care of all the lingering issues in the inbox yesterday." The check

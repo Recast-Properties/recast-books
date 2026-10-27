@@ -70,6 +70,14 @@ test("gatherFacts: envelope/Journal disagreement both ways, duplicates across so
   assert.equal(split.possible_duplicates.length, 1, "the two yards are not a finding");
   const twice = gatherFacts({ headers: H, rows: [...JOURNAL.rows, ...lawn("receipt-20260930-bg", "881 Newport"), ...lawn("receipt-20260930-np", "881 Newport")] }, ENVELOPES, NOW);
   assert.equal(twice.possible_duplicates.length, 2, "the same yard twice still is");
+
+  // two 1.00 ATM fees on one day, each from its own bank line: two charges, not a double (2026-10-07)
+  const fee = (id, src) => [row(id, 1, "2026-10-07", "6910", 1, "", "OVERHEAD", "Recast Citizens - Shared", "", src), row(id, 2, "2026-10-07", "1401", "", 1, "OVERHEAD", "Recast Citizens - Shared", "", src)];
+  const fees = gatherFacts({ headers: H, rows: [...JOURNAL.rows, ...fee("bank-1401-a", "bank"), ...fee("bank-1401-b", "bank")] }, ENVELOPES, NOW);
+  assert.equal(fees.possible_duplicates.length, 1, "two bank lines are two charges");
+  const feeAndReceipt = gatherFacts({ headers: H, rows: [...JOURNAL.rows, ...fee("bank-1401-a", "bank"), ...fee("receipt-20261007-x", "receipt")] }, ENVELOPES, NOW);
+  assert.equal(feeAndReceipt.possible_duplicates.length, 2, "a bank line beside a receipt still is");
+  assert.doesNotMatch(CHECK_PROMPT, /Say "check"/);
 });
 
 function fakes() {

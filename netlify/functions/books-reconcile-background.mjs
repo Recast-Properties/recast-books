@@ -83,7 +83,10 @@ export function gatherFacts(journal, envelopes, now = Date.now(), record = MIGRA
   // document split across houses (Falcon Creek INV 1404, 2026-09-30: 110.00 each for two yards).
   const fileId = (u) => (String(u || "").match(/\/d\/([\w-]{20,})/) || [])[1];
   const oneBillSplit = (gr) => fileId(gr[0].doc_url) && gr.every((e) => fileId(e.doc_url) === fileId(gr[0].doc_url)) && new Set(gr.map((e) => e.property)).size === gr.length;
-  const possible_duplicates = [...groups.values()].filter((gr) => gr.length > 1 && gr.some((e) => e.source !== "migration") && !oneBillSplit(gr))
+  // Nor are entries recorded straight from bank lines: each id carries the bank's own line id, so two of them are two
+  // charges the bank took (the two 1.00 ATM fees of 2026-10-07, one per withdrawal, mailed to Paul as "check" on 10-27).
+  const allBankLines = (gr) => gr.every((e) => e.source === "bank");
+  const possible_duplicates = [...groups.values()].filter((gr) => gr.length > 1 && gr.some((e) => e.source !== "migration") && !oneBillSplit(gr) && !allBankLines(gr))
     .map((gr) => ({ date: gr[0].date, payee: gr[0].payee, total: money(gr[0].debit), entries: gr.map((e) => `${e.txn_id} (${e.source}, ${e.property || "no property"}${e.memo ? `; memo: ${e.memo}` : ""})`) }));
 
   // (d) receipt entries with no document - a placeholder has none by design, and has its own list
@@ -224,7 +227,7 @@ export const CHECK_PROMPT = `You are the nightly books check for Recast Properti
 
 You receive the facts the code gathered tonight as JSON. Judge them and write what Paul (the owner) should do. Rules:
 - Output at most eight bullets, each one action for Paul starting with a verb, in plain everyday words - he is not an accountant ("talk to me like im 5 years old", 2026-09-26): the store, the date, the dollar amount and what to click. "Void the second Sherwin-Williams $55.72 from 03-22 - it is in the books twice (receipt-2026...)", "Approve the Atmos $67.39 card - it has waited 3 days". No jargon in his sentence (entries, journal, envelope, migrated, gate, txn); an id goes at the end in parentheses so he can find it, exactly as given.
-- A duplicate is two live entries with the same date, payee and amount; a migration entry beside a receipt entry is the classic replay - the receipt one is the twin to void. Read the memos first: different receipt or invoice numbers mean different charges (Anthropic top-ups repeat the same day) and need no action at all; the same number twice is the duplicate. Say "check" only when the memos do not settle it.
+- A duplicate is two live entries with the same date, payee and amount; a migration entry beside a receipt entry is the classic replay - the receipt one is the twin to void. Read the memos first: different receipt or invoice numbers mean different charges (Anthropic top-ups repeat the same day) and need no action at all; the same number twice is the duplicate. When the memos do not settle it, looking into it is Claude's job (the bank statement tab and the documents are Claude's to read), a bullet under "For Claude:" naming the ids - never ask Paul to "check" his statement.
 - Pending cards are holds - Paul's decision is what they wait for, and some are parked on purpose for the Phase 3 bank statement. The queue count is context, not an action: never tell Paul to approve, dismiss or "clear" a card the check has not read. Mention the queue only if it is growing or a card is over 30 days old.
 - Errors dated before 2026-09-17 are migration-era. Every migration leftover was settled with Paul on 2026-10-01 (docs/migration-leftovers-final.md), so one showing up now is Claude's to look at, never Paul's: a bullet under "For Claude:" naming the docIds. Do not ask for replays of them.
 - receipts_on_no_book: every copy of each receipt listed was posted or dismissed against something that is not on the books, so the receipt may be on no book at all. Claude's job: one bullet per receipt under "For Claude:" naming the docIds ("Lowe's 03-16 $465.73 may be on no book - the only copy gm-... was dismissed against ...; find where it landed or post it").
