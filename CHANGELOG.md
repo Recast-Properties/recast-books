@@ -11,6 +11,8 @@ Paul: "one thing i want to add to the daily email report: flag any charges that 
 - On the live snapshot: 10-23 lists six (699.33 - the Mariana 350 and PACER 39.30 recorded that day were taken out
   since, so they are not); 10-24 lists the FedEx 135.95; 10-25 and 10-26 none.
 - Test: the list, its exclusions, the refund and the email composition. 636 tests.
+- **Live since 10:58 CT - site `6ae0ca41`, read-back OK (stamp `11b6a7e`), on Paul's "deploy"; site only (`ship --dry`
+  for the stamp, then `npm run deploy`) - no writer change, and clasp login has lapsed. The writer stays @63 (`8881ae4`).**
 
 ## 2026-10-27 - The nightly check looks things up and fixes what it can (D-097)
 

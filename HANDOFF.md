@@ -9,8 +9,8 @@ there; a figure written here is only as of its date.
 
 **Paul: "flag any charges that come through on my personal accounts."** Built and tested (CHANGELOG, same date; 636
 tests): under the check, the 3 AM email lists every entry recorded the day before that his own card paid for, with the
-card's last four when the receipt shows them. **In the repo, not live: owed a ship (his "deploy").** Watch: the first
-email after the ship - the list, or nothing when his card paid for nothing that day.
+card's last four when the receipt shows them. **Live since 10:58 CT - site `6ae0ca41`, read-back OK (stamp `11b6a7e`), on
+his "deploy" (site only; writer unchanged at @63). Nothing owed.** Watch: the 10-28 3 AM email - the list, or nothing when his card paid for nothing that day.
 
 ## 2026-10-27 (later) - the nightly check fixes what it can (D-097) (START HERE)
 
