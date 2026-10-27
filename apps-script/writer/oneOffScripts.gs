@@ -56,6 +56,15 @@
  * dismissPoinsettaPhoto20261026 (2026-10-26, the re-read 10-11 photo = the 37.84 Home Depot already in the books; its card dismissed; run 14:49 PT, pasted into the editor) is in commit 7608f28.
  ****************************************************************/
 
+// 2026-10-27 Paul: "have the nightly check look things up and fix what it can on its own" (D-097) - one dry run of the
+// new check on the live books before its first real run: every rail runs, nothing is written, the result is stored at
+// books-cache reconcile/dry/<date> (never the digest's reconcile/latest). Returns at once; the run takes a few minutes.
+// STATUS: NOT YET RUN
+function dryRunNightlyCheck20261027() {
+  var res = siteFetchRaw_('/api/reconcile-bg', 'post', { dry: true });   // a background function: 202, empty body
+  Logger.log('dry run started: HTTP ' + res.getResponseCode());
+}
+
 // 2026-10-05 Paul: "yes match all the receipts and link them" (1014 S View). Each receipt found for the house - in
 // its Drive folder "1014 S View" and in the mail, copied to Drive by the poller one-off - is written on its own
 // lines in the books (65 receipts, 136 lines; the pairs are data/molalla-receipts.json, matched on store, date and
@@ -165,13 +174,4 @@ function linkMolallaReceipts() {
   warmCache_();
   console.log('linkMolallaReceipts: ' + pairs.length + ' receipts written on ' + journal + ' Journal lines; on the tab ' + linked +
     ' lines now open their receipt and ' + blank + ' have none (' + cells.length + ' lines on the tab).');
-}
-
-// 2026-10-27 Paul: "have the nightly check look things up and fix what it can on its own" (D-097) - one dry run of the
-// new check on the live books before its first real run: every rail runs, nothing is written, the result is stored at
-// books-cache reconcile/dry/<date> (never the digest's reconcile/latest). Returns at once; the run takes a few minutes.
-// STATUS: NOT YET RUN
-function dryRunNightlyCheck20261027() {
-  var res = siteFetchRaw_('/api/reconcile-bg', 'post', { dry: true });   // a background function: 202, empty body
-  Logger.log('dry run started: HTTP ' + res.getResponseCode());
 }
