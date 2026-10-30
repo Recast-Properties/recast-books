@@ -16,8 +16,8 @@ the 19.66 Home Depot (366 Mesa) are Dennis paid, the 5.00 deed copy (200 Janice)
 e17c48c, run 08:57 CT, read back); Dennis is owed it once.
 **D-099, Dennis's own cards (CHANGELOG, same date):** Settings `dennis_personal_last4` = `2749` on the live workbook
 (one-off in afde4ea, run 09:01 CT, read back by gviz; 2749 on no bank row, 9301 still on Citizens). The code (54f37a9)
-is pushed to the writer, live = repo by pull - the sheet's Inbox Save learns a Dennis card now. **Owed by Paul: `npm
-run ship`** - until then the bookkeeper's reads and the web relearn are the old build (Menu.gs + lib.gs + the site).
+is pushed to the writer, live = repo by pull. **Live since 09:15 CT - web app @68, site `6ae4a677`, read-back OK
+(stamp `78a200a`), shipped from the session on Paul's `npm run ship`.** Nothing owed by Paul on 10-30.
 Watch: the next receipt on card 2749 posts as Dennis paid on its house, or (no house) waits as a card naming Dennis.
 
 ## 2026-10-29 (night) - D-098: Chase pays = Paul paid

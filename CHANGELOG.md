@@ -27,8 +27,10 @@ receipt on Dennis's Capital One Mastercard 2749 was held for "who paid?" every t
   with DENNIS); the old "Dennis has no list" check flipped. 641 pass.
 - The books: one-off `addDennisCard2749_20261030` (commit afde4ea), pushed as the file's only function, run from the
   editor by Penny 09:01 CT; read back by gviz - Settings `dennis_personal_last4` = `2749`, not on any `Bank accounts`
-  row (1401 keeps `2505, 5450, 9301`). One-off out; writer pushed from the commit, live = repo by pull. Needs Paul's
-  `npm run ship` for the bookkeeper's reads and the web relearn (Menu.gs, lib.gs and the site changed).
+  row (1401 keeps `2505, 5450, 9301`). One-off out; writer pushed from the commit, live = repo by pull.
+- **Live since 09:15 CT - web app @68, site `6ae4a677`, read-back OK (stamp `78a200a`), shipped from the session after
+  Paul ran `npm run ship` from the folder above (no package.json there).** Tests 641 pass, 0 fail. The dry-run upload
+  was skipped (no POLLER_SECRET in the shell).
 
 ## 2026-10-30 - Three Citizens entries that never came out of Citizens: two paid by Dennis, one by Paul
 
