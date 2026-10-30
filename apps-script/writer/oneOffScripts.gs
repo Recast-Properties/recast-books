@@ -167,3 +167,62 @@ function linkMolallaReceipts() {
   console.log('linkMolallaReceipts: ' + pairs.length + ' receipts written on ' + journal + ' Journal lines; on the tab ' + linked +
     ' lines now open their receipt and ' + blank + ' have none (' + cells.length + ' lines on the tab).');
 }
+
+// 2026-10-29 Paul: "in the 366 mesa sheet its showing a $10,000 advance, but that was changed to dennis leaving the
+// money in the citizens account for general use, it is no longer a cash advance because i left money in the account
+// to match." Dennis's 10,000 of 08-12 (the bank's "Loan 10K for oper exp mesa") stops being a 366 Mesa cash advance
+// and becomes his working money in the account (D-055): the Advances row comes off, the advance entry is voided on
+// its own date, a working-money entry takes its place on the same date, the bank line is tied to it, the Mesa tab
+// is rebuilt. Safe to run twice: each step checks the books first and the new entry is found by its memo.
+// STATUS: NOT YET RUN
+function mesaAdvanceToWorkingMoney20261029() {
+  var props = PropertiesService.getScriptProperties();
+  var ss = openWorkbook_(props);
+  requireOwner_(ss);
+  var who = Session.getActiveUser().getEmail();
+  var oldId = 'manual-20260812-28027e9806ef', date = '2026-08-12', feedId = '202608120000000543522613';
+  var memo = "Working money Dennis put into the Citizens account 2026-08-12 (the bank's 'Loan 10K for oper exp mesa') - " +
+    "was recorded as a 366 Mesa cash advance; Paul, 2026-10-29: he is leaving it in the account for general use and " +
+    "Paul left money in to match, so no house, no interest; owed back when he takes it out (D-055)";
+  var journal = ss.getSheetByName('Journal'), cols = headerIndex_(journal);
+  var data = journal.getRange(2, 1, journal.getLastRow() - 1, journal.getLastColumn()).getValues();
+  var g = function (r, n) { return r[cols[n] - 1]; };
+  var newId = '';
+  data.forEach(function (r) { if (String(g(r, 'memo')) === memo) newId = String(g(r, 'txn_id')); });
+  // 1. the Advances row comes off (every reader goes by value, never row number - Menu.gs sortAdvances_)
+  var adv = ss.getSheetByName('Advances'), advCols = headerIndex_(adv);
+  var advRow = findRowByValue_(adv, advCols['advance_id'], 'adv-' + oldId);
+  if (advRow > 0) {
+    var a = adv.getRange(advRow, 1, 1, adv.getLastColumn()).getValues()[0];
+    if (String(a[advCols['property'] - 1]) !== '366 Mesa' || toCents(a[advCols['amount'] - 1]) !== 1000000) {
+      throw new Error('Advances row ' + advRow + ' is not the 366 Mesa 10,000 - nothing changed');
+    }
+    adv.deleteRow(advRow);
+    console.log('Advances row removed: adv-' + oldId);
+  } else console.log('Advances row already gone');
+  // 2. the advance entry voided on its own date
+  if (findAllRowsByValue_(journal, cols['void_of'], oldId).length === 0) {
+    voidEntry_(oldId, 'Paul, 2026-10-29: not a 366 Mesa cash advance - Dennis is leaving the 10,000 in the account as working money (D-055)', date, who, props, true);
+    console.log('voided ' + oldId);
+  } else console.log(oldId + ' already voided');
+  // 3. the working-money entry in its place (the 10-07 one's shape, recordDennisPayouts20261024 in d8f8dd1)
+  if (!newId) {
+    var ctx = buildCtx_(ss);
+    var L = function (extra) { return Object.assign({ property: '', payee: 'Dennis Little', paid_from: '1401' }, extra); };
+    var built = buildEntry({ type: 'journal', date: date, source: 'manual', posted_by: who, doc_url: '', memo: memo,
+      lines: [L({ account: '1401', debit: 1000000, credit: 0, description: 'Working money put into the account' }),
+              L({ account: '2010', debit: 0, credit: 1000000, description: 'Working money put into the account' })] }, ctx);
+    postBatchEntries_([built], props, true);
+    newId = built.txn_id;
+    console.log('posted ' + newId);
+  } else console.log('already recorded as ' + newId);
+  // 4. the bank line follows the new entry
+  var tied = feedUpdateRows_(ss, [{ feed_id: feedId, status: 'matched', txn_id: newId,
+    match_note: "Dennis's 10,000 put into the account as working money - no house, no interest (was the 366 Mesa advance; Paul, 2026-10-29)" }]);
+  // 5. the Mesa tab, the bank tab, the caches
+  setupPropertyTab('366 Mesa');
+  refreshBankSheets_(ss);
+  warmCache_();
+  console.log('mesaAdvanceToWorkingMoney20261029: done - ' + newId + '; ' + tied.updated + ' bank line tied' +
+    (tied.missing.length ? ' (not found: ' + tied.missing.join(', ') + ')' : '') + '.');
+}
