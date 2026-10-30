@@ -32,7 +32,9 @@ the checkbox shoudl be paul paid vs recast account."
   payments after 10-14 = 659.71, books 117,785.04). The tab adds up.
 - Not changed: the 60.00 lawn stays on 104 Ashburne (sold) where the bookkeeper put it on 10-01, now as Paul paid.
 - **Live since 21:13 CT - web app @67, site `6ae3fd3d`, read-back OK (stamp `10618b6`), shipped from the session on
-  Paul's "deploy". Nothing owed.**
+  Paul's "deploy". Nothing owed.** Paul ran `npm run ship` himself a minute earlier (web app @66, site `6ae3fd35`,
+  the same commit, stamp 21:12); his read-back then found the session's 21:13 copy already live and said "ship
+  stopped" - two deploys of one build, the later one is what is live, nothing to redo.
 
 ## 2026-10-29 - The working money ledger on the P&L tab; Paul's 20,000 of Newport left in as working money
 
