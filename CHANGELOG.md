@@ -23,7 +23,8 @@ capital. so dennis and i should both have $25k in the account as working capital
   Citizens" unchanged at 34,419.24 (the 20,000 moved from the house to the account, both already counted). The tab
   adds up.
 - **Live since 20:46 CT - web app @65, site `6ae3f6fa`, read-back OK (stamp `0f0e8ea`), shipped from the session on
-  Paul's "deploy". Nothing owed.**
+  Paul's "deploy". Nothing owed.** Paul ran `npm run ship` himself the same minute (web app @64, site `6ae3f6e6`, the
+  same code and stamp); the session's run came after it, so @65 is what is live - two deploys of one build, no difference.
 
 ## 2026-10-29 - Dennis's 10,000 of 08-12 is his working money in the account, not a 366 Mesa advance
 
