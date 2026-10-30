@@ -12,8 +12,8 @@ there; a figure written here is only as of its date.
 its own date, a working-money entry (`manual-20260812-e6cdf9f2384d`, no house, no interest, D-055) stands in its place,
 the bank line is tied to it, the Advances row is gone, the Mesa tab rebuilt (Cash Advances blank, Total Project Cost
 140,377.77, Dennis's payout 154,962.19). Dennis's working money in Citizens is 25,000.00 (08-06 5,000; 08-12 10,000;
-10-07 10,000). **Nothing owed.** clasp login is still expired - the one-off went in through the editor and the live
-`oneOffScripts.gs` is back to HEAD. Watch: the next hourly P&L run and the nightly check - 366 Mesa carries interest on
+10-07 10,000). **Nothing owed.** Paul ran `npx clasp login` the same evening; the writer is pushed and verified by pull - every
+file = the repo (Build.gs carries the 10-27 site stamp `11b6a7e`; the deployed web app stays @63). Watch: the next hourly P&L run and the nightly check - 366 Mesa carries interest on
 the purchase principal only, and the 08-12 void / re-post pair is not flagged as a double.
 
 ## 2026-10-27 (evening) - the email flags his own-card charges
