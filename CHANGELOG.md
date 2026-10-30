@@ -1,5 +1,17 @@
 # Changelog
 
+## 2026-10-30 - The 08-03 19.66 Home Depot on 366 Mesa taken out: the 09-03 receipt with the month typed wrong
+
+Paul, asked whether to take out the 08-03 19.66 Home Depot on Mesa as a double: "Yes, take it out".
+- One-off `voidMesaHomeDepotDouble20261030` (commit e17c48c), pushed as the file's only function, run from the editor
+  by Penny 08:57 CT: `migration-20260803-52e20515027e` (1030 Rehab 19.66 / 2010 Dennis; old books Mesa row 15, "?",
+  NO_DOC) voided on its own date, 08-03 (`void-migration-20260803-52e20515027e`); 366 Mesa refreshed by the void, the
+  P&L refreshed. The 09-03 receipt (`receipt-20260903-eeee6b5810ba-636d`, Dennis's card 2749, four lines) stays. No
+  bank line was tied to it, so the bank tabs were not touched. One-off out; writer pushed from the commit (not the
+  folder, which held another session's unfinished edits), live = repo by pull.
+- Read back: the Journal carries the void mirror; the 366 Mesa tab no longer lists an 08-03 Home Depot; its Dennis
+  Paid (direct) reads 4,155.87, Rehab Costs 13,551.49. Dennis is owed the purchase once.
+
 ## 2026-10-30 - D-099: the books can learn a card as Dennis's own (2749)
 
 The gap from the entry below: a card number could be remembered only as a Recast bank account or Paul's own, so a

@@ -11,9 +11,10 @@ there; a figure written here is only as of its date.
 deed copy as a paul personal expense."** Done and read back (CHANGELOG, same date): the 185.00 writ (200 Janice) and
 the 19.66 Home Depot (366 Mesa) are Dennis paid, the 5.00 deed copy (200 Janice) Paul paid; the Citizens box reads
 "they agree". Writer pushed, live = repo by pull; no deploy needed (one-off only). **Nothing owed by Paul on this.**
-**Asked, waiting on his word:** the migrated 19.66 Home Depot of 08-03 on 366 Mesa (`migration-20260803-52e20515027e`,
-Dennis paid, no receipt) is almost surely the same purchase with the month mistyped - take it out (void on its own
-date) only on his yes. **Gap:** a card can be learned as a bank account or Paul's own, never Dennis's own (2749).
+**Then, on his "Yes, take it out":** the migrated 19.66 Home Depot of 08-03 on 366 Mesa
+(`migration-20260803-52e20515027e`, the 09-03 receipt with the month mistyped) is voided on its own date (one-off in
+e17c48c, run 08:57 CT, read back); Dennis is owed it once. **Gap:** a card can be learned as a bank account or
+Paul's own, never Dennis's own (2749).
 
 ## 2026-10-29 (night) - D-098: Chase pays = Paul paid
 
