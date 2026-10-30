@@ -13,8 +13,12 @@ the 19.66 Home Depot (366 Mesa) are Dennis paid, the 5.00 deed copy (200 Janice)
 "they agree". Writer pushed, live = repo by pull; no deploy needed (one-off only). **Nothing owed by Paul on this.**
 **Then, on his "Yes, take it out":** the migrated 19.66 Home Depot of 08-03 on 366 Mesa
 (`migration-20260803-52e20515027e`, the 09-03 receipt with the month mistyped) is voided on its own date (one-off in
-e17c48c, run 08:57 CT, read back); Dennis is owed it once. **Gap:** a card can be learned as a bank account or
-Paul's own, never Dennis's own (2749).
+e17c48c, run 08:57 CT, read back); Dennis is owed it once.
+**D-099, Dennis's own cards (CHANGELOG, same date):** Settings `dennis_personal_last4` = `2749` on the live workbook
+(one-off in afde4ea, run 09:01 CT, read back by gviz; 2749 on no bank row, 9301 still on Citizens). The code (54f37a9)
+is pushed to the writer, live = repo by pull - the sheet's Inbox Save learns a Dennis card now. **Owed by Paul: `npm
+run ship`** - until then the bookkeeper's reads and the web relearn are the old build (Menu.gs + lib.gs + the site).
+Watch: the next receipt on card 2749 posts as Dennis paid on its house, or (no house) waits as a card naming Dennis.
 
 ## 2026-10-29 (night) - D-098: Chase pays = Paul paid
 

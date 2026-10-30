@@ -59,6 +59,7 @@
  * mesaAdvanceToWorkingMoney20261029 (2026-10-29, Dennis's 10,000 of 08-12 off 366 Mesa and into the account as his working money, D-055 - the Advances row off, the entry voided and re-posted with no house, the bank line tied, the tab rebuilt; run 20:25 CT, pasted into the editor as the file's only function - clasp login was expired) is in commit b9590e9.
  * fixThreePayers20261030 (2026-10-30, Paul: the 185.00 writ and the 19.66 Home Depot paid by Dennis's own check and card, the 5.00 deed copy by Paul's own card - none from Citizens; each voided on its own date and posted again, the receipt records repointed, 200 Janice, 366 Mesa, the bank tabs and the P&L refreshed; run 07:02 CT from the editor, pushed as the file's only function) is in commit 3de786a.
  * voidMesaHomeDepotDouble20261030 (2026-10-30, Paul: "Yes, take it out" - the 19.66 Home Depot on 366 Mesa dated 08-03, migrated from the old books, was the 09-03 receipt paid by Dennis with the month typed wrong; voided on its own date, 366 Mesa and the P&L refreshed; run 08:57 CT from the editor, pushed as the file's only function) is in commit e17c48c.
+ * addDennisCard2749_20261030 (2026-10-30, D-099: Settings dennis_personal_last4 seeded with Dennis's own card 2749; run 09:01 CT from the editor, pushed as the file's only function) is in commit afde4ea.
  ****************************************************************/
 
 // 2026-10-05 Paul: "yes match all the receipts and link them" (1014 S View). Each receipt found for the house - in
@@ -170,20 +171,4 @@ function linkMolallaReceipts() {
   warmCache_();
   console.log('linkMolallaReceipts: ' + pairs.length + ' receipts written on ' + journal + ' Journal lines; on the tab ' + linked +
     ' lines now open their receipt and ' + blank + ' have none (' + cells.length + ' lines on the tab).');
-}
-
-// 2026-10-30 Paul: card 2749 (Capital One Mastercard) is Dennis's own personal card. D-099: Settings
-// `dennis_personal_last4` is the list of Dennis's own cards - a receipt citing one posts as Dennis paid (on its house),
-// and a Save with Dennis picked adds to it. Seeds the row with 2749, keeping anything already on it. Run by Penny.
-// STATUS: NOT YET RUN
-function addDennisCard2749_20261030() {
-  var ss = openWorkbook_(PropertiesService.getScriptProperties());
-  requireOwner_(ss);
-  var settings = ss.getSheetByName('Settings');
-  var cols = headerIndex_(settings);
-  var row = findRowByValue_(settings, cols['key'], 'dennis_personal_last4');
-  var now = row === -1 ? [] : String(settings.getRange(row, cols['value']).getValue() || '').split(/[\s,;]+/).filter(String);
-  if (now.indexOf('2749') === -1) now.push('2749');
-  upsertRow_(settings, cols, 'key', { key: 'dennis_personal_last4', value: now.join(', ') });
-  Logger.log('dennis_personal_last4 = ' + now.join(', '));
 }

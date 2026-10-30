@@ -25,6 +25,10 @@ receipt on Dennis's Capital One Mastercard 2749 was held for "who paid?" every t
   paid (one on overhead still holds - the engine refuses Dennis on overhead).
 - Tests: `test/gate.test.mjs` (Dennis's list learned, appended, never 9301), `test/books-inbox.test.mjs` (relearn
   with DENNIS); the old "Dennis has no list" check flipped. 641 pass.
+- The books: one-off `addDennisCard2749_20261030` (commit afde4ea), pushed as the file's only function, run from the
+  editor by Penny 09:01 CT; read back by gviz - Settings `dennis_personal_last4` = `2749`, not on any `Bank accounts`
+  row (1401 keeps `2505, 5450, 9301`). One-off out; writer pushed from the commit, live = repo by pull. Needs Paul's
+  `npm run ship` for the bookkeeper's reads and the web relearn (Menu.gs, lib.gs and the site changed).
 
 ## 2026-10-30 - Three Citizens entries that never came out of Citizens: two paid by Dennis, one by Paul
 
