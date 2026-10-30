@@ -914,7 +914,8 @@ function inboxApprove(req) {
 }
 
 /** Audit 2026-10-24 #7 (Paul, 10-24: "when I pick who paid on a card, the books may write that card's last four
- *  digits onto the Bank accounts tab (or the Settings list for my personal cards) so it is never asked again"). The
+ *  digits onto the Bank accounts tab (or the Settings list for my personal cards) so it is never asked again"); D-099
+ *  adds Dennis's own cards (Settings `dennis_personal_last4`) when he picks Dennis. The
  *  digits the read cited go on the row of the payer Paul picked - lib/gate.mjs learnCardNumber says which row, or
  *  nothing - then the site re-runs every other waiting card that cites the same number from its stored read
  *  (/api/inbox relearn: the gate and the post, no new model read). Returns what was learned, for the dialog, or null. */
@@ -922,15 +923,18 @@ function learnCard_(ss, model, entries, by) {
   var payer = String((entries[0] || {}).paid_from || '');
   var settings = ss.getSheetByName('Settings');
   var setCols = headerIndex_(settings);
-  var setRow = findRowByValue_(settings, setCols['key'], 'paul_personal_last4');
-  var personal = setRow === -1 ? '' : String(settings.getRange(setRow, setCols['value']).getValue() || '');
-  var learned = learnCardNumber({ model: model, paid_from: payer, bankRows: bankAccountsLast4_(ss), personalLast4: personal });
+  var setting = function (key) {
+    var r = findRowByValue_(settings, setCols['key'], key);
+    return r === -1 ? '' : String(settings.getRange(r, setCols['value']).getValue() || '');
+  };
+  var learned = learnCardNumber({ model: model, paid_from: payer, bankRows: bankAccountsLast4_(ss),
+    personalLast4: setting('paul_personal_last4'), dennisLast4: setting('dennis_personal_last4') });
   if (!learned) return null;
   if (learned.where === 'bank') {
     var bank = ss.getSheetByName('Bank accounts');
     upsertRow_(bank, headerIndex_(bank), 'code', { code: learned.code, last4: learned.value });
   } else {
-    upsertRow_(settings, setCols, 'key', { key: 'paul_personal_last4', value: learned.value });
+    upsertRow_(settings, setCols, 'key', { key: learned.where === 'dennis' ? 'dennis_personal_last4' : 'paul_personal_last4', value: learned.value });
   }
   var out = { last4: learned.last4, name: learned.name, started: [] };
   try {

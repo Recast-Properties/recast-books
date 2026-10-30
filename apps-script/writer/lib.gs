@@ -1288,23 +1288,26 @@ var M_gate = (function () {
 
   /**
    * What to remember after Paul picks the payer on a card the read held for PAYER_UNKNOWN: the cited last four go on
-   * the row he picked - a bank account's `last4` list (1401 / 1402) or Settings `paul_personal_last4` (PAUL) - so the
-   * same number is never asked about again. null when there is nothing to learn: the read already knew the payer, no
-   * digits were cited, the digits are on a list already (any list - a number the read should have matched is a read
-   * problem, not a missing fact), or the payer is Dennis / unknown (his cards have no list).
-   *   bankRows: [{code, name, last4: ["2505", ...] | "2505, 5450"}]   personalLast4: ["9166", ...] | "9166, 8870"
+   * the row he picked - a bank account's `last4` list (1401 / 1402), Settings `paul_personal_last4` (PAUL) or Settings
+   * `dennis_personal_last4` (DENNIS, D-099: Dennis's own cards, not his card on Citizens) - so the same number is never
+   * asked about again. null when there is nothing to learn: the read already knew the payer, no digits were cited, the
+   * digits are on a list already (any list - a number the read should have matched is a read problem, not a missing
+   * fact), or the payer is unknown.
+   *   bankRows: [{code, name, last4: ["2505", ...] | "2505, 5450"}]   personalLast4 / dennisLast4: ["9166", ...] | "9166, 8870"
    */
-  function learnCardNumber({ model, paid_from, bankRows = [], personalLast4 = [] } = {}) {
+  function learnCardNumber({ model, paid_from, bankRows = [], personalLast4 = [], dennisLast4 = [] } = {}) {
     const last4 = citedLast4(model);
     if (!last4) return null;
     const unknown = String(model?.paid_from || "") === "UNKNOWN" || (model?.entries || []).some((e) => String(e?.paid_from || "") === "UNKNOWN");
     if (!unknown) return null;
     const list = (v) => (Array.isArray(v) ? v : String(v || "").split(/[\s,;]+/)).map((x) => String(x).trim()).filter(Boolean);
     const personal = list(personalLast4);
+    const dennis = list(dennisLast4);
     const banks = bankRows.map((b) => ({ code: String(b.code), name: String(b.name || b.code), last4: list(b.last4) }));
-    if (personal.includes(last4) || banks.some((b) => b.last4.includes(last4))) return null;
+    if (personal.includes(last4) || dennis.includes(last4) || banks.some((b) => b.last4.includes(last4))) return null;
     const payer = String(paid_from || "");
     if (payer === "PAUL") return { last4, where: "personal", name: "Paul's personal cards", value: personal.concat(last4).join(", ") };
+    if (payer === "DENNIS") return { last4, where: "dennis", name: "Dennis's personal cards", value: dennis.concat(last4).join(", ") };
     const bank = banks.find((b) => b.code === payer);
     if (!bank) return null;
     return { last4, where: "bank", code: bank.code, name: bank.name, value: bank.last4.concat(last4).join(", ") };

@@ -371,6 +371,15 @@ test("relearn: every pending receipt card citing the number is re-run from its s
   assert.equal((await getDocsStore().get("doc/gm-posted", { type: "json" })).status, "posted");
 });
 
+test("relearn: DENNIS is a payer it takes (D-099) - the waiting card is re-run with Dennis paid", { skip }, async () => {
+  await seedEnvelope("gm-dennis", heldForPayer("Capital One Mastercard ending 2749"));
+  const res = await handler(req("POST", { token: session("owner"), body: { action: "relearn", last4: "2749", paid_from: "DENNIS" } }));
+  assert.equal(res.status, 200);
+  assert.deepEqual((await res.json()).started, ["gm-dennis"]);
+  const call = ingestCalls.find((c) => c.url.endsWith("/api/ingest-bg") && c.body.docId === "gm-dennis");
+  assert.equal(call.body.overrides.paid_from, "DENNIS");
+});
+
 test("relearn: a failed invoke puts that card back as it was; bad input -> 400", { skip }, async () => {
   const before = await seedEnvelope("gm-fail", heldForPayer("card ending 7952 matches nothing on file"));
   globalThis.fetch = async (url, opts) => {
@@ -387,7 +396,7 @@ test("relearn: a failed invoke puts that card back as it was; bad input -> 400",
   assert.deepEqual(after.gate, before.gate);
 
   assert.equal((await handler(req("POST", { token: session("owner"), body: { action: "relearn", last4: "79", paid_from: "1402" } }))).status, 400);
-  assert.equal((await handler(req("POST", { token: session("owner"), body: { action: "relearn", last4: "7952", paid_from: "DENNIS" } }))).status, 400);
+  assert.equal((await handler(req("POST", { token: session("owner"), body: { action: "relearn", last4: "7952", paid_from: "UNKNOWN" } }))).status, 400);
 });
 
 test("mark-posted with repoint:true moves a posted record onto new entries and keeps where it came from", { skip }, async () => {

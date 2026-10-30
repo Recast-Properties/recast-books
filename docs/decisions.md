@@ -106,6 +106,7 @@ that supersedes the old one, not editing history.
 - D-096 · Never guess the house: only the receipt, the house's own mailbox, Paul's words or the original purchase name it - 2026-10-25 · Paul
 - D-097 · The nightly check looks things up and fixes what its four fix tools cover; the morning email says what it fixed - 2026-10-27 · Paul
 - D-098 · The Recast Chase account is Paul's own money: a cost it pays is a cost Paul paid, owed back to him - 2026-10-29 · Paul
+- D-099 · Dennis's own cards are a list beside Paul's: a receipt on one is Dennis paid, on its house - 2026-10-30 · Paul
 
 ---
 
@@ -2218,3 +2219,18 @@ Paul does not change when Chase pays; it moves from "money in Recast Chase" to "
 other way. The Inbox and the dialogs still say "Paid from: Chase"; the shape is the engine's. The nightly own-card
 list leaves Chase-paid entries out (not a personal card). The seven Chase-paid costs on the books were posted again
 in the shape by `chasePaysIsPaulPaid20261029`.
+
+## D-099 · Dennis's own cards are a list beside Paul's: a receipt on one is Dennis paid, on its house - 2026-10-30 · Paul
+
+Paul, 2026-10-30, on the 19.66 Home Depot of 09-03 on 366 Mesa: *"the home depot paid as a dennis personal card."* The
+receipt showed a Capital One Mastercard ending 2749; it had been held for "who paid?" and saved as Citizens. The books
+could learn a card number only as a Recast bank account (`Bank accounts` last4) or as Paul's own (Settings
+`paul_personal_last4`), so the next receipt on 2749 would have asked again.
+
+**Decided:** Settings `dennis_personal_last4` lists Dennis's own personal cards (2749 first) and follows the Paul list
+everywhere: the bookkeeper is shown it beside Paul's under "Payment instruments on file" and a receipt citing one posts
+as paid_from DENNIS - which, like every Dennis payment, needs a house (D-010, D-011; the engine refuses it on overhead,
+so such a receipt stays a card). A Save in the Inbox with Dennis picked on a card held for "who paid?" adds the cited
+number to the list (`learnCardNumber` / `learnCard_`), and the other waiting cards citing it are run again as Dennis
+paid (`/api/inbox relearn` takes DENNIS). Not this list: Dennis's card ON the Citizens account (9301) is a Citizens
+card, Recast paid (1401's row on `Bank accounts`); a number already on any list is never moved.

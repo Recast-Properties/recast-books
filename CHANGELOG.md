@@ -1,5 +1,19 @@
 # Changelog
 
+## 2026-10-30 - D-099: the books can learn a card as Dennis's own (2749)
+
+The gap from the entry below: a card number could be remembered only as a Recast bank account or Paul's own, so a
+receipt on Dennis's Capital One Mastercard 2749 was held for "who paid?" every time (and once saved as Citizens).
+- Settings `dennis_personal_last4` (seeded `2749` by one-off `addDennisCard2749_20261030`) sits beside
+  `paul_personal_last4` and goes everywhere it goes: the ingest reads it into the bookkeeper's context
+  (`books-ingest-background.mjs`), the header lists it as DENNIS (`lib/bookkeeper.mjs`), and the prompt's paid_from
+  rule 2 says a match is `DENNIS`, which needs a house; Dennis's card on Citizens (9301) stays Citizens.
+- `learnCardNumber` (`lib/gate.mjs`) learns a number onto it when Paul picks Dennis; `learnCard_` (`Menu.gs`) writes the
+  Settings row; `/api/inbox relearn` takes `DENNIS`, so the other waiting cards with that number run again as Dennis
+  paid (one on overhead still holds - the engine refuses Dennis on overhead).
+- Tests: `test/gate.test.mjs` (Dennis's list learned, appended, never 9301), `test/books-inbox.test.mjs` (relearn
+  with DENNIS); the old "Dennis has no list" check flipped. 641 pass.
+
 ## 2026-10-30 - Three Citizens entries that never came out of Citizens: two paid by Dennis, one by Paul
 
 Paul asked whether the Citizens box's three "in the books as paid from this account, not on the bank" lines meant they

@@ -124,8 +124,8 @@ functions the menu, pollers and nightly jobs call - Paul is never sent there.
     **Chase is Paul's money (D-098): a cost it pays is a cost Paul paid** - the engine writes it as PAUL on the house
     plus the cash out of Chase as his working money, so the tab ticks Paul Paid and the bank line still ties; never
     record a Chase-paid cost as Recast Account Paid.
-    Card last-4s and `paul_personal_last4` live on the `Bank accounts` tab and Settings - read them there, they
-    change (D-074).
+    Card last-4s, `paul_personal_last4` and `dennis_personal_last4` (Dennis's own cards, D-099 - never his card on
+    Citizens) live on the `Bank accounts` tab and Settings - read them there, they change (D-074).
 17. **Tabs:** never type a Journal row number into a tab formula - `journalRange_`, the D-080 lint fails on it;
     house tabs find Properties cells by header and readers of the Advances tab go by value, never row number; the
     Taxes tab's inputs are found BY LABEL - never reword `TAX_INPUTS` or a house's name row; never put the "for your

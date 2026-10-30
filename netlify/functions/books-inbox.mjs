@@ -121,8 +121,8 @@ export default async (req) => {
     if (body.action === "relearn") {
       const last4 = String(body.last4 || "");
       const payer = String(body.paid_from || "");
-      if (!/^\d{4}$/.test(last4) || !/^(14\d\d|PAUL)$/.test(payer)) {
-        return json(400, { error: "BAD_REQUEST", message: "last4 (four digits) and paid_from (a 14xx account or PAUL) are required" });
+      if (!/^\d{4}$/.test(last4) || !/^(14\d\d|PAUL|DENNIS)$/.test(payer)) {
+        return json(400, { error: "BAD_REQUEST", message: "last4 (four digits) and paid_from (a 14xx account, PAUL or DENNIS) are required" });
       }
       const wanted = (await loadDocIndex(docsStore)).filter((d) => d.status === "pending" && d.source !== "feed" && !d.dryRun && d.has_model &&
         d.verdict && d.gate_reasons.includes("PAYER_UNKNOWN") && d.cited_last4 === last4);

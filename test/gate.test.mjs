@@ -624,11 +624,18 @@ test("learnCardNumber: PAUL puts it on the personal list; the read's card_last4 
   assert.deepEqual(got, { last4: "3746", where: "personal", name: "Paul's personal cards", value: "9166, 3746" });
 });
 
+test("learnCardNumber: DENNIS puts it on Dennis's own list (D-099); his card on Citizens (9301) stays a Citizens card", () => {
+  const got = learnCardNumber({ model: unknownRead({ card_last4: "4410" }), paid_from: "DENNIS", bankRows: BANKS, personalLast4: "9166", dennisLast4: "2749" });
+  assert.deepEqual(got, { last4: "4410", where: "dennis", name: "Dennis's personal cards", value: "2749, 4410" });
+  assert.deepEqual(learnCardNumber({ model: unknownRead(), paid_from: "DENNIS", bankRows: BANKS }), { last4: "7952", where: "dennis", name: "Dennis's personal cards", value: "7952" }, "an empty list starts one");
+  assert.equal(learnCardNumber({ model: unknownRead({ card_last4: "9301" }), paid_from: "DENNIS", bankRows: BANKS }), null, "9301 is on Citizens - never moved to Dennis's list");
+});
+
 test("learnCardNumber: nothing to learn when the read knew the payer, cited no digits, the digits are on a list already, or the payer has no list", () => {
   assert.equal(learnCardNumber({ model: { ...unknownRead(), paid_from: "1401", entries: [{ paid_from: "1401" }] }, paid_from: "1401", bankRows: BANKS }), null, "the read knew");
   assert.equal(learnCardNumber({ model: unknownRead({ paid_from_reason: "no tender line" }), paid_from: "1402", bankRows: BANKS }), null, "no digits");
   assert.equal(learnCardNumber({ model: unknownRead({ paid_from_reason: "card ending 7416" }), paid_from: "1401", bankRows: BANKS }), null, "already on Chase's list - a read problem, not a missing fact");
   assert.equal(learnCardNumber({ model: unknownRead({ card_last4: "9166" }), paid_from: "1402", bankRows: BANKS, personalLast4: "9166" }), null, "already on the personal list");
-  assert.equal(learnCardNumber({ model: unknownRead(), paid_from: "DENNIS", bankRows: BANKS }), null, "Dennis's cards have no list");
+  assert.equal(learnCardNumber({ model: unknownRead({ card_last4: "2749" }), paid_from: "1401", bankRows: BANKS, dennisLast4: "2749" }), null, "already on Dennis's list");
   assert.equal(learnCardNumber({ model: unknownRead(), paid_from: "UNKNOWN", bankRows: BANKS }), null, "nothing picked");
 });

@@ -396,12 +396,13 @@ export default async (req) => {
     // task brief's exact contract: runBookkeeper({envelope, attachments, deps}) ->
     // {model, transcript_summary, usage}.
     // What the model needs to route paid_from: the bank accounts' card digits, Paul's
-    // personal card(s), and the defaults. Read fresh each run (Settings/Bank accounts).
+    // and Dennis's own personal card(s) (D-099), and the defaults. Read fresh each run (Settings/Bank accounts).
     const bankResp = await readTab(writer, "Bank accounts");
     const bankRows = rowsToObjectsPublic(bankResp.headers, bankResp.rows).filter((b) => String(b.active).toLowerCase() !== "false");
     const context = {
       payment_instruments: bankRows.map((b) => ({ code: String(b.code), name: String(b.name || ""), last4: String(b.last4 || "") })),
       paul_personal_last4: String(settings.paul_personal_last4 || "").split(/[,\s]+/).filter(Boolean),
+      dennis_personal_last4: String(settings.dennis_personal_last4 || "").split(/[,\s]+/).filter(Boolean),
     };
     // phase2.6-spec.md §4: when the envelope's channel is a property mailbox (not
     // receipts/travel/upload), tell the model which property's mailbox this document

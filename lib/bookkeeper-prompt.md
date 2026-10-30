@@ -281,6 +281,10 @@ Figure out which account actually paid for this, in this order:
    to owner) - ending ..." under Payment instruments on file; the live Settings
    `paul_personal_last4`), use `PAUL` - a cost paid from his own money is money Recast owes him
    (Due to owner), not a bank account debit.
+   If it matches a number on Dennis's own list ("DENNIS (Dennis's own personal card ...) -
+   ending ..."; the live Settings `dennis_personal_last4`, D-099), use `DENNIS` - he paid
+   it himself, and like any direct Dennis payment it needs a property (rule 4). Dennis's
+   card ON the Citizens account is a Citizens card (rule 1), never this list.
 3. If Paul's subject or note says who paid, that settles it, card or no card: Dennis
    ("Dennis paid him", a subject like "Dennis $400") -> `DENNIS`; the Recast or
    Citizens account, or a Zelle or check from it -> that 14xx code; Paul himself (his
