@@ -11,8 +11,8 @@ there; a figure written here is only as of its date.
 left in so both stand at 25,000.** Done and read back (CHANGELOG, same date): the P&L tab ends with WORKING MONEY IN THE
 CITIZENS ACCOUNT - six lines, Dennis has 25,000.00, Paul has 25,000.00; `sale-20261029-f1549aaad052` records the 20,000
 (paid to Paul and left in, one entry, bank side nets to zero); `881 Newport - Closing` reads Paid so far 20,000.00, Still
-owed 7,609.53. Writer pushed, live = repo. **Owed: Paul's `npm run ship` (lib.gs changed; the hourly P&L already runs the
-pushed code).** Watch: the 3 AM check - the 10-29 entry has no bank line and nets to zero on 1401, so the Citizens box
+owed 7,609.53. **Live since 20:46 CT - web app @65, site `6ae3f6fa`, read-back OK (stamp `0f0e8ea`), shipped from the session on
+Paul's "deploy". Nothing owed.** Watch: the 3 AM check - the 10-29 entry has no bank line and nets to zero on 1401, so the Citizens box
 should not list it; the next hourly P&L keeps the ledger at the bottom.
 
 ## 2026-10-29 - Dennis's 10,000 of 08-12 is working money, not a Mesa advance

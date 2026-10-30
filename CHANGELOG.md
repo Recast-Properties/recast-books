@@ -22,8 +22,8 @@ capital. so dennis and i should both have $25k in the account as working capital
   10-07 Dennis 10,000.00; 10-29 Paul 20,000.00 - Dennis has 25,000.00, Paul has 25,000.00. "Paul - money in Recast
   Citizens" unchanged at 34,419.24 (the 20,000 moved from the house to the account, both already counted). The tab
   adds up.
-- **Deploy owed (lib.gs changed): `npm run ship`** - Paul's step. The hourly tab already runs the pushed code; the deploy
-  keeps the web app's copy current.
+- **Live since 20:46 CT - web app @65, site `6ae3f6fa`, read-back OK (stamp `0f0e8ea`), shipped from the session on
+  Paul's "deploy". Nothing owed.**
 
 ## 2026-10-29 - Dennis's 10,000 of 08-12 is his working money in the account, not a 366 Mesa advance
 
