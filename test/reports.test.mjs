@@ -394,3 +394,37 @@ test("pnlTab: the year's profit and loss on top, each fact once, Dennis's unreco
   assert.equal(by2["Houses still held (1)"][1], 101050, "a sold house is not among the houses held");
   assert.equal(by2["Left"][1], -20);
 });
+
+test("pnlTab: the working money ledger - every D-055 line in Citizens by date, what each partner has in; Chase and mistakes left out", async () => {
+  const { pnlTab } = await import("../lib/reports.mjs");
+  const L = (txn_id, date, account, debit, credit, property = "", description = "", paid_from = "") =>
+    ({ txn_id, date, period: date.slice(0, 7), account, debit, credit, property, description, paid_from, source: "manual", void_of: "" });
+  const W = "Working money put into the account", K = "Working money left in the account", O = "Working money taken out of the account - to his own checking";
+  const M = "Paul's money put into the account by mistake";
+  const lines = [
+    L("d1", "2026-08-06", "1401", 500000, 0, "", W, "1401"), L("d1", "2026-08-06", "2010", 0, 500000, "", W, "1401"),
+    L("p1", "2026-08-13", "1401", 485842, 0, "", W, "1401"), L("p1", "2026-08-13", "2030", 0, 485842, "", W, "1401"),
+    L("p2", "2026-08-12", "1401", 14158, 0, "", K, "1401"), L("p2", "2026-08-12", "2030", 0, 14158, "", K, "1401"),
+    L("d2", "2026-10-07", "1401", 1000000, 0, "", W, "1401"), L("d2", "2026-10-07", "2010", 0, 1000000, "", W, "1401"),
+    L("c1", "2026-10-09", "1402", 100000, 0, "", W, "1402"), L("c1", "2026-10-09", "2030", 0, 100000, "", W, "1402"),   // Chase: Paul's own line above, not the ledger
+    L("m1", "2026-09-30", "1401", 50000, 0, "", M, "1401"), L("m1", "2026-09-30", "2030", 0, 50000, "", M, "1401"),       // owed back, not working money
+    L("o1", "2026-10-14", "2030", 100000, 0, "", O, "1401"), L("o1", "2026-10-14", "1401", 0, 100000, "", O, "1401"),
+  ];
+  const t = pnlTab(lines, [], "2026-10-29", { rateAnnual: 0.08, stubBasis: 30 });
+  assert.equal(t.ties, true);
+  const i = t.rows.findIndex((r) => r[0] === "WORKING MONEY IN THE CITIZENS ACCOUNT");
+  assert.ok(i > 0, "the ledger is on the tab");
+  assert.equal(t.kinds[i], "head");
+  assert.deepEqual(t.rows.slice(i + 1), [
+    ["08-06  Dennis put in", 5000, ""],
+    ["08-12  Paul left in", 141.58, ""],
+    ["08-13  Paul put in", 4858.42, ""],
+    ["10-07  Dennis put in", 10000, ""],
+    ["10-14  Paul took out", -1000, "to his own checking"],
+    ["Dennis has in the account", 15000, ""],
+    ["Paul has in the account", 4000, ""],
+  ]);
+  assert.deepEqual(t.kinds.slice(-2), ["total", "total"]);
+  const none = pnlTab(lines.filter((l) => l.txn_id === "m1"), [], "2026-10-29", { rateAnnual: 0.08, stubBasis: 30 });
+  assert.ok(!none.rows.some((r) => r[0] === "WORKING MONEY IN THE CITIZENS ACCOUNT"), "no ledger when there is no working money");
+});

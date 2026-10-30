@@ -168,3 +168,57 @@ function linkMolallaReceipts() {
   console.log('linkMolallaReceipts: ' + pairs.length + ' receipts written on ' + journal + ' Journal lines; on the tab ' + linked +
     ' lines now open their receipt and ' + blank + ' have none (' + cells.length + ' lines on the tab).');
 }
+
+// 2026-10-29 Paul: "i am leaving $20,000 from the newport sale in the account for working capital. so dennis and i
+// should both have $25k in the account as working capital." One entry dated today, source sale so the closing tab
+// reads it as paid to Paul (his word is the money-stays decision): Dr 2030 881 Newport 20,000 / Cr 1401 20,000, then
+// Dr 1401 20,000 / Cr 2030 no house 20,000 described "Working money left in the account" (D-055). The bank side nets
+// to zero inside the one entry, so the Citizens box never looks for a bank line. 881 Newport - Closing is rewritten
+// in place (Paid so far 20,000.00, still owed 7,609.53) and the P&L tab refreshed so its working-money ledger shows
+// both partners at 25,000.00. Safe to run twice: the entry is found by its memo.
+// STATUS: NOT YET RUN
+function recordPaulWorkingMoneyNewport20261029() {
+  var props = PropertiesService.getScriptProperties();
+  var ss = openWorkbook_(props);
+  requireOwner_(ss);
+  var who = Session.getActiveUser().getEmail();
+  var house = '881 Newport', date = '2026-10-29', cents = 2000000;
+  var memo = house + ' sale 2026-10-02: paid to Paul - 20,000.00 of his share, left in the Citizens account as his working money (Paul, 2026-10-29)';
+  var journal = ss.getSheetByName('Journal'), cols = headerIndex_(journal);
+  var memos = journal.getRange(2, cols['memo'], journal.getLastRow() - 1, 1).getValues().map(function (r) { return String(r[0]); });
+  var id = '';
+  if (memos.indexOf(memo) >= 0) {
+    id = String(journal.getRange(memos.indexOf(memo) + 2, cols['txn_id']).getValue());
+    console.log('already recorded as ' + id);
+  } else {
+    var owed = 0;   // what the house still owes Paul, live - the 20,000 must come out of exactly that
+    var data = journal.getRange(2, 1, journal.getLastRow() - 1, journal.getLastColumn()).getValues();
+    data.forEach(function (r) {
+      if (String(r[cols['property'] - 1]) === house && String(r[cols['account'] - 1]) === '2030') {
+        owed += Math.round(Number(r[cols['credit'] - 1] || 0) * 100) - Math.round(Number(r[cols['debit'] - 1] || 0) * 100);
+      }
+    });
+    if (owed !== 2760953) throw new Error(house + ' owes Paul ' + owed / 100 + ', expected 27,609.53 - nothing changed');
+    var ctx = buildCtx_(ss);
+    ctx.properties.add(house);   // a sold house: this is the closing's own entry
+    var saleRow = findAllRowsByValue_(journal, cols['txn_id'], 'sale-20261002-465b11b1cf51')[0];
+    var docUrl = saleRow ? String(journal.getRange(saleRow, cols['doc_url']).getValue() || '') : '';
+    var paid = 'Paid to Paul - 20,000.00 of his 881 Newport profit, left in the account as working money';
+    var kept = 'Working money left in the account - 20,000.00 of his 881 Newport profit';
+    var built = buildEntry({ type: 'journal', date: date, source: 'sale', posted_by: who, doc_url: docUrl, memo: memo,
+      lines: [{ account: '2030', debit: cents, credit: 0, property: house, payee: 'Paul Bjork', paid_from: '1401', description: paid },
+              { account: '1401', debit: 0, credit: cents, property: house, payee: 'Paul Bjork', paid_from: '1401', description: paid },
+              { account: '1401', debit: cents, credit: 0, property: '', payee: 'Paul Bjork', paid_from: '1401', description: kept },
+              { account: '2030', debit: 0, credit: cents, property: '', payee: 'Paul Bjork', paid_from: '1401', description: kept }] }, ctx);
+    postBatchEntries_([built], props, true);
+    id = built.txn_id;
+    console.log('posted ' + id);
+  }
+  var plan = closingFromJournal_(ss, house);
+  if (!plan) throw new Error('No posted sale for ' + house);
+  writeClosingTab_(ss, house, plan, closingTabName_(house));
+  console.log(house + ': Paul paid so far ' + (plan.summary.paid.paul_cents / 100).toFixed(2) + ', still owed ' + (plan.summary.owed_after.paul_cents / 100).toFixed(2));
+  refreshPnl_(ss);
+  warmCache_();
+  console.log('recordPaulWorkingMoneyNewport20261029: done - ' + id);
+}

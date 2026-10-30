@@ -1913,11 +1913,11 @@ var M_reports = (function () {
     add("", "");
     add("head", "WHAT RECAST OWES TODAY");
     // Paul's three lines (Paul, 2026-10-06) stay on the tab even at zero, so he sees each account
-    [["Dennis - money he lent", bal("2010"), "for the houses, plus his working money in the account"],
+    [["Dennis - money he lent", bal("2010"), "for the houses, plus his working money in the account (listed at the bottom)"],
      ["Dennis - interest recorded, not paid yet", bal("2000"), ""],
      ["Dennis - interest not recorded yet", interest, "built up to today on every advance still open"],
      ["Paul - costs he paid", bal("2030") - paulInCitizens - paulInChase, "on the houses still held and the business, not paid back yet", true],
-     ["Paul - money in Recast Citizens", paulInCitizens, "his working money and his payouts from the sold houses, waiting in the account", true],
+     ["Paul - money in Recast Citizens", paulInCitizens, "his working money (listed at the bottom) and his payouts from the sold houses, waiting in the account", true],
      ["Paul - money in Recast Chase", paulInChase, "Chase is his account, so what is in it is his", true],
      ...bs.liabilities.filter((l) => !["2000", "2010", "2030"].includes(l.account)).map((l) => [l.name, l.balance, ""]),
     ].forEach(([what, c, note, always]) => { if (c || always) add("", what, c, note); });
@@ -1937,6 +1937,26 @@ var M_reports = (function () {
     add("total", "Left", left,
       left < 0 && left === -costs && allTime === pl.net_income ? "the same as the business costs: all the house profit went to Paul, so none was kept to cover them - what Paul paid for them himself, Recast owes him back"
         : left < 0 ? "below zero - more was paid out than Recast earned" : "what Recast earned less what it paid out");
+
+    // The working money in the Citizens account (Paul, 2026-10-29: "a ledger of how much both dennis and i have put into
+    // the citizens account as working capital"): every D-055 line - no house, described "Working money ...", paid from
+    // 1401 - in date order, then what each partner has in. Chase is Paul's alone and has its own line above.
+    const wm = live.filter((l) => ["2010", "2030"].includes(String(l.account)) && !l.property && /^Working money\b/.test(l.description) && l.paid_from === "1401")
+      .sort((a, b) => String(a.date).localeCompare(String(b.date)));
+    if (wm.length) {
+      const has = { Dennis: 0, Paul: 0 };
+      add("", "");
+      add("head", "WORKING MONEY IN THE CITIZENS ACCOUNT", "", "money each of you put in for general use - no house, no interest, owed back when it is taken out");
+      for (const l of wm) {
+        const who = String(l.account) === "2010" ? "Dennis" : "Paul";
+        const c = l.credit - l.debit;
+        has[who] += c;
+        const verb = /left in/.test(l.description) ? "left in" : c < 0 ? "took out" : "put in";
+        add("", `${String(l.date).slice(5, 10)}  ${who} ${verb}`, c, (l.description.split(" - ")[1] || "").trim());
+      }
+      add("total", "Dennis has in the account", has.Dennis);
+      add("total", "Paul has in the account", has.Paul);
+    }
     return { rows, kinds, ties: owns === owes + left };
   }
 
