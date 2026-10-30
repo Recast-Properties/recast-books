@@ -189,9 +189,9 @@ function chasePaysIsPaulPaid20261029() {
   var data = journal.getRange(2, 1, journal.getLastRow() - 1, journal.getLastColumn()).getValues();
   var g = function (r, n) { return r[cols[n] - 1]; };
   var cents = function (v) { return Math.round(Number(v || 0) * 100); };
-  var voided = {}, byTxn = {}, idByMemo = {};
+  var voided = {}, ownVoid = {}, byTxn = {}, idByMemo = {};
   data.forEach(function (r) {
-    var v = String(g(r, 'void_of') || ''); if (v) voided[v] = true;
+    var v = String(g(r, 'void_of') || ''); if (v) { voided[v] = true; if (/Recast Chase account is his own money/.test(String(g(r, 'memo')))) ownVoid[v] = true; }
     var id = String(g(r, 'txn_id')); (byTxn[id] = byTxn[id] || []).push(r);
     idByMemo[String(g(r, 'memo'))] = id;
   });
@@ -203,7 +203,8 @@ function chasePaysIsPaulPaid20261029() {
   };
   var todo = Object.keys(byTxn).filter(function (id) {
     var rows = byTxn[id];
-    if (voided[id] || String(g(rows[0], 'source')) === 'void') return false;
+    if (String(g(rows[0], 'source')) === 'void') return false;
+    if (voided[id] && !ownVoid[id]) return false;   // voided before this script: not ours; voided by an earlier run of it and not yet replaced: still to do
     var chaseOut = rows.some(function (r) { return String(g(r, 'account')) === '1402' && cents(g(r, 'credit')) > 0; });
     var ownMoney = rows.some(function (r) { return String(g(r, 'account')) === '2030' && String(g(r, 'property') || '') === ''; });
     return chaseOut && !ownMoney;   // a cost Chase paid, not his money moving (working money, a draw, the truck payment)
@@ -239,8 +240,9 @@ function chasePaysIsPaulPaid20261029() {
       lines.push({ account: '2030', debit: total >= 0 ? abs : 0, credit: total >= 0 ? 0 : abs, property: '', payee: payee, description: text, paid_from: '1402' });
       lines.push({ account: '1402', debit: total >= 0 ? 0 : abs, credit: total >= 0 ? abs : 0, property: '', payee: payee, description: text, paid_from: '1402' });
       Object.keys(byHouse).forEach(function (p) { if (p && p !== 'OVERHEAD') ctx.properties.add(p); });   // a sold house keeps its lines (104 Ashburne's lawn of 10-01)
-      voidEntry_(oldId, 'Paul, 2026-10-29: the Recast Chase account is his own money - posted again as paid by Paul (D-098)', date, who, props, true);
-      var built = buildEntry({ type: 'journal', date: date, source: String(g(costs[0], 'source') || 'receipt'), posted_by: who,
+      if (!voided[oldId]) voidEntry_(oldId, 'Paul, 2026-10-29: the Recast Chase account is his own money - posted again as paid by Paul (D-098)', date, who, props, true);
+      // allow_duplicate_hash: the Mariana entries' first version of 10-12 / 10-14 was paid by PAUL, so the id would repeat
+      var built = buildEntry({ type: 'journal', date: date, source: String(g(costs[0], 'source') || 'receipt'), posted_by: who, allow_duplicate_hash: true,
         doc_url: String(g(costs[0], 'doc_url') || ''), memo: memo, lines: lines }, ctx);
       postBatchEntries_([built], props, true);
       newId = built.txn_id; posted++;
