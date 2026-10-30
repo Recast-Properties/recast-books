@@ -5,7 +5,17 @@ history and are not written to; `CHANGELOG.md` keeps its dated entry per change.
 `docs/ops.md`. The books' numbers live on the workbook's tabs (P&L, Totals, Citizens Bank, the house tabs) - read them
 there; a figure written here is only as of its date.
 
-## 2026-10-29 (night) - D-098: Chase pays = Paul paid (START HERE)
+## 2026-10-30 - three Citizens entries re-posted: two paid by Dennis, one by Paul (START HERE)
+
+**Paul: "correct the writ as a dennis personal check and the home depot paid as a dennis personal card. correct the
+deed copy as a paul personal expense."** Done and read back (CHANGELOG, same date): the 185.00 writ (200 Janice) and
+the 19.66 Home Depot (366 Mesa) are Dennis paid, the 5.00 deed copy (200 Janice) Paul paid; the Citizens box reads
+"they agree". Writer pushed, live = repo by pull; no deploy needed (one-off only). **Nothing owed by Paul on this.**
+**Asked, waiting on his word:** the migrated 19.66 Home Depot of 08-03 on 366 Mesa (`migration-20260803-52e20515027e`,
+Dennis paid, no receipt) is almost surely the same purchase with the month mistyped - take it out (void on its own
+date) only on his yes. **Gap:** a card can be learned as a bank account or Paul's own, never Dennis's own (2749).
+
+## 2026-10-29 (night) - D-098: Chase pays = Paul paid
 
 **Paul: the Mariana cleanings paid from Chase were not counted as owed to him; new rule - anything the Recast Chase
 account pays is reimbursed to him, Chase is not shared with Dennis, the checkbox is Paul Paid not Recast Account.**

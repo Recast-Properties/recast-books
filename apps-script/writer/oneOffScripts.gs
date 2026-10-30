@@ -57,6 +57,7 @@
  * dryRunNightlyCheck20261027 (2026-10-27, D-097: one dry run of the new nightly check on the live books; run 08:25 PT, clean - no fix tried, none refused) is in commit 8881ae4.
  * recordPaulWorkingMoneyNewport20261029 (2026-10-29, Paul's 20,000 of the 881 Newport sale left in the Citizens account as his working money - one entry, paid to Paul and left in, the closing tab rewritten, the P&L refreshed; run 20:41 CT from the editor, pushed as the file's only function) is in commit 184684f.
  * mesaAdvanceToWorkingMoney20261029 (2026-10-29, Dennis's 10,000 of 08-12 off 366 Mesa and into the account as his working money, D-055 - the Advances row off, the entry voided and re-posted with no house, the bank line tied, the tab rebuilt; run 20:25 CT, pasted into the editor as the file's only function - clasp login was expired) is in commit b9590e9.
+ * fixThreePayers20261030 (2026-10-30, Paul: the 185.00 writ and the 19.66 Home Depot paid by Dennis's own check and card, the 5.00 deed copy by Paul's own card - none from Citizens; each voided on its own date and posted again, the receipt records repointed, 200 Janice, 366 Mesa, the bank tabs and the P&L refreshed; run 07:02 CT from the editor, pushed as the file's only function) is in commit 3de786a.
  ****************************************************************/
 
 // 2026-10-05 Paul: "yes match all the receipts and link them" (1014 S View). Each receipt found for the house - in
@@ -168,74 +169,4 @@ function linkMolallaReceipts() {
   warmCache_();
   console.log('linkMolallaReceipts: ' + pairs.length + ' receipts written on ' + journal + ' Journal lines; on the tab ' + linked +
     ' lines now open their receipt and ' + blank + ' have none (' + cells.length + ' lines on the tab).');
-}
-
-// 2026-10-30 Paul: "correct the writ as a dennis personal check and the home depot paid as a dennis personal card.
-// correct the deed copy as a paul personal expense." The three entries the Citizens box listed as "in the books as
-// paid from this account, not on the bank": none came out of Citizens. The 185.00 writ (200 Janice, 09-02) was
-// Dennis's own check #1148; the 19.66 Home Depot (366 Mesa, 09-03) his own Capital One card ending 2749; the 5.00
-// deed copy (200 Janice, 10-08) Paul's own card. Each is voided on its own date and posted again with the same cost
-// lines, house, date, receipt and wording, its Citizens line moved to 2010 (Dennis) or 2030 (Paul) - the shape of the
-// house tab's checkbox (repaidFromTxn_). Each receipt's Inbox record is pointed at its new entry; both house tabs, the
-// bank tabs and the P&L are refreshed. Safe to run twice: a corrected entry is found by its memo.
-// STATUS: NOT YET RUN
-function fixThreePayers20261030() {
-  var props = PropertiesService.getScriptProperties();
-  var ss = openWorkbook_(props);
-  requireOwner_(ss);
-  var who = Session.getActiveUser().getEmail();
-  var fixes = [   // [entry, who paid, the receipt's Inbox record (index/docs), in words]
-    ['receipt-20260902-b9f8496f26ae', 'DENNIS', 'gm-1a1204215fcc44b7', "Dennis's own check #1148"],
-    ['receipt-20260903-11c2524010c7-16c6', 'DENNIS', 'gm-1a120427d557581c', "Dennis's own card ending 2749"],
-    ['receipt-20261008-7bab84ceac44-cfb3', 'PAUL', 'gm-1a11d795033ff011', "Paul's own card"]
-  ];
-  var journal = ss.getSheetByName('Journal'), cols = headerIndex_(journal);
-  var data = journal.getRange(2, 1, journal.getLastRow() - 1, journal.getLastColumn()).getValues();
-  var g = function (r, n) { return r[cols[n] - 1]; };
-  var cents = function (v) { return Math.round(Number(v || 0) * 100); };
-  var voided = {}, byTxn = {}, idByMemo = {};
-  data.forEach(function (r) {
-    var v = String(g(r, 'void_of') || ''); if (v) voided[v] = true;
-    var id = String(g(r, 'txn_id')); (byTxn[id] = byTxn[id] || []).push(r);
-    idByMemo[String(g(r, 'memo'))] = id;
-  });
-  var ctx = buildCtx_(ss);
-  var houses = {}, marked = 0;
-  fixes.forEach(function (f) {
-    var oldId = f[0], payer = f[1], rows = byTxn[oldId];
-    if (!rows) throw new Error(oldId + ' is not on the Journal - stopped here, tell Claude');
-    var memo = String(g(rows[0], 'memo')) + ' - corrected 2026-10-30: paid by ' + f[3] + ', not the Citizens account (Paul)';
-    var newId = idByMemo[memo];
-    rows.forEach(function (r) { houses[String(g(r, 'property') || '')] = true; });
-    if (!newId) {
-      if (voided[oldId]) throw new Error(oldId + ' was voided by something else - stopped here, tell Claude');
-      var bank = rows.filter(function (r) { return String(g(r, 'account')) === '1401'; });
-      if (bank.length !== 1 || cents(g(bank[0], 'credit')) <= 0) throw new Error(oldId + ': expected one Citizens line paying it - stopped here, tell Claude');
-      var date = formatIsoDate_(g(rows[0], 'date'));
-      var lines = rows.map(function (r) {
-        var isBank = String(g(r, 'account')) === '1401';
-        return { account: isBank ? (payer === 'DENNIS' ? '2010' : '2030') : String(g(r, 'account')),
-          debit: cents(g(r, 'debit')), credit: cents(g(r, 'credit')), property: String(g(r, 'property') || ''),
-          trade: String(g(r, 'trade') || ''), payee: String(g(r, 'payee') || ''), description: String(g(r, 'description') || ''),
-          paid_from: payer, business_purpose: String(g(r, 'business_purpose') || '') };
-      });
-      // built (and checked by the engine) before the old one is voided, so a refusal changes nothing
-      var built = buildEntry({ type: 'journal', date: date, source: String(g(rows[0], 'source') || 'receipt'), posted_by: who, allow_duplicate_hash: true,
-        doc_url: String(g(rows[0], 'doc_url') || ''), memo: memo, lines: lines }, ctx);
-      voidEntry_(oldId, 'Paul, 2026-10-30: paid by ' + f[3] + ', not the Citizens account - posted again', date, who, props, true);
-      postBatchEntries_([built], props, true);
-      newId = built.txn_id;
-      console.log(oldId + ' -> ' + newId + ' (paid by ' + payer + ')');
-    } else console.log(oldId + ': already corrected as ' + newId);
-    try {
-      var m = siteFetchJson_('/api/inbox', 'post', { action: 'mark-posted', docId: f[2], txn_ids: [newId], rows: null, doc_url: '', by: who, repoint: true,
-        note: 'Paid by ' + f[3] + ', not the Citizens account - posted again 2026-10-30' });
-      if (m && m.status === 'posted') marked++;
-    } catch (e) { console.log('receipt record ' + f[2] + ' not updated: ' + e); }
-  });
-  Object.keys(houses).forEach(function (p) { if (p && p !== 'OVERHEAD' && ss.getSheetByName(p)) { try { refreshLineBlocks_(ss, p); } catch (e) { console.error('refreshLineBlocks_ ' + p + ': ' + e); } } });
-  refreshBankSheets_(ss);
-  refreshPnl_(ss);
-  warmCache_();
-  console.log('fixThreePayers20261030: ' + fixes.length + ' entries done; ' + marked + ' receipt records pointed at the new entries; tabs refreshed: ' + Object.keys(houses).join(', '));
 }

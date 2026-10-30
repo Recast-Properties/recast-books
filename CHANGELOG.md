@@ -1,5 +1,32 @@
 # Changelog
 
+## 2026-10-30 - Three Citizens entries that never came out of Citizens: two paid by Dennis, one by Paul
+
+Paul asked whether the Citizens box's three "in the books as paid from this account, not on the bank" lines meant they
+were missing from the statement. They were: no 185.00, 19.66 or 5.00 on Citizens (file 08-06..10-21) or Chase (09-28..
+10-14). The receipts say who paid: the writ's court receipt shows check #1148 (Dennis's own checks around it are #1146,
+#1147, #1154); the Home Depot receipt shows a Capital One Mastercard ending 2749; the deed copy was bought online by
+credit card under Paul's name. Paul: "correct the writ as a dennis personal check and the home depot paid as a dennis
+personal card. correct the deed copy as a paul personal expense."
+- **The books:** one-off `fixThreePayers20261030` (commit 3de786a), pushed as the file's only function, run from the
+  editor by Penny 07:02 CT. Each entry voided on its own date and posted again with the same cost lines, house, date,
+  receipt and wording, the Citizens line moved to who paid: 185.00 writ 09-02 (200 Janice) -> Dennis,
+  `receipt-20260902-e7b9e1e36ecd-6fa9`; 19.66 Home Depot 09-03 (366 Mesa, four lines) -> Dennis,
+  `receipt-20260903-eeee6b5810ba-636d`; 5.00 deed copy 10-08 (200 Janice) -> Paul, `receipt-20261008-0d27779b1b76-3b9d`.
+  No Advances row (Dennis's other direct payments on 200 Janice, the 144.00 filing fee and the 800.00 set-out, have
+  none). All three receipt records point at the new entries (`mark-posted` repoint); both house tabs, the bank tabs and
+  the P&L refreshed. One-off out; writer pushed, live = repo by pull.
+- Read back: the Citizens box reads "they agree" (bank 21,636.57; books 18,442.73, was 18,233.07 = + 209.66); 200
+  Janice ticks Dennis Paid on the writ and Paul Paid on the deed copy; 366 Mesa ticks Dennis Paid on the four Home
+  Depot lines.
+- Why the writ went wrong: the bookkeeper posted it on its own as Citizens (a check, no card on the receipt, the house
+  default). The other two were held for "who paid?" and saved as Citizens in the Inbox.
+- Seen, not changed: 366 Mesa also carries a migrated 19.66 Home Depot of 08-03, Dennis paid, "?" and no receipt (old
+  books Mesa row 15, `migration-20260803-52e20515027e`) - to the cent, same store, same payer, a month off, the day
+  before the purchase. Almost surely the 09-03 receipt with the month mistyped, so Dennis is owed it twice; asked Paul.
+  The bookkeeper cannot learn a card as Dennis's own (`learnCard_` / `relearn` take a bank account or PAUL only), so the
+  next receipt on 2749 will ask again.
+
 ## 2026-10-29 - D-098: a cost the Recast Chase account pays is a cost Paul paid
 
 Paul: "there are two charges in the chase account to mariana that landed in 658 erin hills and 241 poinsetta. they are
