@@ -884,3 +884,55 @@ test("D-095: a box of locks lands on 1530 Supplies on hand with no house; a lock
     items: [{ account: "1030", amount_cents: 4015, description: "a lock" }] }, ctx), "PROPERTY_REQUIRED");
 });
 
+
+// --- D-098: the Recast Chase account is Paul's own money -------------------------
+
+test("D-098: an expense paid from Chase is a cost Paul paid - Cr 2030 on the house, then the cash out of Chase as his working money", () => {
+  const ctx = baseCtx();
+  const entry = buildEntry(
+    { type: "expense", date: "2026-09-05", payee: "Mariana Martinez", description: "Cleaning labor", amount_cents: 35000,
+      account: "1020", property: "881 Newport", paid_from: "1402" },
+    ctx,
+  );
+  assert.deepEqual(entry.lines.map((l) => [l.account, l.debit, l.credit, l.property, l.paid_from]), [
+    ["1020", 35000, 0, "881 Newport", "PAUL"],
+    ["2030", 0, 35000, "881 Newport", "PAUL"],
+    ["2030", 35000, 0, "", "1402"],
+    ["1402", 0, 35000, "", "1402"],
+  ]);
+  assert.match(entry.lines[2].description, /^Working money taken out of the account - Mariana Martinez: Cleaning labor$/);
+  assert.equal(entry.lines[2].payee, "Mariana Martinez");
+  // Citizens is the shared account: unchanged, two lines
+  const shared = buildEntry({ type: "expense", date: "2026-09-05", payee: "Mariana Martinez", description: "Cleaning labor", amount_cents: 35000,
+    account: "1020", property: "881 Newport", paid_from: "1401" }, ctx);
+  assert.deepEqual(shared.lines.map((l) => [l.account, l.paid_from]), [["1020", "1401"], ["1401", "1401"]]);
+});
+
+test("D-098: an itemised receipt paid from Chase carries PAUL on every cost line and the Chase legs; a refund runs the other way", () => {
+  const ctx = baseCtx();
+  const entry = buildEntry(
+    { type: "purchase", date: "2026-09-06", payee: "Travelocity", property: "OVERHEAD", paid_from: "1402",
+      items: [{ account: "6700", amount_cents: 48240, description: "Airfare", business_purpose: "Dallas - the houses" },
+              { account: "6700", amount_cents: 3430, description: "Booking fee", business_purpose: "Dallas - the houses" }] },
+    ctx,
+  );
+  assert.deepEqual(entry.lines.map((l) => [l.account, l.debit, l.credit, l.property, l.paid_from]), [
+    ["6700", 48240, 0, "OVERHEAD", "PAUL"],
+    ["6700", 3430, 0, "OVERHEAD", "PAUL"],
+    ["2030", 0, 51670, "OVERHEAD", "PAUL"],
+    ["2030", 51670, 0, "", "1402"],
+    ["1402", 0, 51670, "", "1402"],
+  ]);
+  const refund = buildEntry(
+    { type: "purchase", date: "2026-09-07", payee: "Home Depot", property: "881 Newport", paid_from: "1402",
+      items: [{ account: "1030", amount_cents: -1200, description: "Return: caulk" }] },
+    ctx,
+  );
+  assert.deepEqual(refund.lines.map((l) => [l.account, l.debit, l.credit, l.property, l.paid_from]), [
+    ["1030", 0, 1200, "881 Newport", "PAUL"],
+    ["2030", 1200, 0, "881 Newport", "PAUL"],
+    ["2030", 0, 1200, "", "1402"],
+    ["1402", 1200, 0, "", "1402"],
+  ]);
+  assert.match(refund.lines[2].description, /^Working money put back into the account - Home Depot: Return: caulk$/);
+});

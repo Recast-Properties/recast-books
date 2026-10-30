@@ -428,3 +428,23 @@ test("pnlTab: the working money ledger - every D-055 line in Citizens by date, w
   const none = pnlTab(lines.filter((l) => l.txn_id === "m1"), [], "2026-10-29", { rateAnnual: 0.08, stubBasis: 30 });
   assert.ok(!none.rows.some((r) => r[0] === "WORKING MONEY IN THE CITIZENS ACCOUNT"), "no ledger when there is no working money");
 });
+
+test("pnlTab: a cost the Recast Chase account paid is a cost Paul paid (D-098) - his Chase money drops by it, what Recast owes him does not", async () => {
+  const { pnlTab } = await import("../lib/reports.mjs");
+  const L = (txn_id, date, account, debit, credit, property = "", description = "", paid_from = "") =>
+    ({ txn_id, date, period: date.slice(0, 7), account, debit, credit, property, description, paid_from, source: "manual", void_of: "" });
+  const W = "Working money put into the account";
+  const lines = [
+    L("in", "2026-10-09", "1402", 100000, 0, "", W, "1402"), L("in", "2026-10-09", "2030", 0, 100000, "", W, "1402"),   // 1,000.00 of his money into Chase
+    // a 350.00 cleaning bill Chase paid, in the D-098 shape
+    L("c", "2026-10-14", "1020", 35000, 0, "1 Main", "Cleaning", "PAUL"), L("c", "2026-10-14", "2030", 0, 35000, "1 Main", "Cleaning", "PAUL"),
+    L("c", "2026-10-14", "2030", 35000, 0, "", "Working money taken out of the account - Mariana: Cleaning", "1402"), L("c", "2026-10-14", "1402", 0, 35000, "", "Working money taken out of the account - Mariana: Cleaning", "1402"),
+  ];
+  const t = pnlTab(lines, [], "2026-10-29", { rateAnnual: 0.08, stubBasis: 30 });
+  const by = Object.fromEntries(t.rows.filter((r) => r[0]).map((r) => [r[0], r[1]]));
+  assert.equal(t.ties, true);
+  assert.equal(by["Paul - money in Recast Chase"], 650, "the Chase balance after the bill");
+  assert.equal(by["Paul - costs he paid"], 350, "the bill is a cost he paid, owed back at the sale");
+  assert.equal(by["Paul - money in Recast Citizens"], 0);
+  assert.ok(!t.rows.some((r) => r[0] === "WORKING MONEY IN THE CITIZENS ACCOUNT"), "Chase movements are not the Citizens ledger");
+});

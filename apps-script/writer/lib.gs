@@ -746,6 +746,7 @@ var M_posting = (function () {
    * direct-paid shorthand.
    */
   const SUPPLIES_ACCOUNT = "1530";   // D-095: Supplies on hand - the shelf
+  const CHASE_ACCOUNT = "1402";      // D-098: Paul's own business account - never shared with Dennis
 
   function resolvePaidFrom(paid_from, property, ctx) {
     if (paid_from === "PAUL") {
@@ -775,7 +776,27 @@ var M_posting = (function () {
         message: "paid_from 1530 Supplies on hand requires a property (a lock off the shelf goes on a house)",
       });
     }
+    // D-098 (Paul, 2026-10-29: "any expense that is paid for from the chase recast account should be reimbursed to
+    // me. the chase recast business account is not a shared account with dennis"): a cost Chase pays is a cost Paul
+    // paid - the credit goes on 2030 like PAUL's, and chaseLegs adds the cash leaving Chase as his working money.
+    if (paid_from === CHASE_ACCOUNT) return { creditAccount: "2030", chase: true };
     return { creditAccount: paid_from };
+  }
+
+  /**
+   * D-098: the two lines that follow a cost Chase paid. The cost itself is Paul's (Cr 2030 on the house or the
+   * business, paid_from PAUL - the house tab ticks Paul Paid and pays him back at the sale); the cash left Chase as
+   * his own money (Dr 2030 no house / Cr 1402, paid_from 1402 - the bank line still ties, the P&L's "money in Recast
+   * Chase" drops by it). 2030 nets to the cost. A refund (total below zero) runs the other way.
+   */
+  function chaseLegs(totalCents, payee, description, ctx) {
+    const out = totalCents >= 0, abs = Math.abs(totalCents);
+    const text = `Working money ${out ? "taken out of" : "put back into"} the account - ${payee}: ${description}`;
+    const base = { property: "", payee, description: text, paid_from: CHASE_ACCOUNT };
+    return [
+      fillLineDefaults({ ...base, account: "2030", debit: out ? abs : 0, credit: out ? 0 : abs }, ctx),
+      fillLineDefaults({ ...base, account: CHASE_ACCOUNT, debit: out ? 0 : abs, credit: out ? abs : 0 }, ctx),
+    ];
   }
 
   function buildJournal(intent, ctx) {
@@ -835,7 +856,8 @@ var M_posting = (function () {
 
     // Resolved before either line is built so PROPERTY_REQUIRED (DENNIS) and BAD_ACCOUNT
     // (unknown paid_from) surface without constructing a doomed entry first.
-    const { creditAccount } = resolvePaidFrom(paid_from, property, ctx);
+    const { creditAccount, chase } = resolvePaidFrom(paid_from, property, ctx);
+    const pf = chase ? "PAUL" : paid_from;   // D-098: the cost is Paul's; the Chase legs carry 1402
 
     const debitLine = fillLineDefaults(
       {
@@ -846,7 +868,7 @@ var M_posting = (function () {
         trade,
         payee,
         description,
-        paid_from,
+        paid_from: pf,
         business_purpose,
         reconciled_ref,
         attendee,
@@ -866,7 +888,7 @@ var M_posting = (function () {
         property,
         payee,
         description, // the credit line names what was bought too; paid_from already says who paid (Paul, 2026-09-15)
-        paid_from,
+        paid_from: pf,
       },
       ctx,
     );
@@ -880,7 +902,7 @@ var M_posting = (function () {
       posted_by,
       doc_url,
       void_of,
-      lines: [debitLine, creditLine],
+      lines: chase ? [debitLine, creditLine, ...chaseLegs(amount_cents, payee, description, ctx)] : [debitLine, creditLine],
     };
 
     return validateEntry(entry, ctx);
@@ -953,7 +975,8 @@ var M_posting = (function () {
     // Resolved before the lines are built so PROPERTY_REQUIRED (DENNIS) and BAD_ACCOUNT
     // (unknown paid_from) surface without constructing a doomed entry first — same
     // reasoning as buildExpense.
-    const { creditAccount } = resolvePaidFrom(paid_from, property, ctx);
+    const { creditAccount, chase } = resolvePaidFrom(paid_from, property, ctx);
+    const pf = chase ? "PAUL" : paid_from;   // D-098: the cost is Paul's; the Chase legs carry 1402
 
     // A return or refund is the same receipt with the sign flipped (D-091, 2026-10-23): a line taken back is a
     // credit on its cost account, and the money comes back as a debit on the paid_from side. A slip with lines
@@ -969,7 +992,7 @@ var M_posting = (function () {
           trade: item.trade,
           payee,
           description: item.description,
-          paid_from,
+          paid_from: pf,
           business_purpose: item.business_purpose,
         },
         ctx,
@@ -986,7 +1009,7 @@ var M_posting = (function () {
         property,
         payee,
         description: items.map((item) => item.description).filter(Boolean).join("; "),
-        paid_from,
+        paid_from: pf,
       },
       ctx,
     );
@@ -1016,7 +1039,9 @@ var M_posting = (function () {
       posted_by,
       doc_url,
       void_of,
-      lines: totalCents === 0 ? itemLines : [...itemLines, paidLine],   // an even exchange moves no money
+      lines: totalCents === 0 ? itemLines   // an even exchange moves no money
+        : chase ? [...itemLines, paidLine, ...chaseLegs(totalCents, payee, paidLine.description, ctx)]
+        : [...itemLines, paidLine],
     };
 
     return validateEntry(entry, ctx);
@@ -1046,7 +1071,7 @@ var M_posting = (function () {
     }
   }
 
-  return { PostingError, makeCtx, periodOf, makeTxnId, validateEntry, SUPPLIES_ACCOUNT, buildEntry };
+  return { PostingError, makeCtx, periodOf, makeTxnId, validateEntry, SUPPLIES_ACCOUNT, CHASE_ACCOUNT, buildEntry };
 })();
 var PostingError = M_posting.PostingError;
 var makeCtx = M_posting.makeCtx;
@@ -1054,6 +1079,7 @@ var periodOf = M_posting.periodOf;
 var makeTxnId = M_posting.makeTxnId;
 var validateEntry = M_posting.validateEntry;
 var SUPPLIES_ACCOUNT = M_posting.SUPPLIES_ACCOUNT;
+var CHASE_ACCOUNT = M_posting.CHASE_ACCOUNT;
 var buildEntry = M_posting.buildEntry;
 
 // ---- lib/gate.mjs ----

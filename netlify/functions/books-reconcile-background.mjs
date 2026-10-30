@@ -429,16 +429,18 @@ export function checkTools({ journal, feed, envelopes, facts, writer, docsStore,
  * Journal's posted_at, Texas time) that his own card paid for (paid_from PAUL - Recast owes him each one back, D-051), as
  * the lines the 3 AM email prints under the check: store, date, amount, house, and the card's last four when the receipt
  * shows them. The amount is what his card moved (account 2030): a refund to his card prints as money back. Code writes
- * these, not the model. "" when there are none.
+ * these, not the model. "" when there are none. A cost the Recast Chase account paid is Paul's too (D-098: its cost
+ * lines carry PAUL) but Chase is the business account, not a personal card, so an entry with a 1402 line is left out.
  */
 export function onPaulsCard(journal, envelopes, day) {
   const idx = Object.fromEntries(journal.headers.map((h, i) => [h, i]));
   const g = (r, n) => (idx[n] === undefined ? "" : r[idx[n]]);
   const voided = new Set(journal.rows.map((r) => String(g(r, "void_of") || "")).filter(Boolean));
+  const chase = new Set(journal.rows.filter((r) => String(g(r, "account")) === "1402").map((r) => String(g(r, "txn_id"))));
   const byTxn = new Map();
   for (const r of journal.rows) {
     const id = String(g(r, "txn_id"));
-    if (String(g(r, "paid_from")) !== "PAUL" || String(g(r, "source")) === "void" || voided.has(id) || String(g(r, "posted_at")).slice(0, 10) !== day) continue;
+    if (String(g(r, "paid_from")) !== "PAUL" || chase.has(id) || String(g(r, "source")) === "void" || voided.has(id) || String(g(r, "posted_at")).slice(0, 10) !== day) continue;
     const e = byTxn.get(id) || byTxn.set(id, { date: String(g(r, "date")).slice(0, 10), payee: String(g(r, "payee")), property: "", cents: 0 }).get(id);
     if (String(g(r, "account")) === "2030") e.cents += cents(g(r, "credit")) - cents(g(r, "debit"));
     if (!e.property && g(r, "property")) e.property = String(g(r, "property"));

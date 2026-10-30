@@ -169,3 +169,102 @@ function linkMolallaReceipts() {
   console.log('linkMolallaReceipts: ' + pairs.length + ' receipts written on ' + journal + ' Journal lines; on the tab ' + linked +
     ' lines now open their receipt and ' + blank + ' have none (' + cells.length + ' lines on the tab).');
 }
+
+// 2026-10-29 Paul: "any expense that is paid for from the chase recast account should be reimbursed to me. the chase
+// recast business account is not a shared account with dennis ... the checkbox should be paul paid vs recast account."
+// D-098. Every live entry the Recast Chase account paid for (a 1402 credit, cost lines on a house or the business -
+// not his own money moving in or out) is voided on its own date and posted again in the engine's new shape: the cost
+// lines and a 2030 credit on the house carry PAUL (the tab ticks Paul Paid, the sale pays him back), then the cash
+// out of Chase as his working money (Dr 2030 no house / Cr 1402). Same date, receipt link, trade, payee, wording.
+// The Chase bank lines tied to the old entries follow the new ones; each receipt's Inbox record is pointed at its
+// new entry; the held houses' tabs, the bank tabs and the P&L are refreshed. Safe to run twice: a corrected entry
+// is found by its memo and an entry already in the shape is skipped.
+// STATUS: NOT YET RUN
+function chasePaysIsPaulPaid20261029() {
+  var props = PropertiesService.getScriptProperties();
+  var ss = openWorkbook_(props);
+  requireOwner_(ss);
+  var who = Session.getActiveUser().getEmail();
+  var journal = ss.getSheetByName('Journal'), cols = headerIndex_(journal);
+  var data = journal.getRange(2, 1, journal.getLastRow() - 1, journal.getLastColumn()).getValues();
+  var g = function (r, n) { return r[cols[n] - 1]; };
+  var cents = function (v) { return Math.round(Number(v || 0) * 100); };
+  var voided = {}, byTxn = {}, idByMemo = {};
+  data.forEach(function (r) {
+    var v = String(g(r, 'void_of') || ''); if (v) voided[v] = true;
+    var id = String(g(r, 'txn_id')); (byTxn[id] = byTxn[id] || []).push(r);
+    idByMemo[String(g(r, 'memo'))] = id;
+  });
+  var docOf = {   // the receipt's Inbox record, from index/docs (2026-10-29)
+    'receipt-20261001-822eca180792': 'gm-1a0f7daccd2458b3', 'receipt-20261012-c9dbcd2427b4': 'gm-1a132380fd81f253',
+    'receipt-20261014-e2d5e17b44c4': 'gm-1a13d720f8a1aa80', 'receipt-20261023-dbc4cdfe8ff1': 'gm-1a16b0265f1e644b',
+    'receipt-20261025-6d718e53c790-f35a': 'gm-1a174c3d49890d62', 'receipt-20261026-9d2aa2e6ef8d': 'gm-1a17aad4339cd212',
+    'receipt-20261028-a404a40c6479': 'gm-1a184b0db9756cc5'
+  };
+  var todo = Object.keys(byTxn).filter(function (id) {
+    var rows = byTxn[id];
+    if (voided[id] || String(g(rows[0], 'source')) === 'void') return false;
+    var chaseOut = rows.some(function (r) { return String(g(r, 'account')) === '1402' && cents(g(r, 'credit')) > 0; });
+    var ownMoney = rows.some(function (r) { return String(g(r, 'account')) === '2030' && String(g(r, 'property') || '') === ''; });
+    return chaseOut && !ownMoney;   // a cost Chase paid, not his money moving (working money, a draw, the truck payment)
+  });
+  var ctx = buildCtx_(ss);
+  var feed = ss.getSheetByName('Feed'), fCols = headerIndex_(feed);
+  var fRows = feed.getRange(2, 1, feed.getLastRow() - 1, feed.getLastColumn()).getValues();
+  var ties = [], marked = 0, posted = 0, houses = {};
+  todo.forEach(function (oldId) {
+    var rows = byTxn[oldId];
+    var costs = rows.filter(function (r) { return String(g(r, 'account')) !== '1402'; });
+    var bank = rows.filter(function (r) { return String(g(r, 'account')) === '1402'; })[0];
+    var total = cents(g(bank, 'credit')) - cents(g(bank, 'debit'));
+    var date = formatIsoDate_(g(costs[0], 'date')), payee = String(g(costs[0], 'payee') || '');
+    var memo = String(g(costs[0], 'memo')) + ' - corrected 2026-10-29: paid from the Recast Chase account = paid by Paul, owed back to him (D-098, his rule)';
+    var newId = idByMemo[memo];
+    if (!newId) {
+      var byHouse = {};
+      var lines = costs.map(function (r) {
+        var p = String(g(r, 'property') || ''); houses[p] = true;
+        byHouse[p] = (byHouse[p] || 0) + cents(g(r, 'debit')) - cents(g(r, 'credit'));
+        return { account: String(g(r, 'account')), debit: cents(g(r, 'debit')), credit: cents(g(r, 'credit')), property: p,
+          trade: String(g(r, 'trade') || ''), payee: String(g(r, 'payee') || ''), description: String(g(r, 'description') || ''),
+          paid_from: 'PAUL', business_purpose: String(g(r, 'business_purpose') || '') };
+      });
+      var what = costs.map(function (r) { return String(g(r, 'description') || ''); }).filter(Boolean).join('; ');
+      Object.keys(byHouse).forEach(function (p) {
+        var c = byHouse[p];
+        lines.push({ account: '2030', debit: c < 0 ? -c : 0, credit: c > 0 ? c : 0, property: p, payee: payee, description: what, paid_from: 'PAUL' });
+      });
+      var text = 'Working money ' + (total >= 0 ? 'taken out of' : 'put back into') + ' the account - ' + payee + ': ' + what;
+      var abs = Math.abs(total);
+      lines.push({ account: '2030', debit: total >= 0 ? abs : 0, credit: total >= 0 ? 0 : abs, property: '', payee: payee, description: text, paid_from: '1402' });
+      lines.push({ account: '1402', debit: total >= 0 ? 0 : abs, credit: total >= 0 ? abs : 0, property: '', payee: payee, description: text, paid_from: '1402' });
+      Object.keys(byHouse).forEach(function (p) { if (p && p !== 'OVERHEAD') ctx.properties.add(p); });   // a sold house keeps its lines (104 Ashburne's lawn of 10-01)
+      voidEntry_(oldId, 'Paul, 2026-10-29: the Recast Chase account is his own money - posted again as paid by Paul (D-098)', date, who, props, true);
+      var built = buildEntry({ type: 'journal', date: date, source: String(g(costs[0], 'source') || 'receipt'), posted_by: who,
+        doc_url: String(g(costs[0], 'doc_url') || ''), memo: memo, lines: lines }, ctx);
+      postBatchEntries_([built], props, true);
+      newId = built.txn_id; posted++;
+      console.log(oldId + ' -> ' + newId + ' (' + (total / 100).toFixed(2) + ', ' + Object.keys(byHouse).join(', ') + ')');
+    } else console.log(oldId + ': already corrected as ' + newId);
+    fRows.forEach(function (fr) {
+      if (String(fr[fCols['account'] - 1]) === '1402' && String(fr[fCols['txn_id'] - 1]) === oldId) {
+        ties.push({ feed_id: String(fr[fCols['feed_id'] - 1]), status: 'matched', txn_id: newId,
+          match_note: String(fr[fCols['match_note'] - 1] || '') + ' - paid by Paul through the Recast Chase account (D-098, 2026-10-29)' });
+      }
+    });
+    if (docOf[oldId]) {
+      try {
+        var m = siteFetchJson_('/api/inbox', 'post', { action: 'mark-posted', docId: docOf[oldId], txn_ids: [newId], rows: null, doc_url: '', by: who, repoint: true,
+          note: 'Paid by Paul through the Recast Chase account - posted again 2026-10-29 (D-098)' });
+        if (m && m.status === 'posted') marked++;
+      } catch (e) { console.log('receipt record ' + docOf[oldId] + ' not updated: ' + e); }
+    } else console.log('no Inbox record known for ' + oldId);
+  });
+  var tied = ties.length ? feedUpdateRows_(ss, ties) : { updated: 0, missing: [] };
+  Object.keys(houses).forEach(function (p) { if (p && p !== 'OVERHEAD' && ss.getSheetByName(p)) { try { refreshLineBlocks_(ss, p); } catch (e) { console.error('refreshLineBlocks_ ' + p + ': ' + e); } } });
+  refreshBankSheets_(ss);
+  refreshPnl_(ss);
+  warmCache_();
+  console.log('chasePaysIsPaulPaid20261029: ' + todo.length + ' Chase-paid entries found, ' + posted + ' posted again; ' + tied.updated + ' bank lines re-tied' +
+    (tied.missing.length ? ' (not found: ' + tied.missing.join(', ') + ')' : '') + '; ' + marked + ' receipt records pointed at the new entries.');
+}

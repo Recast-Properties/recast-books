@@ -417,6 +417,11 @@ test("onPaulsCard: what his own card paid for, recorded yesterday, with the card
     ...e("receipt-lowes", "2026-10-12", "Lowe's", "658 Erin Hills", 3.8, "PAUL", "2026-10-23T10:36:00"),
     ...e("receipt-adobe", "2026-10-23", "Adobe", "OVERHEAD", 34.49, "PAUL", "2026-10-23T17:44:00"),
     ...e("receipt-chase", "2026-10-23", "Home Depot", "366 Mesa", 50, "1402", "2026-10-23T12:00:00"),
+    // D-098: a cost the Recast Chase account paid carries PAUL on its cost lines but is not his personal card - left out
+    ["receipt-chase2", 1, "2026-10-23", "1030", 50, "", "366 Mesa", "Lowe's", "PAUL", "receipt", "2026-10-23T12:30:00", ""],
+    ["receipt-chase2", 2, "2026-10-23", "2030", "", 50, "366 Mesa", "Lowe's", "PAUL", "receipt", "2026-10-23T12:30:00", ""],
+    ["receipt-chase2", 3, "2026-10-23", "2030", 50, "", "", "Lowe's", "1402", "receipt", "2026-10-23T12:30:00", ""],
+    ["receipt-chase2", 4, "2026-10-23", "1402", "", 50, "", "Lowe's", "1402", "receipt", "2026-10-23T12:30:00", ""],
     ...e("receipt-pacer", "2026-10-14", "PACER", "OVERHEAD", 39.3, "PAUL", "2026-10-23T11:08:00"),
     ["void-receipt-pacer", 1, "2026-10-14", "1030", "", 39.3, "OVERHEAD", "PACER", "PAUL", "void", "2026-10-25T19:48:00", "receipt-pacer"],
     ["void-receipt-pacer", 2, "2026-10-14", "2030", 39.3, "", "OVERHEAD", "PACER", "PAUL", "void", "2026-10-25T19:48:00", "receipt-pacer"],
