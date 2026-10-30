@@ -105,6 +105,7 @@ that supersedes the old one, not editing history.
 - D-095 · Hardware kept on hand is Supplies on hand (1530); a piece goes on a house through New expense paid from the shelf - 2026-10-25 · Paul
 - D-096 · Never guess the house: only the receipt, the house's own mailbox, Paul's words or the original purchase name it - 2026-10-25 · Paul
 - D-097 · The nightly check looks things up and fixes what its four fix tools cover; the morning email says what it fixed - 2026-10-27 · Paul
+- D-098 · The Recast Chase account is Paul's own money: a cost it pays is a cost Paul paid, owed back to him - 2026-10-29 · Paul
 
 ---
 
@@ -2199,3 +2200,21 @@ statement". `{dry: true}` runs every rail and writes nothing (`reconcile/dry/<da
 entries recorded from two bank lines are never a possible double (the facts leave them out). The list for Claude stays
 stored, never mailed (2026-10-26).
 
+## D-098 · The Recast Chase account is Paul's own money: a cost it pays is a cost Paul paid, owed back to him - 2026-10-29 · Paul
+
+Paul: *"there are two charges in the chase account to mariana that landed in 658 erin hills and 241 poinsetta. they
+are not being added to the amount that is owed to me in the sheets. new rule, any expense that is paid for from the
+chse recast account should be reimbursed to me. the chase recast business account is not a shared account with
+dennis."* then *"so the checkbox shoudl be paul paid vs recast account."* The two cleanings had been re-posted on
+10-24 as paid from Chase (the bank file showed them leaving it), which put them under Recast Account Paid on the house
+tabs - money that comes back to the shared Citizens account at the sale, not to Paul.
+
+**Decided:** Chase (1402) is Paul's money (D-051 already: his account, never Dennis's). A cost it pays is a cost Paul
+paid: the house tab ticks Paul Paid and the sale pays him back; overhead it pays is overhead Paul paid. The engine
+writes one entry with both facts (`lib/posting.mjs`, expense and itemised receipt with paid_from 1402): the cost lines
+and a 2030 credit on the house or the business carry PAUL, then the cash leaving Chase as his working money - Dr 2030
+no house / Cr 1402, paid_from 1402 - so the Chase bank line still ties and 2030 nets to the cost (what Recast owes
+Paul does not change when Chase pays; it moves from "money in Recast Chase" to "costs he paid"). A refund runs the
+other way. The Inbox and the dialogs still say "Paid from: Chase"; the shape is the engine's. The nightly own-card
+list leaves Chase-paid entries out (not a personal card). The seven Chase-paid costs on the books were posted again
+in the shape by `chasePaysIsPaulPaid20261029`.

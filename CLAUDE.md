@@ -121,6 +121,9 @@ functions the menu, pollers and nightly jobs call - Paul is never sent there.
     (D-063), not a menu item - fold new things into what exists.
 16. **Recast's own accounts only** (D-051): Citizens 1401 and Chase 1402 (Paul's business account, never Dennis);
     Paul's personal statements never come in and what Recast owes him is repaid by one payment after reconciling.
+    **Chase is Paul's money (D-098): a cost it pays is a cost Paul paid** - the engine writes it as PAUL on the house
+    plus the cash out of Chase as his working money, so the tab ticks Paul Paid and the bank line still ties; never
+    record a Chase-paid cost as Recast Account Paid.
     Card last-4s and `paul_personal_last4` live on the `Bank accounts` tab and Settings - read them there, they
     change (D-074).
 17. **Tabs:** never type a Journal row number into a tab formula - `journalRange_`, the D-080 lint fails on it;

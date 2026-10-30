@@ -1,5 +1,39 @@
 # Changelog
 
+## 2026-10-29 - D-098: a cost the Recast Chase account pays is a cost Paul paid
+
+Paul: "there are two charges in the chase account to mariana that landed in 658 erin hills and 241 poinsetta. they are
+not being added to the amount that is owed to me in the sheets. new rule, any expense that is paid for from the chse
+recast account should be reimbursed to me. the chase recast business account is not a shared account with dennis ... so
+the checkbox shoudl be paul paid vs recast account."
+- **The engine** (`lib/posting.mjs`, `resolvePaidFrom` + `chaseLegs`): an expense or itemised receipt paid from 1402
+  comes out as the cost lines and a 2030 credit on the house carrying PAUL, then Dr 2030 no house / Cr 1402 carrying
+  1402 - the cash out of Chase as his working money. The tab ticks Paul Paid (`paid_from` PAUL on the cost line), the
+  closing pays him back (2030 on the house), the Chase bank line ties (the 1402 line is still there), the bank box
+  nets the entry to its 1402 leg, and 2030 nets to the cost. A refund runs the other way. Citizens (1401) unchanged.
+  The nightly own-card list skips an entry with a 1402 line (Chase is the business account, not his card). Tests:
+  expense, itemised, refund, the list, the P&L (639).
+- **The books:** one-off `chasePaysIsPaulPaid20261029` (as run: commit c676003; first cut 024705d), pushed as the
+  file's only function, run from the editor by Penny 21:02 and 21:05 CT (the first run stopped after two entries on a
+  repeated id - the Mariana entries' first version of 10-12 / 10-14 was paid by Paul, so the hash repeated; the
+  re-post takes `allow_duplicate_hash`, and a re-run never voids twice). Seven entries voided on their own dates and
+  posted again in the shape: 60.00 Effren lawn 10-01 (104 Ashburne, sold) -> `receipt-20261001-035905d0b9e6`; 5.00
+  Telnyx 10-23 -> `receipt-20261023-7efa88fa7894`; 300.00 Mariana 10-12 (241 Poinsetta) -> `receipt-20261012-7f1c3cb74663-5db5`;
+  350.00 Mariana 10-14 (658 Erin Hills) -> `receipt-20261014-4f6a1bf2573f-283b`; 516.70 Travelocity 10-25 ->
+  `receipt-20261025-03c081b13f4d-0e97`; 80.02 Anthropic 10-26 -> `receipt-20261026-cf29ede8e390-567b`; 57.99 Klarna
+  10-28 -> `receipt-20261028-22de28ac82f1-ee0d`. The three Chase lines tied (10-01, 10-13, 10-14) follow the new
+  entries; all seven receipt records point at them (`mark-posted` repoint). Both house tabs' line blocks, the bank tabs
+  and the P&L refreshed. One-off out; writer pushed, live = repo by pull. (A commit in between, 8929bd4, briefly held
+  the one-function temp file as the repo's one-off file - put back from c676003 the same hour.)
+- Read back: 658 Erin Hills Paul Paid 353.80 (was 3.80), 241 Poinsetta Paul Paid 300.00 (was 0); P&L "Paul - costs he
+  paid" 36,782.15 (was 35,472.44: + the 1,309.71 on held houses and the business), "Paul - money in Recast Citizens"
+  33,109.53 (was 34,419.24: the Chase mirror legs come off the no-house 2030; the 60.00 on sold 104 Ashburne sits here
+  as a payout waiting), what Recast owes in total unchanged (2,067,841.16); Chase box clean (118,444.75 bank, 4
+  payments after 10-14 = 659.71, books 117,785.04). The tab adds up.
+- Not changed: the 60.00 lawn stays on 104 Ashburne (sold) where the bookkeeper put it on 10-01, now as Paul paid.
+- **Deploy owed: `npm run ship`** (lib.gs, the site's posting engine and the nightly list changed) - until then a new
+  Chase receipt posts in the old shape from the site; the hourly tab already runs the pushed writer code.
+
 ## 2026-10-29 - The working money ledger on the P&L tab; Paul's 20,000 of Newport left in as working money
 
 Paul: "1. i want a ledger of how much both dennis and i have put into the citizens account as working capital.

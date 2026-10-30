@@ -5,7 +5,20 @@ history and are not written to; `CHANGELOG.md` keeps its dated entry per change.
 `docs/ops.md`. The books' numbers live on the workbook's tabs (P&L, Totals, Citizens Bank, the house tabs) - read them
 there; a figure written here is only as of its date.
 
-## 2026-10-29 (evening) - the working money ledger is on the P&L tab; both partners at 25,000 (START HERE)
+## 2026-10-29 (night) - D-098: Chase pays = Paul paid (START HERE)
+
+**Paul: the Mariana cleanings paid from Chase were not counted as owed to him; new rule - anything the Recast Chase
+account pays is reimbursed to him, Chase is not shared with Dennis, the checkbox is Paul Paid not Recast Account.**
+Built, run and read back (CHANGELOG, same date): the engine writes a Chase-paid cost as Paul paid plus the cash out of
+Chase as his working money (one entry, the bank line still ties); the seven Chase-paid entries on the books are posted
+again in the shape (ids in CHANGELOG); 658 Erin Hills Paul Paid 353.80, 241 Poinsetta 300.00; P&L costs he paid
+36,782.15, total owed unchanged; Chase box clean. Writer pushed, live = repo. **Owed: Paul's `npm run ship` - the site's
+posting engine and the nightly list are in the repo, not live; a Chase receipt read before the deploy posts in the old
+shape (then the one-off's pattern fixes it).** Watch: the first Chase receipt after the deploy (card 7416) - its card
+says "Paid from: Chase" and the posted entry has four lines, the house tab ticks Paul Paid; the 3 AM own-card list does
+not name it; the next Chase import ties the 10-23..10-28 lines (5.00, 516.70, 80.02, 57.99) to the new ids by amount.
+
+## 2026-10-29 (evening) - the working money ledger is on the P&L tab; both partners at 25,000
 
 **Paul: a ledger of what he and Dennis each put into Citizens as working capital, and his 20,000 of the Newport sale
 left in so both stand at 25,000.** Done and read back (CHANGELOG, same date): the P&L tab ends with WORKING MONEY IN THE
