@@ -171,3 +171,19 @@ function linkMolallaReceipts() {
   console.log('linkMolallaReceipts: ' + pairs.length + ' receipts written on ' + journal + ' Journal lines; on the tab ' + linked +
     ' lines now open their receipt and ' + blank + ' have none (' + cells.length + ' lines on the tab).');
 }
+
+// 2026-10-30 Paul: card 2749 (Capital One Mastercard) is Dennis's own personal card. D-099: Settings
+// `dennis_personal_last4` is the list of Dennis's own cards - a receipt citing one posts as Dennis paid (on its house),
+// and a Save with Dennis picked adds to it. Seeds the row with 2749, keeping anything already on it. Run by Penny.
+// STATUS: NOT YET RUN
+function addDennisCard2749_20261030() {
+  var ss = openWorkbook_(PropertiesService.getScriptProperties());
+  requireOwner_(ss);
+  var settings = ss.getSheetByName('Settings');
+  var cols = headerIndex_(settings);
+  var row = findRowByValue_(settings, cols['key'], 'dennis_personal_last4');
+  var now = row === -1 ? [] : String(settings.getRange(row, cols['value']).getValue() || '').split(/[\s,;]+/).filter(String);
+  if (now.indexOf('2749') === -1) now.push('2749');
+  upsertRow_(settings, cols, 'key', { key: 'dennis_personal_last4', value: now.join(', ') });
+  Logger.log('dennis_personal_last4 = ' + now.join(', '));
+}
