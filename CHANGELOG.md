@@ -1,5 +1,27 @@
 # Changelog
 
+## 2026-10-29 - Dennis's 10,000 of 08-12 is his working money in the account, not a 366 Mesa advance
+
+Paul: "in the 366 mesa sheet its showing a $10,000 advance, but that was changed to dennis leaving the money in the
+citizens account for general use, it is no longer a cash advance because i left money in the account to match."
+- The bank's "Loan 10K for oper exp mesa" of 08-12 had been recorded as a 366 Mesa cash advance at 8%
+  (`manual-20260812-28027e9806ef`; D-055's note of 09-28 kept it one on Paul's word then). On his word today it is
+  working money (D-055): no house, no interest, owed back when he takes it out.
+- One-off `mesaAdvanceToWorkingMoney20261029` (commit b9590e9), run from the editor by Penny 20:25 CT: the Advances
+  row `adv-manual-20260812-28027e9806ef` removed; the entry voided on its own date (`void-manual-20260812-28027e9806ef`);
+  `manual-20260812-e6cdf9f2384d` posted dated 08-12, Dr 1401 / Cr 2010 10,000.00, no house; the Feed line
+  `202608120000000543522613` tied to it; the Mesa tab rebuilt; the bank tabs refreshed. One-off out.
+- Read back (gviz): 366 Mesa - Cash Advances + Interest blank, Received (advances) blank, Total Project Cost 140,377.77
+  (was 140,549.83 - the 172.06 of interest is gone), Dennis's payout 154,962.19 (was 165,048.22), Back to Recast
+  account 9,710.36 (was -289.64 with the 10,000 netted in). Dennis's working money in Citizens is 25,000.00: 5,000 of
+  08-06, this 10,000 of 08-12, the 10,000 left in from Newport 10-07. What Dennis is owed in total is unchanged - the
+  10,000 moved from the house to the account.
+- Paul's side: nothing recorded - his 5,000 working money is on the books (D-055) and his 27,609.53 of Newport profit
+  still in Citizens is already owed to him (D-084).
+- clasp login was expired: the function was pasted into the editor as the file's only function (the Run dropdown would
+  not take a pick by click, keyboard or drag this time), run, and the live `oneOffScripts.gs` put back to HEAD byte for
+  byte. 635 tests.
+
 ## 2026-10-27 - The morning email lists what his own card paid for
 
 Paul: "one thing i want to add to the daily email report: flag any charges that come through on my personal accounts."
