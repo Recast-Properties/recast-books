@@ -12,9 +12,8 @@ account pays is reimbursed to him, Chase is not shared with Dennis, the checkbox
 Built, run and read back (CHANGELOG, same date): the engine writes a Chase-paid cost as Paul paid plus the cash out of
 Chase as his working money (one entry, the bank line still ties); the seven Chase-paid entries on the books are posted
 again in the shape (ids in CHANGELOG); 658 Erin Hills Paul Paid 353.80, 241 Poinsetta 300.00; P&L costs he paid
-36,782.15, total owed unchanged; Chase box clean. Writer pushed, live = repo. **Owed: Paul's `npm run ship` - the site's
-posting engine and the nightly list are in the repo, not live; a Chase receipt read before the deploy posts in the old
-shape (then the one-off's pattern fixes it).** Watch: the first Chase receipt after the deploy (card 7416) - its card
+36,782.15, total owed unchanged; Chase box clean. **Live since 21:13 CT - web app @67, site `6ae3fd3d`, read-back OK (stamp `10618b6`), shipped from the session on
+Paul's "deploy". Nothing owed.** Watch: the first Chase receipt after the deploy (card 7416) - its card
 says "Paid from: Chase" and the posted entry has four lines, the house tab ticks Paul Paid; the 3 AM own-card list does
 not name it; the next Chase import ties the 10-23..10-28 lines (5.00, 516.70, 80.02, 57.99) to the new ids by amount.
 

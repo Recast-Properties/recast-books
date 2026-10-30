@@ -31,8 +31,8 @@ the checkbox shoudl be paul paid vs recast account."
   as a payout waiting), what Recast owes in total unchanged (2,067,841.16); Chase box clean (118,444.75 bank, 4
   payments after 10-14 = 659.71, books 117,785.04). The tab adds up.
 - Not changed: the 60.00 lawn stays on 104 Ashburne (sold) where the bookkeeper put it on 10-01, now as Paul paid.
-- **Deploy owed: `npm run ship`** (lib.gs, the site's posting engine and the nightly list changed) - until then a new
-  Chase receipt posts in the old shape from the site; the hourly tab already runs the pushed writer code.
+- **Live since 21:13 CT - web app @67, site `6ae3fd3d`, read-back OK (stamp `10618b6`), shipped from the session on
+  Paul's "deploy". Nothing owed.**
 
 ## 2026-10-29 - The working money ledger on the P&L tab; Paul's 20,000 of Newport left in as working money
 
