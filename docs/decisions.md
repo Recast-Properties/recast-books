@@ -1253,6 +1253,13 @@ Sparkling is closed and frozen) - the bank's check ties to the payout and this e
 `addPaulWorkingMoneyLeftIn()` (oneOffScripts.gs). His second check of 08-12 (607.05) is a separate card, not
 answered by this.
 
+**Added 2026-10-29 - the Mesa 10,000 and Paul's match (Paul):** Dennis's 10,000 of 08-12, kept as a Mesa advance
+above, became his working money on Paul's word (*"that was changed to dennis leaving the money in the citizens account
+for general use ... i left money in the account to match"*); Paul left 20,000 of his 881 Newport share in the account
+the same day (*"so dennis and i should both have $25k in the account as working capital"*). Both stand at 25,000.00. A
+partner's share left in at a sale is recorded as paid to him and put back in, in one entry (the bank side nets to zero),
+so the closing tab reads paid and the ledger reads left in. The ledger is the P&L tab's last section.
+
 ## D-056 · Hand-run scripts live in oneOffScripts.gs; Code.gs and Menu.gs hold only what the workbook reaches - 2026-09-28 · Paul
 
 Paul: *"things are getting messy. i want to stop and clean up the apps scripts in the books file. we have a slew of

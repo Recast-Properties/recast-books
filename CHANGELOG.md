@@ -1,5 +1,30 @@
 # Changelog
 
+## 2026-10-29 - The working money ledger on the P&L tab; Paul's 20,000 of Newport left in as working money
+
+Paul: "1. i want a ledger of how much both dennis and i have put into the citizens account as working capital.
+whichever sheet makes the most sense. 2. i am leaving $20,000 from the newport sale in the account for working
+capital. so dennis and i should both have $25k in the account as working capital."
+- **The ledger** is a section at the bottom of the P&L tab (the tab already carries "Dennis - money he lent" and "Paul -
+  money in Recast Citizens"; both notes now say "listed at the bottom"): WORKING MONEY IN THE CITIZENS ACCOUNT - every
+  D-055 line (no house, described "Working money ...", paid from 1401) in date order as "MM-DD  <who> put in / left in /
+  took out", the note the description's tail, then "Dennis has in the account" and "Paul has in the account". Chase is
+  left out (Paul's own line above). `pnlTab` in `lib/reports.mjs`, `lib.gs` rebuilt, one test (636). It refreshes with
+  the tab every hour.
+- **The 20,000:** one-off `recordPaulWorkingMoneyNewport20261029` (commit 184684f), pushed as the file's only function
+  and run from the editor by Penny 20:41 CT: `sale-20261029-f1549aaad052` dated 10-29 - Dr 2030 881 Newport 20,000 /
+  Cr 1401 20,000 ("Paid to Paul - ... left in the account as working money"), Dr 1401 20,000 / Cr 2030 no house 20,000
+  ("Working money left in the account - 20,000.00 of his 881 Newport profit"); the bank side nets to zero inside the one
+  entry, so the Citizens box has nothing to look for. `881 Newport - Closing` rewritten in place on his word: Paid so far
+  20,000.00 on 2026-10-29, Still owed to Paul 7,609.53, Total to pay out unchanged 270,104.64. One-off out; writer
+  pushed, live = repo by pull.
+- Read back: the ledger shows 08-06 Dennis 5,000.00; 08-12 Paul 141.58; 08-12 Dennis 10,000.00; 08-13 Paul 4,858.42;
+  10-07 Dennis 10,000.00; 10-29 Paul 20,000.00 - Dennis has 25,000.00, Paul has 25,000.00. "Paul - money in Recast
+  Citizens" unchanged at 34,419.24 (the 20,000 moved from the house to the account, both already counted). The tab
+  adds up.
+- **Deploy owed (lib.gs changed): `npm run ship`** - Paul's step. The hourly tab already runs the pushed code; the deploy
+  keeps the web app's copy current.
+
 ## 2026-10-29 - Dennis's 10,000 of 08-12 is his working money in the account, not a 366 Mesa advance
 
 Paul: "in the 366 mesa sheet its showing a $10,000 advance, but that was changed to dennis leaving the money in the

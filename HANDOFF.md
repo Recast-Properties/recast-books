@@ -5,7 +5,17 @@ history and are not written to; `CHANGELOG.md` keeps its dated entry per change.
 `docs/ops.md`. The books' numbers live on the workbook's tabs (P&L, Totals, Citizens Bank, the house tabs) - read them
 there; a figure written here is only as of its date.
 
-## 2026-10-29 - Dennis's 10,000 of 08-12 is working money, not a Mesa advance (START HERE)
+## 2026-10-29 (evening) - the working money ledger is on the P&L tab; both partners at 25,000 (START HERE)
+
+**Paul: a ledger of what he and Dennis each put into Citizens as working capital, and his 20,000 of the Newport sale
+left in so both stand at 25,000.** Done and read back (CHANGELOG, same date): the P&L tab ends with WORKING MONEY IN THE
+CITIZENS ACCOUNT - six lines, Dennis has 25,000.00, Paul has 25,000.00; `sale-20261029-f1549aaad052` records the 20,000
+(paid to Paul and left in, one entry, bank side nets to zero); `881 Newport - Closing` reads Paid so far 20,000.00, Still
+owed 7,609.53. Writer pushed, live = repo. **Owed: Paul's `npm run ship` (lib.gs changed; the hourly P&L already runs the
+pushed code).** Watch: the 3 AM check - the 10-29 entry has no bank line and nets to zero on 1401, so the Citizens box
+should not list it; the next hourly P&L keeps the ledger at the bottom.
+
+## 2026-10-29 - Dennis's 10,000 of 08-12 is working money, not a Mesa advance
 
 **Paul: the Mesa tab's 10,000 advance "was changed to dennis leaving the money in the citizens account for general use
 ... i left money in the account to match."** Done and read back (CHANGELOG, same date): the 08-12 advance is voided on
