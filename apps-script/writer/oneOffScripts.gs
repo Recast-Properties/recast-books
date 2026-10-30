@@ -170,3 +170,21 @@ function linkMolallaReceipts() {
   console.log('linkMolallaReceipts: ' + pairs.length + ' receipts written on ' + journal + ' Journal lines; on the tab ' + linked +
     ' lines now open their receipt and ' + blank + ' have none (' + cells.length + ' lines on the tab).');
 }
+
+// 2026-10-30 Paul: "Yes, take it out." The 19.66 Home Depot on 366 Mesa dated 08-03 (migrated from the old books, row 15:
+// paid by Dennis, "?" for the description, no receipt) is the same purchase as the 09-03 receipt
+// receipt-20260903-eeee6b5810ba-636d (19.66, Home Depot, Dennis's own card ending 2749, four lines) with the month typed
+// wrong - to the cent, same store, same payer, and 08-03 is the day before the house was bought. Dennis was owed it twice.
+// The migrated copy comes out on its own date; the receipt stays. Run by Penny from the editor.
+// STATUS: NOT YET RUN
+function voidMesaHomeDepotDouble20261030() {
+  var props = PropertiesService.getScriptProperties();
+  var ss = openWorkbook_(props);
+  requireOwner_(ss);
+  var dup = 'migration-20260803-52e20515027e', receipt = 'receipt-20260903-eeee6b5810ba-636d';
+  var res = voidEntry_(dup, 'double of ' + receipt + ' - the same 19.66 Home Depot on 366 Mesa paid by Dennis, migrated from the old books with the month typed as 08 (the house was bought 08-04); Paul 2026-10-30: take it out', '2026-08-03', Session.getActiveUser().getEmail(), props, false);
+  Logger.log('voided ' + dup + ' -> ' + JSON.stringify(res));
+  refreshPnl_(ss);
+  warmCache_();
+  Logger.log('done');
+}
