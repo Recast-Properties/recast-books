@@ -11,9 +11,11 @@ there; a figure written here is only as of its date.
 Both receipts came in 10-30 and posted on 366 Mesa; the cards (made 09-28, before a card stored its amount) were compared
 to $0 and stayed. Done (CHANGELOG, same date): both lines tied to their receipts and both cards retired by one-off
 `tieOldHomeDepotCards20261031` (05:59 CT, read back from the docs store); the code now measures an old card by its own
-read's total (`cardCents`, commit 6be69f4, 643 tests). **Owed: `npm run ship`** - the ingest function changed and is not
-live until then (the site's live stamp is still `78a200a`). clasp login is expired (`invalid_rapt`) - the one-off went in
-and back out through the editor; live = repo by the editor's own text, not by `clasp pull`. The Lowe's 130.87 of 08-10 is
+read's total (`cardCents`, commit 6be69f4, 643 tests). **Live since 06:05 CT - site `6ae5cb93`, stamp `4f007fe
+2026-10-31 06:05` read back; deployed from the session on Paul's "Yes, deploy". Nothing owed by Paul on this.** The web
+app is still @68 (the writer did not change). clasp login is expired (`invalid_rapt`) - the one-off went in and back out
+through the editor; live = repo by the editor's own text, not by `clasp pull`; the next writer push needs Paul's
+`npx clasp login` first. The Lowe's 130.87 of 08-10 is
 the one old card left waiting; with the fix its receipt clears it. The 5.00 Ellis County Clerk line in the same check is
 right (10-30, Paul paid).
 

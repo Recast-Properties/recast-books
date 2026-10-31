@@ -11,8 +11,9 @@ carried `feed.amount_cents` (added 09-29), and `retireBankCard` compared the rec
 the card stays for Paul". Every card since 09-29 has the amount, which is why newer ones clear on their own.
 - Fix (`netlify/functions/books-ingest-background.mjs`): `cardCents(card)` - the card's `feed.amount_cents`, else its own
   read's `receipt_total_cents` (the same number for every card the matcher ever made); `retireBankCard` and
-  `typedTwinOf` use it. Test: an old card without the amount ties and retires. 643 tests. **Not shipped yet** - the
-  ingest function changed, so the next `npm run ship` carries it.
+  `typedTwinOf` use it. Test: an old card without the amount ties and retires. 643 tests. **Live since 06:05 CT on
+  Paul's "Yes, deploy"** - site `6ae5cb93`, stamp `4f007fe 2026-10-31 06:05` read back from `/build.json` (ship `--dry`
+  for the stamp, then `npm run deploy`; the writer did not change and clasp is logged out, so no `ship`).
 - The two cards: one-off `tieOldHomeDepotCards20261031` (commit 6be69f4), run from the editor 05:59 CT (pasted in as
   the file's only function - clasp login expired, `invalid_rapt`), through `tieOpenBankLine_`: both lines matched to their
   receipts, both cards dismissed by claude with the receipt named ("ok, updated 1, retired" each; read back from the docs
