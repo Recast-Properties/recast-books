@@ -172,3 +172,29 @@ function linkMolallaReceipts() {
   console.log('linkMolallaReceipts: ' + pairs.length + ' receipts written on ' + journal + ' Journal lines; on the tab ' + linked +
     ' lines now open their receipt and ' + blank + ' have none (' + cells.length + ' lines on the tab).');
 }
+
+// 2026-10-31 Penny (Paul: "i thought we fixed these") - the 90.23 (09-24) and 30.57 (09-25) Home Depot lines on
+// Citizens: their receipts posted 10-30 on 366 Mesa, but the cards were made 09-28, before a card stored its amount,
+// so the post compared each receipt to $0 and left its card for Paul (books-ingest-background.mjs retireBankCard,
+// fixed the same day). Ties each line to its receipt and retires the card through the path a post uses
+// (tieOpenBankLine_). Checks first that both receipts are live on the Journal; a line already tied is skipped.
+// STATUS: NOT YET RUN
+function tieOldHomeDepotCards20261031() {
+  var ss = openWorkbook_(PropertiesService.getScriptProperties());
+  var sh = ss.getSheetByName('Journal');
+  var col = headerIndex_(sh)['txn_id'];
+  var ids = {};
+  sh.getRange(2, col, sh.getLastRow() - 1, 1).getValues().forEach(function (r) { ids[String(r[0])] = true; });
+  var pairs = [
+    { txn: 'receipt-20260923-b3bf9c14f062', date: '2026-09-23', cents: 9023, doc: 'gm-1a18e1bca14f3593' },
+    { txn: 'receipt-20260924-dd59673992d6', date: '2026-09-24', cents: 3057, doc: 'gm-1a18e1abf2d1b97d' }
+  ];
+  pairs.forEach(function (p) {
+    if (!ids[p.txn] || ids['void-' + p.txn]) throw new Error(p.txn + ' is not live on the Journal - nothing changed, tell Claude');
+  });
+  pairs.forEach(function (p) {
+    var built = [{ txn_id: p.txn, date: p.date, lines: [{ account: '1401', debit: 0, credit: p.cents }] }];
+    var out = tieOpenBankLine_(ss, built, [p.txn], p.doc);
+    console.log(p.txn + ': ' + (out ? JSON.stringify(out) : 'no single open Citizens line of that amount within 10 days - nothing changed'));
+  });
+}

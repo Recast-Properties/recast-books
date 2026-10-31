@@ -747,6 +747,28 @@ test("a receipt naming a bank card for a different total: posted, the card stays
   assert.equal((await store.get("doc/feed-1401-tip", { type: "json" })).status, "pending");
 });
 
+test("2026-10-31: a card made before cards stored their amount (no feed.amount_cents) is measured by its read's total - the receipt ties the line and retires the card instead of comparing it to $0", { skip }, async () => {
+  const envelope = await seedEnvelope({ docId: "gm-old-card" });
+  const store = getDocsStore();
+  await store.set("att/gm-old-card/0", Buffer.from("hi").toString("base64"), { metadata: {} });
+  const { amount_cents, ...oldFeed } = BANK_CARD.feed;
+  await store.setJSON("doc/feed-1401-old", { ...BANK_CARD, docId: "feed-1401-old", feed: { ...oldFeed, feed_ids: ["old"] } });
+  const calls = [];
+  const writer = {
+    storeDocument: async () => ({ fileId: "f1", url: "https://drive/x", folderUrl: "https://drive/folder" }),
+    void: async () => { calls.push("void"); return { ok: true }; },
+    postBatch: async () => ({ rows: [1, 2] }),
+    feedUpdate: async (rows) => { calls.push(["feedUpdate", rows]); return { ok: true, updated: rows.length }; },
+    read: async () => ({ ok: true, headers: ["txn_id"], rows: [] }),
+  };
+  const result = await processDecision({ envelope, docId: "gm-old-card", model: postModel({ supersedes: "feed-1401-old" }), transcript_summary: [], usage: {},
+    gateResult: PASS_GATE, ctx: baseCtx(), writer, docsStore: store });
+  assert.equal(result.status, "posted");
+  assert.ok(!calls.includes("void"));
+  assert.deepEqual(calls.find((c) => c[0] === "feedUpdate")[1], [{ feed_id: "old", status: "matched", txn_id: result.result.txn_ids[0], match_note: "The receipt came in (gm-old-card) and the bookkeeper tied it" }]);
+  assert.equal((await store.get("doc/feed-1401-old", { type: "json" })).status, "dismissed");
+});
+
 test("audit 2026-10-24 #1: a posted receipt whose read named no card still ties the one open bank line for its charge and retires that line's card", { skip }, async () => {
   const envelope = await seedEnvelope({ docId: "gm-quiet" });
   const store = getDocsStore();

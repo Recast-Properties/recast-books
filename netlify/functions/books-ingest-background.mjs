@@ -708,6 +708,11 @@ export async function processDecision({
  * while the card is still waiting, the totals agree to the cent and the receipt was paid from the card's
  * account. Anything else leaves the card for Paul. The post stands whatever happens here; a miss is logged.
  */
+/** The charge a bank card stands for, in cents. A card made before 2026-09-29 stored no `feed.amount_cents`; the two
+ *  Home Depot cards of 09-24/25 (90.23, 30.57) were compared to $0 when their receipts posted on 10-30 and sat on for
+ *  Paul. The read's own total is the same number for every card the matcher ever made (feed-match.mjs baseModel). */
+const cardCents = (card) => Math.abs(Number(card?.feed?.amount_cents ?? card?.model?.receipt_total_cents) || 0);
+
 /** 2026-10-25: the one entry Paul typed from the bank card this read answers, when the card was saved by hand (not by
  *  claude), the read's entries add up to the card's line and are paid from its account - the twin the receipt replaces.
  *  "" otherwise. Best effort: a store miss is "". */
@@ -717,7 +722,7 @@ export async function typedTwinOf({ bankCardId, model, docsStore }) {
     const ids = card?.result?.txn_ids || [];
     if (!card || card.status !== "posted" || ids.length !== 1 || card.review?.by === "claude") return "";
     const total = (model?.entries || []).reduce((t, e) => t + (e.items || []).reduce((s, it) => s + (Number(it.amount_cents) || 0), 0), 0);
-    const sameTotal = total === Math.abs(Number(card.feed?.amount_cents) || 0);
+    const sameTotal = total === cardCents(card);
     const sameAccount = (model?.entries || []).every((e) => String(e.paid_from) === String(card.feed?.account));
     return sameTotal && sameAccount ? String(ids[0]) : "";
   } catch {
@@ -731,7 +736,7 @@ async function retireBankCard({ bankCardId, entries, docId, writer, docsStore })
     const feed = card?.feed;
     if (!card || !Array.isArray(feed?.feed_ids) || !feed.feed_ids.length) return;
     const total = entries.reduce((t, e) => t + (e.lines || []).reduce((s, l) => s + (Number(l.debit) || 0), 0), 0);
-    const sameTotal = total === Math.abs(Number(feed.amount_cents) || 0);
+    const sameTotal = total === cardCents(card);
     const paidFromCard = entries.every((e) => (e.lines || []).some((l) => String(l.account) === String(feed.account)));
     if (card.status === "posted") {
       // 2026-10-25: Paul saved the card by hand while this receipt was being read (the 37.84 Home Depot of 10-13 went in
