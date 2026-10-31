@@ -5,7 +5,19 @@ history and are not written to; `CHANGELOG.md` keeps its dated entry per change.
 `docs/ops.md`. The books' numbers live on the workbook's tabs (P&L, Totals, Citizens Bank, the house tabs) - read them
 there; a figure written here is only as of its date.
 
-## 2026-10-30 - three Citizens entries re-posted: two paid by Dennis, one by Paul (START HERE)
+## 2026-10-31 - the two September Home Depot cards cleared; an old card is measured by its read's total (START HERE)
+
+**Paul: "penny i thought we fixed these"** (the 3 AM check listed the Home Depot 90.23 of 09-24 and 30.57 of 09-25 again).
+Both receipts came in 10-30 and posted on 366 Mesa; the cards (made 09-28, before a card stored its amount) were compared
+to $0 and stayed. Done (CHANGELOG, same date): both lines tied to their receipts and both cards retired by one-off
+`tieOldHomeDepotCards20261031` (05:59 CT, read back from the docs store); the code now measures an old card by its own
+read's total (`cardCents`, commit 6be69f4, 643 tests). **Owed: `npm run ship`** - the ingest function changed and is not
+live until then (the site's live stamp is still `78a200a`). clasp login is expired (`invalid_rapt`) - the one-off went in
+and back out through the editor; live = repo by the editor's own text, not by `clasp pull`. The Lowe's 130.87 of 08-10 is
+the one old card left waiting; with the fix its receipt clears it. The 5.00 Ellis County Clerk line in the same check is
+right (10-30, Paul paid).
+
+## 2026-10-30 - three Citizens entries re-posted: two paid by Dennis, one by Paul
 
 **Paul: "correct the writ as a dennis personal check and the home depot paid as a dennis personal card. correct the
 deed copy as a paul personal expense."** Done and read back (CHANGELOG, same date): the 185.00 writ (200 Janice) and

@@ -1,5 +1,27 @@
 # Changelog
 
+## 2026-10-31 - The two September Home Depot cards cleared: an old card stored no amount, so its receipt was compared to $0
+
+Paul: "penny i thought we fixed these" - the 3 AM check again asked him to approve the Home Depot 90.23 (09-24) and 30.57
+(09-25) cards on Citizens. Both receipts had come in on 10-30 at 13:37 CT (Paul forwarded them from his gmail to the
+366 Mesa mailbox; `gm-1a18e1bca14f3593`, `gm-1a18e1abf2d1b97d`) and posted on 366 Mesa at once
+(`receipt-20260923-b3bf9c14f062`, `receipt-20260924-dd59673992d6`; Dennis's card 9301, paid from 1401), each read
+naming its bank card. The cards did not clear: both were made on 09-28 by the first matching run, before a card
+carried `feed.amount_cents` (added 09-29), and `retireBankCard` compared the receipt's total to $0 - "the totals differ -
+the card stays for Paul". Every card since 09-29 has the amount, which is why newer ones clear on their own.
+- Fix (`netlify/functions/books-ingest-background.mjs`): `cardCents(card)` - the card's `feed.amount_cents`, else its own
+  read's `receipt_total_cents` (the same number for every card the matcher ever made); `retireBankCard` and
+  `typedTwinOf` use it. Test: an old card without the amount ties and retires. 643 tests. **Not shipped yet** - the
+  ingest function changed, so the next `npm run ship` carries it.
+- The two cards: one-off `tieOldHomeDepotCards20261031` (commit 6be69f4), run from the editor 05:59 CT (pasted in as
+  the file's only function - clasp login expired, `invalid_rapt`), through `tieOpenBankLine_`: both lines matched to their
+  receipts, both cards dismissed by claude with the receipt named ("ok, updated 1, retired" each; read back from the docs
+  store 10:59Z). The one-off is out of the file again and the editor holds the repo's file (its header notes the commit).
+- Not changed: the Lowe's 130.87 of 08-10 (the third old card, Dennis's card, no receipt yet) - with the fix its receipt
+  will clear it when it comes. The 5.00 Ellis County Clerk line in the same check is right: the deed copy Paul made
+  his own on 10-30, so the business owes him 5.00. The 09-28 cards' "469 Brushwood" was the matching run's guess; the
+  receipts say "mesa" and the books have them on 366 Mesa.
+
 ## 2026-10-30 - The 08-03 19.66 Home Depot on 366 Mesa taken out: the 09-03 receipt with the month typed wrong
 
 Paul, asked whether to take out the 08-03 19.66 Home Depot on Mesa as a double: "Yes, take it out".

@@ -60,6 +60,8 @@
  * fixThreePayers20261030 (2026-10-30, Paul: the 185.00 writ and the 19.66 Home Depot paid by Dennis's own check and card, the 5.00 deed copy by Paul's own card - none from Citizens; each voided on its own date and posted again, the receipt records repointed, 200 Janice, 366 Mesa, the bank tabs and the P&L refreshed; run 07:02 CT from the editor, pushed as the file's only function) is in commit 3de786a.
  * voidMesaHomeDepotDouble20261030 (2026-10-30, Paul: "Yes, take it out" - the 19.66 Home Depot on 366 Mesa dated 08-03, migrated from the old books, was the 09-03 receipt paid by Dennis with the month typed wrong; voided on its own date, 366 Mesa and the P&L refreshed; run 08:57 CT from the editor, pushed as the file's only function) is in commit e17c48c.
  * addDennisCard2749_20261030 (2026-10-30, D-099: Settings dennis_personal_last4 seeded with Dennis's own card 2749; run 09:01 CT from the editor, pushed as the file's only function) is in commit afde4ea.
+ * tieOldHomeDepotCards20261031 (2026-10-31, the 90.23 / 30.57 Home Depot cards of 09-24/25 tied to their receipts and retired;
+ *   run 05:59 CT from the editor, pasted in as the file's only function - clasp login was expired) is in commit 6be69f4.
  ****************************************************************/
 
 // 2026-10-05 Paul: "yes match all the receipts and link them" (1014 S View). Each receipt found for the house - in
@@ -171,30 +173,4 @@ function linkMolallaReceipts() {
   warmCache_();
   console.log('linkMolallaReceipts: ' + pairs.length + ' receipts written on ' + journal + ' Journal lines; on the tab ' + linked +
     ' lines now open their receipt and ' + blank + ' have none (' + cells.length + ' lines on the tab).');
-}
-
-// 2026-10-31 Penny (Paul: "i thought we fixed these") - the 90.23 (09-24) and 30.57 (09-25) Home Depot lines on
-// Citizens: their receipts posted 10-30 on 366 Mesa, but the cards were made 09-28, before a card stored its amount,
-// so the post compared each receipt to $0 and left its card for Paul (books-ingest-background.mjs retireBankCard,
-// fixed the same day). Ties each line to its receipt and retires the card through the path a post uses
-// (tieOpenBankLine_). Checks first that both receipts are live on the Journal; a line already tied is skipped.
-// STATUS: NOT YET RUN
-function tieOldHomeDepotCards20261031() {
-  var ss = openWorkbook_(PropertiesService.getScriptProperties());
-  var sh = ss.getSheetByName('Journal');
-  var col = headerIndex_(sh)['txn_id'];
-  var ids = {};
-  sh.getRange(2, col, sh.getLastRow() - 1, 1).getValues().forEach(function (r) { ids[String(r[0])] = true; });
-  var pairs = [
-    { txn: 'receipt-20260923-b3bf9c14f062', date: '2026-09-23', cents: 9023, doc: 'gm-1a18e1bca14f3593' },
-    { txn: 'receipt-20260924-dd59673992d6', date: '2026-09-24', cents: 3057, doc: 'gm-1a18e1abf2d1b97d' }
-  ];
-  pairs.forEach(function (p) {
-    if (!ids[p.txn] || ids['void-' + p.txn]) throw new Error(p.txn + ' is not live on the Journal - nothing changed, tell Claude');
-  });
-  pairs.forEach(function (p) {
-    var built = [{ txn_id: p.txn, date: p.date, lines: [{ account: '1401', debit: 0, credit: p.cents }] }];
-    var out = tieOpenBankLine_(ss, built, [p.txn], p.doc);
-    console.log(p.txn + ': ' + (out ? JSON.stringify(out) : 'no single open Citizens line of that amount within 10 days - nothing changed'));
-  });
 }
