@@ -1,5 +1,22 @@
 # Changelog
 
+## 2026-10-31 (evening) - Every frozen house tab's receipt links put back; a freeze keeps them from now on
+
+Paul: "penny, where are the receipts for 104 ashburne? most of the expenses just say 'Receipt' with no link", then "it
+appears every frozen tab is the same. this needs to be fixed for all and future frozen tabs". Cause: `freezePropertyTab_`
+did `rng.setValues(rng.getValues())`, so each `=HYPERLINK(url,"Receipt")` became the plain word. The receipts were
+never lost - every line's `doc_url` is on the Journal.
+- Fix (`Code.gs` `freezePropertyTab_`, commit ba509dd): HYPERLINK formulas are kept through the freeze; the
+  freeze lint now also asserts it. Reaches the next Sell property run by the push alone (the menu runs HEAD).
+- Repair: one-off `relinkFrozenReceipts20261031` (run 21:42-21:46 CT from the editor after a clasp push; three passes,
+  safe to rerun): each plain "Receipt" on a `- Frozen` tab is linked from the Journal - by txn_id on light tabs, by
+  payee|date|amount on 104 Ashburne's long tab; two identical purchases get one receipt each; removed (voided) entries
+  are skipped (the 432.98 Seconds & Surplus of 04-11 - its 09-28 voided double carried the other link).
+  104 Ashburne 576, 881 Newport 43, 1616 Granite 45, 280 Sparkling 31; none left.
+- 1014 S View: `linkMolallaReceipts` (Paul's word of 10-05, owed since and never run) ran first inside it - 65 receipts
+  on 272 Journal lines, 110 tab lines linked, 11 with none. Both one-offs out (as run in commit 0fa2055; see
+  the file header). Writer pushed, live = repo by `clasp pull`. No deploy needed (the web app never freezes a tab).
+
 ## 2026-10-31 - The two September Home Depot cards cleared: an old card stored no amount, so its receipt was compared to $0
 
 Paul: "penny i thought we fixed these" - the 3 AM check again asked him to approve the Home Depot 90.23 (09-24) and 30.57

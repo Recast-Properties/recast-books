@@ -5,7 +5,16 @@ history and are not written to; `CHANGELOG.md` keeps its dated entry per change.
 `docs/ops.md`. The books' numbers live on the workbook's tabs (P&L, Totals, Citizens Bank, the house tabs) - read them
 there; a figure written here is only as of its date.
 
-## 2026-10-31 - the two September Home Depot cards cleared; an old card is measured by its read's total (START HERE)
+## 2026-10-31 (evening) - every frozen house tab's receipts open again (START HERE)
+
+**Paul: the 104 Ashburne tab's expenses said "Receipt" with no link; "every frozen tab is the same ... fix for all and
+future frozen tabs".** Done and read back by the run log (CHANGELOG, same date): freezing a sold house's tab had turned
+every receipt link into the plain word; the freeze keeps links now, and every `- Frozen` tab is relinked from the books
+(Ashburne 576, Newport 43, Granite 45, Sparkling 31, none left). 1014 S View's 10-05 link script finally ran (110 lines).
+Writer pushed, live = repo by pull (Paul ran `npx clasp login`); no deploy needed. **Nothing owed by Paul.** Watch: the
+next Sell property run - its frozen tab's Receipt cells stay links.
+
+## 2026-10-31 - the two September Home Depot cards cleared; an old card is measured by its read's total
 
 **Paul: "penny i thought we fixed these"** (the 3 AM check listed the Home Depot 90.23 of 09-24 and 30.57 of 09-25 again).
 Both receipts came in 10-30 and posted on 366 Mesa; the cards (made 09-28, before a card stored its amount) were compared

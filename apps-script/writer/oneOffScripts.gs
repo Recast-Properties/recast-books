@@ -62,55 +62,8 @@
  * addDennisCard2749_20261030 (2026-10-30, D-099: Settings dennis_personal_last4 seeded with Dennis's own card 2749; run 09:01 CT from the editor, pushed as the file's only function) is in commit afde4ea.
  * tieOldHomeDepotCards20261031 (2026-10-31, the 90.23 / 30.57 Home Depot cards of 09-24/25 tied to their receipts and retired;
  *   run 05:59 CT from the editor, pasted in as the file's only function - clasp login was expired) is in commit 6be69f4.
+ * linkMolallaReceipts (2026-10-05, 1014 S View's receipts on its Journal lines and frozen tab; Paul's word of 10-05,
+ *   finally run 2026-10-31 21:43 CT inside relinkFrozenReceipts20261031) is in commit ba509dd.
+ * relinkFrozenReceipts20261031 (2026-10-31, every frozen tab's plain "Receipt" cells made links again - 695 cells,
+ *   none left; run 21:42-21:46 CT from the editor after a clasp push) is in commit 0fa2055.
  ****************************************************************/
-
-// 2026-10-31 Paul: "it appears every frozen tab is the same. this needs to be fixed for all" - freezing a sold house's
-// tab had turned each receipt link into the plain word "Receipt" (fixed in freezePropertyTab_). On every
-// "<house> - Frozen" tab, each plain "Receipt" cell becomes the link again, taken from the books: by the line's own id
-// where the tab carries one (light tabs), else by payee, date and amount (104 Ashburne's long tab has no id column).
-// A cell with no single answer is left as it is and named in the log. 1014 S View's lines never had their links in
-// the books - linkMolallaReceipts (Paul's word of 10-05) wrote them first; run 21:43 CT and out (commit ba509dd).
-// The same store, date and price bought twice is two receipts for two identical rows: each row gets one, in order,
-// when the counts agree. Nothing is posted, no
-// amount moves, no tab is rebuilt. Safe to run twice.
-// STATUS: NOT YET RUN
-function relinkFrozenReceipts20261031() {
-  var props = PropertiesService.getScriptProperties();
-  var ss = openWorkbook_(props);
-  requireOwner_(ss);
-  var journal = ss.getSheetByName('Journal'), cols = headerIndex_(journal), last = journal.getLastRow();
-  var rows = last > 1 ? journal.getRange(2, 1, last - 1, journal.getLastColumn()).getValues() : [];
-  var g = function (r, n) { return cols[n] ? r[cols[n] - 1] : ''; };
-  var cents = function (x) { return Math.round(Number(x || 0) * 100); };
-  var voided = {}; rows.forEach(function (r) { var x = String(g(r, 'void_of') || ''); if (x) voided[x] = true; });
-  var add = function (m, k, u) { (m[k] = m[k] || {})[u] = true; };
-  var one = function (m, k) { var u = Object.keys(m[k] || {}); return u.length === 1 ? u[0] : ''; };
-  ss.getSheets().forEach(function (sh) {
-    var tab = sh.getName(), m = tab.match(/^(.*) - Frozen$/);
-    if (!m) return;
-    var byId = {}, byKey = {};
-    rows.forEach(function (r) {
-      var u = String(g(r, 'doc_url') || '');
-      if (!u || String(g(r, 'property')) !== m[1] || String(g(r, 'source')) === 'void' || voided[String(g(r, 'txn_id'))]) return;
-      add(byId, String(g(r, 'txn_id')), u);
-      add(byKey, String(g(r, 'payee')).trim() + '|' + formatIsoDate_(g(r, 'date')) + '|' + (cents(g(r, 'debit')) - cents(g(r, 'credit'))), u);
-    });
-    var rng = sh.getDataRange(), v = rng.getValues(), f = rng.getFormulas(), linked = 0, missed = [], twins = {};
-    for (var r = 5; r < v.length; r++) {   // line rows start at row 6
-      for (var c = 4; c < v[r].length; c++) {
-        if (f[r][c] || String(v[r][c]) !== 'Receipt' || !String(v[r][c - 4]).trim()) continue;
-        var u = one(byId, String(v[r][c + 4] || '')) ||
-          one(byKey, String(v[r][c - 4]).trim() + '|' + formatIsoDate_(v[r][c - 3]) + '|' + cents(v[r][c - 1]));
-        if (!u) { var k = String(v[r][c - 4]).trim() + '|' + formatIsoDate_(v[r][c - 3]) + '|' + cents(v[r][c - 1]); (twins[k] = twins[k] || []).push([r, c]); continue; }
-        sh.getRange(r + 1, c + 1).setFormula(receiptCell_(u)); linked++;
-      }
-    }
-    Object.keys(twins).forEach(function (k) {
-      var urls = Object.keys(byKey[k] || {});
-      if (urls.length !== twins[k].length) { twins[k].forEach(function (x) { missed.push('row ' + (x[0] + 1) + ' ' + k); }); return; }
-      twins[k].forEach(function (x, i) { sh.getRange(x[0] + 1, x[1] + 1).setFormula(receiptCell_(urls[i])); linked++; });
-    });
-    console.log(tab + ': ' + linked + ' receipt links put back, ' + missed.length + ' left as they are' + (missed.length ? ' - ' + missed.join('; ') : ''));
-  });
-  SpreadsheetApp.flush();
-}
