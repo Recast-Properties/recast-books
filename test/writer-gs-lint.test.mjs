@@ -250,8 +250,10 @@ test("lineDescription_: a blank line description falls back to the entry memo, s
 test("a sold property's tab is frozen at closing and nothing writes over it again", () => {
   assert.ok(source.includes("function freezePropertyTab_(ss, name, date)"), "freezePropertyTab_ is gone");
   const freeze = bodyOf("freezePropertyTab_");
-  assert.ok(/rng\.setValues\(rng\.getValues\(\)\)/.test(freeze),
+  assert.ok(/rng\.getValues\(\)/.test(freeze) && /rng\.setValues\(v\)/.test(freeze),
     "freezing must replace the formulas with the values they are showing");
+  assert.ok(/HYPERLINK/.test(freeze) && /getFormulas\(\)/.test(freeze),
+    "freezing keeps each receipt link a link (2026-10-31: every frozen tab had lost them)");
   assert.ok(!freeze.includes("clearDataValidations"),
     "the checkboxes stay rendered so the frozen tab still looks like itself");
 

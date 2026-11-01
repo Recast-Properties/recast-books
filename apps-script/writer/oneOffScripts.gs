@@ -64,6 +64,50 @@
  *   run 05:59 CT from the editor, pasted in as the file's only function - clasp login was expired) is in commit 6be69f4.
  ****************************************************************/
 
+// 2026-10-31 Paul: "it appears every frozen tab is the same. this needs to be fixed for all" - freezing a sold house's
+// tab had turned each receipt link into the plain word "Receipt" (fixed in freezePropertyTab_). On every
+// "<house> - Frozen" tab, each plain "Receipt" cell becomes the link again, taken from the books: by the line's own id
+// where the tab carries one (light tabs), else by payee, date and amount (104 Ashburne's long tab has no id column).
+// A cell with no single answer is left as it is and named in the log. 1014 S View's lines never had their links in
+// the books - linkMolallaReceipts (below, Paul's word of 10-05, never run) writes them first. Nothing is posted, no
+// amount moves, no tab is rebuilt. Safe to run twice.
+// STATUS: NOT YET RUN
+function relinkFrozenReceipts20261031() {
+  var props = PropertiesService.getScriptProperties();
+  var ss = openWorkbook_(props);
+  requireOwner_(ss);
+  linkMolallaReceipts();
+  var journal = ss.getSheetByName('Journal'), cols = headerIndex_(journal), last = journal.getLastRow();
+  var rows = last > 1 ? journal.getRange(2, 1, last - 1, journal.getLastColumn()).getValues() : [];
+  var g = function (r, n) { return cols[n] ? r[cols[n] - 1] : ''; };
+  var cents = function (x) { return Math.round(Number(x || 0) * 100); };
+  var add = function (m, k, u) { (m[k] = m[k] || {})[u] = true; };
+  var one = function (m, k) { var u = Object.keys(m[k] || {}); return u.length === 1 ? u[0] : ''; };
+  ss.getSheets().forEach(function (sh) {
+    var tab = sh.getName(), m = tab.match(/^(.*) - Frozen$/);
+    if (!m) return;
+    var byId = {}, byKey = {};
+    rows.forEach(function (r) {
+      var u = String(g(r, 'doc_url') || '');
+      if (!u || String(g(r, 'property')) !== m[1] || String(g(r, 'source')) === 'void') return;
+      add(byId, String(g(r, 'txn_id')), u);
+      add(byKey, String(g(r, 'payee')).trim() + '|' + formatIsoDate_(g(r, 'date')) + '|' + (cents(g(r, 'debit')) - cents(g(r, 'credit'))), u);
+    });
+    var rng = sh.getDataRange(), v = rng.getValues(), f = rng.getFormulas(), linked = 0, missed = [];
+    for (var r = 5; r < v.length; r++) {   // line rows start at row 6
+      for (var c = 4; c < v[r].length; c++) {
+        if (f[r][c] || String(v[r][c]) !== 'Receipt' || !String(v[r][c - 4]).trim()) continue;
+        var u = one(byId, String(v[r][c + 4] || '')) ||
+          one(byKey, String(v[r][c - 4]).trim() + '|' + formatIsoDate_(v[r][c - 3]) + '|' + cents(v[r][c - 1]));
+        if (!u) { missed.push('row ' + (r + 1) + ' ' + v[r][c - 4] + ' ' + cents(v[r][c - 1]) / 100); continue; }
+        sh.getRange(r + 1, c + 1).setFormula(receiptCell_(u)); linked++;
+      }
+    }
+    console.log(tab + ': ' + linked + ' receipt links put back, ' + missed.length + ' left as they are' + (missed.length ? ' - ' + missed.join('; ') : ''));
+  });
+  SpreadsheetApp.flush();
+}
+
 // 2026-10-05 Paul: "yes match all the receipts and link them" (1014 S View). Each receipt found for the house - in
 // its Drive folder "1014 S View" and in the mail, copied to Drive by the poller one-off - is written on its own
 // lines in the books (65 receipts, 136 lines; the pairs are data/molalla-receipts.json, matched on store, date and

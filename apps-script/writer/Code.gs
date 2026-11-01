@@ -2013,7 +2013,10 @@ function freezePropertyTab_(ss, name, date) {
   var rows = sh.getLastRow(), cols = sh.getLastColumn();
   if (rows < 1 || cols < 1) return null;
   var rng = sh.getRange(1, 1, rows, cols);
-  rng.setValues(rng.getValues());
+  // A receipt link stays a link (Paul, 2026-10-31: every frozen tab's Receipt cells had become the plain word).
+  var v = rng.getValues(), f = rng.getFormulas();
+  for (var r = 0; r < rows; r++) for (var c = 0; c < cols; c++) if (/^=HYPERLINK\(/i.test(f[r][c])) v[r][c] = f[r][c];
+  rng.setValues(v);
   // The "as of" label becomes the record's own headstone. Found by its text, not a column
   // number, so it survives any future change to the layout.
   var head = sh.getRange(1, 1, 1, cols).getValues()[0];
