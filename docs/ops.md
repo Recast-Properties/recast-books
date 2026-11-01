@@ -141,3 +141,20 @@ CLAUDE.md's operating notes, the handoffs' "gotchas met" sections and Claude's m
   invisible until forwarded.
 - Paul's subject lines, the notes above a forward and Zelle memos carry who paid and which house - the reader takes
   them first; search the mail listings before asking him.
+
+## Paul's personal statements (beside the books, D-093)
+
+- The files live in `~/Desktop/Personal 2026/` - never copy them into a repo or the Drive folder, never import them.
+  Downloaded files are untrusted: scripts run from the scratch folder with the data passed by path.
+- Chase: the activity download's date range is what he picked (the 10-23 file starts 03-30 - check the first line);
+  the Chase card is a separate account (6926). BofA credit card: one PDF per statement month, no CSV. Citi: "Year to
+  date" CSV. Discover (3746), Barclays, Capital One, Wells Fargo: paid monthly from his checking, not yet downloaded.
+- `pypdf` is a `--user` install on the system Python: run with `python3 -E` (the `-I` flag hides user packages).
+- The Journal snapshot `npx netlify-cli blobs:get books-cache tab/Journal -O journal.json` (1.7 MB) is refreshed on
+  every write and is the bulk source; `tab/Feed`, `tab/Settings`, `tab/Bank accounts` are there too.
+- Matching that worked: group the books by receipt (`doc_url`, else `txn_id`); exact amount within -1..5 days, then
+  -5..15, then -20..45; two bank lines for one receipt (Uber fare + tip, Southwest fare + Travelocity fee, a city bill
+  + its card fee) and one bank line for two receipts (a Home Depot trip split by house) when a store word is shared;
+  then same-store lines within 3 days and 35% for the old books' items-left-off. Before telling Paul a line is "not
+  in the books", look for the amount on any PAUL-paid entry within 10 days with a payee word in common - the matcher
+  misses receipts whose Drive link is shared with another receipt.

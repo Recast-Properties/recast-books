@@ -350,6 +350,27 @@ Decisions still his, asked one at a time as they come up: section 6 q1 (wait ten
 q8, q9. **Noted, not changed:** Match statement lines never offers a bank whose every open line already has a card
 (`unmatchedFeedCounts_` counts `unmatched` only), so the ten-day sweep cannot run there until a card is dismissed.
 
+## 2026-11-01 - the personal-accounts check (D-093) - owed, in order (on top of everything below)
+
+0. **Paul answers `~/Desktop/Personal 2026/Review - not in the books.csv`** (166 rows; the file is his, outside the
+   books): the 30 "Looks like Recast" rows get recorded as paid by Paul unless he says no (which house for the Home
+   Depot / Lowe's / Ovilla ones); the 122 "Question" rows need Recast-or-personal; the 5 "Money in" rows need where
+   the money came from. Then Penny posts the yeses (a one-off, `recordPersonalReview...`, run from the editor), with
+   the bank line's date, store and amount and the review file as the document.
+1. **Then his next downloads:** Chase checking Jan 1 - Mar 29 (the file starts 03-30; 307 Ashburne-era receipts of
+   129k are unchecked), Discover 3746 (the books' `paul_personal_last4`), and what Chase account ...9257 is (his other
+   checking? transfers both ways all year). Barclays / Capital One / Wells Fargo cards only if he used them for Recast.
+2. **Claude settles quietly (D-067):** the 1,319.00 50floor carpet posted twice (06-01 migration and 06-12, Granite;
+   one bank line 06-01 of 1,338.00 - the 20.00 correction of 09-21 already covers the fee), Tiger Mart 10.81 + 10.82
+   = one 21.63 line (two cables, fine as is).
+3. **The payment (D-051):** Due to owner 187,681.72 on 11-01 = parked cash 143,229.38 (Chase 117,729.38, Citizens
+   25,500.00) + Newport share undrawn 6,731.14 + **bills fronted 37,721.20**. Pay the last figure, from Chase, once the
+   review is in and Jan - Mar is checked; record Dr 2030 / Cr 1402 dated the day it leaves.
+4. Recurring charges still on personal accounts in October (move to 7416, D-088): Anthropic, Apify, Netlify, Adobe x2,
+   Google Workspace, Telnyx, Matterport, Roddy (on the Citi card), Shutterstock; ChatGPT / Uber One / Quantum Fiber /
+   The Greenery once he says they are business.
+Method and formats: `scripts/personal-recon/README.md`, `docs/ops.md` "Paul's personal statements".
+
 ## 2026-10-23 (later) - owed, in order (on top of everything below)
 
 0e. **Paint and Flooring are two trades now (10-23):** the Inbox dropdown offers them apart (writer pushed, Menu.gs only -

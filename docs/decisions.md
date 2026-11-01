@@ -100,6 +100,7 @@ that supersedes the old one, not editing history.
 - D-090 · The autofile ceiling is 2,000.00; Penny runs one-offs and does not read a saved card back - 2026-10-23 · Paul
 - D-091 · A return or refund is a receipt with the sign flipped: it posts on its own to the item's house and the card the money came back to - 2026-10-23 · Paul
 - D-092 · Drinks bought with the job's materials post on their own; meals and gifts still wait - 2026-10-23 · Paul
+- D-093 · Paul's personal accounts are reconciled beside the books, once, to get him off them - 2026-11-01 · Paul
 - D-093 · The bank's own fee under 50.00 is recorded by code from the bank line, no card - 2026-10-25 · Paul
 - D-094 · A utility's card or online fee under 50.00 is recorded on the house of the bill it came with, no card - 2026-10-25 · Paul
 - D-095 · Hardware kept on hand is Supplies on hand (1530); a piece goes on a house through New expense paid from the shelf - 2026-10-25 · Paul
@@ -2234,3 +2235,18 @@ so such a receipt stays a card). A Save in the Inbox with Dennis picked on a car
 number to the list (`learnCardNumber` / `learnCard_`), and the other waiting cards citing it are run again as Dennis
 paid (`/api/inbox relearn` takes DENNIS). Not this list: Dennis's card ON the Citizens account (9301) is a Citizens
 card, Recast paid (1401's row on `Bank accounts`); a number already on any list is never moved.
+
+## D-093 · Paul's personal accounts are reconciled beside the books, once, to get him off them - 2026-11-01 · Paul
+
+*"i want to reconcile my personal accounts with the recast books for 2026. my goals are: make sure everything is
+accounted for; track all money going in and out for recast; find any charges or recurring charges i missed; use this
+as a final step to get off of my personal accounts."*
+
+**Decided:** D-051 stands - his personal statements never enter the workbook. The check is done **beside** the books:
+Paul downloads each personal account's 2026 activity into `~/Desktop/Personal 2026/` (his folder, outside every
+repo), Penny reads the files on the Mac against the Journal snapshot and gives him one review file in that folder
+(what is not in the books, with her read, an answer column). What he confirms is posted as paid by Paul with the
+bank line's date, store and amount; what he calls personal is left alone; the small same-store differences where the
+old books left items off are not relisted (D-067). The end of it is one payment from a Recast account for the bills
+he fronted (the Due to owner balance less his parked cash and undrawn profit share), and every recurring business
+charge on the Recast Chase card 7416 (D-088). The scripts are `scripts/personal-recon/`; the how-to is `docs/ops.md`.
