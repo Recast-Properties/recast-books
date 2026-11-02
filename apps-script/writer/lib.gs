@@ -746,7 +746,7 @@ var M_posting = (function () {
    * direct-paid shorthand.
    */
   const SUPPLIES_ACCOUNT = "1530";   // D-095: Supplies on hand - the shelf
-  const CHASE_ACCOUNT = "1402";      // D-098: Paul's own business account - never shared with Dennis
+  const CHASE_ACCOUNT = "1402";      // Recast's operating account, Paul's side - never shared with Dennis (D-051); a cost it pays is the business's (D-105)
 
   function resolvePaidFrom(paid_from, property, ctx) {
     if (paid_from === "PAUL") {
@@ -776,28 +776,9 @@ var M_posting = (function () {
         message: "paid_from 1530 Supplies on hand requires a property (a lock off the shelf goes on a house)",
       });
     }
-    // D-098 (Paul, 2026-10-29: "any expense that is paid for from the chase recast account should be reimbursed to
-    // me. the chase recast business account is not a shared account with dennis"): a cost Chase pays is a cost Paul
-    // paid - the credit goes on 2030 like PAUL's, and chaseLegs adds the cash leaving Chase out of his money in the
-    // business (9000, D-103).
-    if (paid_from === CHASE_ACCOUNT) return { creditAccount: "2030", chase: true };
+    // D-105 (audit 2026-11-01, Paul: "drop it"): the business Chase is Recast's account like Citizens - a cost it pays is
+    // the business's, two lines (the cost / Cr 1402). D-098's "Paul paid" shape (Cr 2030 plus his money out of 9000) is gone.
     return { creditAccount: paid_from };
-  }
-
-  /**
-   * D-098: the two lines that follow a cost Chase paid. The cost itself is Paul's (Cr 2030 on the house or the
-   * business, paid_from PAUL - the house tab ticks Paul Paid and pays him back at the sale); the cash left Chase out of
-   * the money he put into the business (Dr 9000 no house / Cr 1402, paid_from 1402 - D-103, Paul 2026-11-01: money in
-   * the business Chase belongs to the business, it is not a loan). A refund (total below zero) runs the other way.
-   */
-  function chaseLegs(totalCents, payee, description, ctx) {
-    const out = totalCents >= 0, abs = Math.abs(totalCents);
-    const text = `Paul's money in the business Chase ${out ? "spent" : "put back"} - ${payee}: ${description}`;
-    const base = { property: "", payee, description: text, paid_from: CHASE_ACCOUNT };
-    return [
-      fillLineDefaults({ ...base, account: "9000", debit: out ? abs : 0, credit: out ? 0 : abs }, ctx),
-      fillLineDefaults({ ...base, account: CHASE_ACCOUNT, debit: out ? 0 : abs, credit: out ? abs : 0 }, ctx),
-    ];
   }
 
   function buildJournal(intent, ctx) {
@@ -857,8 +838,7 @@ var M_posting = (function () {
 
     // Resolved before either line is built so PROPERTY_REQUIRED (DENNIS) and BAD_ACCOUNT
     // (unknown paid_from) surface without constructing a doomed entry first.
-    const { creditAccount, chase } = resolvePaidFrom(paid_from, property, ctx);
-    const pf = chase ? "PAUL" : paid_from;   // D-098: the cost is Paul's; the Chase legs carry 1402
+    const { creditAccount } = resolvePaidFrom(paid_from, property, ctx);
 
     const debitLine = fillLineDefaults(
       {
@@ -869,7 +849,7 @@ var M_posting = (function () {
         trade,
         payee,
         description,
-        paid_from: pf,
+        paid_from,
         business_purpose,
         reconciled_ref,
         attendee,
@@ -889,7 +869,7 @@ var M_posting = (function () {
         property,
         payee,
         description, // the credit line names what was bought too; paid_from already says who paid (Paul, 2026-09-15)
-        paid_from: pf,
+        paid_from,
       },
       ctx,
     );
@@ -903,7 +883,7 @@ var M_posting = (function () {
       posted_by,
       doc_url,
       void_of,
-      lines: chase ? [debitLine, creditLine, ...chaseLegs(amount_cents, payee, description, ctx)] : [debitLine, creditLine],
+      lines: [debitLine, creditLine],
     };
 
     return validateEntry(entry, ctx);
@@ -976,8 +956,7 @@ var M_posting = (function () {
     // Resolved before the lines are built so PROPERTY_REQUIRED (DENNIS) and BAD_ACCOUNT
     // (unknown paid_from) surface without constructing a doomed entry first — same
     // reasoning as buildExpense.
-    const { creditAccount, chase } = resolvePaidFrom(paid_from, property, ctx);
-    const pf = chase ? "PAUL" : paid_from;   // D-098: the cost is Paul's; the Chase legs carry 1402
+    const { creditAccount } = resolvePaidFrom(paid_from, property, ctx);
 
     // A return or refund is the same receipt with the sign flipped (D-091, 2026-10-23): a line taken back is a
     // credit on its cost account, and the money comes back as a debit on the paid_from side. A slip with lines
@@ -993,7 +972,7 @@ var M_posting = (function () {
           trade: item.trade,
           payee,
           description: item.description,
-          paid_from: pf,
+          paid_from,
           business_purpose: item.business_purpose,
         },
         ctx,
@@ -1010,7 +989,7 @@ var M_posting = (function () {
         property,
         payee,
         description: items.map((item) => item.description).filter(Boolean).join("; "),
-        paid_from: pf,
+        paid_from,
       },
       ctx,
     );
@@ -1041,7 +1020,6 @@ var M_posting = (function () {
       doc_url,
       void_of,
       lines: totalCents === 0 ? itemLines   // an even exchange moves no money
-        : chase ? [...itemLines, paidLine, ...chaseLegs(totalCents, payee, paidLine.description, ctx)]
         : [...itemLines, paidLine],
     };
 
@@ -1985,33 +1963,51 @@ var M_reports = (function () {
     const allTime = profitAndLoss(lines, { to: asOf }).net_income;
     const paid = bs.equity.reduce((s, e) => s + e.balance, 0);
     const left = allTime + paid;
+    const money = (c) => (c / 100).toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
     add("", "");
-    // The P&L's section and line names are the industry terms (Paul, 2026-11-01: "just make them the industry terms").
+    // Industry terms (D-104), laid out as the standard roll-forward the independent audit asked for (2026-11-01, D-105):
+    // earlier years' profit, this year's, what Paul put in, what was paid out, what is left - every row adds up to the total.
     add("head", "MEMBER'S EQUITY");
-    if (allTime !== pl.net_income) add("", `Retained earnings from before ${year}`, allTime - pl.net_income);
-    // what he put in and what he took out are two facts (D-079): his own money covering a house's loss is not a smaller
-    // payout. Capital contributions is a ledger (Paul, 2026-11-01: "i put 149,729.38 into the business chase and 2,837.77
-    // of bills have been paid"): what he put into the business Chase (D-103), the bills it paid (D-098: each also a cost
-    // he paid, owed back to him - lib/posting.mjs chaseLegs) and his money covering a house's loss.
+    if (allTime !== pl.net_income) add("", `Net income from before ${year}`, allTime - pl.net_income);
+    add("", `Net income - ${year} year to date`, pl.net_income, "the Net income line at the top");
+    // Capital contributions is a ledger: his deposits into the business Chase (D-103, described "Put into the business
+    // Chase by Paul - <what>", the part after the dash is the note) and a house's shortfall he absorbed (D-079: what Recast
+    // owed him for it, forgiven - the same figure as that house's loss at the top, one fact in two places, never counted twice).
     const putIn = live.filter((l) => String(l.account) === "9000");
-    const isBill = (l) => /^Paul's money in the business Chase\b/.test(l.description);
-    const isOut = (l) => /^Taken out of the business Chase for Paul\b/.test(l.description);   // his own bill it paid (a truck loan, 10-14)
-    const deposits = putIn.filter((l) => !l.property && !isBill(l) && !isOut(l)), outs = putIn.filter((l) => !l.property && isOut(l));
+    const deposits = putIn.filter((l) => !l.property);
     const suffix = (ls) => [...new Set(ls.map((l) => String(l.description).split(" - ")[1]).filter(Boolean))].join(" and ");
     const putInRows = [
       ["Put into the business Chase", deposits, suffix(deposits)],
-      ["Bills the business Chase paid", putIn.filter((l) => !l.property && isBill(l)), "also counted as costs he paid - owed back to him"],
-      ["Taken out for Paul", outs, suffix(outs)],
-      ...[...new Set(putIn.filter((l) => l.property).map((l) => l.property))].map((p) => [`Covered ${p}'s loss`, putIn.filter((l) => l.property === p), ""]),
+      ...[...new Set(putIn.filter((l) => l.property).map((l) => l.property))].map((p) => [`${p} - the shortfall Paul absorbed`, putIn.filter((l) => l.property === p),
+        "what Recast owed him for it, forgiven and counted as capital - the same figure as that house's loss at the top, not counted twice"]),
     ].map(([what, ls, note]) => ["    " + what, ls.reduce((s, l) => s + l.credit - l.debit, 0), note]).filter((r) => r[1]);
+    // Distributions is a ledger too (audit 2026-11-01: most of it was never cash he kept): one row per house, saying where
+    // its share stands - paid from the bank that day, put back into the business Chase as capital (a deposit on 9000 names
+    // the house, D-103), left in Citizens as his working money (D-055), or still owed to him (its sold-house row above).
+    const draws = live.filter((l) => String(l.account) === "9010");
+    const accts = new Map();
+    for (const l of live) { if (!accts.has(l.txn_id)) accts.set(l.txn_id, new Set()); accts.get(l.txn_id).add(String(l.account)); }
+    const drawRows = [...new Set(draws.map((l) => l.property || ""))].sort((a, b) => (a === "") - (b === "") || a.localeCompare(b)).map((p) => {   // houses first, his own draws last
+      const ls = draws.filter((l) => (l.property || "") === p);
+      const amt = ls.reduce((s, l) => s + l.credit - l.debit, 0);
+      const cashLs = ls.filter((l) => accts.get(l.txn_id).has("1401") || accts.get(l.txn_id).has("1402"));
+      const cash = cashLs.reduce((s, l) => s + l.credit - l.debit, 0);
+      const bank = cashLs.some((l) => accts.get(l.txn_id).has("1401")) ? "Citizens" : "Chase";
+      const back = !!p && deposits.some((l) => String(l.description).includes(p));
+      const kept = live.filter((l) => String(l.account) === "2030" && !l.property && /^Working money\b.*left in/.test(l.description) && String(l.description).includes(p)).reduce((s, l) => s + l.credit - l.debit, 0);
+      const owed = p ? pot.get(p) || 0 : 0;
+      const note = !p ? suffix(ls) : cash === amt ? `paid to Paul from ${bank}`
+        : back ? "paid to Paul and put back into the business Chase as capital - counted above, not cash he kept"
+        : [kept && `${money(kept)} left in Citizens as his working money`, owed && `${money(owed)} owed to him, not paid yet - under LIABILITIES`].filter(Boolean).join("; ") || "declared at the sale";
+      return ["    " + (p || "Taken out for Paul"), amt, note];
+    });
     for (const e of bs.equity) {
       if (!e.balance) continue;
-      if (e.account === "9000") { add("", "Capital contributions", e.balance); for (const r of putInRows) add("detail", ...r); }
-      else add("", e.account === "9010" ? "Distributions" : e.name, e.balance, e.account === "9010" ? "his share of the house profits" : "");
+      if (e.account === "9000") { add("", "Capital contributions", e.balance, "what Paul put in"); for (const r of putInRows) add("detail", ...r); }
+      else if (e.account === "9010") { add("", "Distributions", e.balance, "his share of each sold house's profit, declared at its sale, and anything the business paid for him"); for (const r of drawRows) add("detail", ...r); }
+      else add("", e.name, e.balance);
     }
-    add("total", "Total member's equity", left,
-      left < 0 && left === -costs && allTime === pl.net_income ? "the same as the business costs: all the house profit went to Paul, so none was kept to cover them - what Paul paid for them himself, Recast owes him back"
-        : left < 0 ? "below zero - more was paid out than Recast earned" : "what Recast earned and Paul put in, less what was paid out");
+    add("total", "Total member's equity", left, "Total assets less Total liabilities");
 
     // The working money in the Citizens account (Paul, 2026-10-29: "a ledger of how much both dennis and i have put into
     // the citizens account as working capital"): every D-055 line - no house, described "Working money ...", paid from

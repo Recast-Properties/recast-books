@@ -391,9 +391,12 @@ test("pnlTab: the year's profit and loss on top, each fact once, Dennis's unreco
   assert.ok("Paul - owed from the Chase account" in by && "Paul - owed from the Citizens account" in by);
   assert.equal(by["Paul"], undefined, "the old one-line Paul row is gone");
   // each amount once, except where two facts share a value (Left = -business costs here, said so in its note); zero lines are not facts
-  const amounts = t.rows.filter((r, i) => r[1] !== "" && r[1] !== 0 && !["Total member's equity", "Total assets", "Total liabilities"].includes(r[0]) && t.kinds[i] !== "detail").map((r) => r[1]);
+  const amounts = t.rows.filter((r, i) => r[1] !== "" && r[1] !== 0 && !["Total member's equity", "Total assets", "Total liabilities", "Net income - 2026 year to date"].includes(r[0]) && t.kinds[i] !== "detail").map((r) => r[1]);
   assert.equal(new Set(amounts).size, amounts.length, "no amount repeated");
-  assert.match(t.rows.find((r) => r[0] === "Total member's equity")[2], /same as the business costs/);
+  // the roll-forward (audit 2026-11-01): this year's profit is a row of the section, so its rows add up to its total
+  assert.equal(by["Net income - 2026 year to date"], 80);
+  assert.equal(by["Net income - 2026 year to date"] + by["Distributions"], by["Total member's equity"]);
+  assert.equal(t.rows.find((r) => r[0] === "Total member's equity")[2], "Total assets less Total liabilities");
   assert.ok(!JSON.stringify(t.rows.map((r) => [r[0], r[2]])).match(/\b(1000|2010|2030|6510|9010|inventory|payable|draws)\b/i), "no account codes or accounting words");
 
   // D-079: a house of Paul's own (no Dennis) that sold at a loss he covered himself - 410.00 against 444.00 of cost
@@ -409,7 +412,9 @@ test("pnlTab: the year's profit and loss on top, each fact once, Dennis's unreco
   assert.match(by2["9 Own"][2], /^sold 01-12 - your own deal, Dennis was not in it$/);
   assert.equal(by2["Net income"][1], 46);
   assert.equal(by2["Capital contributions"][1], 34, "what he put in is its own row");
-  assert.deepEqual(by2["    Covered 9 Own's loss"], ["    Covered 9 Own's loss", 34, ""], "and its ledger says what for");
+  assert.equal(by2["    9 Own - the shortfall Paul absorbed"][1], 34, "and its ledger says what for");
+  assert.match(by2["    9 Own - the shortfall Paul absorbed"][2], /forgiven and counted as capital/);
+  assert.equal(by2["Net income - 2026 year to date"][1] + by2["Capital contributions"][1] + by2["Distributions"][1], by2["Total member's equity"][1], "the section adds up on its face");
   assert.equal(by2["Distributions"][1], -100, "and his payout on the other house is not made smaller by it");
   assert.equal(by2["Houses still held (1)"][1], 101050, "a sold house is not among the houses held");
   assert.equal(by2["Total member's equity"][1], -20);
@@ -449,39 +454,51 @@ test("pnlTab: the working money ledger - every D-055 line in Citizens by date, w
   assert.ok(!none.rows.some((r) => r[0] === "WORKING MONEY IN THE CITIZENS ACCOUNT"), "no ledger when there is no working money");
 });
 
-test("pnlTab: money in the business Chase belongs to the business (D-103) - put in by Paul, operating cash; a bill Chase paid is still a cost Paul paid (D-098)", async () => {
+test("pnlTab: money in the business Chase belongs to the business (D-103); a bill Chase pays is the business's (D-105); Distributions and Capital contributions each a ledger", async () => {
   const { pnlTab } = await import("../lib/reports.mjs");
   const L = (txn_id, date, account, debit, credit, property = "", description = "", paid_from = "") =>
     ({ txn_id, date, period: date.slice(0, 7), account, debit, credit, property, description, paid_from, source: "manual", void_of: "" });
   const lines = [
     L("in", "2026-10-09", "1402", 100000, 0, "", "Put into the business Chase by Paul - his savings", "1402"), L("in", "2026-10-09", "9000", 0, 100000, "", "Put into the business Chase by Paul - his savings", "1402"),   // 1,000.00 of his money into the business Chase
-    // a 350.00 cleaning bill on a partner house and a 50.00 business bill, Chase paid both, in the D-098 shape (lib/posting.mjs chaseLegs)
-    L("c", "2026-10-14", "1020", 35000, 0, "1 Main", "Cleaning", "PAUL"), L("c", "2026-10-14", "2030", 0, 35000, "1 Main", "Cleaning", "PAUL"),
-    L("c", "2026-10-14", "9000", 35000, 0, "", "Paul's money in the business Chase spent - Mariana: Cleaning", "1402"), L("c", "2026-10-14", "1402", 0, 35000, "", "", "1402"),
-    L("o", "2026-10-15", "6510", 5000, 0, "OVERHEAD", "Software", "PAUL"), L("o", "2026-10-15", "2030", 0, 5000, "OVERHEAD", "Software", "PAUL"),
-    L("o", "2026-10-15", "9000", 5000, 0, "", "Paul's money in the business Chase spent - App: Software", "1402"), L("o", "2026-10-15", "1402", 0, 5000, "", "", "1402"),
-    // the business Chase paid 7.00 of his own (a truck loan) - out of his money in the business, not a bill
-    L("t", "2026-10-16", "9000", 700, 0, "", "Taken out of the business Chase for Paul - his truck loan payment", "1402"), L("t", "2026-10-16", "1402", 0, 700, "", "", "1402"),
+    // a 350.00 cleaning bill on a partner house and a 50.00 business bill, Chase paid both - the business's costs, two lines (D-105)
+    L("c", "2026-10-14", "1020", 35000, 0, "1 Main", "Cleaning", "1402"), L("c", "2026-10-14", "1402", 0, 35000, "1 Main", "Cleaning", "1402"),
+    L("o", "2026-10-15", "6510", 5000, 0, "OVERHEAD", "Software", "1402"), L("o", "2026-10-15", "1402", 0, 5000, "OVERHEAD", "Software", "1402"),
+    // a 40.00 business bill Paul paid with his own card, owed back to him
+    L("p", "2026-10-15", "6400", 4000, 0, "OVERHEAD", "Phone", "PAUL"), L("p", "2026-10-15", "2030", 0, 4000, "OVERHEAD", "Phone", "PAUL"),
+    // the business Chase paid 7.00 of his own (a truck loan): a draw
+    L("t", "2026-10-16", "9010", 700, 0, "", "Taken out for Paul - his truck loan payment", "1402"), L("t", "2026-10-16", "1402", 0, 700, "", "Taken out for Paul - his truck loan payment", "1402"),
     // he takes 30.00 out to his personal account as a payback for business expenses (D-101 shape)
     L("d", "2026-10-20", "2030", 3000, 0, "OVERHEAD", "Paid back to Paul for business expenses he paid", "1402"), L("d", "2026-10-20", "1402", 0, 3000, "", "", "1402"),
+    // a sold partner house: 200.00 of profit share declared at the sale, 120.00 of it paid out that day, 80.00 still owed (D-084)
+    L("s", "2026-10-22", "1401", 50000, 0, "2 Oak"), L("s", "2026-10-22", "4000", 0, 50000, "2 Oak"),
+    L("s2", "2026-10-22", "9010", 12000, 0, "2 Oak"), L("s2", "2026-10-22", "1401", 0, 12000, "2 Oak"),
+    L("s3", "2026-10-22", "9010", 8000, 0, "2 Oak"), L("s3", "2026-10-22", "2030", 0, 8000, "2 Oak"),
   ];
   const t = pnlTab(lines, [], "2026-10-29", { rateAnnual: 0.08, stubBasis: 30 });
   const by = Object.fromEntries(t.rows.filter((r) => r[0]).map((r) => [r[0], r[1]]));
   assert.equal(t.ties, true);
   assert.equal(by["Operating cash - the business Chase account"], 1000 - 350 - 50 - 7 - 30, "the cash in the business Chase");
-  assert.equal(by["Paul - owed from the Chase account"], 50 - 30, "the business bill, less what he took back for it");
-  assert.equal(by["    Business expenses owed"], 20);
-  assert.equal(by["Paul - owed from the Citizens account"], 350, "the bill is a cost he paid on a partner house, owed back at its sale");
-  assert.equal(by["Capital contributions"], 1000 - 350 - 50 - 7);
-  // a ledger (Paul, 2026-11-01: "i put 149,729.38 into the business chase and 2,837.77 of bills have been paid")
-  assert.deepEqual(t.rows.filter((r, i) => t.kinds[i] === "detail" && /business Chase|for Paul/.test(r[0])), [
-    ["    Put into the business Chase", 1000, "his savings"],
-    ["    Bills the business Chase paid", -400, "also counted as costs he paid - owed back to him"],
-    ["    Taken out for Paul", -7, "his truck loan payment"],
-  ]);
+  assert.equal(by["Paul - owed from the Chase account"], 40 - 30, "the bill he paid himself, less what he took back for it");
+  assert.equal(by["    Business expenses owed"], 10);
+  assert.equal(by["Paul - owed from the Citizens account"], 80, "his share of the sold house not paid yet");
+  assert.equal(by["Capital contributions"], 1000, "a bill Chase paid does not shrink what he put in");
+  assert.deepEqual(t.rows.filter((r, i) => t.kinds[i] === "detail" && /business Chase/.test(r[0])), [["    Put into the business Chase", 1000, "his savings"]]);
+  assert.equal(by["Distributions"], -207);
+  const eq = t.rows.findIndex((r) => r[0] === "Distributions");
+  const draws = t.rows.filter((r, i) => i > eq && t.kinds[i] === "detail");
+  assert.deepEqual(draws, [["    2 Oak", -200, "80.00 owed to him, not paid yet - under LIABILITIES"], ["    Taken out for Paul", -7, "his truck loan payment"]]);
+  assert.equal(by["Net income - 2026 year to date"] + by["Capital contributions"] + by["Distributions"], by["Total member's equity"], "the section adds up on its face");
   assert.ok(!t.rows.some((r) => r[0] === "WORKING MONEY IN THE CITIZENS ACCOUNT"), "Chase movements are not the Citizens ledger");
   // his money in Chase left on the old loan shape says so
   const old = pnlTab([...lines, L("w", "2026-10-21", "1402", 1000, 0, "", "Working money put into the account", "1402"), L("w", "2026-10-21", "2030", 0, 1000, "", "Working money put into the account", "1402")],
     [], "2026-10-29", { rateAnnual: 0.08, stubBasis: 30 });
   assert.deepEqual(old.rows.find((r) => r[0] === "    His money in Chase booked as a loan"), ["    His money in Chase booked as a loan", 10, "the old way - tell Claude"]);
+  // a sold house whose share was paid to Paul and put back into the business Chase as capital (D-103) says so
+  const back = pnlTab([...lines.filter((l) => !/^s/.test(l.txn_id)),
+    L("s", "2026-10-22", "1401", 50000, 0, "2 Oak"), L("s", "2026-10-22", "4000", 0, 50000, "2 Oak"),
+    L("s3", "2026-10-22", "9010", 20000, 0, "2 Oak"), L("s3", "2026-10-22", "2030", 0, 20000, "2 Oak"),
+    L("pay", "2026-10-23", "2030", 20000, 0, "2 Oak"), L("pay", "2026-10-23", "1401", 0, 20000, "2 Oak"),
+    L("in2", "2026-10-23", "1402", 20000, 0, "", "Put into the business Chase by Paul - his 2 Oak payout", "1402"), L("in2", "2026-10-23", "9000", 0, 20000, "", "Put into the business Chase by Paul - his 2 Oak payout", "1402"),
+  ], [], "2026-10-29", { rateAnnual: 0.08, stubBasis: 30 });
+  assert.deepEqual(back.rows.find((r) => r[0] === "    2 Oak"), ["    2 Oak", -200, "paid to Paul and put back into the business Chase as capital - counted above, not cash he kept"]);
 });
