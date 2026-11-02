@@ -2280,6 +2280,13 @@ the citizens account owes me"):* the P&L tab shows the two figures as **"Paul - 
 **"Paul - owed from the Citizens account"** in place of its three Paul lines; a house counts with Chase when its
 Properties `dennis_share_pct` is typed 0 (`paulOnlyHouses_`). A repayment from Chase lowers the Chase line.
 
+*2026-11-01, night (Paul: "this sounds weird 'His own money sitting in Chase'. this is operating cash ... as a general rule,
+money that is put into the account from a house sale can just be merged into 'Operating cash'. so two buckets, 'Operating
+cash' and 'Business expenses owed'"):* each line carries its ledger underneath, and Chase's is exactly two rows -
+**Operating cash** (his money in Chase plus whatever a sale of one of his own houses left owed him, e.g. Ashburne's
+earnest money) and **Business expenses owed** (costs he paid for the business, and for one of his own houses while it is
+held). Citizens keeps one row per partner house, Cost Recapture and his working money.
+
 ## D-102 · A cost found after a sale: Ashburne and 1014 S View take it on the house and list it on the frozen tab; a partner house's goes to Cost Recapture - 2026-11-01 · Paul
 
 Paul, when the personal-accounts review (D-100) was posted: *"for ashburne and 1014 s view its ok with me to adjust the

@@ -1,5 +1,15 @@
 # Changelog
 
+## 2026-11-01 (night) - the P&L's Chase line is two buckets: Operating cash and Business expenses owed
+
+Paul: *"this sounds weird 'His own money sitting in Chase'. this is operating cash. feeling like we should combine this
+with the $2000. as a general rule, money that is put into the account from a house sale can just be merged into
+'Operating cash'. so two buckets"*. The Chase ledger is now **Operating cash** (his Chase money plus what a sale of one
+of his own houses left owed him) and **Business expenses owed** (OVERHEAD, plus one of his own houses while held). The
+earnest-money note from the entry below is gone with the Ashburne row (D-051 keeps the fact); D-101 addendum. Pushed,
+rebuilt 8:55 PM CT, read back: Operating cash 116,891.61 "all of what Chase holds today" + Business expenses owed
+36,339.35 = 153,230.96; Citizens unchanged; adds up; pull = disk. Tests 642 pass.
+
 ## 2026-11-01 (late) - the P&L's 104 Ashburne row says it is the earnest money
 
 Paul, on the new ledger row "104 Ashburne 2,000.00 - his own house": *"the 2000 in the chase account is earnest money

@@ -335,7 +335,7 @@ test("pnlTab: what Recast owes Paul by the account that pays it - Chase (busines
   assert.equal(by["Paul - owed from the Citizens account"], 10 + 30 + 50, "the partner house's bill, 2 Oak's payout, his working money");
   // each line is a ledger: indented rows under it, one per house or pot of his money, adding up to it
   const under = (what) => { const i = t.rows.findIndex((r) => r[0] === what); let j = i + 1; while (t.kinds[j] === "detail") j++; return t.rows.slice(i + 1, j); };
-  assert.deepEqual(under("Paul - owed from the Chase account"), [["    Business costs he paid", 20, "tools, travel, software"]]);
+  assert.deepEqual(under("Paul - owed from the Chase account"), [["    Business expenses owed", 20, "costs he paid for the business"]]);
   assert.deepEqual(under("Paul - owed from the Citizens account"), [
     ["    1 Main", 10, "costs he paid, back when it sells"],
     ["    2 Oak", 30, "sold - his payout, not taken out yet"],
@@ -348,12 +348,17 @@ test("pnlTab: what Recast owes Paul by the account that pays it - Chase (busines
   const by2 = Object.fromEntries(own.rows.filter((r) => r[0]).map((r) => [r[0], r[1]]));
   assert.equal(by2["Paul - owed from the Chase account"], 20 + 30);
   assert.equal(by2["Paul - owed from the Citizens account"], 10 + 50);
-  assert.deepEqual(own.rows.find((r) => r[0] === "    2 Oak"), ["    2 Oak", 30, "sold - his payout, not taken out yet"]);
+  // Chase is two buckets (Paul, 2026-11-01): what a sale of his own house left owed him is operating cash
+  const own_under = (t2, what) => { const i = t2.rows.findIndex((r) => r[0] === what); let j = i + 1; while (t2.kinds[j] === "detail") j++; return t2.rows.slice(i + 1, j); };
+  assert.deepEqual(own_under(own, "Paul - owed from the Chase account"), [
+    ["    Operating cash", 30, "Chase holds 2.00 today"],
+    ["    Business expenses owed", 20, "costs he paid for the business"],
+  ]);
   assert.equal(own.ties, true);
-  // what is left is just what the sale put in Chase (Ashburne's earnest money, D-051): the row says so in the statement's words
-  const earnest = lines.map((l) => l.txn_id === "e" ? { ...l, debit: l.debit && 3000, credit: l.credit && 3000, description: "Earnest Money Released to Seller" } : l);
+  // all of it in Chase (Ashburne's earnest money, D-051): the note says the bucket is all Chase holds
+  const earnest = lines.map((l) => l.txn_id === "e" ? { ...l, debit: l.debit && 3000, credit: l.credit && 3000 } : l);
   const em = pnlTab(earnest, [], "2026-09-01", { rateAnnual: 0.08, stubBasis: 30 }, { paulOnly: ["2 Oak"] });
-  assert.deepEqual(em.rows.find((r) => r[0] === "    2 Oak"), ["    2 Oak", 30, "sold - earnest money released to seller, sitting in Chase"]);
+  assert.deepEqual(em.rows.find((r) => r[0] === "    Operating cash"), ["    Operating cash", 30, "all of what Chase holds today"]);
   assert.equal(em.ties, true);
 });
 
