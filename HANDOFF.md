@@ -54,6 +54,8 @@ hunt. The list below is the earlier shape of the same work and stays for its ite
    row per house or pot of his money, adding up to it. Read the figures there, never from a doc.
    The Chase part is paid once his other statements and Chase Jan - Mar are checked; record Dr 2030 / Cr 1402 dated the
    day it leaves (D-098 shape: Chase paying is Paul paid - a repayment to himself nets on 2030, so ask before posting it).
+   His 30,000.00 out of Chase on 10-14 already counts as a payback of business expenses (2030 on OVERHEAD, Paul 11-01) -
+   a payback for business costs goes on OVERHEAD, so it lowers Business expenses owed, not Operating cash.
 4. Recurring charges still on personal accounts in October (move to 7416, D-088): Anthropic, Apify, Netlify, Adobe x2,
    Google Workspace, Telnyx, Matterport, Roddy (on the Citi card), Shutterstock; ChatGPT / Uber One / Quantum Fiber /
    The Greenery once he says they are business.

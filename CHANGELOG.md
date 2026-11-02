@@ -1,5 +1,15 @@
 # Changelog
 
+## 2026-11-01 (night) - Paul's 30,000.00 Chase draw is a payback for business expenses
+
+Paul: *"i took a $30,000 draw from the chase account. do you see that in the books. i want the to be applied as a
+reimbursement for business expenses owed."* It was in the books since 10-24 as his money out of Chase, no house
+(`manual-20261014-711c18794e32`), so it lowered Operating cash. One-off `repointPaulDraw20261101` (commit 94de82d, run
+21:01 CT from the editor, then taken out; header names it) voided it on 10-14 and posted it again as Dr 2030 on OVERHEAD /
+Cr 1402 (`manual-20261014-3d6e9884066e-b360`, the D-101 repayment shape) and re-tied its Chase bank line (Feed 202610140).
+Read back: P&L Chase line 153,230.96 unchanged = Operating cash 146,891.61 ("Chase holds 116,891.61 today") + Business
+expenses owed 6,339.35; adds up; the Chase Bank box: 7 of 7 reconciled, "they agree". D-101 addendum; HANDOFF item 3.
+
 ## 2026-11-01 (night) - the P&L's Chase line is two buckets: Operating cash and Business expenses owed
 
 Paul: *"this sounds weird 'His own money sitting in Chase'. this is operating cash. feeling like we should combine this

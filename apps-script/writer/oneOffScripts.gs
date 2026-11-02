@@ -69,51 +69,6 @@
  * recordPersonalReview20261101 (2026-11-01, Paul's "post them": the personal-accounts check's corrections - 70 entries,
  *   5 taken out, 104 Ashburne's found costs 4,713.78 released with his share lowered the same and listed on its frozen
  *   tab; owed to Paul +1,098.79; run 20:06 and 20:09 CT from the editor, pasted in - clasp login was expired) is in commit f2f550f.
+ * repointPaulDraw20261101 (2026-11-01, Paul: his 30,000.00 Chase draw of 10-14 is a payback for business expenses -
+ *   voided and posted again on 2030 OVERHEAD / 1402, bank line re-tied; run 21:01 CT from the editor) is in commit 94de82d.
  ****************************************************************/
-
-// 2026-11-01 Paul: "i took a $30,000 draw from the chase account ... i want the to be applied as a reimbursement for
-// business expenses owed." The 30,000.00 to his checking 8870 on 10-14 - recorded 10-24 as his working money out of Chase
-// (manual-20261014-711c18794e32, no house) - is voided on its own date and posted again as Recast paying him back for
-// business costs he paid: Dr 2030 on OVERHEAD / Cr 1402, the D-101 repayment shape. On the P&L, Business expenses owed
-// falls by it instead of Operating cash; the total owed from Chase is the same. Its Chase bank line (Feed 202610140) is
-// tied to the new entry; the bank tabs and the P&L are refreshed. Safe to run twice: the new entry is found by its memo.
-// STATUS: NOT YET RUN
-function repointPaulDraw20261101() {
-  var props = PropertiesService.getScriptProperties();
-  var ss = openWorkbook_(props);
-  requireOwner_(ss);
-  var who = Session.getActiveUser().getEmail();
-  var oldId = 'manual-20261014-711c18794e32';
-  var memo = 'Paid to Paul 2026-10-14 from the Chase account to his personal checking 8870 - a payback for business expenses he paid (Paul, 2026-11-01; D-101)';
-  var journal = ss.getSheetByName('Journal'), cols = headerIndex_(journal);
-  var data = journal.getRange(2, 1, journal.getLastRow() - 1, journal.getLastColumn()).getValues();
-  var g = function (r, n) { return r[cols[n] - 1]; };
-  var cents = function (v) { return Math.round(Number(v || 0) * 100); };
-  var newId = '', voided = false, old = [];
-  data.forEach(function (r) {
-    if (String(g(r, 'memo')) === memo) newId = String(g(r, 'txn_id'));
-    if (String(g(r, 'void_of')) === oldId) voided = true;
-    if (String(g(r, 'txn_id')) === oldId) old.push(r);
-  });
-  if (!newId) {
-    if (voided) throw new Error(oldId + ' was voided by something else - stopped here, tell Claude');
-    var paul = old.filter(function (r) { return String(g(r, 'account')) === '2030'; });
-    if (old.length !== 2 || paul.length !== 1 || cents(g(paul[0], 'debit')) !== 3000000 || String(g(paul[0], 'property') || '') !== '') {
-      throw new Error(oldId + ' is not the 30,000.00 draw as recorded 10-24 - stopped here, tell Claude');
-    }
-    var line = { payee: 'Paul Bjork', description: 'Paid back to Paul for business expenses he paid', paid_from: '1402' };
-    // built (and checked by the engine) before the old one is voided, so a refusal changes nothing
-    var built = buildEntry({ type: 'journal', date: '2026-10-14', source: 'manual', posted_by: who, doc_url: '', memo: memo, allow_duplicate_hash: true,
-      lines: [Object.assign({ account: '2030', debit: 3000000, credit: 0, property: 'OVERHEAD' }, line),
-              Object.assign({ account: '1402', debit: 0, credit: 3000000, property: '' }, line)] }, buildCtx_(ss));
-    voidEntry_(oldId, 'Paul, 2026-11-01: the 30,000.00 draw is a payback for business expenses he paid - posted again', '2026-10-14', who, props, true);
-    postBatchEntries_([built], props, true);
-    newId = built.txn_id;
-  } else console.log('already posted again as ' + newId);
-  var tied = feedUpdateRows_(ss, [{ feed_id: '202610140', status: 'matched', txn_id: newId,
-    match_note: 'Paul took 30,000.00 out of Chase to his personal checking 8870 - a payback for business expenses he paid (Paul, 2026-11-01)' }]);
-  refreshPnl_(ss);
-  warmCache_();
-  console.log('repointPaulDraw20261101: ' + oldId + ' -> ' + newId + '; ' + tied.updated + ' bank line tied' +
-    (tied.missing.length ? ' (not found: ' + tied.missing.join(', ') + ')' : '') + '; P&L refreshed.');
-}

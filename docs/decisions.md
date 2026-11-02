@@ -2287,6 +2287,12 @@ cash' and 'Business expenses owed'"):* each line carries its ledger underneath, 
 earnest money) and **Business expenses owed** (costs he paid for the business, and for one of his own houses while it is
 held). Citizens keeps one row per partner house, Cost Recapture and his working money.
 
+*2026-11-01, night (Paul: "i took a $30,000 draw from the chase account ... i want the to be applied as a reimbursement
+for business expenses owed"):* a payback to Paul for business costs is Dr 2030 **on OVERHEAD** / Cr 1402, so it lowers
+Business expenses owed; a draw with no house lowers Operating cash. His 30,000.00 of 10-14 was re-posted that way. Operating
+cash is then what he has put into Chase and not taken back, which is more than Chase holds by what Chase has paid him
+back for costs - the row's note shows what Chase holds.
+
 ## D-102 · A cost found after a sale: Ashburne and 1014 S View take it on the house and list it on the frozen tab; a partner house's goes to Cost Recapture - 2026-11-01 · Paul
 
 Paul, when the personal-accounts review (D-100) was posted: *"for ashburne and 1014 s view its ok with me to adjust the
