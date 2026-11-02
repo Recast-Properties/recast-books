@@ -109,6 +109,7 @@ that supersedes the old one, not editing history.
 - D-099 · Dennis's own cards are a list beside Paul's: a receipt on one is Dennis paid, on its house - 2026-10-30 · Paul
 - D-100 · Paul's personal accounts are reconciled beside the books, once, to get him off them - 2026-11-01 · Paul
 - D-101 · Citizens pays only for the partner houses; everything else Paul fronted (104 Ashburne, 1014 S View, the business) is repaid from Chase - 2026-11-01 · Paul
+- D-102 · A cost found after a sale: Ashburne and 1014 S View take it on the house and list it on the frozen tab; a partner house's goes to Cost Recapture - 2026-11-01 · Paul
 
 ---
 
@@ -2270,3 +2271,23 @@ Cr 1402, dated the day the money leaves; "Paul - costs he paid" on the P&L falls
 Chase" (Chase is his, D-098). A cost added to a sold house after its closing (Cost Recapture, D-031) follows the same
 rule by house. So the one payment at the end of D-100 is really two figures: the partner-house part, settled in
 Citizens at each closing, and the Ashburne-plus-business part, paid from Chase.
+
+## D-102 · A cost found after a sale: Ashburne and 1014 S View take it on the house and list it on the frozen tab; a partner house's goes to Cost Recapture - 2026-11-01 · Paul
+
+Paul, when the personal-accounts review (D-100) was posted: *"for ashburne and 1014 s view its ok with me to adjust the
+frozen tabs since its just me, no partners. the other frozen tabs need to stay frozen since i have reconciled with dennis
+and those changes shoudl land in cost recapture for that reason."* And: *"it doesn't matter since it just changes what i
+can write off etc. the payout from the sale will be the same: the amount recieved minus what i owe dennis."*
+
+**Decided:** a cost or refund found after a house is sold and frozen -
+- **104 Ashburne, 1014 S View (his alone):** posts on the house itself, paid by Paul as it was, and is released to COGS
+  with the sale's own shape (source `sale`, memo `<house> sale <date>: ...`), and **his share of that house's profit is
+  lowered by the same net** (Dr 2030 / Cr 9010 for found costs) - he was paid "costs he fronted + his share", so a missed
+  cost made one too low and the other too high by the same amount; what Recast owes him does not move. The items are
+  **listed on the frozen tab under its summary** with their total; nothing above is rewritten.
+- **A partner house (Granite, Sparkling, Newport and every later one):** Cost Recapture with the house in `trade`
+  (D-031), shared at the next sale - its frozen tab is not touched.
+- **Never rebuild a frozen tab from today's books to "unfreeze" it.** The 11-01 dry run rebuilt Ashburne's as of its
+  closing and 160 cells differed before any new entry - the advance schedule, its interest and the closing totals as they
+  stood that day. The rebuild is a check, never a replacement (constraint 11).
+

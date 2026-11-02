@@ -87,7 +87,9 @@ functions the menu, pollers and nightly jobs call - Paul is never sent there.
 11. **A sold house's tab is Paul's record.** It freezes when its closing is RUN in Sell property, not on the closing
     day (D-072; a held house keeps taking bills until he settles with Dennis), is renamed `<house> - Frozen` (never
     look one up by the bare name) and he edits it by hand - never rebuild one without reading it and comparing first
-    (Sparkling's was overwritten once and put back). `1014 S View - Frozen` and every `- Closing` tab are his
+    (Sparkling's was overwritten once and put back). A cost found after a sale (D-102): Ashburne and 1014 S View (his alone)
+    take it on the house, released with his profit share lowered the same, and list it on the frozen tab; a partner
+    house's goes to Cost Recapture. `1014 S View - Frozen` and every `- Closing` tab are his
     records: rewrite a closing tab in place, only on his word, after reading the live tab; **never delete a closing
     tab to rebuild it** (its statement lines live in developer metadata and only they know what was paid to Recast
     in full). `CLOSING_TAB_IN_PLACE` stays false forever (D-043).

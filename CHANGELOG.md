@@ -1,5 +1,25 @@
 # Changelog
 
+## 2026-11-01 (night) - the personal-accounts corrections posted (D-102); owed to Paul +1,098.79
+
+Paul: *"post them"*. One-off `recordPersonalReview20261101` (commit f2f550f), dry run first, then run 20:06 and 20:09 CT
+from the editor - pasted in, `clasp login` was expired; the live one-off file is back to its header (sha checked).
+
+- **70 entries and 5 taken out** (the Oct 14 Uber twice, the Portland restaurant ride, the candles, the 06-16 Home Depot
+  receipt copy - 25.82, not the 11.79 first listed: felt pads, nails and sealant were all in twice - and CoreLogic's 06-30
+  row, re-posted at 04-07). Business costs on overhead; Granite / Sparkling / Newport on Cost Recapture; 136 Bowling
+  Green is held, so its two went on the house (the list had them on Cost Recapture).
+- **104 Ashburne (D-102):** its 24 items (4,713.78 net) on the house, released to COGS as its sale was, and Paul's share
+  of its profit lowered by the same - his payout stays the sale less Dennis. Listed on `104 Ashburne - Frozen` B28:C55.
+  The dry run's rebuild of that tab from the books changed 160 closing-record cells before any new entry, so it was not
+  replaced.
+- **Read back:** P&L "Paul - costs he paid" 37,680.58 -> 38,779.37 (+1,098.79, the figure the run computed); the
+  Journal's 2030 net of every new line is the same.
+- **Off the list:** the 03-16 shower faucet (in the books as "Shower Faucet 161.29" - the receipt's four items tie);
+  **held for the Home Depot pass** (after his other cards' statements): five item-level Home Depot rows the old item
+  comparison produced (04-12 384.91, 04-11 45.29, 02-03 18.33, 06-30 19.46, 06-18 11.67 - the 04-11 tailpieces are in the
+  books as "Plumbing parts 12.87").
+
 ## 2026-11-01 (evening) - the personal-accounts review answered; 80 changes ready, nothing posted
 
 Paul answered every question one at a time (his folder `~/Desktop/Personal 2026/penny-work/`: `answers.csv`, the post

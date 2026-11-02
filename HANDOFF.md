@@ -7,10 +7,12 @@ there; a figure written here is only as of its date.
 
 ## 2026-11-01 - the personal-accounts check (D-100, D-101) - RESUME HERE (START HERE)
 
-**Evening 11-01: every review question is answered and the post list is complete** - 80 changes (about 6,467.54 more
-owed to Paul) in his folder's `corrections_to_post.csv`, the answers in `answers.csv`, the first match's 60 wrong
-pairings in `matcher_fixes.txt`. **Nothing posted; Paul says "post them".** Then his other cards' statements and
-Chase checking Jan - Mar. The paragraph below is the morning's state; `RESUME.md` there is current.
+**Night 11-01: the corrections are POSTED (D-102; CHANGELOG).** Owed to Paul +1,098.79 (P&L "costs he paid" 38,779.37);
+104 Ashburne's found costs (4,713.78) on the house with his share lowered the same, listed on its frozen tab. **Owed
+next, in order:** his other cards' statements (Discover 3746, Mastercard 6774, Wells Fargo, Capital One) and Chase
+checking Jan 1 - Mar 29 -> re-run the match, then the Home Depot pass (five held Home Depot rows, in his folder's
+`corrections_to_post.csv` note) -> the payment from Chase (D-101). `clasp login` is expired (Paul's step before the
+next push).
 
 **The session ran out of context mid-way. The full resume - files, every answer Paul gave, the 24 postings ready to make,
 the questions still to ask in order, the store-history method - is `~/Desktop/Personal 2026/penny-work/RESUME.md`** (his

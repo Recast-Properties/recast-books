@@ -158,6 +158,10 @@ CLAUDE.md's operating notes, the handoffs' "gotchas met" sections and Claude's m
   then same-store lines within 3 days and 35% for the old books' items-left-off. Before telling Paul a line is "not
   in the books", look for the amount on any PAUL-paid entry within 10 days with a payee word in common - the matcher
   misses receipts whose Drive link is shared with another receipt.
+- **A tie by amount alone is not a tie** (2026-11-01): the first match paired 60 bank lines with a books row of another
+  payee (Uber One with Microsoft 365, Cash App to his son with Julio, Uber Eats as "rides"). Require a payee word in
+  common, or read the store's own history, before calling a line "in the books" - and the store's item list can miss
+  an item the old books named differently (the 03-16 "Shower Faucet").
 - **Store purchase histories answer "which house / was it returned / which card" without asking Paul** (2026-11-01, his
   yes): his Home Depot Pro, Lowe's Pro and Amazon accounts, read from a tab in his Chrome. The method, endpoints and
   gotchas are written beside his data, not here: `~/Desktop/Personal 2026/penny-work/HOW-TO-store-histories.md`. The Home
