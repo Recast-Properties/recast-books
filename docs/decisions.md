@@ -2340,8 +2340,8 @@ owed". His personal Chase (checking ending 8870) is not Recast's.
   Operating cash 116,891.61 (= the bank), owed from Chase 6,339.35, Put in by Paul 181,470.71 (with 1014 S View's
   34,579.10), adds up.
 - His money in Chase still on 2030 with no house shows on the P&L as "His money in Chase booked as a loan - the old way -
-  tell Claude": book it onto 9000. Until the next ship deploys `lib.gs`, a Chase bill posted by the pollers or the web
-  Inbox still uses the old legs and will show there.
+  tell Claude": book it onto 9000. Shipped the same night (a357f26, web app @70), so the pollers and the web Inbox use the
+  new legs too.
 - The Citizens working money (D-055) is unchanged: a plain loan, owed back - Dennis is in that account.
 - Supersedes the D-101 addendum's "Operating cash" bucket under what Recast owes him and the earlier "merge a house
   sale's money into Operating cash" wording: that money is now put in by Paul.

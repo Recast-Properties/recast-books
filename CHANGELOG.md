@@ -1,5 +1,11 @@
 # Changelog
 
+## 2026-11-01 (night) - shipped a357f26: web app @70, site 6ae8023c4f6d36e718014b66
+
+Paul ran `npm run ship` (tests 642 pass; push 15 files; read back `/exec` 0.4.0 build "a357f26 2026-11-01 21:23", site
+build.json matches; dry-run upload skipped - POLLER_SECRET not in his shell). The D-103 Chase legs and the P&L's ledger
+rows are now in the deployed web app and the site too. Nothing owed from the night's work.
+
 ## 2026-11-01 (night) - D-103: money in the business Chase belongs to the business
 
 Paul: *"operating cash went up 30,000. it should not have"*, then *"there are two chase accounts. business and personal.

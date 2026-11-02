@@ -55,8 +55,8 @@ hunt. The list below is the earlier shape of the same work and stays for its ite
    The Chase part is paid once his other statements and Chase Jan - Mar are checked; record Dr 2030 / Cr 1402 dated the
    day it leaves (D-098 shape: Chase paying is Paul paid - a repayment to himself nets on 2030, so ask before posting it).
    His 30,000.00 out of Chase on 10-14 already counts as a payback of business expenses (2030 on OVERHEAD, Paul 11-01).
-   **Owed: `npm run ship`** (Paul's step) - the Chase bill legs changed in `lib.gs` (D-103); until then a Chase bill
-   the pollers post lands the old way and shows on the P&L as "booked as a loan - tell Claude".
+   Shipped a357f26 (web app @70, site 6ae8023c4f6d36e718014b66): the pollers and web Inbox post Chase bills the D-103 way.
+   A row "His money in Chase booked as a loan - tell Claude" on the P&L means something landed the old way: move it to 9000.
 4. Recurring charges still on personal accounts in October (move to 7416, D-088): Anthropic, Apify, Netlify, Adobe x2,
    Google Workspace, Telnyx, Matterport, Roddy (on the Citi card), Shutterstock; ChatGPT / Uber One / Quantum Fiber /
    The Greenery once he says they are business.
