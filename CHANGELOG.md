@@ -1,5 +1,26 @@
 # Changelog
 
+## 2026-11-01 (late night) - independent audit of the P&L tab's MEMBER'S EQUITY section
+
+Paul: *"audit how the P&L section is working specifically the MEMBER'S EQUITY section. its confusing to me. i want an
+independent audit without any inside knowledge"*. A fresh agent given only the live tabs (Journal 4,330 lines, Advances,
+Properties, Settings, Totals, Cost Recapture, Bank accounts, the P&L as rendered 21:49 CT), `lib/reports.mjs` with its
+helpers and `refreshPnl_` - no docs, no decisions, no HANDOFF - recomputed the tab in its own Python and judged it against
+the standard statement of member's equity. Report: `docs/audit-pnl-members-equity-2026-11-01.md`. **Every number ties to
+the cent** (30 of 30 lines; trial balance 14,236,660.35 both sides; assets 2,033,320.28 = liabilities 1,923,448.11 +
+equity 109,872.17; the 36,731.34 of unrecorded interest reproduces only with each advance's own `rate_pct`). Findings,
+for Paul (HANDOFF): the section never shows this year's Net income, so its rows (181,470.71 - 247,967.49) do not add to
+its total (M1, code); D-098's Chase-paid bills as "Paul paid" move 2,263.14 from Capital contributions to what Recast owes
+him (M2, his call); Distributions 247,967.49 reads as cash he received when 136,182.03 went Citizens -> Chase and is also
+inside Capital contributions, and 26,731.14 is unpaid (M3, disclose or net); the truck payment 574.63 belongs on 9010, not
+inside 9000 (P1); the 1014 S View row's label (P2); no beginning balance or year-end close - matters from 2027 (P3); the
+Totals tab's TRIAL BALANCE has no 1530 Supplies on hand row - it is built from the workbook's Accounts tab, which lacks
+the row lib/coa.mjs has (D-095) - so its total is off by 377.60 (m3, confirmed on the live tab); the 9000 detail rows are
+grouped by description text (m1); `profitAndLoss`/`balanceSheet` read every line while the detail rows read the
+void-excluded set (m2, latent - identical for today's date). Deliberate and left as is: Dennis's unrecorded interest on
+both sides (D-066), named on the tab. Nothing in the books or the code changed tonight. The tabs were read through gviz
+in Chrome (clipboard route, in the session memory).
+
 ## 2026-11-01 (night) - the truck loan payment gets its own P&L row
 
 Paul asked how "Bills the business Chase paid -2,837.77" differs from "owed from the Chase account 6,339.35". Read from
