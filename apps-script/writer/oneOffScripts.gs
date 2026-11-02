@@ -74,10 +74,10 @@
 // ... its ok with me to adjust the frozen tabs since its just me, no partners. the other frozen tabs need to stay
 // frozen ... those changes should land in cost recapture". So 104 Ashburne's items go on the house itself, with its
 // release to COGS and his profit share lowered by the same net (his payout stays the sale less what he owed Dennis),
-// and its tab is rebuilt from the books as of 10-05, compared with the frozen one, frozen again and swapped in (the
-// old one kept hidden as "104 Ashburne - Frozen (before 11-01)"). Granite, Sparkling and Newport items land on Cost
-// Recapture; 136 Bowling Green is held, so its two go on the house. PR_MODE 'dry' builds and checks every entry and
-// rebuilds a copy of the Ashburne tab to compare with the frozen one, changing nothing; 'post' does it. Safe to run
+// and the found items are listed on its frozen tab under the summary (a rebuild from today's books would have changed
+// 160 cells of the closing record - the dry run of 11-01). Granite, Sparkling and Newport items land on Cost
+// Recapture; 136 Bowling Green is held, so its two go on the house. PR_MODE 'dry' builds and checks every entry and the
+// tab list, changing nothing; 'post' does it. Safe to run
 // again: an item whose memo is on the Journal is skipped, a void already done is skipped.
 // STATUS: NOT YET RUN
 var PR_MODE = 'dry';
@@ -94,7 +94,7 @@ function recordPersonalReview20261101() {
   memos.forEach(function (m) { var k = /^personal check 11-01 #(\d+)/.exec(m); if (k) have[k[1]] = true; });
   var ctx = buildCtx_(ss);
   ctx.properties.add('104 Ashburne');   // Paul 11-01: his alone - its corrections go on the house, not Cost Recapture
-  var ASH = '104 Ashburne', FROZEN = ASH + ' - Frozen', BACKUP = ASH + ' - Frozen (before 11-01)';
+  var ASH = '104 Ashburne', FROZEN = ASH + ' - Frozen';
   var SOURCE = ' - from Paul\'s own bank, card and store records (no Drive file: the store\'s purchase list and the bank line are the document); Paul in chat 2026-11-01';
   var PURPOSE = { '6600': 'Business truck (actual costs, D-009) - Paul 2026-11-01',
                   '6700': 'Ride to PDX for the Texas work trip of Jun 15 (Southwest PDX-DAL)' };
@@ -183,30 +183,49 @@ function recordPersonalReview20261101() {
     if (sale.length) postBatchEntries_(sale, props, true);
   }
 
-  // The Ashburne tab: rebuilt from the books as of 10-05 (the date the frozen one shows), compared with the frozen one.
-  if (ss.getSheetByName(ASH)) throw new Error('A tab named "' + ASH + '" already exists - stopped before the tab step');
-  var old = ss.getSheetByName(DRY ? FROZEN : (ss.getSheetByName(BACKUP) ? BACKUP : FROZEN));
-  if (!old) throw new Error('No frozen Ashburne tab found - stopped');
-  var pos = old.getIndex();
-  if (!DRY && old.getName() === FROZEN) { old.setName(BACKUP); old.hideSheet(); }
-  old.copyTo(ss).setName(ASH);   // setupPropertyTab keeps the typed Sale Price and Concession from the tab it rebuilds
-  setupPropertyTab(ASH, '2026-10-05');
-  var fresh = ss.getSheetByName(ASH);
-  var R = Math.max(old.getLastRow(), fresh.getLastRow()), C = Math.max(old.getLastColumn(), fresh.getLastColumn());
-  var a = old.getRange(1, 1, R, C).getDisplayValues(), b = fresh.getRange(1, 1, R, C).getDisplayValues(), diffs = [];
-  for (var r = 0; r < R; r++) for (var c = 0; c < C; c++) {
-    if (String(a[r][c]) !== String(b[r][c])) diffs.push(fresh.getRange(r + 1, c + 1).getA1Notation() + ' was "' + a[r][c] + '" now "' + b[r][c] + '"');
+  // The Ashburne tab: a rebuild from today's books changed 160 cells of the record as it stood at closing (Dennis's
+  // advance schedule, interest, the closing totals - the 11-01 dry run), so the found items go on the frozen tab as a
+  // list under its summary instead (Paul: "make the adjustments"); nothing above it is touched.
+  var LABEL = { 6: '06-16 Home Depot - screws and a stud returned', 7: '06-18 Home Depot - vent tape and steel bar returned',
+    8: '06-21 Home Depot - spray paint, felt pads, nails, threaded rod, glue returned', 10: '06-16 Home Depot - felt pads, nails, sealant were in twice',
+    11: '04-03 Lowe\'s - front door handleset returned', 12: '02-13 Lowe\'s - grout returned', 13: '04-01 Lowe\'s - tape measure returned',
+    14: '03-05 Lowe\'s - lattice and moulding returned', 17: '01-09 Lowe\'s - Nest thermostat', 22: '04-14 Lowe\'s - butcher block counters and toe kick',
+    24: '02-12 Amazon - steam cleaner', 25: '04-01 Amazon - dog door', 26: '04-04 Amazon - keypad deadbolt, lava rock, shelf liner',
+    27: '04-06 Amazon - attic ladder shipping and vanity lights the receipt missed', 30: '02-22 Amazon - candles and match holders (personal, taken out)',
+    32: '08-07 Amazon - floating pool lights for staging', 33: '04-06 Juanito - cash for labor', 34: '06-18 Armandre Vega - installing the bath fan inside',
+    42: '04-02 Wayfair - teardrop pendant returned', 43: '04-15 City of Ovilla - water', 44: '05-15 City of Ovilla - water', 45: '06-15 City of Ovilla - water',
+    46: '07-15 City of Ovilla - water', 47: '09-15 City of Ovilla - water' };
+  var tabRows = [], tabSum = 0;
+  PR_ITEMS.forEach(function (it) {
+    if (it.prop !== ASH) return;
+    if (!LABEL[it.n]) throw new Error('#' + it.n + ' has no label for the Ashburne tab - nothing changed');
+    var c = it.kind === 'purchase' ? it.cents : -it.cents;
+    tabSum += c;
+    tabRows.push([LABEL[it.n], c / 100]);
+  });
+  var tab = ss.getSheetByName(FROZEN);
+  if (!tab) throw new Error('No "' + FROZEN + '" tab - stopped before the tab step');
+  var TOP = 28, block = [['FOUND AFTER CLOSING - your personal-accounts check, 2026-11-01', ''], ['Date - store - what', 'Amount']]
+    .concat(tabRows).concat([['Added to 104 Ashburne\'s costs', tabSum / 100],
+      ['Your share of the profit is lower by the same amount, so your payout does not change (the sale less what you owed Dennis).', '']]);
+  var range = tab.getRange(TOP, 2, block.length, 2);
+  var already = String(tab.getRange(TOP, 2).getValue()) === block[0][0];
+  var busy = range.getValues().some(function (r) { return r[0] !== '' || r[1] !== ''; });
+  console.log('Ashburne tab: ' + tabRows.length + ' lines, net ' + (tabSum / 100).toFixed(2) + ' (books: ' + (ashTotal / 100).toFixed(2) + '), B' + TOP + ':C' + (TOP + block.length - 1) +
+    (already ? ' already written' : busy ? ' NOT EMPTY - stopped' : ' empty, ready'));
+  if (tabSum !== ashTotal && !already) throw new Error('the tab list and the books disagree - nothing written');
+  if (busy && !already) throw new Error('B' + TOP + ':C' + (TOP + block.length - 1) + ' on "' + FROZEN + '" is not empty - stopped');
+  if (DRY) { console.log('dry run: nothing posted, nothing written'); return; }
+  if (!already) {
+    range.setValues(block);
+    tab.getRange(TOP + 2, 3, block.length - 2, 1).setNumberFormat('$#,##0.00;-$#,##0.00');
+    tab.getRange(TOP, 2, 1, 2).setFontWeight('bold');
+    tab.getRange(TOP + block.length - 2, 2, 1, 2).setFontWeight('bold');
   }
-  console.log('Ashburne tab: ' + diffs.length + ' cells differ from "' + old.getName() + '" (' + R + ' x ' + C + ')');
-  for (var j = 0; j < diffs.length && j < 120; j += 30) console.log(diffs.slice(j, j + 30).join('\n'));
-  if (DRY) { ss.deleteSheet(fresh); console.log('dry run: nothing posted, the copy deleted, the frozen tab untouched'); return; }
-  freezePropertyTab_(ss, ASH, '2026-09-23');
-  fresh.setName(FROZEN);
-  ss.setActiveSheet(fresh); ss.moveActiveSheet(pos);
   refreshLineBlocksFor_(ss, [{ property: '136 Bowling Green' }, { property: 'Cost Recapture' }]);
   refreshPnl_(ss);
   warmCache_();
-  console.log('posted: ' + entries.length + ' entries, ' + voids.filter(function (v) { return !v.done; }).length + ' taken out; "' + FROZEN + '" rebuilt and frozen, the old one hidden as "' + BACKUP + '"; P&L refreshed');
+  console.log('posted: ' + entries.length + ' entries, ' + voids.filter(function (v) { return !v.done; }).length + ' taken out; the found items listed on "' + FROZEN + '"; P&L refreshed');
 }
 
 var PR_ITEMS = [
