@@ -74,3 +74,53 @@
  * bookChaseAsPutIn20261101 (2026-11-01, D-103: Paul's money in the business Chase is his money in the business, not a
  *   loan - 146,891.61 moved off 2030 onto 9000; run 21:16 CT from the editor) is in commit 41c1711.
  ****************************************************************/
+
+// 2026-11-01 Paul: "your labels are confusing ... i put 149,729.38 into the business chase and 2,837.77 of bills have
+// been paid." The D-103 entry of 11-01 (manual-20261101-75929a194bdd-5343) moved his Chase money onto 9000 as one
+// netted 146,891.61, so the P&L could not say what made it up. Voided on its own date and posted again with the same
+// totals in three amounts - his 104 Ashburne payout 147,729.38 and its earnest money 2,000.00 put into the business
+// Chase, and the 2,837.77 of bills the business Chase paid before 11-01 - so Capital contributions shows them as its
+// ledger. Stops unless the old entry is the one posted. Safe to run twice: the new entry is found by its memo.
+// STATUS: NOT YET RUN
+function splitChasePutIn20261101() {
+  var props = PropertiesService.getScriptProperties();
+  var ss = openWorkbook_(props);
+  requireOwner_(ss);
+  var who = Session.getActiveUser().getEmail();
+  var oldId = 'manual-20261101-75929a194bdd-5343';
+  var memo = 'Paul, 2026-11-01: money in the business Chase belongs to the business (D-103) - what he put in and the bills it paid, shown apart';
+  var journal = ss.getSheetByName('Journal'), cols = headerIndex_(journal);
+  var data = journal.getRange(2, 1, journal.getLastRow() - 1, journal.getLastColumn()).getValues();
+  var g = function (r, n) { return r[cols[n] - 1]; };
+  var cents = function (v) { return Math.round(Number(v || 0) * 100); };
+  var newId = '', voided = false, old = [];
+  data.forEach(function (r) {
+    if (String(g(r, 'memo')) === memo) newId = String(g(r, 'txn_id'));
+    if (String(g(r, 'void_of')) === oldId) voided = true;
+    if (String(g(r, 'txn_id')) === oldId) old.push(r);
+  });
+  if (!newId) {
+    if (voided) throw new Error(oldId + ' was voided by something else - stopped here, tell Claude');
+    var put = old.filter(function (r) { return String(g(r, 'account')) === '9000'; });
+    if (old.length !== 3 || put.length !== 1 || cents(g(put[0], 'credit')) !== 14689161) throw new Error(oldId + ' is not the 146,891.61 entry posted 11-01 - stopped here, tell Claude');
+    var P = { payee: 'Paul Bjork' };
+    var L = function (account, debit, credit, property, paid_from, description) {
+      return Object.assign({ account: account, debit: debit, credit: credit, property: property, paid_from: paid_from, description: description }, P);
+    };
+    var ctx = buildCtx_(ss);
+    ctx.properties.add('104 Ashburne');   // sold: off the engine's list of open houses, as in bookChaseAsPutIn20261101
+    var built = buildEntry({ type: 'journal', date: '2026-11-01', source: 'manual', posted_by: who, doc_url: '', memo: memo, allow_duplicate_hash: true, lines: [
+      L('2030', 14772938, 0, '', '1402', "Paul's money in the business Chase - his money in the business, not a loan"),
+      L('9000', 0, 14772938, '', '1402', 'Put into the business Chase by Paul - his 104 Ashburne payout'),
+      L('2030', 200000, 0, '104 Ashburne', '', "104 Ashburne's earnest money left in the business Chase - his money in the business"),
+      L('9000', 0, 200000, '', '1402', "Put into the business Chase by Paul - 104 Ashburne's earnest money"),
+      L('2030', 0, 283777, '', '1402', 'Bills the business Chase paid before 11-01 - out of his money in the business'),
+      L('9000', 283777, 0, '', '1402', "Paul's money in the business Chase spent - bills it paid before 11-01")] }, ctx);
+    voidEntry_(oldId, 'Paul, 2026-11-01: shown in three amounts, not one - posted again', '2026-11-01', who, props, true);
+    postBatchEntries_([built], props, true);
+    newId = built.txn_id;
+  } else console.log('already posted again as ' + newId);
+  refreshPnl_(ss);
+  warmCache_();
+  console.log('splitChasePutIn20261101: ' + oldId + ' -> ' + newId + '; P&L refreshed.');
+}
