@@ -1068,6 +1068,17 @@ function refreshBankSheets_(ss) {
 // every hour by a timer (installTriggers) - nothing for Paul to run - and never throws. It replaces the menu's
 // Balance sheet and P&L reports, whose "Report - " tabs went stale (they only changed when someone ran them).
 var PNL_TAB = 'P&L';
+// Houses that are Paul's alone - Properties dennis_share_pct typed 0 (104 Ashburne, 1014 S View; blank means the usual 50):
+// what Recast owes him on them is paid from Chase, not Citizens (D-101), so the P&L counts it with Chase.
+function paulOnlyHouses_(ss) {
+  var sh = ss.getSheetByName('Properties'), cols = headerIndex_(sh), last = sh.getLastRow();
+  if (last < 2 || !cols['dennis_share_pct']) return [];
+  return sh.getRange(2, 1, last - 1, sh.getLastColumn()).getValues().filter(function (r) {
+    var pct = String(r[cols['dennis_share_pct'] - 1]).trim();
+    return r[cols['name'] - 1] && pct !== '' && Number(pct) === 0;
+  }).map(function (r) { return String(r[cols['name'] - 1]); });
+}
+
 function refreshPnl_(ss) {
   // audit 2026-10-24 #15: one log line per run says where the time went (the platform kills the run at 360 s)
   var t0 = Date.now(), timings = [];
@@ -1079,7 +1090,7 @@ function refreshPnl_(ss) {
     lap('journal');
     try { sortAdvances_(ss); } catch (e) { console.error('sortAdvances_: ' + e); }   // the Advances tab newest on top (Paul, 2026-10-06); writes only when out of order
     lap('advances');
-    var t = pnlTab(lines, loadAdvances_(ss), today, getAccrualOpts_(ss));
+    var t = pnlTab(lines, loadAdvances_(ss), today, getAccrualOpts_(ss), { paulOnly: paulOnlyHouses_(ss) });
     lap('pnl math');
     // the tabs the old menu reports left behind, stale since the day they were run (D-065)
     ['Balance Sheet', 'Report - Balance sheet', 'Report - P&L', 'Report - Trial balance', 'Report - Job cost', 'Report - Dennis ledger']

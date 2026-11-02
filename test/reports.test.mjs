@@ -315,7 +315,7 @@ test("dennisLedger clamps interest_unposted at 0 and flags when posted exceeds a
   assert.equal(row.posted_exceeds_accrued, false);
 });
 
-test("pnlTab: Paul's three lines - costs he paid, his money in Citizens (working money + payouts from sold houses), his money in Chase", async () => {
+test("pnlTab: what Recast owes Paul by the account that pays it - Chase (business, his own houses, his Chase money), Citizens (partner houses, payouts, working money)", async () => {
   const { pnlTab } = await import("../lib/reports.mjs");
   const L = (txn_id, date, account, debit, credit, property = "") =>
     ({ txn_id, date, period: date.slice(0, 7), account, debit, credit, property, description: "", source: "manual", void_of: "" });
@@ -329,11 +329,19 @@ test("pnlTab: Paul's three lines - costs he paid, his money in Citizens (working
   ];
   const t = pnlTab(lines, [], "2026-09-01", { rateAnnual: 0.08, stubBasis: 30 });
   const by = Object.fromEntries(t.rows.filter((r) => r[0]).map((r) => [r[0], r[1]]));
+  const note = Object.fromEntries(t.rows.filter((r) => r[0]).map((r) => [r[0], r[2]]));
   assert.equal(t.ties, true);
-  assert.equal(by["Paul - costs he paid"], 30, "the held house's bill and the business cost");
-  assert.equal(by["Paul - money in Recast Citizens"], 50 + 30 - 2);
-  assert.equal(by["Paul - money in Recast Chase"], 2);
-  assert.equal(by["Paul"], undefined, "the old one-line Paul row is gone");
+  assert.equal(by["Paul - owed from the Chase account"], 20, "the business cost");
+  assert.equal(by["Paul - owed from the Citizens account"], 10 + 30 + 50, "the partner house's bill, 2 Oak's payout, his working money");
+  assert.match(note["Paul - owed from the Chase account"], /business 20\.00 - Chase holds 2\.00 today/);
+  assert.match(note["Paul - owed from the Citizens account"], /partner houses, paid back at each sale 10\.00, .*not taken out yet 30\.00, .*working money .*50\.00/);
+  assert.equal(by["Paul - costs he paid"], undefined, "the old three lines are gone");
+  // a house that is Paul's alone (dennis_share_pct 0, D-101) is repaid from Chase, its payout too
+  const own = pnlTab(lines, [], "2026-09-01", { rateAnnual: 0.08, stubBasis: 30 }, { paulOnly: ["2 Oak"] });
+  const by2 = Object.fromEntries(own.rows.filter((r) => r[0]).map((r) => [r[0], r[1]]));
+  assert.equal(by2["Paul - owed from the Chase account"], 20 + 30);
+  assert.equal(by2["Paul - owed from the Citizens account"], 10 + 50);
+  assert.equal(own.ties, true);
 });
 
 test("pnlTab: the year's profit and loss on top, each fact once, Dennis's unrecorded interest on both sides, adds up", async () => {
@@ -365,10 +373,9 @@ test("pnlTab: the year's profit and loss on top, each fact once, Dennis's unreco
   assert.equal(by["Dennis - interest not recorded yet"], 1000);
   assert.equal(by["Paid out to Paul"], -100);
   assert.equal(by["Left"], -20);
-  // Paul in three lines (2026-10-06): costs he paid (50.00 + 20.00 less the 5.00 paid back), his money in each bank - Chase shown at zero
-  assert.equal(by["Paul - costs he paid"], 70 - 5, "2 Oak sold with nothing owed to him on it");
-  assert.equal(by["Paul - money in Recast Citizens"], 50);
-  assert.equal(by["Paul - money in Recast Chase"], 0);
+  // Paul by the account that pays him (D-101): both lines shown, even at zero
+  assert.equal(by["Paul - owed from the Chase account"] + by["Paul - owed from the Citizens account"], 70 - 5 + 50, "all of 2030");
+  assert.ok("Paul - owed from the Chase account" in by && "Paul - owed from the Citizens account" in by);
   assert.equal(by["Paul"], undefined, "the old one-line Paul row is gone");
   // each amount once, except where two facts share a value (Left = -business costs here, said so in its note); zero lines are not facts
   const amounts = t.rows.filter((r) => r[1] !== "" && r[1] !== 0 && !["Left", "Total"].includes(r[0])).map((r) => r[1]);
@@ -443,8 +450,7 @@ test("pnlTab: a cost the Recast Chase account paid is a cost Paul paid (D-098) -
   const t = pnlTab(lines, [], "2026-10-29", { rateAnnual: 0.08, stubBasis: 30 });
   const by = Object.fromEntries(t.rows.filter((r) => r[0]).map((r) => [r[0], r[1]]));
   assert.equal(t.ties, true);
-  assert.equal(by["Paul - money in Recast Chase"], 650, "the Chase balance after the bill");
-  assert.equal(by["Paul - costs he paid"], 350, "the bill is a cost he paid, owed back at the sale");
-  assert.equal(by["Paul - money in Recast Citizens"], 0);
+  assert.equal(by["Paul - owed from the Chase account"], 650, "his money left in Chase after the bill");
+  assert.equal(by["Paul - owed from the Citizens account"], 350, "the bill is a cost he paid on a partner house, owed back at its sale");
   assert.ok(!t.rows.some((r) => r[0] === "WORKING MONEY IN THE CITIZENS ACCOUNT"), "Chase movements are not the Citizens ledger");
 });

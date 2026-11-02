@@ -1884,10 +1884,12 @@ var M_reports = (function () {
    * @param {Array<object>} lines loadJournal lines
    * @param {Array<object>} advances the Advances tab in accrual shape (loadAdvances_)
    * @param {string} asOf YYYY-MM-DD
+   * @param {{ paulOnly?: Iterable<string> }} [opts] houses that are Paul's alone (Properties dennis_share_pct 0: 104 Ashburne,
+   *   1014 S View) - what Recast owes him on them is paid from Chase (D-101)
    * @returns {{ rows: any[][], kinds: string[], ties: boolean }} rows are [what, dollars, note]; kinds are
    *   "head", "total" or "" per row
    */
-  function pnlTab(lines, advances, asOf, accrualOpts) {
+  function pnlTab(lines, advances, asOf, accrualOpts, opts = {}) {
     const year = asOf.slice(0, 4);
     const voided = new Set(lines.map((l) => l.void_of).filter(Boolean));
     const live = lines.filter((l) => l.source !== "void" && !voided.has(l.txn_id) && String(l.date).slice(0, 10) <= asOf);
@@ -1932,22 +1934,37 @@ var M_reports = (function () {
     add("total", "Total", owns);
 
     const bal = (acct) => (bs.liabilities.find((x) => x.account === acct) || {}).balance || 0;
-    // Paul's money waiting in the banks: his working money (D-055: no house on it) and his payouts from the sold houses
-    // (D-084: owed on the house from its closing day). Chase is his account (D-051), so what is in it is his; the rest
-    // waits in Citizens. What is left on 2030 is costs he paid on the houses still held and on the business.
-    const paul2030 = (pick) => live.filter((l) => String(l.account) === "2030" && pick(l.property)).reduce((s, l) => s + l.credit - l.debit, 0);
+    // What Recast owes Paul, by the account that pays it (D-101; Paul, 2026-11-01: "i want to be able to see in one place
+    // how much money the chase account owes me and how much the citizens account owes me"). Chase (his own account,
+    // D-098): the business costs he paid, his own houses' (dennis_share_pct 0), and his money sitting in Chase. Citizens
+    // (shared with Dennis): costs he paid on the partner houses and Cost Recapture (paid back at each sale), his payouts
+    // from sold partner houses not taken out yet, and his working money there. The two add up to 2030.
+    const paulOnly = new Set(opts.paulOnly || []);
     const soldHouses = new Set(live.filter((l) => seriesOf(l.account) === "4000").map((l) => l.property));
-    const paulInChase = (bs.assets.find((x) => x.account === "1402") || {}).balance || 0; // ponytail: all of Chase is Paul's; split it if Dennis's money ever lands there
-    const paulInCitizens = paul2030((p) => !p || soldHouses.has(p)) - paulInChase;
+    const owedTo = { chaseCosts: 0, chaseMoney: 0, citCosts: 0, citPayouts: 0, citMoney: 0 };
+    for (const l of live) {
+      if (String(l.account) !== "2030") continue;
+      const c = l.credit - l.debit, p = l.property || "";
+      if (!p) owedTo[l.paid_from === "1402" ? "chaseMoney" : "citMoney"] += c;
+      else if (p === "OVERHEAD" || paulOnly.has(p)) owedTo.chaseCosts += c;
+      else if (soldHouses.has(p)) owedTo.citPayouts += c;
+      else owedTo.citCosts += c;
+    }
+    const money = (c) => (c / 100).toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    const parts = (list) => list.filter(([c]) => c).map(([c, w]) => `${w} ${money(c)}`).join(", ") || "nothing";
+    const chaseCash = (bs.assets.find((x) => x.account === "1402") || {}).balance || 0;
     add("", "");
     add("head", "WHAT RECAST OWES TODAY");
-    // Paul's three lines (Paul, 2026-10-06) stay on the tab even at zero, so he sees each account
+    // Paul's two lines - by the account that pays him (D-101, Paul 2026-11-01) - stay on the tab even at zero
     [["Dennis - money he lent", bal("2010"), "for the houses, plus his working money in the account (listed at the bottom)"],
      ["Dennis - interest recorded, not paid yet", bal("2000"), ""],
      ["Dennis - interest not recorded yet", interest, "built up to today on every advance still open"],
-     ["Paul - costs he paid", bal("2030") - paulInCitizens - paulInChase, "on the houses still held and the business, not paid back yet", true],
-     ["Paul - money in Recast Citizens", paulInCitizens, "his working money (listed at the bottom) and his payouts from the sold houses, waiting in the account", true],
-     ["Paul - money in Recast Chase", paulInChase, "Chase is his account, so what is in it is his", true],
+     ["Paul - owed from the Chase account", owedTo.chaseCosts + owedTo.chaseMoney,
+      parts([[owedTo.chaseCosts, "costs he paid for the business" + (paulOnly.size ? " and his own houses (" + [...paulOnly].join(", ") + ")" : "")],
+        [owedTo.chaseMoney, "his own money sitting in Chase"]]) + ` - Chase holds ${money(chaseCash)} today`, true],
+     ["Paul - owed from the Citizens account", owedTo.citCosts + owedTo.citPayouts + owedTo.citMoney,
+      parts([[owedTo.citCosts, "costs he paid on the partner houses, paid back at each sale"], [owedTo.citPayouts, "his payouts from sold houses, not taken out yet"],
+        [owedTo.citMoney, "his working money (listed at the bottom)"]]), true],
      ...bs.liabilities.filter((l) => !["2000", "2010", "2030"].includes(l.account)).map((l) => [l.name, l.balance, ""]),
     ].forEach(([what, c, note, always]) => { if (c || always) add("", what, c, note); });
     const owes = bs.total_liabilities + interest;
