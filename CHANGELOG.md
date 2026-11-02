@@ -1,5 +1,25 @@
 # Changelog
 
+## 2026-11-01 (evening) - the personal-accounts review answered; 80 changes ready, nothing posted
+
+Paul answered every question one at a time (his folder `~/Desktop/Personal 2026/penny-work/`: `answers.csv`, the post
+list `corrections_to_post.csv`, `RESUME.md`; nothing of his is in this repo). **Nothing posted** - he says "post them".
+
+- **Amazon:** all 142 orders read three ways (order, books, bank). The ship-to settled almost all; 9 asked. Added:
+  4 Ashburne orders never booked (492.90, incl. the attic ladder's 159.00 shipping the receipt read missed), the
+  pool lights, AirTags, a power strip, truck seat covers. Out: candles shipped to Portland. Prime is mixed - Q-12.
+- **The first match (`matched.csv`) paired 60 bank lines with a different payee's row.** Re-checked each: the
+  "18 Uber rides" were Uber Eats orders (Paul: Eats not already in the books is personal); the "3 Uber One months
+  in the books" were Microsoft 365 rows (they stay; nothing to void); Midjourney 04-10 and two Chase check fees were
+  hidden; CoreLogic's 06-30 row is the 04-07 payment (re-date). Written up in the folder's `matcher_fixes.txt`.
+- **Doubles found in the books:** the Oct 14 DFW Uber ride twice (with and without its tip); the Mar 13 hose was
+  already in (taken off the list). Out: a Portland restaurant ride (Paul: in Portland only airport rides are Recast).
+- **Settled from documents:** cash 3,150 (04-06) = Juanito for Ashburne; checks 1171-1173 and the 08-13 4,858.42
+  cashier's check are already in the books; Wayfair refund 98.91 (pendant) added; 1,093.30 refund and Auction.com
+  1,000 need nothing. Personal on Paul's word: unbooked flights, Texas restaurant meals, Venmo cash-outs, 5 small.
+- **The list:** 80 changes, about 6,467.54 more owed to Paul. Still owed before the payment: his other cards'
+  statements and Chase checking Jan - Mar (`RESUME.md` "Then").
+
 ## 2026-11-01 - Paul's personal accounts checked against the books for 2026 (D-100); the review list in his folder
 
 Paul: *"i want to reconcile my personal accounts with the recast books for 2026 ... make sure everything is accounted

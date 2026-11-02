@@ -141,3 +141,6 @@ Dennis. Not asked yet.
 Paul: "this is shared with personal. it is mixed personal and business. my accountant figures out what to do there." Left
 out of the books. The accountant decides whether a business-use share is deductible and how to document it; if yes, it
 is posted once a year from the statements, paid by Paul. Not asked yet.
+
+**Amazon Prime goes with it (Paul, 2026-11-01: "i use prime for both business and personal"):** 139.00 a year plus a
+separate 4.99 a month on his checking. Left out of the books the same way; the accountant decides any business share.
