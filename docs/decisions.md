@@ -2361,3 +2361,10 @@ or both, *"no just make them the industry terms"*. The P&L tab's names are now: 
 Net income, ASSETS, Total assets, LIABILITIES, Total liabilities, MEMBER'S EQUITY (Recast is an LLC), Retained earnings
 from before <year>, Capital contributions, Distributions, Total member's equity. The notes beside them stay in plain words
 (rule 7), and so does everything else Paul reads. The Taxes tab keeps its own "Recast earned" - it is a different tab.
+
+*D-103 addendum, later (Paul asked how "Bills the business Chase paid" differs from what Chase owes him):* the 2,837.77
+held 574.63 that was not a bill - his truck loan payment of 10-14, paid from the business Chase by mistake. On his yes it
+has its own row under Capital contributions, **Taken out for Paul** (`truckLoanOwnRow20261101`, inside 9000). Money the
+business Chase pays for Paul himself is described "Taken out of the business Chase for Paul - <what>"; the part after the
+dash is the row's note. The bills row is 2,263.14: business 1,553.14 (also in Business expenses owed), 241 Poinsetta
+300.00 and 658 Erin Hills 350.00 (owed from Citizens at their sales), 104 Ashburne's 60.00 lawn bill.

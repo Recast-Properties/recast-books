@@ -1,5 +1,17 @@
 # Changelog
 
+## 2026-11-01 (night) - the truck loan payment gets its own P&L row
+
+Paul asked how "Bills the business Chase paid -2,837.77" differs from "owed from the Chase account 6,339.35". Read from
+the Journal: business bills 1,553.14 (in both - D-098 counts them as costs he paid), 241 Poinsetta 300.00 and 658 Erin
+Hills 350.00 (owed from Citizens), 104 Ashburne 60.00, and 574.63 that is not a bill - his truck loan payment of 10-14
+paid from the business Chase by mistake (`manual-20261014-246c56d5cf36`). The auto-mode check stopped the first run of
+the fix (a question is not a go-ahead); on Paul's "Yes, run it" `truckLoanOwnRow20261101` (commit 186387f) ran 21:49 CT
+and was taken out: one entry inside 9000 (`manual-20261101-2c3979d3a874-6256`). Read back: Capital contributions
+181,470.71 = Put into the business Chase 149,729.38, Bills the business Chase paid -2,263.14, Taken out for Paul -574.63,
+Covered 1014 S View's loss 34,579.10; adds up. `pnlTab` groups 9000 lines described "Taken out of the business Chase for
+Paul - ..." into that row. Tests 642 pass. D-103 addendum.
+
 ## 2026-11-01 (night) - P&L: industry terms; Capital contributions as a ledger (D-104, D-103 addendum)
 
 Paul asked why business costs (37,019.44) and what he was owed (36,339.35) differ - read from the Journal: 800.78 of
