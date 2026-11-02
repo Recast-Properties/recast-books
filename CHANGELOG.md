@@ -1,5 +1,18 @@
 # Changelog
 
+## 2026-11-01 (late) - the P&L shows what Recast owes Paul by the account that pays it (D-101)
+
+Paul: *"i want to be able to see in one place how much money the chase account owes me and how much the citizens account
+owes me."* Folded into the P&L tab's WHAT RECAST OWES TODAY: his three lines (costs he paid / money in Citizens / money
+in Chase) became two - **owed from the Chase account** (business costs, his own houses = Properties dennis_share_pct 0,
+his money sitting in Chase; the note says what Chase holds) and **owed from the Citizens account** (partner houses' and
+Cost Recapture costs, paid back at each sale; payouts from sold houses not taken out; his working money). Each note
+gives the parts. Together they are all of 2030. `pnlTab` takes `paulOnly`; `paulOnlyHouses_` reads Properties.
+Read back 20:24 CT: Chase 153,230.96, Citizens 35,549.55, "adds up". Code.gs and lib.gs pasted into the editor (clasp
+login expired; sha-checked against the repo), the P&L rebuilt by a two-line one-off (`refreshPnlNow20261101`, run and
+taken out at once). **Owed:** `clasp deploy -i` with the next ship - the web app still runs the old version (the P&L is
+built by the hourly timer, which runs the saved code, so the tab is right meanwhile).
+
 ## 2026-11-01 (night) - the personal-accounts corrections posted (D-102); owed to Paul +1,098.79
 
 Paul: *"post them"*. One-off `recordPersonalReview20261101` (commit f2f550f), dry run first, then run 20:06 and 20:09 CT
