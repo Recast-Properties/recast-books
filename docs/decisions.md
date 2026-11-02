@@ -1175,6 +1175,9 @@ dennis. that account number ends in 6317."* "It" is Ashburne's $2,000 earnest mo
 as a check from Bison Title - so at the Ashburne close that $2,000 lands on 1402, not 1401 (the sell wizard puts all the
 sale cash on 1401: post a 2,000 transfer 1401 -> 1402 with the close). Citizens (1401) is account ending 2505, cards
 5450 (Paul) and **9301 (Dennis)**. Bank accounts' `last4` gets these when the importer is built.
+*Addendum 2026-11-01 (Paul):* *"the 2000 in the chase account is earnest money for 104 ashburne ... that was released to
+me early because they didnt meet their deadline"* - the buyer missed a contract deadline, so it came to him before closing.
+It is the part of his Ashburne profit still in Chase; the P&L's Chase ledger row for 104 Ashburne says so.
 
 ## D-052 · Every advance says who the money was paid to; the old books' "Chase" was Paul's personal Chase - 2026-09-28 · Paul
 

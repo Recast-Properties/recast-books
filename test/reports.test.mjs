@@ -348,8 +348,13 @@ test("pnlTab: what Recast owes Paul by the account that pays it - Chase (busines
   const by2 = Object.fromEntries(own.rows.filter((r) => r[0]).map((r) => [r[0], r[1]]));
   assert.equal(by2["Paul - owed from the Chase account"], 20 + 30);
   assert.equal(by2["Paul - owed from the Citizens account"], 10 + 50);
-  assert.deepEqual(own.rows.find((r) => r[0] === "    2 Oak"), ["    2 Oak", 30, "his own house"]);
+  assert.deepEqual(own.rows.find((r) => r[0] === "    2 Oak"), ["    2 Oak", 30, "sold - his payout, not taken out yet"]);
   assert.equal(own.ties, true);
+  // what is left is just what the sale put in Chase (Ashburne's earnest money, D-051): the row says so in the statement's words
+  const earnest = lines.map((l) => l.txn_id === "e" ? { ...l, debit: l.debit && 3000, credit: l.credit && 3000, description: "Earnest Money Released to Seller" } : l);
+  const em = pnlTab(earnest, [], "2026-09-01", { rateAnnual: 0.08, stubBasis: 30 }, { paulOnly: ["2 Oak"] });
+  assert.deepEqual(em.rows.find((r) => r[0] === "    2 Oak"), ["    2 Oak", 30, "sold - earnest money released to seller, sitting in Chase"]);
+  assert.equal(em.ties, true);
 });
 
 test("pnlTab: the year's profit and loss on top, each fact once, Dennis's unrecorded interest on both sides, adds up", async () => {

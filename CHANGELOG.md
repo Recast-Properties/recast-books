@@ -1,5 +1,16 @@
 # Changelog
 
+## 2026-11-01 (late) - the P&L's 104 Ashburne row says it is the earnest money
+
+Paul, on the new ledger row "104 Ashburne 2,000.00 - his own house": *"the 2000 in the chase account is earnest money
+for 104 ashburne ... that was released to me early becasue they didnt meet their deadline"*. The books already had it
+(D-051; the 09-23 sale's `Earnest Money Released to Seller` on 1402, the rest of his profit paid 10-09 from Citizens);
+only the note was vague. A sold house's ledger row now reads `sold - <the sale's Chase line, in its own words>, sitting
+in Chase` when what is left on it is exactly what its sale put in Chase, else `sold - his payout, not taken out yet`
+(the old "his own house" is now only for one of his houses still held). Pushed, rebuilt 8:47 PM CT, read back: "104
+Ashburne 2,000.00 - sold - earnest money released to seller, sitting in Chase"; adds up; pull = disk. D-051 addendum
+keeps his reason. Tests 642 pass.
+
 ## 2026-11-01 (late) - the P&L's two lines for Paul each carry their ledger
 
 Paul: *"is there any way to format this differently in the P&L so its not just a list of stuff but more of a ledger for
