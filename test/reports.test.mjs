@@ -333,14 +333,22 @@ test("pnlTab: what Recast owes Paul by the account that pays it - Chase (busines
   assert.equal(t.ties, true);
   assert.equal(by["Paul - owed from the Chase account"], 20, "the business cost");
   assert.equal(by["Paul - owed from the Citizens account"], 10 + 30 + 50, "the partner house's bill, 2 Oak's payout, his working money");
-  assert.match(note["Paul - owed from the Chase account"], /business 20\.00 - Chase holds 2\.00 today/);
-  assert.match(note["Paul - owed from the Citizens account"], /partner houses, paid back at each sale 10\.00, .*not taken out yet 30\.00, .*working money .*50\.00/);
+  // each line is a ledger: indented rows under it, one per house or pot of his money, adding up to it
+  const under = (what) => { const i = t.rows.findIndex((r) => r[0] === what); let j = i + 1; while (t.kinds[j] === "detail") j++; return t.rows.slice(i + 1, j); };
+  assert.deepEqual(under("Paul - owed from the Chase account"), [["    Business costs he paid", 20, "tools, travel, software"]]);
+  assert.deepEqual(under("Paul - owed from the Citizens account"), [
+    ["    1 Main", 10, "costs he paid, back when it sells"],
+    ["    2 Oak", 30, "sold - his payout, not taken out yet"],
+    ["    His working money", 50, "listed at the bottom"],
+  ]);
+  assert.equal(note["Paul - owed from the Chase account"], "", "the ledger says it, not a note");
   assert.equal(by["Paul - costs he paid"], undefined, "the old three lines are gone");
   // a house that is Paul's alone (dennis_share_pct 0, D-101) is repaid from Chase, its payout too
   const own = pnlTab(lines, [], "2026-09-01", { rateAnnual: 0.08, stubBasis: 30 }, { paulOnly: ["2 Oak"] });
   const by2 = Object.fromEntries(own.rows.filter((r) => r[0]).map((r) => [r[0], r[1]]));
   assert.equal(by2["Paul - owed from the Chase account"], 20 + 30);
   assert.equal(by2["Paul - owed from the Citizens account"], 10 + 50);
+  assert.deepEqual(own.rows.find((r) => r[0] === "    2 Oak"), ["    2 Oak", 30, "his own house"]);
   assert.equal(own.ties, true);
 });
 
@@ -378,7 +386,7 @@ test("pnlTab: the year's profit and loss on top, each fact once, Dennis's unreco
   assert.ok("Paul - owed from the Chase account" in by && "Paul - owed from the Citizens account" in by);
   assert.equal(by["Paul"], undefined, "the old one-line Paul row is gone");
   // each amount once, except where two facts share a value (Left = -business costs here, said so in its note); zero lines are not facts
-  const amounts = t.rows.filter((r) => r[1] !== "" && r[1] !== 0 && !["Left", "Total"].includes(r[0])).map((r) => r[1]);
+  const amounts = t.rows.filter((r, i) => r[1] !== "" && r[1] !== 0 && !["Left", "Total"].includes(r[0]) && t.kinds[i] !== "detail").map((r) => r[1]);
   assert.equal(new Set(amounts).size, amounts.length, "no amount repeated");
   assert.match(t.rows.find((r) => r[0] === "Left")[2], /same as the business costs/);
   assert.ok(!JSON.stringify(t.rows.map((r) => [r[0], r[2]])).match(/\b(1000|2010|2030|6510|9010|inventory|payable|equity|draws)\b/i), "no account codes or accounting words");

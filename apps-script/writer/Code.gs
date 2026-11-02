@@ -1107,6 +1107,11 @@ function refreshPnl_(ss) {
     t.kinds.forEach(function (k, i) {
       if (k === 'head') sh.getRange(i + 4, 1, 1, 3).setFontWeight('bold').setBackground('#a3f67f');
       if (k === 'total') sh.getRange(i + 4, 1, 1, 3).setFontWeight('bold').setBackground('#ffe599');
+      // a row making up the line above it (Paul's two owed lines): gray, its amount stepped left of the totals, ledger style
+      if (k === 'detail') {
+        sh.getRange(i + 4, 1, 1, 3).setFontColor('#666666');
+        sh.getRange(i + 4, 2).setNumberFormat('#,##0.00"        ";[red]-#,##0.00"        ";-"        "');
+      }
     });
     [300, 130, 560].forEach(function (w, i) { sh.setColumnWidth(i + 1, w); });
     sh.getRange(4, 3, t.rows.length, 1).setWrap(true);   // a long note wraps instead of running off the sheet

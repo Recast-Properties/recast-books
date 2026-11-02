@@ -50,7 +50,8 @@ hunt. The list below is the earlier shape of the same work and stays for its ite
    = one 21.63 line (two cables, fine as is).
 3. **The payment (D-051, D-101):** the P&L tab's two lines - **"Paul - owed from the Chase account"** (business costs,
    104 Ashburne and 1014 S View, his own money in Chase) and **"Paul - owed from the Citizens account"** (partner houses'
-   costs, paid back at each sale; payouts not taken out; his working money). Read the figures there, never from a doc.
+   costs, paid back at each sale; payouts not taken out; his working money). Each line has its ledger under it - one gray
+   row per house or pot of his money, adding up to it. Read the figures there, never from a doc.
    The Chase part is paid once his other statements and Chase Jan - Mar are checked; record Dr 2030 / Cr 1402 dated the
    day it leaves (D-098 shape: Chase paying is Paul paid - a repayment to himself nets on 2030, so ask before posting it).
 4. Recurring charges still on personal accounts in October (move to 7416, D-088): Anthropic, Apify, Netlify, Adobe x2,

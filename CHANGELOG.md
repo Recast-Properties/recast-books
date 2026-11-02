@@ -1,5 +1,19 @@
 # Changelog
 
+## 2026-11-01 (late) - the P&L's two lines for Paul each carry their ledger
+
+Paul: *"is there any way to format this differently in the P&L so its not just a list of stuff but more of a ledger for
+what makes up the amounts owed for each row"*. The long notes on "Paul - owed from the Chase account" / "from the
+Citizens account" became indented gray rows under each line (`pnlTab` kind `detail`), one per house or pot of his money,
+amount stepped left of the totals column, note saying what it is: Chase = business costs, each of his own houses, his
+money sitting in Chase (with what Chase holds); Citizens = each partner house (costs he paid, back when it sells; or
+sold - payout not taken out), Cost Recapture, his working money. Same figures, same two line names. `clasp push`
+(live = HEAD checked first), the P&L rebuilt by a one-function one-off pushed, run (8:39 PM CT, no error) and pushed
+back (pull = disk); read back: Chase 153,230.96 = 36,339.35 + 2,000.00 (104 Ashburne) + 114,891.61; Citizens
+35,549.55 = seven partner houses 1,684.16 + 881 Newport 7,609.53 + Cost Recapture 755.86 + working money 25,500.00;
+"adds up". Tests 642 pass. No deploy needed: only the hourly timer builds the P&L, and it runs the pushed code -
+the deployed web app picks it up with the next ship.
+
 ## 2026-11-01 (late) - shipped 08aa0f0: web app @69, site 6ae7f6132e02301a70722dd8
 
 Paul ran `npx clasp login` and `npm run ship` (tests 642 pass; push 15 files; read back `/exec` 0.4.0 build "08aa0f0
