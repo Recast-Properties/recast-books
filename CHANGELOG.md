@@ -1,5 +1,20 @@
 # Changelog
 
+## 2026-11-01 (night) - D-103: money in the business Chase belongs to the business
+
+Paul: *"operating cash went up 30,000. it should not have"*, then *"there are two chase accounts. business and personal.
+i moved the 30,000 out of business into personal. that money no longer belongs to the business"*; asked whether what he
+put into the business Chase is his money in the business, not a loan: *"Yes, book it"*. `chaseLegs` (lib/posting.mjs)
+now writes a Chase-paid bill's cash out of Dr 9000 (was 2030); the P&L shows "Operating cash - the business Chase account"
+under what Recast owns, the Chase line is Business expenses owed (plus a sold own house's payout), Put in by Paul names
+the business Chase, and money left on 2030 the old way says "tell Claude". One-off `bookChaseAsPutIn20261101` (commits
+58df173, 41c1711 - the first run was refused by the engine, "unknown property 104 Ashburne", nothing written; sold
+Ashburne added to the run's house list as in recordPersonalReview20261101) ran 21:16 CT: `manual-20261101-75929a194bdd-5343`,
+Dr 2030 144,891.61 (no house, 1402) + Dr 2030 2,000.00 (104 Ashburne) / Cr 9000 146,891.61; then taken out. Read back:
+Operating cash 116,891.61 (= the bank), owed from Chase 6,339.35, owed from Citizens 35,549.55 unchanged, Put in by Paul
+181,470.71, Left 109,872.17, adds up; Chase Bank box 7 of 7 reconciled. Tests 642 pass. CLAUDE.md constraint 16, D-103,
+HANDOFF. **Owed: `npm run ship`** (Paul) - the pollers and web Inbox run the deployed `lib.gs` with the old Chase legs.
+
 ## 2026-11-01 (night) - Paul's 30,000.00 Chase draw is a payback for business expenses
 
 Paul: *"i took a $30,000 draw from the chase account. do you see that in the books. i want the to be applied as a

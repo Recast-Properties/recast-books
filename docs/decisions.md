@@ -110,6 +110,7 @@ that supersedes the old one, not editing history.
 - D-100 · Paul's personal accounts are reconciled beside the books, once, to get him off them - 2026-11-01 · Paul
 - D-101 · Citizens pays only for the partner houses; everything else Paul fronted (104 Ashburne, 1014 S View, the business) is repaid from Chase - 2026-11-01 · Paul
 - D-102 · A cost found after a sale: Ashburne and 1014 S View take it on the house and list it on the frozen tab; a partner house's goes to Cost Recapture - 2026-11-01 · Paul
+- D-103 · Money in the business Chase belongs to the business - what Paul puts in is his money in the business (9000), not a loan - 2026-11-01 · Paul
 
 ---
 
@@ -2312,3 +2313,35 @@ can write off etc. the payout from the sale will be the same: the amount recieve
   closing and 160 cells differed before any new entry - the advance schedule, its interest and the closing totals as they
   stood that day. The rebuild is a check, never a replacement (constraint 11).
 
+## D-103 · Money in the business Chase belongs to the business - what Paul puts in is his money in the business (9000), not a loan - 2026-11-01 · Paul
+
+*Paul, on the P&L's Chase line after his 30,000.00 draw was applied to business expenses and "Operating cash" rose to
+146,891.61:* *"operating cash went up 30,000. it should not have"*, then *"noooo. there are two chase accounts. business
+and personal. i moved the 30,000 out of business into personal. that money no longer belongs to the business."* Asked
+whether what he put into the business Chase is his money in the business rather than a loan Recast pays back: *"Yes,
+book it"*.
+
+**Decided:** money in the business Chase (1402, ending 6317) belongs to the business. What Paul puts into it - his
+104 Ashburne payout moved there 10-09, the Ashburne earnest money (D-051), any later deposit of his own money - is
+**9000 Owner contributions** ("Put in by Paul" on the P&L), not a loan on 2030. The P&L shows the cash as **"Operating
+cash - the business Chase account"** under what Recast owns, and the Chase line under what Recast owes him is only what
+he paid for the business (and his own houses while held, and a sold one's payout not taken out): "Business expenses
+owed". His personal Chase (checking ending 8870) is not Recast's.
+
+- **A bill the business Chase pays stays a cost Paul paid (D-098)** - Cr 2030 on the house or OVERHEAD, so the house tab
+  ticks Paul Paid and a partner house pays him back at its sale - but the cash leaves out of his money in the business:
+  `chaseLegs` writes Dr 9000 / Cr 1402 (was Dr 2030 / Cr 1402, "working money"). So such a bill lowers Put in by Paul
+  and raises Business expenses owed by the same amount.
+- **Money he takes out of the business Chase to his own accounts as a payback for business costs** is Dr 2030 on
+  OVERHEAD / Cr 1402 (D-101's shape): Operating cash and Business expenses owed both fall by it - one payment, counted
+  once on each side. His 30,000.00 of 10-14 is booked that way (`repointPaulDraw20261101`).
+- **Booked:** `bookChaseAsPutIn20261101` moved what was on 2030 the old way - his Chase money 144,891.61 (147,729.38 in,
+  less 2,837.77 of bills Chase paid) and Ashburne's 2,000.00 earnest money - onto 9000, one entry dated 11-01. Read back:
+  Operating cash 116,891.61 (= the bank), owed from Chase 6,339.35, Put in by Paul 181,470.71 (with 1014 S View's
+  34,579.10), adds up.
+- His money in Chase still on 2030 with no house shows on the P&L as "His money in Chase booked as a loan - the old way -
+  tell Claude": book it onto 9000. Until the next ship deploys `lib.gs`, a Chase bill posted by the pollers or the web
+  Inbox still uses the old legs and will show there.
+- The Citizens working money (D-055) is unchanged: a plain loan, owed back - Dennis is in that account.
+- Supersedes the D-101 addendum's "Operating cash" bucket under what Recast owes him and the earlier "merge a house
+  sale's money into Operating cash" wording: that money is now put in by Paul.

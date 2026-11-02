@@ -71,47 +71,6 @@
  *   tab; owed to Paul +1,098.79; run 20:06 and 20:09 CT from the editor, pasted in - clasp login was expired) is in commit f2f550f.
  * repointPaulDraw20261101 (2026-11-01, Paul: his 30,000.00 Chase draw of 10-14 is a payback for business expenses -
  *   voided and posted again on 2030 OVERHEAD / 1402, bank line re-tied; run 21:01 CT from the editor) is in commit 94de82d.
+ * bookChaseAsPutIn20261101 (2026-11-01, D-103: Paul's money in the business Chase is his money in the business, not a
+ *   loan - 146,891.61 moved off 2030 onto 9000; run 21:16 CT from the editor) is in commit 41c1711.
  ****************************************************************/
-
-// 2026-11-01 Paul: "there are two chase accounts. business and personal. i moved the 30,000 out of business into
-// personal. that money no longer belongs to the business." then "Yes, book it" (D-103): money in the business Chase
-// belongs to the business - what he put in is his money in the business (9000 Owner contributions), not a loan Recast
-// pays back. One entry dated 2026-11-01 moves it off 2030: his money in Chase booked the old way (no house, paid from
-// 1402: the 147,729.38 he put in less the 2,837.77 of bills Chase paid) and 104 Ashburne's 2,000.00 earnest money left
-// in Chase, onto 9000. Stops unless both match the figures Paul approved. Safe to run twice: found by its memo.
-// STATUS: NOT YET RUN
-function bookChaseAsPutIn20261101() {
-  var props = PropertiesService.getScriptProperties();
-  var ss = openWorkbook_(props);
-  requireOwner_(ss);
-  var who = Session.getActiveUser().getEmail();
-  var memo = 'Paul, 2026-11-01: money in the business Chase belongs to the business - what he put in is his money in the business, not a loan Recast pays back (D-103)';
-  var journal = ss.getSheetByName('Journal'), cols = headerIndex_(journal);
-  var data = journal.getRange(2, 1, journal.getLastRow() - 1, journal.getLastColumn()).getValues();
-  var g = function (r, n) { return r[cols[n] - 1]; };
-  var cents = function (v) { return Math.round(Number(v || 0) * 100); };
-  var voided = {}, done = '';
-  data.forEach(function (r) { var v = String(g(r, 'void_of') || ''); if (v) voided[v] = true; if (String(g(r, 'memo')) === memo) done = String(g(r, 'txn_id')); });
-  if (done) { console.log('already booked as ' + done); refreshPnl_(ss); return; }
-  var chase = 0, ashburne = 0;
-  data.forEach(function (r) {
-    if (String(g(r, 'account')) !== '2030' || String(g(r, 'source')) === 'void' || voided[String(g(r, 'txn_id'))]) return;
-    var c = cents(g(r, 'credit')) - cents(g(r, 'debit')), p = String(g(r, 'property') || '');
-    if (!p && String(g(r, 'paid_from')) === '1402') chase += c;
-    if (p === '104 Ashburne') ashburne += c;
-  });
-  if (chase !== 14489161 || ashburne !== 200000) {
-    throw new Error('His money in Chase is ' + chase / 100 + ' and Ashburne ' + ashburne / 100 + ', not the 144,891.61 and 2,000.00 Paul approved - nothing changed, tell Claude');
-  }
-  var base = { payee: 'Paul Bjork' };
-  var ctx = buildCtx_(ss);
-  ctx.properties.add('104 Ashburne');   // sold: off the engine's list of open houses, as in recordPersonalReview20261101
-  var built = buildEntry({ type: 'journal', date: '2026-11-01', source: 'manual', posted_by: who, doc_url: '', memo: memo, allow_duplicate_hash: true, lines: [
-    Object.assign({ account: '2030', debit: chase, credit: 0, property: '', paid_from: '1402', description: "Paul's money in the business Chase - his money in the business, not a loan" }, base),
-    Object.assign({ account: '2030', debit: ashburne, credit: 0, property: '104 Ashburne', paid_from: '', description: "104 Ashburne's earnest money left in the business Chase - his money in the business" }, base),
-    Object.assign({ account: '9000', debit: 0, credit: chase + ashburne, property: '', paid_from: '1402', description: 'Put into the business Chase by Paul' }, base)] }, ctx);
-  postBatchEntries_([built], props, true);
-  refreshPnl_(ss);
-  warmCache_();
-  console.log('bookChaseAsPutIn20261101: ' + built.txn_id + ' - ' + (chase + ashburne) / 100 + ' moved to Put in by Paul; P&L refreshed.');
-}

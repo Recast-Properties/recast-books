@@ -48,14 +48,15 @@ hunt. The list below is the earlier shape of the same work and stays for its ite
 2. **Claude settles quietly (D-067):** the 1,319.00 50floor carpet posted twice (06-01 migration and 06-12, Granite;
    one bank line 06-01 of 1,338.00 - the 20.00 correction of 09-21 already covers the fee), Tiger Mart 10.81 + 10.82
    = one 21.63 line (two cables, fine as is).
-3. **The payment (D-051, D-101):** the P&L tab's two lines - **"Paul - owed from the Chase account"** (two rows:
-   Operating cash and Business expenses owed) and **"Paul - owed from the Citizens account"** (partner houses'
+3. **The payment (D-051, D-101, D-103):** the P&L tab's two lines - **"Paul - owed from the Chase account"** (Business
+   expenses owed; the cash in the business Chase is the business's, "Operating cash" under what Recast owns) and **"Paul - owed from the Citizens account"** (partner houses'
    costs, paid back at each sale; payouts not taken out; his working money). Each line has its ledger under it - one gray
    row per house or pot of his money, adding up to it. Read the figures there, never from a doc.
    The Chase part is paid once his other statements and Chase Jan - Mar are checked; record Dr 2030 / Cr 1402 dated the
    day it leaves (D-098 shape: Chase paying is Paul paid - a repayment to himself nets on 2030, so ask before posting it).
-   His 30,000.00 out of Chase on 10-14 already counts as a payback of business expenses (2030 on OVERHEAD, Paul 11-01) -
-   a payback for business costs goes on OVERHEAD, so it lowers Business expenses owed, not Operating cash.
+   His 30,000.00 out of Chase on 10-14 already counts as a payback of business expenses (2030 on OVERHEAD, Paul 11-01).
+   **Owed: `npm run ship`** (Paul's step) - the Chase bill legs changed in `lib.gs` (D-103); until then a Chase bill
+   the pollers post lands the old way and shows on the P&L as "booked as a loan - tell Claude".
 4. Recurring charges still on personal accounts in October (move to 7416, D-088): Anthropic, Apify, Netlify, Adobe x2,
    Google Workspace, Telnyx, Matterport, Roddy (on the Citi card), Shutterstock; ChatGPT / Uber One / Quantum Fiber /
    The Greenery once he says they are business.
