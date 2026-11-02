@@ -104,10 +104,12 @@ function bookChaseAsPutIn20261101() {
     throw new Error('His money in Chase is ' + chase / 100 + ' and Ashburne ' + ashburne / 100 + ', not the 144,891.61 and 2,000.00 Paul approved - nothing changed, tell Claude');
   }
   var base = { payee: 'Paul Bjork' };
+  var ctx = buildCtx_(ss);
+  ctx.properties.add('104 Ashburne');   // sold: off the engine's list of open houses, as in recordPersonalReview20261101
   var built = buildEntry({ type: 'journal', date: '2026-11-01', source: 'manual', posted_by: who, doc_url: '', memo: memo, allow_duplicate_hash: true, lines: [
     Object.assign({ account: '2030', debit: chase, credit: 0, property: '', paid_from: '1402', description: "Paul's money in the business Chase - his money in the business, not a loan" }, base),
     Object.assign({ account: '2030', debit: ashburne, credit: 0, property: '104 Ashburne', paid_from: '', description: "104 Ashburne's earnest money left in the business Chase - his money in the business" }, base),
-    Object.assign({ account: '9000', debit: 0, credit: chase + ashburne, property: '', paid_from: '1402', description: 'Put into the business Chase by Paul' }, base)] }, buildCtx_(ss));
+    Object.assign({ account: '9000', debit: 0, credit: chase + ashburne, property: '', paid_from: '1402', description: 'Put into the business Chase by Paul' }, base)] }, ctx);
   postBatchEntries_([built], props, true);
   refreshPnl_(ss);
   warmCache_();
