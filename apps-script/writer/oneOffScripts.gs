@@ -77,3 +77,26 @@
  *   2,000.00, bills Chase paid 2,837.77 - so Capital contributions shows its ledger; run 21:40 CT) is in commit 269bfa3.
  ****************************************************************/
 
+
+// 2026-11-01: the 2,837.77 of "bills the business Chase paid" in splitChasePutIn20261101 held 574.63 that is not a bill -
+// his truck loan payment of 10-14, paid from the business Chase by mistake (manual-20261014-246c56d5cf36). One entry
+// inside 9000 dated 11-01 moves it to its own P&L row, "Taken out for Paul"; no total changes. Safe to run twice: memo.
+// STATUS: NOT YET RUN
+function truckLoanOwnRow20261101() {
+  var props = PropertiesService.getScriptProperties();
+  var ss = openWorkbook_(props);
+  requireOwner_(ss);
+  var memo = "2026-11-01: his truck loan payment of 10-14 (574.63) is not a bill the business Chase paid - its own line";
+  var journal = ss.getSheetByName('Journal'), cols = headerIndex_(journal);
+  var ids = journal.getRange(2, cols['memo'], journal.getLastRow() - 1, 1).getValues().map(function (r) { return String(r[0]); });
+  if (ids.indexOf(memo) >= 0) { console.log('already posted'); refreshPnl_(ss); return; }
+  if (!findAllRowsByValue_(journal, cols['txn_id'], 'manual-20261014-246c56d5cf36').length) throw new Error('The 10-14 truck loan payment is not on the Journal - nothing changed, tell Claude');
+  var L = function (debit, credit, description) { return { account: '9000', debit: debit, credit: credit, property: '', paid_from: '1402', payee: 'Paul Bjork', description: description }; };
+  var built = buildEntry({ type: 'journal', date: '2026-11-01', source: 'manual', posted_by: Session.getActiveUser().getEmail(), doc_url: '', memo: memo, allow_duplicate_hash: true, lines: [
+    L(0, 57463, "Paul's money in the business Chase spent - less his truck loan, which was not a bill"),
+    L(57463, 0, 'Taken out of the business Chase for Paul - his truck loan payment of 10-14, paid from the business Chase by mistake')] }, buildCtx_(ss));
+  postBatchEntries_([built], props, true);
+  refreshPnl_(ss);
+  warmCache_();
+  console.log('truckLoanOwnRow20261101: ' + built.txn_id + '; P&L refreshed.');
+}

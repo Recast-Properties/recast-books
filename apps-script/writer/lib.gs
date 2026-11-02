@@ -1995,10 +1995,13 @@ var M_reports = (function () {
     // he paid, owed back to him - lib/posting.mjs chaseLegs) and his money covering a house's loss.
     const putIn = live.filter((l) => String(l.account) === "9000");
     const isBill = (l) => /^Paul's money in the business Chase\b/.test(l.description);
-    const deposits = putIn.filter((l) => !l.property && !isBill(l));
+    const isOut = (l) => /^Taken out of the business Chase for Paul\b/.test(l.description);   // his own bill it paid (a truck loan, 10-14)
+    const deposits = putIn.filter((l) => !l.property && !isBill(l) && !isOut(l)), outs = putIn.filter((l) => !l.property && isOut(l));
+    const suffix = (ls) => [...new Set(ls.map((l) => String(l.description).split(" - ")[1]).filter(Boolean))].join(" and ");
     const putInRows = [
-      ["Put into the business Chase", deposits, [...new Set(deposits.map((l) => String(l.description).split(" - ")[1]).filter(Boolean))].join(" and ")],
+      ["Put into the business Chase", deposits, suffix(deposits)],
       ["Bills the business Chase paid", putIn.filter((l) => !l.property && isBill(l)), "also counted as costs he paid - owed back to him"],
+      ["Taken out for Paul", outs, suffix(outs)],
       ...[...new Set(putIn.filter((l) => l.property).map((l) => l.property))].map((p) => [`Covered ${p}'s loss`, putIn.filter((l) => l.property === p), ""]),
     ].map(([what, ls, note]) => ["    " + what, ls.reduce((s, l) => s + l.credit - l.debit, 0), note]).filter((r) => r[1]);
     for (const e of bs.equity) {

@@ -460,21 +460,24 @@ test("pnlTab: money in the business Chase belongs to the business (D-103) - put 
     L("c", "2026-10-14", "9000", 35000, 0, "", "Paul's money in the business Chase spent - Mariana: Cleaning", "1402"), L("c", "2026-10-14", "1402", 0, 35000, "", "", "1402"),
     L("o", "2026-10-15", "6510", 5000, 0, "OVERHEAD", "Software", "PAUL"), L("o", "2026-10-15", "2030", 0, 5000, "OVERHEAD", "Software", "PAUL"),
     L("o", "2026-10-15", "9000", 5000, 0, "", "Paul's money in the business Chase spent - App: Software", "1402"), L("o", "2026-10-15", "1402", 0, 5000, "", "", "1402"),
+    // the business Chase paid 7.00 of his own (a truck loan) - out of his money in the business, not a bill
+    L("t", "2026-10-16", "9000", 700, 0, "", "Taken out of the business Chase for Paul - his truck loan payment", "1402"), L("t", "2026-10-16", "1402", 0, 700, "", "", "1402"),
     // he takes 30.00 out to his personal account as a payback for business expenses (D-101 shape)
     L("d", "2026-10-20", "2030", 3000, 0, "OVERHEAD", "Paid back to Paul for business expenses he paid", "1402"), L("d", "2026-10-20", "1402", 0, 3000, "", "", "1402"),
   ];
   const t = pnlTab(lines, [], "2026-10-29", { rateAnnual: 0.08, stubBasis: 30 });
   const by = Object.fromEntries(t.rows.filter((r) => r[0]).map((r) => [r[0], r[1]]));
   assert.equal(t.ties, true);
-  assert.equal(by["Operating cash - the business Chase account"], 1000 - 350 - 50 - 30, "the cash in the business Chase");
+  assert.equal(by["Operating cash - the business Chase account"], 1000 - 350 - 50 - 7 - 30, "the cash in the business Chase");
   assert.equal(by["Paul - owed from the Chase account"], 50 - 30, "the business bill, less what he took back for it");
   assert.equal(by["    Business expenses owed"], 20);
   assert.equal(by["Paul - owed from the Citizens account"], 350, "the bill is a cost he paid on a partner house, owed back at its sale");
-  assert.equal(by["Capital contributions"], 1000 - 350 - 50);
+  assert.equal(by["Capital contributions"], 1000 - 350 - 50 - 7);
   // a ledger (Paul, 2026-11-01: "i put 149,729.38 into the business chase and 2,837.77 of bills have been paid")
-  assert.deepEqual(t.rows.filter((r, i) => t.kinds[i] === "detail" && /business Chase/.test(r[0])), [
+  assert.deepEqual(t.rows.filter((r, i) => t.kinds[i] === "detail" && /business Chase|for Paul/.test(r[0])), [
     ["    Put into the business Chase", 1000, "his savings"],
     ["    Bills the business Chase paid", -400, "also counted as costs he paid - owed back to him"],
+    ["    Taken out for Paul", -7, "his truck loan payment"],
   ]);
   assert.ok(!t.rows.some((r) => r[0] === "WORKING MONEY IN THE CITIZENS ACCOUNT"), "Chase movements are not the Citizens ledger");
   // his money in Chase left on the old loan shape says so
