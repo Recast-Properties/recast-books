@@ -1939,7 +1939,8 @@ var M_reports = (function () {
     const ledger = (chase) => [...pot.keys()].filter((k) => pot.get(k) && (k === "OVERHEAD" || k === " cash" || paulOnly.has(k)) === chase)
       .sort((a, b) => rank(a) - rank(b) || a.localeCompare(b))
       .map((k) => {
-        const [what, note] = named[k] || [k, soldHouses.has(k) ? "sold - his payout, not taken out yet" : "costs he paid, back when it sells"];
+        const [what, note] = named[k] || [k, !soldHouses.has(k) ? "costs he paid, back when it sells"
+          : pot.get(k) < 0 ? "sold - paid this much more than his share (a cost found after the sale), owed back to Recast" : "sold - his payout, not taken out yet"];
         return ["    " + what, pot.get(k), note];
       });
     const sum = (rows) => rows.reduce((s, r) => s + r[1], 0);
