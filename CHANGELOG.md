@@ -1,5 +1,12 @@
 # Changelog
 
+## 2026-11-01 (late) - shipped 08aa0f0: web app @69, site 6ae7f6132e02301a70722dd8
+
+Paul ran `npx clasp login` and `npm run ship` (tests 642 pass; push 15 files; read back `/exec` 0.4.0 build "08aa0f0
+2026-11-01 20:31", site build.json matches; dry-run upload skipped - POLLER_SECRET not in his shell). The P&L's two
+lines (owed from Chase / Citizens) and everything before are now in the deployed web app too; a `clasp pull` before the
+ship matched the repo file for file. Nothing owed from the day's work.
+
 ## 2026-11-01 (late) - the P&L shows what Recast owes Paul by the account that pays it (D-101)
 
 Paul: *"i want to be able to see in one place how much money the chase account owes me and how much the citizens account

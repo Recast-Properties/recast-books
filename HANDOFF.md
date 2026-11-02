@@ -11,9 +11,8 @@ there; a figure written here is only as of its date.
 104 Ashburne's found costs (4,713.78) on the house with his share lowered the same, listed on its frozen tab. **Owed
 next, in order:** his other cards' statements (Discover 3746, Mastercard 6774, Wells Fargo, Capital One) and Chase
 checking Jan 1 - Mar 29 -> re-run the match, then the Home Depot pass (five held Home Depot rows, in his folder's
-`corrections_to_post.csv` note) -> the payment from Chase (D-101). `clasp login` is expired (Paul's step before the
-next push); **the web-app deploy is owed** for the 11-01 P&L change (Code.gs + lib.gs pasted into the editor; the
-tab itself is right - the hourly timer runs the saved code). The P&L now shows his money owed **from Chase** and **from
+`corrections_to_post.csv` note) -> the payment from Chase (D-101). Shipped 08aa0f0 the same night (web app @69, site
+6ae7f6132e02301a70722dd8; clasp logged in again). The P&L now shows his money owed **from Chase** and **from
 Citizens** (D-101) - read those two lines for the payment.
 
 **The session ran out of context mid-way. The full resume - files, every answer Paul gave, the 24 postings ready to make,
