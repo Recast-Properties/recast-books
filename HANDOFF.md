@@ -7,7 +7,7 @@ there; a figure written here is only as of its date.
 
 ## 2026-11-01 - the personal-accounts check (D-100, D-101) - RESUME HERE (START HERE)
 
-**Night 11-01: the corrections are POSTED (D-102; CHANGELOG).** Owed to Paul +1,098.79 (P&L "costs he paid" 38,779.37);
+**Night 11-01: the corrections are POSTED (D-102; CHANGELOG).** Owed to Paul +1,098.79;
 104 Ashburne's found costs (4,713.78) on the house with his share lowered the same, listed on its frozen tab. **Owed
 next, in order:** his other cards' statements (Discover 3746, Mastercard 6774, Wells Fargo, Capital One) and Chase
 checking Jan 1 - Mar 29 -> re-run the match, then the Home Depot pass (five held Home Depot rows, in his folder's
@@ -49,11 +49,11 @@ hunt. The list below is the earlier shape of the same work and stays for its ite
 2. **Claude settles quietly (D-067):** the 1,319.00 50floor carpet posted twice (06-01 migration and 06-12, Granite;
    one bank line 06-01 of 1,338.00 - the 20.00 correction of 09-21 already covers the fee), Tiger Mart 10.81 + 10.82
    = one 21.63 line (two cables, fine as is).
-3. **The payment (D-051, D-101 - Citizens only for the partner houses; Ashburne, 1014 S View and the business from Chase):** the P&L tab at 17:05 CT on 11-01 - Paul, costs he paid **37,680.58** (on the held houses
-   and the business, not paid back yet); Paul, money in Recast Citizens 33,109.53 (his working money and his payouts
-   waiting); Paul, money in Recast Chase 116,891.61 (his account). The payment is the first figure, from Chase, once
-   the review answers are posted and Jan - Mar is checked; record Dr 2030 / Cr 1402 dated the day it leaves (D-098
-   shape: Chase paying is Paul paid - a repayment to himself nets on 2030, so ask before posting it).
+3. **The payment (D-051, D-101):** the P&L tab's two lines - **"Paul - owed from the Chase account"** (business costs,
+   104 Ashburne and 1014 S View, his own money in Chase) and **"Paul - owed from the Citizens account"** (partner houses'
+   costs, paid back at each sale; payouts not taken out; his working money). Read the figures there, never from a doc.
+   The Chase part is paid once his other statements and Chase Jan - Mar are checked; record Dr 2030 / Cr 1402 dated the
+   day it leaves (D-098 shape: Chase paying is Paul paid - a repayment to himself nets on 2030, so ask before posting it).
 4. Recurring charges still on personal accounts in October (move to 7416, D-088): Anthropic, Apify, Netlify, Adobe x2,
    Google Workspace, Telnyx, Matterport, Roddy (on the Citi card), Shutterstock; ChatGPT / Uber One / Quantum Fiber /
    The Greenery once he says they are business.

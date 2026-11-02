@@ -2272,6 +2272,11 @@ Chase" (Chase is his, D-098). A cost added to a sold house after its closing (Co
 rule by house. So the one payment at the end of D-100 is really two figures: the partner-house part, settled in
 Citizens at each closing, and the Ashburne-plus-business part, paid from Chase.
 
+*2026-11-01, later (Paul: "i want to be able to see in one place how much money the chase account owes me and how much
+the citizens account owes me"):* the P&L tab shows the two figures as **"Paul - owed from the Chase account"** and
+**"Paul - owed from the Citizens account"** in place of its three Paul lines; a house counts with Chase when its
+Properties `dennis_share_pct` is typed 0 (`paulOnlyHouses_`). A repayment from Chase lowers the Chase line.
+
 ## D-102 · A cost found after a sale: Ashburne and 1014 S View take it on the house and list it on the frozen tab; a partner house's goes to Cost Recapture - 2026-11-01 · Paul
 
 Paul, when the personal-accounts review (D-100) was posted: *"for ashburne and 1014 s view its ok with me to adjust the
