@@ -887,7 +887,7 @@ test("D-095: a box of locks lands on 1530 Supplies on hand with no house; a lock
 
 // --- D-098: the Recast Chase account is Paul's own money -------------------------
 
-test("D-098: an expense paid from Chase is a cost Paul paid - Cr 2030 on the house, then the cash out of Chase as his working money", () => {
+test("D-098: an expense paid from Chase is a cost Paul paid - Cr 2030 on the house, then the cash out of Chase from his money in the business (D-103)", () => {
   const ctx = baseCtx();
   const entry = buildEntry(
     { type: "expense", date: "2026-09-05", payee: "Mariana Martinez", description: "Cleaning labor", amount_cents: 35000,
@@ -897,10 +897,10 @@ test("D-098: an expense paid from Chase is a cost Paul paid - Cr 2030 on the hou
   assert.deepEqual(entry.lines.map((l) => [l.account, l.debit, l.credit, l.property, l.paid_from]), [
     ["1020", 35000, 0, "881 Newport", "PAUL"],
     ["2030", 0, 35000, "881 Newport", "PAUL"],
-    ["2030", 35000, 0, "", "1402"],
+    ["9000", 35000, 0, "", "1402"],
     ["1402", 0, 35000, "", "1402"],
   ]);
-  assert.match(entry.lines[2].description, /^Working money taken out of the account - Mariana Martinez: Cleaning labor$/);
+  assert.match(entry.lines[2].description, /^Paul's money in the business Chase spent - Mariana Martinez: Cleaning labor$/);
   assert.equal(entry.lines[2].payee, "Mariana Martinez");
   // Citizens is the shared account: unchanged, two lines
   const shared = buildEntry({ type: "expense", date: "2026-09-05", payee: "Mariana Martinez", description: "Cleaning labor", amount_cents: 35000,
@@ -920,7 +920,7 @@ test("D-098: an itemised receipt paid from Chase carries PAUL on every cost line
     ["6700", 48240, 0, "OVERHEAD", "PAUL"],
     ["6700", 3430, 0, "OVERHEAD", "PAUL"],
     ["2030", 0, 51670, "OVERHEAD", "PAUL"],
-    ["2030", 51670, 0, "", "1402"],
+    ["9000", 51670, 0, "", "1402"],
     ["1402", 0, 51670, "", "1402"],
   ]);
   const refund = buildEntry(
@@ -931,8 +931,8 @@ test("D-098: an itemised receipt paid from Chase carries PAUL on every cost line
   assert.deepEqual(refund.lines.map((l) => [l.account, l.debit, l.credit, l.property, l.paid_from]), [
     ["1030", 0, 1200, "881 Newport", "PAUL"],
     ["2030", 1200, 0, "881 Newport", "PAUL"],
-    ["2030", 0, 1200, "", "1402"],
+    ["9000", 0, 1200, "", "1402"],
     ["1402", 1200, 0, "", "1402"],
   ]);
-  assert.match(refund.lines[2].description, /^Working money put back into the account - Home Depot: Return: caulk$/);
+  assert.match(refund.lines[2].description, /^Paul's money in the business Chase put back - Home Depot: Return: caulk$/);
 });

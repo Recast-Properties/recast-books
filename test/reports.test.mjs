@@ -348,18 +348,13 @@ test("pnlTab: what Recast owes Paul by the account that pays it - Chase (busines
   const by2 = Object.fromEntries(own.rows.filter((r) => r[0]).map((r) => [r[0], r[1]]));
   assert.equal(by2["Paul - owed from the Chase account"], 20 + 30);
   assert.equal(by2["Paul - owed from the Citizens account"], 10 + 50);
-  // Chase is two buckets (Paul, 2026-11-01): what a sale of his own house left owed him is operating cash
+  // a sold house of his own: its payout not taken out yet is owed from Chase, under the business costs he paid
   const own_under = (t2, what) => { const i = t2.rows.findIndex((r) => r[0] === what); let j = i + 1; while (t2.kinds[j] === "detail") j++; return t2.rows.slice(i + 1, j); };
   assert.deepEqual(own_under(own, "Paul - owed from the Chase account"), [
-    ["    Operating cash", 30, "Chase holds 2.00 today"],
     ["    Business expenses owed", 20, "costs he paid for the business"],
+    ["    2 Oak", 30, "sold - his payout, not taken out yet"],
   ]);
   assert.equal(own.ties, true);
-  // all of it in Chase (Ashburne's earnest money, D-051): the note says the bucket is all Chase holds
-  const earnest = lines.map((l) => l.txn_id === "e" ? { ...l, debit: l.debit && 3000, credit: l.credit && 3000 } : l);
-  const em = pnlTab(earnest, [], "2026-09-01", { rateAnnual: 0.08, stubBasis: 30 }, { paulOnly: ["2 Oak"] });
-  assert.deepEqual(em.rows.find((r) => r[0] === "    Operating cash"), ["    Operating cash", 30, "all of what Chase holds today"]);
-  assert.equal(em.ties, true);
 });
 
 test("pnlTab: the year's profit and loss on top, each fact once, Dennis's unrecorded interest on both sides, adds up", async () => {
@@ -454,21 +449,33 @@ test("pnlTab: the working money ledger - every D-055 line in Citizens by date, w
   assert.ok(!none.rows.some((r) => r[0] === "WORKING MONEY IN THE CITIZENS ACCOUNT"), "no ledger when there is no working money");
 });
 
-test("pnlTab: a cost the Recast Chase account paid is a cost Paul paid (D-098) - his Chase money drops by it, what Recast owes him does not", async () => {
+test("pnlTab: money in the business Chase belongs to the business (D-103) - put in by Paul, operating cash; a bill Chase paid is still a cost Paul paid (D-098)", async () => {
   const { pnlTab } = await import("../lib/reports.mjs");
   const L = (txn_id, date, account, debit, credit, property = "", description = "", paid_from = "") =>
     ({ txn_id, date, period: date.slice(0, 7), account, debit, credit, property, description, paid_from, source: "manual", void_of: "" });
-  const W = "Working money put into the account";
   const lines = [
-    L("in", "2026-10-09", "1402", 100000, 0, "", W, "1402"), L("in", "2026-10-09", "2030", 0, 100000, "", W, "1402"),   // 1,000.00 of his money into Chase
-    // a 350.00 cleaning bill Chase paid, in the D-098 shape
+    L("in", "2026-10-09", "1402", 100000, 0, "", "Put into the business", "1402"), L("in", "2026-10-09", "9000", 0, 100000, "", "Put into the business", "1402"),   // 1,000.00 of his money into the business Chase
+    // a 350.00 cleaning bill on a partner house and a 50.00 business bill, Chase paid both, in the D-098 shape (lib/posting.mjs chaseLegs)
     L("c", "2026-10-14", "1020", 35000, 0, "1 Main", "Cleaning", "PAUL"), L("c", "2026-10-14", "2030", 0, 35000, "1 Main", "Cleaning", "PAUL"),
-    L("c", "2026-10-14", "2030", 35000, 0, "", "Working money taken out of the account - Mariana: Cleaning", "1402"), L("c", "2026-10-14", "1402", 0, 35000, "", "Working money taken out of the account - Mariana: Cleaning", "1402"),
+    L("c", "2026-10-14", "9000", 35000, 0, "", "Paul's money in the business Chase spent - Mariana: Cleaning", "1402"), L("c", "2026-10-14", "1402", 0, 35000, "", "", "1402"),
+    L("o", "2026-10-15", "6510", 5000, 0, "OVERHEAD", "Software", "PAUL"), L("o", "2026-10-15", "2030", 0, 5000, "OVERHEAD", "Software", "PAUL"),
+    L("o", "2026-10-15", "9000", 5000, 0, "", "Paul's money in the business Chase spent - App: Software", "1402"), L("o", "2026-10-15", "1402", 0, 5000, "", "", "1402"),
+    // he takes 30.00 out to his personal account as a payback for business expenses (D-101 shape)
+    L("d", "2026-10-20", "2030", 3000, 0, "OVERHEAD", "Paid back to Paul for business expenses he paid", "1402"), L("d", "2026-10-20", "1402", 0, 3000, "", "", "1402"),
   ];
   const t = pnlTab(lines, [], "2026-10-29", { rateAnnual: 0.08, stubBasis: 30 });
   const by = Object.fromEntries(t.rows.filter((r) => r[0]).map((r) => [r[0], r[1]]));
+  const note = Object.fromEntries(t.rows.filter((r) => r[0]).map((r) => [r[0], r[2]]));
   assert.equal(t.ties, true);
-  assert.equal(by["Paul - owed from the Chase account"], 650, "his money left in Chase after the bill");
+  assert.equal(by["Operating cash - the business Chase account"], 1000 - 350 - 50 - 30, "the cash in the business Chase");
+  assert.equal(by["Paul - owed from the Chase account"], 50 - 30, "the business bill, less what he took back for it");
+  assert.equal(by["    Business expenses owed"], 20);
   assert.equal(by["Paul - owed from the Citizens account"], 350, "the bill is a cost he paid on a partner house, owed back at its sale");
+  assert.equal(by["Put in by Paul"], 1000 - 350 - 50);
+  assert.match(note["Put in by Paul"], /^his own money, in the business Chase account$/);
   assert.ok(!t.rows.some((r) => r[0] === "WORKING MONEY IN THE CITIZENS ACCOUNT"), "Chase movements are not the Citizens ledger");
+  // his money in Chase left on the old loan shape says so
+  const old = pnlTab([...lines, L("w", "2026-10-21", "1402", 1000, 0, "", "Working money put into the account", "1402"), L("w", "2026-10-21", "2030", 0, 1000, "", "Working money put into the account", "1402")],
+    [], "2026-10-29", { rateAnnual: 0.08, stubBasis: 30 });
+  assert.deepEqual(old.rows.find((r) => r[0] === "    His money in Chase booked as a loan"), ["    His money in Chase booked as a loan", 10, "the old way - tell Claude"]);
 });
