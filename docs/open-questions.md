@@ -135,3 +135,9 @@ Taxes tab, with the bookkeeper's note of the house and purpose (D-092). If the a
 or a de minimis item (full), the lines can be moved to the house's 1030. Note TCJA's §274(o): after 2025 food furnished
 to *employees* on the employer's premises is not deductible - Recast has no employees; the crew are contractors and
 Dennis. Not asked yet.
+
+## Q-12 · Quantum Fiber internet, 75.00 a month on Paul's own checking - mixed personal and business (2026-11-01)
+
+Paul: "this is shared with personal. it is mixed personal and business. my accountant figures out what to do there." Left
+out of the books. The accountant decides whether a business-use share is deductible and how to document it; if yes, it
+is posted once a year from the statements, paid by Paul. Not asked yet.

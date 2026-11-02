@@ -1,4 +1,4 @@
-# Personal-statement reconciliation (beside the books, D-093)
+# Personal-statement reconciliation (beside the books, D-100)
 
 One-off scripts from 2026-11-01. They read Paul's personal bank/card exports from `~/Desktop/Personal 2026/`
 (never in this repo, never imported into the workbook) and compare them with the Journal snapshot.

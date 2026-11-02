@@ -100,7 +100,6 @@ that supersedes the old one, not editing history.
 - D-090 · The autofile ceiling is 2,000.00; Penny runs one-offs and does not read a saved card back - 2026-10-23 · Paul
 - D-091 · A return or refund is a receipt with the sign flipped: it posts on its own to the item's house and the card the money came back to - 2026-10-23 · Paul
 - D-092 · Drinks bought with the job's materials post on their own; meals and gifts still wait - 2026-10-23 · Paul
-- D-093 · Paul's personal accounts are reconciled beside the books, once, to get him off them - 2026-11-01 · Paul
 - D-093 · The bank's own fee under 50.00 is recorded by code from the bank line, no card - 2026-10-25 · Paul
 - D-094 · A utility's card or online fee under 50.00 is recorded on the house of the bill it came with, no card - 2026-10-25 · Paul
 - D-095 · Hardware kept on hand is Supplies on hand (1530); a piece goes on a house through New expense paid from the shelf - 2026-10-25 · Paul
@@ -108,6 +107,8 @@ that supersedes the old one, not editing history.
 - D-097 · The nightly check looks things up and fixes what its four fix tools cover; the morning email says what it fixed - 2026-10-27 · Paul
 - D-098 · The Recast Chase account is Paul's own money: a cost it pays is a cost Paul paid, owed back to him - 2026-10-29 · Paul
 - D-099 · Dennis's own cards are a list beside Paul's: a receipt on one is Dennis paid, on its house - 2026-10-30 · Paul
+- D-100 · Paul's personal accounts are reconciled beside the books, once, to get him off them - 2026-11-01 · Paul
+- D-101 · Citizens pays only for the partner houses; everything else Paul fronted (104 Ashburne, 1014 S View, the business) is repaid from Chase - 2026-11-01 · Paul
 
 ---
 
@@ -2236,7 +2237,7 @@ number to the list (`learnCardNumber` / `learnCard_`), and the other waiting car
 paid (`/api/inbox relearn` takes DENNIS). Not this list: Dennis's card ON the Citizens account (9301) is a Citizens
 card, Recast paid (1401's row on `Bank accounts`); a number already on any list is never moved.
 
-## D-093 · Paul's personal accounts are reconciled beside the books, once, to get him off them - 2026-11-01 · Paul
+## D-100 · Paul's personal accounts are reconciled beside the books, once, to get him off them - 2026-11-01 · Paul
 
 *"i want to reconcile my personal accounts with the recast books for 2026. my goals are: make sure everything is
 accounted for; track all money going in and out for recast; find any charges or recurring charges i missed; use this
@@ -2250,3 +2251,22 @@ bank line's date, store and amount; what he calls personal is left alone; the sm
 old books left items off are not relisted (D-067). The end of it is one payment from a Recast account for the bills
 he fronted (the Due to owner balance less his parked cash and undrawn profit share), and every recurring business
 charge on the Recast Chase card 7416 (D-088). The scripts are `scripts/personal-recon/`; the how-to is `docs/ops.md`.
+
+## D-101 · Citizens pays only for the partner houses; everything else Paul fronted (104 Ashburne, 1014 S View, the business) is repaid from Chase - 2026-11-01 · Paul
+
+*"as you are figuring out what recast owes me, keep in mind what it was for. 104 ashburne should be repaid out of the
+chase business account not the citizens account i share with dennis because he was not a partner on that deal."* Then:
+*"same with business expenses. the only expenses that should come out of citizens is expenses tied to a property that
+is not 1014 s view dr or 104 ashburne."* Said while answering the personal-accounts review (D-100), as the five City of
+Ovilla water bills for 104 Ashburne (1,076.74, paid from his own checking) were confirmed as Recast costs.
+
+**Decided:** the Citizens account, shared with Dennis, pays only costs tied to a partner house - never 1014 S View
+(Paul's own deal, D-079), never 104 Ashburne (Dennis was the bank, not a partner - D-030, D-083), never overhead
+(D-010: the business is Paul's alone). Everything else Paul fronted is repaid to him **from the Recast Chase account
+(1402)**: his Ashburne costs, the ones on the books and the ones the review adds; his 1014 S View money; every business
+expense. A partner house's costs he fronted come back out of that house's sale money in Citizens, as the closing tab
+already does (D-071 "Paid out of pocket"). In the books a repayment from Chase is Dr 2030 (the house, or OVERHEAD) /
+Cr 1402, dated the day the money leaves; "Paul - costs he paid" on the P&L falls by it and so does "money in Recast
+Chase" (Chase is his, D-098). A cost added to a sold house after its closing (Cost Recapture, D-031) follows the same
+rule by house. So the one payment at the end of D-100 is really two figures: the partner-house part, settled in
+Citizens at each closing, and the Ashburne-plus-business part, paid from Chase.

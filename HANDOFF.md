@@ -5,6 +5,51 @@ history and are not written to; `CHANGELOG.md` keeps its dated entry per change.
 `docs/ops.md`. The books' numbers live on the workbook's tabs (P&L, Totals, Citizens Bank, the house tabs) - read them
 there; a figure written here is only as of its date.
 
+## 2026-11-01 - the personal-accounts check (D-100, D-101) - RESUME HERE (START HERE)
+
+**The session ran out of context mid-way. The full resume - files, every answer Paul gave, the 24 postings ready to make,
+the questions still to ask in order, the store-history method - is `~/Desktop/Personal 2026/penny-work/RESUME.md`** (his
+folder, outside the repo, beside his statements; nothing of his goes in here). Read it first. In short: nothing posted yet;
+Paul answers one question at a time in chat and said post nothing until he says "post them"; D-101 (Citizens pays only for
+the partner houses, Ashburne / 1014 S View / the business are repaid from Chase); a Texas store trip with no job name in the
+Ashburne months is Ashburne, a Portland one personal; Quantum Fiber is the accountant's (Q-12); Uber One personal, ChatGPT /
+Midjourney / The Greenery business; his other cards' statements are still to come, so the Home Depot gap is not a doubles
+hunt. The list below is the earlier shape of the same work and stays for its items 1-4.
+
+## 2026-11-01 (earlier) - the personal-accounts check - owed, in order
+
+0. **Paul answers the review one question at a time in chat** (his call 11-01: "step me through it all"); Penny keeps the tally in the
+   session's `answers.csv` and posts at the end. Answered so far: the five City of Ovilla water bills = 104 Ashburne (yes), the
+   sure software/office rows stand. The file `~/Desktop/Personal 2026/Review - not in the books.csv` is the full list (166 rows; the file is his, outside the
+   books): the 30 "Looks like Recast" rows get recorded as paid by Paul unless he says no (which house for the Home
+   Depot / Lowe's / Ovilla ones); the 122 "Question" rows need Recast-or-personal; the 5 "Money in" rows need where
+   the money came from. Then Penny posts the yeses (a one-off, `recordPersonalReview...`, run from the editor), with
+   the bank line's date, store and amount and the review file as the document.
+0b. **Home Depot, read from his Pro account's purchase history 11-01** (235 receipts since Dec; card, store and the job name he
+   typed at the register on each; `scripts/personal-recon/` scratch has `hd_history.txt`, `hd_items.txt`): the Apr 12 receipt
+   468.67 is Ashburne and not in the books (items partly returned Apr 13-16 - record the net); **twelve returns on his Chase cards
+   are refunds the books never recorded while the purchase is in** (M12 vacuum 161.29, hole saw 47.60, blade 20.54, weed barrier
+   43.27, Granite drip parts 37.42, Newport electrical 32.44, Ashburne small items 112.82, Bowling Green roller 6.35 - about 461;
+   list with the books' rows in the scratch `hd_returns_to_post.csv`) - Claude's to post as refunds to Paul (D-091 shape, D-067),
+   plus the 06-16 felt/nails recorded twice. **The books carry 22,332.09 of Paul-paid Home Depot for the year against 18,664.62
+   on his two Chase cards in the Pro list - NOT a doubles hunt:** Paul 11-01: other cards were used there (statements not pulled)
+   and some trips were rung up without his Pro account. Settle it only after every card statement is in.
+1. **Then his next downloads:** Chase checking Jan 1 - Mar 29 (the file starts 03-30; 307 Ashburne-era receipts of
+   129k are unchecked), Discover 3746 (the books' `paul_personal_last4`), and what Chase account ...9257 is (his other
+   checking? transfers both ways all year). Barclays / Capital One / Wells Fargo cards only if he used them for Recast.
+2. **Claude settles quietly (D-067):** the 1,319.00 50floor carpet posted twice (06-01 migration and 06-12, Granite;
+   one bank line 06-01 of 1,338.00 - the 20.00 correction of 09-21 already covers the fee), Tiger Mart 10.81 + 10.82
+   = one 21.63 line (two cables, fine as is).
+3. **The payment (D-051, D-101 - Citizens only for the partner houses; Ashburne, 1014 S View and the business from Chase):** the P&L tab at 17:05 CT on 11-01 - Paul, costs he paid **37,680.58** (on the held houses
+   and the business, not paid back yet); Paul, money in Recast Citizens 33,109.53 (his working money and his payouts
+   waiting); Paul, money in Recast Chase 116,891.61 (his account). The payment is the first figure, from Chase, once
+   the review answers are posted and Jan - Mar is checked; record Dr 2030 / Cr 1402 dated the day it leaves (D-098
+   shape: Chase paying is Paul paid - a repayment to himself nets on 2030, so ask before posting it).
+4. Recurring charges still on personal accounts in October (move to 7416, D-088): Anthropic, Apify, Netlify, Adobe x2,
+   Google Workspace, Telnyx, Matterport, Roddy (on the Citi card), Shutterstock; ChatGPT / Uber One / Quantum Fiber /
+   The Greenery once he says they are business.
+Method and formats: `scripts/personal-recon/README.md`, `docs/ops.md` "Paul's personal statements".
+
 ## 2026-10-31 (evening) - every frozen house tab's receipts open again (START HERE)
 
 **Paul: the 104 Ashburne tab's expenses said "Receipt" with no link; "every frozen tab is the same ... fix for all and
@@ -350,27 +395,6 @@ Decisions still his, asked one at a time as they come up: section 6 q1 (wait ten
 q8, q9. **Noted, not changed:** Match statement lines never offers a bank whose every open line already has a card
 (`unmatchedFeedCounts_` counts `unmatched` only), so the ten-day sweep cannot run there until a card is dismissed.
 
-## 2026-11-01 - the personal-accounts check (D-093) - owed, in order (on top of everything below)
-
-0. **Paul answers `~/Desktop/Personal 2026/Review - not in the books.csv`** (166 rows; the file is his, outside the
-   books): the 30 "Looks like Recast" rows get recorded as paid by Paul unless he says no (which house for the Home
-   Depot / Lowe's / Ovilla ones); the 122 "Question" rows need Recast-or-personal; the 5 "Money in" rows need where
-   the money came from. Then Penny posts the yeses (a one-off, `recordPersonalReview...`, run from the editor), with
-   the bank line's date, store and amount and the review file as the document.
-1. **Then his next downloads:** Chase checking Jan 1 - Mar 29 (the file starts 03-30; 307 Ashburne-era receipts of
-   129k are unchecked), Discover 3746 (the books' `paul_personal_last4`), and what Chase account ...9257 is (his other
-   checking? transfers both ways all year). Barclays / Capital One / Wells Fargo cards only if he used them for Recast.
-2. **Claude settles quietly (D-067):** the 1,319.00 50floor carpet posted twice (06-01 migration and 06-12, Granite;
-   one bank line 06-01 of 1,338.00 - the 20.00 correction of 09-21 already covers the fee), Tiger Mart 10.81 + 10.82
-   = one 21.63 line (two cables, fine as is).
-3. **The payment (D-051):** Due to owner 187,681.72 on 11-01 = parked cash 143,229.38 (Chase 117,729.38, Citizens
-   25,500.00) + Newport share undrawn 6,731.14 + **bills fronted 37,721.20**. Pay the last figure, from Chase, once the
-   review is in and Jan - Mar is checked; record Dr 2030 / Cr 1402 dated the day it leaves.
-4. Recurring charges still on personal accounts in October (move to 7416, D-088): Anthropic, Apify, Netlify, Adobe x2,
-   Google Workspace, Telnyx, Matterport, Roddy (on the Citi card), Shutterstock; ChatGPT / Uber One / Quantum Fiber /
-   The Greenery once he says they are business.
-Method and formats: `scripts/personal-recon/README.md`, `docs/ops.md` "Paul's personal statements".
-
 ## 2026-10-23 (later) - owed, in order (on top of everything below)
 
 0e. **Paint and Flooring are two trades now (10-23):** the Inbox dropdown offers them apart (writer pushed, Menu.gs only -
@@ -576,14 +600,9 @@ lines = 272, the Frozen tab's summary numbers unchanged, take the one-off out, p
 
 ## Prompt for the next session
 
-> Work in `/Users/paulbjork/Desktop/Claude/Recast-books` as Penny. Read `CLAUDE.md`, then `HANDOFF.md` (the 2026-10-24
-> START HERE section first), then `docs/audit-2026-10-24.md` section 3's second list and section 6. The audit's ten
-> ranked changes are all live (last ship: web app @46, site `6add438a`); the partner money is in the books. Pick up in
-> this order, one step at a time and in plain words: (a) if two note commits are still local, hand me `git push` as one
-> command; (b) audit #15 (measure the hourly P&L refresh and stop it silently dying past 360 s) and #13 (the house-tab
-> rebuild out from under the writer's lock on the three HTTP paths, `waitLock` 30 -> 120 s), each with tests, recorded in
-> CHANGELOG/HANDOFF, committed, shipped with `npm run ship` (my step - hand it to me as one command); (c) then #16
-> (ask me the bank-fee ceiling, section 6 q3, before building), #17, #12, #11, #18, #19 in that order, the same way.
-> The Gmail filters for `to-books` are mine, later - when I say. Read the Inbox back with the Netlify CLI
-> (`blobs:list books-docs --prefix doc/feed-`, `blobs:get books-docs index/docs`), not the API. Deploys are `npm run
-> ship`; `clasp login` is mine. Section 6's decisions: ask them when they come up, not all at once.
+> Work in `/Users/paulbjork/Desktop/Claude/Recast-books` as Penny. Read `CLAUDE.md`, then the top of `HANDOFF.md`
+> (2026-11-01 RESUME HERE), then `~/Desktop/Personal 2026/penny-work/RESUME.md`. I am stepping through my
+> personal-account reconciliation with you one question at a time; start from `answers.csv` and
+> `corrections_to_post.csv` there. First commit the repo changes the last session could not. Then pick up with the
+> Amazon orders (`amazon_orders_2026.txt`), ask me only what the ship-to address does not settle, and keep the list
+> of what to post growing. Post nothing until I say "post them".

@@ -1,5 +1,56 @@
 # Changelog
 
+## 2026-11-01 - Paul's personal accounts checked against the books for 2026 (D-100); the review list in his folder
+
+Paul: *"i want to reconcile my personal accounts with the recast books for 2026 ... make sure everything is accounted
+for, track all money going in and out for recast, find any charges or recurring charges i missed, use this as a final
+step to get off of my personal accounts."* Done beside the books, nothing imported (D-051 stands): he downloaded
+his checking account (Mar 30 - Oct 23 only), one credit card for the full year, a second card's year-to-date
+export and nine monthly statements of a third (Jan - Sep) into `~/Desktop/Personal 2026/`; Penny read them on the
+Mac (`scripts/personal-recon/`, README there) against the Journal snapshot (`books-cache tab/Journal`, 1,857 entries).
+
+- **1,645 bank lines read; 535 tie to the 906 receipts the books say Paul paid in 2026** (exact amount, two-line
+  combinations such as a fare plus its tip or a bill plus its card fee, and 43 same-store lines a few dollars off
+  where the old books left items out). The Granite and Sparkling payouts, the Granite holdback share (30,000 on
+  09-14 = the Citizens line of 09-15), Dennis's 20,000 draw, the 607.05 check and the 30,000 working-money transfer
+  all land in his checking as the books say. The Falcon Creek INV 1372 (535.00) is two Zelles to Effren (500 + 35);
+  Keith Pfaff's 135.00 is a Zelle of 08-20 (books 09-05).
+- **Not in the books, looks like Recast (30 lines, 4,944.38):** City of Ovilla utility payments for 104 Ashburne
+  (five, 1,076.74 - the books hold other Ovilla amounts), eight Home Depot and four Lowe's Waxahachie trips with no
+  receipt in the books (~2,120), an Apify charge 313.20 (05-15), the Squarespace website renewal 331.00 and GoDaddy
+  23.19 (Chase card 6926), October's Workspace 50.40, Matterport 14.00 x2, TexasFile 21.65, Textgrid 50.00, Vapi
+  10.00, Office Depot 77.09, the Community Archives card fees (18.60 + 19.40 on top of the 465 / 485 in the books).
+- **Questions for Paul (122 lines, 13,446):** 33 Amazon orders (1,062 of them Apr 3-8 during Ashburne), 18 Uber
+  rides, 19 flight charges (Alaska 06-09 and 08-15, United 08-15, American 06-11), two Venmo payments to names the books do not know (2,700), ChatGPT 20/mo, Uber One 9.99/mo (3 of 8 are in the books), Quantum Fiber 75/mo, The
+  Greenery 20/mo, check 1173 150.00, 3,150 cash on 04-06, small gas-station items. Money in to explain: Wayfair
+  refund 1,093.30 (04-02), Auction.com 1,000 back (08-02), 982.50 by Venmo (07-02).
+- **In the books but no bank line yet (63 receipts from April on, 12,911.91):** cash labor (Julio / Juanito,
+  3,450), the Affirm-financed Aces photos, and items most likely on cards not downloaded (Discover 3746 and others
+  the checking pays every month: Barclays, Capital One, Wells Fargo). The 307 receipts of Jan - Mar (129k, Ashburne)
+  cannot be checked until the Chase Jan - Mar statements come. Chase account ...9257 (transfers both ways all year) is
+  unidentified. Two books doubles seen (Tiger Mart 10.81 / 10.82 = one bank line 21.63; the 1,319 50floor carpet
+  posted twice, 06-01 and 06-12) - Claude's to settle (D-067).
+- **The number (the live P&L tab, 17:05 CT):** what Recast owes Paul is 187,681.72 = **costs he paid 37,680.58** (held
+  houses and the business, not paid back yet) + money in Recast Citizens 33,109.53 (his working money and his payouts
+  waiting) + money in Recast Chase 116,891.61 (his account). The one payment (D-051) is the first figure, once the
+  review answers are in and Jan - Mar is checked.
+- **Still charging a personal account in October (to move to Chase 7416, D-088):** Anthropic (API top-ups and the
+  Claude plan), Apify, Netlify, Adobe x2 (PayPal), Google Workspace, Telnyx, Matterport, Roddy (Citi), Shutterstock,
+  plus ChatGPT / Uber One / Quantum / Greenery pending his answers. Cotality, Airtable and Microsoft 365 stopped
+  hitting the personal accounts after July - Sept.
+- Deliverable: `~/Desktop/Personal 2026/Review - not in the books.csv` (166 rows: Looks like Recast / Question /
+  Money in / Same trip different total / In the books already, with Penny's read and an answer column). Nothing
+  posted to the books this session. `docs/ops.md` gains the how-to; D-100 recorded.
+- **Later the same day (D-101; store histories):** Paul chose to answer in chat one question at a time instead of the
+  file; his answers and the postings to make (24 rows, nothing posted) are in `~/Desktop/Personal 2026/penny-work/`
+  (`answers.csv`, `corrections_to_post.csv`, `RESUME.md` - the full resume, outside the repo by design). D-101: Citizens
+  pays only for the partner houses; Ashburne, 1014 S View and the business are repaid from Chase. With his yes, Penny
+  read his Home Depot Pro (235 receipts), Lowe's Pro (58) and Amazon (142) purchase histories from his Chrome (method
+  in `penny-work/HOW-TO-store-histories.md`): 12 Home Depot and 4 Lowe's returns were refunded to his card but never
+  left the books; a handful of Ashburne purchases never went in; the Home Depot total gap is not evidence of doubles
+  (other cards, trips without his Pro account). Quantum Fiber is Q-12. The session ended for context; HANDOFF points
+  at the resume.
+
 ## 2026-10-31 (evening) - Every frozen house tab's receipt links put back; a freeze keeps them from now on
 
 Paul: "penny, where are the receipts for 104 ashburne? most of the expenses just say 'Receipt' with no link", then "it
@@ -4515,45 +4566,3 @@ the live Journal): the two sums agree to the cent on all nine except exactly the
 140.15, Green Acres 304 -> 344.39, Mesa 9,333.40 -> 9,373.55). Paul Paid / Dennis Paid untouched. Commit 4c6d345.
 **Push failed - clasp login expired (invalid_rapt).** Owed: Paul's `npx clasp login`, the push, a rebuild of the three
 tabs (Recast Books -> Rebuild property tab on each), and `clasp deploy -i`.
-
-## 2026-11-01 - Paul's personal accounts checked against the books for 2026 (D-093); the review list in his folder
-
-Paul: *"i want to reconcile my personal accounts with the recast books for 2026 ... make sure everything is accounted
-for, track all money going in and out for recast, find any charges or recurring charges i missed, use this as a final
-step to get off of my personal accounts."* Done beside the books, nothing imported (D-051 stands): he downloaded
-Chase checking 8870 (cards 9166 / 7274, Mar 30 - Oct 23 only), Chase card 6926 (full year), the Citi card year-to-date
-export and nine Bank of America 2575 statements (Jan - Sep) into `~/Desktop/Personal 2026/`; Penny read them on the
-Mac (`scripts/personal-recon/`, README there) against the Journal snapshot (`books-cache tab/Journal`, 1,857 entries).
-
-- **1,645 bank lines read; 535 tie to the 906 receipts the books say Paul paid in 2026** (exact amount, two-line
-  combinations such as a fare plus its tip or a bill plus its card fee, and 43 same-store lines a few dollars off
-  where the old books left items out). The Granite and Sparkling payouts, the Granite holdback share (30,000 on
-  09-14 = the Citizens line of 09-15), Dennis's 20,000 draw, the 607.05 check and the 30,000 working-money transfer
-  all land in his checking as the books say. The Falcon Creek INV 1372 (535.00) is two Zelles to Effren (500 + 35);
-  Keith Pfaff's 135.00 is a Zelle of 08-20 (books 09-05).
-- **Not in the books, looks like Recast (30 lines, 4,944.38):** City of Ovilla utility payments for 104 Ashburne
-  (five, 1,076.74 - the books hold other Ovilla amounts), eight Home Depot and four Lowe's Waxahachie trips with no
-  receipt in the books (~2,120), an Apify charge 313.20 (05-15), the Squarespace website renewal 331.00 and GoDaddy
-  23.19 (Chase card 6926), October's Workspace 50.40, Matterport 14.00 x2, TexasFile 21.65, Textgrid 50.00, Vapi
-  10.00, Office Depot 77.09, the Community Archives card fees (18.60 + 19.40 on top of the 465 / 485 in the books).
-- **Questions for Paul (122 lines, 13,446):** 33 Amazon orders (1,062 of them Apr 3-8 during Ashburne), 18 Uber
-  rides, 19 flight charges (Alaska 06-09 and 08-15, United 08-15, American 06-11), Venmo to Ramon Garcia 825 + 375,
-  Venmo to Eric Baird 1,500, ChatGPT 20/mo, Uber One 9.99/mo (3 of 8 are in the books), Quantum Fiber 75/mo, The
-  Greenery 20/mo, check 1173 150.00, 3,150 cash on 04-06, small gas-station items. Money in to explain: Wayfair
-  refund 1,093.30 (04-02), Auction.com 1,000 back (08-02), 982.50 by Venmo (07-02).
-- **In the books but no bank line yet (63 receipts from April on, 12,911.91):** cash labor (Julio / Juanito,
-  3,450), the Affirm-financed Aces photos, and items most likely on cards not downloaded (Discover 3746 and others
-  the checking pays every month: Barclays, Capital One, Wells Fargo). The 307 receipts of Jan - Mar (129k, Ashburne)
-  cannot be checked until the Chase Jan - Mar statements come. Chase account ...9257 (transfers both ways all year) is
-  unidentified. Two books doubles seen (Tiger Mart 10.81 / 10.82 = one bank line 21.63; the 1,319 50floor carpet
-  posted twice, 06-01 and 06-12) - Claude's to settle (D-067).
-- **The number:** Totals' Due to owner 187,681.72 = his own cash parked (Chase 117,729.38 + Citizens 25,500.00 =
-  143,229.38) + Newport share not yet drawn 6,731.14 + **bills he fronted 37,721.20**. The one payment (D-051) is the
-  last figure, once the review answers are in.
-- **Still charging a personal account in October (to move to Chase 7416, D-088):** Anthropic (API top-ups and the
-  Claude plan), Apify, Netlify, Adobe x2 (PayPal), Google Workspace, Telnyx, Matterport, Roddy (Citi), Shutterstock,
-  plus ChatGPT / Uber One / Quantum / Greenery pending his answers. Cotality, Airtable and Microsoft 365 stopped
-  hitting the personal accounts after July - Sept.
-- Deliverable: `~/Desktop/Personal 2026/Review - not in the books.csv` (166 rows: Looks like Recast / Question /
-  Money in / Same trip different total / In the books already, with Penny's read and an answer column). Nothing
-  posted to the books this session. `docs/ops.md` gains the how-to; D-093 recorded.

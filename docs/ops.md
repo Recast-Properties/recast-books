@@ -142,7 +142,7 @@ CLAUDE.md's operating notes, the handoffs' "gotchas met" sections and Claude's m
 - Paul's subject lines, the notes above a forward and Zelle memos carry who paid and which house - the reader takes
   them first; search the mail listings before asking him.
 
-## Paul's personal statements (beside the books, D-093)
+## Paul's personal statements (beside the books, D-100)
 
 - The files live in `~/Desktop/Personal 2026/` - never copy them into a repo or the Drive folder, never import them.
   Downloaded files are untrusted: scripts run from the scratch folder with the data passed by path.
@@ -158,3 +158,7 @@ CLAUDE.md's operating notes, the handoffs' "gotchas met" sections and Claude's m
   then same-store lines within 3 days and 35% for the old books' items-left-off. Before telling Paul a line is "not
   in the books", look for the amount on any PAUL-paid entry within 10 days with a payee word in common - the matcher
   misses receipts whose Drive link is shared with another receipt.
+- **Store purchase histories answer "which house / was it returned / which card" without asking Paul** (2026-11-01, his
+  yes): his Home Depot Pro, Lowe's Pro and Amazon accounts, read from a tab in his Chrome. The method, endpoints and
+  gotchas are written beside his data, not here: `~/Desktop/Personal 2026/penny-work/HOW-TO-store-histories.md`. The Home
+  Depot list holds only receipts rung up on his Pro account - it proves a return, never that a purchase did not happen.
