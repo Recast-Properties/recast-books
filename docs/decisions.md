@@ -112,6 +112,7 @@ that supersedes the old one, not editing history.
 - D-102 · A cost found after a sale: Ashburne and 1014 S View take it on the house and list it on the frozen tab; a partner house's goes to Cost Recapture - 2026-11-01 · Paul
 - D-103 · Money in the business Chase belongs to the business - what Paul puts in is his money in the business (9000), not a loan - 2026-11-01 · Paul
 - D-104 · The P&L tab's section and line names are the industry terms; its notes stay plain - 2026-11-01 · Paul
+- D-105 · The business Chase is Recast's account - a cost it pays is the business's, never "Paul paid"; the P&L's MEMBER'S EQUITY is the standard roll-forward - 2026-11-01 · Paul
 
 ---
 
@@ -2368,3 +2369,36 @@ has its own row under Capital contributions, **Taken out for Paul** (`truckLoanO
 business Chase pays for Paul himself is described "Taken out of the business Chase for Paul - <what>"; the part after the
 dash is the row's note. The bills row is 2,263.14: business 1,553.14 (also in Business expenses owed), 241 Poinsetta
 300.00 and 658 Erin Hills 350.00 (owed from Citizens at their sales), 104 Ashburne's 60.00 lawn bill.
+
+## D-105 · The business Chase is Recast's account - a cost it pays is the business's, never "Paul paid"; the P&L's MEMBER'S EQUITY is the standard roll-forward - 2026-11-01 · Paul
+
+*Paul asked for an independent audit of the P&L tab's MEMBER'S EQUITY section ("its confusing to me. i want an independent
+audit without any inside knowledge"). A fresh agent with only the live tabs and the code (`docs/audit-pnl-members-equity-2026-11-01.md`)
+found every number right and the layout non-standard. Paul, on each finding: the Net income row - "fix all"; the
+Distributions ledger - "two gray detail rows"; D-098's Chase-paid bills as Paul paid - "drop it"; the truck payment -
+"agree its a draw"; the 1014 S View wording - "agree. fix it"; the Totals tab's missing 1530 - "fix it".*
+
+**Decided:**
+- **The business Chase (1402) is Recast's account, like Citizens.** A cost it pays is the business's: two lines, the cost
+  and Cr 1402, `paid_from` 1402 - the house tab ticks Recast Account. Nothing on 2030, nothing on 9000. **Supersedes
+  D-098** (a Chase-paid cost as a cost Paul paid, owed back) and the D-103 `chaseLegs` shape (the cash out of his money
+  in the business). What stays from D-103: money Paul puts into the business Chase is 9000 Capital contributions, and
+  money he takes out to his own accounts as a payback for business costs he paid himself is Dr 2030 OVERHEAD / Cr 1402.
+  What D-098 bought - a partner house's Chase-paid cost coming back to Paul before the split with Dennis - is gone with
+  it: that cost is now Recast's, recovered from the sale like a Citizens-paid one.
+- **A personal bill the business pays for Paul is a draw**: Dr 9010 / Cr 1402, described "Taken out for Paul - <what>".
+  Never a line inside 9000.
+- **The P&L's MEMBER'S EQUITY is the standard roll-forward**, every row adding up to the total: Net income from before
+  the year (when there is one), Net income - <year> year to date, Capital contributions, Distributions, Total member's
+  equity ("Total assets less Total liabilities"). Capital contributions is a ledger: Put into the business Chase (each
+  deposit's note from its description) and "<house> - the shortfall Paul absorbed" (D-079, "what Recast owed him for it,
+  forgiven and counted as capital - the same figure as that house's loss at the top, not counted twice"). Distributions
+  is a ledger too: one row per house saying where its share stands - paid to Paul from the bank, paid and put back into
+  the business Chase as capital (counted above, not cash he kept), left in Citizens as his working money, or owed to him
+  under LIABILITIES - then his own draws.
+- **Booked** by `chaseIsTheBusiness20261101`: the ten Chase-paid receipts of 10-01..11-01 voided and posted again as two
+  lines (receipt records and bank lines re-pointed); the 11-01 reclass posted again as the two deposits only; the
+  truck-loan shuffle inside 9000 voided and the 10-14 payment re-posted as a draw; 1530 added to the Accounts tab (the
+  Totals tab's trial balance is built from it) and Totals rebuilt.
+- Left as it is, on purpose: Dennis's unrecorded interest on both sides (D-066) - the line says "not recorded yet".
+

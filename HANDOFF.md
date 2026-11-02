@@ -5,38 +5,24 @@ history and are not written to; `CHANGELOG.md` keeps its dated entry per change.
 `docs/ops.md`. The books' numbers live on the workbook's tabs (P&L, Totals, Citizens Bank, the house tabs) - read them
 there; a figure written here is only as of its date.
 
-## 2026-11-01 (late night) - the MEMBER'S EQUITY audit - Paul's decisions (START HERE)
+## 2026-11-01 (late night) - D-105 live: the audit's recommendations are in the books (START HERE)
 
-The independent audit (`docs/audit-pnl-members-equity-2026-11-01.md`, CHANGELOG same date) found every number right and
-the section's layout confusing. Open, in order - each one is Paul's call unless marked code-only:
+The independent audit (`docs/audit-pnl-members-equity-2026-11-01.md`) found every number right; Paul took every
+recommendation (D-105, CHANGELOG same date). Done and read back: the P&L's MEMBER'S EQUITY is the roll-forward (Net
+income 176,368.95 + Capital contributions 184,308.48 + Distributions -248,542.12 = 112,135.31, each a ledger), the
+business Chase is Recast's account (a cost it pays is two lines - `chaseLegs` gone), the truck payment is a draw, the
+Totals tab's trial balance ties at (0.00). Owed to Paul: Chase 4,726.21, Citizens 34,899.55.
 
-1. **Code-only, first:** a "Net income, 2026 year to date" row inside MEMBER'S EQUITY (`pnlTab`, lib/reports.mjs: the
-   section prints only "Retained earnings from before <year>", and only when all-time differs from the year) so the
-   section adds up on its face: 0 + 176,368.95 + 181,470.71 - 247,967.49 = 109,872.17. When that other row does fire
-   (2027), call it "Net income from before <year>" - all-time Distributions already sit on their own row.
-2. **Code-only:** the Totals tab's TRIAL BALANCE is built from the workbook's Accounts tab, which has no 1530 Supplies
-   on hand row (lib/coa.mjs has it, D-095), so the 377.60 is missing and the TOTAL row shows (377.60) while the Journal
-   itself balances. Add the row to the Accounts tab (the way `setup` seeds it), then the Totals tab picks it up.
-3. **Paul:** the truck payment 574.63 - move it from 9000 ("Taken out for Paul") to 9010 Distributions? A personal bill
-   the business paid is a draw. One entry; the row then sits under Distributions.
-4. **Paul:** Distributions 247,967.49 - add two detail rows, "of which put back into the business Chase as capital
-   (10-09): 147,729.38" and "of which not yet paid (881 Newport): 26,731.14"? Or net the Ashburne payout out (then
-   Distributions 112,360.09, Capital contributions 36,579.10, equity 100,587.96; the 11,547.35 of Ashburne costs he
-   fronted go back to owed-to-Paul). Either is fine; the tab must say which.
-5. **Paul:** D-098 - a bill the business Chase pays is booked as Paul paid (Cr 2030) with the cash out of 9000. The audit
-   calls it non-standard: it moves 2,263.14 from what he put in to what Recast owes him, and at 241 Poinsetta's and
-   658 Erin Hills' sales Citizens would pay him 650.00 for bills the business account already paid. Standard: Chase
-   pays = the business paid, two lines. If he changes it: the ten Chase-paid receipts since 10-01 and
-   `manual-20261101-00fc6f0ca1c0-aa63` lines 5-6 re-posted, `chaseLegs` in lib/posting.mjs back to Dr cost / Cr 1402,
-   the "Bills the business Chase paid" row gone. Then equity 112,135.31, owed to Paul 39,625.76 (Chase 4,726.21,
-   Citizens 34,899.55). The reason D-098 exists - a partner house's Chase-paid cost comes back to Paul before the split
-   with Dennis - needs another home if he drops it.
-6. Later: a beginning-balance row and a year-end close for 2027 (P3); 2030 sub-accounts for costs / payouts declared /
-   working money (P6); a `kind` on 9000 lines instead of grouping by description text (m1); one filter for the report
-   functions and the detail rows (m2); the three footnotes on Total member's equity down to one (P4); the 1014 S View
-   row reworded "what Recast owed Paul for the shortfall, forgiven - counted as capital" (P2).
+**Owed, in order:**
+1. **Paul: `npm run ship`** - the deployed web app and the pollers still run the old `chaseLegs`; until then a Chase-paid
+   receipt the Inbox posts lands the D-098 way (Cr 2030 + Dr 9000): on the P&L it shows as Business expenses owed plus a
+   lower Put into the business Chase. If one lands before the ship, void and re-post it two-line (the
+   `chaseIsTheBusiness20261101` pattern, commit 7e6eaf7).
+2. `git push` (auto mode refused it twice tonight) - the commits since 57339d3.
+3. Later, from the audit (Paul has not asked): a beginning-balance row and a year-end close for 2027 (P3); 2030
+   sub-accounts (P6); one filter for the report functions and the detail rows (m2).
 
-Deliberate, no change: Dennis's unrecorded interest shown on both sides (D-066) - the line already says "not recorded yet".
+Deliberate, no change: Dennis's unrecorded interest shown on both sides (D-066).
 
 ## 2026-11-01 - the personal-accounts check (D-100, D-101) - RESUME HERE (START HERE)
 

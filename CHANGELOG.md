@@ -1,5 +1,30 @@
 # Changelog
 
+## 2026-11-01 (late night) - D-105: the audit's recommendations, all of them
+
+Paul, on the audit's findings: *"fix all recommendations"* - the Net income row; two gray detail rows under Distributions;
+D-098 *"drop it"*; the truck payment *"agree its a draw"*; the 1014 S View wording *"agree. fix it"*; the Totals tab
+*"fix it"*. D-105. **Engine:** `chaseLegs` is gone from lib/posting.mjs - a cost the business Chase pays is two lines
+(the cost / Cr 1402, `paid_from` 1402), like Citizens; the two D-098 tests became D-105 tests. **P&L:** MEMBER'S EQUITY is
+the roll-forward - "Net income - 2026 year to date", Capital contributions (ledger: Put into the business Chase; "<house>
+- the shortfall Paul absorbed", its note saying it is the same figure as the loss at the top, not counted twice),
+Distributions (ledger: one row per house - paid from Citizens / paid and put back into the business Chase as capital /
+left in as working money and owed / then "Taken out for Paul"), Total member's equity "Total assets less Total
+liabilities"; the three old footnotes and the `isBill`/`isOut` description regexes are gone; a prior-year row reads "Net
+income from before <year>". **Books** (`chaseIsTheBusiness20261101`, commit 7e6eaf7, run 22:48-22:53 CT from the editor,
+then taken out): the ten Chase-paid receipts of 10-01..11-01 voided and posted again as two lines (receipt records
+re-pointed, 4 bank lines re-tied), `manual-20261101-00fc6f0ca1c0-aa63` -> `-ca3f` (the two deposits only),
+`2c3979d3a874-6256` voided, the 10-14 truck payment -> `manual-20261014-b647c6cb0cbc-91c1` (Dr 9010 / Cr 1402); Totals
+rebuilt - its TRIAL BALANCE now carries 1530 Supplies on hand 377.60 and its TOTAL row is (0.00) (the Accounts tab
+already had the row; the Totals tab was stale). **Read back 22:52 CT:** Capital contributions 184,308.48 (149,729.38 +
+34,579.10), Distributions -248,542.12, Net income 176,368.95, Total member's equity 112,135.31 = assets 2,033,320.28 -
+liabilities 1,921,184.97; owed from Chase 4,726.21 (Business expenses owed 4,786.21; 104 Ashburne -60.00 - the lawn bill
+the business paid after his share was lowered for it, owed back to Recast; the row's note says so since the next
+rebuild), owed from Citizens 34,899.55; "adds up" - every figure the audit's variants.py predicted. Tests 642 pass.
+CLAUDE.md constraint 16 rewritten for D-105. **Owed: `npm run ship`** (Paul) - the deployed web app and the pollers still
+run the old `chaseLegs`; until then a Chase-paid receipt the Inbox posts lands the D-098 way (the hourly P&L runs the
+pushed code and is right).
+
 ## 2026-11-01 (late night) - independent audit of the P&L tab's MEMBER'S EQUITY section
 
 Paul: *"audit how the P&L section is working specifically the MEMBER'S EQUITY section. its confusing to me. i want an
