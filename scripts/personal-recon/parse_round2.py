@@ -103,8 +103,10 @@ for p in sorted(glob.glob(os.path.join(d, '2026*-statements-8870-.txt'))):
             if a.group(1) and abs(v - (-amt(a.group(1)))) > 0.005: print('BALANCE MISMATCH', p[-30:], pend, v, file=sys.stderr)
             card = (re.search(r'Card (\d{4})', desc) or [None, ''])[1]
             desc = re.sub(r' Card \d{4}$', '', desc)
-            typ = 'Deposit' if v < 0 else ('Fee' if 'Fee' in desc else ('Transfer' if 'Transfer' in desc or 'Payment To' in desc else 'Purchase'))
-            add('Chase checking 8870 (stmt)', yr(pend[0], pend[1], ey, em, ed), pend[0], pend[1], desc, v, typ, card)
+            typ = 'Deposit' if v < 0 else ('Fee' if 'Fee' in desc else ('Transfer' if 'Transfer' in desc or 'Online Payment To' in desc or 'Payment To Chase' in desc else ('Zelle' if 'Zelle' in desc else 'Purchase')))
+            dt = '%04d-%02d-%02d' % (yr(pend[0], pend[1], ey, em, ed), pend[0], pend[1])
+            if dt < '2026-03-30':   # the CSV (Chase8870_Activity_20261023.csv, first pass) covers 03-30 onward - never count a line twice
+                add('Chase checking 8870 (stmt)', yr(pend[0], pend[1], ey, em, ed), pend[0], pend[1], desc, v, typ, card)
             bal = nb; pend = None
     endbal = amt(next(re.search(r'Ending Balance \$([\d,]+\.\d{2})', l).group(1) for l in L if 'Ending Balance' in l))
     print(os.path.basename(p), len(rows) - n0, 'lines; ends at %.2f, statement says %.2f' % (bal, endbal), 'OK' if abs(bal - endbal) < 0.005 else 'MISMATCH')
