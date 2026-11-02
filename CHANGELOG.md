@@ -1,5 +1,11 @@
 # Changelog
 
+## 2026-11-02 - D-106: Penny never moves money
+
+Paul: *"set a hard rule that you are not allowed to make any kind of payment or move any money ... from any of my
+business or personal accounts of any kind ever."* CLAUDE.md constraint 0, D-106. The root routing CLAUDE.md carries
+the same rule for every workstream. No code change.
+
 ## 2026-11-01 (late night) - D-105: the audit's recommendations, all of them
 
 Paul, on the audit's findings: *"fix all recommendations"* - the Net income row; two gray detail rows under Distributions;
