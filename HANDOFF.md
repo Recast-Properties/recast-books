@@ -49,7 +49,7 @@ hunt. The list below is the earlier shape of the same work and stays for its ite
    one bank line 06-01 of 1,338.00 - the 20.00 correction of 09-21 already covers the fee), Tiger Mart 10.81 + 10.82
    = one 21.63 line (two cables, fine as is).
 3. **The payment (D-051, D-101, D-103):** the P&L tab's two lines - **"Paul - owed from the Chase account"** (Business
-   expenses owed; the cash in the business Chase is the business's, "Operating cash" under what Recast owns) and **"Paul - owed from the Citizens account"** (partner houses'
+   expenses owed; the cash in the business Chase is the business's, "Operating cash" under Assets) and **"Paul - owed from the Citizens account"** (partner houses'
    costs, paid back at each sale; payouts not taken out; his working money). Each line has its ledger under it - one gray
    row per house or pot of his money, adding up to it. Read the figures there, never from a doc.
    The Chase part is paid once his other statements and Chase Jan - Mar are checked; record Dr 2030 / Cr 1402 dated the

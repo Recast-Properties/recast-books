@@ -111,6 +111,7 @@ that supersedes the old one, not editing history.
 - D-101 · Citizens pays only for the partner houses; everything else Paul fronted (104 Ashburne, 1014 S View, the business) is repaid from Chase - 2026-11-01 · Paul
 - D-102 · A cost found after a sale: Ashburne and 1014 S View take it on the house and list it on the frozen tab; a partner house's goes to Cost Recapture - 2026-11-01 · Paul
 - D-103 · Money in the business Chase belongs to the business - what Paul puts in is his money in the business (9000), not a loan - 2026-11-01 · Paul
+- D-104 · The P&L tab's section and line names are the industry terms; its notes stay plain - 2026-11-01 · Paul
 
 ---
 
@@ -2345,3 +2346,18 @@ owed". His personal Chase (checking ending 8870) is not Recast's.
 - The Citizens working money (D-055) is unchanged: a plain loan, owed back - Dennis is in that account.
 - Supersedes the D-101 addendum's "Operating cash" bucket under what Recast owes him and the earlier "merge a house
   sale's money into Operating cash" wording: that money is now put in by Paul.
+
+*D-103 addendum, same night (Paul: "your labels are confusing ... i put 149,729.38 into the business chase and 2,837.77 of
+bills have been paid"):* the 11-01 entry is posted in three amounts (`splitChasePutIn20261101`: 147,729.38 and 2,000.00
+put in, 2,837.77 of bills the business Chase paid before 11-01), and Capital contributions on the P&L is a ledger -
+Put into the business Chase / Bills the business Chase paid (also counted as costs he paid, owed back to him, D-098) /
+Covered 1014 S View's loss. A deposit of his own money into the business Chase is described "Put into the business Chase
+by Paul - <what it was>"; the part after the dash is the row's note.
+
+## D-104 · The P&L tab's section and line names are the industry terms; its notes stay plain - 2026-11-01 · Paul
+
+*Paul, on "LEFT FOR THE OWNERS":* *"is 'left for the owners' an industry term/phrase?"*, then, offered the industry terms
+or both, *"no just make them the industry terms"*. The P&L tab's names are now: PROFIT AND LOSS - <year> YEAR TO DATE,
+Net income, ASSETS, Total assets, LIABILITIES, Total liabilities, MEMBER'S EQUITY (Recast is an LLC), Retained earnings
+from before <year>, Capital contributions, Distributions, Total member's equity. The notes beside them stay in plain words
+(rule 7), and so does everything else Paul reads. The Taxes tab keeps its own "Recast earned" - it is a different tab.

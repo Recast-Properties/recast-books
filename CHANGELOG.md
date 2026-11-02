@@ -1,5 +1,19 @@
 # Changelog
 
+## 2026-11-01 (night) - P&L: industry terms; Capital contributions as a ledger (D-104, D-103 addendum)
+
+Paul asked why business costs (37,019.44) and what he was owed (36,339.35) differ - read from the Journal: 800.78 of
+business costs were paid from Citizens (not owed to him) less 120.69 moved from business costs onto houses (still owed);
+the business Chase's 1,553.14 of bills are counted in both. He asked what "LEFT FOR THE OWNERS" means and whether it is an
+industry term, then *"no just make them the industry terms"* (D-104): Assets, Liabilities, Member's equity, Net income,
+Capital contributions, Distributions, Total assets / liabilities / member's equity, YEAR TO DATE; notes stay plain;
+CLAUDE.md rule 7 names the exception. On the 146,891.61 label: *"i put 149,729.38 into the business chase and 2,837.77 of
+bills have been paid"* - one-off `splitChasePutIn20261101` (commit 269bfa3, run 21:40 CT, then taken out in 48952d7)
+voided the netted 11-01 entry and posted it again in three amounts (`manual-20261101-00fc6f0ca1c0-aa63`); Capital
+contributions 181,470.71 shows Put into the business Chase 149,729.38 / Bills the business Chase paid -2,837.77 / Covered
+1014 S View's loss 34,579.10; Total member's equity 109,872.17; adds up. Tests 642 pass. Pushed; the deployed web app
+takes the new labels with the next ship (only the hourly timer builds the P&L, and it runs the pushed code).
+
 ## 2026-11-01 (night) - shipped a357f26: web app @70, site 6ae8023c4f6d36e718014b66
 
 Paul ran `npm run ship` (tests 642 pass; push 15 files; read back `/exec` 0.4.0 build "a357f26 2026-11-01 21:23", site

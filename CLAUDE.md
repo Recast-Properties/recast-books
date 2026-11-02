@@ -66,7 +66,9 @@ functions the menu, pollers and nightly jobs call - Paul is never sent there.
    `lib/plain-words.mjs` - one map for the posting engine, the writer, the site and the dialogs; `plainError_` in
    Style.html and `plainWords` show them; `test/plain-words.test.mjs` fails on a code without words. Never glue a
    code to a message for him. Say plainly what something is NOT when
-   he could take it the wrong way ("not a duplicate - these two items were never recorded").
+   he could take it the wrong way ("not a duplicate - these two items were never recorded"). The one exception: the
+   P&L tab's section and line names are the industry terms - Assets, Liabilities, Member's equity, Net income,
+   Capital contributions, Distributions (D-104); its notes stay plain.
 8. **The books are in Sheets (Paul, 2026-09-28: "the books should be only in sheets now").** Paul
    works in the workbook - its menus, the Inbox (Recast Books -> Inbox...), an editor helper he runs
    once. Never send him to books.recast-properties.com; re-reading documents from a session is an
