@@ -80,7 +80,7 @@
 // tab list, changing nothing; 'post' does it. Safe to run
 // again: an item whose memo is on the Journal is skipped, a void already done is skipped.
 // STATUS: NOT YET RUN
-var PR_MODE = 'dry';
+var PR_MODE = 'post';
 function recordPersonalReview20261101() {
   var DRY = PR_MODE !== 'post';
   var props = PropertiesService.getScriptProperties();
@@ -122,7 +122,7 @@ function recordPersonalReview20261101() {
       orig.forEach(function (o) {
         var c = Math.round(Number(o.credit || 0) * 100), d = Math.round(Number(o.debit || 0) * 100);
         if (String(o.account) === '2030') paid += c;
-        else if (o.property === ASH && !done) { ashNet[o.account] = (ashNet[o.account] || 0) - d + c; ashTotal -= d - c; }
+        else if (o.property === ASH) { ashNet[o.account] = (ashNet[o.account] || 0) - d + c; ashTotal -= d - c; }   // counted done or not: the release below needs the whole net
       });
       if (paid !== it.cents) throw new Error('#' + it.n + ': ' + it.void + ' paid ' + paid / 100 + ', expected ' + it.cents / 100 + ' - nothing changed');
       if (!done && orig[0].property !== ASH) owed -= paid;
@@ -138,14 +138,16 @@ function recordPersonalReview20261101() {
       }
       return;
     }
-    if (have[it.n]) { out.push('#' + it.n + ' already recorded'); return; }
     var refund = it.kind === 'refund';
     var prop = it.prop, desc = (refund ? 'REFUND: ' : '') + it.what;
     var parts = it.split || [[it.acct, it.trade, it.cents, it.what]];
+    parts.forEach(function (p) {   // counted posted or not: the release below needs the whole net
+      if (prop === ASH) { ashNet[p[0]] = (ashNet[p[0]] || 0) + (refund ? -p[2] : p[2]); ashTotal += refund ? -p[2] : p[2]; }
+    });
+    if (have[it.n]) { out.push('#' + it.n + ' already recorded'); return; }
     var lines = [];
     parts.forEach(function (p) {
       lines.push(lineOf(p[0], p[2], !refund, prop, p[1], it, (refund ? 'REFUND: ' : '') + p[3]));
-      if (prop === ASH) { ashNet[p[0]] = (ashNet[p[0]] || 0) + (refund ? -p[2] : p[2]); ashTotal += refund ? -p[2] : p[2]; }
     });
     lines.push(lineOf('2030', it.cents, refund, prop, '', it, desc));
     if (prop !== ASH) owed += refund ? -it.cents : it.cents;
@@ -157,15 +159,16 @@ function recordPersonalReview20261101() {
   var relMemo = ASH + ' sale 2026-09-23: project cost released to COGS - the costs found by Paul\'s personal-accounts check 2026-11-01';
   var shareMemo = ASH + ' sale 2026-09-23: Paul\'s share of the profit, less the costs found by his personal-accounts check 2026-11-01 (his payout stays the sale less what he owed Dennis)';
   if (ashTotal && memos.indexOf(relMemo) < 0) {
-    var rel = [{ account: '5000', debit: ashTotal > 0 ? ashTotal : 0, credit: ashTotal > 0 ? 0 : -ashTotal, property: ASH }];
+    var relDesc = 'Costs found by the personal-accounts check 2026-11-01, released to COGS';   // the two entries' ids hash the first debit line, so each needs its own words
+    var rel = [{ account: '5000', debit: ashTotal > 0 ? ashTotal : 0, credit: ashTotal > 0 ? 0 : -ashTotal, property: ASH, description: relDesc }];
     Object.keys(ashNet).sort().forEach(function (a) {
       var n = ashNet[a]; if (!n) return;
-      rel.push({ account: a, debit: n < 0 ? -n : 0, credit: n > 0 ? n : 0, property: ASH });
+      rel.push({ account: a, debit: n < 0 ? -n : 0, credit: n > 0 ? n : 0, property: ASH, description: relDesc });
     });
     entries.push(buildEntry({ type: 'journal', date: '2026-09-23', source: 'sale', posted_by: who, memo: relMemo, lines: rel }, ctx));
     entries.push(buildEntry({ type: 'journal', date: '2026-09-23', source: 'sale', posted_by: who, memo: shareMemo,
-      lines: [{ account: '2030', debit: ashTotal > 0 ? ashTotal : 0, credit: ashTotal > 0 ? 0 : -ashTotal, property: ASH },
-              { account: '9010', debit: ashTotal > 0 ? 0 : -ashTotal, credit: ashTotal > 0 ? ashTotal : 0, property: ASH }] }, ctx));
+      lines: [{ account: '2030', debit: ashTotal > 0 ? ashTotal : 0, credit: ashTotal > 0 ? 0 : -ashTotal, property: ASH, description: 'Paul\'s share of the 104 Ashburne profit, less the found costs' },
+              { account: '9010', debit: ashTotal > 0 ? 0 : -ashTotal, credit: ashTotal > 0 ? ashTotal : 0, property: ASH, description: 'Paul\'s share of the 104 Ashburne profit, less the found costs' }] }, ctx));
   }
   console.log('recordPersonalReview20261101 (' + PR_MODE + '): ' + entries.length + ' entries to post, ' +
     voids.filter(function (v) { return !v.done; }).length + ' to take out. 104 Ashburne costs ' + (ashTotal / 100).toFixed(2) +
