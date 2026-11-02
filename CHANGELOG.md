@@ -21,9 +21,8 @@ already had the row; the Totals tab was stale). **Read back 22:52 CT:** Capital 
 liabilities 1,921,184.97; owed from Chase 4,726.21 (Business expenses owed 4,786.21; 104 Ashburne -60.00 - the lawn bill
 the business paid after his share was lowered for it, owed back to Recast; the row's note says so since the next
 rebuild), owed from Citizens 34,899.55; "adds up" - every figure the audit's variants.py predicted. Tests 642 pass.
-CLAUDE.md constraint 16 rewritten for D-105. **Owed: `npm run ship`** (Paul) - the deployed web app and the pollers still
-run the old `chaseLegs`; until then a Chase-paid receipt the Inbox posts lands the D-098 way (the hourly P&L runs the
-pushed code and is right).
+CLAUDE.md constraint 16 rewritten for D-105. **Shipped 84852ae 06:34 CT 11-02 (web app @71, site 6ae8837ad27ea0a53aad2cda,
+read-back OK) on Paul's "Yes, ship it": the pollers and the web Inbox post a Chase-paid bill the D-105 way.
 
 ## 2026-11-01 (late night) - independent audit of the P&L tab's MEMBER'S EQUITY section
 

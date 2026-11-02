@@ -13,13 +13,13 @@ income 176,368.95 + Capital contributions 184,308.48 + Distributions -248,542.12
 business Chase is Recast's account (a cost it pays is two lines - `chaseLegs` gone), the truck payment is a draw, the
 Totals tab's trial balance ties at (0.00). Owed to Paul: Chase 4,726.21, Citizens 34,899.55.
 
-**Owed, in order:**
-1. **Paul: `npm run ship`** - the deployed web app and the pollers still run the old `chaseLegs`; until then a Chase-paid
-   receipt the Inbox posts lands the D-098 way (Cr 2030 + Dr 9000): on the P&L it shows as Business expenses owed plus a
-   lower Put into the business Chase. If one lands before the ship, void and re-post it two-line (the
-   `chaseIsTheBusiness20261101` pattern, commit 7e6eaf7).
-2. `git push` (auto mode refused it twice tonight) - the commits since 57339d3.
-3. Later, from the audit (Paul has not asked): a beginning-balance row and a year-end close for 2027 (P3); 2030
+**Live since 06:34 CT 11-02 - web app @71, site `6ae8837a`, read-back OK (stamp `84852ae`), shipped from the session
+on Paul's "Yes, ship it". Nothing owed on the ship** - the pollers and the web Inbox post a Chase-paid bill the D-105
+way (two lines). Watch: the first Chase-paid receipt the Inbox posts should land as the cost / Cr 1402, tab ticking
+Recast Account, nothing on 2030 or 9000.
+
+**Owed:**
+1. Later, from the audit (Paul has not asked): a beginning-balance row and a year-end close for 2027 (P3); 2030
    sub-accounts (P6); one filter for the report functions and the detail rows (m2).
 
 Deliberate, no change: Dennis's unrecorded interest shown on both sides (D-066).
