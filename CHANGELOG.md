@@ -1,5 +1,22 @@
 # Changelog
 
+## 2026-11-02 - personal accounts, round 2: the other cards and Chase checking Jan-Mar (D-100)
+
+Paul: "round 2 of personal credit card and bank statement reconciliation ... sort out which hasn't been run and run them."
+Run: Discover 3746, Capital One 5655, Wells Fargo 5685, Barclays 6774 (Jan-Oct) and the Chase checking statement PDFs for
+Dec 24 - Mar 24 (836 lines; every Chase statement ties to its ending balance), matched against the 11-02 Journal snapshot
+with `scripts/personal-recon/parse_round2.py`, `match_round2.py`, `store_pass_round2.py` (README there). Nothing posted.
+Found: the other cards carried almost nothing of Recast's (one ZenBusiness 398 on Barclays in June, the two 04-17 Atlas
+lines on Capital One - already in the books); every Jan-Mar check and wire ties (Shalom Granite = checks 5145 + 5605;
+Atlas = the Grasshopper wires + 25 fees); 15 lines to post by Paul's standing rules (Ovilla water 136.13 + 1.72 fee,
+Midjourney Jan-Mar, Textgrid 03-01, AutoZone, Keith Ace, five Texas gas fills, two Lowe's refunds 108.21 + 324.69); five
+of the 11-01 `recordPersonalReview20261101` postings were wrong and come back out (307.90: the Nest thermostat 145.43 was
+refunded 01-13 per Discover, the Kerdi niche 92.00 doubled Paul's own row and was returned, and three Home Depot adds were
+returned days later - 36.77, 36.07, 1.99); ten questions for Paul in order (first: what Chase ...9257 is). Store totals
+Jan 1 - Mar 24: Amazon, Floor & Decor and Atlas tie; Lowe's ties after the four fixes; Home Depot's books run 1,154 above
+his cards (one trip of 03-15 typed twice, ~243 - the item-level pass is next). Paul's list and the findings are in his
+folder (`~/Desktop/Personal 2026/penny-work/round2/REVIEW-round2.csv`, `FINDINGS-round2.md`); `RESUME.md` there updated.
+
 ## 2026-11-02 - D-106: Penny never moves money
 
 Paul: *"set a hard rule that you are not allowed to make any kind of payment or move any money ... from any of my

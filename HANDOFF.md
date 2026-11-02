@@ -5,6 +5,17 @@ history and are not written to; `CHANGELOG.md` keeps its dated entry per change.
 `docs/ops.md`. The books' numbers live on the workbook's tabs (P&L, Totals, Citizens Bank, the house tabs) - read them
 there; a figure written here is only as of its date.
 
+## 2026-11-02 - the personal-accounts check, round 2 (D-100) - RESUME HERE (START HERE)
+
+**Every statement in his folder is now run** (round 2: Discover, Capital One, Wells Fargo, Barclays, Chase checking Dec 24 -
+Mar 24; CHANGELOG same date). **Nothing posted from it.** The full resume is his folder's `penny-work/RESUME.md` ->
+`round2/FINDINGS-round2.md` -> `round2/REVIEW-round2.csv` (15 lines to post by his rules, 5 of the 11-01 postings to take
+back = 307.90, 10 questions in order - first: what Chase account ...9257 is; fourth: the April Chase statement PDF for the
+five days 03-25..03-29 nobody has seen). **Owed, in order:** Paul's answers one at a time -> one one-off to post and
+reverse (like `recordPersonalReview20261101`; the reversals are voids on their own dates) -> the item-level Home Depot
+pass (the 03-15 trip typed twice, the Apr-Oct Home Depot rows with no bank line on any card) -> the payment from Chase
+(D-101). The 11-02 06:34 ship (D-105) stands; nothing else owed on the books.
+
 ## 2026-11-01 (late night) - D-105 live: the audit's recommendations are in the books (START HERE)
 
 The independent audit (`docs/audit-pnl-members-equity-2026-11-01.md`) found every number right; Paul took every

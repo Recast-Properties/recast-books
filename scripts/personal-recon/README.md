@@ -23,3 +23,19 @@ amount alone is not a tie - 60 of match4's pairs had another payee (`penny-work/
 lines were Uber Eats orders, not rides; the store's item list can miss an item the old books named differently. The
 corrections were posted by one-off `recordPersonalReview20261101` (commit f2f550f; D-102 for the sold houses).
 
+
+## Round 2 (2026-11-02) - the other cards and Chase checking Jan-Mar
+
+    python3 -E pdf2txt.py <round2/txt> ~/Desktop/Personal\ 2026/{Discover,Capital\ One,Wells\ Fargo,barklay}/*.pdf ~/Desktop/Personal\ 2026/2026*-statements-8870-.pdf
+    python3 -I parse_round2.py statements2.csv <round2/txt>   # Discover / Capital One / Wells Fargo / Barclays card PDFs + Chase checking statement PDFs
+    python3 -I journal_paul.py journal.json                     # fresh paul_lines.csv / lines_2030.csv (run in round2/)
+    python3 -I match_round2.py                                  # every line of both passes vs the fresh books; reports only the new lines
+    python3 -I store_pass_round2.py                             # Home Depot / Lowe's / Amazon, bank line <-> store history <-> books, Jan-Mar
+
+Formats: Discover "MM/DD DESC CATEGORY $AMT" (wraps; "-$" or "- $" credits), Capital One "Mon DD Mon DD DESC $AMT" under
+"#5655: Transactions", Wells Fargo "5685 MM/DD MM/DD REF DESC AMT" (charges) / no card prefix (payments), Barclays "Mon DD
+Mon DD DESC POINTS $AMT" (wraps), Chase checking statement "MM/DD DESC [MM/DD] ... - AMT BALANCE" where pypdf floats the
+deposit amounts away - the parser takes every amount from the running balance and checks the printed ending balance.
+Lessons: group the books by document before matching a store (a receipt is many rows); a bank return with no books refund
+is not a missing refund when the old row was typed net of it; the first pass's own adds can be returned days later - rerun
+`hd_returns.py` against the fresh journal after posting adds. Results and Paul's list: `penny-work/round2/`.
