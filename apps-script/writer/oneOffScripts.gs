@@ -174,7 +174,7 @@ function recordPersonalReview20261102() {
   // the Ashburne tab block goes under the 11-01 block: first empty row in column B at or below row 28
   var tab = ss.getSheetByName(FROZEN);
   if (!tab) throw new Error('No "' + FROZEN + '" tab - stopped');
-  var LABEL = { 0: '03-16 City of Ovilla - water/sewer (I3P)', 1: '02-23 City of Ovilla - card fee on the 02-23 water bill (bank 50.86 vs books 49.14)', 8: '01-07 Keith Ace Hardware - Red Oak TX', 14: '02-02 Lowe's - 30-ft pipe heat cable returned (bought 01-17', 15: '03-20 Lowe's - 3 Sailor Bay ceiling fans bought in store 03-19 (books 3 x 1', 16: '03-05 Armandre Vega - Zelle', 17: '02-20 Juan Garcia - VOID the migration row \'Paint & Floor Installation 7,000 02-', 18: '02-20 Armandre Vega - check 5148', 21: '03-26 LightsLux - part/shipping for the 03-21 pendant (books 160)', 29: '01-09 Lowe's - VOID my 11-01 posting \'Nest thermostat 145.43\'', 30: '01-09 Lowe's - two waters kept from the 01-09 order (the only part not refu', 31: '02-04 Lowe's - one Kerdi shower niche returned 02-04 (the books hold two: P', 32: '03-06 The Home Depot - MKE OMT Japanese blades returned the same day', 33: '03-17 The Home Depot - Charmaine pulls 7.55 + 28.52 returned 03-17', 34: '03-02 The Home Depot - 2 copper couplings returned 03-02 (inside the -114.55 return' };
+  var LABEL = { 0: '03-16 City of Ovilla - water/sewer (I3P)', 1: '02-23 City of Ovilla - card fee on the 02-23 water bill (bank 50.86 vs books 49.14)', 8: '01-07 Keith Ace Hardware - Red Oak TX', 14: '02-02 Lowe\'s - 30-ft pipe heat cable returned (bought 01-17', 15: '03-20 Lowe\'s - 3 Sailor Bay ceiling fans bought in store 03-19 (books 3 x 1', 16: '03-05 Armandre Vega - Zelle', 17: '02-20 Juan Garcia - VOID the migration row \'Paint & Floor Installation 7,000 02-', 18: '02-20 Armandre Vega - check 5148', 21: '03-26 LightsLux - part/shipping for the 03-21 pendant (books 160)', 29: '01-09 Lowe\'s - VOID my 11-01 posting \'Nest thermostat 145.43\'', 30: '01-09 Lowe\'s - two waters kept from the 01-09 order (the only part not refu', 31: '02-04 Lowe\'s - one Kerdi shower niche returned 02-04 (the books hold two: P', 32: '03-06 The Home Depot - MKE OMT Japanese blades returned the same day', 33: '03-17 The Home Depot - Charmaine pulls 7.55 + 28.52 returned 03-17', 34: '03-02 The Home Depot - 2 copper couplings returned 03-02 (inside the -114.55 return' };
   var tabRows = [], tabSum = 0;
   PR2_ITEMS.forEach(function (it) {
     if (it.prop !== ASH) return;
@@ -420,7 +420,7 @@ var PR2_ITEMS = [
 "kind": "refund",
 "date": "2026-02-02",
 "cents": 10821,
-"payee": "Lowe's",
+"payee": "Lowe\'s",
 "what": "30-ft pipe heat cable returned (bought 01-17 - books 108.20) - refund to Discover 3746",
 "ev": "Discover 3746 02-02 -108.21",
 "prop": "104 Ashburne",
@@ -433,7 +433,7 @@ var PR2_ITEMS = [
 "kind": "refund",
 "date": "2026-03-20",
 "cents": 32469,
-"payee": "Lowe's",
+"payee": "Lowe\'s",
 "what": "3 Sailor Bay ceiling fans bought in store 03-19 (books 3 x 108.23) returned 03-20 - refund to 9166; the 8 online fans stayed",
 "ev": "Chase 8870 03-23 return -324.69",
 "prop": "104 Ashburne",
@@ -525,7 +525,7 @@ var PR2_ITEMS = [
 "kind": "cost",
 "date": "2025-12-23",
 "cents": 698,
-"payee": "Lowe's",
+"payee": "Lowe\'s",
 "what": "Milwaukie store job '1014' - 82.68 bought and 75.70 returned the same day; net",
 "ev": "Barclays 6774 12-23 82.68 / -75.70",
 "prop": "Cost Recapture",
@@ -616,7 +616,7 @@ var PR2_ITEMS = [
 "kind": "void",
 "date": "2026-01-09",
 "cents": 14543,
-"payee": "Lowe's",
+"payee": "Lowe\'s",
 "what": "VOID my 11-01 posting 'Nest thermostat 145.43' - Discover shows the whole 360.49 order refunded 01-13 except 4.36",
 "ev": "Discover 3746 01-09 360.49 / 01-13 -356.13; txn manual-20260109-a594700ef7f1 (my 11-01 add, no doc)",
 "prop": "104 Ashburne",
@@ -630,7 +630,7 @@ var PR2_ITEMS = [
 "kind": "cost",
 "date": "2026-01-09",
 "cents": 436,
-"payee": "Lowe's",
+"payee": "Lowe\'s",
 "what": "two waters kept from the 01-09 order (the only part not refunded)",
 "ev": "Discover 3746",
 "prop": "104 Ashburne",
@@ -643,7 +643,7 @@ var PR2_ITEMS = [
 "kind": "refund",
 "date": "2026-02-04",
 "cents": 9199,
-"payee": "Lowe's",
+"payee": "Lowe\'s",
 "what": "one Kerdi shower niche returned 02-04 (the books hold two: Paul's old row 91.99 and the order's 92.00; one was kept) - refund to 9166",
 "ev": "Chase 8870 02-04 return -91.99. NOT a Penny 11-01 add: the 92.00 row is the order read from his email (manual, 10-01)",
 "prop": "104 Ashburne",
@@ -691,3 +691,219 @@ var PR2_ITEMS = [
 "doc": ""
 }
 ];
+
+// 2026-11-03 Paul: "i want to close out 3808 kings. dennis bought the property from recast for $180k since it was
+// titled under Recast Properties LLC. i profited $24,000. dennis took $156,000 back as repayment for the original
+// purchase. you can assign the expenses on the property to cost recapture." The bank shows it: 180,000.00 DEPOSIT into
+// Citizens 10-30, 156,000.00 XFER to Dennis 11-02. No interest and no share for Dennis (he is the buyer; 180,000 less
+// 156,000 is exactly the 24,000); Paul's 24,000.00 stays in the account, owed to him until he draws it (D-084).
+// What it does, in order, each step skipped when the Journal already shows it: the house's three bills (the keypad lock
+// 40.15, the City of Ennis water deposit 100.00, the Corsicana dump 22.50) voided on their own dates and posted again on
+// Cost Recapture naming the house (D-031), their receipt records and bank line pointed at the new entries; the house
+// tab refreshed, frozen and renamed "- Frozen"; the sale as the wizard would word it (so closingFromJournal_ reads it
+// back): 180,000 in on 10-30, the 156,000 purchase released to COGS, Dennis paid 156,000 on 11-02, Paul's 24,000 owed
+// on 2030; the two bank lines tied and their Inbox cards retired; the Advances row repaid with 0 interest; Properties
+// sold 10-30; the closing tab in Paul's layout with Dennis at 0% (writeSimpleClosingTab_ with its own rows, as 1014 S
+// View); the bank tabs, the P&L and the cache refreshed. Logs a read-back at the end.
+// STATUS: NOT YET RUN
+function closeKings20261103() {
+  var props = PropertiesService.getScriptProperties();
+  var ss = openWorkbook_(props);
+  requireOwner_(ss);
+  var who = Session.getActiveUser().getEmail();
+  var NAME = '3808 Kings', SOLD = '2026-10-30', PAID_DENNIS = '2026-11-02';
+  var PRICE = 18000000, LOAN = 15600000, PROFIT = PRICE - LOAN;
+  var FEED_IN = '202610300000000557396997', FEED_OUT = '202611020000000557811633';
+  var out = ['closeKings20261103 - ' + new Date()];
+  var journal = ss.getSheetByName('Journal'), cols = headerIndex_(journal);
+  var cents = function (v) { return Math.round(Number(v || 0) * 100); };
+  var readJournal = function () {
+    var data = journal.getRange(2, 1, journal.getLastRow() - 1, journal.getLastColumn()).getValues();
+    var g = function (r, n) { return cols[n] ? r[cols[n] - 1] : ''; };
+    var voided = {}, byTxn = {}, idByMemo = {};
+    data.forEach(function (r) {
+      var v = String(g(r, 'void_of') || ''); if (v) voided[v] = true;
+      var id = String(g(r, 'txn_id')); (byTxn[id] = byTxn[id] || []).push(r);
+      idByMemo[String(g(r, 'memo'))] = id;
+    });
+    return { g: g, voided: voided, byTxn: byTxn, idByMemo: idByMemo };
+  };
+  var J = readJournal();
+  var ctx = buildCtx_(ss);
+  var isCostAccount = function (a) { return /^1[0-3]\d\d$/.test(String(a)); };
+
+  // ---- 1. the three bills off the house, onto Cost Recapture naming it (D-031) ----
+  var bills = [   // [entry, its receipt record, the record's other entries (kept)]
+    ['manual-20261007-1ff3c72152e0', '', []],
+    ['receipt-20261007-d8922c2a5126', 'gm-1a11783ab3a11351', ['receipt-20261007-59339d5d236b']],
+    ['receipt-20261008-6caa743b48f7', 'gm-1a12040b69ab6308', []]
+  ];
+  var movedCents = 0, moved = 0, repointed = 0, retied = 0;
+  bills.forEach(function (b) {
+    var oldId = b[0], rows = J.byTxn[oldId];
+    if (!rows) throw new Error(oldId + ' is not on the Journal - stopped here, tell Claude');
+    var memo = String(J.g(rows[0], 'memo')) + ' - moved to Cost Recapture at the 3808 Kings sale (Paul, 2026-11-03: the house\'s bills go to Cost Recapture)';
+    var newId = J.idByMemo[memo];
+    if (!newId) {
+      if (J.voided[oldId]) throw new Error(oldId + ' was voided by something else - stopped here, tell Claude');
+      var date = formatIsoDate_(J.g(rows[0], 'date'));
+      var lines = rows.map(function (r) {
+        var onHouse = String(J.g(r, 'property')) === NAME, account = String(J.g(r, 'account'));
+        return { account: account, debit: cents(J.g(r, 'debit')), credit: cents(J.g(r, 'credit')),
+          property: onHouse ? 'Cost Recapture' : String(J.g(r, 'property') || ''),
+          trade: onHouse ? (isCostAccount(account) ? NAME : '') : String(J.g(r, 'trade') || ''),
+          payee: String(J.g(r, 'payee') || ''), description: String(J.g(r, 'description') || ''),
+          paid_from: String(J.g(r, 'paid_from') || ''), business_purpose: String(J.g(r, 'business_purpose') || '') };
+      });
+      var built = buildEntry({ type: 'journal', date: date, source: String(J.g(rows[0], 'source') || 'manual'), posted_by: who,
+        allow_duplicate_hash: true, doc_url: String(J.g(rows[0], 'doc_url') || ''), memo: memo, lines: lines }, ctx);
+      voidEntry_(oldId, 'the 3808 Kings sale, 2026-11-03: this bill moves to Cost Recapture naming the house (Paul)', date, who, props, true);
+      postBatchEntries_([built], props, true);
+      newId = built.txn_id;
+      moved++;
+      out.push('moved ' + oldId + ' -> ' + newId);
+    } else out.push(oldId + ': already moved as ' + newId);
+    rows.forEach(function (r) { if (String(J.g(r, 'property')) === NAME && isCostAccount(J.g(r, 'account'))) movedCents += cents(J.g(r, 'debit')) - cents(J.g(r, 'credit')); });
+    if (b[1]) {
+      try {
+        var m = siteFetchJson_('/api/inbox', 'post', { action: 'mark-posted', docId: b[1], txn_ids: [newId].concat(b[2]), rows: null, doc_url: '', by: who,
+          repoint: true, note: 'Moved to Cost Recapture at the 3808 Kings sale 2026-11-03' });
+        if (m && m.status === 'posted') repointed++;
+      } catch (e) { out.push('receipt record ' + b[1] + ' not updated: ' + e); }
+    }
+    try { retied += feedRetieRows_(ss, oldId, [newId], 'The same bill, moved to Cost Recapture at the 3808 Kings sale (2026-11-03)').updated; }
+    catch (e) { out.push('bank line for ' + oldId + ' not re-tied: ' + e); }
+  });
+  out.push(moved + ' bills moved (' + (movedCents / 100).toFixed(2) + ' now on Cost Recapture for the house); ' + repointed + ' receipt records repointed; ' + retied + ' bank lines re-tied');
+  J = readJournal();
+
+  // the house holds nothing but Dennis's purchase now - the release below depends on it
+  var bal = propertyBalances_(ss, NAME);
+  Object.keys(bal).forEach(function (a) {
+    if (isCostAccount(a) && a !== '1000' && bal[a]) throw new Error('3808 Kings still holds ' + (bal[a] / 100).toFixed(2) + ' on ' + a + ' - stopped here, tell Claude');
+  });
+  if ((bal['1000'] || 0) !== LOAN && !J.idByMemo[NAME + ' sale ' + SOLD + ': project cost released to COGS']) throw new Error('3808 Kings purchase on the books is ' + ((bal['1000'] || 0) / 100).toFixed(2) + ', not 156,000.00 - stopped here, tell Claude');
+
+  // ---- 2. the house tab: refreshed (the bills are gone from it), frozen as the record, renamed ----
+  var reg = propertyRow_(ss, NAME) || {};
+  var frozenName = NAME + ' - Frozen';
+  if (String(reg.status || '').toLowerCase() !== 'sold' && ss.getSheetByName(NAME) && !ss.getSheetByName(frozenName)) {
+    refreshLineBlocks_(ss, NAME);
+    SpreadsheetApp.flush();
+    freezePropertyTab_(ss, NAME, SOLD);
+    ss.getSheetByName(NAME).setName(frozenName);
+    out.push('house tab frozen and renamed "' + frozenName + '"');
+  } else out.push('house tab already frozen');
+
+  // ---- 3. the sale, worded as the sell wizard words it (closingFromJournal_ reads these memos) ----
+  var memoBase = NAME + ' sale ' + SOLD;
+  var want = [
+    { key: 'sale', date: SOLD, memo: memoBase + ': settlement statement',
+      lines: [{ account: '1401', debit: PRICE, credit: 0, property: NAME, payee: 'Dennis Little', description: 'Sold to Dennis Little for 180,000.00 - his deposit into Citizens 10-30; no title company, no closing costs' },
+              { account: '4000', debit: 0, credit: PRICE, property: NAME, payee: 'Dennis Little', description: 'Sale price' }] },
+    { key: 'release', date: SOLD, memo: memoBase + ': project cost released to COGS',
+      lines: [{ account: '5000', debit: LOAN, credit: 0, property: NAME, description: 'The purchase, released at the sale' },
+              { account: '1000', debit: 0, credit: LOAN, property: NAME, description: 'The purchase, released at the sale' }] },
+    { key: 'dennis', date: PAID_DENNIS, memo: memoBase + ': paid to Dennis - his 156,000.00 purchase loan back out of the sale money (he bought the house; no interest, no share)',
+      lines: [{ account: '2010', debit: LOAN, credit: 0, property: NAME, payee: 'Dennis Little', description: 'Purchase loan paid back 11-02' },
+              { account: '1401', debit: 0, credit: LOAN, property: NAME, payee: 'Dennis Little', description: 'Purchase loan paid back 11-02' }] },
+    { key: 'paul', date: SOLD, memo: memoBase + ": Paul's share of the profit, owed to him until he draws it",
+      lines: [{ account: '9010', debit: PROFIT, credit: 0, property: NAME, description: 'All of the 24,000.00 profit is Paul\'s - left in the Citizens account for now' },
+              { account: '2030', debit: 0, credit: PROFIT, property: NAME, description: 'All of the 24,000.00 profit is Paul\'s - left in the Citizens account for now' }] }
+  ];
+  var toPost = [];
+  want.forEach(function (w) {
+    if (J.idByMemo[w.memo]) { w.txn_id = J.idByMemo[w.memo]; out.push(w.key + ': already recorded as ' + w.txn_id); return; }
+    var built = buildEntry({ type: 'journal', date: w.date, source: 'sale', posted_by: who, doc_url: '', memo: w.memo, lines: w.lines }, ctx);
+    w.txn_id = built.txn_id;
+    toPost.push(built);
+  });
+  if (toPost.length) {
+    postBatchEntries_(toPost, props, true);
+    out.push(toPost.length + ' sale entries posted: ' + toPost.map(function (e) { return e.txn_id; }).join(', '));
+  }
+  var byKey = {};
+  want.forEach(function (w) { byKey[w.key] = w.txn_id; });
+
+  // ---- 4. the two bank lines onto the sale, their Inbox cards retired ----
+  var feeds = [
+    { id: FEED_IN, txn: byKey.sale, note: 'The 180,000.00 Dennis paid for 3808 Kings - he bought the house from Recast (Paul, 2026-11-03)' },
+    { id: FEED_OUT, txn: byKey.dennis, note: "Dennis's 156,000.00 purchase loan on 3808 Kings paid back out of the sale money - no interest, no share (Paul, 2026-11-03)" }
+  ];
+  var tied = feedUpdateRows_(ss, feeds.map(function (f) { return { feed_id: f.id, status: 'matched', txn_id: f.txn, match_note: f.note }; }));
+  var retired = 0;
+  feeds.forEach(function (f) {
+    try {
+      var r = siteFetchJson_('/api/inbox', 'post', { action: 'dismiss', docId: 'feed-1401-' + f.id, note: f.note, by: 'claude', only_pending: true });
+      if (r && r.status === 'dismissed') retired++;
+    } catch (e) { out.push('card for bank line ' + f.id + ' not retired: ' + e); }
+  });
+  out.push(tied.updated + ' bank lines tied' + (tied.missing.length ? ' (not found: ' + tied.missing.join(', ') + ')' : '') + '; ' + retired + ' cards retired');
+
+  // ---- 5. the Advances row: repaid 11-02, 0 interest (as sellPost writes it) ----
+  var advSheet = ss.getSheetByName('Advances');
+  var advCols = headerIndex_(advSheet);
+  if (!advCols['agreed_interest']) { ensureHeaders_(advSheet, TAB_HEADERS['Advances']); advCols = headerIndex_(advSheet); }
+  var advLast = advSheet.getLastRow(), advDone = 0;
+  if (advLast > 1) {
+    advSheet.getRange(2, 1, advLast - 1, advSheet.getLastColumn()).getValues().forEach(function (r, i) {
+      if (String(r[advCols['property'] - 1] || '') !== NAME) return;
+      var row = i + 2;
+      advSheet.getRange(row, advCols['repaid_date']).setValue(PAID_DENNIS);
+      advSheet.getRange(row, advCols['status']).setValue('repaid');
+      advSheet.getRange(row, advCols['agreed_interest']).setValue(0);
+      advDone++;
+    });
+  }
+  out.push(advDone + ' advance row(s) marked repaid 11-02 with 0 interest');
+
+  // ---- 6. Properties: sold 10-30; the posting allowlist drops the house (as sellPost) ----
+  var pSheet = ss.getSheetByName('Properties'), pCols = headerIndex_(pSheet), pLast = pSheet.getLastRow();
+  for (var pr = 2; pr <= pLast; pr++) {
+    if (String(pSheet.getRange(pr, pCols['name']).getValue() || '') !== NAME) continue;
+    pSheet.getRange(pr, pCols['status']).setValue('sold');
+    if (pCols['settlement_date']) pSheet.getRange(pr, pCols['settlement_date']).setValue(SOLD);
+    break;
+  }
+  CacheService.getScriptCache().remove('ctx');
+  SpreadsheetApp.flush();
+
+  // ---- 7. the closing tab: Paul's layout, Dennis at 0% - he is the buyer, not a partner on this one ----
+  var built = closingFromJournal_(ss, NAME);
+  if (!built) throw new Error('No posted sale for ' + NAME + ' - the closing tab was not written, tell Claude');
+  var rows = closingRows({ summary: built.summary, intents: built.intents, lines: built.statementLines || [], dennisPct: 0, holdback: null });
+  var tabRows = rows.rows.filter(function (r) { return !/^\s*0% of profit$/.test(r.label); });
+  tabRows.forEach(function (r) {
+    var label = String(r.label).replace(/^\s+/, '');
+    if (label === 'Payout from title company') { r.label = '  Paid by Dennis - he bought the house from Recast'; r.note = 'His deposit into the Citizens account 10/30'; r.note_plain = true; }
+    if (label === 'Rehab Costs') r.note = 'The house\'s own bills (' + (movedCents / 100).toFixed(2) + ') are on Cost Recapture - listed under AFTER THE PAYOUT';
+    if (label === 'Purchase Principal' && r.cents === LOAN && r.style === 'row' && tabRows.indexOf(r) > 12) r.note = 'Paid back to him 11/02 out of the sale money';
+    if (label === 'Purchase Interest' && r.cents === 0) r.note = 'None - no interest on this one';
+  });
+  writeSimpleClosingTab_(ss, NAME, {
+    summary: built.summary, rows: tabRows, title_note: rows.title_note + ' Dennis bought it from Recast.', doc_url: '', statementLines: [],
+    after_label: 'The house\'s own bills, moved here at the sale (not yet split with Dennis)'
+  }, closingTabName_(NAME));
+  out.push('closing tab written: ' + closingTabName_(NAME));
+
+  // ---- 8. the tabs that changed ----
+  try { refreshLineBlocks_(ss, 'Cost Recapture'); } catch (e) { out.push('Cost Recapture tab not refreshed: ' + e); }
+  refreshBankSheets_(ss);
+  refreshPnl_(ss);
+  warmCache_();
+
+  // ---- read back ----
+  var after = propertyBalances_(ss, NAME);
+  var leftInHouse = 0;
+  Object.keys(after).forEach(function (a) { if (isCostAccount(a)) leftInHouse += after[a]; });
+  var ok = function (v) { return v ? '  OK' : '  CHECK'; };
+  out.push('', 'READ BACK:',
+    '  left in the house accounts (must be 0.00): ' + (leftInHouse / 100).toFixed(2) + ok(leftInHouse === 0),
+    '  owed to Dennis on the house (must be 0.00): ' + (-((after['2010'] || 0) + (after['2000'] || 0)) / 100).toFixed(2) + ok(!(after['2010'] || 0) && !(after['2000'] || 0)),
+    '  owed to Paul on the house (must be 24,000.00): ' + (-(after['2030'] || 0) / 100).toFixed(2) + ok(-(after['2030'] || 0) === PROFIT),
+    '  sale money through Citizens, net (must be 24,000.00): ' + ((after['1401'] || 0) / 100).toFixed(2) + ok((after['1401'] || 0) === PROFIT),
+    '  profit on the closing tab: ' + (built.summary.profit_cents / 100).toFixed(2) + ok(built.summary.profit_cents === PROFIT),
+    '  Dennis paid so far: ' + (built.summary.paid.dennis_cents / 100).toFixed(2) + ok(built.summary.paid.dennis_cents === LOAN));
+  console.log(out.join('\n'));
+  return out;
+}
