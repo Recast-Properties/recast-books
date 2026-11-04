@@ -12,7 +12,7 @@ Both houses owe Paul 0.00; the WORKING MONEY ledger reads 10-29 Paul left in 27,
 Paul has in the account 56,609.53. Both closing tabs rewritten (not read back from the sheet - no browser signed in).
 Then Paul: "remove this from the p&l 'money each of you put in for general use - no house, no interest, owed back when it
 is taken out'" - the WORKING MONEY header's note is gone (`lib/reports.mjs`, lib.gs rebuilt, pushed); the P&L redraws on
-its hourly timer. **Owed: `clasp deploy -i` (lib.gs changed)** - the menus and timers already run the new code.
+its hourly timer. Deployed by Paul the same evening: web app **@72**. Nothing owed.
 
 ## 2026-11-03 - 3808 Kings closed: sold to Dennis for 180,000 (D-107)
 
