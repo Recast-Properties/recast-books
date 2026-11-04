@@ -695,81 +695,107 @@ var PR2_ITEMS = [
 ];
 
 // 2026-11-03 Paul: "i want all the proceeds from kings and the remainder from the newport sales to be put back into the
-// business ... the 20,000 from newport is already in the books. 31,609.53 is in addition to that 20,000." The same shape
-// as the 10-29 Newport 20,000 (recordPaulWorkingMoneyNewport20261029, D-055): each house pays Paul what it owes him and
-// he leaves it in the Citizens account as his working money - no house, no interest, owed back when he takes it out.
-// 3808 Kings 24,000.00 (all of his profit) and 881 Newport 7,609.53 (the rest of his payout after the 20,000), dated
-// today; both closing tabs rewritten (Kings in its own layout with Dennis at 0%, as closeKings20261103 drew it), the P&L
-// refreshed. Safe to run again: an entry whose memo is on the Journal is skipped. Each house must owe exactly its figure.
+// business ... the 20,000 from newport is already in the books. 31,609.53 is in addition to that 20,000" and then
+// "change the '10-29 Paul left in' newport entry in the books from 20,000 to 27,609.53 vs splitting it into two entries".
+// The same shape as the 10-29 Newport entry (recordPaulWorkingMoneyNewport20261029, D-055): the house pays Paul what it
+// owes him and he leaves it in the Citizens account as his working money - no house, no interest, owed back when he
+// takes it out. 881 Newport: the 10-29 entry of 20,000.00 is taken out on its own date and put back as 27,609.53 (all
+// of his payout), still dated 10-29, so the ledger shows one row. 3808 Kings: 24,000.00 (all of his profit), dated
+// today. If an earlier version of this script already posted a separate 7,609.53 Newport row, that row is taken out
+// too. Both closing tabs rewritten (Kings in its own layout with Dennis at 0%, as closeKings20261103 drew it), the P&L
+// refreshed. Safe to run again: an entry whose memo is on the Journal is skipped, a void already done is skipped.
 // STATUS: NOT YET RUN
 function leaveKingsNewportInAccount20261103() {
   var props = PropertiesService.getScriptProperties();
   var ss = openWorkbook_(props);
   requireOwner_(ss);
   var who = Session.getActiveUser().getEmail();
-  var DATE = '2026-11-03';
-  var houses = [
-    { name: '3808 Kings', sold: '2026-10-30', cents: 2400000, what: 'all of his 3808 Kings profit', sale: 'sale-20261030-9081cb90c948' },
-    { name: '881 Newport', sold: '2026-10-02', cents: 760953, what: 'the rest of his 881 Newport payout (after the 20,000.00 of 10-29)', sale: 'sale-20261002-465b11b1cf51' }
-  ];
+  var NEWPORT = '881 Newport', KINGS = '3808 Kings';
+  var OLD_NEWPORT = 'sale-20261029-f1549aaad052';   // the 10-29 entry: 20,000.00 left in
+  var SPLIT_MEMO = NEWPORT + ' sale 2026-10-02: paid to Paul - 7609.53, the rest of his 881 Newport payout (after the 20,000.00 of 10-29), left in the Citizens account as his working money (Paul, 2026-11-03)';
   var journal = ss.getSheetByName('Journal'), cols = headerIndex_(journal);
-  var data = journal.getRange(2, 1, journal.getLastRow() - 1, journal.getLastColumn()).getValues();
-  var g = function (r, n) { return r[cols[n] - 1]; };
   var cents = function (v) { return Math.round(Number(v || 0) * 100); };
-  var voided = {}, idByMemo = {}, docById = {};
-  data.forEach(function (r) {
-    var v = String(g(r, 'void_of') || ''); if (v) voided[v] = true;
-    idByMemo[String(g(r, 'memo'))] = String(g(r, 'txn_id'));
-    if (!docById[String(g(r, 'txn_id'))]) docById[String(g(r, 'txn_id'))] = String(g(r, 'doc_url') || '');
-  });
-  var owedTo = function (house) {
-    var owed = 0;
+  var J;
+  var read = function () {
+    var data = journal.getRange(2, 1, journal.getLastRow() - 1, journal.getLastColumn()).getValues();
+    var g = function (r, n) { return r[cols[n] - 1]; };
+    var voided = {}, idByMemo = {}, docById = {}, dateById = {};
     data.forEach(function (r) {
-      if (String(g(r, 'property')) !== house || String(g(r, 'account')) !== '2030') return;
-      if (voided[String(g(r, 'txn_id'))] || String(g(r, 'source')) === 'void') return;
-      owed += cents(g(r, 'credit')) - cents(g(r, 'debit'));
+      var v = String(g(r, 'void_of') || ''); if (v) voided[v] = true;
+      var id = String(g(r, 'txn_id'));
+      idByMemo[String(g(r, 'memo'))] = id;
+      if (!docById[id]) { docById[id] = String(g(r, 'doc_url') || ''); dateById[id] = formatIsoDate_(g(r, 'date')); }
     });
-    return owed;
+    var owedTo = function (house) {
+      var owed = 0;
+      data.forEach(function (r) {
+        if (String(g(r, 'property')) !== house || String(g(r, 'account')) !== '2030') return;
+        if (voided[String(g(r, 'txn_id'))] || String(g(r, 'source')) === 'void') return;
+        owed += cents(g(r, 'credit')) - cents(g(r, 'debit'));
+      });
+      return owed;
+    };
+    return { data: data, g: g, voided: voided, idByMemo: idByMemo, docById: docById, dateById: dateById, owedTo: owedTo };
   };
+  J = read();
   var ctx = buildCtx_(ss);
   var out = ['leaveKingsNewportInAccount20261103 - ' + new Date()];
-  var toPost = [];
-  houses.forEach(function (h) {
-    h.memo = h.name + ' sale ' + h.sold + ': paid to Paul - ' + (h.cents / 100).toFixed(2) + ', ' + h.what + ', left in the Citizens account as his working money (Paul, 2026-11-03)';
-    if (idByMemo[h.memo]) { h.txn_id = idByMemo[h.memo]; out.push(h.name + ': already recorded as ' + h.txn_id); return; }
-    var owed = owedTo(h.name);
-    if (owed !== h.cents) throw new Error(h.name + ' owes Paul ' + (owed / 100).toFixed(2) + ', expected ' + (h.cents / 100).toFixed(2) + ' - nothing changed, tell Claude');
-    ctx.properties.add(h.name);   // a sold house: this is the closing's own entry
-    var paid = 'Paid to Paul - ' + h.what + ', left in the account as working money';
-    var kept = 'Working money left in the account - ' + h.what;
-    var built = buildEntry({ type: 'journal', date: DATE, source: 'sale', posted_by: who, doc_url: docById[h.sale] || '', memo: h.memo,
-      lines: [{ account: '2030', debit: h.cents, credit: 0, property: h.name, payee: 'Paul Bjork', paid_from: '1401', description: paid },
-              { account: '1401', debit: 0, credit: h.cents, property: h.name, payee: 'Paul Bjork', paid_from: '1401', description: paid },
-              { account: '1401', debit: h.cents, credit: 0, property: '', payee: 'Paul Bjork', paid_from: '1401', description: kept },
-              { account: '2030', debit: 0, credit: h.cents, property: '', payee: 'Paul Bjork', paid_from: '1401', description: kept }] }, ctx);
-    h.txn_id = built.txn_id;
-    toPost.push(built);
-  });
-  if (toPost.length) {
-    postBatchEntries_(toPost, props, true);
-    out.push(toPost.length + ' entries posted: ' + toPost.map(function (e) { return e.txn_id; }).join(', '));
+
+  var leftIn = function (house, sold, date, c, what, docUrl, note) {
+    var memo = house + ' sale ' + sold + ': paid to Paul - ' + (c / 100).toFixed(2) + ', ' + what + ', left in the Citizens account as his working money (' + note + ')';
+    if (J.idByMemo[memo]) { out.push(house + ': already recorded as ' + J.idByMemo[memo]); return null; }
+    ctx.properties.add(house);   // a sold house: this is the closing's own entry
+    var paid = 'Paid to Paul - ' + what + ', left in the account as working money';
+    var kept = 'Working money left in the account - ' + what;
+    return buildEntry({ type: 'journal', date: date, source: 'sale', posted_by: who, doc_url: docUrl || '', memo: memo,
+      lines: [{ account: '2030', debit: c, credit: 0, property: house, payee: 'Paul Bjork', paid_from: '1401', description: paid },
+              { account: '1401', debit: 0, credit: c, property: house, payee: 'Paul Bjork', paid_from: '1401', description: paid },
+              { account: '1401', debit: c, credit: 0, property: '', payee: 'Paul Bjork', paid_from: '1401', description: kept },
+              { account: '2030', debit: 0, credit: c, property: '', payee: 'Paul Bjork', paid_from: '1401', description: kept }] }, ctx);
+  };
+
+  // ---- 881 Newport: one row of 27,609.53 dated 10-29 in place of the 20,000.00 (and of a split 7,609.53 row, if any) ----
+  var newportDoc = J.docById['sale-20261002-465b11b1cf51'] || '';
+  var full = leftIn(NEWPORT, '2026-10-02', '2026-10-29', 2760953, 'all 27,609.53 of his 881 Newport payout', newportDoc,
+    'Paul, 2026-10-29 the 20,000.00; 2026-11-03 the rest, as one row');
+  if (full) {
+    var voids = [];
+    if (J.dateById[OLD_NEWPORT] && !J.voided[OLD_NEWPORT]) voids.push([OLD_NEWPORT, J.dateById[OLD_NEWPORT], 'the 20,000.00 of 10-29 is put back as the whole 27,609.53 (Paul, 2026-11-03: one row, not two)']);
+    var split = J.idByMemo[SPLIT_MEMO];
+    if (split && !J.voided[split]) voids.push([split, J.dateById[split], 'the 7,609.53 of 11-03 is folded into the 10-29 row (Paul, 2026-11-03: one row, not two)']);
+    var owedAfterVoids = J.owedTo(NEWPORT) + voids.reduce(function (t, v) { return t + (v[0] === OLD_NEWPORT ? 2000000 : 760953); }, 0);
+    if (owedAfterVoids !== 2760953) throw new Error(NEWPORT + ' would owe Paul ' + (owedAfterVoids / 100).toFixed(2) + ' once the old rows are out, expected 27,609.53 - nothing changed, tell Claude');
+    voids.forEach(function (v) { voidEntry_(v[0], v[2], v[1], who, props, true); out.push('taken out: ' + v[0] + ' (dated ' + v[1] + ')'); });
+    postBatchEntries_([full], props, true);
+    out.push(NEWPORT + ': 27,609.53 posted as ' + full.txn_id + ' dated 2026-10-29');
+    J = read();
   }
 
-  // 881 Newport: the standard partner closing tab, rebuilt from the Journal (as the 10-29 one-off did)
-  var np = closingFromJournal_(ss, '881 Newport');
-  if (!np) throw new Error('No posted sale for 881 Newport');
-  writeClosingTab_(ss, '881 Newport', np, closingTabName_('881 Newport'));
-  out.push('881 Newport closing tab: Paul paid so far ' + (np.summary.paid.paul_cents / 100).toFixed(2) + ', still owed ' + (np.summary.owed_after.paul_cents / 100).toFixed(2));
+  // ---- 3808 Kings: 24,000.00 dated today ----
+  var kingsDoc = J.docById['sale-20261030-9081cb90c948'] || '';
+  var kings = leftIn(KINGS, '2026-10-30', '2026-11-03', 2400000, 'all of his 3808 Kings profit', kingsDoc, 'Paul, 2026-11-03');
+  if (kings) {
+    if (J.owedTo(KINGS) !== 2400000) throw new Error(KINGS + ' owes Paul ' + (J.owedTo(KINGS) / 100).toFixed(2) + ', expected 24,000.00 - nothing changed, tell Claude');
+    postBatchEntries_([kings], props, true);
+    out.push(KINGS + ': 24,000.00 posted as ' + kings.txn_id + ' dated 2026-11-03');
+    J = read();
+  }
 
-  // 3808 Kings: its own layout, Dennis at 0% (the buyer, not a partner) - the rows closeKings20261103 drew, drawn again
-  var KINGS = '3808 Kings', LOAN = 15600000;
+  // ---- 881 Newport: the standard partner closing tab, rebuilt from the Journal (as the 10-29 one-off did) ----
+  var np = closingFromJournal_(ss, NEWPORT);
+  if (!np) throw new Error('No posted sale for ' + NEWPORT);
+  writeClosingTab_(ss, NEWPORT, np, closingTabName_(NEWPORT));
+  out.push(NEWPORT + ' closing tab: Paul paid so far ' + (np.summary.paid.paul_cents / 100).toFixed(2) + ', still owed ' + (np.summary.owed_after.paul_cents / 100).toFixed(2));
+
+  // ---- 3808 Kings: its own layout, Dennis at 0% (the buyer, not a partner) - the rows closeKings20261103 drew ----
+  var LOAN = 15600000;
   var kb = closingFromJournal_(ss, KINGS);
   if (!kb) throw new Error('No posted sale for ' + KINGS);
   var onRecapture = 0;
-  data.forEach(function (r) {
-    if (String(g(r, 'property')) !== 'Cost Recapture' || String(g(r, 'trade')) !== KINGS || !/^1[0-3]\d\d$/.test(String(g(r, 'account')))) return;
-    if (voided[String(g(r, 'txn_id'))] || String(g(r, 'source')) === 'void') return;
-    onRecapture += cents(g(r, 'debit')) - cents(g(r, 'credit'));
+  J.data.forEach(function (r) {
+    if (String(J.g(r, 'property')) !== 'Cost Recapture' || String(J.g(r, 'trade')) !== KINGS || !/^1[0-3]\d\d$/.test(String(J.g(r, 'account')))) return;
+    if (J.voided[String(J.g(r, 'txn_id'))] || String(J.g(r, 'source')) === 'void') return;
+    onRecapture += cents(J.g(r, 'debit')) - cents(J.g(r, 'credit'));
   });
   var rows = closingRows({ summary: kb.summary, intents: kb.intents, lines: kb.statementLines || [], dennisPct: 0, holdback: null });
   var tabRows = rows.rows.filter(function (r) { return !/^\s*0% of profit$/.test(r.label); });
@@ -785,15 +811,15 @@ function leaveKingsNewportInAccount20261103() {
     summary: kb.summary, rows: tabRows, title_note: rows.title_note + ' Dennis bought it from Recast.', doc_url: '', statementLines: [],
     after_label: 'The house\'s own bills, moved here at the sale (not yet split with Dennis)'
   }, closingTabName_(KINGS));
-  out.push('3808 Kings closing tab: Paul paid so far ' + (kb.summary.paid.paul_cents / 100).toFixed(2) + ', still owed ' + (kb.summary.owed_after.paul_cents / 100).toFixed(2));
+  out.push(KINGS + ' closing tab: Paul paid so far ' + (kb.summary.paid.paul_cents / 100).toFixed(2) + ', still owed ' + (kb.summary.owed_after.paul_cents / 100).toFixed(2));
 
   refreshPnl_(ss);
   warmCache_();
   var ok = function (v) { return v ? '  OK' : '  CHECK'; };
   out.push('', 'READ BACK:',
-    '  3808 Kings still owes Paul (must be 0.00): ' + (owedTo('3808 Kings') / 100).toFixed(2) + ok(owedTo('3808 Kings') === 0 || toPost.length === 0),
-    '  881 Newport still owes Paul (must be 0.00): ' + (owedTo('881 Newport') / 100).toFixed(2) + ok(owedTo('881 Newport') === 0 || toPost.length === 0),
-    '  (the two figures above are from the read taken before posting when entries were posted this run - the P&L tab has the live ones)');
+    '  3808 Kings still owes Paul (must be 0.00): ' + (J.owedTo(KINGS) / 100).toFixed(2) + ok(J.owedTo(KINGS) === 0),
+    '  881 Newport still owes Paul (must be 0.00): ' + (J.owedTo(NEWPORT) / 100).toFixed(2) + ok(J.owedTo(NEWPORT) === 0),
+    '  the P&L ledger WORKING MONEY should read: 10-29 Paul left in 27,609.53, 11-03 Paul left in 24,000.00, Paul has in the account 56,609.53');
   console.log(out.join('\n'));
   return out;
 }
