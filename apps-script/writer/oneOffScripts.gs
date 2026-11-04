@@ -693,3 +693,107 @@ var PR2_ITEMS = [
 "doc": ""
 }
 ];
+
+// 2026-11-03 Paul: "i want all the proceeds from kings and the remainder from the newport sales to be put back into the
+// business ... the 20,000 from newport is already in the books. 31,609.53 is in addition to that 20,000." The same shape
+// as the 10-29 Newport 20,000 (recordPaulWorkingMoneyNewport20261029, D-055): each house pays Paul what it owes him and
+// he leaves it in the Citizens account as his working money - no house, no interest, owed back when he takes it out.
+// 3808 Kings 24,000.00 (all of his profit) and 881 Newport 7,609.53 (the rest of his payout after the 20,000), dated
+// today; both closing tabs rewritten (Kings in its own layout with Dennis at 0%, as closeKings20261103 drew it), the P&L
+// refreshed. Safe to run again: an entry whose memo is on the Journal is skipped. Each house must owe exactly its figure.
+// STATUS: NOT YET RUN
+function leaveKingsNewportInAccount20261103() {
+  var props = PropertiesService.getScriptProperties();
+  var ss = openWorkbook_(props);
+  requireOwner_(ss);
+  var who = Session.getActiveUser().getEmail();
+  var DATE = '2026-11-03';
+  var houses = [
+    { name: '3808 Kings', sold: '2026-10-30', cents: 2400000, what: 'all of his 3808 Kings profit', sale: 'sale-20261030-9081cb90c948' },
+    { name: '881 Newport', sold: '2026-10-02', cents: 760953, what: 'the rest of his 881 Newport payout (after the 20,000.00 of 10-29)', sale: 'sale-20261002-465b11b1cf51' }
+  ];
+  var journal = ss.getSheetByName('Journal'), cols = headerIndex_(journal);
+  var data = journal.getRange(2, 1, journal.getLastRow() - 1, journal.getLastColumn()).getValues();
+  var g = function (r, n) { return r[cols[n] - 1]; };
+  var cents = function (v) { return Math.round(Number(v || 0) * 100); };
+  var voided = {}, idByMemo = {}, docById = {};
+  data.forEach(function (r) {
+    var v = String(g(r, 'void_of') || ''); if (v) voided[v] = true;
+    idByMemo[String(g(r, 'memo'))] = String(g(r, 'txn_id'));
+    if (!docById[String(g(r, 'txn_id'))]) docById[String(g(r, 'txn_id'))] = String(g(r, 'doc_url') || '');
+  });
+  var owedTo = function (house) {
+    var owed = 0;
+    data.forEach(function (r) {
+      if (String(g(r, 'property')) !== house || String(g(r, 'account')) !== '2030') return;
+      if (voided[String(g(r, 'txn_id'))] || String(g(r, 'source')) === 'void') return;
+      owed += cents(g(r, 'credit')) - cents(g(r, 'debit'));
+    });
+    return owed;
+  };
+  var ctx = buildCtx_(ss);
+  var out = ['leaveKingsNewportInAccount20261103 - ' + new Date()];
+  var toPost = [];
+  houses.forEach(function (h) {
+    h.memo = h.name + ' sale ' + h.sold + ': paid to Paul - ' + (h.cents / 100).toFixed(2) + ', ' + h.what + ', left in the Citizens account as his working money (Paul, 2026-11-03)';
+    if (idByMemo[h.memo]) { h.txn_id = idByMemo[h.memo]; out.push(h.name + ': already recorded as ' + h.txn_id); return; }
+    var owed = owedTo(h.name);
+    if (owed !== h.cents) throw new Error(h.name + ' owes Paul ' + (owed / 100).toFixed(2) + ', expected ' + (h.cents / 100).toFixed(2) + ' - nothing changed, tell Claude');
+    ctx.properties.add(h.name);   // a sold house: this is the closing's own entry
+    var paid = 'Paid to Paul - ' + h.what + ', left in the account as working money';
+    var kept = 'Working money left in the account - ' + h.what;
+    var built = buildEntry({ type: 'journal', date: DATE, source: 'sale', posted_by: who, doc_url: docById[h.sale] || '', memo: h.memo,
+      lines: [{ account: '2030', debit: h.cents, credit: 0, property: h.name, payee: 'Paul Bjork', paid_from: '1401', description: paid },
+              { account: '1401', debit: 0, credit: h.cents, property: h.name, payee: 'Paul Bjork', paid_from: '1401', description: paid },
+              { account: '1401', debit: h.cents, credit: 0, property: '', payee: 'Paul Bjork', paid_from: '1401', description: kept },
+              { account: '2030', debit: 0, credit: h.cents, property: '', payee: 'Paul Bjork', paid_from: '1401', description: kept }] }, ctx);
+    h.txn_id = built.txn_id;
+    toPost.push(built);
+  });
+  if (toPost.length) {
+    postBatchEntries_(toPost, props, true);
+    out.push(toPost.length + ' entries posted: ' + toPost.map(function (e) { return e.txn_id; }).join(', '));
+  }
+
+  // 881 Newport: the standard partner closing tab, rebuilt from the Journal (as the 10-29 one-off did)
+  var np = closingFromJournal_(ss, '881 Newport');
+  if (!np) throw new Error('No posted sale for 881 Newport');
+  writeClosingTab_(ss, '881 Newport', np, closingTabName_('881 Newport'));
+  out.push('881 Newport closing tab: Paul paid so far ' + (np.summary.paid.paul_cents / 100).toFixed(2) + ', still owed ' + (np.summary.owed_after.paul_cents / 100).toFixed(2));
+
+  // 3808 Kings: its own layout, Dennis at 0% (the buyer, not a partner) - the rows closeKings20261103 drew, drawn again
+  var KINGS = '3808 Kings', LOAN = 15600000;
+  var kb = closingFromJournal_(ss, KINGS);
+  if (!kb) throw new Error('No posted sale for ' + KINGS);
+  var onRecapture = 0;
+  data.forEach(function (r) {
+    if (String(g(r, 'property')) !== 'Cost Recapture' || String(g(r, 'trade')) !== KINGS || !/^1[0-3]\d\d$/.test(String(g(r, 'account')))) return;
+    if (voided[String(g(r, 'txn_id'))] || String(g(r, 'source')) === 'void') return;
+    onRecapture += cents(g(r, 'debit')) - cents(g(r, 'credit'));
+  });
+  var rows = closingRows({ summary: kb.summary, intents: kb.intents, lines: kb.statementLines || [], dennisPct: 0, holdback: null });
+  var tabRows = rows.rows.filter(function (r) { return !/^\s*0% of profit$/.test(r.label); });
+  tabRows.forEach(function (r) {
+    var label = String(r.label).replace(/^\s+/, '');
+    if (label === 'Payout from title company') { r.label = '  Paid by Dennis - he bought the house from Recast'; r.note = 'His deposit into the Citizens account 10/30'; r.note_plain = true; }
+    if (label === 'Rehab Costs') r.note = 'The house\'s own bills (' + (onRecapture / 100).toFixed(2) + ') are on Cost Recapture - listed under AFTER THE PAYOUT';
+    if (label === 'Purchase Principal' && r.cents === LOAN && r.style === 'row' && tabRows.indexOf(r) > 12) r.note = 'Paid back to him 11/02 out of the sale money';
+    if (label === 'Purchase Interest' && r.cents === 0) r.note = 'None - no interest on this one';
+    if (label === 'Paid so far' && r.cents === 2400000) r.note = 'on 11/03 - left in the Citizens account as his working money';
+  });
+  writeSimpleClosingTab_(ss, KINGS, {
+    summary: kb.summary, rows: tabRows, title_note: rows.title_note + ' Dennis bought it from Recast.', doc_url: '', statementLines: [],
+    after_label: 'The house\'s own bills, moved here at the sale (not yet split with Dennis)'
+  }, closingTabName_(KINGS));
+  out.push('3808 Kings closing tab: Paul paid so far ' + (kb.summary.paid.paul_cents / 100).toFixed(2) + ', still owed ' + (kb.summary.owed_after.paul_cents / 100).toFixed(2));
+
+  refreshPnl_(ss);
+  warmCache_();
+  var ok = function (v) { return v ? '  OK' : '  CHECK'; };
+  out.push('', 'READ BACK:',
+    '  3808 Kings still owes Paul (must be 0.00): ' + (owedTo('3808 Kings') / 100).toFixed(2) + ok(owedTo('3808 Kings') === 0 || toPost.length === 0),
+    '  881 Newport still owes Paul (must be 0.00): ' + (owedTo('881 Newport') / 100).toFixed(2) + ok(owedTo('881 Newport') === 0 || toPost.length === 0),
+    '  (the two figures above are from the read taken before posting when entries were posted this run - the P&L tab has the live ones)');
+  console.log(out.join('\n'));
+  return out;
+}
