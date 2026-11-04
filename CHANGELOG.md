@@ -1,5 +1,19 @@
 # Changelog
 
+## 2026-11-03 - Paul's Kings and Newport money left in Citizens as working money; the P&L's working-money note gone
+
+Paul: "i want all the proceeds from kings and the remainder from the newport sales to be put back into the business ...
+the 20,000 from newport is already in the books. 31,609.53 is in addition to that 20,000", then "change the '10-29 Paul
+left in' newport entry in the books from 20,000 to 27,609.53 vs splitting it into two entries". Done by one-off
+`leaveKingsNewportInAccount20261103` (commit b55023c; run by Paul 20:45 CT - Chrome still down), read back from the
+Journal snapshot: the 10-29 Newport 20,000.00 entry voided on its own date and put back as one 27,609.53 entry dated
+10-29 (the D-055 shape: paid to Paul on the house, left in with no house); 3808 Kings 24,000.00 the same, dated 11-03.
+Both houses owe Paul 0.00; the WORKING MONEY ledger reads 10-29 Paul left in 27,609.53 and 11-03 Paul left in 24,000.00,
+Paul has in the account 56,609.53. Both closing tabs rewritten (not read back from the sheet - no browser signed in).
+Then Paul: "remove this from the p&l 'money each of you put in for general use - no house, no interest, owed back when it
+is taken out'" - the WORKING MONEY header's note is gone (`lib/reports.mjs`, lib.gs rebuilt, pushed); the P&L redraws on
+its hourly timer. **Owed: `clasp deploy -i` (lib.gs changed)** - the menus and timers already run the new code.
+
 ## 2026-11-03 - 3808 Kings closed: sold to Dennis for 180,000 (D-107)
 
 Paul: "i want to close out 3808 kings. dennis bought the property from recast for $180k since it was titled under Recast

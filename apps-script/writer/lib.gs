@@ -2018,7 +2018,7 @@ var M_reports = (function () {
     if (wm.length) {
       const has = { Dennis: 0, Paul: 0 };
       add("", "");
-      add("head", "WORKING MONEY IN THE CITIZENS ACCOUNT", "", "money each of you put in for general use - no house, no interest, owed back when it is taken out");
+      add("head", "WORKING MONEY IN THE CITIZENS ACCOUNT");   // no note (Paul, 2026-11-03: "remove this from the p&l")
       for (const l of wm) {
         const who = String(l.account) === "2010" ? "Dennis" : "Paul";
         const c = l.credit - l.debit;

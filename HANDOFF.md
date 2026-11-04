@@ -5,6 +5,15 @@ history and are not written to; `CHANGELOG.md` keeps its dated entry per change.
 `docs/ops.md`. The books' numbers live on the workbook's tabs (P&L, Totals, Citizens Bank, the house tabs) - read them
 there; a figure written here is only as of its date.
 
+## 2026-11-03 (evening) - Kings and Newport money left in as Paul's working money; P&L note gone (START HERE)
+
+Done and read back (CHANGELOG same date): 3808 Kings and 881 Newport owe Paul 0.00; his working money in Citizens is
+56,609.53 (4,858.42 + 141.58 + Newport 27,609.53 as one 10-29 row + Kings 24,000.00 on 11-03). The WORKING MONEY header
+on the P&L has no note any more (lib.gs rebuilt and pushed; the hourly timer redraws the tab). Not read back from the
+sheet: the two closing tabs (Kings: Paid so far 24,000 on 11/03; Newport: paid 27,609.53 on 10/29, nothing owed) and the
+P&L after its next refresh. **Owed by Paul: `clasp deploy -i` once (lib.gs changed)** - nothing waits on it today.
+Chrome's extension was unreachable all evening; Paul ran both one-offs himself. Both are out of the file.
+
 ## 2026-11-03 - 3808 Kings closed: sold to Dennis for 180,000 (D-107) - RESUME HERE (START HERE)
 
 Done and read back (CHANGELOG same date): the house accounts hold 0.00, Dennis's loan 0.00, Paul's 24,000.00 owed on 2030
