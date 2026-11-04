@@ -1,5 +1,26 @@
 # Changelog
 
+## 2026-11-03 - 3808 Kings closed: sold to Dennis for 180,000 (D-107)
+
+Paul: "i want to close out 3808 kings. dennis bought the property from recast for $180k since it was titled under Recast
+Properties LLC. i profited $24,000. dennis took $156,000 back as repayment for the original purchase. you can assign the
+expenses on the property to cost recapture." The bank showed it: 180,000.00 DEPOSIT into Citizens 10-30, 156,000.00 XFER
+to Dennis 11-02 (both were open Inbox cards). No interest and no share for Dennis - 180,000 less 156,000 is exactly
+the 24,000; the 24,000 stays in Citizens, owed to Paul (D-084).
+**Done by one-off `closeKings20261103` (commit afe6eac; run by Paul 20:28 CT from the editor - the Chrome extension was
+down), read back from the Journal snapshot:** the three bills (keypad lock 40.15, City of Ennis water deposit 100.00,
+City of Corsicana dump 22.50 - Paul paid) voided on their own dates and posted again on Cost Recapture naming the house
+(162.65; their two receipt records repointed, cards unchanged); the house tab frozen and renamed `3808 Kings - Frozen`;
+the sale in the wizard's own words (180,000 in 10-30, the 156,000 purchase released to COGS, Dennis paid 156,000 on
+11-02, Paul's 24,000 on 2030); the Advances row repaid 11-02 with 0 interest; Properties sold 10-30; `3808 Kings -
+Closing` written in Paul's layout with Dennis at 0% (writeSimpleClosingTab_ with its own rows). The house accounts hold
+0.00, 2010 holds 0.00, 2030 holds 24,000.00 to Paul. The two bank-line cards are retired (read back from the docs
+store). **Not read back:** the Feed rows' tie to the sale and the closing tab's cells - the Feed snapshot is not refreshed
+by a one-off and neither browser was signed in; the run reached the steps after them, so neither threw.
+Also: `recordPersonalReview20261102` (committed 11-02, never pushed) would not push - unescaped apostrophes in
+"Lowe's" on its LABEL line; escaped. `clasp pull` now writes `.js` copies beside the `.gs` files - delete them before a
+push (`docs/ops.md`).
+
 ## 2026-11-02 - personal accounts, round 2: the other cards and Chase checking Jan-Mar (D-100)
 
 Paul: "round 2 of personal credit card and bank statement reconciliation ... sort out which hasn't been run and run them."

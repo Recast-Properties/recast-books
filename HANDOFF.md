@@ -5,6 +5,19 @@ history and are not written to; `CHANGELOG.md` keeps its dated entry per change.
 `docs/ops.md`. The books' numbers live on the workbook's tabs (P&L, Totals, Citizens Bank, the house tabs) - read them
 there; a figure written here is only as of its date.
 
+## 2026-11-03 - 3808 Kings closed: sold to Dennis for 180,000 (D-107) - RESUME HERE (START HERE)
+
+Done and read back (CHANGELOG same date): the house accounts hold 0.00, Dennis's loan 0.00, Paul's 24,000.00 owed on 2030
+and still in Citizens; the three bills (162.65) on Cost Recapture naming the house; `3808 Kings - Frozen` and `3808 Kings -
+Closing` exist; the Advances row is repaid 11-02 with 0 interest; the two bank-line cards are retired. **Not read back
+(check first thing next session, from the sheet):** the Feed rows for the 10-30 deposit and the 11-02 transfer say
+`matched` with the sale's ids, and the closing tab reads right (Paid by Dennis 180,000 / Purchase 156,000 / Profit 24,000,
+all Paul / Dennis paid 156,000 on 11/02 / Still owed to Paul 24,000 / AFTER THE PAYOUT lists the three bills). The
+one-off is out of the file (commit afe6eac keeps it). No sale document on file - Paul was asked once for a deed or bill
+of sale; if one comes to receipts@, put its link on the four `sale-2026103*` / `sale-20261102-bce88d781d9d` entries.
+Owed by Paul: nothing on this. The nightly check's one item for Claude (six review cards parked since late September) is
+still open - not touched today.
+
 ## 2026-11-02 - the personal-accounts check, round 2 (D-100) - RESUME HERE (START HERE)
 
 **Every statement in his folder is now run** (round 2: Discover, Capital One, Wells Fargo, Barclays, Chase checking Dec 24 -

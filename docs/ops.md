@@ -37,6 +37,8 @@ CLAUDE.md's operating notes, the handoffs' "gotchas met" sections and Claude's m
   the script comes out with a header line naming its commit.
 - **Before any push or deploy:** `git status`, `git log`, and compare `clasp pull` with HEAD. Other sessions share
   this folder and a deploy carries whatever is on disk. Commit only your own files; never `git add -A`.
+- `clasp pull` (clasp 3) writes `.js` copies beside the `.gs` files into the writer folder: compare and delete them before any
+  push, or the push carries both and every function is declared twice. Pull into a scratch folder instead (copy `.clasp.json` there).
 - `clasp login` expires every few days (`invalid_grant` / `invalid_rapt`): Paul runs `npx clasp login`; verify a
   push with `clasp pull`.
 - `npm test` runs everything (node:test). `test/writer-gs-lint.test.mjs` fails on a function in the live files that
